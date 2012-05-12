@@ -1,4 +1,5 @@
 #include "solving/battle_play/setplay.h"
+#include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/battle_play/try.h"
@@ -11,7 +12,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[si].u.output_mode_selector.mode==output_mode_tree)
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

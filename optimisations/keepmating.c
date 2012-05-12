@@ -201,7 +201,7 @@ static void keepmating_filter_inserter_battle(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->context!=stip_traversal_context_help)
   {
@@ -230,7 +230,7 @@ static void keepmating_filter_inserter_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const prototype = alloc_appropriate_filter(state);

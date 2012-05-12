@@ -162,7 +162,7 @@ static void degenerate_tree_inserter_attack(slice_index si,
     }
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

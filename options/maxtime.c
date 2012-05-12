@@ -94,7 +94,7 @@ static void insert_maxtime_help_guard(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const prototype = alloc_maxtime_guard();
@@ -112,7 +112,7 @@ static void insert_maxtime_defender_guard(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const prototype = alloc_maxtime_guard();

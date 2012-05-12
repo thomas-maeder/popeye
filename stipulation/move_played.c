@@ -143,7 +143,7 @@ void move_played_detect_starter(slice_index si, stip_structure_traversal *st)
   if (slices[si].starter==no_side)
   {
     slice_index const next = slices[si].next1;
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     slices[si].starter = (slices[next].starter==no_side
                           ? no_side
                           : advers(slices[next].starter));

@@ -13,7 +13,7 @@ static void append_no_short_variations(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const prototype = alloc_no_short_variations_slice();

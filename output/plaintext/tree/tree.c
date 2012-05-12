@@ -67,7 +67,7 @@ static void insert_writer_for_move_in_parent(slice_index si,
     branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -101,7 +101,7 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
     attack_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -149,7 +149,7 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   pipe_append(si,alloc_output_plaintext_move_inversion_counter_slice());
 
   TraceFunctionExit(__func__);
@@ -243,7 +243,7 @@ static void insert_refutation_writer(slice_index si,
     defense_branch_insert_slices(si,&prototype,1);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -295,7 +295,7 @@ static void insert_end_of_solution_writer(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->level==structure_traversal_level_top)
   {
@@ -317,7 +317,7 @@ static void remember_postkey_play(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *is_postkey_play = st->level==structure_traversal_level_top;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   *is_postkey_play = save_is_postkey_play;
 
   TraceFunctionExit(__func__);
@@ -338,7 +338,7 @@ static void insert_key_writer(slice_index si, stip_structure_traversal *st)
     defense_branch_insert_slices(si,&prototype,1);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -364,7 +364,7 @@ static void insert_postkey_writers(slice_index si, stip_structure_traversal *st)
     defense_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -380,7 +380,7 @@ static void insert_refuting_variation_writer(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->context==stip_traversal_context_defense)
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
   else if (*is_postkey_play)
   {
     slice_index const prototype = alloc_refuting_variation_writer_slice();
@@ -518,11 +518,11 @@ static void remember_key_writer(slice_index si, stip_structure_traversal *st)
   if (state->goal.type!=no_goal)
   {
     state->branch_has_key_writer = true;
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     state->branch_has_key_writer = false;
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -538,7 +538,7 @@ static void remove_check_handler_if_unused(slice_index si, stip_structure_traver
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->goal.type!=no_goal
       && output_plaintext_goal_writer_replaces_check_writer(state->goal.type))
@@ -560,7 +560,7 @@ static void remove_continuation_writer_if_unused(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->branch_has_key_writer)
     pipe_remove(si);

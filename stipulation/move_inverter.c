@@ -69,7 +69,7 @@ void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
   {
     slice_index const next = slices[si].next1;
     Side next_starter;
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     next_starter = slices[next].starter;
     if (next_starter!=no_side)
       slices[si].starter = (next_starter==no_side

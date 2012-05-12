@@ -62,7 +62,7 @@ void attack_adapter_make_intro(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(adapter,st);
+  stip_traverse_structure_children_pipe(adapter,st);
 
   if (st->level==structure_traversal_level_nested
       && slices[adapter].u.branch.length>slack_length)
@@ -154,7 +154,7 @@ static void remember_defense(slice_index si,
   if (st->context==stip_traversal_context_defense)
     *result = true;
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

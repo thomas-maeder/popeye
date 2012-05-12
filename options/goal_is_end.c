@@ -115,7 +115,7 @@ static void insert_goal_is_end_tester_battle(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(adapter,st);
+  stip_traverse_structure_children_pipe(adapter,st);
 
   {
     slice_index const tester = make_goal_is_end_tester(state->tester);
@@ -170,7 +170,7 @@ static void insert_goal_is_end_tester_help(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(adapter,st);
+  stip_traverse_structure_children_pipe(adapter,st);
 
   if (help_branch_insert_constraint(adapter,
                                     make_goal_is_end_tester(state->tester),

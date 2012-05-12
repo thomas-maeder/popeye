@@ -44,7 +44,7 @@ void pipe_spin_off_copy(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].next1!=no_slice)
   {
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     if (state->spun_off[slices[si].next1]==no_slice)
     {
       dealloc_slice(state->spun_off[si]);
@@ -221,7 +221,7 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st)
 
   if (slices[pipe].starter==no_side && next!=no_slice)
   {
-    stip_traverse_structure_children(pipe,st);
+    stip_traverse_structure_children_pipe(pipe,st);
     slices[pipe].starter = slices[next].starter;
   }
 
@@ -269,13 +269,13 @@ void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
     if (slices[si].next1!=no_slice)
     {
       TraceValue("%u\n",state->spun_off[si]);
-      stip_traverse_structure_children(si,st);
+      stip_traverse_structure_children_pipe(si,st);
       TraceValue("%u\n",state->spun_off[si]);
       link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
     }
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -301,7 +301,7 @@ void stip_spin_off_testers_pipe_skip(slice_index si, stip_structure_traversal *s
     state->spun_off[si] = state->spun_off[slices[si].next1];
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

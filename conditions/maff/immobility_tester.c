@@ -24,7 +24,7 @@ static void substitute_maff_specific_testers(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const proxy_king = alloc_proxy_slice();

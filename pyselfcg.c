@@ -134,7 +134,7 @@ static void insert_selfcheck_guard_branch(slice_index si,
     }
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -255,7 +255,7 @@ static void instrument_negated_tester(slice_index si,
     state->is_branch_instrumented = true;
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -297,7 +297,7 @@ static void dont_instrument_selfcheck_ignoring_goals(slice_index si,
   if (slices[si].u.goal_filter.applies_to_who==goal_applies_to_adversary)
     state->is_branch_instrumented = true;
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -334,7 +334,7 @@ static void remember_last_checked(slice_index si, stip_structure_traversal *st)
 
   assert(slices[si].starter!=no_side);
   state->last_checked = slices[si].starter;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   state->last_checked = save_last_checked;
 
   TraceFunctionExit(__func__);
@@ -350,11 +350,11 @@ static void invert_last_checked(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (state->last_checked==no_side)
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
   else
   {
     state->last_checked = advers(state->last_checked);
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     state->last_checked = advers(state->last_checked);
   }
 
@@ -372,7 +372,7 @@ static void forget_last_checked(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->last_checked = no_side;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   state->last_checked = save_last_checked;
 
   TraceFunctionExit(__func__);
@@ -469,7 +469,7 @@ static void instrument_move_inverter(slice_index si,
 
   state->guard_needed = false;
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->guard_needed)
   {
@@ -491,7 +491,7 @@ static void determine_need_for_move_inverter_instrumentation(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   state->guard_needed = state->last_guarded_side!=no_side && slices[si].starter!=state->last_guarded_side;
 
   TraceFunctionExit(__func__);
@@ -509,7 +509,7 @@ static void remember_checked_side(slice_index si,
   TraceFunctionParamListEnd();
 
   *side = slices[si].starter;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   *side = save_side;
 
   TraceFunctionExit(__func__);

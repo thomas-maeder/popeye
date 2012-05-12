@@ -62,7 +62,7 @@ static void instrument_root(slice_index si, stip_structure_traversal *st)
   if (*root_slice==no_slice)
     *root_slice = si;
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -194,7 +194,7 @@ static void insert_move_inversion_counter(slice_index si,
   if (*root_slice==no_slice)
     *root_slice = si;
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->level!=structure_traversal_level_nested)
     pipe_append(si,alloc_output_plaintext_move_inversion_counter_slice());

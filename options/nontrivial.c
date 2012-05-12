@@ -258,7 +258,7 @@ static void nontrivial_guard_inserter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->context==stip_traversal_context_defense)
   {

@@ -19,7 +19,7 @@ static void instrument_goal_target_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     /* reusing the filter created for Anticirce */
@@ -38,7 +38,7 @@ static void instrument_goal_exchange_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const proxy_special = alloc_proxy_slice();

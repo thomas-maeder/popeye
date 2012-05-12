@@ -343,7 +343,7 @@ static void insert_solver(slice_index si, stip_structure_traversal *st)
     slice_index const prototype = alloc_testing_pipe(STThreatSolver);
     defense_branch_insert_slices(si,&prototype,1);
 
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
   }
 
   TraceFunctionExit(__func__);
@@ -400,7 +400,7 @@ static void remember_threat_start(slice_index si, stip_structure_traversal *st)
 
   *threat_start = si;
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -415,7 +415,7 @@ static void forget_threat_start(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   *threat_start = save_threat_start;
 
@@ -430,7 +430,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[si].u.output_mode_selector.mode==output_mode_tree)
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -511,7 +511,7 @@ static void end_insertion_if_too_short(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slices[si].u.branch.length>slack_length+1)
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -529,7 +529,7 @@ static void insert_start(slice_index si, stip_structure_traversal *st)
     attack_branch_insert_slices(si,&prototype,1);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -546,7 +546,7 @@ static void insert_end(slice_index si, stip_structure_traversal *st)
     attack_branch_insert_slices(si,&prototype,1);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

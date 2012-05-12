@@ -183,33 +183,7 @@ static void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
     else
     {
       state->base_rank = rank;
-      state->prev = si;
-      stip_traverse_structure_children(si,st);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_visit_fork(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    branch_slice_insertion_state_type * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
-    if (rank==no_slice_rank)
       insert_beyond(si,st);
-    else if (insert_before(si,rank,st))
-      ; /* nothing - work is done*/
-    else
-    {
-      state->base_rank = rank;
-      state->prev = si;
-      stip_traverse_structure_children_pipe(si,st);
     }
   }
 
@@ -359,7 +333,7 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
                                                  &insert_visit_pipe);
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_fork,
-                                                 &insert_visit_fork);
+                                                 &insert_visit_pipe);
   stip_structure_traversal_override_by_function(st,
                                                 slice_function_binary,
                                                 &insert_visit_binary);

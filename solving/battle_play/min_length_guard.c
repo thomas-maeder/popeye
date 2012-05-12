@@ -120,7 +120,7 @@ static void remember_defense_length(slice_index si,
   state->defense_length = slices[si].u.branch.length+delta;
   state->defense_min_length = slices[si].u.branch.min_length+delta;
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   *state = save_state;
 
@@ -173,7 +173,7 @@ static void insert_min_length_solvers_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->context==stip_traversal_context_defense
       && state->defense_min_length>slack_length+1)

@@ -21,7 +21,7 @@ static void remember_end_of_attack(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->has_attack_ended = true;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   state->has_attack_ended = save_has_attack_ended;
 
   TraceFunctionExit(__func__);
@@ -53,7 +53,7 @@ static void insert_direct_guards(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->level==structure_traversal_level_top
       && slices[si].u.branch.length>slack_length

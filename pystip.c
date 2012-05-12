@@ -369,7 +369,7 @@ static void deep_copy_pipe(slice_index si, stip_structure_traversal *st)
 
   copy_and_remember(si,copies);
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (slices[si].next1!=no_slice)
     link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
@@ -746,7 +746,7 @@ static void impose_inverted_starter(slice_index si,
   slices[si].starter = *starter;
 
   *starter = advers(*starter);
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);

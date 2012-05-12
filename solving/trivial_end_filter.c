@@ -65,7 +65,7 @@ static void remember_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *mode = slices[si].u.output_mode_selector.mode;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   *mode = save_mode;
 
   TraceFunctionExit(__func__);

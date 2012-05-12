@@ -273,11 +273,11 @@ void spin_off_testers_refutations_avoider(slice_index si,
   {
     unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
     state->spun_off[si] = alloc_refutations_collector_slice(max_nr_refutations);
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -364,7 +364,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[si].u.output_mode_selector.mode==output_mode_tree)
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -405,7 +405,7 @@ static void insert_refutation_solver(slice_index si,
     defense_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -424,7 +424,7 @@ static void insert_refuting_variation_solver(slice_index si,
     attack_branch_insert_slices(si,&prototype,1);
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -437,7 +437,7 @@ static void insert_refutations_avoider(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->context==stip_traversal_context_defense)
   {
@@ -521,7 +521,7 @@ static void substitute_refutations_filter(slice_index si, stip_structure_travers
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   assert(*result!=no_slice);
 

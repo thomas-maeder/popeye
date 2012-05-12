@@ -415,7 +415,7 @@ static void init_slice_properties_attack_hashed(slice_index si,
   slice_properties[si].u.d.maskSucc = mask << sis->nrBitsLeft;
 
   hash_slices[nr_hash_slices++] = si;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -491,7 +491,7 @@ static void init_slice_properties_hashed_help(slice_index si,
     init_slice_property_help(si,sis);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   hash_slices[nr_hash_slices++] = si;
 
@@ -1768,11 +1768,11 @@ void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st
   {
     state->spun_off[si] = alloc_pipe(STAttackHashedTester);
     slices[state->spun_off[si]].u.derived_pipe.base = si;
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1794,11 +1794,11 @@ void spin_off_testers_help_hashed(slice_index si, stip_structure_traversal *st)
   {
     state->spun_off[si] = alloc_pipe(STHelpHashedTester);
     slices[state->spun_off[si]].u.derived_pipe.base = si;
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1825,7 +1825,7 @@ static void insert_hash_element_attack(slice_index si,
     attack_branch_insert_slices(si,&prototype,1);
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1857,7 +1857,7 @@ static void insert_hash_element_help(slice_index si,
     }
   }
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1873,7 +1873,7 @@ static void remember_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *previous_move_slice = si;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   *previous_move_slice = save_previous_move_slice;
 
   TraceFunctionExit(__func__);

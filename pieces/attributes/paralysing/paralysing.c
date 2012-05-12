@@ -91,7 +91,7 @@ static void instrument_mate(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (*testing)
     pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter));
@@ -109,7 +109,7 @@ static void instrument_stalemate(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
 
@@ -124,7 +124,7 @@ static void instrument_autostalemate(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
 
@@ -194,7 +194,7 @@ static void instrument_half_doublemate(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (*testing)
     pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(who));

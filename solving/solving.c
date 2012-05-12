@@ -57,7 +57,7 @@ static void start_spinning_off_end_of_root(slice_index si,
     state->spinning_off = false;
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -83,7 +83,7 @@ static void start_spinning_off_end_of_intro(slice_index si,
     state->spinning_off = false;
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -106,12 +106,12 @@ void spin_off_testers_move_pipe_to_testers(slice_index si,
   if (state->spinning_off)
   {
     state->spun_off[si] = copy_slice(si);
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
     pipe_substitute(si,alloc_proxy_slice());
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -212,7 +212,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (length+2>=min_length)
   {
@@ -260,7 +260,7 @@ static void insert_move_generator(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const prototype = alloc_move_generator_slice();

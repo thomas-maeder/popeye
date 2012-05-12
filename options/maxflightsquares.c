@@ -191,7 +191,7 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (slices[si].u.branch.length>slack_length)
   {

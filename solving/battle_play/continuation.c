@@ -1,4 +1,5 @@
 #include "solving/battle_play/continuation.h"
+#include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
@@ -68,7 +69,7 @@ static void insert_continuation_solvers_postkey_play(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->level!=structure_traversal_level_top
       && slices[si].u.branch.length>slack_length)
@@ -92,7 +93,7 @@ static void insert_continuation_solvers_remember_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   *attack_played = true;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   *attack_played = save_attack_played;
 
   TraceFunctionExit(__func__);
@@ -108,7 +109,7 @@ static void insert_continuation_solvers_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (*attack_played && st->context==stip_traversal_context_defense)
   {

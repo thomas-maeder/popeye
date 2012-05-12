@@ -153,7 +153,7 @@ static void remove_guard(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,

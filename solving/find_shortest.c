@@ -80,7 +80,7 @@ static void insert_find_shortest_battle_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (length>=min_length+2)
   {

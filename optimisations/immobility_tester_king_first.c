@@ -20,7 +20,7 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
 
   assert(slices[si].starter!=no_side);
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   /* this optimisation doesn't work if an ultra-mummer condition applies
    * to the side to be immobilised */

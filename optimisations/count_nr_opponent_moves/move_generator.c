@@ -57,7 +57,7 @@ static void remember_length(slice_index si,
   TraceFunctionParamListEnd();
 
   state->length = slices[si].u.branch.length;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   state->length = save_length;
 
 
@@ -77,7 +77,7 @@ static void optimise_defense_move_generator(slice_index si,
 
   assert(defender!=no_side);
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->context==stip_traversal_context_defense
       && enabled[defender]

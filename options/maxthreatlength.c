@@ -159,7 +159,7 @@ static void insert_maxthreatlength_guard(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->testing
       && length>=2*max_len_threat+slack_length)
@@ -198,7 +198,7 @@ static void insert_max_threat_length_start(slice_index si,
     attack_branch_insert_slices(si,&prototype,1);
   }
   else
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

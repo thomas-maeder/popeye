@@ -599,7 +599,7 @@ void goalreachable_guards_inserter_help_move(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const prototype = alloc_goalreachable_guard_filter(*goal);

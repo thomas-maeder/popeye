@@ -59,7 +59,7 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(adapter,st);
+  stip_traverse_structure_children_pipe(adapter,st);
 
   if (st->level==structure_traversal_level_nested
       && slices[adapter].u.branch.length>slack_length)
@@ -81,7 +81,7 @@ static void count_move_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   ++*result;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

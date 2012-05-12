@@ -74,7 +74,7 @@ void optimise_final_defense_moves_move_generator(slice_index si,
 
   assert(defender!=no_side);
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->testing && !state->root
       && st->context==stip_traversal_context_defense
@@ -164,7 +164,7 @@ static void remember_end_of_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->root = false;
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   state->root = save_root;
 
   TraceFunctionExit(__func__);
@@ -223,7 +223,7 @@ static void substitute_killermove_machinery(slice_index si,
 
   assert(slices[si].starter!=no_side);
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (enabled[slices[si].starter]
       && *testing

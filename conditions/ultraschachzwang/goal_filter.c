@@ -71,7 +71,7 @@ static void prepend_mate_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (CondFlag[cond])
     pipe_append(slices[si].prev,alloc_ultraschachzwang_goal_filter_slice());
