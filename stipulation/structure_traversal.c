@@ -96,6 +96,32 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static stip_traversal_context_type context_after_move(stip_traversal_context_type context)
+{
+  stip_traversal_context_type result;
+
+  switch (context)
+  {
+    case stip_traversal_context_attack:
+      result = stip_traversal_context_defense;
+      break;
+
+    case stip_traversal_context_defense:
+      result = stip_traversal_context_attack;
+      break;
+
+    case stip_traversal_context_help:
+      result = stip_traversal_context_help;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  return result;
+}
+
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
@@ -109,7 +135,76 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
   TraceFunctionParamListEnd();
 
   if (slices[pipe].next1!=no_slice)
-    stip_traverse_structure(slices[pipe].next1,st);
+    switch (slices[pipe].type)
+    {
+      case STAttackAdapter:
+      {
+        structure_traversal_level_type const save_level = st->level;
+        assert(st->context==stip_traversal_context_intro);
+        st->context = stip_traversal_context_attack;
+        st->level = structure_traversal_level_nested;
+        stip_traverse_structure(slices[pipe].next1,st);
+        st->level = save_level;
+        st->context = stip_traversal_context_intro;
+        break;
+      }
+
+      case STDefenseAdapter:
+      {
+        structure_traversal_level_type const save_level = st->level;
+        assert(st->context==stip_traversal_context_intro);
+        st->context = stip_traversal_context_defense;
+        st->level = structure_traversal_level_nested;
+        stip_traverse_structure(slices[pipe].next1,st);
+        st->level = save_level;
+        st->context = stip_traversal_context_intro;
+        break;
+      }
+
+      case STHelpAdapter:
+      {
+        structure_traversal_level_type const save_level = st->level;
+        stip_traversal_context_type const save_context = st->context;
+        /* STHelpAdaper slices are part of the loop in the beginning,
+         * i.e. we may already be in help context when we arrive here */
+        assert(st->context==stip_traversal_context_intro
+               || st->context==stip_traversal_context_help);
+        st->context = stip_traversal_context_help;
+        st->level = structure_traversal_level_nested;
+        stip_traverse_structure(slices[pipe].next1,st);
+        st->level = save_level;
+        st->context = save_context;
+        break;
+      }
+
+      case STReadyForAttack:
+        assert(st->context==stip_traversal_context_attack);
+        stip_traverse_structure(slices[pipe].next1,st);
+        break;
+
+      case STReadyForDefense:
+        assert(st->context==stip_traversal_context_defense);
+        stip_traverse_structure(slices[pipe].next1,st);
+        break;
+
+      case STReadyForHelpMove:
+        assert(st->context==stip_traversal_context_help);
+        stip_traverse_structure(slices[pipe].next1,st);
+        break;
+
+      case STMovePlayed:
+      {
+        stip_traversal_context_type const save_context = st->context;
+        st->context = context_after_move(st->context);
+        stip_traverse_structure(slices[pipe].next1,st);
+        st->context = save_context;
+        break;
+      }
+
+      default:
+        stip_traverse_structure(slices[pipe].next1,st);
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -152,147 +247,6 @@ static void stip_traverse_structure_children_setplay_fork(slice_index si,
   st->level = structure_traversal_level_setplay;
   stip_traverse_structure_next_branch(si,st);
   st->level = structure_traversal_level_top;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stip_traverse_structure_children_attack_adpater(slice_index si,
-                                                            stip_structure_traversal *st)
-{
-  structure_traversal_level_type const save_level = st->level;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->context==stip_traversal_context_intro);
-
-  st->context = stip_traversal_context_attack;
-  st->level = structure_traversal_level_nested;
-  stip_traverse_structure_children_pipe(si,st);
-  st->level = save_level;
-  st->context = stip_traversal_context_intro;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stip_traverse_structure_children_defense_adapter(slice_index si,
-                                                             stip_structure_traversal *st)
-{
-  structure_traversal_level_type const save_level = st->level;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->context==stip_traversal_context_intro);
-
-  st->context = stip_traversal_context_defense;
-  st->level = structure_traversal_level_nested;
-  stip_traverse_structure_children_pipe(si,st);
-  st->level = save_level;
-  st->context = stip_traversal_context_intro;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stip_traverse_structure_children_ready_for_attack(slice_index si,
-                                                              stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->context==stip_traversal_context_attack);
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stip_traverse_structure_children_ready_for_defense(slice_index si,
-                                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->context==stip_traversal_context_defense);
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stip_traverse_structure_children_help_adpater(slice_index si,
-                                                          stip_structure_traversal *st)
-{
-  structure_traversal_level_type const save_level = st->level;
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* STHelpAdaper slices are part of the loop in the beginning,
-   * i.e. we may already be in help context when we arrive here */
-  assert(st->context==stip_traversal_context_intro
-         || st->context==stip_traversal_context_help);
-
-  st->context = stip_traversal_context_help;
-  st->level = structure_traversal_level_nested;
-  stip_traverse_structure_children_pipe(si,st);
-  st->level = save_level;
-  st->context = save_context;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static stip_traversal_context_type next_context(stip_traversal_context_type context)
-{
-  stip_traversal_context_type result;
-
-  switch (context)
-  {
-    case stip_traversal_context_attack:
-      result = stip_traversal_context_defense;
-      break;
-
-    case stip_traversal_context_defense:
-      result = stip_traversal_context_attack;
-      break;
-
-    case stip_traversal_context_help:
-      result = stip_traversal_context_help;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  return result;
-}
-
-static void stip_traverse_structure_children_move_played(slice_index si,
-                                                         stip_structure_traversal *st)
-{
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  st->context = next_context(st->context);
-  stip_traverse_structure_children_pipe(si,st);
-  st->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -342,8 +296,8 @@ static void stip_traverse_structure_children_binary(slice_index binary_slice,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[binary_slice].next1,st);
-  stip_traverse_structure(slices[binary_slice].next2,st);
+  stip_traverse_structure_binary_operand1(binary_slice,st);
+  stip_traverse_structure_binary_operand2(binary_slice,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -468,20 +422,6 @@ static void stip_traverse_structure_children_testing_pipe(slice_index testing_pi
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static structure_traversers_visitors const special_children_traversers[] =
-{
-   { STSetplayFork,     &stip_traverse_structure_children_setplay_fork      },
-   { STAttackAdapter,   &stip_traverse_structure_children_attack_adpater    },
-   { STDefenseAdapter,  &stip_traverse_structure_children_defense_adapter   },
-   { STReadyForAttack,  &stip_traverse_structure_children_ready_for_attack  },
-   { STReadyForDefense, &stip_traverse_structure_children_ready_for_defense },
-   { STHelpAdapter,     &stip_traverse_structure_children_help_adpater      },
-   { STMovePlayed,      &stip_traverse_structure_children_move_played       }
-};
-
-enum { nr_special_children_traversers = sizeof special_children_traversers
-                                        / sizeof special_children_traversers[0] };
 
 static stip_structure_visitor structure_children_traversers[nr_slice_types];
 
@@ -670,9 +610,5 @@ void init_structure_children_visitors(void)
       structure_children_traversers[i] = get_default_children_structure_visitor(i);
   }
 
-  {
-    unsigned int i;
-    for (i = 0; i!=nr_special_children_traversers; ++i)
-      structure_children_traversers[special_children_traversers[i].type] = special_children_traversers[i].visitor;
-  }
+  structure_children_traversers[STSetplayFork] = &stip_traverse_structure_children_setplay_fork;
 }

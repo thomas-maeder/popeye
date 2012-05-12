@@ -159,7 +159,7 @@ static void insert_guard_and_counter(slice_index si, stip_structure_traversal *s
       alloc_maxsolutions_counter_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    attack_branch_insert_slices(si,prototypes,nr_prototypes);
+    branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

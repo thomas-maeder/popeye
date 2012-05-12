@@ -229,10 +229,10 @@ static boolean is_constraint_irrelevant(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (branch_find_slice(STAttackAdapter,si)==no_slice
-            && branch_find_slice(STDefenseAdapter,si)==no_slice
-            && branch_find_slice(STHelpAdapter,si)==no_slice
-            && branch_find_slice(STGoalReachedTester,si)!=no_slice);
+  result = (branch_find_slice(STAttackAdapter,si,stip_traversal_context_intro)==no_slice
+            && branch_find_slice(STDefenseAdapter,si,stip_traversal_context_intro)==no_slice
+            && branch_find_slice(STHelpAdapter,si,stip_traversal_context_intro)==no_slice
+            && branch_find_slice(STGoalReachedTester,si,stip_traversal_context_intro)!=no_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

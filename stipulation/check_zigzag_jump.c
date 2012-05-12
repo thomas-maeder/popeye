@@ -103,8 +103,12 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const ready = branch_find_slice(STReadyForDefense,adapter);
-    slice_index const deadend = branch_find_slice(STDeadEnd,ready);
+    slice_index const ready = branch_find_slice(STReadyForDefense,
+                                                adapter,
+                                                stip_traversal_context_intro);
+    slice_index const deadend = branch_find_slice(STDeadEnd,
+                                                  ready,
+                                                  stip_traversal_context_defense);
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
@@ -125,7 +129,9 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     pipe_link(deadend,jump);
 
     {
-      slice_index const landing = branch_find_slice(STCheckZigzagLanding,deadend);
+      slice_index const landing = branch_find_slice(STCheckZigzagLanding,
+                                                    deadend,
+                                                    stip_traversal_context_defense);
       assert(landing!=no_slice);
       link_to_branch(played,landing);
     }
@@ -160,7 +166,9 @@ void help_branch_insert_check_zigzag(slice_index adapter)
     pipe_link(ready,jump);
 
     {
-      slice_index const landing = branch_find_slice(STCheckZigzagLanding,ready);
+      slice_index const landing = branch_find_slice(STCheckZigzagLanding,
+                                                    ready,
+                                                    stip_traversal_context_help);
       assert(landing!=no_slice);
       link_to_branch(played,landing);
     }

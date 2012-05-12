@@ -39,7 +39,9 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
     link_to_branch(king_move_tester,king_branch);
 
     {
-      slice_index const generator = branch_find_slice(STMoveGenerator,king_branch);
+      slice_index const generator = branch_find_slice(STMoveGenerator,
+                                                      king_branch,
+                                                      stip_traversal_context_intro);
       assert(generator!=no_slice);
       pipe_substitute(generator,alloc_king_move_generator_slice());
     }
@@ -48,7 +50,9 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
     link_to_branch(nonking_move_tester,nonking_branch);
 
     {
-      slice_index const generator = branch_find_slice(STMoveGenerator,nonking_branch);
+      slice_index const generator = branch_find_slice(STMoveGenerator,
+                                                      nonking_branch,
+                                                      stip_traversal_context_intro);
       assert(generator!=no_slice);
       pipe_substitute(generator,alloc_non_king_move_generator_slice());
     }

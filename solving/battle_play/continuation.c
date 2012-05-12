@@ -74,7 +74,7 @@ static void insert_continuation_solvers_postkey_play(slice_index si,
       && slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_continuation_solver_slice();
-    defense_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

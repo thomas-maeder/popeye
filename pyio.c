@@ -3178,7 +3178,10 @@ static char *ParseStructuredStip_nested_branch(char *tok,
     {
       slice_index const prototype = alloc_play_suppressor_slice();
       branch_insert_slices(proxy_operand,&prototype,1);
-      if (branch_find_slice(STPlaySuppressor,proxy_operand)==no_slice)
+      if (branch_find_slice(STPlaySuppressor,
+                            proxy_operand,
+                            stip_traversal_context_intro)
+          ==no_slice)
         pipe_append(proxy_operand,alloc_play_suppressor_slice());
     }
 
@@ -3921,7 +3924,9 @@ static char *ParseStructuredStip_not(char *tok,
   {
     if (*type==expression_type_goal)
     {
-      slice_index const tester = branch_find_slice(STGoalReachedTester,proxy);
+      slice_index const tester = branch_find_slice(STGoalReachedTester,
+                                                   proxy,
+                                                   stip_traversal_context_intro);
       assert(tester!=no_slice);
       pipe_append(slices[tester].next2,alloc_not_slice());
       slices[tester].u.goal_handler.goal.type = goal_negated;

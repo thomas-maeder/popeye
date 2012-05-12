@@ -144,7 +144,7 @@ static void insert_intro_min_length_optimiser(slice_index si,
   {
     slice_index const prototype = alloc_min_length_optimiser_slice(length,
                                                                    min_length);
-    attack_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

@@ -468,7 +468,9 @@ static void init_slice_properties_hashed_help(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const sibling = branch_find_slice(STHelpHashed,si);
+    slice_index const sibling = branch_find_slice(STHelpHashed,
+                                                  si,
+                                                  stip_traversal_context_help);
 
     stip_length_type const length = slices[si].u.branch.length;
     unsigned int const width = bit_width((length-slack_length+1)/2);

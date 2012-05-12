@@ -16,14 +16,15 @@ slice_index alloc_branch(slice_type type,
                          stip_length_type length,
                          stip_length_type min_length);
 
-/* Find the next slice with a specific type in a branch
+/* Find the next1 slice with a specific type in a branch
  * @param type type of slice to be found
- * @param si identifies the slice where to start searching (si is not
- *           visited at the start of the search, but if the branch is
- *           recursive, it may be visited as the last slice of the search)
+ * @param si identifies the slice where to start searching
+ * @param context context at start of traversal
  * @return identifier for slice with type type; no_slice if none is found
  */
-slice_index branch_find_slice(slice_type type, slice_index si);
+slice_index branch_find_slice(slice_type type,
+                              slice_index si,
+                              stip_traversal_context_type context);
 
 /* Link a pipe slice to the entry slice of a branch
  * @param pipe identifies the pipe slice
@@ -34,8 +35,11 @@ void link_to_branch(slice_index pipe, slice_index entry);
 /* Shorten slices of a branch by 2 half moves
  * @param start identfies start of sequence of slices to be shortened
  * @param end_type identifies type of slice where to stop shortening
+ * @param context traversal context at start
  */
-void branch_shorten_slices(slice_index start, slice_type end_type);
+void branch_shorten_slices(slice_index start,
+                           slice_type end_type,
+                           stip_traversal_context_type context);
 
 enum
 {

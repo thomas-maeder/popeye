@@ -164,7 +164,9 @@ static void insert_maxthreatlength_guard(slice_index si,
   if (state->testing
       && length>=2*max_len_threat+slack_length)
   {
-    slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,si);
+    slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,
+                                                       si,
+                                                       stip_traversal_context_defense);
     slice_index const dummy = alloc_dummy_move_slice();
     slice_index const played = alloc_move_played_slice();
     slice_index const prototype = alloc_maxthreatlength_guard(dummy);

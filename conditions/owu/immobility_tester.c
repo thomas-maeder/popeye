@@ -44,7 +44,8 @@ static void substitute_owu_specific_testers(slice_index si,
 
     {
       slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                      king_branch);
+                                                      king_branch,
+                                                      stip_traversal_context_intro);
       slice_index const prototype = alloc_pipe(STCaptureCounter);
 
       assert(generator!=no_slice);
@@ -55,7 +56,8 @@ static void substitute_owu_specific_testers(slice_index si,
 
     {
       slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                      non_king_branch);
+                                                      non_king_branch,
+                                                      stip_traversal_context_intro);
       assert(generator!=no_slice);
       pipe_substitute(generator,alloc_non_king_move_generator_slice());
     }

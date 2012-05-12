@@ -511,12 +511,11 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STMoveInverter,      &pipe_spin_off_copy                    },
-  { STConstraintSolver,  &stip_traverse_structure_children_pipe },
-  { STAttackAdapter,     &attack_adapter_apply_setplay          },
-  { STDefenseAdapter,    &stip_structure_visitor_noop           },
-  { STHelpAdapter,       &help_adapter_apply_setplay            },
-  { STTemporaryHackFork, &hack_fork_apply_setplay               }
+  { STMoveInverter,      &pipe_spin_off_copy           },
+  { STAttackAdapter,     &attack_adapter_apply_setplay },
+  { STDefenseAdapter,    &stip_structure_visitor_noop  },
+  { STHelpAdapter,       &help_adapter_apply_setplay   },
+  { STTemporaryHackFork, &hack_fork_apply_setplay      }
 };
 
 enum

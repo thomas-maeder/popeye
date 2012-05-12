@@ -562,9 +562,12 @@ static void branch_find_slice_binary(slice_index si, stip_structure_traversal *s
 /* Find the next1 slice with a specific type in a branch
  * @param type type of slice to be found
  * @param si identifies the slice where to start searching
+ * @param context context at start of traversal
  * @return identifier for slice with type type; no_slice if none is found
  */
-slice_index branch_find_slice(slice_type type, slice_index si)
+slice_index branch_find_slice(slice_type type,
+                              slice_index si,
+                              stip_traversal_context_type context)
 {
   branch_find_slice_state_type state = { type, no_slice };
   stip_structure_traversal st;
@@ -572,9 +575,11 @@ slice_index branch_find_slice(slice_type type, slice_index si)
   TraceFunctionEntry(__func__);
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&state);
+  st.context = context;
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
                                                  &branch_find_slice_pipe);
@@ -653,8 +658,11 @@ static void shorten_branch(slice_index si, stip_structure_traversal *st)
 /* Shorten slices of a branch by 2 half moves
  * @param start identfies start of sequence of slices to be shortened
  * @param end_type identifies type of slice where to stop shortening
+ * @param context traversal context at start
  */
-void branch_shorten_slices(slice_index start, slice_type end_type)
+void branch_shorten_slices(slice_index start,
+                           slice_type end_type,
+                           stip_traversal_context_type context)
 {
   stip_structure_traversal st;
 
@@ -663,6 +671,7 @@ void branch_shorten_slices(slice_index start, slice_type end_type)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&end_type);
+  st.context = context;
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
                                                  &shorten_pipe);

@@ -157,7 +157,8 @@ static void remove_guard(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].next2);
+                                                slices[si].next2,
+                                                stip_traversal_context_intro);
     assert(guard!=no_slice);
     pipe_remove(guard);
   }

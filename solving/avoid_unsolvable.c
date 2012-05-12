@@ -47,7 +47,7 @@ static void insert_reset_unsolvable_attack(slice_index si,
 
   {
     slice_index const prototype = alloc_reset_unsolvable_slice();
-    attack_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -84,7 +84,7 @@ static void insert_reset_unsolvable_help(slice_index si,
 
   {
     slice_index const prototype = alloc_reset_unsolvable_slice();
-    help_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

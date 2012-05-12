@@ -151,7 +151,9 @@ static void degenerate_tree_inserter_attack(slice_index si,
 
   if (*testing && slices[si].u.branch.length>=slack_length+2)
   {
-    slice_index const finder = branch_find_slice(STFindShortest,si);
+    slice_index const finder = branch_find_slice(STFindShortest,
+                                                 si,
+                                                 stip_traversal_context_attack);
     if (finder!=no_slice) /* slice may already have been replaced */
     {
       stip_length_type const length = slices[finder].u.branch.length;

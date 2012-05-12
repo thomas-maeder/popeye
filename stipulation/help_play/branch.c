@@ -265,7 +265,9 @@ void help_branch_shorten(slice_index adapter)
 
   {
     /* move adapter to its new spot */
-    slice_index const copy = branch_find_slice(STHelpAdapter,next);
+    slice_index const copy = branch_find_slice(STHelpAdapter,
+                                               next,
+                                               stip_traversal_context_help);
     assert(copy!=no_slice);
     pipe_link(slices[adapter].prev,next);
     pipe_append(copy,adapter);
@@ -277,7 +279,7 @@ void help_branch_shorten(slice_index adapter)
   --slices[adapter].u.branch.min_length;
   if (slices[adapter].u.branch.min_length<slack_length)
     increase_min_length(adapter);
-  branch_shorten_slices(next,STHelpAdapter);
+  branch_shorten_slices(next,STHelpAdapter,stip_traversal_context_help);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -421,12 +423,14 @@ slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
   TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  result = branch_find_slice(STReadyForHelpMove,result);
+  result = branch_find_slice(STReadyForHelpMove,result,stip_traversal_context_help);
   assert(result!=no_slice);
 
   while ((slices[result].u.branch.length-slack_length)%2!=parity%2)
   {
-    slice_index const next = branch_find_slice(STReadyForHelpMove,result);
+    slice_index const next = branch_find_slice(STReadyForHelpMove,
+                                               result,
+                                               stip_traversal_context_help);
     assert(next!=no_slice);
     if (result==next)
     {
@@ -765,9 +769,9 @@ void help_make_root(slice_index adapter, spin_off_state_type *state)
 
   {
     slice_index const prototype = alloc_pipe(STEndOfRoot);
-    help_branch_insert_slices(adapter,&prototype,1);
+    branch_insert_slices(adapter,&prototype,1);
     help_branch_make_root_slices(adapter,state);
-    branch_shorten_slices(adapter,STEndOfRoot);
+    branch_shorten_slices(adapter,STEndOfRoot,stip_traversal_context_intro);
     pipe_remove(adapter);
   }
 
@@ -791,7 +795,7 @@ void help_spin_off_intro(slice_index adapter, spin_off_state_type *state)
 
   {
     slice_index const prototype = alloc_pipe(STEndOfIntro);
-    help_branch_insert_slices(adapter,&prototype,1);
+    branch_insert_slices(adapter,&prototype,1);
   }
 
   {
@@ -865,7 +869,9 @@ void help_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
     help_branch_insert_slices(next,prototypes,nr_prototypes);
 
     {
-      slice_index const set_adapter = branch_find_slice(STHelpAdapter,next);
+      slice_index const set_adapter = branch_find_slice(STHelpAdapter,
+                                                        next,
+                                                        stip_traversal_context_help);
       assert(set_adapter!=no_slice);
       help_branch_make_root_slices(set_adapter,state);
       state->spun_off[adapter] = state->spun_off[set_adapter];
@@ -948,7 +954,9 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
     help_branch_insert_slices(next,prototypes,nr_prototypes);
 
     {
-      slice_index const set_adapter = branch_find_slice(STHelpAdapter,next);
+      slice_index const set_adapter = branch_find_slice(STHelpAdapter,
+                                                        next,
+                                                        stip_traversal_context_help);
       assert(set_adapter!=no_slice);
       if (slices[slices[set_adapter].next1].type==STDeadEnd)
         ; /* set play not applicable */

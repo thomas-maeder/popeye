@@ -195,7 +195,9 @@ static slice_index find_ready_for_move_in_loop(slice_index ready_root)
   slice_index result = ready_root;
   do
   {
-    result = branch_find_slice(STReadyForHelpMove,result);
+    result = branch_find_slice(STReadyForHelpMove,
+                               result,
+                               stip_traversal_context_help);
   } while ((slices[result].u.branch.length-slack_length)%2
            !=(slices[ready_root].u.branch.length-slack_length)%2);
   return result;
@@ -219,7 +221,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
       if (st->context==stip_traversal_context_intro)
       {
         slice_index const prototype = alloc_find_shortest_slice(length,min_length);
-        help_branch_insert_slices(si,&prototype,1);
+        branch_insert_slices(si,&prototype,1);
       }
     }
     else /* root or set play */
@@ -229,10 +231,12 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
         {
           slice_index const prototype =
               alloc_find_by_increasing_length_slice(length,min_length);
-          help_branch_insert_slices(si,&prototype,1);
+          branch_insert_slices(si,&prototype,1);
         }
         {
-          slice_index const ready_root = branch_find_slice(STReadyForHelpMove,si);
+          slice_index const ready_root = branch_find_slice(STReadyForHelpMove,
+                                                           si,
+                                                           st->context);
           slice_index const ready_loop = find_ready_for_move_in_loop(ready_root);
           slice_index const proxy_root = alloc_proxy_slice();
           slice_index const proxy_loop = alloc_proxy_slice();
@@ -350,7 +354,8 @@ static void insert_single_move_generator(slice_index si,
 
   {
     slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                    slices[si].next2);
+                                                    slices[si].next2,
+                                                    stip_traversal_context_intro);
     assert(generator!=no_slice);
     pipe_substitute(generator,alloc_single_move_generator_slice());
   }

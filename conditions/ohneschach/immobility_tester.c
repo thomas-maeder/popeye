@@ -54,7 +54,8 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
       /* no test for self-check necessary
        * already done by ohneschach_pos_legal() */
       slice_index const selfcheckguard = branch_find_slice(STSelfCheckGuard,
-                                                           tester_any);
+                                                           tester_any,
+                                                           stip_traversal_context_intro);
       assert(selfcheckguard!=no_slice);
       pipe_remove(selfcheckguard);
     }

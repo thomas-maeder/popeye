@@ -99,7 +99,7 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_stoponshortsolutions_filter(length,
                                                                     min_length);
-    help_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   *inserted = true;

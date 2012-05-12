@@ -120,12 +120,13 @@ static void apply_setplay_series(slice_index adapter,
   {
     slice_index const proto = alloc_defense_adapter_slice(slack_length,
                                                           slack_length);
-    attack_branch_insert_slices(adapter,&proto,1);
+    branch_insert_slices(adapter,&proto,1);
   }
 
   {
     slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,
-                                                          adapter);
+                                                          adapter,
+                                                          stip_traversal_context_intro);
     assert(defense_adapter!=no_slice);
     battle_branch_make_root_slices(defense_adapter,state);
     assert(state->spun_off[defense_adapter]!=no_slice);

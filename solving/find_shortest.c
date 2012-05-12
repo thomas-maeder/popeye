@@ -84,8 +84,10 @@ static void insert_find_shortest_battle_adapter(slice_index si,
 
   if (length>=min_length+2)
   {
-    slice_index const defense = branch_find_slice(STReadyForDefense,si);
-    slice_index const attack = branch_find_slice(STReadyForAttack,defense);
+    slice_index const defense = branch_find_slice(STReadyForDefense,si,st->context);
+    slice_index const attack = branch_find_slice(STReadyForAttack,
+                                                 defense,
+                                                 stip_traversal_context_defense);
     slice_index const prototypes[] =
     {
         alloc_find_shortest_slice(length,min_length),

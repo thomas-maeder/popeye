@@ -176,7 +176,7 @@ static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_restart_guard();
-    attack_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -205,7 +205,7 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
   if (*mode==insert_guard_mode_regular)
   {
     slice_index const prototype = alloc_restart_guard();
-    help_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
   else
   {
@@ -214,7 +214,7 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
         alloc_intelligent_target_counter()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    help_branch_insert_slices(si,prototypes,nr_prototypes);
+    branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

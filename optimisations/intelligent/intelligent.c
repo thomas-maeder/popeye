@@ -696,15 +696,21 @@ static slice_index find_goal_tester_fork(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const branch_goal_fork = branch_find_slice(STEndOfBranchGoalImmobile,si);
+    slice_index const branch_goal_fork = branch_find_slice(STEndOfBranchGoalImmobile,
+                                                           si,
+                                                           stip_traversal_context_intro);
     if (branch_goal_fork==no_slice)
     {
-      slice_index const branch_goal = branch_find_slice(STEndOfBranch,si);
+      slice_index const branch_goal = branch_find_slice(STEndOfBranch,
+                                                        si,
+                                                        stip_traversal_context_intro);
       assert(branch_goal!=no_slice);
       result = find_goal_tester_fork(slices[branch_goal].next2);
     }
     else
-      result = branch_find_slice(STGoalReachedTester,slices[branch_goal_fork].next2);
+      result = branch_find_slice(STGoalReachedTester,
+                                 slices[branch_goal_fork].next2,
+                                 stip_traversal_context_intro);
   }
 
   TraceFunctionExit(__func__);
@@ -728,21 +734,21 @@ static void intelligent_filter_inserter(slice_index si,
     case goal_atob:
     {
       slice_index const prototype = alloc_intelligent_proof();
-      help_branch_insert_slices(si,&prototype,1);
+      branch_insert_slices(si,&prototype,1);
       break;
     }
 
     case goal_mate:
     {
       slice_index const prototype = alloc_intelligent_mate_filter(find_goal_tester_fork(si));
-      help_branch_insert_slices(si,&prototype,1);
+      branch_insert_slices(si,&prototype,1);
       break;
     }
 
     case goal_stale:
     {
       slice_index const prototype = alloc_intelligent_stalemate_filter();
-      help_branch_insert_slices(si,&prototype,1);
+      branch_insert_slices(si,&prototype,1);
       break;
     }
 
@@ -753,7 +759,7 @@ static void intelligent_filter_inserter(slice_index si,
 
   {
     slice_index const prototype = alloc_intelligent_moves_left_initialiser();
-    help_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

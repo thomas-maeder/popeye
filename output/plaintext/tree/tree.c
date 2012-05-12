@@ -64,7 +64,7 @@ static void insert_writer_for_move_in_parent(slice_index si,
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    defense_branch_insert_slices(si,prototypes,nr_prototypes);
+    branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);
@@ -300,7 +300,7 @@ static void insert_end_of_solution_writer(slice_index si,
   if (st->level==structure_traversal_level_top)
   {
     slice_index const prototype = alloc_end_of_solution_writer_slice();
-    attack_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

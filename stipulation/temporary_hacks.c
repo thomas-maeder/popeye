@@ -138,7 +138,9 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
   link_to_branch(proxy_goal,system);
 
   {
-    slice_index const tester = branch_find_slice(STGoalReachedTester,proxy_goal);
+    slice_index const tester = branch_find_slice(STGoalReachedTester,
+                                                 proxy_goal,
+                                                 stip_traversal_context_intro);
     assert(tester!=no_slice);
     pipe_append(slices[tester].next2,alloc_not_slice());
     slices[tester].u.goal_handler.goal.type = goal_negated;
@@ -195,7 +197,9 @@ static slice_index make_opponent_moves_counter_fork(Side side)
   slice_index const opp_moves_counter_proto = alloc_pipe(STOpponentMovesCounter);
   slice_index ready = help;
   do {
-    ready = branch_find_slice(STReadyForHelpMove,ready);
+    ready = branch_find_slice(STReadyForHelpMove,
+                              ready,
+                              stip_traversal_context_help);
   } while (slices[ready].u.branch.length!=slack_length+1);
   help_branch_insert_slices(ready,&legal_moves_counter_proto,1);
   help_branch_insert_slices(help,&opp_moves_counter_proto,1);
