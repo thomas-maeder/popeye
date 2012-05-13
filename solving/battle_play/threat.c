@@ -555,7 +555,6 @@ static void insert_end(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const threat_boundaries_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode                    },
-  { STSetplayFork,        &stip_traverse_structure_children_pipe },
   { STReadyForDefense,    &end_insertion_if_too_short            },
   { STNotEndOfBranchGoal, &insert_start                          },
   { STReadyForAttack,     &insert_end                            },

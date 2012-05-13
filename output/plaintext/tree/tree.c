@@ -251,7 +251,6 @@ static void insert_refutation_writer(slice_index si,
 
 static structure_traversers_visitors const try_writer_inserters[] =
 {
-  { STSetplayFork,            &stip_traverse_structure_children_pipe },
   { STKeyWriter,              &substitute_try_writer                 },
   { STRefutationsSolver,      &insert_refutation_intro_writer        },
   { STRefutationsIntroWriter, &insert_refutation_writer              },

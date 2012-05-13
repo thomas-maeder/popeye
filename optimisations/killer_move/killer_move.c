@@ -288,7 +288,6 @@ static void remember_conditional_pipe(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STSetplayFork,       &stip_traverse_structure_children_pipe },
   { STRefutationsSolver, &stip_traverse_structure_children_pipe },
   { STMoveGenerator,     &substitute_killermove_machinery       }
 };
