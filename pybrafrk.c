@@ -34,28 +34,6 @@ slice_index alloc_branch_fork(slice_type type, slice_index fork)
   return result;
 }
 
-/* Substitute links to proxy slices by the proxy's target
- * @param si slice where to resolve proxies
- * @param st points at the structure holding the state of the traversal
- */
-void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_resolve_proxies(si,st);
-
-  if (slices[si].next2!=no_slice)
-  {
-    stip_traverse_structure_next_branch(si,st);
-    proxy_slice_resolve(&slices[si].next2,st);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

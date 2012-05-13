@@ -21,12 +21,4 @@ slice_index alloc_proxy_slice(void);
  */
 void resolve_proxies(slice_index *si);
 
-/* Substitute a possible link to a proxy slice by the proxy's target
- * @param si address of slice index; if *si refers to a proxy slice,
- *           the index of the slice refered by the proxy will be
- *           substituted for *si's current value
- * @param st points at the structure holding the state of the traversal
- */
-void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st);
-
 #endif

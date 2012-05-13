@@ -26,11 +26,7 @@ slice_index alloc_proxy_slice(void)
   return result;
 }
 
-/* Substitute a possible link to a proxy slice by the proxy's target
- * @param si address of slice index
- * @param st points at the structure holding the state of the traversal
- */
-void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
+static void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
 {
   boolean (* const is_resolved_proxy)[max_nr_slices] = st->param;
 
@@ -39,10 +35,61 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  while (*si!=no_slice && slice_type_get_functional_type(slices[*si].type)==slice_function_proxy)
+  while (*si!=no_slice
+         && slice_type_get_functional_type(slices[*si].type)==slice_function_proxy)
   {
     (*is_resolved_proxy)[*si] = true;
     *si = slices[*si].next1;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  proxy_slice_resolve(&slices[si].next1,st);
+  proxy_slice_resolve(&slices[si].next2,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].next1!=no_slice)
+  {
+    stip_traverse_structure_children_pipe(si,st);
+    proxy_slice_resolve(&slices[si].next1,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_resolve_proxies(si,st);
+
+  if (slices[si].next2!=no_slice)
+  {
+    stip_traverse_structure_next_branch(si,st);
+    proxy_slice_resolve(&slices[si].next2,st);
   }
 
   TraceFunctionExit(__func__);
@@ -77,11 +124,13 @@ void resolve_proxies(slice_index *si)
                                                  &pipe_resolve_proxies);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
-                                                 &branch_fork_resolve_proxies);
+                                                 &fork_resolve_proxies);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &binary_resolve_proxies);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_binary,
                                                 &binary_resolve_proxies);
-
   stip_traverse_structure(*si,&st);
 
   proxy_slice_resolve(si,&st);

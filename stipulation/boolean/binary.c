@@ -72,26 +72,6 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Substitute links to proxy slices by the proxy's target
- * @param si slice where to resolve proxies
- * @param st points at the structure holding the state of the traversal
- */
-void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  proxy_slice_resolve(&slices[si].next1,st);
-  proxy_slice_resolve(&slices[si].next2,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
