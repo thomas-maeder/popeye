@@ -322,6 +322,7 @@ simples:
 	Football
 	BlancEchecsAlphabetique
 	NoirEchecsAlphabetique
+	RoisKobul
 
 	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 

@@ -1199,7 +1199,7 @@ EXTERN boolean          kobulking[nr_sides];
     /*178*/ "ImmunCage",
     /*179*/ "Football",
     /*180*/ "ContraParrain",
-    /*181*/ "KobulKings",
+    /*181*/ "RoisKobul",
     /*182*/ "EchangeRoque",
 	/*183*/ "BlancEchecsAlphabetiques",
 	/*184*/ "NoirEchecsAlphabetiques"
@@ -1386,7 +1386,7 @@ EXTERN boolean          kobulking[nr_sides];
     /*178*/ "KaefigImmunSchach",
     /*179*/ "Fussball",
     /*180*/ "KontraParrain",
-    /*181*/ "KobulKings",
+    /*181*/ "KobulKoenige",
     /*182*/ "PlatzwechselRochade",
 	/*183*/ "WeissesAlphabetischesSchach",
 	/*184*/ "SchwarzesAlphabetischesSchach"
