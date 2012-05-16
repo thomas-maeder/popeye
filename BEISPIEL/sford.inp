@@ -203,23 +203,19 @@ option ohnewk ohnesk
 
 weiter
 
-bemerkung 3 Halbzuege s+w+sHilfszug mit Ziel
-bemerkung wAngriffszug zum Schlag
-bemerkung wobei das Spiel mit dem weissen Schlag endet
+bemerkung 4 Halbzuege s+w+sHilfszug mit Ziel Schlag
 bemerkung (d.h. forderung hx2)
-sforderung schwarz 3h[1a[x]d]h{!x}
+sforderung schwarz 4hh[x]
 steine weiss ba3f5h4
        schwarz bf6g6g7h5
 option ohnewk ohnesk
 
 weiter
 
-bemerkung 3 Halbzuege s+w+sHilfszug mit Ziel
-bemerkung wAngriffszug zum Schlag
-bemerkung wobei das Spiel mit dem weissen Schlag endet
-bemerkung und Schwarz nicht schlaegt
+bemerkung 4 Halbzuege s+w+sHilfszug mit Ziel Schlag
+bemerkung wobei Schwarz nicht schlaegt
 bemerkung (d.h. forderung hx2 option ZielIstEnde)
-sforderung schwarz 3h[1a[x]d]{!x}h{!x}
+sforderung schwarz 4h{!x}h[x]
 steine weiss ba3f5h4
        schwarz bf6g6g7h5
 option ohnewk ohnesk

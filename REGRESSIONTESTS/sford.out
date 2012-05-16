@@ -754,9 +754,7 @@ wAngriffszug zum Schlag
 Loesung beendet. 
 
 
-3 Halbzuege s+w+sHilfszug mit Ziel
-wAngriffszug zum Schlag
-wobei das Spiel mit dem weissen Schlag endet
+4 Halbzuege s+w+sHilfszug mit Ziel Schlag
 (d.h. forderung hx2)
 
 
@@ -779,7 +777,7 @@ wobei das Spiel mit dem weissen Schlag endet
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 3h[1a[x]d]h{!x}     3 + 4
+  schwarz 4hh[x]              3 + 4
 
   1.g6-g5 h4*g5 x 
   1.g6-g5 a3-a4   2.g7-g6 f5*g6 x 
@@ -793,10 +791,8 @@ wobei das Spiel mit dem weissen Schlag endet
 Loesung beendet. 
 
 
-3 Halbzuege s+w+sHilfszug mit Ziel
-wAngriffszug zum Schlag
-wobei das Spiel mit dem weissen Schlag endet
-und Schwarz nicht schlaegt
+4 Halbzuege s+w+sHilfszug mit Ziel Schlag
+wobei Schwarz nicht schlaegt
 (d.h. forderung hx2 option ZielIstEnde)
 
 
@@ -819,7 +815,7 @@ und Schwarz nicht schlaegt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 3h[1a[x]d]{!x}h{!x} 3 + 4
+  schwarz 4h{!x}h[x]          3 + 4
 
   1.g6-g5 h4*g5 x 
   1.g6-g5 a3-a4   2.g7-g6 f5*g6 x 
