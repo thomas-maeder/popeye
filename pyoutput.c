@@ -34,27 +34,8 @@ slice_index alloc_output_mode_selector(output_mode mode)
   return result;
 }
 
-static void remember_setplay(slice_index si, stip_structure_traversal *st)
-{
-  boolean * const is_setplay = st->param;
-  boolean const save_is_setplay = *is_setplay;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *is_setplay = true;
-  stip_traverse_structure_children(si,st);
-  *is_setplay = save_is_setplay;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void select_output_mode(slice_index si, stip_structure_traversal *st)
 {
-  boolean const * const is_setplay = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -62,7 +43,10 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   if (slices[si].u.output_mode_selector.mode==output_mode_line)
     stip_insert_output_plaintext_line_slices(si);
   else
-    stip_insert_output_plaintext_tree_slices(si,*is_setplay);
+  {
+    boolean const is_setplay = st->level==structure_traversal_level_setplay;
+    stip_insert_output_plaintext_tree_slices(si,is_setplay);
+  }
 
   {
     slice_index const prototypes[] =
@@ -81,22 +65,6 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_output_slices_binary(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_binary_operand1(si,st);
-  stip_traverse_structure_binary_operand2(si,st);
-
-  /* don't traverse tester */
-
-  TraceFunctionExit(__func__);
-  TraceFunctionParamListEnd();
-}
-
 /* Instrument the stipulation structure with slices that implement
  * the selected output mode.
  * @param si identifies slice where to start
@@ -104,7 +72,6 @@ static void insert_output_slices_binary(slice_index si,
 void stip_insert_output_slices(slice_index si)
 {
   stip_structure_traversal st;
-  boolean is_setplay = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -112,10 +79,7 @@ void stip_insert_output_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&is_setplay);
-  stip_structure_traversal_override_single(&st,
-                                           STSetplayFork,
-                                           &remember_setplay);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
                                            STOutputModeSelector,
                                            &select_output_mode);
@@ -125,9 +89,6 @@ void stip_insert_output_slices(slice_index si)
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_binary,
-                                                &insert_output_slices_binary);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
