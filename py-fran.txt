@@ -10,50 +10,7 @@ temps. Notre travail ne peut en tout cas pas etre paye, et nous ne le
 faisons pas pour gagner de l'argent.
 
 La seule restriction concernant la distribution de Popeye est que
-Popeye doit etre distribue entierement - tous les fiches mentionnes
-dans la liste suivante doivent etre inclus.
-
-	py-fran.txt:    Le fichier que vous etes en train de lire
-	py-deut.txt:    Version allemande de ce fichier
-	py-engl.txt:    Version anglaise de ce fichier
-	license.txt:    Licence de Popeye.
-	readme.txt:     Remarques courtes pour ceux qui desirent compiler
-			Popeye eux-memes
-	pydos32.exe:    Fichier executable pour MS-DOS (32 Bit, 80386)
-	pywin32.exe:    Fichier executable pour MS-Windows-NT/-2000/-XP
-	pywin98.exe:    Fichier executable pour MS-Windows-95/-98/-ME
-	py-*.str:       Fichier avec les textes d'une langue
-
-Fichiers de source:
-	makefile.unx:   Makefile pour les systemes UNIX et pareils
-	py.h:           Fichier header pour tous les codes de source
-	pydata.h:       Fichier contenant toutes les donnees globales
-	pydata.c:       Pour la generation du fichier objet pydata.o (ou bien
-			pydata.obj)
-	py1.c, py2.c, py3.c py4.c (+py4.h) py5.c py6.c:
-			Code de source de Popeye
-	pyhash.c:       Fonctions de "dynamic hashing" 
-	dht:            Contient des fonctions soutenant "dynamic hashing".
-	pyint.c:        Contient les fonctions de mode intelligent.
-	pyio.c:         Contient toute l'entree et la sortie de donnees
-	pymsg.c:        Contient les fonctions de sortie de texte
-	pylang.c        Contient les fonctions des langages differents
-	pyproof.c:      Contient les fonctions de partie justificatif et a=>b
-	pysignal.c:     Contient les fonctions de traitement de signaux Unix
-	pytime.c:       Contient les fonctions de mesure du temps
-	pymac.h:        Contient tous les specifications pour Macintosh
-	pymsg.h:        Contient tous les textes sortis par Popeye
-	pyproc.h:       Definitions des fonctions
-	todef.awk:      awk-script pour la conversion de py.h
-	toenum.awk:     awk-script pour la conversion de py.h
-	py-*.msg:       Fichier avec des textes de messages
-	pie*.txt:       Fichier avec les types de pieces supportes par
-			Popeye pour LaTeX.
-	genpystr.c:     Fichier executable pour la generation de py-*.str
-	BEISPIEL:       Contient des exemples en langue allemande.
-	DHT:            Contient des fichiers pour "dynamic hashing"
-	LATEX:          Contient des fichiers pour LaTeX
-
+Popeye doit etre distribue integralement.
 
 
 Feed-back:
@@ -596,7 +553,7 @@ simples:
 	"structuree". Sous cette forme, toutes les enonces peuvent
 	etre indiques qui peuvent etre indiques avec la commande
 	enonce, mais aussi beaucoup d'enonces additionnels.
-	(Exception: enonces pser ne sont pas supportees actuellement)
+	(Exception: les enonces pser ne sont pas supportees actuellement)
 
 	Un enonce indique par senonce a la structure d'un arbre. Le
 	jeu commence a la racine, traverse les branches (qui se pevent
@@ -620,7 +577,8 @@ simples:
 	La definition d'une branche consiste normalement:
 	- de la longueur maximale en demi-coups (dans l'exemple: 5)
 	- du type de la branche                 (s pour serie)
-	- des bifurcations                      ([#])
+	- des feuilles                          (#)
+	- des bifurcations                      (aucune dans l'exemple)
 	- des restrictions                      (aucune dans l'exemple)
 
 	Le jeu se termine a une ou plusieurs feuilles. Leur definition
@@ -658,7 +616,7 @@ simples:
 	Bifurcation menant a une branche
 	--------------------------------
 
-	Une bifurcation peut aussi mener a une branche imbriquee.
+	Une bifurcation mene a une branche imbriquee.
 
 	Exemples        Synonymes comme enonce
         3a[1a[#]d]d     semi-r#2
@@ -666,13 +624,11 @@ simples:
 	6s[1d[#]a]      ser-s#6
 
 
-	Branches avec plusieurs bifurcations
-	------------------------------------
+	Branches avec plusieurs feuilles ou bifurcations
+	------------------------------------------------
 
-	Une bifurcation a une feuille et une bifurcation a une branche
-	peuvent etre indiquees pour le meme demi-coup. Et pour les
-	branches battaille et aide, des bifurcations peuvent etre
-	indiquees pour les deux demi-coups.
+	Apres chaque demi-coup, un but et une bifurcation peuvent etre
+        indiques.
 
 	Exemples        Synonymes comme enonce
 	4a[#=]d[#=]     s#=2 option quodlibet
@@ -706,7 +662,7 @@ simples:
 	operandes. Elle peut donc elle-meme etre l'operande d'une
 	expression, p.ex. (comme alternative a des jumeaux):
 
-	3a[#]d | 4hh[#] | 4ad[#]
+	3a[#]d & 4hh[#] & 4ad[#]
 
 	Les trois expressions partielles ainsi que les expressions |
 	appartiennent au groupe attaque.

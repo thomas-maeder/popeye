@@ -10,56 +10,7 @@ sowieso nicht zu bezahlen, und wir investieren unsere Zeit nicht
 deswegen um damit Geld zu verdienen.
 
 Die einzige Einschraenkung besteht darin, dass Popeye vollstaendig
-weitergeben wird - einschliesslich aller im folgenden aufgezaehlten
-Dateien.
-
-	py-deut.txt:    Die Datei, die sie gerade lesen.
-	py-fran.txt:    Franzoesische Version dieser Datei.
-	py-engl.txt:    Englische Version dieser Datei.
-	license.txt:    Popeye Lizenz.
-	readme.txt:     Kurze Hinweise fuer diejenigen, die ihren Popeye
-			selbst uebersetzen wollen.
-	pydos32.exe:    Ausfuehrbare Datei fuer MS-DOS (32 Bit, 80386)
-	pywin32.exe:    Ausfuehrbare Datei fuer MS-Windows-NT/-2000/-XP
-	pywin98.exe:    Ausfuehrbare Datei fuer MS-Windows-95/-98/-ME
-	py-*.str:       Diese Dateien enthalten die sprachabhaengigen Texte
-
-Liste der Quellfiles:
-	makefile.unx:   Makefile fuer UNIX-Systeme und Verwandte.
-	py.h:           Header-File fuer alle C-Dateien.
-	pydata.h:       Hier sind alle globalen Daten definiert.
-	pydata.c:       Zum Erzeugen eines pydata.o.
-	py1.c, py2.c, py3.c, py4.c (+py4.h), py5.c, py6.c
-			C-Quellcode von Popeye.
-	pyhash.c :      Dynamische Hash-Funktionen 
-	pyint.c:        Hier stehen die Prozeduren fuer den
-			Intelligenz-Modus.
-	pyio.c:         Hier ist die gesamte Ein-/Ausgabe codiert.
-	pymsg.c:        Hier stehen die Prozeduren zur Textausgabe.
-	pylang.c        Hier stehen die Prozeduren fuer unterschiedliche
-			Sprachen.
-	pyproof.c:      Loesung Kuerzester Beweispartien (und a=>b)
-	pysignal.c:     Hier stehen die Prozeduren zur Signalbehandlung
-			unter UNIX.
-	pytime.c:       Hier stehen die Prozeduren zur Zeitmessung.
-	pymac.h:        Segmentspezifikationen fuer Macintosh's MPW
-	pymsg.h:        Hier stehen die gesamten Texte die Popeye ausgibt.
-	pyproc.h:       Definition der Proceduren.
-	todef.awk:      awk-script zum Konvertieren von py.h
-	toenum.awk:     awk-script zum Konvertieren von py.h
-	py-*.msg:       Die sprachabhaengigen Dateien fuer Popeye Meldungen
-	pie*.txt:       Die Dateien fuer LaTeX Ausgabe der von Popeye
-			unterstuetzten Figurenarten.
-	genpystr.c:     Programmdatei, die aus py-*.msg Dateien py-*.str 
-			Dateien macht
-	BEISPIEL:       Verzeichnis mit Beispiel-Eingabedateien in 
-			Deutsch
-	BEISPIEL:       Verzeichnis mit Beispiel-Eingabedateien in 
-			Englisch
-	DHT:            Verzeichnis, das die C-Dateien fuer das dynamische
-			Hash-Paket enthaelt.
-	LATEX:          Verzeichnis, das die LaTeX-Dateien enthaelt.
-
+weitergeben wird.
 
 
 Rueckmeldungen:
@@ -75,7 +26,6 @@ Verwenden Sie den Link "Add new" und fuellen Sie in die Felder
 "Summary" und "Description" die Informationen ein, welche Sie
 uebermitteln moechten. Anschliessend senden Sie Ihre Rueckmeldung mit
 "Add Artifact" ab.
-
 
 
 Starten von Popeye:
@@ -639,7 +589,8 @@ Kommandos:
 	Die Definition eines besteht normalerweise aus:
 	- der maximalen Laenge in Halbzuegen (im Beispiel 5)
 	- dem Typ des Asts                   (s fuer Serie)
-	- Verzweigungen                      ([#])
+	- Blaetter                           (#)
+	- Gabelungen                         (kommen im Beispiel nicht vor)
 	- Einschraenkungen                   (kommen im Beispiel nicht vor)
 
 	Das Spiel endet in einem oder mehreren Blaettern. Ihre
@@ -679,7 +630,7 @@ Kommandos:
 	Gabelung in einen Ast
 	---------------------
 
-	Eine Gabelung kann zu einem anderen Ast fuehren.
+	Eine Gabelung fuehrt zu einem verschachtelten Ast.
 
 	Beispiel        Synonyme als forderung
         3a[1a[#]d]d     semi-r#2
@@ -687,12 +638,11 @@ Kommandos:
 	6s[1d[#]a]      ser-s#6
 
 
-	Aeste mit mehreren Gabelungen
-	-----------------------------
+	Aeste mit mehreren Blaettern oder Gabelungen
+	--------------------------------------------
 
-	Fuer einen Halbzug kann je eine Gabelung in ein Blatt und in
-	einen Ast angegeben werden. Und fuer Kampf- und Hilfsaeste
-	koennen nach beiden Halbzuegen Gabelungen angegeben werden.
+	Nach jedem Halbzug kann je ein Blatt und eine Gabelung angegeben
+	werden.
 
 	Beispiele       Synonyme als forderung
 	4a[#=]d[#=]     s#=2 option quodlibet
@@ -727,7 +677,7 @@ Kommandos:
 	Operand(en) und kann somit seinerseits Operand eines Ausdrucks
 	sein, z.B. (als Alternative zu einer Drillingsbildung):
 
-	3a[#]d | 4hh[#] | 4ad[#]
+	3a[#]d & 4hh[#] & 4ad[#]
 
 	Alle drei Teilausdruecke und somit auch die |-Ausdruecke
 	gehoeren zur Gruppe Angriff.

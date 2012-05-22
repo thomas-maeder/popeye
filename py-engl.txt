@@ -10,56 +10,7 @@ it. This work cannot be waged by money, and also we devote our time to
 popeye not to earn money.
 
 The only restriction that we impose is that Popeye be distributed in
-its entirety - including all the files listed below.
-
-	py-engl.txt:    The file you are reading now
-	py-deut.txt:    German version of this file
-	py-fran.txt:    French version of this file
-	license.txt:    Popeye License.
-	readme.txt:     Short hints for those who want to recompile popeye
-	pydos32.exe:    Executable file for MS-DOS (32 Bit, 80386)
-	pywin32.exe:    Executable file for MS-Windows-NT/-2000/-XP
-	pywin98.exe:    Executable file for MS-Windows-95/-98/-ME
-	py-*.str:       These files contain the language dependant texts
-			for popeye. They must reside in the same directory
-			as the executable.
-
-Source files:
-	makefile.unx:   Makefile for UNIX-systems and friends
-	py.h:           Header-file for all C-files.
-	pydata.h:       All global data are define here.
-	pydata.c:       For the generation of pydata.o.
-	py1.c, py2.c, py3.c py4.c (+py4.h) py5.c py6.c:
-			C-Source of popeye.
-	pyhash.c:       dynamic hashing functions.
-	dht:            package supporting "dynamic hashing".
-	pyint.c:        Procedures for intelligent mode calculation.
-	pyio.c:         Everything concerning I/O is coded here.
-	pymsg.c:        All procedures for output of messages.
-	pylang.c        Language dependent procedures.
-	pyproof.c:      Procedures for shortest proofgame (and a=>b) solving
-	pysignal.c:     All procedures for UNIX signal handling.
-	pytime.c:       All procedures for meassuring time.
-	pymac.h:        Segmentspecification of Macintosh's MPW
-	pymsg.h:        Defines for the messages of popeye.
-	pyproc.h:       Definitions of the procedures.
-	todef.awk:      awk-script to convert enumerations in py.h to
-			#defines.
-	toenum.awk:     awk-script to convert defines in py.h to
-			enumerations.
-	py-*.msg:       The language dependent files for Popeye-messages.
-	pie*.txt:       The files for LaTeX output of the piece types
-			supported by Popeye.
-	genpystr.c:     Source of the program which generates the py-*.str
-			from py-*.msg.
-	BEISPIEL:       Directory which contains example input files in
-			German
-	EXAMPLES:       Directory which contains example input files in
-			English
-	DHT:            Directory containing C-files for the dynamic
-			hashing package.
-	LATEX:          Directory containing LaTeX files.
-
+its entirety.
 
 
 Providing feedback:
@@ -617,8 +568,9 @@ commands expect further parameters. Lets start with the simpler commands:
         The definition of a branch normally consists of:
 	- the maximum length in half-moves (in the example: 5)
 	- the type of the branch           (s for series)
-	- forks                            ([#])
-        - Constraints                      (don't occur in the example)
+	- leaves                           (#)
+	- forks                            (don't occur in the example)
+        - constraints                      (don't occur in the example)
 
 	Play ends in one or multiple leaves. Their definition normally
 	consists of the goal (in the example: #) to be reached.
@@ -655,7 +607,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	Fork into a branch
 	------------------
 
-	A fork can also lead into a nested branch.
+	A fork leads into a nested branch.
 
 	Examples        Synonyms as stipulation
         3a[1a[#]d]d     semi-r#2
@@ -663,12 +615,10 @@ commands expect further parameters. Lets start with the simpler commands:
 	6s[1d[#]a]      ser-s#6
 
 
-	Branches with more than one fork
-	--------------------------------
+	Branches with more than one fork or leaf
+	----------------------------------------
 
-	For a half-move, both a fork into a leaf and into a branch can
-	be indicated. And for battle and help branches, forks can be
-	indicated for both half-moves.
+	After each half-move, both a leaf and a fork can be indicated.
 
 	Examples        Synonyms as stipulation
 	4a[#=]d[#=]     s#=2 option quodlibet
@@ -702,7 +652,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	can therefore be the operand of an expression, e.g. (as
 	alternative to triplets):
 
-	3a[#]d | 4hh[#] | 4ad[#]
+	3a[#]d & 4hh[#] & 4ad[#]
 
 	The three partial expressions as well as the | expressions
 	belong to the attack group.
