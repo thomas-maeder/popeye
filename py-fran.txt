@@ -855,7 +855,8 @@ suivante est un peu plus compliquee:
 	gt      girl-scout
 	ha      ("hamster")
 	im      imperatrice   
-	ka      kangourou   
+	ka      kangourou
+	kl      kangourou lion
 	l       locuste   
 	la	lapin
 	le      leo
@@ -906,16 +907,20 @@ suivante est un peu plus compliquee:
 	s2      sauterelle-2
 	s3      sauterelle-3
 	sa      sauterelle contrA
+	sb	sauteur arbre
 	sc      chameau sauteur
+	se	sauteur feuille
 	sf      sauterelle fou
 	sg      gnou sauteur
 	si      sirene
 	sk      skylla
+	sm	sauteur arbre majeur
 	sn      sauteur noctambule 
 	so      scorpion
 	sp      superpion
 	sr      sauteur roi
 	st      sauterelle tour
+	su	sauteur feuille majeur
 	sz      zebre sauteur
 	t       tour
 	tc      tour/fou chasseur

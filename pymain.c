@@ -56,6 +56,7 @@ static void checkGlobalAssumptions(void)
   assert('h'=='g'+1);
 
   check_hash_assumptions();
+  enforce_piecename_uniqueness();
 }
 
 int main(int argc, char *argv[])

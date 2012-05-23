@@ -841,6 +841,8 @@ sstipulation). A little bit more elaborate is the command
 	g       grasshopper
 	g2      grasshopper-2
 	g3      grasshopper-3
+	ge      greater treehopper
+	gf      greater leafhopper
 	gh      gnurider hopper
 	gi      giraffe
 	gl      gral                           alfil + rookhopper
@@ -851,9 +853,11 @@ sstipulation). A little bit more elaborate is the command
 	k       king
 	ka      kangaroo
 	kh      kinghopper
+	kl      kangaroo lion
 	l       locust
 	lb      bishop locust
 	le      leo
+	lh      leaf hopper
 	li      lion
 	ln      nightrider locust
 	lr      rook locust
@@ -910,6 +914,7 @@ sstipulation). A little bit more elaborate is the command
 	sq      squirrel   
 	ss      ("Spiralspringer")
 	sw      sparrow
+	th      tree hopper
 	tr      triton
 	uu      ubiubi
 	va      vao   

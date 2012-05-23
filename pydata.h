@@ -562,10 +562,10 @@ EXTERN boolean          kobulking[nr_sides];
     /*138*/ {'d','t'},  /* double tour-sauterelle */
     /*139*/ {'d','f'},  /* double fou-sauterelle */
     /*140*/ {'n','o'},   /* orix (non-stop) */
-    /*141*/ {'t','h'},   /* treehopper */
-    /*142*/ {'l','h'},   /* leafhopper */
-    /*143*/ {'g','e'},   /* greater treehopper */
-    /*144*/ {'g','f'},   /* greater leafhopper */
+    /*141*/ {'s','b'},   /* treehopper */
+    /*142*/ {'s','e'},   /* leafhopper */
+    /*143*/ {'s','m'},   /* greater treehopper */
+    /*144*/ {'s','u'},   /* greater leafhopper */
     /*145*/ {'k','l'}   /* kangarou lion */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
@@ -709,10 +709,10 @@ EXTERN boolean          kobulking[nr_sides];
     /*138*/ {'d','t'},  /* Doppelturmhuepfer */
     /*139*/ {'d','l'},  /* Doppellaeuferhuepfer */
     /*140*/ {'n','o'},   /* orix (non-stop) */
-    /*141*/ {'t','h'},   /* treehopper */
-    /*142*/ {'l','h'},   /* leafhopper */
-    /*143*/ {'g','t'},   /* greater treehopper */
-    /*144*/ {'g','l'},  /* greater leafhopper */
+    /*141*/ {'u','h'},   /* treehopper */
+    /*142*/ {'b','h'},   /* leafhopper */
+    /*143*/ {'g','u'},   /* greater treehopper */
+    /*144*/ {'g','b'},  /* greater leafhopper */
     /*145*/ {'l','k'}   /* kangarou lion */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
@@ -864,6 +864,9 @@ EXTERN boolean          kobulking[nr_sides];
   }
 	};
 #endif
+
+/* Make sure that we don't define ambiguous piece name shortcuts */
+void enforce_piecename_uniqueness(void);
 
 #if defined(WE_ARE_EXTERN)
 	extern char     ActAuthor[];

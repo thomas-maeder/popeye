@@ -833,6 +833,7 @@ aufwendiger ist das Kommando
 	b2	Turmbouncer
 	b3	Laeuferbouncer
 	bb      Berolina Bauer   
+	bh	Blatthuepfer
 	bi      Bison                           1,3+2,3 Springer
 	bo	Bob                             wie Hase, aber ueber vier Sprungboecke
 	bs      Berolina Superbauer
@@ -864,11 +865,13 @@ aufwendiger ist das Kommando
 	g       Grashuepfer                     0,1+1,1 Huepfer
 	g2      Grashuepfer-2
 	g3      Grashuepfer-3
+	gb	Grosser Blatthuepfer
 	gh      Gnureiterhuepfer
 	gi      Giraffe                         1,4 Springer
 	gl      Gral                            Alfil + Turmhuepfer
 	gn      Gnu                             1,2+1,3 Springer
 	gr      Gnureiter                       1,2+1,3 Reiter
+	gu	Grosser Baumhuepfer
 	h       Heuschrecke   
 	ha      Hamster                         0,1+1,1 180 Grad Huepfer
 	he	Hase                            Lion Variante des Kanguruhs
@@ -892,6 +895,7 @@ aufwendiger ist das Kommando
 	lh      Laeuferhuepfer
 	li      Lion                            0,1+1,1 beliebig weit Huepfer
 	lj      Laeufer/Turm-Jaeger
+	lk      Kaenguruh-Lion
 	ll      Laeufer-Lion
 	lr	Rosen-Heuschrecke
 	ls      Laeuferspatz                    1,1 135 Grad Huepfer
@@ -947,6 +951,7 @@ aufwendiger ist das Kommando
 	tl      Turm-Lion
 	tr      Triton
 	ts      Turmspatz                       0,1 135 Grad Huepfer
+	uh	Baumhuepfer
 	uu      UbiUbi                          beliebig viele 1,2 Spruenge
 	va      Vao                             Zieht wie Laeufer, wirkt Laeufer-Lion
 	wa      Waran                           0,1+1,2 Reiter
