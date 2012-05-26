@@ -50,10 +50,6 @@ int dhtDebug= 0;
 #  define Nil(type)    (type *)0
 #endif /*New*/
 
-/* The next three values are those you may want to change */
-#define DefaultMaxLoadFactor    300     /* in percent */
-#define DefaultMinLoadFactor    100     /* in percent */
-
 
 /* One problem in implementing dynamic hashing is the table to hold
  * the pointers to the hash elements. This table should dynamicly
@@ -371,8 +367,6 @@ typedef struct dht {
     uLong       p;     /* Next bucket to split */
     uLong       maxp;  /* Upper bound on p during this expansion */
     uLong       KeyCount;       /* number keys stored in table */
-    uShort      MinLoadFactor;  /* Lower bound on the load factor */
-    uShort      MaxLoadFactor;  /* Upper bound on the load factor */
     uLong       CurrentSize;
     dirTable        DirTab;     /* The directory table */
     dirEnumerate    DirEnum;        /* stepping through the table */
@@ -386,21 +380,6 @@ typedef struct dht {
 #endif
 #define NewHashTable        (HashTable *)fxfAlloc(sizeof(dht))
 #define FreeHashTable(h)    fxfFree(h, sizeof(dht))
-#define OVERFLOW_SAVE
-#if defined(OVERFLOW_SAVE)
-#define ActualLoadFactor(h)                     \
-  ( (h)->CurrentSize < 10000                    \
-    ?  ((h)->KeyCount*100) / (h)->CurrentSize   \
-    :  (h)->KeyCount / ((h->CurrentSize/100))   \
-    )
-#else
-#define ActualLoadFactor(h) (((h)->KeyCount*100)/(h)->DirTab.count)
-#endif /*OVERFLOW_SAVE*/
-
-unsigned long dhtActualLoad(dht *h)
-{
-  return ActualLoadFactor(h);
-}
 
 unsigned long dhtKeyCount(dht *h)
 {
@@ -466,8 +445,6 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
         ht->KeyCount=     0;
         ht->maxp=     PTR_PER_DIR;
         ht->CurrentSize=    ht->maxp;
-        ht->MinLoadFactor=  DefaultMinLoadFactor;
-        ht->MaxLoadFactor=  DefaultMaxLoadFactor;
         ht->KeyPolicy=        KeyPolicy;
         ht->DtaPolicy=        DataPolicy;
 
@@ -546,12 +523,6 @@ void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
           ind, "", ht->KeyCount);
   fprintf(f, "%*sCurrentSize              = %6lu\n",
           ind, "", ht->CurrentSize);
-  fprintf(f, "%*sMinLoadFactor (%%)        = %6hu\n",
-          ind, "", ht->MinLoadFactor);
-  fprintf(f, "%*sMaxLoadFactor (%%)        = %6hu\n",
-          ind, "", ht->MaxLoadFactor);
-  fprintf(f, "%*sActual LoadFactor (%%)    = %6lu\n",
-          ind, "", ActualLoadFactor(ht));
   fprintf(f, "%*sDirLevel                 = %6d\n",
           ind, "", ht->DirTab.level);
   hcnt=0;
@@ -768,6 +739,16 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   return phe;
 }
 
+static int dhtIsOverloaded(HashTable const *ht)
+{
+  return ht->KeyCount/3 > ht->CurrentSize;
+}
+
+static int dhtIsUnderloaded(HashTable const *ht)
+{
+  return ht->KeyCount < ht->CurrentSize;
+}
+
 void dhtRemoveElement(HashTable *ht, dhtValue key)
 {
   MYNAME(dhtRemoveElement)
@@ -789,7 +770,7 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
     (ht->procs.FreeKey)(he->HsEl.Key);
     FreeInternHsElement(he);
     ht->KeyCount--;
-    if (ActualLoadFactor(ht) < ht->MinLoadFactor)
+    if (dhtIsUnderloaded(ht))
     {
       DEBUG_CODE(
         fprintf(stderr,
@@ -810,8 +791,6 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
   }
   return;
 }
-
-dhtStatus   dhtDupStatus;
 
 dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
 {
@@ -876,7 +855,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   he->HsEl.Key = KeyV;
   he->HsEl.Data = DataV;
 
-  if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
+  if (dhtIsOverloaded(ht))
   {
     /*
       fprintf(stderr, "Dumping Hash-Table before expansion\n");
