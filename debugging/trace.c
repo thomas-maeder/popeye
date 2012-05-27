@@ -350,7 +350,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
   }
 }
 
-static void Trace_link(char const *prefix, slice_index si, char const *suffix)
+static void trace_link(char const *prefix, slice_index si, char const *suffix)
 {
   if (si==no_slice)
     fprintf(stdout,"%s----%s ",prefix,suffix);
@@ -358,158 +358,178 @@ static void Trace_link(char const *prefix, slice_index si, char const *suffix)
     fprintf(stdout,"%s%4u%s ",prefix,si,suffix);
 }
 
-static void Trace_slice(slice_index si)
+char const context_shortcuts[] = { 'I', 'A', 'D', 'H' };
+char const level_shortcuts[]   = { 'T', 'S', 'N' };
+
+static void trace_common(slice_index si, stip_structure_traversal *st)
 {
-  Trace_link("",slices[si].prev,"<");
+  fprintf(stdout,"[%4u] ",si);
+  fprintf(stdout,"%-34s ",slice_type_names[slices[si].type]);
+  fprintf(stdout,
+          "%c%c%c%c ",
+          Side_names[slices[si].starter][0],
+          level_shortcuts[st->level],
+          context_shortcuts[st->context],
+          st->activity==structure_traversal_activity_solving ? 'S' : 'T');
+  trace_link("",slices[si].prev,"<");
+  if (slices[si].next1!=no_slice)
+    trace_link(">",slices[si].next1,"");
 }
 
-static void Trace_pipe(slice_index si)
+static void trace_branch(slice_index si, stip_structure_traversal *st)
 {
-  Trace_slice(si);
-  Trace_link(">",slices[si].next1,"");
-}
-
-static void Trace_fork(slice_index si)
-{
-  Trace_pipe(si);
-  Trace_link("fork:",slices[si].next2,"");
-}
-
-static void Trace_branch(slice_index si)
-{
-  Trace_pipe(si);
+  trace_common(si,st);
   fprintf(stdout,"%2u/",slices[si].u.branch.length);
   fprintf(stdout,"%2u ",slices[si].u.branch.min_length);
+  fprintf(stdout,"\n");
+
+  stip_traverse_structure_children(si,st);
 }
 
-static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
+static void trace_pipe(slice_index si, stip_structure_traversal *st)
 {
-  if (si!=no_slice && !done_slices[si])
-  {
-    done_slices[si] = true;
+  trace_common(si,st);
+  fprintf(stdout,"\n");
 
-    fprintf(stdout,"[%4u] ",si);
-    fprintf(stdout,"%-34s ",slice_type_names[slices[si].type]);
-    fprintf(stdout,"%c ",Side_names[slices[si].starter][0]);
-    switch (slices[si].type)
-    {
-      case STForkOnRemaining:
-        Trace_fork(si);
-        fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        TraceStipulationRecursive(slices[si].next2,done_slices);
-        break;
-
-      case STKeepMatingFilter:
-        Trace_pipe(si);
-        fprintf(stdout,"mating:%s ",
-                Side_names[slices[si].u.keepmating_guard.mating]);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].next1,
-                                  done_slices);
-        break;
-
-      case STMoveGenerator:
-        Trace_pipe(si);
-        fprintf(stdout,"mode:%u ",slices[si].u.move_generator.mode);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        break;
-
-      case STOutputModeSelector:
-        Trace_pipe(si);
-        TraceEnumerator(output_mode,slices[si].u.output_mode_selector.mode,"\n");
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        break;
-
-      case STPiecesParalysingMateFilter:
-      case STPiecesParalysingMateFilterTester:
-      case STPiecesParalysingStalemateSpecial:
-      case STGoalCheckReachedTester:
-      {
-        Trace_pipe(si);
-        TraceValue("%u",slices[si].u.goal_filter.applies_to_who);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        break;
-      }
-
-      case STGoalImmobileReachedTester:
-      {
-        Trace_pipe(si);
-        Trace_link("?",slices[si].next2,"");
-        TraceValue("%u",slices[si].u.goal_filter.applies_to_who);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        TraceStipulationRecursive(slices[si].next2,done_slices);
-        break;
-      }
-
-      case STOutputPlaintextLineLineWriter:
-      case STOutputPlaintextTreeGoalWriter:
-        Trace_pipe(si);
-        fprintf(stdout,"goal:%u\n",slices[si].u.goal_handler.goal.type);
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        break;
-
-      case STGoalReachedTester:
-        Trace_fork(si);
-        fprintf(stdout,"goal:%u ",slices[si].u.goal_handler.goal.type);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        TraceStipulationRecursive(slices[si].next2,done_slices);
-        break;
-
-      case STAttackHashedTester:
-      case STHelpHashedTester:
-        Trace_pipe(si);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].next1,done_slices);
-        break;
-
-      default:
-        switch (slice_type_get_structural_type(slices[si].type))
-        {
-          case slice_structure_leaf:
-            Trace_link("",slices[si].prev,"<");
-            fprintf(stdout,"\n");
-            break;
-
-          case slice_structure_pipe:
-            Trace_pipe(si);
-            fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].next1,done_slices);
-            break;
-
-          case slice_structure_branch:
-            Trace_branch(si);
-            fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].next1,done_slices);
-            break;
-
-          case slice_structure_fork:
-            Trace_fork(si);
-            fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].next1,done_slices);
-            TraceStipulationRecursive(slices[si].next2,done_slices);
-            break;
-
-          default:
-            fprintf(stdout,"\n");
-            break;
-        }
-        break;
-    }
-  }
+  stip_traverse_structure_children(si,st);
 }
+
+static void trace_fork(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  trace_link("fork:",slices[si].next2,"");
+  fprintf(stdout,"\n");
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_leaf(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  fprintf(stdout,"\n");
+}
+
+static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  fprintf(stdout,"\n");
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  trace_link("fork:",slices[si].next2,"");
+  fprintf(stdout,"goal:%u ",slices[si].u.goal_handler.goal.type);
+  fprintf(stdout,"\n");
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_end_of_solution_line_writer(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  fprintf(stdout,"goal:%u\n",slices[si].u.goal_handler.goal.type);
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  trace_link("fork:",slices[si].next2,"");
+  fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  fprintf(stdout,"mating:%s\n",Side_names[slices[si].u.keepmating_guard.mating]);
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_move_generator(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  fprintf(stdout,"mode:%u\n",slices[si].u.move_generator.mode);
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_output_mode_selector(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  fprintf(stdout,
+          " mode:%s(%u)\n",
+          output_mode_names[slices[si].u.output_mode_selector.mode],
+          slices[si].u.output_mode_selector.mode);
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_goal_filter(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  fprintf(stdout,"%u\n",slices[si].u.goal_filter.applies_to_who);
+
+  stip_traverse_structure_children(si,st);
+}
+
+static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  trace_link("?",slices[si].next2,"");
+  fprintf(stdout,"%u\n",slices[si].u.goal_filter.applies_to_who);
+
+  stip_traverse_structure_children(si,st);
+}
+
+static structure_traversers_visitors tracers[] =
+{
+  { STAttackHashedTester,               &trace_hashed_tester                },
+  { STHelpHashedTester,                 &trace_hashed_tester                },
+  { STGoalReachedTester,                &trace_goal_reached_tester          },
+  { STOutputPlaintextLineLineWriter,    &trace_end_of_solution_line_writer  },
+  { STOutputPlaintextTreeGoalWriter,    &trace_end_of_solution_line_writer  },
+  { STGoalImmobileReachedTester,        &trace_goal_immobile_reached_tester },
+  { STPiecesParalysingMateFilter,       &trace_goal_filter                  },
+  { STPiecesParalysingMateFilterTester, &trace_goal_filter                  },
+  { STPiecesParalysingStalemateSpecial, &trace_goal_filter                  },
+  { STGoalCheckReachedTester,           &trace_goal_filter                  },
+  { STOutputModeSelector,               &trace_output_mode_selector         },
+  { STMoveGenerator,                    &trace_move_generator               },
+  { STKeepMatingFilter,                 &trace_keep_mating_filter           },
+  { STForkOnRemaining,                  &trace_fork_on_remaining            }
+};
+
+enum
+{
+  nr_tracers = sizeof tracers / sizeof tracers[0]
+};
 
 void TraceStipulation(slice_index si)
 {
   if (level<=max_level)
   {
-    boolean done_slices[max_nr_slices] = { false };
-    fprintf(stdout,"stipulation structure:\n");
-    TraceStipulationRecursive(si,done_slices);
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_by_structure(&st,slice_structure_pipe,&trace_pipe);
+    stip_structure_traversal_override_by_structure(&st,slice_structure_branch,&trace_branch);
+    stip_structure_traversal_override_by_structure(&st,slice_structure_fork,&trace_fork);
+    stip_structure_traversal_override_by_structure(&st,slice_structure_leaf,&trace_leaf);
+    stip_structure_traversal_override(&st,tracers,nr_tracers);
+
+    {
+      trace_level const save_max_level = max_level;
+      max_level = 0; /* avoid tracing during traversal */
+      fprintf(stdout,"stipulation structure:\n");
+      stip_traverse_structure(si,&st);
+      max_level = save_max_level;
+    }
   }
 }
 
