@@ -8,7 +8,6 @@
 **************************** INFORMATION END **************************/
 
 #include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -70,9 +69,5 @@ void enforce_piecename_uniqueness(void)
   Language language;
 
   for (language = 0; language!=LanguageCount; ++language)
-  {
-    fprintf(stdout,"language:%u:\n",language);
     enforce_piecename_uniqueness_one_language(language);
-    fprintf(stdout,"\n");
-  }
 }
