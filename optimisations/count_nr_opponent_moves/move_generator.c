@@ -40,25 +40,19 @@ void disable_countnropponentmoves_defense_move_optimisation(Side side)
   TraceFunctionResultEnd();
 }
 
-typedef struct
-{
-    stip_length_type length;
-    boolean testing;
-} optimisation_state_type;
-
 static void remember_length(slice_index si,
                                             stip_structure_traversal *st)
 {
-  optimisation_state_type * const state = st->param;
-  stip_length_type const save_length = state->length;
+  stip_length_type * const length = st->param;
+  stip_length_type const save_length = *length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->length = slices[si].u.branch.length;
+  *length = slices[si].u.branch.length;
   stip_traverse_structure_children_pipe(si,st);
-  state->length = save_length;
+  *length = save_length;
 
 
   TraceFunctionExit(__func__);
@@ -68,7 +62,7 @@ static void remember_length(slice_index si,
 static void optimise_defense_move_generator(slice_index si,
                                             stip_structure_traversal *st)
 {
-  optimisation_state_type const * const state = st->param;
+  stip_length_type const * const length = st->param;
   Side const defender = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -81,8 +75,8 @@ static void optimise_defense_move_generator(slice_index si,
 
   if (st->context==stip_traversal_context_defense
       && enabled[defender]
-      && state->length>slack_length+2
-      && state->testing)
+      && *length>slack_length+2
+      && st->activity==structure_traversal_activity_testing)
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
@@ -99,45 +93,6 @@ static void optimise_defense_move_generator(slice_index si,
     pipe_link(proxy2,copy);
     pipe_set_successor(copy,proxy3);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_testing_pipe(slice_index si, stip_structure_traversal *st)
-{
-  optimisation_state_type * const state = st->param;
-  boolean const save_testing = state->testing;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  state->testing = true;
-  stip_traverse_structure_testing_pipe_tester(si,st);
-  state->testing = save_testing;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_conditional_pipe(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  optimisation_state_type * const state = st->param;
-  boolean const save_testing = state->testing;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  state->testing = true;
-  stip_traverse_structure_next_branch(si,st );
-  state->testing = save_testing;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -165,7 +120,7 @@ enum
 void stip_optimise_with_countnropponentmoves(slice_index si)
 {
   stip_structure_traversal st;
-  optimisation_state_type state = { slack_length, false };
+  stip_length_type length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -173,13 +128,7 @@ void stip_optimise_with_countnropponentmoves(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &remember_testing_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &remember_conditional_pipe);
+  stip_structure_traversal_init(&st,&length);
   stip_structure_traversal_override(&st,
                                     countnropponentmoves_optimisers,
                                     nr_countnropponentmoves_optimisers);

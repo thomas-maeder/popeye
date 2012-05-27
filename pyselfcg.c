@@ -314,7 +314,7 @@ static void suspend_insertion(slice_index si, stip_structure_traversal *st)
 
   /* prevent instrumentation of next1 branch */
   state->is_branch_instrumented = true;
-  stip_traverse_structure_next_branch(si,st);
+  stip_traverse_structure_conditional_pipe_tester(si,st);
   state->is_branch_instrumented = save_is_instrumented;
 
   stip_traverse_structure_children_pipe(si,st);

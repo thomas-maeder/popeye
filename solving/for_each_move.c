@@ -33,8 +33,6 @@ slice_index alloc_for_each_move_slice(void)
 static void insert_move_iterator_move(slice_index si,
                                       stip_structure_traversal *st)
 {
-  boolean const * const testing = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -42,7 +40,7 @@ static void insert_move_iterator_move(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    slice_index const prototype = (*testing
+    slice_index const prototype = (st->activity==structure_traversal_activity_testing
                                    ? alloc_find_move_slice()
                                    : alloc_for_each_move_slice());
     switch (st->context)
@@ -69,46 +67,6 @@ static void insert_move_iterator_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_move_iterator_move_conditional_pipe(slice_index si,
-                                                       stip_structure_traversal *st)
-{
-  boolean * const testing = st->param;
-  boolean const save_testing = *testing;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  *testing = true;
-  stip_traverse_structure_next_branch(si,st);
-  *testing = save_testing;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_move_iterator_move_testing_pipe(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  boolean * const testing = st->param;
-  boolean const save_testing = *testing;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  *testing = true;
-  stip_traverse_structure_testing_pipe_tester(si,st);
-  *testing = save_testing;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors const move_iterator_inserters[] =
 {
   { STMove, &insert_move_iterator_move },
@@ -125,20 +83,13 @@ enum
  */
 void stip_insert_move_iterators(slice_index root_slice)
 {
-  boolean testing = false;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root_slice);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&testing);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                insert_move_iterator_move_conditional_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                insert_move_iterator_move_testing_pipe);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     move_iterator_inserters,
                                     nr_move_iterator_inserters);

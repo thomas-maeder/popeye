@@ -57,7 +57,6 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
 
 typedef struct
 {
-    boolean testing;
     boolean root;
 } final_defense_moves_iteration_state;
 
@@ -76,7 +75,7 @@ void optimise_final_defense_moves_move_generator(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (state->testing && !state->root
+  if (st->activity==structure_traversal_activity_testing && !state->root
       && st->context==stip_traversal_context_defense
       && enabled[defender])
   {
@@ -91,62 +90,6 @@ void optimise_final_defense_moves_move_generator(slice_index si,
 
     if (goal.type!=no_goal)
       killer_move_optimise_final_defense_move(si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_testing_testing_pipe(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  final_defense_moves_iteration_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  if (state->testing)
-    stip_traverse_structure_children(si,st);
-  else
-  {
-    stip_traverse_structure_children_pipe(si,st);
-
-    if (slices[si].next2!=no_slice)
-    {
-      state->testing = true;
-      stip_traverse_structure_testing_pipe_tester(si,st);
-      state->testing = false;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_testing_conditional_pipe(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  final_defense_moves_iteration_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  if (state->testing)
-    stip_traverse_structure_children(si,st);
-  else
-  {
-    stip_traverse_structure_children_pipe(si,st);
-
-    if (slices[si].next2!=no_slice)
-    {
-      state->testing = true;
-      stip_traverse_structure_next_branch(si,st);
-      state->testing = false;
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -189,19 +132,13 @@ enum
 static void optimise_final_defense_move_with_killer_moves(slice_index si)
 {
   stip_structure_traversal st;
-  final_defense_moves_iteration_state state = { false, true };
+  final_defense_moves_iteration_state state = { true };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &remember_testing_testing_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &remember_testing_conditional_pipe);
   stip_structure_traversal_override(&st,
                                     final_defense_move_optimisers,
                                     nr_final_defense_move_optimisers);
@@ -215,7 +152,6 @@ static void substitute_killermove_machinery(slice_index si,
                                             stip_structure_traversal *st)
 {
   stip_traversal_context_type context = st->context;
-  boolean const * const testing = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -226,7 +162,7 @@ static void substitute_killermove_machinery(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (enabled[slices[si].starter]
-      && *testing
+      && st->activity==structure_traversal_activity_testing
       && slices[si].u.move_generator.mode==move_generation_not_optimized)
   {
     if (context==stip_traversal_context_attack)
@@ -242,45 +178,6 @@ static void substitute_killermove_machinery(slice_index si,
       slices[si].u.move_generator.mode = move_generation_optimized_by_killer_move;
     }
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_testing_pipe(slice_index si, stip_structure_traversal *st)
-{
-  boolean * const testing = st->param;
-  boolean const save_testing = *testing;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  *testing = true;
-  stip_traverse_structure_testing_pipe_tester(si,st);
-  *testing = save_testing;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_conditional_pipe(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  boolean * const testing = st->param;
-  boolean const save_testing = *testing;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  *testing = true;
-  stip_traverse_structure_next_branch(si,st );
-  *testing = save_testing;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -302,7 +199,6 @@ enum
 static void optimise_move_generators(slice_index si)
 {
   stip_structure_traversal st;
-  boolean testing = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -310,13 +206,7 @@ static void optimise_move_generators(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&testing);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &remember_testing_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &remember_conditional_pipe);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     killer_move_collector_inserters,
                                     nr_killer_move_collector_inserters);

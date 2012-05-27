@@ -225,9 +225,12 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  st->context = stip_traversal_context_intro;
-  stip_traverse_structure(slices[branch_entry].next2,st);
-  st->context = save_context;
+  if (slices[branch_entry].next2!=no_slice)
+  {
+    st->context = stip_traversal_context_intro;
+    stip_traverse_structure(slices[branch_entry].next2,st);
+    st->context = save_context;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -360,6 +363,8 @@ static void stip_traverse_structure_children_end_of_branch(slice_index si,
 void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pipe,
                                                      stip_structure_traversal *st)
 {
+  structure_traversal_activity_type const save_activity = st->activity;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",conditional_pipe);
   TraceFunctionParam("%p",st);
@@ -367,7 +372,10 @@ void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pip
 
   assert(slice_type_get_functional_type(slices[conditional_pipe].type)
          ==slice_function_conditional_pipe);
+
+  st->activity = structure_traversal_activity_testing;
   stip_traverse_structure_next_branch(conditional_pipe,st);
+  st->activity = save_activity;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -401,8 +409,14 @@ void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
 
   assert(slice_type_get_functional_type(slices[testing_pipe].type)
          ==slice_function_testing_pipe);
+
   if (slices[testing_pipe].next2!=no_slice)
+  {
+    structure_traversal_activity_type const save_activity = st->activity;
+    st->activity = structure_traversal_activity_testing;
     stip_traverse_structure(slices[testing_pipe].next2,st);
+    st->activity = save_activity;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -493,6 +507,7 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
 
   st->level = structure_traversal_level_top;
   st->context = stip_traversal_context_intro;
+  st->activity = structure_traversal_activity_solving;
 
   st->param = param;
 }
@@ -521,6 +536,7 @@ void stip_structure_traversal_init_nested(stip_structure_traversal *st,
 
   st->level = parent->level;
   st->context = parent->context;
+  st->activity = parent->activity;
 
   st->param = param;
 }
