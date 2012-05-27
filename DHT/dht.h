@@ -35,7 +35,6 @@ void	      dhtRemoveElement	(struct dht *, dhtValue key);
 dhtElement   *dhtLookupElement	(struct dht *, dhtConstValue key);
 dhtElement   *dhtGetFirstElement(struct dht *);
 dhtElement   *dhtGetNextElement	(struct dht *);
-unsigned long dhtActualLoad	(struct dht *);
 unsigned long dhtKeyCount	(struct dht *);
 char const   *dhtErrorMsg	();
 
