@@ -29,6 +29,7 @@ typedef struct stip_moves_traversal
     moves_visitor_map_type map;
     unsigned int remaining_watermark[max_nr_slices];
     stip_traversal_context_type context;
+    stip_traversal_activity_type activity;
     stip_length_type full_length;
     stip_length_type remaining;
     void *param;
@@ -114,13 +115,6 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st);
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_root(slice_index si, stip_moves_traversal *st);
-
-/* Traverse the tester of a testing pipe
- * @param testing_pipe identifies the testing pipe
- * @param st address of structure defining traversal
- */
-void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
-                                             stip_moves_traversal *st);
 
 /* Traverse operand 1 of a binary slice
  * @param binary_slice identifies the binary slice

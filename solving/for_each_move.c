@@ -40,7 +40,7 @@ static void insert_move_iterator_move(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    slice_index const prototype = (st->activity==structure_traversal_activity_testing
+    slice_index const prototype = (st->activity==stip_traversal_activity_testing
                                    ? alloc_find_move_slice()
                                    : alloc_for_each_move_slice());
     switch (st->context)

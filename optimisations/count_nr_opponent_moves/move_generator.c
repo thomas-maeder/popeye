@@ -76,7 +76,7 @@ static void optimise_defense_move_generator(slice_index si,
   if (st->context==stip_traversal_context_defense
       && enabled[defender]
       && *length>slack_length+2
-      && st->activity==structure_traversal_activity_testing)
+      && st->activity==stip_traversal_activity_testing)
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();

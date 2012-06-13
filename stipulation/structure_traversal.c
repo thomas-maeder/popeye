@@ -363,7 +363,7 @@ static void stip_traverse_structure_children_end_of_branch(slice_index si,
 void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pipe,
                                                      stip_structure_traversal *st)
 {
-  structure_traversal_activity_type const save_activity = st->activity;
+  stip_traversal_activity_type const save_activity = st->activity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",conditional_pipe);
@@ -373,7 +373,7 @@ void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pip
   assert(slice_type_get_functional_type(slices[conditional_pipe].type)
          ==slice_function_conditional_pipe);
 
-  st->activity = structure_traversal_activity_testing;
+  st->activity = stip_traversal_activity_testing;
   stip_traverse_structure_next_branch(conditional_pipe,st);
   st->activity = save_activity;
 
@@ -412,8 +412,8 @@ void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
 
   if (slices[testing_pipe].next2!=no_slice)
   {
-    structure_traversal_activity_type const save_activity = st->activity;
-    st->activity = structure_traversal_activity_testing;
+    stip_traversal_activity_type const save_activity = st->activity;
+    st->activity = stip_traversal_activity_testing;
     stip_traverse_structure(slices[testing_pipe].next2,st);
     st->activity = save_activity;
   }
@@ -507,7 +507,7 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
 
   st->level = structure_traversal_level_top;
   st->context = stip_traversal_context_intro;
-  st->activity = structure_traversal_activity_solving;
+  st->activity = stip_traversal_activity_solving;
 
   st->param = param;
 }

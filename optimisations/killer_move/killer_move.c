@@ -75,7 +75,7 @@ void optimise_final_defense_moves_move_generator(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->activity==structure_traversal_activity_testing && !state->root
+  if (st->activity==stip_traversal_activity_testing && !state->root
       && st->context==stip_traversal_context_defense
       && enabled[defender])
   {
@@ -162,7 +162,7 @@ static void substitute_killermove_machinery(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (enabled[slices[si].starter]
-      && st->activity==structure_traversal_activity_testing
+      && st->activity==stip_traversal_activity_testing
       && slices[si].u.move_generator.mode==move_generation_not_optimized)
   {
     if (context==stip_traversal_context_attack)

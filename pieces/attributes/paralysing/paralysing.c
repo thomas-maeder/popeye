@@ -91,7 +91,7 @@ static void instrument_mate(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->activity==structure_traversal_activity_testing)
+  if (st->activity==stip_traversal_activity_testing)
     pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter));
   else
     pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
@@ -192,7 +192,7 @@ static void instrument_half_doublemate(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->activity==structure_traversal_activity_testing)
+  if (st->activity==stip_traversal_activity_testing)
     pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(who));
   else
     pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(who));

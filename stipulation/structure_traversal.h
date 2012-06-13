@@ -32,19 +32,13 @@ typedef enum
   structure_traversal_level_nested   /* nested into a higher level branch   */
 } structure_traversal_level_type;
 
-typedef enum
-{
-  structure_traversal_activity_solving,
-  structure_traversal_activity_testing
-} structure_traversal_activity_type;
-
 typedef struct stip_structure_traversal
 {
     structure_visitor_map_type map;
     stip_structure_traversal_state traversed[max_nr_slices];
     structure_traversal_level_type level;
     stip_traversal_context_type context;
-    structure_traversal_activity_type activity;
+    stip_traversal_activity_type activity;
     void *param;
 } stip_structure_traversal;
 

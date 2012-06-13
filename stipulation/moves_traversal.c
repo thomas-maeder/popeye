@@ -324,12 +324,8 @@ static void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Traverse the tester of a testing pipe
- * @param testing_pipe identifies the testing pipe
- * @param st address of structure defining traversal
- */
-void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
-                                             stip_moves_traversal *st)
+static void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
+                                                    stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing_pipe);
@@ -337,8 +333,14 @@ void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
 
   assert(slice_type_get_functional_type(slices[testing_pipe].type)
          ==slice_function_testing_pipe);
+
   if (slices[testing_pipe].next2!=no_slice)
+  {
+    stip_traversal_activity_type const save_activity = st->activity;
+    st->activity = stip_traversal_activity_testing;
     stip_traverse_moves_branch(slices[testing_pipe].next2,st);
+    st->activity = save_activity;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -358,16 +360,37 @@ static void stip_traverse_moves_testing_pipe(slice_index testing_pipe,
   TraceFunctionResultEnd();
 }
 
-static void stip_traverse_moves_conditional_pipe(slice_index si,
-                                                 stip_moves_traversal *st)
+static void stip_traverse_moves_conditional_pipe_tester(slice_index conditional_pipe,
+                                                        stip_moves_traversal *st)
 {
+  stip_traversal_activity_type const save_activity = st->activity;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",conditional_pipe);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].next2,st);
+  assert(slice_type_get_functional_type(slices[conditional_pipe].type)
+         ==slice_function_conditional_pipe);
+
+  st->activity = stip_traversal_activity_testing;
+  stip_traverse_moves_branch(slices[conditional_pipe].next2,st);
+  st->activity = save_activity;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stip_traverse_moves_conditional_pipe(slice_index conditional_pipe,
+                                                 stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",conditional_pipe);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_pipe(conditional_pipe,st);
+  stip_traverse_moves_conditional_pipe_tester(conditional_pipe,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -425,6 +448,7 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
     st->remaining_watermark[i] = 0;
 
   st->context = stip_traversal_context_intro;
+  st->activity = stip_traversal_activity_solving;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->param = param;

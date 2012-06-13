@@ -147,7 +147,7 @@ static void degenerate_tree_inserter_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->activity==structure_traversal_activity_testing
+  if (st->activity==stip_traversal_activity_testing
       && slices[si].u.branch.length>=slack_length+2)
   {
     slice_index const finder = branch_find_slice(STFindShortest,

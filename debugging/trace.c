@@ -370,7 +370,7 @@ static void trace_common(slice_index si, stip_structure_traversal *st)
           Side_names[slices[si].starter][0],
           level_shortcuts[st->level],
           context_shortcuts[st->context],
-          st->activity==structure_traversal_activity_solving ? 'S' : 'T');
+          st->activity==stip_traversal_activity_solving ? 'S' : 'T');
   trace_link("",slices[si].prev,"<");
   if (slices[si].next1!=no_slice)
     trace_link(">",slices[si].next1,"");

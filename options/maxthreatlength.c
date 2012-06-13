@@ -154,7 +154,7 @@ static void insert_maxthreatlength_guard(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->activity==structure_traversal_activity_testing
+  if (st->activity==stip_traversal_activity_testing
       && length>=2*max_len_threat+slack_length)
   {
     boolean * const inserted = st->param;
@@ -183,7 +183,7 @@ static void insert_max_threat_length_start(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->activity==structure_traversal_activity_testing
+  if (st->activity==stip_traversal_activity_testing
       && st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_pipe(STMaxThreatLengthStart);
