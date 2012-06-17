@@ -75,6 +75,11 @@ typedef struct
         {
             slice_index base;
         } derived_pipe;
+
+        struct
+        {
+            slice_index condition;
+        } if_then_else;
     } u;
 } Slice;
 

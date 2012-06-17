@@ -89,7 +89,7 @@
 #include "stipulation/boolean/not.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/boolean/true.h"
-#include "stipulation/check_zigzag_jump.h"
+#include "stipulation/if_then_else.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
@@ -410,8 +410,8 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = stoponshortsolutions_attack(si,n);
       break;
 
-    case STCheckZigzagJump:
-      result = check_zigzag_jump_attack(si,n);
+    case STIfThenElse:
+      result = if_then_else_attack(si,n);
       break;
 
     case STHelpHashedTester:

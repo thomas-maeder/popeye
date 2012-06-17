@@ -720,7 +720,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h pyposit.h pyboard.h \
  stipulation/branch.h stipulation/structure_traversal.h \
  stipulation/dead_end.h stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h pydata.h \
- stipulation/move_inverter.h stipulation/check_zigzag_jump.h \
+ stipulation/move_inverter.h stipulation/if_then_else.h \
  stipulation/boolean/or.h stipulation/boolean/and.h \
  stipulation/boolean/not.h stipulation/boolean/true.h \
  stipulation/goals/reached_tester.h stipulation/goals/goals.h \
@@ -750,9 +750,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h pyposit.h pyboard.h \
  stipulation/help_play/adapter.h solving/find_shortest.h \
  solving/play_suppressor.h solving/battle_play/continuation.h \
  solving/battle_play/try.h utilities/table.h conditions/republican.h \
- pyproc.h conditions/bgl.h options/degenerate_tree.h options/nontrivial.h \
- options/maxthreatlength.h options/maxflightsquares.h \
- options/movenumbers.h options/maxsolutions/maxsolutions.h \
+ pyproc.h conditions/bgl.h conditions/check_zigzag.h \
+ options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
+ options/maxflightsquares.h options/movenumbers.h \
+ options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/intelligent.h pyposit.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -830,7 +831,7 @@ pydata.h:
 
 stipulation/move_inverter.h:
 
-stipulation/check_zigzag_jump.h:
+stipulation/if_then_else.h:
 
 stipulation/boolean/or.h:
 
@@ -911,6 +912,8 @@ conditions/republican.h:
 pyproc.h:
 
 conditions/bgl.h:
+
+conditions/check_zigzag.h:
 
 options/degenerate_tree.h:
 

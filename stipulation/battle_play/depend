@@ -263,7 +263,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
  stipulation/boolean/or.h stipulation/boolean/true.h \
- stipulation/check_zigzag_jump.h stipulation/constraint.h \
+ stipulation/if_then_else.h stipulation/constraint.h \
  stipulation/moves_traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/dead_end.h stipulation/end_of_branch_goal.h \
  stipulation/end_of_branch.h stipulation/goals/any/reached_tester.h \
@@ -530,7 +530,7 @@ stipulation/boolean/or.h:
 
 stipulation/boolean/true.h:
 
-stipulation/check_zigzag_jump.h:
+stipulation/if_then_else.h:
 
 stipulation/constraint.h:
 
@@ -689,9 +689,9 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move_played.h stipulation/dummy_move.h \
- stipulation/check_zigzag_jump.h stipulation/battle_play/branch.h \
- pystip.h stipulation/slice.h stipulation/structure_traversal.h \
- output/mode.h stipulation/goals/reached_tester.h \
+ stipulation/if_then_else.h stipulation/battle_play/branch.h pystip.h \
+ stipulation/slice.h stipulation/structure_traversal.h output/mode.h \
+ stipulation/goals/reached_tester.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/move_generator.h solving/for_each_move.h solving/find_move.h \
@@ -782,7 +782,7 @@ stipulation/move_played.h:
 
 stipulation/dummy_move.h:
 
-stipulation/check_zigzag_jump.h:
+stipulation/if_then_else.h:
 
 stipulation/battle_play/branch.h:
 

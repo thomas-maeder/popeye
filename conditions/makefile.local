@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = exclusive.c republican.c bgl.c
-INCLUDES = exclusive.h republican.h bgl.h
+SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c
+INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h
 
 include makefile.rules $(CURRPWD)depend

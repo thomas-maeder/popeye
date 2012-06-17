@@ -7,7 +7,7 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
-#include "stipulation/check_zigzag_jump.h"
+#include "stipulation/if_then_else.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/countermate/filter.h"
@@ -240,8 +240,8 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = dummy_move_defend(si,n);
       break;
 
-    case STCheckZigzagJump:
-      result = check_zigzag_jump_defend(si,n);
+    case STIfThenElse:
+      result = if_then_else_defend(si,n);
       break;
 
     case STOutputPlaintextLineLineWriter:

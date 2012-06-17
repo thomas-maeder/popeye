@@ -1,98 +1,18 @@
-#include "stipulation/check_zigzag_jump.h"
-#include "pydata.h"
-#include "pypipe.h"
+#include "conditions/check_zigzag.h"
+#include "stipulation/if_then_else.h"
 #include "stipulation/branch.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/proxy.h"
-#include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/boolean/true.h"
+#include "stipulation/goals/check/reached_tester.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
-/* Allocate a STCheckZigzagJump slice.
- * @param shortcut identifies entry slice of shortcut
- * @return index of allocated slice
- */
-static slice_index alloc_check_zigzag_jump_slice(slice_index op1, slice_index op2)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result =  alloc_binary_slice(STCheckZigzagJump,op1,op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type check_zigzag_jump_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index succ;
-  slice_index const op1 = slices[si].next1;
-  slice_index const op2 = slices[si].next2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  succ = echecc(nbply,slices[si].starter) ? op2 : op1;
-  result = defend(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type check_zigzag_jump_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index succ;
-  slice_index const op1 = slices[si].next1;
-  slice_index const op2 = slices[si].next2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  succ = echecc(nbply,slices[si].starter) ? op2 : op1;
-  result = attack(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Instrument a battle branch with a STCheckZigzagJump slice providing a
+/* Instrument a battle branch with a STIfThenElse slice providing a
  * shortcut for the defense moe
  * @param adapter identifies adapter slice into the battle branch
  */
@@ -113,11 +33,13 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
     slice_index const played = alloc_move_played_slice();
-    slice_index const jump = alloc_check_zigzag_jump_slice(proxy1,proxy2);
+    slice_index const condition = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
+    slice_index const jump = alloc_if_then_else_slice(proxy1,proxy2,condition);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
 
     assert(ready!=no_slice);
     assert(deadend!=no_slice);
+    pipe_link(condition,alloc_true_slice());
     defense_branch_insert_slices(ready,&landing_proto,1);
     pipe_link(proxy2,slices[deadend].next1);
     /* the dummy move is needed to make sure that the killer move mechanism
@@ -141,7 +63,7 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a help branch with a STCheckZigzagJump slice
+/* Instrument a help branch with a STIfThenElse slice
  * @param adapter identifies adapter slice into the help branch
  */
 void help_branch_insert_check_zigzag(slice_index adapter)
@@ -156,10 +78,12 @@ void help_branch_insert_check_zigzag(slice_index adapter)
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const played = alloc_help_move_played_slice();
-    slice_index const jump = alloc_check_zigzag_jump_slice(proxy1,proxy2);
+    slice_index const condition = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
+    slice_index const jump = alloc_if_then_else_slice(proxy1,proxy2,condition);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
 
     assert(ready!=no_slice);
+    pipe_link(condition,alloc_true_slice());
     help_branch_insert_slices(ready,&landing_proto,1);
     pipe_link(proxy2,slices[ready].next1);
     pipe_link(proxy1,played);

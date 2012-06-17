@@ -306,6 +306,21 @@ static void stip_traverse_structure_children_binary(slice_index binary_slice,
   TraceFunctionResultEnd();
 }
 
+static void stip_traverse_structure_children_zigzag_jump(slice_index jump,
+                                                         stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",jump);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_binary(jump,st);
+  stip_traverse_structure(slices[jump].u.if_then_else.condition,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stip_traverse_structure_children_fork(slice_index si,
                                                   stip_structure_traversal *st)
 {
@@ -443,44 +458,53 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
 {
   stip_structure_visitor result;
 
-  switch (slice_type_get_structural_type(type))
+  switch (type)
   {
-    case slice_structure_pipe:
-    case slice_structure_branch:
-      result = &stip_traverse_structure_children_pipe;
-      break;
-
-    case slice_structure_leaf:
-      result = &stip_structure_visitor_noop;
-      break;
-
-    case slice_structure_fork:
-      switch (slice_type_get_functional_type(type))
-      {
-        case slice_function_testing_pipe:
-          result = &stip_traverse_structure_children_testing_pipe;
-          break;
-
-        case slice_function_conditional_pipe:
-          result = &stip_traverse_structure_children_conditional_pipe;
-          break;
-
-        case slice_function_binary:
-          result = &stip_traverse_structure_children_binary;
-          break;
-
-        case slice_function_end_of_branch:
-          result = &stip_traverse_structure_children_end_of_branch;
-          break;
-
-        default:
-          result = &stip_traverse_structure_children_fork;
-          break;
-      }
+    case STIfThenElse:
+      result = &stip_traverse_structure_children_zigzag_jump;
       break;
 
     default:
-      assert(0);
+      switch (slice_type_get_structural_type(type))
+      {
+        case slice_structure_pipe:
+        case slice_structure_branch:
+          result = &stip_traverse_structure_children_pipe;
+          break;
+
+        case slice_structure_leaf:
+          result = &stip_structure_visitor_noop;
+          break;
+
+        case slice_structure_fork:
+          switch (slice_type_get_functional_type(type))
+          {
+            case slice_function_testing_pipe:
+              result = &stip_traverse_structure_children_testing_pipe;
+              break;
+
+            case slice_function_conditional_pipe:
+              result = &stip_traverse_structure_children_conditional_pipe;
+              break;
+
+            case slice_function_binary:
+              result = &stip_traverse_structure_children_binary;
+              break;
+
+            case slice_function_end_of_branch:
+              result = &stip_traverse_structure_children_end_of_branch;
+              break;
+
+            default:
+              result = &stip_traverse_structure_children_fork;
+              break;
+          }
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
       break;
   }
 

@@ -488,6 +488,16 @@ static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_tr
   stip_traverse_structure_children(si,st);
 }
 
+static void trace_if_then_else(slice_index si, stip_structure_traversal *st)
+{
+  trace_common(si,st);
+  trace_link("next2:",slices[si].next2,"");
+  trace_link("condition:",slices[si].u.if_then_else.condition,"");
+  fprintf(stdout,"\n");
+
+  stip_traverse_structure_children(si,st);
+}
+
 static structure_traversers_visitors tracers[] =
 {
   { STAttackHashedTester,               &trace_hashed_tester                },
@@ -503,7 +513,8 @@ static structure_traversers_visitors tracers[] =
   { STOutputModeSelector,               &trace_output_mode_selector         },
   { STMoveGenerator,                    &trace_move_generator               },
   { STKeepMatingFilter,                 &trace_keep_mating_filter           },
-  { STForkOnRemaining,                  &trace_fork_on_remaining            }
+  { STForkOnRemaining,                  &trace_fork_on_remaining            },
+  { STIfThenElse,                       &trace_if_then_else                 }
 };
 
 enum

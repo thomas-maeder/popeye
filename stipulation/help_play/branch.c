@@ -40,7 +40,7 @@ static slice_index const slice_rank_order[] =
 
   STReadyForHelpMove,
   STHelpHashed,
-  STCheckZigzagJump,
+  STIfThenElse,
   STTestingPrerequisites,
   STDoubleMateFilter,
   STCounterMateFilter,

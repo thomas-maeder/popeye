@@ -1,6 +1,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "stipulation/check_zigzag_jump.h"
+#include "stipulation/if_then_else.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/fork_on_remaining.h"
@@ -683,7 +683,7 @@ void branch_instrument_traversal_for_normal_path(stip_structure_traversal *st)
                                                 slice_function_testing_pipe,
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(st,
-                                           STCheckZigzagJump,
+                                           STIfThenElse,
                                            &stip_traverse_structure_children_pipe);
 
   TraceFunctionExit(__func__);

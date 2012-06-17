@@ -167,7 +167,7 @@ stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  utilities/enumeration.h stipulation/traversal.h stipulation/proxy.h \
  pypipe.h stipulation/structure_traversal.h \
- stipulation/battle_play/attack_play.h stipulation/check_zigzag_jump.h \
+ stipulation/battle_play/attack_play.h stipulation/if_then_else.h \
  stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
@@ -211,7 +211,7 @@ stipulation/structure_traversal.h:
 
 stipulation/battle_play/attack_play.h:
 
-stipulation/check_zigzag_jump.h:
+stipulation/if_then_else.h:
 
 stipulation/battle_play/defense_play.h:
 
@@ -923,25 +923,23 @@ stipulation/help_play/branch.h:
 solving/solving.h:
 
 debugging/trace.h:
-stipulation/check_zigzag_jump$(OBJ_SUFFIX): stipulation/check_zigzag_jump.c \
- stipulation/check_zigzag_jump.h stipulation/battle_play/defense_play.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- utilities/boolean.h pypipe.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/battle_play/attack_play.h \
- stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/dummy_move.h stipulation/move_played.h stipulation/proxy.h \
- stipulation/boolean/binary.h stipulation/battle_play/branch.h pystip.h \
- stipulation/slice.h output/mode.h stipulation/help_play/branch.h \
- debugging/trace.h
+stipulation/if_then_else$(OBJ_SUFFIX): stipulation/if_then_else.c \
+ stipulation/if_then_else.h stipulation/structure_traversal.h \
+ stipulation/slice.h py.h utilities/boolean.h pyposit.h pyboard.h \
+ utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice_type.h utilities/enumeration.h stipulation/traversal.h \
+ stipulation/battle_play/defense_play.h \
+ stipulation/battle_play/attack_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h pystip.h \
+ stipulation/slice.h stipulation/structure_traversal.h output/mode.h \
+ solving/solving.h stipulation/has_solution_type.h \
+ stipulation/boolean/binary.h debugging/trace.h
 
-stipulation/check_zigzag_jump.h:
+stipulation/if_then_else.h:
 
-stipulation/battle_play/defense_play.h:
+stipulation/structure_traversal.h:
 
-stipulation/battle_play/attack_play.h:
+stipulation/slice.h:
 
 py.h:
 
@@ -959,11 +957,15 @@ utilities/enumeration.h:
 
 pylang.h:
 
-stipulation/slice.h:
-
 stipulation/slice_type.h:
 
 utilities/enumeration.h:
+
+stipulation/traversal.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/attack_play.h:
 
 pydata.h:
 
@@ -977,35 +979,19 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-pypipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/branch.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/dummy_move.h:
-
-stipulation/move_played.h:
-
-stipulation/proxy.h:
-
-stipulation/boolean/binary.h:
-
-stipulation/battle_play/branch.h:
-
 pystip.h:
 
 stipulation/slice.h:
 
+stipulation/structure_traversal.h:
+
 output/mode.h:
 
-stipulation/help_play/branch.h:
+solving/solving.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/boolean/binary.h:
 
 debugging/trace.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \

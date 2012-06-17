@@ -1,18 +1,19 @@
-debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h py.h \
- utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pylang.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h pydata.h pyproc.h pystip.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pyproc.h py4.h \
+ py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
+ pypiece.h utilities/enumeration.h pylang.h stipulation/goals/goals.h \
+ utilities/boolean.h py.h pydata.h pyproc.h pystip.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h output/mode.h optimisations/hash.h \
  DHT/dhtbcmem.h stipulation/structure_traversal.h \
  stipulation/battle_play/attack_play.h output/plaintext/plaintext.h \
- stipulation/goals/goals.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h pypipe.h \
- stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h
+ stipulation/goals/goals.h
 
 debugging/trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -30,15 +31,11 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pyproc.h:
-
-py4.h:
-
-py.h:
-
 stipulation/goals/goals.h:
 
 utilities/boolean.h:
+
+py.h:
 
 pydata.h:
 
@@ -71,13 +68,3 @@ stipulation/battle_play/attack_play.h:
 output/plaintext/plaintext.h:
 
 stipulation/goals/goals.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
-
-pypipe.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:

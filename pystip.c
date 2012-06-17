@@ -422,6 +422,23 @@ static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void deep_copy_zigzag_jump(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  deep_copy_binary(si,st);
+
+  if (slices[si].u.if_then_else.condition!=no_slice)
+    slices[(*copies)[si]].u.if_then_else.condition = (*copies)[slices[si].u.if_then_else.condition];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Initialise a structure traversal for a deep copy operation
  * @param st address of the structure to be initialised
  * @param st_parent parent traversal (0 if there is none)
@@ -463,6 +480,9 @@ void init_deep_copy(stip_structure_traversal *st,
   stip_structure_traversal_override_by_function(st,
                                                 slice_function_binary,
                                                 &deep_copy_binary);
+  stip_structure_traversal_override_single(st,
+                                           STIfThenElse,
+                                           &deep_copy_zigzag_jump);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
