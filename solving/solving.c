@@ -178,8 +178,6 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STThreatSolver,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STRefutationsSolver,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STPlaySuppressor,&stip_spin_off_testers_pipe_skip);
-  stip_structure_traversal_override_single(&st,STIntelligentDuplicateAvoider,&stip_spin_off_testers_pipe_skip);
-  stip_structure_traversal_override_single(&st,STCheckDetector,&stip_spin_off_testers_pipe_skip);
 
   stip_structure_traversal_override_single(&st,STIfThenElse,&stip_spin_off_testers_if_then_else);
 
