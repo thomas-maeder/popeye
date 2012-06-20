@@ -17,17 +17,10 @@ void stip_insert_solvers(slice_index root_slice);
 void spin_off_testers_move_pipe_to_testers(slice_index si,
                                            stip_structure_traversal *st);
 
-/* state stip_spin_off_testers() traversal */
-typedef struct
-{
-    boolean spinning_off;
-    slice_index spun_off[max_nr_slices];
-} spin_off_tester_state_type;
-
-extern spin_off_tester_state_type testers_state;
-
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation
+ * @note the state information passed to the slice visitors is of type boolean
+ *       and indicates whether spinning off testers has started
  */
 void stip_spin_off_testers(slice_index si);
 

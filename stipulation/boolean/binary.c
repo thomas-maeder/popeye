@@ -111,20 +111,20 @@ void binary_detect_starter(slice_index si, stip_structure_traversal *st)
  */
 void stip_spin_off_testers_binary(slice_index si, stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
   {
-    state->spun_off[si] = copy_slice(si);
+    slices[si].tester = copy_slice(si);
     stip_traverse_structure_children(si,st);
-    assert(state->spun_off[slices[si].next1]!=no_slice);
-    assert(state->spun_off[slices[si].next2]!=no_slice);
-    slices[state->spun_off[si]].next1 = state->spun_off[slices[si].next1];
-    slices[state->spun_off[si]].next2 = state->spun_off[slices[si].next2];
+    assert(slices[slices[si].next1].tester!=no_slice);
+    assert(slices[slices[si].next2].tester!=no_slice);
+    slices[slices[si].tester].next1 = slices[slices[si].next1].tester;
+    slices[slices[si].tester].next2 = slices[slices[si].next2].tester;
   }
   else
     stip_traverse_structure_children(si,st);

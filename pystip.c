@@ -47,6 +47,7 @@ slice_index create_slice(slice_type type)
   slices[result].prev = no_slice;
   slices[result].next1 = no_slice;
   slices[result].next2 = no_slice;
+  slices[result].tester = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

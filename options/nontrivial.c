@@ -389,23 +389,23 @@ static slice_index spin_off_counting_slices(slice_index si,
 void spin_off_testers_max_nr_non_trivial(slice_index si,
                                          stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
   {
-    state->spun_off[si] = copy_slice(si);
+    slices[si].tester = copy_slice(si);
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
     {
       slice_index const prototype = alloc_max_nr_nontrivial_counter();
-      defense_branch_insert_slices(state->spun_off[slices[si].next1],&prototype,1);
+      defense_branch_insert_slices(slices[slices[si].next1].tester,&prototype,1);
     }
-    slices[si].next2 = spin_off_counting_slices(state->spun_off[slices[si].next1],st);
-    slices[state->spun_off[si]].next2 = slices[si].next2;
+    slices[si].next2 = spin_off_counting_slices(slices[slices[si].next1].tester,st);
+    slices[slices[si].tester].next2 = slices[si].next2;
   }
   else
   {

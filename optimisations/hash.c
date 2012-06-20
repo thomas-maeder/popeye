@@ -1758,18 +1758,18 @@ void closehash(void)
  */
 void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
   {
-    state->spun_off[si] = alloc_pipe(STAttackHashedTester);
-    slices[state->spun_off[si]].u.derived_pipe.base = si;
+    slices[si].tester = alloc_pipe(STAttackHashedTester);
+    slices[slices[si].tester].u.derived_pipe.base = si;
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
   }
   else
     stip_traverse_structure_children_pipe(si,st);
@@ -1784,18 +1784,18 @@ void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st
  */
 void spin_off_testers_help_hashed(slice_index si, stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
   {
-    state->spun_off[si] = alloc_pipe(STHelpHashedTester);
-    slices[state->spun_off[si]].u.derived_pipe.base = si;
+    slices[si].tester = alloc_pipe(STHelpHashedTester);
+    slices[slices[si].tester].u.derived_pipe.base = si;
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
   }
   else
     stip_traverse_structure_children_pipe(si,st);

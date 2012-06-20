@@ -281,7 +281,7 @@ static void insert_enforcers(slice_index si, stip_structure_traversal *st)
     stip_structure_traversal st_nested;
 
     slice_index const * const threat_start = st->param;
-    slice_index const threat_start_tester = testers_state.spun_off[*threat_start];
+    slice_index const threat_start_tester = slices[*threat_start].tester;
 
     assert(*threat_start!=no_slice);
     assert(threat_start_tester!=no_slice);

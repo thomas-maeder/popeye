@@ -39,17 +39,17 @@ slice_index alloc_conditional_pipe(slice_type type, slice_index condition)
 void stip_spin_off_testers_conditional_pipe(slice_index si,
                                             stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
   {
-    state->spun_off[si] = copy_slice(si);
+    slices[si].tester = copy_slice(si);
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
   }
   else
     stip_traverse_structure_children_pipe(si,st);

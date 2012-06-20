@@ -105,7 +105,7 @@ stip_length_type if_then_else_attack(slice_index si, stip_length_type n)
 void stip_spin_off_testers_if_then_else(slice_index si,
                                         stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -113,8 +113,8 @@ void stip_spin_off_testers_if_then_else(slice_index si,
 
   stip_spin_off_testers_binary(si,st);
 
-  if (state->spinning_off)
-    slices[state->spun_off[si]].u.if_then_else.condition = state->spun_off[slices[si].u.if_then_else.condition];
+  if (*spinning_off)
+    slices[slices[si].tester].u.if_then_else.condition = slices[slices[si].u.if_then_else.condition].tester;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

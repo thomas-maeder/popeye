@@ -146,29 +146,29 @@ void stip_insert_end_of_branch_testers(slice_index root_slice)
 void start_spinning_off_end_of_branch_tester(slice_index si,
                                              stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
   {
-    state->spun_off[si] = copy_slice(si);
+    slices[si].tester = copy_slice(si);
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
-    slices[state->spun_off[si]].next2 = state->spun_off[slices[si].next2];
+    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+    slices[slices[si].tester].next2 = slices[slices[si].next2].tester;
   }
   else
   {
     stip_traverse_structure_children_pipe(si,st);
 
-    state->spinning_off = true;
+    *spinning_off = true;
     stip_traverse_structure_next_branch(si,st);
-    state->spinning_off = false;
+    *spinning_off = false;
   }
 
-  slices[si].next2 = state->spun_off[slices[si].next2];
+  slices[si].next2 = slices[slices[si].next2].tester;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

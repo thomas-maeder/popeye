@@ -8,7 +8,6 @@
  */
 static boolean is_slice_index_free[max_nr_slices];
 
-
 #define ENUMERATION_TYPENAME slice_structural_type
 #define ENUMERATORS                             \
     ENUMERATOR(slice_structure_pipe),                            \

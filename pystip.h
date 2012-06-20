@@ -26,6 +26,7 @@ typedef struct
     slice_index prev;
     slice_index next1;
     slice_index next2;
+    slice_index tester;
 
     union
     {

@@ -35,27 +35,25 @@
 
 #include <assert.h>
 
-spin_off_tester_state_type testers_state;
-
 static void start_spinning_off_end_of_root(slice_index si,
                                            stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
     stip_spin_off_testers_pipe(si,st);
   else if (st->context==stip_traversal_context_attack)
   {
     /* we are solving something like #3 option postkey
      * start spinning off testers at the loop entry
      */
-    state->spinning_off = true;
+    *spinning_off = true;
     stip_spin_off_testers_pipe(si,st);
-    state->spinning_off = false;
+    *spinning_off = false;
   }
   else
     stip_traverse_structure_children_pipe(si,st);
@@ -67,21 +65,21 @@ static void start_spinning_off_end_of_root(slice_index si,
 static void start_spinning_off_end_of_intro(slice_index si,
                                             stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
     stip_spin_off_testers_pipe(si,st);
   else if (st->context==stip_traversal_context_attack
            || st->context==stip_traversal_context_defense)
   {
     /* we are solving a nested battle play branch */
-    state->spinning_off = true;
+    *spinning_off = true;
     stip_spin_off_testers_pipe(si,st);
-    state->spinning_off = false;
+    *spinning_off = false;
   }
   else
     stip_traverse_structure_children_pipe(si,st);
@@ -98,18 +96,20 @@ static void start_spinning_off_end_of_intro(slice_index si,
 void spin_off_testers_move_pipe_to_testers(slice_index si,
                                            stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
+  if (*spinning_off)
   {
-    state->spun_off[si] = copy_slice(si);
+    slice_index const substitute = alloc_proxy_slice();
+    slices[si].tester = copy_slice(si);
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
-    pipe_substitute(si,alloc_proxy_slice());
+    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+    slices[substitute].tester = slices[si].tester;
+    pipe_substitute(si,substitute);
   }
   else
     stip_traverse_structure_children_pipe(si,st);
@@ -124,7 +124,7 @@ void spin_off_testers_move_pipe_to_testers(slice_index si,
 void stip_spin_off_testers(slice_index si)
 {
   stip_structure_traversal st;
-  slice_index i;
+  boolean spinning_off = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -132,11 +132,7 @@ void stip_spin_off_testers(slice_index si)
 
   TraceStipulation(si);
 
-  testers_state.spinning_off = false;
-  for (i = 0; i!=max_nr_slices; ++i)
-    testers_state.spun_off[i] = no_slice;
-
-  stip_structure_traversal_init(&st,&testers_state);
+  stip_structure_traversal_init(&st,&spinning_off);
 
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,

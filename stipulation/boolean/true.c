@@ -49,14 +49,14 @@ void leaf_spin_off_copy(slice_index si, stip_structure_traversal *st)
  */
 void stip_spin_off_testers_leaf(slice_index si, stip_structure_traversal *st)
 {
-  spin_off_tester_state_type * const state = st->param;
+  boolean const * const spinning_off = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spinning_off)
-    state->spun_off[si] = copy_slice(si);
+  if (*spinning_off)
+    slices[si].tester = copy_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
