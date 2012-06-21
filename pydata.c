@@ -34,8 +34,10 @@ killer_state const null_killer_state = {
 change_rec* colour_change_stack_limit = &colour_change_stack[colour_change_stack_size];
 change_rec* push_colour_change_stack_limit = &push_colour_change_stack[push_colour_change_stack_size];
 
-static int comparePieceNames(PieceChar const * name1, PieceChar const * name2)
+static int comparePieceNames(void const * param1, void const * param2)
 {
+  PieceChar const *name1 = (PieceChar const *)param1;
+  PieceChar const *name2 = (PieceChar const *)param2;
   int result = (*name1)[0]-(*name2)[0];
   if (result==0)
     result = (*name1)[1]-(*name2)[1];
