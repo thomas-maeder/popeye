@@ -394,104 +394,107 @@ void IntelligentRegulargoal_types(stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nr_of_moves = n;
-
-  testcastling =
-      TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
-      || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
-      || TSTCASTLINGFLAGMASK(0,Black,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
-      || TSTCASTLINGFLAGMASK(0,Black,k_castling&castling_flag[castlings_flags_no_castling])==k_castling;
-
-  assert(where_to_start_placing_black_pieces==boardnum);
-
-  assert(castling_supported);
-  castling_supported = false;
-
-  save_ep_1 = ep[1];
-  save_ep2_1 = ep2[1];
-
-  MaxPiece[Black] = 0;
-  MaxPiece[White] = 0;
-
-  black[index_of_king].type= e[king_square[Black]];
-  black[index_of_king].flags= spec[king_square[Black]];
-  black[index_of_king].diagram_square= king_square[Black];
-  PieceId2index[GetPieceId(spec[king_square[Black]])] = index_of_king;
-  ++MaxPiece[Black];
-
-  if (king_square[White]==initsquare)
-    white[index_of_king].usage = piece_is_missing;
-  else
+  if (king_square[Black]!=initsquare)
   {
-    white[index_of_king].usage = piece_is_unused;
-    white[index_of_king].type = e[king_square[White]];
-    white[index_of_king].flags = spec[king_square[White]];
-    white[index_of_king].diagram_square = king_square[White];
-    PieceId2index[GetPieceId(spec[king_square[White]])] = index_of_king;
-    assert(white[index_of_king].type==roib);
-  }
+    nr_of_moves = n;
 
-  ++MaxPiece[White];
+    testcastling =
+        TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
+        || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
+        || TSTCASTLINGFLAGMASK(0,Black,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
+        || TSTCASTLINGFLAGMASK(0,Black,k_castling&castling_flag[castlings_flags_no_castling])==k_castling;
 
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-      if (king_square[White]!=*bnp && e[*bnp]>obs)
-      {
-        white[MaxPiece[White]].type = e[*bnp];
-        white[MaxPiece[White]].flags = spec[*bnp];
-        white[MaxPiece[White]].diagram_square = *bnp;
-        white[MaxPiece[White]].usage = piece_is_unused;
-        if (e[*bnp]==pb)
-          moves_to_white_prom[MaxPiece[White]] = intelligent_count_moves_to_white_promotion(*bnp);
-        PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[White];
-        ++MaxPiece[White];
-      }
+    assert(where_to_start_placing_black_pieces==boardnum);
 
-    for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-      if (king_square[Black]!=*bnp && e[*bnp]<vide)
-      {
-        black[MaxPiece[Black]].type = e[*bnp];
-        black[MaxPiece[Black]].flags = spec[*bnp];
-        black[MaxPiece[Black]].diagram_square = *bnp;
-        black[MaxPiece[Black]].usage = piece_is_unused;
-        PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[Black];
-        ++MaxPiece[Black];
-      }
-  }
+    assert(castling_supported);
+    castling_supported = false;
 
-  StorePosition();
-  ep[1] = initsquare;
-  ep[1] = initsquare;
+    save_ep_1 = ep[1];
+    save_ep2_1 = ep2[1];
 
-  /* clear board */
-  {
-    square const *bnp;
-    for (bnp= boardnum; *bnp!=initsquare; ++bnp)
-      if (e[*bnp] != obs)
-      {
-        e[*bnp]= vide;
-        spec[*bnp]= EmptySpec;
-      }
-  }
+    MaxPiece[Black] = 0;
+    MaxPiece[White] = 0;
 
-  {
-    piece p;
-    for (p = roib; p<=fb; ++p)
+    black[index_of_king].type= e[king_square[Black]];
+    black[index_of_king].flags= spec[king_square[Black]];
+    black[index_of_king].diagram_square= king_square[Black];
+    PieceId2index[GetPieceId(spec[king_square[Black]])] = index_of_king;
+    ++MaxPiece[Black];
+
+    if (king_square[White]==initsquare)
+      white[index_of_king].usage = piece_is_missing;
+    else
     {
-      nbpiece[p] = 2;
-      nbpiece[-p] = 2;
+      white[index_of_king].usage = piece_is_unused;
+      white[index_of_king].type = e[king_square[White]];
+      white[index_of_king].flags = spec[king_square[White]];
+      white[index_of_king].diagram_square = king_square[White];
+      PieceId2index[GetPieceId(spec[king_square[White]])] = index_of_king;
+      assert(white[index_of_king].type==roib);
     }
+
+    ++MaxPiece[White];
+
+    {
+      square const *bnp;
+      for (bnp = boardnum; *bnp!=initsquare; ++bnp)
+        if (king_square[White]!=*bnp && e[*bnp]>obs)
+        {
+          white[MaxPiece[White]].type = e[*bnp];
+          white[MaxPiece[White]].flags = spec[*bnp];
+          white[MaxPiece[White]].diagram_square = *bnp;
+          white[MaxPiece[White]].usage = piece_is_unused;
+          if (e[*bnp]==pb)
+            moves_to_white_prom[MaxPiece[White]] = intelligent_count_moves_to_white_promotion(*bnp);
+          PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[White];
+          ++MaxPiece[White];
+        }
+
+      for (bnp = boardnum; *bnp!=initsquare; ++bnp)
+        if (king_square[Black]!=*bnp && e[*bnp]<vide)
+        {
+          black[MaxPiece[Black]].type = e[*bnp];
+          black[MaxPiece[Black]].flags = spec[*bnp];
+          black[MaxPiece[Black]].diagram_square = *bnp;
+          black[MaxPiece[Black]].usage = piece_is_unused;
+          PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[Black];
+          ++MaxPiece[Black];
+        }
+    }
+
+    StorePosition();
+    ep[1] = initsquare;
+    ep[1] = initsquare;
+
+    /* clear board */
+    {
+      square const *bnp;
+      for (bnp= boardnum; *bnp!=initsquare; ++bnp)
+        if (e[*bnp] != obs)
+        {
+          e[*bnp]= vide;
+          spec[*bnp]= EmptySpec;
+        }
+    }
+
+    {
+      piece p;
+      for (p = roib; p<=fb; ++p)
+      {
+        nbpiece[p] = 2;
+        nbpiece[-p] = 2;
+      }
+    }
+
+    /* generate final positions */
+    GenerateBlackKing();
+
+    ResetPosition();
+
+    castling_supported = true;
+    ep[1] = save_ep_1;
+    ep2[1] = save_ep2_1;
   }
-
-  /* generate final positions */
-  GenerateBlackKing();
-
-  ResetPosition();
-
-  castling_supported = true;
-  ep[1] = save_ep_1;
-  ep2[1] = save_ep2_1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
