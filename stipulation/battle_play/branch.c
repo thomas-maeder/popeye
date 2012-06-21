@@ -10,7 +10,7 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move_played.h"
-#include "stipulation/boolean/binary.h"
+#include "stipulation/binary.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"

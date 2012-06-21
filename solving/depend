@@ -8,11 +8,10 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h \
  stipulation/proxy.h pypipe.h stipulation/has_solution_type.h \
  stipulation/if_then_else.h stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_play.h stipulation/testing_pipe.h \
- stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/and.h stipulation/boolean/true.h \
  stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
- output/mode.h stipulation/help_play/branch.h \
- stipulation/boolean/binary.h solving/move_generator.h \
+ output/mode.h stipulation/help_play/branch.h solving/move_generator.h \
  solving/for_each_move.h solving/find_shortest.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
  solving/battle_play/continuation.h solving/battle_play/try.h \
@@ -87,6 +86,8 @@ stipulation/conditional_pipe.h:
 
 stipulation/branch.h:
 
+stipulation/binary.h:
+
 stipulation/boolean/and.h:
 
 stipulation/boolean/true.h:
@@ -100,8 +101,6 @@ stipulation/slice.h:
 output/mode.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/boolean/binary.h:
 
 solving/move_generator.h:
 
@@ -293,8 +292,7 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  stipulation/goals/goals.h utilities/boolean.h pystip.h \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h output/mode.h stipulation/has_solution_type.h \
- stipulation/boolean/binary.h stipulation/structure_traversal.h \
- debugging/trace.h
+ stipulation/binary.h stipulation/structure_traversal.h debugging/trace.h
 
 solving/fork_on_remaining.h:
 
@@ -348,7 +346,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/boolean/binary.h:
+stipulation/binary.h:
 
 stipulation/structure_traversal.h:
 
@@ -1249,7 +1247,7 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/battle_play/attack_play.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/boolean/binary.h \
+ stipulation/structure_traversal.h stipulation/binary.h \
  stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
  output/mode.h stipulation/help_play/branch.h debugging/trace.h
 
@@ -1309,7 +1307,7 @@ stipulation/branch.h:
 
 stipulation/structure_traversal.h:
 
-stipulation/boolean/binary.h:
+stipulation/binary.h:
 
 stipulation/battle_play/branch.h:
 

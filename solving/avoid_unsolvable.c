@@ -3,7 +3,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
-#include "stipulation/boolean/binary.h"
+#include "stipulation/binary.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"

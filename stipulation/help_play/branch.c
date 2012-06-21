@@ -8,7 +8,7 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/move_played.h"
-#include "stipulation/boolean/binary.h"
+#include "stipulation/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "debugging/trace.h"
 

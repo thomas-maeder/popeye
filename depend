@@ -50,18 +50,17 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h pyposit.h pyboard.h \
  utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h pymsg.h \
  py1.h pyproc.h py4.h stipulation/goals/goals.h utilities/boolean.h py.h \
  pydata.h optimisations/hash.h DHT/dhtbcmem.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h utilities/enumeration.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h \
+ stipulation/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  stipulation/goals/goals.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/nontrivial.h stipulation/battle_play/defense_play.h pydata.h \
  options/maxthreatlength.h options/movenumbers.h \
  options/maxflightsquares.h pystip.h stipulation/slice.h \
- stipulation/structure_traversal.h output/mode.h platform/maxtime.h \
- solving/battle_play/try.h utilities/table.h conditions/bgl.h \
- utilities/table.h debugging/trace.h
+ stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
+ platform/maxtime.h solving/battle_play/try.h utilities/table.h \
+ conditions/bgl.h utilities/table.h debugging/trace.h
 
 py.h:
 
@@ -99,17 +98,13 @@ optimisations/hash.h:
 
 DHT/dhtbcmem.h:
 
-stipulation/structure_traversal.h:
+stipulation/battle_play/attack_play.h:
 
 stipulation/slice.h:
 
 stipulation/slice_type.h:
 
 utilities/enumeration.h:
-
-stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
@@ -134,6 +129,8 @@ pystip.h:
 stipulation/slice.h:
 
 stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
 
 output/mode.h:
 
@@ -371,8 +368,7 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h pyposit.h pyboard.h \
  conditions/ohneschach/immobility_tester.h conditions/exclusive.h \
  pyposit.h conditions/republican.h pyproc.h \
  pieces/attributes/paralysing/paralysing.h optimisations/hash.h \
- DHT/dhtbcmem.h stipulation/structure_traversal.h debugging/trace.h \
- debugging/measure.h
+ DHT/dhtbcmem.h debugging/trace.h debugging/measure.h
 
 py.h:
 
@@ -449,8 +445,6 @@ pieces/attributes/paralysing/paralysing.h:
 optimisations/hash.h:
 
 DHT/dhtbcmem.h:
-
-stipulation/structure_traversal.h:
 
 debugging/trace.h:
 
@@ -991,8 +985,7 @@ pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h pyposit.h pyboard.h \
  utilities/boolean.h output/mode.h pyproc.h py4.h pydata.h DHT/dhtbcmem.h \
  pyproof.h pymsg.h stipulation/has_solution_type.h \
  stipulation/battle_play/attack_play.h optimisations/hash.h \
- DHT/dhtbcmem.h stipulation/structure_traversal.h \
- stipulation/battle_play/attack_play.h \
+ DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h \
  debugging/trace.h
 
@@ -1053,8 +1046,6 @@ stipulation/battle_play/attack_play.h:
 optimisations/hash.h:
 
 DHT/dhtbcmem.h:
-
-stipulation/structure_traversal.h:
 
 stipulation/battle_play/attack_play.h:
 
@@ -1143,11 +1134,11 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h py.h utilities/boolean.h pyposit.h pyboar
  stipulation/battle_play/attack_play.h pypipe.h \
  stipulation/move_inverter.h stipulation/structure_traversal.h \
  stipulation/battle_play/attack_play.h stipulation/branch.h \
- stipulation/setplay_fork.h pypipe.h stipulation/goals/reached_tester.h \
- stipulation/goals/goals.h stipulation/battle_play/defense_play.h \
- pydata.h pyproc.h py4.h stipulation/boolean/or.h \
- stipulation/boolean/and.h stipulation/boolean/not.h \
- stipulation/boolean/binary.h stipulation/boolean/true.h \
+ stipulation/setplay_fork.h pypipe.h stipulation/binary.h \
+ stipulation/goals/reached_tester.h stipulation/goals/goals.h \
+ stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h \
+ stipulation/boolean/or.h stipulation/boolean/and.h \
+ stipulation/boolean/not.h stipulation/boolean/true.h \
  stipulation/battle_play/branch.h pystip.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/move_played.h \
@@ -1212,6 +1203,8 @@ stipulation/setplay_fork.h:
 
 pypipe.h:
 
+stipulation/binary.h:
+
 stipulation/goals/reached_tester.h:
 
 stipulation/goals/goals.h:
@@ -1229,8 +1222,6 @@ stipulation/boolean/or.h:
 stipulation/boolean/and.h:
 
 stipulation/boolean/not.h:
-
-stipulation/boolean/binary.h:
 
 stipulation/boolean/true.h:
 

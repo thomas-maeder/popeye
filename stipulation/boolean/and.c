@@ -3,7 +3,7 @@
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/constraint.h"
-#include "stipulation/boolean/binary.h"
+#include "stipulation/binary.h"
 #include "solving/solving.h"
 #include "debugging/trace.h"
 

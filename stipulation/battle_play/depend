@@ -13,7 +13,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h \
  stipulation/proxy.h stipulation/branch.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move_played.h stipulation/boolean/binary.h \
+ stipulation/move_played.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h debugging/trace.h
 
@@ -99,7 +99,7 @@ stipulation/end_of_branch_goal.h:
 
 stipulation/move_played.h:
 
-stipulation/boolean/binary.h:
+stipulation/binary.h:
 
 stipulation/boolean/true.h:
 
@@ -209,14 +209,14 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  conditions/ohneschach/immobility_tester.h \
  conditions/owu/immobility_tester.h \
  conditions/ultraschachzwang/goal_filter.h optimisations/hash.h \
- DHT/dhtbcmem.h stipulation/structure_traversal.h \
- optimisations/keepmating.h \
+ DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/mate/filter.h \
+ stipulation/structure_traversal.h \
  optimisations/intelligent/mate/goalreachable_guard.h \
  optimisations/intelligent/moves_left.h optimisations/intelligent/proof.h \
  optimisations/intelligent/stalemate/filter.h \
@@ -378,8 +378,6 @@ optimisations/hash.h:
 
 DHT/dhtbcmem.h:
 
-stipulation/structure_traversal.h:
-
 optimisations/keepmating.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
@@ -393,6 +391,8 @@ optimisations/intelligent/duplicate_avoider.h:
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 optimisations/intelligent/mate/filter.h:
+
+stipulation/structure_traversal.h:
 
 optimisations/intelligent/mate/goalreachable_guard.h:
 

@@ -9,12 +9,12 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  stipulation/help_play/branch.h pystip.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
  pybrafrk.h stipulation/battle_play/attack_play.h pyproof.h pypipe.h \
- optimisations/hash.h DHT/dhtbcmem.h stipulation/structure_traversal.h \
+ optimisations/hash.h DHT/dhtbcmem.h \
  optimisations/intelligent/count_nr_of_moves.h pyboard.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/stalemate/filter.h \
- optimisations/intelligent/proof.h \
+ stipulation/structure_traversal.h optimisations/intelligent/proof.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/place_black_piece.h pypiece.h \
@@ -92,8 +92,6 @@ optimisations/hash.h:
 
 DHT/dhtbcmem.h:
 
-stipulation/structure_traversal.h:
-
 optimisations/intelligent/count_nr_of_moves.h:
 
 pyboard.h:
@@ -103,6 +101,8 @@ optimisations/intelligent/guard_flights.h:
 optimisations/intelligent/moves_left.h:
 
 optimisations/intelligent/stalemate/filter.h:
+
+stipulation/structure_traversal.h:
 
 optimisations/intelligent/proof.h:
 

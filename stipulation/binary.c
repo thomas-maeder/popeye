@@ -1,4 +1,4 @@
-#include "stipulation/boolean/binary.h"
+#include "stipulation/binary.h"
 #include "pystip.h"
 #include "stipulation/proxy.h"
 #include "solving/solving.h"

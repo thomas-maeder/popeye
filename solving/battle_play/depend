@@ -256,9 +256,9 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  stipulation/branch.h stipulation/structure_traversal.h \
  stipulation/constraint.h stipulation/moves_traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/dead_end.h \
- stipulation/proxy.h stipulation/boolean/false.h \
- stipulation/boolean/binary.h stipulation/battle_play/branch.h pystip.h \
- stipulation/slice.h output/mode.h solving/solving.h debugging/trace.h
+ stipulation/proxy.h stipulation/binary.h stipulation/boolean/false.h \
+ stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
+ output/mode.h solving/solving.h debugging/trace.h
 
 solving/battle_play/try.h:
 
@@ -330,9 +330,9 @@ stipulation/dead_end.h:
 
 stipulation/proxy.h:
 
-stipulation/boolean/false.h:
+stipulation/binary.h:
 
-stipulation/boolean/binary.h:
+stipulation/boolean/false.h:
 
 stipulation/battle_play/branch.h:
 
