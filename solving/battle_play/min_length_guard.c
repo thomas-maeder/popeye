@@ -1,5 +1,6 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "pypipe.h"
+#include "stipulation/proxy.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -164,6 +165,41 @@ static void remember_defense_adapter_length(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a STMinLengthGuard slice
+ * @param si identifies the STMinLengthGuard slice
+ * @param st address of structure representing traversal
+ */
+static void spin_off_testers_min_length_guard(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  boolean const * const spinning_off = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*spinning_off)
+  {
+    if (st->context==stip_traversal_context_attack)
+    {
+      slice_index const substitute = alloc_proxy_slice();
+      slices[si].tester = copy_slice(si);
+      stip_traverse_structure_children_pipe(si,st);
+      link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+      slices[substitute].tester = slices[si].tester;
+      pipe_substitute(si,substitute);
+    }
+    else
+      stip_spin_off_testers_pipe(si,st);
+  }
+  else
+    stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_min_length_solvers_defense(slice_index si,
                                               stip_structure_traversal *st)
 {
@@ -185,6 +221,7 @@ static void insert_min_length_solvers_defense(slice_index si,
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     defense_branch_insert_slices(si,prototypes,nr_prototypes);
+    register_spin_off_testers_visitor(STMinLengthGuard,&spin_off_testers_min_length_guard);
   }
 
   TraceFunctionExit(__func__);
@@ -214,26 +251,6 @@ void stip_insert_min_length_solvers(slice_index si)
                                            STMove,
                                            &insert_min_length_solvers_defense);
   stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a STMinLengthGuard slice
- * @param si identifies the STMinLengthGuard slice
- * @param st address of structure representing traversal
- */
-void spin_off_testers_min_length_guard(slice_index si,
-                                       stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->context==stip_traversal_context_attack)
-    spin_off_testers_move_pipe_to_testers(si,st);
-  else
-    stip_spin_off_testers_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -94,7 +94,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors trivial_varation_filter_inserters[] =
+static structure_traversers_visitor trivial_varation_filter_inserters[] =
 {
   { STOutputModeSelector, &remember_output_mode                  },
   { STEndOfBranchGoal,    &trivial_varation_filter_insert_self   },

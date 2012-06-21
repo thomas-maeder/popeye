@@ -98,7 +98,7 @@ static void optimise_defense_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const countnropponentmoves_optimisers[] =
+static structure_traversers_visitor const countnropponentmoves_optimisers[] =
 {
   { STSetplayFork,       &stip_traverse_structure_children_pipe },
   { STRefutationsSolver, &stip_traverse_structure_children_pipe },

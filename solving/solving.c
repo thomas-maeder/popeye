@@ -1,9 +1,6 @@
 #include "solving/solving.h"
 #include "pydata.h"
 #include "pybrafrk.h"
-#include "optimisations/hash.h"
-#include "options/nontrivial.h"
-#include "options/maxthreatlength.h"
 #include "stipulation/proxy.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/if_then_else.h"
@@ -12,7 +9,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
-#include "stipulation/end_of_branch_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/boolean/binary.h"
@@ -34,6 +30,74 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+
+enum
+{
+  max_nr_additional_visitors = 10
+};
+
+static structure_traversers_visitor additional_spin_off_visitor[max_nr_additional_visitors];
+
+static unsigned int nr_additional_visitors;
+
+/* Register a call-back for the next run of stip_spin_off_testers()
+ * @param type slice type for which to call back visitor
+ * @param visitor address to function to invoke for each visited slice of type type
+ */
+void register_spin_off_testers_visitor(slice_type type,
+                                       stip_structure_visitor visitor)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_additional_visitors; ++i)
+    if (type==additional_spin_off_visitor[i].type)
+    {
+      assert(visitor==additional_spin_off_visitor[i].visitor);
+      break;
+    }
+
+  if (i==nr_additional_visitors)
+  {
+    assert(nr_additional_visitors<max_nr_additional_visitors);
+    additional_spin_off_visitor[nr_additional_visitors].type = type;
+    additional_spin_off_visitor[nr_additional_visitors].visitor = visitor;
+    ++nr_additional_visitors;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forget_spin_off_visitors(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nr_additional_visitors = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_spin_off_traversal(stip_structure_traversal *st)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_additional_visitors; ++i)
+    stip_structure_traversal_override_single(st,
+                                             additional_spin_off_visitor[i].type,
+                                             additional_spin_off_visitor[i].visitor);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void start_spinning_off_end_of_root(slice_index si,
                                            stip_structure_traversal *st)
@@ -88,36 +152,6 @@ static void start_spinning_off_end_of_intro(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Callback to stip_spin_off_testers
- * Copy a slice to the testers, remove it from the solvers
- * @param si identifies the slice
- * @param st address of structure representing traversal
- */
-void spin_off_testers_move_pipe_to_testers(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  boolean const * const spinning_off = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*spinning_off)
-  {
-    slice_index const substitute = alloc_proxy_slice();
-    slices[si].tester = copy_slice(si);
-    stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
-    slices[substitute].tester = slices[si].tester;
-    pipe_substitute(si,substitute);
-  }
-  else
-    stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation
  */
@@ -160,24 +194,14 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STEndOfIntro,&start_spinning_off_end_of_intro);
 
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
-
-  stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_off_end_of_branch_tester);
-  stip_structure_traversal_override_single(&st,STEndOfBranchGoalTester,&start_spinning_off_end_of_branch_tester);
-
-  stip_structure_traversal_override_single(&st,STMinLengthGuard,&spin_off_testers_min_length_guard);
-  stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
-  stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STAttackHashed,&spin_off_testers_attack_hashed);
-  stip_structure_traversal_override_single(&st,STHelpHashed,&spin_off_testers_help_hashed);
-  stip_structure_traversal_override_single(&st,STRefutationsAvoider,&spin_off_testers_refutations_avoider);
-
-  stip_structure_traversal_override_single(&st,STThreatSolver,&stip_spin_off_testers_pipe_skip);
-  stip_structure_traversal_override_single(&st,STRefutationsSolver,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STPlaySuppressor,&stip_spin_off_testers_pipe_skip);
-
   stip_structure_traversal_override_single(&st,STIfThenElse,&stip_spin_off_testers_if_then_else);
 
+  instrument_spin_off_traversal(&st);
+
   stip_traverse_structure(si,&st);
+
+  forget_spin_off_visitors();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -357,7 +381,7 @@ static void insert_single_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const solver_inserters[] =
+static structure_traversers_visitor const solver_inserters[] =
 {
   { STHelpAdapter,                            &insert_solvers_help_adapter                    },
   { STGeneratingMoves,                        &insert_move_generator                          },

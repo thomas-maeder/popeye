@@ -454,7 +454,7 @@ static void insert_enforcer(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const threat_handler_inserters[] =
+static structure_traversers_visitor const threat_handler_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode                    },
   { STSetplayFork,        &stip_traverse_structure_children_pipe },
@@ -498,6 +498,8 @@ void stip_insert_threat_handlers(slice_index si)
                                     threat_handler_inserters,
                                     nr_threat_handler_inserters);
   stip_traverse_structure(si,&st);
+
+  register_spin_off_testers_visitor(STThreatSolver,&stip_spin_off_testers_pipe_skip);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -552,7 +554,7 @@ static void insert_end(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const threat_boundaries_inserters[] =
+static structure_traversers_visitor const threat_boundaries_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode                    },
   { STReadyForDefense,    &end_insertion_if_too_short            },

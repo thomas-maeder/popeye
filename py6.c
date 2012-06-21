@@ -575,7 +575,7 @@ static void find_restricted_side_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors restricted_side_finders[] =
+static structure_traversers_visitor restricted_side_finders[] =
 {
   { STAttackAdapter,   &find_restricted_side_attack  },
   { STDefenseAdapter , &find_restricted_side_defense },

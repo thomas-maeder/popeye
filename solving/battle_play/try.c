@@ -132,7 +132,7 @@ stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n
 /* Allocate a STRefutationsSolver defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_refutations_solver(void)
+static slice_index alloc_refutations_solver(void)
 {
   slice_index result;
 
@@ -236,32 +236,12 @@ stip_length_type refutations_collector_attack(slice_index si,
   return result;
 }
 
-/* Allocate a STRefutationsAvoider slice.
- * @param max_nr_refutations maximum number of refutations to be allowed
- * @return index of allocated slice
- */
-slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STRefutationsAvoider);
-  slices[result].u.refutation_collector.max_nr_refutations = max_nr_refutations;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Spin a tester slice off a STHelpHashed slice
- * @param base_slice identifies the STHelpHashed slice
+/* Spin a tester slice off a STRefutationsAvoider slice
+ * @param base_slice identifies the STRefutationsAvoider slice
  * @return id of allocated slice
  */
-void spin_off_testers_refutations_avoider(slice_index si,
-                                          stip_structure_traversal *st)
+static void spin_off_testers_refutations_avoider(slice_index si,
+                                                 stip_structure_traversal *st)
 {
   boolean const * const spinning_off = st->param;
 
@@ -281,6 +261,28 @@ void spin_off_testers_refutations_avoider(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Allocate a STRefutationsAvoider slice.
+ * @param max_nr_refutations maximum number of refutations to be allowed
+ * @return index of allocated slice
+ */
+slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STRefutationsAvoider);
+  slices[result].u.refutation_collector.max_nr_refutations = max_nr_refutations;
+
+  register_spin_off_testers_visitor(STRefutationsAvoider,&spin_off_testers_refutations_avoider);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -449,7 +451,7 @@ static void insert_refutations_avoider(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const try_solver_inserters[] =
+static structure_traversers_visitor const try_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode               },
   { STDefenseAdapter,     &filter_postkey_play              },
@@ -487,6 +489,8 @@ void stip_insert_try_solvers(slice_index si)
                                     try_solver_inserters,
                                     nr_try_solver_inserters);
   stip_traverse_structure(si,&st);
+
+  register_spin_off_testers_visitor(STRefutationsSolver,&stip_spin_off_testers_pipe_skip);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -596,7 +600,7 @@ static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const to_refutation_branch_copiers[] =
+static structure_traversers_visitor const to_refutation_branch_copiers[] =
 {
   { STRefutationsAvoider,           &substitute_refutations_filter          },
   { STPlaySuppressor,               &stip_traverse_structure_children_pipe  },

@@ -2,7 +2,6 @@
 #define SOLVING_BATTLE_PLAY_TRY_H
 
 #include "utilities/table.h"
-#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with writing tries.
@@ -45,11 +44,6 @@ slice_index alloc_refutations_allocator(void);
  */
 stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n);
 
-/* Allocate a STRefutationsSolver defender slice.
- * @return index of allocated slice
- */
-slice_index alloc_refutations_solver(void);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -77,13 +71,6 @@ stip_length_type refutations_collector_attack(slice_index si,
  * @return index of allocated slice
  */
 slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations);
-
-/* Spin a tester slice off a STHelpHashed slice
- * @param base_slice identifies the STHelpHashed slice
- * @return id of allocated slice
- */
-void spin_off_testers_refutations_avoider(slice_index si,
-                                          stip_structure_traversal *st);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

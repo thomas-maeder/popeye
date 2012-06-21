@@ -245,7 +245,7 @@ static void keepmating_filter_inserter_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors keepmating_filter_inserters[] =
+static structure_traversers_visitor keepmating_filter_inserters[] =
 {
   { STTemporaryHackFork,  &stip_traverse_structure_children_pipe },
   { STNotEndOfBranchGoal, &keepmating_filter_inserter_battle     },

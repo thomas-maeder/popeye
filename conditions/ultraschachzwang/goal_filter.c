@@ -80,7 +80,7 @@ static void prepend_mate_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors ultraschachzwang_filter_inserters[] =
+static structure_traversers_visitor ultraschachzwang_filter_inserters[] =
 {
   { STGoalMateReachedTester, &prepend_mate_filter }
 };

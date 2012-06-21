@@ -208,7 +208,7 @@ static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors maxsolutions_filter_inserters[] =
+static structure_traversers_visitor maxsolutions_filter_inserters[] =
 {
   { STMaxSolutionsGuard,       &stip_structure_visitor_noop     },
   { STReadyForHelpMove,        &insert_maxsolutions_help_filter },

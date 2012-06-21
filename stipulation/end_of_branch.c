@@ -95,7 +95,7 @@ static void end_of_branch_detour_inserter_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const end_of_branch_detour_inserters[] =
+static structure_traversers_visitor const end_of_branch_detour_inserters[] =
 {
   { STEndOfBranch,             &end_of_branch_detour_inserter_end_of_branch },
   { STEndOfBranchGoalImmobile, &end_of_branch_detour_inserter_end_of_branch }

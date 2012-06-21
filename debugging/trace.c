@@ -498,7 +498,7 @@ static void trace_if_then_else(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 }
 
-static structure_traversers_visitors tracers[] =
+static structure_traversers_visitor tracers[] =
 {
   { STAttackHashedTester,               &trace_hashed_tester                },
   { STHelpHashedTester,                 &trace_hashed_tester                },

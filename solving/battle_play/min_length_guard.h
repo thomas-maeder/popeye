@@ -4,7 +4,6 @@
 /* make sure that the minimum length of a branch is respected
  */
 
-#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
@@ -35,13 +34,5 @@ stip_length_type min_length_guard_defend(slice_index si, stip_length_type n);
  * @param si identifies the root slice of the stipulation
  */
 void stip_insert_min_length_solvers(slice_index si);
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a STMinLengthGuard slice
- * @param si identifies the STMinLengthGuard slice
- * @param st address of structure representing traversal
- */
-void spin_off_testers_min_length_guard(slice_index si,
-                                       stip_structure_traversal *st);
 
 #endif

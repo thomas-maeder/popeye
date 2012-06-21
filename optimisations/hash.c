@@ -499,7 +499,7 @@ static void init_slice_properties_hashed_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors slice_properties_initalisers[] =
+static structure_traversers_visitor slice_properties_initalisers[] =
 {
   { STAnd,          &init_slice_properties_binary        },
   { STOr,           &init_slice_properties_binary        },
@@ -1756,7 +1756,8 @@ void closehash(void)
  * @param base_slice identifies the STAttackHashedTester slice
  * @return id of allocated slice
  */
-void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st)
+static void spin_off_testers_attack_hashed(slice_index si,
+                                           stip_structure_traversal *st)
 {
   boolean const * const spinning_off = st->param;
 
@@ -1782,7 +1783,8 @@ void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st
  * @param base_slice identifies the STHelpHashed slice
  * @return id of allocated slice
  */
-void spin_off_testers_help_hashed(slice_index si, stip_structure_traversal *st)
+static void spin_off_testers_help_hashed(slice_index si,
+                                         stip_structure_traversal *st)
 {
   boolean const * const spinning_off = st->param;
 
@@ -1880,7 +1882,7 @@ static void remember_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const hash_element_inserters[] =
+static structure_traversers_visitor const hash_element_inserters[] =
 {
   { STReadyForAttack,   &insert_hash_element_attack },
   { STReadyForHelpMove, &insert_hash_element_help   },
@@ -1915,6 +1917,9 @@ void stip_insert_hash_slices(slice_index si)
                                     hash_element_inserters,
                                     nr_hash_element_inserters);
   stip_traverse_structure(si,&st);
+
+  register_spin_off_testers_visitor(STAttackHashed,&spin_off_testers_attack_hashed);
+  register_spin_off_testers_visitor(STHelpHashed,&spin_off_testers_help_hashed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

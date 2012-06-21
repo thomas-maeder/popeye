@@ -84,7 +84,7 @@ static void prepend_exchange_by_rebirth_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors goal_filter_inserters[] =
+static structure_traversers_visitor goal_filter_inserters[] =
 {
   { STGoalSteingewinnReachedTester,       &prepend_steingewinn_filter         },
   { STGoalCircuitByRebirthReachedTester,  &prepend_circuit_by_rebirth_filter  },

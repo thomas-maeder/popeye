@@ -45,7 +45,7 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const setplay_solver_inserters[] =
+static structure_traversers_visitor const setplay_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode                     },
   { STDefenseAdapter,     &insert_setplay_solvers_defense_adapter }

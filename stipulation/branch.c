@@ -373,7 +373,7 @@ enum
   nr_slice_rank_order_elmts = sizeof slice_rank_order / sizeof slice_rank_order[0]
 };
 
-static structure_traversers_visitors const insertion_visitors[] =
+static structure_traversers_visitor const insertion_visitors[] =
 {
   { STSetplayFork,    &insert_visit_setplay_fork   },
   { STAttackAdapter,  &insert_visit_battle_adapter },

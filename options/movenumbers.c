@@ -251,7 +251,7 @@ static void insert_guard_regular(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors restart_guard_inserters[] =
+static structure_traversers_visitor restart_guard_inserters[] =
 {
   { STAttackAdapter,              &insert_guard_attack          },
   { STDefenseAdapter,             &stip_structure_visitor_noop  },

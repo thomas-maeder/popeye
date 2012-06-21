@@ -270,29 +270,6 @@ static void nontrivial_guard_inserter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument stipulation with STMaxNrNonTrivial slices
- * @param si identifies slice where to start
- */
-void stip_insert_max_nr_nontrivial_guards(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STNotEndOfBranch,
-                                           &nontrivial_guard_inserter);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void stop_copying(slice_index si, stip_structure_traversal *st)
 {
   stip_deep_copies_type * const copies = st->param;
@@ -386,8 +363,8 @@ static slice_index spin_off_counting_slices(slice_index si,
  * @param si identifies the STMaxNrNonTrivial slice
  * @param st address of structure representing traversal
  */
-void spin_off_testers_max_nr_non_trivial(slice_index si,
-                                         stip_structure_traversal *st)
+static void spin_off_testers_max_nr_non_trivial(slice_index si,
+                                                stip_structure_traversal *st)
 {
   boolean const * const spinning_off = st->param;
 
@@ -420,6 +397,31 @@ void spin_off_testers_max_nr_non_trivial(slice_index si,
                                               &prototype,1,
                                               si);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument stipulation with STMaxNrNonTrivial slices
+ * @param si identifies slice where to start
+ */
+void stip_insert_max_nr_nontrivial_guards(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STNotEndOfBranch,
+                                           &nontrivial_guard_inserter);
+  stip_traverse_structure(si,&st);
+
+  register_spin_off_testers_visitor(STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

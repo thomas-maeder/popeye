@@ -5,17 +5,15 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h \
  utilities/enumeration.h stipulation/traversal.h utilities/boolean.h \
  pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h pybrafrk.h \
  stipulation/structure_traversal.h stipulation/battle_play/attack_play.h \
- optimisations/hash.h DHT/dhtbcmem.h \
- stipulation/battle_play/attack_play.h options/nontrivial.h \
- stipulation/battle_play/defense_play.h options/maxthreatlength.h \
  stipulation/proxy.h pypipe.h stipulation/has_solution_type.h \
- stipulation/if_then_else.h stipulation/testing_pipe.h \
+ stipulation/if_then_else.h stipulation/battle_play/defense_play.h \
+ stipulation/battle_play/attack_play.h stipulation/testing_pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/boolean/and.h stipulation/boolean/true.h \
- stipulation/end_of_branch_tester.h stipulation/battle_play/branch.h \
- pystip.h stipulation/slice.h output/mode.h \
- stipulation/help_play/branch.h stipulation/boolean/binary.h \
- solving/move_generator.h solving/for_each_move.h solving/find_shortest.h \
+ stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
+ output/mode.h stipulation/help_play/branch.h \
+ stipulation/boolean/binary.h solving/move_generator.h \
+ solving/for_each_move.h solving/find_shortest.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
  solving/battle_play/continuation.h solving/battle_play/try.h \
  utilities/table.h solving/battle_play/min_length_guard.h \
@@ -71,18 +69,6 @@ stipulation/structure_traversal.h:
 
 stipulation/battle_play/attack_play.h:
 
-optimisations/hash.h:
-
-DHT/dhtbcmem.h:
-
-stipulation/battle_play/attack_play.h:
-
-options/nontrivial.h:
-
-stipulation/battle_play/defense_play.h:
-
-options/maxthreatlength.h:
-
 stipulation/proxy.h:
 
 pypipe.h:
@@ -90,6 +76,10 @@ pypipe.h:
 stipulation/has_solution_type.h:
 
 stipulation/if_then_else.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/attack_play.h:
 
 stipulation/testing_pipe.h:
 
@@ -100,8 +90,6 @@ stipulation/branch.h:
 stipulation/boolean/and.h:
 
 stipulation/boolean/true.h:
-
-stipulation/end_of_branch_tester.h:
 
 stipulation/battle_play/branch.h:
 

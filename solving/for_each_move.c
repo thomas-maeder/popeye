@@ -67,7 +67,7 @@ static void insert_move_iterator_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const move_iterator_inserters[] =
+static structure_traversers_visitor const move_iterator_inserters[] =
 {
   { STMove, &insert_move_iterator_move },
 };

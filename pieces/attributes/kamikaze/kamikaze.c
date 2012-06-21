@@ -64,7 +64,7 @@ static void instrument_goal_exchange_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors goal_filter_inserters[] =
+static structure_traversers_visitor goal_filter_inserters[] =
 {
   { STGoalTargetReachedTester,   &instrument_goal_target_filter   },
   { STGoalExchangeReachedTester, &instrument_goal_exchange_filter }

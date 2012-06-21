@@ -64,7 +64,7 @@ static void insert_direct_guards(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors to_quodlibet_transformers[] =
+static structure_traversers_visitor to_quodlibet_transformers[] =
 {
   { STAttackAdapter,   &insert_direct_guards                 },
   { STReadyForDefense, &remember_end_of_attack               },

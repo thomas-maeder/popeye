@@ -114,7 +114,7 @@ static void remember_end_of_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const final_defense_move_optimisers[] =
+static structure_traversers_visitor const final_defense_move_optimisers[] =
 {
   { STEndOfRoot,     &remember_end_of_root                        },
   { STMoveGenerator, &optimise_final_defense_moves_move_generator }
@@ -183,7 +183,7 @@ static void substitute_killermove_machinery(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors killer_move_collector_inserters[] =
+static structure_traversers_visitor killer_move_collector_inserters[] =
 {
   { STRefutationsSolver, &stip_traverse_structure_children_pipe },
   { STMoveGenerator,     &substitute_killermove_machinery       }

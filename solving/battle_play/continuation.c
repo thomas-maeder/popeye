@@ -126,7 +126,7 @@ static void insert_continuation_solvers_attack(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const continuation_solver_inserters[] =
+static structure_traversers_visitor const continuation_solver_inserters[] =
 {
   { STReadyForAttack, &insert_continuation_solvers_remember_attack },
   { STDefenseAdapter, &insert_continuation_solvers_postkey_play    },

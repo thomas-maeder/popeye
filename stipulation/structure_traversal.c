@@ -616,7 +616,7 @@ void stip_structure_traversal_override_single(stip_structure_traversal *st,
  */
 void
 stip_structure_traversal_override(stip_structure_traversal *st,
-                                  structure_traversers_visitors const visitors[],
+                                  structure_traversers_visitor const visitors[],
                                   unsigned int nr_visitors)
 {
   unsigned int i;

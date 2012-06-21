@@ -92,7 +92,7 @@ typedef struct
 {
     slice_type type;
     stip_structure_visitor visitor;
-} structure_traversers_visitors;
+} structure_traversers_visitor;
 
 /* Override some of the visitors of a traversal
  * @param st to be initialised
@@ -101,7 +101,7 @@ typedef struct
  */
 void
 stip_structure_traversal_override(stip_structure_traversal *st,
-                                  structure_traversers_visitors const visitors[],
+                                  structure_traversers_visitor const visitors[],
                                   unsigned int nr_visitors);
 
 /* Query the structure traversal state of a slice

@@ -368,7 +368,7 @@ static void forget_immobility(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const end_of_branch_goal_immobility_detectors[] =
+static structure_traversers_visitor const end_of_branch_goal_immobility_detectors[] =
 {
   { STAttackAdapter,             &forget_immobility   },
   { STDefenseAdapter,            &forget_immobility   },

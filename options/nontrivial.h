@@ -4,7 +4,6 @@
 /* Implementation of the "nontrivial" optimisation
  */
 
-#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
@@ -42,14 +41,6 @@ stip_length_type get_min_length_nontrivial(void);
  * @param si identifies slice where to start
  */
 void stip_insert_max_nr_nontrivial_guards(slice_index si);
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off an end of a STMaxNrNonTrivial slice
- * @param si identifies the STMaxNrNonTrivial slice
- * @param st address of structure representing traversal
- */
-void spin_off_testers_max_nr_non_trivial(slice_index si,
-                                         stip_structure_traversal *st);
 
 /* Try to defend after an attacking move
  * @param si slice index

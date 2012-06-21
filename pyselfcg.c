@@ -155,7 +155,7 @@ static void remember_goal_not_move_oriented(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors goal_move_oriented_testers[] =
+static structure_traversers_visitor goal_move_oriented_testers[] =
 {
   { STGoalCheckReachedTester,    &remember_goal_not_move_oriented },
   { STGoalImmobileReachedTester, &remember_goal_not_move_oriented },
@@ -379,7 +379,7 @@ static void forget_last_checked(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors in_branch_guards_inserters[] =
+static structure_traversers_visitor in_branch_guards_inserters[] =
 {
   { STNotEndOfBranchGoal,              &insert_selfcheck_guard_branch            },
   { STGoalReachedTester,               &insert_selfcheck_guard_goal              },
@@ -516,7 +516,7 @@ static void remember_checked_side(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors adapters_guards_inserters[] =
+static structure_traversers_visitor adapters_guards_inserters[] =
 {
   { STAttackAdapter,     &determine_need_for_move_inverter_instrumentation },
   { STDefenseAdapter,    &determine_need_for_move_inverter_instrumentation },

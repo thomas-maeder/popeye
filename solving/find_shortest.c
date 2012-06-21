@@ -103,7 +103,7 @@ static void insert_find_shortest_battle_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const find_shortest_inserters[] =
+static structure_traversers_visitor const find_shortest_inserters[] =
 {
   { STAttackAdapter,  &insert_find_shortest_battle_adapter },
   { STDefenseAdapter, &insert_find_shortest_battle_adapter }

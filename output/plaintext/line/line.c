@@ -117,7 +117,7 @@ static void min_distance_to_goal_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-structure_traversers_visitors const min_distance_to_goal_finders[] =
+structure_traversers_visitor const min_distance_to_goal_finders[] =
 {
   { STAttackAdapter,     &min_distance_to_goal_battle },
   { STDefenseAdapter,    &min_distance_to_goal_battle },
@@ -203,7 +203,7 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors regular_inserters[] =
+static structure_traversers_visitor regular_inserters[] =
 {
   { STMoveInverter,      &insert_move_inversion_counter  },
   { STPlaySuppressor,    &instrument_suppressor          },

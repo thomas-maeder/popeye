@@ -104,7 +104,7 @@ static void end_of_branch_tester_inserter_end_of_branch_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const end_of_branch_tester_inserters[] =
+static structure_traversers_visitor const end_of_branch_tester_inserters[] =
 {
   { STEndOfBranchForced, &end_of_branch_tester_inserter_end_of_branch      },
   { STEndOfBranchGoal,   &end_of_branch_tester_inserter_end_of_branch_goal }
@@ -116,35 +116,13 @@ enum
                                        / sizeof end_of_branch_tester_inserters[0])
 };
 
-/* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
- * necessary STEndOfBranchTester slices
- * @param root_slice identifes root slice of stipulation
- */
-void stip_insert_end_of_branch_testers(slice_index root_slice)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root_slice);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    end_of_branch_tester_inserters,
-                                    nr_end_of_branch_tester_inserters);
-  stip_traverse_structure(root_slice,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off an end of a branch tester slice
  * @param si identifies the branch tester slice
  * @param st address of structure representing traversal
  */
-void start_spinning_off_end_of_branch_tester(slice_index si,
-                                             stip_structure_traversal *st)
+static void stip_spin_off_testers_end_of_branch_tester(slice_index si,
+                                                       stip_structure_traversal *st)
 {
   boolean * const spinning_off = st->param;
 
@@ -169,6 +147,31 @@ void start_spinning_off_end_of_branch_tester(slice_index si,
   }
 
   slices[si].next2 = slices[slices[si].next2].tester;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
+ * necessary STEndOfBranchTester slices
+ * @param root_slice identifes root slice of stipulation
+ */
+void stip_insert_end_of_branch_testers(slice_index root_slice)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    end_of_branch_tester_inserters,
+                                    nr_end_of_branch_tester_inserters);
+  stip_traverse_structure(root_slice,&st);
+
+  register_spin_off_testers_visitor(STEndOfBranchTester,&stip_spin_off_testers_end_of_branch_tester);
+  register_spin_off_testers_visitor(STEndOfBranchGoalTester,&stip_spin_off_testers_end_of_branch_tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

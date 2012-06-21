@@ -220,7 +220,7 @@ static void instrument_doublemate(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors goal_filter_inserters[] =
+static structure_traversers_visitor goal_filter_inserters[] =
 {
   { STGoalMateReachedTester,            &instrument_mate            },
   { STGoalStalemateReachedTester,       &instrument_stalemate       },

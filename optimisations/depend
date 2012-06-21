@@ -158,12 +158,13 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c py.h utilities/boolean.h \
  pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
  utilities/enumeration.h pylang.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h pydata.h pyproc.h pymsg.h \
- optimisations/hash.h DHT/dhtbcmem.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/traversal.h stipulation/battle_play/attack_play.h \
- DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h stipulation/slice.h \
+ optimisations/hash.h DHT/dhtbcmem.h \
+ stipulation/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h DHT/dhtvalue.h \
+ DHT/fxf.h DHT/dht.h pyproof.h stipulation/slice.h \
  stipulation/has_solution_type.h stipulation/battle_play/branch.h \
- pystip.h stipulation/structure_traversal.h output/mode.h \
+ pystip.h stipulation/structure_traversal.h stipulation/traversal.h \
+ output/mode.h stipulation/structure_traversal.h \
  stipulation/help_play/branch.h solving/solving.h \
  solving/avoid_unsolvable.h stipulation/battle_play/defense_play.h \
  conditions/bgl.h options/nontrivial.h stipulation/branch.h pypipe.h \
@@ -206,17 +207,13 @@ optimisations/hash.h:
 
 DHT/dhtbcmem.h:
 
-stipulation/structure_traversal.h:
+stipulation/battle_play/attack_play.h:
 
 stipulation/slice.h:
 
 stipulation/slice_type.h:
 
 utilities/enumeration.h:
-
-stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
 
 DHT/dhtvalue.h:
 
@@ -236,7 +233,11 @@ pystip.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/traversal.h:
+
 output/mode.h:
+
+stipulation/structure_traversal.h:
 
 stipulation/help_play/branch.h:
 

@@ -259,7 +259,7 @@ static void remove_constraint_if_irrelevant(slice_index si, stip_structure_trave
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
+static structure_traversers_visitor unsatisfiable_goal_checker_removers[] =
 {
   { STConstraintTester,     &remove_constraint_if_irrelevant       },
   { STGoalConstraintTester, &remove_constraint_if_irrelevant       },

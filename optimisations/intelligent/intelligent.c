@@ -645,7 +645,7 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors goalreachable_guards_inserters[] =
+static structure_traversers_visitor goalreachable_guards_inserters[] =
 {
   { STReadyForHelpMove,  &goalreachable_guards_inserter_help_move         },
   { STGoalReachedTester, &goalreachable_guards_duplicate_avoider_inserter },
@@ -766,7 +766,7 @@ static void intelligent_filter_inserter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors intelligent_filters_inserters[] =
+static structure_traversers_visitor intelligent_filters_inserters[] =
 {
   { STHelpAdapter,       &intelligent_filter_inserter           },
   { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
@@ -904,7 +904,7 @@ static void intelligent_mode_support_goal_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors intelligent_mode_support_detectors[] =
+static structure_traversers_visitor intelligent_mode_support_detectors[] =
 {
   { STAnd,               &intelligent_mode_support_none         },
   { STOr,                &intelligent_mode_support_detector_or  },

@@ -11,7 +11,6 @@
 
 #include "DHT/dhtbcmem.h"
 #include "py.h"
-#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* typedefs */
@@ -70,18 +69,6 @@ void HashStats(unsigned int level, char *trailer);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
-
-/* Spin a tester slice off a STAttackHashedTester slice
- * @param base_slice identifies the STAttackHashedTester slice
- * @return id of allocated slice
- */
-void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st);
-
-/* Spin a tester slice off a STHelpHashed slice
- * @param base_slice identifies the STHelpHashed slice
- * @return id of allocated slice
- */
-void spin_off_testers_help_hashed(slice_index si, stip_structure_traversal *st);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

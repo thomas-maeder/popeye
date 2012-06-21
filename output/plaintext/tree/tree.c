@@ -156,7 +156,7 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const regular_writer_inserters[] =
+static structure_traversers_visitor const regular_writer_inserters[] =
 {
   { STDefenseAdapter,    &insert_writer_for_move_in_parent },
   { STHelpAdapter,       &stip_structure_visitor_noop      },
@@ -249,7 +249,7 @@ static void insert_refutation_writer(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const try_writer_inserters[] =
+static structure_traversers_visitor const try_writer_inserters[] =
 {
   { STKeyWriter,              &substitute_try_writer                 },
   { STRefutationsSolver,      &insert_refutation_intro_writer        },
@@ -425,7 +425,7 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const root_writer_inserters[] =
+static structure_traversers_visitor const root_writer_inserters[] =
 {
   { STSetplayFork,        &stip_traverse_structure_children_pipe },
   { STHelpAdapter,        &stip_structure_visitor_noop           },
@@ -568,7 +568,7 @@ static void remove_continuation_writer_if_unused(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const goal_writer_slice_inserters[] =
+static structure_traversers_visitor const goal_writer_slice_inserters[] =
 {
   { STGoalReachedTester,              &remember_goal                        },
   { STKeyWriter,                      &remember_key_writer                  },

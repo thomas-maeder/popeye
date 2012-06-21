@@ -104,7 +104,7 @@ static void insert_play_suppressors(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const play_suppressors_inserters[] =
+static structure_traversers_visitor const play_suppressors_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode      },
   { STNotEndOfBranch,     &insert_play_suppressors }

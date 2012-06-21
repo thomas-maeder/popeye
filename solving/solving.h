@@ -9,13 +9,12 @@
  */
 void stip_insert_solvers(slice_index root_slice);
 
-/* Callback to stip_spin_off_testers
- * Copy a slice to the testers, remove it from the solvers
- * @param si identifies the slice
- * @param st address of structure representing traversal
+/* Register a call-back for the next run of stip_spin_off_testers()
+ * @param type slice type for which to call back visitor
+ * @param visitor address to function to invoke for each visited slice of type type
  */
-void spin_off_testers_move_pipe_to_testers(slice_index si,
-                                           stip_structure_traversal *st);
+void register_spin_off_testers_visitor(slice_type type,
+                                       stip_structure_visitor visitor);
 
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation

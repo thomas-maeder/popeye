@@ -196,7 +196,7 @@ static void insert_max_threat_length_start(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors maxthreatlength_guards_inserters[] =
+static structure_traversers_visitor maxthreatlength_guards_inserters[] =
 {
   { STDefenseAdapter,  &insert_maxthreatlength_guard   },
   { STReadyForDefense, &insert_maxthreatlength_guard   },

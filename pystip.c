@@ -141,7 +141,7 @@ static void move_to_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors root_slice_inserters[] =
+static structure_traversers_visitor root_slice_inserters[] =
 {
   { STAttackAdapter,  &attack_adapter_make_root  },
   { STDefenseAdapter, &defense_adapter_make_root },
@@ -228,7 +228,7 @@ void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors intro_slice_inserters[] =
+static structure_traversers_visitor intro_slice_inserters[] =
 {
   { STAttackAdapter,     &attack_adapter_make_intro   },
   { STDefenseAdapter,    &defense_adapter_make_intro  },
@@ -530,7 +530,7 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
 }
 
 
-static structure_traversers_visitors setplay_appliers[] =
+static structure_traversers_visitor setplay_appliers[] =
 {
   { STMoveInverter,      &pipe_spin_off_copy           },
   { STAttackAdapter,     &attack_adapter_apply_setplay },
@@ -673,7 +673,7 @@ boolean stip_ends_in(slice_index si, goal_type goal)
   return search.result;
 }
 
-static structure_traversers_visitors starter_detectors[] =
+static structure_traversers_visitor starter_detectors[] =
 {
   { STMovePlayed,     &move_played_detect_starter   },
   { STHelpMovePlayed, &move_played_detect_starter   },

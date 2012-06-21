@@ -1,5 +1,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "pypipe.h"
+#include "solving/solving.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -293,6 +294,8 @@ void insert_temporary_hacks(slice_index root_slice)
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());
   }
+
+  register_spin_off_testers_visitor(STTemporaryHackFork,&stip_traverse_structure_children_pipe);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
