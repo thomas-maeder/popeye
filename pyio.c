@@ -73,7 +73,7 @@
 #include "solving/battle_play/attack_play.h"
 #include "pyproof.h"
 #include "stipulation/pipe.h"
-#include "output/output.h"
+#include "pyoutput.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

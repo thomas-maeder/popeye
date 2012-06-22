@@ -4,11 +4,11 @@ output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  utilities/enumeration.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- solving/battle_play/attack_play.h stipulation/fork.h output/output.h \
- output/mode.h stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/help_play/branch.h pystip.h py.h stipulation/slice.h \
+ solving/battle_play/attack_play.h stipulation/fork.h pyoutput.h \
+ output/mode.h stipulation/slice.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/help_play/branch.h pystip.h py.h \
  stipulation/structure_traversal.h stipulation/goals/goals.h \
- utilities/boolean.h output/mode.h output/plaintext/end_of_phase_writer.h \
+ utilities/boolean.h output/plaintext/end_of_phase_writer.h \
  solving/trivial_end_filter.h output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/line/line_writer.h solving/battle_play/defense_play.h \
@@ -49,9 +49,11 @@ solving/battle_play/attack_play.h:
 
 stipulation/fork.h:
 
-output/output.h:
+pyoutput.h:
 
 output/mode.h:
+
+stipulation/slice.h:
 
 stipulation/has_solution_type.h:
 
@@ -63,15 +65,11 @@ pystip.h:
 
 py.h:
 
-stipulation/slice.h:
-
 stipulation/structure_traversal.h:
 
 stipulation/goals/goals.h:
 
 utilities/boolean.h:
-
-output/mode.h:
 
 output/plaintext/end_of_phase_writer.h:
 

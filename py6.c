@@ -105,7 +105,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "solving/battle_play/attack_play.h"
-#include "output/output.h"
+#include "pyoutput.h"
 #include "conditions/bgl.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
