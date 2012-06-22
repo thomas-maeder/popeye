@@ -5,7 +5,7 @@
  * test a certain condition using an auxiliary branch
  */
 
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 
 /* Allocate a new conditional pipe and make an existing pipe its successor
  * @param type which slice type

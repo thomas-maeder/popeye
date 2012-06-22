@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_KILLER_MOVE_FINAL_DEFENSE_MOVE_H)
 #define OPTIMISATION_KILLER_MOVE_FINAL_DEFENSE_MOVE_H
 
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the defending side
  * in STKillerMoveFinalDefenseMove stipulation slices.

@@ -7,9 +7,9 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
  output/mode.h pydata.h pyproc.h py4.h stipulation/has_solution_type.h \
- stipulation/proxy.h pypipe.h stipulation/battle_play/attack_play.h \
- solving/fork_on_remaining.h stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h debugging/trace.h
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ solving/battle_play/attack_play.h solving/fork_on_remaining.h \
+ solving/battle_play/defense_play.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
@@ -61,32 +61,32 @@ stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
-stipulation/battle_play/attack_play.h:
+stipulation/structure_traversal.h:
+
+solving/battle_play/attack_play.h:
 
 solving/fork_on_remaining.h:
 
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
 debugging/trace.h:
 optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.c \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
  pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
  pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h pypipe.h stipulation/battle_play/attack_play.h pydata.h \
- pyproc.h py4.h solving/legal_move_counter.h \
+ output/mode.h stipulation/pipe.h stipulation/structure_traversal.h \
+ pydata.h pyproc.h py4.h solving/legal_move_counter.h \
  stipulation/has_solution_type.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -126,9 +126,9 @@ utilities/boolean.h:
 
 output/mode.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
-stipulation/battle_play/attack_play.h:
+stipulation/structure_traversal.h:
 
 pydata.h:
 

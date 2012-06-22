@@ -5,13 +5,12 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  utilities/enumeration.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h stipulation/proxy.h \
- pypipe.h stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/boolean/or.h \
- stipulation/battle_play/attack_play.h \
+ stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/traversal.h solving/battle_play/attack_play.h \
+ stipulation/branch.h stipulation/boolean/or.h \
  pieces/attributes/paralysing/mate_filter.h pystip.h stipulation/slice.h \
- output/mode.h pieces/attributes/paralysing/stalemate_special.h \
- debugging/trace.h
+ stipulation/structure_traversal.h output/mode.h \
+ pieces/attributes/paralysing/stalemate_special.h debugging/trace.h
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -51,27 +50,25 @@ utilities/boolean.h:
 
 stipulation/proxy.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/branch.h:
 
-stipulation/structure_traversal.h:
-
 stipulation/boolean/or.h:
-
-stipulation/battle_play/attack_play.h:
 
 pieces/attributes/paralysing/mate_filter.h:
 
 pystip.h:
 
 stipulation/slice.h:
+
+stipulation/structure_traversal.h:
 
 output/mode.h:
 
@@ -86,8 +83,8 @@ pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  stipulation/slice_type.h utilities/enumeration.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h stipulation/battle_play/attack_play.h pypipe.h \
- stipulation/battle_play/attack_play.h stipulation/has_solution_type.h \
+ output/mode.h solving/battle_play/attack_play.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h debugging/trace.h
 
 pieces/attributes/paralysing/mate_filter.h:
@@ -130,11 +127,11 @@ utilities/boolean.h:
 
 output/mode.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
-stipulation/battle_play/attack_play.h:
+stipulation/structure_traversal.h:
 
 stipulation/has_solution_type.h:
 
@@ -149,8 +146,8 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  stipulation/slice_type.h utilities/enumeration.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h stipulation/battle_play/attack_play.h pydata.h pyproc.h \
- py4.h pypipe.h stipulation/battle_play/attack_play.h \
+ output/mode.h solving/battle_play/attack_play.h pydata.h pyproc.h py4.h \
+ stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h debugging/trace.h
 
@@ -194,7 +191,7 @@ utilities/boolean.h:
 
 output/mode.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 pydata.h:
 
@@ -202,9 +199,9 @@ pyproc.h:
 
 py4.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
-stipulation/battle_play/attack_play.h:
+stipulation/structure_traversal.h:
 
 stipulation/has_solution_type.h:
 

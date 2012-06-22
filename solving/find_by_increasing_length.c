@@ -1,7 +1,7 @@
 #include "solving/find_by_increasing_length.h"
 #include "pydata.h"
 #include "stipulation/branch.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"

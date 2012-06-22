@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_MOVES_LEFT_H)
 #define OPTIMISATIONS_INTELLIGENT_MOVES_LEFT_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 extern unsigned int MovesLeft[nr_sides];
 

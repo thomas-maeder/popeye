@@ -5,12 +5,11 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  utilities/enumeration.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h stipulation/goals/goals.h \
  utilities/boolean.h output/mode.h stipulation/structure_traversal.h \
- pypipe.h stipulation/battle_play/attack_play.h \
+ stipulation/pipe.h solving/battle_play/attack_play.h \
  stipulation/has_solution_type.h stipulation/move_inverter.h \
- stipulation/battle_play/attack_play.h stipulation/conditional_pipe.h \
- stipulation/constraint.h stipulation/moves_traversal.h \
- stipulation/goals/goals.h output/mode.h \
- stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h \
+ stipulation/conditional_pipe.h stipulation/constraint.h \
+ stipulation/moves_traversal.h stipulation/goals/goals.h output/mode.h \
+ solving/battle_play/defense_play.h pydata.h pyproc.h py4.h \
  stipulation/proxy.h stipulation/branch.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move_played.h stipulation/binary.h \
@@ -59,15 +58,13 @@ output/mode.h:
 
 stipulation/structure_traversal.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/move_inverter.h:
-
-stipulation/battle_play/attack_play.h:
 
 stipulation/conditional_pipe.h:
 
@@ -79,7 +76,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
 pydata.h:
 
@@ -115,13 +112,13 @@ stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  utilities/enumeration.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h stipulation/has_solution_type.h \
+ solving/battle_play/attack_play.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/battle_play/branch.h pystip.h py.h \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h pypipe.h \
- stipulation/battle_play/attack_play.h debugging/trace.h
+ solving/battle_play/defense_play.h pydata.h pyproc.h py4.h \
+ stipulation/pipe.h debugging/trace.h
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -151,7 +148,7 @@ utilities/enumeration.h:
 
 stipulation/traversal.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/has_solution_type.h:
 
@@ -175,7 +172,7 @@ output/mode.h:
 
 stipulation/battle_play/defense_adapter.h:
 
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
 pydata.h:
 
@@ -183,418 +180,7 @@ pyproc.h:
 
 py4.h:
 
-pypipe.h:
-
-stipulation/battle_play/attack_play.h:
-
-debugging/trace.h:
-stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
- stipulation/battle_play/attack_play.c \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pybrafrk.h stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h pyproof.h py.h stipulation/slice.h \
- pyselfcg.h stipulation/battle_play/defense_play.h pydata.h pyproc.h \
- py4.h stipulation/goals/goals.h utilities/boolean.h \
- conditions/amu/mate_filter.h conditions/anticirce/circuit_special.h \
- conditions/anticirce/exchange_filter.h \
- conditions/anticirce/exchange_special.h \
- conditions/anticirce/target_square_filter.h conditions/bgl.h \
- stipulation/battle_play/defense_play.h \
- conditions/circe/circuit_by_rebirth_special.h \
- conditions/circe/exchange_by_rebirth_special.h \
- conditions/circe/steingewinn_filter.h conditions/exclusive.h pyposit.h \
- conditions/maff/immobility_tester.h \
- conditions/ohneschach/immobility_tester.h \
- conditions/owu/immobility_tester.h \
- conditions/ultraschachzwang/goal_filter.h optimisations/hash.h \
- DHT/dhtbcmem.h optimisations/keepmating.h \
- optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- optimisations/goals/castling/filter.h \
- optimisations/goals/enpassant/filter.h \
- optimisations/intelligent/duplicate_avoider.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h \
- optimisations/intelligent/mate/filter.h \
- stipulation/structure_traversal.h \
- optimisations/intelligent/mate/goalreachable_guard.h \
- optimisations/intelligent/moves_left.h optimisations/intelligent/proof.h \
- optimisations/intelligent/stalemate/filter.h \
- optimisations/intelligent/stalemate/goalreachable_guard.h \
- optimisations/intelligent/stalemate/immobilise_black.h \
- optimisations/killer_move/collector.h \
- optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- options/maxsolutions/guard.h options/maxsolutions/initialiser.h \
- options/maxtime.h options/movenumbers.h options/degenerate_tree.h \
- options/nontrivial.h options/maxthreatlength.h \
- options/maxflightsquares.h \
- options/movenumbers/restart_guard_intelligent.h \
- options/no_short_variations/no_short_variations_attacker_filter.h \
- options/stoponshortsolutions/filter.h \
- options/stoponshortsolutions/initialiser.h \
- output/plaintext/end_of_phase_writer.h \
- output/plaintext/illegal_selfcheck_writer.h \
- output/plaintext/line/end_of_intro_series_marker.h \
- output/plaintext/line/line_writer.h \
- output/plaintext/move_inversion_counter.h \
- output/plaintext/tree/check_writer.h output/plaintext/tree/goal_writer.h \
- output/plaintext/tree/move_writer.h \
- output/plaintext/tree/refutation_writer.h \
- output/plaintext/tree/refuting_variation_writer.h \
- output/plaintext/tree/zugzwang_writer.h \
- pieces/attributes/paralysing/mate_filter.h pystip.h output/mode.h \
- pieces/attributes/paralysing/stalemate_special.h \
- solving/avoid_unsolvable.h solving/battle_play/continuation.h \
- solving/battle_play/min_length_guard.h \
- solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
- solving/battle_play/try.h utilities/table.h solving/capture_counter.h \
- solving/castling_intermediate_move_generator.h \
- solving/find_by_increasing_length.h solving/find_move.h \
- solving/find_shortest.h solving/for_each_move.h \
- solving/fork_on_remaining.h solving/king_move_generator.h \
- solving/legal_move_counter.h solving/move_generator.h \
- solving/non_king_move_generator.h solving/play_suppressor.h \
- solving/single_move_generator.h \
- solving/single_move_generator_with_king_capture.h \
- solving/single_piece_move_generator.h solving/trivial_end_filter.h \
- stipulation/has_solution_type.h stipulation/move_inverter.h \
- stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/branch.h \
- stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
- stipulation/boolean/false.h stipulation/boolean/not.h \
- stipulation/boolean/or.h stipulation/boolean/true.h \
- stipulation/if_then_else.h stipulation/constraint.h \
- stipulation/moves_traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/dead_end.h stipulation/end_of_branch_goal.h \
- stipulation/end_of_branch.h stipulation/goals/any/reached_tester.h \
- stipulation/goals/capture/reached_tester.h \
- stipulation/goals/castling/reached_tester.h \
- stipulation/goals/check/reached_tester.h \
- stipulation/goals/chess81/reached_tester.h \
- stipulation/goals/circuit_by_rebirth/reached_tester.h \
- stipulation/goals/circuit/reached_tester.h \
- stipulation/goals/countermate/filter.h \
- stipulation/goals/countermate/reached_tester.h \
- stipulation/goals/doublemate/filter.h \
- stipulation/goals/doublemate/reached_tester.h \
- stipulation/goals/enpassant/reached_tester.h \
- stipulation/goals/exchange_by_rebirth/reached_tester.h \
- stipulation/goals/exchange/reached_tester.h \
- stipulation/goals/immobile/reached_tester.h \
- stipulation/goals/notcheck/reached_tester.h \
- stipulation/goals/prerequisite_optimiser.h \
- stipulation/goals/proofgame/reached_tester.h \
- stipulation/goals/reached_tester.h \
- stipulation/goals/steingewinn/reached_tester.h \
- stipulation/goals/target/reached_tester.h \
- stipulation/help_play/adapter.h stipulation/move_played.h \
- stipulation/setplay_fork.h pypipe.h debugging/trace.h
-
-stipulation/battle_play/attack_play.h:
-
-py.h:
-
-utilities/boolean.h:
-
-pyposit.h:
-
-pyboard.h:
-
-utilities/bitmask.h:
-
-pypiece.h:
-
-utilities/enumeration.h:
-
-pylang.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-pybrafrk.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
-
-pyproof.h:
-
-py.h:
-
-stipulation/slice.h:
-
-pyselfcg.h:
-
-stipulation/battle_play/defense_play.h:
-
-pydata.h:
-
-pyproc.h:
-
-py4.h:
-
-stipulation/goals/goals.h:
-
-utilities/boolean.h:
-
-conditions/amu/mate_filter.h:
-
-conditions/anticirce/circuit_special.h:
-
-conditions/anticirce/exchange_filter.h:
-
-conditions/anticirce/exchange_special.h:
-
-conditions/anticirce/target_square_filter.h:
-
-conditions/bgl.h:
-
-stipulation/battle_play/defense_play.h:
-
-conditions/circe/circuit_by_rebirth_special.h:
-
-conditions/circe/exchange_by_rebirth_special.h:
-
-conditions/circe/steingewinn_filter.h:
-
-conditions/exclusive.h:
-
-pyposit.h:
-
-conditions/maff/immobility_tester.h:
-
-conditions/ohneschach/immobility_tester.h:
-
-conditions/owu/immobility_tester.h:
-
-conditions/ultraschachzwang/goal_filter.h:
-
-optimisations/hash.h:
-
-DHT/dhtbcmem.h:
-
-optimisations/keepmating.h:
-
-optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
-
-optimisations/goals/castling/filter.h:
-
-optimisations/goals/enpassant/filter.h:
-
-optimisations/intelligent/duplicate_avoider.h:
-
-optimisations/intelligent/limit_nr_solutions_per_target.h:
-
-optimisations/intelligent/mate/filter.h:
-
-stipulation/structure_traversal.h:
-
-optimisations/intelligent/mate/goalreachable_guard.h:
-
-optimisations/intelligent/moves_left.h:
-
-optimisations/intelligent/proof.h:
-
-optimisations/intelligent/stalemate/filter.h:
-
-optimisations/intelligent/stalemate/goalreachable_guard.h:
-
-optimisations/intelligent/stalemate/immobilise_black.h:
-
-optimisations/killer_move/collector.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
-
-options/maxsolutions/guard.h:
-
-options/maxsolutions/initialiser.h:
-
-options/maxtime.h:
-
-options/movenumbers.h:
-
-options/degenerate_tree.h:
-
-options/nontrivial.h:
-
-options/maxthreatlength.h:
-
-options/maxflightsquares.h:
-
-options/movenumbers/restart_guard_intelligent.h:
-
-options/no_short_variations/no_short_variations_attacker_filter.h:
-
-options/stoponshortsolutions/filter.h:
-
-options/stoponshortsolutions/initialiser.h:
-
-output/plaintext/end_of_phase_writer.h:
-
-output/plaintext/illegal_selfcheck_writer.h:
-
-output/plaintext/line/end_of_intro_series_marker.h:
-
-output/plaintext/line/line_writer.h:
-
-output/plaintext/move_inversion_counter.h:
-
-output/plaintext/tree/check_writer.h:
-
-output/plaintext/tree/goal_writer.h:
-
-output/plaintext/tree/move_writer.h:
-
-output/plaintext/tree/refutation_writer.h:
-
-output/plaintext/tree/refuting_variation_writer.h:
-
-output/plaintext/tree/zugzwang_writer.h:
-
-pieces/attributes/paralysing/mate_filter.h:
-
-pystip.h:
-
-output/mode.h:
-
-pieces/attributes/paralysing/stalemate_special.h:
-
-solving/avoid_unsolvable.h:
-
-solving/battle_play/continuation.h:
-
-solving/battle_play/min_length_guard.h:
-
-solving/battle_play/min_length_optimiser.h:
-
-solving/battle_play/threat.h:
-
-solving/battle_play/try.h:
-
-utilities/table.h:
-
-solving/capture_counter.h:
-
-solving/castling_intermediate_move_generator.h:
-
-solving/find_by_increasing_length.h:
-
-solving/find_move.h:
-
-solving/find_shortest.h:
-
-solving/for_each_move.h:
-
-solving/fork_on_remaining.h:
-
-solving/king_move_generator.h:
-
-solving/legal_move_counter.h:
-
-solving/move_generator.h:
-
-solving/non_king_move_generator.h:
-
-solving/play_suppressor.h:
-
-solving/single_move_generator.h:
-
-solving/single_move_generator_with_king_capture.h:
-
-solving/single_piece_move_generator.h:
-
-solving/trivial_end_filter.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/move_inverter.h:
-
-stipulation/battle_play/attack_adapter.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/battle_play/defense_adapter.h:
-
-stipulation/boolean/and.h:
-
-stipulation/boolean/false.h:
-
-stipulation/boolean/not.h:
-
-stipulation/boolean/or.h:
-
-stipulation/boolean/true.h:
-
-stipulation/if_then_else.h:
-
-stipulation/constraint.h:
-
-stipulation/moves_traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/dead_end.h:
-
-stipulation/end_of_branch_goal.h:
-
-stipulation/end_of_branch.h:
-
-stipulation/goals/any/reached_tester.h:
-
-stipulation/goals/capture/reached_tester.h:
-
-stipulation/goals/castling/reached_tester.h:
-
-stipulation/goals/check/reached_tester.h:
-
-stipulation/goals/chess81/reached_tester.h:
-
-stipulation/goals/circuit_by_rebirth/reached_tester.h:
-
-stipulation/goals/circuit/reached_tester.h:
-
-stipulation/goals/countermate/filter.h:
-
-stipulation/goals/countermate/reached_tester.h:
-
-stipulation/goals/doublemate/filter.h:
-
-stipulation/goals/doublemate/reached_tester.h:
-
-stipulation/goals/enpassant/reached_tester.h:
-
-stipulation/goals/exchange_by_rebirth/reached_tester.h:
-
-stipulation/goals/exchange/reached_tester.h:
-
-stipulation/goals/immobile/reached_tester.h:
-
-stipulation/goals/notcheck/reached_tester.h:
-
-stipulation/goals/prerequisite_optimiser.h:
-
-stipulation/goals/proofgame/reached_tester.h:
-
-stipulation/goals/reached_tester.h:
-
-stipulation/goals/steingewinn/reached_tester.h:
-
-stipulation/goals/target/reached_tester.h:
-
-stipulation/help_play/adapter.h:
-
-stipulation/move_played.h:
-
-stipulation/setplay_fork.h:
-
-pypipe.h:
+stipulation/pipe.h:
 
 debugging/trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
@@ -604,13 +190,12 @@ stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  utilities/enumeration.h stipulation/traversal.h \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/attack_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h pypipe.h \
- stipulation/structure_traversal.h stipulation/battle_play/attack_play.h \
- stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
- output/mode.h debugging/trace.h
+ solving/battle_play/defense_play.h solving/battle_play/attack_play.h \
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
+ utilities/boolean.h stipulation/pipe.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/battle_play/branch.h pystip.h \
+ stipulation/slice.h stipulation/structure_traversal.h output/mode.h \
+ debugging/trace.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -640,9 +225,9 @@ utilities/enumeration.h:
 
 stipulation/traversal.h:
 
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 pydata.h:
 
@@ -656,11 +241,7 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-pypipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/battle_play/attack_play.h:
+stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
@@ -672,200 +253,8 @@ pystip.h:
 
 stipulation/slice.h:
 
-output/mode.h:
-
-debugging/trace.h:
-stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
- stipulation/battle_play/defense_play.c \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- utilities/boolean.h pyselfcg.h stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h stipulation/has_solution_type.h \
- stipulation/constraint.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/moves_traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/dead_end.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move_played.h stipulation/dummy_move.h \
- stipulation/if_then_else.h stipulation/battle_play/branch.h pystip.h \
- stipulation/slice.h stipulation/structure_traversal.h output/mode.h \
- stipulation/goals/reached_tester.h \
- stipulation/goals/countermate/filter.h \
- stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
- solving/move_generator.h solving/for_each_move.h solving/find_move.h \
- solving/play_suppressor.h solving/battle_play/continuation.h \
- solving/battle_play/check_detector.h solving/battle_play/try.h \
- utilities/table.h solving/battle_play/threat.h \
- solving/find_by_increasing_length.h \
- solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
- conditions/bgl.h optimisations/keepmating.h \
- optimisations/killer_move/final_defense_move.h \
- optimisations/killer_move/collector.h \
- optimisations/goals/enpassant/filter.h \
- optimisations/goals/castling/filter.h options/maxsolutions/guard.h \
- options/maxtime.h options/nontrivial.h options/maxthreatlength.h \
- options/maxflightsquares.h options/movenumbers.h \
- output/plaintext/tree/check_writer.h output/plaintext/tree/key_writer.h \
- output/plaintext/tree/threat_writer.h output/plaintext/tree/try_writer.h \
- output/plaintext/tree/refutation_writer.h \
- output/plaintext/tree/end_of_solution_writer.h \
- output/plaintext/tree/move_writer.h output/plaintext/tree/goal_writer.h \
- output/plaintext/line/line_writer.h debugging/trace.h
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/battle_play/attack_play.h:
-
-py.h:
-
-utilities/boolean.h:
-
-pyposit.h:
-
-pyboard.h:
-
-utilities/bitmask.h:
-
-pypiece.h:
-
-utilities/enumeration.h:
-
-pylang.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-pydata.h:
-
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-stipulation/goals/goals.h:
-
-utilities/boolean.h:
-
-pyselfcg.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/constraint.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/moves_traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/dead_end.h:
-
-stipulation/end_of_branch.h:
-
-stipulation/end_of_branch_goal.h:
-
-stipulation/move_played.h:
-
-stipulation/dummy_move.h:
-
-stipulation/if_then_else.h:
-
-stipulation/battle_play/branch.h:
-
-pystip.h:
-
-stipulation/slice.h:
-
 stipulation/structure_traversal.h:
 
 output/mode.h:
-
-stipulation/goals/reached_tester.h:
-
-stipulation/goals/countermate/filter.h:
-
-stipulation/goals/prerequisite_optimiser.h:
-
-solving/fork_on_remaining.h:
-
-solving/move_generator.h:
-
-solving/for_each_move.h:
-
-solving/find_move.h:
-
-solving/play_suppressor.h:
-
-solving/battle_play/continuation.h:
-
-solving/battle_play/check_detector.h:
-
-solving/battle_play/try.h:
-
-utilities/table.h:
-
-solving/battle_play/threat.h:
-
-solving/find_by_increasing_length.h:
-
-solving/battle_play/min_length_guard.h:
-
-solving/avoid_unsolvable.h:
-
-conditions/bgl.h:
-
-optimisations/keepmating.h:
-
-optimisations/killer_move/final_defense_move.h:
-
-optimisations/killer_move/collector.h:
-
-optimisations/goals/enpassant/filter.h:
-
-optimisations/goals/castling/filter.h:
-
-options/maxsolutions/guard.h:
-
-options/maxtime.h:
-
-options/nontrivial.h:
-
-options/maxthreatlength.h:
-
-options/maxflightsquares.h:
-
-options/movenumbers.h:
-
-output/plaintext/tree/check_writer.h:
-
-output/plaintext/tree/key_writer.h:
-
-output/plaintext/tree/threat_writer.h:
-
-output/plaintext/tree/try_writer.h:
-
-output/plaintext/tree/refutation_writer.h:
-
-output/plaintext/tree/end_of_solution_writer.h:
-
-output/plaintext/tree/move_writer.h:
-
-output/plaintext/tree/goal_writer.h:
-
-output/plaintext/line/line_writer.h:
 
 debugging/trace.h:

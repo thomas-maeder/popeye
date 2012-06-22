@@ -1,5 +1,5 @@
 #include "stipulation/goals/countermate/reached_tester.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/goals/prerequisite_guards.h"

@@ -1,5 +1,5 @@
 #include "solving/avoid_unsolvable.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

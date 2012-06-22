@@ -1,6 +1,6 @@
 #include "stipulation/goals/doublestalemate/reached_tester.h"
-#include "pypipe.h"
-#include "pyselfcg.h"
+#include "stipulation/pipe.h"
+#include "solving/selfcheck_guard.h"
 #include "stipulation/proxy.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"

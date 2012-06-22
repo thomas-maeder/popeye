@@ -1,6 +1,6 @@
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "pyproof.h"
 #include "stipulation/goals/reached_tester.h"

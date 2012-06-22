@@ -1,7 +1,7 @@
 #include "options/no_short_variations/no_short_variations.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "stipulation/battle_play/branch.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

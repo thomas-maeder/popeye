@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_CONDITION_OHNESCHACH_IMMOBILE_TESTER_H)
 #define STIPULATION_CONDITION_OHNESCHACH_IMMOBILE_TESTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile

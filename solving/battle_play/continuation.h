@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_CONTINUATION_H)
 #define SOLVING_BATTLE_PLAY_CONTINUATION_H
 
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with solutions and
  * continuations.

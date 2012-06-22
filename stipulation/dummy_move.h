@@ -1,8 +1,8 @@
 #if !defined(STIPULATION_DUMMY_MOVE_H)
 #define STIPULATION_DUMMY_MOVE_H
 
-#include "stipulation/battle_play/defense_play.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Slices of type STDummyMove are used to represent the "dummy move" not
  * played by the side not playing the series.

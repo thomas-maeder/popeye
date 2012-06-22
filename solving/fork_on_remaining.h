@@ -1,8 +1,8 @@
 #if !defined(SOLVING_FORK_ON_REMAINING_H)
 #define SOLVING_FORK_ON_REMAINING_H
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* STForkOnRemaining fork if there are less than a certain number of moves left
  * in a branch.

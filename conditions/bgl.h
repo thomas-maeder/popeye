@@ -1,8 +1,8 @@
 #if !defined(TEMPLATE_H)
 #define TEMPLATE_H
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module implements the BGL condition */
 

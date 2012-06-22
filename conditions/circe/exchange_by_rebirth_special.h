@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_CIRCE_EXCHANGE_B_SPECIAL_H)
 #define STIPULATION_CIRCE_EXCHANGE_B_SPECIAL_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STCirceExchangeSpecial - detects
  * place exchanges by a reborn captured piece

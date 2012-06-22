@@ -4,8 +4,8 @@
 /* Implementation of the "nontrivial" optimisation
  */
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* NOTE: exposed for performance reasons only - DON'T WRITE TO THIS
  * VARIABLE!!

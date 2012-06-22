@@ -1,8 +1,8 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_GOAL_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_GOAL_WRITER_H
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module provides the STOutputPlaintextTreeGoalWriter slice type.
  * Slices of this type write the goal at the end of a variation

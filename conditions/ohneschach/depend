@@ -1,20 +1,20 @@
 conditions/ohneschach/immobility_tester$(OBJ_SUFFIX): \
  conditions/ohneschach/immobility_tester.c \
  conditions/ohneschach/immobility_tester.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
  pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
  pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
  output/mode.h pydata.h pyproc.h py4.h pyproc.h pymsg.h \
  stipulation/has_solution_type.h stipulation/proxy.h pypipe.h \
- stipulation/battle_play/attack_play.h stipulation/branch.h \
+ solving/battle_play/attack_play.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/boolean/and.h \
  stipulation/temporary_hacks.h debugging/trace.h
 
 conditions/ohneschach/immobility_tester.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -70,7 +70,7 @@ stipulation/proxy.h:
 
 pypipe.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/branch.h:
 

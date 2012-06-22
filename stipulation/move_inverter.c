@@ -1,7 +1,7 @@
 #include "stipulation/move_inverter.h"
 #include "pystip.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "pypipe.h"
+#include "solving/battle_play/attack_play.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 #ifdef _SE_
 #include "se.h"

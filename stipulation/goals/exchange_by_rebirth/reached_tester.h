@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_EXCHANGE_BY_REBIRTH_REACHED_TESTER_H)
 #define STIPULATION_GOAL_EXCHANGE_BY_REBIRTH_REACHED_TESTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a exchange (by rebirth) goal has just been reached

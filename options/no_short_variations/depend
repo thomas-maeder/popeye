@@ -5,12 +5,11 @@ options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  pypiece.h utilities/enumeration.h pylang.h stipulation/slice_type.h \
  utilities/enumeration.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- utilities/boolean.h stipulation/battle_play/attack_play.h \
+ utilities/boolean.h solving/battle_play/attack_play.h \
  stipulation/battle_play/branch.h pystip.h py.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h \
- stipulation/structure_traversal.h pypipe.h \
- stipulation/battle_play/attack_play.h debugging/trace.h
+ stipulation/structure_traversal.h stipulation/pipe.h debugging/trace.h
 
 options/no_short_variations/no_short_variations.h:
 
@@ -40,7 +39,7 @@ options/no_short_variations/no_short_variations_attacker_filter.h:
 
 utilities/boolean.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/battle_play/branch.h:
 
@@ -60,29 +59,27 @@ output/mode.h:
 
 stipulation/structure_traversal.h:
 
-pypipe.h:
-
-stipulation/battle_play/attack_play.h:
+stipulation/pipe.h:
 
 debugging/trace.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- utilities/boolean.h stipulation/battle_play/attack_play.h py.h \
+ utilities/boolean.h solving/battle_play/attack_play.h py.h \
  utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
  utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h utilities/enumeration.h pydata.h pyproc.h py4.h \
  py.h stipulation/goals/goals.h pyproc.h stipulation/has_solution_type.h \
- stipulation/testing_pipe.h pypipe.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/battle_play/attack_play.h \
- stipulation/structure_traversal.h stipulation/battle_play/branch.h \
- pystip.h stipulation/slice.h output/mode.h debugging/trace.h
+ stipulation/testing_pipe.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
+ stipulation/structure_traversal.h output/mode.h debugging/trace.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
 utilities/boolean.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -122,21 +119,19 @@ stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/structure_traversal.h:
 
 stipulation/battle_play/branch.h:
 
 pystip.h:
 
 stipulation/slice.h:
+
+stipulation/structure_traversal.h:
 
 output/mode.h:
 

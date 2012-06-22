@@ -1,7 +1,7 @@
 #if !defined(SOLVING_LEGAL_MOVE_COUNTER_H)
 #define SOLVING_LEGAL_MOVE_COUNTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STLegalMoveCounter stipulation slices.

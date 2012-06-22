@@ -1,5 +1,5 @@
 #include "stipulation/goals/autostalemate/reached_tester.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"

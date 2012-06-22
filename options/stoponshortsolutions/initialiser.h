@@ -2,7 +2,7 @@
 #define OPTIONS_STOPONSHORTSOLUTIONS_H
 
 #include "py.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with
  * STStopOnShortSolutionsInitialiser stipulation slice type.

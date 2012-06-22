@@ -1,6 +1,6 @@
 #include "stipulation/setplay_fork.h"
 #include "pystip.h"
-#include "pybrafrk.h"
+#include "stipulation/fork.h"
 #include "stipulation/has_solution_type.h"
 
 #include "debugging/trace.h"
@@ -19,7 +19,7 @@ slice_index alloc_setplay_fork_slice(slice_index set)
   TraceFunctionParam("%u",set);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STSetplayFork,set);
+  result = alloc_fork_slice(STSetplayFork,set);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

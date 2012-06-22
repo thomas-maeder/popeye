@@ -2,7 +2,7 @@
 #define STIPULATION_HELP_PLAY_BRANCH_H
 
 #include "pystip.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STHelp*
  * stipulation slices.

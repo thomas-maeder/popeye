@@ -1,6 +1,6 @@
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "solving/legal_move_counter.h"
 #include "stipulation/has_solution_type.h"

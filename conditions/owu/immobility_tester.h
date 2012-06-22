@@ -1,7 +1,7 @@
 #if !defined(CONDITION_OWU_IMMOBILITY_TESTER_H)
 #define CONDITION_OWU_IMMOBILITY_TESTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile

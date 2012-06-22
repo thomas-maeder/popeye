@@ -1,6 +1,6 @@
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
 #include "pydata.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "platform/maxtime.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"

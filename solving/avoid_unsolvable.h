@@ -4,8 +4,8 @@
 /* Avoid solving branches that we know are unsolvable
  */
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* maximum number of half-moves that we know have no solution
  */

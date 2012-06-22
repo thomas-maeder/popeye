@@ -1,6 +1,6 @@
 #include "options/maxflightsquares.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/battle_play/branch.h"

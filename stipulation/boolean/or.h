@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_BOOLEAN_OR_H)
 #define STIPULATION_BOOLEAN_OR_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing logical OR stipulation slices.
  */

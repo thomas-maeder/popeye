@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_ANTICIRCE_EXCHANGE_SPECIAL_H)
 #define CONDITIONS_ANTICIRCE_EXCHANGE_SPECIAL_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STAnticirceExchangeSpecial - detects
  * exchanges that end on the rebirth of the piece fulfilling the exchange

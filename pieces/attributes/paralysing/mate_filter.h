@@ -2,7 +2,7 @@
 #define PIECES_PARALYSING_MATE_FILTER_H
 
 #include "pystip.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STPiecesParalysingMateFilter - tests
  * additional conditions on some goals imposed by the presence of paralysing

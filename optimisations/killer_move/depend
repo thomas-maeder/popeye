@@ -3,14 +3,13 @@ optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
  optimisations/killer_move/killer_move.h stipulation/slice.h py.h \
  utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
- utilities/enumeration.h stipulation/proxy.h pypipe.h \
+ utilities/enumeration.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h stipulation/battle_play/branch.h \
- pystip.h py.h stipulation/slice.h stipulation/goals/goals.h \
- utilities/boolean.h output/mode.h stipulation/structure_traversal.h \
- solving/fork_on_remaining.h stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h \
- optimisations/killer_move/collector.h \
+ solving/battle_play/attack_play.h stipulation/battle_play/branch.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h \
+ solving/fork_on_remaining.h solving/battle_play/defense_play.h pydata.h \
+ pyproc.h py4.h optimisations/killer_move/collector.h \
  optimisations/killer_move/final_defense_move.h debugging/trace.h
 
 optimisations/killer_move/killer_move.h:
@@ -39,13 +38,13 @@ utilities/enumeration.h:
 
 stipulation/proxy.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/battle_play/branch.h:
 
@@ -55,19 +54,17 @@ py.h:
 
 stipulation/slice.h:
 
+stipulation/structure_traversal.h:
+
 stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
 output/mode.h:
 
-stipulation/structure_traversal.h:
-
 solving/fork_on_remaining.h:
 
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
 pydata.h:
 
@@ -82,21 +79,20 @@ optimisations/killer_move/final_defense_move.h:
 debugging/trace.h:
 optimisations/killer_move/collector$(OBJ_SUFFIX): \
  optimisations/killer_move/collector.c \
- optimisations/killer_move/collector.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h pypipe.h \
+ optimisations/killer_move/collector.h solving/battle_play/attack_play.h \
+ py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
+ pypiece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h \
+ solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h stipulation/has_solution_type.h \
- stipulation/branch.h stipulation/structure_traversal.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
- output/mode.h debugging/trace.h
+ stipulation/structure_traversal.h output/mode.h debugging/trace.h
 
 optimisations/killer_move/collector.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -120,7 +116,7 @@ stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
 pydata.h:
 
@@ -134,19 +130,15 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/battle_play/attack_play.h:
-
 stipulation/has_solution_type.h:
 
 stipulation/branch.h:
-
-stipulation/structure_traversal.h:
 
 stipulation/battle_play/branch.h:
 
@@ -154,29 +146,30 @@ pystip.h:
 
 stipulation/slice.h:
 
+stipulation/structure_traversal.h:
+
 output/mode.h:
 
 debugging/trace.h:
 optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.c \
  optimisations/killer_move/final_defense_move.h \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- utilities/boolean.h pypipe.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/battle_play/attack_play.h \
+ solving/battle_play/defense_play.h solving/battle_play/attack_play.h \
+ py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
+ pypiece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h pydata.h pyproc.h py4.h \
+ py.h stipulation/goals/goals.h utilities/boolean.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h pystip.h \
- stipulation/slice.h output/mode.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/structure_traversal.h output/mode.h \
  solving/fork_on_remaining.h debugging/trace.h
 
 optimisations/killer_move/final_defense_move.h:
 
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -212,13 +205,11 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
 
 stipulation/has_solution_type.h:
 
@@ -232,9 +223,9 @@ pystip.h:
 
 stipulation/slice.h:
 
-output/mode.h:
-
 stipulation/structure_traversal.h:
+
+output/mode.h:
 
 solving/fork_on_remaining.h:
 

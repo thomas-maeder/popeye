@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_CIRCE_STEINGEWINN_FILTER_H)
 #define STIPULATION_CIRCE_STEINGEWINN_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STCirceSteingewinnFilter - detects whether a
  *  capture isn't a Steingewinn because the captured piece is reborn

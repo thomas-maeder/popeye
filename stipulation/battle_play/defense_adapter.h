@@ -2,7 +2,7 @@
 #define STIPULATION_BATTLE_PLAY_DEFENSE_ADAPTER_H
 
 #include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* STDefenseAdapter slices switch from generic solving to defense solving.
  */

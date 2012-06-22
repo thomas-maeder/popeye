@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_MOVE_INVERSION_COUNTER_H)
 #define OUTPUT_PLAINTEXT_MOVE_INVERSION_COUNTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides the STOutputPlaintextMoveInversionCounter
  * slice type. Slices of this type count the move inversions occuring

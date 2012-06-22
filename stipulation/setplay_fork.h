@@ -4,8 +4,8 @@
 /* Functionality related to STSetplayFork slices
  */
 
-#include "pypipe.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/pipe.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Allocate a STSetplayFork slice
  * @param set entry branch of set play

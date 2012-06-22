@@ -4,7 +4,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/fork_on_remaining.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

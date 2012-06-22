@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_ANTICIRCE_TARGET_SQUARE_FILTER_H)
 #define CONDITIONS_ANTICIRCE_TARGET_SQUARE_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STAnticirceTargetSquareFilter - tests
  * additional conditions on some goals imposed by Anticirce:

@@ -10,7 +10,7 @@ SRC_CFILES =   solving.c \
            legal_move_counter.c capture_counter.c \
            castling_intermediate_move_generator.c \
            single_move_generator.c trivial_end_filter.c \
-           avoid_unsolvable.c
+           avoid_unsolvable.c selfcheck_guard.c
 INCLUDES = solving.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
@@ -21,6 +21,6 @@ INCLUDES = solving.h \
            legal_move_counter.h capture_counter.h \
            castling_intermediate_move_generator.h \
            single_move_generator.h trivial_end_filter.h \
-           avoid_unsolvable.h
+           avoid_unsolvable.h selfcheck_guard.h
 
 include makefile.rules $(CURRPWD)depend

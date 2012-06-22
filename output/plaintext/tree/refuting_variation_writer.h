@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_REFUTING_VARIATION_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_REFUTING_VARIATION_WRITER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Allocate a STRefutingVariationWriter slice.
  * @return index of allocated slice

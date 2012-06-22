@@ -2,8 +2,8 @@
 #define STIPULATION_GOALS_REACHED_TESTER_H
 
 #include "stipulation/goals/goals.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Allocate a STGoalReachedTester slice
  * @param goal goal to be tested

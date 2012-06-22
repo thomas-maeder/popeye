@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_COUNTNROPPONENTMOVES_COUNTER_H)
 #define OPTIMISATIONS_COUNTNROPPONENTMOVES_COUNTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STOpponentMovesCounter stipulation slices.

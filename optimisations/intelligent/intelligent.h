@@ -11,7 +11,7 @@
 
 #include "pyposit.h"
 #include "stipulation/goals/goals.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 #define piece_usageENUMERATORS \
     ENUMERATOR(piece_is_unused), \

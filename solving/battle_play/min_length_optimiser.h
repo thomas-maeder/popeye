@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_MIN_LENGTH_ATTACK_FILTER_H)
 #define SOLVING_BATTLE_PLAY_MIN_LENGTH_ATTACK_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Make sure that attacks in less moves than allowed by the minimum length
  * aren't even attempted

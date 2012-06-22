@@ -107,7 +107,7 @@
 #include "conditions/bgl.h"
 #include "options/nontrivial.h"
 #include "stipulation/branch.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "debugging/trace.h"

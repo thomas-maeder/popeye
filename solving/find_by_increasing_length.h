@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_HELP_PLAY_FIND_BY_INCREASING_LENGTH_H)
 #define STIPULATION_HELP_PLAY_FIND_BY_INCREASING_LENGTH_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STFindByIncreasingLength
  * stipulation slices.

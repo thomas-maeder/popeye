@@ -1,8 +1,8 @@
 #if !defined(SOLVING_PLAY_SUPPRESSOR_H)
 #define SOLVING_PLAY_SUPPRESSOR_H
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Allocate a STPlaySuppressor defender slice.
  * @return index of allocated slice

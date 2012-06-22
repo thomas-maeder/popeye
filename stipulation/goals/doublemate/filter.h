@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOALS_DOUBLEMATE_FILTER_H)
 #define STIPULATION_GOALS_DOUBLEMATE_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STDoubleMateFilter stipulation slices.

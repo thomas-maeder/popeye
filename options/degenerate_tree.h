@@ -10,7 +10,7 @@
  * solution in all lengths from 1 to N.
  */
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Reset the degenerate tree setting
  */

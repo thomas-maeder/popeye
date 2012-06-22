@@ -1,6 +1,6 @@
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "debugging/trace.h"

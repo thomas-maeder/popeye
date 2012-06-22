@@ -1,7 +1,7 @@
 #include "stipulation/end_of_branch.h"
 #include "pystip.h"
-#include "pybrafrk.h"
-#include "pypipe.h"
+#include "stipulation/fork.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -22,7 +22,7 @@ slice_index alloc_end_of_branch_slice(slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STEndOfBranch,to_goal);
+  result = alloc_fork_slice(STEndOfBranch,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -43,7 +43,7 @@ slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal)
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STEndOfBranchGoalImmobile,proxy_to_goal);
+  result = alloc_fork_slice(STEndOfBranchGoalImmobile,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,7 +64,7 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STEndOfBranchForced,proxy_to_avoided);
+  result = alloc_fork_slice(STEndOfBranchForced,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

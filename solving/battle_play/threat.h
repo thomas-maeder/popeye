@@ -2,8 +2,8 @@
 #define SOLVING_BATTLE_PLAY_THREAT_H
 
 #include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with threats
  */

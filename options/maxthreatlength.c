@@ -6,7 +6,7 @@
 #include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
 #include "debugging/trace.h"

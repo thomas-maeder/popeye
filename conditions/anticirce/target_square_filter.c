@@ -1,6 +1,6 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 

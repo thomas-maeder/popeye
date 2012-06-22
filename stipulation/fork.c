@@ -1,4 +1,4 @@
-#include "pybrafrk.h"
+#include "stipulation/fork.h"
 #include "pystip.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -16,7 +16,7 @@
  *                from the branch
  * @return newly allocated slice
  */
-slice_index alloc_branch_fork(slice_type type, slice_index fork)
+slice_index alloc_fork_slice(slice_type type, slice_index fork)
 {
   slice_index result;
 
@@ -38,7 +38,7 @@ slice_index alloc_branch_fork(slice_type type, slice_index fork)
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
+void fork_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   slice_index const fork = slices[si].next2;
 

@@ -1,7 +1,7 @@
 #include "output/plaintext/tree/goal_writer.h"
 #include "pystip.h"
 #include "pyproc.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "debugging/trace.h"
 

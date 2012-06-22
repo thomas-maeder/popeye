@@ -62,7 +62,7 @@
 #include "pymsg.h"
 #include "conditions/exclusive.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "solving/single_move_generator_with_king_capture.h"
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"

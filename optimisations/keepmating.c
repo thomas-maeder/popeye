@@ -1,6 +1,6 @@
 #include "optimisations/keepmating.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"

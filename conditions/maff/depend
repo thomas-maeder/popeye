@@ -1,21 +1,20 @@
 conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_tester.c \
- conditions/maff/immobility_tester.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ conditions/maff/immobility_tester.h solving/battle_play/attack_play.h \
+ py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
+ pypiece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h pystip.h py.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h pydata.h pyproc.h py4.h pypipe.h \
- stipulation/battle_play/attack_play.h stipulation/has_solution_type.h \
- stipulation/proxy.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/boolean/and.h \
- solving/king_move_generator.h stipulation/battle_play/defense_play.h \
+ output/mode.h pydata.h pyproc.h py4.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/has_solution_type.h \
+ stipulation/proxy.h stipulation/branch.h stipulation/boolean/and.h \
+ solving/king_move_generator.h solving/battle_play/defense_play.h \
  solving/non_king_move_generator.h solving/legal_move_counter.h \
  debugging/trace.h
 
 conditions/maff/immobility_tester.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -61,9 +60,9 @@ pyproc.h:
 
 py4.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
-stipulation/battle_play/attack_play.h:
+stipulation/structure_traversal.h:
 
 stipulation/has_solution_type.h:
 
@@ -71,13 +70,11 @@ stipulation/proxy.h:
 
 stipulation/branch.h:
 
-stipulation/structure_traversal.h:
-
 stipulation/boolean/and.h:
 
 solving/king_move_generator.h:
 
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
 solving/non_king_move_generator.h:
 

@@ -2,7 +2,7 @@
 #define OPTIONS_MAXSOLUTIONS_INITIALISER_H
 
 #include "py.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with
  * STMaxSolutionsInitialiser stipulation slice type.

@@ -1,5 +1,5 @@
-#if !defined(PYOUTPUT_H)
-#define PYOUTPUT_H
+#if !defined(OUTPUT_OUTPUT_H)
+#define OUTPUT_OUTPUT_H
 
 #include "output/mode.h"
 #include "stipulation/slice.h"

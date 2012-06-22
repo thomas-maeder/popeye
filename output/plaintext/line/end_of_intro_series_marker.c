@@ -1,7 +1,7 @@
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "pystip.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

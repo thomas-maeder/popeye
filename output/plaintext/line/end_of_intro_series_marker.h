@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_LINE_END_OF_INTRO_SERIES_MARKER_H)
 #define OUTPUT_PLAINTEXT_LINE_END_OF_INTRO_SERIES_MARKER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides the STOutputPlaintextLineEndOfIntroSeriesMarker
  * slice type. Slices of this type remember the end of an intro series.

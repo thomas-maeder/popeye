@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_MOVENUMBERS_RESTARTGUARD_INTELLIGENT_H)
 #define OPTIONS_MOVENUMBERS_RESTARTGUARD_INTELLIGENT_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STRestartGuardIntelligent
  * stipulation slice type.

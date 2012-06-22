@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_ATTACK_FIND_SHORTEST_H)
 #define SOLVING_BATTLE_PLAY_ATTACK_FIND_SHORTEST_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STFindShortest stipulation slices.

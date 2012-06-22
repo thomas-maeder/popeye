@@ -1,5 +1,5 @@
-#include "pyselfcg.h"
-#include "pypipe.h"
+#include "solving/selfcheck_guard.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"

@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_DUPLICATE_AVOIDER_H)
 #define OPTIMISATION_INTELLIGENT_DUPLICATE_AVOIDER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides the slice type STIntelligentDuplicateAvoider
  * which avoids producing certain solutions twice in intelligent mode

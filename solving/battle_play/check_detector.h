@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H)
 #define SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H
 
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality around STCheckDetector slices.
  */

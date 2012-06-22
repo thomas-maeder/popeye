@@ -1,6 +1,6 @@
 #include "optimisations/killer_move/final_defense_move.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/dead_end.h"

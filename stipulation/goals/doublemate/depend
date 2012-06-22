@@ -1,21 +1,20 @@
 stipulation/goals/doublemate/filter$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/filter.c \
- stipulation/goals/doublemate/filter.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- utilities/boolean.h stipulation/has_solution_type.h \
- stipulation/conditional_pipe.h pypipe.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h \
- stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
- stipulation/goals/immobile/reached_tester.h pystip.h stipulation/slice.h \
+ stipulation/goals/doublemate/filter.h solving/battle_play/attack_play.h \
+ py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
+ pypiece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h pydata.h pyproc.h py4.h \
+ py.h stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/has_solution_type.h stipulation/conditional_pipe.h \
+ stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/prerequisite_guards.h \
+ stipulation/goals/goals.h stipulation/goals/immobile/reached_tester.h \
+ pystip.h stipulation/slice.h stipulation/structure_traversal.h \
  output/mode.h debugging/trace.h
 
 stipulation/goals/doublemate/filter.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -55,13 +54,11 @@ stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
 
 stipulation/goals/prerequisite_guards.h:
 
@@ -73,29 +70,30 @@ pystip.h:
 
 stipulation/slice.h:
 
+stipulation/structure_traversal.h:
+
 output/mode.h:
 
 debugging/trace.h:
 stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/reached_tester.c \
  stipulation/goals/doublemate/reached_tester.h \
- stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
  pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pypipe.h stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/traversal.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h stipulation/proxy.h \
  stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
- stipulation/goals/reached_tester.h \
- stipulation/battle_play/defense_play.h \
+ stipulation/goals/reached_tester.h solving/battle_play/defense_play.h \
  stipulation/goals/check/reached_tester.h pystip.h stipulation/slice.h \
- output/mode.h stipulation/goals/immobile/reached_tester.h \
- stipulation/boolean/true.h stipulation/structure_traversal.h \
+ stipulation/structure_traversal.h output/mode.h \
+ stipulation/goals/immobile/reached_tester.h stipulation/boolean/true.h \
  stipulation/boolean/and.h debugging/trace.h
 
 stipulation/goals/doublemate/reached_tester.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -119,13 +117,11 @@ stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
 
 pydata.h:
 
@@ -147,7 +143,7 @@ stipulation/goals/goals.h:
 
 stipulation/goals/reached_tester.h:
 
-stipulation/battle_play/defense_play.h:
+solving/battle_play/defense_play.h:
 
 stipulation/goals/check/reached_tester.h:
 
@@ -155,13 +151,13 @@ pystip.h:
 
 stipulation/slice.h:
 
+stipulation/structure_traversal.h:
+
 output/mode.h:
 
 stipulation/goals/immobile/reached_tester.h:
 
 stipulation/boolean/true.h:
-
-stipulation/structure_traversal.h:
 
 stipulation/boolean/and.h:
 

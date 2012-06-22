@@ -2,7 +2,7 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"

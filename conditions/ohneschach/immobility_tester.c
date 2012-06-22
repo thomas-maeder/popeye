@@ -8,7 +8,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/temporary_hacks.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

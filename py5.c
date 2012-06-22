@@ -68,7 +68,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/single_piece_move_generator.h"

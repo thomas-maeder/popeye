@@ -1,5 +1,5 @@
 #include "stipulation/goals/mate/reached_tester.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/boolean/true.h"

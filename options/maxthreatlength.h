@@ -6,7 +6,7 @@
  * check nor threatens to reach the goal in a maximum number of moves
  */
 
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Reset the max threats setting to off
  */

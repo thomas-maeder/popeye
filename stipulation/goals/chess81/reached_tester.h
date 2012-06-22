@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_CHESS81_REACHED_TESTER_H)
 #define STIPULATION_GOAL_CHESS81_REACHED_TESTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether an chess81 goal has just been reached

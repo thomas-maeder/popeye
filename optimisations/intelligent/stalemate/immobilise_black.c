@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "pystip.h"
 #include "pydata.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"

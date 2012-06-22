@@ -1,6 +1,6 @@
-#include "pyoutput.h"
+#include "output/output.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"

@@ -1,5 +1,5 @@
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"

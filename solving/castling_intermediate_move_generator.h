@@ -1,7 +1,7 @@
 #if !defined(SOLVING_CASTLING_INTERMEDIATE_MOVE_GENERATOR_H)
 #define SOLVING_CASTLING_INTERMEDIATE_MOVE_GENERATOR_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STCastlingIntermediateMoveGenerator stipulation slices.

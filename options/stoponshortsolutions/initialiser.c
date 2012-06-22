@@ -1,7 +1,7 @@
 #include "options/stoponshortsolutions/initialiser.h"
 #include "pystip.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 /* Allocate a STStopOnShortSolutionsInitialiser slice.

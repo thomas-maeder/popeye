@@ -1,5 +1,5 @@
 #include "stipulation/template.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 enum

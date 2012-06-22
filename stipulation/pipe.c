@@ -1,4 +1,4 @@
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pystip.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

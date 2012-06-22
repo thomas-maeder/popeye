@@ -2,7 +2,7 @@
 #define STIPULATION_BOOLEAN_NOT_H
 
 #include "py.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "utilities/boolean.h"
 
 /* This module provides functionality dealing with STNot stipulation

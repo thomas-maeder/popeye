@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_TRIVIAL_VARIATION_FILTER_H)
 #define OUTPUT_PLAINTEXT_TREE_TRIVIAL_VARIATION_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

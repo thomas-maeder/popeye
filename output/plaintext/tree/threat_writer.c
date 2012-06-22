@@ -1,6 +1,6 @@
 #include "output/plaintext/tree/threat_writer.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pymsg.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"

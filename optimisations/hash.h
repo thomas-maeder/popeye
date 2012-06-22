@@ -11,7 +11,7 @@
 
 #include "DHT/dhtbcmem.h"
 #include "py.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* typedefs */
 typedef unsigned char byte;

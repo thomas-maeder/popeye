@@ -1,7 +1,7 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "pystip.h"
-#include "pybrafrk.h"
-#include "pypipe.h"
+#include "stipulation/fork.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
@@ -20,7 +20,7 @@ slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal)
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STEndOfBranchGoal,proxy_to_goal);
+  result = alloc_fork_slice(STEndOfBranchGoal,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

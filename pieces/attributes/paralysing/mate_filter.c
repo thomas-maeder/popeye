@@ -1,5 +1,5 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "debugging/trace.h"

@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_STOPONSHORTSOLUTIONS_FILTER_H)
 #define OPTIONS_STOPONSHORTSOLUTIONS_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with
  * STStopOnShortSolutionsFilter stipulation slice type.

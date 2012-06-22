@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_BATTLE_PLAY_ATTACK_PLAY_H)
-#define STIPULATION_BATTLE_PLAY_ATTACK_PLAY_H
+#if !defined(SOLVING_BATTLE_PLAY_ATTACK_PLAY_H)
+#define SOLVING_BATTLE_PLAY_ATTACK_PLAY_H
 
 /* Interface for dynamically dispatching attack operations to slices
  * depending on the slice type

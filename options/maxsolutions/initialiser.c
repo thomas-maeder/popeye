@@ -1,7 +1,7 @@
 #include "options/maxsolutions/initialiser.h"
 #include "pystip.h"
 #include "options/maxsolutions/maxsolutions.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 /* Allocate a STMaxSolutionsInitialiser slice.

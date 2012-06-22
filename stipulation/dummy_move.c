@@ -1,8 +1,8 @@
 #include "stipulation/dummy_move.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

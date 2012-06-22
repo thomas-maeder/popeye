@@ -7,7 +7,7 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
  output/mode.h pydata.h pyproc.h py4.h stipulation/has_solution_type.h \
- stipulation/battle_play/attack_play.h \
+ solving/battle_play/attack_play.h \
  optimisations/intelligent/intelligent.h pyposit.h \
  stipulation/goals/goals.h optimisations/intelligent/count_nr_of_moves.h \
  pyboard.h optimisations/intelligent/place_black_piece.h pypiece.h \
@@ -61,7 +61,7 @@ py4.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 optimisations/intelligent/intelligent.h:
 
@@ -87,10 +87,10 @@ optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
  utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  utilities/enumeration.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h pystip.h py.h stipulation/slice.h \
+ solving/battle_play/attack_play.h pystip.h py.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/goals/goals.h \
  utilities/boolean.h output/mode.h stipulation/proxy.h pypipe.h \
- stipulation/battle_play/attack_play.h stipulation/conditional_pipe.h \
+ solving/battle_play/attack_play.h stipulation/conditional_pipe.h \
  stipulation/branch.h optimisations/intelligent/intelligent.h pyposit.h \
  stipulation/goals/goals.h optimisations/intelligent/duplicate_avoider.h \
  debugging/trace.h
@@ -123,7 +123,7 @@ utilities/enumeration.h:
 
 stipulation/traversal.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 pystip.h:
 
@@ -143,7 +143,7 @@ stipulation/proxy.h:
 
 pypipe.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/conditional_pipe.h:
 
@@ -165,7 +165,7 @@ optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
  optimisations/intelligent/intelligent.h pyposit.h \
- stipulation/goals/goals.h stipulation/battle_play/attack_play.h \
+ stipulation/goals/goals.h solving/battle_play/attack_play.h \
  stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
  optimisations/intelligent/count_nr_of_moves.h pyboard.h \
  optimisations/intelligent/guard_flights.h debugging/trace.h
@@ -206,7 +206,7 @@ pyposit.h:
 
 stipulation/goals/goals.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/slice.h:
 
@@ -228,7 +228,7 @@ optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
  optimisations/intelligent/intelligent.h pyposit.h \
- stipulation/goals/goals.h stipulation/battle_play/attack_play.h \
+ stipulation/goals/goals.h solving/battle_play/attack_play.h \
  stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
  optimisations/intelligent/count_nr_of_moves.h pyboard.h \
  optimisations/intelligent/guard_flights.h \
@@ -271,7 +271,7 @@ pyposit.h:
 
 stipulation/goals/goals.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 stipulation/slice.h:
 
@@ -298,7 +298,7 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
  output/mode.h pydata.h pyproc.h py4.h stipulation/has_solution_type.h \
  optimisations/intelligent/intelligent.h pyposit.h \
- stipulation/goals/goals.h stipulation/battle_play/attack_play.h \
+ stipulation/goals/goals.h solving/battle_play/attack_play.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h pyboard.h \
  debugging/trace.h
@@ -357,7 +357,7 @@ pyposit.h:
 
 stipulation/goals/goals.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 optimisations/intelligent/moves_left.h:
 

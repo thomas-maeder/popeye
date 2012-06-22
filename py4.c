@@ -66,7 +66,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/single_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"

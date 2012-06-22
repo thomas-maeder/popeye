@@ -1,10 +1,10 @@
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 #include "debugging/trace.h"
 
 /* Allocate a STEndOfSolutionWriter slice.

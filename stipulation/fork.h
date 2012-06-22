@@ -1,25 +1,25 @@
-#if !defined(PYBRAFRK_H)
-#define PYBRAFRK_H
+#if !defined(STIPULATION_FORK_H)
+#define STIPULATION_FORK_H
 
 /* Branch fork - branch decides that when to continue play in branch
  * and when to change to slice representing subsequent play
  */
 
 #include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Allocate a new branch fork slice
  * @param type which slice type
  * @param fork identifies proxy slice that leads towards goal from the branch
  * @return newly allocated slice
  */
-slice_index alloc_branch_fork(slice_type type, slice_index fork);
+slice_index alloc_fork_slice(slice_type type, slice_index fork);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
+void fork_detect_starter(slice_index si, stip_structure_traversal *st);
 
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a fork slice

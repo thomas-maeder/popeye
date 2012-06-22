@@ -1,5 +1,5 @@
 #include "stipulation/help_play/branch.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/constraint.h"

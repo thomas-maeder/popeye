@@ -6,7 +6,7 @@
  * producing output).
  */
 
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/structure_traversal.h"
 
 /* Allocate a new testing pipe and make an existing pipe its successor

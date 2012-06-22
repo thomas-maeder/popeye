@@ -1,12 +1,12 @@
-#if !defined(PYSELFCG_H)
-#define PYSELFCG_H
+#if !defined(SOLVING_PLAY_SELFCHECK_GUARD_H)
+#define SOLVING_PLAY_SELFCHECK_GUARD_H
 
 /* STSelfCheckGuard slice - stops solutions with moves that expose the
  * own king
  */
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Instrument a stipulation with slices dealing with selfcheck detection
  * @param si root of branch to be instrumented

@@ -2,7 +2,7 @@
 #define SOLVING_BATTLE_PLAY_TRY_H
 
 #include "utilities/table.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with writing tries.
  * This functionality is a superset of that provided by solution_writer

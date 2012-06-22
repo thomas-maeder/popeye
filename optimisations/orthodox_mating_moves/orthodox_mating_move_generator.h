@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATOR_H)
 #define OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATOR_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides a generator for moves that are supposed to reach a goal.
  * The generator is optimised for mostly orthodox problems.

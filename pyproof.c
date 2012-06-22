@@ -29,7 +29,7 @@
 #include "pyproof.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"

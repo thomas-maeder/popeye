@@ -1,6 +1,6 @@
 #include "stipulation/constraint.h"
-#include "pybrafrk.h"
-#include "pypipe.h"
+#include "stipulation/fork.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
@@ -27,7 +27,7 @@ slice_index alloc_constraint_solver_slice(slice_index proxy_to_constraint)
   TraceFunctionParam("%u",proxy_to_constraint);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STConstraintSolver,proxy_to_constraint);
+  result = alloc_fork_slice(STConstraintSolver,proxy_to_constraint);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

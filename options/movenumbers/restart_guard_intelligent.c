@@ -1,7 +1,7 @@
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "pystip.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"

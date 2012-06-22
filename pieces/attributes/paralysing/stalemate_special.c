@@ -1,6 +1,6 @@
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "debugging/trace.h"

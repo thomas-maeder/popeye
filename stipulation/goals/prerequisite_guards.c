@@ -1,6 +1,6 @@
 #include "stipulation/goals/prerequisite_guards.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"

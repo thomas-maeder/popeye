@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_ANTICIRCE_EXCHANGE_FILTER_H)
 #define CONDITIONS_ANTICIRCE_EXCHANGE_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STAnticirceExchangeFilter - prevent
  * move sequences terminated by a capture from accidentally passing the orthodox

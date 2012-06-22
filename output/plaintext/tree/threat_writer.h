@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_THREAT_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_THREAT_WRITER_H
 
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Allocate a STThreatWriter slice.
  * @return index of allocated slice

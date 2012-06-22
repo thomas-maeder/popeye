@@ -1,8 +1,8 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_CHECK_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_CHECK_WRITER_H
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @return index of allocated slice

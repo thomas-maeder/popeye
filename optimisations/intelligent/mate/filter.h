@@ -2,7 +2,7 @@
 #define OPTIMISATIONS_INTELLIGENT_MATE_FILTER_H
 
 #include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STIntelligentMateFilter
  * stipulation slice type.

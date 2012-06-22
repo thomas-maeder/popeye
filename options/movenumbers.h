@@ -8,8 +8,8 @@
  * by the user, and writes move numbers
  */
 
-#include "stipulation/battle_play/defense_play.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* Reset the restart number setting.
  */

@@ -2,9 +2,9 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "debugging/trace.h"
 

@@ -1,6 +1,6 @@
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "pydata.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"

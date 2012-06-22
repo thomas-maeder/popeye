@@ -1,11 +1,11 @@
-#if !defined(STIPULATION_BATTLE_PLAY_DEFENSE_PLAY_H)
-#define STIPULATION_BATTLE_PLAY_DEFENSE_PLAY_H
+#if !defined(SOLVING_BATTLE_PLAY_DEFENSE_PLAY_H)
+#define SOLVING_BATTLE_PLAY_DEFENSE_PLAY_H
 
 /* Interface for dynamically dispatching defense operations to slices
  * depending on the slice type
  */
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 #include "pydata.h"
 
 /* Try to defend after an attacking move

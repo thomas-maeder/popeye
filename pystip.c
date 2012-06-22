@@ -1,6 +1,6 @@
 #include "pystip.h"
-#include "pybrafrk.h"
-#include "pypipe.h"
+#include "stipulation/fork.h"
+#include "stipulation/pipe.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
@@ -705,7 +705,7 @@ void stip_detect_starter(slice_index si)
                                                 &binary_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
-                                                 &branch_fork_detect_starter);
+                                                 &fork_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
                                                  &pipe_detect_starter);

@@ -1,5 +1,5 @@
 #include "options/maxtime.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "platform/maxtime.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"

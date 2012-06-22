@@ -1,6 +1,6 @@
 #include "solving/find_move.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/has_solution_type.h"

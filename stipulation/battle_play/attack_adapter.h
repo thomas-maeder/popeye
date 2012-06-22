@@ -2,7 +2,7 @@
 #define STIPULATION_BATTLE_PLAY_ATTACK_ADAPTER_H
 
 #include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* STAttackAdapter slices switch from generic solving to attack solving.
  */

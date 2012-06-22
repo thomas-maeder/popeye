@@ -1,7 +1,7 @@
 #include "solving/for_each_move.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"

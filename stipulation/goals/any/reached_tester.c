@@ -1,6 +1,6 @@
 #include "stipulation/goals/any/reached_tester.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "debugging/trace.h"

@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "pystip.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"

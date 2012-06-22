@@ -7,7 +7,7 @@
  * one.
  */
 
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 
 /* Allocate an STProxy slice
  * @return newly allocated slice

@@ -1,6 +1,6 @@
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "pystip.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"

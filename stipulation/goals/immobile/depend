@@ -6,13 +6,12 @@ stipulation/goals/immobile/reached_tester$(OBJ_SUFFIX): \
  stipulation/slice_type.h utilities/enumeration.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h stipulation/battle_play/attack_play.h pydata.h pyproc.h \
- py4.h pybrafrk.h stipulation/battle_play/attack_play.h \
- stipulation/has_solution_type.h stipulation/conditional_pipe.h pypipe.h \
- stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/proxy.h stipulation/boolean/true.h \
- stipulation/help_play/branch.h solving/legal_move_counter.h \
- debugging/trace.h
+ output/mode.h solving/battle_play/attack_play.h pydata.h pyproc.h py4.h \
+ stipulation/fork.h stipulation/structure_traversal.h \
+ stipulation/has_solution_type.h stipulation/conditional_pipe.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
+ stipulation/boolean/true.h stipulation/help_play/branch.h \
+ solving/legal_move_counter.h debugging/trace.h
 
 stipulation/goals/immobile/reached_tester.h:
 
@@ -54,7 +53,7 @@ utilities/boolean.h:
 
 output/mode.h:
 
-stipulation/battle_play/attack_play.h:
+solving/battle_play/attack_play.h:
 
 pydata.h:
 
@@ -62,19 +61,17 @@ pyproc.h:
 
 py4.h:
 
-pybrafrk.h:
+stipulation/fork.h:
 
-stipulation/battle_play/attack_play.h:
+stipulation/structure_traversal.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 
-pypipe.h:
+stipulation/pipe.h:
 
 stipulation/branch.h:
-
-stipulation/structure_traversal.h:
 
 stipulation/proxy.h:
 

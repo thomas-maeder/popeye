@@ -1,8 +1,8 @@
 #if !defined(OPTIMISATIONS_GOALS_CASTLING_FILTER_H)
 #define OPTIMISATIONS_GOALS_CASTLING_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STCastlingFilter stipulation slices.

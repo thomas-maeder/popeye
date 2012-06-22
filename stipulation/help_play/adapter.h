@@ -2,7 +2,7 @@
 #define STIPULATION_HELP_PLAY_ADAPTER_H
 
 #include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STHelpAdapter
  * stipulation slices. STHelpAdapter slices switch from general play to help

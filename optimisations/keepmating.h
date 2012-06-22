@@ -6,8 +6,8 @@
  * deliver mate has been captured.
  */
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Instrument stipulation with STKeepMatingFilter slices
  * @param si identifies slice where to start

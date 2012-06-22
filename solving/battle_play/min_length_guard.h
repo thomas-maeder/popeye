@@ -4,8 +4,8 @@
 /* make sure that the minimum length of a branch is respected
  */
 
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

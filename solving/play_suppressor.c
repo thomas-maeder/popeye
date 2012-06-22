@@ -1,5 +1,5 @@
 #include "solving/play_suppressor.h"
-#include "pypipe.h"
+#include "stipulation/pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "debugging/trace.h"
 

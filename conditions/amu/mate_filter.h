@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_AMU_MATE_FILTER_H)
 #define STIPULATION_AMU_MATE_FILTER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STAmuMateFilter
  */
