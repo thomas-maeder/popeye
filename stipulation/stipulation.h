@@ -1,5 +1,5 @@
-#if !defined(PYSTIP_H)
-#define PYSTIP_H
+#if !defined(STIPULATION_STIPULATION_H)
+#define STIPULATION_STIPULATION_H
 
 #include "py.h"
 #include "stipulation/slice.h"
