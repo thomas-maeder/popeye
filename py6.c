@@ -105,10 +105,11 @@
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "solving/battle_play/attack_play.h"
-#include "pyoutput.h"
+#include "output/output.h"
 #include "conditions/bgl.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
+#include "conditions/blackchecks.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
@@ -2780,6 +2781,9 @@ static Token iterate_twins(Token prev_token)
         stip_insert_threat_boundaries(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      if (CondFlag[schwarzschacher])
+        stip_insert_blackchecks(root_slice);
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers(root_slice);

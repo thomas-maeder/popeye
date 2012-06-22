@@ -432,8 +432,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/battle_play/attack_play.h output/output.h output/mode.h \
  conditions/bgl.h conditions/exclusive.h position/position.h \
- conditions/republican.h pyproc.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h \
+ conditions/republican.h pyproc.h conditions/blackchecks.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h platform/maxmem.h \
  platform/maxtime.h platform/pytime.h platform/priority.h \
  stipulation/has_solution_type.h stipulation/branch.h \
@@ -543,6 +543,8 @@ position/position.h:
 conditions/republican.h:
 
 pyproc.h:
+
+conditions/blackchecks.h:
 
 conditions/maff/immobility_tester.h:
 

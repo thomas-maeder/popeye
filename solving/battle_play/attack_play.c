@@ -8,6 +8,7 @@
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/bgl.h"
+#include "conditions/blackchecks.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
@@ -666,6 +667,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STPiecesParalysingMateFilterTester:
       result = paralysing_mate_filter_tester_attack(si,n);
+      break;
+
+    case STBlackChecks:
+      result = blackchecks_attack(si,n);
       break;
 
     case STPlaySuppressor:

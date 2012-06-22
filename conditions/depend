@@ -297,3 +297,70 @@ stipulation/boolean/true.h:
 stipulation/goals/check/reached_tester.h:
 
 debugging/trace.h:
+conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
+ conditions/blackchecks.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/has_solution_type.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
+ stipulation/pipe.h solving/battle_play/attack_play.h \
+ stipulation/battle_play/branch.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
+ debugging/trace.h
+
+conditions/blackchecks.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+solving/battle_play/attack_play.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/help_play/branch.h:
+
+debugging/trace.h:

@@ -27,6 +27,7 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/avoid_unsolvable.h"
 #include "conditions/bgl.h"
+#include "conditions/blackchecks.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -250,6 +251,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STBGLFilter:
       result = bgl_filter_defend(si,n);
+      break;
+
+    case STBlackChecks:
+      result = blackchecks_defend(si,n);
       break;
 
     case STThreatDefeatedTester:
