@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/goal_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"

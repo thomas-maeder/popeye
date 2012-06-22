@@ -1,5 +1,5 @@
 #include "optimisations/intelligent/proof.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pyproof.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"

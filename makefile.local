@@ -5,14 +5,10 @@
 
 INCLUDES = pydata.h pyboard.h pypiece.h pyposit.h \
 		py.h py1.h py4.h py6.h pyproc.h pymsg.h \
-		pylang.h pyproof.h \
-		pyoutput.h \
-		pystip.h
+		pylang.h pyproof.h
 SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
 		pymsg.c pylang.c pyproof.c	       \
-		pyoutput.c \
-		pystip.c \
 		gengmarr.c
 GENERATED_CFILES = pygmarr.c
 ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c

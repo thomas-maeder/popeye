@@ -1,5 +1,5 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"

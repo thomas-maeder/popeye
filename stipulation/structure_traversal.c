@@ -1,5 +1,5 @@
 #include "stipulation/structure_traversal.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/testing_pipe.h"
 #include "debugging/trace.h"
 

@@ -1,5 +1,5 @@
 #include "stipulation/boolean/true.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "solving/solving.h"
 #include "debugging/trace.h"
 

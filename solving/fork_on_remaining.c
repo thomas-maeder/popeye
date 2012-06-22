@@ -1,5 +1,5 @@
 #include "solving/fork_on_remaining.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/binary.h"
 #include "debugging/trace.h"

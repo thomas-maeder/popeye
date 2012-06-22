@@ -5,11 +5,10 @@ optimisations/goals/enpassant/filter$(OBJ_SUFFIX): \
  pypiece.h utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h utilities/enumeration.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h pystip.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h output/mode.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/has_solution_type.h \
- stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/has_solution_type.h stipulation/goals/prerequisite_guards.h \
  debugging/trace.h
 
 optimisations/goals/enpassant/filter.h:
@@ -52,24 +51,20 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-pystip.h:
-
-stipulation/slice.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
+stipulation/goals/goals.h:
+
 output/mode.h:
 
 stipulation/pipe.h:
 
-stipulation/structure_traversal.h:
-
 stipulation/has_solution_type.h:
 
 stipulation/goals/prerequisite_guards.h:
-
-stipulation/goals/goals.h:
 
 debugging/trace.h:

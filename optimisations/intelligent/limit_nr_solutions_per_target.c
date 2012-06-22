@@ -1,5 +1,5 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"

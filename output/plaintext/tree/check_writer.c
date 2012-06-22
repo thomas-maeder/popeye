@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/check_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/battle_play/check_detector.h"
 #include "output/plaintext/tree/tree.h"

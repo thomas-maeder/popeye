@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/move_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "debugging/trace.h"

@@ -1,5 +1,5 @@
 #include "stipulation/move_played.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"

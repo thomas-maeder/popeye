@@ -5,15 +5,15 @@ optimisations/goals/optimisation_guards$(OBJ_SUFFIX): \
  pypiece.h utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h utilities/enumeration.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h utilities/boolean.h output/mode.h pystip.h \
- py.h stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h \
+ stipulation/stipulation.h stipulation/pipe.h \
  solving/battle_play/attack_play.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  stipulation/goals/prerequisite_guards.h \
  optimisations/goals/enpassant/filter.h \
- solving/battle_play/defense_play.h pydata.h pyproc.h py4.h \
- optimisations/goals/castling/filter.h debugging/trace.h
+ solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h optimisations/goals/castling/filter.h \
+ debugging/trace.h
 
 optimisations/goals/optimisation_guards.h:
 
@@ -51,17 +51,7 @@ utilities/boolean.h:
 
 output/mode.h:
 
-pystip.h:
-
-py.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
+stipulation/stipulation.h:
 
 stipulation/pipe.h:
 
@@ -84,6 +74,10 @@ pydata.h:
 pyproc.h:
 
 py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
 
 optimisations/goals/castling/filter.h:
 

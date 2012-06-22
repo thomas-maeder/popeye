@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_HELP_PLAY_BRANCH_H)
 #define STIPULATION_HELP_PLAY_BRANCH_H
 
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STHelp*

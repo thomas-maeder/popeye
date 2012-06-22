@@ -1,5 +1,5 @@
 #include "solving/find_move.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
 #include "pyproc.h"

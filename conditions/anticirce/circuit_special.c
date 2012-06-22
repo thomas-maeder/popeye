@@ -1,5 +1,5 @@
 #include "conditions/anticirce/circuit_special.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
 #include "debugging/trace.h"

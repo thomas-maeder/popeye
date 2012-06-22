@@ -1,5 +1,5 @@
 #include "stipulation/goals/capture/reached_tester.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
 #include "stipulation/goals/reached_tester.h"

@@ -4,12 +4,11 @@ conditions/ohneschach/immobility_tester$(OBJ_SUFFIX): \
  solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
  pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h pydata.h pyproc.h py4.h pyproc.h pymsg.h \
- stipulation/has_solution_type.h stipulation/proxy.h pypipe.h \
- solving/battle_play/attack_play.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/boolean/and.h \
+ output/mode.h pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
+ pyproc.h pymsg.h stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/boolean/and.h \
  stipulation/temporary_hacks.h debugging/trace.h
 
 conditions/ohneschach/immobility_tester.h:
@@ -38,11 +37,7 @@ stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-pystip.h:
-
-py.h:
-
-stipulation/slice.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
@@ -60,6 +55,10 @@ pyproc.h:
 
 py4.h:
 
+py.h:
+
+stipulation/goals/goals.h:
+
 pyproc.h:
 
 pymsg.h:
@@ -68,13 +67,9 @@ stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 
-pypipe.h:
-
-solving/battle_play/attack_play.h:
+stipulation/pipe.h:
 
 stipulation/branch.h:
-
-stipulation/structure_traversal.h:
 
 stipulation/boolean/and.h:
 

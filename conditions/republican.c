@@ -1,5 +1,5 @@
 #include "republican.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pylang.h"
 #include "stipulation/has_solution_type.h"

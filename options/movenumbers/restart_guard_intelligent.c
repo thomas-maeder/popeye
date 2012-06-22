@@ -1,5 +1,5 @@
 #include "options/movenumbers/restart_guard_intelligent.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "stipulation/pipe.h"
 #include "pymsg.h"

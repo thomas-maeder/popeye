@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/end_of_solution_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
 #include "pymsg.h"

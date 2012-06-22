@@ -1,5 +1,5 @@
 #include "optimisations/goals/optimisation_guards.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"

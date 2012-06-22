@@ -1,5 +1,5 @@
 #include "output/plaintext/move_inversion_counter.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 

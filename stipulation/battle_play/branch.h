@@ -2,7 +2,7 @@
 #define STIPULATION_BATTLE_PLAY_BRANCH_H
 
 #include "py.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/slice.h"
 #include "stipulation/structure_traversal.h"
 

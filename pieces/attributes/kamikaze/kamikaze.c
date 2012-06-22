@@ -1,5 +1,5 @@
 #include "pieces/attributes/kamikaze/kamikaze.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"

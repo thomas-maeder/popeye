@@ -1,5 +1,5 @@
 #include "conditions/ohneschach/immobility_tester.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"

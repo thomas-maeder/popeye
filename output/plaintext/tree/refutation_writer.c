@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/refutation_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "stipulation/pipe.h"
 #include "pymsg.h"

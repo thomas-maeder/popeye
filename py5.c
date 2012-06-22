@@ -63,7 +63,7 @@
 #endif /* DOS */
 
 #include "py.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"

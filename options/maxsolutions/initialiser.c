@@ -1,5 +1,5 @@
 #include "options/maxsolutions/initialiser.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"

@@ -1,5 +1,5 @@
 #include "stipulation/goals/goals.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice.h"
 #include "stipulation/boolean/false.h"

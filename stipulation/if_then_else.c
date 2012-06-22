@@ -1,5 +1,5 @@
 #include "stipulation/if_then_else.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "solving/solving.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/binary.h"

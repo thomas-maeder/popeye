@@ -4,11 +4,11 @@ options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
  pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h pydata.h pyproc.h py4.h stipulation/pipe.h \
- stipulation/structure_traversal.h pymsg.h \
- stipulation/has_solution_type.h debugging/trace.h options/movenumbers.h \
+ output/mode.h pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
+ stipulation/pipe.h pymsg.h stipulation/has_solution_type.h \
+ debugging/trace.h options/movenumbers.h \
  solving/battle_play/defense_play.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h
 
@@ -38,11 +38,7 @@ stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-pystip.h:
-
-py.h:
-
-stipulation/slice.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
@@ -60,9 +56,11 @@ pyproc.h:
 
 py4.h:
 
-stipulation/pipe.h:
+py.h:
 
-stipulation/structure_traversal.h:
+stipulation/goals/goals.h:
+
+stipulation/pipe.h:
 
 pymsg.h:
 

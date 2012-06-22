@@ -1,5 +1,5 @@
 #include "output/plaintext/line/line_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
 #include "pydata.h"

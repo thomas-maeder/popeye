@@ -3,13 +3,12 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  pieces/attributes/kamikaze/kamikaze.h stipulation/slice.h py.h \
  utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
- utilities/enumeration.h pystip.h py.h stipulation/slice.h \
+ utilities/enumeration.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- stipulation/pipe.h stipulation/structure_traversal.h \
- solving/battle_play/attack_play.h stipulation/branch.h \
- stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
- conditions/anticirce/target_square_filter.h \
+ stipulation/pipe.h solving/battle_play/attack_play.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/boolean/or.h \
+ stipulation/boolean/true.h conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h debugging/trace.h
 
@@ -37,11 +36,7 @@ stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-pystip.h:
-
-py.h:
-
-stipulation/slice.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
@@ -54,8 +49,6 @@ utilities/boolean.h:
 output/mode.h:
 
 stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
 
 solving/battle_play/attack_play.h:
 

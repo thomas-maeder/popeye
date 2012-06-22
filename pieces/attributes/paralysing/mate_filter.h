@@ -1,7 +1,7 @@
 #if !defined(PIECES_PARALYSING_MATE_FILTER_H)
 #define PIECES_PARALYSING_MATE_FILTER_H
 
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "solving/battle_play/attack_play.h"
 
 /* This module provides slice type STPiecesParalysingMateFilter - tests

@@ -1,5 +1,5 @@
 #include "conditions/exclusive.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pymsg.h"
 #include "pydata.h"

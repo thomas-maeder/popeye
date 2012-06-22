@@ -1,12 +1,12 @@
 debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pyproc.h py4.h \
  py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
  pypiece.h utilities/enumeration.h pylang.h stipulation/goals/goals.h \
- utilities/boolean.h py.h pydata.h pyproc.h pystip.h stipulation/slice.h \
- stipulation/slice_type.h utilities/enumeration.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h output/mode.h optimisations/hash.h \
+ utilities/boolean.h py.h pydata.h pyproc.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h optimisations/hash.h \
  DHT/dhtbcmem.h solving/battle_play/attack_play.h \
- output/plaintext/plaintext.h stipulation/goals/goals.h
+ output/plaintext/plaintext.h
 
 debugging/trace.h:
 
@@ -40,7 +40,7 @@ pydata.h:
 
 pyproc.h:
 
-pystip.h:
+stipulation/stipulation.h:
 
 stipulation/slice.h:
 
@@ -50,9 +50,9 @@ utilities/enumeration.h:
 
 stipulation/structure_traversal.h:
 
-stipulation/slice.h:
-
 stipulation/traversal.h:
+
+stipulation/goals/goals.h:
 
 output/mode.h:
 
@@ -63,5 +63,3 @@ DHT/dhtbcmem.h:
 solving/battle_play/attack_play.h:
 
 output/plaintext/plaintext.h:
-
-stipulation/goals/goals.h:

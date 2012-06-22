@@ -1,5 +1,5 @@
 #include "optimisations/intelligent/mate/finish.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/battle_play/attack_play.h"

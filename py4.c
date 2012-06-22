@@ -60,7 +60,7 @@
 #endif
 
 #include "py.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"

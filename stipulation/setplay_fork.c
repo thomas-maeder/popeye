@@ -1,5 +1,5 @@
 #include "stipulation/setplay_fork.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/fork.h"
 #include "stipulation/has_solution_type.h"
 

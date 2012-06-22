@@ -1,5 +1,5 @@
 #include "output/plaintext/illegal_selfcheck_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"

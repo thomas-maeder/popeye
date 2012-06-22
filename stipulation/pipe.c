@@ -1,5 +1,5 @@
 #include "stipulation/pipe.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "solving/solving.h"

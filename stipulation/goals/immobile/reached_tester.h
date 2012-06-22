@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_IMMOBILE_REACHED_TESTER_H)
 #define STIPULATION_GOAL_IMMOBILE_REACHED_TESTER_H
 
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "solving/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with slices that detect

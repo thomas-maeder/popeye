@@ -1,5 +1,5 @@
 #include "stipulation/moves_traversal.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/conditional_pipe.h"

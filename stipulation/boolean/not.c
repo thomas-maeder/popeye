@@ -1,5 +1,5 @@
 #include "stipulation/boolean/not.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/battle_play/attack_play.h"
 #include "stipulation/pipe.h"

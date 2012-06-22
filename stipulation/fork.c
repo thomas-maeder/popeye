@@ -1,5 +1,5 @@
 #include "stipulation/fork.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "solving/solving.h"

@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/try_writer.h"
-#include "pystip.h"
+#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/pipe.h"
