@@ -1,8 +1,8 @@
 conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  conditions/circe/circe.h stipulation/slice.h py.h utilities/boolean.h \
- pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pylang.h stipulation/slice_type.h \
- utilities/enumeration.h stipulation/stipulation.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h \
+ stipulation/slice_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
  stipulation/pipe.h solving/battle_play/attack_play.h \
@@ -19,21 +19,19 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
 pylang.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 
@@ -69,12 +67,12 @@ debugging/trace.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \
  conditions/circe/steingewinn_filter.c \
  conditions/circe/steingewinn_filter.h solving/battle_play/attack_play.h \
- py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
- pypiece.h utilities/enumeration.h pylang.h stipulation/slice.h \
- stipulation/slice_type.h utilities/enumeration.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h \
+ stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h debugging/trace.h
 
 conditions/circe/steingewinn_filter.h:
@@ -85,13 +83,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -100,8 +98,6 @@ pylang.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 
@@ -131,12 +127,13 @@ debugging/trace.h:
 conditions/circe/circuit_by_rebirth_special$(OBJ_SUFFIX): \
  conditions/circe/circuit_by_rebirth_special.c \
  conditions/circe/circuit_by_rebirth_special.h \
- solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h \
+ stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h debugging/trace.h
 
 conditions/circe/circuit_by_rebirth_special.h:
@@ -147,13 +144,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -162,8 +159,6 @@ pylang.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 
@@ -193,12 +188,13 @@ debugging/trace.h:
 conditions/circe/exchange_by_rebirth_special$(OBJ_SUFFIX): \
  conditions/circe/exchange_by_rebirth_special.c \
  conditions/circe/exchange_by_rebirth_special.h \
- solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h \
+ stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h debugging/trace.h
 
 conditions/circe/exchange_by_rebirth_special.h:
@@ -209,13 +205,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -224,8 +220,6 @@ pylang.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 

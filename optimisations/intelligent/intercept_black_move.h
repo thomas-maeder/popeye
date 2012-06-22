@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_MATE_INTERCEPT_BLACK_MOVE_H)
 #define OPTIMISATION_INTELLIGENT_MATE_INTERCEPT_BLACK_MOVE_H
 
-#include "pyboard.h"
+#include "position/board.h"
 
 /* Intercept a black move
  * @param from departure square of move to be intercepted

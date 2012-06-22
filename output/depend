@@ -5,8 +5,8 @@ output/mode.h:
 utilities/enumeration.h:
 output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  utilities/enumeration.h stipulation/slice.h py.h utilities/boolean.h \
- pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h pylang.h stipulation/slice_type.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/pipe.h solving/battle_play/attack_play.h \
@@ -26,15 +26,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
-
-utilities/enumeration.h:
+position/piece.h:
 
 pylang.h:
 

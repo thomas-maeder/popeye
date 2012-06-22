@@ -2,7 +2,7 @@
 #define OPTIMISATIONS_INTELLIGENT_INTERCEPT_FROM_GUARD_H
 
 #include "py.h"
-#include "pyboard.h"
+#include "position/board.h"
 
 /* Intercept a check by a white rider on the flight guarded by the rider
  * @param to_be_intercepted where to intercept

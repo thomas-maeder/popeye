@@ -2,9 +2,9 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.c \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  utilities/boolean.h stipulation/goals/goals.h py.h utilities/boolean.h \
- pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h debugging/trace.h
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h debugging/trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
@@ -16,13 +16,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -42,13 +42,14 @@ debugging/trace.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- pyproc.h stipulation/pipe.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h pyproc.h \
+ stipulation/pipe.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
@@ -63,13 +64,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -78,8 +79,6 @@ pylang.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 

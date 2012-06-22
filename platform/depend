@@ -1,9 +1,9 @@
 platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
  utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h py.h \
- utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pylang.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/traversal.h stipulation/battle_play/attack_play.h
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ solving/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h
 
 platform/maxmem.h:
 
@@ -17,33 +17,28 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
 pylang.h:
 
-stipulation/structure_traversal.h:
+solving/battle_play/attack_play.h:
 
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \
  platform/maxtime.h utilities/boolean.h pydata.h pyproc.h py4.h py.h \
- utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pylang.h stipulation/goals/goals.h py.h
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ stipulation/goals/goals.h py.h
 
 platform/maxtime_impl.h:
 
@@ -61,13 +56,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 

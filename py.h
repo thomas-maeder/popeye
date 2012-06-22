@@ -75,7 +75,7 @@
 #include <limits.h>
 
 #include "utilities/boolean.h"
-#include "pyposit.h"
+#include "position/position.h"
 
 #ifdef _SE_DECORATE_SOLUTION_
 #define _SE_

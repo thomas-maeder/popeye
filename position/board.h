@@ -1,5 +1,5 @@
-#if !defined(PYBOARD_H)
-#define PYBOARD_H
+#if !defined(POSITION_BOARD_H)
+#define POSITION_BOARD_H
 
 #include "utilities/bitmask.h"
 

@@ -1,4 +1,4 @@
-#include "pyboard.h"
+#include "position/board.h"
 
 /* 0 terminated sequence of the effective squares of the board
  */

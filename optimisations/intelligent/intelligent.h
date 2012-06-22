@@ -9,7 +9,7 @@
 #if !defined(PYINT_H)
 #define PYINT_H
 
-#include "pyposit.h"
+#include "position/position.h"
 #include "stipulation/goals/goals.h"
 #include "solving/battle_play/attack_play.h"
 

@@ -1,15 +1,15 @@
 options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations.c \
  options/no_short_variations/no_short_variations.h stipulation/slice.h \
- py.h utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h \
- pypiece.h utilities/enumeration.h pylang.h stipulation/slice_type.h \
- utilities/enumeration.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ stipulation/slice_type.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  utilities/boolean.h solving/battle_play/attack_play.h \
- stipulation/battle_play/branch.h pystip.h py.h stipulation/slice.h \
+ stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h \
- stipulation/structure_traversal.h stipulation/pipe.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ debugging/trace.h
 
 options/no_short_variations/no_short_variations.h:
 
@@ -19,21 +19,19 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
 pylang.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -43,11 +41,7 @@ solving/battle_play/attack_play.h:
 
 stipulation/battle_play/branch.h:
 
-pystip.h:
-
-py.h:
-
-stipulation/slice.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
@@ -57,8 +51,6 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/structure_traversal.h:
-
 stipulation/pipe.h:
 
 debugging/trace.h:
@@ -66,14 +58,14 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  utilities/boolean.h solving/battle_play/attack_play.h py.h \
- utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pylang.h stipulation/slice.h \
- stipulation/slice_type.h utilities/enumeration.h pydata.h pyproc.h py4.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h pydata.h pyproc.h py4.h \
  py.h stipulation/goals/goals.h pyproc.h stipulation/has_solution_type.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/branch.h pystip.h stipulation/slice.h \
- stipulation/structure_traversal.h output/mode.h debugging/trace.h
+ stipulation/battle_play/branch.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/mode.h debugging/trace.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -85,13 +77,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -100,8 +92,6 @@ pylang.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 pydata.h:
 
@@ -127,11 +117,9 @@ stipulation/traversal.h:
 
 stipulation/battle_play/branch.h:
 
-pystip.h:
+stipulation/stipulation.h:
 
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
+stipulation/goals/goals.h:
 
 output/mode.h:
 

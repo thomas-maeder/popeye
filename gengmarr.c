@@ -1,4 +1,4 @@
-#include "pyposit.h"
+#include "position/position.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -131,7 +131,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
  */
 static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
 {
-  fprintf(dest,"#include \"pyposit.h\"\n");
+  fprintf(dest,"#include \"position/position.h\"\n");
   fprintf(dest,"position const game_array =\n");
   fprintf(dest,"{\n");
   dump_board_initialiser_to_stream(dest,pos->board);

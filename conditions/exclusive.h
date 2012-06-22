@@ -5,7 +5,7 @@
  */
 
 #include "utilities/boolean.h"
-#include "pyposit.h"
+#include "position/position.h"
 #include "solving/battle_play/attack_play.h"
 
 /* Perform the necessary verification steps for solving an Exclusive

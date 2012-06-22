@@ -6,12 +6,11 @@ platform/maxmem.h:
 utilities/boolean.h:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
  platform/maxtime.h utilities/boolean.h pymsg.h pylang.h py.h \
- utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
- utilities/enumeration.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h optimisations/hash.h DHT/dhtbcmem.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h utilities/enumeration.h stipulation/traversal.h \
- stipulation/battle_play/attack_play.h
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h optimisations/hash.h \
+ DHT/dhtbcmem.h solving/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h
 
 platform/maxtime_impl.h:
 
@@ -27,13 +26,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -51,17 +50,11 @@ optimisations/hash.h:
 
 DHT/dhtbcmem.h:
 
-stipulation/structure_traversal.h:
+solving/battle_play/attack_play.h:
 
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-stipulation/traversal.h:
-
-stipulation/battle_play/attack_play.h:
 platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/pytime.h
 
 platform/pytime.h:

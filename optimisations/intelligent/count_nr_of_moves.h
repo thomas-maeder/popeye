@@ -2,7 +2,7 @@
 #define OPTIMISATIONS_INTELLIGENT_COUNT_NR_OF_MOVES_H
 
 #include "py.h"
-#include "pyboard.h"
+#include "position/board.h"
 
 unsigned int intelligent_count_moves_to_white_promotion(square from_square);
 

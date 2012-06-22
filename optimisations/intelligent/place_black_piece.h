@@ -1,8 +1,8 @@
 #if !defined(OPTIMISATION_INTELLIGENT_PLACE_BLACK_PIECE_H)
 #define OPTIMISATION_INTELLIGENT_PLACE_BLACK_PIECE_H
 
-#include "pypiece.h"
-#include "pyboard.h"
+#include "position/piece.h"
+#include "position/board.h"
 
 extern square const *where_to_start_placing_black_pieces;
 

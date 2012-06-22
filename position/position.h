@@ -1,8 +1,8 @@
-#if !defined(PYPOSIT_H)
-#define PYPOSIT_H
+#if !defined(POSITION_POSITION_H)
+#define POSITION_POSITION_H
 
-#include "pyboard.h"
-#include "pypiece.h"
+#include "position/board.h"
+#include "position/piece.h"
 
 /* Declarations of types and functions related to chess positions
  */
@@ -75,7 +75,7 @@ typedef struct
 extern piece const PAS[nr_squares_on_board];
 
 /* Initial game position.
- * 
+ *
  */
 extern position const game_array;
 

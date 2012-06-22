@@ -1,9 +1,9 @@
 optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/move_generator.c \
  optimisations/count_nr_opponent_moves/move_generator.h \
- stipulation/slice.h py.h utilities/boolean.h pyposit.h pyboard.h \
- utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice_type.h utilities/enumeration.h \
+ stipulation/slice.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
  output/mode.h pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
@@ -19,21 +19,19 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
 pylang.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 
@@ -73,12 +71,13 @@ debugging/trace.h:
 optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.c \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- solving/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
- pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h \
+ stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h solving/legal_move_counter.h \
  stipulation/has_solution_type.h debugging/trace.h
 
@@ -90,13 +89,13 @@ py.h:
 
 utilities/boolean.h:
 
-pyposit.h:
+position/position.h:
 
-pyboard.h:
+position/board.h:
 
 utilities/bitmask.h:
 
-pypiece.h:
+position/piece.h:
 
 utilities/enumeration.h:
 
@@ -105,8 +104,6 @@ pylang.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 

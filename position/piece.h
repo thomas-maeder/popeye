@@ -1,5 +1,5 @@
-#if !defined(PYPIECE_H)
-#define PYPIECE_H
+#if !defined(POSITION_PIECE_H)
+#define POSITION_PIECE_H
 
 
 /* Declarations of types and functions related to chess pieces

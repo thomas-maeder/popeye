@@ -1,4 +1,4 @@
-#include "pyposit.h"
+#include "position/position.h"
 
 #define ENUMERATION_TYPENAME Side
 #define ENUMERATORS \

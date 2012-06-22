@@ -34,7 +34,7 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
-#include "pyposit.h"
+#include "position/position.h"
 
 
 static position start;

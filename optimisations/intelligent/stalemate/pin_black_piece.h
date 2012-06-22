@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_STALEMATE_PIN_BLACK_PIECE_H)
 #define OPTIMISATION_INTELLIGENT_STALEMATE_PIN_BLACK_PIECE_H
 
-#include "pyboard.h"
+#include "position/board.h"
 
 /* Pin a mobile black piece
  * @param position_of_trouble_maker position of piece to be pinned
