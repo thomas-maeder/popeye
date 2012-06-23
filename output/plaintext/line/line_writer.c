@@ -22,58 +22,30 @@
  * Slices of this type write lines in line mode.
  */
 
-/* identifies a slice whose starter is the nominal starter of the stipulation
- * before any move inversions are applied
- * (e.g. in a h#N.5, this slice's starter is Black)
- */
-slice_index output_plaintext_slice_determining_starter = no_slice;
-
-static void write_line(Side starting_side, goal_type goal)
+typedef struct
 {
-  int next_movenumber = 1;
-  ply current_ply;
-  ply history[maxply];
-  unsigned int history_pos = 0;
+    Side side;
+    int next_movenumber;
+} write_line_status_type;
 
-  ply const start_ply = 2;
-
-  boolean const save_jouetestgenre = jouetestgenre;
-  jouetestgenre = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,starting_side,"");
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
+static void write_line_intro(write_line_status_type *status)
+{
   if (OptFlag[beep])
     produce_beep();
 
   Message(NewLine);
-
-  ResetPosition();
-
-  current_ply = nbply;
-  while (current_ply!=start_ply)
-  {
-    current_ply = parent_ply[current_ply];
-    if (repere[current_ply+1]>repere[current_ply])
-    {
-      history[history_pos] = current_ply;
-      ++history_pos;
-    }
-  }
 
   TraceValue("%u\n",output_plaintext_nr_move_inversions);
   switch (output_plaintext_nr_move_inversions)
   {
     case 2:
       StdString("  1...  ...");
-      next_movenumber = 2;
+      status->next_movenumber = 2;
       break;
 
     case 1:
       StdString("  1...");
-      next_movenumber = 2;
+      status->next_movenumber = 2;
       break;
 
     case 0:
@@ -84,61 +56,115 @@ static void write_line(Side starting_side, goal_type goal)
       assert(0);
       break;
   }
+}
+
+static void write_next_move(ply ply, write_line_status_type *status)
+{
+  TraceEnumerator(Side,status->side," ");
+  TraceValue("%u",ply);
+  TraceEnumerator(Side,trait[ply],"\n");
+  initneutre(advers(trait[ply]));
+  jouecoup(ply,replay);
+
+  if (trait[ply]==status->side)
+  {
+    sprintf(GlobalStr,"%3d.",status->next_movenumber);
+    ++status->next_movenumber;
+    StdString(GlobalStr);
+  }
+  output_plaintext_write_move(ply);
+
+  if (echecc(ply,advers(trait[ply])))
+    StdString(" +");
+  StdChar(blank);
+}
+
+static void write_last_move(goal_type goal, write_line_status_type const *status)
+{
+  initneutre(advers(trait[nbply]));
+  jouecoup(nbply,replay);
+
+  if (trait[nbply]==status->side)
+  {
+    sprintf(GlobalStr,"%3d.",status->next_movenumber);
+    StdString(GlobalStr);
+  }
+  output_plaintext_write_move(nbply);
+
+  if (!output_plaintext_goal_writer_replaces_check_writer(goal)
+      && echecc(nbply,advers(trait[nbply])))
+    StdString(" +");
+  if (goal!=no_goal)
+    StdString(goal_end_marker[goal]);
+  StdChar(blank);
+}
+
+static unsigned int init_ply_history(ply ply_history[maxply])
+{
+  ply const start_ply = 2;
+  unsigned int result = 0;
+  int current_ply = nbply;
+  while (current_ply!=start_ply)
+  {
+    current_ply = parent_ply[current_ply];
+    if (repere[current_ply+1]>repere[current_ply])
+    {
+      ply_history[result] = current_ply;
+      ++result;
+    }
+  }
+
+  return result;
+}
+
+static void write_ply_history(ply const ply_history[maxply], unsigned int length,
+                              write_line_status_type *status)
+{
+  ply const start_ply = 2;
+  unsigned int history_pos = length;
+
+  while (history_pos>0)
+  {
+    int const current_ply = ply_history[--history_pos];
+    if (current_ply>start_ply && is_end_of_intro_series[current_ply-1])
+    {
+      status->next_movenumber = 1;
+      status->side = trait[current_ply];
+    }
+
+    write_next_move(current_ply,status);
+  }
+}
+
+/* identifies a slice whose starter is the nominal starter of the stipulation
+ * before any move inversions are applied
+ * (e.g. in a h#N.5, this slice's starter is Black)
+ */
+slice_index output_plaintext_slice_determining_starter = no_slice;
+
+static void write_line(Side starting_side, goal_type goal)
+{
+  write_line_status_type status = { starting_side, 1 };
+
+  ply ply_history[maxply];
+
+  boolean const save_jouetestgenre = jouetestgenre;
+  jouetestgenre = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,starting_side,"");
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  ResetPosition();
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_start_pos();
 #endif
 
-  TraceValue("%u",start_ply);
-  TraceValue("%u\n",nbply);
-  while (history_pos>0)
-  {
-    --history_pos;
-    current_ply = history[history_pos];
-    if (current_ply>start_ply && is_end_of_intro_series[current_ply-1])
-    {
-      next_movenumber = 1;
-      starting_side = trait[current_ply];
-    }
-
-    TraceEnumerator(Side,starting_side," ");
-    TraceValue("%u",current_ply);
-    TraceEnumerator(Side,trait[current_ply],"\n");
-    initneutre(advers(trait[current_ply]));
-    jouecoup(current_ply,replay);
-
-    if (trait[current_ply]==starting_side)
-    {
-      sprintf(GlobalStr,"%3d.",next_movenumber);
-      ++next_movenumber;
-      StdString(GlobalStr);
-    }
-    output_plaintext_write_move(current_ply);
-
-    if (echecc(current_ply,advers(trait[current_ply])))
-      StdString(" +");
-    StdChar(blank);
-  }
-
-  {
-    initneutre(advers(trait[nbply]));
-    jouecoup(nbply,replay);
-
-    if (trait[nbply]==starting_side)
-    {
-      sprintf(GlobalStr,"%3d.",next_movenumber);
-      ++next_movenumber;
-      StdString(GlobalStr);
-    }
-    output_plaintext_write_move(nbply);
-
-    if (!output_plaintext_goal_writer_replaces_check_writer(goal)
-        && echecc(nbply,advers(trait[nbply])))
-      StdString(" +");
-    if (goal!=no_goal)
-      StdString(goal_end_marker[goal]);
-    StdChar(blank);
-  }
+  write_line_intro(&status);
+  write_ply_history(ply_history,init_ply_history(ply_history),&status);
+  write_last_move(goal,&status);
 
   jouetestgenre = save_jouetestgenre;
 
