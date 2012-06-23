@@ -440,7 +440,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/attack_play.h output/output.h output/mode.h \
  conditions/bgl.h conditions/exclusive.h position/position.h \
  conditions/republican.h pyproc.h conditions/blackchecks.h \
- conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/extinction.h conditions/maff/immobility_tester.h \
+ conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  platform/maxmem.h platform/maxtime.h platform/pytime.h \
@@ -553,6 +554,8 @@ conditions/republican.h:
 pyproc.h:
 
 conditions/blackchecks.h:
+
+conditions/extinction.h:
 
 conditions/maff/immobility_tester.h:
 

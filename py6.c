@@ -1842,7 +1842,6 @@ static boolean verify_position(slice_index si)
       || CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang]
       || CondFlag[BGL];
-  jouetestgenre_save = jouetestgenre;
 
   jouetestgenre1 = CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang];

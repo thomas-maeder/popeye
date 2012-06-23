@@ -1455,9 +1455,10 @@ static  int nbrtimes = 0;
 
 void jouecoup_no_test(ply ply_id)
 {
-  jouetestgenre= false;
+  boolean const save_jouetestgenre = jouetestgenre;
+  jouetestgenre = false;
   jouecoup(ply_id,replay);
-  jouetestgenre= jouetestgenre_save;
+  jouetestgenre = save_jouetestgenre;
 }
 
 boolean jouecoup_ortho_test(ply ply_id)
