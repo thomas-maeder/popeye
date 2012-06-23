@@ -117,7 +117,7 @@ stip_length_type blackchecks_defend(slice_index si, stip_length_type n)
   if (move_generation_stack[nbcou].arrival==nullsquare)
     result = defend(next,n);
   else if (trait[nbply]==Black && !echecc(nbply,White))
-    result = slack_length-2;
+    result = slack_length-1;
   else
     result = defend(next,n);
 

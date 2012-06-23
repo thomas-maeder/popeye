@@ -224,7 +224,7 @@ stip_length_type extinction_tester_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (move_extincts_kind(starter))
-    result = slack_length-2;
+    result = slack_length-1;
   else
     result = defend(next,n);
 
