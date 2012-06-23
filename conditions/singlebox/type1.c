@@ -118,7 +118,6 @@ stip_length_type singlebox_type1_legality_tester_attack(slice_index si,
                                                         stip_length_type n)
 {
   stip_length_type result;
-  Side const starter = slices[si].starter;
   slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
@@ -152,7 +151,6 @@ stip_length_type singlebox_type1_legality_tester_defend(slice_index si,
                                                         stip_length_type n)
 {
   stip_length_type result;
-  Side const starter = slices[si].starter;
   slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
