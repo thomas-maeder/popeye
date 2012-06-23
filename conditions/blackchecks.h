@@ -1,7 +1,8 @@
 #if !defined(CONDITIONS_BLACKCHECKS_H)
 #define CONDITIONS_BLACKCHECKS_H
 
-#include "py.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
