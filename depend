@@ -340,8 +340,9 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  solving/single_piece_move_generator.h \
  solving/castling_intermediate_move_generator.h \
  conditions/ohneschach/immobility_tester.h conditions/exclusive.h \
- position/position.h conditions/republican.h pyproc.h \
- pieces/attributes/paralysing/paralysing.h optimisations/hash.h \
+ position/position.h conditions/extinction.h \
+ solving/battle_play/defense_play.h pydata.h conditions/republican.h \
+ pyproc.h pieces/attributes/paralysing/paralysing.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h debugging/measure.h
 
 py.h:
@@ -407,6 +408,12 @@ conditions/ohneschach/immobility_tester.h:
 conditions/exclusive.h:
 
 position/position.h:
+
+conditions/extinction.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
 
 conditions/republican.h:
 

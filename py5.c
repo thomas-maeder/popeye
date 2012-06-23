@@ -75,6 +75,7 @@
 #include "solving/castling_intermediate_move_generator.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/exclusive.h"
+#include "conditions/extinction.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "optimisations/hash.h"
@@ -1469,17 +1470,6 @@ boolean jouecoup_ortho_test(ply ply_id)
   return flag;
 }
 
-static boolean move_extincts_kind(unsigned int oldnbpiece[derbla])
-{
-  piece p;
-  for (p = roib; p<derbla; ++p)
-    if (oldnbpiece[p]>0
-        && nbpiece[trait[nbply]==White ? p : -p]==0)
-      return true;
-
-  return false;
-}
-
 static boolean singlebox_officer_out_of_box(void)
 {
   boolean result = false;
@@ -1630,13 +1620,11 @@ static boolean singlebox_illegal(void)
   return result;
 }
 
-static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla])
+static boolean jouecoup_legality_test(void)
 {
   boolean result = true;
 
-  if (CondFlag[extinction] && move_extincts_kind(oldnbpiece))
-    result = false;
-  else if (CondFlag[singlebox] && singlebox_illegal())
+  if (CondFlag[singlebox] && singlebox_illegal())
     result = false;
   else if (!jouetestgenre)
     result = true;
@@ -2187,8 +2175,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
   boolean rochade = false;
   boolean platzwechsel = false;
 
-  unsigned int prev_nbpiece[derbla];
-
   Side const trait_ply = trait[ply_id];
 
 #if defined(DEBUG)
@@ -2282,13 +2268,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     if (jouegenre)
     {
-      if (CondFlag[extinction])
-      {
-        piece p;
-        for (p = roib; p<derbla; p++)
-          prev_nbpiece[p] = nbpiece[trait_ply==White ? p : -p];
-      }
-
       if (CondFlag[blsupertrans_king]
           && trait_ply==Black
           && ctrans[coup_id]!=vide)
@@ -2343,7 +2322,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         else if (king_square[Black]==sq_arrival)
           king_square[Black]= sq_departure;
 
-        return jouecoup_legality_test(prev_nbpiece);
+        return jouecoup_legality_test();
 
       case kingside_castling:
         if (CondFlag[einstein])
@@ -3575,7 +3554,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                         flag_outputmultiplecolourchanges);
     } /* if (jouegenre) */
 
-    return jouecoup_legality_test(prev_nbpiece);
+    return jouecoup_legality_test();
   }
 } /* end of jouecoup */
 

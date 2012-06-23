@@ -9,6 +9,7 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
+#include "conditions/extinction.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
@@ -671,6 +672,14 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STBlackChecks:
       result = blackchecks_attack(si,n);
+      break;
+
+    case STExtinctionRememberThreatened:
+      result = extinction_remember_threatened_attack(si,n);
+      break;
+
+    case STExtinctionTester:
+      result = extinction_tester_attack(si,n);
       break;
 
     case STPlaySuppressor:

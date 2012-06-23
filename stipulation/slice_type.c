@@ -39,6 +39,8 @@
     ENUMERATOR(STIfThenElse),                                     \
     ENUMERATOR(STCheckZigzagLanding),                                  \
     ENUMERATOR(STBlackChecks),                                         \
+    ENUMERATOR(STExtinctionRememberThreatened),                        \
+    ENUMERATOR(STExtinctionTester),                                    \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \

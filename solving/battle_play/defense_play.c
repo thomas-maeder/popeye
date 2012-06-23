@@ -28,6 +28,7 @@
 #include "solving/avoid_unsolvable.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
+#include "conditions/extinction.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -255,6 +256,14 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STBlackChecks:
       result = blackchecks_defend(si,n);
+      break;
+
+    case STExtinctionRememberThreatened:
+      result = extinction_remember_threatened_defend(si,n);
+      break;
+
+    case STExtinctionTester:
+      result = extinction_tester_defend(si,n);
       break;
 
     case STThreatDefeatedTester:
