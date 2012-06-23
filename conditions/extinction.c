@@ -9,7 +9,7 @@
 
 #include <assert.h>
 
-static unsigned int prev_nbpiece[maxply+2][derbla];
+static unsigned int prev_nbpiece[derbla];
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
@@ -79,7 +79,7 @@ static void remember_threatened(Side starter)
   TraceFunctionParamListEnd();
 
   for (p = roib; p<derbla; p++)
-    prev_nbpiece[nbply][p] = nbpiece[starter==White ? p : -p];
+    prev_nbpiece[p] = nbpiece[starter==White ? p : -p];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -97,7 +97,7 @@ static boolean move_extincts_kind(Side starter)
   TraceFunctionParamListEnd();
 
   for (p = roib; p<derbla; ++p)
-    if (prev_nbpiece[nbply][p]>0
+    if (prev_nbpiece[p]>0
         && nbpiece[starter==White ? p : -p]==0)
     {
       result = true;
