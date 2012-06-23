@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = type1.c type2.c
-INCLUDES = type1.h type2.h
+SRC_CFILES = type1.c type2.c type3.c
+INCLUDES = type1.h type2.h type3.h
 
 include makefile.rules $(CURRPWD)depend

@@ -52,6 +52,7 @@
     ENUMERATOR(STExtinctionTester),                                    \
     ENUMERATOR(STSingleBoxType1LegalityTester),                        \
     ENUMERATOR(STSingleBoxType2LegalityTester),                        \
+    ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \

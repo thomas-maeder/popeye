@@ -115,6 +115,7 @@
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
+#include "conditions/singlebox/type3.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2788,7 +2789,6 @@ static Token iterate_twins(Token prev_token)
         stip_insert_blackchecks(root_slice);
 
       if (CondFlag[singlebox])
-      {
         switch (SingleBoxType)
         {
           case singlebox_type1:
@@ -2800,12 +2800,12 @@ static Token iterate_twins(Token prev_token)
             break;
 
           case singlebox_type3:
+            stip_insert_singlebox_type3(root_slice);
             break;
 
           default:
             break;
         }
-      }
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers(root_slice);

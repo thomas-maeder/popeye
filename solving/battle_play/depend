@@ -548,8 +548,8 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  conditions/ohneschach/immobility_tester.h \
  conditions/owu/immobility_tester.h \
  conditions/ultraschachzwang/goal_filter.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/singlebox/type2.h conditions/singlebox/type3.h \
+ optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -716,6 +716,8 @@ conditions/ultraschachzwang/goal_filter.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
+
+conditions/singlebox/type3.h:
 
 optimisations/hash.h:
 
@@ -963,7 +965,7 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
  conditions/bgl.h conditions/blackchecks.h conditions/extinction.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
- optimisations/keepmating.h \
+ conditions/singlebox/type3.h optimisations/keepmating.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/goals/enpassant/filter.h \
@@ -1088,6 +1090,8 @@ conditions/extinction.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
+
+conditions/singlebox/type3.h:
 
 optimisations/keepmating.h:
 

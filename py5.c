@@ -77,8 +77,6 @@
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/republican.h"
-#include "conditions/singlebox/type1.h"
-#include "conditions/singlebox/type2.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
@@ -1472,54 +1470,11 @@ boolean jouecoup_ortho_test(ply ply_id)
   return flag;
 }
 
-static boolean singlebox_type3_illegal(void)
-{
-  boolean result = false;
-
-  if (singlebox_type1_illegal())
-    result = true;
-  else if ((trait[nbply]==White && singlebox_illegal_latent_white_pawn())
-           || (trait[nbply]==Black && singlebox_illegal_latent_black_pawn()))
-    result = true;
-
-  return result;
-}
-
-static boolean singlebox_illegal(void)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  switch (SingleBoxType)
-  {
-    case singlebox_type1:
-    case singlebox_type2:
-      break;
-
-    case singlebox_type3:
-      result = singlebox_type3_illegal();
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean jouecoup_legality_test(void)
 {
   boolean result = true;
 
-  if (CondFlag[singlebox] && singlebox_illegal())
-    result = false;
-  else if (!jouetestgenre)
+  if (!jouetestgenre)
     result = true;
   else if (jouetestgenre1
            && ((CondFlag[blackultraschachzwang]
