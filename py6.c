@@ -110,6 +110,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/blackchecks.h"
+#include "conditions/extinction.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
@@ -2787,6 +2788,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[schwarzschacher])
         stip_insert_blackchecks(root_slice);
+
+      if (CondFlag[extinction])
+        stip_insert_extinction_chess(root_slice);
 
       if (CondFlag[singlebox])
         switch (SingleBoxType)
