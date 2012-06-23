@@ -60,11 +60,17 @@ static void write_line_intro(write_line_status_type *status)
 
 static void write_next_move(ply ply, write_line_status_type *status)
 {
+  boolean const save_jouetestgenre = jouetestgenre;
+  jouetestgenre = false;
+
   TraceEnumerator(Side,status->side," ");
   TraceValue("%u",ply);
   TraceEnumerator(Side,trait[ply],"\n");
+
   initneutre(advers(trait[ply]));
   jouecoup(ply,replay);
+
+  jouetestgenre = save_jouetestgenre;
 
   if (trait[ply]==status->side)
   {
@@ -81,8 +87,13 @@ static void write_next_move(ply ply, write_line_status_type *status)
 
 static void write_last_move(goal_type goal, write_line_status_type const *status)
 {
+  boolean const save_jouetestgenre = jouetestgenre;
+  jouetestgenre = false;
+
   initneutre(advers(trait[nbply]));
   jouecoup(nbply,replay);
+
+  jouetestgenre = save_jouetestgenre;
 
   if (trait[nbply]==status->side)
   {
@@ -148,9 +159,6 @@ static void write_line(Side starting_side, goal_type goal)
 
   ply ply_history[maxply];
 
-  boolean const save_jouetestgenre = jouetestgenre;
-  jouetestgenre = false;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,starting_side,"");
   TraceFunctionParam("%u",goal);
@@ -165,8 +173,6 @@ static void write_line(Side starting_side, goal_type goal)
   write_line_intro(&status);
   write_ply_history(ply_history,init_ply_history(ply_history),&status);
   write_last_move(goal,&status);
-
-  jouetestgenre = save_jouetestgenre;
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_end_pos();
