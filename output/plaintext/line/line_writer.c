@@ -49,9 +49,7 @@ static void write_line(Side starting_side, goal_type goal)
 
   ResetPosition();
 
-  history[history_pos] = nbply;
   current_ply = nbply;
-  ++history_pos;
   while (current_ply!=start_ply)
   {
     current_ply = parent_ply[current_ply];
@@ -103,26 +101,39 @@ static void write_line(Side starting_side, goal_type goal)
     TraceEnumerator(Side,starting_side," ");
     TraceValue("%u",current_ply);
     TraceEnumerator(Side,trait[current_ply],"\n");
+    initneutre(advers(trait[current_ply]));
+    jouecoup_no_test(current_ply);
+
     if (trait[current_ply]==starting_side)
     {
       sprintf(GlobalStr,"%3d.",next_movenumber);
       ++next_movenumber;
       StdString(GlobalStr);
     }
-
-    initneutre(advers(trait[current_ply]));
-    jouecoup_no_test(current_ply);
     output_plaintext_write_move(current_ply);
-    if (current_ply==nbply)
-    {
-      if (!output_plaintext_goal_writer_replaces_check_writer(goal)
-          && echecc(current_ply,advers(trait[current_ply])))
-        StdString(" +");
-      if (goal!=no_goal)
-        StdString(goal_end_marker[goal]);
-    }
-    else if (echecc(current_ply,advers(trait[current_ply])))
+
+    if (echecc(current_ply,advers(trait[current_ply])))
       StdString(" +");
+    StdChar(blank);
+  }
+
+  {
+    initneutre(advers(trait[nbply]));
+    jouecoup_no_test(nbply);
+
+    if (trait[nbply]==starting_side)
+    {
+      sprintf(GlobalStr,"%3d.",next_movenumber);
+      ++next_movenumber;
+      StdString(GlobalStr);
+    }
+    output_plaintext_write_move(nbply);
+
+    if (!output_plaintext_goal_writer_replaces_check_writer(goal)
+        && echecc(nbply,advers(trait[nbply])))
+      StdString(" +");
+    if (goal!=no_goal)
+      StdString(goal_end_marker[goal]);
     StdChar(blank);
   }
 
