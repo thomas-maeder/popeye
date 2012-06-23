@@ -62,6 +62,7 @@ static slice_index const slice_rank_order[] =
   STExtinctionRememberThreatened,
   STForEachMove,
   STFindMove,
+  STMovePlayer,
   STBlackChecks,
   STExtinctionTester,
   STBGLFilter,

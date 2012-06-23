@@ -5,6 +5,7 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move_player.h"
 #include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/if_then_else.h"
@@ -119,6 +120,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STForEachMove:
       result = for_each_move_defend(si,n);
+      break;
+
+    case STMovePlayer:
+      result = move_player_defend(si,n);
       break;
 
     case STMovePlayed:

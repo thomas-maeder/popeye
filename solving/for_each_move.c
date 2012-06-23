@@ -1,11 +1,11 @@
 #include "solving/for_each_move.h"
 #include "pydata.h"
-#include "pyproc.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "solving/solving.h"
 #include "solving/find_move.h"
 #include "debugging/trace.h"
@@ -43,18 +43,23 @@ static void insert_move_iterator_move(slice_index si,
     slice_index const prototype = (st->activity==stip_traversal_activity_testing
                                    ? alloc_find_move_slice()
                                    : alloc_for_each_move_slice());
+    slice_index const prototypes[] = {
+        prototype,
+        alloc_move_player_slice()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     switch (st->context)
     {
       case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
+        attack_branch_insert_slices(si,prototypes,nr_prototypes);
         break;
 
       case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
+        defense_branch_insert_slices(si,prototypes,nr_prototypes);
         break;
 
       case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
+        help_branch_insert_slices(si,prototypes,nr_prototypes);
         break;
 
       default:
@@ -110,7 +115,6 @@ void stip_insert_move_iterators(slice_index root_slice)
 stip_length_type for_each_move_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -119,14 +123,9 @@ stip_length_type for_each_move_attack(slice_index si, stip_length_type n)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play))
-    {
-      stip_length_type const length_sol = attack(next,n);
-      if (slack_length<length_sol && length_sol<result)
-        result = length_sol;
-    }
-
-    repcoup();
+    stip_length_type const length_sol = attack(slices[si].next1,n);
+    if (slack_length<length_sol && length_sol<result)
+      result = length_sol;
   }
 
   TraceFunctionExit(__func__);
@@ -147,7 +146,6 @@ stip_length_type for_each_move_attack(slice_index si, stip_length_type n)
  */
 stip_length_type for_each_move_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].next1;
   stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);
@@ -157,14 +155,9 @@ stip_length_type for_each_move_defend(slice_index si, stip_length_type n)
 
   while(encore())
   {
-    if (jouecoup(nbply,first_play))
-    {
-      stip_length_type const length_sol = defend(next,n);
-      if (result<length_sol)
-        result = length_sol;
-    }
-
-    repcoup();
+    stip_length_type const length_sol = defend(slices[si].next1,n);
+    if (result<length_sol)
+      result = length_sol;
   }
 
   TraceFunctionExit(__func__);

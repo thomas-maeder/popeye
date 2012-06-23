@@ -626,8 +626,9 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  stipulation/goals/reached_tester.h \
  stipulation/goals/steingewinn/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
- stipulation/help_play/adapter.h stipulation/move_played.h \
- stipulation/setplay_fork.h stipulation/pipe.h debugging/trace.h
+ stipulation/help_play/adapter.h stipulation/move_player.h \
+ stipulation/move_played.h stipulation/setplay_fork.h stipulation/pipe.h \
+ debugging/trace.h
 
 solving/battle_play/attack_play.h:
 
@@ -923,6 +924,8 @@ stipulation/goals/target/reached_tester.h:
 
 stipulation/help_play/adapter.h:
 
+stipulation/move_player.h:
+
 stipulation/move_played.h:
 
 stipulation/setplay_fork.h:
@@ -941,9 +944,10 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  stipulation/traversal.h stipulation/moves_traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move_played.h stipulation/dummy_move.h \
- stipulation/if_then_else.h stipulation/battle_play/branch.h \
- stipulation/stipulation.h stipulation/goals/reached_tester.h \
+ stipulation/move_player.h stipulation/move_played.h \
+ stipulation/dummy_move.h stipulation/if_then_else.h \
+ stipulation/battle_play/branch.h stipulation/stipulation.h \
+ stipulation/goals/reached_tester.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/move_generator.h solving/for_each_move.h solving/find_move.h \
@@ -1024,6 +1028,8 @@ stipulation/dead_end.h:
 stipulation/end_of_branch.h:
 
 stipulation/end_of_branch_goal.h:
+
+stipulation/move_player.h:
 
 stipulation/move_played.h:
 

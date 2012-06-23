@@ -118,6 +118,7 @@
 #include "stipulation/goals/steingewinn/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/help_play/adapter.h"
+#include "stipulation/move_player.h"
 #include "stipulation/move_played.h"
 #include "stipulation/setplay_fork.h"
 #include "debugging/trace.h"
@@ -190,6 +191,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STForEachMove:
       result = for_each_move_attack(si,n);
+      break;
+
+    case STMovePlayer:
+      result = move_player_attack(si,n);
       break;
 
     case STMovePlayed:

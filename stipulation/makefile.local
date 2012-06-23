@@ -3,11 +3,11 @@
 SRC_CFILES = slice_type.c slice.c structure_traversal.c moves_traversal.c has_solution_type.c branch.c move_played.c dummy_move.c proxy.c setplay_fork.c dead_end.c \
          end_of_branch.c end_of_branch_goal.c end_of_branch_tester.c constraint.c if_then_else.c \
          temporary_hacks.c testing_pipe.c conditional_pipe.c \
-         move_inverter.c binary.c pipe.c fork.c stipulation.c
+         move_inverter.c binary.c pipe.c fork.c stipulation.c move_player.c
          
 INCLUDES = slice_type.h slice.h traversal.h structure_traversal.h moves_traversal.h has_solution_type.h branch.h move_played.h dummy_move.h proxy.h setplay_fork.h \
            dead_end.h end_of_branch.h end_of_branch_goal.h end_of_branch_tester.h constraint.h \
            if_then_else.h temporary_hacks.h testing_pipe.h conditional_pipe.h \
-           move_inverter.h binary.h pipe.h fork.h stipulation.h
+           move_inverter.h binary.h pipe.h fork.h stipulation.h move_player.h
 
 include makefile.rules $(CURRPWD)depend

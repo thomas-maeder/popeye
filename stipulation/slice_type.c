@@ -32,6 +32,7 @@
     ENUMERATOR(STMove),                                                \
     ENUMERATOR(STForEachMove), /* iterate over each generated move */  \
     ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
+    ENUMERATOR(STMovePlayer),                                          \
     ENUMERATOR(STMovePlayed),                                          \
     ENUMERATOR(STHelpMovePlayed),                                      \
     ENUMERATOR(STDummyMove),    /* dummy move */                       \
