@@ -31,6 +31,7 @@
 #include "conditions/blackchecks.h"
 #include "conditions/extinction.h"
 #include "conditions/singlebox/type1.h"
+#include "conditions/singlebox/type2.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -274,6 +275,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STSingleBoxType1LegalityTester:
       result = singlebox_type1_legality_tester_defend(si,n);
+      break;
+
+    case STSingleBoxType2LegalityTester:
+      result = singlebox_type2_legality_tester_defend(si,n);
       break;
 
     case STThreatDefeatedTester:

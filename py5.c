@@ -78,6 +78,7 @@
 #include "conditions/extinction.h"
 #include "conditions/republican.h"
 #include "conditions/singlebox/type1.h"
+#include "conditions/singlebox/type2.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
@@ -1471,70 +1472,6 @@ boolean jouecoup_ortho_test(ply ply_id)
   return flag;
 }
 
-static boolean singlebox_illegal_latent_white_pawn(void)
-{
-  boolean result = false;
-  square const next_latent_white = next_latent_pawn(initsquare,White);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (next_latent_white!=initsquare)
-  {
-    piece p;
-    for (p = db; p<=fb; ++p)
-      if (nbpiece[p]<nr_piece(game_array)[p])
-      {
-        result = true;
-        break;
-      }
-  }
-
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean singlebox_illegal_latent_black_pawn(void)
-{
-  boolean result = false;
-  square const next_latent_black = next_latent_pawn(initsquare,Black);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (next_latent_black!=initsquare)
-  {
-    piece p;
-    for (p = dn; p>=fn; --p)
-      if (nbpiece[p]<nr_piece(game_array)[p])
-      {
-        result = true;
-        break;
-      }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean singlebox_type2_illegal(void)
-{
-  boolean result = false;
-
-  if (singlebox_type1_illegal())
-    result = true;
-  else if (singlebox_illegal_latent_white_pawn()
-           || singlebox_illegal_latent_black_pawn())
-    result = true;
-
-  return result;
-}
-
 static boolean singlebox_type3_illegal(void)
 {
   boolean result = false;
@@ -1558,10 +1495,7 @@ static boolean singlebox_illegal(void)
   switch (SingleBoxType)
   {
     case singlebox_type1:
-      break;
-
     case singlebox_type2:
-      result = singlebox_type2_illegal();
       break;
 
     case singlebox_type3:
