@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.169 2012/06/23 06:22:31 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.170 2012/06/23 10:09:48 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -199,7 +199,7 @@ PLATFORMS =     platform/other platform/windows32 platform/dos \
 NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     conditions conditions/amu conditions/ultraschachzwang \
     conditions/circe conditions/anticirce conditions/ohneschach \
-    conditions/owu conditions/maff \
+    conditions/owu conditions/maff conditions/singlebox \
     optimisations DHT \
     stipulation stipulation/boolean \
     stipulation/battle_play stipulation/help_play \
@@ -237,7 +237,7 @@ NESTEDLIBDIRS = . \
     solving solving/battle_play \
     conditions conditions/amu conditions/ultraschachzwang \
     conditions/circe conditions/anticirce conditions/ohneschach \
-    conditions/owu conditions/maff \
+    conditions/owu conditions/maff conditions/singlebox \
     optimisations DHT \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \

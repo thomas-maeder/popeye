@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = type1.c
+INCLUDES = type1.h
+
+include makefile.rules $(CURRPWD)depend

@@ -18,6 +18,7 @@
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
+#include "conditions/singlebox/type1.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -685,6 +686,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STExtinctionTester:
       result = extinction_tester_attack(si,n);
+      break;
+
+    case STSingleBoxType1LegalityTester:
+      result = singlebox_type1_legality_tester_attack(si,n);
       break;
 
     case STPlaySuppressor:

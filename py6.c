@@ -113,6 +113,7 @@
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
+#include "conditions/singlebox/type1.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2784,6 +2785,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[schwarzschacher])
         stip_insert_blackchecks(root_slice);
+
+      if (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
+        stip_insert_singlebox_type1(root_slice);
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers(root_slice);

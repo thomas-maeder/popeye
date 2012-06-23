@@ -77,6 +77,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/republican.h"
+#include "conditions/singlebox/type1.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
@@ -1470,42 +1471,6 @@ boolean jouecoup_ortho_test(ply ply_id)
   return flag;
 }
 
-static boolean singlebox_officer_out_of_box(void)
-{
-  boolean result = false;
-  piece p;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (p = roib; p<=fb; ++p)
-    if (nbpiece[p]>nr_piece(game_array)[p]
-        || nbpiece[-p]>nr_piece(game_array)[-p])
-    {
-      result = true;
-      break;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean singlebox_pawn_out_of_box(void)
-{
-  boolean const result = (nbpiece[pb]>nr_piece(game_array)[pb]
-                          || nbpiece[pn]>nr_piece(game_array)[pn]);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean singlebox_illegal_latent_white_pawn(void)
 {
   boolean result = false;
@@ -1557,11 +1522,6 @@ static boolean singlebox_illegal_latent_black_pawn(void)
   return result;
 }
 
-static boolean singlebox_type1_illegal(void)
-{
-  return singlebox_officer_out_of_box() || singlebox_pawn_out_of_box();
-}
-
 static boolean singlebox_type2_illegal(void)
 {
   boolean result = false;
@@ -1598,7 +1558,6 @@ static boolean singlebox_illegal(void)
   switch (SingleBoxType)
   {
     case singlebox_type1:
-      result = singlebox_type1_illegal();
       break;
 
     case singlebox_type2:

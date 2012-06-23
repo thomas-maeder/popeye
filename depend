@@ -342,7 +342,8 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/ohneschach/immobility_tester.h conditions/exclusive.h \
  position/position.h conditions/extinction.h \
  solving/battle_play/defense_play.h pydata.h conditions/republican.h \
- pyproc.h pieces/attributes/paralysing/paralysing.h optimisations/hash.h \
+ pyproc.h conditions/singlebox/type1.h \
+ pieces/attributes/paralysing/paralysing.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h debugging/measure.h
 
 py.h:
@@ -419,6 +420,8 @@ conditions/republican.h:
 
 pyproc.h:
 
+conditions/singlebox/type1.h:
+
 pieces/attributes/paralysing/paralysing.h:
 
 optimisations/hash.h:
@@ -441,9 +444,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/bgl.h conditions/exclusive.h position/position.h \
  conditions/republican.h pyproc.h conditions/blackchecks.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
- conditions/ohneschach/immobility_tester.h platform/maxmem.h \
- platform/maxtime.h platform/pytime.h platform/priority.h \
- stipulation/has_solution_type.h stipulation/branch.h \
+ conditions/ohneschach/immobility_tester.h conditions/singlebox/type1.h \
+ platform/maxmem.h platform/maxtime.h platform/pytime.h \
+ platform/priority.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
  stipulation/dead_end.h stipulation/move_inverter.h \
  stipulation/boolean/or.h stipulation/battle_play/branch.h \
@@ -558,6 +561,8 @@ conditions/maff/immobility_tester.h:
 conditions/owu/immobility_tester.h:
 
 conditions/ohneschach/immobility_tester.h:
+
+conditions/singlebox/type1.h:
 
 platform/maxmem.h:
 
