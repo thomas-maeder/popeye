@@ -1453,14 +1453,6 @@ piece next_singlebox_prom(piece p, Side c)
 static  int nbrtimes = 0;
 #endif
 
-void jouecoup_no_test(ply ply_id)
-{
-  boolean const save_jouetestgenre = jouetestgenre;
-  jouetestgenre = false;
-  jouecoup(ply_id,replay);
-  jouetestgenre = save_jouetestgenre;
-}
-
 boolean jouecoup_ortho_test(ply ply_id)
 {
   boolean flag;

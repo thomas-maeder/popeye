@@ -37,6 +37,9 @@ static void write_line(Side starting_side, goal_type goal)
 
   ply const start_ply = 2;
 
+  boolean const save_jouetestgenre = jouetestgenre;
+  jouetestgenre = false;
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,starting_side,"");
   TraceFunctionParam("%u",goal);
@@ -102,7 +105,7 @@ static void write_line(Side starting_side, goal_type goal)
     TraceValue("%u",current_ply);
     TraceEnumerator(Side,trait[current_ply],"\n");
     initneutre(advers(trait[current_ply]));
-    jouecoup_no_test(current_ply);
+    jouecoup(current_ply,replay);
 
     if (trait[current_ply]==starting_side)
     {
@@ -119,7 +122,7 @@ static void write_line(Side starting_side, goal_type goal)
 
   {
     initneutre(advers(trait[nbply]));
-    jouecoup_no_test(nbply);
+    jouecoup(nbply,replay);
 
     if (trait[nbply]==starting_side)
     {
@@ -136,6 +139,8 @@ static void write_line(Side starting_side, goal_type goal)
       StdString(goal_end_marker[goal]);
     StdChar(blank);
   }
+
+  jouetestgenre = save_jouetestgenre;
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_end_pos();

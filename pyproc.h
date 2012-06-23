@@ -244,7 +244,6 @@ void    gubin(square a, square b);
 void    hardinit(void);
 boolean imok(square i, square j);
 void    initneutre(Side a);
-void jouecoup_no_test(ply ply_id);
 boolean jouecoup_ortho_test(ply ply_id);
 
 typedef enum
