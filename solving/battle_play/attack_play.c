@@ -22,6 +22,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/patience.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -709,6 +710,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_attack(si,n);
+      break;
+
+    case STPatienceChessLegalityTester:
+      result = patience_chess_legality_tester_attack(si,n);
       break;
 
     case STPlaySuppressor:

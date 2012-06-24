@@ -347,8 +347,9 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/ohneschach/immobility_tester.h conditions/exclusive.h \
  position/position.h solving/battle_play/defense_play.h pydata.h \
  conditions/extinction.h conditions/republican.h pyproc.h \
- pieces/attributes/paralysing/paralysing.h optimisations/hash.h \
- DHT/dhtbcmem.h debugging/trace.h debugging/measure.h
+ conditions/patience.h pieces/attributes/paralysing/paralysing.h \
+ optimisations/hash.h DHT/dhtbcmem.h debugging/trace.h \
+ debugging/measure.h
 
 py.h:
 
@@ -424,6 +425,8 @@ conditions/republican.h:
 
 pyproc.h:
 
+conditions/patience.h:
+
 pieces/attributes/paralysing/paralysing.h:
 
 optimisations/hash.h:
@@ -450,15 +453,15 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
- platform/maxmem.h platform/maxtime.h platform/pytime.h \
- platform/priority.h stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
- stipulation/dead_end.h stipulation/move_inverter.h \
- stipulation/boolean/or.h stipulation/battle_play/branch.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/constraint.h stipulation/moves_traversal.h \
- stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
- stipulation/temporary_hacks.h \
+ conditions/patience.h platform/maxmem.h platform/maxtime.h \
+ platform/pytime.h platform/priority.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_tester.h stipulation/dead_end.h \
+ stipulation/move_inverter.h stipulation/boolean/or.h \
+ stipulation/battle_play/branch.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/constraint.h \
+ stipulation/moves_traversal.h stipulation/help_play/branch.h \
+ stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h solving/solving.h \
  solving/for_each_move.h solving/battle_play/check_detector.h \
  solving/battle_play/try.h utilities/table.h solving/battle_play/threat.h \
@@ -576,6 +579,8 @@ conditions/singlebox/type1.h:
 conditions/singlebox/type2.h:
 
 conditions/singlebox/type3.h:
+
+conditions/patience.h:
 
 platform/maxmem.h:
 
@@ -736,9 +741,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  solving/play_suppressor.h solving/battle_play/continuation.h \
  solving/battle_play/try.h utilities/table.h conditions/republican.h \
  pyproc.h conditions/bgl.h conditions/check_zigzag.h \
- options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
- options/maxflightsquares.h options/movenumbers.h \
- options/maxsolutions/maxsolutions.h \
+ conditions/patience.h options/degenerate_tree.h options/nontrivial.h \
+ options/maxthreatlength.h options/maxflightsquares.h \
+ options/movenumbers.h options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/intelligent.h position/position.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -895,6 +900,8 @@ pyproc.h:
 conditions/bgl.h:
 
 conditions/check_zigzag.h:
+
+conditions/patience.h:
 
 options/degenerate_tree.h:
 

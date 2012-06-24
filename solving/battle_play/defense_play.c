@@ -35,6 +35,7 @@
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
 #include "conditions/ohneschach/legality_tester.h"
+#include "conditions/patience.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -294,6 +295,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_defend(si,n);
+      break;
+
+    case STPatienceChessLegalityTester:
+      result = patience_chess_legality_tester_defend(si,n);
       break;
 
     case STThreatDefeatedTester:

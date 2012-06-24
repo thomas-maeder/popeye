@@ -118,6 +118,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/patience.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2816,6 +2817,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[ohneschach])
         stip_insert_ohneschach_legality_testers(root_slice);
+
+      if (CondFlag[patience])
+        stip_insert_patience_chess(root_slice);
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers(root_slice);

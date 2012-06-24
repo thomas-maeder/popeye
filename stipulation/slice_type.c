@@ -47,6 +47,7 @@
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STExclusiveChessLegalityTester),                        \
     ENUMERATOR(STOhneschachLegalityTester),                            \
+    ENUMERATOR(STPatienceChessLegalityTester),                         \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \

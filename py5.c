@@ -77,6 +77,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/republican.h"
+#include "conditions/patience.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
@@ -1304,24 +1305,6 @@ static void joueparrain(ply ply_id)
 
 piece pdisp[maxply+1];
 Flags pdispspec[maxply+1];
-square sqdep[maxply+1];
-
-static boolean patience_legal()
-{
-  square bl_last_vacated= initsquare, wh_last_vacated= initsquare;
-  ply nply;
-  /* n.b. inventor rules that R squares are forbidden after
-     castling but not yet implemented */
-
-  for (nply= nbply - 1 ; nply > 1 && !bl_last_vacated ; nply--)
-    if (trait[nply] == Black)
-      bl_last_vacated= sqdep[nply];
-  for (nply= nbply - 1 ; nply > 1 && !wh_last_vacated ; nply--)
-    if (trait[nply] == White)
-      wh_last_vacated= sqdep[nply];
-  return !((wh_last_vacated && e[wh_last_vacated]) ||
-           (bl_last_vacated && e[bl_last_vacated]));
-}
 
 static int direction(square from, square to)
 {
@@ -1483,8 +1466,6 @@ static boolean jouecoup_legality_test(void)
   else if (CondFlag[circeassassin] && (sqrenais[nbply]==king_square[White] || sqrenais[nbply]==king_square[Black]))
     result = false;
   else if (are_we_testing_immobility_with_opposite_king_en_prise && king_square[advers(trait[nbply])]==initsquare)
-    result = false;
-  else if (CondFlag[patience] && !PatienceB && !patience_legal()) /* don't call patience_legal if TypeB as obs > vide ! */
     result = false;
 
   return result;
