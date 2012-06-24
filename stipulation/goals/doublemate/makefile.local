@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = filter.c reached_tester.c
+SRC_CFILES = filter.c reached_tester.c king_capture_avoider.c
 
-INCLUDES = filter.h reached_tester.h
+INCLUDES = filter.h reached_tester.h king_capture_avoider.h
 
 include makefile.rules $(CURRPWD)depend

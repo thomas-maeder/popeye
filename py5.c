@@ -1465,8 +1465,6 @@ static boolean jouecoup_legality_test(void)
     result = false;
   else if (CondFlag[circeassassin] && (sqrenais[nbply]==king_square[White] || sqrenais[nbply]==king_square[Black]))
     result = false;
-  else if (are_we_testing_immobility_with_opposite_king_en_prise && king_square[advers(trait[nbply])]==initsquare)
-    result = false;
 
   return result;
 }

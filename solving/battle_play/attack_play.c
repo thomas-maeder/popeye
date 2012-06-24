@@ -122,6 +122,7 @@
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/steingewinn/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
+#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/move_player.h"
 #include "stipulation/move_played.h"
@@ -710,6 +711,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_attack(si,n);
+      break;
+
+    case STKingCaptureAvoider:
+      result = king_capture_avoider_attack(si,n);
       break;
 
     case STPatienceChessLegalityTester:

@@ -136,6 +136,7 @@
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/solving.h"
 #include "solving/for_each_move.h"
@@ -2817,6 +2818,8 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[ohneschach])
         stip_insert_ohneschach_legality_testers(root_slice);
+
+      stip_insert_king_capture_avoiders(root_slice);
 
       if (CondFlag[patience])
         stip_insert_patience_chess(root_slice);

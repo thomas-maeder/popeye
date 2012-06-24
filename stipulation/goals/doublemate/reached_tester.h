@@ -7,9 +7,6 @@
  * whether a double mate goal has just been reached
  */
 
-/* TODO get rid of this */
-extern boolean are_we_testing_immobility_with_opposite_king_en_prise;
-
 /* Allocate a system of slices that tests whether doublemate has been reached
  * @return index of entry slice
  */

@@ -6,6 +6,7 @@
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/and.h"
 #include "debugging/trace.h"
@@ -13,8 +14,6 @@
 /* This module provides functionality dealing with slices that detect
  * whether a counter mate goal has just been reached
  */
-
-extern boolean are_we_testing_immobility_with_opposite_king_en_prise;
 
 /* Allocate a system of slices that tests whether countermate has been reached
  * @return index of entry slice

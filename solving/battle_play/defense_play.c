@@ -13,6 +13,7 @@
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
+#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "solving/battle_play/attack_play.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/move_generator.h"
@@ -295,6 +296,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_defend(si,n);
+      break;
+
+    case STKingCaptureAvoider:
+      result = king_capture_avoider_defend(si,n);
       break;
 
     case STPatienceChessLegalityTester:
