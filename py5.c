@@ -1989,9 +1989,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
   jouespec[ply_id] = spec_pi_moving;
   sqdep[ply_id] = sq_departure;
 
-  if (jt!=replay)
-    invalidateHashBuffer();
-
   if (jouegenre)
   {
     rochade_sq[coup_id] = initsquare;
