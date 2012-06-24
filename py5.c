@@ -1461,8 +1461,6 @@ static boolean jouecoup_legality_test(void)
                    && !echecc(nbply,Black))
            ))
     result = false;
-  else if (CondFlag[isardam] && !isardam_pos_legal())
-    result = false;
 
   return result;
 }

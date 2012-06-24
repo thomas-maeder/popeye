@@ -24,6 +24,7 @@
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
+#include "conditions/isardam.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -712,6 +713,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_attack(si,n);
+      break;
+
+    case STIsardamLegalityTester:
+      result = insert_isardam_legality_tester_attack(si,n);
       break;
 
     case STKingAssassinationAvoider:

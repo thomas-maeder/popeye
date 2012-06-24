@@ -119,6 +119,7 @@
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
+#include "conditions/isardam.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2820,6 +2821,9 @@ static Token iterate_twins(Token prev_token)
         stip_insert_ohneschach_legality_testers(root_slice);
 
       stip_insert_king_capture_avoiders(root_slice);
+
+      if (CondFlag[isardam])
+        stip_insert_isardam_legality_testers(root_slice);
 
       if (CondFlag[circeassassin])
         stip_insert_king_assassination_avoiders(root_slice);

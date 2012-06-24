@@ -55,6 +55,7 @@
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STExclusiveChessLegalityTester),                        \
     ENUMERATOR(STOhneschachLegalityTester),                            \
+    ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STKingAssassinationAvoider),                            \
     ENUMERATOR(STKingCaptureAvoider),                                  \
     ENUMERATOR(STPatienceChessLegalityTester),                         \

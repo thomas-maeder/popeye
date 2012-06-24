@@ -2668,32 +2668,6 @@ boolean b_hopcheck(square    i,
   return rhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean isardam_pos_legal(void)
-{
-  square square_h = square_h8;
-  int i;
-  boolean result = true;
-
-  initneutre(trait[nbply]);
-
-  nextply(nbply);
-  /* for e.p. captures */
-  for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
-  {
-    int j;
-    square z = square_h;
-    for (j = nr_files_on_board; j>0; j--, z += dir_left)
-      if (e[z]!=vide && !libre(z,false))
-      {
-        result = false;
-        break;
-      }
-  }
-  finply();
-
-  return result;
-}
-
 static Side guess_side_at_move(square sq_departure, square sq_capture)
 {
   Side result;
