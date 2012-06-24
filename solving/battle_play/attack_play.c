@@ -20,6 +20,7 @@
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
+#include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
@@ -713,6 +714,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_attack(si,n);
+      break;
+
+    case STUltraschachzwangLegalityTester:
+      result = ultraschachzwang_legality_tester_attack(si,n);
       break;
 
     case STIsardamLegalityTester:

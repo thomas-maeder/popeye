@@ -39,6 +39,7 @@
 #include "conditions/circe/assassin.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/ultraschachzwang/legality_tester.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -298,6 +299,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_defend(si,n);
+      break;
+
+    case STUltraschachzwangLegalityTester:
+      result = ultraschachzwang_legality_tester_defend(si,n);
       break;
 
     case STIsardamLegalityTester:

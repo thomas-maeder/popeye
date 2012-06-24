@@ -1436,31 +1436,12 @@ piece next_singlebox_prom(piece p, Side c)
 static  int nbrtimes = 0;
 #endif
 
-boolean jouecoup_ortho_test(ply ply_id)
-{
-  boolean flag;
-  boolean jtg1= jouetestgenre1;
-  jouetestgenre1= false;
-  flag= jouecoup(ply_id,replay);
-  jouetestgenre1= jtg1;
-  return flag;
-}
-
 static boolean jouecoup_legality_test(void)
 {
   boolean result = true;
 
   if (!jouetestgenre)
     result = true;
-  else if (jouetestgenre1
-           && ((CondFlag[blackultraschachzwang]
-                && trait[nbply]==Black
-                && !echecc(nbply,White))
-               || (CondFlag[whiteultraschachzwang]
-                   && trait[nbply]==White
-                   && !echecc(nbply,Black))
-           ))
-    result = false;
 
   return result;
 }

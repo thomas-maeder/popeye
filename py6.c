@@ -120,6 +120,8 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/circe/assassin.h"
+#include "conditions/ultraschachzwang/legality_tester.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1847,7 +1849,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[whiteultraschachzwang]
       || CondFlag[BGL];
 
-  jouetestgenre1 = CondFlag[blackultraschachzwang]
+  jouetest_ultraschachzwang = CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang];
 
   supergenre = supergenre

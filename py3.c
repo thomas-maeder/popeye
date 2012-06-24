@@ -40,6 +40,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "conditions/ultraschachzwang/legality_tester.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -319,8 +320,15 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
 
     while (nr_flights>0 && encore())
     {
-      if (jouecoup_ortho_test(nbply) && !echecc_normal(ply_id,Black))
-        nr_flights--;
+      boolean const save_jouetest_ultraschachzwang = jouetest_ultraschachzwang;
+      if (jouecoup(nbply,replay))
+      {
+        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
+        if (!echecc_normal(ply_id,Black))
+          nr_flights--;
+      }
+      else
+        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
 
       repcoup();
     }
@@ -622,8 +630,15 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
 
     while (nr_flights>0 && encore())
     {
-      if (jouecoup_ortho_test(nbply) && ! echecc_normal(ply_id,White))
-        nr_flights--;
+      boolean const save_jouetest_ultraschachzwang = jouetest_ultraschachzwang;
+      if (jouecoup(nbply,replay))
+      {
+        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
+        if (!echecc_normal(ply_id,White))
+          nr_flights--;
+      }
+      else
+        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
 
       repcoup();
     }

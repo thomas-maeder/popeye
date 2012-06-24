@@ -2,6 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
+#include "conditions/ultraschachzwang/legality_tester.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -80,8 +81,43 @@ static void prepend_mate_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void instrument_move(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_ultraschachzwang_legality_tester_slice();
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_defense:
+        defense_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor ultraschachzwang_filter_inserters[] =
 {
+  { STMove,                  &instrument_move     },
   { STGoalMateReachedTester, &prepend_mate_filter }
 };
 

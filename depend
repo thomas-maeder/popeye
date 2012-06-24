@@ -206,7 +206,9 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  utilities/enumeration.h pylang.h pyproc.h py4.h \
  stipulation/goals/goals.h utilities/boolean.h py.h pydata.h \
  pieces/attributes/paralysing/paralysing.h stipulation/slice.h \
- stipulation/slice_type.h debugging/trace.h debugging/measure.h pyproc.h
+ stipulation/slice_type.h conditions/ultraschachzwang/legality_tester.h \
+ solving/battle_play/attack_play.h solving/battle_play/defense_play.h \
+ pydata.h debugging/trace.h debugging/measure.h pyproc.h
 
 py.h:
 
@@ -241,6 +243,14 @@ pieces/attributes/paralysing/paralysing.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
+
+conditions/ultraschachzwang/legality_tester.h:
+
+solving/battle_play/attack_play.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
 
 debugging/trace.h:
 
@@ -453,15 +463,17 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
- conditions/patience.h platform/maxmem.h platform/maxtime.h \
- platform/pytime.h platform/priority.h stipulation/has_solution_type.h \
- stipulation/branch.h stipulation/end_of_branch.h \
- stipulation/end_of_branch_tester.h stipulation/dead_end.h \
- stipulation/move_inverter.h stipulation/boolean/or.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/constraint.h \
- stipulation/moves_traversal.h stipulation/help_play/branch.h \
- stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
+ conditions/patience.h conditions/isardam.h conditions/circe/assassin.h \
+ conditions/ultraschachzwang/legality_tester.h platform/maxmem.h \
+ platform/maxtime.h platform/pytime.h platform/priority.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
+ stipulation/dead_end.h stipulation/move_inverter.h \
+ stipulation/boolean/or.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/constraint.h stipulation/moves_traversal.h \
+ stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
+ stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/doublemate/king_capture_avoider.h solving/solving.h \
  solving/for_each_move.h solving/battle_play/check_detector.h \
@@ -582,6 +594,12 @@ conditions/singlebox/type2.h:
 conditions/singlebox/type3.h:
 
 conditions/patience.h:
+
+conditions/isardam.h:
+
+conditions/circe/assassin.h:
+
+conditions/ultraschachzwang/legality_tester.h:
 
 platform/maxmem.h:
 

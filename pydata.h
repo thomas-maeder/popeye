@@ -402,7 +402,6 @@ EXTERN boolean          flag_synchron;
 EXTERN boolean			  	blacknull, nullgenre, whitenull;
 EXTERN int         annanvar;
 EXTERN ply      	      tempply;
-EXTERN boolean          jouetestgenre1;
 EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
 EXTERN boolean          calc_trans_king[nr_sides];
