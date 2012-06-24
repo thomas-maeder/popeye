@@ -716,7 +716,7 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STIsardamLegalityTester:
-      result = insert_isardam_legality_tester_attack(si,n);
+      result = isardam_legality_tester_attack(si,n);
       break;
 
     case STKingAssassinationAvoider:

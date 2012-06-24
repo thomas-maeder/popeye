@@ -17,8 +17,8 @@ void stip_insert_isardam_legality_testers(slice_index si);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type insert_isardam_legality_tester_attack(slice_index si,
-                                                       stip_length_type n);
+stip_length_type isardam_legality_tester_attack(slice_index si,
+                                                stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -31,7 +31,7 @@ stip_length_type insert_isardam_legality_tester_attack(slice_index si,
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type insert_isardam_legality_tester_defend(slice_index si,
-                                                       stip_length_type n);
+stip_length_type isardam_legality_tester_defend(slice_index si,
+                                                stip_length_type n);
 
 #endif
