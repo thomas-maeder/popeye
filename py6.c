@@ -114,6 +114,7 @@
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
+#include "conditions/ohneschach/legality_tester.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
@@ -2809,6 +2810,12 @@ static Token iterate_twins(Token prev_token)
           default:
             break;
         }
+
+      if (CondFlag[exclusive])
+        stip_insert_exclusive_chess_legality_testers(root_slice);
+
+      if (CondFlag[ohneschach])
+        stip_insert_ohneschach_legality_testers(root_slice);
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers(root_slice);

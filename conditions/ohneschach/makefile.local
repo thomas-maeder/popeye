@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = immobility_tester.c
-INCLUDES = immobility_tester.h
+SRC_CFILES = immobility_tester.c legality_tester.c
+INCLUDES = immobility_tester.h legality_tester.h
 
 include makefile.rules $(CURRPWD)depend

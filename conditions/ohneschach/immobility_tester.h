@@ -7,6 +7,8 @@
  * whether a side is immobile
  */
 
+extern boolean is_ohneschach_suspended;
+
 /* Replace immobility tester slices to cope with condition Ohneschach
  * @param si where to start (entry slice into stipulation)
  */
@@ -33,12 +35,5 @@ stip_length_type ohneschach_suspender_attack(slice_index si,
  */
 stip_length_type ohneschach_check_guard_attack(slice_index si,
                                                stip_length_type n);
-
-/* Determine whether the move just played has led to a legal position according
- * to condition Ohneschach
- * @param just_moved identifies the side that has just moved
- * @return true iff the position reached is legal according to Ohneschach
- */
-boolean ohneschach_pos_legal(Side just_moved);
 
 #endif

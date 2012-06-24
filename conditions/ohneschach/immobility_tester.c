@@ -88,58 +88,7 @@ void ohneschach_replace_immobility_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean is_ohneschach_suspended;
-
-/* Determine whether a side is immobile in Ohneschach
- * @return true iff side is immobile
- */
-static boolean ohneschach_immobile(Side side)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  /* ohneschach_immobile() may invoke itself recursively. Protect ourselves from
-   * infinite recursion. */
-  if (nbply>maxply-2)
-    FtlMsg(ChecklessUndecidable);
-
-  result = attack(slices[temporary_hack_immobility_tester[side]].next2,length_unspecified)==has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the move just played has led to a legal position according
- * to condition Ohneschach
- * @param just_moved identifies the side that has just moved
- * @return true iff the position reached is legal according to Ohneschach
- */
-boolean ohneschach_pos_legal(Side just_moved)
-{
-  boolean result = true;
-  Side const ad = advers(just_moved);
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,just_moved,"");
-  TraceFunctionParamListEnd();
-
-  if (is_ohneschach_suspended)
-    result = true;
-  else if (echecc(nbply,just_moved))
-    result = false;
-  else if (echecc(nbply,ad) && !ohneschach_immobile(ad))
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
+boolean is_ohneschach_suspended;
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

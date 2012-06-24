@@ -14,6 +14,7 @@
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/exclusive.h"
+#include "conditions/ohneschach/legality_tester.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
@@ -700,6 +701,14 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STSingleBoxType3LegalityTester:
       result = singlebox_type3_legality_tester_attack(si,n);
+      break;
+
+    case STExclusiveChessLegalityTester:
+      result = exclusive_chess_legality_tester_attack(si,n);
+      break;
+
+    case STOhneschachLegalityTester:
+      result = ohneschach_legality_tester_attack(si,n);
       break;
 
     case STPlaySuppressor:

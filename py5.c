@@ -1478,10 +1478,6 @@ static boolean jouecoup_legality_test(void)
                    && !echecc(nbply,Black))
            ))
     result = false;
-  else if (CondFlag[exclusive] && !exclusive_pos_legal())
-    result = false;
-  else if (CondFlag[ohneschach] && !ohneschach_pos_legal(trait[nbply]))
-    result = false;
   else if (CondFlag[isardam] && !isardam_pos_legal())
     result = false;
   else if (CondFlag[circeassassin] && (sqrenais[nbply]==king_square[White] || sqrenais[nbply]==king_square[Black]))
