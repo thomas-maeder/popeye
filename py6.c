@@ -2821,6 +2821,9 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_king_capture_avoiders(root_slice);
 
+      if (CondFlag[circeassassin])
+        stip_insert_king_assassination_avoiders(root_slice);
+
       if (CondFlag[patience])
         stip_insert_patience_chess(root_slice);
 

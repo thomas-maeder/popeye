@@ -55,6 +55,7 @@
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STExclusiveChessLegalityTester),                        \
     ENUMERATOR(STOhneschachLegalityTester),                            \
+    ENUMERATOR(STKingAssassinationAvoider),                            \
     ENUMERATOR(STKingCaptureAvoider),                                  \
     ENUMERATOR(STPatienceChessLegalityTester),                         \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \

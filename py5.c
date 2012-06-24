@@ -1463,8 +1463,6 @@ static boolean jouecoup_legality_test(void)
     result = false;
   else if (CondFlag[isardam] && !isardam_pos_legal())
     result = false;
-  else if (CondFlag[circeassassin] && (sqrenais[nbply]==king_square[White] || sqrenais[nbply]==king_square[Black]))
-    result = false;
 
   return result;
 }

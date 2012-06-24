@@ -13,6 +13,7 @@
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
+#include "conditions/circe/assassin.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/legality_tester.h"
 #include "conditions/maff/immobility_tester.h"
@@ -711,6 +712,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STOhneschachLegalityTester:
       result = ohneschach_legality_tester_attack(si,n);
+      break;
+
+    case STKingAssassinationAvoider:
+      result = king_assassination_avoider_attack(si,n);
       break;
 
     case STKingCaptureAvoider:
