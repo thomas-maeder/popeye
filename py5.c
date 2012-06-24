@@ -1436,16 +1436,6 @@ piece next_singlebox_prom(piece p, Side c)
 static  int nbrtimes = 0;
 #endif
 
-static boolean jouecoup_legality_test(void)
-{
-  boolean result = true;
-
-  if (!jouetestgenre)
-    result = true;
-
-  return result;
-}
-
 static ghost_index_type find_ghost(square sq_arrival)
 {
   ghost_index_type current = nr_ghosts;
@@ -2115,7 +2105,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         else if (king_square[Black]==sq_arrival)
           king_square[Black]= sq_departure;
 
-        return jouecoup_legality_test();
+        return true;
 
       case kingside_castling:
         if (CondFlag[einstein])
@@ -3256,7 +3246,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
       oscillatedKs[ply_id]= false;
       if (trait_ply==White
           ? CondFlag[white_oscillatingKs]
-          : CondFlag[black_oscillatingKs]) {
+          : CondFlag[black_oscillatingKs])
+      {
         boolean priorcheck= false;
         square temp= king_square[White];
         piece temp1= e[king_square[White]];
@@ -3347,7 +3338,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                         flag_outputmultiplecolourchanges);
     } /* if (jouegenre) */
 
-    return jouecoup_legality_test();
+    return true;
   }
 } /* end of jouecoup */
 
