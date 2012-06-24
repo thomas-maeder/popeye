@@ -2,62 +2,72 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
-#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
-/* TODO remove this hack */
-boolean are_we_testing_immobility_with_opposite_king_en_prise = false;
-
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
+  boolean const * const behind_goal_with_potential_king_capture = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
+  if (*behind_goal_with_potential_king_capture)
   {
     slice_index const prototype = alloc_pipe(STKingCaptureAvoider);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    assert(st->context==stip_traversal_context_help);
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
+static void remember_goal_with_potential_king_capture(slice_index si,
+                                                      stip_structure_traversal *st)
+{
+  boolean * const behind_goal_with_potential_king_capture = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *behind_goal_with_potential_king_capture = true;
+  stip_traverse_structure_children(si,st);
+  *behind_goal_with_potential_king_capture = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_king_capture_avoiders(slice_index si)
 {
+  boolean behind_goal_with_potential_king_capture = false;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_structure_traversal_init(&st,&behind_goal_with_potential_king_capture);
+  stip_structure_traversal_override_single(&st,
+                                           STMove,
+                                           &instrument_move);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalCounterMateReachedTester,
+                                           &remember_goal_with_potential_king_capture);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalDoubleMateReachedTester,
+                                           &remember_goal_with_potential_king_capture);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -76,17 +86,16 @@ stip_length_type king_capture_avoider_attack(slice_index si,
                                              stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (are_we_testing_immobility_with_opposite_king_en_prise && king_square[advers(trait[nbply])]==initsquare)
+  if (king_square[slices[si].starter]==initsquare)
     result = n+2;
   else
-    result = attack(next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,17 +118,16 @@ stip_length_type king_capture_avoider_defend(slice_index si,
                                              stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (are_we_testing_immobility_with_opposite_king_en_prise && king_square[advers(trait[nbply])]==initsquare)
+  if (king_square[slices[si].starter]==initsquare)
     result = slack_length-1;
   else
-    result = defend(next,n);
+    result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

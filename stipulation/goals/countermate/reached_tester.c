@@ -75,12 +75,7 @@ stip_length_type goal_countermate_reached_tester_attack(slice_index si, stip_len
   TraceValue("%u",nbply);
   TraceValue("%u\n",parent_ply[nbply]);
   if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_countermate))
-  {
-    are_we_testing_immobility_with_opposite_king_en_prise =
-      (TSTFLAG(PieSpExFlags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral);
     result = attack(slices[si].next1,n);
-    are_we_testing_immobility_with_opposite_king_en_prise = false;
-  }
   else
     result = n+2;
 

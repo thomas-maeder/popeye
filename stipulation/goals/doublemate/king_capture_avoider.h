@@ -5,10 +5,10 @@
 #include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality to avoid king capture in immobility
- * testing for double (and counter) mate goals
+ * testing for double (and counter) mate goals.
+ * According to current knowledge, this can only happen if the king to be
+ * mated is neutral.
  */
-
-extern boolean are_we_testing_immobility_with_opposite_king_en_prise;
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

@@ -162,9 +162,9 @@ stipulation/goals/doublemate/king_capture_avoider$(OBJ_SUFFIX): \
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/proxy.h stipulation/battle_play/branch.h \
+ stipulation/proxy.h stipulation/help_play/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/help_play/branch.h debugging/trace.h
+ debugging/trace.h
 
 stipulation/goals/doublemate/king_capture_avoider.h:
 
@@ -214,14 +214,12 @@ stipulation/traversal.h:
 
 stipulation/proxy.h:
 
-stipulation/battle_play/branch.h:
+stipulation/help_play/branch.h:
 
 stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
 output/mode.h:
-
-stipulation/help_play/branch.h:
 
 debugging/trace.h:
