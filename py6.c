@@ -735,7 +735,6 @@ static boolean verify_position(slice_index si)
   int      cp, pp, tp, op, fp;
 
   jouegenre = false;
-  jouetestgenre = false;
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
   reset_killer_move_optimisation();
@@ -1836,18 +1835,6 @@ static boolean verify_position(slice_index si)
   if (!CondFlag[patience]) {           /* needed because of twinning */
     PatienceB = false;
   }
-
-  jouetestgenre = jouetestgenre
-      || CondFlag[exclusive]
-      || CondFlag[isardam]
-      || CondFlag[ohneschach]
-      || CondFlag[circeassassin]
-      || stip_ends_in(si,goal_doublemate)
-      || stip_ends_in(si,goal_countermate)
-      || CondFlag[patience]
-      || CondFlag[blackultraschachzwang]
-      || CondFlag[whiteultraschachzwang]
-      || CondFlag[BGL];
 
   jouetest_ultraschachzwang = CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang];

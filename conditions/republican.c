@@ -88,7 +88,6 @@ boolean republican_verifie_position(slice_index si)
       add_ortho_mating_moves_generation_obstacle();
       is_republican_suspended = false;
       jouegenre = true;
-      jouetestgenre = true;
       supergenre = true;
       return true;
     }

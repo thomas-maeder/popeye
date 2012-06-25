@@ -370,8 +370,7 @@ EXTERN  piece           NextChamCircePiece[PieceCount];
 EXTERN  boolean         InitChamCirce;
 
 EXTERN unsigned int     mars_circe_rebirth_state;
-EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral,
-                        jouetestgenre;
+EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;
 EXTERN unsigned int     max_pn, max_pb, max_pt;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
 EXTERN boolean          isapril[derbla + 1];

@@ -60,17 +60,12 @@ static void write_line_intro(write_line_status_type *status)
 
 static void write_next_move(ply ply, write_line_status_type *status)
 {
-  boolean const save_jouetestgenre = jouetestgenre;
-  jouetestgenre = false;
-
   TraceEnumerator(Side,status->side," ");
   TraceValue("%u",ply);
   TraceEnumerator(Side,trait[ply],"\n");
 
   initneutre(advers(trait[ply]));
   jouecoup(ply,replay);
-
-  jouetestgenre = save_jouetestgenre;
 
   if (trait[ply]==status->side)
   {
@@ -87,13 +82,8 @@ static void write_next_move(ply ply, write_line_status_type *status)
 
 static void write_last_move(goal_type goal, write_line_status_type const *status)
 {
-  boolean const save_jouetestgenre = jouetestgenre;
-  jouetestgenre = false;
-
   initneutre(advers(trait[nbply]));
   jouecoup(nbply,replay);
-
-  jouetestgenre = save_jouetestgenre;
 
   if (trait[nbply]==status->side)
   {
