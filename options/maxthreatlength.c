@@ -161,10 +161,12 @@ static void insert_maxthreatlength_guard(slice_index si,
     slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,
                                                        si,
                                                        stip_traversal_context_defense);
+    slice_index const proxy = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
     slice_index const played = alloc_move_played_slice();
-    slice_index const prototype = alloc_maxthreatlength_guard(dummy);
+    slice_index const prototype = alloc_maxthreatlength_guard(proxy);
     assert(threat_start!=no_slice);
+    pipe_link(proxy,dummy);
     pipe_link(dummy,played);
     link_to_branch(played,threat_start);
     defense_branch_insert_slices(si,&prototype,1);
