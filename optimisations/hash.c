@@ -141,80 +141,6 @@ static slice_index hash_slices[max_nr_slices];
 
 HashBuffer hashBuffers[maxply+1];
 
-stip_length_type hashBufferValidity[maxply+1];
-
-enum
-{
-  HASHBUFFER_INVALID = 0
-};
-
-void validateHashBuffer(stip_length_type validity_value)
-{
-  hashBufferValidity[nbply] = validity_value;
-}
-
-void invalidateHashBuffer(void)
-{
-  hashBufferValidity[nbply] = HASHBUFFER_INVALID;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type hashbuffer_invalidator_attack(slice_index si,
-                                               stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  invalidateHashBuffer();
-  result = attack(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type hashbuffer_invalidator_defend(slice_index si,
-                                               stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  invalidateHashBuffer();
-  result = defend(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 #if defined(TESTHASH)
 #define ifTESTHASH(x)   x
 #if defined(__unix)
@@ -1389,9 +1315,6 @@ static void LargeEncode(stip_length_type min_length,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* detect cases where we encode the same position twice */
-  assert(hashBufferValidity[nbply]!=validity_value);
-
   /* clear the bits for storing the position of pieces */
   memset(position,0,nr_rows_on_board);
 
@@ -1423,8 +1346,6 @@ static void LargeEncode(stip_length_type min_length,
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
-
-  validateHashBuffer(validity_value);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1464,9 +1385,6 @@ static void SmallEncode(stip_length_type min_length,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* detect cases where we encode the same position twice */
-  assert(hashBufferValidity[nbply]!=validity_value);
-
   for (row=0; row<nr_rows_on_board; row++, a_square += onerow)
   {
     square curr_square= a_square;
@@ -1495,8 +1413,6 @@ static void SmallEncode(stip_length_type min_length,
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
-
-  validateHashBuffer(validity_value);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1805,7 +1721,6 @@ void closehash(void)
     }
 #endif /*__unix*/
 #endif /*TESTHASH*/
-    invalidateHashBuffer();
   }
 } /* closehash */
 
@@ -1935,28 +1850,6 @@ static void remember_move(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
   *previous_move_slice = save_previous_move_slice;
 
-  {
-    slice_index const prototype = alloc_pipe(STHashBufferInvalidator);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -2041,9 +1934,6 @@ static void addtohash_battle_nosuccess(slice_index si,
                                        stip_length_type min_length_adjusted)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-#if !defined(NDEBUG)
-  stip_length_type const validity_value = min_length_adjusted/2+1;
-#endif
   hash_value_type const val = (n+1-min_length_adjusted)/2;
   dhtElement *he;
 
@@ -2052,8 +1942,6 @@ static void addtohash_battle_nosuccess(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
-
-  assert(hashBufferValidity[nbply]==validity_value);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
@@ -2087,9 +1975,6 @@ static void addtohash_battle_success(slice_index si,
                                      stip_length_type min_length_adjusted)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-#if !defined(NDEBUG)
-  stip_length_type const validity_value = min_length_adjusted/2+1;
-#endif
   hash_value_type const val = (n+1-min_length_adjusted)/2 - 1;
   dhtElement *he;
 
@@ -2098,8 +1983,6 @@ static void addtohash_battle_success(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
-
-  assert(hashBufferValidity[nbply]==validity_value);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
@@ -2180,8 +2063,7 @@ stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n)
 
   assert((n-slices[base].u.branch.length)%2==0);
 
-  if (hashBufferValidity[nbply]!=validity_value)
-    (*encode)(min_length,validity_value);
+  (*encode)(min_length,validity_value);
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
@@ -2244,8 +2126,7 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (hashBufferValidity[nbply]!=validity_value)
-    (*encode)(min_length,validity_value);
+  (*encode)(min_length,validity_value);
 
   ifHASHRATE(use_all++);
 

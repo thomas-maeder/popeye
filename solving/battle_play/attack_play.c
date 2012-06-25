@@ -232,10 +232,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = fork_on_remaining_attack(si,n);
       break;
 
-    case STHashBufferInvalidator:
-      result = hashbuffer_invalidator_attack(si,n);
-      break;
-
     case STAttackHashed:
       result = attack_hashed_attack(si,n);
       break;

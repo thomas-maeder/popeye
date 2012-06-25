@@ -45,7 +45,6 @@
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
-#include "optimisations/hash.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxtime.h"
 #include "options/nontrivial.h"
@@ -344,10 +343,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STGoalReachedTester:
       result = goal_reached_tester_defend(si,n);
-      break;
-
-    case STHashBufferInvalidator:
-      result = hashbuffer_invalidator_defend(si,n);
       break;
 
     case STTrue:

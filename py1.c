@@ -52,7 +52,6 @@
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
-#include "optimisations/hash.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "options/nontrivial.h"
@@ -170,8 +169,6 @@ static void initply(ply parent)
   blkobulspec[nbply] = spec[king_square[Black]];
   whpwr[nbply] = whpwr[parent];
   blpwr[nbply] = blpwr[parent];
-
-  invalidateHashBuffer();
 }
 
 void nextply(ply parent)

@@ -66,9 +66,6 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
   square a_square= square_a1;
   boolean even= false;
 
-  /* detect cases where we encode the same position twice */
-  assert(hashBufferValidity[nbply]!=validity_value);
-
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board);
 
@@ -109,8 +106,6 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
-
-  validateHashBuffer(validity_value);
 }
 
 int proofwkm[square_h8+25-(square_a1-25)+1];
