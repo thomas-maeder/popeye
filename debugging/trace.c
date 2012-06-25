@@ -372,8 +372,8 @@ static void trace_common(slice_index si, stip_structure_traversal *st)
           context_shortcuts[st->context],
           st->activity==stip_traversal_activity_solving ? 'S' : 'T');
   trace_link("",slices[si].prev,"<");
-  if (slices[si].next1!=no_slice)
-    trace_link(">",slices[si].next1,"");
+  trace_link(">",slices[si].next1,"");
+  trace_link("(",slices[si].tester,")");
 }
 
 static void trace_branch(slice_index si, stip_structure_traversal *st)
@@ -412,6 +412,7 @@ static void trace_leaf(slice_index si, stip_structure_traversal *st)
 static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
+  trace_link("base:",slices[si].u.derived_pipe.base,"");
   fprintf(stdout,"\n");
 
   stip_traverse_structure_children(si,st);
