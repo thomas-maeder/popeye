@@ -28,7 +28,8 @@ slice_index alloc_line_writer_slice(Goal goal);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type line_writer_attack(slice_index si, stip_length_type n);
+stip_length_type output_plaintext_line_line_writer_attack(slice_index si,
+                                                          stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -41,6 +42,18 @@ stip_length_type line_writer_attack(slice_index si, stip_length_type n);
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type line_writer_defend(slice_index si, stip_length_type n);
+stip_length_type output_plaintext_line_line_writer_defend(slice_index si,
+                                                          stip_length_type n);
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type output_plaintext_line_last_move_writer_attack(slice_index si,
+                                                               stip_length_type n);
 
 #endif

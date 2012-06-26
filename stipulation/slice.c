@@ -85,7 +85,8 @@ static slice_type const fork_slice_types[] =
     STIsardamDefenderFinder,
     STCageCirceNonCapturingMoveFinder,
     STMaximummerCandidateMoveTester,
-    STTrivialEndFilter
+    STTrivialEndFilter,
+    STOutputPlaintextLineLineWriter
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -255,6 +256,7 @@ static slice_type const writer_slice_types[] =
     STRefutationWriter,
     STOutputPlaintextTreeCheckWriter,
     STOutputPlaintextLineLineWriter,
+    STOutputPlaintextLineLastMoveWriter,
     STOutputPlaintextTreeGoalWriter
 };
 

@@ -262,7 +262,7 @@ stip_length_type defend(slice_index si, stip_length_type n)
       break;
 
     case STOutputPlaintextLineLineWriter:
-      result = line_writer_defend(si,n);
+      result = output_plaintext_line_line_writer_defend(si,n);
       break;
 
     case STBGLFilter:
