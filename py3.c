@@ -321,7 +321,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
     while (nr_flights>0 && encore())
     {
       boolean const save_jouetest_ultraschachzwang = jouetest_ultraschachzwang;
-      if (jouecoup(nbply,replay))
+      if (jouecoup(nbply,first_play))
       {
         jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
         if (!echecc_normal(ply_id,Black))
@@ -631,7 +631,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     while (nr_flights>0 && encore())
     {
       boolean const save_jouetest_ultraschachzwang = jouetest_ultraschachzwang;
-      if (jouecoup(nbply,replay))
+      if (jouecoup(nbply,first_play))
       {
         jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
         if (!echecc_normal(ply_id,White))
