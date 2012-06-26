@@ -88,36 +88,6 @@ void ohneschach_replace_immobility_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-boolean is_ohneschach_suspended;
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type ohneschach_suspender_attack(slice_index si,
-                                             stip_length_type n)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  is_ohneschach_suspended = true;
-  result = attack(slices[si].next1,n);
-  is_ohneschach_suspended = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -135,6 +105,11 @@ stip_length_type ohneschach_check_guard_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  /* ohneschach_check_guard_attack() may invoke itself recursively. Protect
+   * ourselves from infinite recursion. */
+  if (nbply>500)
+    FtlMsg(ChecklessUndecidable);
 
   if (echecc(nbply,slices[si].starter))
     result = n+2;

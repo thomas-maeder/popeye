@@ -1,5 +1,4 @@
 #include "conditions/ohneschach/legality_tester.h"
-#include "pymsg.h"
 #include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -21,11 +20,6 @@ static boolean immobile(Side side)
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
-
-  /* immobile() may invoke itself recursively. Protect ourselves from
-   * infinite recursion. */
-  if (nbply>maxply-2)
-    FtlMsg(ChecklessUndecidable);
 
   result = attack(slices[temporary_hack_immobility_tester[side]].next2,length_unspecified)==has_solution;
 
@@ -49,9 +43,7 @@ static boolean is_position_legal(Side just_moved)
   TraceEnumerator(Side,just_moved,"");
   TraceFunctionParamListEnd();
 
-  if (is_ohneschach_suspended)
-    result = true;
-  else if (echecc(nbply,just_moved))
+  if (echecc(nbply,just_moved))
     result = false;
   else if (echecc(nbply,ad) && !immobile(ad))
     result = false;
@@ -109,6 +101,7 @@ void stip_insert_ohneschach_legality_testers(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_structure_traversal_override_single(&st,STOhneschachSuspender,&stip_structure_visitor_noop);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

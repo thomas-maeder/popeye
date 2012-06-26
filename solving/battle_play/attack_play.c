@@ -455,10 +455,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = capture_counter_attack(si,n);
       break;
 
-    case STOhneschachSuspender:
-      result = ohneschach_suspender_attack(si,n);
-      break;
-
     case STOhneschachCheckGuard:
       result = ohneschach_check_guard_attack(si,n);
       break;
