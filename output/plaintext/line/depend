@@ -96,9 +96,10 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/boolean/true.h stipulation/fork.h debugging/trace.h pymsg.h \
- output/plaintext/plaintext.h output/plaintext/move_inversion_counter.h \
+ stipulation/goals/goals.h output/mode.h stipulation/boolean/true.h \
+ stipulation/pipe.h stipulation/move_player.h stipulation/fork.h \
+ debugging/trace.h pymsg.h output/plaintext/plaintext.h \
+ output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  stipulation/has_solution_type.h platform/beep.h
 
@@ -150,9 +151,11 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
+stipulation/boolean/true.h:
+
 stipulation/pipe.h:
 
-stipulation/boolean/true.h:
+stipulation/move_player.h:
 
 stipulation/fork.h:
 

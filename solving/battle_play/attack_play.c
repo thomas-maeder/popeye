@@ -206,6 +206,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = move_player_attack(si,n);
       break;
 
+    case STMoveReplayer:
+      result = move_replayer_attack(si,n);
+      break;
+
     case STMovePlayed:
       result = move_played_attack(si,n);
       break;

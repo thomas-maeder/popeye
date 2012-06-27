@@ -1,7 +1,8 @@
 #include "output/plaintext/line/line_writer.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/pipe.h"
+#include "stipulation/move_player.h"
 #include "pydata.h"
 #include "pydata.h"
 #include "stipulation/fork.h"
@@ -95,7 +96,6 @@ static void write_last_move(slice_index si)
   TraceFunctionParamListEnd();
 
   initneutre(advers(trait[nbply]));
-  jouecoup(nbply,replay);
 
   attack(slices[si].next2,length_unspecified);
 
@@ -203,10 +203,17 @@ slice_index alloc_line_writer_slice(Goal goal)
   TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STOutputPlaintextLineLineWriter);
-  slices[result].next2 = alloc_pipe(STOutputPlaintextLineLastMoveWriter);
-  slices[slices[result].next2].u.goal_handler.goal = goal;
-  pipe_link(slices[result].next2,alloc_true_slice());
+  {
+    slice_index const true = alloc_true_slice();
+    slice_index const replayer = alloc_move_replayer_slice();
+    slice_index const writer = alloc_pipe(STOutputPlaintextLineLastMoveWriter);
+    slices[writer].u.goal_handler.goal = goal;
+
+    result = alloc_pipe(STOutputPlaintextLineLineWriter);
+    slices[result].next2 = replayer;
+    pipe_link(replayer,writer);
+    pipe_link(writer,true);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

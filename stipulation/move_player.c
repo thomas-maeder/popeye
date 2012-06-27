@@ -87,3 +87,51 @@ stip_length_type move_player_defend(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Allocate a STMoveReplayer slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_move_replayer_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMoveReplayer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type move_replayer_attack(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (jouecoup(nbply,replay))
+    result = attack(slices[si].next1,n);
+  else
+    result = n+2;
+
+  /* we intentionally don't do repcoup(); */
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
