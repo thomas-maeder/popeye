@@ -52,7 +52,7 @@ goal_circuit_by_rebirth_reached_tester_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(nbcou!=nil_coup);
+  assert(current_move[nbply]!=nil_coup);
 
   /* goal is only reachable in some fairy conditions */
   result = n+2;

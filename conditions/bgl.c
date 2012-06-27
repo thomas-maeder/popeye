@@ -66,7 +66,7 @@ slice_index alloc_bgl_filter_slice(void)
 stip_length_type bgl_filter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_generation_elmt const * const move_gen_top = move_generation_stack+nbcou;
+  move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply];
   int const move_diff = move_gen_top->departure-move_gen_top->arrival;
   long int const diff = BGL_move_diff_code[abs(move_diff)];
 
@@ -110,7 +110,7 @@ stip_length_type bgl_filter_attack(slice_index si, stip_length_type n)
 stip_length_type bgl_filter_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_generation_elmt const * const move_gen_top = move_generation_stack+nbcou;
+  move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply];
   int const move_diff = move_gen_top->departure-move_gen_top->arrival;
   long int const diff = BGL_move_diff_code[abs(move_diff)];
 

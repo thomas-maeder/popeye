@@ -99,7 +99,7 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow])
-    *bp++ = (byte)(move_generation_stack[nbcou].departure - square_a1);
+    *bp++ = (byte)(move_generation_stack[current_move[nbply]].departure - square_a1);
 
   if (ep[nbply])
     *bp++ = (byte)(ep[nbply] - square_a1);
@@ -1765,7 +1765,7 @@ static boolean ProofImpossible(void)
   if (CondFlag[haanerchess])
   {
     TraceText("impossible hole created\n");
-    return target.board[move_generation_stack[nbcou].departure] != vide;
+    return target.board[move_generation_stack[current_move[nbply]].departure] != vide;
   }
 
   /* collect the pieces for further investigations */

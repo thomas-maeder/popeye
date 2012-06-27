@@ -53,7 +53,7 @@ stip_length_type goal_enpassant_reached_tester_attack(slice_index si, stip_lengt
 
   assert(nbply!=nil_ply);
 
-  if (move_generation_stack[nbcou].arrival!=move_generation_stack[nbcou].capture
+  if (move_generation_stack[current_move[nbply]].arrival!=move_generation_stack[current_move[nbply]].capture
       && is_pawn(pjoue[nbply]))
     result = attack(slices[si].next1,n);
   else

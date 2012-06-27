@@ -1206,9 +1206,9 @@ static byte *CommonEncode(byte *bp,
                           stip_length_type validity_value)
 {
   if (CondFlag[messigny]) {
-    if (move_generation_stack[nbcou].capture == messigny_exchange) {
-      *bp++ = (byte)(move_generation_stack[nbcou].arrival - square_a1);
-      *bp++ = (byte)(move_generation_stack[nbcou].departure - square_a1);
+    if (move_generation_stack[current_move[nbply]].capture == messigny_exchange) {
+      *bp++ = (byte)(move_generation_stack[current_move[nbply]].arrival - square_a1);
+      *bp++ = (byte)(move_generation_stack[current_move[nbply]].departure - square_a1);
     }
     else {
       *bp++ = (byte)(0);
@@ -1221,11 +1221,11 @@ static byte *CommonEncode(byte *bp,
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
-    *bp++ = (byte)(move_generation_stack[nbcou].departure - square_a1);
+    *bp++ = (byte)(move_generation_stack[current_move[nbply]].departure - square_a1);
 
   if (flag_synchron)
-    *bp++= (byte)(sq_num[move_generation_stack[nbcou].departure]
-                  -sq_num[move_generation_stack[nbcou].arrival]
+    *bp++= (byte)(sq_num[move_generation_stack[current_move[nbply]].departure]
+                  -sq_num[move_generation_stack[current_move[nbply]].arrival]
                   +64);
 
   if (CondFlag[imitators])
@@ -1245,7 +1245,7 @@ static byte *CommonEncode(byte *bp,
 
   if (anyparrain) {
     /* a piece has been captured and can be reborn */
-    *bp++ = (byte)(move_generation_stack[nbcou].capture - square_a1);
+    *bp++ = (byte)(move_generation_stack[current_move[nbply]].capture - square_a1);
     if (one_byte_hash) {
       *bp++ = (byte)(pprispec[nbply])
           + ((byte)(piece_nbr[abs(pprise[nbply])]) << (CHAR_BIT/2));

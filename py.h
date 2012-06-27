@@ -915,7 +915,7 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define SavePositionInDiagram(spec,sq) (PiecePositionsInDiagram[GetPieceId(spec)] = (sq))
 #define ClearPositionInDiagram(spec)   SavePositionInDiagram(spec,initsquare)
 
-#define encore()        (nbcou > repere[nbply])
+#define encore()        (current_move[nbply] > current_move[nbply-1])
 #define advers(camp)    ((camp) ? White : Black)
 #define color(piesqu)   (e[(piesqu)]<=roin ? Black : White)
 

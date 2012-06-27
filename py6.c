@@ -2028,7 +2028,7 @@ boolean moves_equal(coup const *move1, coup const *move2)
 
 void current(ply ply_id, coup *mov)
 {
-  numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
+  numecoup const coup_id = ply_id==nbply ? current_move[nbply] : current_move[ply_id];
   square const sq_arrival = move_generation_stack[coup_id].arrival;
 
   mov->tr =          trait[ply_id];

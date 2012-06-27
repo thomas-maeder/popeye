@@ -65,12 +65,12 @@ stip_length_type single_piece_move_generator_attack(slice_index si,
 
   nextply(nbply);
 
-  TraceValue("%u\n",nbcou);
+  TraceValue("%u\n",current_move[nbply]);
   if (side_at_move==White)
     gen_wh_piece(square_departure,piece_moving);
   else
     gen_bl_piece(square_departure,piece_moving);
-  TraceValue("%u\n",nbcou);
+  TraceValue("%u\n",current_move[nbply]);
 
   result = attack(next,n);
 

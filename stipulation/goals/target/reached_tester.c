@@ -57,9 +57,9 @@ stip_length_type goal_target_reached_tester_attack(slice_index si, stip_length_t
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(nbcou!=nil_coup);
+  assert(current_move[nbply]!=nil_coup);
 
-  if (move_generation_stack[nbcou].arrival==target)
+  if (move_generation_stack[current_move[nbply]].arrival==target)
     result = attack(slices[si].next1,n);
   else
     result = n+2;

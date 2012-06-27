@@ -80,10 +80,10 @@ static void GenMatingPawn(square sq_departure,
               || sq_departure+dir_up+dir_left==ep[nbply-1]))
       {
         if (nbply==2)    /* ep.-key  standard pawn */
-          move_generation_stack[repere[2]].arrival= ep[nbply-1]+dir_down;
+          move_generation_stack[current_move[1]].arrival= ep[nbply-1]+dir_down;
         empile(sq_departure,
                ep[nbply-1],
-               move_generation_stack[repere[nbply]].arrival);
+               move_generation_stack[current_move[nbply-1]].arrival);
       }
 
       /* single step */
@@ -146,10 +146,10 @@ static void GenMatingPawn(square sq_departure,
             || sq_departure+dir_down+dir_right==ep[nbply-1]))
     {
       if (nbply==2)    /* ep.-key  standard pawn */
-        move_generation_stack[repere[2]].arrival= ep[nbply-1]+dir_up;
+        move_generation_stack[current_move[1]].arrival= ep[nbply-1]+dir_up;
       empile(sq_departure,
              ep[nbply-1],
-             move_generation_stack[repere[nbply]].arrival);
+             move_generation_stack[current_move[nbply-1]].arrival);
     }
 
     /* single step */

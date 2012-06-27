@@ -113,12 +113,12 @@ void InitCheckDir(void)
     }
 }
 
-static void initply(ply parent)
+static void initply(ply parent, ply child)
 {
-  parent_ply[nbply] = parent;
+  parent_ply[child] = parent;
 
-  ep2[nbply] = initsquare;
-  ep[nbply] = initsquare;
+  ep2[child] = initsquare;
+  ep[child] = initsquare;
 
   /*
     The current implementation of promotions works as follows:
@@ -136,52 +136,69 @@ static void initply(ply parent)
     - as a consequence, we have to clear the position nbply in the
     abovementioned arrays, either in finply() or here
   */
-  norm_prom[nbply] = vide;
-  cir_prom[nbply] = vide;
-  norm_cham_prom[nbply] = false;
-  cir_cham_prom[nbply] = false;
-  Iprom[nbply] = false;
-  pprise[nbply] = vide;
+  norm_prom[child] = vide;
+  cir_prom[child] = vide;
+  norm_cham_prom[child] = false;
+  cir_cham_prom[child] = false;
+  Iprom[child] = false;
+  pprise[child] = vide;
 
   /*
     Supercirce rebirths are implemented similarly to promotions ...
   */
-  super[nbply] = superbas;
+  super[child] = superbas;
 
   /*
     start with the castling rights of the parent level
   */
-  castling_flag[nbply] = castling_flag[parent];
+  castling_flag[child] = castling_flag[parent];
 
   /*
     start with the SAT state of the parent level
   */
-  BlackStrictSAT[nbply] = BlackStrictSAT[parent];
-  WhiteStrictSAT[nbply] = WhiteStrictSAT[parent];
-  BGL_values[White][nbply] = BGL_values[White][parent];
-  BGL_values[Black][nbply] = BGL_values[Black][parent];
+  BlackStrictSAT[child] = BlackStrictSAT[parent];
+  WhiteStrictSAT[child] = WhiteStrictSAT[parent];
+  BGL_values[White][child] = BGL_values[White][parent];
+  BGL_values[Black][child] = BGL_values[Black][parent];
 
-  magicstate[nbply] = magicstate[parent];
+  magicstate[child] = magicstate[parent];
 
-  whkobul[nbply] = e[king_square[White]];
-  blkobul[nbply] = e[king_square[Black]];
-  whkobulspec[nbply] = spec[king_square[White]];
-  blkobulspec[nbply] = spec[king_square[Black]];
-  whpwr[nbply] = whpwr[parent];
-  blpwr[nbply] = blpwr[parent];
+  whkobul[child] = e[king_square[White]];
+  blkobul[child] = e[king_square[Black]];
+  whkobulspec[child] = spec[king_square[White]];
+  blkobulspec[child] = spec[king_square[Black]];
+  whpwr[child] = whpwr[parent];
+  blpwr[child] = blpwr[parent];
 }
+
+static ply ply_watermark;
 
 void nextply(ply parent)
 {
-  nbply++;
-  initply(parent);
-  repere[nbply] = nbcou;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",parent);
+  TraceFunctionParamListEnd();
+
+  nbply = ply_watermark+1;
+  current_move[nbply] = current_move[ply_watermark];
+  ++ply_watermark;
+  initply(parent,nbply);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void finply()
 {
-  nbcou = repere[nbply];
-  nbply--;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(nbply==ply_watermark);
+  --ply_watermark;
+  nbply = parent_ply[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void InitCond(void) {
@@ -382,8 +399,9 @@ void InitAlways(void) {
   move_generation_mode= move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
 
-  nbcou = nil_coup;
   nbply = nil_ply;
+  current_move[nbply] = nil_coup;
+  ply_watermark = nil_ply;
 
   nbmagic = 0;
 
@@ -795,11 +813,11 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
     if (anyparrain && pprise[parent_ply[parent_ply[nbply]]] != vide)
     {
       if (CondFlag[parrain]) {
-        cr = (move_generation_stack[repere[parent_ply[nbply]]].capture
+        cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
             + sq_arrival - sq_departure);
       }
       if (CondFlag[contraparrain]) {
-        cr = (move_generation_stack[repere[parent_ply[nbply]]].capture
+        cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
             - sq_arrival + sq_departure);
       }
       pc = e[cr];
@@ -1580,7 +1598,7 @@ void ChangeMagic(int ply, boolean push)
         ChangeColour(*bnp);
         /* don't store colour change of moving piece - it might
          * undergo other changes */
-        if (push && *bnp!=move_generation_stack[nbcou].arrival)
+        if (push && *bnp!=move_generation_stack[current_move[nbply]].arrival)
           PushChangedColour(colour_change_sp[ply],
                             colour_change_stack_limit,
                             *bnp,

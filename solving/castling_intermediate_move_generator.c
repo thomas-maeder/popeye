@@ -63,7 +63,7 @@ stip_length_type castling_intermediate_move_generator_attack(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
-  numecoup const save_repere = repere[nbply];
+  numecoup const save_repere = current_move[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -75,10 +75,10 @@ stip_length_type castling_intermediate_move_generator_attack(slice_index si,
    * slices into believing that this intermediate move is the only one in the
    * ply.
    */
-  repere[nbply] = nbcou;
+  current_move[nbply-1] = current_move[nbply];
   empile(square_departure,square_arrival,square_arrival);
   result = attack(next,n);
-  repere[nbply] = save_repere;
+  current_move[nbply-1] = save_repere;
 
   /* clean up after ourselves */
   square_departure = initsquare;

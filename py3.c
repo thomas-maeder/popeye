@@ -324,7 +324,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
       if (jouecoup(nbply,first_play))
       {
         jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-        if (!echecc_normal(ply_id,Black))
+        if (!echecc_normal(nbply,Black))
           nr_flights--;
       }
       else
@@ -604,7 +604,6 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     boolean const mummer_sic = flagmummer[White];
     boolean k_sq_checked = false;
 
-
     if (CondFlag[strictSAT])
       k_sq_checked = WhiteStrictSAT[parent_ply[ply_id]];
 
@@ -634,7 +633,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
       if (jouecoup(nbply,first_play))
       {
         jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-        if (!echecc_normal(ply_id,White))
+        if (!echecc_normal(nbply,White))
           nr_flights--;
       }
       else
@@ -1278,11 +1277,19 @@ boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_ca
 }
 
 
-boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
+boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture)
+{
+  boolean result;
   killer_state const save_killer_state = current_killer_state;
   move_generation_mode_type const save_move_generation_mode
       = move_generation_mode;
   boolean check;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
 
   /* if we_generate_consmoves is set this function is never called.
      Let's check this for a while.
@@ -1307,14 +1314,27 @@ boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   TraceValue("->%u\n",move_generation_mode);
   current_killer_state = save_killer_state;
 
-  return  check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
+  result = check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
-boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
+boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture)
+{
+  boolean result;
   killer_state const save_killer_state = current_killer_state;
   move_generation_mode_type const save_move_generation_mode
       = move_generation_mode;
   boolean check;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
 
   nextply(nbply);
   current_killer_state.move.departure = sq_departure;
@@ -1332,7 +1352,12 @@ boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   TraceValue("->%u\n",move_generation_mode);
   current_killer_state = save_killer_state;
 
-  return check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
+  result = check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean skycharcheck(piece  p,

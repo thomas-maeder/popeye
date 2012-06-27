@@ -209,7 +209,7 @@ boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
    * statement into the if (CondFlag[imitators]) block!
    */
   if (TSTFLAG(spec[i],ColourChange))
-    chop[nbcou+1] = k;
+    chop[current_move[nbply]+1] = k;
 
   if (CondFlag[imitators])
   {

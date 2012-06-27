@@ -13,8 +13,8 @@ static void remember_killer_move()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  kpilcd[nbply] = move_generation_stack[nbcou].departure;
-  kpilca[nbply] = move_generation_stack[nbcou].arrival;
+  kpilcd[nbply] = move_generation_stack[current_move[nbply]].departure;
+  kpilca[nbply] = move_generation_stack[current_move[nbply]].arrival;
 
   TraceValue("%u",nbply);
   TraceSquare(kpilcd[nbply]);

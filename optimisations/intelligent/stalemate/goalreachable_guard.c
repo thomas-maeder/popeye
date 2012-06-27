@@ -80,19 +80,19 @@ static boolean stalemate_isGoalReachable(void)
       if (target_position[id].diagram_square!=initsquare)
       {
         unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(pjoue[nbply],
-                                                                                        move_generation_stack[nbcou].departure,
+                                                                                        move_generation_stack[current_move[nbply]].departure,
                                                                                         target_position[id].type,
                                                                                         target_position[id].diagram_square);
 
-        unsigned int const time_now = intelligent_count_nr_of_moves_from_to_no_check(e[move_generation_stack[nbcou].arrival],
-                                                                                     move_generation_stack[nbcou].arrival,
+        unsigned int const time_now = intelligent_count_nr_of_moves_from_to_no_check(e[move_generation_stack[current_move[nbply]].arrival],
+                                                                                     move_generation_stack[current_move[nbply]].arrival,
                                                                                      target_position[id].type,
                                                                                      target_position[id].diagram_square);
 
         TracePiece(pjoue[nbply]);
-        TraceSquare(move_generation_stack[nbcou].departure);
-        TracePiece(e[move_generation_stack[nbcou].arrival]);
-        TraceSquare(move_generation_stack[nbcou].arrival);
+        TraceSquare(move_generation_stack[current_move[nbply]].departure);
+        TracePiece(e[move_generation_stack[current_move[nbply]].arrival]);
+        TraceSquare(move_generation_stack[current_move[nbply]].arrival);
         TracePiece(target_position[id].type);
         TraceSquare(target_position[id].diagram_square);
         TraceValue("%u",time_before);

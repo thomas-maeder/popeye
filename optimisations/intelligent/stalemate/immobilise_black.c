@@ -153,24 +153,24 @@ boolean intelligent_stalemate_immobilise_black(void)
 static void update_leaper_requirement(immobilisation_requirement_type if_unblockable)
 {
   boolean const is_block_possible = (pprise[nbply]==vide
-                                     && nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]==0
-                                     && *where_to_start_placing_black_pieces<=move_generation_stack[nbcou].arrival);
+                                     && nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].arrival]==0
+                                     && *where_to_start_placing_black_pieces<=move_generation_stack[current_move[nbply]].arrival);
   immobilisation_requirement_type const new_req = is_block_possible ? block_of_officer_required : if_unblockable;
   if (current_state->current.requirement<new_req)
     current_state->current.requirement = new_req;
   assert(current_state->current.nr_flight_directions<8);
-  current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[nbcou].arrival;
+  current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[current_move[nbply]].arrival;
   ++current_state->current.nr_flight_directions;
 }
 
 static void update_rider_requirement(immobilisation_requirement_type if_unblockable)
 {
-  int const diff = (move_generation_stack[nbcou].arrival
-                    -move_generation_stack[nbcou].departure);
+  int const diff = (move_generation_stack[current_move[nbply]].arrival
+                    -move_generation_stack[current_move[nbply]].departure);
   int const dir = CheckDir[Queen][diff];
   if (diff==dir)
   {
-    square const closest_flight = move_generation_stack[nbcou].departure+dir;
+    square const closest_flight = move_generation_stack[current_move[nbply]].departure+dir;
     boolean const is_block_possible = (pprise[nbply]==vide
                                        && nr_reasons_for_staying_empty[closest_flight]==0
                                        && *where_to_start_placing_black_pieces<=closest_flight);
@@ -185,8 +185,8 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
 
 static void update_pawn_requirement(void)
 {
-  int const diff = (move_generation_stack[nbcou].arrival
-                    -move_generation_stack[nbcou].departure);
+  int const diff = (move_generation_stack[current_move[nbply]].arrival
+                    -move_generation_stack[current_move[nbply]].departure);
   switch (diff)
   {
     case dir_down:
@@ -194,9 +194,9 @@ static void update_pawn_requirement(void)
        * the same square to closest_flights more than once */
       if (current_state->current.requirement==no_requirement)
       {
-        if (nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]==0)
+        if (nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].arrival]==0)
         {
-          current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[nbcou].arrival;
+          current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[current_move[nbply]].arrival;
           ++current_state->current.nr_flight_directions;
           current_state->current.requirement = block_of_pawn_required;
         }
@@ -239,11 +239,11 @@ stip_length_type intelligent_immobilisation_counter_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[nbcou].departure!=current_state->current.target_square)
+  if (move_generation_stack[current_move[nbply]].departure!=current_state->current.target_square)
   {
     next_trouble_maker();
     current_state->current = null_trouble_maker;
-    current_state->current.target_square = move_generation_stack[nbcou].departure;
+    current_state->current.target_square = move_generation_stack[current_move[nbply]].departure;
   }
 
   switch (pjoue[nbply])

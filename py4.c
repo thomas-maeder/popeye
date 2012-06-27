@@ -127,7 +127,7 @@ int len_capt(square sq_departure, square sq_arrival, square sq_capture) {
 }
 
 int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_arrival == move_generation_stack[repere[nbply]].departure);
+  return (sq_arrival == move_generation_stack[current_move[nbply-1]].departure);
 }
 
 int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
@@ -144,14 +144,14 @@ int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
 
 int len_synchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure-sq_arrival
-          == (move_generation_stack[repere[nbply]].departure
-              - move_generation_stack[repere[nbply]].arrival));
+          == (move_generation_stack[current_move[nbply-1]].departure
+              - move_generation_stack[current_move[nbply-1]].arrival));
 }
 
 int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_arrival-sq_departure
-          == (move_generation_stack[repere[nbply]].departure
-              - move_generation_stack[repere[nbply]].arrival));
+          == (move_generation_stack[current_move[nbply-1]].departure
+              - move_generation_stack[current_move[nbply-1]].arrival));
 }
 
 int len_whforcedsquare(square sq_departure,
@@ -205,10 +205,10 @@ static int count_opponent_moves(void)
 
   init_opponent_moves_counter();
 
-  init_single_move_generator(move_generation_stack[nbcou].departure,
-                             move_generation_stack[nbcou].arrival,
-                             move_generation_stack[nbcou].capture,
-                             cmren[nbcou]);
+  init_single_move_generator(move_generation_stack[current_move[nbply]].departure,
+                             move_generation_stack[current_move[nbply]].arrival,
+                             move_generation_stack[current_move[nbply]].capture,
+                             cmren[current_move[nbply]]);
 
   attack(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,length_unspecified);
 
@@ -231,7 +231,7 @@ void init_move_generation_optimizer(void) {
   case move_generation_optimized_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];
     current_killer_state.move.arrival = kpilca[nbply];
-    current_killer_state.mren = cmren[nbcou];
+    current_killer_state.mren = cmren[current_move[nbply]];
     current_killer_state.found = false;
     break;
   case move_generation_not_optimized:
@@ -263,20 +263,20 @@ void finish_move_generation_optimizer(void) {
           empile_optimization_table_count,
           sizeof(empile_optimization_table_elmt),
           &compare_nr_opponent_moves);
-    nbcou= repere[nbply];
+    current_move[nbply] = current_move[nbply-1];
     while (curr_elmt!=empile_optimization_table) {
-      nbcou++;
+      current_move[nbply]++;
       --curr_elmt;
-      move_generation_stack[nbcou]= curr_elmt->move;
-      cmren[nbcou] = curr_elmt->mren;
+      move_generation_stack[current_move[nbply]]= curr_elmt->move;
+      cmren[current_move[nbply]] = curr_elmt->mren;
     }
     break;
   }
   case move_generation_optimized_by_killer_move:
     if (current_killer_state.found) {
-      nbcou++;
-      move_generation_stack[nbcou] = current_killer_state.move;
-      cmren[nbcou] = current_killer_state.mren;
+      current_move[nbply]++;
+      move_generation_stack[current_move[nbply]] = current_killer_state.move;
+      cmren[current_move[nbply]] = current_killer_state.mren;
     }
     break;
   case move_generation_not_optimized:
@@ -290,12 +290,23 @@ void add_to_move_generation_stack(square sq_departure,
                                   square sq_capture,
                                   square mren)
 {
-  nbcou++;
-  move_generation_stack[nbcou].departure= sq_departure;
-  move_generation_stack[nbcou].arrival= sq_arrival;
-  move_generation_stack[nbcou].capture= sq_capture;
-  cmren[nbcou]= mren;
-  ctrans[nbcou]=current_trans_gen;
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceSquare(mren);
+  TraceFunctionParamListEnd();
+
+  current_move[nbply]++;
+  TraceValue("%u\n",current_move[nbply]);
+  move_generation_stack[current_move[nbply]].departure= sq_departure;
+  move_generation_stack[current_move[nbply]].arrival= sq_arrival;
+  move_generation_stack[current_move[nbply]].capture= sq_capture;
+  cmren[current_move[nbply]]= mren;
+  ctrans[current_move[nbply]]=current_trans_gen;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void add_to_empile_optimization_table(square sq_departure,
@@ -358,12 +369,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     if (CondFlag[messigny]
         && sq_capture == messigny_exchange
         /* a swapping move */
-        && (move_generation_stack[repere[nbply]].capture==messigny_exchange)
+        && (move_generation_stack[current_move[nbply-1]].capture==messigny_exchange)
         /* last move was a swapping one too */
-        && (sq_departure == move_generation_stack[repere[nbply]].arrival
-            || sq_departure == move_generation_stack[repere[nbply]].departure
-            || sq_arrival == move_generation_stack[repere[nbply]].arrival
-            || sq_arrival == move_generation_stack[repere[nbply]].departure))
+        && (sq_departure == move_generation_stack[current_move[nbply-1]].arrival
+            || sq_departure == move_generation_stack[current_move[nbply-1]].departure
+            || sq_arrival == move_generation_stack[current_move[nbply-1]].arrival
+            || sq_arrival == move_generation_stack[current_move[nbply-1]].departure))
       /* No single piece must be involved in
        * two consecutive swappings, so reject move.
        */
@@ -664,12 +675,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
                                  current_killer_state.move.arrival,
                                  current_killer_state.move.capture))
             : (traitnbply == Black
-               ? (*black_length)(move_generation_stack[nbcou].departure,
-                                 move_generation_stack[nbcou].arrival,
-                                 move_generation_stack[nbcou].capture)
-               : (*white_length)(move_generation_stack[nbcou].departure,
-                                 move_generation_stack[nbcou].arrival,
-                                 move_generation_stack[nbcou].capture));
+               ? (*black_length)(move_generation_stack[current_move[nbply]].departure,
+                                 move_generation_stack[current_move[nbply]].arrival,
+                                 move_generation_stack[current_move[nbply]].capture)
+               : (*white_length)(move_generation_stack[current_move[nbply]].departure,
+                                 move_generation_stack[current_move[nbply]].arrival,
+                                 move_generation_stack[current_move[nbply]].capture));
         }
         else
         {
@@ -681,7 +692,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         {
 
           len+= MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
-          curleng+= MAX_OTHER_LEN * (ctrans[nbcou]!=vide ? 1 : 0);
+          curleng+= MAX_OTHER_LEN * (ctrans[current_move[nbply]]!=vide ? 1 : 0);
         }
 
         if (curleng > len) {
@@ -711,7 +722,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
             return true;
         }
 
-        nbcou = repere[nbply];
+        current_move[nbply] = current_move[nbply-1]; /* forget shorter moves generated so far */
         current_killer_state.found = false;
       }
     }
@@ -902,23 +913,38 @@ static square generate_moves_on_line_segment(square sq_departure,
                                              square sq_base,
                                              int k) {
   square arr= sq_base+vec[k];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_base);
+  TraceFunctionParamListEnd();
+
   while (e[arr]==vide && empile(sq_departure,arr,arr))
     arr+= vec[k];
 
+  TraceFunctionExit(__func__);
+  TraceSquare(arr);
+  TraceFunctionResultEnd();
   return arr;
 }
 
 void gebrid(square sq_departure, numvec kbeg, numvec kend) {
   /* generate white rider moves from vec[kbeg] to vec[kend] */
   numvec k;
-
   square sq_arrival;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
 
   for (k= kbeg; k<= kend; k++) {
     sq_arrival= generate_moves_on_line_segment(sq_departure,sq_departure,k);
     if (e[sq_arrival]<=roin)
       empile(sq_departure,sq_arrival,sq_arrival);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void genrid(square sq_departure, numvec kbeg, numvec kend) {
@@ -926,11 +952,18 @@ void genrid(square sq_departure, numvec kbeg, numvec kend) {
   numvec k;
   square sq_arrival;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
   for (k= kbeg; k<= kend; k++) {
     sq_arrival= generate_moves_on_line_segment(sq_departure,sq_departure,k);
     if (e[sq_arrival]>=roib)
       empile(sq_departure,sq_arrival,sq_arrival);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void genbouncer(square sq_departure,
@@ -968,7 +1001,7 @@ static boolean testempile(square sq_departure,
   numecoup k;
 
   if (!TSTFLAG(spec[sq_departure], ColourChange))
-    for (k= nbcou; k > testdebut[nbply]; k--)
+    for (k= current_move[nbply]; k > testdebut[nbply]; k--)
       if (move_generation_stack[k].arrival==sq_arrival)
         return true;
 
@@ -2008,14 +2041,14 @@ static void gmoa(square i, Side camp) {
 void remove_duplicate_moves(numecoup start)
 {
   numecoup l1;
-  for (l1 = start+1; l1<=nbcou; ++l1)
+  for (l1 = start+1; l1<=current_move[nbply]; ++l1)
   {
     numecoup l2 = l1+1;
-    while (l2<=nbcou)
+    while (l2<=current_move[nbply])
       if (move_generation_stack[l1].arrival==move_generation_stack[l2].arrival)
       {
-        move_generation_stack[l2] = move_generation_stack[nbcou];
-        --nbcou;
+        move_generation_stack[l2] = move_generation_stack[current_move[nbply]];
+        --current_move[nbply];
       }
       else
         ++l2;
@@ -2031,7 +2064,7 @@ static void gdoublehopper(square sq_departure, Side camp,
 
   square sq_arrival;
 
-  numecoup save_nbcou = nbcou;
+  numecoup save_nbcou = current_move[nbply];
 
   for (k=vec_end; k>=vec_start; k--) {
     finligne(sq_departure,vec[k],hurdle,sq_hurdle);
@@ -2079,14 +2112,14 @@ static void filter(square i, numecoup prevnbcou, UPDOWN u)
    */
   assert(move_generation_mode!=move_generation_optimized_by_nr_opponent_moves);
 
-  while (s<=nbcou)
+  while (s<=current_move[nbply])
     if ((u==DOWN && move_generation_stack[s].arrival-i>-8)
         || (u==UP && move_generation_stack[s].arrival-i<8))
     {
       memmove(move_generation_stack+s,
               move_generation_stack+s+1,
-              (nbcou-s) * sizeof move_generation_stack[s]);
-      --nbcou;
+              (current_move[nbply]-s) * sizeof move_generation_stack[s]);
+      --current_move[nbply];
     }
     else
       ++s;
@@ -2109,20 +2142,20 @@ static void genhunt(square i, piece p, PieNam pabs)
     HunterType const * const huntertype = huntertypes+typeofhunter;
 
     if (p>0) {
-      numecoup savenbcou = nbcou;
+      numecoup savenbcou = current_move[nbply];
       gen_wh_piece(i,huntertype->home);
       filter(i,savenbcou,DOWN);
 
-      savenbcou = nbcou;
+      savenbcou = current_move[nbply];
       gen_wh_piece(i,huntertype->away);
       filter(i,savenbcou,UP);
     }
     else {
-      numecoup savenbcou = nbcou;
+      numecoup savenbcou = current_move[nbply];
       gen_bl_piece(i,-huntertype->away);
       filter(i,savenbcou,DOWN);
 
-      savenbcou = nbcou;
+      savenbcou = current_move[nbply];
       gen_bl_piece(i,-huntertype->home);
       filter(i,savenbcou,UP);
     }
@@ -2685,7 +2718,7 @@ static void gencpb(square i) {
 }
 
 void gfeerblanc(square i, piece p) {
-  testdebut[nbply]= nbcou;
+  testdebut[nbply]= current_move[nbply];
   switch(p) {
   case nb:
     gebrid(i, vec_knight_start,vec_knight_end);
@@ -2876,7 +2909,7 @@ void gfeerblanc(square i, piece p) {
 }
 
 void gfeernoir(square i, piece p) {
-  testdebut[nbply]= nbcou;
+  testdebut[nbply]= current_move[nbply];
   switch(p) {
   case nn:
     genrid(i, vec_knight_start,vec_knight_end);
@@ -3070,7 +3103,7 @@ void genrb(square sq_departure)
 {
   Side const side = White;
   boolean   flag = false;       /* K im Schach ? */
-  numecoup const save_nbcou = nbcou;
+  numecoup const save_nbcou = current_move[nbply];
 
   if (calc_refl_king[side] && !calctransmute)
   {
@@ -3278,7 +3311,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
     Flags psp;
 
     if (CondFlag[phantom]) {
-      numecoup const anf1 = nbcou;
+      numecoup const anf1 = current_move[nbply];
       numecoup l1;
       /* generate standard moves first */
       flagactive= false;
@@ -3308,7 +3341,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
         return;
       }
       if (e[mren] == vide) {
-        numecoup const anf2 = nbcou;
+        numecoup const anf2 = current_move[nbply];
         pp=e[sq_departure];      /* Mars/Neutral bug */
         e[sq_departure]= vide;
         spec[sq_departure]= EmptySpec;
@@ -3328,17 +3361,17 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
            possible !
 
            TODO: avoid entries with arrival==initsquare by moving
-           the non-duplicate entries forward and reducing nbcou
+           the non-duplicate entries forward and reducing current_move[nbply]
         */
         for (l1= anf1 + 1; l1 <= anf2; l1++)
         {
           numecoup l2= anf2 + 1;
-          while (l2 <= nbcou)
+          while (l2 <= current_move[nbply])
             if (move_generation_stack[l1].arrival
                 ==move_generation_stack[l2].arrival)
             {
-              move_generation_stack[l2] = move_generation_stack[nbcou];
-              --nbcou;
+              move_generation_stack[l2] = move_generation_stack[current_move[nbply]];
+              --current_move[nbply];
               break;  /* remember: ONE duplicate ! */
             }
             else
@@ -3395,7 +3428,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
 
 void singleboxtype3_gen_wh_piece(square z, piece p)
 {
-  numecoup save_nbcou = nbcou;
+  numecoup save_nbcou = current_move[nbply];
   unsigned int latent_prom = 0;
   square sq;
   for (sq = next_latent_pawn(initsquare,White);
@@ -3407,12 +3440,12 @@ void singleboxtype3_gen_wh_piece(square z, piece p)
          pprom!=vide;
          pprom = next_singlebox_prom(pprom,White))
     {
-      numecoup prev_nbcou = nbcou;
+      numecoup prev_nbcou = current_move[nbply];
       ++latent_prom;
       e[sq] = pprom;
       orig_gen_wh_piece(z, sq==z ? pprom : p);
       e[sq] = pb;
-      for (++prev_nbcou; prev_nbcou<=nbcou; ++prev_nbcou)
+      for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
         sb3[prev_nbcou].where = sq;
         sb3[prev_nbcou].what = pprom;
@@ -3424,7 +3457,7 @@ void singleboxtype3_gen_wh_piece(square z, piece p)
   {
     orig_gen_wh_piece(z,p);
 
-    for (++save_nbcou; save_nbcou<=nbcou; ++save_nbcou)
+    for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {
       sb3[save_nbcou].where = initsquare;
       sb3[save_nbcou].what = vide;
@@ -3438,7 +3471,7 @@ void (*gen_wh_piece)(square z, piece p)
 
 void gorph(square i, Side camp)
 {
-  numecoup const save_nbcou = nbcou;
+  numecoup const save_nbcou = current_move[nbply];
 
   piece const *porph;
   for (porph = orphanpieces; *porph!=vide; ++porph)
@@ -3461,7 +3494,7 @@ void gorph(square i, Side camp)
 
 void gfriend(square i, Side camp)
 {
-  numecoup const save_nbcou = nbcou;
+  numecoup const save_nbcou = current_move[nbply];
 
   piece const *pfr;
   for (pfr = orphanpieces; *pfr!=vide; ++pfr)
@@ -3565,12 +3598,12 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
 
       if (nbply==2) {    /* ep.-key  standard pawn */
         if (camp==White)
-          move_generation_stack[repere[2]].arrival= sq_arrival+dir_down;
+          move_generation_stack[current_move[1]].arrival= sq_arrival+dir_down;
         else
-          move_generation_stack[repere[2]].arrival= sq_arrival+dir_up;
+          move_generation_stack[current_move[1]].arrival= sq_arrival+dir_up;
       }
 
-      prev_arrival= move_generation_stack[repere[nbply]].arrival;
+      prev_arrival= move_generation_stack[current_move[nbply-1]].arrival;
       if (rightcolor(e[prev_arrival],camp))
         /* the pawn has the right color */
         empile(sq_departure,sq_arrival,prev_arrival);

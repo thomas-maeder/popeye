@@ -797,7 +797,7 @@ void genrn(square sq_departure)
 {
   Side const side = Black;
   boolean flag = false;  /* K im Schach ? */
-  numecoup const save_nbcou = nbcou;
+  numecoup const save_nbcou = current_move[nbply];
 
   if (calc_refl_king[side] && !calctransmute)
   {
@@ -927,6 +927,11 @@ void gen_bl_ply(void)
 
 void gen_bl_piece_aux(square z, piece p)
 {
+  TraceFunctionEntry(__func__);
+  TraceSquare(z);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[annan]) {
     piece annan_p= e[z+onerow];
     if (blannan(z+onerow, z))
@@ -949,11 +954,19 @@ void gen_bl_piece_aux(square z, piece p)
   default: gfeernoir(z, p);
     break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void orig_gen_bl_piece(square sq_departure, piece p)
 {
   piece pi_departing;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
 
   if (flag_libre_on_generate && !libre(sq_departure,true))
     return;
@@ -969,7 +982,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
     Flags spec_departing;
 
     if (CondFlag[phantom]) {
-      numecoup const anf1 = nbcou;
+      numecoup const anf1 = current_move[nbply];
       /* generate standard moves first */
       flagactive= false;
       flagpassive= false;
@@ -998,7 +1011,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
         return;
       if (e[sq_rebirth] == vide)
       {
-        numecoup const anf2 = nbcou;
+        numecoup const anf2 = current_move[nbply];
         numecoup l1;
         pi_departing=e[sq_departure];   /* Mars/Neutral bug */
         e[sq_departure]= vide;
@@ -1021,12 +1034,12 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
         for (l1 = anf1+1; l1<=anf2; l1++)
         {
           numecoup l2 = anf2+1;
-          while (l2 <= nbcou)
+          while (l2 <= current_move[nbply])
             if (move_generation_stack[l1].arrival
                 ==move_generation_stack[l2].arrival)
             {
-              move_generation_stack[l2] = move_generation_stack[nbcou];
-              --nbcou;
+              move_generation_stack[l2] = move_generation_stack[current_move[nbply]];
+              --current_move[nbply];
               break;  /* remember: ONE duplicate ! */
             }
             else
@@ -1086,10 +1099,13 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
       if (e[*bnp]==-p)
         empile(sq_departure,*bnp,messigny_exchange);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* orig_gen_bl_piece */
 
 void singleboxtype3_gen_bl_piece(square z, piece p) {
-  numecoup save_nbcou = nbcou;
+  numecoup save_nbcou = current_move[nbply];
   unsigned int latent_prom = 0;
   square sq;
   for (sq = next_latent_pawn(initsquare,Black);
@@ -1101,13 +1117,13 @@ void singleboxtype3_gen_bl_piece(square z, piece p) {
          pprom!=vide;
          pprom = next_singlebox_prom(pprom,Black))
     {
-      numecoup prev_nbcou = nbcou;
+      numecoup prev_nbcou = current_move[nbply];
       ++latent_prom;
       e[sq] = -pprom;
       orig_gen_bl_piece(z, sq==z ? -pprom : p);
       e[sq] = pn;
 
-      for (++prev_nbcou; prev_nbcou<=nbcou; ++prev_nbcou)
+      for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
         sb3[prev_nbcou].where = sq;
         sb3[prev_nbcou].what = -pprom;
@@ -1118,7 +1134,7 @@ void singleboxtype3_gen_bl_piece(square z, piece p) {
   if (latent_prom==0)
   {
     orig_gen_bl_piece(z,p);
-    for (++save_nbcou; save_nbcou<=nbcou; ++save_nbcou)
+    for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {
       sb3[save_nbcou].where = initsquare;
       sb3[save_nbcou].what = vide;
@@ -1201,7 +1217,7 @@ void genmove(Side camp)
           && !there_are_consmoves) {
         /* There are no consequent moves.
         ** Now let's look for ``normal'' forced moves,
-        ** but first reset nbcou etc.
+        ** but first reset current_move[nbply] etc.
         */
         we_generate_exact = false;
         finply();
@@ -1226,7 +1242,7 @@ void genmove(Side camp)
           && !there_are_consmoves) {
         /* There are no consequent moves.
         ** Now let's look for ``normal'' forced moves,
-        ** but first reset nbcou etc.
+        ** but first reset current_move[nbply] etc.
         */
         we_generate_exact = false;
         finply();
@@ -1247,17 +1263,17 @@ void genmove(Side camp)
 
 static void joueparrain(ply ply_id)
 {
-  numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
+  numecoup const coup_id = ply_id==nbply ? current_move[nbply] : current_move[ply_id];
   piece const pi_captured = pprise[ply_id-1];
   Flags spec_captured = pprispec[ply_id-1];
   square sq_rebirth;
   if (CondFlag[parrain]) {
-	sq_rebirth = (move_generation_stack[repere[ply_id]].capture
+	sq_rebirth = (move_generation_stack[current_move[ply_id-1]].capture
                                + move_generation_stack[coup_id].arrival
                                - move_generation_stack[coup_id].departure);
   }
   if (CondFlag[contraparrain]) {
-	sq_rebirth = (move_generation_stack[repere[ply_id]].capture
+	sq_rebirth = (move_generation_stack[current_move[ply_id-1]].capture
                                - move_generation_stack[coup_id].arrival
                                + move_generation_stack[coup_id].departure);
   }
@@ -1964,7 +1980,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   nbrtimes++;
 #endif
 
-  numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
+  numecoup const coup_id = ply_id==nbply ? current_move[nbply] : current_move[ply_id];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
 
   square const prev_rb = king_square[White];
@@ -2542,7 +2558,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       } /* CondFlag[antiandernach] ... */
 
       if (CondFlag[champursue]
-        && sq_arrival == move_generation_stack[repere[ply_id]].departure
+        && sq_arrival == move_generation_stack[current_move[ply_id-1]].departure
         && sq_departure != prev_rn
         && sq_departure != prev_rb)
       {
@@ -2635,7 +2651,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     if ((CondFlag[andernach] && pi_captured!=vide)
         || (CondFlag[antiandernach] && pi_captured==vide)
-        || (CondFlag[champursue] && sq_arrival == move_generation_stack[repere[ply_id]].departure)
+        || (CondFlag[champursue] && sq_arrival == move_generation_stack[current_move[ply_id-1]].departure)
         || (CondFlag[norsk])
         || (CondFlag[protean]
             && (pi_captured!=vide || abs(pi_departing)==ReversePawn))
@@ -3350,7 +3366,7 @@ void repcoup(void)
   boolean rochade=false;
   boolean platzwechsel = false;
 
-  move_generation_elmt* move_gen_top = move_generation_stack+nbcou;
+  move_generation_elmt* move_gen_top = move_generation_stack+current_move[nbply];
 
   square sq_departure= move_gen_top->departure;
   square sq_arrival= move_gen_top->arrival;
@@ -3476,7 +3492,7 @@ void repcoup(void)
 
   if (sq_arrival==nullsquare)
   {
-    nbcou--;
+    current_move[nbply]--;
     return;
   }
 
@@ -3491,17 +3507,17 @@ void repcoup(void)
     }
 
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type3
-        && sb3[nbcou].what!=vide) {
+        && sb3[current_move[nbply]].what!=vide) {
       piece pawn = trait[nbply]==White ? pb : pn;
-      e[sb3[nbcou].where] = pawn;
-      if (sq_departure!=sb3[nbcou].where) {
-        --nbpiece[sb3[nbcou].what];
+      e[sb3[current_move[nbply]].where] = pawn;
+      if (sq_departure!=sb3[current_move[nbply]].where) {
+        --nbpiece[sb3[current_move[nbply]].what];
         ++nbpiece[pawn];
       }
     }
 
     if (TSTFLAG(spec_pi_moving, ColourChange)) {
-      sq_hurdle= chop[nbcou];
+      sq_hurdle= chop[current_move[nbply]];
       if (abs(pi_hurdle= e[sq_hurdle]) > roib) {
         nbpiece[pi_hurdle]--;
         e[sq_hurdle]= -pi_hurdle;
@@ -3521,7 +3537,7 @@ void repcoup(void)
     spec[sq_arrival]= spec[sq_departure];
     e[sq_departure]= pi_departing;
     spec[sq_departure]= spec_pi_moving;
-    nbcou--;
+    current_move[nbply]--;
     king_square[White]= RB_[nbply];
     king_square[Black]= RN_[nbply];
     return;
@@ -3687,7 +3703,7 @@ void repcoup(void)
       if (sq_capture == queenside_castling)
         joueim(+dir_left);
       else if (rochade)
-        joueim((sq_departure + rochade_sq[nbcou] - 3*sq_arrival) / 2);
+        joueim((sq_departure + rochade_sq[current_move[nbply]] - 3*sq_arrival) / 2);
       else if (sq_capture != kingside_castling) /* joueim(0) (do nothing) if OO */
         joueim(sq_departure - sq_arrival);      /* verschoben TLi */
     }
@@ -3755,13 +3771,13 @@ void repcoup(void)
   if (rochade)
   {
      square sq_castle= (sq_departure + sq_arrival) / 2;
-     e[rochade_sq[nbcou]] = e[sq_castle];
-     spec[rochade_sq[nbcou]] = spec[sq_castle];
+     e[rochade_sq[current_move[nbply]]] = e[sq_castle];
+     spec[rochade_sq[current_move[nbply]]] = spec[sq_castle];
      e[sq_castle] = vide;
      if (king_square[Black] == sq_castle)
-       king_square[Black]= rochade_sq[nbcou];
+       king_square[Black]= rochade_sq[current_move[nbply]];
      if (king_square[White] == sq_castle)
-       king_square[White]= rochade_sq[nbcou];
+       king_square[White]= rochade_sq[current_move[nbply]];
      CLEARFL(spec[sq_castle]);
   }
 
@@ -3795,7 +3811,7 @@ void repcoup(void)
     }
   } /* andergb */
 
-  /* at last modify promotion-counters and decrement nbcou */
+  /* at last modify promotion-counters and decrement current_move[nbply] */
   /* ortho- und pwc-Umwandlung getrennt */
   if (CondFlag[republican])
     next_prom = !republican_advance_king_square();
@@ -3900,11 +3916,11 @@ void repcoup(void)
                   && !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure)))
           {
             super[nbply]= superbas;
-            nbcou--;
+            current_move[nbply]--;
           }
         }
         else
-          nbcou--;
+          current_move[nbply]--;
       }
     }
   } /* next_prom*/

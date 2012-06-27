@@ -123,7 +123,6 @@ EXTERN struct
     piece what;
 } sb3[toppile+1];
 
-EXTERN  numecoup        nbcou;
 EXTERN  ply             nbply;
 
 EXTERN  killer_state current_killer_state;
@@ -240,7 +239,7 @@ EXTERN  pilecase sqrenais;
 EXTERN  pilecase sq_rebirth_capturing; /* rebirth square for moving piece (Anticirce, Kamikaze+Circe) */
 EXTERN  pilecase super;   /* rebirth square for supercirce */
 EXTERN  Flags    jouespec[maxply + 1];
-EXTERN  numecoup repere[maxply + 1];
+EXTERN  numecoup current_move[maxply + 1];
 EXTERN  ply      parent_ply[maxply + 1];
 EXTERN  piece whkobul[maxply+1], blkobul[maxply+1];
 EXTERN  Flags whkobulspec[maxply+1], blkobulspec[maxply+1];

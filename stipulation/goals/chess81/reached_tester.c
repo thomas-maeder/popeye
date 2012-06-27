@@ -45,7 +45,7 @@ slice_index alloc_goal_chess81_reached_tester_system(void)
 stip_length_type goal_chess81_reached_tester_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[nbcou].arrival;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
@@ -53,7 +53,7 @@ stip_length_type goal_chess81_reached_tester_attack(slice_index si, stip_length_
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(nbcou!=nil_coup);
+  assert(current_move[nbply]!=nil_coup);
 
   if (just_moved==White ? sq_arrival>=square_a8 : sq_arrival<=square_h1)
     result = attack(slices[si].next1,n);

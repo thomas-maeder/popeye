@@ -45,14 +45,14 @@ slice_index alloc_goal_circuit_reached_tester_system(void)
 stip_length_type goal_circuit_reached_tester_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[nbcou].arrival;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(nbcou!=nil_coup);
+  assert(current_move[nbply]!=nil_coup);
 
   if (GetPositionInDiagram(spec[sq_arrival])==sq_arrival)
     result = attack(slices[si].next1,n);

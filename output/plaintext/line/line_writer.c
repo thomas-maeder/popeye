@@ -65,9 +65,9 @@ static void write_line_intro(void)
 
 static void write_next_move(ply ply)
 {
-  TraceEnumerator(Side,write_line_status.side," ");
-  TraceValue("%u",ply);
-  TraceEnumerator(Side,trait[ply],"\n");
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
 
   initneutre(advers(trait[ply]));
   jouecoup(ply,replay);
@@ -83,14 +83,24 @@ static void write_next_move(ply ply)
   if (echecc(ply,advers(trait[ply])))
     StdString(" +");
   StdChar(blank);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_last_move(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   initneutre(advers(trait[nbply]));
   jouecoup(nbply,replay);
 
   attack(slices[si].next2,length_unspecified);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void init_ply_history(void)
@@ -98,21 +108,32 @@ static void init_ply_history(void)
   ply const start_ply = 2;
   int current_ply = nbply;
   write_line_status.length = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   while (current_ply!=start_ply)
   {
     current_ply = parent_ply[current_ply];
-    if (repere[current_ply+1]>repere[current_ply])
+    if (current_move[current_ply]>current_move[current_ply-1])
     {
       write_line_status.ply_history[write_line_status.length] = current_ply;
       ++write_line_status.length;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_ply_history(void)
 {
   ply const start_ply = 2;
   unsigned int history_pos = write_line_status.length;
+  ply const save_nbply = nbply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   while (history_pos>0)
   {
@@ -123,8 +144,14 @@ static void write_ply_history(void)
       write_line_status.side = trait[current_ply];
     }
 
+    nbply = current_ply;
     write_next_move(current_ply);
   }
+
+  nbply = save_nbply;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* identifies a slice whose starter is the nominal starter of the stipulation
@@ -136,8 +163,8 @@ slice_index output_plaintext_slice_determining_starter = no_slice;
 static void write_line(slice_index si, Side starting_side)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceEnumerator(Side,starting_side,"");
-  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
   ResetPosition();

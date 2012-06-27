@@ -102,8 +102,8 @@ static void store_solution(void)
     for (cp = 2; cp<=nbply; ++cp)
     {
       simplified_move_type * const elmt = *sol + cp;
-      elmt->from = move_generation_stack[repere[cp+1]].departure;
-      elmt->to = move_generation_stack[repere[cp+1]].arrival;
+      elmt->from = move_generation_stack[current_move[cp]].departure;
+      elmt->to = move_generation_stack[current_move[cp]].arrival;
       elmt->prom = jouearr[cp];
     }
   }
@@ -125,8 +125,6 @@ static boolean is_duplicate_solution(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  repere[nbply+1] = nbcou;
-
   for (sol = stored_solutions;
        sol!=stored_solutions+nr_stored_solutions && !found;
        ++sol)
@@ -138,8 +136,8 @@ static boolean is_duplicate_solution(void)
       for (cp = 2; cp <= nbply && found; ++cp)
       {
         simplified_move_type * const elmt = (*sol)+cp;
-        found = (elmt->from==move_generation_stack[repere[cp+1]].departure
-                 && elmt->to==move_generation_stack[repere[cp+1]].arrival
+        found = (elmt->from==move_generation_stack[current_move[cp]].departure
+                 && elmt->to==move_generation_stack[current_move[cp]].arrival
                  && elmt->prom==jouearr[cp]);
       }
     }

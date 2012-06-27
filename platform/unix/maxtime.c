@@ -79,9 +79,9 @@ static void ReDrawBoard(int sig)
   for (pl= 3; pl < nbply; pl++)
   {
     WritePiece(pjoue[pl-1]);
-    WriteSquare(move_generation_stack[repere[pl]].departure);
+    WriteSquare(move_generation_stack[current_move[pl]].departure);
     StdChar('-');
-    WriteSquare(move_generation_stack[repere[pl]].arrival);
+    WriteSquare(move_generation_stack[current_move[pl]].arrival);
     if (norm_prom[pl-1]) {
       StdChar('=');
       WritePiece(norm_prom[pl-1]);
