@@ -65,6 +65,7 @@
 #include "solving/battle_play/attack_play.h"
 #include "solving/single_move_generator_with_king_capture.h"
 #include "stipulation/temporary_hacks.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -2179,7 +2180,7 @@ boolean libre(square sq, boolean generating)
 {
   piece p = e[sq];
   boolean result = true;
-  Side const neutcoul_sic = neutcoul;
+  Side const neutcoul_sic = neutral_side;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq);
@@ -2196,7 +2197,7 @@ boolean libre(square sq, boolean generating)
       if (generating)
         p = -p;
       else
-        initneutre(advers(neutcoul));
+        initialise_neutrals(advers(neutral_side));
     }
 
     if (CondFlag[disparate]
@@ -2303,7 +2304,7 @@ boolean libre(square sq, boolean generating)
     } /* CondFlag[eiffel] */
 
     if (TSTFLAG(spec[sq],Neutral) && !generating)
-      initneutre(neutcoul_sic);
+      initialise_neutrals(neutcoul_sic);
   }
 
   TraceFunctionExit(__func__);
@@ -2386,7 +2387,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   }
 
   if (testenemyobs) {
-    if (color(sq_departure)!=White)
+    if (get_side(sq_departure)!=White)
     {
       sq_arrival= king_square[Black];
       king_square[Black]= sq_departure;
@@ -2403,7 +2404,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   }
 
   if (testfriendobs) {
-    if (color(sq_departure)==White)
+    if (get_side(sq_departure)==White)
     {
       sq_arrival= king_square[Black];
       king_square[Black]= sq_departure;
@@ -2681,7 +2682,7 @@ static Side guess_side_at_move(square sq_departure, square sq_capture)
       && king_square[White]!=initsquare
       && TSTFLAG(spec[king_square[White]],Neutral))
     /* will this do for neutral Ks? */
-    result = neutcoul;
+    result = neutral_side;
   else if (sq_capture==king_square[Black])
     result = White;
   else if (sq_capture==king_square[White])
@@ -3072,7 +3073,7 @@ boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
      TLi
   */
   if ((TSTFLAG(PieSpExFlags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral))        /* will this do for neutral Ks? */
-    camp = neutcoul;
+    camp = neutral_side;
   else if (sq_capture==king_square[Black])
     camp = White;
   else if (sq_capture==king_square[White])

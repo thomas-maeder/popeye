@@ -13,6 +13,7 @@
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/plaintext.h"
 #include "stipulation/has_solution_type.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "platform/beep.h"
 #ifdef _SE_
 #include "se.h"
@@ -70,7 +71,7 @@ static void write_next_move(ply ply)
   TraceFunctionParam("%u",ply);
   TraceFunctionParamListEnd();
 
-  initneutre(advers(trait[ply]));
+  initialise_neutrals(advers(trait[ply]));
   jouecoup(ply,replay);
 
   if (trait[ply]==write_line_status.side)
@@ -84,20 +85,6 @@ static void write_next_move(ply ply)
   if (echecc(ply,advers(trait[ply])))
     StdString(" +");
   StdChar(blank);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void write_last_move(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  initneutre(advers(trait[nbply]));
-
-  attack(slices[si].next2,length_unspecified);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -178,7 +165,7 @@ static void write_line(slice_index si, Side starting_side)
   write_line_intro();
   init_ply_history();
   write_ply_history();
-  write_last_move(si);
+  attack(slices[si].next2,length_unspecified);
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_end_pos();
@@ -204,13 +191,16 @@ slice_index alloc_line_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const true = alloc_true_slice();
+    slice_index const neutral_initialiser = alloc_neutral_initialiser_slice();
     slice_index const replayer = alloc_move_replayer_slice();
     slice_index const writer = alloc_pipe(STOutputPlaintextLineLastMoveWriter);
+    slice_index const true = alloc_true_slice();
+
     slices[writer].u.goal_handler.goal = goal;
 
     result = alloc_pipe(STOutputPlaintextLineLineWriter);
-    slices[result].next2 = replayer;
+    slices[result].next2 = neutral_initialiser;
+    pipe_link(neutral_initialiser,replayer);
     pipe_link(replayer,writer);
     pipe_link(writer,true);
   }

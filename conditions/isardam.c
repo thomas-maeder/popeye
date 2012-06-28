@@ -19,7 +19,7 @@ static boolean pos_legal(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  initneutre(trait[nbply]);
+  initialise_neutrals(trait[nbply]);
 
   nextply(nbply);
   /* for e.p. captures */

@@ -186,6 +186,7 @@
     ENUMERATOR(STPiecesParalysingMateFilterTester), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
+    ENUMERATOR(STPiecesNeutralInitialiser),                           \
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STOpponentMovesCounterFork), \
     ENUMERATOR(STOpponentMovesCounter), \

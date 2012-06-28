@@ -1,44 +1,65 @@
-#include "solving/king_move_generator.h"
-#include "stipulation/stipulation.h"
-#include "pydata.h"
-#include "pyproc.h"
-#include "stipulation/pipe.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
-/* Allocate a STKingMoveGenerator slice.
+/* This module provides slice type STPiecesNeutralInitialiser
+ */
+
+/* Side that the neutral pieces currently belong to
+ */
+Side neutral_side;
+
+/* Change the side of the piece on a specific square
+ * @param pos position of piece whose side to change
+ */
+void change_side(square pos)
+{
+  piece const p = e[pos];
+  --nbpiece[p];
+  e[pos] = -p;
+  ++nbpiece[-p];
+}
+
+/* Initialise the neutral pieces to belong to the side to be captured in the
+ * subsequent move
+ * @param captured_side side of pieces to be captured
+ */
+void initialise_neutrals(Side captured_side)
+{
+  /* I don't know why, but the solution below is not slower */
+  /* than the double loop solution of genblanc(). NG */
+
+  if (neutral_side!=captured_side)
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (TSTFLAG(spec[*bnp],Neutral))
+        change_side(*bnp);
+
+    neutral_side = captured_side;
+  }
+}
+
+/* Allocate a STPiecesParalysingMateFilter slice.
+ * @param starter_or_adversary is the starter mated or its adversary?
  * @return index of allocated slice
  */
-slice_index alloc_king_move_generator_slice(void)
+slice_index alloc_neutral_initialiser_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STKingMoveGenerator);
+  result = alloc_pipe(STPiecesNeutralInitialiser);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Generate moves for the king (if any) of a side
- * @param side side for which to generate king moves
- */
-void generate_king_moves(Side side)
-{
-  if (king_square[side]!=initsquare)
-  {
-    if (side==White)
-      gen_wh_piece(king_square[White],abs(e[king_square[White]]));
-    else
-      gen_bl_piece(king_square[Black],-abs(e[king_square[Black]]));
-  }
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -49,25 +70,17 @@ void generate_king_moves(Side side)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type king_move_generator_attack(slice_index si, stip_length_type n)
+stip_length_type neutral_initialiser_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = attacker;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initialise_neutrals(advers(attacker));
-  generate_king_moves(attacker);
-  result = attack(next,n);
-  finply();
+  initialise_neutrals(advers(slices[si].starter));
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -80,31 +93,21 @@ stip_length_type king_move_generator_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type king_move_generator_defend(slice_index si, stip_length_type n)
+ *         n+2 refuted - >acceptable number of refutations found */
+stip_length_type neutral_initialiser_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  Side const defender = slices[si].starter;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = defender;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initialise_neutrals(advers(defender));
-  generate_king_moves(defender);
-  result = defend(next,n);
-  finply();
+  initialise_neutrals(advers(slices[si].starter));
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

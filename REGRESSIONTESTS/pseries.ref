@@ -343,10 +343,10 @@ solution finished.
 
   1.f2-f4   2.f4-f5   3.f5-f6   4.f6*e7   5.e7*f8=R + Ke8-e7   6.Rf8-e8 + Ke7-f6   7.Re8-e6 + Kf6-f5   8.g2-g4 + Kf5*g4   9.Re6-e4 + Kg4-h5  10.Re4-h4 + Qd8*h4 + dia 
 
-              empile:      206655
-            jouecoup:      206731
-        orig_rbechec:       89138
-        orig_rnechec:       22773
+              empile:      205791
+            jouecoup:      205867
+        orig_rbechec:       88788
+        orig_rnechec:       38856
 solution finished. 
 
 

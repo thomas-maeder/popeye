@@ -341,7 +341,6 @@ typedef unsigned int ghost_index_type;
 
 EXTERN ghost_index_type nr_ghosts;
 
-EXTERN  Side         neutcoul;
 EXTERN  boolean         calctransmute;
 
 EXTERN  boolean         k_cap,

@@ -917,7 +917,7 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 
 #define encore()        (current_move[nbply] > current_move[nbply-1])
 #define advers(camp)    ((camp) ? White : Black)
-#define color(piesqu)   (e[(piesqu)]<=roin ? Black : White)
+#define get_side(piesqu)   (e[(piesqu)]<=roin ? Black : White)
 
 #define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))
 #define SETCOLOR(a,b)   (a)=((a)&~COLORFLAGS)+((b)&COLORFLAGS)
@@ -930,8 +930,6 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define hopimmcheck(sq, j, over, diff, diff1) (!checkhopim || hopimok((sq), (j), (over), (diff), (diff1)))
 #define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))
 
-#define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
-#define change(i)               do {register piece pp; nbpiece[pp= e[(i)]]--; nbpiece[e[(i)]= -pp]++;} while (0)
 #define finligne(i,k,p,sq)      do {register int kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
 
 #define rightcolor(ej, camp)    ((camp)==White ? (ej)<=roin : (ej)>=roib)

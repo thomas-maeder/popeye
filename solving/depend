@@ -465,7 +465,7 @@ solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
  stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pyproc.h stipulation/pipe.h \
- debugging/trace.h
+ pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 solving/king_move_generator.h:
 
@@ -519,6 +519,8 @@ pyproc.h:
 
 stipulation/pipe.h:
 
+pieces/attributes/neutral/initialiser.h:
+
 debugging/trace.h:
 solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c \
  solving/non_king_move_generator.h solving/battle_play/attack_play.h py.h \
@@ -529,7 +531,7 @@ solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c 
  stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pyproc.h stipulation/pipe.h \
- debugging/trace.h
+ pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 solving/non_king_move_generator.h:
 
@@ -582,6 +584,8 @@ output/mode.h:
 pyproc.h:
 
 stipulation/pipe.h:
+
+pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:
 solving/single_piece_move_generator$(OBJ_SUFFIX): \

@@ -59,6 +59,7 @@
 #include "options/movenumbers.h"
 #include "options/maxflightsquares.h"
 #include "stipulation/stipulation.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "platform/maxtime.h"
 #include "solving/battle_play/try.h"
 #include "conditions/bgl.h"
@@ -432,7 +433,7 @@ void InitAlways(void) {
     colour_change_sp[i] = colour_change_stack;
   }
 
-  initneutre(White);
+  initialise_neutrals(White);
   reset_tables();
   dont_generate_castling = false;
   flag_libre_on_generate= false;
@@ -441,21 +442,6 @@ void InitAlways(void) {
   takemake_capturesquare= initsquare;
 
   reset_max_nr_solutions_per_target_position();
-}
-
-void initneutre(Side c)
-{
-  /* I don't know why, but the solution below is not slower */
-  /* than the double loop solution of genblanc(). NG */
-
-  if (neutcoul != c)
-  {
-    square const *bnp;
-    neutcoul = c;
-    for (bnp = boardnum; *bnp; bnp++)
-      if (TSTFLAG(spec[*bnp],Neutral))
-        change(*bnp);
-  }
 }
 
 square coinequis(square i)
@@ -991,7 +977,7 @@ void ResetPosition(void)
 
   im0 = sic_im0;
 
-  neutcoul= White;
+  neutral_side= White;
 
   nr_ghosts = sic_nr_ghosts;
   memcpy(ghosts, sic_ghosts, nr_ghosts * sizeof ghosts[0]);
@@ -1633,7 +1619,7 @@ void WriteMagicViews(int ply)
 
 void ChangeColour(square sq)
 {
-  change(sq);
+  change_side(sq);
   CHANGECOLOR(spec[sq]);
   if (e[sq] == tb && sq == square_a1)
     SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);

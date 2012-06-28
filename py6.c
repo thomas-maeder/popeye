@@ -151,6 +151,7 @@
 #include "solving/play_suppressor.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/circe.h"
 #include "conditions/anticirce/anticirce.h"
@@ -397,7 +398,7 @@ static boolean locateRoyal(void)
 
   if (TSTFLAG(PieSpExFlags,Neutral))
     /* neutral king has to be white for initialisation of r[bn] */
-    initneutre(White);
+    initialise_neutrals(White);
 
   if (CondFlag[dynasty])
   {

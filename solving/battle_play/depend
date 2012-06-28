@@ -588,7 +588,8 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h \
  pieces/attributes/paralysing/stalemate_special.h \
- solving/avoid_unsolvable.h solving/battle_play/continuation.h \
+ pieces/attributes/neutral/initialiser.h solving/avoid_unsolvable.h \
+ solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
  solving/battle_play/try.h utilities/table.h solving/capture_counter.h \
@@ -824,6 +825,8 @@ output/mode.h:
 
 pieces/attributes/paralysing/stalemate_special.h:
 
+pieces/attributes/neutral/initialiser.h:
+
 solving/avoid_unsolvable.h:
 
 solving/battle_play/continuation.h:
@@ -998,7 +1001,8 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/move_writer.h output/plaintext/tree/goal_writer.h \
- output/plaintext/line/line_writer.h debugging/trace.h
+ output/plaintext/line/line_writer.h \
+ pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 solving/battle_play/defense_play.h:
 
@@ -1169,5 +1173,7 @@ output/plaintext/tree/move_writer.h:
 output/plaintext/tree/goal_writer.h:
 
 output/plaintext/line/line_writer.h:
+
+pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:

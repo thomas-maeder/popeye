@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -30,7 +31,7 @@ static boolean advance_departure_square(Side side,
                                         square const **next_square_to_try)
 {
   if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
+    initialise_neutrals(advers(side));
 
   while (true)
   {

@@ -155,7 +155,8 @@ optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- solving/fork_on_remaining.h debugging/trace.h
+ solving/fork_on_remaining.h pieces/attributes/neutral/initialiser.h \
+ debugging/trace.h
 
 optimisations/killer_move/final_defense_move.h:
 
@@ -216,5 +217,7 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 solving/fork_on_remaining.h:
+
+pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:

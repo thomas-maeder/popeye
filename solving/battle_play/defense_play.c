@@ -60,6 +60,7 @@
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/line/line_writer.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -319,6 +320,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STPatienceChessLegalityTester:
       result = patience_chess_legality_tester_defend(si,n);
+      break;
+
+    case STPiecesNeutralInitialiser:
+      result = neutral_initialiser_defend(si,n);
       break;
 
     case STThreatDefeatedTester:

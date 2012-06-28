@@ -243,7 +243,6 @@ void    gubib(square a, square b);
 void    gubin(square a, square b);
 void    hardinit(void);
 boolean imok(square i, square j);
-void    initneutre(Side a);
 
 typedef enum
 {

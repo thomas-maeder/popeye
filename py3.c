@@ -40,6 +40,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
@@ -267,10 +268,10 @@ boolean orig_rnechec(ply ply_id, evalfunction_t *evaluate)
 
   if (TSTFLAG(PieSpExFlags,Neutral))
   {
-    Side const neutcoul_save = neutcoul;
-    initneutre(White);
+    Side const neutcoul_save = neutral_side;
+    initialise_neutrals(White);
     result = calc_rnechec(ply_id,evaluate);
-    initneutre(neutcoul_save);
+    initialise_neutrals(neutcoul_save);
   }
   else
     result = calc_rnechec(ply_id,evaluate);
@@ -309,7 +310,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
 
     trait[nbply]= Black;
     if (TSTFLAG(PieSpExFlags,Neutral))
-      initneutre(White);
+      initialise_neutrals(White);
 
     gen_bl_piece(king_square[Black],-abs(e[king_square[Black]]));
 
@@ -574,10 +575,10 @@ boolean orig_rbechec(ply ply_id, evalfunction_t *evaluate)
 
   if (TSTFLAG(PieSpExFlags,Neutral))
   {
-    Side const neutcoul_save = neutcoul;
-    initneutre(Black);
+    Side const neutcoul_save = neutral_side;
+    initialise_neutrals(Black);
     result = calc_rbechec(ply_id,evaluate);
-    initneutre(neutcoul_save);
+    initialise_neutrals(neutcoul_save);
   }
   else
     result = calc_rbechec(ply_id,evaluate);
@@ -618,7 +619,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     current_killer_state= null_killer_state;
     trait[nbply]= White;
     if (TSTFLAG(PieSpExFlags,Neutral))
-      initneutre(Black);
+      initialise_neutrals(Black);
 
     gen_wh_piece(king_square[White],abs(e[king_square[White]]));
 
@@ -1093,7 +1094,7 @@ boolean echecc(ply ply_id, Side camp)
     else
     {
       if (TSTFLAG(PieSpExFlags,Neutral))
-        initneutre(Black);
+        initialise_neutrals(Black);
       if (CondFlag[circeassassin] && echecc_wh_assassin(nbply))
         result = true;
       else if (CondFlag[bicolores])
@@ -1116,7 +1117,7 @@ boolean echecc(ply ply_id, Side camp)
     else
     {
       if (TSTFLAG(PieSpExFlags,Neutral))
-        initneutre(White);
+        initialise_neutrals(White);
       if (CondFlag[circeassassin] && echecc_bl_assassin(nbply))
         result = true;
       else if (CondFlag[bicolores])

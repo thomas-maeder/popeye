@@ -67,6 +67,7 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/min_length_guard.h"
@@ -738,6 +739,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STPatienceChessLegalityTester:
       result = patience_chess_legality_tester_attack(si,n);
+      break;
+
+    case STPiecesNeutralInitialiser:
+      result = neutral_initialiser_attack(si,n);
       break;
 
     case STPlaySuppressor:

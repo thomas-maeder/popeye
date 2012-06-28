@@ -79,9 +79,12 @@
 #include "conditions/republican.h"
 #include "conditions/patience.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
+
+#define setneutre(i)            do {if (neutral_side != get_side(i)) change_side(i);} while(0)
 
 static piece linechampiece(piece p, square sq)
 {
@@ -1193,7 +1196,7 @@ void genmove(Side camp)
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(camp));
+    initialise_neutrals(advers(camp));
   if (nbply==1 && flag_magic)
     PushMagicViews();
   nextply(nbply);
@@ -2298,7 +2301,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       square sq= sq_arrival - direction(sq_departure, sq_arrival);
 
       if (!TSTFLAG(spec[sq], Neutral) && (sq != king_square[White]) && (sq != king_square[Black])) {
-        change(sq);
+        change_side(sq);
         CHANGECOLOR(spec[sq]);
       }
     } /* andergb */
@@ -2530,7 +2533,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         /* now the piece is white */
         /* has it to be changed? */
         if (TSTFLAG(spec_pi_moving, Black)
-            && (!TSTFLAG(spec_pi_moving, White) || neutcoul == Black))
+            && (!TSTFLAG(spec_pi_moving, White) || neutral_side == Black))
         {
           pi_arriving= -pi_arriving;
         }
@@ -3710,14 +3713,14 @@ void repcoup(void)
 
     if (TSTFLAG(PieSpExFlags, Neutral)) {
       /* the following is faster !  TLi
-       * initneutre((pi_departing > vide) ? White : Black);
+       * initialise_neutrals((pi_departing > vide) ? White : Black);
        */
 
       if (TSTFLAG(spec_pi_moving, Neutral) &&
-          (pi_departing < vide ? Black : White) != neutcoul)
+          (pi_departing < vide ? Black : White) != neutral_side)
         pi_departing= -pi_departing;
       if (TSTFLAG(pprispec[nbply], Neutral) &&
-          (pi_captured < vide ? Black : White) != neutcoul)
+          (pi_captured < vide ? Black : White) != neutral_side)
         pi_captured= -pi_captured;
     }
     sq_rebirth = sqrenais[nbply];
@@ -3806,7 +3809,7 @@ void repcoup(void)
     square sq= sq_arrival - direction(sq_departure, sq_arrival);
 
     if (!TSTFLAG(spec[sq], Neutral) && (sq != king_square[White]) && (sq != king_square[Black])) {
-      change(sq);
+      change_side(sq);
       CHANGECOLOR(spec[sq]);
     }
   } /* andergb */

@@ -73,6 +73,7 @@
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -709,7 +710,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if (!we_generate_exact)
         {
           /* not exact-maxi -> test for selfcheck */
-          Side const save_neutcoul = neutcoul;
+          Side const save_neutcoul = neutral_side;
           boolean const save_is_republican_suspended = is_republican_suspended;
           boolean is_this_move_legal;
           is_republican_suspended = true;
@@ -717,7 +718,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           is_this_move_legal = attack(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].next2,length_unspecified)==has_solution;
           is_republican_suspended = save_is_republican_suspended;
            /* TODO what for, if we don't have neutrals? Does it matter? */
-          initneutre(save_neutcoul);
+          initialise_neutrals(save_neutcoul);
           if (!is_this_move_legal)
             return true;
         }
