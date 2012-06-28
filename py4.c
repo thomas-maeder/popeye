@@ -264,6 +264,8 @@ void finish_move_generation_optimizer(void) {
           empile_optimization_table_count,
           sizeof(empile_optimization_table_elmt),
           &compare_nr_opponent_moves);
+    /* undo the offect of calling add_to_move_generation_stack() in
+     * add_to_empile_optimization_table() */
     current_move[nbply] = current_move[nbply-1];
     while (curr_elmt!=empile_optimization_table) {
       current_move[nbply]++;
