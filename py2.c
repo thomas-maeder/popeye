@@ -2338,7 +2338,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     }
     evaluate= legalsquare;
   }
-  else if (flag_madrasi) {
+  else if (CondFlag[madras] || CondFlag[eiffel]) {
     if (!eval_madrasi(sq_departure,sq_arrival,sq_capture)) {
       return false;
     }

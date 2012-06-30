@@ -344,8 +344,7 @@ EXTERN ghost_index_type nr_ghosts;
 EXTERN  boolean         calctransmute;
 
 EXTERN  boolean         k_cap,
-			anymars,
-			flag_madrasi;
+			anymars;
 EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
 

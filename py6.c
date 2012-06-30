@@ -1153,7 +1153,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[isardam] && flag_madrasi)
+  if (CondFlag[isardam]+CondFlag[madras]+CondFlag[eiffel]>1)
   {
     VerifieMsg(IsardamAndMadrasi);
     return false;
@@ -1197,7 +1197,7 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (flag_madrasi || CondFlag[isardam])
+  if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam])
   {
     if ( CondFlag[imitators]
          || TSTFLAG(PieSpExFlags,Paralyse))
@@ -1215,10 +1215,11 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[woozles]) {
-    if ( flag_madrasi
-         || CondFlag[isardam]
-         || CondFlag[imitators]
-         || TSTFLAG(PieSpExFlags,Paralyse))
+    if (CondFlag[madras]
+        || CondFlag[eiffel]
+        || CondFlag[isardam]
+        || CondFlag[imitators]
+        || TSTFLAG(PieSpExFlags,Paralyse))
     {
       VerifieMsg(MadrasiParaAndOthers);
       return false;
@@ -1523,7 +1524,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[hauntedchess]
       || TSTFLAG(PieSpExFlags,Uncapturable);
 
-  flag_libre_on_generate = flag_madrasi || CondFlag[disparate];
+  flag_libre_on_generate = CondFlag[madras] || CondFlag[eiffel] || CondFlag[disparate];
 
   if (CondFlag[dynasty])
   {

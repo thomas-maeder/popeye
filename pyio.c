@@ -4878,9 +4878,6 @@ static char *ParseCond(void) {
       case leofamily:
         CondFlag[chinoises]= true;
         break;
-      case eiffel:
-        flag_madrasi= true;
-        break;
       case contactgrid:
         CondFlag[gridchess] = true;
         CondFlag[koeko] = true;
@@ -5342,7 +5339,6 @@ static char *ParseCond(void) {
         break;
       case madras:
         tok = ParseRex(&rex_mad, rexincl);
-        flag_madrasi= true;
         break;
       case isardam:
         tok = ParseVariant(&IsardamB, gpType);
