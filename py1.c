@@ -435,7 +435,6 @@ void InitAlways(void) {
   initialise_neutrals(White);
   reset_tables();
   dont_generate_castling = false;
-  flag_libre_on_generate= false;
 
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;

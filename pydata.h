@@ -407,7 +407,6 @@ EXTERN int              numgridlines;
 EXTERN square           rochade_sq[toppile + 1];
 EXTERN piece            rochade_pc[toppile + 1];
 EXTERN Flags            rochade_sp[toppile + 1];
-EXTERN boolean          flag_libre_on_generate;
 EXTERN boolean			anyparrain;
 EXTERN boolean          kobulking[nr_sides];
 

@@ -971,7 +971,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (flag_libre_on_generate && !libre(sq_departure,true))
+  if ((CondFlag[madras] || CondFlag[eiffel] || CondFlag[disparate]) && !libre(sq_departure,true))
     return;
 
   if (TSTFLAG(PieSpExFlags,Paralyse)) {

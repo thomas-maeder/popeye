@@ -1524,8 +1524,6 @@ static boolean verify_position(slice_index si)
       || CondFlag[hauntedchess]
       || TSTFLAG(PieSpExFlags,Uncapturable);
 
-  flag_libre_on_generate = CondFlag[madras] || CondFlag[eiffel] || CondFlag[disparate];
-
   if (CondFlag[dynasty])
   {
     /* checking for TSTFLAG(spec[king_square[White]],Kamikaze) may not be sufficient
