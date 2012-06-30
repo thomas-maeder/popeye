@@ -6,7 +6,6 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -155,8 +154,6 @@ static stip_length_type iterate_killer_first(slice_index si,
 
   nextply(nbply);
   trait[nbply] = defender;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initialise_neutrals(attacker);
 
   if (killer!=vide && killer!=obs)
   {
