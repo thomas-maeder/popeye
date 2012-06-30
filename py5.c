@@ -1195,8 +1195,6 @@ void genmove(Side camp)
   TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initialise_neutrals(advers(camp));
   if (nbply==1 && flag_magic)
     PushMagicViews();
   nextply(nbply);

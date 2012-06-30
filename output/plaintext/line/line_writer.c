@@ -191,7 +191,7 @@ slice_index alloc_line_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const neutral_initialiser = alloc_neutral_initialiser_slice();
+    slice_index const replaying = alloc_pipe(STReplayingMoves);
     slice_index const replayer = alloc_move_replayer_slice();
     slice_index const writer = alloc_pipe(STOutputPlaintextLineLastMoveWriter);
     slice_index const true = alloc_true_slice();
@@ -199,8 +199,8 @@ slice_index alloc_line_writer_slice(Goal goal)
     slices[writer].u.goal_handler.goal = goal;
 
     result = alloc_pipe(STOutputPlaintextLineLineWriter);
-    slices[result].next2 = neutral_initialiser;
-    pipe_link(neutral_initialiser,replayer);
+    slices[result].next2 = replaying;
+    pipe_link(replaying,replayer);
     pipe_link(replayer,writer);
     pipe_link(writer,true);
   }

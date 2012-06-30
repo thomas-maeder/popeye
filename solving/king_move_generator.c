@@ -3,7 +3,6 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -63,8 +62,6 @@ stip_length_type king_move_generator_attack(slice_index si, stip_length_type n)
   move_generation_mode = move_generation_not_optimized;
   nextply(nbply);
   trait[nbply] = attacker;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initialise_neutrals(advers(attacker));
   generate_king_moves(attacker);
   result = attack(next,n);
   finply();
@@ -100,8 +97,6 @@ stip_length_type king_move_generator_defend(slice_index si, stip_length_type n)
   move_generation_mode = move_generation_not_optimized;
   nextply(nbply);
   trait[nbply] = defender;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initialise_neutrals(advers(defender));
   generate_king_moves(defender);
   result = defend(next,n);
   finply();

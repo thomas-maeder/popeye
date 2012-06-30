@@ -8,7 +8,8 @@ pieces/attributes/neutral/initialiser$(OBJ_SUFFIX): \
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h debugging/trace.h
+ stipulation/pipe.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h debugging/trace.h
 
 pieces/attributes/neutral/initialiser.h:
 
@@ -59,5 +60,9 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
 
 debugging/trace.h:

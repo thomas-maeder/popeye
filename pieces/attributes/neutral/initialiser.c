@@ -1,6 +1,8 @@
 #include "pieces/attributes/neutral/initialiser.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -113,4 +115,66 @@ stip_length_type neutral_initialiser_defend(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void insert_initialser(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_neutral_initialiser_slice();
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_defense:
+        defense_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        help_branch_insert_slices(si,&prototype,1); /* TODO */
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a stipulation with goal filter slices
+ * @param si root of branch to be instrumented
+ */
+void stip_insert_neutral_initialisers(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STGeneratingMoves,
+                                           &insert_initialser);
+  stip_structure_traversal_override_single(&st,
+                                           STReplayingMoves,
+                                           &insert_initialser);
+  stip_traverse_structure(si,&st);
+
+  TraceStipulation(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

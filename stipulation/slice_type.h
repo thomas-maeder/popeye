@@ -101,6 +101,7 @@
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
     ENUMERATOR(STGeneratingMoves),  /* proxy marking start of move generation */ \
+    ENUMERATOR(STReplayingMoves),  /* proxy marking start of move replay */ \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \

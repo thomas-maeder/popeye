@@ -2845,6 +2845,9 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_move_iterators(root_slice);
 
+      if (TSTFLAG(PieSpExFlags,Neutral))
+        stip_insert_neutral_initialisers(root_slice);
+
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);
 #endif
