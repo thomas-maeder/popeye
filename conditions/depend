@@ -512,6 +512,56 @@ output/mode.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ pieces/attributes/neutral/initialiser.h \
+ solving/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h solving/battle_play/defense_play.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ debugging/trace.h
+
+conditions/madrasi.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/attributes/neutral/initialiser.h:
+
+solving/battle_play/attack_play.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+debugging/trace.h:
 conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \
  solving/battle_play/attack_play.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -522,6 +572,7 @@ conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \
  stipulation/traversal.h stipulation/pipe.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
+ pieces/attributes/neutral/initialiser.h conditions/madrasi.h \
  debugging/trace.h
 
 conditions/isardam.h:
@@ -579,5 +630,109 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/help_play/branch.h:
+
+pieces/attributes/neutral/initialiser.h:
+
+conditions/madrasi.h:
+
+debugging/trace.h:
+conditions/disparate$(OBJ_SUFFIX): conditions/disparate.c conditions/disparate.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ pieces/attributes/neutral/initialiser.h \
+ solving/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h solving/battle_play/defense_play.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ debugging/trace.h
+
+conditions/disparate.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/attributes/neutral/initialiser.h:
+
+solving/battle_play/attack_play.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+debugging/trace.h:
+conditions/eiffel$(OBJ_SUFFIX): conditions/eiffel.c conditions/eiffel.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ pieces/attributes/neutral/initialiser.h \
+ solving/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h solving/battle_play/defense_play.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ debugging/trace.h
+
+conditions/eiffel.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/attributes/neutral/initialiser.h:
+
+solving/battle_play/attack_play.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 debugging/trace.h:

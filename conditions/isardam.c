@@ -5,10 +5,11 @@
 #include "stipulation/pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "pieces/attributes/neutral/initialiser.h"
+#include "conditions/madrasi.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-
 
 static boolean pos_legal(void)
 {
@@ -28,7 +29,7 @@ static boolean pos_legal(void)
     int j;
     square z = square_h;
     for (j = nr_files_on_board; j>0; j--, z += dir_left)
-      if (e[z]!=vide && !libre(z,false))
+      if (e[z]!=vide && madrasi_is_observed(z))
       {
         result = false;
         break;

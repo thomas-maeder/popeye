@@ -74,8 +74,11 @@
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling_intermediate_move_generator.h"
 #include "conditions/ohneschach/immobility_tester.h"
+#include "conditions/disparate.h"
+#include "conditions/eiffel.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
+#include "conditions/madrasi.h"
 #include "conditions/republican.h"
 #include "conditions/patience.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -971,8 +974,24 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if ((CondFlag[madras] || CondFlag[eiffel] || CondFlag[disparate]) && !libre(sq_departure,true))
+  if (CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
     return;
+  }
+  else if (CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+  else if (CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
 
   if (TSTFLAG(PieSpExFlags,Paralyse)) {
     if (paralysiert(sq_departure)) {

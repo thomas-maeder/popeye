@@ -132,7 +132,7 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h pyproc.h \
  py4.h stipulation/goals/goals.h pydata.h pymsg.h conditions/exclusive.h \
  position/position.h solving/battle_play/attack_play.h \
- solving/battle_play/defense_play.h pydata.h \
+ solving/battle_play/defense_play.h pydata.h conditions/madrasi.h \
  stipulation/has_solution_type.h solving/battle_play/attack_play.h \
  solving/single_move_generator_with_king_capture.h \
  stipulation/temporary_hacks.h pieces/attributes/neutral/initialiser.h \
@@ -191,6 +191,8 @@ solving/battle_play/attack_play.h:
 solving/battle_play/defense_play.h:
 
 pydata.h:
+
+conditions/madrasi.h:
 
 stipulation/has_solution_type.h:
 
@@ -274,6 +276,7 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/attack_play.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
+ conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
  conditions/republican.h pyproc.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h \
@@ -340,6 +343,12 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
+conditions/disparate.h:
+
+conditions/eiffel.h:
+
+conditions/madrasi.h:
+
 conditions/republican.h:
 
 pyproc.h:
@@ -367,9 +376,10 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/attack_play.h stipulation/temporary_hacks.h \
  solving/single_piece_move_generator.h \
  solving/castling_intermediate_move_generator.h \
- conditions/ohneschach/immobility_tester.h conditions/exclusive.h \
- position/position.h solving/battle_play/defense_play.h pydata.h \
- conditions/extinction.h conditions/republican.h pyproc.h \
+ conditions/ohneschach/immobility_tester.h conditions/disparate.h \
+ conditions/eiffel.h conditions/exclusive.h position/position.h \
+ solving/battle_play/defense_play.h pydata.h conditions/extinction.h \
+ conditions/madrasi.h conditions/republican.h pyproc.h \
  conditions/patience.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h debugging/measure.h
@@ -434,6 +444,10 @@ solving/castling_intermediate_move_generator.h:
 
 conditions/ohneschach/immobility_tester.h:
 
+conditions/disparate.h:
+
+conditions/eiffel.h:
+
 conditions/exclusive.h:
 
 position/position.h:
@@ -443,6 +457,8 @@ solving/battle_play/defense_play.h:
 pydata.h:
 
 conditions/extinction.h:
+
+conditions/madrasi.h:
 
 conditions/republican.h:
 
@@ -473,12 +489,13 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/attack_play.h output/output.h output/mode.h \
  conditions/bgl.h conditions/exclusive.h position/position.h \
  conditions/republican.h pyproc.h conditions/blackchecks.h \
- conditions/extinction.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h \
+ conditions/extinction.h conditions/madrasi.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
- conditions/patience.h conditions/isardam.h conditions/circe/assassin.h \
+ conditions/patience.h conditions/isardam.h conditions/disparate.h \
+ conditions/eiffel.h conditions/circe/assassin.h \
  conditions/ultraschachzwang/legality_tester.h platform/maxmem.h \
  platform/maxtime.h platform/pytime.h platform/priority.h \
  stipulation/has_solution_type.h stipulation/branch.h \
@@ -595,6 +612,8 @@ conditions/blackchecks.h:
 
 conditions/extinction.h:
 
+conditions/madrasi.h:
+
 conditions/maff/immobility_tester.h:
 
 conditions/owu/immobility_tester.h:
@@ -612,6 +631,10 @@ conditions/singlebox/type3.h:
 conditions/patience.h:
 
 conditions/isardam.h:
+
+conditions/disparate.h:
+
+conditions/eiffel.h:
 
 conditions/circe/assassin.h:
 

@@ -111,6 +111,7 @@
 #include "conditions/republican.h"
 #include "conditions/blackchecks.h"
 #include "conditions/extinction.h"
+#include "conditions/madrasi.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
@@ -120,6 +121,8 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/disparate.h"
+#include "conditions/eiffel.h"
 #include "conditions/circe/assassin.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "platform/maxmem.h"
@@ -1139,7 +1142,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[disparate])
   {
-    eval_white = eval_black = eval_disp;
+    eval_white = eval_black = eval_disparate;
     add_ortho_mating_moves_generation_obstacle();
   }
 
@@ -1208,9 +1211,12 @@ static boolean verify_position(slice_index si)
     if (!obsgenre)
     {
       eval_2 = eval_white;
-      eval_white = CondFlag[isardam]
-          ?   eval_isardam
-          : eval_madrasi;
+      if (CondFlag[madras])
+        eval_white = eval_madrasi;
+      else if (CondFlag[eiffel])
+        eval_white = eval_eiffel;
+      else
+        eval_white = eval_isardam;
     }
   }
 

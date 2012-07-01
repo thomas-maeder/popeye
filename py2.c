@@ -61,6 +61,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "conditions/exclusive.h"
+#include "conditions/madrasi.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/battle_play/attack_play.h"
 #include "solving/single_move_generator_with_king_capture.h"
@@ -2144,175 +2145,6 @@ boolean reversepcheck(square sq_king,
   return false;
 }
 
-static boolean ep_not_libre(piece p,
-                            square    sq,
-                            boolean   generating,
-                            checkfunction_t   *checkfunc)
-{
-  /* Returns true if a pawn who has just crossed the square sq is
-     paralysed by a piece p due to the ugly Madrasi-ep-rule by a
-     pawn p.
-     ---------------------------------------------------------
-     Dear inventors of fairys:
-     Make it as sophisticated and inconsistent as possible!
-     ---------------------------------------------------------
-
-     Checkfunc must be the corresponding checking function.
-
-     pawn just moved        p       checkfunc
-     --------------------------------------
-     white pawn     pn      pioncheck
-     black pawn     pb      pioncheck
-     white berolina pawn  pbn     pbcheck
-     black berolina pawn  pbb     pbcheck
-  */
-
-  ply const ply_dblstp= nbply-1;
-
-  return (ep[ply_dblstp]==sq || ep2[ply_dblstp]==sq)
-      && nbpiece[p]>0
-      && (*checkfunc)(sq,
-                      p,
-                      flaglegalsquare ? legalsquare : eval_ortho);
-}
-
-boolean libre(square sq, boolean generating)
-{
-  piece p = e[sq];
-  boolean result = true;
-  Side const neutcoul_sic = neutral_side;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq);
-  TraceFunctionParam("%u",generating);
-  TraceFunctionParamListEnd();
-
-  if ((CondFlag[madras] || CondFlag[isardam])
-      && !rex_mad && (sq==king_square[White] || sq==king_square[Black]))
-   ; /* nothing */
-  else
-  {
-    if (TSTFLAG(spec[sq],Neutral))
-    {
-      if (generating)
-        p = -p;
-      else
-        initialise_neutrals(advers(neutral_side));
-    }
-
-    if (CondFlag[disparate]
-        && nbply>2
-        && trait[nbply] != trait[parent_ply[nbply]]
-        && abs(p)==abs(pjoue[parent_ply[nbply]])
-       )
-      result = false;
-
-    if (CondFlag[madras] || CondFlag[isardam])
-    {
-      /* The ep capture needs special handling. */
-      switch (p)
-      {
-        case pb: /* white pawn */
-          if (ep_not_libre(pn, sq+dir_down,generating,pioncheck))
-            result = false;
-          break;
-
-        case pn: /* black pawn */
-          if (ep_not_libre(pb, sq+dir_up,generating,pioncheck))
-            result = false;
-          break;
-
-        case pbb: /* white berolina pawn */
-          if (ep_not_libre(pbn,sq+dir_down+dir_right,generating,pbcheck)
-              || ep_not_libre(pbn,sq+dir_down+dir_left,generating,pbcheck))
-            result = false;
-          break;
-
-        case pbn: /* black berolina pawn */
-          if (ep_not_libre(pbb,sq+dir_up+dir_left,generating,pbcheck)
-              || ep_not_libre(pbb,sq+dir_up+dir_right,generating,pbcheck))
-            result = false;
-          /* NB: Super (Berolina) pawns cannot neither be captured
-           * ep nor capture ep themselves.
-           */
-          break;
-
-        default:
-          break;
-      }
-
-      result = (result
-                && (nbpiece[-p]==0
-                    || !(*checkfunctions[abs(p)])(sq,
-                                                  -p,
-                                                  (flaglegalsquare
-                                                   ? legalsquare
-                                                   : eval_ortho))));
-    } /* if (CondFlag[madrasi] ... */
-
-    if (CondFlag[eiffel])
-    {
-      boolean test= true;
-      piece eiffel_piece;
-
-      switch (p)
-      {
-        case pb:
-          eiffel_piece = dn;
-          break;
-        case db:
-          eiffel_piece = tn;
-          break;
-        case tb:
-          eiffel_piece = fn;
-          break;
-        case fb:
-          eiffel_piece = cn;
-          break;
-        case cb:
-          eiffel_piece = pn;
-          break;
-        case pn:
-          eiffel_piece = db;
-          break;
-        case dn:
-          eiffel_piece = tb;
-          break;
-        case tn:
-          eiffel_piece = fb;
-          break;
-        case fn:
-          eiffel_piece = cb;
-          break;
-        case cn:
-          eiffel_piece = pb;
-          break;
-        default:
-          test = false;
-          eiffel_piece = vide;   /* avoid compiler warning */
-          break;
-      }
-
-      if (test)
-        result = (result
-                  && (nbpiece[eiffel_piece]==0
-                      || !(*checkfunctions[abs(eiffel_piece)])(sq,
-                                                               eiffel_piece,
-                                                               (flaglegalsquare
-                                                                ? legalsquare
-                                                                : eval_ortho))));
-    } /* CondFlag[eiffel] */
-
-    if (TSTFLAG(spec[sq],Neutral) && !generating)
-      initialise_neutrals(neutcoul_sic);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-} /* libre */
-
 boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   piece p= 0;       /* avoid compiler warning */
   boolean Result,
@@ -2427,19 +2259,6 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
 
   return(Result);
 } /* soutenu */
-
-boolean eval_madrasi(square sq_departure, square sq_arrival, square sq_capture) {
-  if (flaglegalsquare
-      && !legalsquare(sq_departure,sq_arrival,sq_capture)) {
-    return false;
-  }
-  else {
-    return (libre(sq_departure, false)
-            &&  (!CondFlag[BGL] || eval_2(sq_departure,sq_arrival,sq_capture)));
-    /* is this just appropriate for BGL? in verifieposition eval_2 is set when madrasi is true,
-       but never seems to be used here or in libre */
-  }
-} /* eval_madrasi */
 
 boolean eval_shielded(square sq_departure, square sq_arrival, square sq_capture) {
   if ((sq_departure==king_square[Black] && sq_capture==king_square[White])
@@ -3054,44 +2873,6 @@ boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square s
       sq_departure==fromspecificsquare
       && (e[sq_departure]>vide ? eval_white : eval_black)(sq_departure,sq_arrival,sq_capture);
 }
-
-boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
-{
-  boolean result = false;
-  Side save_trait;
-  Side camp;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  /* the following does not suffice if we have neutral kings,
-     but we have no chance to recover the information who is to
-     move from sq_departure, sq_arrival and sq_capture.
-     TLi
-  */
-  if ((TSTFLAG(PieSpExFlags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral))        /* will this do for neutral Ks? */
-    camp = neutral_side;
-  else if (sq_capture==king_square[Black])
-    camp = White;
-  else if (sq_capture==king_square[White])
-    camp = Black;
-  else
-    camp = e[sq_departure]<0 ? Black : White;
-
-  save_trait = trait[nbply];
-  trait[nbply] = camp;
-
-  result = libre(sq_departure,false);
-
-  trait[nbply] = save_trait;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  return result;
-} /* eval_disp */
 
 boolean observed(square on_this, square by_that) {
   boolean flag;

@@ -71,6 +71,9 @@
 #include "solving/single_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
+#include "conditions/disparate.h"
+#include "conditions/eiffel.h"
+#include "conditions/madrasi.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -3295,7 +3298,19 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if ((CondFlag[madras] || CondFlag[eiffel] || CondFlag[disparate]) && !libre(sq_departure, true))
+  if (CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+  else if (CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+  else if (CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResultEnd();

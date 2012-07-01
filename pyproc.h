@@ -254,7 +254,6 @@ boolean jouecoup(ply ply_id, joue_type jt);
 
 void    joueim(int diff);
 boolean legalsquare(square departure, square arrival, square capture);
-boolean libre(square a, boolean b);
 
 void finply(void);
 void nextply(ply parent);
@@ -302,7 +301,6 @@ void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void   (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
-boolean eval_madrasi(square departure, square arrival, square capture);
 piece   champiece(piece p);
 
 boolean testparalyse(square departure, square arrival, square capture);
@@ -503,8 +501,6 @@ square fin_circle_line(square sq_departure,
 boolean eval_fromspecificsquare(square departure, square arrival, square capture);
 void PushMagicViews(void);
 void ChangeMagic(int ply, boolean push);
-
-boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture);
 
 attackfunction_t GetRoseAttackVectors;
 attackfunction_t GetRoseLionAttackVectors;
