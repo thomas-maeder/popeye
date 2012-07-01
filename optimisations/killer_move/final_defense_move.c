@@ -143,7 +143,6 @@ static stip_length_type iterate_killer_first(slice_index si,
                                              piece killer)
 {
   Side const defender = slices[si].starter;
-  Side const attacker = advers(defender);
   stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);

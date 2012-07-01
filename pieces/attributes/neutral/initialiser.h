@@ -51,4 +51,9 @@ stip_length_type neutral_initialiser_attack(slice_index si, stip_length_type n);
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type neutral_initialiser_defend(slice_index si, stip_length_type n);
 
+/* Instrument a stipulation with goal filter slices
+ * @param si root of branch to be instrumented
+ */
+void stip_insert_neutral_initialisers(slice_index si);
+
 #endif

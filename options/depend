@@ -273,10 +273,10 @@ options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h \
- stipulation/has_solution_type.h stipulation/testing_pipe.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/proxy.h \
  stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/branch.h stipulation/dummy_move.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/branch.h stipulation/dummy_move.h \
  stipulation/move_played.h stipulation/battle_play/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  solving/solving.h solving/battle_play/check_detector.h debugging/trace.h
@@ -319,15 +319,17 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-stipulation/has_solution_type.h:
-
-stipulation/testing_pipe.h:
+stipulation/proxy.h:
 
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/testing_pipe.h:
 
 stipulation/branch.h:
 

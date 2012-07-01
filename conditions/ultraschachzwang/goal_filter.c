@@ -1,6 +1,8 @@
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "pydata.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "debugging/trace.h"

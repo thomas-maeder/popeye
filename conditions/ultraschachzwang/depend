@@ -7,7 +7,8 @@ conditions/ultraschachzwang/goal_filter$(OBJ_SUFFIX): \
  stipulation/slice_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
+ stipulation/pipe.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h conditions/ultraschachzwang/legality_tester.h \
  solving/battle_play/defense_play.h debugging/trace.h
 
@@ -48,6 +49,10 @@ utilities/boolean.h:
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
 
 pydata.h:
 
