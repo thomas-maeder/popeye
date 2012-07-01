@@ -89,7 +89,6 @@ boolean madrasi_is_observed(square sq)
   else
   {
     piece p = e[sq];
-    Side const save_neutral_side = neutral_side;
 
     if (TSTFLAG(spec[sq],Neutral))
       initialise_neutrals(advers(neutral_side));
@@ -104,7 +103,7 @@ boolean madrasi_is_observed(square sq)
                                          (flaglegalsquare ? legalsquare : eval_ortho));
 
     if (TSTFLAG(spec[sq],Neutral))
-      initialise_neutrals(save_neutral_side);
+      initialise_neutrals(advers(neutral_side));
   }
 
   TraceFunctionExit(__func__);

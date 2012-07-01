@@ -20,10 +20,8 @@ static boolean pos_legal(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  initialise_neutrals(trait[nbply]);
+  nextply(nbply); /* for e.p. captures */
 
-  nextply(nbply);
-  /* for e.p. captures */
   for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {
     int j;
@@ -35,6 +33,7 @@ static boolean pos_legal(void)
         break;
       }
   }
+
   finply();
 
   TraceFunctionExit(__func__);

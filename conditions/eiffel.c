@@ -70,7 +70,6 @@ static boolean can_piece_check(square sq)
 {
   piece const p = e[sq];
   boolean result = true;
-  Side const save_neutral_side = neutral_side;
   piece eiffel_piece;
 
   TraceFunctionEntry(__func__);
@@ -91,7 +90,7 @@ static boolean can_piece_check(square sq)
                                                         : eval_ortho)));
 
   if (TSTFLAG(spec[sq],Neutral))
-    initialise_neutrals(save_neutral_side);
+    initialise_neutrals(advers(neutral_side));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
