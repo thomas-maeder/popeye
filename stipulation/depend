@@ -1489,3 +1489,66 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
+stipulation/discriminate_by_right_to_move$(OBJ_SUFFIX): \
+ stipulation/discriminate_by_right_to_move.c \
+ stipulation/discriminate_by_right_to_move.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/fork.h \
+ stipulation/pipe.h debugging/trace.h
+
+stipulation/discriminate_by_right_to_move.h:
+
+solving/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+stipulation/stipulation.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/fork.h:
+
+stipulation/pipe.h:
+
+debugging/trace.h:

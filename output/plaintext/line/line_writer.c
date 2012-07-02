@@ -1,18 +1,20 @@
 #include "output/plaintext/line/line_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
-#include "stipulation/move_player.h"
-#include "pydata.h"
-#include "pydata.h"
 #include "stipulation/fork.h"
+#include "stipulation/move_player.h"
+#include "stipulation/has_solution_type.h"
+#include "stipulation/discriminate_by_right_to_move.h"
+#include "solving/fork_on_remaining.h"
+#include "pydata.h"
 #include "debugging/trace.h"
 #include "pymsg.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/plaintext.h"
-#include "stipulation/has_solution_type.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "platform/beep.h"
 #ifdef _SE_
@@ -65,31 +67,6 @@ static void write_line_intro(void)
   }
 }
 
-static void write_next_move(ply ply)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply);
-  TraceFunctionParamListEnd();
-
-  initialise_neutrals(advers(trait[ply]));
-  jouecoup(ply,replay);
-
-  if (trait[ply]==write_line_status.side)
-  {
-    sprintf(GlobalStr,"%3d.",write_line_status.next_movenumber);
-    ++write_line_status.next_movenumber;
-    StdString(GlobalStr);
-  }
-  output_plaintext_write_move(ply);
-
-  if (echecc(ply,advers(trait[ply])))
-    StdString(" +");
-  StdChar(blank);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void init_ply_history(void)
 {
   ply const start_ply = 2;
@@ -113,26 +90,26 @@ static void init_ply_history(void)
   TraceFunctionResultEnd();
 }
 
-static void write_ply_history(void)
+static void write_ply_history(slice_index si)
 {
   ply const start_ply = 2;
   unsigned int history_pos = write_line_status.length;
   ply const save_nbply = nbply;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   while (history_pos>0)
   {
-    int const current_ply = write_line_status.ply_history[--history_pos];
-    if (current_ply>start_ply && is_end_of_intro_series[current_ply-1])
+    nbply = write_line_status.ply_history[--history_pos];
+    if (nbply>start_ply && is_end_of_intro_series[nbply-1])
     {
       write_line_status.next_movenumber = 1;
-      write_line_status.side = trait[current_ply];
+      write_line_status.side = trait[nbply];
     }
 
-    nbply = current_ply;
-    write_next_move(current_ply);
+    attack(slices[si].next2,length_unspecified+1);
   }
 
   nbply = save_nbply;
@@ -164,7 +141,7 @@ static void write_line(slice_index si, Side starting_side)
   write_line_status.side = starting_side;
   write_line_intro();
   init_ply_history();
-  write_ply_history();
+  write_ply_history(si);
   attack(slices[si].next2,length_unspecified);
 
 #ifdef _SE_DECORATE_SOLUTION_
@@ -176,6 +153,29 @@ static void write_line(slice_index si, Side starting_side)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static slice_index alloc_writers_for_one_side(Goal goal)
+{
+  slice_index const result = alloc_proxy_slice();
+  slice_index const replayer = alloc_move_replayer_slice();
+  slice_index const proxyIntermediate = alloc_proxy_slice();
+  slice_index const proxyLast = alloc_proxy_slice();
+  slice_index const fork = alloc_fork_on_remaining_slice(proxyIntermediate,proxyLast,0);
+  slice_index const writerIntermediate = alloc_pipe(STOutputPlaintextLineIntermediateMoveWriter);
+  slice_index const trueIntermediate = alloc_true_slice();
+  slice_index const writerLast = alloc_pipe(STOutputPlaintextLineLastMoveWriter);
+  slice_index const trueLast = alloc_true_slice();
+
+  pipe_link(result,replayer);
+  pipe_link(replayer,fork);
+  pipe_link(proxyIntermediate,writerIntermediate);
+  pipe_link(writerIntermediate,trueIntermediate);
+  pipe_link(proxyLast,writerLast);
+  slices[writerLast].u.goal_handler.goal = goal;
+  pipe_link(writerLast,trueLast);
+
+  return result;
 }
 
 /* Allocate a STOutputPlaintextLineLineWriter slice.
@@ -192,18 +192,52 @@ slice_index alloc_line_writer_slice(Goal goal)
 
   {
     slice_index const replaying = alloc_pipe(STReplayingMoves);
-    slice_index const replayer = alloc_move_replayer_slice();
-    slice_index const writer = alloc_pipe(STOutputPlaintextLineLastMoveWriter);
-    slice_index const true = alloc_true_slice();
 
-    slices[writer].u.goal_handler.goal = goal;
+    slice_index const writersWhite = alloc_writers_for_one_side(goal);
+    slice_index const writersBlack = alloc_writers_for_one_side(goal);
+    slice_index const discriminate = alloc_discriminate_by_right_to_move_slice(writersWhite,writersBlack);
 
     result = alloc_pipe(STOutputPlaintextLineLineWriter);
     slices[result].next2 = replaying;
-    pipe_link(replaying,replayer);
-    pipe_link(replayer,writer);
-    pipe_link(writer,true);
+    pipe_link(replaying,discriminate);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (trait[nbply]==write_line_status.side)
+  {
+    sprintf(GlobalStr,"%3d.",write_line_status.next_movenumber);
+    ++write_line_status.next_movenumber;
+    StdString(GlobalStr);
+  }
+  output_plaintext_write_move(nbply);
+
+  if (echecc(nbply,advers(trait[nbply])))
+    StdString(" +");
+  StdChar(blank);
+
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -223,8 +257,8 @@ stip_length_type output_plaintext_line_last_move_writer_attack(slice_index si, s
 {
   stip_length_type result;
   goal_type const goal_type = slices[si].u.goal_handler.goal.type;
-  Side const goaled = slices[si].starter;
-  Side const goaling = advers(goaled);
+  Side const goaling = slices[si].starter;
+  Side const goaled = advers(goaling);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

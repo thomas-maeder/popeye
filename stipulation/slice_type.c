@@ -117,6 +117,7 @@
     ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
     ENUMERATOR(STAnyMoveCounter), /* counts moves whether legal or not */            \
     ENUMERATOR(STCaptureCounter), /* counts captures */            \
+    ENUMERATOR(STDiscriminateByRightToMove),                            \
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STTestingPrerequisites),  /* proxy marking start of prerequisites tests */ \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
@@ -213,6 +214,7 @@
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
     ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
+    ENUMERATOR(STOutputPlaintextLineIntermediateMoveWriter),            \
     ENUMERATOR(STOutputPlaintextLineLastMoveWriter),                    \
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \

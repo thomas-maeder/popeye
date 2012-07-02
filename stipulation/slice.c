@@ -86,7 +86,8 @@ static slice_type const fork_slice_types[] =
     STCageCirceNonCapturingMoveFinder,
     STMaximummerCandidateMoveTester,
     STTrivialEndFilter,
-    STOutputPlaintextLineLineWriter
+    STOutputPlaintextLineLineWriter,
+    STDiscriminateByRightToMove
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -199,7 +200,8 @@ static slice_type const binary_slice_types[] =
     STOr,
     STForkOnRemaining,
     STRefutationsSolver,
-    STThreatSolver
+    STThreatSolver,
+    STDiscriminateByRightToMove
 };
 
 static slice_type const testing_pipe_slice_types[] =
@@ -257,6 +259,7 @@ static slice_type const writer_slice_types[] =
     STRefutationWriter,
     STOutputPlaintextTreeCheckWriter,
     STOutputPlaintextLineLineWriter,
+    STOutputPlaintextLineIntermediateMoveWriter,
     STOutputPlaintextLineLastMoveWriter,
     STOutputPlaintextTreeGoalWriter
 };
