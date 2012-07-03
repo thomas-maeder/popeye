@@ -1,4 +1,4 @@
-#include "republican.h"
+#include "conditions/republican.h"
 #include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pylang.h"
