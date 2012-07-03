@@ -295,16 +295,17 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
   {
     int nr_flights = BlackSATFlights;
     boolean const mummer_sic = flagmummer[Black];
-    boolean k_sq_checked = false;
-
-    if (CondFlag[strictSAT])
-      k_sq_checked = BlackStrictSAT[parent_ply[ply_id]];
 
     flagmummer[Black] = false;
     dont_generate_castling = true;
 
-    if ((satXY || k_sq_checked) && !echecc_normal(ply_id,Black))
-      nr_flights--;
+    if (satXY || (CondFlag[strictSAT] && BlackStrictSAT[parent_ply[ply_id]]))
+    {
+      SATCheck = false;
+      if (!echecc(ply_id,Black))
+        nr_flights--;
+      SATCheck = true;
+    }
 
     nextply(ply_id);
 
@@ -325,7 +326,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
       if (jouecoup(nbply,first_play))
       {
         jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-        if (!echecc_normal(nbply,Black))
+        if (!echecc(nbply,Black))
           nr_flights--;
       }
       else
@@ -603,16 +604,17 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
   {
     int nr_flights= WhiteSATFlights;
     boolean const mummer_sic = flagmummer[White];
-    boolean k_sq_checked = false;
-
-    if (CondFlag[strictSAT])
-      k_sq_checked = WhiteStrictSAT[parent_ply[ply_id]];
 
     flagmummer[White] = false;
     dont_generate_castling= true;
 
-    if ((satXY || k_sq_checked) && !echecc_normal(ply_id,White))
-      nr_flights--;
+    if (satXY || (CondFlag[strictSAT] && WhiteStrictSAT[parent_ply[ply_id]]))
+    {
+      SATCheck = false;
+      if (!echecc(ply_id,White))
+        nr_flights--;
+      SATCheck = true;
+    }
 
     nextply(ply_id);
 
@@ -634,7 +636,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
       if (jouecoup(nbply,first_play))
       {
         jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-        if (!echecc_normal(nbply,White))
+        if (!echecc(nbply,White))
           nr_flights--;
       }
       else
@@ -1402,14 +1404,3 @@ boolean charybdischeck(square    i,
       || skycharcheck(p, i, i+dir_up+dir_left, i+dir_right, i - 24, evaluate)
       || skycharcheck(p, i, i+dir_down+dir_right, i+dir_left, i + 24, evaluate);
 }
-
-boolean echecc_normal(ply ply_id, Side camp)
-{
-  /* for strict SAT - need to compute whether the K square is normally checked */
-  boolean flag;
-  SATCheck= false;
-  flag= echecc(ply_id,camp);
-  SATCheck= true;
-  return flag;
-}
-

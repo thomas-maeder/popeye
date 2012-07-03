@@ -3356,10 +3356,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
       if (CondFlag[strictSAT] && SATCheck)
       {
+        SATCheck = false;
         WhiteStrictSAT[ply_id]= (WhiteStrictSAT[parent_ply[ply_id]]
-                                 || echecc_normal(ply_id,White));
+                                 || echecc(ply_id,White));
         BlackStrictSAT[ply_id]= (BlackStrictSAT[parent_ply[ply_id]]
-                                 || echecc_normal(ply_id,Black));
+                                 || echecc(ply_id,Black));
+        SATCheck = true;
       }
 
       if (CondFlag[masand]

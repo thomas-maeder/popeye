@@ -1897,11 +1897,12 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[SAT] || CondFlag[strictSAT])
   {
-    SATCheck = true;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    WhiteStrictSAT[1] = echecc_normal(nbply,White);
-    BlackStrictSAT[1] = echecc_normal(nbply,Black);
+    SATCheck = false;
+    WhiteStrictSAT[1] = echecc(nbply,White);
+    BlackStrictSAT[1] = echecc(nbply,Black);
+    SATCheck = true;
     satXY = WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 

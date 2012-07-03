@@ -450,7 +450,6 @@ boolean noantelopecontact(square ia);
 
 boolean castlingimok(square i, square j);
 boolean maooaimok(square i, square j, square pass);
-boolean echecc_normal(ply ply_id, Side camp);
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
 void change_observed(ply ply, square z, boolean push);
