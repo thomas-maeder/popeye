@@ -208,6 +208,25 @@ slice_index alloc_line_writer_slice(Goal goal)
   return result;
 }
 
+static void write_move_number_if_necessary(slice_index si)
+{
+  Side const just_moved = slices[si].starter;
+  if (just_moved==write_line_status.side)
+  {
+    sprintf(GlobalStr,"%3d.",write_line_status.next_movenumber);
+    ++write_line_status.next_movenumber;
+    StdString(GlobalStr);
+  }
+}
+
+static void write_potential_check(slice_index si)
+{
+  Side const just_moved = slices[si].starter;
+  Side const potentially_in_check = advers(just_moved);
+  if (echecc(nbply,potentially_in_check))
+    StdString(" +");
+}
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -216,7 +235,8 @@ slice_index alloc_line_writer_slice(Goal goal)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_index si, stip_length_type n)
+stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_index si,
+                                                                       stip_length_type n)
 {
   stip_length_type result;
 
@@ -225,16 +245,9 @@ stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_ind
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (trait[nbply]==write_line_status.side)
-  {
-    sprintf(GlobalStr,"%3d.",write_line_status.next_movenumber);
-    ++write_line_status.next_movenumber;
-    StdString(GlobalStr);
-  }
+  write_move_number_if_necessary(si);
   output_plaintext_write_move(nbply);
-
-  if (echecc(nbply,advers(trait[nbply])))
-    StdString(" +");
+  write_potential_check(si);
   StdChar(blank);
 
   result = attack(slices[si].next1,n);
@@ -253,28 +266,21 @@ stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_ind
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type output_plaintext_line_last_move_writer_attack(slice_index si, stip_length_type n)
+stip_length_type output_plaintext_line_last_move_writer_attack(slice_index si,
+                                                               stip_length_type n)
 {
   stip_length_type result;
   goal_type const goal_type = slices[si].u.goal_handler.goal.type;
-  Side const goaling = slices[si].starter;
-  Side const goaled = advers(goaling);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (goaling==write_line_status.side)
-  {
-    sprintf(GlobalStr,"%3d.",write_line_status.next_movenumber);
-    StdString(GlobalStr);
-  }
+  write_move_number_if_necessary(si);
   output_plaintext_write_move(nbply);
-
-  if (!output_plaintext_goal_writer_replaces_check_writer(goal_type)
-      && echecc(nbply,goaled))
-    StdString(" +");
+  if (!output_plaintext_goal_writer_replaces_check_writer(goal_type))
+    write_potential_check(si);
   if (goal_type!=no_goal)
     StdString(goal_end_marker[goal_type]);
   StdChar(blank);
