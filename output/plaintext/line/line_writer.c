@@ -7,6 +7,7 @@
 #include "stipulation/move_player.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/discriminate_by_right_to_move.h"
+#include "stipulation/help_play/adapter.h"
 #include "solving/fork_on_remaining.h"
 #include "pydata.h"
 #include "debugging/trace.h"
@@ -191,6 +192,7 @@ slice_index alloc_line_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   {
+    slice_index const adapter = alloc_help_adapter_slice(slack_length,slack_length);
     slice_index const replaying = alloc_pipe(STReplayingMoves);
 
     slice_index const writersWhite = alloc_writers_for_one_side(goal);
@@ -198,7 +200,8 @@ slice_index alloc_line_writer_slice(Goal goal)
     slice_index const discriminate = alloc_discriminate_by_right_to_move_slice(writersWhite,writersBlack);
 
     result = alloc_pipe(STOutputPlaintextLineLineWriter);
-    slices[result].next2 = replaying;
+    slices[result].next2 = adapter;
+    pipe_link(adapter,replaying);
     pipe_link(replaying,discriminate);
   }
 

@@ -142,7 +142,7 @@ static void insert_initialser(slice_index si, stip_structure_traversal *st)
         break;
 
       default:
-        help_branch_insert_slices(si,&prototype,1); /* TODO */
+        assert(0);
         break;
     }
   }

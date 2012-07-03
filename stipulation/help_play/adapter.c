@@ -141,7 +141,10 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
 stip_length_type help_adapter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const full_length = slices[si].u.branch.length;
+  /* normally, n will be ==slack_length here, but don't swallow any information
+   * if it comes with a different value, e.g. when replaying moves
+   */
+  stip_length_type const full_length = slices[si].u.branch.length+n-slack_length;
   slice_index const next = slices[si].next1;
   stip_length_type nr_moves_needed;
 
