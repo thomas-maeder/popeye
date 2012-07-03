@@ -1,5 +1,5 @@
-#if !defined(REPUBLICAN_H)
-#define REPUBLICAN_H
+#if !defined(CONDITIONS_REPUBLICAN_H)
+#define CONDITIONS_REPUBLICAN_H
 
 #include "pyproc.h"
 
