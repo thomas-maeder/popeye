@@ -125,6 +125,7 @@
 #include "conditions/eiffel.h"
 #include "conditions/circe/assassin.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
+#include "conditions/sat.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1900,10 +1901,10 @@ static boolean verify_position(slice_index si)
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
     SATCheck = false;
-    WhiteStrictSAT[1] = echecc(nbply,White);
-    BlackStrictSAT[1] = echecc(nbply,Black);
+    StrictSAT[White][1] = echecc(nbply,White);
+    StrictSAT[Black][1] = echecc(nbply,Black);
     SATCheck = true;
-    satXY = WhiteSATFlights > 1 || BlackSATFlights > 1;
+    satXY = SATFlights[White] > 1 || SATFlights[Black] > 1;
   }
 
   if (CondFlag[schwarzschacher])
@@ -2853,6 +2854,9 @@ static Token iterate_twins(Token prev_token)
 
       if (TSTFLAG(PieSpExFlags,Neutral))
         stip_insert_neutral_initialisers(root_slice);
+
+      if (CondFlag[SAT] || CondFlag[strictSAT])
+        stip_substitute_sat_king_flight_generators(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

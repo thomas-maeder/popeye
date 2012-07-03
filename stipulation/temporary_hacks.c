@@ -16,6 +16,7 @@
 #include "stipulation/goals/capture/reached_tester.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
+#include "conditions/sat.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "debugging/trace.h"
 
@@ -30,6 +31,7 @@ slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
+slice_index temporary_hack_sat_flights_counter[nr_sides];
 
 static void swap_colors(slice_index (*testers)[nr_sides])
 {
@@ -210,6 +212,18 @@ static slice_index make_opponent_moves_counter_fork(Side side)
   return result;
 }
 
+static slice_index make_sat_flights_counter(Side side)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STSATFlightsCounterFork,proxy);
+  slice_index const legal_moves_counter = alloc_legal_move_counter_slice();
+  slice_index const help = alloc_help_branch(slack_length+1,slack_length+1);
+  help_branch_insert_slices(help,&legal_moves_counter,1);
+  link_to_branch(proxy,help);
+  stip_impose_starter(result,side);
+  return result;
+}
+
 void insert_temporary_hacks(slice_index root_slice)
 {
   TraceFunctionEntry(__func__);
@@ -251,6 +265,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_opponent_moves_counter[Black] = make_opponent_moves_counter_fork(Black);
     temporary_hack_opponent_moves_counter[White] = make_opponent_moves_counter_fork(White);
 
+    temporary_hack_sat_flights_counter[Black] = make_sat_flights_counter(Black);
+    temporary_hack_sat_flights_counter[White] = make_sat_flights_counter(White);
+
     pipe_append(root_slice,entry_point);
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
@@ -271,6 +288,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_maximummer_candidate_move_tester[White],
                 temporary_hack_opponent_moves_counter[White]);
     pipe_append(temporary_hack_opponent_moves_counter[White],
+                temporary_hack_sat_flights_counter[White]);
+    pipe_append(temporary_hack_sat_flights_counter[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -290,6 +309,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_maximummer_candidate_move_tester[Black]);
     pipe_append(temporary_hack_maximummer_candidate_move_tester[Black],
                 temporary_hack_opponent_moves_counter[Black]);
+    pipe_append(temporary_hack_opponent_moves_counter[Black],
+                temporary_hack_sat_flights_counter[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

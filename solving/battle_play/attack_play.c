@@ -26,6 +26,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/sat.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -752,6 +753,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STPiecesNeutralInitialiser:
       result = neutral_initialiser_attack(si,n);
+      break;
+
+    case STSATFlightMoveGenerator:
+      result = sat_flight_moves_generator_attack(si,n);
       break;
 
     case STPlaySuppressor:

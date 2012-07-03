@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c extinction.c patience.c madrasi.c isardam.c disparate.c eiffel.c
-INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h extinction.h patience.h madrasi.h isardam.h disparate.h eiffel.h
+SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c extinction.c patience.c madrasi.c isardam.c disparate.c eiffel.c sat.c
+INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h extinction.h patience.h madrasi.h isardam.h disparate.h eiffel.h sat.h
 
 include makefile.rules $(CURRPWD)depend

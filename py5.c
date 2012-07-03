@@ -81,6 +81,7 @@
 #include "conditions/madrasi.h"
 #include "conditions/republican.h"
 #include "conditions/patience.h"
+#include "conditions/sat.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "optimisations/hash.h"
@@ -3357,10 +3358,10 @@ boolean jouecoup(ply ply_id, joue_type jt)
       if (CondFlag[strictSAT] && SATCheck)
       {
         SATCheck = false;
-        WhiteStrictSAT[ply_id]= (WhiteStrictSAT[parent_ply[ply_id]]
-                                 || echecc(ply_id,White));
-        BlackStrictSAT[ply_id]= (BlackStrictSAT[parent_ply[ply_id]]
-                                 || echecc(ply_id,Black));
+        StrictSAT[White][ply_id]= (StrictSAT[White][parent_ply[ply_id]]
+                                   || echecc(ply_id,White));
+        StrictSAT[Black][ply_id]= (StrictSAT[Black][parent_ply[ply_id]]
+                                   || echecc(ply_id,Black));
         SATCheck = true;
       }
 

@@ -45,7 +45,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h output/mode.h \
  pieces/attributes/neutral/initialiser.h platform/maxtime.h \
  solving/battle_play/try.h utilities/table.h conditions/bgl.h \
- utilities/table.h debugging/trace.h
+ conditions/sat.h utilities/table.h debugging/trace.h
 
 py.h:
 
@@ -120,6 +120,8 @@ solving/battle_play/try.h:
 utilities/table.h:
 
 conditions/bgl.h:
+
+conditions/sat.h:
 
 utilities/table.h:
 
@@ -212,8 +214,10 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  pieces/attributes/paralysing/paralysing.h stipulation/slice.h \
  stipulation/slice_type.h pieces/attributes/neutral/initialiser.h \
  solving/battle_play/attack_play.h solving/battle_play/defense_play.h \
- pydata.h conditions/ultraschachzwang/legality_tester.h debugging/trace.h \
- debugging/measure.h pyproc.h
+ pydata.h conditions/sat.h conditions/ultraschachzwang/legality_tester.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ debugging/trace.h debugging/measure.h pyproc.h
 
 py.h:
 
@@ -257,7 +261,19 @@ solving/battle_play/defense_play.h:
 
 pydata.h:
 
+conditions/sat.h:
+
 conditions/ultraschachzwang/legality_tester.h:
+
+stipulation/stipulation.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
 
 debugging/trace.h:
 
@@ -277,7 +293,7 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
- conditions/republican.h pyproc.h \
+ conditions/republican.h pyproc.h conditions/sat.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h \
  solving/battle_play/defense_play.h pydata.h debugging/trace.h \
@@ -353,6 +369,8 @@ conditions/republican.h:
 
 pyproc.h:
 
+conditions/sat.h:
+
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
@@ -380,7 +398,8 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/eiffel.h conditions/exclusive.h position/position.h \
  solving/battle_play/defense_play.h pydata.h conditions/extinction.h \
  conditions/madrasi.h conditions/republican.h pyproc.h \
- conditions/patience.h pieces/attributes/paralysing/paralysing.h \
+ conditions/patience.h conditions/sat.h \
+ pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h debugging/measure.h
 
@@ -466,6 +485,8 @@ pyproc.h:
 
 conditions/patience.h:
 
+conditions/sat.h:
+
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
@@ -496,9 +517,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  conditions/patience.h conditions/isardam.h conditions/disparate.h \
  conditions/eiffel.h conditions/circe/assassin.h \
- conditions/ultraschachzwang/legality_tester.h platform/maxmem.h \
- platform/maxtime.h platform/pytime.h platform/priority.h \
- stipulation/has_solution_type.h stipulation/branch.h \
+ conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
+ platform/maxmem.h platform/maxtime.h platform/pytime.h \
+ platform/priority.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
  stipulation/dead_end.h stipulation/move_inverter.h \
  stipulation/boolean/or.h stipulation/battle_play/branch.h \
@@ -639,6 +660,8 @@ conditions/eiffel.h:
 conditions/circe/assassin.h:
 
 conditions/ultraschachzwang/legality_tester.h:
+
+conditions/sat.h:
 
 platform/maxmem.h:
 
@@ -803,9 +826,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  solving/play_suppressor.h solving/battle_play/continuation.h \
  solving/battle_play/try.h utilities/table.h conditions/republican.h \
  pyproc.h conditions/bgl.h conditions/check_zigzag.h \
- conditions/patience.h options/degenerate_tree.h options/nontrivial.h \
- options/maxthreatlength.h options/maxflightsquares.h \
- options/movenumbers.h options/maxsolutions/maxsolutions.h \
+ conditions/patience.h conditions/sat.h options/degenerate_tree.h \
+ options/nontrivial.h options/maxthreatlength.h \
+ options/maxflightsquares.h options/movenumbers.h \
+ options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/intelligent.h position/position.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -964,6 +988,8 @@ conditions/bgl.h:
 conditions/check_zigzag.h:
 
 conditions/patience.h:
+
+conditions/sat.h:
 
 options/degenerate_tree.h:
 

@@ -907,6 +907,7 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  output/mode.h stipulation/goals/any/reached_tester.h \
  stipulation/goals/capture/reached_tester.h \
  stipulation/help_play/branch.h solving/legal_move_counter.h \
+ conditions/sat.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  debugging/trace.h
 
@@ -991,6 +992,8 @@ stipulation/goals/capture/reached_tester.h:
 stipulation/help_play/branch.h:
 
 solving/legal_move_counter.h:
+
+conditions/sat.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 

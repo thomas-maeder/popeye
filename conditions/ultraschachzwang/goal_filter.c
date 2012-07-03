@@ -119,8 +119,11 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor ultraschachzwang_filter_inserters[] =
 {
-  { STMove,                  &instrument_move     },
-  { STGoalMateReachedTester, &prepend_mate_filter }
+  /* someone seems to have defined that Ultraschachzwang doesn't count when
+   * looking for SAT flights */
+  { STSATFlightsCounterFork, &stip_traverse_structure_children_pipe },
+  { STMove,                  &instrument_move                       },
+  { STGoalMateReachedTester, &prepend_mate_filter                   }
 };
 
 enum

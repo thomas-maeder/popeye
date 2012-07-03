@@ -118,6 +118,7 @@
 #include "conditions/bgl.h"
 #include "conditions/check_zigzag.h"
 #include "conditions/patience.h"
+#include "conditions/sat.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -786,13 +787,13 @@ static void WriteConditions(int alignment)
       }
     }
 
-    if ((cond == SAT || cond == strictSAT) && (WhiteSATFlights != 1 || BlackSATFlights != 1)) {
+    if ((cond == SAT || cond == strictSAT) && (SATFlights[White] != 1 || SATFlights[Black] != 1)) {
       char extra[10];
       char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
-      if (WhiteSATFlights == BlackSATFlights)
-        sprintf(extra, " %s", roman[WhiteSATFlights-1]);
+      if (SATFlights[White] == SATFlights[Black])
+        sprintf(extra, " %s", roman[SATFlights[White]-1]);
       else
-        sprintf(extra, " %s/%s", roman[WhiteSATFlights-1], roman[BlackSATFlights-1]);
+        sprintf(extra, " %s/%s", roman[SATFlights[White]-1], roman[SATFlights[Black]-1]);
       strcat (CondLine, extra);
     }
 
@@ -5475,16 +5476,16 @@ static char *ParseCond(void) {
       case SAT:
       case strictSAT:
         tok = ReadNextTokStr();
-        WhiteSATFlights= strtol(tok,&ptr,10) + 1;
+        SATFlights[White]= strtol(tok,&ptr,10) + 1;
         if (tok == ptr) {
-          WhiteSATFlights= 1;
-          BlackSATFlights= 1;
+          SATFlights[White]= 1;
+          SATFlights[Black]= 1;
           break;
         }
         tok = ReadNextTokStr();
-        BlackSATFlights= strtol(tok,&ptr,10) + 1;
+        SATFlights[Black]= strtol(tok,&ptr,10) + 1;
         if (tok == ptr) {
-          BlackSATFlights= WhiteSATFlights;
+          SATFlights[Black]= SATFlights[White];
           break;
         }
       case BGL:

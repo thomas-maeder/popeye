@@ -63,6 +63,7 @@
 #include "platform/maxtime.h"
 #include "solving/battle_play/try.h"
 #include "conditions/bgl.h"
+#include "conditions/sat.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -157,8 +158,8 @@ static void initply(ply parent, ply child)
   /*
     start with the SAT state of the parent level
   */
-  BlackStrictSAT[child] = BlackStrictSAT[parent];
-  WhiteStrictSAT[child] = WhiteStrictSAT[parent];
+  StrictSAT[Black][child] = StrictSAT[Black][parent];
+  StrictSAT[White][child] = StrictSAT[White][parent];
   BGL_values[White][child] = BGL_values[White][parent];
   BGL_values[Black][child] = BGL_values[Black][parent];
 

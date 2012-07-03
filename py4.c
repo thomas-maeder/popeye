@@ -75,6 +75,7 @@
 #include "conditions/eiffel.h"
 #include "conditions/madrasi.h"
 #include "conditions/republican.h"
+#include "conditions/sat.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"

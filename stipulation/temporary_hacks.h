@@ -32,6 +32,9 @@ extern slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 /* fork slice into branch that tests the legality of a candidate move */
 extern slice_index temporary_hack_opponent_moves_counter[nr_sides];
 
+/* fork slice into branch that counts flights in SAT */
+extern slice_index temporary_hack_sat_flights_counter[nr_sides];
+
 
 /* Initialise temporary hack slices
  * @param root_slice identifies root slice of stipulation

@@ -553,7 +553,8 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
- optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
+ conditions/sat.h optimisations/hash.h DHT/dhtbcmem.h \
+ optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -735,6 +736,8 @@ conditions/singlebox/type3.h:
 conditions/patience.h:
 
 conditions/isardam.h:
+
+conditions/sat.h:
 
 optimisations/hash.h:
 

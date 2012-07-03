@@ -33,17 +33,20 @@
 #   include "platform/unix/mac.h"
 #endif
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "conditions/sat.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 boolean rubiech(square  intermediate_square,
                 square  sq_king,
@@ -292,56 +295,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
   square sq_arrival;
 
   if (SATCheck)
-  {
-    int nr_flights = BlackSATFlights;
-    boolean const mummer_sic = flagmummer[Black];
-
-    flagmummer[Black] = false;
-    dont_generate_castling = true;
-
-    if (satXY || (CondFlag[strictSAT] && BlackStrictSAT[parent_ply[ply_id]]))
-    {
-      SATCheck = false;
-      if (!echecc(ply_id,Black))
-        nr_flights--;
-      SATCheck = true;
-    }
-
-    nextply(ply_id);
-
-    trait[nbply]= Black;
-    if (TSTFLAG(PieSpExFlags,Neutral))
-      initialise_neutrals(White);
-
-    gen_bl_piece(king_square[Black],-abs(e[king_square[Black]]));
-
-    dont_generate_castling = false;
-    flagmummer[Black] = mummer_sic;
-
-    SATCheck = false;
-
-    while (nr_flights>0 && encore())
-    {
-      boolean const save_jouetest_ultraschachzwang = jouetest_ultraschachzwang;
-      if (jouecoup(nbply,first_play))
-      {
-        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-        if (!echecc(nbply,Black))
-          nr_flights--;
-      }
-      else
-        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-
-      repcoup();
-    }
-
-    SATCheck = true;
-    assert (nr_flights>=0);
-
-    finply();
-
-    return nr_flights==0;
-  }
+    return echecc_SAT(ply_id,Black);
 
   if (anymars)
   {
@@ -601,57 +555,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
   square sq_arrival;
 
   if (SATCheck)
-  {
-    int nr_flights= WhiteSATFlights;
-    boolean const mummer_sic = flagmummer[White];
-
-    flagmummer[White] = false;
-    dont_generate_castling= true;
-
-    if (satXY || (CondFlag[strictSAT] && WhiteStrictSAT[parent_ply[ply_id]]))
-    {
-      SATCheck = false;
-      if (!echecc(ply_id,White))
-        nr_flights--;
-      SATCheck = true;
-    }
-
-    nextply(ply_id);
-
-    current_killer_state= null_killer_state;
-    trait[nbply]= White;
-    if (TSTFLAG(PieSpExFlags,Neutral))
-      initialise_neutrals(Black);
-
-    gen_wh_piece(king_square[White],abs(e[king_square[White]]));
-
-    dont_generate_castling= false;
-    flagmummer[White] = mummer_sic;
-
-    SATCheck= false;
-
-    while (nr_flights>0 && encore())
-    {
-      boolean const save_jouetest_ultraschachzwang = jouetest_ultraschachzwang;
-      if (jouecoup(nbply,first_play))
-      {
-        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-        if (!echecc(nbply,White))
-          nr_flights--;
-      }
-      else
-        jouetest_ultraschachzwang = save_jouetest_ultraschachzwang;
-
-      repcoup();
-    }
-
-    SATCheck= true;
-    assert (nr_flights>=0);
-
-    finply();
-
-    return nr_flights==0;
-  }
+    return echecc_SAT(ply_id,White);
 
   if (anymars) {
     boolean anymarscheck= marsechecc(ply_id,White,evaluate);
