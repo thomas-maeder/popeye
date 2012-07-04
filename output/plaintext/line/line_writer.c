@@ -25,6 +25,8 @@
 
 #include <assert.h>
 
+static stored_position_type initial_position;
+
 /* This module provides the STOutputPlaintextLineLineWriter slice type.
  * Slices of this type write lines in line mode.
  */
@@ -92,19 +94,21 @@ static void init_ply_history(void)
   TraceFunctionResultEnd();
 }
 
+static ply remember_nbply;
+
 static void write_ply_history(slice_index si)
 {
-  ply const start_ply = 2;
-  unsigned int history_pos = write_line_status.length;
   ply const save_nbply = nbply;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  while (history_pos>0)
+  if (write_line_status.length>0)
   {
-    nbply = write_line_status.ply_history[--history_pos];
+    ply const start_ply = 2;
+    --write_line_status.length;
+    nbply = write_line_status.ply_history[write_line_status.length];
     if (nbply>start_ply && is_end_of_intro_series[nbply-1])
     {
       write_line_status.next_movenumber = 1;
@@ -112,6 +116,12 @@ static void write_ply_history(slice_index si)
     }
 
     attack(slices[si].next2,length_unspecified+1);
+    ++write_line_status.length;
+  }
+  else
+  {
+    nbply = remember_nbply;
+    attack(slices[si].next2,length_unspecified);
   }
 
   nbply = save_nbply;
@@ -125,8 +135,7 @@ static void write_ply_history(slice_index si)
  * (e.g. in a h#N.5, this slice's starter is Black)
  */
 slice_index output_plaintext_slice_determining_starter = no_slice;
-
-static stored_position_type initial_position;
+static slice_index line_writer_slice;
 
 void output_plaintext_line_save_position(void)
 {
@@ -149,12 +158,15 @@ static void write_line(slice_index si, Side starting_side)
   se_start_pos();
 #endif
 
+  remember_nbply = nbply;
   write_line_status.next_movenumber = 1;
   write_line_status.side = starting_side;
   write_line_intro();
   init_ply_history();
+  line_writer_slice = si;
   write_ply_history(si);
-  attack(slices[si].next2,length_unspecified);
+
+  ResetPosition(&end_position);
 
   ResetPosition(&end_position);
 
@@ -267,6 +279,8 @@ stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_ind
   output_plaintext_write_move(nbply);
   write_potential_check(si);
   StdChar(blank);
+
+  write_ply_history(line_writer_slice);
 
   result = attack(slices[si].next1,n);
 
