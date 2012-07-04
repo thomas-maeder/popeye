@@ -2851,6 +2851,9 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[SAT] || CondFlag[strictSAT])
         stip_substitute_sat_king_flight_generators(root_slice);
 
+      if (CondFlag[strictSAT])
+        stip_insert_strict_sat(root_slice);
+
       if (CondFlag[schwarzschacher])
         stip_insert_blackchecks(root_slice);
 

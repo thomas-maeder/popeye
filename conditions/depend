@@ -752,6 +752,7 @@ conditions/sat$(OBJ_SUFFIX): conditions/sat.c conditions/sat.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/temporary_hacks.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/legal_move_counter.h debugging/trace.h
 
 conditions/sat.h:
@@ -807,6 +808,10 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 stipulation/temporary_hacks.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
 
 solving/legal_move_counter.h:
 

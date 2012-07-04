@@ -3352,16 +3352,6 @@ boolean jouecoup(joue_type jt)
       else
         king_square[Black] = initsquare;
     }
-
-    if (CondFlag[strictSAT] && SATCheck)
-    {
-      SATCheck = false;
-      StrictSAT[White][nbply]= (StrictSAT[White][parent_ply[nbply]]
-                                 || echecc(White));
-      StrictSAT[Black][nbply]= (StrictSAT[Black][parent_ply[nbply]]
-                                 || echecc(Black));
-      SATCheck = true;
-    }
   } /* if (jouegenre) */
 
   return true;

@@ -768,6 +768,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = sat_flight_moves_generator_attack(si,n);
       break;
 
+    case STStrictSATUpdater:
+      result = strict_sat_updater_attack(si,n);
+      break;
+
     case STPlaySuppressor:
       result = play_suppressor_attack(si,n);
       break;
