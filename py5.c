@@ -3316,42 +3316,6 @@ boolean jouecoup(joue_type jt)
         CHANGECOLOR(spec[sq_hurdle]);
       }
     }
-
-    if (CondFlag[dynasty]) {
-      /* adjust king_square[Black], king_square[White] and/or castling flags */
-      square const *bnp;
-      square s;
-
-      if (nbpiece[roib]==1) {
-        if (king_square[White]==initsquare)
-          for (bnp= boardnum; *bnp; bnp++) {
-            s = *bnp;
-            if (e[s] == roib) {
-              if (s==square_e1)
-                SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-              king_square[White] = *bnp;
-              break;
-            }
-          }
-      }
-      else
-        king_square[White] = initsquare;
-
-      if (nbpiece[roin]==1) {
-        if (king_square[Black]==initsquare)
-          for (bnp= boardnum; *bnp; bnp++) {
-            s = *bnp;
-            if (e[s] == roin) {
-              if (s==square_e8)
-                SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-              king_square[Black] = *bnp;
-              break;
-            }
-          }
-      }
-      else
-        king_square[Black] = initsquare;
-    }
   } /* if (jouegenre) */
 
   return true;

@@ -27,6 +27,7 @@
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
 #include "conditions/sat.h"
+#include "conditions/dynasty.h"
 #include "conditions/masand.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
@@ -770,6 +771,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STStrictSATUpdater:
       result = strict_sat_updater_attack(si,n);
+      break;
+
+    case STDynastyKingSquareUpdater:
+      result = dynasty_king_square_updater_attack(si,n);
       break;
 
     case STPlaySuppressor:

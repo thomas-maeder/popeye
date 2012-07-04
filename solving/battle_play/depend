@@ -553,8 +553,8 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
- conditions/sat.h conditions/masand.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/sat.h conditions/dynasty.h conditions/masand.h \
+ optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -738,6 +738,8 @@ conditions/patience.h:
 conditions/isardam.h:
 
 conditions/sat.h:
+
+conditions/dynasty.h:
 
 conditions/masand.h:
 
@@ -997,8 +999,8 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  conditions/ohneschach/legality_tester.h conditions/circe/assassin.h \
  conditions/patience.h conditions/isardam.h conditions/masand.h \
- conditions/sat.h conditions/ultraschachzwang/legality_tester.h \
- optimisations/keepmating.h \
+ conditions/sat.h conditions/dynasty.h \
+ conditions/ultraschachzwang/legality_tester.h optimisations/keepmating.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/goals/enpassant/filter.h \
@@ -1144,6 +1146,8 @@ conditions/isardam.h:
 conditions/masand.h:
 
 conditions/sat.h:
+
+conditions/dynasty.h:
 
 conditions/ultraschachzwang/legality_tester.h:
 

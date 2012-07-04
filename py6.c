@@ -123,6 +123,7 @@
 #include "conditions/isardam.h"
 #include "conditions/masand.h"
 #include "conditions/disparate.h"
+#include "conditions/dynasty.h"
 #include "conditions/eiffel.h"
 #include "conditions/circe/assassin.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
@@ -2859,6 +2860,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[masand])
         stip_insert_masand(root_slice);
+
+      if (CondFlag[dynasty])
+        stip_insert_dynasty(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

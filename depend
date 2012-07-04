@@ -516,7 +516,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  conditions/patience.h conditions/isardam.h conditions/masand.h \
- conditions/disparate.h conditions/eiffel.h conditions/circe/assassin.h \
+ conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
+ conditions/circe/assassin.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
  platform/maxmem.h platform/maxtime.h platform/pytime.h \
  platform/priority.h stipulation/has_solution_type.h stipulation/branch.h \
@@ -657,6 +658,8 @@ conditions/isardam.h:
 conditions/masand.h:
 
 conditions/disparate.h:
+
+conditions/dynasty.h:
 
 conditions/eiffel.h:
 

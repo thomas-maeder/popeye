@@ -41,6 +41,7 @@
 #include "conditions/isardam.h"
 #include "conditions/masand.h"
 #include "conditions/sat.h"
+#include "conditions/dynasty.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
@@ -334,6 +335,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STStrictSATUpdater:
       result = strict_sat_updater_defend(si,n);
+      break;
+
+    case STDynastyKingSquareUpdater:
+      result = dynasty_king_square_updater_defend(si,n);
       break;
 
     case STPiecesNeutralInitialiser:

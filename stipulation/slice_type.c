@@ -189,6 +189,7 @@
     ENUMERATOR(STSATFlightsCounterFork), \
     ENUMERATOR(STSATFlightMoveGenerator), \
     ENUMERATOR(STStrictSATUpdater), \
+    ENUMERATOR(STDynastyKingSquareUpdater), \
     /* other slices related to fairy chess */ \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \
