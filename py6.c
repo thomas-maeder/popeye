@@ -131,6 +131,7 @@
 #include "conditions/oscillating_kings.h"
 #include "conditions/messigny.h"
 #include "conditions/actuated_revolving_centre.h"
+#include "conditions/actuated_revolving_board.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2878,6 +2879,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[arc])
         stip_insert_actuated_revolving_centre(root_slice);
+
+      if (CondFlag[actrevolving])
+        stip_insert_actuated_revolving_board(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

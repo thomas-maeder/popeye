@@ -3205,9 +3205,6 @@ void jouecoup(joue_type jt)
 
     if (CondFlag[republican])
       republican_place_king(jt,trait_ply,nbply);
-
-    if (CondFlag[actrevolving])
-      transformPosition(rot270);
   } /* if (jouegenre) */
 } /* end of jouecoup */
 
@@ -3245,9 +3242,6 @@ void repcoup(void)
 
     if (flag_magic)
       ChangeMagic(nbply, false);
-
-    if (CondFlag[actrevolving])
-      transformPosition(rot90);
 
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
     {

@@ -217,6 +217,7 @@
     ENUMERATOR(STMasandRecolorer), \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
+    ENUMERATOR(STActuatedRevolvingBoard),                               \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
