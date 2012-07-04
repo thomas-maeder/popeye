@@ -128,7 +128,7 @@ stip_length_type king_oscillator_defend(slice_index si, stip_length_type n)
   if (OscillatingKingsTypeB[starter] && echecc(starter))
   {
     oscillatedKs[nbply] = false;
-    result = n+2;
+    result = slack_length-1;
   }
   else
   {
