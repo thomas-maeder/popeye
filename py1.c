@@ -211,7 +211,6 @@ void InitCond(void) {
   wh_exact= ultra_mummer[White]= bl_exact= ultra_mummer[Black]= false;
   anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anytraitor= false;
   anymars= anyantimars= anygeneva= false;
-  blacknull= whitenull= nullgenre= false;
 
   anyparrain= false;
 

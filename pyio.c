@@ -5060,8 +5060,6 @@ static char *ParseCond(void) {
       case schwarzschacher:
         flagmummer[Black] = true;
         black_length= len_schwarzschacher;
-        nullgenre= true;
-        blacknull= true;
         break;
 
         /* different types of circe */

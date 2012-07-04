@@ -393,7 +393,6 @@ EXTERN boolean          dont_generate_castling;
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
 EXTERN boolean          flag_synchron;
-EXTERN boolean			  	blacknull, nullgenre, whitenull;
 EXTERN int         annanvar;
 EXTERN ply      	      tempply;
 EXTERN boolean          rex_protean_ex;

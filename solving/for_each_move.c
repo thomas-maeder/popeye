@@ -45,7 +45,8 @@ static void insert_move_iterator_move(slice_index si,
                                    : alloc_for_each_move_slice());
     slice_index const prototypes[] = {
         prototype,
-        alloc_move_player_slice()
+        alloc_move_player_slice(),
+        alloc_pipe(STLandingAfterMovePlay)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     switch (st->context)

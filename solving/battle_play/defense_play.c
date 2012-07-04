@@ -133,6 +133,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = for_each_move_defend(si,n);
       break;
 
+    case STNullMovePlayer:
+      result = null_move_player_defend(si,n);
+      break;
+
     case STMovePlayer:
       result = move_player_defend(si,n);
       break;

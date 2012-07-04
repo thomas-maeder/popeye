@@ -364,7 +364,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   INCREMENT_COUNTER(empile);
 
   if (sq_departure==sq_arrival
-      && (!nullgenre || sq_arrival != nullsquare))
+      && (!CondFlag[schwarzschacher] || sq_arrival != nullsquare))
     return true;
 
   TraceValue("%u\n",empilegenre);

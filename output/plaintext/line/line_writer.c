@@ -159,7 +159,9 @@ static void write_line(slice_index si, Side starting_side)
 static slice_index alloc_writers_for_one_side(Goal goal)
 {
   slice_index const result = alloc_proxy_slice();
+  slice_index const replaying = alloc_pipe(STReplayingMoves);
   slice_index const replayer = alloc_move_replayer_slice();
+  slice_index const landing = alloc_pipe(STLandingAfterMovePlay);
   slice_index const proxyIntermediate = alloc_proxy_slice();
   slice_index const proxyLast = alloc_proxy_slice();
   slice_index const fork = alloc_fork_on_remaining_slice(proxyIntermediate,proxyLast,0);
@@ -168,8 +170,10 @@ static slice_index alloc_writers_for_one_side(Goal goal)
   slice_index const writerLast = alloc_pipe(STOutputPlaintextLineLastMoveWriter);
   slice_index const trueLast = alloc_true_slice();
 
-  pipe_link(result,replayer);
-  pipe_link(replayer,fork);
+  pipe_link(result,replaying);
+  pipe_link(replaying,replayer);
+  pipe_link(replayer,landing);
+  pipe_link(landing,fork);
   pipe_link(proxyIntermediate,writerIntermediate);
   pipe_link(writerIntermediate,trueIntermediate);
   pipe_link(proxyLast,writerLast);
@@ -193,7 +197,6 @@ slice_index alloc_line_writer_slice(Goal goal)
 
   {
     slice_index const adapter = alloc_help_adapter_slice(slack_length,slack_length);
-    slice_index const replaying = alloc_pipe(STReplayingMoves);
 
     slice_index const writersWhite = alloc_writers_for_one_side(goal);
     slice_index const writersBlack = alloc_writers_for_one_side(goal);
@@ -201,8 +204,7 @@ slice_index alloc_line_writer_slice(Goal goal)
 
     result = alloc_pipe(STOutputPlaintextLineLineWriter);
     slices[result].next2 = adapter;
-    pipe_link(adapter,replaying);
-    pipe_link(replaying,discriminate);
+    pipe_link(adapter,discriminate);
   }
 
   TraceFunctionExit(__func__);

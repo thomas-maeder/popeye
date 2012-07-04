@@ -34,6 +34,8 @@
     ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
     ENUMERATOR(STMovePlayer),                                          \
     ENUMERATOR(STMoveReplayer),                                        \
+    ENUMERATOR(STNullMovePlayer),                                      \
+    ENUMERATOR(STLandingAfterMovePlay),                                \
     ENUMERATOR(STMovePlayed),                                          \
     ENUMERATOR(STHelpMovePlayed),                                      \
     ENUMERATOR(STDummyMove),    /* dummy move */                       \

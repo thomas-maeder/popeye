@@ -205,6 +205,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = for_each_move_attack(si,n);
       break;
 
+    case STNullMovePlayer:
+      result = null_move_player_attack(si,n);
+      break;
+
     case STMovePlayer:
       result = move_player_attack(si,n);
       break;

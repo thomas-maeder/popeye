@@ -925,7 +925,7 @@ void gen_bl_ply(void)
           gen_bl_piece(z, p);
       }
     }
-  if (blacknull)
+  if (CondFlag[schwarzschacher])
     empile(nullsquare, nullsquare, nullsquare);
 
   TraceFunctionExit(__func__);
@@ -1983,6 +1983,9 @@ DEFINE_COUNTER(jouecoup)
 
 boolean jouecoup(joue_type jt)
 {
+  numecoup const coup_id = current_move[nbply];
+  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
+
   square sq_rebirth = initsquare;
   piece pi_reborn;
 
@@ -1997,19 +2000,12 @@ boolean jouecoup(joue_type jt)
 
   Side const trait_ply = trait[nbply];
 
-#if defined(DEBUG)
-  nbrtimes++;
-#endif
-
-  numecoup const coup_id = current_move[nbply];
-  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
-
   square const prev_rb = king_square[White];
   square const prev_rn = king_square[Black];
 
-  square const sq_arrival = move_gen_top->arrival;
   square sq_capture = move_gen_top->capture;
 
+  square const sq_arrival = move_gen_top->arrival;
   square const sq_departure = move_gen_top->departure;
 
   Flags spec_pi_moving = spec[sq_departure];
@@ -2017,7 +2013,13 @@ boolean jouecoup(joue_type jt)
 
   piece pi_departing = pi_arriving;
 
+#if defined(DEBUG)
+  nbrtimes++;
+#endif
+
   INCREMENT_COUNTER(jouecoup);
+
+  assert(sq_arrival!=nullsquare);
 
   RB_[nbply] = king_square[White];
   RN_[nbply] = king_square[Black];
@@ -2068,943 +2070,1042 @@ boolean jouecoup(joue_type jt)
   spec_pi_captured = pprispec[nbply] = spec[sq_capture];
   pi_captured = pprise[nbply] = e[sq_capture];
 
-  if (sq_arrival==nullsquare)
-    return true;
+  if (anyantimars && sq_departure==sq_capture || move_gen_top->capture >= platzwechsel_rochade)
+  {
+    spec_pi_captured = 0;
+    pprispec[nbply]= 0;
+    pi_captured = vide;
+    pprise[nbply] = vide;
+  }
+
+  pdisp[nbply] = vide;
+  pdispspec[nbply] = 0;
+
+  if (jouegenre)
+  {
+    if (CondFlag[blsupertrans_king]
+        && trait_ply==Black
+        && ctrans[coup_id]!=vide)
+    {
+      king_square[Black]=initsquare;
+      pi_arriving=ctrans[coup_id];
+    }
+    if (CondFlag[whsupertrans_king]
+        && trait_ply==White
+        && ctrans[coup_id]!=vide)
+    {
+      king_square[White]=initsquare;
+      pi_arriving=ctrans[coup_id];
+    }
+
+    if (CondFlag[singlebox] && SingleBoxType==singlebox_type3
+        && sb3[coup_id].what!=vide) {
+      --nbpiece[e[sb3[coup_id].where]];
+      e[sb3[coup_id].where] = sb3[coup_id].what;
+      ++nbpiece[sb3[coup_id].what];
+      if (sq_departure==sb3[coup_id].where) {
+        pi_departing = pi_arriving = sb3[coup_id].what;
+      }
+    }
+
+    if (CondFlag[ghostchess] && pi_captured!=vide)
+      remember_ghost(sq_arrival);
+    if (CondFlag[hauntedchess] && pi_captured!=vide)
+    {
+      preempt_ghost(sq_arrival);
+      remember_ghost(sq_arrival);
+    }
+  }
+
+  if (TSTFLAG(spec_pi_moving, ColourChange)) {
+    sq_hurdle= chop[coup_id];
+  }
+
+  switch (sq_capture)
+  {
+    case messigny_exchange:
+      pprise[nbply]= e[sq_departure]= e[sq_arrival];
+      pprispec[nbply]= spec[sq_departure]= spec[sq_arrival];
+      jouearr[nbply]= e[sq_arrival]= pi_departing;
+      spec[sq_arrival]= spec_pi_moving;
+      if (king_square[White]==sq_departure)
+        king_square[White] = sq_arrival;
+      else if (king_square[White]==sq_arrival)
+        king_square[White] = sq_departure;
+      if (king_square[Black]==sq_departure)
+        king_square[Black] = sq_arrival;
+      else if (king_square[Black]==sq_arrival)
+        king_square[Black]= sq_departure;
+
+      return true;
+
+    case kingside_castling:
+      if (CondFlag[einstein])
+      {
+        if (trait_ply==White)
+        {
+          nbpiece[tb]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_f1]= db;
+            nbpiece[db]++;
+          }
+          else
+          {
+            e[square_f1]= fb;
+            nbpiece[fb]++;
+          }
+        }
+        else
+        {
+          nbpiece[tn]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_f8]= dn;
+            nbpiece[dn]++;
+          }
+          else
+          {
+            e[square_f8]= fn;
+            nbpiece[fn]++;
+          }
+        }
+      }
+      else
+        e[sq_departure+dir_right]= e[sq_departure+3*dir_right];
+
+      spec[sq_departure+dir_right]= spec[sq_departure+3*dir_right];
+      e[sq_departure+3*dir_right]= CondFlag[haanerchess] ? obs : vide;
+      CLEARFL(spec[sq_departure+3*dir_right]);
+      CLRCASTLINGFLAGMASK(nbply,trait_ply,k_castling);
+      CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
+                          castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
+      break;
+
+    case queenside_castling:
+      if (CondFlag[einstein])
+      {
+        if (trait_ply==White)
+        {
+          nbpiece[tb]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_d1]= db;
+            nbpiece[db]++;
+          }
+          else
+          {
+            e[square_d1]= fb;
+            nbpiece[fb]++;
+          }
+        }
+        else
+        {
+          nbpiece[tn]--;
+          if (CondFlag[reveinstein])
+          {
+            e[square_d8]= dn;
+            nbpiece[dn]++;
+          }
+          else
+          {
+            e[square_d8]= fn;
+            nbpiece[fn]++;
+          }
+        }
+      }
+      else
+        e[sq_departure+dir_left]= e[sq_departure+4*dir_left];
+
+      spec[sq_departure+dir_left]= spec[sq_departure+4*dir_left];
+      e[sq_departure+4*dir_left]= CondFlag[haanerchess] ? obs : vide;
+      CLEARFL(spec[sq_departure+4*dir_left]);
+      CLRCASTLINGFLAGMASK(nbply,trait_ply,q_castling);
+      CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
+                          castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
+      break;
+  } /* switch (sq_capture) */
+
+  if (platzwechsel)
+  {
+    piece p=e[sq_arrival];
+    Flags sp=spec[sq_arrival];
+    e[sq_arrival]=e[sq_departure];
+    spec[sq_arrival]=spec[sq_departure];
+    if (king_square[Black] == sq_departure)
+      king_square[Black]= sq_arrival;
+    if (king_square[White] == sq_departure)
+      king_square[White]= sq_arrival;
+    e[sq_departure]=p;
+    spec[sq_departure]=sp;
+  }
+  else if (rochade)
+  {
+    square sq_castle= (sq_departure + sq_arrival) / 2;
+    e[sq_castle] = e[rochade_sq[coup_id]];
+    spec[sq_castle] = spec[rochade_sq[coup_id]];
+    e[rochade_sq[coup_id]] = CondFlag[haanerchess] ? obs : vide;
+    CLEARFL(spec[rochade_sq[coup_id]]);
+    if (king_square[Black] == rochade_sq[coup_id])
+      king_square[Black]= sq_castle;
+    if (king_square[White] == rochade_sq[coup_id])
+      king_square[White]= sq_castle;
+    e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
+    spec[sq_departure]= 0;
+  }
   else
   {
-    if (anyantimars && sq_departure==sq_capture || move_gen_top->capture >= platzwechsel_rochade)
-    {
-      spec_pi_captured = 0;
-      pprispec[nbply]= 0;
-      pi_captured = vide;
-      pprise[nbply] = vide;
-    }
+    e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
+    spec[sq_departure]= 0;
+  }
 
-    pdisp[nbply] = vide;
-    pdispspec[nbply] = 0;
-
-    if (jouegenre)
-    {
-      if (CondFlag[blsupertrans_king]
-          && trait_ply==Black
-          && ctrans[coup_id]!=vide)
-      {
-        king_square[Black]=initsquare;
-        pi_arriving=ctrans[coup_id];
-      }
-      if (CondFlag[whsupertrans_king]
-          && trait_ply==White
-          && ctrans[coup_id]!=vide)
-      {
-        king_square[White]=initsquare;
-        pi_arriving=ctrans[coup_id];
-      }
-
-      if (CondFlag[singlebox] && SingleBoxType==singlebox_type3
-          && sb3[coup_id].what!=vide) {
-        --nbpiece[e[sb3[coup_id].where]];
-        e[sb3[coup_id].where] = sb3[coup_id].what;
-        ++nbpiece[sb3[coup_id].what];
-        if (sq_departure==sb3[coup_id].where) {
-          pi_departing = pi_arriving = sb3[coup_id].what;
-        }
-      }
-
-      if (CondFlag[ghostchess] && pi_captured!=vide)
-        remember_ghost(sq_arrival);
-      if (CondFlag[hauntedchess] && pi_captured!=vide)
-      {
-        preempt_ghost(sq_arrival);
-        remember_ghost(sq_arrival);
+  if (PatienceB) {
+    ply nply;
+    e[sq_departure]= obs;
+    for (nply= nbply - 1 ; nply > 1 ; nply--) {
+      if (trait[nply] == trait_ply) {
+        e[sqdep[nply]]= vide;
       }
     }
+  }
 
-    if (TSTFLAG(spec_pi_moving, ColourChange)) {
-      sq_hurdle= chop[coup_id];
-    }
-
-    switch (sq_capture)
-    {
-      case messigny_exchange:
-        pprise[nbply]= e[sq_departure]= e[sq_arrival];
-        pprispec[nbply]= spec[sq_departure]= spec[sq_arrival];
-        jouearr[nbply]= e[sq_arrival]= pi_departing;
-        spec[sq_arrival]= spec_pi_moving;
-        if (king_square[White]==sq_departure)
-          king_square[White] = sq_arrival;
-        else if (king_square[White]==sq_arrival)
-          king_square[White] = sq_departure;
-        if (king_square[Black]==sq_departure)
-          king_square[Black] = sq_arrival;
-        else if (king_square[Black]==sq_arrival)
-          king_square[Black]= sq_departure;
-
-        return true;
-
-      case kingside_castling:
-        if (CondFlag[einstein])
-        {
-          if (trait_ply==White)
-          {
-            nbpiece[tb]--;
-            if (CondFlag[reveinstein])
-            {
-              e[square_f1]= db;
-              nbpiece[db]++;
-            }
-            else
-            {
-              e[square_f1]= fb;
-              nbpiece[fb]++;
-            }
-          }
-          else
-          {
-            nbpiece[tn]--;
-            if (CondFlag[reveinstein])
-            {
-              e[square_f8]= dn;
-              nbpiece[dn]++;
-            }
-            else
-            {
-              e[square_f8]= fn;
-              nbpiece[fn]++;
-            }
-          }
-        }
-        else
-          e[sq_departure+dir_right]= e[sq_departure+3*dir_right];
-
-        spec[sq_departure+dir_right]= spec[sq_departure+3*dir_right];
-        e[sq_departure+3*dir_right]= CondFlag[haanerchess] ? obs : vide;
-        CLEARFL(spec[sq_departure+3*dir_right]);
-        CLRCASTLINGFLAGMASK(nbply,trait_ply,k_castling);
-        CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
-                            castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
-        break;
-
-      case queenside_castling:
-        if (CondFlag[einstein])
-        {
-          if (trait_ply==White)
-          {
-            nbpiece[tb]--;
-            if (CondFlag[reveinstein])
-            {
-              e[square_d1]= db;
-              nbpiece[db]++;
-            }
-            else
-            {
-              e[square_d1]= fb;
-              nbpiece[fb]++;
-            }
-          }
-          else
-          {
-            nbpiece[tn]--;
-            if (CondFlag[reveinstein])
-            {
-              e[square_d8]= dn;
-              nbpiece[dn]++;
-            }
-            else
-            {
-              e[square_d8]= fn;
-              nbpiece[fn]++;
-            }
-          }
-        }
-        else
-          e[sq_departure+dir_left]= e[sq_departure+4*dir_left];
-
-        spec[sq_departure+dir_left]= spec[sq_departure+4*dir_left];
-        e[sq_departure+4*dir_left]= CondFlag[haanerchess] ? obs : vide;
-        CLEARFL(spec[sq_departure+4*dir_left]);
-        CLRCASTLINGFLAGMASK(nbply,trait_ply,q_castling);
-        CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
-                            castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
-        break;
-    } /* switch (sq_capture) */
-
-    if (platzwechsel)
-    {
-      piece p=e[sq_arrival];
-      Flags sp=spec[sq_arrival];
-      e[sq_arrival]=e[sq_departure];
-      spec[sq_arrival]=spec[sq_departure];
-      if (king_square[Black] == sq_departure)
-        king_square[Black]= sq_arrival;
-      if (king_square[White] == sq_departure)
-        king_square[White]= sq_arrival;
-      e[sq_departure]=p;
-      spec[sq_departure]=sp;
-    }
-    else if (rochade)
-    {
-      square sq_castle= (sq_departure + sq_arrival) / 2;
-      e[sq_castle] = e[rochade_sq[coup_id]];
-      spec[sq_castle] = spec[rochade_sq[coup_id]];
-      e[rochade_sq[coup_id]] = CondFlag[haanerchess] ? obs : vide;
-      CLEARFL(spec[rochade_sq[coup_id]]);
-      if (king_square[Black] == rochade_sq[coup_id])
-        king_square[Black]= sq_castle;
-      if (king_square[White] == rochade_sq[coup_id])
-        king_square[White]= sq_castle;
-      e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
-      spec[sq_departure]= 0;
-    }
-    else
-    {
-      e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
-      spec[sq_departure]= 0;
-    }
-
-    if (PatienceB) {
-      ply nply;
-      e[sq_departure]= obs;
-      for (nply= nbply - 1 ; nply > 1 ; nply--) {
-        if (trait[nply] == trait_ply) {
-          e[sqdep[nply]]= vide;
+  if (change_moving_piece) {
+    /* Now pawn-promotion (even into 'kamikaze'-pieces)
+       is possible !  NG */
+    if (TSTFLAG(spec_pi_moving, Kamikaze)) {
+      if (pi_captured != vide) {
+        if (!anycirce) {
+          spec_pi_moving= 0;
+          pi_arriving= vide;
+          /* to avoid useless promotions of a vanishing pawn */
         }
       }
     }
+    if (CondFlag[linechamchess])
+      pi_arriving= linechampiece(pi_arriving, sq_arrival);
 
-    if (change_moving_piece) {
-      /* Now pawn-promotion (even into 'kamikaze'-pieces)
-         is possible !  NG */
-      if (TSTFLAG(spec_pi_moving, Kamikaze)) {
-        if (pi_captured != vide) {
-          if (!anycirce) {
-            spec_pi_moving= 0;
-            pi_arriving= vide;
-            /* to avoid useless promotions of a vanishing pawn */
-          }
-        }
+    if (CondFlag[chamchess])
+      pi_arriving= champiece(pi_arriving);
+
+    if (TSTFLAG(spec_pi_moving, Chameleon))
+      pi_arriving= champiece(pi_arriving);
+
+    if (CondFlag[norsk])
+      pi_arriving= norskpiece(pi_arriving);
+
+    if (pi_captured != vide
+        && ((CondFlag[protean]
+             && (!rex_protean_ex || !TSTFLAG(spec_pi_moving, Royal)))
+            || TSTFLAG(spec_pi_moving, Protean))) {
+      if (pi_departing < vide) {
+        pi_arriving = -pi_captured;
+        if (pi_arriving == pn)
+          pi_arriving = reversepn;
+        else if (pi_arriving == reversepn)
+          pi_arriving = pn;
+      } else {
+        pi_arriving = -pi_captured;
+        if (pi_arriving == pb)
+          pi_arriving = reversepb;
+        else if (pi_arriving == reversepb)
+          pi_arriving = pb;
       }
-      if (CondFlag[linechamchess])
-        pi_arriving= linechampiece(pi_arriving, sq_arrival);
+    }
+  } /* change_moving_piece */
 
-      if (CondFlag[chamchess])
-        pi_arriving= champiece(pi_arriving);
+  if (abs(pi_departing) == andergb) {
+    square sq= sq_arrival - direction(sq_departure, sq_arrival);
 
-      if (TSTFLAG(spec_pi_moving, Chameleon))
-        pi_arriving= champiece(pi_arriving);
+    if (!TSTFLAG(spec[sq], Neutral) && (sq != king_square[White]) && (sq != king_square[Black])) {
+      change_side(sq);
+      CHANGECOLOR(spec[sq]);
+    }
+  } /* andergb */
 
-      if (CondFlag[norsk])
-        pi_arriving= norskpiece(pi_arriving);
+  ep[nbply]= ep2[nbply]= initsquare;
+  if (is_pawn(pi_departing)) {
+    if (pi_captured==vide) {
+      /* ep capture */
+      if (CondFlag[phantom]) {
+        int col_diff, rank_j;
 
-      if (pi_captured != vide
-          && ((CondFlag[protean]
-               && (!rex_protean_ex || !TSTFLAG(spec_pi_moving, Royal)))
-              || TSTFLAG(spec_pi_moving, Protean))) {
-        if (pi_departing < vide) {
-          pi_arriving = -pi_captured;
-          if (pi_arriving == pn)
-            pi_arriving = reversepn;
-          else if (pi_arriving == reversepn)
-            pi_arriving = pn;
-        } else {
-          pi_arriving = -pi_captured;
-          if (pi_arriving == pb)
-            pi_arriving = reversepb;
-          else if (pi_arriving == reversepb)
-            pi_arriving = pb;
-        }
-      }
-    } /* change_moving_piece */
+        col_diff= sq_arrival%onerow - sq_departure%onerow,
+          rank_j= sq_arrival/onerow;
 
-    if (abs(pi_departing) == andergb) {
-      square sq= sq_arrival - direction(sq_departure, sq_arrival);
-
-      if (!TSTFLAG(spec[sq], Neutral) && (sq != king_square[White]) && (sq != king_square[Black])) {
-        change_side(sq);
-        CHANGECOLOR(spec[sq]);
-      }
-    } /* andergb */
-
-    ep[nbply]= ep2[nbply]= initsquare;
-    if (is_pawn(pi_departing)) {
-      if (pi_captured==vide) {
-        /* ep capture */
-        if (CondFlag[phantom]) {
-          int col_diff, rank_j;
-
-          col_diff= sq_arrival%onerow - sq_departure%onerow,
-            rank_j= sq_arrival/onerow;
-
-          if (rank_j == 11) { /* 4th rank */
-            switch (col_diff) {
-            case 0:
-              if (pi_departing==pb
-                  && sq_departure!=sq_arrival+dir_down)
-                ep[nbply]= sq_arrival+dir_down;
-              break;
-
-            case -2:
-              if (pi_departing==pbb
-                  && sq_departure!=sq_arrival+dir_down+dir_left)
-                ep[nbply]= sq_arrival+dir_down+dir_left;
-              break;
-
-            case 2:
-              if (pi_departing==pbb
-                  && sq_departure!=sq_arrival+dir_down+dir_right)
-                ep[nbply]= sq_arrival+dir_down+dir_right;
-              break;
-            }
-          }
-          else if (rank_j == 12) { /* 5th rank */
-            switch (col_diff) {
-            case 0:
-              if (pi_departing==pn
-                  && sq_departure!=sq_arrival+dir_up)
-                ep[nbply]= sq_arrival+dir_up;
-              break;
-            case -2:
-              if (pi_departing==pbn
-                  && sq_departure!=sq_arrival+dir_up+dir_left)
-                ep[nbply]= sq_arrival+dir_up+dir_left;
-              break;
-            case 2:
-              if (pi_departing==pbn
-                  && sq_departure!=sq_arrival+dir_up+dir_right)
-                ep[nbply]= sq_arrival+dir_up+dir_right;
-              break;
-            }
-          }
-        } /* CondFlag[phantom] */
-        else
-        {
-          square ii = anyantimars ? cmren[coup_id] : sq_departure;
-          switch (abs(pi_departing)) {
-          case Pawn:
-          case ReversePawn:
-            switch (abs(ii - sq_arrival)) {
-            case 2*onerow: /* ordinary or Einstein double step */
-              ep[nbply]= (ii + sq_arrival) / 2;
-              break;
-            case 3*onerow: /* Einstein triple step */
-              ep[nbply]= (ii + sq_arrival + sq_arrival) / 3;
-              ep2[nbply]= (ii + ii + sq_arrival) / 3;
-              break;
-            } /* end switch (abs(ii-sq_arrival)) */
+        if (rank_j == 11) { /* 4th rank */
+          switch (col_diff) {
+          case 0:
+            if (pi_departing==pb
+                && sq_departure!=sq_arrival+dir_down)
+              ep[nbply]= sq_arrival+dir_down;
             break;
-          case BerolinaPawn:
-            if (abs(ii - sq_arrival) > onerow+1) {
-              /* It's a double step! */
-              ep[nbply]= (ii + sq_arrival) / 2;
-            }
+
+          case -2:
+            if (pi_departing==pbb
+                && sq_departure!=sq_arrival+dir_down+dir_left)
+              ep[nbply]= sq_arrival+dir_down+dir_left;
+            break;
+
+          case 2:
+            if (pi_departing==pbb
+                && sq_departure!=sq_arrival+dir_down+dir_right)
+              ep[nbply]= sq_arrival+dir_down+dir_right;
             break;
           }
         }
+        else if (rank_j == 12) { /* 5th rank */
+          switch (col_diff) {
+          case 0:
+            if (pi_departing==pn
+                && sq_departure!=sq_arrival+dir_up)
+              ep[nbply]= sq_arrival+dir_up;
+            break;
+          case -2:
+            if (pi_departing==pbn
+                && sq_departure!=sq_arrival+dir_up+dir_left)
+              ep[nbply]= sq_arrival+dir_up+dir_left;
+            break;
+          case 2:
+            if (pi_departing==pbn
+                && sq_departure!=sq_arrival+dir_up+dir_right)
+              ep[nbply]= sq_arrival+dir_up+dir_right;
+            break;
+          }
+        }
+      } /* CondFlag[phantom] */
+      else
+      {
+        square ii = anyantimars ? cmren[coup_id] : sq_departure;
+        switch (abs(pi_departing)) {
+        case Pawn:
+        case ReversePawn:
+          switch (abs(ii - sq_arrival)) {
+          case 2*onerow: /* ordinary or Einstein double step */
+            ep[nbply]= (ii + sq_arrival) / 2;
+            break;
+          case 3*onerow: /* Einstein triple step */
+            ep[nbply]= (ii + sq_arrival + sq_arrival) / 3;
+            ep2[nbply]= (ii + ii + sq_arrival) / 3;
+            break;
+          } /* end switch (abs(ii-sq_arrival)) */
+          break;
+        case BerolinaPawn:
+          if (abs(ii - sq_arrival) > onerow+1) {
+            /* It's a double step! */
+            ep[nbply]= (ii + sq_arrival) / 2;
+          }
+          break;
+        }
       }
     }
+  }
 
-    prompieces[nbply] = GetPromotingPieces(sq_departure,
-                                        pi_departing,
-                                        trait[nbply],
-                                        spec_pi_moving,
-                                        sq_arrival,
-                                        pi_captured);
+  prompieces[nbply] = GetPromotingPieces(sq_departure,
+                                      pi_departing,
+                                      trait[nbply],
+                                      spec_pi_moving,
+                                      sq_arrival,
+                                      pi_captured);
 
-    if (prompieces[nbply] != NULL)
+  if (prompieces[nbply] != NULL)
+    {
+      pi_arriving = norm_prom[nbply];
+      if (pi_arriving==vide)
       {
-        pi_arriving = norm_prom[nbply];
-        if (pi_arriving==vide)
+        if (!CondFlag[noiprom] && Iprom[nbply])
         {
-          if (!CondFlag[noiprom] && Iprom[nbply])
-          {
-            ply icount;
-            if (inum[nbply] == maxinum)
-              FtlMsg(ManyImitators);
-            for (icount = nbply; icount<=maxply; ++icount)
-              ++inum[icount];
-            isquare[inum[nbply]-1] = sq_arrival;
-          }
-          else
-          {
-            pi_arriving= (prompieces[nbply])[vide];
-
-            if (CondFlag[frischauf])
-              SETFLAG(spec_pi_moving, FrischAuf);
-
-            if (pi_captured != vide && anyanticirce) {
-  #if defined(BETTER_READABLE)
-              /* this coding seems to be better redable */
-              do {
-                sq_rebirth= (*antirenai)(pi_arriving,
-                                         spec_pi_moving,
-                                         sq_capture,
-                                         sq_departure,
-                                         advers(trait_ply));
-                if (sq_rebirth == sq_departure)
-                  break;
-                if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
-                  break;
-                pi_arriving= (prompieces[ply_id])[pi_arriving];
-              } while (1);
-  #endif /*BETTER_READABLE*/
-
-              while (((sq_rebirth= (*antirenai)(nbply,
-                                                pi_arriving,
-                                                spec_pi_moving,
-                                                sq_capture,
-                                                sq_departure,
-                                                sq_arrival,
-                                                advers(trait_ply)))
-                      != sq_departure)
-                     && !LegalAntiCirceMove(sq_rebirth,
-                                            sq_capture,
-                                            sq_departure))
-              {
-                pi_arriving= (prompieces[nbply])[pi_arriving];
-                if (!pi_arriving && CondFlag[antisuper])
-                {
-                  super[nbply]++;
-                  pi_arriving= (prompieces[nbply])[vide];
-                }
-              }
-            }
-
-            norm_prom[nbply]= pi_arriving;
-          }
+          ply icount;
+          if (inum[nbply] == maxinum)
+            FtlMsg(ManyImitators);
+          for (icount = nbply; icount<=maxply; ++icount)
+            ++inum[icount];
+          isquare[inum[nbply]-1] = sq_arrival;
         }
         else
         {
+          pi_arriving= (prompieces[nbply])[vide];
+
           if (CondFlag[frischauf])
             SETFLAG(spec_pi_moving, FrischAuf);
-        }
 
-        if (!(!CondFlag[noiprom] && Iprom[nbply])) {
-          if (TSTFLAG(spec_pi_moving, Chameleon)
-              && is_pawn(pi_departing))
-            norm_cham_prom[nbply]= true;
+          if (pi_captured != vide && anyanticirce) {
+#if defined(BETTER_READABLE)
+            /* this coding seems to be better redable */
+            do {
+              sq_rebirth= (*antirenai)(pi_arriving,
+                                       spec_pi_moving,
+                                       sq_capture,
+                                       sq_departure,
+                                       advers(trait_ply));
+              if (sq_rebirth == sq_departure)
+                break;
+              if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
+                break;
+              pi_arriving= (prompieces[ply_id])[pi_arriving];
+            } while (1);
+#endif /*BETTER_READABLE*/
 
-          if (pi_departing<vide)
-            pi_arriving = -pi_arriving;
+            while (((sq_rebirth= (*antirenai)(nbply,
+                                              pi_arriving,
+                                              spec_pi_moving,
+                                              sq_capture,
+                                              sq_departure,
+                                              sq_arrival,
+                                              advers(trait_ply)))
+                    != sq_departure)
+                   && !LegalAntiCirceMove(sq_rebirth,
+                                          sq_capture,
+                                          sq_departure))
+            {
+              pi_arriving= (prompieces[nbply])[pi_arriving];
+              if (!pi_arriving && CondFlag[antisuper])
+              {
+                super[nbply]++;
+                pi_arriving= (prompieces[nbply])[vide];
+              }
+            }
+          }
 
-          /* so also promoted neutral pawns have the correct color and
-           * an additional call to setneutre is not required.
-           */
-          if (norm_cham_prom[nbply])
-            SETFLAG(spec_pi_moving, Chameleon);
-        }
-        else
-          pi_arriving= vide; /* imitator-promotion */
-      } /* promotion */
-
-    if (sq_arrival!=sq_capture)
-    {
-      e[sq_capture] = vide;
-      spec[sq_capture] = 0;
-    }
-
-    if (pi_captured!=vide)
-    {
-      nbpiece[pi_captured]--;
-
-      if (sq_capture==king_square[White])
-        king_square[White] = initsquare;
-      if (sq_capture==king_square[Black])
-        king_square[Black] = initsquare;
-    }
-
-    if (change_moving_piece)
-    {
-      if (CondFlag[degradierung]
-          && !is_pawn(pi_departing)
-          && sq_departure != prev_rn
-          && sq_departure != prev_rb
-          && (trait_ply == Black
-              ? sq_arrival>=square_a7 && sq_arrival<=square_h7
-              : sq_arrival>=square_a2 && sq_arrival<=square_h2))
-      {
-        if (pi_departing < vide)
-          pi_arriving= pn;
-        else
-          pi_arriving= pb;
-      }
-
-      if ((CondFlag[tibet]
-           && pi_captured != vide
-           && pi_arriving != -pi_captured
-           && (((trait_ply == Black)
-                && (sq_departure != prev_rn))
-               || ((trait_ply == White)
-                   && CondFlag[dbltibet]
-                   && (sq_departure != prev_rb))))
-          || (CondFlag[andernach]
-              && pi_captured != vide
-              && sq_departure != prev_rn
-              && sq_departure != prev_rb))
-      {
-        SETCOLOR(spec_pi_moving, spec_pi_captured);
-        if (CondFlag[volage] && !CondFlag[hypervolage])
-          CLRFLAG(spec_pi_moving, Volage);
-
-        /* nasty neutral implementation */
-        if (pi_arriving < vide)
-          pi_arriving= -pi_arriving;
-
-        /* now the piece is white */
-        /* has it to be changed? */
-        if (TSTFLAG(spec_pi_moving, Black)
-            && (!TSTFLAG(spec_pi_moving, White) || neutral_side == Black))
-        {
-          pi_arriving= -pi_arriving;
+          norm_prom[nbply]= pi_arriving;
         }
       }
-
-      /* this seems to be misplaced -- it's checked every time TLi */
-      /* therefore moved to this place ! NG */
-      if (CondFlag[antiandernach]
-          && pi_captured == vide
-          && sq_departure != prev_rn
-          && sq_departure != prev_rb )
+      else
       {
-        /* the following also copes correctly with neutral */
-        CLRFLAG(spec_pi_moving, Black);
-        CLRFLAG(spec_pi_moving, White);
-        CLRFLAG(spec_pi_moving, Neutral);
-        if (trait_ply == Black) {
-          SETFLAG(spec_pi_moving, White);
-          pi_arriving= abs(pi_arriving);
-        }
-        else {
-          SETFLAG(spec_pi_moving, Black);
-          pi_arriving= -abs(pi_arriving);
-        }
-      } /* CondFlag[antiandernach] ... */
+        if (CondFlag[frischauf])
+          SETFLAG(spec_pi_moving, FrischAuf);
+      }
 
-      if (CondFlag[champursue]
-          && sq_arrival == move_generation_stack[current_move[nbply-1]].departure
-          && sq_departure != prev_rn
-          && sq_departure != prev_rb)
-      {
-        /* the following also copes correctly with neutral */
-        CLRFLAG(spec_pi_moving, Black);
-        CLRFLAG(spec_pi_moving, White);
-        CLRFLAG(spec_pi_moving, Neutral);
-        if (trait_ply == Black) {
-          SETFLAG(spec_pi_moving, White);
-          pi_arriving= abs(pi_arriving);
-        }
-        else {
-          SETFLAG(spec_pi_moving, Black);
-          pi_arriving= -abs(pi_arriving);
-        }
-      } /* CondFlag[antiandernach] ... */
+      if (!(!CondFlag[noiprom] && Iprom[nbply])) {
+        if (TSTFLAG(spec_pi_moving, Chameleon)
+            && is_pawn(pi_departing))
+          norm_cham_prom[nbply]= true;
 
-      if ((CondFlag[traitor]
-           && trait_ply == Black
-           && sq_arrival<=square_h4
-           && !TSTFLAG(spec_pi_moving, Neutral))
-          || (TSTFLAG(spec_pi_moving, Volage)
-              && SquareCol(sq_departure) != SquareCol(sq_arrival))
-          || (TSTFLAG(sq_spec[sq_arrival], MagicSq)
-              && prev_rn != sq_departure
-              && prev_rb != sq_departure))
+        if (pi_departing<vide)
+          pi_arriving = -pi_arriving;
+
+        /* so also promoted neutral pawns have the correct color and
+         * an additional call to setneutre is not required.
+         */
+        if (norm_cham_prom[nbply])
+          SETFLAG(spec_pi_moving, Chameleon);
+      }
+      else
+        pi_arriving= vide; /* imitator-promotion */
+    } /* promotion */
+
+  if (sq_arrival!=sq_capture)
+  {
+    e[sq_capture] = vide;
+    spec[sq_capture] = 0;
+  }
+
+  if (pi_captured!=vide)
+  {
+    nbpiece[pi_captured]--;
+
+    if (sq_capture==king_square[White])
+      king_square[White] = initsquare;
+    if (sq_capture==king_square[Black])
+      king_square[Black] = initsquare;
+  }
+
+  if (change_moving_piece)
+  {
+    if (CondFlag[degradierung]
+        && !is_pawn(pi_departing)
+        && sq_departure != prev_rn
+        && sq_departure != prev_rb
+        && (trait_ply == Black
+            ? sq_arrival>=square_a7 && sq_arrival<=square_h7
+            : sq_arrival>=square_a2 && sq_arrival<=square_h2))
+    {
+      if (pi_departing < vide)
+        pi_arriving= pn;
+      else
+        pi_arriving= pb;
+    }
+
+    if ((CondFlag[tibet]
+         && pi_captured != vide
+         && pi_arriving != -pi_captured
+         && (((trait_ply == Black)
+              && (sq_departure != prev_rn))
+             || ((trait_ply == White)
+                 && CondFlag[dbltibet]
+                 && (sq_departure != prev_rb))))
+        || (CondFlag[andernach]
+            && pi_captured != vide
+            && sq_departure != prev_rn
+            && sq_departure != prev_rb))
+    {
+      SETCOLOR(spec_pi_moving, spec_pi_captured);
+      if (CondFlag[volage] && !CondFlag[hypervolage])
+        CLRFLAG(spec_pi_moving, Volage);
+
+      /* nasty neutral implementation */
+      if (pi_arriving < vide)
+        pi_arriving= -pi_arriving;
+
+      /* now the piece is white */
+      /* has it to be changed? */
+      if (TSTFLAG(spec_pi_moving, Black)
+          && (!TSTFLAG(spec_pi_moving, White) || neutral_side == Black))
       {
-        CHANGECOLOR(spec_pi_moving);
-        if (!CondFlag[hypervolage])
-          CLRFLAG(spec_pi_moving, Volage);
         pi_arriving= -pi_arriving;
       }
-
-      if (CondFlag[einstein]
-          && !(CondFlag[antieinstein] && pi_captured != vide))
-      {
-        pi_arriving= (pi_captured==vide) != CondFlag[reveinstein]
-          ? dec_einstein(pi_arriving)
-          : inc_einstein(pi_arriving);
-      }
-    } /* change_moving_piece */
-
-    if (sq_departure==prev_rb)
-    {
-      if (king_square[White]!=initsquare)
-        king_square[White] = sq_arrival;
-      CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
-    }
-    if (sq_departure==prev_rn)
-    {
-      if (king_square[Black]!=initsquare)
-        king_square[Black] = sq_arrival;
-      CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
     }
 
-    /* Needed for castling */
-    if (castling_supported)
+    /* this seems to be misplaced -- it's checked every time TLi */
+    /* therefore moved to this place ! NG */
+    if (CondFlag[antiandernach]
+        && pi_captured == vide
+        && sq_departure != prev_rn
+        && sq_departure != prev_rb )
     {
-      /* pieces vacating a1, h1, a8, h8 */
-      if (sq_departure == square_h1)
-        CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-      else if (sq_departure == square_a1)
-        CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-      else if (sq_departure == square_h8)
-        CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-      else if (sq_departure == square_a8)
-        CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
-
-      /* pieces arriving at a1, h1, a8, h8 and possibly capturing a rook */
-      if (sq_arrival == square_h1)
-        CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-      else if (sq_arrival == square_a1)
-        CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-      else if (sq_arrival == square_h8)
-        CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-      else if (sq_arrival == square_a8)
-        CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
-
-      if (CondFlag[losingchess])
-      {
-        /* r[bn] (and therefore prev_r[bn]) are ==initsquare if kings
-         * are not royal
-         */
-        if (sq_arrival==square_e1)
-          CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
-        else if (sq_arrival==square_e8)
-          CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+      /* the following also copes correctly with neutral */
+      CLRFLAG(spec_pi_moving, Black);
+      CLRFLAG(spec_pi_moving, White);
+      CLRFLAG(spec_pi_moving, Neutral);
+      if (trait_ply == Black) {
+        SETFLAG(spec_pi_moving, White);
+        pi_arriving= abs(pi_arriving);
       }
-    }     /* castling_supported */
+      else {
+        SETFLAG(spec_pi_moving, Black);
+        pi_arriving= -abs(pi_arriving);
+      }
+    } /* CondFlag[antiandernach] ... */
 
-    if ((CondFlag[andernach] && pi_captured!=vide)
-        || (CondFlag[antiandernach] && pi_captured==vide)
-        || (CondFlag[champursue] && sq_arrival == move_generation_stack[current_move[nbply-1]].departure)
-        || (CondFlag[norsk])
-        || (CondFlag[protean]
-            && (pi_captured!=vide || abs(pi_departing)==ReversePawn))
-      )
+    if (CondFlag[champursue]
+        && sq_arrival == move_generation_stack[current_move[nbply-1]].departure
+        && sq_departure != prev_rn
+        && sq_departure != prev_rb)
     {
+      /* the following also copes correctly with neutral */
+      CLRFLAG(spec_pi_moving, Black);
+      CLRFLAG(spec_pi_moving, White);
+      CLRFLAG(spec_pi_moving, Neutral);
+      if (trait_ply == Black) {
+        SETFLAG(spec_pi_moving, White);
+        pi_arriving= abs(pi_arriving);
+      }
+      else {
+        SETFLAG(spec_pi_moving, Black);
+        pi_arriving= -abs(pi_arriving);
+      }
+    } /* CondFlag[antiandernach] ... */
+
+    if ((CondFlag[traitor]
+         && trait_ply == Black
+         && sq_arrival<=square_h4
+         && !TSTFLAG(spec_pi_moving, Neutral))
+        || (TSTFLAG(spec_pi_moving, Volage)
+            && SquareCol(sq_departure) != SquareCol(sq_arrival))
+        || (TSTFLAG(sq_spec[sq_arrival], MagicSq)
+            && prev_rn != sq_departure
+            && prev_rb != sq_departure))
+    {
+      CHANGECOLOR(spec_pi_moving);
+      if (!CondFlag[hypervolage])
+        CLRFLAG(spec_pi_moving, Volage);
+      pi_arriving= -pi_arriving;
+    }
+
+    if (CondFlag[einstein]
+        && !(CondFlag[antieinstein] && pi_captured != vide))
+    {
+      pi_arriving= (pi_captured==vide) != CondFlag[reveinstein]
+        ? dec_einstein(pi_arriving)
+        : inc_einstein(pi_arriving);
+    }
+  } /* change_moving_piece */
+
+  if (sq_departure==prev_rb)
+  {
+    if (king_square[White]!=initsquare)
+      king_square[White] = sq_arrival;
+    CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
+  }
+  if (sq_departure==prev_rn)
+  {
+    if (king_square[Black]!=initsquare)
+      king_square[Black] = sq_arrival;
+    CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+  }
+
+  /* Needed for castling */
+  if (castling_supported)
+  {
+    /* pieces vacating a1, h1, a8, h8 */
+    if (sq_departure == square_h1)
+      CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
+    else if (sq_departure == square_a1)
+      CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
+    else if (sq_departure == square_h8)
+      CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
+    else if (sq_departure == square_a8)
+      CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+
+    /* pieces arriving at a1, h1, a8, h8 and possibly capturing a rook */
+    if (sq_arrival == square_h1)
+      CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
+    else if (sq_arrival == square_a1)
+      CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
+    else if (sq_arrival == square_h8)
+      CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
+    else if (sq_arrival == square_a8)
+      CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+
+    if (CondFlag[losingchess])
+    {
+      /* r[bn] (and therefore prev_r[bn]) are ==initsquare if kings
+       * are not royal
+       */
+      if (sq_arrival==square_e1)
+        CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
+      else if (sq_arrival==square_e8)
+        CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+    }
+  }     /* castling_supported */
+
+  if ((CondFlag[andernach] && pi_captured!=vide)
+      || (CondFlag[antiandernach] && pi_captured==vide)
+      || (CondFlag[champursue] && sq_arrival == move_generation_stack[current_move[nbply-1]].departure)
+      || (CondFlag[norsk])
+      || (CondFlag[protean]
+          && (pi_captured!=vide || abs(pi_departing)==ReversePawn))
+    )
+  {
+    if (castling_supported) {
+      if (abs(pi_arriving) == Rook) {
+        if (TSTFLAG(spec_pi_moving, White)) {
+          /* new white/neutral rook */
+          if (sq_arrival == square_h1)
+            SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
+          else if (sq_arrival == square_a1)
+            SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
+        }
+        if (TSTFLAG(spec_pi_moving, Black)) {
+          /* new black/neutral rook */
+          if (sq_arrival == square_h8)
+            SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
+          else if (sq_arrival == square_a8)
+            SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+        }
+      }
+    } /* castling_supported */
+  } /* andernach || antiandernach ... */
+
+  if (TSTFLAG(spec_pi_moving, HalfNeutral))
+  {
+    if (TSTFLAG(spec_pi_moving, Neutral))
+    {
+      CLRFLAG(spec_pi_moving,advers(trait_ply));
+      CLRFLAG(spec_pi_moving, Neutral);
+      pi_arriving= trait_ply==Black ? -abs(pi_arriving) : abs(pi_arriving);
+
+      if (king_square[Black] == sq_arrival && trait_ply == White)
+        king_square[Black]= initsquare;
+
+      if (king_square[White] == sq_arrival && trait_ply == Black)
+        king_square[White]= initsquare;
+    }
+    else if (trait_ply==Black) {
+      if (TSTFLAG(spec_pi_moving, Black)) {
+        SETFLAG(spec_pi_moving, Neutral);
+        SETFLAG(spec_pi_moving, White);
+        pi_arriving= abs(pi_arriving);
+        if (king_square[Black] == sq_arrival)
+          king_square[White] = sq_arrival;
+      }
+    }
+    else if (trait_ply==White) {
+      if (TSTFLAG(spec_pi_moving, White)) {
+        SETFLAG(spec_pi_moving, Neutral);
+        SETFLAG(spec_pi_moving, Black);
+        pi_arriving= -abs(pi_arriving);
+        if (king_square[White] == sq_arrival)
+          king_square[Black] = sq_arrival;
+      }
+    }
+  }
+
+  if (!platzwechsel)
+  {
+  e[sq_arrival] = pi_arriving;
+  spec[sq_arrival] = spec_pi_moving;
+  jouearr[nbply] = pi_arriving;
+
+  if (pi_departing!=pi_arriving)
+  {
+    nbpiece[pi_departing]--;
+    nbpiece[pi_arriving]++;
+  }
+  }
+
+  if (jouegenre)
+  {
+    if (pi_captured != vide)
+    {
+      if (kobulking[Black] && trait_ply == White && king_square[Black] != initsquare)
+      {
+        PieSpec sp;
+        piece kobul = is_pawn(pi_captured) ? roin : pi_captured;
+        nbpiece[e[king_square[Black]]]--;
+        e[king_square[Black]] = kobul;
+        if (TSTFLAG(spec[king_square[Black]], Neutral))
+          setneutre(king_square[Black]);
+        for (sp = Kamikaze; sp < PieSpCount; sp++)
+          if (sp != Royal)
+            TSTFLAG(spec_pi_captured, sp) ?
+              SETFLAG(spec[king_square[Black]], sp) :
+              CLRFLAG(spec[king_square[Black]], sp);
+        nbpiece[kobul]++;
+      }
+      if (kobulking[White] && trait_ply == Black && king_square[White] != initsquare)
+      {
+        PieSpec sp;
+        piece kobul = is_pawn(pi_captured) ? roib : pi_captured;
+        nbpiece[e[king_square[White]]]--;
+        e[king_square[White]] = kobul;
+        if (TSTFLAG(spec[king_square[Black]], Neutral))
+          setneutre(king_square[Black]);
+        for (sp = Kamikaze; sp < PieSpCount; sp++)
+          if (sp != Royal)
+            TSTFLAG(spec_pi_captured, sp) ?
+              SETFLAG(spec[king_square[White]], sp) :
+              CLRFLAG(spec[king_square[White]], sp);
+        nbpiece[kobul]++;
+      }
+    }
+
+    if (CondFlag[ghostchess] || CondFlag[hauntedchess])
+      summon_ghost(sq_departure);
+
+    if (TSTFLAG(spec_pi_moving, HalfNeutral)
+        && TSTFLAG(spec_pi_moving, Neutral))
+      setneutre(sq_arrival);
+
+    /* Duellantenschach */
+    if (CondFlag[duellist]) {
+      if (trait_ply == Black) {
+        whduell[nbply]= whduell[nbply - 1];
+        blduell[nbply]= sq_arrival;
+      }
+      else {
+        blduell[nbply]= blduell[nbply - 1];
+        whduell[nbply]= sq_arrival;
+      }
+    }
+
+    if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
+    {
+      Side adv = advers(trait_ply);
+
+      if (sb2[nbply].where==initsquare)
+      {
+        assert(sb2[nbply].what==vide);
+        sb2[nbply].where = next_latent_pawn(initsquare,adv);
+        if (sb2[nbply].where!=initsquare)
+        {
+          sb2[nbply].what = next_singlebox_prom(vide,adv);
+          if (sb2[nbply].what==vide)
+            sb2[nbply].where = initsquare;
+        }
+      }
+
+      if (sb2[nbply].where!=initsquare)
+      {
+        assert(e[sb2[nbply].where] == (adv==White ? pb : pn));
+        assert(sb2[nbply].what!=vide);
+        --nbpiece[e[sb2[nbply].where]];
+        e[sb2[nbply].where] = (adv==White
+                                ? sb2[nbply].what
+                                : -sb2[nbply].what);
+        ++nbpiece[e[sb2[nbply].where]];
+      }
+    }
+
+    /* AntiCirce */
+    if (pi_captured != vide && anyanticirce) {
+      sq_rebirth= (*antirenai)(nbply,
+                               pi_arriving,
+                               spec_pi_moving,
+                               sq_capture,
+                               sq_departure,
+                               sq_arrival,
+                               advers(trait_ply));
+      if (CondFlag[antisuper])
+      {
+        while (!LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
+          sq_rebirth++;
+        super[nbply]= sq_rebirth;
+      }
+      e[sq_arrival]= vide;
+      spec[sq_arrival]= 0;
+      sq_rebirth_capturing[nbply]= sq_rebirth;
+      prompieces[nbply]= GetPromotingPieces(sq_departure,
+                                   pi_departing,
+                                   trait_ply,
+                                   spec_pi_moving,
+                                   sq_rebirth,
+                                   pi_captured);
+
+      if (prompieces[nbply])
+      {
+        /* white pawn on eighth rank or
+           black pawn on first rank - promotion ! */
+        nbpiece[pi_arriving]--;
+        pi_arriving= norm_prom[nbply];
+        if (pi_arriving == vide)
+          norm_prom[nbply]= pi_arriving= prompieces[nbply][vide];
+        if (pi_departing < vide)
+          pi_arriving= -pi_arriving;
+        nbpiece[pi_arriving]++;
+      }
+      e[sq_rebirth]= pi_arriving;
+      spec[sq_rebirth]= spec_pi_moving;
+      if (sq_departure == prev_rb)
+        king_square[White]= sq_rebirth;
+      if (sq_departure == prev_rn)
+        king_square[Black]= sq_rebirth;
+
       if (castling_supported) {
-        if (abs(pi_arriving) == Rook) {
+        PieNam const abspja= abs(pi_arriving);
+        if (abspja==King) {
+          if (TSTFLAG(spec_pi_moving, White)
+              && sq_rebirth == square_e1
+              && (!CondFlag[dynasty] || nbpiece[roib]==1))
+            /* white king new on e1 */
+            SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
+          else if (TSTFLAG(spec_pi_moving, Black)
+                   && sq_rebirth == square_e8
+                   && (!CondFlag[dynasty] || nbpiece[roin]==1))
+            /* black king new on e8 */
+            SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+        }
+        else if (abspja==Rook) {
           if (TSTFLAG(spec_pi_moving, White)) {
             /* new white/neutral rook */
-            if (sq_arrival == square_h1)
+            if (sq_rebirth == square_h1)
               SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-            else if (sq_arrival == square_a1)
+            else if (sq_rebirth == square_a1)
               SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
           }
           if (TSTFLAG(spec_pi_moving, Black)) {
             /* new black/neutral rook */
-            if (sq_arrival == square_h8)
+            if (sq_rebirth == square_h8)
               SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-            else if (sq_arrival == square_a8)
+            else if (sq_rebirth == square_a8)
               SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
           }
         }
       } /* castling_supported */
-    } /* andernach || antiandernach ... */
+    } /* AntiCirce */
 
-    if (TSTFLAG(spec_pi_moving, HalfNeutral))
+    if (flag_outputmultiplecolourchanges)
     {
-      if (TSTFLAG(spec_pi_moving, Neutral))
-      {
-        CLRFLAG(spec_pi_moving,advers(trait_ply));
-        CLRFLAG(spec_pi_moving, Neutral);
-        pi_arriving= trait_ply==Black ? -abs(pi_arriving) : abs(pi_arriving);
-
-        if (king_square[Black] == sq_arrival && trait_ply == White)
-          king_square[Black]= initsquare;
-
-        if (king_square[White] == sq_arrival && trait_ply == Black)
-          king_square[White]= initsquare;
-      }
-      else if (trait_ply==Black) {
-        if (TSTFLAG(spec_pi_moving, Black)) {
-          SETFLAG(spec_pi_moving, Neutral);
-          SETFLAG(spec_pi_moving, White);
-          pi_arriving= abs(pi_arriving);
-          if (king_square[Black] == sq_arrival)
-            king_square[White] = sq_arrival;
-        }
-      }
-      else if (trait_ply==White) {
-        if (TSTFLAG(spec_pi_moving, White)) {
-          SETFLAG(spec_pi_moving, Neutral);
-          SETFLAG(spec_pi_moving, Black);
-          pi_arriving= -abs(pi_arriving);
-          if (king_square[White] == sq_arrival)
-            king_square[Black] = sq_arrival;
-        }
-      }
+      colour_change_sp[nbply] = colour_change_sp[nbply - 1];
     }
 
-    if (!platzwechsel)
+    if (flag_magic)
     {
-    e[sq_arrival] = pi_arriving;
-    spec[sq_arrival] = spec_pi_moving;
-    jouearr[nbply] = pi_arriving;
-
-    if (pi_departing!=pi_arriving)
-    {
-      nbpiece[pi_departing]--;
-      nbpiece[pi_arriving]++;
-    }
+      PushMagicViews();
+      ChangeMagic(nbply, flag_outputmultiplecolourchanges);
     }
 
-    if (jouegenre)
+    if (CondFlag[sentinelles])
     {
-      if (pi_captured != vide)
+      if (sq_departure>=square_a2 && sq_departure<=square_h7
+          && !is_pawn(pi_departing))
       {
-        if (kobulking[Black] && trait_ply == White && king_square[Black] != initsquare)
-        {
-          PieSpec sp;
-          piece kobul = is_pawn(pi_captured) ? roin : pi_captured;
-          nbpiece[e[king_square[Black]]]--;
-          e[king_square[Black]] = kobul;
-          if (TSTFLAG(spec[king_square[Black]], Neutral))
-            setneutre(king_square[Black]);
-          for (sp = Kamikaze; sp < PieSpCount; sp++)
-            if (sp != Royal)
-              TSTFLAG(spec_pi_captured, sp) ?
-                SETFLAG(spec[king_square[Black]], sp) :
-                CLRFLAG(spec[king_square[Black]], sp);
-          nbpiece[kobul]++;
-        }
-        if (kobulking[White] && trait_ply == Black && king_square[White] != initsquare)
-        {
-          PieSpec sp;
-          piece kobul = is_pawn(pi_captured) ? roib : pi_captured;
-          nbpiece[e[king_square[White]]]--;
-          e[king_square[White]] = kobul;
-          if (TSTFLAG(spec[king_square[Black]], Neutral))
-            setneutre(king_square[Black]);
-          for (sp = Kamikaze; sp < PieSpCount; sp++)
-            if (sp != Royal)
-              TSTFLAG(spec_pi_captured, sp) ?
-                SETFLAG(spec[king_square[White]], sp) :
-                CLRFLAG(spec[king_square[White]], sp);
-          nbpiece[kobul]++;
-        }
-      }
-
-      if (CondFlag[ghostchess] || CondFlag[hauntedchess])
-        summon_ghost(sq_departure);
-
-      if (TSTFLAG(spec_pi_moving, HalfNeutral)
-          && TSTFLAG(spec_pi_moving, Neutral))
-        setneutre(sq_arrival);
-
-      /* Duellantenschach */
-      if (CondFlag[duellist]) {
-        if (trait_ply == Black) {
-          whduell[nbply]= whduell[nbply - 1];
-          blduell[nbply]= sq_arrival;
-        }
-        else {
-          blduell[nbply]= blduell[nbply - 1];
-          whduell[nbply]= sq_arrival;
-        }
-      }
-
-      if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
-      {
-        Side adv = advers(trait_ply);
-
-        if (sb2[nbply].where==initsquare)
-        {
-          assert(sb2[nbply].what==vide);
-          sb2[nbply].where = next_latent_pawn(initsquare,adv);
-          if (sb2[nbply].where!=initsquare)
-          {
-            sb2[nbply].what = next_singlebox_prom(vide,adv);
-            if (sb2[nbply].what==vide)
-              sb2[nbply].where = initsquare;
-          }
-        }
-
-        if (sb2[nbply].where!=initsquare)
-        {
-          assert(e[sb2[nbply].where] == (adv==White ? pb : pn));
-          assert(sb2[nbply].what!=vide);
-          --nbpiece[e[sb2[nbply].where]];
-          e[sb2[nbply].where] = (adv==White
-                                  ? sb2[nbply].what
-                                  : -sb2[nbply].what);
-          ++nbpiece[e[sb2[nbply].where]];
-        }
-      }
-
-      /* AntiCirce */
-      if (pi_captured != vide && anyanticirce) {
-        sq_rebirth= (*antirenai)(nbply,
-                                 pi_arriving,
-                                 spec_pi_moving,
-                                 sq_capture,
-                                 sq_departure,
-                                 sq_arrival,
-                                 advers(trait_ply));
-        if (CondFlag[antisuper])
-        {
-          while (!LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
-            sq_rebirth++;
-          super[nbply]= sq_rebirth;
-        }
-        e[sq_arrival]= vide;
-        spec[sq_arrival]= 0;
-        sq_rebirth_capturing[nbply]= sq_rebirth;
-        prompieces[nbply]= GetPromotingPieces(sq_departure,
-                                     pi_departing,
-                                     trait_ply,
-                                     spec_pi_moving,
-                                     sq_rebirth,
-                                     pi_captured);
-
-        if (prompieces[nbply])
-        {
-          /* white pawn on eighth rank or
-             black pawn on first rank - promotion ! */
-          nbpiece[pi_arriving]--;
-          pi_arriving= norm_prom[nbply];
-          if (pi_arriving == vide)
-            norm_prom[nbply]= pi_arriving= prompieces[nbply][vide];
-          if (pi_departing < vide)
-            pi_arriving= -pi_arriving;
-          nbpiece[pi_arriving]++;
-        }
-        e[sq_rebirth]= pi_arriving;
-        spec[sq_rebirth]= spec_pi_moving;
-        if (sq_departure == prev_rb)
-          king_square[White]= sq_rebirth;
-        if (sq_departure == prev_rn)
-          king_square[Black]= sq_rebirth;
-
-        if (castling_supported) {
-          PieNam const abspja= abs(pi_arriving);
-          if (abspja==King) {
-            if (TSTFLAG(spec_pi_moving, White)
-                && sq_rebirth == square_e1
-                && (!CondFlag[dynasty] || nbpiece[roib]==1))
-              /* white king new on e1 */
-              SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-            else if (TSTFLAG(spec_pi_moving, Black)
-                     && sq_rebirth == square_e8
-                     && (!CondFlag[dynasty] || nbpiece[roin]==1))
-              /* black king new on e8 */
-              SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-          }
-          else if (abspja==Rook) {
-            if (TSTFLAG(spec_pi_moving, White)) {
-              /* new white/neutral rook */
-              if (sq_rebirth == square_h1)
-                SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-              else if (sq_rebirth == square_a1)
-                SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-            }
-            if (TSTFLAG(spec_pi_moving, Black)) {
-              /* new black/neutral rook */
-              if (sq_rebirth == square_h8)
-                SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-              else if (sq_rebirth == square_a8)
-                SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
-            }
-          }
-        } /* castling_supported */
-      } /* AntiCirce */
-
-      if (flag_outputmultiplecolourchanges)
-      {
-        colour_change_sp[nbply] = colour_change_sp[nbply - 1];
-      }
-
-      if (flag_magic)
-      {
-        PushMagicViews();
-        ChangeMagic(nbply, flag_outputmultiplecolourchanges);
-      }
-
-      if (CondFlag[sentinelles])
-      {
-        if (sq_departure>=square_a2 && sq_departure<=square_h7
-            && !is_pawn(pi_departing))
-        {
-          if (SentPionNeutral) {
-            if (TSTFLAG(spec_pi_moving, Neutral)) {
-              nbpiece[e[sq_departure]= sentinelb]++;
-              SETFLAG(spec[sq_departure], Neutral);
-              setneutre(sq_departure);
-            }
-            else if ((trait_ply==Black) != SentPionAdverse) {
-              nbpiece[e[sq_departure]= sentineln]++;
-              SETFLAG(spec[sq_departure], Black);
-            }
-            else {
-              nbpiece[e[sq_departure]= sentinelb]++;
-              SETFLAG(spec[sq_departure], White);
-            }
-            if (   nbpiece[sentinelb] > max_pb
-                   || nbpiece[sentineln] > max_pn
-                   || nbpiece[sentinelb]+nbpiece[sentineln] > max_pt)
-            {
-              /* rules for sentinelles + neutrals not yet
-                 written but it's very likely this logic will
-                 need to be refined
-              */
-              nbpiece[e[sq_departure]]--;
-              e[sq_departure]= vide;
-              spec[sq_departure]= 0;
-            }
-            else {
-              senti[nbply]= true;
-            }
+        if (SentPionNeutral) {
+          if (TSTFLAG(spec_pi_moving, Neutral)) {
+            nbpiece[e[sq_departure]= sentinelb]++;
+            SETFLAG(spec[sq_departure], Neutral);
+            setneutre(sq_departure);
           }
           else if ((trait_ply==Black) != SentPionAdverse) {
-            if (   nbpiece[sentineln] < max_pn
-                   && nbpiece[sentinelb]+nbpiece[sentineln]<max_pt
-                   && (  !flagparasent
-                         ||(nbpiece[sentineln]
-                            <= nbpiece[sentinelb]
-                            +(pi_captured==sentinelb ? 1 : 0))))
-            {
-              nbpiece[e[sq_departure]= sentineln]++;
-              SETFLAG(spec[sq_departure], Black);
-              senti[nbply]= true;
-            }
+            nbpiece[e[sq_departure]= sentineln]++;
+            SETFLAG(spec[sq_departure], Black);
           }
-          else if ( nbpiece[sentinelb] < max_pb
-                    && nbpiece[sentinelb]+nbpiece[sentineln]<max_pt
-                    && (!flagparasent
-                        ||(nbpiece[sentinelb]
-                           <= nbpiece[sentineln]
-                           + (pi_captured==sentineln ? 1 : 0))))
-          {
+          else {
             nbpiece[e[sq_departure]= sentinelb]++;
             SETFLAG(spec[sq_departure], White);
+          }
+          if (   nbpiece[sentinelb] > max_pb
+                 || nbpiece[sentineln] > max_pn
+                 || nbpiece[sentinelb]+nbpiece[sentineln] > max_pt)
+          {
+            /* rules for sentinelles + neutrals not yet
+               written but it's very likely this logic will
+               need to be refined
+            */
+            nbpiece[e[sq_departure]]--;
+            e[sq_departure]= vide;
+            spec[sq_departure]= 0;
+          }
+          else {
             senti[nbply]= true;
           }
         }
+        else if ((trait_ply==Black) != SentPionAdverse) {
+          if (   nbpiece[sentineln] < max_pn
+                 && nbpiece[sentinelb]+nbpiece[sentineln]<max_pt
+                 && (  !flagparasent
+                       ||(nbpiece[sentineln]
+                          <= nbpiece[sentinelb]
+                          +(pi_captured==sentinelb ? 1 : 0))))
+          {
+            nbpiece[e[sq_departure]= sentineln]++;
+            SETFLAG(spec[sq_departure], Black);
+            senti[nbply]= true;
+          }
+        }
+        else if ( nbpiece[sentinelb] < max_pb
+                  && nbpiece[sentinelb]+nbpiece[sentineln]<max_pt
+                  && (!flagparasent
+                      ||(nbpiece[sentinelb]
+                         <= nbpiece[sentineln]
+                         + (pi_captured==sentineln ? 1 : 0))))
+        {
+          nbpiece[e[sq_departure]= sentinelb]++;
+          SETFLAG(spec[sq_departure], White);
+          senti[nbply]= true;
+        }
+      }
+    }
+
+    if (anycirce)
+    {
+      TraceSquare(super[nbply]);TraceText("\n");
+      if (pi_captured!=vide
+          && CondFlag[circecage] && super[nbply]==superbas)
+      {
+        norm_prom[nbply] = vide;
+        cir_prom[nbply] = vide;
+        circecage_find_initial_cage(nbply,
+                                    pi_departing,sq_arrival,pi_captured,
+                                    &super[nbply],
+                                    &cir_prom[nbply],
+                                    &norm_prom[nbply]);
       }
 
-      if (anycirce)
-      {
-        TraceSquare(super[ply_id]);TraceText("\n");
-        if (pi_captured!=vide
-            && CondFlag[circecage] && super[nbply]==superbas)
-        {
-          norm_prom[nbply] = vide;
-          cir_prom[nbply] = vide;
-          circecage_find_initial_cage(nbply,
-                                      pi_departing,sq_arrival,pi_captured,
-                                      &super[nbply],
-                                      &cir_prom[nbply],
-                                      &norm_prom[nbply]);
+      /* circe-rebirth of moving kamikaze-piece */
+      if (TSTFLAG(spec_pi_moving, Kamikaze) && (pi_captured != vide)) {
+        if (CondFlag[couscous]) {
+          sq_rebirth= (*circerenai)(nbply,
+                                    pi_captured,
+                                    spec_pi_captured,
+                                    sq_capture,
+                                    sq_departure,
+                                    sq_arrival,
+                                    trait_ply);
+        }
+        else {
+          sq_rebirth= (*circerenai)(nbply,
+                                    pi_arriving,
+                                    spec_pi_moving,
+                                    sq_capture,
+                                    sq_departure,
+                                    sq_arrival,
+                                    advers(trait_ply));
         }
 
-        /* circe-rebirth of moving kamikaze-piece */
-        if (TSTFLAG(spec_pi_moving, Kamikaze) && (pi_captured != vide)) {
-          if (CondFlag[couscous]) {
-            sq_rebirth= (*circerenai)(nbply,
-                                      pi_captured,
-                                      spec_pi_captured,
-                                      sq_capture,
-                                      sq_departure,
-                                      sq_arrival,
-                                      trait_ply);
+        e[sq_arrival]= vide;
+        spec[sq_arrival]= 0;
+        if ((e[sq_rebirth] == vide)
+            && !(CondFlag[contactgrid]
+                 && nogridcontact(sq_rebirth)))
+        {
+          sq_rebirth_capturing[nbply]= sq_rebirth;
+          e[sq_rebirth]= pi_arriving;
+          spec[sq_rebirth]= spec_pi_moving;
+          if (rex_circe) {
+            if (sq_departure == prev_rb)
+              king_square[White]= sq_rebirth;
+            if (sq_departure == prev_rn)
+              king_square[Black]= sq_rebirth;
+
+            if (castling_supported
+                && (abs(pi_arriving) == King)) {
+              if (TSTFLAG(spec_pi_moving, White)
+                  && sq_rebirth == square_e1
+                  && (!CondFlag[dynasty] || nbpiece[roib]==1))
+                /* white king reborn on e1 */
+                SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
+              else if (TSTFLAG(spec_pi_moving, Black)
+                       && sq_rebirth == square_e8
+                       && (!CondFlag[dynasty] || nbpiece[roin]==1))
+                /* black king reborn on e8 */
+                SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+            }
+          }
+          if (castling_supported
+              && (abs(pi_arriving) == Rook)) {
+            if (TSTFLAG(spec_pi_moving, White)) {
+              if (sq_rebirth == square_h1)
+                /* white rook reborn on h1 */
+                SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
+              else if (sq_rebirth == square_a1)
+                /* white rook reborn on a1 */
+                SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
+            }
+            if (TSTFLAG(spec_pi_moving, Black)) {
+              if (sq_rebirth == square_h8)
+                /* black rook reborn on h8 */
+                SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
+              else if (sq_rebirth == square_a8)
+                /* black rook reborn on a8 */
+                SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+            }
+          }
+        } else
+          nbpiece[pi_arriving]--;
+      } /* Kamikaze */
+
+      if (anyparrain)
+      {
+        if (pprise[nbply-1]!=vide)
+          joueparrain(nbply);
+      }
+      else
+      {
+        if (pi_captured != vide) {
+          if (anyclone
+              && sq_departure != prev_rn && sq_departure != prev_rb) {
+            /* Circe Clone - new implementation
+            ** captured pieces are reborn as pieces
+            ** of the same type as the capturing piece
+            ** if the latter one is not royal.
+            */
+            /* change type of pieces according to colour */
+            pi_reborn = ((pi_departing * pi_captured < 0)
+                         ? -pi_departing
+                         : pi_departing);
+            /* If it is a pawn give it the pawn-attribut.
+            ** Otherwise delete it - the captured piece may
+            ** have been a pawn, but is not anymore.
+            */
+          }
+          else if (anytraitor) {
+            pdispspec[nbply]=spec_pi_captured;
+            pi_reborn= -pi_captured;
+            CHANGECOLOR(spec_pi_captured);
           }
           else {
+            if (CondFlag[chamcirce]) {
+              pi_reborn= ChamCircePiece(pi_captured);
+            }
+            else if (CondFlag[antieinstein]) {
+              pi_reborn= inc_einstein(pi_captured);
+            }
+            else {
+              pi_reborn= pi_captured;
+            }
+          }
+
+          if (CondFlag[couscous])
             sq_rebirth= (*circerenai)(nbply,
                                       pi_arriving,
                                       spec_pi_moving,
@@ -3012,40 +3113,60 @@ boolean jouecoup(joue_type jt)
                                       sq_departure,
                                       sq_arrival,
                                       advers(trait_ply));
+          else
+            sq_rebirth= (*circerenai)(nbply,
+                                      pi_reborn,
+                                      spec_pi_captured,
+                                      sq_capture,
+                                      sq_departure,
+                                      sq_arrival,
+                                      trait_ply);
+
+          if (!rex_circe
+              && (CondFlag[exclusive] || CondFlag[isardam] || CondFlag[ohneschach] || CondFlag[brunner])
+              && (sq_capture == prev_rb || sq_capture == prev_rn))
+          {
+            /* ordinary circe and (isardam, brunner or
+            ** ohneschach) it can happen that the king is
+            ** captured while testing the legality of a
+            ** move. Therefore prevent the king from being
+            ** reborn.
+            */
+            sq_rebirth= initsquare;
           }
 
-          e[sq_arrival]= vide;
-          spec[sq_arrival]= 0;
-          if ((e[sq_rebirth] == vide)
-              && !(CondFlag[contactgrid]
-                   && nogridcontact(sq_rebirth)))
+          if ( (e[sq_rebirth] == vide || CondFlag[circeassassin])
+               && !( CondFlag[contactgrid]
+                     && nogridcontact(sq_rebirth)))
           {
-            sq_rebirth_capturing[nbply]= sq_rebirth;
-            e[sq_rebirth]= pi_arriving;
-            spec[sq_rebirth]= spec_pi_moving;
+            sqrenais[nbply]= sq_rebirth;
             if (rex_circe) {
-              if (sq_departure == prev_rb)
+              /* neutral K */
+              if (prev_rb == sq_capture) {
                 king_square[White]= sq_rebirth;
-              if (sq_departure == prev_rn)
+              }
+              if (prev_rn == sq_capture) {
                 king_square[Black]= sq_rebirth;
+              }
 
               if (castling_supported
-                  && (abs(pi_arriving) == King)) {
-                if (TSTFLAG(spec_pi_moving, White)
+                  && (abs(pi_reborn) == King)) {
+                if (TSTFLAG(spec_pi_captured, White)
                     && sq_rebirth == square_e1
                     && (!CondFlag[dynasty] || nbpiece[roib]==1))
                   /* white king reborn on e1 */
                   SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-                else if (TSTFLAG(spec_pi_moving, Black)
+                else if (TSTFLAG(spec_pi_captured, Black)
                          && sq_rebirth == square_e8
                          && (!CondFlag[dynasty] || nbpiece[roin]==1))
                   /* black king reborn on e8 */
                   SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
               }
             }
+
             if (castling_supported
-                && (abs(pi_arriving) == Rook)) {
-              if (TSTFLAG(spec_pi_moving, White)) {
+                && (abs(pi_reborn) == Rook)) {
+              if (TSTFLAG(spec_pi_captured, White)) {
                 if (sq_rebirth == square_h1)
                   /* white rook reborn on h1 */
                   SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
@@ -3053,7 +3174,7 @@ boolean jouecoup(joue_type jt)
                   /* white rook reborn on a1 */
                   SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
               }
-              if (TSTFLAG(spec_pi_moving, Black)) {
+              if (TSTFLAG(spec_pi_captured, Black)) {
                 if (sq_rebirth == square_h8)
                   /* black rook reborn on h8 */
                   SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
@@ -3062,320 +3183,196 @@ boolean jouecoup(joue_type jt)
                   SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
               }
             }
-          } else
-            nbpiece[pi_arriving]--;
-        } /* Kamikaze */
-
-        if (anyparrain)
-        {
-          if (pprise[nbply-1]!=vide)
-            joueparrain(nbply);
-        }
-        else
-        {
-          if (pi_captured != vide) {
-            if (anyclone
-                && sq_departure != prev_rn && sq_departure != prev_rb) {
-              /* Circe Clone - new implementation
-              ** captured pieces are reborn as pieces
-              ** of the same type as the capturing piece
-              ** if the latter one is not royal.
-              */
-              /* change type of pieces according to colour */
-              pi_reborn = ((pi_departing * pi_captured < 0)
-                           ? -pi_departing
-                           : pi_departing);
-              /* If it is a pawn give it the pawn-attribut.
-              ** Otherwise delete it - the captured piece may
-              ** have been a pawn, but is not anymore.
-              */
+            if (anycirprom
+                && is_pawn(pi_captured)
+                && PromSq(advers(trait_ply),sq_rebirth))
+            {
+              /* captured white pawn on eighth rank: promotion ! */
+              /* captured black pawn on first rank: promotion ! */
+              piece pprom = cir_prom[nbply];
+              if (pprom==vide)
+              {
+                pprom = getprompiece[vide];
+                cir_prom[nbply] = pprom;
+              }
+              pi_reborn = pi_reborn<vide ? -pprom : pprom;
+              if (cir_cham_prom[nbply])
+                SETFLAG(spec_pi_captured, Chameleon);
             }
-            else if (anytraitor) {
-              pdispspec[nbply]=spec_pi_captured;
-              pi_reborn= -pi_captured;
+            if (TSTFLAG(spec_pi_captured, Volage)
+                && SquareCol(sq_rebirth) != SquareCol(sq_capture))
+            {
+              pi_reborn= -pi_reborn;
               CHANGECOLOR(spec_pi_captured);
-            }
-            else {
-              if (CondFlag[chamcirce]) {
-                pi_reborn= ChamCircePiece(pi_captured);
-              }
-              else if (CondFlag[antieinstein]) {
-                pi_reborn= inc_einstein(pi_captured);
-              }
-              else {
-                pi_reborn= pi_captured;
+              if (!CondFlag[hypervolage]) {
+                CLRFLAG(spec_pi_captured, Volage);
               }
             }
-
-            if (CondFlag[couscous])
-              sq_rebirth= (*circerenai)(nbply,
-                                        pi_arriving,
-                                        spec_pi_moving,
-                                        sq_capture,
-                                        sq_departure,
-                                        sq_arrival,
-                                        advers(trait_ply));
-            else
-              sq_rebirth= (*circerenai)(nbply,
-                                        pi_reborn,
-                                        spec_pi_captured,
-                                        sq_capture,
-                                        sq_departure,
-                                        sq_arrival,
-                                        trait_ply);
-
-            if (!rex_circe
-                && (CondFlag[exclusive] || CondFlag[isardam] || CondFlag[ohneschach] || CondFlag[brunner])
-                && (sq_capture == prev_rb || sq_capture == prev_rn))
-            {
-              /* ordinary circe and (isardam, brunner or
-              ** ohneschach) it can happen that the king is
-              ** captured while testing the legality of a
-              ** move. Therefore prevent the king from being
-              ** reborn.
-              */
-              sq_rebirth= initsquare;
+            if (CondFlag[circeassassin]) {
+              nbpiece[pdisp[nbply]=e[sq_rebirth]]--;
+              pdispspec[nbply]=spec[sq_rebirth];
             }
-
-            if ( (e[sq_rebirth] == vide || CondFlag[circeassassin])
-                 && !( CondFlag[contactgrid]
-                       && nogridcontact(sq_rebirth)))
-            {
-              sqrenais[nbply]= sq_rebirth;
-              if (rex_circe) {
-                /* neutral K */
-                if (prev_rb == sq_capture) {
-                  king_square[White]= sq_rebirth;
-                }
-                if (prev_rn == sq_capture) {
-                  king_square[Black]= sq_rebirth;
-                }
-
-                if (castling_supported
-                    && (abs(pi_reborn) == King)) {
-                  if (TSTFLAG(spec_pi_captured, White)
-                      && sq_rebirth == square_e1
-                      && (!CondFlag[dynasty] || nbpiece[roib]==1))
-                    /* white king reborn on e1 */
-                    SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-                  else if (TSTFLAG(spec_pi_captured, Black)
-                           && sq_rebirth == square_e8
-                           && (!CondFlag[dynasty] || nbpiece[roin]==1))
-                    /* black king reborn on e8 */
-                    SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-                }
-              }
-
-              if (castling_supported
-                  && (abs(pi_reborn) == Rook)) {
-                if (TSTFLAG(spec_pi_captured, White)) {
-                  if (sq_rebirth == square_h1)
-                    /* white rook reborn on h1 */
-                    SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-                  else if (sq_rebirth == square_a1)
-                    /* white rook reborn on a1 */
-                    SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-                }
-                if (TSTFLAG(spec_pi_captured, Black)) {
-                  if (sq_rebirth == square_h8)
-                    /* black rook reborn on h8 */
-                    SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-                  else if (sq_rebirth == square_a8)
-                    /* black rook reborn on a8 */
-                    SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
-                }
-              }
-              if (anycirprom
-                  && is_pawn(pi_captured)
-                  && PromSq(advers(trait_ply),sq_rebirth))
-              {
-                /* captured white pawn on eighth rank: promotion ! */
-                /* captured black pawn on first rank: promotion ! */
-                piece pprom = cir_prom[nbply];
-                if (pprom==vide)
-                {
-                  pprom = getprompiece[vide];
-                  cir_prom[nbply] = pprom;
-                }
-                pi_reborn = pi_reborn<vide ? -pprom : pprom;
-                if (cir_cham_prom[nbply])
-                  SETFLAG(spec_pi_captured, Chameleon);
-              }
-              if (TSTFLAG(spec_pi_captured, Volage)
-                  && SquareCol(sq_rebirth) != SquareCol(sq_capture))
-              {
-                pi_reborn= -pi_reborn;
-                CHANGECOLOR(spec_pi_captured);
-                if (!CondFlag[hypervolage]) {
-                  CLRFLAG(spec_pi_captured, Volage);
-                }
-              }
-              if (CondFlag[circeassassin]) {
-                nbpiece[pdisp[nbply]=e[sq_rebirth]]--;
-                pdispspec[nbply]=spec[sq_rebirth];
-              }
-              nbpiece[e[sq_rebirth]= pi_reborn]++;
-              spec[sq_rebirth]= spec_pi_captured;
-            }
+            nbpiece[e[sq_rebirth]= pi_reborn]++;
+            spec[sq_rebirth]= spec_pi_captured;
           }
         }
       }
+    }
 
-      if (bl_royal_sq != initsquare)
-        king_square[Black]= bl_royal_sq;
+    if (bl_royal_sq != initsquare)
+      king_square[Black]= bl_royal_sq;
 
-      if (wh_royal_sq != initsquare)
-        king_square[White]= wh_royal_sq;
+    if (wh_royal_sq != initsquare)
+      king_square[White]= wh_royal_sq;
 
-      if (CondFlag[republican])
-        republican_place_king(jt,trait_ply,nbply);
+    if (CondFlag[republican])
+      republican_place_king(jt,trait_ply,nbply);
 
-      if (CondFlag[actrevolving])
-        transformPosition(rot270);
+    if (CondFlag[actrevolving])
+      transformPosition(rot270);
 
-      if (CondFlag[arc])
+    if (CondFlag[arc])
+    {
+      if (sq_departure==square_d4 || sq_departure==square_e4
+          || sq_departure==square_d5 || sq_departure==square_e5
+          || sq_arrival==square_d4 || sq_arrival==square_e4
+          || sq_arrival==square_d5 || sq_arrival==square_e5)
       {
-        if (sq_departure==square_d4 || sq_departure==square_e4
-            || sq_departure==square_d5 || sq_departure==square_e5
-            || sq_arrival==square_d4 || sq_arrival==square_e4
-            || sq_arrival==square_d5 || sq_arrival==square_e5)
-        {
-          piece const piece_temp = e[square_d4];
-          Flags const spec_temp = spec[square_d4];
+        piece const piece_temp = e[square_d4];
+        Flags const spec_temp = spec[square_d4];
 
-          e[square_d4]= e[square_e4];
-          spec[square_d4]= spec[square_e4];
+        e[square_d4]= e[square_e4];
+        spec[square_d4]= spec[square_e4];
 
-          e[square_e4]= e[square_e5];
-          spec[square_e4]= spec[square_e5];
+        e[square_e4]= e[square_e5];
+        spec[square_e4]= spec[square_e5];
 
-          e[square_e5]= e[square_d5];
-          spec[square_e5]= spec[square_d5];
+        e[square_e5]= e[square_d5];
+        spec[square_e5]= spec[square_d5];
 
-          e[square_d5]= piece_temp;
-          spec[square_d5]= spec_temp;
+        e[square_d5]= piece_temp;
+        spec[square_d5]= spec_temp;
 
-          if (king_square[White]==square_d4)
-            king_square[White]= square_d5;
-          else if (king_square[White]==square_d5)
-            king_square[White]= square_e5;
-          else if (king_square[White]==square_e5)
-            king_square[White]= square_e4;
-          else if (king_square[White]==square_e4)
-            king_square[White]= square_d4;
+        if (king_square[White]==square_d4)
+          king_square[White]= square_d5;
+        else if (king_square[White]==square_d5)
+          king_square[White]= square_e5;
+        else if (king_square[White]==square_e5)
+          king_square[White]= square_e4;
+        else if (king_square[White]==square_e4)
+          king_square[White]= square_d4;
 
-          if (king_square[Black]==square_d4)
-            king_square[Black]= square_d5;
-          else if (king_square[Black]==square_d5)
-            king_square[Black]= square_e5;
-          else if (king_square[Black]==square_e5)
-            king_square[Black]= square_e4;
-          else if (king_square[Black]==square_e4)
-            king_square[Black]= square_d4;
-        }
+        if (king_square[Black]==square_d4)
+          king_square[Black]= square_d5;
+        else if (king_square[Black]==square_d5)
+          king_square[Black]= square_e5;
+        else if (king_square[Black]==square_e5)
+          king_square[Black]= square_e4;
+        else if (king_square[Black]==square_e4)
+          king_square[Black]= square_d4;
       }
+    }
 
-      /* move to here to make sure it is definitely set through jouecoup
-      otherwise repcoup can osc Ks even if not oscillated in jouecoup */
-      oscillatedKs[nbply]= false;
-      if (trait_ply==White
-          ? CondFlag[white_oscillatingKs]
-          : CondFlag[black_oscillatingKs])
+    /* move to here to make sure it is definitely set through jouecoup
+    otherwise repcoup can osc Ks even if not oscillated in jouecoup */
+    oscillatedKs[nbply]= false;
+    if (trait_ply==White
+        ? CondFlag[white_oscillatingKs]
+        : CondFlag[black_oscillatingKs])
+    {
+      boolean priorcheck= false;
+      square temp= king_square[White];
+      piece temp1= e[king_square[White]];
+      Flags temp2= spec[king_square[White]];
+
+      if (OscillatingKingsTypeB[trait_ply])
+        priorcheck= echecc(trait_ply);
+      if ((oscillatedKs[nbply]= (!OscillatingKingsTypeC[trait_ply]
+                                 || echecc(advers(trait_ply)))))
       {
-        boolean priorcheck= false;
-        square temp= king_square[White];
-        piece temp1= e[king_square[White]];
-        Flags temp2= spec[king_square[White]];
+        e[king_square[White]]= e[king_square[Black]];
+        spec[king_square[White]]= spec[king_square[Black]];
 
-        if (OscillatingKingsTypeB[trait_ply])
-          priorcheck= echecc(trait_ply);
-        if ((oscillatedKs[nbply]= (!OscillatingKingsTypeC[trait_ply]
-                                   || echecc(advers(trait_ply)))))
-        {
-          e[king_square[White]]= e[king_square[Black]];
-          spec[king_square[White]]= spec[king_square[Black]];
-
-          e[king_square[Black]]= temp1;
-          spec[king_square[Black]]= temp2;
-          king_square[White]= king_square[Black];
-          king_square[Black]= temp;
-          CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
-          CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-          if (king_square[White]==square_e1)
-            SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-          if (king_square[Black]==square_e8)
-            SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-          if (OscillatingKingsTypeB[trait_ply] && priorcheck)
-            return false;
-        }
+        e[king_square[Black]]= temp1;
+        spec[king_square[Black]]= temp2;
+        king_square[White]= king_square[Black];
+        king_square[Black]= temp;
+        CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+        if (king_square[White]==square_e1)
+          SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
+        if (king_square[Black]==square_e8)
+          SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+        if (OscillatingKingsTypeB[trait_ply] && priorcheck)
+          return false;
       }
+    }
 
-      if (TSTFLAG(spec_pi_moving, ColourChange)) {
-        if (abs(pi_hurdle= e[sq_hurdle]) > roib) {
-          nbpiece[pi_hurdle]--;
-          e[sq_hurdle]= -pi_hurdle;
-          nbpiece[-pi_hurdle]++;
-          CHANGECOLOR(spec[sq_hurdle]);
-        }
+    if (TSTFLAG(spec_pi_moving, ColourChange)) {
+      if (abs(pi_hurdle= e[sq_hurdle]) > roib) {
+        nbpiece[pi_hurdle]--;
+        e[sq_hurdle]= -pi_hurdle;
+        nbpiece[-pi_hurdle]++;
+        CHANGECOLOR(spec[sq_hurdle]);
       }
+    }
 
-      if (CondFlag[dynasty]) {
-        /* adjust king_square[Black], king_square[White] and/or castling flags */
-        square const *bnp;
-        square s;
+    if (CondFlag[dynasty]) {
+      /* adjust king_square[Black], king_square[White] and/or castling flags */
+      square const *bnp;
+      square s;
 
-        if (nbpiece[roib]==1) {
-          if (king_square[White]==initsquare)
-            for (bnp= boardnum; *bnp; bnp++) {
-              s = *bnp;
-              if (e[s] == roib) {
-                if (s==square_e1)
-                  SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-                king_square[White] = *bnp;
-                break;
-              }
+      if (nbpiece[roib]==1) {
+        if (king_square[White]==initsquare)
+          for (bnp= boardnum; *bnp; bnp++) {
+            s = *bnp;
+            if (e[s] == roib) {
+              if (s==square_e1)
+                SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
+              king_square[White] = *bnp;
+              break;
             }
-        }
-        else
-          king_square[White] = initsquare;
+          }
+      }
+      else
+        king_square[White] = initsquare;
 
-        if (nbpiece[roin]==1) {
-          if (king_square[Black]==initsquare)
-            for (bnp= boardnum; *bnp; bnp++) {
-              s = *bnp;
-              if (e[s] == roin) {
-                if (s==square_e8)
-                  SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-                king_square[Black] = *bnp;
-                break;
-              }
+      if (nbpiece[roin]==1) {
+        if (king_square[Black]==initsquare)
+          for (bnp= boardnum; *bnp; bnp++) {
+            s = *bnp;
+            if (e[s] == roin) {
+              if (s==square_e8)
+                SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+              king_square[Black] = *bnp;
+              break;
             }
-        }
-        else
-          king_square[Black] = initsquare;
+          }
       }
+      else
+        king_square[Black] = initsquare;
+    }
 
-      if (CondFlag[strictSAT] && SATCheck)
-      {
-        SATCheck = false;
-        StrictSAT[White][nbply]= (StrictSAT[White][parent_ply[nbply]]
-                                   || echecc(White));
-        StrictSAT[Black][nbply]= (StrictSAT[Black][parent_ply[nbply]]
-                                   || echecc(Black));
-        SATCheck = true;
-      }
+    if (CondFlag[strictSAT] && SATCheck)
+    {
+      SATCheck = false;
+      StrictSAT[White][nbply]= (StrictSAT[White][parent_ply[nbply]]
+                                 || echecc(White));
+      StrictSAT[Black][nbply]= (StrictSAT[Black][parent_ply[nbply]]
+                                 || echecc(Black));
+      SATCheck = true;
+    }
 
-      if (CondFlag[masand]
-          && echecc(advers(trait_ply))
-          && observed(trait_ply == White ? king_square[Black] : king_square[White],
-                      move_gen_top->arrival))
-        change_observed(nbply,
-                        move_gen_top->arrival,
-                        flag_outputmultiplecolourchanges);
-    } /* if (jouegenre) */
+    if (CondFlag[masand]
+        && echecc(advers(trait_ply))
+        && observed(trait_ply == White ? king_square[Black] : king_square[White],
+                    move_gen_top->arrival))
+      change_observed(nbply,
+                      move_gen_top->arrival,
+                      flag_outputmultiplecolourchanges);
+  } /* if (jouegenre) */
 
-    return true;
-  }
+  return true;
 } /* end of jouecoup */
 
 void repcoup(void)
@@ -3394,6 +3391,8 @@ void repcoup(void)
   square sq_departure= move_gen_top->departure;
   square sq_arrival= move_gen_top->arrival;
   square sq_capture= move_gen_top->capture;
+
+  assert(sq_arrival!=nullsquare);
 
   if (jouegenre)
   {
@@ -3512,12 +3511,6 @@ void repcoup(void)
   pi_captured= pprise[nbply];
   pi_departing= pjoue[nbply];
   spec_pi_moving= jouespec[nbply];
-
-  if (sq_arrival==nullsquare)
-  {
-    current_move[nbply]--;
-    return;
-  }
 
   if (jouegenre)
   {

@@ -2783,9 +2783,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_spin_off_testers(root_slice);
 
-      if (CondFlag[schwarzschacher])
-        stip_insert_blackchecks(root_slice);
-
       if (CondFlag[extinction])
         stip_insert_extinction_chess(root_slice);
 
@@ -2854,6 +2851,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[SAT] || CondFlag[strictSAT])
         stip_substitute_sat_king_flight_generators(root_slice);
+
+      if (CondFlag[schwarzschacher])
+        stip_insert_blackchecks(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);
