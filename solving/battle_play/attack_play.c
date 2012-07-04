@@ -27,6 +27,7 @@
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
 #include "conditions/sat.h"
+#include "conditions/masand.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -339,6 +340,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STBGLFilter:
       result = bgl_filter_attack(si,n);
+      break;
+
+    case STMasandRecolorer:
+      result = masand_recolorer_attack(si,n);
       break;
 
     case STRefutationsCollector:

@@ -68,6 +68,7 @@ static slice_index const slice_rank_order[] =
   STNullMovePlayer,
   STMovePlayer,
   STMoveReplayer,
+  STMasandRecolorer,
   STLandingAfterMovePlay,
   STOutputPlaintextLineIntermediateMoveWriter,
   STOutputPlaintextLineLastMoveWriter,

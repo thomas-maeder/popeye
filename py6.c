@@ -121,6 +121,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/masand.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
 #include "conditions/circe/assassin.h"
@@ -2852,6 +2853,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[schwarzschacher])
         stip_insert_blackchecks(root_slice);
+
+      if (CondFlag[masand])
+        stip_insert_masand(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

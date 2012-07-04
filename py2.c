@@ -2874,45 +2874,6 @@ boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square s
       && (e[sq_departure]>vide ? eval_white : eval_black)(sq_departure,sq_arrival,sq_capture);
 }
 
-boolean observed(square on_this, square by_that) {
-  boolean flag;
-  square k;
-
-  fromspecificsquare= by_that;
-  if (e[by_that] > vide)
-  {
-    k= king_square[Black];
-    king_square[Black]= on_this;
-    flag= rnechec(eval_fromspecificsquare);
-    king_square[Black]= k;
-  }
-  else
-  {
-    k= king_square[White];
-    king_square[White]= on_this;
-    flag= rbechec(eval_fromspecificsquare);
-    king_square[White]= k;
-  }
-  return flag;
-}
-
-void change_observed(ply ply, square z, boolean push)
-{
-  square const *bnp;
-
-  for (bnp= boardnum; *bnp; bnp++)
-    if (e[*bnp]!=vide && *bnp!=king_square[Black] && *bnp!=king_square[White] && *bnp!=z
-        && observed(*bnp,z))
-    {
-      ChangeColour(*bnp);
-      if (push)
-        PushChangedColour(colour_change_sp[ply],
-                          colour_change_stack_limit,
-                          *bnp,
-                          e[*bnp]);
-    }
-}
-
 boolean qlinesradialcheck(square    sq_king,
                           piece p,
                           evalfunction_t *evaluate,

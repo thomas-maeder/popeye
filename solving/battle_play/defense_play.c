@@ -39,6 +39,7 @@
 #include "conditions/circe/assassin.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
+#include "conditions/masand.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
@@ -272,6 +273,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STBGLFilter:
       result = bgl_filter_defend(si,n);
+      break;
+
+    case STMasandRecolorer:
+      result = masand_recolorer_defend(si,n);
       break;
 
     case STBlackChecks:

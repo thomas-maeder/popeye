@@ -210,6 +210,7 @@
     ENUMERATOR(STSingleMoveGenerator), \
     ENUMERATOR(STMaximummerCandidateMoveTester), \
     ENUMERATOR(STBGLFilter), \
+    ENUMERATOR(STMasandRecolorer), \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \

@@ -3362,14 +3362,6 @@ boolean jouecoup(joue_type jt)
                                  || echecc(Black));
       SATCheck = true;
     }
-
-    if (CondFlag[masand]
-        && echecc(advers(trait_ply))
-        && observed(trait_ply == White ? king_square[Black] : king_square[White],
-                    move_gen_top->arrival))
-      change_observed(nbply,
-                      move_gen_top->arrival,
-                      flag_outputmultiplecolourchanges);
   } /* if (jouegenre) */
 
   return true;
@@ -3410,12 +3402,6 @@ void repcoup(void)
 
     if (flag_magic)
       ChangeMagic(nbply, false);
-
-    if (CondFlag[masand]
-        && echecc(advers(trait[nbply]))
-        && observed(trait[nbply] == White ? king_square[Black] : king_square[White],
-                    sq_arrival))
-      change_observed(nbply,sq_arrival,false);
 
     if (oscillatedKs[nbply])  /* for Osc Type C */
     {
