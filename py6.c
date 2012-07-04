@@ -128,6 +128,8 @@
 #include "conditions/circe/assassin.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/sat.h"
+#include "conditions/oscillating_kings.h"
+#include "conditions/oscillating_kings.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2867,6 +2869,8 @@ static Token iterate_twins(Token prev_token)
 
       if (TSTFLAG(PieSpExFlags,ColourChange))
         stip_insert_hurdle_colour_changers(root_slice);
+
+      stip_insert_king_oscillators(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

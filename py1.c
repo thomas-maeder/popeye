@@ -64,6 +64,7 @@
 #include "solving/battle_play/try.h"
 #include "conditions/bgl.h"
 #include "conditions/sat.h"
+#include "conditions/oscillating_kings.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 

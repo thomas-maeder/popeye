@@ -119,6 +119,7 @@
 #include "conditions/check_zigzag.h"
 #include "conditions/patience.h"
 #include "conditions/sat.h"
+#include "conditions/oscillating_kings.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"

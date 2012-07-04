@@ -82,6 +82,7 @@
 #include "conditions/republican.h"
 #include "conditions/patience.h"
 #include "conditions/sat.h"
+#include "conditions/oscillating_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "optimisations/hash.h"
@@ -3265,41 +3266,6 @@ boolean jouecoup(joue_type jt)
           king_square[Black]= square_d4;
       }
     }
-
-    /* move to here to make sure it is definitely set through jouecoup
-    otherwise repcoup can osc Ks even if not oscillated in jouecoup */
-    oscillatedKs[nbply]= false;
-    if (trait_ply==White
-        ? CondFlag[white_oscillatingKs]
-        : CondFlag[black_oscillatingKs])
-    {
-      boolean priorcheck= false;
-      square temp= king_square[White];
-      piece temp1= e[king_square[White]];
-      Flags temp2= spec[king_square[White]];
-
-      if (OscillatingKingsTypeB[trait_ply])
-        priorcheck= echecc(trait_ply);
-      if ((oscillatedKs[nbply]= (!OscillatingKingsTypeC[trait_ply]
-                                 || echecc(advers(trait_ply)))))
-      {
-        e[king_square[White]]= e[king_square[Black]];
-        spec[king_square[White]]= spec[king_square[Black]];
-
-        e[king_square[Black]]= temp1;
-        spec[king_square[Black]]= temp2;
-        king_square[White]= king_square[Black];
-        king_square[Black]= temp;
-        CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
-        CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-        if (king_square[White]==square_e1)
-          SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-        if (king_square[Black]==square_e8)
-          SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-        if (OscillatingKingsTypeB[trait_ply] && priorcheck)
-          return false;
-      }
-    }
   } /* if (jouegenre) */
 
   return true;
@@ -3339,19 +3305,6 @@ void repcoup(void)
 
     if (flag_magic)
       ChangeMagic(nbply, false);
-
-    if (oscillatedKs[nbply])  /* for Osc Type C */
-    {
-      square temp= king_square[White];
-      piece temp1= e[king_square[White]];
-      Flags temp2= spec[king_square[White]];
-      e[king_square[White]]= e[king_square[Black]];
-      spec[king_square[White]]= spec[king_square[Black]];
-      e[king_square[Black]]= temp1;
-      spec[king_square[Black]]= temp2;
-      king_square[White]= king_square[Black];
-      king_square[Black]= temp;
-    }
 
     if (CondFlag[actrevolving])
       transformPosition(rot90);

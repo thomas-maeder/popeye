@@ -43,6 +43,7 @@
 #include "conditions/sat.h"
 #include "conditions/dynasty.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
+#include "conditions/oscillating_kings.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -344,6 +345,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STHurdleColourChanger:
       result = hurdle_colour_changer_defend(si,n);
+      break;
+
+    case STKingOscillator:
+      result = king_oscillator_defend(si,n);
       break;
 
     case STPiecesNeutralInitialiser:

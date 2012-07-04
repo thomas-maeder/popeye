@@ -199,6 +199,7 @@
     ENUMERATOR(STStrictSATUpdater), \
     ENUMERATOR(STDynastyKingSquareUpdater), \
     ENUMERATOR(STHurdleColourChanger), \
+    ENUMERATOR(STKingOscillator), \
     /* other slices related to fairy chess */ \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \

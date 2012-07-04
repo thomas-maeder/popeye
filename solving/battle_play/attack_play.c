@@ -29,6 +29,7 @@
 #include "conditions/sat.h"
 #include "conditions/dynasty.h"
 #include "conditions/masand.h"
+#include "conditions/oscillating_kings.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -780,6 +781,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STHurdleColourChanger:
       result = hurdle_colour_changer_attack(si,n);
+      break;
+
+    case STKingOscillator:
+      result = king_oscillator_attack(si,n);
       break;
 
     case STPlaySuppressor:
