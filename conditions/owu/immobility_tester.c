@@ -107,24 +107,24 @@ stip_length_type owu_immobility_tester_king_attack(slice_index si, stip_length_t
   TraceFunctionParamListEnd();
 
   /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply+1]==0);
+  assert(legal_move_counter_count[nbply]==0);
   assert(capture_counter_count==0);
 
   /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting[nbply+1] = 0;
+  legal_move_counter_interesting[nbply] = 0;
 
   /* stop counting once we have >1 legal king captures */
   capture_counter_interesting = 1;
 
   attack(slices[si].next1,n);
 
-  result = (legal_move_counter_count[nbply+1]==0 && capture_counter_count==1
+  result = (legal_move_counter_count[nbply]==0 && capture_counter_count==1
             ? has_solution
             : has_no_solution);
 
   /* clean up after ourselves */
   capture_counter_count = 0;
-  legal_move_counter_count[nbply+1] = 0;
+  legal_move_counter_count[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

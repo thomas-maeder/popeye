@@ -120,17 +120,17 @@ stip_length_type immobility_tester_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply+1]==0);
+  assert(legal_move_counter_count[nbply]==0);
 
   /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting[nbply+1] = 0;
+  legal_move_counter_interesting[nbply] = 0;
 
   attack(slices[si].next1,n);
 
-  result = legal_move_counter_count[nbply+1]==0 ? n : n+2;
+  result = legal_move_counter_count[nbply]==0 ? n : n+2;
 
   /* clean up after ourselves */
-  legal_move_counter_count[nbply+1] = 0;
+  legal_move_counter_count[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

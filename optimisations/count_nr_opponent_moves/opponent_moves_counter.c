@@ -40,8 +40,8 @@ void init_opponent_moves_counter()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(legal_move_counter_count[nbply+2]==0);
-  legal_move_counter_interesting[nbply+2] = UINT_MAX;
+  assert(legal_move_counter_count[nbply+1]==0);
+  legal_move_counter_interesting[nbply+1] = UINT_MAX;
 
   /* moves leading to self check get maximum count */
   opponent_moves_counter_count = count_for_selfcheck;
@@ -60,7 +60,7 @@ int fini_opponent_moves_counter()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  legal_move_counter_count[nbply+2] = 0;
+  legal_move_counter_count[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",result);
@@ -93,7 +93,7 @@ stip_length_type opponent_moves_counter_attack(slice_index si,
   result = attack(slices[si].next1,n);
   if (slack_length<=result)
   {
-    opponent_moves_counter_count = legal_move_counter_count[nbply+1];
+    opponent_moves_counter_count = legal_move_counter_count[nbply];
     result = n;
   }
 

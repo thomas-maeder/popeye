@@ -103,18 +103,18 @@ stip_length_type maff_immobility_tester_king_attack(slice_index si, stip_length_
   TraceFunctionParamListEnd();
 
   /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply+1]==0);
+  assert(legal_move_counter_count[nbply]==0);
 
   /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting[nbply+1] = 1;
+  legal_move_counter_interesting[nbply] = 1;
 
   attack(slices[si].next1,n);
 
   /* apply the MAFF rule */
-  result = legal_move_counter_count[nbply+1]==1 ? has_solution : has_no_solution;
+  result = legal_move_counter_count[nbply]==1 ? has_solution : has_no_solution;
 
   /* clean up after ourselves */
-  legal_move_counter_count[nbply+1] = 0;
+  legal_move_counter_count[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

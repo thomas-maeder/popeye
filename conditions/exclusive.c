@@ -95,19 +95,19 @@ void exclusive_init_genmove(Side side)
   remove_ortho_mating_moves_generation_obstacle();
 
   /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply+1]==0);
+  assert(legal_move_counter_count[nbply]==0);
 
   /* stop counting once we have found >1 mating moves */
-  legal_move_counter_interesting[nbply+1] = 1;
+  legal_move_counter_interesting[nbply] = 1;
 
   attack(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
 
-  is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply+1]<2;
+  is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply]<2;
   TraceValue("%u",legal_move_counter_count[nbply+1]);
   TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
 
   /* clean up after ourselves */
-  legal_move_counter_count[nbply+1] = 0;
+  legal_move_counter_count[nbply] = 0;
 
   add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;

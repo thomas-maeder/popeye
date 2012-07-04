@@ -129,17 +129,23 @@ boolean echecc_SAT(Side side)
     result = true;
   else
   {
-    legal_move_counter_interesting[nbply+1] = nr_flights-1;
-    assert(legal_move_counter_count[nbply+1]==0);
+    /* avoid concurrent counts */
+    assert(legal_move_counter_count[nbply]==0);
 
+    /* stop counting once we have >=nr_flights legal king moves */
+    legal_move_counter_interesting[nbply] = nr_flights-1;
+
+    /* count flights */
     result = (attack(slices[temporary_hack_sat_flights_counter[side]].next2,
                      length_unspecified+1)
               == length_unspecified+1);
 
     assert(result
-           ==(legal_move_counter_count[nbply+1]
-              >legal_move_counter_interesting[nbply+1]));
-    legal_move_counter_count[nbply+1] = 0;
+           ==(legal_move_counter_count[nbply]
+              >legal_move_counter_interesting[nbply]));
+
+    /* clean up after ourselves */
+    legal_move_counter_count[nbply] = 0;
   }
 
   TraceFunctionExit(__func__);

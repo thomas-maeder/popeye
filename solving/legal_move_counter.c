@@ -64,9 +64,10 @@ stip_length_type legal_move_counter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  ++legal_move_counter_count[nbply];
+  ++legal_move_counter_count[parent_ply[nbply]];
 
-  if (legal_move_counter_count[nbply]<=legal_move_counter_interesting[nbply])
+  if (legal_move_counter_count[parent_ply[nbply]]
+      <=legal_move_counter_interesting[parent_ply[nbply]])
     result = n+2;
   else
     /* stop the iteration */
