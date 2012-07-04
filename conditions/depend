@@ -1109,3 +1109,80 @@ output/mode.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+conditions/actuated_revolving_centre$(OBJ_SUFFIX): \
+ conditions/actuated_revolving_centre.c \
+ conditions/actuated_revolving_centre.h solving/battle_play/attack_play.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h \
+ solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/has_solution_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/fork.h stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/help_play/branch.h debugging/trace.h
+
+conditions/actuated_revolving_centre.h:
+
+solving/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/proxy.h:
+
+stipulation/pipe.h:
+
+stipulation/fork.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/help_play/branch.h:
+
+debugging/trace.h:

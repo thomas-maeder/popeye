@@ -524,7 +524,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
  conditions/circe/assassin.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
- conditions/oscillating_kings.h conditions/messigny.h platform/maxmem.h \
+ conditions/oscillating_kings.h conditions/messigny.h \
+ conditions/actuated_revolving_centre.h platform/maxmem.h \
  platform/maxtime.h platform/pytime.h platform/priority.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
@@ -679,6 +680,8 @@ conditions/sat.h:
 conditions/oscillating_kings.h:
 
 conditions/messigny.h:
+
+conditions/actuated_revolving_centre.h:
 
 platform/maxmem.h:
 

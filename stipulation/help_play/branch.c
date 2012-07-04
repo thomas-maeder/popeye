@@ -73,6 +73,7 @@ static slice_index const slice_rank_order[] =
   STHurdleColourChanger,
   STDynastyKingSquareUpdater,
   STStrictSATUpdater,
+  STActuatedRevolvingCentre,
   STMasandRecolorer,
   STLandingAfterMovePlay,
   STOutputPlaintextLineIntermediateMoveWriter,

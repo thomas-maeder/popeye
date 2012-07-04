@@ -31,6 +31,7 @@
 #include "conditions/masand.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/messigny.h"
+#include "conditions/actuated_revolving_centre.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -352,6 +353,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STMasandRecolorer:
       result = masand_recolorer_attack(si,n);
+      break;
+
+    case STActuatedRevolvingCentre:
+      result = actuated_revolving_centre_attack(si,n);
       break;
 
     case STRefutationsCollector:

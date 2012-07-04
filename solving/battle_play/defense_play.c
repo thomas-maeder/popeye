@@ -45,6 +45,7 @@
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/messigny.h"
+#include "conditions/actuated_revolving_centre.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -286,6 +287,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STMasandRecolorer:
       result = masand_recolorer_defend(si,n);
+      break;
+
+    case STActuatedRevolvingCentre:
+      result = actuated_revolving_centre_defend(si,n);
       break;
 
     case STBlackChecks:

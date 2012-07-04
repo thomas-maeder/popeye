@@ -2,9 +2,11 @@
 #
 SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c \
              extinction.c patience.c madrasi.c isardam.c disparate.c eiffel.c \
-             sat.c masand.c dynasty.c oscillating_kings.c messigny.c
+             sat.c masand.c dynasty.c oscillating_kings.c messigny.c \
+             actuated_revolving_centre.c
 INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            extinction.h patience.h madrasi.h isardam.h disparate.h eiffel.h \
-           sat.h masand.h dynasty.h oscillating_kings.h messigny.h
+           sat.h masand.h dynasty.h oscillating_kings.h messigny.h \
+           actuated_revolving_centre.h
 
 include makefile.rules $(CURRPWD)depend

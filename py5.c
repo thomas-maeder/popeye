@@ -3208,48 +3208,6 @@ void jouecoup(joue_type jt)
 
     if (CondFlag[actrevolving])
       transformPosition(rot270);
-
-    if (CondFlag[arc])
-    {
-      if (sq_departure==square_d4 || sq_departure==square_e4
-          || sq_departure==square_d5 || sq_departure==square_e5
-          || sq_arrival==square_d4 || sq_arrival==square_e4
-          || sq_arrival==square_d5 || sq_arrival==square_e5)
-      {
-        piece const piece_temp = e[square_d4];
-        Flags const spec_temp = spec[square_d4];
-
-        e[square_d4]= e[square_e4];
-        spec[square_d4]= spec[square_e4];
-
-        e[square_e4]= e[square_e5];
-        spec[square_e4]= spec[square_e5];
-
-        e[square_e5]= e[square_d5];
-        spec[square_e5]= spec[square_d5];
-
-        e[square_d5]= piece_temp;
-        spec[square_d5]= spec_temp;
-
-        if (king_square[White]==square_d4)
-          king_square[White]= square_d5;
-        else if (king_square[White]==square_d5)
-          king_square[White]= square_e5;
-        else if (king_square[White]==square_e5)
-          king_square[White]= square_e4;
-        else if (king_square[White]==square_e4)
-          king_square[White]= square_d4;
-
-        if (king_square[Black]==square_d4)
-          king_square[Black]= square_d5;
-        else if (king_square[Black]==square_d5)
-          king_square[Black]= square_e5;
-        else if (king_square[Black]==square_e5)
-          king_square[Black]= square_e4;
-        else if (king_square[Black]==square_e4)
-          king_square[Black]= square_d4;
-      }
-    }
   } /* if (jouegenre) */
 } /* end of jouecoup */
 
@@ -3290,51 +3248,6 @@ void repcoup(void)
 
     if (CondFlag[actrevolving])
       transformPosition(rot90);
-
-    if (CondFlag[arc])
-    {
-      /* transformPosition(rot90); */
-      if (sq_departure==square_d4 || sq_departure==square_e4
-          || sq_departure==square_d5 || sq_departure==square_e5
-          || sq_arrival==square_d4 || sq_arrival==square_e4
-          || sq_arrival==square_d5 || sq_arrival==square_e5)
-      {
-        Flags temp=spec[square_d4];
-        piece ptemp=e[square_d4];
-        e[square_d4]= e[square_d5];
-        spec[square_d4]= spec[square_d5];
-        e[square_d5]= e[square_e5];
-        spec[square_d5]= spec[square_e5];
-        e[square_e5]= e[square_e4];
-        spec[square_e5]= spec[square_e4];
-        e[square_e4]= ptemp;
-        spec[square_e4]= temp;
-        if (king_square[White]==square_d4) {
-          king_square[White]= square_e4;
-        }
-        else if (king_square[White]==square_d5) {
-          king_square[White]= square_d4;
-        }
-        else if (king_square[White]==square_e5) {
-          king_square[White]= square_d5;
-        }
-        else if (king_square[White]==square_e4) {
-          king_square[White]= square_e5;
-        }
-        if (king_square[Black]==square_d4) {
-          king_square[Black]= square_e4;
-        }
-        else if (king_square[Black]==square_d5) {
-          king_square[Black]= square_d4;
-        }
-        else if (king_square[Black]==square_e5) {
-          king_square[Black]= square_d5;
-        }
-        else if (king_square[Black]==square_e4) {
-          king_square[Black]= square_e5;
-        }
-      }
-    }
 
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type2)
     {
