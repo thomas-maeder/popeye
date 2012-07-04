@@ -42,7 +42,7 @@ stip_length_type move_player_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (jouecoup(nbply,first_play))
+  if (jouecoup(first_play))
     result = attack(slices[si].next1,n);
   else
     result = n+2;
@@ -75,7 +75,7 @@ stip_length_type move_player_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (jouecoup(nbply,first_play))
+  if (jouecoup(first_play))
     result = defend(slices[si].next1,n);
   else
     result = slack_length-1;
@@ -123,7 +123,7 @@ stip_length_type move_replayer_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (jouecoup(nbply,replay))
+  if (jouecoup(replay))
     result = attack(slices[si].next1,n);
   else
     result = n+2;

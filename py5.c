@@ -1981,7 +1981,7 @@ square rencage(ply ply_id,
 
 DEFINE_COUNTER(jouecoup)
 
-boolean jouecoup(ply ply_id, joue_type jt)
+boolean jouecoup(joue_type jt)
 {
   square sq_rebirth = initsquare;
   piece pi_reborn;
@@ -1995,13 +1995,13 @@ boolean jouecoup(ply ply_id, joue_type jt)
   boolean rochade = false;
   boolean platzwechsel = false;
 
-  Side const trait_ply = trait[ply_id];
+  Side const trait_ply = trait[nbply];
 
 #if defined(DEBUG)
   nbrtimes++;
 #endif
 
-  numecoup const coup_id = ply_id==nbply ? current_move[nbply] : current_move[ply_id];
+  numecoup const coup_id = current_move[nbply];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
 
   square const prev_rb = king_square[White];
@@ -2019,12 +2019,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
   INCREMENT_COUNTER(jouecoup);
 
-  RB_[ply_id] = king_square[White];
-  RN_[ply_id] = king_square[Black];
+  RB_[nbply] = king_square[White];
+  RN_[nbply] = king_square[Black];
 
-  pjoue[ply_id] = pi_arriving;
-  jouespec[ply_id] = spec_pi_moving;
-  sqdep[ply_id] = sq_departure;
+  pjoue[nbply] = pi_arriving;
+  jouespec[nbply] = spec_pi_moving;
+  sqdep[nbply] = sq_departure;
 
   if (jouegenre)
   {
@@ -2052,7 +2052,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
 
     if (CondFlag[amu])
-      att_1[ply_id]= att_once(sq_departure,trait_ply);
+      att_1[nbply]= att_once(sq_departure,trait_ply);
 
     if (CondFlag[imitators])
     {
@@ -2065,8 +2065,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
   }
 
-  spec_pi_captured = pprispec[ply_id] = spec[sq_capture];
-  pi_captured = pprise[ply_id] = e[sq_capture];
+  spec_pi_captured = pprispec[nbply] = spec[sq_capture];
+  pi_captured = pprise[nbply] = e[sq_capture];
 
   if (sq_arrival==nullsquare)
     return true;
@@ -2075,13 +2075,13 @@ boolean jouecoup(ply ply_id, joue_type jt)
     if (anyantimars && sq_departure==sq_capture || move_gen_top->capture >= platzwechsel_rochade)
     {
       spec_pi_captured = 0;
-      pprispec[ply_id]= 0;
+      pprispec[nbply]= 0;
       pi_captured = vide;
-      pprise[ply_id] = vide;
+      pprise[nbply] = vide;
     }
 
-    pdisp[ply_id] = vide;
-    pdispspec[ply_id] = 0;
+    pdisp[nbply] = vide;
+    pdispspec[nbply] = 0;
 
     if (jouegenre)
     {
@@ -2126,9 +2126,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
     switch (sq_capture)
     {
       case messigny_exchange:
-        pprise[ply_id]= e[sq_departure]= e[sq_arrival];
-        pprispec[ply_id]= spec[sq_departure]= spec[sq_arrival];
-        jouearr[ply_id]= e[sq_arrival]= pi_departing;
+        pprise[nbply]= e[sq_departure]= e[sq_arrival];
+        pprispec[nbply]= spec[sq_departure]= spec[sq_arrival];
+        jouearr[nbply]= e[sq_arrival]= pi_departing;
         spec[sq_arrival]= spec_pi_moving;
         if (king_square[White]==sq_departure)
           king_square[White] = sq_arrival;
@@ -2179,8 +2179,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
         spec[sq_departure+dir_right]= spec[sq_departure+3*dir_right];
         e[sq_departure+3*dir_right]= CondFlag[haanerchess] ? obs : vide;
         CLEARFL(spec[sq_departure+3*dir_right]);
-        CLRCASTLINGFLAGMASK(ply_id,trait_ply,k_castling);
-        CLRCASTLINGFLAGMASK(ply_id,advers(trait_ply),
+        CLRCASTLINGFLAGMASK(nbply,trait_ply,k_castling);
+        CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
                             castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
         break;
 
@@ -2222,8 +2222,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
         spec[sq_departure+dir_left]= spec[sq_departure+4*dir_left];
         e[sq_departure+4*dir_left]= CondFlag[haanerchess] ? obs : vide;
         CLEARFL(spec[sq_departure+4*dir_left]);
-        CLRCASTLINGFLAGMASK(ply_id,trait_ply,q_castling);
-        CLRCASTLINGFLAGMASK(ply_id,advers(trait_ply),
+        CLRCASTLINGFLAGMASK(nbply,trait_ply,q_castling);
+        CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
                             castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
         break;
     } /* switch (sq_capture) */
@@ -2264,7 +2264,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     if (PatienceB) {
       ply nply;
       e[sq_departure]= obs;
-      for (nply= ply_id - 1 ; nply > 1 ; nply--) {
+      for (nply= nbply - 1 ; nply > 1 ; nply--) {
         if (trait[nply] == trait_ply) {
           e[sqdep[nply]]= vide;
         }
@@ -2324,7 +2324,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       }
     } /* andergb */
 
-    ep[ply_id]= ep2[ply_id]= initsquare;
+    ep[nbply]= ep2[nbply]= initsquare;
     if (is_pawn(pi_departing)) {
       if (pi_captured==vide) {
         /* ep capture */
@@ -2339,19 +2339,19 @@ boolean jouecoup(ply ply_id, joue_type jt)
             case 0:
               if (pi_departing==pb
                   && sq_departure!=sq_arrival+dir_down)
-                ep[ply_id]= sq_arrival+dir_down;
+                ep[nbply]= sq_arrival+dir_down;
               break;
 
             case -2:
               if (pi_departing==pbb
                   && sq_departure!=sq_arrival+dir_down+dir_left)
-                ep[ply_id]= sq_arrival+dir_down+dir_left;
+                ep[nbply]= sq_arrival+dir_down+dir_left;
               break;
 
             case 2:
               if (pi_departing==pbb
                   && sq_departure!=sq_arrival+dir_down+dir_right)
-                ep[ply_id]= sq_arrival+dir_down+dir_right;
+                ep[nbply]= sq_arrival+dir_down+dir_right;
               break;
             }
           }
@@ -2360,17 +2360,17 @@ boolean jouecoup(ply ply_id, joue_type jt)
             case 0:
               if (pi_departing==pn
                   && sq_departure!=sq_arrival+dir_up)
-                ep[ply_id]= sq_arrival+dir_up;
+                ep[nbply]= sq_arrival+dir_up;
               break;
             case -2:
               if (pi_departing==pbn
                   && sq_departure!=sq_arrival+dir_up+dir_left)
-                ep[ply_id]= sq_arrival+dir_up+dir_left;
+                ep[nbply]= sq_arrival+dir_up+dir_left;
               break;
             case 2:
               if (pi_departing==pbn
                   && sq_departure!=sq_arrival+dir_up+dir_right)
-                ep[ply_id]= sq_arrival+dir_up+dir_right;
+                ep[nbply]= sq_arrival+dir_up+dir_right;
               break;
             }
           }
@@ -2383,18 +2383,18 @@ boolean jouecoup(ply ply_id, joue_type jt)
           case ReversePawn:
             switch (abs(ii - sq_arrival)) {
             case 2*onerow: /* ordinary or Einstein double step */
-              ep[ply_id]= (ii + sq_arrival) / 2;
+              ep[nbply]= (ii + sq_arrival) / 2;
               break;
             case 3*onerow: /* Einstein triple step */
-              ep[ply_id]= (ii + sq_arrival + sq_arrival) / 3;
-              ep2[ply_id]= (ii + ii + sq_arrival) / 3;
+              ep[nbply]= (ii + sq_arrival + sq_arrival) / 3;
+              ep2[nbply]= (ii + ii + sq_arrival) / 3;
               break;
             } /* end switch (abs(ii-sq_arrival)) */
             break;
           case BerolinaPawn:
             if (abs(ii - sq_arrival) > onerow+1) {
               /* It's a double step! */
-              ep[ply_id]= (ii + sq_arrival) / 2;
+              ep[nbply]= (ii + sq_arrival) / 2;
             }
             break;
           }
@@ -2402,30 +2402,30 @@ boolean jouecoup(ply ply_id, joue_type jt)
       }
     }
 
-    prompieces[ply_id] = GetPromotingPieces(sq_departure,
+    prompieces[nbply] = GetPromotingPieces(sq_departure,
                                         pi_departing,
-                                        trait[ply_id],
+                                        trait[nbply],
                                         spec_pi_moving,
                                         sq_arrival,
                                         pi_captured);
 
-    if (prompieces[ply_id] != NULL)
+    if (prompieces[nbply] != NULL)
       {
-        pi_arriving = norm_prom[ply_id];
+        pi_arriving = norm_prom[nbply];
         if (pi_arriving==vide)
         {
-          if (!CondFlag[noiprom] && Iprom[ply_id])
+          if (!CondFlag[noiprom] && Iprom[nbply])
           {
             ply icount;
-            if (inum[ply_id] == maxinum)
+            if (inum[nbply] == maxinum)
               FtlMsg(ManyImitators);
-            for (icount = ply_id; icount<=maxply; ++icount)
+            for (icount = nbply; icount<=maxply; ++icount)
               ++inum[icount];
-            isquare[inum[ply_id]-1] = sq_arrival;
+            isquare[inum[nbply]-1] = sq_arrival;
           }
           else
           {
-            pi_arriving= (prompieces[ply_id])[vide];
+            pi_arriving= (prompieces[nbply])[vide];
 
             if (CondFlag[frischauf])
               SETFLAG(spec_pi_moving, FrischAuf);
@@ -2447,7 +2447,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               } while (1);
   #endif /*BETTER_READABLE*/
 
-              while (((sq_rebirth= (*antirenai)(ply_id,
+              while (((sq_rebirth= (*antirenai)(nbply,
                                                 pi_arriving,
                                                 spec_pi_moving,
                                                 sq_capture,
@@ -2459,16 +2459,16 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                             sq_capture,
                                             sq_departure))
               {
-                pi_arriving= (prompieces[ply_id])[pi_arriving];
+                pi_arriving= (prompieces[nbply])[pi_arriving];
                 if (!pi_arriving && CondFlag[antisuper])
                 {
-                  super[ply_id]++;
-                  pi_arriving= (prompieces[ply_id])[vide];
+                  super[nbply]++;
+                  pi_arriving= (prompieces[nbply])[vide];
                 }
               }
             }
 
-            norm_prom[ply_id]= pi_arriving;
+            norm_prom[nbply]= pi_arriving;
           }
         }
         else
@@ -2477,10 +2477,10 @@ boolean jouecoup(ply ply_id, joue_type jt)
             SETFLAG(spec_pi_moving, FrischAuf);
         }
 
-        if (!(!CondFlag[noiprom] && Iprom[ply_id])) {
+        if (!(!CondFlag[noiprom] && Iprom[nbply])) {
           if (TSTFLAG(spec_pi_moving, Chameleon)
               && is_pawn(pi_departing))
-            norm_cham_prom[ply_id]= true;
+            norm_cham_prom[nbply]= true;
 
           if (pi_departing<vide)
             pi_arriving = -pi_arriving;
@@ -2488,7 +2488,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
           /* so also promoted neutral pawns have the correct color and
            * an additional call to setneutre is not required.
            */
-          if (norm_cham_prom[ply_id])
+          if (norm_cham_prom[nbply])
             SETFLAG(spec_pi_moving, Chameleon);
         }
         else
@@ -2579,9 +2579,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
       } /* CondFlag[antiandernach] ... */
 
       if (CondFlag[champursue]
-        && sq_arrival == move_generation_stack[current_move[ply_id-1]].departure
-        && sq_departure != prev_rn
-        && sq_departure != prev_rb)
+          && sq_arrival == move_generation_stack[current_move[nbply-1]].departure
+          && sq_departure != prev_rn
+          && sq_departure != prev_rb)
       {
         /* the following also copes correctly with neutral */
         CLRFLAG(spec_pi_moving, Black);
@@ -2626,13 +2626,13 @@ boolean jouecoup(ply ply_id, joue_type jt)
     {
       if (king_square[White]!=initsquare)
         king_square[White] = sq_arrival;
-      CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+      CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
     }
     if (sq_departure==prev_rn)
     {
       if (king_square[Black]!=initsquare)
         king_square[Black] = sq_arrival;
-      CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+      CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
     }
 
     /* Needed for castling */
@@ -2640,23 +2640,23 @@ boolean jouecoup(ply ply_id, joue_type jt)
     {
       /* pieces vacating a1, h1, a8, h8 */
       if (sq_departure == square_h1)
-        CLRCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
       else if (sq_departure == square_a1)
-        CLRCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
       else if (sq_departure == square_h8)
-        CLRCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
       else if (sq_departure == square_a8)
-        CLRCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
 
       /* pieces arriving at a1, h1, a8, h8 and possibly capturing a rook */
       if (sq_arrival == square_h1)
-        CLRCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
       else if (sq_arrival == square_a1)
-        CLRCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
       else if (sq_arrival == square_h8)
-        CLRCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
       else if (sq_arrival == square_a8)
-        CLRCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
+        CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
 
       if (CondFlag[losingchess])
       {
@@ -2664,15 +2664,15 @@ boolean jouecoup(ply ply_id, joue_type jt)
          * are not royal
          */
         if (sq_arrival==square_e1)
-          CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+          CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
         else if (sq_arrival==square_e8)
-          CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+          CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
       }
     }     /* castling_supported */
 
     if ((CondFlag[andernach] && pi_captured!=vide)
         || (CondFlag[antiandernach] && pi_captured==vide)
-        || (CondFlag[champursue] && sq_arrival == move_generation_stack[current_move[ply_id-1]].departure)
+        || (CondFlag[champursue] && sq_arrival == move_generation_stack[current_move[nbply-1]].departure)
         || (CondFlag[norsk])
         || (CondFlag[protean]
             && (pi_captured!=vide || abs(pi_departing)==ReversePawn))
@@ -2683,16 +2683,16 @@ boolean jouecoup(ply ply_id, joue_type jt)
           if (TSTFLAG(spec_pi_moving, White)) {
             /* new white/neutral rook */
             if (sq_arrival == square_h1)
-              SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+              SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
             else if (sq_arrival == square_a1)
-              SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
+              SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
           }
           if (TSTFLAG(spec_pi_moving, Black)) {
             /* new black/neutral rook */
             if (sq_arrival == square_h8)
-              SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+              SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
             else if (sq_arrival == square_a8)
-              SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
+              SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
           }
         }
       } /* castling_supported */
@@ -2736,7 +2736,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     {
     e[sq_arrival] = pi_arriving;
     spec[sq_arrival] = spec_pi_moving;
-    jouearr[ply_id] = pi_arriving;
+    jouearr[nbply] = pi_arriving;
 
     if (pi_departing!=pi_arriving)
     {
@@ -2791,12 +2791,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
       /* Duellantenschach */
       if (CondFlag[duellist]) {
         if (trait_ply == Black) {
-          whduell[ply_id]= whduell[ply_id - 1];
-          blduell[ply_id]= sq_arrival;
+          whduell[nbply]= whduell[nbply - 1];
+          blduell[nbply]= sq_arrival;
         }
         else {
-          blduell[ply_id]= blduell[ply_id - 1];
-          whduell[ply_id]= sq_arrival;
+          blduell[nbply]= blduell[nbply - 1];
+          whduell[nbply]= sq_arrival;
         }
       }
 
@@ -2804,33 +2804,33 @@ boolean jouecoup(ply ply_id, joue_type jt)
       {
         Side adv = advers(trait_ply);
 
-        if (sb2[ply_id].where==initsquare)
+        if (sb2[nbply].where==initsquare)
         {
-          assert(sb2[ply_id].what==vide);
-          sb2[ply_id].where = next_latent_pawn(initsquare,adv);
-          if (sb2[ply_id].where!=initsquare)
+          assert(sb2[nbply].what==vide);
+          sb2[nbply].where = next_latent_pawn(initsquare,adv);
+          if (sb2[nbply].where!=initsquare)
           {
-            sb2[ply_id].what = next_singlebox_prom(vide,adv);
-            if (sb2[ply_id].what==vide)
-              sb2[ply_id].where = initsquare;
+            sb2[nbply].what = next_singlebox_prom(vide,adv);
+            if (sb2[nbply].what==vide)
+              sb2[nbply].where = initsquare;
           }
         }
 
-        if (sb2[ply_id].where!=initsquare)
+        if (sb2[nbply].where!=initsquare)
         {
-          assert(e[sb2[ply_id].where] == (adv==White ? pb : pn));
-          assert(sb2[ply_id].what!=vide);
-          --nbpiece[e[sb2[ply_id].where]];
-          e[sb2[ply_id].where] = (adv==White
-                                  ? sb2[ply_id].what
-                                  : -sb2[ply_id].what);
-          ++nbpiece[e[sb2[ply_id].where]];
+          assert(e[sb2[nbply].where] == (adv==White ? pb : pn));
+          assert(sb2[nbply].what!=vide);
+          --nbpiece[e[sb2[nbply].where]];
+          e[sb2[nbply].where] = (adv==White
+                                  ? sb2[nbply].what
+                                  : -sb2[nbply].what);
+          ++nbpiece[e[sb2[nbply].where]];
         }
       }
 
       /* AntiCirce */
       if (pi_captured != vide && anyanticirce) {
-        sq_rebirth= (*antirenai)(ply_id,
+        sq_rebirth= (*antirenai)(nbply,
                                  pi_arriving,
                                  spec_pi_moving,
                                  sq_capture,
@@ -2841,26 +2841,26 @@ boolean jouecoup(ply ply_id, joue_type jt)
         {
           while (!LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
             sq_rebirth++;
-          super[ply_id]= sq_rebirth;
+          super[nbply]= sq_rebirth;
         }
         e[sq_arrival]= vide;
         spec[sq_arrival]= 0;
-        sq_rebirth_capturing[ply_id]= sq_rebirth;
-        prompieces[ply_id]= GetPromotingPieces(sq_departure,
+        sq_rebirth_capturing[nbply]= sq_rebirth;
+        prompieces[nbply]= GetPromotingPieces(sq_departure,
                                      pi_departing,
                                      trait_ply,
                                      spec_pi_moving,
                                      sq_rebirth,
                                      pi_captured);
 
-        if (prompieces[ply_id])
+        if (prompieces[nbply])
         {
           /* white pawn on eighth rank or
              black pawn on first rank - promotion ! */
           nbpiece[pi_arriving]--;
-          pi_arriving= norm_prom[ply_id];
+          pi_arriving= norm_prom[nbply];
           if (pi_arriving == vide)
-            norm_prom[ply_id]= pi_arriving= prompieces[ply_id][vide];
+            norm_prom[nbply]= pi_arriving= prompieces[nbply][vide];
           if (pi_departing < vide)
             pi_arriving= -pi_arriving;
           nbpiece[pi_arriving]++;
@@ -2879,27 +2879,27 @@ boolean jouecoup(ply ply_id, joue_type jt)
                 && sq_rebirth == square_e1
                 && (!CondFlag[dynasty] || nbpiece[roib]==1))
               /* white king new on e1 */
-              SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+              SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
             else if (TSTFLAG(spec_pi_moving, Black)
                      && sq_rebirth == square_e8
                      && (!CondFlag[dynasty] || nbpiece[roin]==1))
               /* black king new on e8 */
-              SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+              SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
           }
           else if (abspja==Rook) {
             if (TSTFLAG(spec_pi_moving, White)) {
               /* new white/neutral rook */
               if (sq_rebirth == square_h1)
-                SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+                SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
               else if (sq_rebirth == square_a1)
-                SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
+                SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
             }
             if (TSTFLAG(spec_pi_moving, Black)) {
               /* new black/neutral rook */
               if (sq_rebirth == square_h8)
-                SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+                SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
               else if (sq_rebirth == square_a8)
-                SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
+                SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
             }
           }
         } /* castling_supported */
@@ -2907,13 +2907,13 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
       if (flag_outputmultiplecolourchanges)
       {
-        colour_change_sp[ply_id] = colour_change_sp[ply_id - 1];
+        colour_change_sp[nbply] = colour_change_sp[nbply - 1];
       }
 
       if (flag_magic)
       {
         PushMagicViews();
-        ChangeMagic(ply_id, flag_outputmultiplecolourchanges);
+        ChangeMagic(nbply, flag_outputmultiplecolourchanges);
       }
 
       if (CondFlag[sentinelles])
@@ -2948,7 +2948,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               spec[sq_departure]= 0;
             }
             else {
-              senti[ply_id]= true;
+              senti[nbply]= true;
             }
           }
           else if ((trait_ply==Black) != SentPionAdverse) {
@@ -2961,7 +2961,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             {
               nbpiece[e[sq_departure]= sentineln]++;
               SETFLAG(spec[sq_departure], Black);
-              senti[ply_id]= true;
+              senti[nbply]= true;
             }
           }
           else if ( nbpiece[sentinelb] < max_pb
@@ -2973,7 +2973,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
           {
             nbpiece[e[sq_departure]= sentinelb]++;
             SETFLAG(spec[sq_departure], White);
-            senti[ply_id]= true;
+            senti[nbply]= true;
           }
         }
       }
@@ -2982,21 +2982,21 @@ boolean jouecoup(ply ply_id, joue_type jt)
       {
         TraceSquare(super[ply_id]);TraceText("\n");
         if (pi_captured!=vide
-            && CondFlag[circecage] && super[ply_id]==superbas)
+            && CondFlag[circecage] && super[nbply]==superbas)
         {
-          norm_prom[ply_id] = vide;
-          cir_prom[ply_id] = vide;
-          circecage_find_initial_cage(ply_id,
+          norm_prom[nbply] = vide;
+          cir_prom[nbply] = vide;
+          circecage_find_initial_cage(nbply,
                                       pi_departing,sq_arrival,pi_captured,
-                                      &super[ply_id],
-                                      &cir_prom[ply_id],
-                                      &norm_prom[ply_id]);
+                                      &super[nbply],
+                                      &cir_prom[nbply],
+                                      &norm_prom[nbply]);
         }
 
         /* circe-rebirth of moving kamikaze-piece */
         if (TSTFLAG(spec_pi_moving, Kamikaze) && (pi_captured != vide)) {
           if (CondFlag[couscous]) {
-            sq_rebirth= (*circerenai)(ply_id,
+            sq_rebirth= (*circerenai)(nbply,
                                       pi_captured,
                                       spec_pi_captured,
                                       sq_capture,
@@ -3005,7 +3005,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                       trait_ply);
           }
           else {
-            sq_rebirth= (*circerenai)(ply_id,
+            sq_rebirth= (*circerenai)(nbply,
                                       pi_arriving,
                                       spec_pi_moving,
                                       sq_capture,
@@ -3020,7 +3020,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               && !(CondFlag[contactgrid]
                    && nogridcontact(sq_rebirth)))
           {
-            sq_rebirth_capturing[ply_id]= sq_rebirth;
+            sq_rebirth_capturing[nbply]= sq_rebirth;
             e[sq_rebirth]= pi_arriving;
             spec[sq_rebirth]= spec_pi_moving;
             if (rex_circe) {
@@ -3035,12 +3035,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
                     && sq_rebirth == square_e1
                     && (!CondFlag[dynasty] || nbpiece[roib]==1))
                   /* white king reborn on e1 */
-                  SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
                 else if (TSTFLAG(spec_pi_moving, Black)
                          && sq_rebirth == square_e8
                          && (!CondFlag[dynasty] || nbpiece[roin]==1))
                   /* black king reborn on e8 */
-                  SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
               }
             }
             if (castling_supported
@@ -3048,18 +3048,18 @@ boolean jouecoup(ply ply_id, joue_type jt)
               if (TSTFLAG(spec_pi_moving, White)) {
                 if (sq_rebirth == square_h1)
                   /* white rook reborn on h1 */
-                  SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
                 else if (sq_rebirth == square_a1)
                   /* white rook reborn on a1 */
-                  SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
               }
               if (TSTFLAG(spec_pi_moving, Black)) {
                 if (sq_rebirth == square_h8)
                   /* black rook reborn on h8 */
-                  SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
                 else if (sq_rebirth == square_a8)
                   /* black rook reborn on a8 */
-                  SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
               }
             }
           } else
@@ -3068,8 +3068,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
         if (anyparrain)
         {
-          if (pprise[ply_id-1]!=vide)
-            joueparrain(ply_id);
+          if (pprise[nbply-1]!=vide)
+            joueparrain(nbply);
         }
         else
         {
@@ -3091,7 +3091,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               */
             }
             else if (anytraitor) {
-              pdispspec[ply_id]=spec_pi_captured;
+              pdispspec[nbply]=spec_pi_captured;
               pi_reborn= -pi_captured;
               CHANGECOLOR(spec_pi_captured);
             }
@@ -3108,7 +3108,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             }
 
             if (CondFlag[couscous])
-              sq_rebirth= (*circerenai)(ply_id,
+              sq_rebirth= (*circerenai)(nbply,
                                         pi_arriving,
                                         spec_pi_moving,
                                         sq_capture,
@@ -3116,7 +3116,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                         sq_arrival,
                                         advers(trait_ply));
             else
-              sq_rebirth= (*circerenai)(ply_id,
+              sq_rebirth= (*circerenai)(nbply,
                                         pi_reborn,
                                         spec_pi_captured,
                                         sq_capture,
@@ -3141,7 +3141,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                  && !( CondFlag[contactgrid]
                        && nogridcontact(sq_rebirth)))
             {
-              sqrenais[ply_id]= sq_rebirth;
+              sqrenais[nbply]= sq_rebirth;
               if (rex_circe) {
                 /* neutral K */
                 if (prev_rb == sq_capture) {
@@ -3157,12 +3157,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
                       && sq_rebirth == square_e1
                       && (!CondFlag[dynasty] || nbpiece[roib]==1))
                     /* white king reborn on e1 */
-                    SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+                    SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
                   else if (TSTFLAG(spec_pi_captured, Black)
                            && sq_rebirth == square_e8
                            && (!CondFlag[dynasty] || nbpiece[roin]==1))
                     /* black king reborn on e8 */
-                    SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+                    SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
                 }
               }
 
@@ -3171,18 +3171,18 @@ boolean jouecoup(ply ply_id, joue_type jt)
                 if (TSTFLAG(spec_pi_captured, White)) {
                   if (sq_rebirth == square_h1)
                     /* white rook reborn on h1 */
-                    SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+                    SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
                   else if (sq_rebirth == square_a1)
                     /* white rook reborn on a1 */
-                    SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
+                    SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
                 }
                 if (TSTFLAG(spec_pi_captured, Black)) {
                   if (sq_rebirth == square_h8)
                     /* black rook reborn on h8 */
-                    SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+                    SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
                   else if (sq_rebirth == square_a8)
                     /* black rook reborn on a8 */
-                    SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
+                    SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
                 }
               }
               if (anycirprom
@@ -3191,14 +3191,14 @@ boolean jouecoup(ply ply_id, joue_type jt)
               {
                 /* captured white pawn on eighth rank: promotion ! */
                 /* captured black pawn on first rank: promotion ! */
-                piece pprom = cir_prom[ply_id];
+                piece pprom = cir_prom[nbply];
                 if (pprom==vide)
                 {
                   pprom = getprompiece[vide];
-                  cir_prom[ply_id] = pprom;
+                  cir_prom[nbply] = pprom;
                 }
                 pi_reborn = pi_reborn<vide ? -pprom : pprom;
-                if (cir_cham_prom[ply_id])
+                if (cir_cham_prom[nbply])
                   SETFLAG(spec_pi_captured, Chameleon);
               }
               if (TSTFLAG(spec_pi_captured, Volage)
@@ -3211,8 +3211,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
                 }
               }
               if (CondFlag[circeassassin]) {
-                nbpiece[pdisp[ply_id]=e[sq_rebirth]]--;
-                pdispspec[ply_id]=spec[sq_rebirth];
+                nbpiece[pdisp[nbply]=e[sq_rebirth]]--;
+                pdispspec[nbply]=spec[sq_rebirth];
               }
               nbpiece[e[sq_rebirth]= pi_reborn]++;
               spec[sq_rebirth]= spec_pi_captured;
@@ -3228,7 +3228,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         king_square[White]= wh_royal_sq;
 
       if (CondFlag[republican])
-        republican_place_king(jt,trait_ply,ply_id);
+        republican_place_king(jt,trait_ply,nbply);
 
       if (CondFlag[actrevolving])
         transformPosition(rot270);
@@ -3277,7 +3277,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
       /* move to here to make sure it is definitely set through jouecoup
       otherwise repcoup can osc Ks even if not oscillated in jouecoup */
-      oscillatedKs[ply_id]= false;
+      oscillatedKs[nbply]= false;
       if (trait_ply==White
           ? CondFlag[white_oscillatingKs]
           : CondFlag[black_oscillatingKs])
@@ -3289,7 +3289,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
         if (OscillatingKingsTypeB[trait_ply])
           priorcheck= echecc(trait_ply);
-        if ((oscillatedKs[ply_id]= (!OscillatingKingsTypeC[trait_ply]
+        if ((oscillatedKs[nbply]= (!OscillatingKingsTypeC[trait_ply]
                                    || echecc(advers(trait_ply)))))
         {
           e[king_square[White]]= e[king_square[Black]];
@@ -3299,12 +3299,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
           spec[king_square[Black]]= temp2;
           king_square[White]= king_square[Black];
           king_square[Black]= temp;
-          CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
-          CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+          CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
+          CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
           if (king_square[White]==square_e1)
-            SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+            SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
           if (king_square[Black]==square_e8)
-            SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+            SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
           if (OscillatingKingsTypeB[trait_ply] && priorcheck)
             return false;
         }
@@ -3330,7 +3330,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               s = *bnp;
               if (e[s] == roib) {
                 if (s==square_e1)
-                  SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
                 king_square[White] = *bnp;
                 break;
               }
@@ -3345,7 +3345,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               s = *bnp;
               if (e[s] == roin) {
                 if (s==square_e8)
-                  SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
+                  SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
                 king_square[Black] = *bnp;
                 break;
               }
@@ -3358,9 +3358,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
       if (CondFlag[strictSAT] && SATCheck)
       {
         SATCheck = false;
-        StrictSAT[White][ply_id]= (StrictSAT[White][parent_ply[ply_id]]
+        StrictSAT[White][nbply]= (StrictSAT[White][parent_ply[nbply]]
                                    || echecc(White));
-        StrictSAT[Black][ply_id]= (StrictSAT[Black][parent_ply[ply_id]]
+        StrictSAT[Black][nbply]= (StrictSAT[Black][parent_ply[nbply]]
                                    || echecc(Black));
         SATCheck = true;
       }
@@ -3369,7 +3369,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
           && echecc(advers(trait_ply))
           && observed(trait_ply == White ? king_square[Black] : king_square[White],
                       move_gen_top->arrival))
-        change_observed(ply_id,
+        change_observed(nbply,
                         move_gen_top->arrival,
                         flag_outputmultiplecolourchanges);
     } /* if (jouegenre) */
