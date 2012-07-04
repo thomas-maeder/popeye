@@ -51,7 +51,7 @@ stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  if (echecc(advers(slices[si].starter)))
     result = slack_length-2;
   else
     result = attack(slices[si].next1,n);
@@ -83,7 +83,7 @@ stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  if (echecc(advers(slices[si].starter)))
     result = n+2;
   else
     result = defend(next,n);

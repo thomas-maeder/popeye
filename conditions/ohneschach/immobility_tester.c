@@ -111,7 +111,7 @@ stip_length_type ohneschach_check_guard_attack(slice_index si,
   if (nbply>500)
     FtlMsg(ChecklessUndecidable);
 
-  if (echecc(nbply,slices[si].starter))
+  if (echecc(slices[si].starter))
     result = n+2;
   else
     result = attack(slices[si].next1,n);

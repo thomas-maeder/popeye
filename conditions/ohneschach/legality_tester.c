@@ -43,9 +43,9 @@ static boolean is_position_legal(Side just_moved)
   TraceEnumerator(Side,just_moved,"");
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,just_moved))
+  if (echecc(just_moved))
     result = false;
-  else if (echecc(nbply,ad) && !immobile(ad))
+  else if (echecc(ad) && !immobile(ad))
     result = false;
 
   TraceFunctionExit(__func__);

@@ -31,6 +31,6 @@ void stip_substitute_sat_king_flight_generators(slice_index root_slice);
  * @param side side for which to test check
  * @return true iff side is in check
  */
-boolean echecc_SAT(ply ply_id, Side side);
+boolean echecc_SAT(Side side);
 
 #endif

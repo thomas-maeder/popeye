@@ -17,8 +17,6 @@ boolean StrictSAT[nr_sides][maxply+1];
 int SATFlights[nr_sides];
 boolean satXY;
 
-static ply sat_check_ply_id;
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -41,7 +39,7 @@ stip_length_type sat_flight_moves_generator_attack(slice_index si,
 
   assert(SATCheck);
 
-  nextply(sat_check_ply_id);
+  nextply(nbply);
 
   current_killer_state= null_killer_state;
   trait[nbply]= starter;
@@ -110,20 +108,19 @@ void stip_substitute_sat_king_flight_generators(slice_index root_slice)
  * @param side side for which to test check
  * @return true iff side is in check
  */
-boolean echecc_SAT(ply ply_id, Side side)
+boolean echecc_SAT(Side side)
 {
   boolean result;
   int nr_flights = SATFlights[side];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_id);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (satXY || (CondFlag[strictSAT] && StrictSAT[side][parent_ply[ply_id]]))
+  if (satXY || (CondFlag[strictSAT] && StrictSAT[side][parent_ply[nbply]]))
   {
     SATCheck = false;
-    if (!echecc(ply_id,side))
+    if (!echecc(side))
       --nr_flights;
     SATCheck = true;
   }
@@ -132,19 +129,17 @@ boolean echecc_SAT(ply ply_id, Side side)
     result = true;
   else
   {
-    sat_check_ply_id = ply_id;
-
-    legal_move_counter_interesting[ply_id+1] = nr_flights-1;
-    assert(legal_move_counter_count[ply_id+1]==0);
+    legal_move_counter_interesting[nbply+1] = nr_flights-1;
+    assert(legal_move_counter_count[nbply+1]==0);
 
     result = (attack(slices[temporary_hack_sat_flights_counter[side]].next2,
                      length_unspecified+1)
               == length_unspecified+1);
 
     assert(result
-           ==(legal_move_counter_count[ply_id+1]
-              >legal_move_counter_interesting[ply_id+1]));
-    legal_move_counter_count[ply_id+1] = 0;
+           ==(legal_move_counter_count[nbply+1]
+              >legal_move_counter_interesting[nbply+1]));
+    legal_move_counter_count[nbply+1] = 0;
   }
 
   TraceFunctionExit(__func__);

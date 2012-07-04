@@ -210,7 +210,7 @@ checkfunction_t greaterleafhoppercheck;
 
 square  coinequis(square a);
 
-boolean echecc(ply ply_id, Side a);
+boolean echecc(Side a);
 
 boolean moves_equal(coup const *move1, coup const *move2);
 void current(ply ply_id, coup *mov);
@@ -262,11 +262,11 @@ boolean nocontact(square departure, square arrival, square capture, nocontactfun
 boolean nogridcontact(square a);
 boolean rbcircech(square departure, square arrival, square capture);
 
-extern boolean (*rbechec)(ply ply_id, evalfunction_t *evaluate);
-boolean singleboxtype3_rbechec(ply ply_id, evalfunction_t *evaluate);
-boolean annan_rbechec(ply ply_id, evalfunction_t *evaluate);
-boolean losingchess_rbnechec(ply ply_id, evalfunction_t *evaluate);
-boolean orig_rbechec(ply ply_id, evalfunction_t *evaluate);
+extern boolean (*rbechec)(evalfunction_t *evaluate);
+boolean singleboxtype3_rbechec(evalfunction_t *evaluate);
+boolean annan_rbechec(evalfunction_t *evaluate);
+boolean losingchess_rbnechec(evalfunction_t *evaluate);
+boolean orig_rbechec(evalfunction_t *evaluate);
 
 boolean rbimmunech(square departure, square arrival, square capture);
 boolean rcardech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
@@ -285,10 +285,10 @@ typedef enum {
 boolean rmhopech(square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
 boolean rncircech(square departure, square arrival, square capture);
 
-extern boolean(*rnechec)(ply ply_id, evalfunction_t *evaluate);
-boolean singleboxtype3_rnechec(ply ply_id, evalfunction_t *evaluate);
-boolean annan_rnechec(ply ply_id, evalfunction_t *evaluate);
-boolean orig_rnechec(ply ply_id, evalfunction_t *evaluate);
+extern boolean(*rnechec)(evalfunction_t *evaluate);
+boolean singleboxtype3_rnechec(evalfunction_t *evaluate);
+boolean annan_rnechec(evalfunction_t *evaluate);
+boolean orig_rnechec(evalfunction_t *evaluate);
 
 boolean rnimmunech(square departure, square arrival, square capture);
 boolean rrefcech(square a, square b, int c, piece d, evalfunction_t *evaluate);

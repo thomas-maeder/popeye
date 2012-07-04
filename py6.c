@@ -1901,8 +1901,8 @@ static boolean verify_position(slice_index si)
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
     SATCheck = false;
-    StrictSAT[White][1] = echecc(nbply,White);
-    StrictSAT[Black][1] = echecc(nbply,Black);
+    StrictSAT[White][1] = echecc(White);
+    StrictSAT[Black][1] = echecc(Black);
     SATCheck = true;
     satXY = SATFlights[White] > 1 || SATFlights[Black] > 1;
   }

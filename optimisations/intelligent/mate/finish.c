@@ -116,7 +116,7 @@ static square find_king_flight(void)
       else
       {
         e[king_square[Black]] = roin;
-        if (!echecc(nbply,Black))
+        if (!echecc(Black))
           result = king_square[Black];
         e[king_square[Black]] = p;
       }
@@ -163,7 +163,7 @@ void intelligent_mate_test_target_position(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(!echecc(nbply,White));
+  assert(!echecc(White));
 
   {
     square const flight = find_king_flight();

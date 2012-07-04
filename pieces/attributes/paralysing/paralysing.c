@@ -67,13 +67,13 @@ boolean paralysiert(square s)
   {
     square const roi = king_square[White];
     king_square[White] = s;
-    result = rbechec(nbply,testparalyse);
+    result = rbechec(testparalyse);
     king_square[White] = roi;
   }
   else {
     square const roi = king_square[Black];
     king_square[Black] = s;
-    result = rnechec(nbply,testparalyse);
+    result = rnechec(testparalyse);
     king_square[Black] = roi;
   }
 

@@ -2223,14 +2223,14 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     {
       sq_arrival= king_square[Black];
       king_square[Black]= sq_departure;
-      enemyobserveok= testenemyanti ^ rnechec(nbply,evaluate);
+      enemyobserveok= testenemyanti ^ rnechec(evaluate);
       king_square[Black]= sq_arrival;
     }
     else
     {
       sq_arrival= king_square[White];
       king_square[White]= sq_departure;
-      enemyobserveok= testenemyanti ^ rbechec(nbply,evaluate);
+      enemyobserveok= testenemyanti ^ rbechec(evaluate);
       king_square[White]= sq_arrival;
     }
   }
@@ -2240,14 +2240,14 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     {
       sq_arrival= king_square[Black];
       king_square[Black]= sq_departure;
-      friendobserveok= testfriendanti ^ rnechec(nbply,evaluate);
+      friendobserveok= testfriendanti ^ rnechec(evaluate);
       king_square[Black]= sq_arrival;
     }
     else
     {
       sq_arrival= king_square[White];
       king_square[White]= sq_departure;
-      friendobserveok= testfriendanti ^ rbechec(nbply,evaluate);
+      friendobserveok= testfriendanti ^ rbechec(evaluate);
       king_square[White]= sq_arrival;
     }
   }
@@ -2883,14 +2883,14 @@ boolean observed(square on_this, square by_that) {
   {
     k= king_square[Black];
     king_square[Black]= on_this;
-    flag= rnechec(nbply,eval_fromspecificsquare);
+    flag= rnechec(eval_fromspecificsquare);
     king_square[Black]= k;
   }
   else
   {
     k= king_square[White];
     king_square[White]= on_this;
-    flag= rbechec(nbply,eval_fromspecificsquare);
+    flag= rbechec(eval_fromspecificsquare);
     king_square[White]= k;
   }
   return flag;

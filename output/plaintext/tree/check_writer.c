@@ -43,7 +43,7 @@ output_plaintext_tree_check_writer_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,slices[si].starter))
+  if (echecc(slices[si].starter))
     StdString(" +");
   result = attack(next,n);
 

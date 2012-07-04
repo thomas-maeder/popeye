@@ -24,15 +24,15 @@ static void finalise_blocking(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(!echecc(nbply,White));
+  assert(!echecc(White));
   if (goal_to_be_reached==goal_stale)
   {
-    assert(!echecc(nbply,Black));
+    assert(!echecc(Black));
     intelligent_stalemate_test_target_position();
   }
   else
   {
-    assert(echecc(nbply,Black));
+    assert(echecc(Black));
     intelligent_mate_test_target_position();
   }
 
@@ -117,7 +117,7 @@ static void plan_blocks_of_flights(void)
       {
         e[king_square[Black]] = roin;
 
-        if (!echecc(nbply,Black))
+        if (!echecc(Black))
         {
           if (p>=roib || nr_king_flights_to_be_blocked==nr_available_blockers)
           {

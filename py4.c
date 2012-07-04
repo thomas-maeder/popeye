@@ -3116,7 +3116,7 @@ void genrb(square sq_departure)
   {
     /* K im Schach zieht auch */
     calctransmute = true;
-    if (!normaltranspieces[side] && echecc(nbply,side))
+    if (!normaltranspieces[side] && echecc(side))
     {
       piece const *ptrans;
       for (ptrans = transmpieces[side]; *ptrans!=vide; ++ptrans)
@@ -3148,7 +3148,7 @@ void genrb(square sq_departure)
     {
       piece const king = e[king_square[side]];
       e[king_square[side]] = dummyb;
-      if (!echecc(nbply,side))
+      if (!echecc(side))
         /* side's king checked only by an orphan empowered by the king */
         flag= false;
       e[king_square[side]] = king;
@@ -3183,7 +3183,7 @@ void genrb(square sq_departure)
   if (castling_supported)
     generate_castling(side);
 
-  if (CondFlag[castlingchess] && !echecc(nbply,side))
+  if (CondFlag[castlingchess] && !echecc(side))
   {
     numvec k;
     for (k = vec_queen_end; k>= vec_queen_start; --k)

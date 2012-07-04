@@ -50,10 +50,10 @@ stip_length_type ultraschachzwang_legality_tester_attack(slice_index si,
   if (jouetest_ultraschachzwang
       && ((CondFlag[blackultraschachzwang]
            && trait[nbply]==Black
-           && !echecc(nbply,White))
+           && !echecc(White))
           || (CondFlag[whiteultraschachzwang]
               && trait[nbply]==White
-              && !echecc(nbply,Black))))
+              && !echecc(Black))))
     result = n+2;
   else
     result = attack(next,n);
@@ -89,10 +89,10 @@ stip_length_type ultraschachzwang_legality_tester_defend(slice_index si,
   if (jouetest_ultraschachzwang
       && ((CondFlag[blackultraschachzwang]
            && trait[nbply]==Black
-           && !echecc(nbply,White))
+           && !echecc(White))
           || (CondFlag[whiteultraschachzwang]
               && trait[nbply]==White
-              && !echecc(nbply,Black))))
+              && !echecc(Black))))
     result = slack_length-1;
   else
     result = defend(next,n);

@@ -74,7 +74,7 @@ stip_length_type goal_check_reached_tester_attack(slice_index si, stip_length_ty
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,in_check))
+  if (echecc(in_check))
     result = attack(slices[si].next1,n);
   else
     result = n+2;

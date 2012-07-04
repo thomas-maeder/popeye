@@ -748,7 +748,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
     if (king_square[side]!=initsquare)
       king_square[side] = to;
 
-    result = !echecc(nbply,side);
+    result = !echecc(side);
 
     e[from]= sides_king;
     e[to]= vide;
@@ -775,7 +775,7 @@ void generate_castling(Side side)
   if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
       && e[square_e]==sides_king
       /* then the king on e8 and at least one rook can castle !! */
-      && !echecc(nbply,side))
+      && !echecc(side))
   {
     square const square_c = square_a+file_c;
     square const square_d = square_a+file_d;
@@ -810,7 +810,7 @@ void genrn(square sq_departure)
   {
     /* K im Schach zieht auch */
     calctransmute = true;
-    if (!normaltranspieces[side] && echecc(nbply,side))
+    if (!normaltranspieces[side] && echecc(side))
     {
       piece *ptrans;
       for (ptrans = transmpieces[side]; *ptrans!=vide; ++ptrans)
@@ -840,7 +840,7 @@ void genrn(square sq_departure)
     {
       piece const king = e[king_square[side]];
       e[king_square[side]] = dummyn;
-      if (!echecc(nbply,side))
+      if (!echecc(side))
         /* side's king checked only by an orphan empowered by the king */
         flag = false;
       e[king_square[side]] = king;
@@ -871,7 +871,7 @@ void genrn(square sq_departure)
   if (castling_supported)
     generate_castling(side);
 
-  if (CondFlag[castlingchess] && !echecc(nbply,side))
+  if (CondFlag[castlingchess] && !echecc(side))
   {
     numvec k;
     for (k = vec_queen_end; k>= vec_queen_start; --k)
@@ -1364,7 +1364,7 @@ static boolean eval_spec(square sq_departure,
   return sq_departure==blpc;
 }
 
-static boolean att_once(square sq_departure, Side trait_ply, ply ply_id)
+static boolean att_once(square sq_departure, Side trait_ply)
 {
   int i,j, count=0;
   square square_a = square_a1;
@@ -1381,7 +1381,7 @@ static boolean att_once(square sq_departure, Side trait_ply, ply ply_id)
         if (e[z]<-obs)
         {
           blpc = z;
-          if (rbechec(ply_id,eval_spec))
+          if (rbechec(eval_spec))
           {
             ++count;
             if (count > 1)
@@ -1404,7 +1404,7 @@ static boolean att_once(square sq_departure, Side trait_ply, ply ply_id)
         if (e[z]<-obs)
         {
           blpc = z;
-          if (rnechec(ply_id,eval_spec))
+          if (rnechec(eval_spec))
           {
             ++count;
             if (count > 1)
@@ -2052,7 +2052,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
 
     if (CondFlag[amu])
-      att_1[ply_id]= att_once(sq_departure, trait_ply, ply_id);
+      att_1[ply_id]= att_once(sq_departure,trait_ply);
 
     if (CondFlag[imitators])
     {
@@ -3288,9 +3288,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
         Flags temp2= spec[king_square[White]];
 
         if (OscillatingKingsTypeB[trait_ply])
-          priorcheck= echecc(ply_id,trait_ply);
+          priorcheck= echecc(trait_ply);
         if ((oscillatedKs[ply_id]= (!OscillatingKingsTypeC[trait_ply]
-                                   || echecc(ply_id,advers(trait_ply)))))
+                                   || echecc(advers(trait_ply)))))
         {
           e[king_square[White]]= e[king_square[Black]];
           spec[king_square[White]]= spec[king_square[Black]];
@@ -3359,14 +3359,14 @@ boolean jouecoup(ply ply_id, joue_type jt)
       {
         SATCheck = false;
         StrictSAT[White][ply_id]= (StrictSAT[White][parent_ply[ply_id]]
-                                   || echecc(ply_id,White));
+                                   || echecc(White));
         StrictSAT[Black][ply_id]= (StrictSAT[Black][parent_ply[ply_id]]
-                                   || echecc(ply_id,Black));
+                                   || echecc(Black));
         SATCheck = true;
       }
 
       if (CondFlag[masand]
-          && echecc(ply_id,advers(trait_ply))
+          && echecc(advers(trait_ply))
           && observed(trait_ply == White ? king_square[Black] : king_square[White],
                       move_gen_top->arrival))
         change_observed(ply_id,
@@ -3413,7 +3413,7 @@ void repcoup(void)
       ChangeMagic(nbply, false);
 
     if (CondFlag[masand]
-        && echecc(nbply,advers(trait[nbply]))
+        && echecc(advers(trait[nbply]))
         && observed(trait[nbply] == White ? king_square[Black] : king_square[White],
                     sq_arrival))
       change_observed(nbply,sq_arrival,false);

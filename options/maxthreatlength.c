@@ -112,7 +112,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
      expensive, so let's try to avoid it */
   if (max_len_threat==0)
   {
-    if (echecc(nbply,slices[si].starter))
+    if (echecc(slices[si].starter))
       result = defend(next,n);
     else
       result = n+2;
@@ -122,7 +122,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
     stip_length_type const n_max = 2*(max_len_threat-1)+slack_length+2;
     if (n>=n_max)
     {
-      if (echecc(nbply,slices[si].starter))
+      if (echecc(slices[si].starter))
         result = defend(next,n);
       else if (n_max<defend(slices[si].next2,n_max))
         result = n+2;

@@ -82,7 +82,7 @@ stip_length_type blackchecks_attack(slice_index si, stip_length_type n)
 
   if (move_generation_stack[current_move[nbply]].arrival==nullsquare)
     result = attack(next,n);
-  else if (trait[nbply]==Black && !echecc(nbply,White))
+  else if (trait[nbply]==Black && !echecc(White))
     result = n+2;
   else
     result = attack(next,n);
@@ -116,7 +116,7 @@ stip_length_type blackchecks_defend(slice_index si, stip_length_type n)
 
   if (move_generation_stack[current_move[nbply]].arrival==nullsquare)
     result = defend(next,n);
-  else if (trait[nbply]==Black && !echecc(nbply,White))
+  else if (trait[nbply]==Black && !echecc(White))
     result = slack_length-1;
   else
     result = defend(next,n);

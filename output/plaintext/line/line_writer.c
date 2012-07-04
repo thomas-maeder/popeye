@@ -226,7 +226,7 @@ static void write_potential_check(slice_index si)
 {
   Side const just_moved = slices[si].starter;
   Side const potentially_in_check = advers(just_moved);
-  if (echecc(nbply,potentially_in_check))
+  if (echecc(potentially_in_check))
     StdString(" +");
 }
 
