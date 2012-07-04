@@ -248,7 +248,7 @@ typedef enum
   replay
 } joue_type;
 
-boolean jouecoup(joue_type jt);
+void jouecoup(joue_type jt);
 
 void    joueim(int diff);
 boolean legalsquare(square departure, square arrival, square capture);

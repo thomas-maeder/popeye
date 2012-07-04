@@ -1982,7 +1982,7 @@ square rencage(ply ply_id,
 
 DEFINE_COUNTER(jouecoup)
 
-boolean jouecoup(joue_type jt)
+void jouecoup(joue_type jt)
 {
   numecoup const coup_id = current_move[nbply];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
@@ -2131,7 +2131,7 @@ boolean jouecoup(joue_type jt)
       else if (king_square[Black]==sq_arrival)
         king_square[Black]= sq_departure;
 
-      return true;
+      return;
 
     case kingside_castling:
       if (CondFlag[einstein])
@@ -3268,7 +3268,7 @@ boolean jouecoup(joue_type jt)
     }
   } /* if (jouegenre) */
 
-  return true;
+  return;
 } /* end of jouecoup */
 
 void repcoup(void)
