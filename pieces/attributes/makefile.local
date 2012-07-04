@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = hurdle_colour_changing.c
+
+INCLUDES = hurdle_colour_changing.h
+
+include makefile.rules $(CURRPWD)depend

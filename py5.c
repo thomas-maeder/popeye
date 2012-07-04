@@ -1989,9 +1989,6 @@ boolean jouecoup(joue_type jt)
   square sq_rebirth = initsquare;
   piece pi_reborn;
 
-  square sq_hurdle = initsquare;
-  piece pi_hurdle;
-
   piece pi_captured;
   Flags spec_pi_captured;
 
@@ -2115,10 +2112,6 @@ boolean jouecoup(joue_type jt)
       preempt_ghost(sq_arrival);
       remember_ghost(sq_arrival);
     }
-  }
-
-  if (TSTFLAG(spec_pi_moving, ColourChange)) {
-    sq_hurdle= chop[coup_id];
   }
 
   switch (sq_capture)
@@ -3307,15 +3300,6 @@ boolean jouecoup(joue_type jt)
           return false;
       }
     }
-
-    if (TSTFLAG(spec_pi_moving, ColourChange)) {
-      if (abs(pi_hurdle= e[sq_hurdle]) > roib) {
-        nbpiece[pi_hurdle]--;
-        e[sq_hurdle]= -pi_hurdle;
-        nbpiece[-pi_hurdle]++;
-        CHANGECOLOR(spec[sq_hurdle]);
-      }
-    }
   } /* if (jouegenre) */
 
   return true;
@@ -3324,11 +3308,10 @@ boolean jouecoup(joue_type jt)
 void repcoup(void)
 {
   square sq_rebirth;
-  piece pi_departing, pi_captured, pi_hurdle;
+  piece pi_departing, pi_captured;
   Flags spec_pi_moving;
   boolean next_prom = true;
   square nextsuper= superbas;
-  square sq_hurdle;
   boolean rochade=false;
   boolean platzwechsel = false;
 
@@ -3469,16 +3452,6 @@ void repcoup(void)
       if (sq_departure!=sb3[current_move[nbply]].where) {
         --nbpiece[sb3[current_move[nbply]].what];
         ++nbpiece[pawn];
-      }
-    }
-
-    if (TSTFLAG(spec_pi_moving, ColourChange)) {
-      sq_hurdle= chop[current_move[nbply]];
-      if (abs(pi_hurdle= e[sq_hurdle]) > roib) {
-        nbpiece[pi_hurdle]--;
-        e[sq_hurdle]= -pi_hurdle;
-        nbpiece[-pi_hurdle]++;
-        CHANGECOLOR(spec[sq_hurdle]);
       }
     }
   }

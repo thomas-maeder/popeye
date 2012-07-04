@@ -64,6 +64,7 @@
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/attributes/hurdle_colour_changing.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -339,6 +340,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STDynastyKingSquareUpdater:
       result = dynasty_king_square_updater_defend(si,n);
+      break;
+
+    case STHurdleColourChanger:
+      result = hurdle_colour_changer_defend(si,n);
       break;
 
     case STPiecesNeutralInitialiser:

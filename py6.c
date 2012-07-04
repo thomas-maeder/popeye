@@ -158,6 +158,7 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/attributes/hurdle_colour_changing.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/circe.h"
 #include "conditions/anticirce/anticirce.h"
@@ -2863,6 +2864,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[dynasty])
         stip_insert_dynasty(root_slice);
+
+      if (TSTFLAG(PieSpExFlags,ColourChange))
+        stip_insert_hurdle_colour_changers(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

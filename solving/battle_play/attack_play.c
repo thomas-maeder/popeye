@@ -71,6 +71,7 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/attributes/hurdle_colour_changing.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/min_length_guard.h"
@@ -775,6 +776,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STDynastyKingSquareUpdater:
       result = dynasty_king_square_updater_attack(si,n);
+      break;
+
+    case STHurdleColourChanger:
+      result = hurdle_colour_changer_attack(si,n);
       break;
 
     case STPlaySuppressor:

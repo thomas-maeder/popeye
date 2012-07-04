@@ -190,6 +190,7 @@
     ENUMERATOR(STSATFlightMoveGenerator), \
     ENUMERATOR(STStrictSATUpdater), \
     ENUMERATOR(STDynastyKingSquareUpdater), \
+    ENUMERATOR(STHurdleColourChanger), \
     /* other slices related to fairy chess */ \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \
