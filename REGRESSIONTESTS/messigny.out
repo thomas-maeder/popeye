@@ -31,9 +31,9 @@
   1.Le6-g4 a7-a8=L   2.Lg4-f3 La8<->Lf3 # 
 
               empile:      359012
-            jouecoup:      333194
-        orig_rbechec:       31173
-        orig_rnechec:      332404
+            jouecoup:      224323
+        orig_rbechec:       31172
+        orig_rnechec:      332400
 Loesung beendet. 
 
 
@@ -70,9 +70,9 @@ Loesung beendet.
   1.Sh5-f6 g7-g8=D   2.Df4-h6 + Kg6<->Ka5 # 
 
               empile:     1086048
-            jouecoup:      979135
+            jouecoup:      632882
         orig_rbechec:       27944
-        orig_rnechec:      977763
+        orig_rnechec:      977759
 Loesung beendet. 
 
 
@@ -106,10 +106,10 @@ Loesung beendet.
   1.d5-d4 Kd3-e4   2.h2-h1=L + Lg1<->Lh1   3.Lg1-e3 Ke4<->Ka8 # 
   1.e5-e4 + Kd3-d4   2.a2-a1=L + Lb1<->La1   3.Lb1-d3 Kd4<->Ka8 # 
 
-              empile:    40724639
-            jouecoup:    34423699
-        orig_rbechec:     1175690
-        orig_rnechec:    34179973
+              empile:    40724705
+            jouecoup:    26264727
+        orig_rbechec:     1175689
+        orig_rnechec:    34180028
 Loesung beendet. 
 
 
@@ -143,10 +143,10 @@ Loesung beendet.
   1.Td7-d8 Te8*d8   2.Kg7<->Ke5 Kg7-f8   3.Ke5-f6 Kf8<->Kf6 # 
   1.Kg7-h7 Ke5-f6   2.Kh7<->Kf6 + Kh7-h8   3.Td7-h7 + Kh8<->Kf6 # 
 
-              empile:     4908438
-            jouecoup:     3448438
-        orig_rbechec:      393229
-        orig_rnechec:     3406390
+              empile:     4908189
+            jouecoup:     2993286
+        orig_rbechec:      393197
+        orig_rnechec:     3406253
 Loesung beendet. 
 
 
@@ -224,7 +224,7 @@ Loesung beendet.
 
 
               empile:      284017
-            jouecoup:      247845
+            jouecoup:      188663
         orig_rbechec:      231827
         orig_rnechec:       33322
 Loesung beendet. 
@@ -272,7 +272,7 @@ Loesung beendet.
 
 
               empile:       23606
-            jouecoup:       22565
+            jouecoup:       17536
         orig_rbechec:       22495
         orig_rnechec:        1122
 Loesung beendet. 
@@ -333,7 +333,7 @@ Loesung beendet.
 
 
               empile:       25908
-            jouecoup:       16732
+            jouecoup:       13264
         orig_rbechec:        1151
         orig_rnechec:       16648
 Loesung beendet. 
@@ -386,7 +386,7 @@ Loesung beendet.
 
 
               empile:      669148
-            jouecoup:      597326
+            jouecoup:      426807
         orig_rbechec:      558329
         orig_rnechec:       73843
 Loesung beendet. 
@@ -431,7 +431,7 @@ Loesung beendet.
 
 
               empile:       10307
-            jouecoup:        7013
+            jouecoup:        6415
         orig_rbechec:         471
         orig_rnechec:        7015
 Loesung beendet. 
@@ -527,7 +527,7 @@ Loesung beendet.
 
 
               empile:       61784
-            jouecoup:       40727
+            jouecoup:       27290
         orig_rbechec:        1968
         orig_rnechec:       40707
 Loesung beendet. 
@@ -575,7 +575,7 @@ Loesung beendet.
 
 
               empile:       28493
-            jouecoup:       17097
+            jouecoup:       13406
         orig_rbechec:        1453
         orig_rnechec:       17099
 Loesung beendet. 
@@ -627,7 +627,7 @@ Loesung beendet.
 
 
               empile:      164387
-            jouecoup:      140260
+            jouecoup:      122851
         orig_rbechec:      140021
         orig_rnechec:        8129
 Loesung beendet. 

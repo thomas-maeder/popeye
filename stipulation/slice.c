@@ -89,7 +89,8 @@ static slice_type const fork_slice_types[] =
     STTrivialEndFilter,
     STOutputPlaintextLineLineWriter,
     STDiscriminateByRightToMove,
-    STNullMovePlayer
+    STNullMovePlayer,
+    STMessignyMovePlayer
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -205,7 +206,8 @@ static slice_type const binary_slice_types[] =
     STRefutationsSolver,
     STThreatSolver,
     STDiscriminateByRightToMove,
-    STNullMovePlayer
+    STNullMovePlayer,
+    STMessignyMovePlayer
 };
 
 static slice_type const testing_pipe_slice_types[] =

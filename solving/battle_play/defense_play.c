@@ -44,6 +44,7 @@
 #include "conditions/dynasty.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/oscillating_kings.h"
+#include "conditions/messigny.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -140,6 +141,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STNullMovePlayer:
       result = null_move_player_defend(si,n);
+      break;
+
+    case STMessignyMovePlayer:
+      result = messigny_move_player_defend(si,n);
       break;
 
     case STMovePlayer:

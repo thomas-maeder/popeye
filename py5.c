@@ -2117,22 +2117,6 @@ void jouecoup(joue_type jt)
 
   switch (sq_capture)
   {
-    case messigny_exchange:
-      pprise[nbply]= e[sq_departure]= e[sq_arrival];
-      pprispec[nbply]= spec[sq_departure]= spec[sq_arrival];
-      jouearr[nbply]= e[sq_arrival]= pi_departing;
-      spec[sq_arrival]= spec_pi_moving;
-      if (king_square[White]==sq_departure)
-        king_square[White] = sq_arrival;
-      else if (king_square[White]==sq_arrival)
-        king_square[White] = sq_departure;
-      if (king_square[Black]==sq_departure)
-        king_square[Black] = sq_arrival;
-      else if (king_square[Black]==sq_arrival)
-        king_square[Black]= sq_departure;
-
-      return;
-
     case kingside_castling:
       if (CondFlag[einstein])
       {
@@ -3267,8 +3251,6 @@ void jouecoup(joue_type jt)
       }
     }
   } /* if (jouegenre) */
-
-  return;
 } /* end of jouecoup */
 
 void repcoup(void)
@@ -3413,17 +3395,8 @@ void repcoup(void)
   whpwr[nbply]= whpwr[nbply-1];
   blpwr[nbply]= blpwr[nbply-1];
 
-  switch (sq_capture) {
-  case messigny_exchange:
-    e[sq_arrival]= e[sq_departure];
-    spec[sq_arrival]= spec[sq_departure];
-    e[sq_departure]= pi_departing;
-    spec[sq_departure]= spec_pi_moving;
-    current_move[nbply]--;
-    king_square[White]= RB_[nbply];
-    king_square[Black]= RN_[nbply];
-    return;
-
+  switch (sq_capture)
+  {
   case kingside_castling:
     if (CondFlag[einstein]) {
       if (sq_departure == square_e1) {   /* white */

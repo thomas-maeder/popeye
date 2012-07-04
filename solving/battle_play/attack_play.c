@@ -30,6 +30,7 @@
 #include "conditions/dynasty.h"
 #include "conditions/masand.h"
 #include "conditions/oscillating_kings.h"
+#include "conditions/messigny.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -211,6 +212,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STNullMovePlayer:
       result = null_move_player_attack(si,n);
+      break;
+
+    case STMessignyMovePlayer:
+      result = messigny_move_player_attack(si,n);
       break;
 
     case STMovePlayer:
