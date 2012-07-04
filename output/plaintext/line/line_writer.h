@@ -77,4 +77,7 @@ stip_length_type output_plaintext_line_last_move_writer_attack(slice_index si,
 stip_length_type discriminate_by_right_to_move_attack(slice_index si,
                                                       stip_length_type n);
 
+/* allow line-oriented output to restore the initial position */
+void output_plaintext_line_save_position(void);
+
 #endif

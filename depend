@@ -551,7 +551,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
- debugging/trace.h debugging/measure.h
+ output/plaintext/line/line_writer.h debugging/trace.h \
+ debugging/measure.h
 
 py.h:
 
@@ -780,6 +781,8 @@ optimisations/count_nr_opponent_moves/move_generator.h:
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+output/plaintext/line/line_writer.h:
 
 debugging/trace.h:
 

@@ -181,6 +181,7 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "output/plaintext/line/line_writer.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #ifdef _SE_
@@ -2180,6 +2181,7 @@ static void reflectboard(void)
  */
 static void solveHalfADuplex(slice_index si)
 {
+  output_plaintext_line_save_position();
   inithash(si);
   attack(si,length_unspecified);
   closehash();
@@ -2377,7 +2379,6 @@ static void intelligent_init_duplex(slice_index si,
   stip_impose_starter_nested(si,advers(slices[si].starter),st);
   swapcolors();
   reflectboard();
-  StorePosition();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2568,15 +2569,12 @@ static void solve_twin(slice_index si,
     }
   }
 
-  /* allow line-oriented output to restore the initial position */
-  StorePosition();
-
   if (!OptFlag[halfduplex])
     solveHalfADuplex(si);
 
   if (OptFlag[halfduplex] || OptFlag[duplex])
   {
-    /* Set next1 side to calculate for duplex "twin" */
+    /* Set next side to calculate for duplex "twin" */
     stip_impose_starter(si,advers(slices[si].starter));
     temporary_hacks_swap_colors();
     TraceStipulation(si);

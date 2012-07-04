@@ -5,12 +5,13 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  utilities/enumeration.h stipulation/goals/goals.h utilities/boolean.h \
  py.h utilities/boolean.h position/position.h pylang.h \
  solving/battle_play/attack_play.h stipulation/slice.h \
- stipulation/slice_type.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- pydata.h pyproc.h stipulation/help_play/branch.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h output/mode.h stipulation/fork.h pyproof.h \
- stipulation/slice.h stipulation/pipe.h optimisations/hash.h \
- DHT/dhtbcmem.h optimisations/intelligent/count_nr_of_moves.h \
+ stipulation/slice_type.h py1.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h pydata.h pyproc.h pydata.h \
+ stipulation/help_play/branch.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
+ stipulation/fork.h pyproof.h stipulation/slice.h stipulation/pipe.h \
+ optimisations/hash.h DHT/dhtbcmem.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/stalemate/filter.h \
@@ -54,6 +55,8 @@ stipulation/slice.h:
 
 stipulation/slice_type.h:
 
+py1.h:
+
 pyproc.h:
 
 py4.h:
@@ -65,6 +68,8 @@ stipulation/goals/goals.h:
 pydata.h:
 
 pyproc.h:
+
+pydata.h:
 
 stipulation/help_play/branch.h:
 

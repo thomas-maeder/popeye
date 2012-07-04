@@ -11,6 +11,7 @@
 #include "optimisations/intelligent/intelligent.h"
 
 #include "py.h"
+#include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "solving/battle_play/attack_play.h"
@@ -85,6 +86,8 @@ unsigned int PieceId2index[MaxPieceId+1];
 unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
 static stip_length_type nr_of_moves;
+
+static stored_position_type initial_position;
 
 void remember_to_keep_rider_line_open(square from, square to,
                                       int dir, int delta)
@@ -274,7 +277,7 @@ void solve_target_position(void)
   }
 
   /* solve the problem */
-  ResetPosition();
+  ResetPosition(&initial_position);
 
   castling_supported = true;
 
@@ -462,9 +465,10 @@ void IntelligentRegulargoal_types(stip_length_type n)
         }
     }
 
-    StorePosition();
+    StorePosition(&initial_position);
+
     ep[1] = initsquare;
-    ep[1] = initsquare;
+    ep2[1] = initsquare;
 
     /* clear board */
     {
@@ -489,7 +493,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
     /* generate final positions */
     GenerateBlackKing();
 
-    ResetPosition();
+    ResetPosition(&initial_position);
 
     castling_supported = true;
     ep[1] = save_ep_1;

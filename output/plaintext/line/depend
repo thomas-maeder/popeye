@@ -100,8 +100,8 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
  stipulation/move_player.h stipulation/has_solution_type.h \
  stipulation/discriminate_by_right_to_move.h \
- stipulation/help_play/adapter.h solving/fork_on_remaining.h \
- debugging/trace.h pymsg.h output/plaintext/plaintext.h \
+ stipulation/help_play/adapter.h solving/fork_on_remaining.h py1.h \
+ pydata.h debugging/trace.h pymsg.h output/plaintext/plaintext.h \
  output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  pieces/attributes/neutral/initialiser.h platform/beep.h
@@ -171,6 +171,10 @@ stipulation/discriminate_by_right_to_move.h:
 stipulation/help_play/adapter.h:
 
 solving/fork_on_remaining.h:
+
+py1.h:
+
+pydata.h:
 
 debugging/trace.h:
 

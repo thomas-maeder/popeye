@@ -900,46 +900,37 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   return Result;
 } /* nocontact */
 
-/* new versions of StorePosition() and ResetPosition() */
 
-static Flags       sic_spec[nr_squares_on_board];
-static piece       sic_e[nr_squares_on_board];
-static int sic_inum1;
-static imarr       sic_isquare;
-static square      sic_im0, rn_sic, rb_sic;
-static ghosts_type sic_ghosts;
-static ghost_index_type sic_nr_ghosts;
-
-void StorePosition(void)
+void StorePosition(stored_position_type *store)
 {
-  rn_sic = king_square[Black];
-  rb_sic = king_square[White];
+  store->rn_sic = king_square[Black];
+  store->rb_sic = king_square[White];
 
   {
     unsigned int i;
     for (i = 0; i<nr_squares_on_board; i++)
     {
-      sic_e[i] = e[boardnum[i]];
-      sic_spec[i] = spec[boardnum[i]];
+      store->e[i] = e[boardnum[i]];
+      store->spec[i] = spec[boardnum[i]];
     }
   }
 
   /* imitators */
-  sic_inum1= inum[1];
+  store->inum1= inum[1];
 
   {
     unsigned int i;
     for (i = 0; i<maxinum; i++)
-      sic_isquare[i] = isquare[i];
+      store->isquare[i] = isquare[i];
   }
 
-  sic_im0 = im0;
+  store->im0 = im0;
 
-  sic_nr_ghosts = nr_ghosts;
-  memcpy(sic_ghosts, ghosts, nr_ghosts * sizeof ghosts[0]);
+  store->nr_ghosts = nr_ghosts;
+  memcpy(store->ghosts, ghosts, nr_ghosts * sizeof ghosts[0]);
 }
 
-void ResetPosition(void)
+void ResetPosition(stored_position_type const *store)
 {
   {
     piece p;
@@ -947,15 +938,15 @@ void ResetPosition(void)
       nbpiece[p]= 0;
   }
 
-  king_square[Black] = rn_sic;
-  king_square[White] = rb_sic;
+  king_square[Black] = store->rn_sic;
+  king_square[White] = store->rb_sic;
 
   {
     unsigned int i;
     for (i = 0; i<nr_squares_on_board; i++)
     {
-      nbpiece[e[boardnum[i]]= sic_e[i]]++;
-      spec[boardnum[i]]= sic_spec[i];
+      nbpiece[e[boardnum[i]]= store->e[i]]++;
+      spec[boardnum[i]]= store->spec[i];
     }
   }
 
@@ -964,21 +955,21 @@ void ResetPosition(void)
   {
     ply p;
     for (p = 1; p<=maxply; p++)
-      inum[p] = sic_inum1;
+      inum[p] = store->inum1;
   }
 
   {
     unsigned int i;
     for (i = 0; i<maxinum; i++)
-      isquare[i]= sic_isquare[i];
+      isquare[i]= store->isquare[i];
   }
 
-  im0 = sic_im0;
+  im0 = store->im0;
 
   neutral_side= White;
 
-  nr_ghosts = sic_nr_ghosts;
-  memcpy(ghosts, sic_ghosts, nr_ghosts * sizeof ghosts[0]);
+  nr_ghosts = store->nr_ghosts;
+  memcpy(ghosts, store->ghosts, nr_ghosts * sizeof ghosts[0]);
 }
 
 boolean ooorphancheck(square sq_king,

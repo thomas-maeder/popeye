@@ -9,6 +9,7 @@
 #include "stipulation/discriminate_by_right_to_move.h"
 #include "stipulation/help_play/adapter.h"
 #include "solving/fork_on_remaining.h"
+#include "py1.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 #include "pymsg.h"
@@ -125,14 +126,24 @@ static void write_ply_history(slice_index si)
  */
 slice_index output_plaintext_slice_determining_starter = no_slice;
 
+static stored_position_type initial_position;
+
+void output_plaintext_line_save_position(void)
+{
+  StorePosition(&initial_position);
+}
+
 static void write_line(slice_index si, Side starting_side)
 {
+  stored_position_type end_position;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,starting_side,"");
   TraceFunctionParamListEnd();
 
-  ResetPosition();
+  StorePosition(&end_position);
+  ResetPosition(&initial_position);
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_start_pos();
@@ -144,6 +155,8 @@ static void write_line(slice_index si, Side starting_side)
   init_ply_history();
   write_ply_history(si);
   attack(slices[si].next2,length_unspecified);
+
+  ResetPosition(&end_position);
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_end_pos();

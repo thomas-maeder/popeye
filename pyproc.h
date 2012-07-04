@@ -52,8 +52,6 @@ void    OpenInput(char *s);
 void    CloseInput(void);
 void    MultiCenter(char *s);
 void    WritePosition(void);
-void    ResetPosition(void);
-void    StorePosition(void);
 void    WriteSquare(square a);
 void    WritePiece(piece p);
 boolean WriteSpec(Flags pspec, boolean printcolours);
