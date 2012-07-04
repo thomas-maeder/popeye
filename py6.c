@@ -1843,9 +1843,6 @@ static boolean verify_position(slice_index si)
     PatienceB = false;
   }
 
-  jouetest_ultraschachzwang = CondFlag[blackultraschachzwang]
-      || CondFlag[whiteultraschachzwang];
-
   supergenre = supergenre
       || CondFlag[supercirce]
       || CondFlag[circecage]

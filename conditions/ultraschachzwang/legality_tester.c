@@ -8,8 +8,6 @@
 
 #include <assert.h>
 
-boolean jouetest_ultraschachzwang;
-
 /* Allocate a STUltraschachzwangLegalityTester slice.
  * @return index of allocated slice
  */
@@ -47,13 +45,12 @@ stip_length_type ultraschachzwang_legality_tester_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (jouetest_ultraschachzwang
-      && ((CondFlag[blackultraschachzwang]
-           && trait[nbply]==Black
-           && !echecc(White))
-          || (CondFlag[whiteultraschachzwang]
-              && trait[nbply]==White
-              && !echecc(Black))))
+  if ((CondFlag[blackultraschachzwang]
+       && trait[nbply]==Black
+       && !echecc(White))
+      || (CondFlag[whiteultraschachzwang]
+          && trait[nbply]==White
+          && !echecc(Black)))
     result = n+2;
   else
     result = attack(next,n);
@@ -86,13 +83,12 @@ stip_length_type ultraschachzwang_legality_tester_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (jouetest_ultraschachzwang
-      && ((CondFlag[blackultraschachzwang]
-           && trait[nbply]==Black
-           && !echecc(White))
-          || (CondFlag[whiteultraschachzwang]
-              && trait[nbply]==White
-              && !echecc(Black))))
+  if ((CondFlag[blackultraschachzwang]
+       && trait[nbply]==Black
+       && !echecc(White))
+      || (CondFlag[whiteultraschachzwang]
+          && trait[nbply]==White
+          && !echecc(Black)))
     result = slack_length-1;
   else
     result = defend(next,n);

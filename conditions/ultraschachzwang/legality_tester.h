@@ -4,8 +4,6 @@
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
 
-extern boolean jouetest_ultraschachzwang;
-
 /* Allocate a STUltraschachzwangLegalityTester slice.
  * @return index of allocated slice
  */
