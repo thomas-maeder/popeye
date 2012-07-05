@@ -2883,6 +2883,9 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[actrevolving])
         stip_insert_actuated_revolving_board(root_slice);
 
+      if (CondFlag[republican])
+        stip_insert_republican_king_placers(root_slice);
+
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);
 #endif

@@ -242,13 +242,7 @@ void    gubin(square a, square b);
 void    hardinit(void);
 boolean imok(square i, square j);
 
-typedef enum
-{
-  first_play,
-  replay
-} joue_type;
-
-void jouecoup(joue_type jt);
+void jouecoup(void);
 
 void    joueim(int diff);
 boolean legalsquare(square departure, square arrival, square capture);

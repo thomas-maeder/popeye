@@ -33,6 +33,7 @@
 #include "conditions/messigny.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
+#include "conditions/republican.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -362,6 +363,14 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STActuatedRevolvingBoard:
       result = actuated_revolving_board_attack(si,n);
+      break;
+
+    case STRepublicanKingPlacer:
+      result = republican_king_placer_attack(si,n);
+      break;
+
+    case STRepublicanKingPlacerReplay:
+      result = republican_king_placer_replay_attack(si,n);
       break;
 
     case STRefutationsCollector:

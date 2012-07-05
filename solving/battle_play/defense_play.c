@@ -47,6 +47,7 @@
 #include "conditions/messigny.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
+#include "conditions/republican.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -296,6 +297,14 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STActuatedRevolvingBoard:
       result = actuated_revolving_board_defend(si,n);
+      break;
+
+    case STRepublicanKingPlacer:
+      result = republican_king_placer_defend(si,n);
+      break;
+
+    case STRepublicanKingPlacerReplay:
+      result = republican_king_placer_replay_defend(si,n);
       break;
 
     case STBlackChecks:

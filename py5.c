@@ -1982,7 +1982,7 @@ square rencage(ply ply_id,
 
 DEFINE_COUNTER(jouecoup)
 
-void jouecoup(joue_type jt)
+void jouecoup(void)
 {
   numecoup const coup_id = current_move[nbply];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
@@ -3202,9 +3202,6 @@ void jouecoup(joue_type jt)
 
     if (wh_royal_sq != initsquare)
       king_square[White]= wh_royal_sq;
-
-    if (CondFlag[republican])
-      republican_place_king(jt,trait_ply,nbply);
   } /* if (jouegenre) */
 } /* end of jouecoup */
 
@@ -3430,9 +3427,6 @@ void repcoup(void)
     if (nextcage!=superbas)
       next_prom = false;
   }
-
-  if (CondFlag[republican])
-    republican_unplace_king();
 
   /* first delete all changes */
   if (repgenre)

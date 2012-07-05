@@ -296,11 +296,10 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
- conditions/republican.h pyproc.h conditions/sat.h \
- pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/neutral/initialiser.h \
- solving/battle_play/defense_play.h pydata.h debugging/trace.h \
- debugging/measure.h
+ conditions/republican.h solving/battle_play/defense_play.h pydata.h \
+ conditions/sat.h pieces/attributes/paralysing/paralysing.h \
+ pieces/attributes/neutral/initialiser.h debugging/trace.h \
+ debugging/measure.h pyproc.h
 
 py.h:
 
@@ -370,7 +369,9 @@ conditions/madrasi.h:
 
 conditions/republican.h:
 
-pyproc.h:
+solving/battle_play/defense_play.h:
+
+pydata.h:
 
 conditions/sat.h:
 
@@ -378,13 +379,11 @@ pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
 
-solving/battle_play/defense_play.h:
-
-pydata.h:
-
 debugging/trace.h:
 
 debugging/measure.h:
+
+pyproc.h:
 py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/enumeration.h pylang.h stipulation/stipulation.h py.h \
@@ -400,11 +399,11 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/ohneschach/immobility_tester.h conditions/disparate.h \
  conditions/eiffel.h conditions/exclusive.h position/position.h \
  solving/battle_play/defense_play.h pydata.h conditions/extinction.h \
- conditions/madrasi.h conditions/republican.h pyproc.h \
- conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
+ conditions/madrasi.h conditions/republican.h conditions/patience.h \
+ conditions/sat.h conditions/oscillating_kings.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
- DHT/dhtbcmem.h debugging/trace.h debugging/measure.h
+ DHT/dhtbcmem.h debugging/trace.h debugging/measure.h pyproc.h
 
 py.h:
 
@@ -484,8 +483,6 @@ conditions/madrasi.h:
 
 conditions/republican.h:
 
-pyproc.h:
-
 conditions/patience.h:
 
 conditions/sat.h:
@@ -503,6 +500,8 @@ DHT/dhtbcmem.h:
 debugging/trace.h:
 
 debugging/measure.h:
+
+pyproc.h:
 py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/enumeration.h pylang.h py1.h pyproc.h py4.h \
@@ -514,9 +513,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/battle_play/attack_play.h output/output.h output/mode.h \
  conditions/bgl.h conditions/exclusive.h position/position.h \
- conditions/republican.h pyproc.h conditions/blackchecks.h \
- conditions/extinction.h conditions/madrasi.h \
- conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/republican.h conditions/blackchecks.h conditions/extinction.h \
+ conditions/madrasi.h conditions/maff/immobility_tester.h \
+ conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -562,7 +561,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  output/plaintext/line/line_writer.h debugging/trace.h \
- debugging/measure.h
+ debugging/measure.h pyproc.h
 
 py.h:
 
@@ -637,8 +636,6 @@ conditions/exclusive.h:
 position/position.h:
 
 conditions/republican.h:
-
-pyproc.h:
 
 conditions/blackchecks.h:
 
@@ -811,6 +808,8 @@ output/plaintext/line/line_writer.h:
 debugging/trace.h:
 
 debugging/measure.h:
+
+pyproc.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/enumeration.h pylang.h pyproc.h py4.h \
@@ -852,8 +851,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  stipulation/help_play/adapter.h solving/find_shortest.h \
  solving/play_suppressor.h solving/battle_play/continuation.h \
  solving/battle_play/try.h utilities/table.h conditions/republican.h \
- pyproc.h conditions/bgl.h conditions/check_zigzag.h \
- conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
+ conditions/bgl.h conditions/check_zigzag.h conditions/patience.h \
+ conditions/sat.h conditions/oscillating_kings.h \
  options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
  options/maxsolutions/maxsolutions.h \
@@ -1007,8 +1006,6 @@ solving/battle_play/try.h:
 utilities/table.h:
 
 conditions/republican.h:
-
-pyproc.h:
 
 conditions/bgl.h:
 

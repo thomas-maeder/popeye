@@ -83,22 +83,22 @@ solving/legal_move_counter.h:
 
 debugging/trace.h:
 conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republican.h \
- pyproc.h py4.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h \
- utilities/enumeration.h pylang.h stipulation/goals/goals.h \
- utilities/boolean.h py.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h pydata.h \
- pyproc.h pylang.h stipulation/has_solution_type.h \
- solving/battle_play/attack_play.h pymsg.h \
+ solving/battle_play/attack_play.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h solving/battle_play/defense_play.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h pylang.h \
+ stipulation/has_solution_type.h pymsg.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/temporary_hacks.h
+ stipulation/pipe.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h stipulation/temporary_hacks.h \
+ debugging/trace.h
 
 conditions/republican.h:
 
-pyproc.h:
-
-py4.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -116,17 +116,25 @@ utilities/enumeration.h:
 
 pylang.h:
 
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
 stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-py.h:
-
 stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/structure_traversal.h:
 
@@ -136,21 +144,23 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-pydata.h:
-
-pyproc.h:
-
 pylang.h:
 
 stipulation/has_solution_type.h:
-
-solving/battle_play/attack_play.h:
 
 pymsg.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
+stipulation/pipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
 stipulation/temporary_hacks.h:
+
+debugging/trace.h:
 conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h \
  solving/battle_play/attack_play.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
