@@ -93,18 +93,6 @@ static void handle_rebirth(Side trait_ply)
   square const prev_rb = RB_[nbply];
   square const prev_rn = RN_[nbply];
 
-  if (pi_captured!=vide
-      && CondFlag[circecage] && super[nbply]==superbas)
-  {
-    norm_prom[nbply] = vide;
-    cir_prom[nbply] = vide;
-    circecage_find_initial_cage(nbply,
-                                pi_departing,sq_arrival,pi_captured,
-                                &super[nbply],
-                                &cir_prom[nbply],
-                                &norm_prom[nbply]);
-  }
-
   /* circe-rebirth of moving kamikaze-piece */
   if (TSTFLAG(spec_pi_moving, Kamikaze) && (pi_captured != vide))
   {

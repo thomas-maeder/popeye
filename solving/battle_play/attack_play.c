@@ -36,6 +36,7 @@
 #include "conditions/republican.h"
 #include "conditions/royal_square.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/cage.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -381,6 +382,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STCirceRebirthHandler:
       result = circe_rebirth_handler_attack(si,n);
+      break;
+
+    case STCirceCageRebirthHandler:
+      result = circe_cage_rebirth_handler_attack(si,n);
       break;
 
     case STRefutationsCollector:

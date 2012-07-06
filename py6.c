@@ -134,6 +134,7 @@
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/royal_square.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/cage.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2893,6 +2894,9 @@ static Token iterate_twins(Token prev_token)
 
       if (anycirce)
         stip_insert_circe_rebirth_handlers(root_slice);
+
+      if (CondFlag[circecage])
+        stip_insert_circe_cage_rebirth_handlers(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

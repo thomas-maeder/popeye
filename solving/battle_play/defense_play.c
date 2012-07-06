@@ -50,6 +50,7 @@
 #include "conditions/republican.h"
 #include "conditions/royal_square.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/cage.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -315,6 +316,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STCirceRebirthHandler:
       result = circe_rebirth_handler_defend(si,n);
+      break;
+
+    case STCirceCageRebirthHandler:
+      result = circe_cage_rebirth_handler_defend(si,n);
       break;
 
     case STBlackChecks:
