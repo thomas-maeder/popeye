@@ -64,6 +64,7 @@
 #include "solving/battle_play/try.h"
 #include "conditions/bgl.h"
 #include "conditions/sat.h"
+#include "conditions/republican.h"
 #include "conditions/oscillating_kings.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
@@ -172,6 +173,7 @@ static void initply(ply parent, ply child)
   blkobulspec[child] = spec[king_square[Black]];
   whpwr[child] = whpwr[parent];
   blpwr[child] = blpwr[parent];
+  republican_king_placement[nbply] = square_a1;
 }
 
 static ply ply_watermark;

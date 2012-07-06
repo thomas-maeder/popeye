@@ -9,6 +9,8 @@
  */
 extern boolean is_republican_suspended;
 
+extern pilecase republican_king_placement;
+
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem
  * @param si identifies root slice of stipulation
@@ -21,11 +23,6 @@ boolean republican_verifie_position(slice_index si);
  * @param lineLength size of array CondLine
  */
 void republican_write_diagram_caption(char CondLine[], size_t lineLength);
-
-/* Advance the square where to place the opposite king as part of
- * taking back a move
- */
-boolean republican_advance_king_square(void);
 
 /* Save the Republican Chess part of the current move in a play
  * @param ply_id identifies ply of move to be saved

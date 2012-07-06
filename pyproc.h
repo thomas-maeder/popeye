@@ -243,6 +243,9 @@ void    hardinit(void);
 boolean imok(square i, square j);
 
 void jouecoup(void);
+void lock_post_move_iterations(void);
+void unlock_post_move_iterations(void);
+boolean are_post_move_iterations_locked(void);
 
 void    joueim(int diff);
 boolean legalsquare(square departure, square arrival, square capture);

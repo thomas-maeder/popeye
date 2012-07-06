@@ -1980,6 +1980,23 @@ square rencage(ply ply_id,
   return result;
 }
 
+static boolean post_move_iterations_locked[maxply];
+
+void lock_post_move_iterations(void)
+{
+  post_move_iterations_locked[nbply] = true;
+}
+
+void unlock_post_move_iterations(void)
+{
+  post_move_iterations_locked[nbply] = false;
+}
+
+boolean are_post_move_iterations_locked(void)
+{
+  return post_move_iterations_locked[nbply];
+}
+
 DEFINE_COUNTER(jouecoup)
 
 void jouecoup(void)
@@ -3203,6 +3220,8 @@ void jouecoup(void)
     if (wh_royal_sq != initsquare)
       king_square[White]= wh_royal_sq;
   } /* if (jouegenre) */
+
+  unlock_post_move_iterations();;
 } /* end of jouecoup */
 
 void repcoup(void)
@@ -3210,7 +3229,6 @@ void repcoup(void)
   square sq_rebirth;
   piece pi_departing, pi_captured;
   Flags spec_pi_moving;
-  boolean next_prom = true;
   square nextsuper= superbas;
   boolean rochade=false;
   boolean platzwechsel = false;
@@ -3265,7 +3283,8 @@ void repcoup(void)
           }
         }
 
-        next_prom = sb2[nbply].where==initsquare;
+        if (sb2[nbply].where!=initsquare)
+          lock_post_move_iterations();
       }
     }
   } /* jouegenre */
@@ -3425,7 +3444,7 @@ void repcoup(void)
     norm_prom[nbply] = circecage_next_norm_prom;
 
     if (nextcage!=superbas)
-      next_prom = false;
+      lock_post_move_iterations();
   }
 
   /* first delete all changes */
@@ -3569,12 +3588,10 @@ void repcoup(void)
 
   /* at last modify promotion-counters and decrement current_move[nbply] */
   /* ortho- und pwc-Umwandlung getrennt */
-  if (CondFlag[republican])
-    next_prom = !republican_advance_king_square();
 
-  if (next_prom)
+  if (!are_post_move_iterations_locked())
   {
-	piece* prompieceset = prompieces[nbply] ? prompieces[nbply] : getprompiece;
+    piece* prompieceset = prompieces[nbply] ? prompieces[nbply] : getprompiece;
 
     piece prom_kind_moving = norm_prom[nbply];
     if (prom_kind_moving!=vide)
@@ -3679,5 +3696,5 @@ void repcoup(void)
           current_move[nbply]--;
       }
     }
-  } /* next_prom*/
+  } /* post_move_iterations_locked*/
 } /* end of repcoup */
