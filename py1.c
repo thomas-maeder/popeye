@@ -225,7 +225,8 @@ void InitCond(void) {
   marsrenai= rennormal;
   genevarenai= rennormal;
 
-  bl_royal_sq= wh_royal_sq= initsquare;
+  royal_square[White] = initsquare;
+  royal_square[Black] = initsquare;
 
   CondFlag[circeassassin]= false;
   flagmummer[White] = false;

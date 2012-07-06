@@ -3213,12 +3213,6 @@ void jouecoup(void)
         }
       }
     }
-
-    if (bl_royal_sq != initsquare)
-      king_square[Black]= bl_royal_sq;
-
-    if (wh_royal_sq != initsquare)
-      king_square[White]= wh_royal_sq;
   } /* if (jouegenre) */
 
   unlock_post_move_iterations();;

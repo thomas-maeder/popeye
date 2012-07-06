@@ -91,7 +91,7 @@ EXTERN  boolean         flagpassive, flagcapture, flagactive;
 EXTERN boolean flagmummer[nr_sides];
 
 EXTERN square king_square[nr_sides];
-EXTERN square bl_royal_sq, wh_royal_sq;
+EXTERN square royal_square[nr_sides];
 
 EXTERN echiquier e, e_ubi, e_ubi_mad;
 

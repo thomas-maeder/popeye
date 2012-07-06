@@ -630,11 +630,11 @@ static void WriteConditions(int alignment)
     }
 
     if (cond == blroyalsq) {
-      AddSquare(CondLine, bl_royal_sq);
+      AddSquare(CondLine, royal_square[Black]);
     }
 
     if (cond == whroyalsq) {
-      AddSquare(CondLine, wh_royal_sq);
+      AddSquare(CondLine, royal_square[White]);
     }
 
     if ((cond == madras && rex_mad)
@@ -4293,11 +4293,11 @@ static char *ReadSquares(SquareListContext context)
           break;
 
         case ReadBlRoyalSq:
-          bl_royal_sq= sq;
+          royal_square[Black]= sq;
           break;
 
         case ReadWhRoyalSq:
-          wh_royal_sq= sq;
+          royal_square[White]= sq;
           break;
 
         case ReadNoCastlingSquares:

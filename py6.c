@@ -132,6 +132,7 @@
 #include "conditions/messigny.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
+#include "conditions/royal_square.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -478,7 +479,7 @@ static boolean locateRoyal(void)
           SetKing(&king_square[Black],s);
       }
 
-      if (s==wh_royal_sq)
+      if (s==royal_square[White])
       {
         if (!SetKing(&king_square[White],s))
         {
@@ -497,7 +498,7 @@ static boolean locateRoyal(void)
         }
       }
 
-      if (s==bl_royal_sq)
+      if (s==royal_square[Black])
       {
         if (!SetKing(&king_square[Black],s))
         {
@@ -796,7 +797,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[republican] && !republican_verifie_position(si))
     return false;
 
-  if ((bl_royal_sq!=initsquare || wh_royal_sq!=initsquare
+  if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
        || rex_circe
        || rex_immun)
@@ -2885,6 +2886,9 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[republican])
         stip_insert_republican_king_placers(root_slice);
+
+      if (royal_square[Black]!=initsquare || royal_square[White]!=initsquare)
+        stip_insert_royal_square_handlers(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);
