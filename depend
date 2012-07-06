@@ -402,7 +402,7 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/eiffel.h conditions/exclusive.h position/position.h \
  solving/battle_play/defense_play.h pydata.h conditions/extinction.h \
  conditions/madrasi.h conditions/republican.h conditions/patience.h \
- conditions/sat.h conditions/oscillating_kings.h \
+ conditions/sat.h conditions/oscillating_kings.h conditions/circe/cage.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h debugging/measure.h pyproc.h
@@ -491,6 +491,8 @@ conditions/sat.h:
 
 conditions/oscillating_kings.h:
 
+conditions/circe/cage.h:
+
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
@@ -527,16 +529,16 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
- conditions/actuated_revolving_board.h platform/maxmem.h \
- platform/maxtime.h platform/pytime.h platform/priority.h \
- stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
- stipulation/dead_end.h stipulation/move_inverter.h \
- stipulation/boolean/or.h stipulation/battle_play/branch.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/constraint.h stipulation/moves_traversal.h \
- stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
- stipulation/temporary_hacks.h \
+ conditions/actuated_revolving_board.h conditions/royal_square.h \
+ conditions/circe/rebirth_handler.h platform/maxmem.h platform/maxtime.h \
+ platform/pytime.h platform/priority.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_tester.h stipulation/dead_end.h \
+ stipulation/move_inverter.h stipulation/boolean/or.h \
+ stipulation/battle_play/branch.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/constraint.h \
+ stipulation/moves_traversal.h stipulation/help_play/branch.h \
+ stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/doublemate/king_capture_avoider.h solving/solving.h \
  solving/for_each_move.h solving/battle_play/check_detector.h \
@@ -684,6 +686,10 @@ conditions/messigny.h:
 conditions/actuated_revolving_centre.h:
 
 conditions/actuated_revolving_board.h:
+
+conditions/royal_square.h:
+
+conditions/circe/rebirth_handler.h:
 
 platform/maxmem.h:
 

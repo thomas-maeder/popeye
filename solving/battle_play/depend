@@ -557,8 +557,8 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
- conditions/royal_square.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/royal_square.h conditions/circe/rebirth_handler.h \
+ optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -759,6 +759,8 @@ conditions/actuated_revolving_board.h:
 conditions/republican.h:
 
 conditions/royal_square.h:
+
+conditions/circe/rebirth_handler.h:
 
 optimisations/hash.h:
 
@@ -1023,7 +1025,8 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
- conditions/royal_square.h optimisations/keepmating.h \
+ conditions/royal_square.h conditions/circe/rebirth_handler.h \
+ optimisations/keepmating.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/goals/enpassant/filter.h \
@@ -1186,6 +1189,8 @@ conditions/actuated_revolving_board.h:
 conditions/republican.h:
 
 conditions/royal_square.h:
+
+conditions/circe/rebirth_handler.h:
 
 optimisations/keepmating.h:
 

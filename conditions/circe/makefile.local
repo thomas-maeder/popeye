@@ -2,9 +2,11 @@
 #
 SRC_CFILES =   circe.c assassin.c \
            steingewinn_filter.c \
-           circuit_by_rebirth_special.c exchange_by_rebirth_special.c
+           circuit_by_rebirth_special.c exchange_by_rebirth_special.c \
+           rebirth_handler.c cage.c
 INCLUDES = circe.h assassin.h \
            steingewinn_filter.h \
-           circuit_by_rebirth_special.h exchange_by_rebirth_special.h
+           circuit_by_rebirth_special.h exchange_by_rebirth_special.h \
+           rebirth_handler.h cage.h
 
 include makefile.rules $(CURRPWD)depend

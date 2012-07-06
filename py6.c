@@ -133,6 +133,7 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/royal_square.h"
+#include "conditions/circe/rebirth_handler.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2889,6 +2890,9 @@ static Token iterate_twins(Token prev_token)
 
       if (royal_square[Black]!=initsquare || royal_square[White]!=initsquare)
         stip_insert_royal_square_handlers(root_slice);
+
+      if (anycirce)
+        stip_insert_circe_rebirth_handlers(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);
