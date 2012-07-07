@@ -2052,12 +2052,12 @@ void current(ply ply_id, coup *mov)
   mov->cazz =            sq_arrival;
   mov->cpzz =            move_generation_stack[coup_id].capture;
   mov->pjzz =            pjoue[ply_id];
-  mov->norm_prom =       norm_prom[ply_id];
+  mov->norm_prom =       current_promotion_of_moving[ply_id];
   mov->ppri =            pprise[ply_id];
-  mov->sqren =           sqrenais[ply_id];
-  mov->cir_prom =        cir_prom[ply_id];
+  mov->sqren =           current_circe_rebirth_square[ply_id];
+  mov->cir_prom =        current_promotion_of_reborn[ply_id];
 
-  mov->renkam = sq_rebirth_capturing[ply_id];
+  mov->renkam = current_anticirce_rebirth_square[ply_id];
   mov->promi =  Iprom[ply_id];
   mov->numi =     inum[ply_id] - (mov->promi ? 1 : 0);
   /* Promoted imitator will be output 'normally'
@@ -2066,11 +2066,11 @@ void current(ply ply_id, coup *mov)
   mov->speci = jouespec[ply_id];
 
   /* hope the following works with parrain too */
-  mov->ren_spec =  spec[sqrenais[ply_id]];
+  mov->ren_spec =  spec[current_circe_rebirth_square[ply_id]];
   mov->bool_senti = senti[ply_id];
   mov->ren_parrain = ren_parrain[ply_id];
-  mov->bool_norm_cham_prom = norm_cham_prom[ply_id];
-  mov->bool_cir_cham_prom = cir_cham_prom[ply_id];
+  mov->bool_norm_cham_prom = is_moving_chameleon_promoted[ply_id];
+  mov->bool_cir_cham_prom = is_reborn_chameleon_promoted[ply_id];
   mov->pjazz =     jouearr[ply_id];
   if (CondFlag[republican])
     republican_current(ply_id,mov);

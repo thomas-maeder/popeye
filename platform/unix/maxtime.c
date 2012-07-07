@@ -82,9 +82,9 @@ static void ReDrawBoard(int sig)
     WriteSquare(move_generation_stack[current_move[pl]].departure);
     StdChar('-');
     WriteSquare(move_generation_stack[current_move[pl]].arrival);
-    if (norm_prom[pl-1]) {
+    if (current_promotion_of_moving[pl-1]) {
       StdChar('=');
-      WritePiece(norm_prom[pl-1]);
+      WritePiece(current_promotion_of_moving[pl-1]);
     }
     StdString("   ");
   }

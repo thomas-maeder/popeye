@@ -80,7 +80,7 @@ stip_length_type king_assassination_avoider_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sqrenais[nbply]==king_square[White] || sqrenais[nbply]==king_square[Black])
+  if (current_circe_rebirth_square[nbply]==king_square[White] || current_circe_rebirth_square[nbply]==king_square[Black])
     result = n+2;
   else
     result = attack(slices[si].next1,n);
@@ -112,7 +112,7 @@ stip_length_type king_assassination_avoider_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sqrenais[nbply]==king_square[White] || sqrenais[nbply]==king_square[Black])
+  if (current_circe_rebirth_square[nbply]==king_square[White] || current_circe_rebirth_square[nbply]==king_square[Black])
     result = slack_length-1;
   else
     result = defend(slices[si].next1,n);

@@ -96,8 +96,8 @@ EXTERN square royal_square[nr_sides];
 EXTERN echiquier e, e_ubi, e_ubi_mad;
 
 EXTERN boolean senti[maxply+1];
-EXTERN boolean norm_cham_prom[maxply+1];
-EXTERN boolean cir_cham_prom[maxply+1];
+EXTERN boolean is_moving_chameleon_promoted[maxply+1];
+EXTERN boolean is_reborn_chameleon_promoted[maxply+1];
 
 EXTERN struct
 {
@@ -226,8 +226,8 @@ EXTERN  unsigned int    zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
 EXTERN piece pjoue[maxply+1];
 EXTERN piece pprise[maxply+1];
-EXTERN piece norm_prom[maxply+1];
-EXTERN piece cir_prom[maxply+1];
+EXTERN piece current_promotion_of_moving[maxply+1];
+EXTERN piece current_promotion_of_reborn[maxply+1];
 EXTERN piece ren_parrain[maxply+1];
 EXTERN piece jouearr[maxply+1];
 
@@ -235,9 +235,9 @@ EXTERN  boolean			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];
 
-EXTERN  pilecase sqrenais;
-EXTERN  pilecase sq_rebirth_capturing; /* rebirth square for moving piece (Anticirce, Kamikaze+Circe) */
-EXTERN  pilecase super;   /* rebirth square for supercirce */
+EXTERN  pilecase current_circe_rebirth_square;
+EXTERN  pilecase current_anticirce_rebirth_square;
+EXTERN  pilecase current_super_circe_rebirth_square;
 EXTERN  Flags    jouespec[maxply + 1];
 EXTERN  numecoup current_move[maxply + 1];
 EXTERN  ply      parent_ply[maxply + 1];

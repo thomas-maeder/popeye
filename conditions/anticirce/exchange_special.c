@@ -38,7 +38,7 @@ slice_index alloc_anticirce_exchange_special_slice(void)
 stip_length_type anticirce_exchange_special_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_rebirth = sq_rebirth_capturing[nbply];
+  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -38,7 +38,7 @@ slice_index alloc_circe_circuit_special_slice(void)
 stip_length_type circe_circuit_special_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_rebirth = sqrenais[nbply];
+  square const sq_rebirth = current_circe_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

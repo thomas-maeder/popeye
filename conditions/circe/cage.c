@@ -373,15 +373,15 @@ static void handle_rebirth(Side trait_ply)
   square const pi_departing = pjoue[nbply];
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
-  if (pi_captured!=vide && super[nbply]==superbas)
+  if (pi_captured!=vide && current_super_circe_rebirth_square[nbply]==superbas)
   {
-    norm_prom[nbply] = vide;
-    cir_prom[nbply] = vide;
+    current_promotion_of_moving[nbply] = vide;
+    current_promotion_of_reborn[nbply] = vide;
     circecage_find_initial_cage(nbply,
                                 pi_departing,sq_arrival,pi_captured,
-                                &super[nbply],
-                                &cir_prom[nbply],
-                                &norm_prom[nbply]);
+                                &current_super_circe_rebirth_square[nbply],
+                                &current_promotion_of_reborn[nbply],
+                                &current_promotion_of_moving[nbply]);
   }
 }
 

@@ -44,7 +44,7 @@ static boolean is_mover_removed_from_target(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = pprise[nbply]!=vide && sq_rebirth_capturing[nbply]!=target;
+  result = pprise[nbply]!=vide && current_anticirce_rebirth_square[nbply]!=target;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

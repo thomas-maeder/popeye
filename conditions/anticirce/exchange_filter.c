@@ -39,7 +39,7 @@ stip_length_type anticirce_exchange_filter_attack(slice_index si, stip_length_ty
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
-  square const sq_rebirth = sq_rebirth_capturing[nbply];
+  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

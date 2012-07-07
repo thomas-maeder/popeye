@@ -45,7 +45,7 @@ stip_length_type circe_steingewinn_filter_attack(slice_index si, stip_length_typ
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sqrenais[nbply]==initsquare)
+  if (current_circe_rebirth_square[nbply]==initsquare)
     result = attack(next,n);
   else
     result = n+2;

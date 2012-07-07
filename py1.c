@@ -140,17 +140,17 @@ static void initply(ply parent, ply child)
     - as a consequence, we have to clear the position nbply in the
     abovementioned arrays, either in finply() or here
   */
-  norm_prom[child] = vide;
-  cir_prom[child] = vide;
-  norm_cham_prom[child] = false;
-  cir_cham_prom[child] = false;
+  current_promotion_of_moving[child] = vide;
+  current_promotion_of_reborn[child] = vide;
+  is_moving_chameleon_promoted[child] = false;
+  is_reborn_chameleon_promoted[child] = false;
   Iprom[child] = false;
   pprise[child] = vide;
 
   /*
     Supercirce rebirths are implemented similarly to promotions ...
   */
-  super[child] = superbas;
+  current_super_circe_rebirth_square[child] = superbas;
 
   /*
     start with the castling rights of the parent level
@@ -425,9 +425,9 @@ void InitAlways(void) {
     blduell[i] = initsquare;
     kpilcd[i] = initsquare;
     kpilca[i] = initsquare;
-    sqrenais[i] = initsquare;
+    current_circe_rebirth_square[i] = initsquare;
     trait[i] = White;
-    sq_rebirth_capturing[i] = initsquare;
+    current_anticirce_rebirth_square[i] = initsquare;
     pwcprom[i] = false;
     senti[i] = false;
     Iprom[i] = false;

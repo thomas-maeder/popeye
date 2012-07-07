@@ -652,7 +652,7 @@ square rensuper(ply ply_id,
                 square sq_departure, square sq_arrival,
                 Side capturer)
 {
-  return super[ply_id];
+  return current_super_circe_rebirth_square[ply_id];
 }
 
 #if defined(DOS)
@@ -1992,7 +1992,7 @@ void jouecoup(void)
 
   if (prompieces[nbply] != NULL)
     {
-      pi_arriving = norm_prom[nbply];
+      pi_arriving = current_promotion_of_moving[nbply];
       if (pi_arriving==vide)
       {
         if (!CondFlag[noiprom] && Iprom[nbply])
@@ -2043,13 +2043,13 @@ void jouecoup(void)
               pi_arriving= (prompieces[nbply])[pi_arriving];
               if (!pi_arriving && CondFlag[antisuper])
               {
-                super[nbply]++;
+                current_super_circe_rebirth_square[nbply]++;
                 pi_arriving= (prompieces[nbply])[vide];
               }
             }
           }
 
-          norm_prom[nbply]= pi_arriving;
+          current_promotion_of_moving[nbply]= pi_arriving;
         }
       }
       else
@@ -2061,7 +2061,7 @@ void jouecoup(void)
       if (!(!CondFlag[noiprom] && Iprom[nbply])) {
         if (TSTFLAG(spec_pi_moving, Chameleon)
             && is_pawn(pi_departing))
-          norm_cham_prom[nbply]= true;
+          is_moving_chameleon_promoted[nbply]= true;
 
         if (pi_departing<vide)
           pi_arriving = -pi_arriving;
@@ -2069,7 +2069,7 @@ void jouecoup(void)
         /* so also promoted neutral pawns have the correct color and
          * an additional call to setneutre is not required.
          */
-        if (norm_cham_prom[nbply])
+        if (is_moving_chameleon_promoted[nbply])
           SETFLAG(spec_pi_moving, Chameleon);
       }
       else
@@ -2422,11 +2422,11 @@ void jouecoup(void)
       {
         while (!LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
           sq_rebirth++;
-        super[nbply]= sq_rebirth;
+        current_super_circe_rebirth_square[nbply]= sq_rebirth;
       }
       e[sq_arrival]= vide;
       spec[sq_arrival]= 0;
-      sq_rebirth_capturing[nbply]= sq_rebirth;
+      current_anticirce_rebirth_square[nbply]= sq_rebirth;
       prompieces[nbply]= GetPromotingPieces(sq_departure,
                                    pi_departing,
                                    trait_ply,
@@ -2439,9 +2439,9 @@ void jouecoup(void)
         /* white pawn on eighth rank or
            black pawn on first rank - promotion ! */
         nbpiece[pi_arriving]--;
-        pi_arriving= norm_prom[nbply];
+        pi_arriving= current_promotion_of_moving[nbply];
         if (pi_arriving == vide)
-          norm_prom[nbply]= pi_arriving= prompieces[nbply][vide];
+          current_promotion_of_moving[nbply]= pi_arriving= prompieces[nbply][vide];
         if (pi_departing < vide)
           pi_arriving= -pi_arriving;
         nbpiece[pi_arriving]++;
@@ -2726,7 +2726,7 @@ void repcoup(void)
       || isapril[abs(pi_captured)]
       || (CondFlag[antisuper] && pi_captured!=vide))
   {
-    nextsuper = super[nbply]+1;
+    nextsuper = current_super_circe_rebirth_square[nbply]+1;
 
     while (e[nextsuper]!=vide && nextsuper<square_h8)
       ++nextsuper;
@@ -2743,9 +2743,9 @@ void repcoup(void)
 
   if (CondFlag[circecage] && pi_captured!=vide)
   {
-    piece circecage_next_norm_prom = norm_prom[nbply];
-    piece circecage_next_cage_prom = cir_prom[nbply];
-    square const currcage = super[nbply];
+    piece circecage_next_norm_prom = current_promotion_of_moving[nbply];
+    piece circecage_next_cage_prom = current_promotion_of_reborn[nbply];
+    square const currcage = current_super_circe_rebirth_square[nbply];
     square nextcage = currcage;
 
     if (circecage_next_cage_prom!=vide)
@@ -2778,9 +2778,9 @@ void repcoup(void)
       e[currcage] = currprisoner;
     }
 
-    super[nbply] = nextcage;
-    cir_prom[nbply] = circecage_next_cage_prom;
-    norm_prom[nbply] = circecage_next_norm_prom;
+    current_super_circe_rebirth_square[nbply] = nextcage;
+    current_promotion_of_reborn[nbply] = circecage_next_cage_prom;
+    current_promotion_of_moving[nbply] = circecage_next_norm_prom;
 
     if (nextcage!=superbas)
       lock_post_move_iterations();
@@ -2834,10 +2834,10 @@ void repcoup(void)
           (pi_captured < vide ? Black : White) != neutral_side)
         pi_captured= -pi_captured;
     }
-    sq_rebirth = sqrenais[nbply];
+    sq_rebirth = current_circe_rebirth_square[nbply];
     if (sq_rebirth!=initsquare)
     {
-      sqrenais[nbply] = initsquare;
+      current_circe_rebirth_square[nbply] = initsquare;
       if (sq_rebirth != sq_arrival)
       {
         nbpiece[e[sq_rebirth]]--;
@@ -2854,9 +2854,9 @@ void repcoup(void)
         spec[sq_rebirth]= pdispspec[nbply];
     }
 
-    if ((sq_rebirth= sq_rebirth_capturing[nbply]) != initsquare) {
+    if ((sq_rebirth= current_anticirce_rebirth_square[nbply]) != initsquare) {
       /* Kamikaze and AntiCirce */
-      sq_rebirth_capturing[nbply]= initsquare;
+      current_anticirce_rebirth_square[nbply]= initsquare;
       if (sq_rebirth != sq_arrival) {
         nbpiece[e[sq_rebirth]]--;
         e[sq_rebirth]= vide;
@@ -2932,7 +2932,7 @@ void repcoup(void)
   {
     piece* prompieceset = prompieces[nbply] ? prompieces[nbply] : getprompiece;
 
-    piece prom_kind_moving = norm_prom[nbply];
+    piece prom_kind_moving = current_promotion_of_moving[nbply];
     if (prom_kind_moving!=vide)
     {
       prom_kind_moving = prompieceset[prom_kind_moving];
@@ -2959,11 +2959,11 @@ void repcoup(void)
         }
       }
 
-      norm_prom[nbply] = prom_kind_moving;
+      current_promotion_of_moving[nbply] = prom_kind_moving;
 
       if (prom_kind_moving==vide
           && TSTFLAG(PieSpExFlags,Chameleon)
-          && !norm_cham_prom[nbply])
+          && !is_moving_chameleon_promoted[nbply])
       {
         prom_kind_moving= prompieceset[vide];
         if (pi_captured != vide && anyanticirce)
@@ -2979,8 +2979,8 @@ void repcoup(void)
                  && e[sq_rebirth] != vide)
             prom_kind_moving= prompieceset[prom_kind_moving];
 
-        norm_prom[nbply]= prom_kind_moving;
-        norm_cham_prom[nbply]= true;
+        current_promotion_of_moving[nbply]= prom_kind_moving;
+        is_moving_chameleon_promoted[nbply]= true;
       }
       if (prom_kind_moving==vide && !CondFlag[noiprom])
         Iprom[nbply]= true;
@@ -2996,38 +2996,38 @@ void repcoup(void)
     if (prom_kind_moving == vide)
     {
       piece prom_kind_reborn = vide;
-      norm_cham_prom[nbply]= false;
+      is_moving_chameleon_promoted[nbply]= false;
       if (anycirprom)
       {
-        prom_kind_reborn = cir_prom[nbply];
+        prom_kind_reborn = current_promotion_of_reborn[nbply];
         if (prom_kind_reborn!=vide)
         {
           prom_kind_reborn = getprompiece[prom_kind_reborn];
           if (prom_kind_reborn==vide
               && TSTFLAG(PieSpExFlags, Chameleon)
-              && !cir_cham_prom[nbply])
+              && !is_reborn_chameleon_promoted[nbply])
           {
             prom_kind_reborn = getprompiece[vide];
-            cir_cham_prom[nbply]= true;
+            is_reborn_chameleon_promoted[nbply]= true;
           }
         }
       }
 
-      cir_prom[nbply] = prom_kind_reborn;
+      current_promotion_of_reborn[nbply] = prom_kind_reborn;
 
       if (prom_kind_reborn==vide
           && !(!CondFlag[noiprom] && Iprom[nbply]))
       {
         if ((CondFlag[supercirce] && pi_captured != vide)
-                 || isapril[abs(pi_captured)]
-                 || (CondFlag[antisuper] && pi_captured != vide))
+            || isapril[abs(pi_captured)]
+            || (CondFlag[antisuper] && pi_captured != vide))
         {
-          super[nbply] = nextsuper;
-          if (super[nbply]>square_h8
+          current_super_circe_rebirth_square[nbply] = nextsuper;
+          if (current_super_circe_rebirth_square[nbply]>square_h8
               || (CondFlag[antisuper]
                   && !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure)))
           {
-            super[nbply]= superbas;
+            current_super_circe_rebirth_square[nbply]= superbas;
             current_move[nbply]--;
           }
         }

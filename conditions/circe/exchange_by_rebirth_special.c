@@ -38,7 +38,7 @@ slice_index alloc_circe_exchange_special_slice(void)
 stip_length_type circe_exchange_special_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_rebirth = sqrenais[nbply];
+  square const sq_rebirth = current_circe_rebirth_square[nbply];
   square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
   Side const just_moved = advers(slices[si].starter);
 

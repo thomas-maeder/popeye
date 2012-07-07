@@ -39,7 +39,7 @@ static void joueparrain(ply ply_id)
 
   if (e[sq_rebirth]==vide)
   {
-    sqrenais[ply_id] = sq_rebirth;
+    current_circe_rebirth_square[ply_id] = sq_rebirth;
     ren_parrain[ply_id] = pi_captured;
     e[sq_rebirth] = pi_captured;
     spec[sq_rebirth] = spec_captured;
@@ -51,14 +51,14 @@ static void joueparrain(ply ply_id)
     {
       /* captured white pawn on eighth rank: promotion ! */
       /* captured black pawn on first rank: promotion ! */
-      piece pprom = cir_prom[ply_id];
+      piece pprom = current_promotion_of_reborn[ply_id];
 
       if (TSTFLAG(spec_captured,Chameleon))
-        cir_cham_prom[ply_id] = true;
+        is_reborn_chameleon_promoted[ply_id] = true;
 
       if (pprom==vide)
       {
-        cir_prom[ply_id] = getprompiece[vide];
+        current_promotion_of_reborn[ply_id] = getprompiece[vide];
         pprom = getprompiece[vide];
       }
       if (pi_captured<vide)
@@ -66,7 +66,7 @@ static void joueparrain(ply ply_id)
 
       e[sq_rebirth]= pprom;
       nbpiece[pprom]++;
-      if (cir_cham_prom[ply_id])
+      if (is_reborn_chameleon_promoted[ply_id])
         SETFLAG(spec_captured,Chameleon);
       spec[sq_rebirth]= spec_captured;
     }
@@ -122,7 +122,7 @@ static void handle_rebirth(Side trait_ply)
         && !(CondFlag[contactgrid]
              && nogridcontact(sq_rebirth)))
     {
-      sq_rebirth_capturing[nbply]= sq_rebirth;
+      current_anticirce_rebirth_square[nbply]= sq_rebirth;
       e[sq_rebirth]= pi_arriving;
       spec[sq_rebirth]= spec_pi_moving;
       if (rex_circe) {
@@ -246,7 +246,7 @@ static void handle_rebirth(Side trait_ply)
            && !( CondFlag[contactgrid]
                  && nogridcontact(sq_rebirth)))
       {
-        sqrenais[nbply]= sq_rebirth;
+        current_circe_rebirth_square[nbply]= sq_rebirth;
         if (rex_circe) {
           /* neutral K */
           if (prev_rb == sq_capture) {
@@ -296,14 +296,14 @@ static void handle_rebirth(Side trait_ply)
         {
           /* captured white pawn on eighth rank: promotion ! */
           /* captured black pawn on first rank: promotion ! */
-          piece pprom = cir_prom[nbply];
+          piece pprom = current_promotion_of_reborn[nbply];
           if (pprom==vide)
           {
             pprom = getprompiece[vide];
-            cir_prom[nbply] = pprom;
+            current_promotion_of_reborn[nbply] = pprom;
           }
           pi_reborn = pi_reborn<vide ? -pprom : pprom;
-          if (cir_cham_prom[nbply])
+          if (is_reborn_chameleon_promoted[nbply])
             SETFLAG(spec_pi_captured, Chameleon);
         }
         if (TSTFLAG(spec_pi_captured, Volage)
