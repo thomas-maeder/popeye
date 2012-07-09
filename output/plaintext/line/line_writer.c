@@ -168,8 +168,6 @@ static void write_line(slice_index si, Side starting_side)
 
   ResetPosition(&end_position);
 
-  ResetPosition(&end_position);
-
 #ifdef _SE_DECORATE_SOLUTION_
   se_end_pos();
 #endif
