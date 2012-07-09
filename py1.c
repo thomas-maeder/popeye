@@ -64,7 +64,6 @@
 #include "solving/battle_play/try.h"
 #include "conditions/bgl.h"
 #include "conditions/sat.h"
-#include "conditions/republican.h"
 #include "conditions/oscillating_kings.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
@@ -117,8 +116,13 @@ void InitCheckDir(void)
     }
 }
 
+static ply_identity_type next_ply_identity = 0;
+
 static void initply(ply parent, ply child)
 {
+  ++next_ply_identity;
+  ply_identity[child] = next_ply_identity;
+
   parent_ply[child] = parent;
 
   ep2[child] = initsquare;
@@ -142,7 +146,7 @@ static void initply(ply parent, ply child)
   */
   current_promotion_of_moving[child] = vide;
   current_promotion_of_reborn[child] = vide;
-  is_moving_chameleon_promoted[child] = false;
+  promotion_of_moving_into_chameleon[child] = false;
   is_reborn_chameleon_promoted[child] = false;
   Iprom[child] = false;
   pprise[child] = vide;
@@ -173,7 +177,6 @@ static void initply(ply parent, ply child)
   blkobulspec[child] = spec[king_square[Black]];
   whpwr[child] = whpwr[parent];
   blpwr[child] = blpwr[parent];
-  republican_king_placement[nbply] = square_a1;
 }
 
 static ply ply_watermark;

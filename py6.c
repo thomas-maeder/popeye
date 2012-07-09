@@ -2069,7 +2069,7 @@ void current(ply ply_id, coup *mov)
   mov->ren_spec =  spec[current_circe_rebirth_square[ply_id]];
   mov->bool_senti = senti[ply_id];
   mov->ren_parrain = ren_parrain[ply_id];
-  mov->bool_norm_cham_prom = is_moving_chameleon_promoted[ply_id];
+  mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[ply_id];
   mov->bool_cir_cham_prom = is_reborn_chameleon_promoted[ply_id];
   mov->pjazz =     jouearr[ply_id];
   if (CondFlag[republican])

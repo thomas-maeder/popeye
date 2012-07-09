@@ -9,8 +9,6 @@
  */
 extern boolean is_republican_suspended;
 
-extern pilecase republican_king_placement;
-
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem
  * @param si identifies root slice of stipulation

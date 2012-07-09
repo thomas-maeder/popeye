@@ -96,7 +96,7 @@ EXTERN square royal_square[nr_sides];
 EXTERN echiquier e, e_ubi, e_ubi_mad;
 
 EXTERN boolean senti[maxply+1];
-EXTERN boolean is_moving_chameleon_promoted[maxply+1];
+EXTERN boolean promotion_of_moving_into_chameleon[maxply+1];
 EXTERN boolean is_reborn_chameleon_promoted[maxply+1];
 
 EXTERN struct
@@ -240,12 +240,16 @@ EXTERN  pilecase current_anticirce_rebirth_square;
 EXTERN  pilecase current_super_circe_rebirth_square;
 EXTERN  Flags    jouespec[maxply + 1];
 EXTERN  numecoup current_move[maxply + 1];
+
+typedef unsigned int ply_identity_type;
+EXTERN  ply_identity_type ply_identity[maxply + 1];
 EXTERN  ply      parent_ply[maxply + 1];
 EXTERN  piece whkobul[maxply+1], blkobul[maxply+1];
 EXTERN  Flags whkobulspec[maxply+1], blkobulspec[maxply+1];
 EXTERN  boolean whpwr[maxply+1], blpwr[maxply+1];
 
-
+typedef unsigned int post_move_iteration_lock_code_type;
+post_move_iteration_lock_code_type post_move_iteration_lock_code[maxply+1];
 
 EXTERN  boolean  exist[derbla + 1];
 EXTERN  boolean  promonly[derbla + 1];

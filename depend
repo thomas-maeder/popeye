@@ -45,8 +45,8 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h output/mode.h \
  pieces/attributes/neutral/initialiser.h platform/maxtime.h \
  solving/battle_play/try.h utilities/table.h conditions/bgl.h \
- conditions/sat.h conditions/republican.h conditions/oscillating_kings.h \
- utilities/table.h debugging/trace.h
+ conditions/sat.h conditions/oscillating_kings.h utilities/table.h \
+ debugging/trace.h
 
 py.h:
 
@@ -123,8 +123,6 @@ utilities/table.h:
 conditions/bgl.h:
 
 conditions/sat.h:
-
-conditions/republican.h:
 
 conditions/oscillating_kings.h:
 

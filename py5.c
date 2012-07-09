@@ -1991,90 +1991,90 @@ void jouecoup(void)
                                       pi_captured);
 
   if (prompieces[nbply] != NULL)
+  {
+    pi_arriving = current_promotion_of_moving[nbply];
+    if (pi_arriving==vide)
     {
-      pi_arriving = current_promotion_of_moving[nbply];
-      if (pi_arriving==vide)
+      if (!CondFlag[noiprom] && Iprom[nbply])
       {
-        if (!CondFlag[noiprom] && Iprom[nbply])
-        {
-          ply icount;
-          if (inum[nbply] == maxinum)
-            FtlMsg(ManyImitators);
-          for (icount = nbply; icount<=maxply; ++icount)
-            ++inum[icount];
-          isquare[inum[nbply]-1] = sq_arrival;
-        }
-        else
-        {
-          pi_arriving= (prompieces[nbply])[vide];
-
-          if (CondFlag[frischauf])
-            SETFLAG(spec_pi_moving, FrischAuf);
-
-          if (pi_captured != vide && anyanticirce) {
-#if defined(BETTER_READABLE)
-            /* this coding seems to be better redable */
-            do {
-              sq_rebirth= (*antirenai)(pi_arriving,
-                                       spec_pi_moving,
-                                       sq_capture,
-                                       sq_departure,
-                                       advers(trait_ply));
-              if (sq_rebirth == sq_departure)
-                break;
-              if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
-                break;
-              pi_arriving= (prompieces[ply_id])[pi_arriving];
-            } while (1);
-#endif /*BETTER_READABLE*/
-
-            while (((sq_rebirth= (*antirenai)(nbply,
-                                              pi_arriving,
-                                              spec_pi_moving,
-                                              sq_capture,
-                                              sq_departure,
-                                              sq_arrival,
-                                              advers(trait_ply)))
-                    != sq_departure)
-                   && !LegalAntiCirceMove(sq_rebirth,
-                                          sq_capture,
-                                          sq_departure))
-            {
-              pi_arriving= (prompieces[nbply])[pi_arriving];
-              if (!pi_arriving && CondFlag[antisuper])
-              {
-                current_super_circe_rebirth_square[nbply]++;
-                pi_arriving= (prompieces[nbply])[vide];
-              }
-            }
-          }
-
-          current_promotion_of_moving[nbply]= pi_arriving;
-        }
+        ply icount;
+        if (inum[nbply] == maxinum)
+          FtlMsg(ManyImitators);
+        for (icount = nbply; icount<=maxply; ++icount)
+          ++inum[icount];
+        isquare[inum[nbply]-1] = sq_arrival;
       }
       else
       {
+        pi_arriving= (prompieces[nbply])[vide];
+
         if (CondFlag[frischauf])
           SETFLAG(spec_pi_moving, FrischAuf);
+
+        if (pi_captured != vide && anyanticirce) {
+#if defined(BETTER_READABLE)
+          /* this coding seems to be better redable */
+          do {
+            sq_rebirth= (*antirenai)(pi_arriving,
+                                     spec_pi_moving,
+                                     sq_capture,
+                                     sq_departure,
+                                     advers(trait_ply));
+            if (sq_rebirth == sq_departure)
+              break;
+            if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
+              break;
+            pi_arriving= (prompieces[ply_id])[pi_arriving];
+          } while (1);
+#endif /*BETTER_READABLE*/
+
+          while (((sq_rebirth= (*antirenai)(nbply,
+                                            pi_arriving,
+                                            spec_pi_moving,
+                                            sq_capture,
+                                            sq_departure,
+                                            sq_arrival,
+                                            advers(trait_ply)))
+                  != sq_departure)
+                 && !LegalAntiCirceMove(sq_rebirth,
+                                        sq_capture,
+                                        sq_departure))
+          {
+            pi_arriving= (prompieces[nbply])[pi_arriving];
+            if (!pi_arriving && CondFlag[antisuper])
+            {
+              current_super_circe_rebirth_square[nbply]++;
+              pi_arriving= (prompieces[nbply])[vide];
+            }
+          }
+        }
+
+        current_promotion_of_moving[nbply]= pi_arriving;
       }
+    }
+    else
+    {
+      if (CondFlag[frischauf])
+        SETFLAG(spec_pi_moving, FrischAuf);
+    }
 
-      if (!(!CondFlag[noiprom] && Iprom[nbply])) {
-        if (TSTFLAG(spec_pi_moving, Chameleon)
-            && is_pawn(pi_departing))
-          is_moving_chameleon_promoted[nbply]= true;
+    if (!(!CondFlag[noiprom] && Iprom[nbply])) {
+      if (TSTFLAG(spec_pi_moving, Chameleon)
+          && is_pawn(pi_departing))
+        promotion_of_moving_into_chameleon[nbply]= true;
 
-        if (pi_departing<vide)
-          pi_arriving = -pi_arriving;
+      if (pi_departing<vide)
+        pi_arriving = -pi_arriving;
 
-        /* so also promoted neutral pawns have the correct color and
-         * an additional call to setneutre is not required.
-         */
-        if (is_moving_chameleon_promoted[nbply])
-          SETFLAG(spec_pi_moving, Chameleon);
-      }
-      else
-        pi_arriving= vide; /* imitator-promotion */
-    } /* promotion */
+      /* so also promoted neutral pawns have the correct color and
+       * an additional call to setneutre is not required.
+       */
+      if (promotion_of_moving_into_chameleon[nbply])
+        SETFLAG(spec_pi_moving, Chameleon);
+    }
+    else
+      pi_arriving= vide; /* imitator-promotion */
+  } /* promotion */
 
   if (sq_arrival!=sq_capture)
   {
@@ -2410,7 +2410,8 @@ void jouecoup(void)
     }
 
     /* AntiCirce */
-    if (pi_captured != vide && anyanticirce) {
+    if (pi_captured != vide && anyanticirce)
+    {
       sq_rebirth= (*antirenai)(nbply,
                                pi_arriving,
                                spec_pi_moving,
@@ -2563,11 +2564,26 @@ void jouecoup(void)
   unlock_post_move_iterations();;
 } /* end of jouecoup */
 
+void repere_anticirce_rebirth(void)
+{
+  square const sq_arrival= move_generation_stack[current_move[nbply]].arrival;
+  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
+  if (sq_rebirth != initsquare)
+  {
+    /* Kamikaze and AntiCirce */
+    current_anticirce_rebirth_square[nbply]= initsquare;
+    if (sq_rebirth != sq_arrival) {
+      nbpiece[e[sq_rebirth]]--;
+      e[sq_rebirth]= vide;
+      spec[sq_rebirth]= 0;
+    }
+  }
+}
+
 void repcoup(void)
 {
-  square sq_rebirth;
   piece pi_departing, pi_captured;
-  Flags spec_pi_moving;
+  Flags const spec_pi_moving = jouespec[nbply];
   square nextsuper= superbas;
   boolean rochade=false;
   boolean platzwechsel = false;
@@ -2578,7 +2594,43 @@ void repcoup(void)
   square sq_arrival= move_gen_top->arrival;
   square sq_capture= move_gen_top->capture;
 
+  piece * const prompieceset = prompieces[nbply] ? prompieces[nbply] : getprompiece;
+
   assert(sq_arrival!=nullsquare);
+
+  {
+    square const sq_rebirth = current_circe_rebirth_square[nbply];
+    if (sq_rebirth!=initsquare)
+    {
+      square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+      if (sq_rebirth!=sq_arrival)
+      {
+        --nbpiece[e[sq_rebirth]];
+        e[sq_rebirth] = vide;
+        spec[sq_rebirth] = 0;
+      }
+      if (CondFlag[circeassassin] && pdisp[nbply]!=vide)
+      {
+        if (e[sq_rebirth])
+          --nbpiece[e[sq_rebirth]];
+        e[sq_rebirth] = pdisp[nbply];
+        ++nbpiece[e[sq_rebirth]];
+        spec[sq_rebirth] = pdispspec[nbply];
+      }
+      if (anytraitor)
+        spec[sq_rebirth] = pdispspec[nbply];
+      current_circe_rebirth_square[nbply] = initsquare;
+    }
+  }
+
+  if (TSTFLAG(spec_pi_moving,Kamikaze))
+    repere_anticirce_rebirth();
+
+  if (senti[nbply])
+  {
+    --nbpiece[e[sq_departure]];
+    senti[nbply] = false;
+  }
 
   if (jouegenre)
   {
@@ -2630,7 +2682,20 @@ void repcoup(void)
 
   pi_captured= pprise[nbply];
   pi_departing= pjoue[nbply];
-  spec_pi_moving= jouespec[nbply];
+
+  if (TSTFLAG(PieSpExFlags, Neutral))
+  {
+    /* the following is faster !  TLi
+     * initialise_neutrals((pi_departing > vide) ? White : Black);
+     */
+
+    if (TSTFLAG(spec_pi_moving, Neutral) &&
+        (pi_departing < vide ? Black : White) != neutral_side)
+      pi_departing= -pi_departing;
+    if (TSTFLAG(pprispec[nbply], Neutral) &&
+        (pi_captured < vide ? Black : White) != neutral_side)
+      pi_captured= -pi_captured;
+  }
 
   if (jouegenre)
   {
@@ -2717,30 +2782,6 @@ void repcoup(void)
 
   } /* switch (sq_capture) */
 
-  /* the supercirce rebirth square has to be evaluated here in the
-  ** position after the capture. Otherwise it is more difficult to
-  ** allow the rebirth on the original square of the capturing piece
-  ** or in connection with locust or e.p. captures.
-  */
-  if ((CondFlag[supercirce] && pi_captured!=vide)
-      || isapril[abs(pi_captured)]
-      || (CondFlag[antisuper] && pi_captured!=vide))
-  {
-    nextsuper = current_super_circe_rebirth_square[nbply]+1;
-
-    while (e[nextsuper]!=vide && nextsuper<square_h8)
-      ++nextsuper;
-
-    if (CondFlag[antisuper]
-        && AntiCirCheylan
-        && nextsuper==sq_capture)
-    {
-      ++nextsuper;
-      while (e[nextsuper]!=vide && nextsuper<square_h8)
-        ++nextsuper;
-    }
-  }
-
   if (CondFlag[circecage] && pi_captured!=vide)
   {
     piece circecage_next_norm_prom = current_promotion_of_moving[nbply];
@@ -2786,6 +2827,30 @@ void repcoup(void)
       lock_post_move_iterations();
   }
 
+  /* the supercirce rebirth square has to be evaluated here in the
+  ** position after the capture. Otherwise it is more difficult to
+  ** allow the rebirth on the original square of the capturing piece
+  ** or in connection with locust or e.p. captures.
+  */
+  if ((CondFlag[supercirce] && pi_captured!=vide)
+      || isapril[abs(pi_captured)]
+      || (CondFlag[antisuper] && pi_captured!=vide))
+  {
+    nextsuper = current_super_circe_rebirth_square[nbply]+1;
+
+    while (e[nextsuper]!=vide && nextsuper<square_h8)
+      ++nextsuper;
+
+    if (CondFlag[antisuper]
+        && AntiCirCheylan
+        && nextsuper==sq_capture)
+    {
+      ++nextsuper;
+      while (e[nextsuper]!=vide && nextsuper<square_h8)
+        ++nextsuper;
+    }
+  }
+
   /* first delete all changes */
   if (repgenre)
   {
@@ -2807,11 +2872,6 @@ void repcoup(void)
     if ((CondFlag[ghostchess] || CondFlag[hauntedchess])
         && e[sq_departure]!=vide)
       ban_ghost(sq_departure);
-
-    if (senti[nbply]) {
-      --nbpiece[e[sq_departure]];
-      senti[nbply]= false;
-    }
     if (CondFlag[imitators])
     {
       if (sq_capture == queenside_castling)
@@ -2821,49 +2881,196 @@ void repcoup(void)
       else if (sq_capture != kingside_castling) /* joueim(0) (do nothing) if OO */
         joueim(sq_departure - sq_arrival);      /* verschoben TLi */
     }
-
-    if (TSTFLAG(PieSpExFlags, Neutral)) {
-      /* the following is faster !  TLi
-       * initialise_neutrals((pi_departing > vide) ? White : Black);
-       */
-
-      if (TSTFLAG(spec_pi_moving, Neutral) &&
-          (pi_departing < vide ? Black : White) != neutral_side)
-        pi_departing= -pi_departing;
-      if (TSTFLAG(pprispec[nbply], Neutral) &&
-          (pi_captured < vide ? Black : White) != neutral_side)
-        pi_captured= -pi_captured;
-    }
-    sq_rebirth = current_circe_rebirth_square[nbply];
-    if (sq_rebirth!=initsquare)
-    {
-      current_circe_rebirth_square[nbply] = initsquare;
-      if (sq_rebirth != sq_arrival)
-      {
-        nbpiece[e[sq_rebirth]]--;
-        e[sq_rebirth]= vide;
-        spec[sq_rebirth]= 0;
-      }
-      if (CondFlag[circeassassin] && pdisp[nbply]) {
-        if (e[sq_rebirth])
-          nbpiece[e[sq_rebirth]]--;
-        nbpiece[e[sq_rebirth]= pdisp[nbply]]++;
-        spec[sq_rebirth]= pdispspec[nbply];
-      }
-      if (anytraitor)
-        spec[sq_rebirth]= pdispspec[nbply];
-    }
-
-    if ((sq_rebirth= current_anticirce_rebirth_square[nbply]) != initsquare) {
-      /* Kamikaze and AntiCirce */
-      current_anticirce_rebirth_square[nbply]= initsquare;
-      if (sq_rebirth != sq_arrival) {
-        nbpiece[e[sq_rebirth]]--;
-        e[sq_rebirth]= vide;
-        spec[sq_rebirth]= 0;
-      }
-    }
   } /* if (repgenre) */
+
+  piece prom_kind_moving = current_promotion_of_moving[nbply];
+  piece const save_current_promotion_of_moving = prom_kind_moving;
+
+  if (anyanticirce && !CondFlag[antisuper])
+  {
+    repere_anticirce_rebirth();
+
+    if (!are_post_move_iterations_locked())
+    {
+      if (save_current_promotion_of_moving!=vide)
+      {
+        prom_kind_moving = prompieceset[prom_kind_moving];
+        if (pi_captured!=vide)
+        {
+          while (prom_kind_moving!=vide)
+          {
+            square const sq_rebirth = (*antirenai)(nbply,
+                                                   prom_kind_moving,
+                                                   spec_pi_moving,
+                                                   sq_capture,
+                                                   sq_departure,
+                                                   sq_arrival,
+                                                   advers(trait[nbply]));
+            if (sq_rebirth==sq_departure
+                || LegalAntiCirceMove(sq_rebirth,sq_capture,sq_departure))
+              break;
+            else
+              prom_kind_moving = prompieceset[prom_kind_moving];
+          }
+        }
+
+        current_promotion_of_moving[nbply] = prom_kind_moving;
+        if (prom_kind_moving!=vide)
+          lock_post_move_iterations();
+      }
+    }
+  }
+
+  if (anyanticirce && !CondFlag[antisuper] && TSTFLAG(PieSpExFlags,Chameleon))
+  {
+    if (!are_post_move_iterations_locked())
+    {
+      if (save_current_promotion_of_moving!=vide
+          && pi_captured!=vide
+          && !promotion_of_moving_into_chameleon[nbply])
+      {
+        prom_kind_moving = prompieceset[vide];
+        while (prom_kind_moving!=vide)
+        {
+          square const sq_rebirth = (*antirenai)(nbply,
+                                                 prom_kind_moving,
+                                                 spec_pi_moving,
+                                                 sq_capture,
+                                                 sq_departure,
+                                                 sq_arrival,
+                                                 advers(trait[nbply]));
+          if (sq_rebirth==sq_departure || e[sq_rebirth]==vide)
+            break;
+          else
+            prom_kind_moving = prompieceset[prom_kind_moving];
+        }
+
+        promotion_of_moving_into_chameleon[nbply]= true;
+        current_promotion_of_moving[nbply] = prom_kind_moving;
+        if (prom_kind_moving!=vide)
+          lock_post_move_iterations();
+      }
+    }
+  }
+
+  if (!(anyanticirce && !CondFlag[antisuper]))
+  {
+    if (!are_post_move_iterations_locked())
+    {
+      if (save_current_promotion_of_moving!=vide)
+      {
+        prom_kind_moving = prompieceset[prom_kind_moving];
+        current_promotion_of_moving[nbply] = prom_kind_moving;
+        if (prom_kind_moving!=vide)
+          lock_post_move_iterations();
+      }
+    }
+  }
+
+  if (!(anyanticirce && !CondFlag[antisuper]) && TSTFLAG(PieSpExFlags,Chameleon))
+  {
+    if (!are_post_move_iterations_locked())
+    {
+      if (save_current_promotion_of_moving!=vide
+          && prom_kind_moving==vide
+          && !promotion_of_moving_into_chameleon[nbply])
+      {
+        prom_kind_moving= prompieceset[vide];
+        promotion_of_moving_into_chameleon[nbply]= true;
+
+        current_promotion_of_moving[nbply] = prom_kind_moving;
+        if (prom_kind_moving!=vide)
+          lock_post_move_iterations();
+      }
+    }
+  }
+
+  if (TSTFLAG(PieSpExFlags,Chameleon))
+  {
+    if (!are_post_move_iterations_locked())
+      promotion_of_moving_into_chameleon[nbply]= false;
+  }
+
+  if (!are_post_move_iterations_locked())
+  {
+    if (save_current_promotion_of_moving!=vide)
+    {
+      if (prom_kind_moving==vide && !CondFlag[noiprom])
+      {
+        Iprom[nbply]= true;
+        lock_post_move_iterations();
+      }
+    }
+    else if (!CondFlag[noiprom] && Iprom[nbply])
+    {
+      ply icount;
+      for (icount= nbply; icount<=maxply; icount++)
+        --inum[icount];
+      Iprom[nbply]= false;
+    }
+  }
+
+  if (anycirprom)
+  {
+    if (!are_post_move_iterations_locked())
+    {
+      piece prom_kind_reborn = current_promotion_of_reborn[nbply];
+      if (prom_kind_reborn!=vide)
+      {
+        prom_kind_reborn = getprompiece[prom_kind_reborn];
+        if (prom_kind_reborn==vide
+            && TSTFLAG(PieSpExFlags, Chameleon)
+            && !is_reborn_chameleon_promoted[nbply])
+        {
+          prom_kind_reborn = getprompiece[vide];
+          is_reborn_chameleon_promoted[nbply]= true;
+        }
+      }
+
+      current_promotion_of_reborn[nbply] = prom_kind_reborn;
+      if (prom_kind_reborn!=vide)
+        lock_post_move_iterations();
+    }
+  }
+
+  /* at last modify promotion-counters and decrement current_move[nbply] */
+  /* ortho- und pwc-Umwandlung getrennt */
+
+  if ((CondFlag[supercirce] && pi_captured != vide)
+      || isapril[abs(pi_captured)])
+  {
+    if (!are_post_move_iterations_locked())
+    {
+      if (nextsuper>square_h8)
+        current_super_circe_rebirth_square[nbply]= superbas;
+      else
+      {
+        current_super_circe_rebirth_square[nbply] = nextsuper;
+        lock_post_move_iterations();
+      }
+    }
+  }
+
+  if (CondFlag[antisuper])
+  {
+    repere_anticirce_rebirth();
+
+    if (!are_post_move_iterations_locked())
+    {
+      if (pi_captured != vide)
+      {
+        current_super_circe_rebirth_square[nbply] = nextsuper;
+        if (nextsuper>square_h8
+            || !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure))
+          current_super_circe_rebirth_square[nbply]= superbas;
+        else
+        {
+          current_super_circe_rebirth_square[nbply] = nextsuper;
+          lock_post_move_iterations();
+        }
+      }
+    }
+  }
 
   nbpiece[e[sq_arrival]]--;
 
@@ -2925,115 +3132,6 @@ void repcoup(void)
     }
   } /* andergb */
 
-  /* at last modify promotion-counters and decrement current_move[nbply] */
-  /* ortho- und pwc-Umwandlung getrennt */
-
   if (!are_post_move_iterations_locked())
-  {
-    piece* prompieceset = prompieces[nbply] ? prompieces[nbply] : getprompiece;
-
-    piece prom_kind_moving = current_promotion_of_moving[nbply];
-    if (prom_kind_moving!=vide)
-    {
-      prom_kind_moving = prompieceset[prom_kind_moving];
-      if (!(CondFlag[singlebox] && SingleBoxType==singlebox_type2))
-      {
-        if (pi_captured!=vide)
-        {
-          if (anyanticirce)
-            while (prom_kind_moving!=vide)
-            {
-              sq_rebirth = (*antirenai)(nbply,
-                                        prom_kind_moving,
-                                        spec_pi_moving,
-                                        sq_capture,
-                                        sq_departure,
-                                        sq_arrival,
-                                        advers(trait[nbply]));
-              if (sq_rebirth==sq_departure
-                  || LegalAntiCirceMove(sq_rebirth,sq_capture,sq_departure))
-                break;
-              else
-                prom_kind_moving = prompieceset[prom_kind_moving];
-            }
-        }
-      }
-
-      current_promotion_of_moving[nbply] = prom_kind_moving;
-
-      if (prom_kind_moving==vide
-          && TSTFLAG(PieSpExFlags,Chameleon)
-          && !is_moving_chameleon_promoted[nbply])
-      {
-        prom_kind_moving= prompieceset[vide];
-        if (pi_captured != vide && anyanticirce)
-          while (prom_kind_moving != vide
-                 && ((sq_rebirth= (*antirenai)(nbply,
-                                               prom_kind_moving,
-                                               spec_pi_moving,
-                                               sq_capture,
-                                               sq_departure,
-                                               sq_arrival,
-                                               advers(trait[nbply])))
-                     != sq_departure)
-                 && e[sq_rebirth] != vide)
-            prom_kind_moving= prompieceset[prom_kind_moving];
-
-        current_promotion_of_moving[nbply]= prom_kind_moving;
-        is_moving_chameleon_promoted[nbply]= true;
-      }
-      if (prom_kind_moving==vide && !CondFlag[noiprom])
-        Iprom[nbply]= true;
-    }
-    else if (!CondFlag[noiprom] && Iprom[nbply])
-    {
-      ply icount;
-      for (icount= nbply; icount<=maxply; icount++)
-        --inum[icount];
-      Iprom[nbply]= false;
-    }
-
-    if (prom_kind_moving == vide)
-    {
-      piece prom_kind_reborn = vide;
-      is_moving_chameleon_promoted[nbply]= false;
-      if (anycirprom)
-      {
-        prom_kind_reborn = current_promotion_of_reborn[nbply];
-        if (prom_kind_reborn!=vide)
-        {
-          prom_kind_reborn = getprompiece[prom_kind_reborn];
-          if (prom_kind_reborn==vide
-              && TSTFLAG(PieSpExFlags, Chameleon)
-              && !is_reborn_chameleon_promoted[nbply])
-          {
-            prom_kind_reborn = getprompiece[vide];
-            is_reborn_chameleon_promoted[nbply]= true;
-          }
-        }
-      }
-
-      current_promotion_of_reborn[nbply] = prom_kind_reborn;
-
-      if (prom_kind_reborn==vide
-          && !(!CondFlag[noiprom] && Iprom[nbply]))
-      {
-        if ((CondFlag[supercirce] && pi_captured != vide)
-            || isapril[abs(pi_captured)]
-            || (CondFlag[antisuper] && pi_captured != vide))
-        {
-          current_super_circe_rebirth_square[nbply] = nextsuper;
-          if (current_super_circe_rebirth_square[nbply]>square_h8
-              || (CondFlag[antisuper]
-                  && !LegalAntiCirceMove(nextsuper,sq_capture,sq_departure)))
-          {
-            current_super_circe_rebirth_square[nbply]= superbas;
-            current_move[nbply]--;
-          }
-        }
-        else
-          current_move[nbply]--;
-      }
-    }
-  } /* post_move_iterations_locked*/
+    current_move[nbply]--;
 } /* end of repcoup */

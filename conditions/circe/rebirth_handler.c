@@ -20,45 +20,50 @@ extern Flags pdispspec[maxply+1];
 
 #define setneutre(i)            do {if (neutral_side != get_side(i)) change_side(i);} while(0)
 
-static void joueparrain(ply ply_id)
+static void joueparrain(void)
 {
-  numecoup const coup_id = ply_id==nbply ? current_move[nbply] : current_move[ply_id];
-  piece const pi_captured = pprise[ply_id-1];
-  Flags spec_captured = pprispec[ply_id-1];
+  numecoup const coup_id = nbply==nbply ? current_move[nbply] : current_move[nbply];
+  piece const pi_captured = pprise[nbply-1];
+  Flags spec_captured = pprispec[nbply-1];
   square sq_rebirth;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[parrain]) {
-    sq_rebirth = (move_generation_stack[current_move[ply_id-1]].capture
+    sq_rebirth = (move_generation_stack[current_move[nbply-1]].capture
                                  + move_generation_stack[coup_id].arrival
                                  - move_generation_stack[coup_id].departure);
   }
   if (CondFlag[contraparrain]) {
-    sq_rebirth = (move_generation_stack[current_move[ply_id-1]].capture
+    sq_rebirth = (move_generation_stack[current_move[nbply-1]].capture
                                  - move_generation_stack[coup_id].arrival
                                  + move_generation_stack[coup_id].departure);
   }
 
+  TraceSquare(sq_rebirth);TraceText("\n");
   if (e[sq_rebirth]==vide)
   {
-    current_circe_rebirth_square[ply_id] = sq_rebirth;
-    ren_parrain[ply_id] = pi_captured;
+    current_circe_rebirth_square[nbply] = sq_rebirth;
+    ren_parrain[nbply] = pi_captured;
     e[sq_rebirth] = pi_captured;
     spec[sq_rebirth] = spec_captured;
 
     if ((is_forwardpawn(pi_captured)
-         && PromSq(advers(trait[ply_id-1]), sq_rebirth))
+         && PromSq(advers(trait[nbply-1]), sq_rebirth))
         || (is_reversepawn(pi_captured)
-            && ReversePromSq(advers(trait[ply_id-1]), sq_rebirth)))
+            && ReversePromSq(advers(trait[nbply-1]), sq_rebirth)))
     {
       /* captured white pawn on eighth rank: promotion ! */
       /* captured black pawn on first rank: promotion ! */
-      piece pprom = current_promotion_of_reborn[ply_id];
+      piece pprom = current_promotion_of_reborn[nbply];
 
       if (TSTFLAG(spec_captured,Chameleon))
-        is_reborn_chameleon_promoted[ply_id] = true;
+        is_reborn_chameleon_promoted[nbply] = true;
 
       if (pprom==vide)
       {
-        current_promotion_of_reborn[ply_id] = getprompiece[vide];
+        current_promotion_of_reborn[nbply] = getprompiece[vide];
         pprom = getprompiece[vide];
       }
       if (pi_captured<vide)
@@ -66,7 +71,7 @@ static void joueparrain(ply ply_id)
 
       e[sq_rebirth]= pprom;
       nbpiece[pprom]++;
-      if (is_reborn_chameleon_promoted[ply_id])
+      if (is_reborn_chameleon_promoted[nbply])
         SETFLAG(spec_captured,Chameleon);
       spec[sq_rebirth]= spec_captured;
     }
@@ -76,9 +81,63 @@ static void joueparrain(ply ply_id)
     if (TSTFLAG(spec_captured,Neutral))
       setneutre(sq_rebirth);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-static void handle_rebirth(Side trait_ply)
+static void do_rexincl_rebirth(square sq_from, square sq_rebirth)
+{
+  if (rex_circe)
+  {
+    if (sq_from==RB_[nbply])
+      king_square[White] = sq_rebirth;
+    if (sq_from==RN_[nbply])
+      king_square[Black] = sq_rebirth;
+  }
+}
+
+static void adjust_castling_rights(square sq_rebirth,
+                                   piece pi_reborn, Flags spec_reborn)
+{
+  if (castling_supported)
+  {
+    if (abs(pi_reborn) == Rook)
+    {
+      if (TSTFLAG(spec_reborn, White)) {
+        if (sq_rebirth == square_h1)
+          /* white rook reborn on h1 */
+          SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
+        else if (sq_rebirth == square_a1)
+          /* white rook reborn on a1 */
+          SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
+      }
+      if (TSTFLAG(spec_reborn, Black)) {
+        if (sq_rebirth == square_h8)
+          /* black rook reborn on h8 */
+          SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
+        else if (sq_rebirth == square_a8)
+          /* black rook reborn on a8 */
+          SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+      }
+    }
+
+    else if (abs(pi_reborn) == King) {
+      if (TSTFLAG(spec_reborn, White)
+          && sq_rebirth == square_e1
+          && (!CondFlag[dynasty] || nbpiece[roib]==1))
+        /* white king reborn on e1 */
+        SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
+      else if (TSTFLAG(spec_reborn, Black)
+               && sq_rebirth == square_e8
+               && (!CondFlag[dynasty] || nbpiece[roin]==1))
+        /* black king reborn on e8 */
+        SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+    }
+  }
+}
+
+static void do_rebirth(Side trait_ply)
 {
   square const pi_captured = pprise[nbply];
   square const pi_departing = pjoue[nbply];
@@ -93,85 +152,49 @@ static void handle_rebirth(Side trait_ply)
   square const prev_rb = RB_[nbply];
   square const prev_rn = RN_[nbply];
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   /* circe-rebirth of moving kamikaze-piece */
-  if (TSTFLAG(spec_pi_moving, Kamikaze) && (pi_captured != vide))
+  if (TSTFLAG(spec_pi_moving, Kamikaze) && pi_captured!=vide)
   {
     square sq_rebirth;
-    if (CondFlag[couscous]) {
-      sq_rebirth= (*circerenai)(nbply,
-                                pi_captured,
-                                spec_pi_captured,
-                                sq_capture,
-                                sq_departure,
-                                sq_arrival,
-                                trait_ply);
-    }
-    else {
-      sq_rebirth= (*circerenai)(nbply,
-                                pi_arriving,
-                                spec_pi_moving,
-                                sq_capture,
-                                sq_departure,
-                                sq_arrival,
-                                advers(trait_ply));
-    }
+    if (CondFlag[couscous])
+      sq_rebirth = (*circerenai)(nbply,
+                                 pi_captured,
+                                 spec_pi_captured,
+                                 sq_capture,
+                                 sq_departure,
+                                 sq_arrival,
+                                 trait_ply);
+    else
+      sq_rebirth = (*circerenai)(nbply,
+                                 pi_arriving,
+                                 spec_pi_moving,
+                                 sq_capture,
+                                 sq_departure,
+                                 sq_arrival,
+                                 advers(trait_ply));
 
-    e[sq_arrival]= vide;
-    spec[sq_arrival]= 0;
+    e[sq_arrival] = vide;
+    spec[sq_arrival] = 0;
     if ((e[sq_rebirth] == vide)
-        && !(CondFlag[contactgrid]
-             && nogridcontact(sq_rebirth)))
+        && !(CondFlag[contactgrid] && nogridcontact(sq_rebirth)))
     {
       current_anticirce_rebirth_square[nbply]= sq_rebirth;
       e[sq_rebirth]= pi_arriving;
       spec[sq_rebirth]= spec_pi_moving;
-      if (rex_circe) {
-        if (sq_departure == prev_rb)
-          king_square[White]= sq_rebirth;
-        if (sq_departure == prev_rn)
-          king_square[Black]= sq_rebirth;
-
-        if (castling_supported
-            && (abs(pi_arriving) == King)) {
-          if (TSTFLAG(spec_pi_moving, White)
-              && sq_rebirth == square_e1
-              && (!CondFlag[dynasty] || nbpiece[roib]==1))
-            /* white king reborn on e1 */
-            SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-          else if (TSTFLAG(spec_pi_moving, Black)
-                   && sq_rebirth == square_e8
-                   && (!CondFlag[dynasty] || nbpiece[roin]==1))
-            /* black king reborn on e8 */
-            SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-        }
-      }
-      if (castling_supported
-          && (abs(pi_arriving) == Rook)) {
-        if (TSTFLAG(spec_pi_moving, White)) {
-          if (sq_rebirth == square_h1)
-            /* white rook reborn on h1 */
-            SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-          else if (sq_rebirth == square_a1)
-            /* white rook reborn on a1 */
-            SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-        }
-        if (TSTFLAG(spec_pi_moving, Black)) {
-          if (sq_rebirth == square_h8)
-            /* black rook reborn on h8 */
-            SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-          else if (sq_rebirth == square_a8)
-            /* black rook reborn on a8 */
-            SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
-        }
-      }
-    } else
-      nbpiece[pi_arriving]--;
+      do_rexincl_rebirth(sq_departure,sq_rebirth);
+      adjust_castling_rights(sq_rebirth,jouearr[nbply],spec_pi_moving);
+    }
+    else
+      --nbpiece[pi_arriving];
   } /* Kamikaze */
 
   if (anyparrain)
   {
     if (pprise[nbply-1]!=vide)
-      joueparrain(nbply);
+      joueparrain();
   }
   else
   {
@@ -247,49 +270,9 @@ static void handle_rebirth(Side trait_ply)
                  && nogridcontact(sq_rebirth)))
       {
         current_circe_rebirth_square[nbply]= sq_rebirth;
-        if (rex_circe) {
-          /* neutral K */
-          if (prev_rb == sq_capture) {
-            king_square[White]= sq_rebirth;
-          }
-          if (prev_rn == sq_capture) {
-            king_square[Black]= sq_rebirth;
-          }
+        do_rexincl_rebirth(sq_capture,sq_rebirth);
+        adjust_castling_rights(sq_rebirth,pi_reborn,spec_pi_captured);
 
-          if (castling_supported
-              && (abs(pi_reborn) == King)) {
-            if (TSTFLAG(spec_pi_captured, White)
-                && sq_rebirth == square_e1
-                && (!CondFlag[dynasty] || nbpiece[roib]==1))
-              /* white king reborn on e1 */
-              SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-            else if (TSTFLAG(spec_pi_captured, Black)
-                     && sq_rebirth == square_e8
-                     && (!CondFlag[dynasty] || nbpiece[roin]==1))
-              /* black king reborn on e8 */
-              SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-          }
-        }
-
-        if (castling_supported
-            && (abs(pi_reborn) == Rook)) {
-          if (TSTFLAG(spec_pi_captured, White)) {
-            if (sq_rebirth == square_h1)
-              /* white rook reborn on h1 */
-              SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-            else if (sq_rebirth == square_a1)
-              /* white rook reborn on a1 */
-              SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-          }
-          if (TSTFLAG(spec_pi_captured, Black)) {
-            if (sq_rebirth == square_h8)
-              /* black rook reborn on h8 */
-              SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-            else if (sq_rebirth == square_a8)
-              /* black rook reborn on a8 */
-              SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
-          }
-        }
         if (anycirprom
             && is_pawn(pi_captured)
             && PromSq(advers(trait_ply),sq_rebirth))
@@ -319,11 +302,15 @@ static void handle_rebirth(Side trait_ply)
           nbpiece[pdisp[nbply]=e[sq_rebirth]]--;
           pdispspec[nbply]=spec[sq_rebirth];
         }
-        nbpiece[e[sq_rebirth]= pi_reborn]++;
+        e[sq_rebirth]= pi_reborn;
+        ++nbpiece[pi_reborn];
         spec[sq_rebirth]= spec_pi_captured;
       }
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -344,7 +331,7 @@ stip_length_type circe_rebirth_handler_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  handle_rebirth(slices[si].starter);
+  do_rebirth(slices[si].starter);
   result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -374,7 +361,7 @@ stip_length_type circe_rebirth_handler_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  handle_rebirth(slices[si].starter);
+  do_rebirth(slices[si].starter);
   result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
