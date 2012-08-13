@@ -104,7 +104,7 @@ static void store_solution(void)
       simplified_move_type * const elmt = *sol + cp;
       elmt->from = move_generation_stack[current_move[cp]].departure;
       elmt->to = move_generation_stack[current_move[cp]].arrival;
-      elmt->prom = jouearr[cp];
+      elmt->prom = e[elmt->to];
     }
   }
 
@@ -138,7 +138,7 @@ static boolean is_duplicate_solution(void)
         simplified_move_type * const elmt = (*sol)+cp;
         found = (elmt->from==move_generation_stack[current_move[cp]].departure
                  && elmt->to==move_generation_stack[current_move[cp]].arrival
-                 && elmt->prom==jouearr[cp]);
+                 && elmt->prom==e[move_generation_stack[current_move[cp]].arrival]);
       }
     }
   }

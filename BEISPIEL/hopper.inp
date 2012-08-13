@@ -104,16 +104,26 @@ ausz    Preis, Andernach-Grashoppers-Tourney 2000
 ford    s#2
 stei
 weis    ke5 dg2 th4b4 lh3 se1a3
-schw    ke3 ta6 lg8 sa2 ba5d3e6e7 aga4a8g1g7
+schw    ke3 ta6 lg8 sa2 ba5d3e6e7 schw SprungbockFarbeWechselnd ga4a8g1g7
 opti    vari verf
+
+weiteresproblem
+
+autor David L. Brown
+quelle USA-GB 2002?, 1. Platz
+steine weiss ka8 sf2 bc3 weiss SprungbockFarbeWechselnd gf3
+       schwarz ke5 te3 bd6e6 schwarz SprungbockFarbeWechselnd ga4h7
+forderung h#3
+zwilling hinzuf schwarz le3
+
 weit
 auto    Newmann Guttman
 auto    Dan Meinking
 ausz    ehrende Erw"ahnung, Andernach-Grashoppers-Tourney 2000
 ford    h#2
 stei
-weis    kh3 sd6f7 agd8g1
-schw    ke6 bd4f4 age7
+weis    kh3 sd6f7 weiss SprungbockFarbeWechselnd gd8g1
+schw    ke6 bd4f4 schwarz SprungbockFarbeWechselnd ge7
 zwil    verse   d4 g6
 weit
 auto    Danny Dunn
@@ -122,7 +132,7 @@ ausz    Lob, Andernach-Grashoppers-Tourney 2000
 ford    s#2
 stei
 weis    kd6 da6 th3h2 ld4 sf5 bb2b4c7d7e7
-schw    kd3 tc4 se3 be4f6f7 age1
+schw    kd3 tc4 se3 be4f6f7 schwarz SprungbockFarbeWechselnd ge1
 opti    vari
 weit
 auto    Mike Prcic
@@ -131,7 +141,7 @@ ausz    Lob, Andernach-Grashoppers-Tourney 2000
 ford    h#2
 stei
 weis    kc8 sg6 bb4d5
-schw    kd6 lc2d4 bc4 agc1
+schw    kd6 lc2d4 bc4 schwarz SprungbockFarbeWechselnd gc1
 zwil    hinz    schw    sc2d4
 zwil    hinz    schw    tc2d4
 weit
@@ -140,7 +150,7 @@ ausz    Lob, Andernach-Grashoppers-Tourney 2000
 ford    #2
 stei
 weis    kf1 lb7
-schw    kh1 bd5h2 aga2h5
+schw    kh1 bd5h2 schwarz SprungbockFarbeWechselnd ga2h5
 opti    vari verf
 weiter
 auto	Reto Aschwanden

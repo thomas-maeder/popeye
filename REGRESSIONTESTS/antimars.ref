@@ -27,7 +27,7 @@
   1.b3->b7-b6 c5*b6 # 
 
               empile:          58
-            jouecoup:          31
+           play_move:          27
         orig_rbechec:           5
         orig_rnechec:          27
 solution finished. 
@@ -96,7 +96,7 @@ solution finished.
 
 
               empile:        5559
-            jouecoup:        1470
+           play_move:        1470
         orig_rbechec:         104
         orig_rnechec:        1456
 solution finished. 

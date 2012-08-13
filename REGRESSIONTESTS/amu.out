@@ -134,9 +134,106 @@
 
 
               empile:        5752
-            jouecoup:        4937
-        orig_rbechec:        3724
-        orig_rnechec:       24471
+           play_move:        4937
+        orig_rbechec:         995
+        orig_rnechec:        8384
+Loesung beendet. 
+
+
+
+              James Quah
+         The Problemist 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   S   .   8
+|                                   |
+7   .  -B  -B   T   .   .   .   .   7
+|                                   |
+6   .  -L  -K   .   .   .   .   .   6
+|                                   |
+5   .   . -PA  -B   .   .   S  VA   5
+|                                   |
+4   B   B   .   .  -B  PA   .   .   4
+|                                   |
+3   . -VA   T   .   .   .   .   .   3
+|                                   |
+2 -LE   .   B   .   L  VA -PA   B   2
+|                                   |
+1   .   .   .   .   .   . -VA   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        13 + 11
+                 AMU
+
+   1.Sg5-e6 ! Drohung:
+          2.VAh5-e8 #
+      1...PAg2-g6
+          2.Le2-b5 #
+      1...PAg2-g5
+          2.Le2-b5 #
+      1...PAc5-c4
+          2.PAf4-f6 #
+      1...d5-d4
+          2.Sg8-e7 #
+
+   1.PAf4-f6 ? Drohung:
+          2.Sg5-e6 #
+      1...LEa2-a1
+          2.Le2-b5 #
+      1...PAc5-c4
+          2.Sg8-e7 #
+      1...d5-d4
+          2.VAh5-e8 #
+    Aber
+      1...LEa2-b2 !
+
+   1.Tc3*c5 + ?
+      1...Lb6*c5
+          2.b4-b5 #
+    Aber
+      1...VAg1*c5 !
+
+
+              empile:       27814
+           play_move:       15346
+        orig_rbechec:        8288
+        orig_rnechec:       18112
+Loesung beendet. 
+
+
+
+Beispiel fuer Mehrfachbeobachung durch den selben Stein
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -K   .   .   .   .   .   8
+|                                   |
+7   .  -B  -B   .   B   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   . -RO   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          1 + 4
+                 AMU
+
+   1.e7-e8=D # !
+
+
+              empile:          23
+           play_move:          27
+        orig_rbechec:           5
+        orig_rnechec:          50
 Loesung beendet. 
 
 

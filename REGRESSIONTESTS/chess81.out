@@ -107,7 +107,7 @@
 
 
               empile:     2745961
-            jouecoup:     1911637
+           play_move:     1911637
         orig_rbechec:     1679737
         orig_rnechec:      209987
 Loesung beendet. 
@@ -146,7 +146,7 @@ Loesung beendet.
 
 
               empile:        3987
-            jouecoup:        1813
+           play_move:        1813
         orig_rbechec:        1194
         orig_rnechec:         358
 Loesung beendet. 
@@ -203,7 +203,7 @@ Loesung beendet.
 
 
               empile:       37403
-            jouecoup:        7895
+           play_move:        7895
         orig_rbechec:        3747
         orig_rnechec:        2389
 Loesung beendet. 
@@ -247,7 +247,7 @@ Loesung beendet.
 
 
               empile:       11884
-            jouecoup:        4080
+           play_move:        4080
         orig_rbechec:        2254
         orig_rnechec:        1837
 Loesung beendet. 
@@ -284,7 +284,7 @@ Loesung beendet.
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=L c81 
 
               empile:        3071
-            jouecoup:         689
+           play_move:         673
         orig_rbechec:          79
         orig_rnechec:         611
 Loesung beendet. 

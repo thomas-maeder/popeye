@@ -30,7 +30,7 @@
 
 
               empile:        1192
-            jouecoup:         893
+           play_move:         893
         orig_rbechec:          90
         orig_rnechec:         895
 solution finished. 
@@ -66,7 +66,7 @@ a)
   1.Rb7-h7=B Rb5-a5=B   2.Bh7-e4 Ba5*b6 # 
 
               empile:     1241301
-            jouecoup:     1214017
+           play_move:     1214013
         orig_rbechec:       95955
         orig_rnechec:     1212630
 b) bSc3-->e4
@@ -74,7 +74,7 @@ b) bSc3-->e4
   1.Bd1-a4=S Bg3-h2=S   2.Sa4-c3 Sh2*f3 # 
 
               empile:     1102516
-            jouecoup:     1143980
+           play_move:     1143976
         orig_rbechec:       85155
         orig_rnechec:     1142677
 c) wKh8-->g8
@@ -82,7 +82,7 @@ c) wKh8-->g8
   1.Sf3*h4=R Sb4-a2=R   2.Rh4-e4 Ra2-d2 # 
 
               empile:      989248
-            jouecoup:     1066351
+           play_move:     1066347
         orig_rbechec:       83893
         orig_rnechec:     1064866
 solution finished. 
@@ -116,7 +116,7 @@ solution finished.
   1.Bf7-h5=R Bf6-h8=R   2.Be7-h4=R Bg8-h7=R # 
 
               empile:      143159
-            jouecoup:      135899
+           play_move:      135895
         orig_rbechec:        8367
         orig_rnechec:      135449
 solution finished. 

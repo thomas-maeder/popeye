@@ -1,5 +1,5 @@
-#if !defined(TEMPLATE_H)
-#define TEMPLATE_H
+#if !defined(CONDITIONS_BGL_H)
+#define CONDITIONS_BGL_H
 
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
@@ -13,12 +13,6 @@ enum
 {
   BGL_infinity = 10000000   /* this will do I expect; e.g. max len = 980 maxply < 1000 */
 };
-
-
-/* Allocate a STBGLFilter slice.
- * @return index of allocated slice
- */
-slice_index alloc_bgl_filter_slice(void);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

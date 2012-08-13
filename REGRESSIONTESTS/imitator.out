@@ -44,7 +44,7 @@
 
 
               empile:         899
-            jouecoup:         519
+           play_move:         519
         orig_rbechec:         107
         orig_rnechec:         521
 Loesung beendet. 
@@ -79,7 +79,7 @@ Loesung beendet.
   1.Kc2-c3[Ia8]   2.g7-g6[Ia7]   3.Kc3-c4[Ia8]   4.g6-g5[Ia7]   5.Kc4-c5[Ia8]   6.g5-g4[Ia7]   7.Kc5-c6[Ia8]   8.g4-g3[Ia7]   9.Kc6-c7[Ia8]  10.g3-g2[Ia7]  11.Kc7-c8[Ia8]  12.g2-g1=T[Ia7]  13.Tg1-g2[Ia8]  14.Kc8-c7[Ia7]  15.Tg2-g3[Ia8]  16.Kc7-c6[Ia7]  17.Tg3-g4[Ia8]  18.Kc6-c5[Ia7]  19.Tg4-g5[Ia8]  20.Kc5-c4[Ia7]  21.Tg5-g6[Ia8]  22.Kc4-c3[Ia7]  23.Tg6-g7[Ia8]  24.Kc3-c2[Ia7]  25.Tg7-g8[Ia8]  26.Kc2-c1[Ia7] Ta6-a1[Ia2] # 
 
               empile:        6834
-            jouecoup:        1200
+           play_move:        1173
         orig_rbechec:         839
         orig_rnechec:        1173
 Loesung beendet. 
@@ -172,10 +172,10 @@ Loesung beendet.
           2.Dc7-b8[Id5] #
 
 
-              empile:        2093
-            jouecoup:        1091
+              empile:        2094
+           play_move:        1082
         orig_rbechec:         140
-        orig_rnechec:        1058
+        orig_rnechec:        1049
 Loesung beendet. 
 
 
@@ -227,7 +227,7 @@ Loesung beendet.
 
 
               empile:       52677
-            jouecoup:       30320
+           play_move:       30320
         orig_rbechec:        9505
         orig_rnechec:       22158
 Loesung beendet. 
@@ -264,16 +264,16 @@ a)
   1.Kb6-a7[Id6] b7-b8=S[Id7]   2.Ka7-a8[Id8] Sb8-c6[Ie6] = 
   1.Kb6-c7[If6] b7-b8=I[If7]   2.Kc7-c6[If6,Ib7] Kf5-e6[Ie7,Ia8] = 
 
-              empile:       29204
-            jouecoup:        9514
-        orig_rbechec:        4181
-        orig_rnechec:        9330
+              empile:       18776
+           play_move:        6036
+        orig_rbechec:        2682
+        orig_rnechec:        5909
 b) wKf5-->g5
 
   1.Kb6-c7[If6] b7-b8=L[If7] +   2.Kc7-c8[If8] Lb8-d6[Ih6] = 
 
               empile:       21478
-            jouecoup:        6690
+           play_move:        6686
         orig_rbechec:        2964
         orig_rnechec:        6573
 c) Imitator c5
@@ -281,7 +281,7 @@ c) Imitator c5
   1.Kb6-a6[Ib5] b7-b8=T[Ib6]   2.Ka6-a7[Ib7] Tb8-b2[Ib1] = 
 
               empile:       20628
-            jouecoup:        6331
+           play_move:        6327
         orig_rbechec:        2808
         orig_rnechec:        6186
 d) Imitator a7
@@ -289,7 +289,7 @@ d) Imitator a7
   1.Kb6-c5[Ib6] b7-b8=D[Ib7]   2.Kc5-d5[Ic7] Db8-b4[Ic3] = 
 
               empile:        7243
-            jouecoup:        1969
+           play_move:        1965
         orig_rbechec:         880
         orig_rnechec:        1914
 Loesung beendet. 
@@ -325,10 +325,10 @@ Loesung beendet.
    1.Tf1*g1[Ib8] + !
 
 
-              empile:        7080
-            jouecoup:        2470
-        orig_rbechec:        1124
-        orig_rnechec:        1980
+              empile:        7152
+           play_move:        2475
+        orig_rbechec:        1138
+        orig_rnechec:        1955
 Loesung beendet. 
 
 
@@ -404,7 +404,7 @@ Loesung beendet.
 
 
               empile:      258344
-            jouecoup:      125282
+           play_move:      125282
         orig_rbechec:       48886
         orig_rnechec:       83689
 Loesung beendet. 
@@ -464,7 +464,7 @@ Loesung beendet.
 
 
               empile:       17192
-            jouecoup:        8533
+           play_move:        8533
         orig_rbechec:        8318
         orig_rnechec:        2322
 Loesung beendet. 
@@ -506,7 +506,7 @@ Loesung beendet.
   1.d2*e1=L[Ib4] + g7*f8=L[Ia5]   2.Le1-g3[Ic7] + Lf8-d6[Ia5]   3.Lg3-h2[Ib4] + Ld6-c7[Ia5] = 
 
               empile:       10193
-            jouecoup:        4736
+           play_move:        4712
         orig_rbechec:        3025
         orig_rnechec:        2384
 Loesung beendet. 
@@ -591,7 +591,7 @@ Loesung beendet.
 
 
               empile:      451981
-            jouecoup:      313726
+           play_move:      313726
         orig_rbechec:      286517
         orig_rnechec:       32161
 Loesung beendet. 
@@ -658,10 +658,10 @@ Loesung beendet.
                                       5...cTh1-b1=cD[Ia1] #
 
 
-              empile:      500041
-            jouecoup:       97122
-        orig_rbechec:       44386
-        orig_rnechec:       73227
+              empile:      500031
+           play_move:       97091
+        orig_rbechec:       44355
+        orig_rnechec:       73202
 Loesung beendet. 
 
 
@@ -700,7 +700,7 @@ a)
   1.0-0-0[Ig4] Ka5-b4[Ih3] 
 
               empile:          18
-            jouecoup:          20
+           play_move:          10
         orig_rbechec:          12
         orig_rnechec:          10
 b) SchwarzerLaengstzueger
@@ -711,7 +711,7 @@ b) SchwarzerLaengstzueger
   1.0-0-0 Ka5-b4 
 
               empile:          17
-            jouecoup:          17
+           play_move:           9
         orig_rbechec:          11
         orig_rnechec:           9
 Loesung beendet. 

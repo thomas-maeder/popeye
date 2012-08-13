@@ -25,7 +25,7 @@
 
 
               empile:          27
-            jouecoup:          21
+           play_move:          21
         orig_rbechec:           8
         orig_rnechec:          20
 solution finished. 
@@ -57,7 +57,7 @@ solution finished.
   1.CPb6-b7   2.CPb7-b8 # 
 
               empile:          76
-            jouecoup:          76
+           play_move:          74
         orig_rbechec:          20
         orig_rnechec:          74
 solution finished. 
@@ -92,7 +92,7 @@ solution finished.
 
 
               empile:         274
-            jouecoup:         193
+           play_move:         193
         orig_rbechec:          82
         orig_rnechec:         182
 solution finished. 

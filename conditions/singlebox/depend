@@ -4,12 +4,10 @@ conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h \
- stipulation/has_solution_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/pipe.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- debugging/trace.h
+ stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/move_player.h debugging/trace.h
 
 conditions/singlebox/type1.h:
 
@@ -49,23 +47,21 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-stipulation/has_solution_type.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/pipe.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/help_play/branch.h:
+stipulation/has_solution_type.h:
+
+stipulation/pipe.h:
+
+stipulation/move_player.h:
 
 debugging/trace.h:
 conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
@@ -74,12 +70,12 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h \
- stipulation/has_solution_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/pipe.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- conditions/singlebox/type1.h debugging/trace.h
+ stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/move_player.h \
+ solving/post_move_iteration.h conditions/singlebox/type1.h \
+ debugging/trace.h
 
 conditions/singlebox/type2.h:
 
@@ -119,23 +115,23 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-stipulation/has_solution_type.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/pipe.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/help_play/branch.h:
+stipulation/has_solution_type.h:
+
+stipulation/pipe.h:
+
+stipulation/move_player.h:
+
+solving/post_move_iteration.h:
 
 conditions/singlebox/type1.h:
 
@@ -146,11 +142,10 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h \
- stipulation/has_solution_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/pipe.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/move_player.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  debugging/trace.h
 
@@ -192,23 +187,21 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-stipulation/has_solution_type.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/pipe.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/help_play/branch.h:
+stipulation/has_solution_type.h:
+
+stipulation/pipe.h:
+
+stipulation/move_player.h:
 
 conditions/singlebox/type1.h:
 

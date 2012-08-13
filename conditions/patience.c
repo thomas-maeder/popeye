@@ -1,16 +1,16 @@
 #include "conditions/patience.h"
 #include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
 boolean PatienceB;
-square sqdep[maxply+1];
+static square sqdep[maxply+1];
 
 static boolean patience_legal()
 {
@@ -29,54 +29,16 @@ static boolean patience_legal()
            (bl_last_vacated && e[bl_last_vacated]));
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STPatienceChessLegalityTester);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_patience_chess(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STPatienceChessLegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -146,3 +108,46 @@ stip_length_type patience_chess_legality_tester_defend(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
+
+/*
+verify_position
+  if (!CondFlag[patience]) {
+    PatienceB = false;
+  }
+
+play_move
+  sqdep[nbply] = sq_departure;
+
+if (PatienceB) {
+  ply nply;
+  e[sq_departure]= obs;
+  for (nply= nbply - 1 ; nply > 1 ; nply--) {
+    if (trait[nply] == trait_ply) {
+      e[sqdep[nply]]= vide;
+    }
+  }
+}
+
+retract_move
+
+  if (PatienceB) {
+    ply nply;
+    for (nply= nbply - 1 ; nply > 1 ; nply--) {
+      if (trait[nply] == trait[nbply]) {
+        e[sqdep[nply]]= obs;
+      }
+    }
+  }
+
+WriteConditions
+
+    if ((cond == patience) && PatienceB) {
+      strcat(CondLine, "    ");
+      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+    }
+
+ParseCond
+      case patience:
+        tok = ParseVariant(&PatienceB, gpType);
+        break;
+ */

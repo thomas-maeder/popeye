@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = trace.c
+SRC_CFILES = measure.c trace.c
 
 INCLUDES = measure.h trace.h
 

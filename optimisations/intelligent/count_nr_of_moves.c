@@ -3,6 +3,8 @@
 #include "pyproof.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -435,11 +437,11 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
 
     if (reserve[curr_reserve].nr_remaining_moves[Black]>=moves)
     {
-      piece pp;
-      for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+      PieNam pp;
+      for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       {
         unsigned int const time = black_pawn_promotion(pawn_comes_from,
-                                                       pp,
+                                                       -pp,
                                                        to_be_blocked);
         if (time<result)
           result = time;

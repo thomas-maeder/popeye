@@ -38,7 +38,7 @@ a)
 
 
               empile:       40661
-            jouecoup:       26670
+           play_move:       26670
         orig_rbechec:        7197
         orig_rnechec:       24433
 b) Circe
@@ -54,7 +54,7 @@ b) Circe
 
 
               empile:       10762
-            jouecoup:        7395
+           play_move:        7395
         orig_rbechec:        2084
         orig_rnechec:        6774
 c) GlasgowChess
@@ -68,7 +68,7 @@ c) GlasgowChess
 
 
               empile:        3868
-            jouecoup:        3819
+           play_move:        3819
         orig_rbechec:         962
         orig_rnechec:        3645
 d) AntiAndernachChess
@@ -80,7 +80,7 @@ d) AntiAndernachChess
 
 
               empile:         212
-            jouecoup:         202
+           play_move:         202
         orig_rbechec:          59
         orig_rnechec:         192
 solution finished. 
@@ -138,7 +138,7 @@ a)
 
 
               empile:       44179
-            jouecoup:       32254
+           play_move:       32254
         orig_rbechec:       19217
         orig_rnechec:       14212
 b) BlackSynchronMover
@@ -159,7 +159,7 @@ b) BlackSynchronMover
 
 
               empile:        1393
-            jouecoup:         786
+           play_move:         786
         orig_rbechec:         401
         orig_rnechec:         404
 solution finished. 

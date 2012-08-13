@@ -1,6 +1,7 @@
 #include "conditions/madrasi.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pydata.h"
+#include "solving/en_passant.h"
 
 #include "debugging/trace.h"
 
@@ -28,7 +29,7 @@ static boolean is_ep_paralysed_on(piece p,
      black berolina pawn  pbb     pbcheck
   */
 
-  ply const ply_dblstp = nbply-1;
+  ply const ply_dblstp = parent_ply[nbply];
 
   return (ep[ply_dblstp]==sq || ep2[ply_dblstp]==sq)
           && nbpiece[p]>0

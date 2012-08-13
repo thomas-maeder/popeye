@@ -1,4 +1,5 @@
 #include "conditions/amu/mate_filter.h"
+#include "conditions/amu/attack_counter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
@@ -45,7 +46,7 @@ stip_length_type amu_mate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (att_1[nbply])
+  if (amu_attacked_exactly_once[nbply])
     result = attack(next,n);
   else
     result = n+2;

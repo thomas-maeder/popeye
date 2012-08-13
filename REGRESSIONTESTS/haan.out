@@ -29,7 +29,7 @@ a)
   1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 # 
 
               empile:       10697
-            jouecoup:        9231
+           play_move:        9227
         orig_rbechec:         865
         orig_rnechec:        8952
 b) wLb1 
@@ -37,7 +37,7 @@ b) wLb1
   1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 # 
 
               empile:       10070
-            jouecoup:        7577
+           play_move:        7573
         orig_rbechec:        1238
         orig_rnechec:        7211
 Loesung beendet. 
@@ -75,7 +75,7 @@ Loesung beendet.
   1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S = 
 
               empile:       64276
-            jouecoup:       29326
+           play_move:       29309
         orig_rbechec:           0
         orig_rnechec:       27869
 Loesung beendet. 
@@ -112,7 +112,7 @@ Loesung beendet.
   1.a7-a6 b6-b7 # 
 
               empile:          13
-            jouecoup:          17
+           play_move:          13
         orig_rbechec:           5
         orig_rnechec:          13
 Loesung beendet. 
@@ -152,7 +152,7 @@ a)
   1.a7-a5 b6-b7 # 
 
               empile:          14
-            jouecoup:          16
+           play_move:          14
         orig_rbechec:           5
         orig_rnechec:          14
 b) HaanerSchach
@@ -161,9 +161,82 @@ b) HaanerSchach
   1.a7-a6 b6-b7 # 
 
               empile:          14
-            jouecoup:          16
+           play_move:          14
         orig_rbechec:           5
         orig_rnechec:          14
+Loesung beendet. 
+
+
+
+Beispiel fuer Rochadeschach + Haaner Schach
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   K   5
+|                                   |
+4  -B   .   .   .   .   .       .   4
+|                                   |
+3   .   .   .   .   .   .       .   3
+|                                   |
+2   .   .   .   .   .   .       B   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s=1                         2 + 1
+             HaanerSchach
+            RochadeSchach
+
+   1.Kh5-h3/wBh2-h4 !
+      1...a4-a3 =
+
+
+              empile:          41
+           play_move:          21
+        orig_rbechec:          31
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+
+Beispiel fuer Rochade in Haaner Schach
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .       .       2
+|                                   |
+1   .   .   .   .   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s=1                         2 + 1
+             HaanerSchach
+
+   1.0-0 !
+      1...h4-h3 =
+
+
+              empile:          44
+           play_move:          23
+        orig_rbechec:          25
+        orig_rnechec:           0
 Loesung beendet. 
 
 

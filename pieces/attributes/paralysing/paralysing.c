@@ -63,18 +63,13 @@ boolean paralysiert(square s)
 
   if (paralysis_suspended)
     result = false;
-  else if (e[s]>obs)
+  else
   {
-    square const roi = king_square[White];
-    king_square[White] = s;
-    result = rbechec(testparalyse);
-    king_square[White] = roi;
-  }
-  else {
-    square const roi = king_square[Black];
-    king_square[Black] = s;
-    result = rnechec(testparalyse);
-    king_square[Black] = roi;
+    Side const paralysed_side = e[s]>obs ? White : Black;
+    square const save_king_square = king_square[paralysed_side];
+    king_square[paralysed_side] = s;
+    result = rechec[paralysed_side](testparalyse);
+    king_square[paralysed_side] = save_king_square;
   }
 
   TraceFunctionExit(__func__);

@@ -9,7 +9,8 @@ pieces/attributes/neutral/initialiser$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h stipulation/move_player.h \
+ pieces/side_change.h debugging/trace.h
 
 pieces/attributes/neutral/initialiser.h:
 
@@ -64,5 +65,81 @@ stipulation/pipe.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
+
+stipulation/move_player.h:
+
+pieces/side_change.h:
+
+debugging/trace.h:
+pieces/attributes/neutral/half$(OBJ_SUFFIX): pieces/attributes/neutral/half.c \
+ pieces/attributes/neutral/half.h solving/battle_play/attack_play.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h \
+ solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h \
+ pieces/attributes/neutral/initialiser.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ stipulation/move_player.h debugging/trace.h
+
+pieces/attributes/neutral/half.h:
+
+solving/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+pieces/attributes/neutral/initialiser.h:
+
+stipulation/stipulation.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/pipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/move_player.h:
 
 debugging/trace.h:

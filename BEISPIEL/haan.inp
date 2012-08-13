@@ -60,4 +60,21 @@ steine  weiss		kc8 bb6
 zwilling bedingung haanerschach
                    schwarzerkuerzestzueger
 
+weiter
+
+titel Beispiel fuer Rochadeschach + Haaner Schach
+steine weiss kh5 bh2
+       schwarz ba4
+bedingung rochadeschach haan loch g2g3g4
+forderung s=1
+option vari ohnesk
+
+weiter
+
+titel Beispiel fuer Rochade in Haaner Schach
+steine weiss ke1 th1 schwarz bh4
+forderung s=1
+bedingung haan loch f2h2
+option vari ohnesk
+
 endeproblem

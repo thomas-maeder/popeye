@@ -1,6 +1,7 @@
 #include "utilities/table.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -13,6 +14,14 @@ enum
 typedef unsigned int table_position;
 
 static unsigned int number_of_tables;
+
+enum
+{
+  push_side_change_stack_size = 2000
+};
+
+static change_rec push_side_change_stack[push_side_change_stack_size];
+static change_rec const * const push_side_change_stack_limit = &push_side_change_stack[push_side_change_stack_size];
 
 /* current position in a specific table
  */
@@ -29,7 +38,7 @@ void reset_tables(void)
 {
   number_of_tables = 0;
   current_position[0] = 0;
-  liste[0].push_top = push_colour_change_stack;
+  liste[0].push_top = push_side_change_stack;
 }
 
 /* Allocate a table.
@@ -79,25 +88,19 @@ void append_to_top_table(void)
   else
   {
     ++current_position[number_of_tables];
-    current(nbply,&liste[current_position[number_of_tables]]);
+    current(&liste[current_position[number_of_tables]]);
   }
 
-  if (flag_outputmultiplecolourchanges)
+  if (TSTFLAG(PieSpExFlags,Magic) || CondFlag[masand])
   {
-    change_rec *rec;
     table_position const curr = current_position[number_of_tables];
-    change_rec ** const sp= &liste[curr].push_top;
-    *sp = liste[curr-1].push_top;
-    liste[curr].push_bottom = *sp;
-
-    assert(colour_change_sp[parent_ply[nbply]]<=colour_change_sp[nbply]);
-    for (rec = colour_change_sp[parent_ply[nbply]];
-         rec!=colour_change_sp[nbply];
-         ++rec)
-      PushChangedColour(*sp,
-                        push_colour_change_stack_limit,
-                        rec->square,
-                        rec->pc);
+    liste[curr].push_bottom = liste[curr-1].push_top;
+    liste[curr].push_top = liste[curr].push_bottom;
+    assert(side_change_sp[parent_ply[nbply]]<=side_change_sp[nbply]);
+    copy_side_change_stack_segment(side_change_sp[parent_ply[nbply]],
+                                   side_change_sp[nbply],
+                                   &liste[curr].push_top,
+                                   push_side_change_stack_limit);
   }
 
   TraceFunctionExit(__func__);
@@ -138,14 +141,24 @@ boolean is_current_move_in_table(table t)
 {
   table_position i;
   coup mov;
+  boolean result = false;
 
-  current(nbply,&mov);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  current(&mov);
   assert(current_position[t]>=current_position[t-1]);
   for (i = current_position[t-1]+1; i<=current_position[t]; i++)
     if (moves_equal(&mov,&liste[i]))
-      return true;
+    {
+      result = true;
+      break;
+    }
 
-  return false;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Invoke a function on each element of a table

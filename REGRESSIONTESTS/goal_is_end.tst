@@ -27,7 +27,7 @@
   1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=B c81 
 
               empile:          99
-            jouecoup:         134
+           play_move:          94
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -72,7 +72,7 @@ solution finished.
 
 
               empile:          79
-            jouecoup:         102
+           play_move:         102
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -108,7 +108,7 @@ both sides need a kingboth sides need a king
   1.Sh5-f6   2.Sf6-g8 h7*g8=B c81 
 
               empile:          40
-            jouecoup:          73
+           play_move:          61
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -145,7 +145,7 @@ post-key play
                   3.Rf6-f8 c81
 
               empile:         620
-            jouecoup:         122
+           play_move:         122
         orig_rbechec:          34
         orig_rnechec:          51
 solution finished. 

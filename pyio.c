@@ -71,6 +71,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "solving/battle_play/attack_play.h"
+#include "solving/castling.h"
 #include "pyproof.h"
 #include "stipulation/pipe.h"
 #include "output/output.h"
@@ -114,12 +115,14 @@
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
+#include "solving/en_passant.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 #include "conditions/check_zigzag.h"
 #include "conditions/patience.h"
 #include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
+#include "conditions/kobul.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -357,9 +360,6 @@ static void WriteConditions(int alignment)
       continue;
     if (cond == exact || cond == ultra)
       continue;
-    if (cond == einstein
-        && (CondFlag[reveinstein] || CondFlag[antieinstein]))
-      continue;
     if (  (cond == woozles
            && (CondFlag[biwoozles]
                ||CondFlag[heffalumps]))
@@ -498,11 +498,17 @@ static void WriteConditions(int alignment)
         }
     }
 
-    if (cond == promotiononly) {
+    if (cond == promotiononly)
+    {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
       char LocalBuf[4];
-      piece pp= vide;
-      while ((pp= getprompiece[pp]) != vide) {
+      PieNam pp = Empty;
+      while (true)
+      {
+        pp = getprompiece[pp];
+        if (pp==Empty)
+          break;
+
         if (PieceTab[pp][1] != ' ')
           sprintf(LocalBuf, " %c%c",
                   UPCASE(PieceTab[pp][0]),
@@ -523,8 +529,13 @@ static void WriteConditions(int alignment)
     if (cond == football) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
       char LocalBuf[4];
-      piece pp= vide;
-      while ((pp= getfootballpiece[pp]) != vide) {
+      PieNam pp= Empty;
+      while (true)
+      {
+        pp = getfootballpiece[pp];
+        if (pp==vide)
+          break;
+
         if (PieceTab[pp][1] != ' ')
           sprintf(LocalBuf, " %c%c",
                   UPCASE(PieceTab[pp][0]),
@@ -562,7 +573,7 @@ static void WriteConditions(int alignment)
     if (cond == imitators)
     {
       unsigned int imi_idx;
-      for (imi_idx = 0; imi_idx<inum[1]; imi_idx++)
+      for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
         AddSquare(CondLine,isquare[imi_idx]);
     }
 
@@ -744,11 +755,6 @@ static void WriteConditions(int alignment)
         strcat(CondLine, "  ");
         strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
       }
-    }
-
-    if ((cond == patience) && PatienceB) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
     }
 
     if (CondFlag[singlebox])    {
@@ -4342,11 +4348,7 @@ static char *ReadSquares(SquareListContext context)
   }
 
   if (context==ReadImitators)
-  {
-    ply n;
-    for (n = 1; n<=maxply; n++)
-      inum[n] = nr_squares_read;
-  }
+    number_of_imitators = nr_squares_read;
 
   return tok;
 } /* ReadSquares */
@@ -5028,12 +5030,6 @@ static char *ParseCond(void) {
         calc_refl_king[Black]= true;
         flagmummer[Black] = true;
         break;
-      case antieinstein:
-        CondFlag[einstein]= true;
-        break;
-      case reveinstein:
-        CondFlag[einstein]= true;
-        break;
       case whforsqu:
         ReadSquares(WhForcedSq);
         white_length= len_whforcedsquare;
@@ -5104,7 +5100,7 @@ static char *ParseCond(void) {
       case supercirce:
       case april:
       case circecage:
-        circerenai= rensuper;
+        circerenai= 0;
         anycirprom= true;
         anycirce= true;
         break;
@@ -5149,12 +5145,12 @@ static char *ParseCond(void) {
         anyclone= true;
         break;
       case circeclone:
-        anycirce=
-            anyclone= true;
+        circerenai = rennormal;
+        anycirce= true;
+        anyclone= true;
         break;
       case circeassassin:
         anycirce = true;
-        circerenai = rennormal;
         break;
 
         /* different types of anticirce */
@@ -5194,14 +5190,16 @@ static char *ParseCond(void) {
       case antiantipoden:
         antirenai= renantipoden;
         anyanticirce= true;
+        anyanticirprom = true;
         break;
       case antiequipollents:
         antirenai= renequipollents_anti;
         anyanticirce= true;
+        anyanticirprom = true;
         break;
       case antisuper:
-        antirenai= rensuper;
         anyanticirce= true;
+        anyanticirprom = true;
         break;
 
         /* different types of immunchess */
@@ -5264,7 +5262,7 @@ static char *ParseCond(void) {
         break;
       case phantom:
         marsrenai= rennormal;
-        anymars= CondFlag[phantom]= true;
+        anymars= true;
         break;
       case plus:
         marsrenai= renplus;
@@ -5346,9 +5344,6 @@ static char *ParseCond(void) {
       case annan:
         annanvar = 0;
         tok = ParseVariant(NULL, gpAnnan);
-        break;
-      case patience:
-        tok = ParseVariant(&PatienceB, gpType);
         break;
       case kobulkings:
         kobulking[White] = kobulking[Black] = true;
@@ -6843,7 +6838,7 @@ void WritePosition() {
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<inum[1]; imi_idx++)
+    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
       e[isquare[imi_idx]]= -obs;
   }
 
@@ -7324,7 +7319,7 @@ void LaTeXBeginDiagram(void)
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<inum[1]; imi_idx++)
+    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
       e[isquare[imi_idx]]= -obs;
   }
 

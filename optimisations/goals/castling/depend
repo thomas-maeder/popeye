@@ -9,7 +9,7 @@ optimisations/goals/castling/filter$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/goals/prerequisite_guards.h \
- debugging/trace.h
+ solving/castling.h debugging/trace.h
 
 optimisations/goals/castling/filter.h:
 
@@ -64,5 +64,7 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 stipulation/goals/prerequisite_guards.h:
+
+solving/castling.h:
 
 debugging/trace.h:

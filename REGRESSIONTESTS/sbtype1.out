@@ -27,7 +27,7 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
 
 
               empile:         243
-            jouecoup:         148
+           play_move:         148
         orig_rbechec:          47
         orig_rnechec:         149
 Loesung beendet. 
@@ -63,7 +63,7 @@ Loesung beendet.
 
 
               empile:        2877
-            jouecoup:        1668
+           play_move:        1668
         orig_rbechec:        1484
         orig_rnechec:         620
 Loesung beendet. 
@@ -98,7 +98,7 @@ Loesung beendet.
 
 
               empile:          21
-            jouecoup:          24
+           play_move:          24
         orig_rbechec:           1
         orig_rnechec:          24
 Loesung beendet. 
@@ -132,7 +132,7 @@ Loesung beendet.
   1.d2-d1=T Sg5-f3 # 
 
               empile:         360
-            jouecoup:         300
+           play_move:         298
         orig_rbechec:          38
         orig_rnechec:         297
 Loesung beendet. 
@@ -221,7 +221,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
 
 
               empile:     1621295
-            jouecoup:     1033125
+           play_move:     1033125
         orig_rbechec:      527021
         orig_rnechec:      565952
 Loesung beendet. 
@@ -329,7 +329,7 @@ Beispiel 1
 
 
               empile:     7508810
-            jouecoup:     6569962
+           play_move:     6569962
         orig_rbechec:     4946997
         orig_rnechec:     1669149
 Loesung beendet. 
@@ -389,7 +389,7 @@ Loesung beendet.
 
 
               empile:      760262
-            jouecoup:      486025
+           play_move:      486025
         orig_rbechec:       79269
         orig_rnechec:      435492
 Loesung beendet. 

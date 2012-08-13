@@ -10,7 +10,7 @@ stipulation/goals/castling/reached_tester$(OBJ_SUFFIX): \
  stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h stipulation/goals/reached_tester.h \
  solving/battle_play/defense_play.h stipulation/boolean/true.h \
- debugging/trace.h
+ solving/castling.h debugging/trace.h
 
 stipulation/goals/castling/reached_tester.h:
 
@@ -65,5 +65,7 @@ stipulation/goals/reached_tester.h:
 solving/battle_play/defense_play.h:
 
 stipulation/boolean/true.h:
+
+solving/castling.h:
 
 debugging/trace.h:

@@ -32,7 +32,7 @@ a)
 
 
               empile:         491
-            jouecoup:         476
+           play_move:         476
         orig_rbechec:         130
         orig_rnechec:         361
 b) =3
@@ -52,7 +52,7 @@ b) =3
 
 
               empile:         836
-            jouecoup:         831
+           play_move:         831
         orig_rbechec:         452
         orig_rnechec:         701
 solution finished. 
@@ -87,7 +87,7 @@ solution finished.
   1...Kc8-c7   2.a7*b6 Kc7*b6 = 
 
               empile:         162
-            jouecoup:         161
+           play_move:         158
         orig_rbechec:          80
         orig_rnechec:         149
 solution finished. 
@@ -123,7 +123,7 @@ solution finished.
   1.Bh7-b1 e7*f8=B   2.Re2-b2 Bf8*d6   3.h2-h1=B Bd6-e5 = 
 
               empile:   164155180
-            jouecoup:    78776326
+           play_move:    78776314
         orig_rbechec:    40404464
         orig_rnechec:    70399359
 solution finished. 
@@ -160,7 +160,7 @@ solution finished.
   1.nBa5-c3 nRg6-b6 +   2.nBc3-a1 g5*f4 +   3.nRb6-b2 nBa1*b2 # 
 
               empile:    18576499
-            jouecoup:     7259157
+           play_move:     7259145
         orig_rbechec:     7083065
         orig_rnechec:     4266448
 solution finished. 

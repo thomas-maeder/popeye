@@ -40,7 +40,10 @@
 #include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/sat.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
+#include "conditions/singlebox/type1.h"
+#include "conditions/singlebox/type2.h"
 #include "stipulation/stipulation.h"
+#include "solving/en_passant.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -176,28 +179,25 @@ boolean rcardech(square intermediate_square,
 
 boolean feebechec(evalfunction_t *evaluate)
 {
-  piece   *pcheck;
+  PieNam const *pcheck;
 
-  for (pcheck= checkpieces; *pcheck; pcheck++) {
-    if (nbpiece[-*pcheck]>0
+  for (pcheck = checkpieces; *pcheck; ++pcheck)
+    if (nbpiece[-(piece)*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[White], -*pcheck, evaluate))
-    {
       return true;
-    }
-  }
+
   return false;
 }
 
-boolean feenechec(evalfunction_t *evaluate) {
-  piece   *pcheck;
+boolean feenechec(evalfunction_t *evaluate)
+{
+  PieNam const *pcheck;
 
-  for (pcheck= checkpieces; *pcheck; pcheck++) {
+  for (pcheck = checkpieces; *pcheck; ++pcheck)
     if (nbpiece[*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[Black], *pcheck, evaluate))
-    {
       return true;
-    }
-  }
+
   return false;
 }
 
@@ -467,9 +467,9 @@ boolean singleboxtype3_rnechec(evalfunction_t *evaluate)
        sq!=vide;
        sq = next_latent_pawn(sq,White))
   {
-    piece pprom;
-    for (pprom = next_singlebox_prom(vide,White);
-         pprom!=vide;
+    PieNam pprom;
+    for (pprom = next_singlebox_prom(Empty,White);
+         pprom!=Empty;
          pprom = next_singlebox_prom(pprom,White))
     {
       boolean result;
@@ -516,7 +516,7 @@ boolean annan_rnechec(evalfunction_t *evaluate)
   return ret;
 }
 
-boolean (*rnechec)(evalfunction_t *evaluate);
+boolean(*rechec[nr_sides])(evalfunction_t *evaluate);
 
 static boolean calc_rbechec(evalfunction_t *evaluate);
 
@@ -764,17 +764,17 @@ boolean singleboxtype3_rbechec(evalfunction_t *evaluate)
        sq!=vide;
        sq = next_latent_pawn(sq,Black))
   {
-    piece pprom;
-    for (pprom = next_singlebox_prom(vide,Black);
-         pprom!=vide;
+    PieNam pprom;
+    for (pprom = next_singlebox_prom(Empty,Black);
+         pprom!=Empty;
          pprom = next_singlebox_prom(pprom,Black))
     {
       boolean result;
       ++promotionstried;
       e[sq] = -pprom;
-      ++nbpiece[-pprom];
+      ++nbpiece[-(piece)pprom];
       result = orig_rbechec(evaluate);
-      --nbpiece[-pprom];
+      --nbpiece[-(piece)pprom];
       e[sq] = pn;
       if (result) {
         return true;
@@ -784,8 +784,6 @@ boolean singleboxtype3_rbechec(evalfunction_t *evaluate)
 
   return promotionstried==0 && orig_rbechec(evaluate);
 }
-
-boolean (*rbechec)(evalfunction_t *evaluate);
 
 
 boolean rncircech(square sq_departure, square sq_arrival, square sq_capture) {
@@ -842,7 +840,7 @@ static boolean echecc_wh_extinction(void)
         break;
 
     king_square[White] = *bnp;
-    if (rbechec(eval_white))
+    if (rechec[White](eval_white))
     {
       king_square[White] = save_rb;
       return true;
@@ -869,7 +867,7 @@ static boolean echecc_bl_extinction(void)
         break;
 
     king_square[Black] = *bnp;
-    if (rnechec(eval_black))
+    if (rechec[Black](eval_black))
     {
       king_square[Black] = save_rn;
       return true;
@@ -884,7 +882,7 @@ static boolean echecc_wh_assassin(void)
 {
   square const *bnp;
 
-  if (rbechec(eval_white))
+  if (rechec[White](eval_white))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -899,7 +897,7 @@ static boolean echecc_wh_assassin(void)
       square const rb_sic = king_square[White];
       king_square[White] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = rbechec(eval_white);
+      flag = rechec[White](eval_white);
       CondFlag[circeassassin] = true;
       king_square[White] = rb_sic;
       if (flag)
@@ -914,7 +912,7 @@ static boolean echecc_bl_assassin(void)
 {
   square const *bnp;
 
-  if (rnechec(eval_black))
+  if (rechec[Black](eval_black))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -935,7 +933,7 @@ static boolean echecc_bl_assassin(void)
       square rn_sic = king_square[Black];
       king_square[Black] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = rnechec(eval_black);
+      flag = rechec[Black](eval_black);
       CondFlag[circeassassin] = true;
       king_square[Black] = rn_sic;
       if (flag)
@@ -948,7 +946,7 @@ static boolean echecc_bl_assassin(void)
 
 static boolean echecc_wh_bicolores(void)
 {
-  if (rbechec(eval_white))
+  if (rechec[White](eval_white))
     return true;
   else
   {
@@ -956,7 +954,7 @@ static boolean echecc_wh_bicolores(void)
     square rn_sic = king_square[Black];
     king_square[Black] = king_square[White];
     CondFlag[bicolores] = false;
-    result = rnechec(eval_black);
+    result = rechec[Black](eval_black);
     CondFlag[bicolores] = true;
     king_square[Black] = rn_sic;
     return result;
@@ -965,7 +963,7 @@ static boolean echecc_wh_bicolores(void)
 
 static boolean echecc_bl_bicolores(void)
 {
-  if (rnechec(eval_black))
+  if (rechec[Black](eval_black))
     return true;
   else
   {
@@ -973,7 +971,7 @@ static boolean echecc_bl_bicolores(void)
     square rb_sic = king_square[White];
     king_square[White] = king_square[Black];
     CondFlag[bicolores] = false;
-    result = rbechec(eval_white);
+    result = rechec[White](eval_white);
     CondFlag[bicolores] = true;
     king_square[White] = rb_sic;
     return result;
@@ -1006,7 +1004,7 @@ boolean echecc(Side camp)
       else if (CondFlag[bicolores])
         result = echecc_wh_bicolores();
       else
-        result = CondFlag[antikings]!=rbechec(eval_white);
+        result = CondFlag[antikings]!=rechec[White](eval_white);
     }
   }
   else /* camp==Black */
@@ -1029,7 +1027,7 @@ boolean echecc(Side camp)
       else if (CondFlag[bicolores])
         result = echecc_bl_bicolores();
       else
-        result = CondFlag[antikings]!=rnechec(eval_black);
+        result = CondFlag[antikings]!=rechec[Black](eval_black);
     }
   }
 
@@ -1120,7 +1118,7 @@ static boolean AntiCirceEch(ply ply_id,
   }
   else
   {
-	piece* acprompieces= GetPromotingPieces(sq_departure,
+	PieNam* acprompieces= GetPromotingPieces(sq_departure,
 										    e[sq_departure],
 										    advers(camp),
 										    spec[sq_departure],
@@ -1128,14 +1126,14 @@ static boolean AntiCirceEch(ply ply_id,
 										    e[sq_capture]);
     if (acprompieces) {
       /* Pawn checking on last rank or football check on a/h file */
-      piece pprom= acprompieces[vide];
+      PieNam pprom= acprompieces[vide];
       square    cren;
       do {
         cren= (*antirenai)(ply_id, pprom, spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
         pprom= acprompieces[pprom];
-      } while (!LegalAntiCirceMove(cren, sq_capture, sq_departure) && pprom != vide);
+      } while (!LegalAntiCirceMove(cren, sq_capture, sq_departure) && pprom != Empty);
       if (  !LegalAntiCirceMove(cren, sq_capture, sq_departure)
-            && pprom == vide)
+            && pprom == Empty)
       {
         return false;
       }
@@ -1166,7 +1164,7 @@ boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture)
 boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
   if (is_forwardpawn(e[sq_departure]) && PromSq(White, sq_capture)) {
     /* Pawn checking on last rank */
-    return next_singlebox_prom(vide,White)!=vide;
+    return next_singlebox_prom(Empty,White)!=Empty;
   }
   else {
     return eval_2(sq_departure,sq_arrival,sq_capture);
@@ -1176,7 +1174,7 @@ boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_ca
 boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
   if (is_forwardpawn(e[sq_departure]) && PromSq(Black, sq_capture)) {
     /* Pawn checking on last rank */
-    return next_singlebox_prom(vide,Black)!=vide;
+    return next_singlebox_prom(Empty,Black)!=Empty;
   }
   else {
     return eval_2(sq_departure,sq_arrival,sq_capture);

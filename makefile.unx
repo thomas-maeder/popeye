@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.172 2012/07/04 17:54:58 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.173 2012/08/13 16:55:34 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -197,9 +197,10 @@ PLATFORMS =     platform/other platform/windows32 platform/dos \
 		platform/unix platform/windows64
 
 NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
-    conditions conditions/amu conditions/ultraschachzwang \
+    conditions conditions/amu conditions/ultraschachzwang conditions/marscirce \
     conditions/circe conditions/anticirce conditions/ohneschach \
-    conditions/owu conditions/maff conditions/singlebox \
+    conditions/owu conditions/maff conditions/singlebox conditions/einstein \
+    conditions/transmuting_kings \
     optimisations DHT \
     stipulation stipulation/boolean \
     stipulation/battle_play stipulation/help_play \
@@ -218,7 +219,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals/immobile stipulation/goals/notcheck \
     solving solving/battle_play \
     position \
-    pieces/attributes pieces/attributes/neutral \
+    pieces pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \
     optimisations/intelligent \
@@ -236,11 +237,12 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 # TODO avoid mentioning solving solving/battle_play twice
 NESTEDLIBDIRS = . \
     solving solving/battle_play \
-    conditions conditions/amu conditions/ultraschachzwang \
+    conditions conditions/amu conditions/ultraschachzwang conditions/marscirce \
     conditions/circe conditions/anticirce conditions/ohneschach \
-    conditions/owu conditions/maff conditions/singlebox \
+    conditions/owu conditions/maff conditions/singlebox conditions/einstein \
+    conditions/transmuting_kings \
     optimisations DHT \
-    pieces/attributes pieces/attributes/neutral \
+    pieces pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \
     optimisations/killer_move optimisations/count_nr_opponent_moves \

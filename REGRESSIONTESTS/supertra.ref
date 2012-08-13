@@ -79,7 +79,7 @@
 
 
               empile:       39532
-            jouecoup:       30654
+           play_move:       30654
         orig_rbechec:        1655
         orig_rnechec:       29777
 solution finished. 
@@ -256,7 +256,7 @@ solution finished.
 
 
               empile:       35012
-            jouecoup:       21826
+           play_move:       21826
         orig_rbechec:        2926
         orig_rnechec:       19917
 solution finished. 
@@ -327,7 +327,7 @@ solution finished.
 
 
               empile:       14428
-            jouecoup:       11805
+           play_move:       11805
         orig_rbechec:        1201
         orig_rnechec:       11095
 solution finished. 
@@ -502,7 +502,7 @@ solution finished.
 
 
               empile:      103510
-            jouecoup:       85800
+           play_move:       85800
         orig_rbechec:        4014
         orig_rnechec:       84229
 solution finished. 
@@ -540,7 +540,7 @@ a)
   1.Kg7-f8 Kd5-d4   2.a2-a1=Q + Kd4*a1=Q   3.Rh8-g8 Qa1-f6 # 
 
               empile:     6317423
-            jouecoup:     4513511
+           play_move:     4513505
         orig_rbechec:      192558
         orig_rnechec:     4168795
 b) bPa2-->b2
@@ -552,7 +552,7 @@ b) bPa2-->b2
   1.Rh8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q # 
 
               empile:     6484478
-            jouecoup:     4570882
+           play_move:     4570852
         orig_rbechec:      184651
         orig_rnechec:     4224534
 solution finished. 

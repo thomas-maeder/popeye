@@ -41,7 +41,7 @@
 
 
               empile:       35056
-            jouecoup:       19044
+           play_move:       19044
         orig_rbechec:        9255
         orig_rnechec:       12604
 Loesung beendet. 
@@ -125,7 +125,7 @@ Loesung beendet.
 
 
               empile:       77724
-            jouecoup:       63909
+           play_move:       63909
         orig_rbechec:       40469
         orig_rnechec:       28771
 Loesung beendet. 
@@ -172,7 +172,7 @@ Loesung beendet.
 
 
               empile:      137470
-            jouecoup:       60134
+           play_move:       60134
         orig_rbechec:       18823
         orig_rnechec:       59192
 Loesung beendet. 
@@ -229,7 +229,7 @@ nebenloesig - eigentlich #6
 
 
               empile:      133957
-            jouecoup:      117170
+           play_move:      117170
         orig_rbechec:       50325
         orig_rnechec:       71310
 Loesung beendet. 

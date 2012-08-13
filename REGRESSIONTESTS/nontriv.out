@@ -152,7 +152,7 @@
  50  (Tc1-d1 )
 
               empile:    29799925
-            jouecoup:    21623003
+           play_move:    21623003
         orig_rbechec:    18451561
         orig_rnechec:    15863819
 Loesung beendet. 
@@ -284,7 +284,7 @@ Loesung beendet.
  47  (Ng1-e2 )
 
               empile:   147640358
-            jouecoup:   120523581
+           play_move:   120523581
         orig_rbechec:   107825594
         orig_rnechec:    78646641
 Loesung beendet. 
@@ -408,7 +408,7 @@ Loesung beendet.
  44  (Tc1-d1 )
 
               empile:     1279594
-            jouecoup:     1091400
+           play_move:     1091400
         orig_rbechec:      921563
         orig_rnechec:      745801
 Loesung beendet. 
@@ -517,7 +517,7 @@ Loesung beendet.
  32  (EQf4-h6 )
 
               empile:    14996743
-            jouecoup:    11117118
+           play_move:    11117118
         orig_rbechec:     8908413
         orig_rnechec:     8259074
 Loesung beendet. 
@@ -644,7 +644,7 @@ Loesung beendet.
  47  (Lc1-b2 )
 
               empile:    11108773
-            jouecoup:     9877688
+           play_move:     9877688
         orig_rbechec:     8108201
         orig_rnechec:     7199770
 Loesung beendet. 
@@ -764,7 +764,7 @@ Loesung beendet.
  44  (La2-b3 )
 
               empile:     3815374
-            jouecoup:     2713118
+           play_move:     2713118
         orig_rbechec:     2368127
         orig_rnechec:     1845888
 Loesung beendet. 
@@ -869,7 +869,7 @@ Loesung beendet.
  28  (b2-b3 )
 
               empile:     4364875
-            jouecoup:     3059082
+           play_move:     3059082
         orig_rbechec:     1053339
         orig_rnechec:     2449320
 Loesung beendet. 

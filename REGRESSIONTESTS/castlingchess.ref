@@ -29,7 +29,7 @@
   1.Kb1-c2   2.Kc2-e2/bPh2-d2   3.Ke2-d1 Kc4-d3 = 
 
               empile:        7245
-            jouecoup:        2316
+           play_move:        2304
         orig_rbechec:        3061
         orig_rnechec:        1610
 solution finished. 
@@ -70,7 +70,7 @@ solution finished.
 
 
               empile:        9706
-            jouecoup:        7389
+           play_move:        7389
         orig_rbechec:        6728
         orig_rnechec:        2048
 solution finished. 
@@ -112,7 +112,7 @@ solution finished.
 
 
               empile:        1560
-            jouecoup:        1163
+           play_move:        1163
         orig_rbechec:        1225
         orig_rnechec:         445
 solution finished. 
@@ -147,9 +147,103 @@ solution finished.
   1.Ka8-b7   2.Kb7-d7/wPg7-c7   3.Kd7-c8   4.Kc8-b7   5.Kb7-b5/wPb2-b6   6.Kb5-a6   7.Ka6-b7   8.Kb7-a8 c7-c8=Q # 
 
               empile:       21038
-            jouecoup:       20722
+           play_move:       20713
         orig_rbechec:        6103
         orig_rnechec:       23065
+solution finished. 
+
+
+
+          Nils Adrian Bakke
+        The Problemist xi/2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -R  -P  -P   .   S  -R   6
+|                                   |
+5   .   .   .   .   .   .  -S   .   5
+|                                   |
+4  -B   .  -P  -P   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 9
+            CastlingChess
+
+a) 
+
+  1.Rc6-c5 Kg4-g3   2.Ke8-c6/bBa4-d7 Kg3-f4   3.Kc6-d5 Sg6-e7 # 
+
+              empile:     5632996
+           play_move:     5152707
+        orig_rbechec:      764424
+        orig_rnechec:     5234860
+b) ExchangeCastling
+
+  1.Ba4-d1 + Kg4-f4   2.Bd1-h5 Kf4-g3   3.Ke8-h5/bBh5-e8 Sg6-f4 # 
+
+              empile:     9122576
+           play_move:     7397319
+        orig_rbechec:      450454
+        orig_rnechec:     7317944
+solution finished. 
+
+
+only parts c) and d) supported by Popeye
+cond haanover
+twin cond cell
+twin
+
+          Nils Adrian Bakke
+       The Problemist July 2012
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -B   .   .  -K   .   .  -R   8
+|                                   |
+7   .  -P   .   .   .   .   .  -P   7
+|                                   |
+6   .  -Q  -P  -P   .   .   S  -P   6
+|                                   |
+5   .  -P   .   .   .   .  -S   .   5
+|                                   |
+4  -B   .  -S  -P   .  -P   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                        2 + 16
+            CastlingChess
+
+a) 
+
+  1.c6-c5 Kg4*f4   2.Ke8-c6/bPb5-d7 Kf4-f5   3.Kc6-d5 Sg6-e7 # 
+
+              empile:    12457136
+           play_move:    11404527
+        orig_rbechec:     1653344
+        orig_rnechec:    11675885
+b) ExchangeCastling
+
+  1.Ba4-d1 + Kg4*f4   2.Bd1-h5 Kf4-g3   3.Ke8-h5/bBh5-e8 Sg6-f4 # 
+
+              empile:    20519859
+           play_move:    16321210
+        orig_rbechec:      779558
+        orig_rnechec:    16188273
 solution finished. 
 
 

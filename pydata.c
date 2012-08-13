@@ -31,9 +31,6 @@ killer_state const null_killer_state = {
   initsquare
 };
 
-change_rec* colour_change_stack_limit = &colour_change_stack[colour_change_stack_size];
-change_rec* push_colour_change_stack_limit = &push_colour_change_stack[push_colour_change_stack_size];
-
 static int comparePieceNames(void const * param1, void const * param2)
 {
   PieceChar const *name1 = (PieceChar const *)param1;

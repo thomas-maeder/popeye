@@ -16,17 +16,17 @@ option          varianten
 
 weiteresproblem
 
-autor		J. M. Trillon
-quelle		#1043, Phenix-14 9/1991
+autor           J. M. Trillon
+quelle          #1043, Phenix-14 9/1991
 
-forderung	h#2
+forderung       h#2
 
-bedingung	sentinelles
+bedingung       sentinelles
 
-option		satz
+option          satz
 
-steine		weiss	gd8d1 lg4 ka2
-		schwarz	sb8b2 bg6g5e5c5c4c3e3 kd4
+steine          weiss   gd8d1 lg4 ka2
+                schwarz sb8b2 bg6g5e5c5c4c3e3 kd4
 
 weiteresproblem
 

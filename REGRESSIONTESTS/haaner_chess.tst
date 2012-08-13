@@ -27,7 +27,7 @@
 
 
               empile:          16
-            jouecoup:           1
+           play_move:           1
         orig_rbechec:           3
         orig_rnechec:           0
 solution finished. 
@@ -60,7 +60,7 @@ no castling with king landing in hole
 
 
               empile:          13
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           1
         orig_rnechec:           0
 solution finished. 
@@ -93,7 +93,7 @@ no castling with rook landing in hole
 
 
               empile:          13
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           1
         orig_rnechec:           0
 solution finished. 
@@ -126,7 +126,7 @@ no castling with rook moving over hole
 
 
               empile:          12
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           1
         orig_rnechec:           0
 solution finished. 
@@ -159,7 +159,7 @@ no castling with king moving over new hole
 
 
               empile:          44
-            jouecoup:           3
+           play_move:           3
         orig_rbechec:           4
         orig_rnechec:           0
 solution finished. 
@@ -192,7 +192,7 @@ no castling with rook moving over new hole
 
 
               empile:          34
-            jouecoup:           3
+           play_move:           3
         orig_rbechec:           4
         orig_rnechec:           0
 solution finished. 
@@ -225,7 +225,7 @@ solution finished.
 
 
               empile:          11
-            jouecoup:          10
+           play_move:          10
         orig_rbechec:           0
         orig_rnechec:          12
 solution finished. 

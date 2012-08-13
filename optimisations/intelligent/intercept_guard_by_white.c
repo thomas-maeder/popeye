@@ -87,14 +87,14 @@ static void promoted_white_pawn(unsigned int intercepter_index,
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(intercepter_index,
                                                                 where_to_intercept))
   {
-    piece pp;
-    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       switch (pp)
       {
-        case db:
+        case Queen:
           break;
 
-        case tb:
+        case Rook:
           if (is_diagonal)
             intelligent_place_promoted_white_rider(tb,
                                                    intercepter_index,
@@ -102,7 +102,7 @@ static void promoted_white_pawn(unsigned int intercepter_index,
                                                    go_on);
           break;
 
-        case fb:
+        case Bishop:
           if (!is_diagonal)
             intelligent_place_promoted_white_rider(fb,
                                                    intercepter_index,
@@ -110,7 +110,7 @@ static void promoted_white_pawn(unsigned int intercepter_index,
                                                    go_on);
           break;
 
-        case cb:
+        case Knight:
           intelligent_place_promoted_white_knight(intercepter_index,
                                                   where_to_intercept,
                                                   go_on);

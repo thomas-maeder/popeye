@@ -30,7 +30,7 @@
   1.Kf1*f2 [+sBf1=sS] Tb8*b1 [+wBb8=wT]   2.Tb8*g8 [+sLb8] Lb8-a7 # 
 
               empile:       20748
-            jouecoup:       12037
+           play_move:       12029
         orig_rbechec:        6269
         orig_rnechec:        8048
 Loesung beendet. 
@@ -68,7 +68,7 @@ Loesung beendet.
   1.WAg1-e2 KNb1-c3 +   2.Kd3-d4 Kb5-c5 # 
 
               empile:       12665
-            jouecoup:        4381
+           play_move:        4373
         orig_rbechec:        2850
         orig_rnechec:        2048
 Loesung beendet. 
@@ -106,7 +106,7 @@ Loesung beendet.
   1.Ka6-a5 c4-c3   2.Nb1*c3 [+sBb1=sD] Db1-b5 # 
 
               empile:        3908
-            jouecoup:        3572
+           play_move:        3564
         orig_rbechec:        1866
         orig_rnechec:        2333
 Loesung beendet. 
@@ -144,7 +144,7 @@ Loesung beendet.
   1.nBe7-e8=nT   2.nTe8-e1   3.nTe1-f1 + nBg2*f1=nL [+nTa8] # 
 
               empile:      396123
-            jouecoup:      273993
+           play_move:      273985
         orig_rbechec:      145904
         orig_rnechec:      168412
 Loesung beendet. 
@@ -181,7 +181,7 @@ Loesung beendet.
   1.Kc8-d7 Ka8-b8   2.Kd7-c6 Kb8-c8   3.b6*a7 Kc8-d8   4.Kc6-b7 Kd8-d7   5.Kb7-a8 Kd7-c7 = 
 
               empile:       16498
-            jouecoup:        8565
+           play_move:        8555
         orig_rbechec:        6217
         orig_rnechec:        3699
 Loesung beendet. 
@@ -220,7 +220,7 @@ Loesung beendet.
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-h8=S   7.Sh8-g6=D   8.Dg6-b1=S   9.Sb1-a3=D  10.Da3-f8=S  11.Sf8-d7=D # 
 
               empile:        1686
-            jouecoup:        1143
+           play_move:        1132
         orig_rbechec:         240
         orig_rnechec:        1064
 Loesung beendet. 
@@ -257,7 +257,7 @@ II, Rex Multiplex 19, VII-IX/1986, S. 641
   1.b6*a7 kLa8-c6   2.Kc8-c7 + kLc6-b5   3.Kc7-b8 kLb5-a6 == 
 
               empile:      361203
-            jouecoup:      125335
+           play_move:      125329
         orig_rbechec:       10785
         orig_rnechec:      114672
 Loesung beendet. 
@@ -293,7 +293,7 @@ F925 (Version), The Problemist, I/1987, S. 257
   1.Kc8-d7 Ka8-b8   2.Kd7-d6 Kb8-b7   3.Kd6-c5 a7*b6 # 
 
               empile:        4368
-            jouecoup:        4385
+           play_move:        4379
         orig_rbechec:        4072
         orig_rnechec:         635
 Loesung beendet. 
@@ -331,7 +331,7 @@ a)
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b4 = 
 
               empile:        2860
-            jouecoup:        2401
+           play_move:        2394
         orig_rbechec:        2305
         orig_rnechec:        1094
 b) wkCAc8 
@@ -339,7 +339,7 @@ b) wkCAc8
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b3 = 
 
               empile:        3800
-            jouecoup:        2626
+           play_move:        2619
         orig_rbechec:        2517
         orig_rnechec:        1514
 c) wkGIc8 
@@ -347,7 +347,7 @@ c) wkGIc8
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b2 = 
 
               empile:        4040
-            jouecoup:        2822
+           play_move:        2815
         orig_rbechec:        2709
         orig_rnechec:        1614
 Loesung beendet. 
@@ -382,7 +382,7 @@ Loesung beendet.
   1.a7*b6   2.Ka8-a7   3.Ka7-a6   4.Ka6-b5   5.Kb5-c4   6.Kc4-d3 z 
 
               empile:         433
-            jouecoup:         211
+           play_move:         205
         orig_rbechec:         113
         orig_rnechec:         205
 Loesung beendet. 
@@ -419,7 +419,7 @@ Loesung beendet.
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=T   6.Ta1-a7   7.Ta7-b7 = 
 
               empile:        2108
-            jouecoup:        2095
+           play_move:        2088
         orig_rbechec:        1936
         orig_rnechec:         952
 Loesung beendet. 
@@ -458,7 +458,7 @@ a)
 
 
               empile:           3
-            jouecoup:           3
+           play_move:           3
         orig_rbechec:           4
         orig_rnechec:           2
 b) exact-=2
@@ -469,7 +469,7 @@ b) exact-=2
 
 
               empile:           9
-            jouecoup:           8
+           play_move:           8
         orig_rbechec:           8
         orig_rnechec:           6
 c) exact-=3
@@ -482,7 +482,7 @@ c) exact-=3
 
 
               empile:          15
-            jouecoup:          16
+           play_move:          16
         orig_rbechec:          11
         orig_rnechec:          12
 Loesung beendet. 
@@ -533,7 +533,7 @@ Loesung beendet.
 
 
               empile:         845
-            jouecoup:         944
+           play_move:         944
         orig_rbechec:         459
         orig_rnechec:         519
 Loesung beendet. 
@@ -569,7 +569,7 @@ Loesung beendet.
   1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 + 
 
               empile:        3846
-            jouecoup:        3852
+           play_move:        3846
         orig_rbechec:         543
         orig_rnechec:         539
 Loesung beendet. 
@@ -605,7 +605,7 @@ Loesung beendet.
   1.Se2-c1   2.Kd3-e2   3.Sc1-d3 
 
               empile:        3846
-            jouecoup:        3852
+           play_move:        3846
         orig_rbechec:         539
         orig_rnechec:         543
 Loesung beendet. 

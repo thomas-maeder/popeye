@@ -4,7 +4,10 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  utilities/boolean.h stipulation/goals/goals.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
- py4.h py.h stipulation/goals/goals.h debugging/trace.h
+ py4.h py.h stipulation/goals/goals.h solving/castling.h \
+ solving/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h solving/battle_play/defense_play.h \
+ solving/en_passant.h debugging/trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
@@ -37,6 +40,18 @@ py4.h:
 py.h:
 
 stipulation/goals/goals.h:
+
+solving/castling.h:
+
+solving/battle_play/attack_play.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+solving/en_passant.h:
 
 debugging/trace.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \

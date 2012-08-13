@@ -1,9 +1,30 @@
 anfa
+
 prot amu.out
-ford #2
-bedi amu
+
 auto James Quah
 quel The Problemist I/2001
 fors 2D5/1Ll1K1T1/8/Bbk1B3/1bd5/1B4S1/4S3/2T
+ford #2
+bedi amu
 opti vari verf
+
+weiter
+
+autor James Quah
+quelle The Problemist 2001
+steine weiss kd8 tc3d7 le2 sg5g8 ba4b4c2h2 paf4 vaf2h5
+       schwarz kc6 lb6 bb7c7d5e4 lea2 pac5g2 vab3g1
+forderung #2
+bedingung amu
+option verf vari
+
+weiter
+
+titel Beispiel fuer Mehrfachbeobachung durch den selben Stein
+steine weiss be7 schwarz kc8 bb7c7 roe1
+forderung #1
+bedingung amu
+option ohnewk
+
 ende

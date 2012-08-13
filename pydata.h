@@ -96,32 +96,13 @@ EXTERN square royal_square[nr_sides];
 EXTERN echiquier e, e_ubi, e_ubi_mad;
 
 EXTERN boolean senti[maxply+1];
-EXTERN boolean promotion_of_moving_into_chameleon[maxply+1];
-EXTERN boolean is_reborn_chameleon_promoted[maxply+1];
-
-EXTERN struct
-{
-    square where;
-    piece what;
-} sb2[maxply+1];
 
 EXTERN  square          ppridia[maxply + 1];
 
-EXTERN square ep[maxply+1];
-EXTERN square ep2[maxply+1];
-EXTERN square whduell[maxply+1];
-EXTERN square blduell[maxply+1];
-EXTERN square RN_[maxply+1];
-EXTERN square RB_[maxply+1];
+EXTERN square prev_king_square[nr_sides][maxply+1];
 
 EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
-
-EXTERN struct
-{
-    square where;
-    piece what;
-} sb3[toppile+1];
 
 EXTERN  ply             nbply;
 
@@ -133,82 +114,6 @@ EXTERN  killer_state const null_killer_state;
 
 EXTERN  pilecase        kpilcd;
 EXTERN  pilecase        kpilca;
-
-/* magic pieces */
-enum
-{
-  magicviews_size = 10000,
-  colour_change_stack_size = 10000,
-  push_colour_change_stack_size = 2000
-};
-
-EXTERN  struct
-{
-  square piecesquare;
-  int pieceid;
-  int magicpieceid;
-  numvec vecnum;
-} magicviews[magicviews_size];
-EXTERN struct
-{
-    int bottom;
-    int top;
-} magicstate[maxply + 1];
-EXTERN int nbmagic;
-EXTERN boolean flag_magic;
-
-/* used by masand and magic */
-EXTERN square fromspecificsquare;
-
-#if defined(WE_ARE_EXTERN)
-EXTERN change_rec * colour_change_stack_limit;
-EXTERN change_rec * push_colour_change_stack_limit;
-#endif
-
-/* used by masand and magic for output only*/
-EXTERN change_rec colour_change_stack[colour_change_stack_size];
-EXTERN change_rec *colour_change_sp[maxply + 1];
-EXTERN change_rec push_colour_change_stack[push_colour_change_stack_size];
-EXTERN boolean flag_outputmultiplecolourchanges;
-
-
-enum
-{
-  black_castling_offset = 4
-};
-
-/* symbols for bits and their combinations in castling_flag */
-typedef enum
-{
-  rh_cancastle = 0x01,
-  ra_cancastle = 0x02,
-  k_cancastle = 0x04,
-
-  k_castling = k_cancastle|rh_cancastle,
-  q_castling = k_cancastle|ra_cancastle,
-  castlings = k_cancastle|ra_cancastle|rh_cancastle,
-
-  whk_castling = k_cancastle|rh_cancastle,
-  whq_castling = k_cancastle|ra_cancastle,
-  wh_castlings = k_cancastle|ra_cancastle|rh_cancastle,
-
-  blk_castling = whk_castling<<black_castling_offset,
-  blq_castling = whq_castling<<black_castling_offset,
-  bl_castlings = wh_castlings<<black_castling_offset
-} castling_flag_type;
-/* NOTE: k_cancastle must be larger than the respective
- * r[ah]_cancastle or evaluations of the form
- * TSTCASTLINGFLAGMASK(nbply,White,castlings)<=k_cancastle
- * stop working. */
-
-EXTERN  castling_flag_type castling_flag[maxply+2];
-enum { castlings_flags_no_castling = maxply+1 };
-EXTERN  boolean castling_supported;
-EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
-
-#define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*black_castling_offset,(mask))
-#define SETCASTLINGFLAGMASK(ply_id,side,mask) SETFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
-#define CLRCASTLINGFLAGMASK(ply_id,side,mask) CLRFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
 
 
 /* Optimierung direkte Aufgaben */
@@ -226,8 +131,7 @@ EXTERN  unsigned int    zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
 EXTERN piece pjoue[maxply+1];
 EXTERN piece pprise[maxply+1];
-EXTERN piece current_promotion_of_moving[maxply+1];
-EXTERN piece current_promotion_of_reborn[maxply+1];
+EXTERN PieNam current_promotion_of_capturee[maxply+1];
 EXTERN piece ren_parrain[maxply+1];
 EXTERN piece jouearr[maxply+1];
 
@@ -241,15 +145,9 @@ EXTERN  pilecase current_super_circe_rebirth_square;
 EXTERN  Flags    jouespec[maxply + 1];
 EXTERN  numecoup current_move[maxply + 1];
 
-typedef unsigned int ply_identity_type;
-EXTERN  ply_identity_type ply_identity[maxply + 1];
 EXTERN  ply      parent_ply[maxply + 1];
-EXTERN  piece whkobul[maxply+1], blkobul[maxply+1];
-EXTERN  Flags whkobulspec[maxply+1], blkobulspec[maxply+1];
-EXTERN  boolean whpwr[maxply+1], blpwr[maxply+1];
 
-typedef unsigned int post_move_iteration_lock_code_type;
-post_move_iteration_lock_code_type post_move_iteration_lock_code[maxply+1];
+EXTERN  boolean platzwechsel_rochade_allowed[nr_sides][maxply+1];
 
 EXTERN  boolean  exist[derbla + 1];
 EXTERN  boolean  promonly[derbla + 1];
@@ -266,7 +164,7 @@ typedef square  (* renaifunc)(ply, piece, Flags, square, square, square, Side);
 
 EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;
 
-EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyimmun, anyclone, anygeneva;
+EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyanticirprom, anyimmun, anyclone, anygeneva;
 
 /* new anticirce implementation */
 EXTERN  boolean         AntiCirCheylan;
@@ -307,12 +205,10 @@ EXTERN  boolean         we_generate_exact, there_are_consmoves,
 			wh_exact, bl_exact;
 EXTERN boolean ultra_mummer[nr_sides];
 
-EXTERN  unsigned int   inum[maxply + 1];       /* aktuelle Anzahl Imitatoren */
+EXTERN  unsigned int   number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
 EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 
-EXTERN  boolean         Iprom[maxply + 1];      /* Imitatorumwandlung? */
-EXTERN  square          im0;                    /* Standort des ersten Imitators */
 EXTERN  boolean         obsenemygenre,
                         obsfriendgenre,
                         obsenemyantigenre,
@@ -323,28 +219,6 @@ EXTERN  boolean         obsenemygenre,
                         obsgenre,
                         obsultra;
 
-typedef struct
-{
-    square ghost_square;
-    piece ghost_piece;
-    Flags ghost_flags;
-    boolean hidden;
-} ghost_record_type;
-
-enum
-{
-  ghost_capacity = 32,
-  ghost_not_found = ghost_capacity
-};
-
-typedef ghost_record_type ghosts_type[ghost_capacity];
-
-EXTERN ghosts_type ghosts;
-
-typedef unsigned int ghost_index_type;
-
-EXTERN ghost_index_type nr_ghosts;
-
 EXTERN  boolean         calctransmute;
 
 EXTERN  boolean         k_cap,
@@ -352,17 +226,15 @@ EXTERN  boolean         k_cap,
 EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
 
-EXTERN  piece           getprompiece[derbla + 1];       /* it's a inittable ! */
-EXTERN  piece           getfootballpiece[derbla + 1];       /* it's a inittable ! */
-
-EXTERN  piece* 			prompieces[maxply+1];
+EXTERN  PieNam          getprompiece[PieceCount + 1];       /* it's a inittable ! */
+EXTERN  PieNam          getfootballpiece[PieceCount + 1];       /* it's a inittable ! */
 
 EXTERN  boolean         footballpromlimited;
-EXTERN  piece           checkpieces[derbla - leob + 1]; /* only fairies ! */
+EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
 
 EXTERN  piece           transmpieces[nr_sides][derbla];
 EXTERN  boolean         normaltranspieces[nr_sides];
-EXTERN  piece           orphanpieces[derbla + 1];
+EXTERN  PieNam          orphanpieces[PieceCount + 1];
 
 EXTERN boolean isBoardReflected;
 EXTERN boolean areColorsSwapped;
@@ -381,15 +253,13 @@ EXTERN square           chop[toppile + 1];
 
 EXTERN piece            sentinelb, sentineln;
 EXTERN boolean          anytraitor;
-EXTERN boolean          att_1[maxply + 1];
 EXTERN nocontactfunc_t  koekofunc;
 EXTERN nocontactfunc_t  antikoekofunc;
 EXTERN boolean		anyantimars;
-EXTERN square           cmren[toppile + 1];
+EXTERN square           mars_circe_rebirth_square[toppile + 1];
 EXTERN square           supertrans[maxply+1];
 EXTERN piece            current_trans_gen;
 EXTERN piece            ctrans[toppile+1];
-EXTERN square           superbas;
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          dont_generate_castling;
 EXTERN square           takemake_departuresquare;
@@ -403,11 +273,7 @@ EXTERN boolean          calc_trans_king[nr_sides];
 EXTERN boolean          calc_refl_king[nr_sides];
 EXTERN int         gridlines[112][4];
 EXTERN int              numgridlines;
-EXTERN square           rochade_sq[toppile + 1];
-EXTERN piece            rochade_pc[toppile + 1];
-EXTERN Flags            rochade_sp[toppile + 1];
 EXTERN boolean			anyparrain;
-EXTERN boolean          kobulking[nr_sides];
 
 #if defined(WE_ARE_EXTERN)
 	extern PieTable PieNamString[LanguageCount];
@@ -530,36 +396,35 @@ EXTERN boolean          kobulking[nr_sides];
     /*113*/ {'n','l'},  /* noctambule lion */
     /*114*/ {'m','l'},  /* noctambule mao lion */
     /*115*/ {'m','m'},  /* noctambule moa lion */
-    /*116*/ {'a','s'},  /* sauterelle d'Andernach */
-    /*117*/ {'a',' '},  /* ami */
-    /*118*/ {'d','n'},  /* dauphin */
-    /*119*/ {'l','a'},  /* lapin */
-    /*120*/ {'b','o'},  /* bob */
-    /*121*/ {'q','a'},  /* equi anglais */
-    /*122*/ {'q','f'},  /* equi francais */
-    /*123*/ {'q','q'},  /* querquisite */
-    /*124*/ {'b','1'},  /* bouncer */
-    /*125*/ {'b','2'},  /* tour-bouncer */
-    /*126*/ {'b','3'},  /* fou-bouncer */
-    /*127*/ {'p','c'},  /* pion chinois */
-    /*128*/ {'c','l'},  /* cavalier radial */
-    /*129*/ {'p','v'},  /* pion renverse */
-    /*130*/ {'l','r'},  /*rose locuste */
-    /*131*/ {'z','e'},  /*zebu */
-    /*132*/ {'n','r'},  /*noctambule rebondissant */
-    /*133*/ {'n','2'},  /*spiralspringer (2,0) */
-    /*134*/ {'n','4'},  /*spiralspringer (4,0) */
-    /*135*/ {'n','1'},  /*diagonalspiralspringer (1,1) */
-    /*136*/ {'n','3'},  /*diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'},  /*quintessence */
-    /*138*/ {'d','t'},  /* double tour-sauterelle */
-    /*139*/ {'d','f'},  /* double fou-sauterelle */
-    /*140*/ {'n','o'},   /* orix (non-stop) */
-    /*141*/ {'s','b'},   /* treehopper */
-    /*142*/ {'s','e'},   /* leafhopper */
-    /*143*/ {'s','m'},   /* greater treehopper */
-    /*144*/ {'s','u'},   /* greater leafhopper */
-    /*145*/ {'k','l'}   /* kangarou lion */
+    /*116*/ {'a',' '},  /* ami */
+    /*117*/ {'d','n'},  /* dauphin */
+    /*118*/ {'l','a'},  /* lapin */
+    /*119*/ {'b','o'},  /* bob */
+    /*120*/ {'q','a'},  /* equi anglais */
+    /*121*/ {'q','f'},  /* equi francais */
+    /*122*/ {'q','q'},  /* querquisite */
+    /*123*/ {'b','1'},  /* bouncer */
+    /*124*/ {'b','2'},  /* tour-bouncer */
+    /*125*/ {'b','3'},  /* fou-bouncer */
+    /*126*/ {'p','c'},  /* pion chinois */
+    /*127*/ {'c','l'},  /* cavalier radial */
+    /*128*/ {'p','v'},  /* pion renverse */
+    /*129*/ {'l','r'},  /*rose locuste */
+    /*130*/ {'z','e'},  /*zebu */
+    /*131*/ {'n','r'},  /*noctambule rebondissant */
+    /*132*/ {'n','2'},  /*spiralspringer (2,0) */
+    /*133*/ {'n','4'},  /*spiralspringer (4,0) */
+    /*134*/ {'n','1'},  /*diagonalspiralspringer (1,1) */
+    /*135*/ {'n','3'},  /*diagonalspiralspringer (3,3) */
+    /*136*/ {'q','n'},  /*quintessence */
+    /*137*/ {'d','t'},  /* double tour-sauterelle */
+    /*138*/ {'d','f'},  /* double fou-sauterelle */
+    /*139*/ {'n','o'},   /* orix (non-stop) */
+    /*140*/ {'s','b'},   /* treehopper */
+    /*141*/ {'s','e'},   /* leafhopper */
+    /*142*/ {'s','m'},   /* greater treehopper */
+    /*143*/ {'s','u'},   /* greater leafhopper */
+    /*144*/ {'k','l'}   /* kangarou lion */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -677,36 +542,35 @@ EXTERN boolean          kobulking[nr_sides];
     /*113*/ {'n','l'},  /* Nachtreiterlion */
     /*114*/ {'m','l'},  /* Maoreiterlion */
     /*115*/ {'m','m'},  /* Moareiterlion */
-    /*116*/ {'a','g'},  /* AndernachGrashuepfer */
-    /*117*/ {'f',' '},  /* Freund */
-    /*118*/ {'d','e'},  /* Delphin */
-    /*119*/ {'h','e'},  /* Hase: Lion-Huepfer ueber 2 Boecke */
-    /*120*/ {'b','o'},  /* Bob: Lion-Huepfer ueber 4 Boecke */
-    /*121*/ {'q','e'},  /* EquiEnglisch */
-    /*122*/ {'q','f'},  /* EquiFranzoesisch */
-    /*123*/ {'o','d'},  /* Odysseus */
-    /*124*/ {'b','1'},  /* Bouncer */
-    /*125*/ {'b','2'},  /* Turm-bouncer */
-    /*126*/ {'b','3'},  /* Laeufer-bouncer */
-    /*127*/ {'c','b'},  /* Chinesischer Bauer */
-    /*128*/ {'r','p'},  /* Radialspringer */
-    /*129*/ {'r','b'},  /* ReversBauer */
-    /*130*/ {'l','r'},  /* RosenHeuschrecke */
-    /*131*/ {'z','e'},  /* Zebu */
-    /*132*/ {'n','r'},  /* Reflektierender Nachreiter*/
-    /*133*/ {'s','2'},  /* spiralspringer (2,0) */
-    /*134*/ {'s','4'},  /* spiralspringer (4,0) */
-    /*135*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
-    /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'},   /* quintessence */
-    /*138*/ {'d','t'},  /* Doppelturmhuepfer */
-    /*139*/ {'d','l'},  /* Doppellaeuferhuepfer */
-    /*140*/ {'n','o'},   /* orix (non-stop) */
-    /*141*/ {'u','h'},   /* treehopper */
-    /*142*/ {'b','h'},   /* leafhopper */
-    /*143*/ {'g','u'},   /* greater treehopper */
-    /*144*/ {'g','b'},  /* greater leafhopper */
-    /*145*/ {'l','k'}   /* kangarou lion */
+    /*116*/ {'f',' '},  /* Freund */
+    /*117*/ {'d','e'},  /* Delphin */
+    /*118*/ {'h','e'},  /* Hase: Lion-Huepfer ueber 2 Boecke */
+    /*119*/ {'b','o'},  /* Bob: Lion-Huepfer ueber 4 Boecke */
+    /*120*/ {'q','e'},  /* EquiEnglisch */
+    /*121*/ {'q','f'},  /* EquiFranzoesisch */
+    /*122*/ {'o','d'},  /* Odysseus */
+    /*123*/ {'b','1'},  /* Bouncer */
+    /*124*/ {'b','2'},  /* Turm-bouncer */
+    /*125*/ {'b','3'},  /* Laeufer-bouncer */
+    /*126*/ {'c','b'},  /* Chinesischer Bauer */
+    /*127*/ {'r','p'},  /* Radialspringer */
+    /*128*/ {'r','b'},  /* ReversBauer */
+    /*129*/ {'l','r'},  /* RosenHeuschrecke */
+    /*130*/ {'z','e'},  /* Zebu */
+    /*131*/ {'n','r'},  /* Reflektierender Nachreiter*/
+    /*132*/ {'s','2'},  /* spiralspringer (2,0) */
+    /*133*/ {'s','4'},  /* spiralspringer (4,0) */
+    /*134*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
+    /*135*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
+    /*136*/ {'q','n'},   /* quintessence */
+    /*137*/ {'d','t'},  /* Doppelturmhuepfer */
+    /*138*/ {'d','l'},  /* Doppellaeuferhuepfer */
+    /*139*/ {'n','o'},   /* orix (non-stop) */
+    /*140*/ {'u','h'},   /* treehopper */
+    /*141*/ {'b','h'},   /* leafhopper */
+    /*142*/ {'g','u'},   /* greater treehopper */
+    /*143*/ {'g','b'},  /* greater leafhopper */
+    /*144*/ {'l','k'}   /* kangarou lion */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -824,36 +688,35 @@ EXTERN boolean          kobulking[nr_sides];
     /*113*/ {'n','l'},  /* nightriderlion */
     /*114*/ {'m','l'},  /* maoriderlion */
     /*115*/ {'m','m'},  /* moariderlion */
-    /*116*/ {'a','g'},  /* AndernachGrasshopper */
-    /*117*/ {'f',' '},  /* friend */
-    /*118*/ {'d','o'},  /* dolphin */
-    /*119*/ {'r','t'},  /* rabbit */
-    /*120*/ {'b','o'},  /* bob */
-    /*121*/ {'q','e'},  /* equi english */
-    /*122*/ {'q','f'},  /* equi french */
-    /*123*/ {'q','q'},  /* querquisite */
-    /*124*/ {'b','1'},  /* bouncer */
-    /*125*/ {'b','2'},  /* tour-bouncer */
-    /*126*/ {'b','3'},  /* fou-bouncer */
-    /*127*/ {'c','p'},  /* chinese pawn */
-    /*128*/ {'r','k'},  /* radial knight */
-    /*129*/ {'p','p'},  /* protean pawn */
-    /*130*/ {'l','s'},  /* Rose Locust */
-    /*131*/ {'z','e'},  /* zebu */
-    /*132*/ {'b','n'},  /* Bouncy Nightrider */
-    /*133*/ {'s','2'},  /* spiralspringer (2,0) */
-    /*134*/ {'s','4'},  /* spiralspringer (4,0) */
-    /*135*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
-    /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'},  /* quintessence */
-    /*138*/ {'d','k'},  /* double rookhopper */
-    /*139*/ {'d','b'},  /* double bishopper */
-    /*140*/ {'n','o'},   /* orix (non-stop) */
-    /*141*/ {'t','h'},   /* treehopper */
-    /*142*/ {'l','h'},   /* leafhopper */
-    /*143*/ {'g','e'},   /* greater treehopper */
-    /*144*/ {'g','f'},   /* greater leafhopper */
-    /*145*/ {'k','l'}   /* kangarou lion */
+    /*116*/ {'f',' '},  /* friend */
+    /*117*/ {'d','o'},  /* dolphin */
+    /*118*/ {'r','t'},  /* rabbit */
+    /*119*/ {'b','o'},  /* bob */
+    /*120*/ {'q','e'},  /* equi english */
+    /*121*/ {'q','f'},  /* equi french */
+    /*122*/ {'q','q'},  /* querquisite */
+    /*123*/ {'b','1'},  /* bouncer */
+    /*124*/ {'b','2'},  /* tour-bouncer */
+    /*125*/ {'b','3'},  /* fou-bouncer */
+    /*126*/ {'c','p'},  /* chinese pawn */
+    /*127*/ {'r','k'},  /* radial knight */
+    /*128*/ {'p','p'},  /* protean pawn */
+    /*129*/ {'l','s'},  /* Rose Locust */
+    /*130*/ {'z','e'},  /* zebu */
+    /*131*/ {'b','n'},  /* Bouncy Nightrider */
+    /*132*/ {'s','2'},  /* spiralspringer (2,0) */
+    /*133*/ {'s','4'},  /* spiralspringer (4,0) */
+    /*134*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
+    /*135*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
+    /*136*/ {'q','n'},  /* quintessence */
+    /*137*/ {'d','k'},  /* double rookhopper */
+    /*138*/ {'d','b'},  /* double bishopper */
+    /*139*/ {'n','o'},   /* orix (non-stop) */
+    /*140*/ {'t','h'},   /* treehopper */
+    /*141*/ {'l','h'},   /* leafhopper */
+    /*142*/ {'g','e'},   /* greater treehopper */
+    /*143*/ {'g','f'},   /* greater leafhopper */
+    /*144*/ {'k','l'}   /* kangarou lion */
   }
 	};
 #endif
@@ -2061,36 +1924,36 @@ enum {
 /*113 */        nightriderlioncheck,
 /*114 */        maoriderlioncheck,
 /*115 */        moariderlioncheck,
-/*116 */        scheck,
-/*117 */        friendcheck,
-/*118 */        dolphincheck,
-/*119 */        rabbitcheck,
-/*120 */        bobcheck,
-/*121 */	equiengcheck,
-/*122 */	equifracheck,
-/*123 */	querquisitecheck,
-/*124 */	bouncercheck,
-/*125 */	rookbouncercheck,
-/*126 */	bishopbouncercheck,
-/*127 */	pchincheck,
-/*128 */  radialknightcheck,
-/*129 */  reversepcheck,
-/*130 */  roselocustcheck,
-/*131 */  zebucheck,
-/*132 */  refncheck,
-/*133 */  sp20check,
-/*134 */  sp40check,
-/*135 */  sp11check,
-/*136 */  sp33check,
-/*137 */  sp31check,
-/*138 */  doublerookhoppercheck,
-/*139 */  doublebishoppercheck,
-/*140 */  norixcheck,
-/*141 */  treehoppercheck,
-/*142 */  leafhoppercheck,
-/*143 */  greatertreehoppercheck,
-/*144 */  greaterleafhoppercheck,
-/*145 */  kanglioncheck,
+/*116 */        friendcheck,
+/*117 */        dolphincheck,
+/*118 */        rabbitcheck,
+/*119 */        bobcheck,
+/*120 */	equiengcheck,
+/*121 */	equifracheck,
+/*122 */	querquisitecheck,
+/*123 */	bouncercheck,
+/*124 */	rookbouncercheck,
+/*125 */	bishopbouncercheck,
+/*126 */	pchincheck,
+/*127 */  radialknightcheck,
+/*128 */  reversepcheck,
+/*129 */  roselocustcheck,
+/*130 */  zebucheck,
+/*131 */  refncheck,
+/*132 */  sp20check,
+/*133 */  sp40check,
+/*134 */  sp11check,
+/*135 */  sp33check,
+/*136 */  sp31check,
+/*137 */  doublerookhoppercheck,
+/*138 */  doublebishoppercheck,
+/*139 */  norixcheck,
+/*140 */  treehoppercheck,
+/*141 */  leafhoppercheck,
+/*142 */  greatertreehoppercheck,
+/*143 */  greaterleafhoppercheck,
+/*144 */  kanglioncheck,
+/*145 */  huntercheck,
 /*146 */  huntercheck,
 /*147 */  huntercheck,
 /*148 */  huntercheck,
@@ -2099,169 +1962,7 @@ enum {
 /*151 */  huntercheck,
 /*152 */  huntercheck,
 /*153 */  huntercheck,
-/*154 */  huntercheck,
-/*155 */  huntercheck
-    };
-#endif
-
-/* magic pieces -
-for most types a magic piece of that type can only
-attack another unit from one direction in any given position. Therefore
-all that is needed is to see if it checks, and use the relative diff to
-calculate the vector. These types have NULL entries in the table below.
-
-More complicated types can attack from more than one direction and need
-special functions listed below to calculate each potential direction.
-
-Unsupported types are listed below with the entry
-unsupported_uncalled_attackfunction
-*/
-#if defined(WE_ARE_EXTERN)
-	extern  attackfunction_t *attackfunctions[derbla + 1];
-#else
-/* This are the used checkingfunctions  */
-    attackfunction_t *attackfunctions[derbla + 1] = {
-/*  0 */        0, /* not used */
-/*  1 */        0, /* not used */
-/*  2 */        0,
-/*  3 */        0,
-/*  4 */        0,
-/*  5 */        0,
-/*  6 */        0,
-/*  7 */        0,
-/*  8 */        0,
-/*  9 */        0,
-/* 10 */        0,
-/* 11 */        0,
-/* 12 */        GetRoseAttackVectors,
-/* 13 */        0,
-/* 14 */        0,
-/* 15 */        0,
-/* 16 */        0,
-/* 17 */        0,
-/* 18 */        0,
-/* 19 */        0,
-/* 20 */        0,
-/* 21 */        0,
-/* 22 */        0,
-/* 23 */        0,
-/* 24 */        0,
-/* 25 */        0,
-/* 26 */        0,
-/* 27 */        0,
-/* 28 */        0,
-/* 29 */        0,
-/* 30 */        0,
-/* 31 */        0,
-/* 32 */        0,
-/* 33 */        0,
-/* 34 */        0,
-/* 35 */        0,
-/* 36 */        0,
-/* 37 */        GetSpiralSpringerAttackVectors,
-/* 38 */        unsupported_uncalled_attackfunction, /* ubiubi */
-/* 39 */        0,
-/* 40 */        GetMooseAttackVectors,
-/* 41 */        GetEagleAttackVectors,
-/* 42 */        GetSparrowAttackVectors,
-/* 43 */        unsupported_uncalled_attackfunction,  /* archbishop */
-/* 44 */        unsupported_uncalled_attackfunction, /* ref B */
-/* 45 */        unsupported_uncalled_attackfunction, /* cardinal */
-/* 46 */        0,
-/* 47 */        0,
-/* 48 */        0,
-/* 49 */        0,
-/* 50 */        0,
-/* 51 */        0,
-/* 52 */        0,
-/* 53 */        0,
-/* 54 */        GetDiagonalSpiralSpringerAttackVectors,
-/* 55 */        unsupported_uncalled_attackfunction, /* bouncy knight */
-/* 56 */        0,
-/* 57 */        unsupported_uncalled_attackfunction, /* cat */
-/* 58 */        0,
-/* 59 */        0,
-/* 60 */        0,
-/* 61 */        0,
-/* 62 */        0,
-/* 63 */        0,
-/* 64 */        0,
-/* 65 */        unsupported_uncalled_attackfunction,  /* orphan */
-/* 66 */        0,
-/* 67 */        0,
-/* 68 */        0,
-/* 69 */        0,
-/* 70 */        0,
-/* 71 */        0,
-/* 72 */        0,
-/* 73 */        0,
-/* 74 */        0,
-/* 75 */        GetBoyscoutAttackVectors, /* boyscout */
-/* 76 */        GetGirlscoutAttackVectors, /* girlscout */
-/* 77 */        0, /* skylla - depends on vacant sq?? */
-/* 78 */        0, /* charybdis - depends on vacant sq?? */
-/* 79 */        0,
-/* 80 */        GetRoseLionAttackVectors,
-/* 81 */        GetRoseHopperAttackVectors,
-/* 82 */        0,
-/* 83 */        0,
-/* 84 */        0,
-/* 85 */        0,
-/* 86 */        0,
-/* 87 */        0,
-/* 88 */        0,
-/* 89 */        0,
-/* 90 */        0,
-/* 91 */        0,
-/* 92 */        0,
-/* 93 */        0,
-/* 94 */        0,
-/* 95 */        0,
-/* 96 */        0,
-/* 97 */        0,
-/* 98 */        0,
-/* 99 */        0,
-/*100 */        0,
-/*101 */        0,
-/*102 */        0,
-/*103 */        GetRookMooseAttackVectors,
-/*104 */        GetRookEagleAttackVectors,
-/*105 */        GetRookSparrowAttackVectors,
-/*106 */        GetBishopMooseAttackVectors,
-/*107 */        GetBishopEagleAttackVectors,
-/*108 */        GetBishopSparrowAttackVectors,
-/*109 */        GetRoseLionAttackVectors,  	/* rao checks like roselion */
-/*110 */        0,
-/*111 */        GetMargueriteAttackVectors, /* = G+M+EA+SW; magic - believe ok to treat as combination of these */
-/*112 */        0,
-/*113 */        0,
-/*114 */        0,
-/*115 */        0,
-/*116 */        0,
-/*117 */        unsupported_uncalled_attackfunction,    /*friend*/
-/*118 */        0,  /* dolphin - do g, g2 count as different vectors? */
-/*119 */        0,
-/*120 */        0,
-/*121 */	0,
-/*122 */	0,
-/*123 */	0,
-/*124 */	0,
-/*125 */	0,
-/*126 */	0,
-/*127 */	0,
-/*128 */  unsupported_uncalled_attackfunction, /*radial k*/
-/*129 */  0,
-/*130 */  GetRoseLocustAttackVectors,
-/*131 */  unsupported_uncalled_attackfunction,
-/*132 */  unsupported_uncalled_attackfunction,
-/*133 */  unsupported_uncalled_attackfunction,
-/*134 */  unsupported_uncalled_attackfunction,
-/*135 */  unsupported_uncalled_attackfunction,
-/*136 */  unsupported_uncalled_attackfunction,
-/*137 */  unsupported_uncalled_attackfunction,
-/*138 */  unsupported_uncalled_attackfunction,
-/*139 */  unsupported_uncalled_attackfunction,
-/*140 */  unsupported_uncalled_attackfunction
+/*154 */  huntercheck
     };
 #endif
 

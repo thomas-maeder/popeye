@@ -28,7 +28,7 @@ a)
   1.Rg2-h2 Be6-d5[+bKh1] # 
 
               empile:       62109
-            jouecoup:       16693
+           play_move:       16691
         orig_rbechec:        2276
         orig_rnechec:       44277
 b) #1
@@ -37,7 +37,7 @@ b) #1
 
 
               empile:        3135
-            jouecoup:         866
+           play_move:         866
         orig_rbechec:           0
         orig_rnechec:        2341
 solution finished. 
@@ -73,7 +73,7 @@ a)
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
 
               empile:       82373
-            jouecoup:       24158
+           play_move:       24156
         orig_rbechec:        4139
         orig_rnechec:       54825
 b) RepublicanChess    Type2
@@ -81,7 +81,7 @@ b) RepublicanChess    Type2
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
 
               empile:       82373
-            jouecoup:       24158
+           play_move:       24156
         orig_rbechec:        4139
         orig_rnechec:       54825
 solution finished. 
@@ -148,8 +148,8 @@ solution finished.
       1...b7*a6 !
 
 
-              empile:       17086
-            jouecoup:        6563
+              empile:       17070
+           play_move:        6547
         orig_rbechec:        3860
         orig_rnechec:       16518
 solution finished. 
@@ -198,8 +198,8 @@ solution finished.
           2.Sc4-e3[+bKe6] #
 
 
-              empile:       49041
-            jouecoup:       13457
+              empile:       49027
+           play_move:       13443
         orig_rbechec:        8945
         orig_rnechec:       34758
 solution finished. 
@@ -249,7 +249,7 @@ solution finished.
 
 
               empile:       42940
-            jouecoup:       10558
+           play_move:       10558
         orig_rbechec:        1780
         orig_rnechec:       33744
 solution finished. 
@@ -287,7 +287,7 @@ solution finished.
   1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] # 
 
               empile:     4180390
-            jouecoup:     1137471
+           play_move:     1137455
         orig_rbechec:     3314389
         orig_rnechec:     2534734
 solution finished. 
@@ -333,7 +333,7 @@ solution finished.
 
 
               empile:       35574
-            jouecoup:        7883
+           play_move:        7883
         orig_rbechec:        4467
         orig_rnechec:       26210
 solution finished. 
@@ -538,7 +538,7 @@ solution finished.
 
 
               empile:     7754782
-            jouecoup:     2347433
+           play_move:     2347433
         orig_rbechec:     9470386
         orig_rnechec:     3094423
 solution finished. 

@@ -14,5 +14,5 @@
 
 for f in *
 do
-    diff -wb $f ../REGRESSIONTESTS/$f > /dev/null 2> /dev/null && rm -f $f
+    diff -q -wb $f ../REGRESSIONTESTS/$f > /dev/null && rm -f $f
 done

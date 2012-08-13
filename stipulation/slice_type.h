@@ -40,9 +40,17 @@
     ENUMERATOR(STMove),                                                \
     ENUMERATOR(STForEachMove), /* iterate over each generated move */  \
     ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
+    ENUMERATOR(STPostMoveIterationInitialiser),                        \
+    ENUMERATOR(STPostMoveIterationAvoider),                            \
     ENUMERATOR(STMovePlayer),                                          \
-    ENUMERATOR(STMoveReplayer),                                        \
+    ENUMERATOR(STCastlingPlayer),                                      \
+    ENUMERATOR(STKingSquareAdjuster),                                  \
+    ENUMERATOR(STEnPassantAdjuster),                                   \
+    ENUMERATOR(STMovingPawnPromoter),                                  \
+    ENUMERATOR(STFootballChessSubsitutor),                             \
+    ENUMERATOR(STLandingAfterMovingPawnPromoter),                      \
     ENUMERATOR(STNullMovePlayer),                                      \
+    ENUMERATOR(STLandingAfterMovingPieceMovement),                     \
     ENUMERATOR(STLandingAfterMovePlay),                                \
     ENUMERATOR(STMovePlayed),                                          \
     ENUMERATOR(STHelpMovePlayed),                                      \
@@ -55,10 +63,12 @@
     ENUMERATOR(STExtinctionTester),                                    \
     ENUMERATOR(STSingleBoxType1LegalityTester),                        \
     ENUMERATOR(STSingleBoxType2LegalityTester),                        \
+    ENUMERATOR(STSingleBoxType3PawnPromoter),                          \
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STExclusiveChessLegalityTester),                        \
     ENUMERATOR(STOhneschachLegalityTester),                            \
     ENUMERATOR(STIsardamLegalityTester),                               \
+    ENUMERATOR(STCirceAssassinRebirth),                                \
     ENUMERATOR(STKingAssassinationAvoider),                            \
     ENUMERATOR(STKingCaptureAvoider),                                  \
     ENUMERATOR(STPatienceChessLegalityTester),                         \
@@ -109,6 +119,7 @@
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
     ENUMERATOR(STCastlingIntermediateMoveGenerator), /* generates intermediate castling moves */ \
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
+    ENUMERATOR(STCastlingRightsRemover),                                \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
     ENUMERATOR(STRefutationsFilter), /* only consider refutations */ \
@@ -191,6 +202,8 @@
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STPiecesNeutralInitialiser),                           \
+    ENUMERATOR(STPiecesNeutralRetractingRecolorer),                   \
+    ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STOpponentMovesCounterFork), \
     ENUMERATOR(STOpponentMovesCounter), \
@@ -200,6 +213,7 @@
     ENUMERATOR(STDynastyKingSquareUpdater), \
     ENUMERATOR(STHurdleColourChanger), \
     ENUMERATOR(STKingOscillator), \
+    ENUMERATOR(STMovingPawnToImitatorPromoter),                        \
     /* other slices related to fairy chess */ \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \
@@ -219,10 +233,70 @@
     ENUMERATOR(STActuatedRevolvingCentre),                              \
     ENUMERATOR(STActuatedRevolvingBoard),                               \
     ENUMERATOR(STRepublicanKingPlacer),                                 \
-    ENUMERATOR(STRepublicanKingPlacerReplay),                           \
+    ENUMERATOR(STRepublicanType1DeadEnd),                               \
     ENUMERATOR(STRoyalSquareHandler),                                   \
     ENUMERATOR(STCirceRebirthHandler),                                  \
+    ENUMERATOR(STSuperCirceRebirthHandler),                             \
     ENUMERATOR(STCirceCageRebirthHandler),                              \
+    ENUMERATOR(STCirceCageCageTester),                                  \
+    ENUMERATOR(STCirceKamikazeRebirthHandler),                          \
+    ENUMERATOR(STCirceParrainRebirthHandler),                           \
+    ENUMERATOR(STCirceKingRebirthAvoider),                              \
+    ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
+    ENUMERATOR(STCirceVolageRecolorer),                                 \
+    ENUMERATOR(STCirceRebirthPromoter),                                 \
+    ENUMERATOR(STAnticirceRebirthHandler),                              \
+    ENUMERATOR(STAnticirceRebornPromoter),                              \
+    ENUMERATOR(STAntisupercirceRebirthHandler),                         \
+    ENUMERATOR(STSentinellesInserter),                                  \
+    ENUMERATOR(STMagicViewsInitialiser),                                \
+    ENUMERATOR(STMagicPiecesRecolorer),                                 \
+    ENUMERATOR(STSingleboxType2LatentPawnSelector),                     \
+    ENUMERATOR(STSingleboxType2LatentPawnPromoter),                     \
+    ENUMERATOR(STDuellistsRememberDuellist),                            \
+    ENUMERATOR(STHauntedChessGhostSummoner),                            \
+    ENUMERATOR(STHauntedChessGhostRememberer),                          \
+    ENUMERATOR(STGhostChessGhostSummoner),                              \
+    ENUMERATOR(STGhostChessGhostRememberer),                            \
+    ENUMERATOR(STKobulKingSubstitutor),                                 \
+    ENUMERATOR(STAndernachCastlingRightsRestorer),                      \
+    ENUMERATOR(STAndernachSideChanger),                                 \
+    ENUMERATOR(STAntiAndernachCastlingRightsRestorer),                  \
+    ENUMERATOR(STAntiAndernachSideChanger),                             \
+    ENUMERATOR(STChameleonPursuitCastlingRightsRestorer),               \
+    ENUMERATOR(STChameleonPursuitSideChanger),                          \
+    ENUMERATOR(STNorskCastlingRightsRestorer),                          \
+    ENUMERATOR(STNorskArrivingAdjuster),                                \
+    ENUMERATOR(STProteanCastlingRightsRestorer),                        \
+    ENUMERATOR(STProteanPawnAdjuster),                                  \
+    ENUMERATOR(STLosingChessCastlingRightsRemover),                     \
+    ENUMERATOR(STEinsteinArrivingAdjuster),                             \
+    ENUMERATOR(STReverseEinsteinArrivingAdjuster),                      \
+    ENUMERATOR(STAntiEinsteinArrivingAdjuster),                         \
+    ENUMERATOR(STTraitorSideChanger),                                   \
+    ENUMERATOR(STVolageSideChanger),                                    \
+    ENUMERATOR(STMagicSquareSideChanger),                               \
+    ENUMERATOR(STTibetSideChanger),                                     \
+    ENUMERATOR(STDoubleTibetSideChanger),                               \
+    ENUMERATOR(STDegradierungDegrader),                                 \
+    ENUMERATOR(STPromoteMovingIntoChameleon),                           \
+    ENUMERATOR(STPromoteCirceRebornIntoChameleon),                      \
+    ENUMERATOR(STPromoteAnticirceRebornIntoChameleon),                  \
+    ENUMERATOR(STChameleonArrivingAdjuster),                            \
+    ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
+    ENUMERATOR(STFrischaufPromoteeMarker),                              \
+    ENUMERATOR(STPhantomChessEnPassantAdjuster),                        \
+    ENUMERATOR(STAntiMarsCirceEnPassantAdjuster),                       \
+    ENUMERATOR(STKamikazeCapturingPieceRemover),                        \
+    ENUMERATOR(STHaanChessDepartureBlocker),                            \
+    ENUMERATOR(STCastlingChessMovePlayer),                              \
+    ENUMERATOR(STCastlingChessKingSquareAdjuster),                      \
+    ENUMERATOR(STCastlingChessHaanPartnerSquareBlocker),                \
+    ENUMERATOR(STExchangeCastlingMovePlayer),                           \
+    ENUMERATOR(STSuperTransmutingKingTransmuter),                       \
+    ENUMERATOR(STAMUAttackCounter),                                     \
+    ENUMERATOR(STMutualCastlingRightsAdjuster),                         \
+    ENUMERATOR(STImitatorMover),                                        \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
@@ -246,6 +320,7 @@
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
     /* debugging slices */                                              \
     ENUMERATOR(STMoveTracer),                                           \
+    ENUMERATOR(STMoveCounter),                                          \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 

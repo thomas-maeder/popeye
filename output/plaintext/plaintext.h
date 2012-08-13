@@ -4,10 +4,9 @@
 #include "py.h"
 #include "stipulation/goals/goals.h"
 
-/* Write the current move of a ply
- * @param ply_id identifies the ply of which to write the current move
+/* Write the current move
  */
-void output_plaintext_write_move(ply ply_id);
+void output_plaintext_write_move(void);
 
 /* Determine whether a goal writer slice should replace the check writer slice
  * which would normally following the possible check deliverd by the move just

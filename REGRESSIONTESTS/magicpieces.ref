@@ -77,7 +77,7 @@
 
 
               empile:       21655
-            jouecoup:       12536
+           play_move:       12536
         orig_rbechec:        1096
         orig_rnechec:       12525
 solution finished. 
@@ -375,7 +375,7 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
 
 
               empile:      107614
-            jouecoup:       66000
+           play_move:       66000
         orig_rbechec:        2387
         orig_rnechec:       65490
 solution finished. 
@@ -441,7 +441,7 @@ a)
 
 
               empile:       29391
-            jouecoup:       20337
+           play_move:       20337
         orig_rbechec:         760
         orig_rnechec:       20341
 b) wPe6 
@@ -475,7 +475,7 @@ b) wPe6
 
 
               empile:       29898
-            jouecoup:       20601
+           play_move:       20601
         orig_rbechec:         773
         orig_rnechec:       20605
 +c) wSg6 
@@ -509,7 +509,7 @@ b) wPe6
 
 
               empile:       30157
-            jouecoup:       20787
+           play_move:       20787
         orig_rbechec:         760
         orig_rnechec:       20791
 +d) bPe6 
@@ -543,7 +543,7 @@ b) wPe6
 
 
               empile:       29816
-            jouecoup:       20681
+           play_move:       20681
         orig_rbechec:         755
         orig_rnechec:       20685
 solution finished. 
@@ -622,7 +622,7 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
 
 
               empile:       41202
-            jouecoup:       30450
+           play_move:       30450
         orig_rbechec:        1389
         orig_rnechec:       30327
 solution finished. 
@@ -666,7 +666,7 @@ a)
 
 
               empile:           5
-            jouecoup:           5
+           play_move:           5
         orig_rbechec:           5
         orig_rnechec:           0
 b) wmKa5 
@@ -683,7 +683,7 @@ b) wmKa5
 
 
               empile:           5
-            jouecoup:           5
+           play_move:           5
         orig_rbechec:           5
         orig_rnechec:           0
 c) nmKa5 
@@ -700,7 +700,7 @@ c) nmKa5
 
 
               empile:           5
-            jouecoup:           5
+           play_move:           5
         orig_rbechec:           5
         orig_rnechec:           6
 solution finished. 

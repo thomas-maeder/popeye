@@ -211,7 +211,7 @@ square  coinequis(square a);
 boolean echecc(Side a);
 
 boolean moves_equal(coup const *move1, coup const *move2);
-void current(ply ply_id, coup *mov);
+void current(coup *mov);
 
 boolean eval_ortho(square departure, square arrival, square capture);
 
@@ -242,12 +242,6 @@ void    gubin(square a, square b);
 void    hardinit(void);
 boolean imok(square i, square j);
 
-void jouecoup(void);
-void lock_post_move_iterations(void);
-void unlock_post_move_iterations(void);
-boolean are_post_move_iterations_locked(void);
-
-void    joueim(int diff);
 boolean legalsquare(square departure, square arrival, square capture);
 
 void finply(void);
@@ -257,7 +251,8 @@ boolean nocontact(square departure, square arrival, square capture, nocontactfun
 boolean nogridcontact(square a);
 boolean rbcircech(square departure, square arrival, square capture);
 
-extern boolean (*rbechec)(evalfunction_t *evaluate);
+extern boolean(*rechec[nr_sides])(evalfunction_t *evaluate);
+
 boolean singleboxtype3_rbechec(evalfunction_t *evaluate);
 boolean annan_rbechec(evalfunction_t *evaluate);
 boolean losingchess_rbnechec(evalfunction_t *evaluate);
@@ -267,7 +262,6 @@ boolean rbimmunech(square departure, square arrival, square capture);
 boolean rcardech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
 boolean rcsech(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean rcspech(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-void    repcoup(void);
 void    restaure(void);
 boolean ridimok(square i, square j, int diff);
 
@@ -280,7 +274,6 @@ typedef enum {
 boolean rmhopech(square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
 boolean rncircech(square departure, square arrival, square capture);
 
-extern boolean(*rnechec)(evalfunction_t *evaluate);
 boolean singleboxtype3_rnechec(evalfunction_t *evaluate);
 boolean annan_rnechec(evalfunction_t *evaluate);
 boolean orig_rnechec(evalfunction_t *evaluate);
@@ -348,9 +341,6 @@ void    logStrArg(char *arg);
 void    logIntArg(int arg);
 void    logLngArg(long arg);
 
-piece   dec_einstein(piece p);
-piece   inc_einstein(piece p);
-piece   norskpiece(piece p);
 boolean rnanticircech(square departure, square arrival, square capture);
 boolean rbanticircech(square departure, square arrival, square capture);
 boolean rnultraech(square departure, square arrival, square capture);
@@ -360,8 +350,6 @@ boolean rnsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rnsingleboxtype3ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
-square next_latent_pawn(square s, Side c);
-piece next_singlebox_prom(piece p, Side c);
 
 square renfile(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 square renrank(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
@@ -374,7 +362,6 @@ square renantipoden(ply ply_id, piece p, Flags pspec, square j, square i, square
 square rendiagramm(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 square rennormal(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegel(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rensuper(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 square rencage(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 
 void pyfputs(char const *s, FILE *f);
@@ -490,9 +477,9 @@ void    finish_move_generation_optimizer(void);
 square fin_circle_line(square sq_departure,
                        numvec k1, numvec *k2, numvec delta_k);
 
+extern square fromspecificsquare;
+
 boolean eval_fromspecificsquare(square departure, square arrival, square capture);
-void PushMagicViews(void);
-void ChangeMagic(int ply, boolean push);
 
 attackfunction_t GetRoseAttackVectors;
 attackfunction_t GetRoseLionAttackVectors;
@@ -514,9 +501,7 @@ attackfunction_t GetGirlscoutAttackVectors;
 attackfunction_t GetSpiralSpringerAttackVectors;
 attackfunction_t GetDiagonalSpiralSpringerAttackVectors;
 
-void ChangeColour(square sq);
-
-piece* GetPromotingPieces (square sq_departure,
+PieNam* GetPromotingPieces (square sq_departure,
 							piece pi_departing,
 						    Side camp,
 						    Flags spec_pi_moving,

@@ -106,7 +106,7 @@
 
 
               empile:       14576
-            jouecoup:        4876
+           play_move:        4876
         orig_rbechec:        4010
         orig_rnechec:        8253
 Loesung beendet. 
@@ -142,7 +142,7 @@ Loesung beendet.
   1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 # 
 
               empile:       17226
-            jouecoup:       18133
+           play_move:       18125
         orig_rbechec:        6208
         orig_rnechec:       19686
 Loesung beendet. 
@@ -191,7 +191,7 @@ Loesung beendet.
 
 
               empile:        6191
-            jouecoup:        1949
+           play_move:        1949
         orig_rbechec:        1455
         orig_rnechec:        3202
 Loesung beendet. 
@@ -247,7 +247,7 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
 
 
               empile:       15489
-            jouecoup:        3099
+           play_move:        3099
         orig_rbechec:        3878
         orig_rnechec:        6633
 Loesung beendet. 
@@ -295,7 +295,7 @@ a)
 
 
               empile:        7376
-            jouecoup:        2534
+           play_move:        2534
         orig_rbechec:        2520
         orig_rnechec:        4553
 b) PlatzwechselCirce
@@ -313,7 +313,7 @@ b) PlatzwechselCirce
 
 
               empile:        7399
-            jouecoup:        2529
+           play_move:        2529
         orig_rbechec:        2522
         orig_rnechec:        4529
 Loesung beendet. 
@@ -348,7 +348,7 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
 
 
               empile:         116
-            jouecoup:          29
+           play_move:          29
         orig_rbechec:          35
         orig_rnechec:         113
 Loesung beendet. 
@@ -384,7 +384,7 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 
 
               empile:         170
-            jouecoup:          16
+           play_move:          16
         orig_rbechec:          43
         orig_rnechec:           1
 Loesung beendet. 

@@ -28,7 +28,7 @@
 
 
               empile:           3
-            jouecoup:           3
+           play_move:           3
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -88,7 +88,7 @@ Initial (Weiss ->):
   1.a7-a8=K a=>b 
 
               empile:           1
-            jouecoup:           7
+           play_move:           6
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -148,7 +148,7 @@ keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
   1.Kf1*e1 Kf8*e8 a=>b 
 
               empile:          70
-            jouecoup:          17
+           play_move:          15
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 

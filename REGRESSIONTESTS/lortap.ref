@@ -38,7 +38,7 @@
 
 
               empile:        1991
-            jouecoup:        1279
+           play_move:        1279
         orig_rbechec:         446
         orig_rnechec:        2330
 solution finished. 
@@ -71,7 +71,7 @@ solution finished.
   1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 # 
 
               empile:      457976
-            jouecoup:      425888
+           play_move:      425881
         orig_rbechec:       79049
         orig_rnechec:      444071
 solution finished. 
@@ -106,7 +106,7 @@ a)
   1...Kc8-c7   2.Be8-f7 Bf8-g7   3.Ke6-e7 Kc7*d7 # 
 
               empile:       68848
-            jouecoup:       61449
+           play_move:       61444
         orig_rbechec:        8308
         orig_rnechec:       82586
 b) Patrouille
@@ -114,7 +114,7 @@ b) Patrouille
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 # 
 
               empile:      135127
-            jouecoup:      102274
+           play_move:      102269
         orig_rbechec:        9804
         orig_rnechec:      152865
 solution finished. 
@@ -148,7 +148,7 @@ solution finished.
   1.Rc5-c3 Rf4-f6   2.Rc3-b3 Rf6-a6 # 
 
               empile:      130726
-            jouecoup:      111122
+           play_move:      111114
         orig_rbechec:       10313
         orig_rnechec:      131576
 solution finished. 
@@ -182,7 +182,7 @@ a)
   1.Bd4-c3 Rf8-f5   2.Re4-c4 Rf5-d5 # 
 
               empile:       70285
-            jouecoup:       32542
+           play_move:       32538
         orig_rbechec:        8453
         orig_rnechec:       32182
 b) Lortap
@@ -190,7 +190,7 @@ b) Lortap
   1.Bd4-c3 Bh7-f5   2.Re4-c4 Rf8-d8 # 
 
               empile:      242673
-            jouecoup:      160058
+           play_move:      160054
         orig_rbechec:       26344
         orig_rnechec:      243349
 solution finished. 
@@ -224,7 +224,7 @@ a)
   1.Re6-f6 Sd6-f7   2.Kd5-e6 Bb5-c4 # 
 
               empile:       33085
-            jouecoup:       13383
+           play_move:       13379
         orig_rbechec:        4326
         orig_rnechec:       13084
 b) Lortap
@@ -232,7 +232,7 @@ b) Lortap
   1.Kd5-e5 Sd6-c4   2.Ke5-d6 Bb5*c6 # 
 
               empile:       64577
-            jouecoup:       45078
+           play_move:       45074
         orig_rbechec:        8079
         orig_rnechec:       56253
 c) Patrouille
@@ -240,7 +240,7 @@ c) Patrouille
   1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 # 
 
               empile:       73338
-            jouecoup:       55343
+           play_move:       55339
         orig_rbechec:        6408
         orig_rnechec:       72275
 solution finished. 
@@ -275,7 +275,7 @@ solution finished.
   1.Kd4-c4 Rd3-e3   2.Kc4-b3 Qg6-b1 # 
 
               empile:      157738
-            jouecoup:       92524
+           play_move:       92517
         orig_rbechec:       25292
         orig_rnechec:      184356
 solution finished. 
@@ -321,7 +321,7 @@ solution finished.
 
 
               empile:      290907
-            jouecoup:      116574
+           play_move:      116574
         orig_rbechec:       33442
         orig_rnechec:      141178
 solution finished. 
@@ -355,7 +355,7 @@ solution finished.
   1.Ba8-f3 Kd3-d2 # 
 
               empile:         314
-            jouecoup:         284
+           play_move:         282
         orig_rbechec:          66
         orig_rnechec:         338
 solution finished. 
@@ -400,7 +400,7 @@ solution finished.
 
 
               empile:        3655
-            jouecoup:        2847
+           play_move:        2847
         orig_rbechec:         679
         orig_rnechec:        4181
 solution finished. 
@@ -433,7 +433,7 @@ solution finished.
   1.e2-e4 d7-d5   2.Bf1-a6 Bc8-d7   3.Sg1-e2 d5*e4 dia 
 
               empile:         440
-            jouecoup:         438
+           play_move:         432
         orig_rbechec:          31
         orig_rnechec:          24
 solution finished. 
@@ -468,7 +468,7 @@ solution finished.
   1.f2-f1=R Kd3-e2 # 
 
               empile:          90
-            jouecoup:          92
+           play_move:          88
         orig_rbechec:          89
         orig_rnechec:         148
 solution finished. 

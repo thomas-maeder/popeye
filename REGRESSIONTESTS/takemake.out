@@ -30,7 +30,7 @@
   1.Tc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 # 
 
               empile:       70167
-            jouecoup:       59899
+           play_move:       59891
         orig_rbechec:        8779
         orig_rnechec:       59508
 Loesung beendet. 
@@ -70,7 +70,7 @@ a)
   1.Sg3-e4 Td4*e4-g5 +   2.Tf8-f5 Le6*f5-f4 # 
 
               empile:     5260698
-            jouecoup:     2659526
+           play_move:     2659522
         orig_rbechec:      352298
         orig_rnechec:     2657460
 b) sBd2-->g5
@@ -78,7 +78,7 @@ b) sBd2-->g5
   1.Sg3-f5 + Le6*f5-g3 +   2.Tf8-f4 Td4*f4-f5 # 
 
               empile:     4231704
-            jouecoup:     2244360
+           play_move:     2244356
         orig_rbechec:      285201
         orig_rnechec:     2242437
 Loesung beendet. 
@@ -115,7 +115,7 @@ a)
   1...g2-g3   2.Kf2*f3-g4 h2-h3 # 
 
               empile:        3068
-            jouecoup:        2606
+           play_move:        2603
         orig_rbechec:         118
         orig_rnechec:        2585
 b) wSf3 
@@ -123,7 +123,7 @@ b) wSf3
   1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
 
               empile:        3126
-            jouecoup:        2432
+           play_move:        2429
         orig_rbechec:         187
         orig_rnechec:        2411
 +c) wKg6-->g7
@@ -131,7 +131,7 @@ b) wSf3
   1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
 
               empile:        3414
-            jouecoup:        2575
+           play_move:        2572
         orig_rbechec:         167
         orig_rnechec:        2554
 +d) wLf3 
@@ -139,7 +139,7 @@ b) wSf3
   1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
 
               empile:        3190
-            jouecoup:        2666
+           play_move:        2663
         orig_rbechec:          99
         orig_rnechec:        2645
 Loesung beendet. 
@@ -180,7 +180,7 @@ Loesung beendet.
 
 
               empile:        1238
-            jouecoup:         543
+           play_move:         543
         orig_rbechec:         250
         orig_rnechec:         300
 Loesung beendet. 
@@ -217,7 +217,7 @@ a)
   1...Sa3*c4-c3   2.Td5*e5-c4 Lc1*d2-d6 # 
 
               empile:       68438
-            jouecoup:       38839
+           play_move:       38836
         orig_rbechec:        3654
         orig_rnechec:       38802
 b) sTd2-->e3
@@ -225,7 +225,7 @@ b) sTd2-->e3
   1...Sa3*b5-d7   2.Td5*e5-c6 Tf7*f6-d4 # 
 
               empile:      113819
-            jouecoup:       55433
+           play_move:       55430
         orig_rbechec:        7003
         orig_rnechec:       55391
 Loesung beendet. 
@@ -261,7 +261,7 @@ Loesung beendet.
   1.Lc4-d5 La2-c4   2.Te3-f3 Sh2*f3-b3 # 
 
               empile:     2058941
-            jouecoup:     1256357
+           play_move:     1256349
         orig_rbechec:      181747
         orig_rnechec:     1254412
 Loesung beendet. 
@@ -297,7 +297,7 @@ Andernach 2006, 2. Platz (Nach-Andernach-Version)
   1.Td6-g6 Tc6-f6   2.Le2-f1 Sd4-e6 # 
 
               empile:     1565249
-            jouecoup:     1009994
+           play_move:     1009986
         orig_rbechec:      111533
         orig_rnechec:     1008316
 Loesung beendet. 
@@ -333,7 +333,7 @@ Loesung beendet.
   1.Db1-d1 Ld5*c4-e3   2.Tb3*c3-c4 Td4*d1-h5 # 
 
               empile:     1624945
-            jouecoup:      901076
+           play_move:      901068
         orig_rbechec:       93888
         orig_rnechec:      899734
 Loesung beendet. 
@@ -370,7 +370,7 @@ a)
   1.Th7-d7 Lb7-c8   2.La8-c6 Lc8*d7-b7   3.Ke6-d5 Kb6*c6-d7 # 
 
               empile:    15562414
-            jouecoup:     9237836
+           play_move:     9237830
         orig_rbechec:      916109
         orig_rnechec:     9152340
 b) wLb7-->b8
@@ -383,7 +383,7 @@ b) wLb7-->b8
   1.La8-c6 Lb8-d6   2.Th7-e7 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 # 
 
               empile:    19805579
-            jouecoup:    13905451
+           play_move:    13905415
         orig_rbechec:     1066688
         orig_rnechec:    13747903
 Loesung beendet. 
@@ -420,7 +420,7 @@ a)
   1.Dd4-d5 Lf8*c5-c4   2.La3-e7 Lc4*f1-f8   3.Ke5-d6 Ke8*e7-f6 # 
 
               empile:    60532626
-            jouecoup:    34160080
+           play_move:    34160074
         orig_rbechec:     5023154
         orig_rnechec:    33980424
 b) wLf8-->g8
@@ -428,7 +428,7 @@ b) wLf8-->g8
   1.d7-d6 Lg8-d5   2.Tf1-f7 Ld5*g2-g8   3.Ke5-d5 Ke8*f7-f5 # 
 
               empile:    57805471
-            jouecoup:    36274699
+           play_move:    36274693
         orig_rbechec:     5094700
         orig_rnechec:    35990128
 Loesung beendet. 
@@ -466,7 +466,7 @@ Loesung beendet.
   1.f2-f1=L   2.Lf1-d3   3.Ld3-e4 e7-e8=T # 
 
               empile:       36877
-            jouecoup:       18793
+           play_move:       18777
         orig_rbechec:        2045
         orig_rnechec:       18777
 Loesung beendet. 
@@ -502,7 +502,7 @@ Loesung beendet.
   1.Tg5-f5 Le6*f5-f6 +   2.Tg4-g5 Te5*g5-g4 # 
 
               empile:      499393
-            jouecoup:      376956
+           play_move:      376948
         orig_rbechec:       38971
         orig_rnechec:      376243
 Loesung beendet. 
@@ -538,7 +538,7 @@ Loesung beendet.
   1.Ld3-c4 d2-d3   2.Tc7-e7 d3*c4-g8=S # 
 
               empile:       59067
-            jouecoup:       56773
+           play_move:       56765
         orig_rbechec:        7131
         orig_rnechec:       56222
 Loesung beendet. 
@@ -575,7 +575,7 @@ a)
   1.Tg4-g6 h5*g6-g8=T   2.Le4-g6 Tg8*g6-e4 # 
 
               empile:     1047950
-            jouecoup:      666400
+           play_move:      666396
         orig_rbechec:       45535
         orig_rnechec:      665371
 b) sLd7-->e5
@@ -583,7 +583,7 @@ b) sLd7-->e5
   1.Le4-g6 h5*g6-e8=L   2.Tg4-g6 Le8*g6-g4 # 
 
               empile:     1705263
-            jouecoup:     1078473
+           play_move:     1078469
         orig_rbechec:       62197
         orig_rnechec:     1077189
 Loesung beendet. 
@@ -622,7 +622,7 @@ a)
   1.Kh2-h3 Ta7*d7-g4 [+sLc8]   2.Kh3*g4-g6 [+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5 [+wTh1] 0-0 
 
               empile:       65315
-            jouecoup:       43866
+           play_move:       43858
         orig_rbechec:       18937
         orig_rnechec:       26129
 b) sKh2-->b2
@@ -630,7 +630,7 @@ b) sKh2-->b2
   1.Kb2-b3 Ta7*d7-h3 [+sLc8] +   2.Lc8*h3-h4 [+wTh1] + Th1*h4-d8 [+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2 [+wTa1] 0-0-0 
 
               empile:       83107
-            jouecoup:       56885
+           play_move:       56877
         orig_rbechec:       20978
         orig_rnechec:       36923
 Loesung beendet. 
@@ -667,7 +667,7 @@ a)
   1.Sb3-d4 Te5-e3   2.Kf2*e3-e5 Kc4*d4-c6 # 
 
               empile:       75891
-            jouecoup:       57468
+           play_move:       57464
         orig_rbechec:        2190
         orig_rnechec:       57140
 b) wLb2-->a5
@@ -675,7 +675,7 @@ b) wLb2-->a5
   1.Sb3-c5 La5-e1 +   2.Kf2*e1-a5 Kc4*c5-b7 # 
 
               empile:       94153
-            jouecoup:       69641
+           play_move:       69637
         orig_rbechec:        2651
         orig_rnechec:       69239
 Loesung beendet. 
@@ -710,7 +710,7 @@ Loesung beendet.
   1.f5*e4-e5   2.Tg4-d4   3.Kh5-g4   4.Kg4-f5   5.Tg1-g4 e2-e4 # 
 
               empile:     5697116
-            jouecoup:     4230125
+           play_move:     4230119
         orig_rbechec:      291919
         orig_rnechec:     4230119
 Loesung beendet. 
@@ -753,7 +753,7 @@ Loesung beendet.
   5  (La3-f8 )
 
               empile:       70454
-            jouecoup:       39016
+           play_move:       39002
         orig_rbechec:       19626
         orig_rnechec:       20046
 Loesung beendet. 
@@ -846,7 +846,7 @@ Es fehlt ein weisser oder schwarzer Koenig
 
 
               empile:      184275
-            jouecoup:       93945
+           play_move:       93945
         orig_rbechec:           0
         orig_rnechec:       93668
 Loesung beendet. 
@@ -954,7 +954,7 @@ Loesung beendet.
  44  (Kc1-b2 )
 
               empile:   134509219
-            jouecoup:    42435730
+           play_move:    42435730
         orig_rbechec:     4979495
         orig_rnechec:    40895818
 Loesung beendet. 
@@ -999,7 +999,7 @@ Loesung beendet.
 
 
               empile:       22006
-            jouecoup:        8721
+           play_move:        8721
         orig_rbechec:        1001
         orig_rnechec:        8723
 Loesung beendet. 
@@ -1044,7 +1044,7 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
 
 
               empile:       14778
-            jouecoup:        6271
+           play_move:        6271
         orig_rbechec:         685
         orig_rnechec:        6273
 Loesung beendet. 
@@ -1102,7 +1102,7 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
 
 
               empile:       35121
-            jouecoup:       17026
+           play_move:       17026
         orig_rbechec:        1285
         orig_rnechec:       16982
 Loesung beendet. 
@@ -1323,7 +1323,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
 
 
               empile:      147413
-            jouecoup:       78785
+           play_move:       78785
         orig_rbechec:        4294
         orig_rnechec:       78377
 Loesung beendet. 
@@ -1418,7 +1418,7 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
 
 
               empile:       23052
-            jouecoup:       10928
+           play_move:       10928
         orig_rbechec:         909
         orig_rnechec:       10776
 Loesung beendet. 
@@ -1468,7 +1468,7 @@ Loesung beendet.
 
 
               empile:        5912
-            jouecoup:        3305
+           play_move:        3305
         orig_rbechec:         291
         orig_rnechec:        3308
 Loesung beendet. 
@@ -1510,7 +1510,7 @@ Loesung beendet.
 
 
               empile:       32631
-            jouecoup:       11871
+           play_move:       11871
         orig_rbechec:       11873
         orig_rnechec:        6969
 Loesung beendet. 
@@ -1551,7 +1551,7 @@ Loesung beendet.
 
 
               empile:      158790
-            jouecoup:       12006
+           play_move:       12006
         orig_rbechec:       12007
         orig_rnechec:        6174
 Loesung beendet. 

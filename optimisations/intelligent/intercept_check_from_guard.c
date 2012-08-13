@@ -89,24 +89,24 @@ static void promoted_pawn(square to_be_intercepted,
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_intercepting_piece,
                                                                 to_be_intercepted))
   {
-    piece pp;
-    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       switch (pp)
       {
-        case db:
+        case Queen:
           break;
 
-        case tb:
+        case Rook:
           if (is_diagonal)
             place_promotee(tb,to_be_intercepted,index_of_intercepting_piece);
           break;
 
-        case fb:
+        case Bishop:
           if (!is_diagonal)
             place_promotee(fb,to_be_intercepted,index_of_intercepting_piece);
           break;
 
-        case cb:
+        case Knight:
           place_promotee(cb,to_be_intercepted,index_of_intercepting_piece);
           break;
 
@@ -262,20 +262,20 @@ static void place_promoted_black_pawn(square placed_on,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
                                                                 placed_on))
   {
-    piece pp;
-    for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       switch (pp)
       {
-        case dn:
-        case tn:
-        case fn:
+        case Queen:
+        case Rook:
+        case Bishop:
           intelligent_place_pinned_promoted_black_rider(placed_index,
                                                         fn,
                                                         placed_on,
                                                         &intelligent_continue_guarding_flights);
           break;
 
-        case cn:
+        case Knight:
           intelligent_place_pinned_promoted_black_knight(placed_index,
                                                          placed_on,
                                                          &intelligent_continue_guarding_flights);

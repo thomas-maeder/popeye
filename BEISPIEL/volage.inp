@@ -46,9 +46,9 @@ autor           Erich Bartel
 quelle          2887, Problemkiste-79, 2/1992
 forderung       ser-h=3
 bedingung       volage
-		spiegelcirce
+                spiegelcirce
 steine          weiss   kc2 bc5 lh8
-		schwarz ke7 ba2b2
+                schwarz ke7 ba2b2
 
 weiteresproblem
 
@@ -56,9 +56,9 @@ autor           Heinz Winterberg
 quelle          2693, Problemkiste-74/75, 5/1991
 forderung       s#2
 bedingung       volage
-		circe
+                circe
 option          varianten
 steine          weiss   bb7c7b6 lb5 sd5 kb1
-		schwarz ta8 sa7 ba3b2 kb3
+                schwarz ta8 sa7 ba3b2 kb3
 
 endeproblem

@@ -3,6 +3,8 @@
 #include "stipulation/pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
+#include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -14,15 +16,15 @@
  */
 Side neutral_side;
 
-/* Change the side of the piece on a specific square
- * @param pos position of piece whose side to change
+/* Change the side of the piece on a square so that the piece belongs to the
+ * neutral side
+ * @param p address of piece whose side to change
  */
-void change_side(square pos)
+void setneutre(piece *p)
 {
-  piece const p = e[pos];
-  --nbpiece[p];
-  e[pos] = -p;
-  ++nbpiece[-p];
+  Side const current_side = *p<=roin ? Black : White;
+  if (neutral_side!=current_side)
+    piece_change_side(p);
 }
 
 /* Initialise the neutral pieces to belong to the side to be captured in the
@@ -39,7 +41,7 @@ void initialise_neutrals(Side captured_side)
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
       if (TSTFLAG(spec[*bnp],Neutral))
-        change_side(*bnp);
+        piece_change_side(&e[*bnp]);
 
     neutral_side = captured_side;
   }
@@ -117,6 +119,80 @@ stip_length_type neutral_initialiser_defend(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type neutral_retracting_recolorer_attack(slice_index si,
+                                                     stip_length_type n)
+{
+  stip_length_type result;
+
+  /* remember these squares here - attack() may increase current_move[nbply]! */
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = attack(slices[si].next1,n);
+
+  /* make sure that the retracting neutrals belong to the right side if our
+   * posteriority has changed the neutral side*/
+  if (TSTFLAG(spec[sq_departure],Neutral))
+    setneutre(&e[sq_departure]);
+  if (TSTFLAG(spec[sq_capture],Neutral))
+    setneutre(&e[sq_capture]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found */
+stip_length_type neutral_retracting_recolorer_defend(slice_index si,
+                                                     stip_length_type n)
+{
+  stip_length_type result;
+  /* remember these squares here - defend() may increase current_move[nbply]! */
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = defend(slices[si].next1,n);
+
+  /* make sure that the retracting neutrals belong to the right side if our
+   * posteriority has changed the neutral side*/
+  if (TSTFLAG(spec[sq_departure],Neutral))
+    setneutre(&e[sq_departure]);
+  if (TSTFLAG(spec[sq_capture],Neutral))
+    setneutre(&e[sq_capture]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void insert_initialser(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -172,6 +248,8 @@ void stip_insert_neutral_initialisers(slice_index si)
                                            STReplayingMoves,
                                            &insert_initialser);
   stip_traverse_structure(si,&st);
+
+  stip_instrument_moves(si,STPiecesNeutralRetractingRecolorer);
 
   TraceStipulation(si);
 

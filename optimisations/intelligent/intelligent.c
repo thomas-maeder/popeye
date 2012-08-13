@@ -33,6 +33,8 @@
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
 

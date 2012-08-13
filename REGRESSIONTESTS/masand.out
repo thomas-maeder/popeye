@@ -31,9 +31,9 @@
   1.Ta1-b1 Ta3-b3   2.Lg3-b8 Tb3-b2 [wTb1, wLb8] # 
 
               empile:       17227
-            jouecoup:       11096
-        orig_rbechec:       13923
-        orig_rnechec:       31984
+           play_move:       11076
+        orig_rbechec:       12723
+        orig_rnechec:       24499
 Loesung beendet. 
 
 
@@ -78,9 +78,9 @@ Loesung beendet.
 
 
               empile:    40038528
-            jouecoup:    16715886
-        orig_rbechec:    27080067
-        orig_rnechec:    24892521
+           play_move:    16715886
+        orig_rbechec:    26572077
+        orig_rnechec:    21460080
 Loesung beendet. 
 
 
@@ -123,9 +123,9 @@ Loesung beendet.
 
 
               empile:        5603
-            jouecoup:        4113
-        orig_rbechec:       18561
-        orig_rnechec:       12530
+           play_move:        4113
+        orig_rbechec:       11564
+        orig_rnechec:        8767
 Loesung beendet. 
 
 
@@ -244,9 +244,9 @@ Loesung beendet.
 
 
               empile:       15493
-            jouecoup:       13401
-        orig_rbechec:       87257
-        orig_rnechec:       39064
+           play_move:       13401
+        orig_rbechec:       51572
+        orig_rnechec:       26965
 Loesung beendet. 
 
 
@@ -350,9 +350,9 @@ Loesung beendet.
 
 
               empile:        9110
-            jouecoup:        5700
-        orig_rbechec:        9821
-        orig_rnechec:       25855
+           play_move:        5700
+        orig_rbechec:        7871
+        orig_rnechec:       16991
 Loesung beendet. 
 
 
@@ -391,9 +391,9 @@ Loesung beendet.
 
 
               empile:        3677
-            jouecoup:        1247
-        orig_rbechec:        2148
-        orig_rnechec:        4025
+           play_move:        1247
+        orig_rbechec:        1752
+        orig_rnechec:        3003
 Loesung beendet. 
 
 
@@ -461,9 +461,9 @@ Loesung beendet.
 
 
               empile:        8998
-            jouecoup:        6377
-        orig_rbechec:       23330
-        orig_rnechec:       26563
+           play_move:        6377
+        orig_rbechec:       15128
+        orig_rnechec:       17109
 Loesung beendet. 
 
 

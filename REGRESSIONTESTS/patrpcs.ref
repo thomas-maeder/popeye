@@ -29,7 +29,7 @@ also solves as patrol condition
   1.pKc8-b7   2.pKb7-a6   3.pKa6-a5   4.pPb6-b7   5.pPb7-b8=pQ   6.pQb8-b6 a7-a6 != 
 
               empile:       60529
-            jouecoup:       34702
+           play_move:       34695
         orig_rbechec:       28588
         orig_rnechec:       29294
 solution finished. 
@@ -96,7 +96,7 @@ solution finished.
 
 
               empile:       51394
-            jouecoup:       28740
+           play_move:       28740
         orig_rbechec:        5988
         orig_rnechec:       49169
 solution finished. 

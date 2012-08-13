@@ -26,7 +26,7 @@
 
 
               empile:          14
-            jouecoup:          14
+           play_move:          14
         orig_rbechec:           3
         orig_rnechec:          14
 solution finished. 
@@ -61,7 +61,7 @@ solution finished.
   1.Kd2-c3 Bd4-e3 # 
 
               empile:         474
-            jouecoup:         195
+           play_move:         193
         orig_rbechec:          66
         orig_rnechec:         193
 solution finished. 
@@ -96,7 +96,7 @@ solution finished.
 
 
               empile:          18
-            jouecoup:           4
+           play_move:           4
         orig_rbechec:           4
         orig_rnechec:           0
 solution finished. 
@@ -136,7 +136,7 @@ solution finished.
   1.Sb8*a6 Ka7-b6 [+wPb5] 
 
               empile:           8
-            jouecoup:          15
+           play_move:           7
         orig_rbechec:          10
         orig_rnechec:           0
 solution finished. 
@@ -173,7 +173,7 @@ solution finished.
 
 
               empile:           3
-            jouecoup:           2
+           play_move:           2
         orig_rbechec:           0
         orig_rnechec:           2
 solution finished. 
@@ -202,7 +202,7 @@ solution finished.
 
 
               empile:        1314
-            jouecoup:         914
+           play_move:         914
         orig_rbechec:         838
         orig_rnechec:         392
 solution finished. 

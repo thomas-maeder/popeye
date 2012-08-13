@@ -11,6 +11,7 @@
 
 #include "pyproc.h"
 #include "pydata.h"
+#include "conditions/haunted_chess.h"
 
 boolean fffriendcheck(
     square        i,

@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/goals/prerequisite_guards.h"
+#include "solving/en_passant.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

@@ -25,7 +25,7 @@
   1.Rh4*h7 + Qg8*h7   2.Qh3*h7 # 
 
               empile:        1674
-            jouecoup:        1058
+           play_move:        1058
         orig_rbechec:         124
         orig_rnechec:        1090
 solution finished. 
@@ -58,7 +58,7 @@ solution finished.
   1.Ba2-c4   2.Ra1-a8   1.Bd8-g5 + h4*g5   2.Sf2-d3 + Bc4*d3 +   3.f7-f5 g5*f6 ep. # 
 
               empile:     2470962
-            jouecoup:     1502518
+           play_move:     1502518
         orig_rbechec:      440165
         orig_rnechec:     1419638
 solution finished. 
@@ -92,7 +92,7 @@ solution finished.
   1.Sc2-a1   2.Qb1-h7   3.Qh7-b7 + Ra4-e4   4.Kb3-a2   5.Qb7-b1   6.Rb8-b2   7.Sa1-b3 Re4-a4 # 
 
               empile:     9362848
-            jouecoup:     9364153
+           play_move:     9364153
         orig_rbechec:     1621675
         orig_rnechec:     2066597
 solution finished. 
@@ -126,7 +126,7 @@ solution finished.
   1.h2-h1=Q   2.Kg1-h2   3.Qh1-c1 + Sd5-f4   4.Qc1-c6 + Sf4-e6   5.Qc6-c1 + Se6-g5   6.Qc1-h1 Sg5-f3 # 
 
               empile:      279702
-            jouecoup:      325201
+           play_move:      325201
         orig_rbechec:       53734
         orig_rnechec:       91106
 solution finished. 
@@ -162,7 +162,7 @@ a)
   1.e2-e1=S   2.Se1-d3 + Kb2-c2   3.Sd3-e1 + Kc2-d2   4.Se1-f3 + Kd2-e2   5.Sf3-g1 + Ke2-f2   6.Sg1-h3 + Kf2-g3   7.Sh3-g1 Sd1-f2 # 
 
               empile:       46395
-            jouecoup:       49840
+           play_move:       49840
         orig_rbechec:       14257
         orig_rnechec:      114074
 b) wBd1 
@@ -170,7 +170,7 @@ b) wBd1
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 # 
 
               empile:      160272
-            jouecoup:      165995
+           play_move:      165995
         orig_rbechec:       44522
         orig_rnechec:      200389
 solution finished. 
@@ -204,7 +204,7 @@ solution finished.
   1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 # 
 
               empile:   186740297
-            jouecoup:   186483232
+           play_move:   186483232
         orig_rbechec:    39656944
         orig_rnechec:   114567450
 solution finished. 
@@ -240,7 +240,7 @@ solution finished.
   1.Qe1-g3 + Ke5-d4   2.Qg3-e1   3.Qe1-a1 # 
 
               empile:       13009
-            jouecoup:        5953
+           play_move:        5953
         orig_rbechec:        2666
         orig_rnechec:        5605
 solution finished. 
@@ -275,7 +275,7 @@ solution finished.
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 # 
 
               empile:     4621106
-            jouecoup:     2575490
+           play_move:     2575490
         orig_rbechec:     1573079
         orig_rnechec:     1591318
 solution finished. 
@@ -310,7 +310,7 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
   1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 # 
 
               empile:  1829086101
-            jouecoup:   807141457
+           play_move:   807141457
         orig_rbechec:   759629632
         orig_rnechec:   478172863
 solution finished. 
@@ -344,7 +344,7 @@ solution finished.
   1.f2-f4   2.f4-f5   3.f5-f6   4.f6*e7   5.e7*f8=R + Ke8-e7   6.Rf8-e8 + Ke7-f6   7.Re8-e6 + Kf6-f5   8.g2-g4 + Kf5*g4   9.Re6-e4 + Kg4-h5  10.Re4-h4 + Qd8*h4 + dia 
 
               empile:      205791
-            jouecoup:      205867
+           play_move:      205867
         orig_rbechec:       88788
         orig_rnechec:       38856
 solution finished. 
@@ -390,7 +390,7 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
  12  (Kc2-b1 + )
 
               empile:    13196506
-            jouecoup:     4783540
+           play_move:     4783540
         orig_rbechec:     4220909
         orig_rnechec:     2819852
 solution finished. 
@@ -443,7 +443,7 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
  19  (Bd5-c6 )
 
               empile:   433983385
-            jouecoup:   173292916
+           play_move:   173292916
         orig_rbechec:   167747569
         orig_rnechec:   106457038
 solution finished. 
@@ -477,7 +477,7 @@ StrateGems 47, 2009, no. 12 (last 4 moves of a pser-h=18)
   1.d2-d1=Q   2.Qd1-d8 + e7-e8=S   3.Qd8-f6 + Se8*f6   4.g4-g3 Rb1-f1 = 
 
               empile:     8597132
-            jouecoup:     4736838
+           play_move:     4736838
         orig_rbechec:     1619485
         orig_rnechec:     4467910
 solution finished. 
@@ -512,7 +512,7 @@ Good Companions Quick Composing Tourney 2010, 5th Prize
   1.Bb6-d4   2.Bd4-b2   3.Bb2-a3 + Kb4-a5   4.Ba3-c5 + Bc2-a4   5.Bc5-b6 + Ka5-b4   6.Bb6-c5 + Kb4-b3   7.0-0-0 
 
               empile:     7834783
-            jouecoup:     7819001
+           play_move:     7819001
         orig_rbechec:     3857435
         orig_rnechec:     4952706
 solution finished. 

@@ -154,4 +154,22 @@ steine  weiss           ka7 bc7e5f4d2 ld6 sa5c3
 	schwarz         lg8 th7 kd4 bf5f3d3b3
 	schwarz cham    ld7
 
+weiter
+
+titel Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
+titel Bauerns in Chamaelons
+steine weiss cham lf1 schwarz ba6
+forderung ~1
+bedingung PlatzwechselCirce
+option ohnewk ohnesk
+
+weiter
+
+titel Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
+titel Bauerns in Chamaelons
+steine weiss bc6 schwarz cham td7
+forderung ~1
+bedingung AntiEquipollentsCirce
+option ohnewk ohnesk
+
 endeproblem

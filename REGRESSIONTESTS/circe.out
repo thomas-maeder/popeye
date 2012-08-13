@@ -38,7 +38,7 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
 
 
               empile:       17516
-            jouecoup:       10090
+           play_move:       10090
         orig_rbechec:         495
         orig_rnechec:       10092
 Loesung beendet. 
@@ -91,7 +91,7 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
 
 
               empile:        6040
-            jouecoup:        5682
+           play_move:        5682
         orig_rbechec:         349
         orig_rnechec:        5684
 Loesung beendet. 
@@ -127,7 +127,7 @@ Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
   1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[wkTh3->h1] # 
 
               empile:       70274
-            jouecoup:       63025
+           play_move:       63021
         orig_rbechec:          49
         orig_rnechec:       37530
 Loesung beendet. 
@@ -190,7 +190,7 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
 
 
               empile:       14745
-            jouecoup:        9323
+           play_move:        9323
         orig_rbechec:         353
         orig_rnechec:        9276
 Loesung beendet. 
@@ -332,7 +332,7 @@ Loesung beendet.
 
 
               empile:      587117
-            jouecoup:      398049
+           play_move:      398049
         orig_rbechec:      273871
         orig_rnechec:      143503
 Loesung beendet. 
@@ -367,7 +367,7 @@ Loesung beendet.
   1.nBe2-e1=nLI nBe7-e8=nLI   2.nBf2*e1=nLI nBf7*e8=nLI = 
 
               empile:      605961
-            jouecoup:      370994
+           play_move:      370990
         orig_rbechec:      152301
         orig_rnechec:      335458
 Loesung beendet. 
@@ -403,7 +403,7 @@ Loesung beendet.
   1...nBc7-c8=nCA   2.Kc4*b4 [+nGIb8] nBd7*c8=nGI [+nCAc1] # 
 
               empile:       57032
-            jouecoup:       39261
+           play_move:       39255
         orig_rbechec:        5413
         orig_rnechec:       39214
 Loesung beendet. 
@@ -438,7 +438,7 @@ Loesung beendet.
 
 
               empile:           9
-            jouecoup:           9
+           play_move:           9
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -474,7 +474,7 @@ Loesung beendet.
 
 
               empile:          27
-            jouecoup:          25
+           play_move:          25
         orig_rbechec:           9
         orig_rnechec:           0
 Loesung beendet. 
@@ -512,7 +512,7 @@ Loesung beendet.
 
 
               empile:         252
-            jouecoup:         251
+           play_move:         251
         orig_rbechec:         204
         orig_rnechec:           0
 Loesung beendet. 

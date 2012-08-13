@@ -1,68 +1,27 @@
 #include "conditions/extinction.h"
 #include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
 static unsigned int prev_nbpiece[derbla];
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototypes[] ={
-        alloc_pipe(STExtinctionRememberThreatened),
-        alloc_pipe(STExtinctionTester)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,prototypes,nr_prototypes);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,prototypes,nr_prototypes);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,prototypes,nr_prototypes);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_extinction_chess(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STExtinctionRememberThreatened);
+  stip_instrument_moves_no_replay(si,STExtinctionTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

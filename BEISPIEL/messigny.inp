@@ -1,106 +1,106 @@
 anfang
-protokoll	messigny.out
-latex		messigny.tex
+protokoll       messigny.out
+latex           messigny.tex
 
-autor		Bruno Kampmann
-quelle		Messigny 1999
-ausz		1. ehrende Erw"ahnung
-forderung	h#2
-bedingung	messigny
-steine	weiss	kh7 ba7f4g6
-	schwarz	kh5 da6 tc2 le6 sb6 bd5h4
+autor           Bruno Kampmann
+quelle          Messigny 1999
+ausz            1. ehrende Erw"ahnung
+forderung       h#2
+bedingung       messigny
+steine  weiss   kh7 ba7f4g6
+        schwarz kh5 da6 tc2 le6 sb6 bd5h4
 weiter
-autor		Michel Caillaud
-quelle		Messigny 1999
-ausz		2. ehrende Erw"ahnung
-forderung	h#2
-bedingung	messigny
-steine	weiss	kg6 le8 bb6c3c5g7
-	schwarz	ka5 df4 la6 sh5 ba2e4f5
+autor           Michel Caillaud
+quelle          Messigny 1999
+ausz            2. ehrende Erw"ahnung
+forderung       h#2
+bedingung       messigny
+steine  weiss   kg6 le8 bb6c3c5g7
+        schwarz ka5 df4 la6 sh5 ba2e4f5
 weiter
-autor		Michel Caillaud
-quelle		Messigny 1999
-ausz		1. Lob
-forderung	h#3
-bedingung	messigny
-steine	weiss	kd3 lb1g1 bb3g3
-	schwarz	ka8 ba2d5e5h2
+autor           Michel Caillaud
+quelle          Messigny 1999
+ausz            1. Lob
+forderung       h#3
+bedingung       messigny
+steine  weiss   kd3 lb1g1 bb3g3
+        schwarz ka8 ba2d5e5h2
 weiter
-autor		Bruno Kampmann
-quelle		Messigny 1999
-ausz		2. Lob
-forderung	h#3
-bedingung	messigny
-steine	weiss	ke5 te8
-	schwarz	kg7 td7
+autor           Bruno Kampmann
+quelle          Messigny 1999
+ausz            2. Lob
+forderung       h#3
+bedingung       messigny
+steine  weiss   ke5 te8
+        schwarz kg7 td7
 weiter
 
-autor		Bernd Ellinghoven
-autor		Torsten Lin\ss
-autor		Hans Peter Rehm
-quelle		Messigny 1998
-forderung	r#2
-bedingung   	messigny rexex
-steine 	weiss 	ke1 df8 tf2 lg7 sc6 bb3d3
-       	schwa 	ke3 dd8 te8 la7 bd5e2g4g5
-option 		vari satz
+autor           Bernd Ellinghoven
+autor           Torsten Lin\ss
+autor           Hans Peter Rehm
+quelle          Messigny 1998
+forderung       r#2
+bedingung       messigny rexex
+steine  weiss   ke1 df8 tf2 lg7 sc6 bb3d3
+        schwa   ke3 dd8 te8 la7 bd5e2g4g5
+option          vari satz
 weiter
-autor		Bruno Kampmann
-quelle		Messigny 1998
-forderung	semi-r#2
-bedingung   	messigny rexex
-steine 	weiss 	kh4 db4 th3 lg5 sg3 bb2
-       	schwa 	ka6 bb6b7g6h5
-option 	vari
+autor           Bruno Kampmann
+quelle          Messigny 1998
+forderung       semi-r#2
+bedingung       messigny rexex
+steine  weiss   kh4 db4 th3 lg5 sg3 bb2
+        schwa   ka6 bb6b7g6h5
+option  vari
 weiter
-autor		Christian Poisson
-quelle		Messigny 1998
-forderung	#2
-bedingung   	messigny
-steine	weiss 	kc8 de4 lh5 se6 ba6b6c6c7f4g4g7
-       	schwa	kh6 dh2 th3 ld2f8 sh8 bb7
-option 		vari verf
+autor           Christian Poisson
+quelle          Messigny 1998
+forderung       #2
+bedingung       messigny
+steine  weiss   kc8 de4 lh5 se6 ba6b6c6c7f4g4g7
+        schwa   kh6 dh2 th3 ld2f8 sh8 bb7
+option          vari verf
 weiter
-autor		Michel Caillaud
-quelle		Messigny 1998
-forderung	r#2
-bedingung	messigny
-steine	weiss   kh6 dh1 tg1g6 sf6 ba3f7g5 le4
+autor           Michel Caillaud
+quelle          Messigny 1998
+forderung       r#2
+bedingung       messigny
+steine  weiss   kh6 dh1 tg1g6 sf6 ba3f7g5 le4
         schwa   kc5 dd7 tb5c6 le2f2 ba5a6b7f5h2
-option		vari
+option          vari
 weiter
-autor		Michel Caillaud
-quelle		Messigny 1998
-forderung	#2
-bedingung	messigny
-steine	weiss	kb5 de8 ta4 lc8f2 sg4
-	schwa	kh1 bd2e7f7g2
-option		vari
+autor           Michel Caillaud
+quelle          Messigny 1998
+forderung       #2
+bedingung       messigny
+steine  weiss   kb5 de8 ta4 lc8f2 sg4
+        schwa   kh1 bd2e7f7g2
+option          vari
 weiter
-autor		Uri Avner
-quelle		Messigny 1998
-forderung	#2
-bedingu		messigny
-steine	weiss	kf6 dd8 tb6g8 la6b2 sc6e7 ba5c4g6
-	schwarz kc5 dd1 sg1 bb3b7d5f5g4g5
-option		satz vari
+autor           Uri Avner
+quelle          Messigny 1998
+forderung       #2
+bedingu         messigny
+steine  weiss   kf6 dd8 tb6g8 la6b2 sc6e7 ba5c4g6
+        schwarz kc5 dd1 sg1 bb3b7d5f5g4g5
+option          satz vari
 weiter
-autor		Uri Avner
-autor		Hans Peter Rehm
-quelle		Messigny 1998
-forderung	#2
-bedingung	messigny
-steine	weiss	kg7 df8 td1h4 la2e1 sa7b5
-        schwa	kc5 tf5 la3 sb3e4 ba4a5b6e7f6f7g5a6
+autor           Uri Avner
+autor           Hans Peter Rehm
+quelle          Messigny 1998
+forderung       #2
+bedingung       messigny
+steine  weiss   kg7 df8 td1h4 la2e1 sa7b5
+        schwa   kc5 tf5 la3 sb3e4 ba4a5b6e7f6f7g5a6
 option vari
 weiter
-autor		Bernd Ellinghoven
-autor		Torsten Lin\ss
-autor		Hans Peter Rehm
-quelle		Messigny 1998, Version
-forderung	semi-r#2
-bedingung	messigny rexex
-steine 	weiss 	kh4 db4 tg5 lc5 be4
-       	schwa 	kf4 da7 tf8 lb8 bg4g6h7
-option		vari
+autor           Bernd Ellinghoven
+autor           Torsten Lin\ss
+autor           Hans Peter Rehm
+quelle          Messigny 1998, Version
+forderung       semi-r#2
+bedingung       messigny rexex
+steine  weiss   kh4 db4 tg5 lc5 be4
+        schwa   kf4 da7 tf8 lb8 bg4g6h7
+option          vari
 ende

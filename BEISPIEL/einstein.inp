@@ -89,4 +89,12 @@ option          varianten
 steine  weiss   kf2 lh7 se4g4 bc2d1h3
 	schwarz kf4 ba7c3c4
 
+weiteresproblem
+
+titel Beispiel fuer Rochade in Einstein-Schach
+steine weiss ke1 th1 schwarz bd3
+forderung za62
+bedingung einstein
+option vari ohnesk
+
 endeproblem

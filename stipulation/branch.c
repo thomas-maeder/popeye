@@ -360,6 +360,7 @@ static slice_index const slice_rank_order[] =
   STSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsInitialiser,
+  STMagicViewsInitialiser,
   STEndOfPhaseWriter,
   STImmobilityTester,
   STMaxSolutionsCounter,

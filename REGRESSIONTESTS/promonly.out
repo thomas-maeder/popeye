@@ -27,7 +27,7 @@
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=G Kc8-c7 = 
 
               empile:        1011
-            jouecoup:         566
+           play_move:         560
         orig_rbechec:         241
         orig_rnechec:         507
 Loesung beendet. 
@@ -64,7 +64,7 @@ Loesung beendet.
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=KN   6.KNa1-a5   7.KNa5-b7 = 
 
               empile:        4609
-            jouecoup:        2162
+           play_move:        2155
         orig_rbechec:        1886
         orig_rnechec:        1203
 Loesung beendet. 
@@ -116,7 +116,7 @@ Loesung beendet.
                                                                       9...Da1-h8 #
 
               empile:    11555204
-            jouecoup:     6076051
+           play_move:     6076051
         orig_rbechec:     3372167
         orig_rnechec:     4719088
 Loesung beendet. 

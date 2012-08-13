@@ -53,7 +53,7 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
 
 
               empile:      210274
-            jouecoup:      134060
+           play_move:      134060
         orig_rbechec:       54648
         orig_rnechec:       85616
 solution finished. 
@@ -91,7 +91,7 @@ a)
   1.Qf1*b5 Be3*c5   2.Kd5*c5 Bf7*e6 = 
 
               empile:     1022460
-            jouecoup:      400779
+           play_move:      400775
         orig_rbechec:      173434
         orig_rnechec:      372226
 b) wRe3 
@@ -99,7 +99,7 @@ b) wRe3
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 = 
 
               empile:     1051389
-            jouecoup:      464144
+           play_move:      464140
         orig_rbechec:      181916
         orig_rnechec:      435015
 solution finished. 
@@ -136,7 +136,7 @@ Sake, Portoroz 2002, 5eme Recommand\'e
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 # 
 
               empile:      617530
-            jouecoup:      244281
+           play_move:      244273
         orig_rbechec:       75249
         orig_rnechec:      243368
 solution finished. 
@@ -189,7 +189,7 @@ solution finished.
 
 
               empile:      128617
-            jouecoup:       86276
+           play_move:       86276
         orig_rbechec:       31151
         orig_rnechec:       60430
 solution finished. 
@@ -244,7 +244,7 @@ solution finished.
 
 
               empile:      242161
-            jouecoup:      151708
+           play_move:      151708
         orig_rbechec:       58180
         orig_rnechec:      104879
 solution finished. 

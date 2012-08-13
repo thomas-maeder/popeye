@@ -5,10 +5,9 @@
 #include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/branch.h"
+#include "stipulation/move_player.h"
 #include "solving/legal_move_counter.h"
 #include "debugging/trace.h"
 
@@ -192,54 +191,16 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STExclusiveChessLegalityTester);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_exclusive_chess_legality_testers(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STExclusiveChessLegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -26,7 +26,7 @@
 
 
               empile:          43
-            jouecoup:          46
+           play_move:          46
         orig_rbechec:           1
         orig_rnechec:          47
 Loesung beendet. 
@@ -83,7 +83,7 @@ Loesung beendet.
                   3.Th8-f8 #
 
               empile:       19965
-            jouecoup:       16944
+           play_move:       16944
         orig_rbechec:        8689
         orig_rnechec:        9647
 Loesung beendet. 
@@ -117,7 +117,7 @@ Loesung beendet.
    1.Tb4*b6 #
 
               empile:          75
-            jouecoup:          75
+           play_move:          75
         orig_rbechec:          76
         orig_rnechec:          51
 Loesung beendet. 
@@ -151,7 +151,7 @@ Loesung beendet.
       1...Tb4*b6 #
 
               empile:          75
-            jouecoup:          75
+           play_move:          75
         orig_rbechec:          76
         orig_rnechec:          51
 Loesung beendet. 
@@ -185,7 +185,7 @@ Loesung beendet.
 
 
               empile:           1
-            jouecoup:           1
+           play_move:           1
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -230,7 +230,7 @@ Loesung beendet.
 
 
               empile:       22006
-            jouecoup:        8721
+           play_move:        8721
         orig_rbechec:        1001
         orig_rnechec:        8723
 Loesung beendet. 
@@ -264,7 +264,7 @@ Loesung beendet.
   1.Kb7-a8 Sd5-c7 # 
 
               empile:          74
-            jouecoup:          78
+           play_move:          74
         orig_rbechec:           9
         orig_rnechec:         216
 Loesung beendet. 
@@ -297,7 +297,7 @@ Loesung beendet.
   1.b5-b6   2.b6-b7 # 
 
               empile:          15
-            jouecoup:          17
+           play_move:          15
         orig_rbechec:           6
         orig_rnechec:          15
 Loesung beendet. 
@@ -334,7 +334,7 @@ Loesung beendet.
   1.c7-c8=T   2.f7*g8=L   3.g7*f8=D   4.b7-b8=S # 
 
               empile:       24019
-            jouecoup:       17230
+           play_move:       17226
         orig_rbechec:        3239
         orig_rnechec:       16879
 Loesung beendet. 
@@ -369,7 +369,7 @@ Loesung beendet.
   1.Kb7-a8 Sd5-b6 # 
 
               empile:         742
-            jouecoup:         277
+           play_move:         273
         orig_rbechec:          97
         orig_rnechec:         273
 Loesung beendet. 
@@ -407,7 +407,7 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
 
 
               empile:         722
-            jouecoup:         722
+           play_move:         722
         orig_rbechec:          44
         orig_rnechec:         713
 Loesung beendet. 
@@ -443,7 +443,7 @@ Loesung beendet.
   1.e4*d3 ep. # 
 
               empile:         222
-            jouecoup:         194
+           play_move:         191
         orig_rbechec:          98
         orig_rnechec:         120
 Loesung beendet. 
@@ -492,7 +492,7 @@ zweimal eine Anzuginversion (-)
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
 
               empile:       12426
-            jouecoup:        8893
+           play_move:        8885
         orig_rbechec:        5743
         orig_rnechec:        5742
 Loesung beendet. 
@@ -547,7 +547,7 @@ eigentlich semi-r#2
 
 
               empile:      115837
-            jouecoup:      109083
+           play_move:      109083
         orig_rbechec:       32648
         orig_rnechec:        4566
 Loesung beendet. 
@@ -603,7 +603,7 @@ und Einschraenkung kein wAngriff zum Matt
 
 
               empile:        8974
-            jouecoup:        7379
+           play_move:        7379
         orig_rbechec:        6642
         orig_rnechec:        1028
 Loesung beendet. 
@@ -645,7 +645,7 @@ a)
   1.f2-f1=S d2-d4   2.e4*d3 ep. # 
 
               empile:       61254
-            jouecoup:       45339
+           play_move:       45332
         orig_rbechec:       44940
         orig_rnechec:       10394
 b) sBf2<-->wBh4
@@ -654,7 +654,7 @@ b) sBf2<-->wBh4
   1.h2*g1=L f2-f4   2.e4*f3 ep. # 
 
               empile:       21770
-            jouecoup:       15441
+           play_move:       15434
         orig_rbechec:       15243
         orig_rnechec:        6273
 Loesung beendet. 
@@ -698,7 +698,7 @@ a)
   1.f2-f1=S d2-d4   2.0-0-0 Sa4-b6 # 
 
               empile:      194563
-            jouecoup:      138455
+           play_move:      138448
         orig_rbechec:       32128
         orig_rnechec:      135681
 b) sBf2<-->wBh4
@@ -707,7 +707,7 @@ b) sBf2<-->wBh4
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 # 
 
               empile:      183448
-            jouecoup:      118442
+           play_move:      118435
         orig_rbechec:       24738
         orig_rnechec:      120016
 Loesung beendet. 
@@ -748,7 +748,7 @@ wAngriffszug zum Schlag
   1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
 
               empile:          36
-            jouecoup:          49
+           play_move:          23
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -785,7 +785,7 @@ Loesung beendet.
   1.g6*f5 a3-a4   2.g7-g5 h4*g5 x 
 
               empile:          25
-            jouecoup:          31
+           play_move:          17
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -822,7 +822,7 @@ wobei Schwarz nicht schlaegt
   1.g6-g5 a3-a4   2.g7-g6 h4*g5 x 
 
               empile:          15
-            jouecoup:          22
+           play_move:          12
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -860,7 +860,7 @@ wobei Weiss schlagen muss, wenn er kann
   1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
 
               empile:          18
-            jouecoup:          17
+           play_move:          11
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -897,7 +897,7 @@ wobei Weiss schlagen muss, wenn er kann
   1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
 
               empile:          13
-            jouecoup:          12
+           play_move:           8
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -935,7 +935,7 @@ unloesbar, weil Schwarz schlagen muss
   1.g3*f4 x 
 
               empile:           2
-            jouecoup:           2
+           play_move:           1
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -973,7 +973,7 @@ wAngriffszug zum Schlag
   1.g7-g6   2.g6-g5 h4*g5 x 
 
               empile:          27
-            jouecoup:          23
+           play_move:          14
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -1008,7 +1008,7 @@ wAngriffszug zum Schlag
   1.g7-g6   2.g6-g5 h4*g5 x 
 
               empile:          16
-            jouecoup:          11
+           play_move:           8
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -1049,7 +1049,7 @@ Schwarz nicht schlaegt
   1.g2-g3 f4*g3 x 
 
               empile:          15
-            jouecoup:          15
+           play_move:           9
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -1089,7 +1089,7 @@ keine lange Loesung, weil Schwarz nach 1.g2-g3 schlagen muss
   1.g2-g3 f4*g3 x 
 
               empile:          14
-            jouecoup:          15
+           play_move:           9
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -1127,7 +1127,7 @@ Loesung beendet.
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 # 
 
               empile:    11163433
-            jouecoup:     9804561
+           play_move:     9804555
         orig_rbechec:      499130
         orig_rnechec:     9804161
 Loesung beendet. 
@@ -1195,7 +1195,7 @@ eigentlich: sKg4 s#2 b) g4->e3
                       3...Lb8*f4 #
 
               empile:       58773
-            jouecoup:       31285
+           play_move:       31285
         orig_rbechec:       31296
         orig_rnechec:       18362
 Loesung beendet. 
@@ -1233,7 +1233,7 @@ a)
 
 
               empile:          13
-            jouecoup:          16
+           play_move:          16
         orig_rbechec:           2
         orig_rnechec:          17
 b) weiss 3:3a[#]d 
@@ -1244,7 +1244,7 @@ b) weiss 3:3a[#]d
 
 
               empile:         140
-            jouecoup:          84
+           play_move:          84
         orig_rbechec:          22
         orig_rnechec:          72
 c) weiss 5:5a[#]d 
@@ -1257,7 +1257,7 @@ c) weiss 5:5a[#]d
 
 
               empile:        3973
-            jouecoup:        1900
+           play_move:        1900
         orig_rbechec:         814
         orig_rnechec:        1333
 d) weiss 7:7a[#]d 
@@ -1285,7 +1285,7 @@ d) weiss 7:7a[#]d
 
 
               empile:       44060
-            jouecoup:       26527
+           play_move:       26527
         orig_rbechec:       17727
         orig_rnechec:       10422
 Loesung beendet. 
@@ -1319,7 +1319,7 @@ Loesung beendet.
   1...Kg2-f3   2.h6-h5 Kf3-e2 # 
 
               empile:         243
-            jouecoup:         208
+           play_move:         205
         orig_rbechec:          92
         orig_rnechec:         200
 Loesung beendet. 
@@ -1380,7 +1380,7 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
  15  (Kb4-a3 )
 
               empile:      207544
-            jouecoup:      153686
+           play_move:      153532
         orig_rbechec:      102464
         orig_rnechec:      153508
 Loesung beendet. 
@@ -1416,7 +1416,7 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
   1.Le5-g3   1.Tc3-c6 Lc7-f4   2.Kb4-c5 Kb2-c3   3.Kc5-b6 + Kc3-d4   4.Tc6-c8 Kd4-e5   5.Kb6-c7 Ke5-f6 +   6.Kc7-d8 Lf4-g5   7.Lg3-c7 Kf6-f7 # 
 
               empile:      414343
-            jouecoup:      413878
+           play_move:      413863
         orig_rbechec:       29503
         orig_rnechec:       52022
 Loesung beendet. 
@@ -1451,7 +1451,7 @@ h#8 1.0;1.1;...
   1.Df3-f8   1.Tg2-g7 Ld7-a4   2.Kh6-g6 Kh1-g2   3.Kg6-f7 + Kg2-f3   4.b6-b5 Kf3-e4   5.Kf7-e8 Ke4-d5   6.Tg7-f7 Kd5-c6   7.b5-b4 Kc6-c7 # 
 
               empile:     2792746
-            jouecoup:     2792761
+           play_move:     2792746
         orig_rbechec:      154088
         orig_rnechec:      287206
 Loesung beendet. 
@@ -1486,7 +1486,7 @@ Ziel nach den weissen Zuegen
   1.a2-a1=T Tg7-c7   2.Ta1-a3 Tc7-c4 # 
 
               empile:       39958
-            jouecoup:       18420
+           play_move:       18413
         orig_rbechec:       11733
         orig_rnechec:       17598
 Loesung beendet. 
@@ -1519,7 +1519,7 @@ Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
   1...a7-a8=D   2.Lb8-a7 Da8-h1 # 
 
               empile:         756
-            jouecoup:         464
+           play_move:         461
         orig_rbechec:           0
         orig_rnechec:         451
 Loesung beendet. 
@@ -1568,7 +1568,7 @@ Loesung beendet.
 
 
               empile:        9474
-            jouecoup:        3936
+           play_move:        3936
         orig_rbechec:        2720
         orig_rnechec:        2148
 Loesung beendet. 
@@ -1611,7 +1611,7 @@ Beispiel fuer eine unnegierte Einschraenkung:
 
 
               empile:         260
-            jouecoup:         159
+           play_move:         159
         orig_rbechec:          54
         orig_rnechec:         144
 Loesung beendet. 

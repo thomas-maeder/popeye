@@ -64,7 +64,7 @@
 
 
               empile:        1344
-            jouecoup:        1118
+           play_move:        1118
         orig_rbechec:         104
         orig_rnechec:        1120
 Loesung beendet. 
@@ -107,7 +107,7 @@ Loesung beendet.
 
 
               empile:        2550
-            jouecoup:        1496
+           play_move:        1496
         orig_rbechec:         315
         orig_rnechec:        1497
 Loesung beendet. 
@@ -165,7 +165,7 @@ Loesung beendet.
   1.nhBd7-d6=shB   2.hBd6-d5=nhB   3.nhBd5-d4=shB   4.hBd4-d3=nhB   5.nhBd3-d2=shB   6.hBd2-d1=nhS nhSd1-c3=whS # 
 
               empile:       13327
-            jouecoup:       11940
+           play_move:       11772
         orig_rbechec:        2404
         orig_rnechec:       11772
 Loesung beendet. 
@@ -200,7 +200,7 @@ Loesung beendet.
   1.hBg2-g1=nhL hBb7-b8=nhT +   2.nhTb8-g8=shT nhLg1-d4=whL = 
 
               empile:       52100
-            jouecoup:       32153
+           play_move:       32149
         orig_rbechec:       17270
         orig_rnechec:       27275
 Loesung beendet. 
@@ -258,7 +258,7 @@ Loesung beendet.
 
 
               empile:        5812
-            jouecoup:        3369
+           play_move:        3369
         orig_rbechec:         436
         orig_rnechec:        3371
 Loesung beendet. 
@@ -305,7 +305,7 @@ Loesung beendet.
 
 
               empile:       12087
-            jouecoup:        6780
+           play_move:        6780
         orig_rbechec:         429
         orig_rnechec:        6782
 Loesung beendet. 
@@ -497,7 +497,7 @@ Loesung beendet.
 
 
               empile:       98014
-            jouecoup:       66718
+           play_move:       66718
         orig_rbechec:        6987
         orig_rnechec:       64760
 Loesung beendet. 
@@ -629,7 +629,7 @@ Loesung beendet.
 
 
               empile:       12691
-            jouecoup:        9709
+           play_move:        9709
         orig_rbechec:         928
         orig_rnechec:        9657
 Loesung beendet. 
@@ -666,7 +666,7 @@ a)
   1.hLf1-d3=nhL Ka2-b3   2.hTd1-d2=nhT nhLd3-c4=whL # 
 
               empile:       64453
-            jouecoup:       55143
+           play_move:       55139
         orig_rbechec:        3617
         orig_rnechec:       54887
 b) sKd5-->a6
@@ -674,7 +674,7 @@ b) sKd5-->a6
   1.hTd1-d3=nhT La3-c5   2.hLf1-e2=nhL nhTd3-a3=whT # 
 
               empile:       74116
-            jouecoup:       66245
+           play_move:       66241
         orig_rbechec:        3181
         orig_rnechec:       65891
 Loesung beendet. 
@@ -712,7 +712,7 @@ a)
   1.hTe8-e7=nhT Kd5-d6   2.hLf8*e7=nhL [+nhTa1] + nhLe7-f6=whL # 
 
               empile:      103010
-            jouecoup:       88273
+           play_move:       88269
         orig_rbechec:        5423
         orig_rnechec:       87794
 b) sKb2-->c3
@@ -720,7 +720,7 @@ b) sKb2-->c3
   1.hLf8-e7=nhL Kd5-e4   2.hTe8*e7=nhT [+nhLc1] + nhTe7-c7=whT # 
 
               empile:       80645
-            jouecoup:       64926
+           play_move:       64922
         orig_rbechec:        8666
         orig_rnechec:       64527
 Loesung beendet. 
@@ -806,7 +806,7 @@ Loesung beendet.
 
 
               empile:        8440
-            jouecoup:        5042
+           play_move:        5042
         orig_rbechec:         827
         orig_rnechec:        4977
 Loesung beendet. 
@@ -843,7 +843,7 @@ Loesung beendet.
   1...Lf1-d3   2.nSe3-c4 hKe1-d1=nhK # 
 
               empile:        6512
-            jouecoup:        5291
+           play_move:        5285
         orig_rbechec:         477
         orig_rnechec:        1818
 Loesung beendet. 
@@ -879,10 +879,10 @@ nur die letzten 2 Zuege < 1 min mit Athlon 2400
 
   1.hLe4*h7=nhL[nhLh7->b5] Tc3-c1   2.nhTc6*d6=whT[whTd6->f7] + Lf1*b5[sLb5->e7] # 
 
-              empile:    43329345
-            jouecoup:    16465742
-        orig_rbechec:    16397857
-        orig_rnechec:     8546790
+              empile:    41926343
+           play_move:    16935098
+        orig_rbechec:    16866510
+        orig_rnechec:     8988092
 Loesung beendet. 
 
 

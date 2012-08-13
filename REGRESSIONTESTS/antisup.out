@@ -30,7 +30,7 @@
   1.Kb4*a5[sKa5->e8]   2.0-0-0 
 
               empile:          84
-            jouecoup:         229
+           play_move:         223
         orig_rbechec:         220
         orig_rnechec:         228
 Loesung beendet. 
@@ -241,526 +241,526 @@ a)
 
 
               empile:           2
-            jouecoup:          88
+           play_move:          88
         orig_rbechec:           0
         orig_rnechec:           0
 b) Verschiebung a1 ==> a2
 
    1.c7*b8=D[wDb8->a1] x !
 
-   1.c7*b8=S[wSb8->a1] x !
-
-   1.c7*b8=T[wTb8->a1] x !
-
-   1.c7*b8=L[wLb8->a1] x !
-
    1.c7*b8=D[wDb8->b1] x !
-
-   1.c7*b8=S[wSb8->b1] x !
-
-   1.c7*b8=T[wTb8->b1] x !
-
-   1.c7*b8=L[wLb8->b1] x !
 
    1.c7*b8=D[wDb8->c1] x !
 
-   1.c7*b8=S[wSb8->c1] x !
-
-   1.c7*b8=T[wTb8->c1] x !
-
-   1.c7*b8=L[wLb8->c1] x !
-
    1.c7*b8=D[wDb8->d1] x !
-
-   1.c7*b8=S[wSb8->d1] x !
-
-   1.c7*b8=T[wTb8->d1] x !
-
-   1.c7*b8=L[wLb8->d1] x !
 
    1.c7*b8=D[wDb8->e1] x !
 
-   1.c7*b8=S[wSb8->e1] x !
-
-   1.c7*b8=T[wTb8->e1] x !
-
-   1.c7*b8=L[wLb8->e1] x !
-
    1.c7*b8=D[wDb8->f1] x !
-
-   1.c7*b8=S[wSb8->f1] x !
-
-   1.c7*b8=T[wTb8->f1] x !
-
-   1.c7*b8=L[wLb8->f1] x !
 
    1.c7*b8=D[wDb8->g1] x !
 
-   1.c7*b8=S[wSb8->g1] x !
-
-   1.c7*b8=T[wTb8->g1] x !
-
-   1.c7*b8=L[wLb8->g1] x !
-
    1.c7*b8=D[wDb8->h1] x !
-
-   1.c7*b8=S[wSb8->h1] x !
-
-   1.c7*b8=T[wTb8->h1] x !
-
-   1.c7*b8=L[wLb8->h1] x !
 
    1.c7*b8=D[wDb8->a2] x !
 
-   1.c7*b8=S[wSb8->a2] x !
-
-   1.c7*b8=T[wTb8->a2] x !
-
-   1.c7*b8=L[wLb8->a2] x !
-
    1.c7*b8=D[wDb8->b2] x !
-
-   1.c7*b8=S[wSb8->b2] x !
-
-   1.c7*b8=T[wTb8->b2] x !
-
-   1.c7*b8=L[wLb8->b2] x !
 
    1.c7*b8=D[wDb8->c2] x !
 
-   1.c7*b8=S[wSb8->c2] x !
-
-   1.c7*b8=T[wTb8->c2] x !
-
-   1.c7*b8=L[wLb8->c2] x !
-
    1.c7*b8=D[wDb8->d2] x !
-
-   1.c7*b8=S[wSb8->d2] x !
-
-   1.c7*b8=T[wTb8->d2] x !
-
-   1.c7*b8=L[wLb8->d2] x !
 
    1.c7*b8=D[wDb8->e2] x !
 
-   1.c7*b8=S[wSb8->e2] x !
-
-   1.c7*b8=T[wTb8->e2] x !
-
-   1.c7*b8=L[wLb8->e2] x !
-
    1.c7*b8=D[wDb8->f2] x !
-
-   1.c7*b8=S[wSb8->f2] x !
-
-   1.c7*b8=T[wTb8->f2] x !
-
-   1.c7*b8=L[wLb8->f2] x !
 
    1.c7*b8=D[wDb8->g2] x !
 
-   1.c7*b8=S[wSb8->g2] x !
-
-   1.c7*b8=T[wTb8->g2] x !
-
-   1.c7*b8=L[wLb8->g2] x !
-
    1.c7*b8=D[wDb8->h2] x !
-
-   1.c7*b8=S[wSb8->h2] x !
-
-   1.c7*b8=T[wTb8->h2] x !
-
-   1.c7*b8=L[wLb8->h2] x !
 
    1.c7*b8=D[wDb8->a3] x !
 
-   1.c7*b8=S[wSb8->a3] x !
-
-   1.c7*b8=T[wTb8->a3] x !
-
-   1.c7*b8=L[wLb8->a3] x !
-
    1.c7*b8=D[wDb8->b3] x !
-
-   1.c7*b8=S[wSb8->b3] x !
-
-   1.c7*b8=T[wTb8->b3] x !
-
-   1.c7*b8=L[wLb8->b3] x !
 
    1.c7*b8=D[wDb8->c3] x !
 
-   1.c7*b8=S[wSb8->c3] x !
-
-   1.c7*b8=T[wTb8->c3] x !
-
-   1.c7*b8=L[wLb8->c3] x !
-
    1.c7*b8=D[wDb8->d3] x !
-
-   1.c7*b8=S[wSb8->d3] x !
-
-   1.c7*b8=T[wTb8->d3] x !
-
-   1.c7*b8=L[wLb8->d3] x !
 
    1.c7*b8=D[wDb8->e3] x !
 
-   1.c7*b8=S[wSb8->e3] x !
-
-   1.c7*b8=T[wTb8->e3] x !
-
-   1.c7*b8=L[wLb8->e3] x !
-
    1.c7*b8=D[wDb8->f3] x !
-
-   1.c7*b8=S[wSb8->f3] x !
-
-   1.c7*b8=T[wTb8->f3] x !
-
-   1.c7*b8=L[wLb8->f3] x !
 
    1.c7*b8=D[wDb8->g3] x !
 
-   1.c7*b8=S[wSb8->g3] x !
-
-   1.c7*b8=T[wTb8->g3] x !
-
-   1.c7*b8=L[wLb8->g3] x !
-
    1.c7*b8=D[wDb8->h3] x !
-
-   1.c7*b8=S[wSb8->h3] x !
-
-   1.c7*b8=T[wTb8->h3] x !
-
-   1.c7*b8=L[wLb8->h3] x !
 
    1.c7*b8=D[wDb8->a4] x !
 
-   1.c7*b8=S[wSb8->a4] x !
-
-   1.c7*b8=T[wTb8->a4] x !
-
-   1.c7*b8=L[wLb8->a4] x !
-
    1.c7*b8=D[wDb8->b4] x !
-
-   1.c7*b8=S[wSb8->b4] x !
-
-   1.c7*b8=T[wTb8->b4] x !
-
-   1.c7*b8=L[wLb8->b4] x !
 
    1.c7*b8=D[wDb8->c4] x !
 
-   1.c7*b8=S[wSb8->c4] x !
-
-   1.c7*b8=T[wTb8->c4] x !
-
-   1.c7*b8=L[wLb8->c4] x !
-
    1.c7*b8=D[wDb8->d4] x !
-
-   1.c7*b8=S[wSb8->d4] x !
-
-   1.c7*b8=T[wTb8->d4] x !
-
-   1.c7*b8=L[wLb8->d4] x !
 
    1.c7*b8=D[wDb8->e4] x !
 
-   1.c7*b8=S[wSb8->e4] x !
-
-   1.c7*b8=T[wTb8->e4] x !
-
-   1.c7*b8=L[wLb8->e4] x !
-
    1.c7*b8=D[wDb8->f4] x !
-
-   1.c7*b8=S[wSb8->f4] x !
-
-   1.c7*b8=T[wTb8->f4] x !
-
-   1.c7*b8=L[wLb8->f4] x !
 
    1.c7*b8=D[wDb8->g4] x !
 
-   1.c7*b8=S[wSb8->g4] x !
-
-   1.c7*b8=T[wTb8->g4] x !
-
-   1.c7*b8=L[wLb8->g4] x !
-
    1.c7*b8=D[wDb8->h4] x !
-
-   1.c7*b8=S[wSb8->h4] x !
-
-   1.c7*b8=T[wTb8->h4] x !
-
-   1.c7*b8=L[wLb8->h4] x !
 
    1.c7*b8=D[wDb8->a5] x !
 
-   1.c7*b8=S[wSb8->a5] x !
-
-   1.c7*b8=T[wTb8->a5] x !
-
-   1.c7*b8=L[wLb8->a5] x !
-
    1.c7*b8=D[wDb8->b5] x !
-
-   1.c7*b8=S[wSb8->b5] x !
-
-   1.c7*b8=T[wTb8->b5] x !
-
-   1.c7*b8=L[wLb8->b5] x !
 
    1.c7*b8=D[wDb8->c5] x !
 
-   1.c7*b8=S[wSb8->c5] x !
-
-   1.c7*b8=T[wTb8->c5] x !
-
-   1.c7*b8=L[wLb8->c5] x !
-
    1.c7*b8=D[wDb8->d5] x !
-
-   1.c7*b8=S[wSb8->d5] x !
-
-   1.c7*b8=T[wTb8->d5] x !
-
-   1.c7*b8=L[wLb8->d5] x !
 
    1.c7*b8=D[wDb8->e5] x !
 
-   1.c7*b8=S[wSb8->e5] x !
-
-   1.c7*b8=T[wTb8->e5] x !
-
-   1.c7*b8=L[wLb8->e5] x !
-
    1.c7*b8=D[wDb8->f5] x !
-
-   1.c7*b8=S[wSb8->f5] x !
-
-   1.c7*b8=T[wTb8->f5] x !
-
-   1.c7*b8=L[wLb8->f5] x !
 
    1.c7*b8=D[wDb8->g5] x !
 
-   1.c7*b8=S[wSb8->g5] x !
-
-   1.c7*b8=T[wTb8->g5] x !
-
-   1.c7*b8=L[wLb8->g5] x !
-
    1.c7*b8=D[wDb8->h5] x !
-
-   1.c7*b8=S[wSb8->h5] x !
-
-   1.c7*b8=T[wTb8->h5] x !
-
-   1.c7*b8=L[wLb8->h5] x !
 
    1.c7*b8=D[wDb8->a6] x !
 
-   1.c7*b8=S[wSb8->a6] x !
-
-   1.c7*b8=T[wTb8->a6] x !
-
-   1.c7*b8=L[wLb8->a6] x !
-
    1.c7*b8=D[wDb8->b6] x !
-
-   1.c7*b8=S[wSb8->b6] x !
-
-   1.c7*b8=T[wTb8->b6] x !
-
-   1.c7*b8=L[wLb8->b6] x !
 
    1.c7*b8=D[wDb8->c6] x !
 
-   1.c7*b8=S[wSb8->c6] x !
-
-   1.c7*b8=T[wTb8->c6] x !
-
-   1.c7*b8=L[wLb8->c6] x !
-
    1.c7*b8=D[wDb8->d6] x !
-
-   1.c7*b8=S[wSb8->d6] x !
-
-   1.c7*b8=T[wTb8->d6] x !
-
-   1.c7*b8=L[wLb8->d6] x !
 
    1.c7*b8=D[wDb8->e6] x !
 
-   1.c7*b8=S[wSb8->e6] x !
-
-   1.c7*b8=T[wTb8->e6] x !
-
-   1.c7*b8=L[wLb8->e6] x !
-
    1.c7*b8=D[wDb8->f6] x !
-
-   1.c7*b8=S[wSb8->f6] x !
-
-   1.c7*b8=T[wTb8->f6] x !
-
-   1.c7*b8=L[wLb8->f6] x !
 
    1.c7*b8=D[wDb8->g6] x !
 
-   1.c7*b8=S[wSb8->g6] x !
-
-   1.c7*b8=T[wTb8->g6] x !
-
-   1.c7*b8=L[wLb8->g6] x !
-
    1.c7*b8=D[wDb8->h6] x !
-
-   1.c7*b8=S[wSb8->h6] x !
-
-   1.c7*b8=T[wTb8->h6] x !
-
-   1.c7*b8=L[wLb8->h6] x !
 
    1.c7*b8=D[wDb8->a7] x !
 
-   1.c7*b8=S[wSb8->a7] x !
-
-   1.c7*b8=T[wTb8->a7] x !
-
-   1.c7*b8=L[wLb8->a7] x !
-
    1.c7*b8=D[wDb8->b7] x !
-
-   1.c7*b8=S[wSb8->b7] x !
-
-   1.c7*b8=T[wTb8->b7] x !
-
-   1.c7*b8=L[wLb8->b7] x !
 
    1.c7*b8=D[wDb8->c7] x !
 
-   1.c7*b8=S[wSb8->c7] x !
-
-   1.c7*b8=T[wTb8->c7] x !
-
-   1.c7*b8=L[wLb8->c7] x !
-
    1.c7*b8=D[wDb8->d7] x !
-
-   1.c7*b8=S[wSb8->d7] x !
-
-   1.c7*b8=T[wTb8->d7] x !
-
-   1.c7*b8=L[wLb8->d7] x !
 
    1.c7*b8=D[wDb8->e7] x !
 
-   1.c7*b8=S[wSb8->e7] x !
-
-   1.c7*b8=T[wTb8->e7] x !
-
-   1.c7*b8=L[wLb8->e7] x !
-
    1.c7*b8=D[wDb8->f7] x !
-
-   1.c7*b8=S[wSb8->f7] x !
-
-   1.c7*b8=T[wTb8->f7] x !
-
-   1.c7*b8=L[wLb8->f7] x !
 
    1.c7*b8=D[wDb8->g7] x !
 
-   1.c7*b8=S[wSb8->g7] x !
-
-   1.c7*b8=T[wTb8->g7] x !
-
-   1.c7*b8=L[wLb8->g7] x !
-
    1.c7*b8=D[wDb8->h7] x !
-
-   1.c7*b8=S[wSb8->h7] x !
-
-   1.c7*b8=T[wTb8->h7] x !
-
-   1.c7*b8=L[wLb8->h7] x !
 
    1.c7*b8=D[wDb8->a8] x !
 
-   1.c7*b8=S[wSb8->a8] x !
-
-   1.c7*b8=T[wTb8->a8] x !
-
-   1.c7*b8=L[wLb8->a8] x !
-
    1.c7*b8=D[wDb8->b8] x !
-
-   1.c7*b8=S[wSb8->b8] x !
-
-   1.c7*b8=T[wTb8->b8] x !
-
-   1.c7*b8=L[wLb8->b8] x !
 
    1.c7*b8=D[wDb8->c8] x !
 
-   1.c7*b8=S[wSb8->c8] x !
-
-   1.c7*b8=T[wTb8->c8] x !
-
-   1.c7*b8=L[wLb8->c8] x !
-
    1.c7*b8=D[wDb8->d8] x !
-
-   1.c7*b8=S[wSb8->d8] x !
-
-   1.c7*b8=T[wTb8->d8] x !
-
-   1.c7*b8=L[wLb8->d8] x !
 
    1.c7*b8=D[wDb8->e8] x !
 
-   1.c7*b8=S[wSb8->e8] x !
-
-   1.c7*b8=T[wTb8->e8] x !
-
-   1.c7*b8=L[wLb8->e8] x !
-
    1.c7*b8=D[wDb8->f8] x !
-
-   1.c7*b8=S[wSb8->f8] x !
-
-   1.c7*b8=T[wTb8->f8] x !
-
-   1.c7*b8=L[wLb8->f8] x !
 
    1.c7*b8=D[wDb8->g8] x !
 
-   1.c7*b8=S[wSb8->g8] x !
-
-   1.c7*b8=T[wTb8->g8] x !
-
-   1.c7*b8=L[wLb8->g8] x !
-
    1.c7*b8=D[wDb8->h8] x !
+
+   1.c7*b8=S[wSb8->a1] x !
+
+   1.c7*b8=S[wSb8->b1] x !
+
+   1.c7*b8=S[wSb8->c1] x !
+
+   1.c7*b8=S[wSb8->d1] x !
+
+   1.c7*b8=S[wSb8->e1] x !
+
+   1.c7*b8=S[wSb8->f1] x !
+
+   1.c7*b8=S[wSb8->g1] x !
+
+   1.c7*b8=S[wSb8->h1] x !
+
+   1.c7*b8=S[wSb8->a2] x !
+
+   1.c7*b8=S[wSb8->b2] x !
+
+   1.c7*b8=S[wSb8->c2] x !
+
+   1.c7*b8=S[wSb8->d2] x !
+
+   1.c7*b8=S[wSb8->e2] x !
+
+   1.c7*b8=S[wSb8->f2] x !
+
+   1.c7*b8=S[wSb8->g2] x !
+
+   1.c7*b8=S[wSb8->h2] x !
+
+   1.c7*b8=S[wSb8->a3] x !
+
+   1.c7*b8=S[wSb8->b3] x !
+
+   1.c7*b8=S[wSb8->c3] x !
+
+   1.c7*b8=S[wSb8->d3] x !
+
+   1.c7*b8=S[wSb8->e3] x !
+
+   1.c7*b8=S[wSb8->f3] x !
+
+   1.c7*b8=S[wSb8->g3] x !
+
+   1.c7*b8=S[wSb8->h3] x !
+
+   1.c7*b8=S[wSb8->a4] x !
+
+   1.c7*b8=S[wSb8->b4] x !
+
+   1.c7*b8=S[wSb8->c4] x !
+
+   1.c7*b8=S[wSb8->d4] x !
+
+   1.c7*b8=S[wSb8->e4] x !
+
+   1.c7*b8=S[wSb8->f4] x !
+
+   1.c7*b8=S[wSb8->g4] x !
+
+   1.c7*b8=S[wSb8->h4] x !
+
+   1.c7*b8=S[wSb8->a5] x !
+
+   1.c7*b8=S[wSb8->b5] x !
+
+   1.c7*b8=S[wSb8->c5] x !
+
+   1.c7*b8=S[wSb8->d5] x !
+
+   1.c7*b8=S[wSb8->e5] x !
+
+   1.c7*b8=S[wSb8->f5] x !
+
+   1.c7*b8=S[wSb8->g5] x !
+
+   1.c7*b8=S[wSb8->h5] x !
+
+   1.c7*b8=S[wSb8->a6] x !
+
+   1.c7*b8=S[wSb8->b6] x !
+
+   1.c7*b8=S[wSb8->c6] x !
+
+   1.c7*b8=S[wSb8->d6] x !
+
+   1.c7*b8=S[wSb8->e6] x !
+
+   1.c7*b8=S[wSb8->f6] x !
+
+   1.c7*b8=S[wSb8->g6] x !
+
+   1.c7*b8=S[wSb8->h6] x !
+
+   1.c7*b8=S[wSb8->a7] x !
+
+   1.c7*b8=S[wSb8->b7] x !
+
+   1.c7*b8=S[wSb8->c7] x !
+
+   1.c7*b8=S[wSb8->d7] x !
+
+   1.c7*b8=S[wSb8->e7] x !
+
+   1.c7*b8=S[wSb8->f7] x !
+
+   1.c7*b8=S[wSb8->g7] x !
+
+   1.c7*b8=S[wSb8->h7] x !
+
+   1.c7*b8=S[wSb8->a8] x !
+
+   1.c7*b8=S[wSb8->b8] x !
+
+   1.c7*b8=S[wSb8->c8] x !
+
+   1.c7*b8=S[wSb8->d8] x !
+
+   1.c7*b8=S[wSb8->e8] x !
+
+   1.c7*b8=S[wSb8->f8] x !
+
+   1.c7*b8=S[wSb8->g8] x !
 
    1.c7*b8=S[wSb8->h8] x !
 
+   1.c7*b8=T[wTb8->a1] x !
+
+   1.c7*b8=T[wTb8->b1] x !
+
+   1.c7*b8=T[wTb8->c1] x !
+
+   1.c7*b8=T[wTb8->d1] x !
+
+   1.c7*b8=T[wTb8->e1] x !
+
+   1.c7*b8=T[wTb8->f1] x !
+
+   1.c7*b8=T[wTb8->g1] x !
+
+   1.c7*b8=T[wTb8->h1] x !
+
+   1.c7*b8=T[wTb8->a2] x !
+
+   1.c7*b8=T[wTb8->b2] x !
+
+   1.c7*b8=T[wTb8->c2] x !
+
+   1.c7*b8=T[wTb8->d2] x !
+
+   1.c7*b8=T[wTb8->e2] x !
+
+   1.c7*b8=T[wTb8->f2] x !
+
+   1.c7*b8=T[wTb8->g2] x !
+
+   1.c7*b8=T[wTb8->h2] x !
+
+   1.c7*b8=T[wTb8->a3] x !
+
+   1.c7*b8=T[wTb8->b3] x !
+
+   1.c7*b8=T[wTb8->c3] x !
+
+   1.c7*b8=T[wTb8->d3] x !
+
+   1.c7*b8=T[wTb8->e3] x !
+
+   1.c7*b8=T[wTb8->f3] x !
+
+   1.c7*b8=T[wTb8->g3] x !
+
+   1.c7*b8=T[wTb8->h3] x !
+
+   1.c7*b8=T[wTb8->a4] x !
+
+   1.c7*b8=T[wTb8->b4] x !
+
+   1.c7*b8=T[wTb8->c4] x !
+
+   1.c7*b8=T[wTb8->d4] x !
+
+   1.c7*b8=T[wTb8->e4] x !
+
+   1.c7*b8=T[wTb8->f4] x !
+
+   1.c7*b8=T[wTb8->g4] x !
+
+   1.c7*b8=T[wTb8->h4] x !
+
+   1.c7*b8=T[wTb8->a5] x !
+
+   1.c7*b8=T[wTb8->b5] x !
+
+   1.c7*b8=T[wTb8->c5] x !
+
+   1.c7*b8=T[wTb8->d5] x !
+
+   1.c7*b8=T[wTb8->e5] x !
+
+   1.c7*b8=T[wTb8->f5] x !
+
+   1.c7*b8=T[wTb8->g5] x !
+
+   1.c7*b8=T[wTb8->h5] x !
+
+   1.c7*b8=T[wTb8->a6] x !
+
+   1.c7*b8=T[wTb8->b6] x !
+
+   1.c7*b8=T[wTb8->c6] x !
+
+   1.c7*b8=T[wTb8->d6] x !
+
+   1.c7*b8=T[wTb8->e6] x !
+
+   1.c7*b8=T[wTb8->f6] x !
+
+   1.c7*b8=T[wTb8->g6] x !
+
+   1.c7*b8=T[wTb8->h6] x !
+
+   1.c7*b8=T[wTb8->a7] x !
+
+   1.c7*b8=T[wTb8->b7] x !
+
+   1.c7*b8=T[wTb8->c7] x !
+
+   1.c7*b8=T[wTb8->d7] x !
+
+   1.c7*b8=T[wTb8->e7] x !
+
+   1.c7*b8=T[wTb8->f7] x !
+
+   1.c7*b8=T[wTb8->g7] x !
+
+   1.c7*b8=T[wTb8->h7] x !
+
+   1.c7*b8=T[wTb8->a8] x !
+
+   1.c7*b8=T[wTb8->b8] x !
+
+   1.c7*b8=T[wTb8->c8] x !
+
+   1.c7*b8=T[wTb8->d8] x !
+
+   1.c7*b8=T[wTb8->e8] x !
+
+   1.c7*b8=T[wTb8->f8] x !
+
+   1.c7*b8=T[wTb8->g8] x !
+
    1.c7*b8=T[wTb8->h8] x !
+
+   1.c7*b8=L[wLb8->a1] x !
+
+   1.c7*b8=L[wLb8->b1] x !
+
+   1.c7*b8=L[wLb8->c1] x !
+
+   1.c7*b8=L[wLb8->d1] x !
+
+   1.c7*b8=L[wLb8->e1] x !
+
+   1.c7*b8=L[wLb8->f1] x !
+
+   1.c7*b8=L[wLb8->g1] x !
+
+   1.c7*b8=L[wLb8->h1] x !
+
+   1.c7*b8=L[wLb8->a2] x !
+
+   1.c7*b8=L[wLb8->b2] x !
+
+   1.c7*b8=L[wLb8->c2] x !
+
+   1.c7*b8=L[wLb8->d2] x !
+
+   1.c7*b8=L[wLb8->e2] x !
+
+   1.c7*b8=L[wLb8->f2] x !
+
+   1.c7*b8=L[wLb8->g2] x !
+
+   1.c7*b8=L[wLb8->h2] x !
+
+   1.c7*b8=L[wLb8->a3] x !
+
+   1.c7*b8=L[wLb8->b3] x !
+
+   1.c7*b8=L[wLb8->c3] x !
+
+   1.c7*b8=L[wLb8->d3] x !
+
+   1.c7*b8=L[wLb8->e3] x !
+
+   1.c7*b8=L[wLb8->f3] x !
+
+   1.c7*b8=L[wLb8->g3] x !
+
+   1.c7*b8=L[wLb8->h3] x !
+
+   1.c7*b8=L[wLb8->a4] x !
+
+   1.c7*b8=L[wLb8->b4] x !
+
+   1.c7*b8=L[wLb8->c4] x !
+
+   1.c7*b8=L[wLb8->d4] x !
+
+   1.c7*b8=L[wLb8->e4] x !
+
+   1.c7*b8=L[wLb8->f4] x !
+
+   1.c7*b8=L[wLb8->g4] x !
+
+   1.c7*b8=L[wLb8->h4] x !
+
+   1.c7*b8=L[wLb8->a5] x !
+
+   1.c7*b8=L[wLb8->b5] x !
+
+   1.c7*b8=L[wLb8->c5] x !
+
+   1.c7*b8=L[wLb8->d5] x !
+
+   1.c7*b8=L[wLb8->e5] x !
+
+   1.c7*b8=L[wLb8->f5] x !
+
+   1.c7*b8=L[wLb8->g5] x !
+
+   1.c7*b8=L[wLb8->h5] x !
+
+   1.c7*b8=L[wLb8->a6] x !
+
+   1.c7*b8=L[wLb8->b6] x !
+
+   1.c7*b8=L[wLb8->c6] x !
+
+   1.c7*b8=L[wLb8->d6] x !
+
+   1.c7*b8=L[wLb8->e6] x !
+
+   1.c7*b8=L[wLb8->f6] x !
+
+   1.c7*b8=L[wLb8->g6] x !
+
+   1.c7*b8=L[wLb8->h6] x !
+
+   1.c7*b8=L[wLb8->a7] x !
+
+   1.c7*b8=L[wLb8->b7] x !
+
+   1.c7*b8=L[wLb8->c7] x !
+
+   1.c7*b8=L[wLb8->d7] x !
+
+   1.c7*b8=L[wLb8->e7] x !
+
+   1.c7*b8=L[wLb8->f7] x !
+
+   1.c7*b8=L[wLb8->g7] x !
+
+   1.c7*b8=L[wLb8->h7] x !
+
+   1.c7*b8=L[wLb8->a8] x !
+
+   1.c7*b8=L[wLb8->b8] x !
+
+   1.c7*b8=L[wLb8->c8] x !
+
+   1.c7*b8=L[wLb8->d8] x !
+
+   1.c7*b8=L[wLb8->e8] x !
+
+   1.c7*b8=L[wLb8->f8] x !
+
+   1.c7*b8=L[wLb8->g8] x !
 
    1.c7*b8=L[wLb8->h8] x !
 
 
               empile:           2
-            jouecoup:         256
+           play_move:         256
         orig_rbechec:           0
         orig_rnechec:           0
 Loesung beendet. 
@@ -799,7 +799,7 @@ a)
 
 
               empile:         195
-            jouecoup:         138
+           play_move:         138
         orig_rbechec:          67
         orig_rnechec:         134
 b) AntiSuperCirce  Cheylan
@@ -808,7 +808,7 @@ b) AntiSuperCirce  Cheylan
 
 
               empile:         192
-            jouecoup:         134
+           play_move:         134
         orig_rbechec:          66
         orig_rnechec:         130
 Loesung beendet. 

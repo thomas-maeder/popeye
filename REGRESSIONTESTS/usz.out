@@ -31,14 +31,14 @@ a)
 
 
               empile:          32
-            jouecoup:          31
+           play_move:          31
         orig_rbechec:          31
         orig_rnechec:          11
 b) s=1
 
 
               empile:          32
-            jouecoup:          32
+           play_move:          32
         orig_rbechec:          34
         orig_rnechec:           9
 Loesung beendet. 
@@ -75,7 +75,7 @@ Den Teilnehmern in Andernach 1991 gewidmet
   1.a2*b1=T + Kc1-c2   2.e2-e1=S + Kc2-d2   3.Se1-f3 + Kd2-e2   4.Sf3-g1 + Ke2-f2   5.Tb1-b2 + Kf2-g3   6.Tb2-g2 + Lh3*g2 # 
 
               empile:     8161954
-            jouecoup:     8205508
+           play_move:     8205484
         orig_rbechec:     4632756
         orig_rnechec:     4781761
 Loesung beendet. 
@@ -110,7 +110,7 @@ Loesung beendet.
   1.b2-b1=T + Kb3*c2   2.d2-d1=L + Kc2-d3   3.e2-e1=S + Kd3-e4   4.h2-h1=D + Ke4-f4   5.Dh1-h2 + Ta2*h2 # 
 
               empile:     1521888
-            jouecoup:     1774881
+           play_move:     1774871
         orig_rbechec:     1771841
         orig_rnechec:      428059
 Loesung beendet. 
@@ -148,7 +148,7 @@ Loesung beendet.
   1.Lb6-f2 + Kh4-g5   2.Lf2-e3 + Kg5-f6   3.Le3-d4 + Kf6-e7   4.Ld4-c5 + Da5*c5 # 
 
               empile:      117730
-            jouecoup:      117396
+           play_move:      117380
         orig_rbechec:       58709
         orig_rnechec:       70543
 Loesung beendet. 
@@ -184,7 +184,7 @@ Loesung beendet.
   1.Kc3-b4 a2-a3 +   2.Kb4-b5 a3-a4 +   3.Kb5-b6 a4-a5 +   4.Kb6-b7 a5-a6 +   5.Kb7-b8 a6-a7 +   6.Kb8-c8 a7-a8=T +   7.Kc8-c7 Ta8-c8 +   8.Kc7-d6 Tc8-d8 +   9.Kd6-e5 f2-f4 +  10.Ke5-e6 f4-f5 +  11.Ke6-e7 f5-f6 +  12.Ke7-f7 Td8-d7 +  13.Kf7-g8 f6-f7 +  14.Kg8-h8 f7-f8=T # 
 
               empile:      198121
-            jouecoup:      147769
+           play_move:      147741
         orig_rbechec:           0
         orig_rnechec:      156977
 Loesung beendet. 
@@ -220,7 +220,7 @@ Loesung beendet.
   1.Kg3-f4 e2-e3 +   2.Kf4-f5 e3-e4 +   3.Kf5-f6 e4-e5 +   4.Kf6-f7 e5-e6 +   5.Kf7-f8 e6-e7 +   6.Kf8-f7 e7-e8=D +   7.Kf7*e8 [+wDd1] Dd1-a4 +   8.Ke8-d8 Da4-d7 # 
 
               empile:        7036
-            jouecoup:        3113
+           play_move:        3097
         orig_rbechec:           0
         orig_rnechec:        3871
 Loesung beendet. 
@@ -257,7 +257,7 @@ Loesung beendet.
   1.ELf3-g7 + Kf1-h2   2.ELg7-f1 + Kh2-f3   3.ELf1-h2 + g2-g4   4.ELf6-g2 + Kf3-h4   5.ELg2-f5 + Kh4-f3   6.ELf5-g3 + Kf3-h4   7.ELh2-f3 + Kh4-g2   8.ELg3-f5 + Kg2-h5   9.ELf5-g2 + g4-g5  10.ELg2-f4 + g5-g6  11.ELf3-g5 + Kh5-f6  12.ELf4-h5 + Kf6-g4  13.ELg5-h7 + Kg4-f7  14.ELh7-g4 + g6-g7  15.ELg4-h6 + Kf7-h8  16.ELh6-g4 + g7-g8=T # 
 
               empile:      223260
-            jouecoup:      223240
+           play_move:      223208
         orig_rbechec:      199201
         orig_rnechec:       39354
 Loesung beendet. 
@@ -292,7 +292,7 @@ test case for stalemate in Ultraschachzwang
 
 
               empile:          21
-            jouecoup:          16
+           play_move:          16
         orig_rbechec:          16
         orig_rnechec:           0
 Loesung beendet. 

@@ -45,7 +45,7 @@ a)
 
 
               empile:        2218
-            jouecoup:        1593
+           play_move:        1174
         orig_rbechec:         199
         orig_rnechec:        1757
 b) WhiteOscillatingKings    TypeB
@@ -56,7 +56,7 @@ b) WhiteOscillatingKings    TypeB
 
 
               empile:        3221
-            jouecoup:        1792
+           play_move:        1610
         orig_rbechec:        1382
         orig_rnechec:        1612
 c) WhiteOscillatingKings    TypeB
@@ -64,7 +64,7 @@ c) WhiteOscillatingKings    TypeB
 
 
               empile:        4789
-            jouecoup:        2156
+           play_move:        2081
         orig_rbechec:        1574
         orig_rnechec:        2082
 solution finished. 
@@ -103,7 +103,7 @@ solution finished.
 
 
               empile:        4429
-            jouecoup:        2482
+           play_move:        1792
         orig_rbechec:        1793
         orig_rnechec:        3158
 solution finished. 
@@ -149,7 +149,7 @@ solution finished.
 
 
               empile:        2014
-            jouecoup:        1286
+           play_move:        1286
         orig_rbechec:         182
         orig_rnechec:        1288
 solution finished. 

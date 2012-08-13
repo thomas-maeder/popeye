@@ -10,15 +10,17 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/temporary_hacks.h"
+#include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <string.h>
 
-/* TODO make static */
-boolean is_republican_suspended;
+static pilecase king_placement;
 
-static pilecase republican_king_placement;
+static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
+
+static boolean is_mate_square_dirty[maxply+1];
 
 enum
 {
@@ -29,10 +31,6 @@ enum
 
 static Goal republican_goal = { no_goal, initsquare };
 
-static ply_identity_type previous_ply_identity[maxply+1];
-static numecoup previous_current_move[maxply + 1];
-static post_move_iteration_lock_code_type lock_code[maxply+1];
-
 static boolean is_mate_square(Side other_side, piece king_type)
 {
   boolean result = false;
@@ -42,6 +40,8 @@ static boolean is_mate_square(Side other_side, piece king_type)
     TraceFunctionEntry(__func__);
     TraceEnumerator(Side,other_side,"");
     TraceFunctionParamListEnd();
+
+    TraceSquare(king_square[other_side]);TraceText("\n");
 
     e[king_square[other_side]] = king_type;
     if (attack(slices[temporary_hack_mate_tester[other_side]].next2,length_unspecified)==has_solution)
@@ -57,37 +57,35 @@ static boolean is_mate_square(Side other_side, piece king_type)
 }
 
 /* Find a square for the opposite king
- * @param camp side looking for a square for the opposite king
+ * @param side side looking for a square for the opposite king
  */
-static square find_mate_square(Side side, square start, piece king_type)
+static void advance_mate_square(Side side)
 {
-  square result;
   Side const other_side = advers(side);
+  piece const to_be_placed = other_side==White ? roib : roin;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
-  TraceSquare(start);
-  TracePiece(king_type);
   TraceFunctionParamListEnd();
 
   assert(republican_goal.type==goal_mate);
 
-  king_square[other_side] = start;
-  ++nbpiece[king_type];
+  king_square[other_side] =  king_placement[nbply]+1;
+  ++nbpiece[to_be_placed];
   while (king_square[other_side]<=square_h8)
-    if (is_mate_square(other_side,king_type))
+    if (is_mate_square(other_side,to_be_placed))
       break;
     else
       ++king_square[other_side];
 
-  --nbpiece[king_type];
-  result = king_square[other_side];
+  --nbpiece[to_be_placed];
+  king_placement[nbply] = king_square[other_side];
   king_square[other_side] = initsquare;
 
+  TraceSquare(king_placement[nbply]);TraceText("\n");
+
   TraceFunctionExit(__func__);
-  TraceSquare(result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Perform the necessary verification steps for solving a Republican
@@ -133,8 +131,6 @@ boolean republican_verifie_position(slice_index si)
       OptFlag[sansrb] = true;
       optim_neutralretractable = false;
       add_ortho_mating_moves_generation_obstacle();
-      is_republican_suspended = false;
-      TraceValue("republican_verifie_position %u\n",is_republican_suspended);
       jouegenre = true;
       supergenre = true;
       result = true;
@@ -163,90 +159,38 @@ void republican_write_diagram_caption(char CondLine[], size_t lineLength)
 /* Place the opposite king as part of playing a move
  * @param moving side at the move
  */
-static void republican_place_king_first_play(Side moving)
+static void place_king(Side moving)
 {
   Side const other_side = advers(moving);
-  piece const king_type = other_side==Black ? roin : roib;
+  piece const king_type = other_side==White ? roib : roin;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,moving,"");
   TraceFunctionParamListEnd();
 
-  republican_king_placement[nbply] = find_mate_square(moving,republican_king_placement[nbply],king_type);
-
-  if (republican_king_placement[nbply]<=square_h8)
-  {
-    king_square[other_side] = republican_king_placement[nbply];
-    e[king_square[other_side]] = king_type;
-    ++nbpiece[king_type];
-  }
-
-  if (RepublicanType==republican_type1)
-    /* In type 1, Republican chess is suspended (and hence
-     * play is over) once a king is inserted. */
-    is_republican_suspended = republican_king_placement[nbply]<=square_h8;
-  else
-    /* In type 2, on the other hand, Republican chess is
-     * continued, and the side just "mated" can attempt to
-     * defend against the mate by inserting the opposite
-     * king. */
-    is_republican_suspended = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Place the opposite king as part of playing a move
- * @param moving side at the move
- */
-static void republican_place_king_replay(Side moving)
-{
-  square const sq = republican_king_placement[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,moving,"");
-  TraceFunctionParamListEnd();
-
-  if (sq<=square_h8)
-  {
-    Side const not_moving = advers(moving);
-    piece const king_type = not_moving==White ? roib : roin;
-    king_square[not_moving] = sq;
-    e[king_square[not_moving]] = king_type;
-    ++nbpiece[king_type];
-  }
+  king_square[other_side] = king_placement[nbply];
+  e[king_square[other_side]] = king_type;
+  ++nbpiece[king_type];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 /* Unplace the opposite king as part of taking back a move
+ * @param moving side at the move
  */
-static void republican_unplace_king(void)
+static void unplace_king(Side moving)
 {
-  square const sq = republican_king_placement[nbply];
+  Side const other_side = advers(moving);
+  piece const king_type = other_side==White ? roib : roin;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,moving,"");
   TraceFunctionParamListEnd();
 
-  if (sq<=square_h8)
-  {
-    e[sq] = vide;
-    if (sq==king_square[Black])
-    {
-      king_square[Black] = initsquare;
-      --nbpiece[roin];
-    }
-    if (sq==king_square[White])
-    {
-      king_square[White] = initsquare;
-      --nbpiece[roib];
-    }
-
-    if (RepublicanType==republican_type1)
-      /* Republican chess was suspended when the move was played. */
-      is_republican_suspended = false;
-  }
+  e[king_placement[nbply]] = vide;
+  --nbpiece[king_type];
+  king_square[other_side] = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -258,7 +202,7 @@ static void republican_unplace_king(void)
  */
 void republican_current(ply ply_id, coup *move)
 {
-  move->repub_k = republican_king_placement[ply_id];
+  move->repub_k = king_placement[ply_id];
 }
 
 /* Compare the Republican Chess parts of two saved moves
@@ -298,6 +242,39 @@ void write_republican_king_placement(coup const *mov)
   }
 }
 
+static void instrument_defense(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_defense)
+  {
+    slice_index const prototype = alloc_pipe(STRepublicanType1DeadEnd);
+    defense_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_type1_dead_end(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STMove,&instrument_defense);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -308,40 +285,6 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STRepublicanKingPlacer);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_move_replay(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STRepublicanKingPlacerReplay);
     switch (st->context)
     {
       case stip_traversal_context_attack:
@@ -383,11 +326,43 @@ void stip_insert_republican_king_placers(slice_index si)
                                            &instrument_move);
   stip_structure_traversal_override_single(&st,
                                            STReplayingMoves,
-                                           &instrument_move_replay);
+                                           &instrument_move);
   stip_structure_traversal_override_single(&st,
                                            STTemporaryHackFork,
                                            &stip_traverse_structure_children_pipe);
+  if (RepublicanType==republican_type1)
+    stip_structure_traversal_override_single(&st,
+                                             STGoalReachedTester,
+                                             &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
+
+  if (RepublicanType==republican_type1)
+    insert_type1_dead_end(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void determine_king_placement(Side trait_ply)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,trait_ply,"");
+  TraceFunctionParamListEnd();
+
+  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
+  {
+    king_placement[nbply] = square_a1-1;
+    is_mate_square_dirty[nbply] = true;
+
+    /* prevent re-initialisation while replaying for writing a solution */
+    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+  }
+
+  if (is_mate_square_dirty[nbply])
+  {
+    advance_mate_square(trait_ply);
+    is_mate_square_dirty[nbply] = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -411,33 +386,27 @@ stip_length_type republican_king_placer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_republican_suspended)
+  determine_king_placement(slices[si].starter);
+
+  if (king_placement[nbply]==king_not_placed)
+  {
     result = attack(slices[si].next1,n);
+    king_placement[nbply] = to_be_initialised;
+  }
   else
   {
-    if (republican_king_placement[nbply]==to_be_initialised
-        || previous_ply_identity[nbply]!=ply_identity[nbply]
-        || previous_current_move[nbply]!=current_move[nbply])
-      republican_king_placement[nbply] = square_a1;
-    else if (lock_code[nbply]==post_move_iteration_lock_code[nbply])
-      ++republican_king_placement[nbply];
-
-    republican_place_king_first_play(slices[si].starter);
-
+    place_king(slices[si].starter);
     result = attack(slices[si].next1,n);
+    unplace_king(slices[si].starter);
 
-    republican_unplace_king();
-
-    if (republican_king_placement[nbply]==king_not_placed)
-      republican_king_placement[nbply] = to_be_initialised;
-    else if (!are_post_move_iterations_locked())
+    if (!post_move_iteration_locked[nbply])
     {
-      previous_ply_identity[nbply] = ply_identity[nbply];
-      previous_current_move[nbply] = current_move[nbply];
-      lock_code[nbply] = ++post_move_iteration_lock_code[nbply];
+      is_mate_square_dirty[nbply] = true;
       lock_post_move_iterations();
     }
   }
+
+  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -466,34 +435,27 @@ stip_length_type republican_king_placer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_republican_suspended)
+  determine_king_placement(slices[si].starter);
+
+  if (king_placement[nbply]==king_not_placed)
+  {
     result = defend(slices[si].next1,n);
+    king_placement[nbply] = to_be_initialised;
+  }
   else
   {
-    if (republican_king_placement[nbply]==to_be_initialised
-        || previous_ply_identity[nbply]!=ply_identity[nbply]
-        || previous_current_move[nbply]!=current_move[nbply])
-      republican_king_placement[nbply] = square_a1;
-    else if (!are_post_move_iterations_locked()
-             && lock_code[nbply]==post_move_iteration_lock_code[nbply])
-      ++republican_king_placement[nbply];
-
-    republican_place_king_first_play(slices[si].starter);
-
+    place_king(slices[si].starter);
     result = defend(slices[si].next1,n);
+    unplace_king(slices[si].starter);
 
-    republican_unplace_king();
-
-    if (republican_king_placement[nbply]==king_not_placed)
-      republican_king_placement[nbply] = to_be_initialised;
-    else
+    if (!post_move_iteration_locked[nbply])
     {
-      previous_ply_identity[nbply] = ply_identity[nbply];
-      previous_current_move[nbply] = current_move[nbply];
-      lock_code[nbply] = ++post_move_iteration_lock_code[nbply];
+      is_mate_square_dirty[nbply] = true;
       lock_post_move_iterations();
     }
   }
+
+  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -509,8 +471,8 @@ stip_length_type republican_king_placer_defend(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type republican_king_placer_replay_attack(slice_index si,
-                                                      stip_length_type n)
+stip_length_type republican_type1_dead_end_attack(slice_index si,
+                                                  stip_length_type n)
 {
   stip_length_type result;
 
@@ -519,40 +481,11 @@ stip_length_type republican_king_placer_replay_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  republican_place_king_replay(slices[si].starter);
-  result = attack(slices[si].next1,n);
-  republican_unplace_king();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type republican_king_placer_replay_defend(slice_index si,
-                                                      stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  republican_place_king_replay(slices[si].starter);
-  result = defend(slices[si].next1,n);
-  republican_unplace_king();
+  if (king_placement[nbply]==king_not_placed)
+    result = attack(slices[si].next1,n);
+  else
+    /* defender has inserted the attacker's king - no use to go on */
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

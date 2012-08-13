@@ -41,7 +41,7 @@ a)
 
 
               empile:        2305
-            jouecoup:        1476
+           play_move:        1097
         orig_rbechec:         183
         orig_rnechec:        1654
 b) WeisseOszillierendeKoenige    TypB
@@ -52,7 +52,7 @@ b) WeisseOszillierendeKoenige    TypB
 
 
               empile:        2287
-            jouecoup:        1298
+           play_move:        1182
         orig_rbechec:        1083
         orig_rnechec:        1184
 c) WeisseOszillierendeKoenige    TypB
@@ -60,7 +60,7 @@ c) WeisseOszillierendeKoenige    TypB
 
 
               empile:        2566
-            jouecoup:        1181
+           play_move:         948
         orig_rbechec:        1000
         orig_rnechec:         949
 Loesung beendet. 
@@ -99,7 +99,7 @@ Loesung beendet.
 
 
               empile:        4429
-            jouecoup:        2482
+           play_move:        1792
         orig_rbechec:        1793
         orig_rnechec:        3158
 Loesung beendet. 
@@ -145,7 +145,7 @@ Loesung beendet.
 
 
               empile:        2014
-            jouecoup:        1286
+           play_move:        1286
         orig_rbechec:         182
         orig_rnechec:        1288
 Loesung beendet. 

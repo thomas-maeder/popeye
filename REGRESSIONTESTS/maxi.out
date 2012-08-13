@@ -49,7 +49,7 @@
 
 
               empile:     1372222
-            jouecoup:      626054
+           play_move:      626054
         orig_rbechec:      142867
         orig_rnechec:      551286
 Loesung beendet. 
@@ -102,7 +102,7 @@ Loesung beendet.
 
 
               empile:     2365215
-            jouecoup:     1123404
+           play_move:     1123404
         orig_rbechec:      415226
         orig_rnechec:      922719
 Loesung beendet. 
@@ -195,7 +195,7 @@ Loesung beendet.
 
 
               empile:     4381569
-            jouecoup:     1493243
+           play_move:     1493243
         orig_rbechec:      590132
         orig_rnechec:     1167242
 Loesung beendet. 
@@ -232,7 +232,7 @@ a)
   1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 # 
 
               empile:     3289316
-            jouecoup:     1797585
+           play_move:     1797576
         orig_rbechec:      239646
         orig_rnechec:     1645885
 b) sKe2-->f2
@@ -240,7 +240,7 @@ b) sKe2-->f2
   1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 # 
 
               empile:     2326947
-            jouecoup:     1251278
+           play_move:     1251269
         orig_rbechec:      177695
         orig_rnechec:     1128450
 Loesung beendet. 
@@ -286,7 +286,7 @@ Loesung beendet.
 
 
               empile:      399311
-            jouecoup:      174813
+           play_move:      174813
         orig_rbechec:       43597
         orig_rnechec:           0
 Loesung beendet. 
@@ -324,7 +324,7 @@ a)
   1...c7-c8=L   2.c2-c1=S Lc8-d7 # 
 
               empile:        1314
-            jouecoup:         794
+           play_move:         791
         orig_rbechec:         420
         orig_rnechec:         391
 b) sBb3-->b5
@@ -332,7 +332,7 @@ b) sBb3-->b5
   1...c7-c8=D   2.c2-c1=T Dc8-c2 # 
 
               empile:        1310
-            jouecoup:         796
+           play_move:         793
         orig_rbechec:         419
         orig_rnechec:         393
 Loesung beendet. 
@@ -385,7 +385,7 @@ Loesung beendet.
 
 
               empile:       81769
-            jouecoup:       61002
+           play_move:       61002
         orig_rbechec:        5143
         orig_rnechec:       59494
 Loesung beendet. 
@@ -422,7 +422,7 @@ Preis, 7. PK-Kompositionsturnier 1991
   1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 # 
 
               empile:      135270
-            jouecoup:       57595
+           play_move:       57586
         orig_rbechec:       31642
         orig_rnechec:       30856
 Loesung beendet. 
@@ -476,7 +476,7 @@ Loesung beendet.
 
 
               empile:     2585903
-            jouecoup:      799557
+           play_move:      799557
         orig_rbechec:      279506
         orig_rnechec:      642655
 Loesung beendet. 
@@ -570,7 +570,7 @@ Loesung beendet.
 
 
               empile:    24906541
-            jouecoup:    12332800
+           play_move:    12332800
         orig_rbechec:     6791192
         orig_rnechec:     7209123
 Loesung beendet. 
@@ -619,7 +619,7 @@ Loesung beendet.
 
 
               empile:    12206160
-            jouecoup:     5825823
+           play_move:     5825823
         orig_rbechec:     4993371
         orig_rnechec:     1603205
 Loesung beendet. 
@@ -654,7 +654,7 @@ F2676 The Problemist Vol 21 No 12 (Nov 2008)
   1...Ta1-h1 +   2.Kh8-h7 Th1-a1   3.a7-a6 Ta1-h1   4.a6-a5 Th1-a1   5.d2-d1=S Ta1*a5   6.Kh7-h8 Ta5-h5   7.g6-g5 Th5-h1 # 
 
               empile:     7097636
-            jouecoup:     1050255
+           play_move:     1050242
         orig_rbechec:           0
         orig_rnechec:     1013652
 Loesung beendet. 

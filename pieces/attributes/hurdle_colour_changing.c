@@ -7,6 +7,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -18,10 +19,8 @@ static void update_hurdle_colour(void)
   piece const pi_hurdle = e[sq_hurdle];
   if (abs(pi_hurdle)>roib)
   {
-    --nbpiece[pi_hurdle];
-    e[sq_hurdle]= -pi_hurdle;
-    ++nbpiece[-pi_hurdle];
-    CHANGECOLOR(spec[sq_hurdle]);
+    piece_change_side(&e[sq_hurdle]);
+    spec_change_side(&spec[sq_hurdle]);
   }
 }
 
@@ -43,7 +42,7 @@ stip_length_type hurdle_colour_changer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(jouespec[nbply],ColourChange))
+  if (TSTFLAG(spec[move_generation_stack[current_move[nbply]].arrival],ColourChange))
   {
     update_hurdle_colour();
     result = attack(slices[si].next1,n);
@@ -79,7 +78,7 @@ stip_length_type hurdle_colour_changer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(jouespec[nbply],ColourChange))
+  if (TSTFLAG(spec[move_generation_stack[current_move[nbply]].arrival],ColourChange))
   {
     update_hurdle_colour();
     result = defend(slices[si].next1,n);

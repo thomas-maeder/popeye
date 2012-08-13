@@ -1,8 +1,8 @@
 #include "conditions/bgl.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -36,24 +36,6 @@ static long int BGL_move_diff_code[square_h8 - square_a1 + 1] =
  /* 7 left  up   */            990,  922,  860,  806,  762,  728,  707,
  /* 7 right up   */       700,  707,  728,  762,  806,  860,  922,  990
 };
-
-/* Allocate a STBGLFilter slice.
- * @return index of allocated slice
- */
-slice_index alloc_bgl_filter_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STBGLFilter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -140,52 +122,14 @@ stip_length_type bgl_filter_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-static void insert_bgl_filter(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const prototype = alloc_bgl_filter_slice();
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument slices with move tracers
  */
 void stip_insert_bgl_filters(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&insert_bgl_filter);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STBGLFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

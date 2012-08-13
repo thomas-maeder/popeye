@@ -32,7 +32,7 @@ a)
 
 
               empile:        2511
-            jouecoup:        1424
+           play_move:        1424
         orig_rbechec:         772
         orig_rnechec:         812
 b) StingSchach
@@ -48,7 +48,7 @@ b) StingSchach
 
 
               empile:        7373
-            jouecoup:        5383
+           play_move:        5383
         orig_rbechec:        1328
         orig_rnechec:        4598
 Loesung beendet. 
@@ -103,7 +103,7 @@ Loesung beendet.
  18  (Lg4-f5 )
 
               empile:     1288269
-            jouecoup:     1119119
+           play_move:     1119092
         orig_rbechec:      250561
         orig_rnechec:      919103
 Loesung beendet. 
@@ -142,7 +142,7 @@ Loesung beendet.
   1.b4*c3 Ke1-b4   2.b3-b2 a3-a4   3.b5*a4 Kb4*a4 # 
 
               empile:      531582
-            jouecoup:      507405
+           play_move:      507375
         orig_rbechec:       50664
         orig_rnechec:      497524
 Loesung beendet. 

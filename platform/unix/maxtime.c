@@ -11,6 +11,7 @@
 #include "py.h"
 #include "pydata.h"
 #include "optimisations/hash.h"
+#include "solving/moving_pawn_promotion.h"
 
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
@@ -99,7 +100,7 @@ static void solvingTimeOver(int sig)
    * is over.
    */
   periods_counter = nr_periods;
-  
+
   signal(sig,&solvingTimeOver);
 }
 

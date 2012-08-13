@@ -36,7 +36,7 @@
 /* slice identification */
 enum
 {
-  max_nr_slices = 3000,
+  max_nr_slices = 3500,
   no_slice = max_nr_slices
 };
 

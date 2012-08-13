@@ -61,6 +61,30 @@ static void insert_null_move_handler(slice_index si, stip_structure_traversal *s
   }
 }
 
+static void insert_landing(slice_index si, stip_structure_traversal *st)
+{
+  slice_index const prototype = alloc_pipe(STLandingAfterMovingPieceMovement);
+
+  switch (st->context)
+  {
+    case stip_traversal_context_attack:
+      attack_branch_insert_slices(si,&prototype,1);
+      break;
+
+    case stip_traversal_context_defense:
+      defense_branch_insert_slices(si,&prototype,1);
+      break;
+
+    case stip_traversal_context_help:
+      help_branch_insert_slices(si,&prototype,1);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const landing = st->param;
@@ -71,6 +95,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *landing = no_slice;
+  insert_landing(si,st);
 
   stip_traverse_structure_children(si,st);
 
@@ -158,7 +183,7 @@ void stip_insert_blackchecks(slice_index si)
                                            STReplayingMoves,
                                            &instrument_move_replay);
   stip_structure_traversal_override_single(&st,
-                                           STLandingAfterMovePlay,
+                                           STLandingAfterMovingPieceMovement,
                                            &remember_landing);
   stip_traverse_structure(si,&st);
 

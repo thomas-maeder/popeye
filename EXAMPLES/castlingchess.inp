@@ -34,5 +34,28 @@ fors k7/6P1/8/3K4/16/1P6/8
 stip ser-h#8
 cond cast
 
+next
+
+author Nils Adrian Bakke
+origin The Problemist xi/2011
+stip h#3
+fors 4k3/8/2rpp1Sr/6s1/b1pp2K1
+cond cast 
+twin cond exchangec
+
+next
+
+author Nils Adrian Bakke
+origin The Problemist July 2012
+remark only parts c) and d) supported by Popeye
+pieces white kg4 sg6
+       black ke8 qb6 ra8h8 ba4b8 sc4g5 pb5b7c6d4d6f4h6h7
+stip h#3
+rem cond haanover
+rem twin cond cell
+rem twin
+cond castling
+twin cond ExchangeCastling
+
 end
 

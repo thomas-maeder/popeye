@@ -25,10 +25,10 @@
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
 
-              empile:    24776361
-            jouecoup:     4986293
-        orig_rbechec:     2217542
-        orig_rnechec:     4967527
+              empile:    21111214
+           play_move:     3857848
+        orig_rbechec:     1948574
+        orig_rnechec:     3839113
 Bearbeitung abgebrochen. 
 
 
@@ -61,10 +61,10 @@ Bearbeitung abgebrochen.
            Beamtet h8 a3 a1
 
 
-              empile:    18783743
-            jouecoup:     7672308
-        orig_rbechec:    12369679
-        orig_rnechec:    10904670
+              empile:    19791962
+           play_move:     8111899
+        orig_rbechec:    13034193
+        orig_rnechec:    11491868
 Bearbeitung abgebrochen. 
 
 
@@ -97,17 +97,17 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 a) 
 
 
-              empile:    12488598
-            jouecoup:    12488598
-        orig_rbechec:     2851849
-        orig_rnechec:    12453311
+              empile:    11120950
+           play_move:    11120950
+        orig_rbechec:     2538217
+        orig_rnechec:    11088737
 b) wKc1-->b3
 
 
-              empile:    13677559
-            jouecoup:    13677559
-        orig_rbechec:     3179793
-        orig_rnechec:    13648756
+              empile:    10185723
+           play_move:    10185723
+        orig_rbechec:     2336664
+        orig_rnechec:    10164639
 Bearbeitung abgebrochen. 
 
 
@@ -146,7 +146,7 @@ eigentlich:  ser-h=8/3
   5  (Ka8-b7 )
 
               empile:      791286
-            jouecoup:      160343
+           play_move:      160343
         orig_rbechec:       99878
         orig_rnechec:      139756
 Loesung beendet. 
@@ -191,10 +191,10 @@ Motto: Viele Koeche verderben den Brei
   7  (Ke2-d3 )
   8  (Ke2-f3 )
 
-              empile:    13822566
-            jouecoup:     7294165
-        orig_rbechec:      373809
-        orig_rnechec:     7037688
+              empile:    12295425
+           play_move:     6473097
+        orig_rbechec:      332210
+        orig_rnechec:     6250042
 Bearbeitung abgebrochen. 
 
 
@@ -226,12 +226,11 @@ Bearbeitung abgebrochen.
 
   1  (Sh1-g3 )
   2  (Sh1-f2 )
-  3  (c3-c2 )
 
-              empile:    27833590
-            jouecoup:    18342809
-        orig_rbechec:    12916334
-        orig_rnechec:    27989789
+              empile:    21951655
+           play_move:    14554601
+        orig_rbechec:    10533366
+        orig_rnechec:    22496287
 Bearbeitung abgebrochen. 
 
 
@@ -262,10 +261,10 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-              empile:    21113141
-            jouecoup:     8233881
-        orig_rbechec:      370770
-        orig_rnechec:     7916828
+              empile:    19144091
+           play_move:     7480244
+        orig_rbechec:      334339
+        orig_rnechec:     7196079
 Bearbeitung abgebrochen. 
 
 
@@ -297,10 +296,10 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-              empile:    64354288
-            jouecoup:    10851421
+              empile:    53596257
+           play_move:     9080297
         orig_rbechec:           0
-        orig_rnechec:    10325054
+        orig_rnechec:     8667474
 Bearbeitung abgebrochen. 
 
 
@@ -347,7 +346,7 @@ Bearbeitung abgebrochen.
 
 
               empile:       35056
-            jouecoup:       19044
+           play_move:       19044
         orig_rbechec:        9255
         orig_rnechec:       12604
 Loesung beendet. 
@@ -431,7 +430,7 @@ Loesung beendet.
 
 
               empile:       77724
-            jouecoup:       63909
+           play_move:       63909
         orig_rbechec:       40469
         orig_rnechec:       28771
 Loesung beendet. 
@@ -478,7 +477,7 @@ Loesung beendet.
 
 
               empile:      137470
-            jouecoup:       60134
+           play_move:       60134
         orig_rbechec:       18823
         orig_rnechec:       59192
 Loesung beendet. 
@@ -535,7 +534,7 @@ nebenloesig - eigentlich #6
 
 
               empile:      133957
-            jouecoup:      117170
+           play_move:      117170
         orig_rbechec:       50325
         orig_rnechec:       71310
 Loesung beendet. 
@@ -568,10 +567,10 @@ Loesung beendet.
               OhneSchach
 
 
-              empile:   106366777
-            jouecoup:    11840698
-        orig_rbechec:    15291653
-        orig_rnechec:    15782829
+              empile:   120161902
+           play_move:    13332687
+        orig_rbechec:    17145358
+        orig_rnechec:    17729325
 Bearbeitung abgebrochen. 
 
 
@@ -603,10 +602,10 @@ Bearbeitung abgebrochen.
 
   1  (b2-b1=D )
 
-              empile:   119843737
-            jouecoup:    19199818
-        orig_rbechec:    13145442
-        orig_rnechec:    22231042
+              empile:   116922703
+           play_move:    18731135
+        orig_rbechec:    12802930
+        orig_rnechec:    21695855
 Bearbeitung abgebrochen. 
 
 
@@ -639,10 +638,10 @@ Bearbeitung abgebrochen.
 
   1  (Ka1-b1 )
 
-              empile:   107117864
-            jouecoup:    12339044
-        orig_rbechec:    16505392
-        orig_rnechec:    17095062
+              empile:    88834447
+           play_move:    10204278
+        orig_rbechec:    13632747
+        orig_rnechec:    14118356
 Bearbeitung abgebrochen. 
 
 
@@ -675,10 +674,10 @@ Bearbeitung abgebrochen.
 
   1  (Kb1-c1 )
 
-              empile:    94700363
-            jouecoup:    11071332
-        orig_rbechec:    14068898
-        orig_rnechec:    15108994
+              empile:    90997052
+           play_move:    10634054
+        orig_rbechec:    13518509
+        orig_rnechec:    14498436
 Bearbeitung abgebrochen. 
 
 
@@ -710,10 +709,10 @@ Bearbeitung abgebrochen.
               OhneSchach
 
 
-              empile:    72434300
-            jouecoup:     8589215
-        orig_rbechec:    11391560
-        orig_rnechec:    11907882
+              empile:    68542316
+           play_move:     8144148
+        orig_rbechec:    10791767
+        orig_rnechec:    11279925
 Bearbeitung abgebrochen. 
 
 
@@ -754,32 +753,31 @@ a)
   6  (Tc5-c2 )
   7  (Tc5-c3 )
   8  (Tc5-c4 + )
+  9  (Tc5-a5 )
+ 10  (Tc5-b5 )
 
-              empile:     3936778
-            jouecoup:     3878870
-        orig_rbechec:       48309
-        orig_rnechec:     3856740
+              empile:     4862887
+           play_move:     4793254
+        orig_rbechec:       59391
+        orig_rnechec:     4764946
 b) sKa7-->b1
 
-  9  (Kb1*c1 [+Sg1] )
- 10  (Kb1-b2 )
- 11  (Kb1-a1 )
- 12  (Kb1-a2 )
- 13  (Kb1-c2 )
- 14  (La3*c1 [+Sg1] )
+ 11  (Kb1*c1 [+Sg1] )
+ 12  (Kb1-b2 )
+ 13  (Kb1-a1 )
+ 14  (Kb1-a2 )
+ 15  (Kb1-c2 )
+ 16  (La3*c1 [+Sg1] )
   1.La3*c1 [+Sg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6 [+Ta8] # 
- 15  (La3-b2 )
- 16  (La3-b4 )
- 17  (f3-f2 )
- 18  (Tc5*c1 [+Sg1] )
- 19  (Tc5-c2 )
- 20  (Tc5-c3 )
- 21  (Tc5-c4 + )
+ 17  (La3-b2 )
+ 18  (La3-b4 )
+ 19  (f3-f2 )
+ 20  (Tc5*c1 [+Sg1] )
 
-              empile:     5689466
-            jouecoup:     5237466
-        orig_rbechec:      259714
-        orig_rnechec:     5206527
+              empile:     4310373
+           play_move:     3955298
+        orig_rbechec:      210051
+        orig_rnechec:     3932450
 Bearbeitung abgebrochen. 
 
 

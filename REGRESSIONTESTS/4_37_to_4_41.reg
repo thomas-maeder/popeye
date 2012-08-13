@@ -29,7 +29,7 @@
 
 
               empile:         108
-            jouecoup:         108
+           play_move:         108
         orig_rbechec:           9
         orig_rnechec:          70
 solution finished. 
@@ -68,7 +68,7 @@ solution finished.
 
 
               empile:           2
-            jouecoup:           2
+           play_move:           2
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -105,7 +105,7 @@ reported P.Raican (orig. M.Caillaud??)
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3 [+wPa2]   3.b2-b4 Sg8-e7 dia 
 
               empile:      137715
-            jouecoup:      137721
+           play_move:      137715
         orig_rbechec:       13022
         orig_rnechec:       15852
 solution finished. 
@@ -142,7 +142,7 @@ reported P.Raican (orig. M.Caillaud??)
   1.Sg1-h3 d7-d5   2.Sh3-f4 Qd8-d6   3.Sf4*d5 Qd6-d8 [+bPd7]   4.Sd5-b6 dia 
 
               empile:     5605006
-            jouecoup:     5605913
+           play_move:     5605906
         orig_rbechec:      279187
         orig_rnechec:      173327
 solution finished. 
@@ -179,7 +179,7 @@ solution finished.
   1...Bg7-a1 # 
 
               empile:          34
-            jouecoup:           3
+           play_move:           2
         orig_rbechec:           0
         orig_rnechec:           3
 solution finished. 
@@ -238,10 +238,10 @@ moves in Maximummer+Imitator problems
                                               6...Rc8-c5[If1] #
 
 
-              empile:      132154
-            jouecoup:       53751
-        orig_rbechec:       23023
-        orig_rnechec:       42362
+              empile:      132175
+           play_move:       53760
+        orig_rbechec:       23027
+        orig_rnechec:       42369
 solution finished. 
 
 

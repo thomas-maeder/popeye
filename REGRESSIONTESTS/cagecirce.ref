@@ -26,9 +26,9 @@ knights can't be captured - there is no cage
 
   1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6 [+bBd8] +   3.Ke7-d7 Sg6-e7 = 
 
-              empile:    27335107
-            jouecoup:     6522250
-        orig_rbechec:     5547885
+              empile:    27177784
+           play_move:     6404676
+        orig_rbechec:     5430317
         orig_rnechec:     1247328
 solution finished. 
 
@@ -61,9 +61,9 @@ knights can't be captured - g1 is occupied
 
   1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6 [+bBd8] +   3.Ke7-d7 Sg6-e7 = 
 
-              empile:    11366517
-            jouecoup:     3064812
-        orig_rbechec:     2168921
+              empile:    11238939
+           play_move:     2969966
+        orig_rbechec:     2074069
         orig_rnechec:     1053378
 solution finished. 
 
@@ -95,9 +95,9 @@ solution finished.
               CageCirce
 
 
-              empile:    11733781
-            jouecoup:     3146914
-        orig_rbechec:     2208733
+              empile:    11615207
+           play_move:     3058053
+        orig_rbechec:     2119799
         orig_rnechec:     1103950
 solution finished. 
 

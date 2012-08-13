@@ -30,9 +30,12 @@
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/battle_play/attack_play.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
+#include "conditions/duellists.h"
 #include "debugging/trace.h"
 #include "position/position.h"
 
@@ -94,8 +97,8 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
     *bp++ = (byte)(validity_value);
 
   if (CondFlag[duellist]) {
-    *bp++ = (byte)(whduell[nbply] - square_a1);
-    *bp++ = (byte)(blduell[nbply] - square_a1);
+    *bp++ = (byte)(duellists[White][nbply] - square_a1);
+    *bp++ = (byte)(duellists[Black][nbply] - square_a1);
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow])
@@ -472,8 +475,8 @@ void ProofSaveStartPosition(void)
   for (i = 0; i<nr_squares_on_board; ++i)
     start.spec[boardnum[i]] = spec[boardnum[i]];
 
-  start.inum = inum[1];
-  for (i = 0; i<maxinum; ++i)
+  start.inum = number_of_imitators;
+  for (i = 0; i<number_of_imitators; ++i)
     start.isquare[i] = isquare[i];
 
   TraceFunctionExit(__func__);
@@ -497,8 +500,8 @@ void ProofRestoreStartPosition(void)
     spec[square_i] = start.spec[square_i];
   }
 
-  inum[1] = start.inum;
-  for (i = 0; i<maxinum; ++i)
+  number_of_imitators = start.inum;
+  for (i = 0; i<number_of_imitators; ++i)
     isquare[i] = start.isquare[i];
 
   TraceFunctionExit(__func__);
@@ -594,8 +597,8 @@ void ProofSaveTargetPosition(void)
   for (i = 0; i<nr_squares_on_board; ++i)
     target.spec[boardnum[i]] = spec[boardnum[i]];
 
-  target.inum = inum[1];
-  for (i = 0; i<maxinum; ++i)
+  target.inum = number_of_imitators;
+  for (i = 0; i<number_of_imitators; ++i)
     target.isquare[i] = isquare[i];
 
   TraceFunctionExit(__func__);
@@ -621,8 +624,8 @@ void ProofRestoreTargetPosition(void)
     spec[square_i] = target.spec[square_i];
   }
 
-  inum[1] = target.inum;
-  for (i = 0; i<maxinum; ++i)
+  number_of_imitators = target.inum;
+  for (i = 0; i<number_of_imitators; ++i)
     isquare[i] = target.isquare[i];
 
   TraceFunctionExit(__func__);
@@ -701,7 +704,7 @@ static boolean compareImitators(void)
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
+    for (imi_idx = 0; imi_idx<number_of_imitators; ++imi_idx)
       if (target.isquare[imi_idx]!=isquare[imi_idx])
       {
         result = false;

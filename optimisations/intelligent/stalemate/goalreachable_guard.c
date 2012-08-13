@@ -1,5 +1,6 @@
 #include "optimisations/intelligent/stalemate/goalreachable_guard.h"
 #include "stipulation/stipulation.h"
+#include "solving/castling.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"
@@ -17,7 +18,7 @@ static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(v
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  CapturesLeft[nbply] = CapturesLeft[nbply-1];
+  CapturesLeft[nbply] = CapturesLeft[parent_ply[nbply]];
   if (pprise[nbply]<vide)
     --CapturesLeft[nbply];
 
@@ -48,7 +49,7 @@ static boolean stalemate_isGoalReachable(void)
     TraceValue("%u\n",MovesLeft[Black]);
 
     if (nbply==2
-        || (testcastling && castling_flag[nbply]!=castling_flag[nbply-1]))
+        || (testcastling && castling_flag[nbply]!=castling_flag[parent_ply[nbply]]))
     {
       square const *bnp;
       MovesRequired[White][nbply] = 0;
@@ -73,9 +74,9 @@ static boolean stalemate_isGoalReachable(void)
     }
     else
     {
-      PieceIdType const id = GetPieceId(jouespec[nbply]);
-      MovesRequired[White][nbply] = MovesRequired[White][nbply-1];
-      MovesRequired[Black][nbply] = MovesRequired[Black][nbply-1];
+      PieceIdType const id = GetPieceId(spec[move_generation_stack[current_move[nbply]].arrival]);
+      MovesRequired[White][nbply] = MovesRequired[White][parent_ply[nbply]];
+      MovesRequired[Black][nbply] = MovesRequired[Black][parent_ply[nbply]];
 
       if (target_position[id].diagram_square!=initsquare)
       {

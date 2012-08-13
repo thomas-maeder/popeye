@@ -37,7 +37,7 @@
 
 
               empile:       20191
-            jouecoup:        9317
+           play_move:        9317
         orig_rbechec:        4644
         orig_rnechec:       19682
 Loesung beendet. 
@@ -167,7 +167,7 @@ F1291, The Problemist 14/1-2, 1-3/1992
 
 
               empile:       38565
-            jouecoup:       25267
+           play_move:       25267
         orig_rbechec:       12086
         orig_rnechec:       64313
 Loesung beendet. 
@@ -211,7 +211,7 @@ Loesung beendet.
 
 
               empile:        4939
-            jouecoup:        2537
+           play_move:        2537
         orig_rbechec:        1278
         orig_rnechec:        5119
 Loesung beendet. 

@@ -60,11 +60,21 @@
 #include "options/maxflightsquares.h"
 #include "stipulation/stipulation.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/attributes/magic.h"
+#include "pieces/side_change.h"
 #include "platform/maxtime.h"
 #include "solving/battle_play/try.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
+#include "solving/moving_pawn_promotion.h"
+#include "solving/post_move_iteration.h"
 #include "conditions/bgl.h"
 #include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
+#include "conditions/duellists.h"
+#include "conditions/kobul.h"
+#include "conditions/anticirce/super.h"
+#include "conditions/imitator.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -116,45 +126,17 @@ void InitCheckDir(void)
     }
 }
 
-static ply_identity_type next_ply_identity = 0;
-
 static void initply(ply parent, ply child)
 {
-  ++next_ply_identity;
-  ply_identity[child] = next_ply_identity;
-
   parent_ply[child] = parent;
 
   ep2[child] = initsquare;
   ep[child] = initsquare;
 
-  /*
-    The current implementation of promotions works as follows:
-
-    - if jouecoup() moves a pawn to its promotion rank, it is promoted
-    to the first available promotion piece (typically Q).
-
-    - if repcoup() takes back a promotion, and there are other
-    promotion pieces available, the piece to be promoted into next is
-    saved in one of the *_prom arrays at position nbply
-
-    - this next promotion may never take place, e.g. because the
-    previous move led to the goal we are looking for
-
-    - as a consequence, we have to clear the position nbply in the
-    abovementioned arrays, either in finply() or here
-  */
-  current_promotion_of_moving[child] = vide;
-  current_promotion_of_reborn[child] = vide;
-  promotion_of_moving_into_chameleon[child] = false;
-  is_reborn_chameleon_promoted[child] = false;
-  Iprom[child] = false;
   pprise[child] = vide;
 
-  /*
-    Supercirce rebirths are implemented similarly to promotions ...
-  */
-  current_super_circe_rebirth_square[child] = superbas;
+  prev_king_square[White][nbply] = king_square[White];
+  prev_king_square[Black][nbply] = king_square[Black];
 
   /*
     start with the castling rights of the parent level
@@ -171,12 +153,15 @@ static void initply(ply parent, ply child)
 
   magicstate[child] = magicstate[parent];
 
-  whkobul[child] = e[king_square[White]];
-  blkobul[child] = e[king_square[Black]];
-  whkobulspec[child] = spec[king_square[White]];
-  blkobulspec[child] = spec[king_square[Black]];
-  whpwr[child] = whpwr[parent];
-  blpwr[child] = blpwr[parent];
+  kobul[White][child] = e[king_square[White]];
+  kobul[Black][child] = e[king_square[Black]];
+  kobulspec[White][child] = spec[king_square[White]];
+  kobulspec[Black][child] = spec[king_square[Black]];
+  platzwechsel_rochade_allowed[White][child] = platzwechsel_rochade_allowed[White][parent];
+  platzwechsel_rochade_allowed[Black][child] = platzwechsel_rochade_allowed[Black][parent];
+
+  ++post_move_iteration_id[child];
+  TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
 }
 
 static ply ply_watermark;
@@ -215,7 +200,7 @@ void InitCond(void) {
   PieNam p;
 
   wh_exact= ultra_mummer[White]= bl_exact= ultra_mummer[Black]= false;
-  anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anytraitor= false;
+  anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anyanticirprom = anytraitor= false;
   anymars= anyantimars= anygeneva= false;
 
   anyparrain= false;
@@ -287,11 +272,7 @@ void InitCond(void) {
   for (i= 0; i < CondCount; ++i)
     CondFlag[i]= false;
 
-  {
-    ply p;
-    for (p = maxply; p>0; --p)
-      inum[p]= 0;
-  }
+  number_of_imitators = 0;
 
   memset((char *) promonly, 0, sizeof(promonly));
   memset((char *) footballpiece, 0, sizeof(promonly));
@@ -410,8 +391,6 @@ void InitAlways(void) {
   current_move[nbply] = nil_coup;
   ply_watermark = nil_ply;
 
-  nbmagic = 0;
-
   CondFlag[circeassassin] = false;
   k_cap = false;
   flagfee = false;
@@ -424,8 +403,8 @@ void InitAlways(void) {
 
   for (i= maxply; i > 0; i--)
   {
-    whduell[i] = initsquare;
-    blduell[i] = initsquare;
+    duellists[White][i] = initsquare;
+    duellists[Black][i] = initsquare;
     kpilcd[i] = initsquare;
     kpilca[i] = initsquare;
     current_circe_rebirth_square[i] = initsquare;
@@ -433,10 +412,8 @@ void InitAlways(void) {
     current_anticirce_rebirth_square[i] = initsquare;
     pwcprom[i] = false;
     senti[i] = false;
-    Iprom[i] = false;
-    att_1[i] = true;
     oscillatedKs[i] = false;
-    colour_change_sp[i] = colour_change_stack;
+    side_change_sp[i] = side_change_stack;
   }
 
   initialise_neutrals(White);
@@ -575,7 +552,7 @@ boolean riderhoppercheck(square  sq_king,
 
       if (hopper==p
           && evaluate(sq_departure,sq_king,sq_king)
-          && hopimcheck(sq_departure,sq_king,sq_hurdle,-vec[k]))
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
         return true;
     }
   }
@@ -923,11 +900,11 @@ void StorePosition(stored_position_type *store)
   }
 
   /* imitators */
-  store->inum1= inum[1];
+  store->inum1 = number_of_imitators;
 
   {
     unsigned int i;
-    for (i = 0; i<maxinum; i++)
+    for (i = 0; i!=number_of_imitators; ++i)
       store->isquare[i] = isquare[i];
   }
 
@@ -958,12 +935,7 @@ void ResetPosition(stored_position_type const *store)
   }
 
   /* imitators */
-
-  {
-    ply p;
-    for (p = 1; p<=maxply; p++)
-      inum[p] = store->inum1;
-  }
+  number_of_imitators = store->inum1;
 
   {
     unsigned int i;
@@ -1030,24 +1002,26 @@ boolean orphancheck(square   sq_king,
                     piece    p,
                     evalfunction_t *evaluate)
 {
-  piece *porph;
+  PieNam const *porph;
   boolean   flag= false;
   boolean   inited= false;
   square    olist[63];
   square const *bnp;
   int   k, j, co= 0;
 
-  for (porph= orphanpieces; *porph!=vide; porph++) {
-    if (nbpiece[*porph]>0 || nbpiece[-*porph]>0) {
-      if (!inited) {
-        inited= true;
-        for (bnp= boardnum; *bnp; bnp++) {
-          if (e[*bnp] == p) {
+  for (porph = orphanpieces; *porph!=Empty; porph++)
+  {
+    if (nbpiece[(piece)*porph]>0 || nbpiece[-(piece)*porph]>0) {
+      if (!inited)
+      {
+        inited = true;
+        for (bnp= boardnum; *bnp; bnp++)
+          if (e[*bnp] == p)
             olist[co++]= *bnp;
-          }
-        }
       }
-      for (k= 0; k < co; k++) {
+
+      for (k= 0; k < co; k++)
+      {
         j= 0;
         while (j < co) {
           e[olist[j]]= (k == j) ? p : dummyb;
@@ -1131,24 +1105,27 @@ boolean friendcheck(square    i,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  piece *pfr, cfr;
+  PieNam const *pfr;
+  piece cfr;
   boolean   flag= false;
   boolean   initialized= false;
   square    flist[63];
   square const *bnp;
   int   k, j, cf= 0;
 
-  for (pfr= orphanpieces; *pfr!=vide; pfr++) {
-    cfr= p == friendb ? *pfr : -*pfr;
-    if (nbpiece[cfr]>0) {
-      if (!initialized) {
+  for (pfr= orphanpieces; *pfr!=Empty; pfr++)
+  {
+    cfr = p== friendb ? (piece)*pfr : -(piece)*pfr;
+    if (nbpiece[cfr]>0)
+    {
+      if (!initialized)
+      {
         initialized= true;
-        for (bnp= boardnum; *bnp; bnp++) {
-          if (e[*bnp] == p) {
+        for (bnp= boardnum; *bnp; bnp++)
+          if (e[*bnp] == p)
             flist[cf++]= *bnp;
-          }
-        }
       }
+
       for (k= 0; k < cf; k++) {
         j= 0;
         while (j < cf) {
@@ -1244,423 +1221,17 @@ boolean CrossesGridLines(square dep, square arr)
   return false;
 }
 
-void GetRoseAttackVectors(square from, square to)
+PieNam* GetPromotingPieces (square sq_departure,
+                           piece pi_departing,
+                           Side camp,
+                           Flags spec_pi_moving,
+                           square sq_arrival,
+                           piece pi_captured)
 {
-  numvec  k;
-  for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    if (detect_rosecheck_on_line(to,e[from],
-                                 k,0,+1,
-                                 eval_fromspecificsquare))
-      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] )
-    if (detect_rosecheck_on_line(to,e[from],
-                                 k,vec_knight_end-vec_knight_start+1,-1,
-                                 eval_fromspecificsquare))
-      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k])
-  }
-}
-
-void GetRoseLionAttackVectors(square from, square to)
-{
-  numvec  k;
-  for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    if (detect_roselioncheck_on_line(to,e[from],
-                                     k,0,+1,
-                                     eval_fromspecificsquare))
-      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] )
-    if (detect_roselioncheck_on_line(to,e[from],
-                                        k,vec_knight_end-vec_knight_start+1,-1,
-                                        eval_fromspecificsquare))
-      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k])
-  }
-}
-
-void GetRoseHopperAttackVectors(square from, square to) {
-  numvec  k;
-  square sq_hurdle;
-
-  for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    sq_hurdle= to+vec[k];
-    if (e[sq_hurdle]!=vide && e[sq_hurdle]!=obs) {
-        /* k1==0 (and the equivalent
-         * vec_knight_end-vec_knight_start+1) were already used for
-         * sq_hurdle! */
-      if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
-                                         k,1,+1,
-                                         eval_fromspecificsquare))
-        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
-      if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
-                                         k,vec_knight_end-vec_knight_start,-1,
-                                         eval_fromspecificsquare))
-        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
-    }
-  }
-}
-
-void GetRoseLocustAttackVectors(square from, square to) {
-  /* detects check by a rose locust */
-  numvec  k;
-  square sq_arrival;
-
-  for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    sq_arrival= to-vec[k];
-    if (e[sq_arrival]==vide) {
-        /* k1==0 (and the equivalent
-         * vec_knight_end-vec_knight_start+1) were already used for
-         * sq_hurdle! */
-      if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
-                                         k,1,+1,
-                                         eval_fromspecificsquare))
-        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
-      if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
-                                         k,vec_knight_end-vec_knight_start,-1,
-                                         eval_fromspecificsquare))
-        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
-    }
-  }
-}
-
-static void GetRMHopAttackVectors(square from, square to, numvec kend, numvec kanf, angle_t angle) {
-  square sq_hurdle;
-  numvec k, k1;
-  piece hopper;
-
-  square sq_departure;
-
-  for (k= kend; k>=kanf; k--) {
-    sq_hurdle= to+vec[k];
-    if (abs(e[sq_hurdle])>=roib) {
-      k1= 2*k;
-      finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
-      if (hopper==e[from]) {
-        if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[k] )
-      }
-      finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
-      if (hopper==e[from]) {
-        if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[k] )
-      }
-    }
-  }
-}
-
-void GetMooseAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
-}
-
-void GetRookMooseAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_45);
-}
-
-void GetBishopMooseAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_45);
-}
-
-void GetEagleAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
-}
-
-void GetRookEagleAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_90);
-}
-
-void GetBishopEagleAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_90);
-}
-
-void GetSparrowAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
-}
-
-void GetRookSparrowAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_135);
-}
-
-void GetBishopSparrowAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_135);
-}
-
-void GetMargueriteAttackVectors(square from, square to) {
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
-  if (scheck(to, e[from], eval_fromspecificsquare)) {
-    numvec attackVec;
-    if (to < from)
-      attackVec = move_vec_code[from - to];
-    else
-      attackVec = -move_vec_code[to - from];
-    if (attackVec)
-      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), attackVec)
-  }
-}
-
-static void GetZigZagAttackVectors(square from, square to,
-                                   numvec  k,
-                                   numvec  k1)
-{
-  square sq_departure= to+k;
-  square sq_arrival= to;
-  square sq_capture= to;
-
-  while (e[sq_departure] == vide) {
-    sq_departure+= k1;
-    if (e[sq_departure] != vide)
-      break;
-    else
-      sq_departure+= k;
-  }
-
-  if (e[sq_departure]==e[from]
-      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[500+k] );
-
-  sq_departure = to+k;
-  while (e[sq_departure]==vide) {
-    sq_departure-= k1;
-    if (e[sq_departure]!=vide)
-      break;
-    else
-      sq_departure+= k;
-  }
-
-  if (e[sq_departure]==e[from]
-      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[400+k] );
-}
-
-void GetBoyscoutAttackVectors(square from, square to) {
-  numvec  k;
-
-  for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    GetZigZagAttackVectors(from, to, vec[k], vec[13 - k]);
-  }
-}
-
-void GetGirlscoutAttackVectors(square from, square to) {
-  numvec  k;
-
-  for (k= vec_rook_start; k <= vec_rook_end; k++) {
-    GetZigZagAttackVectors(from, to, vec[k], vec[5 - k]);
-  }
-}
-
-void GetSpiralSpringerAttackVectors(square from, square to) {
-  numvec  k;
-
-  for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    GetZigZagAttackVectors(from, to, vec[k], vec[25 - k]);
-  }
-}
-
-void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
-  numvec  k;
-
-  for (k= vec_knight_start; k <= 14; k++) {
-    GetZigZagAttackVectors(from, to, vec[k], vec[23 - k]);
-  }
-  for (k= 15; k <= vec_knight_end; k++) {
-    GetZigZagAttackVectors(from, to, vec[k], vec[27 - k]);
-  }
-}
-
-/* should never get called if validation works
-(disallow magic + piecetype) */
-void unsupported_uncalled_attackfunction(square from, square to) {}
-
-void PushMagicViews(void)
-{
-  square const *bnp;
-
-  /*new stack */
-  nbmagic = magicstate[parent_ply[nbply]].top;
-  magicstate[nbply].bottom = nbmagic;
-
-  for (bnp= boardnum; *bnp; bnp++)
-    if (TSTFLAG(spec[*bnp], Magic))
-    {
-      /* for each magic piece */
-      piece const p = e[*bnp];
-      square * const royal = p<=roin ? &king_square[White] : &king_square[Black];
-      square const royal_save = *royal;
-      square const *bnp1;
-      fromspecificsquare= *bnp;
-      for (bnp1 = boardnum; *bnp1; bnp1++)
-      {
-        if (abs(e[*bnp1])>obs
-            && !TSTFLAG(spec[*bnp1],Magic)
-            && !TSTFLAG(spec[*bnp1],Royal))
-        {
-          /* for each non-magic piece
-             (n.b. check *bnp != *bnp1 redundant above) */
-          *royal = *bnp1;
-
-          if (!attackfunctions[abs(p)])
-          {
-            /* if single attack at most */
-            if ((*checkfunctions[abs(p)])(*royal,
-                                          p,
-                                          eval_fromspecificsquare))
-            {
-              numvec attackVec;
-              if (*royal<*bnp)
-                attackVec = move_vec_code[*bnp-*royal];
-              else
-                attackVec = -move_vec_code[*royal-*bnp];
-              if (attackVec!=0)
-                PushMagic(*royal,
-                          GetPieceId(spec[*royal]),
-                          GetPieceId(spec[fromspecificsquare]),
-                          attackVec);
-            }
-          }
-          else
-            /* call special function to determine all attacks */
-            (*attackfunctions[abs(p)])(fromspecificsquare,*royal);
-        }
-      }
-
-      *royal= royal_save;
-    }
-
-  magicstate[nbply].top = nbmagic;
-}
-
-void ChangeMagic(int ply, boolean push)
-{
-  square const *bnp;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply);
-  TraceFunctionParam("%u",push);
-  TraceFunctionParamListEnd();
-
-  for (bnp= boardnum; *bnp; bnp++)
-  {
-    int i;
-    for (i = magicstate[ply].bottom; i<magicstate[ply].top; i++)
-      if (magicviews[i].piecesquare==*bnp)
-        break;    /* a magic piece observes a non-magic */
-
-    if (i<magicstate[ply].top)
-    {
-      int j;
-      unsigned int nr_changes = 0;
-
-      /* now check the rest of the nbply-stack for other attacks of
-       * same piece */
-      for (j = i; j<magicstate[ply].top; j++)
-        if (magicviews[j].piecesquare==*bnp)
-        {
-          int const currid = magicviews[j].pieceid;
-          int const currmagid = magicviews[j].magicpieceid;
-          numvec const currvec = magicviews[j].vecnum;
-          int k;
-          boolean newvec = true;
-
-          /* and check parent ply stack to see if this is a new attack */
-          for (k = magicstate[parent_ply[ply]].bottom;
-               k<magicstate[parent_ply[ply]].top;
-               k++)
-            if (magicviews[k].pieceid==currid
-                && magicviews[k].magicpieceid==currmagid
-                && magicviews[k].vecnum==currvec)
-            {
-               newvec = false;
-               break;
-            }
-
-          if (newvec)
-            ++nr_changes;
-        }
-
-      /* only changes if attackee suffers odd-no. new attacks */
-      if (nr_changes%2==1)
-      {
-        ChangeColour(*bnp);
-        /* don't store colour change of moving piece - it might
-         * undergo other changes */
-        if (push && *bnp!=move_generation_stack[current_move[nbply]].arrival)
-          PushChangedColour(colour_change_sp[ply],
-                            colour_change_stack_limit,
-                            *bnp,
-                            e[*bnp]);
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-#ifdef DEBUG
-void WriteMagicViews(int ply)
-{
-  int i;
-  for (i= magictop[parent_ply[ply]]; i < magictop[ply]; i++)
-  {
-    char buf[10];
-    WriteSquare(magicviews[i].piecesquare);
-    StdChar(' ');
-    WriteSquare(magicviews[i].pieceid);
-    StdChar(' ');
-    WriteSquare(magicviews[i].magicpieceid);
-    StdChar(' ');
-    sprintf(buf, "%i", magicviews[i].vecnum);
-    StdString(buf);
-    StdChar('\n');
-  }
-}
-#endif
-
-void ChangeColour(square sq)
-{
-  change_side(sq);
-  CHANGECOLOR(spec[sq]);
-  if (e[sq] == tb && sq == square_a1)
-    SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-  if (e[sq] == tb && sq == square_h1)
-    SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-  if (e[sq] == tn && sq == square_a8)
-    SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
-  if (e[sq] == tn && sq == square_h8)
-    SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-}
-
-piece* GetPromotingPieces (square sq_departure,
-							piece pi_departing,
-							Side camp,
-						    Flags spec_pi_moving,
-						    square sq_arrival,
-						    piece pi_captured) {
     if (is_pawn(pi_departing) &&
 	    PromSq(is_reversepawn(pi_departing)^camp,sq_arrival) &&
 	    ((!CondFlag[protean] && !TSTFLAG(spec_pi_moving, Protean)) || pi_captured == vide)) {
     	return getprompiece;
-    }
-
-    if (CondFlag[football] &&
-    	sq_departure != king_square[Black] && sq_departure != king_square[White] &&
-    	(sq_arrival % 24 == 8 || sq_arrival % 24 == 15)) {
-    	piece p = abs(pi_departing), tmp = getfootballpiece[vide];
-
-    	/* ensure moving piece is on list to allow null (= non-) promotions */
-    	if (tmp != p)
-    	{
-    		/* remove old head-of-list if not part of standard set */
-    		if (!footballpiece[tmp])
-    		{
-    			getfootballpiece[vide]= getfootballpiece[tmp];
-    		}
-    		/* add moving piece to head-of-list if not already part of standard set */
-    		if (!footballpiece[p])
-    		{
-    			getfootballpiece[p] = getfootballpiece[vide];
-    			getfootballpiece[vide] = p;
-    		}
-    	}
-
-    	return getfootballpiece;
     }
 
     return NULL;

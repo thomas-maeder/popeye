@@ -28,7 +28,7 @@
   1.c2-c1=L f7-f8=T +   2.Lc1-a3 Tf8-b8 = 
 
               empile:       43200
-            jouecoup:       18506
+           play_move:       18498
         orig_rbechec:        9656
         orig_rnechec:       15224
 Loesung beendet. 
@@ -143,7 +143,7 @@ Loesung beendet.
 
 
               empile:        1986
-            jouecoup:        1628
+           play_move:        1628
         orig_rbechec:         186
         orig_rnechec:        1573
 Loesung beendet. 
@@ -236,7 +236,7 @@ Loesung beendet.
 
 
               empile:       16850
-            jouecoup:        9113
+           play_move:        9113
         orig_rbechec:           0
         orig_rnechec:        8518
 Loesung beendet. 
@@ -272,7 +272,7 @@ Loesung beendet.
   1.Kf3-e2   2.Ke2-d1 g7-g8=D = 
 
               empile:         824
-            jouecoup:         352
+           play_move:         346
         orig_rbechec:           0
         orig_rnechec:         346
 Loesung beendet. 
@@ -308,7 +308,7 @@ Loesung beendet.
   1.Kc6-d5 g7-g8=D +   2.Kd5-e4 Dg8-g5 = 
 
               empile:       10791
-            jouecoup:        3634
+           play_move:        3630
         orig_rbechec:           0
         orig_rnechec:        3583
 Loesung beendet. 
@@ -348,7 +348,7 @@ a)
 
 
               empile:           3
-            jouecoup:           6
+           play_move:           6
         orig_rbechec:           0
         orig_rnechec:           7
 b) =1
@@ -357,7 +357,7 @@ b) =1
 
 
               empile:          23
-            jouecoup:          15
+           play_move:          15
         orig_rbechec:           0
         orig_rnechec:          16
 c) #1
@@ -366,9 +366,77 @@ c) #1
 
 
               empile:          13
-            jouecoup:          12
+           play_move:          12
         orig_rbechec:           0
         orig_rnechec:          13
+Loesung beendet. 
+
+
+
+          en passant-Schlag
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        1 + 1
+            PhantomSchach
+
+  1.e3-e5 d5*e6 ep. 
+
+              empile:           7
+           play_move:           4
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+
+kein en passant-Schlag - Weiss kann den
+schwarzen Doppelschritt nicht nachweisen
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -B   .   .   .   6
+|                                   |
+5   .   .   .   B   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        1 + 1
+            PhantomSchach
+
+
+              empile:           4
+           play_move:           2
+        orig_rbechec:           0
+        orig_rnechec:           0
 Loesung beendet. 
 
 

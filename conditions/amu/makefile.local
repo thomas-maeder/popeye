@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = mate_filter.c
-INCLUDES = mate_filter.h
+SRC_CFILES = mate_filter.c attack_counter.c
+INCLUDES = mate_filter.h attack_counter.h
 
 include makefile.rules $(CURRPWD)depend

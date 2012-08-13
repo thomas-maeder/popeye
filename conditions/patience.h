@@ -8,7 +8,6 @@
 #include "solving/battle_play/defense_play.h"
 
 extern boolean PatienceB;
-extern square sqdep[maxply+1];
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

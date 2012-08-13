@@ -5,11 +5,15 @@
 #include "debugging/trace.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
+#include "conditions/kobul.h"
+#include "conditions/einstein/einstein.h"
+#include "conditions/imitator.h"
+#include "pieces/side_change.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-static void editcoup(ply ply_id, coup *mov)
+static void editcoup(coup const *mov)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
@@ -82,10 +86,6 @@ static void editcoup(ply ply_id, coup *mov)
       }
     }
 
-    if (mov->bool_norm_cham_prom) {
-      SETFLAG(mov->speci, Chameleon);
-    }
-
     if (mov->pjzz!=mov->pjazz
         || (mov->new_spec!=0
             && GetPieceId(mov->speci)==GetPieceId(mov->new_spec)/* same piece */
@@ -98,10 +98,17 @@ static void editcoup(ply ply_id, coup *mov)
       }
       else if (mov->roch_sq >= initsquare &&
               !((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
-                 (CondFlag[black_oscillatingKs] && mov->tr == Black && mov->pjzz == roin))) {
-        StdChar('=');
-        WriteSpec(mov->new_spec, mov->speci != mov->new_spec);
-        WritePiece(mov->pjazz);
+                 (CondFlag[black_oscillatingKs] && mov->tr == Black && mov->pjzz == roin)))
+      {
+        Flags prev_spec = mov->speci;
+        if (mov->bool_norm_cham_prom)
+          SETFLAG(prev_spec,Chameleon);
+        {
+          boolean const print_sides =  prev_spec!=mov->new_spec;
+          StdChar('=');
+          WriteSpec(mov->new_spec,print_sides);
+          WritePiece(mov->pjazz);
+        }
       }
     }
 
@@ -125,7 +132,7 @@ static void editcoup(ply ply_id, coup *mov)
 
     if (mov->sqren != initsquare) {
       piece   p= CondFlag[antieinstein]
-          ? inc_einstein(mov->ppri)
+          ? einstein_increase_piece(mov->ppri)
           : CondFlag[parrain]
           ? mov->ren_parrain
           : CondFlag[chamcirce]
@@ -140,12 +147,13 @@ static void editcoup(ply ply_id, coup *mov)
       WritePiece(p);
 
       WriteSquare(mov->sqren);
-      if (mov->bool_cir_cham_prom) {
-        SETFLAG(mov->ren_spec, Chameleon);
-      }
-      if (mov->cir_prom) {
+      if (mov->cir_prom!=Empty)
+      {
+        Flags written_spec = mov->ren_spec;
+        if (mov->bool_cir_cham_prom)
+          SETFLAG(written_spec,Chameleon);
         StdChar('=');
-        WriteSpec(mov->ren_spec, p!=vide);
+        WriteSpec(written_spec,p!=vide);
         WritePiece(mov->cir_prom);
       }
 
@@ -171,14 +179,16 @@ static void editcoup(ply ply_id, coup *mov)
     if (CondFlag[republican])
       write_republican_king_placement(mov);
 
-    if (mov->renkam) {
+    if (mov->renkam!=initsquare)
+    {
       StdChar('[');
       WriteSpec(mov->new_spec, mov->pjazz != vide);
       WritePiece(mov->pjazz);
       WriteSquare(mov->cazz);
       StdString("->");
       WriteSquare(mov->renkam);
-      if (mov->norm_prom != vide && abs(mov->norm_prom) != abs(mov->pjazz)) {
+      if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
+      {
         StdChar('=');
         WriteSpec(mov->new_spec, true);
         WritePiece(mov->norm_prom);
@@ -207,28 +217,28 @@ static void editcoup(ply ply_id, coup *mov)
     }
     if (CondFlag[kobulkings])
     {
-      if (mov->tr == Black && e[king_square[White]] != whkobul[ply_id])
+      if (mov->tr == Black && e[king_square[White]] != kobul[White][nbply])
       {
           StdString(" [");
           WriteSpec(spec[king_square[White]], true);
-          WritePiece(whkobul[ply_id]);
+          WritePiece(kobul[White][nbply]);
           StdString("=");
           WriteSpec(spec[king_square[White]], false);
           WritePiece(e[king_square[White]]);
           StdString("]");
       }
-      if (mov->tr == White && e[king_square[Black]] != blkobul[ply_id])
+      if (mov->tr == White && e[king_square[Black]] != kobul[Black][nbply])
       {
           StdString(" [");
           WriteSpec(spec[king_square[Black]], true);
-          WritePiece(blkobul[ply_id]);
+          WritePiece(kobul[Black][nbply]);
           StdString("=");
           WriteSpec(spec[king_square[Black]], false);
           WritePiece(e[king_square[Black]]);
           StdString("]");
       }
     }
-    if (flag_outputmultiplecolourchanges)
+    if (TSTFLAG(PieSpExFlags,Magic) || CondFlag[masand])
     {
       if (mov->push_bottom != NULL) {
 
@@ -249,18 +259,18 @@ static void editcoup(ply ply_id, coup *mov)
 
       } else {
 
-        if (colour_change_sp[ply_id] > colour_change_sp[parent_ply[ply_id]])
+        if (side_change_sp[nbply] > side_change_sp[parent_ply[nbply]])
         {
           change_rec const * rec;
           StdString(" [");
-          for (rec = colour_change_sp[parent_ply[ply_id]];
-               rec<colour_change_sp[ply_id];
+          for (rec = side_change_sp[parent_ply[nbply]];
+               rec<side_change_sp[nbply];
                rec++)
           {
             StdChar(rec->pc > vide ? WhiteChar : BlackChar);
             WritePiece(rec->pc);
             WriteSquare(rec->square);
-            if (colour_change_sp[ply_id]-rec > 1)
+            if (side_change_sp[nbply]-rec > 1)
               StdString(", ");
           }
           StdChar(']');
@@ -318,11 +328,11 @@ static void editcoup(ply ply_id, coup *mov)
   }
 } /* editcoup */
 
-void output_plaintext_write_move(ply ply_id)
+void output_plaintext_write_move(void)
 {
   coup mov;
-  current(ply_id,&mov);
-  editcoup(ply_id,&mov);
+  current(&mov);
+  editcoup(&mov);
 }
 
 /* Determine whether a goal writer slice should replace the check writer slice

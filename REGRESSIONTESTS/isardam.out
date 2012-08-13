@@ -30,7 +30,7 @@
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 # 
 
               empile:      278625
-            jouecoup:      215974
+           play_move:      215966
         orig_rbechec:       69204
         orig_rnechec:       81124
 Loesung beendet. 
@@ -79,7 +79,7 @@ Loesung beendet.
 
 
               empile:       14411
-            jouecoup:       10275
+           play_move:       10275
         orig_rbechec:         407
         orig_rnechec:        4036
 Loesung beendet. 
@@ -134,7 +134,7 @@ Ausschreibungsoriginal, Kingston 1997
 
 
               empile:        2912
-            jouecoup:        2377
+           play_move:        2377
         orig_rbechec:         108
         orig_rnechec:        1073
 Loesung beendet. 
@@ -172,7 +172,7 @@ a)
   1.Ke8-d8 Da7-d7 +   2.De4-a4 Ka3*a4 # 
 
               empile:       94051
-            jouecoup:       68172
+           play_move:       68168
         orig_rbechec:        8431
         orig_rnechec:       67651
 b) Circe
@@ -181,7 +181,7 @@ b) Circe
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 # 
 
               empile:      113757
-            jouecoup:       90643
+           play_move:       90639
         orig_rbechec:        6496
         orig_rnechec:       53603
 Loesung beendet. 
@@ -218,7 +218,7 @@ a)
   1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 # 
 
               empile:      202951
-            jouecoup:      193203
+           play_move:      193199
         orig_rbechec:        5696
         orig_rnechec:       90290
 b) sKc6-->b7
@@ -226,7 +226,7 @@ b) sKc6-->b7
   1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 # 
 
               empile:       59377
-            jouecoup:       59071
+           play_move:       59067
         orig_rbechec:        1335
         orig_rnechec:       28135
 Loesung beendet. 
@@ -268,7 +268,7 @@ Loesung beendet.
 
 
               empile:        1589
-            jouecoup:        1267
+           play_move:        1267
         orig_rbechec:          80
         orig_rnechec:         748
 Loesung beendet. 
@@ -320,7 +320,7 @@ Loesung beendet.
 
 
               empile:        2734
-            jouecoup:        2296
+           play_move:        2296
         orig_rbechec:         154
         orig_rnechec:        1569
 Loesung beendet. 
@@ -361,7 +361,7 @@ Loesung beendet.
 
 
               empile:       11765
-            jouecoup:        9115
+           play_move:        9115
         orig_rbechec:         321
         orig_rnechec:        4152
 Loesung beendet. 
@@ -401,7 +401,7 @@ Loesung beendet.
 
 
               empile:        3927
-            jouecoup:        3431
+           play_move:        3431
         orig_rbechec:         188
         orig_rnechec:        1739
 Loesung beendet. 
@@ -455,7 +455,7 @@ Loesung beendet.
 
 
               empile:      115837
-            jouecoup:      109083
+           play_move:      109083
         orig_rbechec:       32648
         orig_rnechec:        4566
 Loesung beendet. 
@@ -506,7 +506,7 @@ Loesung beendet.
 
 
               empile:       44985
-            jouecoup:       37505
+           play_move:       37505
         orig_rbechec:        1281
         orig_rnechec:       19950
 Loesung beendet. 
@@ -549,7 +549,7 @@ Loesung beendet.
 
 
               empile:       26239
-            jouecoup:       20861
+           play_move:       20861
         orig_rbechec:         703
         orig_rnechec:        9169
 Loesung beendet. 
@@ -593,7 +593,7 @@ The Problemist ix/1997 (early version)
 
 
               empile:       54814
-            jouecoup:       44081
+           play_move:       44081
         orig_rbechec:        1041
         orig_rnechec:       18018
 Loesung beendet. 
@@ -653,7 +653,7 @@ The Problemist i/1998 (Position Reflected)
 
 
               empile:       10152
-            jouecoup:       10988
+           play_move:       10988
         orig_rbechec:         201
         orig_rnechec:        3858
 Loesung beendet. 
@@ -695,7 +695,7 @@ Loesung beendet.
 
 
               empile:       16129
-            jouecoup:       14022
+           play_move:       14022
         orig_rbechec:         156
         orig_rnechec:        4308
 Loesung beendet. 
@@ -729,7 +729,7 @@ Loesung beendet.
   1...h7-h8=T ##! 
 
               empile:         306
-            jouecoup:         280
+           play_move:         279
         orig_rbechec:         111
         orig_rnechec:          37
 Loesung beendet. 

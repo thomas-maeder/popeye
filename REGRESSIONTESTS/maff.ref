@@ -62,7 +62,7 @@ The Problemist 1998 and Sachova skladba 1997
 
 
               empile:        9918
-            jouecoup:        8181
+           play_move:        8181
         orig_rbechec:         555
         orig_rnechec:        8164
 solution finished. 
@@ -123,7 +123,7 @@ solution finished.
 
 
               empile:       13337
-            jouecoup:       10338
+           play_move:       10338
         orig_rbechec:         689
         orig_rnechec:       10341
 solution finished. 
@@ -270,7 +270,7 @@ solution finished.
 
 
               empile:       43007
-            jouecoup:       38931
+           play_move:       38931
         orig_rbechec:        2642
         orig_rnechec:       38739
 solution finished. 

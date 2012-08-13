@@ -41,7 +41,7 @@ a)
 
 
               empile:       11998
-            jouecoup:        9536
+           play_move:        9536
         orig_rbechec:         492
         orig_rnechec:        9538
 b) ChamaeleonCirce    S->L->T->D->S
@@ -61,7 +61,7 @@ b) ChamaeleonCirce    S->L->T->D->S
 
 
               empile:       12256
-            jouecoup:        9756
+           play_move:        9756
         orig_rbechec:         508
         orig_rnechec:        9758
 c) CirceClone
@@ -81,7 +81,7 @@ c) CirceClone
 
 
               empile:       11866
-            jouecoup:        9393
+           play_move:        9393
         orig_rbechec:         484
         orig_rnechec:        9395
 d) ChamaeleonCirce    S->D->T->L->S
@@ -101,7 +101,7 @@ d) ChamaeleonCirce    S->D->T->L->S
 
 
               empile:       12648
-            jouecoup:       10103
+           play_move:       10103
         orig_rbechec:         520
         orig_rnechec:       10105
 Loesung beendet. 
@@ -138,7 +138,7 @@ a)
   1.c2-c1=S b7-b8=T   2.Sc1-a2 Tb8-b3 # 
 
               empile:        3251
-            jouecoup:        2213
+           play_move:        2209
         orig_rbechec:         516
         orig_rnechec:        2147
 b) nBBc2   wKa5-->d1
@@ -146,7 +146,7 @@ b) nBBc2   wKa5-->d1
   1.nBBc2-b1=nL b7-b8=D   2.nLb1-a2 Db8-b3 # 
 
               empile:       17511
-            jouecoup:       14427
+           play_move:       14423
         orig_rbechec:        1771
         orig_rnechec:       14307
 Loesung beendet. 
@@ -183,7 +183,7 @@ a)
   1.Sb8-a6   2.Sa6-b4   3.Sb4-a2 Tb2-b3 # 
 
               empile:        1921
-            jouecoup:         910
+           play_move:         906
         orig_rbechec:         288
         orig_rnechec:         906
 b) sSb8-->c8
@@ -191,7 +191,7 @@ b) sSb8-->c8
   1.Sc8-b6   2.Sb6-a4   3.Sa4*b2 [+wDd1] Dd1-a4 # 
 
               empile:        2925
-            jouecoup:        1367
+           play_move:        1363
         orig_rbechec:         414
         orig_rnechec:        1363
 Loesung beendet. 
@@ -231,7 +231,7 @@ Loesung beendet.
   1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c4   4.Tc4-h4 Sg1-f3 # 
 
               empile:       20164
-            jouecoup:       14283
+           play_move:       14258
         orig_rbechec:        3145
         orig_rnechec:       14258
 Loesung beendet. 
@@ -271,7 +271,7 @@ Loesung beendet.
 
 
               empile:         688
-            jouecoup:         508
+           play_move:         508
         orig_rbechec:         110
         orig_rnechec:         510
 Loesung beendet. 
@@ -309,7 +309,7 @@ Loesung beendet.
   1.Sa8-c7 Tb6*a6 [+sTa8]   2.Ta8*a6 [+wTh1] Th1*h3 [+sTa8] # 
 
               empile:        5039
-            jouecoup:        4484
+           play_move:        4468
         orig_rbechec:         686
         orig_rnechec:        4248
 Loesung beendet. 
@@ -347,7 +347,7 @@ Loesung beendet.
   1.Kc1-d2 Dd7*f5 [+wDd1]   2.Kd2-e1 Df5-f2 # 
 
               empile:       39651
-            jouecoup:       20396
+           play_move:       20388
         orig_rbechec:       10853
         orig_rnechec:       15332
 Loesung beendet. 
@@ -384,7 +384,7 @@ a)
   1.Lh6*g5 [+wLc1] Lc1-b2   2.La2*e6 [+wLf1] Lf1-d3 # 
 
               empile:       90712
-            jouecoup:       35526
+           play_move:       35522
         orig_rbechec:       10210
         orig_rnechec:       35114
 b) wSg5-->e4
@@ -392,7 +392,7 @@ b) wSg5-->e4
   1.Te8*e6 [+wTh1] Th1*h6 [+sTh8]   2.Te6*e4 [+wTh1] Th1-h5 # 
 
               empile:      133392
-            jouecoup:       52713
+           play_move:       52709
         orig_rbechec:       15126
         orig_rnechec:       52141
 Loesung beendet. 
@@ -431,7 +431,7 @@ Loesung beendet.
 
 
               empile:        3704
-            jouecoup:        1845
+           play_move:        1845
         orig_rbechec:        1846
         orig_rnechec:        1069
 Loesung beendet. 

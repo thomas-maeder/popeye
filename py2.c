@@ -62,9 +62,11 @@
 #include "pymsg.h"
 #include "conditions/exclusive.h"
 #include "conditions/madrasi.h"
+#include "pieces/side_change.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/battle_play/attack_play.h"
 #include "solving/single_move_generator_with_king_capture.h"
+#include "solving/en_passant.h"
 #include "stipulation/temporary_hacks.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -136,7 +138,7 @@ boolean imok(square i, square j)
   unsigned int imi_idx;
   int const diff = j-i;
 
-  for (imi_idx = inum[nbply]; imi_idx>0; imi_idx--)
+  for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
   {
     square const j2 = isquare[imi_idx-1]+diff;
     if (j2!=i && e[j2]!=vide)
@@ -206,13 +208,6 @@ boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
 {
   /* hop i->j hopping over k in steps of diff ok? */
 
-  /* hopimok() is (ab)used for implementing ColourChange, which is
-   * independent of imitators. So don't move the following if
-   * statement into the if (CondFlag[imitators]) block!
-   */
-  if (TSTFLAG(spec[i],ColourChange))
-    chop[current_move[nbply]+1] = k;
-
   if (CondFlag[imitators])
   {
     square i2 = i;
@@ -235,7 +230,7 @@ boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
     {
       /* Are the squares the imitators have to hop over occupied? */
       unsigned int imi_idx;
-      for (imi_idx = inum[nbply]; imi_idx>0; imi_idx--)
+      for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
         if (e[isquare[imi_idx-1]+k-i]==vide)
         {
           result = false;
@@ -259,13 +254,6 @@ boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
     return true;
 }
 
-
-void joueim(int diff)
-{
-  unsigned int imi_idx;
-  for (imi_idx = inum[nbply]; imi_idx>0; imi_idx--)
-    isquare[imi_idx-1] += diff;
-}
 
 boolean rmhopech(square sq_king,
                  numvec kend,
@@ -304,22 +292,14 @@ boolean rmhopech(square sq_king,
       k1= 2*k;
       finligne(sq_hurdle,v1=mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(sq_departure,sq_king,sq_king) &&
-            hopimmcheck(sq_departure,
-                        sq_king,
-                        sq_hurdle,
-                        -v1,
-                        -v))
+        if (evaluate(sq_departure,sq_king,sq_king)
+            && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
           return true;
       }
       finligne(sq_hurdle,v1=mixhopdata[angle][k1-1],hopper,sq_departure);
       if (hopper==p) {
-        if (evaluate(sq_departure,sq_king,sq_king) &&
-            hopimmcheck(sq_departure,
-                        sq_king,
-                        sq_hurdle,
-                        -v1,
-                        -v))
+        if (evaluate(sq_departure,sq_king,sq_king)
+            && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
           return true;
       }
     }
@@ -623,10 +603,7 @@ boolean nequicheck(square   sq_king,
           && e[sq_departure]==p
           && sq_king!=sq_departure
           && evaluate(sq_departure,sq_king,sq_king)
-          && hopimcheck(sq_departure,
-                        sq_king,
-                        sq_hurdle,
-                        vector))
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,vector,vector)))
         return true;
     }
 
@@ -667,10 +644,7 @@ boolean norixcheck(square   sq_king,
           && e[sq_departure]==p
           && sq_king!=sq_departure
           && evaluate(sq_departure,sq_king,sq_king)
-          && hopimcheck(sq_departure,
-                        sq_king,
-                        sq_hurdle,
-                        vector))
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,vector,vector)))
         return true;
     }
 
@@ -1328,7 +1302,7 @@ boolean pbcheck(square  sq_king,
         return true;
 
       if (ep[nbply]!=initsquare
-          && RB_[nbply]!=king_square[White]
+          && prev_king_square[White][nbply]!=king_square[White]
           && (king_square[White]==ep[nbply]+dir_up+dir_left
               || king_square[White]==ep[nbply]+dir_up+dir_right)) {
         /* ep captures of royal pawns */
@@ -1355,7 +1329,7 @@ boolean pbcheck(square  sq_king,
         return true;
 
       if (ep[nbply]!=initsquare
-          && RN_[nbply]!=king_square[Black]
+          && prev_king_square[Black][nbply]!=king_square[Black]
           && (king_square[Black]==ep[nbply]+dir_down+dir_right
               || king_square[Black]==ep[nbply]+dir_down+dir_left)) {
         /* ep captures of royal pawns */
@@ -1896,10 +1870,7 @@ boolean equicheck(square    sq_king,
       if (p1==p
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
           && evaluate(sq_departure,sq_king,sq_king)
-          && hopimcheck(sq_departure,
-                        sq_king,
-                        sq_hurdle,
-                        -vec[k]))
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
         return true;
     }
   }
@@ -1909,10 +1880,7 @@ boolean equicheck(square    sq_king,
     if (abs(e[sq_king+vec[k]])>=roib
         && e[sq_departure]==p
         && evaluate(sq_departure,sq_king,sq_king)
-        && hopimcheck(sq_departure,
-                      sq_king,
-                      sq_departure-vec[k],
-                      -vec[k]))
+        && (!checkhopim || hopimok(sq_departure,sq_king,sq_departure-vec[k],-vec[k],-vec[k])))
       return true;
   }
 
@@ -2218,38 +2186,22 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     testfriendanti= obsfriendantigenre;
   }
 
-  if (testenemyobs) {
-    if (get_side(sq_departure)!=White)
-    {
-      sq_arrival= king_square[Black];
-      king_square[Black]= sq_departure;
-      enemyobserveok= testenemyanti ^ rnechec(evaluate);
-      king_square[Black]= sq_arrival;
-    }
-    else
-    {
-      sq_arrival= king_square[White];
-      king_square[White]= sq_departure;
-      enemyobserveok= testenemyanti ^ rbechec(evaluate);
-      king_square[White]= sq_arrival;
-    }
+  if (testenemyobs)
+  {
+    Side const side = e[sq_departure]<=roin ? Black : White;
+    sq_arrival = king_square[side];
+    king_square[side] = sq_departure;
+    enemyobserveok = testenemyanti ^ rechec[side](evaluate);
+    king_square[side] = sq_arrival;
   }
 
-  if (testfriendobs) {
-    if (get_side(sq_departure)==White)
-    {
-      sq_arrival= king_square[Black];
-      king_square[Black]= sq_departure;
-      friendobserveok= testfriendanti ^ rnechec(evaluate);
-      king_square[Black]= sq_arrival;
-    }
-    else
-    {
-      sq_arrival= king_square[White];
-      king_square[White]= sq_departure;
-      friendobserveok= testfriendanti ^ rbechec(evaluate);
-      king_square[White]= sq_arrival;
-    }
+  if (testfriendobs)
+  {
+    Side const side = e[sq_departure]>=roib ? Black : White;
+    sq_arrival = king_square[side];
+    king_square[side] = sq_departure;
+    friendobserveok = testfriendanti ^ rechec[side](evaluate);
+    king_square[side] = sq_arrival;
   }
 
   Result = enemyobserveok && friendobserveok;
@@ -2577,10 +2529,7 @@ boolean orixcheck(square sq_king,
       if (p1==p
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
           && evaluate(sq_departure,sq_king,sq_king)
-          && hopimcheck(sq_departure,
-                        sq_king,
-                        sq_hurdle,
-                        -vec[k]))
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
         return true;
     }
   }
@@ -2867,6 +2816,9 @@ boolean pchincheck(square sq_king,
 
   return false;
 }
+
+
+square fromspecificsquare;
 
 boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture) {
   return

@@ -4,6 +4,15 @@
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
 
+void circe_undo_rebirth(square sq_rebirth);
+void circe_do_rebirth(square sq_rebirth, piece pi_reborn, Flags spec_reborn);
+
+/* Execute a king's rebirth in Circe rex. incl. and similar conditions
+ * @param sq_from where the king was captured
+ * @param sq_rebirth where the king is to be reborn
+ */
+void do_king_rebirth(square sq_from, square sq_rebirth);
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -29,7 +38,7 @@ stip_length_type circe_rebirth_handler_attack(slice_index si,
 stip_length_type circe_rebirth_handler_defend(slice_index si,
                                               stip_length_type n);
 
-/* Instrument a stipulation for strict SAT
+/* Instrument a stipulation for strict Circe rebirths
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe_rebirth_handlers(slice_index si);

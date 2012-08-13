@@ -33,7 +33,7 @@ solution (which is a short solution in 1->ser-h#3)
  26  (Rh1-h2 )
 
               empile:        3876
-            jouecoup:        2448
+           play_move:        2444
         orig_rbechec:         595
         orig_rnechec:        2423
 solving interrupted. 
@@ -66,7 +66,7 @@ solving interrupted.
   1.a2-a3 dia 
 
               empile:          20
-            jouecoup:          21
+           play_move:          20
         orig_rbechec:           1
         orig_rnechec:           2
 solution finished. 
@@ -99,7 +99,7 @@ solution finished.
   1.a2-a3 dia 
 
               empile:          20
-            jouecoup:          21
+           play_move:          20
         orig_rbechec:           2
         orig_rnechec:           2
 solution finished. 
@@ -132,7 +132,7 @@ solution finished.
   1.a2-a3 dia 
 
               empile:          20
-            jouecoup:          21
+           play_move:          20
         orig_rbechec:           1
         orig_rnechec:           2
 solution finished. 
@@ -170,21 +170,21 @@ a)
 
 
               empile:          27
-            jouecoup:          21
+           play_move:          21
         orig_rbechec:          11
         orig_rnechec:          12
 b) +bRa5 
 
 
               empile:           4
-            jouecoup:           4
+           play_move:           4
         orig_rbechec:           4
         orig_rnechec:           1
 +c) ##2
 
 
               empile:           8
-            jouecoup:           8
+           play_move:           8
         orig_rbechec:           8
         orig_rnechec:           1
 solution finished. 
@@ -222,21 +222,21 @@ a)
 
 
               empile:         190
-            jouecoup:         187
+           play_move:         187
         orig_rbechec:         157
         orig_rnechec:          39
 b) +wSb4 
 
 
               empile:           8
-            jouecoup:           7
+           play_move:           7
         orig_rbechec:           8
         orig_rnechec:           1
 +c) ##!2
 
 
               empile:         197
-            jouecoup:         176
+           play_move:         176
         orig_rbechec:         159
         orig_rnechec:          26
 +d)  -wSb4
@@ -245,7 +245,7 @@ b) +wSb4
 
 
               empile:         190
-            jouecoup:         187
+           play_move:         187
         orig_rbechec:         166
         orig_rnechec:          39
 +e) ser-##!1
@@ -253,14 +253,14 @@ b) +wSb4
   1.Kc8-b7 ##! 
 
               empile:         190
-            jouecoup:         188
+           play_move:         187
         orig_rbechec:         157
         orig_rnechec:          39
 +f) +wSb4 
 
 
               empile:           8
-            jouecoup:           7
+           play_move:           7
         orig_rbechec:           8
         orig_rnechec:           1
 solution finished. 
@@ -295,14 +295,14 @@ a)
   1.Qa3-c5 + Kc8-b7 ##! 
 
               empile:         516
-            jouecoup:         496
+           play_move:         494
         orig_rbechec:         457
         orig_rnechec:          70
 b) +wSd4 
 
 
               empile:          56
-            jouecoup:          47
+           play_move:          47
         orig_rbechec:          44
         orig_rnechec:          24
 solution finished. 
@@ -338,7 +338,7 @@ a)
 
 
               empile:         706
-            jouecoup:         681
+           play_move:         681
         orig_rbechec:         108
         orig_rnechec:         652
 b) ser-s##!1
@@ -346,7 +346,7 @@ b) ser-s##!1
   1.Qa3-c5 + Kc8-b7 ##! 
 
               empile:         706
-            jouecoup:         683
+           play_move:         681
         orig_rbechec:         108
         orig_rnechec:         652
 solution finished. 
@@ -356,7 +356,7 @@ Option  StopOnShortSolutions  not supported with direct play.
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -367,42 +367,42 @@ a)
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 b) #2
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 c) s#1
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 d) r#1
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 e) h#3
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 f) ser-h#5
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -436,7 +436,7 @@ try play not applicable
  zugzwang.
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -471,14 +471,14 @@ a)
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 b) #4
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 c) s#3
@@ -486,14 +486,14 @@ Option "Threat" not applicable or indicated maximum threat length too big
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 d) s#4
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 e) r#3
@@ -501,14 +501,14 @@ Option "Threat" not applicable or indicated maximum threat length too big
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 f) r#4
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 g) h#7
@@ -516,7 +516,7 @@ Option "Threat" not applicable or indicated maximum threat length too big
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 h) ser-h#8
@@ -524,7 +524,7 @@ Option "Threat" not applicable or indicated maximum threat length too big
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -558,7 +558,7 @@ don't output reflexmates if variations are not asked for
 
 
               empile:          10
-            jouecoup:           9
+           play_move:           9
         orig_rbechec:           9
         orig_rnechec:           3
 solution finished. 
@@ -596,7 +596,7 @@ solution finished.
   1.Sb1-a3   2.Sa3-b1 a7-a6 dia 
 
               empile:         224
-            jouecoup:         237
+           play_move:         224
         orig_rbechec:          14
         orig_rnechec:          18
 solution finished. 
@@ -659,7 +659,7 @@ Initial (Black ->):
   1.Sg8-h6   2.Sh6-g8 a2-a3 a=>b 
 
               empile:         224
-            jouecoup:         237
+           play_move:         224
         orig_rbechec:          18
         orig_rnechec:          14
 solution finished. 
@@ -694,7 +694,7 @@ solution finished.
   1.Sa2-c1   2.Sc1-a2 b3*a2 # 
 
               empile:          68
-            jouecoup:          64
+           play_move:          60
         orig_rbechec:          61
         orig_rnechec:          26
 solution finished. 
@@ -727,7 +727,7 @@ since 4.43, h##! with neutral king weren't solved correctly
   1...nKa5*a4 ##! 
 
               empile:         411
-            jouecoup:         395
+           play_move:         394
         orig_rbechec:         359
         orig_rnechec:          45
 solution finished. 
@@ -760,7 +760,7 @@ only example of double mate with neutral king
   1...nKa5*a4 ## 
 
               empile:          69
-            jouecoup:          66
+           play_move:          65
         orig_rbechec:          46
         orig_rnechec:          19
 solution finished. 
@@ -797,7 +797,7 @@ checks weren't indicated on the move reaching a goal
 
 
               empile:         101
-            jouecoup:          30
+           play_move:          30
         orig_rbechec:           0
         orig_rnechec:          25
 solution finished. 
@@ -856,7 +856,7 @@ checks weren't indicated on the move reaching a goal
   1.c7-c6 d5*c6 + a=>b 
 
               empile:          17
-            jouecoup:          21
+           play_move:          17
         orig_rbechec:           0
         orig_rnechec:           4
 solution finished. 
@@ -889,7 +889,7 @@ only example so far of a help stipulation with option stoponshort
   1.h2-h4 g7-g5   2.h4*g5 Bb1-c2 # 
 
               empile:         194
-            jouecoup:         177
+           play_move:         173
         orig_rbechec:         165
         orig_rnechec:           0
 solving interrupted. 
@@ -922,7 +922,7 @@ only example so far of a series stipulation with option stoponshort
   1.g2-g4   2.g4-g5 # 
 
               empile:          10
-            jouecoup:          12
+           play_move:          10
         orig_rbechec:           8
         orig_rnechec:          10
 solving interrupted. 
@@ -960,7 +960,7 @@ earlier versions didn't stop solving after 1.h2-h3 z !
 
 
               empile:           4
-            jouecoup:           4
+           play_move:           4
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -993,7 +993,7 @@ Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fai
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -1027,7 +1027,7 @@ Popeye hasn't found the solution since version 4.51
   1.c7-c5 e4*d5 + 
 
               empile:          40
-            jouecoup:          42
+           play_move:          40
         orig_rbechec:           0
         orig_rnechec:          34
 solution finished. 
@@ -1064,7 +1064,7 @@ solution finished.
   1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a5   5.Sb1*a3 Ra5-a7   6.Sa3-b1 Ra7-a8 dia 
 
               empile:       52510
-            jouecoup:       52570
+           play_move:       52510
         orig_rbechec:        2633
         orig_rnechec:        2925
 solving interrupted. 
@@ -1100,7 +1100,7 @@ so far, uncapturable pieces were only supported correctly
 
 
               empile:           3
-            jouecoup:           2
+           play_move:           2
         orig_rbechec:           2
         orig_rnechec:           0
 solution finished. 
@@ -1135,7 +1135,7 @@ solution finished.
   1.Sh2-f3   2.Sf3-h2 d3-d2 # 
 
               empile:         291
-            jouecoup:         196
+           play_move:         192
         orig_rbechec:         191
         orig_rnechec:          80
 solution finished. 
@@ -1170,7 +1170,7 @@ solution finished.
   1.g3-g4   2.g4-g5 d3-d2 # 
 
               empile:          96
-            jouecoup:          63
+           play_move:          59
         orig_rbechec:          60
         orig_rnechec:          17
 solution finished. 
@@ -1205,7 +1205,7 @@ solution finished.
   1.g6-g5   2.g5-g4 d6-d7 # 
 
               empile:          75
-            jouecoup:          53
+           play_move:          49
         orig_rbechec:          13
         orig_rnechec:          50
 solution finished. 
@@ -1240,7 +1240,7 @@ solution finished.
   1.g3-g4   2.g4-g5 d3-d2 # 
 
               empile:          87
-            jouecoup:          61
+           play_move:          57
         orig_rbechec:          58
         orig_rnechec:          15
 solution finished. 
@@ -1275,7 +1275,7 @@ solution finished.
   1.Sh2-f3   2.Sf3-h2 d3-d2 # 
 
               empile:         318
-            jouecoup:         234
+           play_move:         230
         orig_rbechec:         215
         orig_rnechec:         100
 solution finished. 
@@ -1310,7 +1310,7 @@ solution finished.
   1.g3-g4   2.g4-g5 d3-d2 # 
 
               empile:          87
-            jouecoup:          61
+           play_move:          57
         orig_rbechec:          58
         orig_rnechec:          15
 solution finished. 
@@ -1346,7 +1346,7 @@ Popeye didn't find a solution since at least 4.37
   1.Kg1*h2 [+wPg1]   2.Kh2-h3   3.Kh3*h4 [+wPh3]   4.Kh4-g3   5.Kg3-h2   6.Kh2*h3 [+wPh2]   7.Kh3-g2   8.Kg2*g1 [+wPg2]   9.Kg1*h2 [+wPg1]  10.Kh2*g2 [+wPh2]  11.Kg2-h3  12.Kh3*h2 [+wPh3]  13.Kh2*g1 [+wPh2] h3-h4 
 
               empile:       55983
-            jouecoup:       56025
+           play_move:       55983
         orig_rbechec:       20970
         orig_rnechec:       34578
 solution finished. 

@@ -650,7 +650,7 @@ void output_plaintext_tree_write_move(void)
   if (move_depth%2==1)
     StdString("..");
 
-  output_plaintext_write_move(nbply);
+  output_plaintext_write_move();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

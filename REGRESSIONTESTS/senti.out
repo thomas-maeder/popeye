@@ -43,7 +43,7 @@
 
 
               empile:        4607
-            jouecoup:        3175
+           play_move:        3175
         orig_rbechec:         231
         orig_rnechec:        3177
 Loesung beendet. 
@@ -80,7 +80,7 @@ Loesung beendet.
   1.Sb2-a4[+sBb2] Lg4-f5[+wBg4]   2.b2-b1=G Gd8-d3 # 
 
               empile:       33228
-            jouecoup:       28777
+           play_move:       28770
         orig_rbechec:        2220
         orig_rnechec:       28597
 Loesung beendet. 
@@ -182,7 +182,7 @@ Andernach TT 2000, 4. ehrende Erwähnung
 
 
               empile:       36322
-            jouecoup:       24651
+           play_move:       24651
         orig_rbechec:        1345
         orig_rnechec:       24641
 Loesung beendet. 

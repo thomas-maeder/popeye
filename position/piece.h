@@ -131,36 +131,35 @@ typedef enum
   nrlionb	,       /* 113 */
   mrlionb	,       /* 114 */
   molionb,        /* 115 */
-  andergb,        /* 116 */
-  friendb,        /* 117 */
-  dolphinb,       /* 118 */
-  rabbitb,        /* 119 */
-  bobb,           /* 120 */
-  equiengb,       /* 121 */
-  equifrab,       /* 122 */
-  querqub,        /* 123 */
-  bouncerb,       /* 124 */
-  rookbouncerb,   /* 125 */
-  bishopbouncerb, /* 126 */
-  chinesepawnb,   /* 127 */
-  radialknightb,  /* 128 */
-  reversepb,      /* 129 */
-  roselocustb,    /* 130 */
-  zebub,          /* 131 */
-  refnb,          /* 132 */
-  cs20b,           /* 133 */
-  cs40b,           /* 134 */
-  cs11b,           /* 135 */
-  cs33b,           /* 136 */
-  cs31b,           /* 137 */
-  doublerookhopperb, /* 138 */
-  doublebishopperb,  /* 139 */
-  norixb,          /* 140 */
-  treehopperb,     /* 141 */
-  leafhopperb,     /* 142 */
-  greatertreehopperb,     /* 143 */
-  greaterleafhopperb,     /* 144 */
-  kanglionb,     /* 145 */
+  friendb,        /* 116 */
+  dolphinb,       /* 117 */
+  rabbitb,        /* 118 */
+  bobb,           /* 119 */
+  equiengb,       /* 120 */
+  equifrab,       /* 121 */
+  querqub,        /* 122 */
+  bouncerb,       /* 123 */
+  rookbouncerb,   /* 124 */
+  bishopbouncerb, /* 125 */
+  chinesepawnb,   /* 126 */
+  radialknightb,  /* 127 */
+  reversepb,      /* 128 */
+  roselocustb,    /* 129 */
+  zebub,          /* 130 */
+  refnb,          /* 131 */
+  cs20b,           /* 132 */
+  cs40b,           /* 133 */
+  cs11b,           /* 134 */
+  cs33b,           /* 135 */
+  cs31b,           /* 136 */
+  doublerookhopperb, /* 137 */
+  doublebishopperb,  /* 138 */
+  norixb,          /* 139 */
+  treehopperb,     /* 140 */
+  leafhopperb,     /* 141 */
+  greatertreehopperb,     /* 142 */
+  greaterleafhopperb,     /* 143 */
+  kanglionb,     /* 144 */
   hunter0b,
   derbla =        hunter0b+maxnrhuntertypes,
 
@@ -278,7 +277,6 @@ typedef enum
   nrlionn        = -nrlionb,
   mrlionn        = -mrlionb,
   molionn        = -molionb,
-  andergn        = -andergb,
   friendn        = -friendb,
   dolphinn       = -dolphinb,
   rabbitn        = -rabbitb,

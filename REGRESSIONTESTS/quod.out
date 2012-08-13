@@ -41,7 +41,7 @@
 
 
               empile:        9474
-            jouecoup:        3936
+           play_move:        3936
         orig_rbechec:        2720
         orig_rnechec:        2148
 Loesung beendet. 
@@ -94,7 +94,7 @@ Loesung beendet.
 
 
               empile:        5816
-            jouecoup:        2815
+           play_move:        2815
         orig_rbechec:        1427
         orig_rnechec:        1883
 Loesung beendet. 
@@ -142,7 +142,7 @@ Loesung beendet.
 
 
               empile:        7981
-            jouecoup:        4438
+           play_move:        4438
         orig_rbechec:        3967
         orig_rnechec:        3011
 Loesung beendet. 
@@ -253,7 +253,7 @@ Loesung beendet.
 
 
               empile:       31059
-            jouecoup:       22908
+           play_move:       22908
         orig_rbechec:       22373
         orig_rnechec:        6036
 Loesung beendet. 
@@ -294,7 +294,7 @@ Loesung beendet.
 
 
               empile:        2281
-            jouecoup:        1507
+           play_move:        1507
         orig_rbechec:        1252
         orig_rnechec:        1225
 Loesung beendet. 

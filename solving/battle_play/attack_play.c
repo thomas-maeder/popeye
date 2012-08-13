@@ -1,8 +1,8 @@
 #include "solving/battle_play/attack_play.h"
 #include "stipulation/fork.h"
 #include "pyproof.h"
-#include "solving/selfcheck_guard.h"
 #include "conditions/amu/mate_filter.h"
+#include "conditions/amu/attack_counter.h"
 #include "conditions/anticirce/circuit_special.h"
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/anticirce/exchange_special.h"
@@ -14,6 +14,9 @@
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/circe/assassin.h"
+#include "conditions/circe/frischauf.h"
+#include "conditions/circe/super.h"
+#include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/legality_tester.h"
 #include "conditions/maff/immobility_tester.h"
@@ -37,7 +40,42 @@
 #include "conditions/royal_square.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/cage.h"
+#include "conditions/circe/kamikaze.h"
+#include "conditions/circe/parrain.h"
+#include "conditions/circe/volage.h"
+#include "conditions/circe/promotion.h"
+#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/super.h"
+#include "conditions/sentinelles.h"
+#include "conditions/duellists.h"
+#include "conditions/haunted_chess.h"
+#include "conditions/ghost_chess.h"
+#include "conditions/kobul.h"
+#include "conditions/andernach.h"
+#include "conditions/antiandernach.h"
+#include "conditions/chameleon_pursuit.h"
+#include "conditions/norsk.h"
+#include "conditions/protean.h"
+#include "conditions/losing.h"
+#include "conditions/einstein/einstein.h"
+#include "conditions/einstein/reverse.h"
+#include "conditions/einstein/anti.h"
+#include "conditions/traitor.h"
+#include "conditions/volage.h"
+#include "conditions/magic_square.h"
+#include "conditions/tibet.h"
+#include "conditions/degradierung.h"
+#include "conditions/phantom.h"
+#include "conditions/marscirce/anti.h"
+#include "conditions/line_chameleon.h"
+#include "conditions/haan.h"
+#include "conditions/castling_chess.h"
+#include "conditions/exchange_castling.h"
+#include "conditions/transmuting_kings/super.h"
 #include "optimisations/hash.h"
+#include "conditions/imitator.h"
+#include "conditions/football.h"
+#include "conditions/castling_chess.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/goals/castling/filter.h"
@@ -79,7 +117,11 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/hurdle_colour_changing.h"
+#include "pieces/attributes/magic.h"
+#include "pieces/attributes/chameleon.h"
+#include "pieces/attributes/kamikaze/kamikaze.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/min_length_guard.h"
@@ -87,7 +129,7 @@
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/try.h"
 #include "solving/capture_counter.h"
-#include "solving/castling_intermediate_move_generator.h"
+#include "solving/castling.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_move.h"
 #include "solving/find_shortest.h"
@@ -102,6 +144,11 @@
 #include "solving/single_move_generator_with_king_capture.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/trivial_end_filter.h"
+#include "solving/king_square.h"
+#include "solving/en_passant.h"
+#include "solving/moving_pawn_promotion.h"
+#include "solving/selfcheck_guard.h"
+#include "solving/post_move_iteration.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/battle_play/attack_adapter.h"
@@ -145,6 +192,7 @@
 #include "stipulation/move_played.h"
 #include "stipulation/setplay_fork.h"
 #include "debugging/trace.h"
+#include "debugging/measure.h"
 
 #include <assert.h>
 
@@ -220,16 +268,88 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = null_move_player_attack(si,n);
       break;
 
+    case STPostMoveIterationInitialiser:
+      result = post_move_iteration_initialiser_attack(si,n);
+      break;
+
+    case STPostMoveIterationAvoider:
+      result = post_move_iteration_avoider_attack(si,n);
+      break;
+
     case STMessignyMovePlayer:
       result = messigny_move_player_attack(si,n);
+      break;
+
+    case STCastlingPlayer:
+      result = castling_player_attack(si,n);
       break;
 
     case STMovePlayer:
       result = move_player_attack(si,n);
       break;
 
-    case STMoveReplayer:
-      result = move_replayer_attack(si,n);
+    case STKingSquareAdjuster:
+      result = king_square_adjuster_attack(si,n);
+      break;
+
+    case STEnPassantAdjuster:
+      result = en_passant_adjuster_attack(si,n);
+      break;
+
+    case STMovingPawnPromoter:
+      result = moving_pawn_promoter_attack(si,n);
+      break;
+
+    case STPhantomChessEnPassantAdjuster:
+      result = phantom_en_passant_adjuster_attack(si,n);
+      break;
+
+    case STAntiMarsCirceEnPassantAdjuster:
+      result = antimars_en_passant_adjuster_attack(si,n);
+      break;
+
+    case STKamikazeCapturingPieceRemover:
+      result = kamikaze_capturing_piece_remover_attack(si,n);
+      break;
+
+    case STHaanChessDepartureBlocker:
+      result = haan_chess_block_departure_attack(si,n);
+      break;
+
+    case STCastlingChessMovePlayer:
+      result = castling_chess_move_player_attack(si,n);
+      break;
+
+    case STCastlingChessKingSquareAdjuster:
+      result = castling_chess_king_square_adjuster_attack(si,n);
+      break;
+
+    case STCastlingChessHaanPartnerSquareBlocker:
+      result = castling_chess_haan_chess_partner_square_blocker_attack(si,n);
+      break;
+
+    case STExchangeCastlingMovePlayer:
+      result = exchange_castling_move_player_attack(si,n);
+      break;
+
+    case STSuperTransmutingKingTransmuter:
+      result = supertransmuting_kings_transmuter_attack(si,n);
+      break;
+
+    case STAMUAttackCounter:
+      result = amu_attack_counter_attack(si,n);
+      break;
+
+    case STMutualCastlingRightsAdjuster:
+      result = mutual_castling_rights_adjuster_attack(si,n);
+      break;
+
+    case STImitatorMover:
+      result = imitator_mover_attack(si,n);
+      break;
+
+    case STMovingPawnToImitatorPromoter:
+      result = moving_pawn_to_imitator_promoter_attack(si,n);
       break;
 
     case STMovePlayed:
@@ -239,6 +359,12 @@ stip_length_type attack(slice_index si, stip_length_type n)
 #if defined(DOTRACE)
     case STMoveTracer:
       result = move_tracer_attack(si,n);
+      break;
+#endif
+
+#if defined(DOMEASURE)
+    case STMoveCounter:
+      result = move_counter_attack(si,n);
       break;
 #endif
 
@@ -372,20 +498,216 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = republican_king_placer_attack(si,n);
       break;
 
-    case STRepublicanKingPlacerReplay:
-      result = republican_king_placer_replay_attack(si,n);
+    case STRepublicanType1DeadEnd:
+      result = republican_type1_dead_end_attack(si,n);
       break;
 
     case STRoyalSquareHandler:
       result = royal_square_handler_attack(si,n);
       break;
 
+    case STCirceKingRebirthAvoider:
+      result = circe_king_rebirth_avoider_attack(si,n);
+      break;
+
     case STCirceRebirthHandler:
       result = circe_rebirth_handler_attack(si,n);
       break;
 
+    case STSuperCirceRebirthHandler:
+      result = supercirce_rebirth_handler_attack(si,n);
+      break;
+
+    case STCirceRebirthPromoter:
+      result = circe_promoter_attack(si,n);
+      break;
+
+    case STCirceVolageRecolorer:
+      result = circe_volage_recolorer_attack(si,n);
+      break;
+
+    case STCirceParrainRebirthHandler:
+      result = circe_parrain_rebirth_handler_attack(si,n);
+      break;
+
+    case STCirceKamikazeRebirthHandler:
+      result = circe_kamikaze_rebirth_handler_attack(si,n);
+      break;
+
     case STCirceCageRebirthHandler:
       result = circe_cage_rebirth_handler_attack(si,n);
+      break;
+
+    case STCirceCageCageTester:
+      result = circe_cage_cage_tester_attack(si,n);
+      break;
+
+    case STSentinellesInserter:
+      result = sentinelles_inserter_attack(si,n);
+      break;
+
+    case STMagicViewsInitialiser:
+      result = magic_views_initialiser_attack(si,n);
+      break;
+
+    case STMagicPiecesRecolorer:
+      result = magic_pieces_recolorer_attack(si,n);
+      break;
+
+    case STHauntedChessGhostSummoner:
+      result = haunted_chess_ghost_summoner_attack(si,n);
+      break;
+
+    case STHauntedChessGhostRememberer:
+      result = haunted_chess_ghost_rememberer_attack(si,n);
+      break;
+
+    case STGhostChessGhostSummoner:
+      result = ghost_chess_ghost_summoner_attack(si,n);
+      break;
+
+    case STGhostChessGhostRememberer:
+      result = ghost_chess_ghost_rememberer_attack(si,n);
+      break;
+
+    case STAndernachSideChanger:
+      result = andernach_side_changer_attack(si,n);
+      break;
+
+    case STAndernachCastlingRightsRestorer:
+      result = andernach_castling_rights_restorer_attack(si,n);
+      break;
+
+    case STAntiAndernachSideChanger:
+      result = antiandernach_side_changer_attack(si,n);
+      break;
+
+    case STAntiAndernachCastlingRightsRestorer:
+      result = antiandernach_castling_rights_restorer_attack(si,n);
+      break;
+
+    case STChameleonPursuitSideChanger:
+      result = chameleon_pursuit_side_changer_attack(si,n);
+      break;
+
+    case STChameleonPursuitCastlingRightsRestorer:
+      result = chameleon_pursuit_castling_rights_restorer_attack(si,n);
+      break;
+
+    case STNorskCastlingRightsRestorer:
+      result = norsk_castling_rights_restorer_attack(si,n);
+      break;
+
+    case STNorskArrivingAdjuster:
+      result = norsk_arriving_adjuster_attack(si,n);
+      break;
+
+    case STProteanCastlingRightsRestorer:
+      result = protean_castling_rights_restorer_attack(si,n);
+      break;
+
+    case STProteanPawnAdjuster:
+      result = protean_pawn_adjuster_attack(si,n);
+      break;
+
+    case STLosingChessCastlingRightsRemover:
+      result = losing_chess_castling_rights_remover_attack(si,n);
+      break;
+
+    case STEinsteinArrivingAdjuster:
+      result = einstein_moving_adjuster_attack(si,n);
+      break;
+
+    case STReverseEinsteinArrivingAdjuster:
+      result = reverse_einstein_moving_adjuster_attack(si,n);
+      break;
+
+    case STAntiEinsteinArrivingAdjuster:
+      result = anti_einstein_moving_adjuster_attack(si,n);
+      break;
+
+    case STTraitorSideChanger:
+      result = traitor_side_changer_attack(si,n);
+      break;
+
+    case STVolageSideChanger:
+      result = volage_side_changer_attack(si,n);
+      break;
+
+    case STMagicSquareSideChanger:
+      result = magic_square_side_changer_attack(si,n);
+      break;
+
+    case STTibetSideChanger:
+      result = tibet_attack(si,n);
+      break;
+
+    case STDoubleTibetSideChanger:
+      result = double_tibet_attack(si,n);
+      break;
+
+    case STDegradierungDegrader:
+      result = degradierung_degrader_attack(si,n);
+      break;
+
+    case STPromoteMovingIntoChameleon:
+      result = chameleon_promote_moving_into_attack(si,n);
+      break;
+
+    case STPromoteCirceRebornIntoChameleon:
+      result = chameleon_promote_circe_reborn_into_attack(si,n);
+      break;
+
+    case STPromoteAnticirceRebornIntoChameleon:
+      result = chameleon_promote_anticirce_reborn_into_attack(si,n);
+      break;
+
+    case STChameleonArrivingAdjuster:
+      result = chameleon_arriving_adjuster_attack(si,n);
+      break;
+
+    case STLineChameleonArrivingAdjuster:
+      result = line_chameleon_arriving_adjuster_attack(si,n);
+      break;
+
+    case STFrischaufPromoteeMarker:
+      result = frischauf_promotee_marker_attack(si,n);
+      break;
+
+    case STPiecesHalfNeutralRecolorer:
+      result = half_neutral_recolorer_attack(si,n);
+      break;
+
+    case STKobulKingSubstitutor:
+      result = kobul_king_substitutor_attack(si,n);
+      break;
+
+    case STDuellistsRememberDuellist:
+      result = duellists_remember_duellist_attack(si,n);
+      break;
+
+    case STSingleboxType2LatentPawnSelector:
+      result = singlebox_type2_latent_pawn_selector_attack(si,n);
+      break;
+
+    case STSingleboxType2LatentPawnPromoter:
+      result = singlebox_type2_latent_pawn_promoter_attack(si,n);
+      break;
+
+    case STAnticirceRebirthHandler:
+      result = anticirce_rebirth_handler_attack(si,n);
+      break;
+
+    case STAnticirceRebornPromoter:
+      result = anticirce_reborn_promoter_attack(si,n);
+      break;
+
+    case STAntisupercirceRebirthHandler:
+      result = antisupercirce_rebirth_handler_attack(si,n);
+      break;
+
+    case STFootballChessSubsitutor:
+      result = football_chess_substitutor_attack(si,n);
       break;
 
     case STRefutationsCollector:
@@ -543,6 +865,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STCastlingIntermediateMoveGenerator:
       result = castling_intermediate_move_generator_attack(si,n);
+      break;
+
+    case STCastlingRightsRemover:
+      result = castling_rights_remover_attack(si,n);
       break;
 
     case STSingleMoveGenerator:
@@ -774,6 +1100,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = singlebox_type3_legality_tester_attack(si,n);
       break;
 
+    case STSingleBoxType3PawnPromoter:
+      result = singlebox_type3_pawn_promoter_attack(si,n);
+      break;
+
     case STExclusiveChessLegalityTester:
       result = exclusive_chess_legality_tester_attack(si,n);
       break;
@@ -790,6 +1120,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = isardam_legality_tester_attack(si,n);
       break;
 
+    case STCirceAssassinRebirth:
+      result = circe_assassin_rebirth_attack(si,n);
+      break;
+
     case STKingAssassinationAvoider:
       result = king_assassination_avoider_attack(si,n);
       break;
@@ -804,6 +1138,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STPiecesNeutralInitialiser:
       result = neutral_initialiser_attack(si,n);
+      break;
+
+    case STPiecesNeutralRetractingRecolorer:
+      result = neutral_retracting_recolorer_attack(si,n);
       break;
 
     case STSATFlightMoveGenerator:

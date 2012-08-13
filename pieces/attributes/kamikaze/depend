@@ -1,20 +1,22 @@
 pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  pieces/attributes/kamikaze/kamikaze.c \
- pieces/attributes/kamikaze/kamikaze.h stipulation/slice.h py.h \
- utilities/boolean.h position/position.h position/board.h \
+ pieces/attributes/kamikaze/kamikaze.h solving/battle_play/attack_play.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/slice_type.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
+ solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- stipulation/pipe.h solving/battle_play/attack_play.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/proxy.h stipulation/boolean/or.h \
- stipulation/boolean/true.h conditions/anticirce/target_square_filter.h \
+ stipulation/boolean/true.h stipulation/move_player.h \
+ conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h debugging/trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
-stipulation/slice.h:
+solving/battle_play/attack_play.h:
 
 py.h:
 
@@ -32,7 +34,23 @@ utilities/enumeration.h:
 
 pylang.h:
 
+stipulation/slice.h:
+
 stipulation/slice_type.h:
+
+solving/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 stipulation/stipulation.h:
 
@@ -42,13 +60,9 @@ stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
-utilities/boolean.h:
-
 output/mode.h:
 
 stipulation/pipe.h:
-
-solving/battle_play/attack_play.h:
 
 stipulation/branch.h:
 
@@ -57,6 +71,8 @@ stipulation/proxy.h:
 stipulation/boolean/or.h:
 
 stipulation/boolean/true.h:
+
+stipulation/move_player.h:
 
 conditions/anticirce/target_square_filter.h:
 

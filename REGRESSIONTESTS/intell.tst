@@ -25,7 +25,7 @@
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
               empile:       34220
-            jouecoup:       35216
+           play_move:       35211
         orig_rbechec:        1650
         orig_rnechec:       86567
 solution finished. 
@@ -58,7 +58,7 @@ solution finished.
   1...e3*d4   2.Sf7-e5 d4*e5 # 
 
               empile:         103
-            jouecoup:         106
+           play_move:         103
         orig_rbechec:           6
         orig_rnechec:        2667
 solution finished. 
@@ -91,7 +91,7 @@ double check by en passant capture from above
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. # 
 
               empile:         278
-            jouecoup:         272
+           play_move:         269
         orig_rbechec:          21
         orig_rnechec:        6023
 solution finished. 
@@ -124,7 +124,7 @@ double check by en passant capture from below
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
 
               empile:         720
-            jouecoup:         673
+           play_move:         670
         orig_rbechec:          76
         orig_rnechec:        8607
 solution finished. 
@@ -157,7 +157,7 @@ interception of a defending pawn by a piece that doesn't guard
   1.Sc8-b6   2.Bh3-f1 # 
 
               empile:         110
-            jouecoup:          95
+           play_move:          93
         orig_rbechec:           0
         orig_rnechec:         277
 solution finished. 
@@ -190,7 +190,7 @@ guard with check -> selfpin with check -> selfpin with guard by s
   1...Rh1-h3 # 
 
               empile:         125
-            jouecoup:         123
+           play_move:         122
         orig_rbechec:          31
         orig_rnechec:         523
 solution finished. 
@@ -223,7 +223,7 @@ guard with check -> selfpin with check -> selfpin with guard by b
   1...Sh6-g4 # 
 
               empile:          25
-            jouecoup:          26
+           play_move:          25
         orig_rbechec:           5
         orig_rnechec:         326
 solution finished. 
@@ -257,7 +257,7 @@ in mate stipulations, it makes sense to pin a queen or rook by a
   1...Sc5-d3 # 
 
               empile:          24
-            jouecoup:          24
+           play_move:          23
         orig_rbechec:           0
         orig_rnechec:          88
 solution finished. 

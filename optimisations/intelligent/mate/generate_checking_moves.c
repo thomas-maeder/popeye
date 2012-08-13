@@ -169,7 +169,7 @@ static void remember_mating_line(piece checker_type, square const check_from, in
 }
 
 static void by_promoted_rider(unsigned int index_of_checker,
-                              piece promotee_type,
+                              PieNam promotee_type,
                               square const check_from)
 {
   int const diff = king_square[Black]-check_from;
@@ -209,7 +209,7 @@ static void by_promoted_knight(unsigned int index_of_checker, square const check
 
   if (dir!=0
       && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_checker].diagram_square,
-                                                                cb,
+                                                                Knight,
                                                                 check_from))
   {
     SetPiece(cb,check_from,white[index_of_checker].flags);
@@ -233,17 +233,17 @@ static void by_promoted_pawn(unsigned int index_of_checker, square const check_f
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_checker,
                                                                 check_from))
   {
-    piece pp;
-    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       switch (pp)
       {
-        case db:
-        case tb:
-        case fb:
+        case Queen:
+        case Rook:
+        case Bishop:
           by_promoted_rider(index_of_checker,pp,check_from);
           break;
 
-        case cb:
+        case Knight:
           by_promoted_knight(index_of_checker,check_from);
           break;
 

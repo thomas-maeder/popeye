@@ -30,7 +30,7 @@
   1.Lh8-d4 Lf3-g4   2.Ld4-f2 Lg4-h3 # 
 
               empile:       32275
-            jouecoup:       28956
+           play_move:       28948
         orig_rbechec:       28943
         orig_rnechec:       28881
 Loesung beendet. 
@@ -65,7 +65,7 @@ Loesung beendet.
   1.Th1-a1 Le4-b1   2.Ke2-f1 Lb1-d3 # 
 
               empile:       43917
-            jouecoup:       34707
+           play_move:       34703
         orig_rbechec:       33290
         orig_rnechec:       36235
 Loesung beendet. 
@@ -103,7 +103,7 @@ Loesung beendet.
   1.Kg4-h4 Kg2-f3   2.Sh3-f4 Le5-f6 # 
 
               empile:       20906
-            jouecoup:       18261
+           play_move:       18253
         orig_rbechec:       18033
         orig_rnechec:       18404
 Loesung beendet. 
@@ -141,7 +141,7 @@ Loesung beendet.
   1.Sg2-f4 Kd1-d2   2.Sf4-h3 Sf5-e3 # 
 
               empile:        8538
-            jouecoup:        7456
+           play_move:        7448
         orig_rbechec:        7412
         orig_rnechec:        7461
 Loesung beendet. 
@@ -179,7 +179,7 @@ Loesung beendet.
   1.h7-h8=T c2-c1=D   2.Th8-h7 Dc1-h6 # 
 
               empile:       21728
-            jouecoup:       19905
+           play_move:       19897
         orig_rbechec:       19798
         orig_rnechec:       20085
 Loesung beendet. 
@@ -215,7 +215,7 @@ Loesung beendet.
   1.f2-f1=L a7-a8=S   2.d2-d1=T c7-c8=D # 
 
               empile:       25963
-            jouecoup:       18197
+           play_move:       18193
         orig_rbechec:       17117
         orig_rnechec:       20210
 Loesung beendet. 
@@ -252,7 +252,7 @@ Loesung beendet.
   1.Lh8-d4 Se6-g7   2.Tg8-d8 Sg7*f5 # 
 
               empile:       76524
-            jouecoup:       64338
+           play_move:       64326
         orig_rbechec:       63735
         orig_rnechec:       66465
 Loesung beendet. 

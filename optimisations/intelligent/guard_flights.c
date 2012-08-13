@@ -612,23 +612,23 @@ static void promoted_pawn(square guard_from)
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_guarding_piece,
                                                                 guard_from))
   {
-    piece pp;
-    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       switch (pp)
       {
-        case db:
+        case Queen:
           promoted_queen(guard_from);
           break;
 
-        case tb:
+        case Rook:
           promoted_rook(guard_from);
           break;
 
-        case fb:
+        case Bishop:
           promoted_bishop(guard_from);
           break;
 
-        case cb:
+        case Knight:
           promoted_knight(guard_from);
           break;
 

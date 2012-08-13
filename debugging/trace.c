@@ -14,6 +14,7 @@
 #if defined(DOTRACE)
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 
 static trace_level level;
 
@@ -309,7 +310,7 @@ static void TraceCurrentMove(void)
   if (level<=max_level)
   {
     fprintf(stdout," #%lu %lu ",level,move_counter++);
-    output_plaintext_write_move(nbply);
+    output_plaintext_write_move();
     fprintf(stdout," current_move[nbply]:%d",current_move[nbply]);
     fprintf(stdout," current_ply:%d\n",nbply);
     fflush(stdout);
@@ -553,24 +554,6 @@ void TraceStipulation(slice_index si)
 
 #include <assert.h>
 
-/* Allocate a STMoveTracer slice.
- * @return index of allocated slice
- */
-static slice_index alloc_move_tracer_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STMoveTracer);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -602,52 +585,14 @@ stip_length_type move_tracer_defend(slice_index si, stip_length_type n)
   return defend(slices[si].next1,n);
 }
 
-static void insert_move_tracer(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_move_tracer_slice();
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument slices with move tracers
  */
 void stip_insert_move_tracers(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&insert_move_tracer);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STMoveTracer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

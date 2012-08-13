@@ -1,5 +1,7 @@
 #include "optimisations/intelligent/mate/goalreachable_guard.h"
 #include "stipulation/stipulation.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"
@@ -29,7 +31,7 @@ static boolean mate_isGoalReachable(void)
     TraceValue("%u\n",MovesLeft[Black]);
 
     if (nbply==2
-        || (testcastling && castling_flag[nbply]!=castling_flag[nbply-1]))
+        || (testcastling && castling_flag[nbply]!=castling_flag[parent_ply[nbply]]))
     {
       square const *bnp;
       MovesRequired[White][nbply] = 0;
@@ -72,10 +74,10 @@ static boolean mate_isGoalReachable(void)
     }
     else
     {
-      PieceIdType const id = GetPieceId(jouespec[nbply]);
-      MovesRequired[White][nbply] = MovesRequired[White][nbply-1];
-      MovesRequired[Black][nbply] = MovesRequired[Black][nbply-1];
-      OpeningsRequired[nbply] = OpeningsRequired[nbply-1];
+      PieceIdType const id = GetPieceId(spec[move_generation_stack[current_move[nbply]].arrival]);
+      MovesRequired[White][nbply] = MovesRequired[White][parent_ply[nbply]];
+      MovesRequired[Black][nbply] = MovesRequired[Black][parent_ply[nbply]];
+      OpeningsRequired[nbply] = OpeningsRequired[parent_ply[nbply]];
 
       if (nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].departure]>0)
       {

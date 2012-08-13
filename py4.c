@@ -66,16 +66,21 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
-#include "solving/battle_play/attack_play.h"
 #include "stipulation/temporary_hacks.h"
+#include "solving/battle_play/attack_play.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
 #include "solving/single_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
 #include "conditions/madrasi.h"
-#include "conditions/republican.h"
 #include "conditions/sat.h"
+#include "conditions/duellists.h"
+#include "conditions/singlebox/type1.h"
+#include "conditions/singlebox/type2.h"
+#include "conditions/singlebox/type3.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -132,15 +137,15 @@ int len_capt(square sq_departure, square sq_arrival, square sq_capture) {
 }
 
 int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_arrival == move_generation_stack[current_move[nbply-1]].departure);
+  return (sq_arrival == move_generation_stack[current_move[parent_ply[nbply]]].departure);
 }
 
 int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_departure == whduell[nbply - 1]);
+  return (sq_departure == duellists[White][nbply - 1]);
 }
 
 int len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_departure == blduell[nbply - 1]);
+  return (sq_departure == duellists[Black][nbply - 1]);
 }
 
 int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
@@ -149,14 +154,14 @@ int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
 
 int len_synchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_departure-sq_arrival
-          == (move_generation_stack[current_move[nbply-1]].departure
-              - move_generation_stack[current_move[nbply-1]].arrival));
+          == (move_generation_stack[current_move[parent_ply[nbply]]].departure
+              - move_generation_stack[current_move[parent_ply[nbply]]].arrival));
 }
 
 int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) {
   return (sq_arrival-sq_departure
-          == (move_generation_stack[current_move[nbply-1]].departure
-              - move_generation_stack[current_move[nbply-1]].arrival));
+          == (move_generation_stack[current_move[parent_ply[nbply]]].departure
+              - move_generation_stack[current_move[parent_ply[nbply]]].arrival));
 }
 
 int len_whforcedsquare(square sq_departure,
@@ -213,7 +218,7 @@ static int count_opponent_moves(void)
   init_single_move_generator(move_generation_stack[current_move[nbply]].departure,
                              move_generation_stack[current_move[nbply]].arrival,
                              move_generation_stack[current_move[nbply]].capture,
-                             cmren[current_move[nbply]]);
+                             mars_circe_rebirth_square[current_move[nbply]]);
 
   attack(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,length_unspecified);
 
@@ -236,7 +241,7 @@ void init_move_generation_optimizer(void) {
   case move_generation_optimized_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];
     current_killer_state.move.arrival = kpilca[nbply];
-    current_killer_state.mren = cmren[current_move[nbply]];
+    current_killer_state.mren = mars_circe_rebirth_square[current_move[nbply]];
     current_killer_state.found = false;
     break;
   case move_generation_not_optimized:
@@ -270,12 +275,12 @@ void finish_move_generation_optimizer(void) {
           &compare_nr_opponent_moves);
     /* undo the offect of calling add_to_move_generation_stack() in
      * add_to_empile_optimization_table() */
-    current_move[nbply] = current_move[nbply-1];
+    current_move[nbply] = current_move[parent_ply[nbply]];
     while (curr_elmt!=empile_optimization_table) {
       current_move[nbply]++;
       --curr_elmt;
       move_generation_stack[current_move[nbply]]= curr_elmt->move;
-      cmren[current_move[nbply]] = curr_elmt->mren;
+      mars_circe_rebirth_square[current_move[nbply]] = curr_elmt->mren;
     }
     break;
   }
@@ -283,7 +288,7 @@ void finish_move_generation_optimizer(void) {
     if (current_killer_state.found) {
       current_move[nbply]++;
       move_generation_stack[current_move[nbply]] = current_killer_state.move;
-      cmren[current_move[nbply]] = current_killer_state.mren;
+      mars_circe_rebirth_square[current_move[nbply]] = current_killer_state.mren;
     }
     break;
   case move_generation_not_optimized:
@@ -309,8 +314,9 @@ void add_to_move_generation_stack(square sq_departure,
   move_generation_stack[current_move[nbply]].departure= sq_departure;
   move_generation_stack[current_move[nbply]].arrival= sq_arrival;
   move_generation_stack[current_move[nbply]].capture= sq_capture;
-  cmren[current_move[nbply]]= mren;
-  ctrans[current_move[nbply]]=current_trans_gen;
+  mars_circe_rebirth_square[current_move[nbply]]= mren;
+  ctrans[current_move[nbply]] = current_trans_gen;
+  chop[current_move[nbply]] = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -376,12 +382,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     if (CondFlag[messigny]
         && sq_capture == messigny_exchange
         /* a swapping move */
-        && (move_generation_stack[current_move[nbply-1]].capture==messigny_exchange)
+        && (move_generation_stack[current_move[parent_ply[nbply]]].capture==messigny_exchange)
         /* last move was a swapping one too */
-        && (sq_departure == move_generation_stack[current_move[nbply-1]].arrival
-            || sq_departure == move_generation_stack[current_move[nbply-1]].departure
-            || sq_arrival == move_generation_stack[current_move[nbply-1]].arrival
-            || sq_arrival == move_generation_stack[current_move[nbply-1]].departure))
+        && (sq_departure == move_generation_stack[current_move[parent_ply[nbply]]].arrival
+            || sq_departure == move_generation_stack[current_move[parent_ply[nbply]]].departure
+            || sq_arrival == move_generation_stack[current_move[parent_ply[nbply]]].arrival
+            || sq_arrival == move_generation_stack[current_move[parent_ply[nbply]]].departure))
       /* No single piece must be involved in
        * two consecutive swappings, so reject move.
        */
@@ -389,22 +395,27 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       return false;
     }
 
-    if (anymars||anyantimars) {
-      if (CondFlag[phantom]) {
-        if (flagactive) {
-          if ((sq_departure= marsid) == sq_arrival) {
+    if (anymars || anyantimars)
+    {
+      if (CondFlag[phantom])
+      {
+        if (flagactive)
+        {
+          sq_departure = marsid;
+          if (sq_departure==sq_arrival)
             return true;
-          }
         }
       }
-      else {
+      else
+      {
         if (flagpassive!=anyantimars && e[sq_capture]!=vide)
           return true;
         if (flagcapture!=anyantimars && e[sq_capture]==vide)
           return true;
-        if (flagcapture) {
-          mren= sq_departure;
-          sq_departure=marsid;
+        if (flagcapture)
+        {
+          mren = sq_departure;
+          sq_departure = marsid;
         }
       }
     }
@@ -717,19 +728,16 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         {
           /* not exact-maxi -> test for selfcheck */
           Side const save_neutcoul = neutral_side;
-          boolean const save_is_republican_suspended = is_republican_suspended;
           boolean is_this_move_legal;
-          is_republican_suspended = true;
           init_single_move_generator(sq_departure,sq_arrival,sq_capture,mren);
           is_this_move_legal = attack(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].next2,length_unspecified)==has_solution;
-          is_republican_suspended = save_is_republican_suspended;
            /* TODO what for, if we don't have neutrals? Does it matter? */
           initialise_neutrals(save_neutcoul);
           if (!is_this_move_legal)
             return true;
         }
 
-        current_move[nbply] = current_move[nbply-1]; /* forget shorter moves generated so far */
+        current_move[nbply] = current_move[parent_ply[nbply]]; /* forget shorter moves generated so far */
         current_killer_state.found = false;
       }
     }
@@ -738,7 +746,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   switch (empile_for_goal.type)
   {
     case goal_ep:
-      if (sq_arrival!=ep[nbply-1] && sq_arrival!=ep2[nbply-1])
+      if (sq_arrival!=ep[parent_ply[nbply]] && sq_arrival!=ep2[parent_ply[nbply]])
         return true;
       else
         break;
@@ -1112,22 +1120,34 @@ void geriderhopper(square   sq_departure,
         }
         sq_arrival+= vec[k];
         if ((rightcolor(e[sq_arrival],camp) || (e[sq_arrival]==vide))
-            && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+        {
           empile(sq_departure,sq_arrival,sq_arrival);
+          if (TSTFLAG(spec[sq_departure],ColourChange))
+            chop[current_move[nbply]] = sq_hurdle;
+        }
       }
       else {
         /* jump of flexible length */
         /* lion, contragrashopper type */
         sq_arrival+= vec[k];
         while (e[sq_arrival]==vide) {
-          if (hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+          if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
+          {
             empile(sq_departure,sq_arrival,sq_arrival);
+            if (TSTFLAG(spec[sq_departure],ColourChange))
+              chop[current_move[nbply]] = sq_hurdle;
+          }
           sq_arrival+= vec[k];
         }
 
         if (rightcolor(e[sq_arrival],camp)
-            && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+        {
           empile(sq_departure,sq_arrival,sq_arrival);
+          if (TSTFLAG(spec[sq_departure],ColourChange))
+            chop[current_move[nbply]] = sq_hurdle;
+        }
       }
     }
   }
@@ -1311,14 +1331,22 @@ static void gmhop(square   sq_departure,
       k1= k<<1;
 
       sq_arrival= sq_hurdle+mixhopdata[m][k1];
-      if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp)) &&
-        hopimmcheck(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1]))
+      if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp))
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1])))
+      {
         testempile(sq_departure,sq_arrival,sq_arrival);
+        if (TSTFLAG(spec[sq_departure],ColourChange))
+          chop[current_move[nbply]] = sq_hurdle;
+      }
 
       sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
-      if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp)) &&
-        hopimmcheck(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1]))
+      if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp))
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1])))
+      {
         testempile(sq_departure,sq_arrival,sq_arrival);
+        if (TSTFLAG(spec[sq_departure],ColourChange))
+          chop[current_move[nbply]] = sq_hurdle;
+      }
     }
   }
 }
@@ -1412,11 +1440,12 @@ static void gnequi(square sq_departure, Side camp) {
 
         if ((e[sq_arrival]==vide
              || rightcolor(e[sq_arrival],camp))
-            && hopimcheck(sq_departure,
-                       sq_arrival,
-                       sq_hurdle,
-                       vector))
+            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
+        {
           empile(sq_departure,sq_arrival,sq_arrival);
+          if (TSTFLAG(spec[sq_departure],ColourChange))
+            chop[current_move[nbply]] = sq_hurdle;
+        }
       }
     }
 }
@@ -1435,13 +1464,20 @@ static void gorix(square sq_departure, Side camp) {
       finligne(sq_hurdle,vec[k],at_end_of_line,end_of_line);
       sq_arrival= sq_hurdle+sq_hurdle-sq_departure;
       if (abs(end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure)
-          && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+      {
         empile(sq_departure,sq_arrival,sq_arrival);
+        if (TSTFLAG(spec[sq_departure],ColourChange))
+          chop[current_move[nbply]] = sq_hurdle;
+      }
       else if (abs(end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
                && rightcolor(at_end_of_line,camp)
-               && hopimcheck(sq_departure,end_of_line,sq_hurdle,vec[k])) {
+               && (!checkhopim || hopimok(sq_departure,end_of_line,sq_hurdle,vec[k],vec[k])))
+      {
         sq_arrival= end_of_line;
         empile(sq_departure,sq_arrival,sq_arrival);
+        if (TSTFLAG(spec[sq_departure],ColourChange))
+          chop[current_move[nbply]] = sq_hurdle;
       }
     }
   }
@@ -1479,11 +1515,12 @@ static void gnorix(square sq_departure, Side camp) {
 
         if ((e[sq_arrival]==vide
              || rightcolor(e[sq_arrival],camp))
-            && hopimcheck(sq_departure,
-                       sq_arrival,
-                       sq_hurdle,
-                       vector))
+            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
+        {
           empile(sq_departure,sq_arrival,sq_arrival);
+          if (TSTFLAG(spec[sq_departure],ColourChange))
+            chop[current_move[nbply]] = sq_hurdle;
+        }
       }
     }
 }
@@ -1931,14 +1968,22 @@ static void gequi(square sq_departure, Side camp) {
         int const dist_hurdle_dep= abs(sq_hurdle-sq_departure);
         if (dist_hurdle_end>dist_hurdle_dep) {
           sq_arrival= sq_hurdle+sq_hurdle-sq_departure;
-          if (hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+          if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
+          {
             empile(sq_departure,sq_arrival,sq_arrival);
+            if (TSTFLAG(spec[sq_departure],ColourChange))
+              chop[current_move[nbply]] = sq_hurdle;
+          }
         }
         else if (dist_hurdle_end==dist_hurdle_dep) {
           sq_arrival= end_of_line;
           if (rightcolor(hurdle,camp)
-              && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+              && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+          {
             empile(sq_departure,sq_arrival,sq_arrival);
+            if (TSTFLAG(spec[sq_departure],ColourChange))
+              chop[current_move[nbply]] = sq_hurdle;
+          }
         }
       }
     }
@@ -1949,8 +1994,12 @@ static void gequi(square sq_departure, Side camp) {
     sq_arrival= sq_departure + 2*vec[k];
     if (abs(e[sq_hurdle])>=roib
         && (e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp))
-        && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+        && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+    {
       empile(sq_departure,sq_arrival,sq_arrival);
+      if (TSTFLAG(spec[sq_departure],ColourChange))
+        chop[current_move[nbply]] = sq_hurdle;
+    }
   }
 }
 
@@ -2367,7 +2416,6 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gecharybdis(sq_departure, camp);
     return;
 
-  case andergb:
   case sb:
     gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
@@ -3200,7 +3248,7 @@ void genrb(square sq_departure)
     }
   }
 
-  if (CondFlag[platzwechselrochade] && whpwr[nbply])
+  if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[White][nbply])
   {
     int i,j;
     piece p;
@@ -3454,20 +3502,20 @@ void singleboxtype3_gen_wh_piece(square z, piece p)
        sq!=initsquare;
        sq = next_latent_pawn(sq,White))
   {
-    piece pprom;
-    for (pprom = next_singlebox_prom(vide,White);
-         pprom!=vide;
+    PieNam pprom;
+    for (pprom = next_singlebox_prom(Empty,White);
+         pprom!=Empty;
          pprom = next_singlebox_prom(pprom,White))
     {
       numecoup prev_nbcou = current_move[nbply];
       ++latent_prom;
       e[sq] = pprom;
-      orig_gen_wh_piece(z, sq==z ? pprom : p);
+      orig_gen_wh_piece(z, sq==z ? (piece)pprom : p);
       e[sq] = pb;
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
-        sb3[prev_nbcou].where = sq;
-        sb3[prev_nbcou].what = pprom;
+        singlebox_type3_promotions[prev_nbcou].where = sq;
+        singlebox_type3_promotions[prev_nbcou].what = pprom;
       }
     }
   }
@@ -3478,8 +3526,8 @@ void singleboxtype3_gen_wh_piece(square z, piece p)
 
     for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {
-      sb3[save_nbcou].where = initsquare;
-      sb3[save_nbcou].what = vide;
+      singlebox_type3_promotions[save_nbcou].where = initsquare;
+      singlebox_type3_promotions[save_nbcou].what = vide;
     }
   }
 }
@@ -3492,9 +3540,9 @@ void gorph(square i, Side camp)
 {
   numecoup const save_nbcou = current_move[nbply];
 
-  piece const *porph;
-  for (porph = orphanpieces; *porph!=vide; ++porph)
-    if (nbpiece[*porph]>0 || nbpiece[-*porph]>0)
+  PieNam const *porph;
+  for (porph = orphanpieces; *porph!=Empty; ++porph)
+    if (nbpiece[*porph]>0 || nbpiece[-(piece)*porph]>0)
     {
       if (camp == White)
       {
@@ -3515,8 +3563,8 @@ void gfriend(square i, Side camp)
 {
   numecoup const save_nbcou = current_move[nbply];
 
-  piece const *pfr;
-  for (pfr = orphanpieces; *pfr!=vide; ++pfr)
+  PieNam const *pfr;
+  for (pfr = orphanpieces; *pfr!=Empty; ++pfr)
     if (nbpiece[*pfr]>0)
     {
       if (camp==White)
@@ -3609,9 +3657,9 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
   else {
     /* ep capture */
     if ((abs(e[sq_departure])!=Orphan)   /* orphans cannot capture ep */
-        && (sq_arrival==ep[nbply-1] || sq_arrival==ep2[nbply - 1])
+        && (sq_arrival==ep[parent_ply[nbply]] || sq_arrival==ep2[nbply - 1])
         /* a pawn has just done a critical move */
-        && trait[nbply-1]!=camp)     /* the opp. moved before */
+        && trait[parent_ply[nbply]]!=camp)     /* the opp. moved before */
     {
       square prev_arrival;
 
@@ -3622,7 +3670,7 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
           move_generation_stack[current_move[1]].arrival= sq_arrival+dir_up;
       }
 
-      prev_arrival= move_generation_stack[current_move[nbply-1]].arrival;
+      prev_arrival= move_generation_stack[current_move[parent_ply[nbply]]].arrival;
       if (rightcolor(e[prev_arrival],camp))
         /* the pawn has the right color */
         empile(sq_departure,sq_arrival,prev_arrival);
@@ -3690,7 +3738,7 @@ void genpb(square sq_departure)
     /* not first rank */
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
         && PromSq(White,sq_departure+dir_up)
-        && next_singlebox_prom(vide,White)==vide)
+        && next_singlebox_prom(Empty,White)==Empty)
     {
       /* nothing */
     }
@@ -3730,7 +3778,7 @@ void genpn(square sq_departure)
     /* not last rank */
     if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
         && PromSq(Black,sq_departure+dir_down)
-        && next_singlebox_prom(vide,Black)==vide)
+        && next_singlebox_prom(Empty,Black)==Empty)
     {
       /* nothing */
     }

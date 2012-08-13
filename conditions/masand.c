@@ -8,6 +8,8 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/castling.h"
+#include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -73,6 +75,8 @@ void stip_insert_masand(slice_index si)
 static boolean observed(square on_this, square by_that)
 {
   boolean result;
+  Side const observed_side = e[by_that]>vide ? Black : White;
+  square const save_king_pos = king_square[observed_side];
 
   TraceFunctionEntry(__func__);
   TraceSquare(on_this);
@@ -80,20 +84,9 @@ static boolean observed(square on_this, square by_that)
   TraceFunctionParamListEnd();
 
   fromspecificsquare = by_that;
-  if (e[by_that] > vide)
-  {
-    square const save_king_pos = king_square[Black];
-    king_square[Black]= on_this;
-    result = rnechec(eval_fromspecificsquare);
-    king_square[Black]= save_king_pos;
-  }
-  else
-  {
-    square const save_king_pos = king_square[White];
-    king_square[White]= on_this;
-    result = rbechec(eval_fromspecificsquare);
-    king_square[White]= save_king_pos;
-  }
+  king_square[observed_side]= on_this;
+  result = rechec[observed_side](eval_fromspecificsquare);
+  king_square[observed_side]= save_king_pos;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -101,13 +94,12 @@ static boolean observed(square on_this, square by_that)
   return result;
 }
 
-static void change_observed(square observer_pos, boolean push)
+static void change_observed(square observer_pos)
 {
   square const *bnp;
 
   TraceFunctionEntry(__func__);
   TraceSquare(observer_pos);
-  TraceFunctionParam("%u",push);
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; bnp++)
@@ -117,16 +109,26 @@ static void change_observed(square observer_pos, boolean push)
         && *bnp!=observer_pos
         && observed(*bnp,observer_pos))
     {
-      ChangeColour(*bnp);
-      if (push)
-        PushChangedColour(colour_change_sp[nbply],
-                          colour_change_stack_limit,
-                          *bnp,
-                          e[*bnp]);
+      piece_change_side(&e[*bnp]);
+      spec_change_side(&spec[*bnp]);
+      push_side_change(&side_change_sp[nbply],side_change_stack_limit,*bnp);
+      restore_castling_rights(*bnp);
     }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static void undo_change_observed()
+{
+  change_rec const * rec;
+  for (rec = side_change_sp[parent_ply[nbply]];
+       rec<side_change_sp[nbply];
+       ++rec)
+  {
+    piece_change_side(&e[rec->square]);
+    spec_change_side(&spec[rec->square]);
+  }
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -149,12 +151,13 @@ stip_length_type masand_recolorer_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   if (echecc(opponent) && observed(king_square[opponent],sq_arrival))
   {
-    change_observed(sq_arrival,flag_outputmultiplecolourchanges);
+    change_observed(sq_arrival);
     TraceValue("%d\n",e[square_f1]);
     result = attack(next,n);
-    change_observed(sq_arrival,false);
+    undo_change_observed();
     TraceValue("%d\n",e[square_f1]);
   }
   else
@@ -192,11 +195,12 @@ stip_length_type masand_recolorer_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   if (echecc(opponent) && observed(king_square[opponent],sq_arrival))
   {
-    change_observed(sq_arrival,flag_outputmultiplecolourchanges);
+    change_observed(sq_arrival);
     result = defend(next,n);
-    change_observed(sq_arrival,false);
+    undo_change_observed();
   }
   else
     result = defend(next,n);

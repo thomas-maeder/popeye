@@ -55,7 +55,7 @@
 
 
               empile:       12946
-            jouecoup:        7864
+           play_move:        7864
         orig_rbechec:        4977
         orig_rnechec:        3421
 Loesung beendet. 
@@ -142,7 +142,7 @@ Loesung beendet.
 
 
               empile:       85582
-            jouecoup:       23420
+           play_move:       23420
         orig_rbechec:       19020
         orig_rnechec:        4465
 Loesung beendet. 
@@ -187,7 +187,7 @@ Loesung beendet.
 
 
               empile:       15613
-            jouecoup:        4975
+           play_move:        4975
         orig_rbechec:        2627
         orig_rnechec:        2490
 Loesung beendet. 
@@ -232,7 +232,7 @@ Loesung beendet.
 
 
               empile:     1143230
-            jouecoup:      571798
+           play_move:      571798
         orig_rbechec:      450679
         orig_rnechec:      148948
 Loesung beendet. 
@@ -302,7 +302,7 @@ Loesung beendet.
 
 
               empile:     1233542
-            jouecoup:      579907
+           play_move:      579907
         orig_rbechec:      464281
         orig_rnechec:      136191
 Loesung beendet. 
@@ -337,7 +337,7 @@ Loesung beendet.
   1.Lg5-f6 Tg1-g7   2.Lf6-c3 Lc5-b4   3.e7-e5 d5*e6 ep. # 
 
               empile:     1960552
-            jouecoup:      908704
+           play_move:      908698
         orig_rbechec:       32035
         orig_rnechec:      897045
 Loesung beendet. 
@@ -373,7 +373,7 @@ Loesung beendet.
   1.c4*d3 ep. + Kc2-b1   2.e7-e5 f5*e6 ep. # 
 
               empile:       46333
-            jouecoup:       30060
+           play_move:       30056
         orig_rbechec:        1097
         orig_rnechec:       29757
 Loesung beendet. 
@@ -409,7 +409,7 @@ Loesung beendet.
   1.Ke4-f3 Sf4-d5   2.Kf3-f4 Ke6-f5 # 
 
               empile:        4195
-            jouecoup:        2666
+           play_move:        2662
         orig_rbechec:         100
         orig_rnechec:        2612
 Loesung beendet. 
@@ -448,7 +448,7 @@ Loesung beendet.
 
 
               empile:         450
-            jouecoup:         157
+           play_move:         157
         orig_rbechec:          22
         orig_rnechec:         159
 Loesung beendet. 
@@ -483,7 +483,7 @@ Loesung beendet.
   1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 # 
 
               empile:      241616
-            jouecoup:       80971
+           play_move:       80965
         orig_rbechec:        9729
         orig_rnechec:       80965
 Loesung beendet. 
@@ -543,7 +543,7 @@ Michael Barth und Sven Trommler gewidmet
 
 
               empile:     2188565
-            jouecoup:      439423
+           play_move:      439423
         orig_rbechec:      453468
         orig_rnechec:      236397
 Loesung beendet. 
@@ -584,7 +584,7 @@ Loesung beendet.
   1.Kc3-b2 Kg5-f4   2.Kb2-c2 Kf4-e5   3.Kc2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
 
               empile:      645756
-            jouecoup:      348562
+           play_move:      348454
         orig_rbechec:      146342
         orig_rnechec:      203369
 Loesung beendet. 
@@ -645,7 +645,7 @@ Loesung beendet.
 
 
               empile:       46812
-            jouecoup:       19918
+           play_move:       19918
         orig_rbechec:           0
         orig_rnechec:       17810
 Loesung beendet. 
@@ -693,7 +693,7 @@ Loesung beendet.
 
 
               empile:     4619786
-            jouecoup:     1488855
+           play_move:     1488855
         orig_rbechec:      380591
         orig_rnechec:     1286861
 Loesung beendet. 
@@ -729,7 +729,7 @@ Loesung beendet.
   1.Kd3-c2   2.Kc2-b3   3.Ge3-a3   4.Kb3-c4   5.Kc4-c5   6.Kc5-b6   7.Kb6-c7   8.Kc7-d6   9.Kd6-e6  10.Ke6-f7  11.Kf7-g6  12.Kg6-f5  13.Kf5*f4  14.Kf4-g3  15.Kg3-f2  16.Kf2-e3  17.Ke3-d3  18.Ga3-e3  19.Kd3-e2 # 
 
               empile:      256166
-            jouecoup:      156847
+           play_move:      156828
         orig_rbechec:      118256
         orig_rnechec:      135617
 Loesung beendet. 
@@ -766,7 +766,7 @@ Loesung beendet.
   1.Ke2-d3 Lb5*c4   2.Le4-b7 Lc4-b5 # 
 
               empile:      101363
-            jouecoup:       35982
+           play_move:       35974
         orig_rbechec:       11138
         orig_rnechec:       35649
 Loesung beendet. 

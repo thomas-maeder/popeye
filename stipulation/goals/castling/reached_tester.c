@@ -4,6 +4,7 @@
 #include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
+#include "solving/castling.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -45,7 +46,7 @@ slice_index alloc_goal_castling_reached_tester_system(void)
 stip_length_type goal_castling_reached_tester_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  unsigned char const diff = castling_flag[nbply-1]-castling_flag[nbply];
+  unsigned char const diff = castling_flag[parent_ply[nbply]]-castling_flag[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

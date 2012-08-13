@@ -249,48 +249,6 @@ typedef struct {
   piece pc;
 } change_rec;
 
-/* some more comments about the elements of the structure below and what they are intended for are appreciated ... NG */
-typedef struct {
-	square          cdzz,			/* departure square           */
-			cazz,			/* arrival square             */
-			cpzz;			/* capture square             */
-	square          sqren;			/* rebirth square (Circe ...) */
-	piece           pjzz,			/* piece moving               */
-			ppri,			/* piece captured             */
-			ren_parrain,		/*                            */
-			norm_prom,		/*                            */
-			cir_prom;		/*                            */
-	piece           pjazz;			/* piece arriving             */
-	square          renkam;			/*                            */
-	unsigned int    numi;			/*                            */
-	int             sum;			/*                            */
-	boolean         promi,			/*                            */
-			bool_senti,		/*                            */
-			bool_norm_cham_prom,	/*                            */
-			bool_cir_cham_prom;	/*                            */
-	Side		tr;			/*                            */
-	Flags           speci,			/*                            */
-			ren_spec;		/*                            */
-	square		repub_k;		/*                            */
-	Flags           new_spec;		/*                            */
-	square		hurdle;			/*                            */
-	square		sb2where;		/*                            */
-	piece		sb2what;		/*                            */
-	square		sb3where;		/*                            */
-	piece		sb3what;		/*                            */
-	square		mren;			/*                            */
-	boolean		osc;			/*                            */
-	change_rec	*push_bottom,		/*                            */
-			*push_top;		/*                            */
-	square		roch_sq;		/*                            */
-	piece		roch_pc;		/*                            */
-	Flags		roch_sp;		/*                            */
-	piece		ghost_piece;		/*                            */
-	Flags		ghost_flags;		/*                            */
-	long int	bgl_wh,			/*                            */
-			bgl_bl;			/*                            */
-} coup;
-
 typedef struct {
 	move_generation_elmt	move;
 	square			mren;
@@ -348,8 +306,8 @@ typedef enum
 /* TODO reduce to 1 piece kind enumeration type */
 typedef enum
 {
-  Invalid,                 /* 0 */
-  Empty,                   /* 1 */
+  Empty,                   /* 0 */
+  Invalid,                 /* 1 */
   King,                    /* 2 */
   Pawn,                    /* 3 */
   Queen,                   /* 4 */
@@ -464,40 +422,82 @@ typedef enum
   NightRiderLion,        /* 113 */
   MaoRiderLion,          /* 114 */
   MoaRiderLion,          /* 115 */
-  AndernachGrasshopper,  /* 116 */
-  Friend,                /* 117 */
-  Dolphin,               /* 118 */
-  Rabbit,                /* 119 */
-  Bob,                   /* 120 */
-  EquiEnglish,           /* 121 */
-  EquiFrench,            /* 122 */
-  Querquisite,           /* 123 */
-  Bouncer,               /* 124 */
-  RookBouncer,           /* 125 */
-  BishopBouncer,         /* 126 */
-  ChinesePawn,           /* 127 */
-  RadialKnight,          /* 128 */
-  ReversePawn,           /* 129 */
-  RoseLocust,            /* 130 */
-  Zebu,                  /* 131 */
-  BouncyNightrider,      /* 132 */
-  SpiralSpringer20,      /* 133 */
-  SpiralSpringer40,      /* 134 */
-  SpiralSpringer11,      /* 135 */
-  SpiralSpringer33,      /* 136 */
-  Quintessence,          /* 137 */
-  DoubleRookHopper,      /* 138 */
-  DoubleBishopper,       /* 139 */
-  NonStopOrix,           /* 140 */
-  Treehopper,            /* 141 */
-  Leafhopper,            /* 142 */
-  GreaterTreehopper,     /* 143 */
-  GreaterLeafhopper,     /* 144 */
-  KangarooLion,          /* 145 */
-  Hunter0,               /* 146 */
+  Friend,                /* 116 */
+  Dolphin,               /* 117 */
+  Rabbit,                /* 118 */
+  Bob,                   /* 119 */
+  EquiEnglish,           /* 120 */
+  EquiFrench,            /* 121 */
+  Querquisite,           /* 122 */
+  Bouncer,               /* 123 */
+  RookBouncer,           /* 124 */
+  BishopBouncer,         /* 125 */
+  ChinesePawn,           /* 126 */
+  RadialKnight,          /* 127 */
+  ReversePawn,           /* 128 */
+  RoseLocust,            /* 129 */
+  Zebu,                  /* 130 */
+  BouncyNightrider,      /* 131 */
+  SpiralSpringer20,      /* 132 */
+  SpiralSpringer40,      /* 133 */
+  SpiralSpringer11,      /* 134 */
+  SpiralSpringer33,      /* 135 */
+  Quintessence,          /* 136 */
+  DoubleRookHopper,      /* 137 */
+  DoubleBishopper,       /* 138 */
+  NonStopOrix,           /* 139 */
+  Treehopper,            /* 140 */
+  Leafhopper,            /* 141 */
+  GreaterTreehopper,     /* 142 */
+  GreaterLeafhopper,     /* 143 */
+  KangarooLion,          /* 144 */
+  Hunter0,               /* 145 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;
+
+/* some more comments about the elements of the structure below and what they are intended for are appreciated ... NG */
+typedef struct {
+  square          cdzz,     /* departure square           */
+      cazz,     /* arrival square             */
+      cpzz;     /* capture square             */
+  square          sqren;      /* rebirth square (Circe ...) */
+  piece           pjzz,     /* piece moving               */
+      ppri,     /* piece captured             */
+      ren_parrain,    /*                            */
+      football_substitution;    /*                            */
+  PieNam norm_prom;    /*                            */
+  PieNam cir_prom;    /*                            */
+  piece           pjazz;      /* piece arriving             */
+  square          renkam;     /*                            */
+  unsigned int    numi;     /*                            */
+  int             sum;      /*                            */
+  boolean         promi,      /*                            */
+      bool_senti,   /*                            */
+      bool_norm_cham_prom,  /*                            */
+      bool_cir_cham_prom; /*                            */
+  Side    tr;     /*                            */
+  Flags           speci,      /*                            */
+      ren_spec;   /*                            */
+  square    repub_k;    /*                            */
+  Flags           new_spec;   /*                            */
+  square    hurdle;     /*                            */
+  square    sb2where;   /*                            */
+  piece   sb2what;    /*                            */
+  square    sb3where;   /*                            */
+  piece   sb3what;    /*                            */
+  square    mren;     /*                            */
+  boolean   osc;      /*                            */
+  change_rec  *push_bottom,   /*                            */
+      *push_top;    /*                            */
+  square    roch_sq;    /*                            */
+  piece   roch_pc;    /*                            */
+  Flags   roch_sp;    /*                            */
+  piece   ghost_piece;    /*                            */
+  Flags   ghost_flags;    /*                            */
+  long int  bgl_wh,     /*                            */
+      bgl_bl;     /*                            */
+} coup;
 
 typedef char PieceChar[2];
 typedef PieceChar       PieTable[PieceCount];
@@ -915,19 +915,15 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define SavePositionInDiagram(spec,sq) (PiecePositionsInDiagram[GetPieceId(spec)] = (sq))
 #define ClearPositionInDiagram(spec)   SavePositionInDiagram(spec,initsquare)
 
-#define encore()        (current_move[nbply] > current_move[nbply-1])
+#define encore()        (current_move[nbply] > current_move[parent_ply[nbply]])
 #define advers(camp)    ((camp) ? White : Black)
-#define get_side(piesqu)   (e[(piesqu)]<=roin ? Black : White)
 
 #define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))
 #define SETCOLOR(a,b)   (a)=((a)&~COLORFLAGS)+((b)&COLORFLAGS)
-#define CHANGECOLOR(a)  (a)^=BIT(Black)+BIT(White)
 
 #define imcheck(i, j) (!CondFlag[imitators] || imok((i), (j)))
 #define ridimcheck(sq, j, diff) (!CondFlag[imitators] || ridimok((sq), (j), (diff)))
 
-#define hopimcheck(sq, j, over, diff) (!checkhopim || hopimok((sq), (j), (over), (diff), (diff)))
-#define hopimmcheck(sq, j, over, diff, diff1) (!checkhopim || hopimok((sq), (j), (over), (diff), (diff1)))
 #define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))
 
 #define finligne(i,k,p,sq)      do {register int kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
@@ -968,21 +964,6 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
   (numgridlines && CrossesGridLines((sq1), (sq2))))
-
-#define PushMagic(sq, id1, id2, v) \
-{if (nbmagic < magicviews_size) \
-  {magicviews[nbmagic].piecesquare=(sq); \
-  magicviews[nbmagic].pieceid=(id1); \
-  magicviews[nbmagic].magicpieceid=(id2); \
-  magicviews[nbmagic++].vecnum=(v);}\
- else {FtlMsg(5);}}
-
-#define PushChangedColour(stack, limit, sq, pie) \
-  {if ((stack) - (limit) < 0) {\
-    (stack)->square=(sq); \
-    (stack)->pc=(pie); \
-    (stack)++;}\
-  else {flag_outputmultiplecolourchanges=false;}}
 
 #define ENEMYOBS(sq) \
   (TSTFLAG(spec[sq], Beamtet))

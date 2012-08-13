@@ -30,7 +30,7 @@
   1.Lf1*h3=T   2.Th3-h6   3.Th6-d6=D   4.Sg1-f3=L # 
 
               empile:       20952
-            jouecoup:       19806
+           play_move:       19790
         orig_rbechec:        3035
         orig_rnechec:       19676
 Loesung beendet. 
@@ -80,7 +80,7 @@ Loesung beendet.
 
 
               empile:      586762
-            jouecoup:      256173
+           play_move:      256173
         orig_rbechec:      254908
         orig_rnechec:      163284
 Loesung beendet. 
@@ -162,10 +162,10 @@ Loesung beendet.
       1...Kd4*e3 !
 
 
-              empile:       27168
-            jouecoup:       18522
+              empile:       27160
+           play_move:       18514
         orig_rbechec:        1374
-        orig_rnechec:       18389
+        orig_rnechec:       18381
 Loesung beendet. 
 
 
@@ -200,7 +200,7 @@ a)
   1.cDe6-c6=cS cDb6-b4=cS   2.cLd5-g2=cT cSb4-d3=cL # 
 
               empile:      992661
-            jouecoup:      899778
+           play_move:      899774
         orig_rbechec:       29739
         orig_rnechec:      898447
 b) sDh1-->h3
@@ -208,7 +208,7 @@ b) sDh1-->h3
   1.cLd5-b7=cT cDb6-d6=cS   2.cDe6-g4=cS cSd6-e4=cL # 
 
               empile:     1036462
-            jouecoup:      942577
+           play_move:      942573
         orig_rbechec:       30676
         orig_rnechec:      941179
 Loesung beendet. 
@@ -254,10 +254,10 @@ Loesung beendet.
           2.cSd6-e4=cL #
 
 
-              empile:       10017
-            jouecoup:        5709
-        orig_rbechec:         491
-        orig_rnechec:        5711
+              empile:       10061
+           play_move:        5705
+        orig_rbechec:         497
+        orig_rnechec:        5707
 Loesung beendet. 
 
 
@@ -308,10 +308,10 @@ Loesung beendet.
           2.De5-e6 #
 
 
-              empile:       20883
-            jouecoup:       13026
-        orig_rbechec:        1129
-        orig_rnechec:       13028
+              empile:       17746
+           play_move:       11406
+        orig_rbechec:        1099
+        orig_rnechec:       11408
 Loesung beendet. 
 
 
@@ -354,7 +354,7 @@ Loesung beendet.
 
 
               empile:       12197
-            jouecoup:        7552
+           play_move:        7552
         orig_rbechec:         604
         orig_rnechec:        7554
 Loesung beendet. 
@@ -416,7 +416,7 @@ Loesung beendet.
 
 
               empile:        6837
-            jouecoup:        4561
+           play_move:        4561
         orig_rbechec:         423
         orig_rnechec:        4563
 Loesung beendet. 
@@ -460,7 +460,7 @@ Loesung beendet.
 
 
               empile:        3519
-            jouecoup:        2170
+           play_move:        2170
         orig_rbechec:         230
         orig_rnechec:        2172
 Loesung beendet. 
@@ -522,10 +522,10 @@ Loesung beendet.
                   3.Se4-g5 #
 
 
-              empile:      122150
-            jouecoup:       65378
-        orig_rbechec:        7129
-        orig_rnechec:       63813
+              empile:      132768
+           play_move:       74018
+        orig_rbechec:        7799
+        orig_rnechec:       72453
 Loesung beendet. 
 
 
@@ -571,7 +571,7 @@ Loesung beendet.
   1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=ncS # 
 
               empile:      132630
-            jouecoup:       99221
+           play_move:       99165
         orig_rbechec:       17306
         orig_rnechec:       98824
 Loesung beendet. 
@@ -620,10 +620,126 @@ Loesung beendet.
           2.cDd1*f3=cS [+sBf7] #
 
 
-              empile:        6137
-            jouecoup:        3403
-        orig_rbechec:         298
-        orig_rnechec:        3405
+              empile:        6086
+           play_move:        3365
+        orig_rbechec:         297
+        orig_rnechec:        3367
+Loesung beendet. 
+
+
+
+Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
+        Bauerns in Chamaelons
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+            Chamaeleon f1
+          PlatzwechselCirce
+
+   1.cLf1-h3=cT !
+
+   1.cLf1-g2=cT !
+
+   1.cLf1*a6=cT [+scBf1=scD] !
+
+   1.cLf1*a6=cT [+scBf1=scS] !
+
+   1.cLf1*a6=cT [+scBf1=scT] !
+
+   1.cLf1*a6=cT [+scBf1=scL] !
+
+   1.cLf1*a6=cT [+sBf1=sD] !
+
+   1.cLf1*a6=cT [+sBf1=sS] !
+
+   1.cLf1*a6=cT [+sBf1=sT] !
+
+   1.cLf1*a6=cT [+sBf1=sL] !
+
+   1.cLf1-b5=cT !
+
+   1.cLf1-c4=cT !
+
+   1.cLf1-d3=cT !
+
+   1.cLf1-e2=cT !
+
+
+              empile:           7
+           play_move:          14
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+
+Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
+        Bauerns in Chamaelons
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -T   .   .   .   .   7
+|                                   |
+6   .   .   B   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+            Chamaeleon d7
+        AntiEquipollentsCirce
+
+   1.c6-c7 !
+
+   1.c6*d7=wcB[wcBd7->e8=wcD] !
+
+   1.c6*d7=wcB[wcBd7->e8=wcS] !
+
+   1.c6*d7=wcB[wcBd7->e8=wcT] !
+
+   1.c6*d7=wcB[wcBd7->e8=wcL] !
+
+   1.c6*d7[wBd7->e8=wD] !
+
+   1.c6*d7[wBd7->e8=wS] !
+
+   1.c6*d7[wBd7->e8=wT] !
+
+   1.c6*d7[wBd7->e8=wL] !
+
+
+              empile:           2
+           play_move:           9
+        orig_rbechec:           0
+        orig_rnechec:           0
 Loesung beendet. 
 
 

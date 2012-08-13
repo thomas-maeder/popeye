@@ -77,7 +77,7 @@
 
 
               empile:       22767
-            jouecoup:       13420
+           play_move:       13420
         orig_rbechec:        4181
         orig_rnechec:       16284
 Loesung beendet. 
@@ -114,7 +114,7 @@ a)
   1.Sf6-h5 Tf7-f5   2.Dg4-h3 + Kg2*h3 # 
 
               empile:      248155
-            jouecoup:      227414
+           play_move:      227410
         orig_rbechec:       30563
         orig_rnechec:      232190
 b) wSg5-->g3
@@ -122,7 +122,7 @@ b) wSg5-->g3
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 # 
 
               empile:      274024
-            jouecoup:      251593
+           play_move:      251589
         orig_rbechec:       36195
         orig_rnechec:      255032
 Loesung beendet. 
@@ -198,7 +198,7 @@ a)
 
 
               empile:       14329
-            jouecoup:        9913
+           play_move:        9913
         orig_rbechec:        2152
         orig_rnechec:        9873
 b) s#3
@@ -224,7 +224,7 @@ b) s#3
 
 
               empile:      704502
-            jouecoup:      251119
+           play_move:      251119
         orig_rbechec:      280338
         orig_rnechec:      190474
 Loesung beendet. 

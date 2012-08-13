@@ -99,7 +99,7 @@
 
 
               empile:       19114
-            jouecoup:       17107
+           play_move:       17107
         orig_rbechec:         710
         orig_rnechec:       16983
 Loesung beendet. 
@@ -184,7 +184,7 @@ Loesung beendet.
 
 
               empile:     3524046
-            jouecoup:     2714475
+           play_move:     2714475
         orig_rbechec:     1261721
         orig_rnechec:     1625109
 Loesung beendet. 
@@ -220,7 +220,7 @@ Loesung beendet.
 
 
               empile:         139
-            jouecoup:          81
+           play_move:          81
         orig_rbechec:          28
         orig_rnechec:          83
 Loesung beendet. 
@@ -255,7 +255,7 @@ Loesung beendet.
 
 
               empile:          43
-            jouecoup:          46
+           play_move:          46
         orig_rbechec:           1
         orig_rnechec:          47
 Loesung beendet. 
@@ -291,7 +291,7 @@ Loesung beendet.
 
 
               empile:        1175
-            jouecoup:         438
+           play_move:         438
         orig_rbechec:         438
         orig_rnechec:         361
 Loesung beendet. 
@@ -383,7 +383,7 @@ a)
 
 
               empile:        2112
-            jouecoup:        1926
+           play_move:        1926
         orig_rbechec:         218
         orig_rnechec:        1885
 b) sBc7-->e7
@@ -552,7 +552,7 @@ b) sBc7-->e7
 
 
               empile:        2342
-            jouecoup:        2187
+           play_move:        2187
         orig_rbechec:         298
         orig_rnechec:        2083
 Loesung beendet. 
@@ -587,7 +587,7 @@ Loesung beendet.
   1.e4*d3 ep. Lf3*g4   2.f4-f3 Lg4-e6 # 
 
               empile:       51931
-            jouecoup:       28686
+           play_move:       28682
         orig_rbechec:        9570
         orig_rnechec:       28041
 Loesung beendet. 
@@ -623,7 +623,7 @@ Loesung beendet.
   1...e5*f6 ep. [+sBf7]   2.Lb4-e7 f6*e7 [+sLf8]   3.Ta7-d7 e7*f8=D # 
 
               empile:        2842
-            jouecoup:        1665
+           play_move:        1660
         orig_rbechec:         391
         orig_rnechec:        1591
 Loesung beendet. 
@@ -665,7 +665,7 @@ Loesung beendet.
   7  (Tb7-b6 )
 
               empile:        8875
-            jouecoup:        6446
+           play_move:        6434
         orig_rbechec:        1844
         orig_rnechec:        5964
 Loesung beendet. 
@@ -737,7 +737,7 @@ N.Y. State Chess Association, 16.8.1894
  30  (c2-c3 )
 
               empile:      209885
-            jouecoup:      147506
+           play_move:      147506
         orig_rbechec:      114182
         orig_rnechec:       42422
 Loesung beendet. 
@@ -834,7 +834,7 @@ Loesung beendet.
  48  (Td1-e1 )
 
               empile:    21294950
-            jouecoup:    11417804
+           play_move:    11417804
         orig_rbechec:    11247025
         orig_rnechec:     3041248
 Loesung beendet. 

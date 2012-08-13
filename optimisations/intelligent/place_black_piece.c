@@ -376,20 +376,20 @@ void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
                                                                 placed_on))
   {
-    piece pp;
-    for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       switch (pp)
       {
-        case dn:
-        case tn:
-        case fn:
+        case Queen:
+        case Rook:
+        case Bishop:
           intelligent_place_pinned_promoted_black_rider(placed_index,
-                                                        pp,
+                                                        -pp,
                                                         placed_on,
                                                         go_on);
           break;
 
-        case cn:
+        case Knight:
           intelligent_place_pinned_promoted_black_knight(placed_index,placed_on,go_on);
           break;
 
@@ -415,20 +415,20 @@ void intelligent_place_promoted_black_pawn(unsigned int placed_index,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
                                                                 placed_on))
   {
-    piece pp;
-    for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       switch (pp)
       {
-        case dn:
-        case tn:
-        case fn:
+        case Queen:
+        case Rook:
+        case Bishop:
           intelligent_place_promoted_black_rider(placed_index,
-                                                 pp,
+                                                 -pp,
                                                  placed_on,
                                                  go_on);
           break;
 
-        case cn:
+        case Knight:
           intelligent_place_promoted_black_knight(placed_index,placed_on,go_on);
           break;
 

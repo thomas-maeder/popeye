@@ -67,7 +67,7 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
 
 
               empile:        3236
-            jouecoup:        2423
+           play_move:        2423
         orig_rbechec:         292
         orig_rnechec:        2430
 Loesung beendet. 
@@ -103,7 +103,7 @@ Loesung beendet.
   1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 # 
 
               empile:     7230355
-            jouecoup:     6007469
+           play_move:     6007461
         orig_rbechec:      704015
         orig_rnechec:     5708105
 Loesung beendet. 
@@ -142,7 +142,7 @@ Loesung beendet.
 
 
               empile:         957
-            jouecoup:         450
+           play_move:         450
         orig_rbechec:         451
         orig_rnechec:         255
 Loesung beendet. 
@@ -184,7 +184,7 @@ Loesung beendet.
 
 
               empile:       12118
-            jouecoup:        5197
+           play_move:        5197
         orig_rbechec:        5199
         orig_rnechec:        3517
 Loesung beendet. 
@@ -224,7 +224,7 @@ ddlkl
   1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-g5 Te3-a3 # 
 
               empile:      136142
-            jouecoup:      100689
+           play_move:      100665
         orig_rbechec:       14499
         orig_rnechec:      100230
 Bearbeitung abgebrochen. 
@@ -262,7 +262,7 @@ Bearbeitung abgebrochen.
 
 
               empile:         580
-            jouecoup:         470
+           play_move:         470
         orig_rbechec:          89
         orig_rnechec:         472
 Loesung beendet. 
@@ -299,7 +299,7 @@ a)
   1.Lg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Lh2-b8 La1-d4 # 
 
               empile:      376629
-            jouecoup:      338698
+           play_move:      338692
         orig_rbechec:       17391
         orig_rnechec:      329815
 b) Farbwechsel
@@ -307,7 +307,7 @@ b) Farbwechsel
   1.Kb1-a2 Kh1-g2   2.La1-b1 Kg2-d5   3.Ka2-a1 Lg1-d4 # 
 
               empile:      334970
-            jouecoup:      296480
+           play_move:      296474
         orig_rbechec:       16483
         orig_rnechec:      288500
 Loesung beendet. 
@@ -342,7 +342,7 @@ Loesung beendet.
   1.Kh8-g7 Lb8-a7   2.Kg7-a1 Ka8-e4   3.Lg8-a2 La7-d4 # 
 
               empile:      252499
-            jouecoup:      213277
+           play_move:      213271
         orig_rbechec:       14519
         orig_rnechec:      207564
 Loesung beendet. 
@@ -378,7 +378,7 @@ Loesung beendet.
   1.Ka8-b7   2.Kb7-d5   3.Lb8-e5   4.Le5-d4   5.Ld4-e4   6.Kd5-e5   7.Ke5-f4   8.Le4*f3   9.Lf3-g3  10.Kf4-e4  11.Lg3-e5  12.Ke4-a8  13.Le5-b8 Lg4-f3 # 
 
               empile:      870337
-            jouecoup:      841137
+           play_move:      841123
         orig_rbechec:      455306
         orig_rnechec:      841123
 Loesung beendet. 

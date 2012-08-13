@@ -24,7 +24,7 @@ White at the move, but Black in check
 
 the side to play can capture the king
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           1
 solution finished. 
@@ -58,7 +58,7 @@ the side to play can capture the king
   1.Kb8-a8 Sc4-b6 # 
 
               empile:          21
-            jouecoup:          15
+           play_move:          13
         orig_rbechec:           5
         orig_rnechec:          14
 solution finished. 
@@ -91,7 +91,7 @@ solution finished.
   1.g7-g5 h5*g6 ep. 
 
               empile:           9
-            jouecoup:           7
+           play_move:           5
         orig_rbechec:           3
         orig_rnechec:           5
 solution finished. 
@@ -124,7 +124,7 @@ solution finished.
   1...h3-h4   2.Bh6-g7 0-0-0 
 
               empile:         384
-            jouecoup:         195
+           play_move:         192
         orig_rbechec:          52
         orig_rnechec:         168
 solution finished. 
@@ -157,7 +157,7 @@ solution finished.
   1.Rg7-g4 Bh7-b1   2.Qh8-c3 + Ka3-a2 ##! 
 
               empile:       15132
-            jouecoup:       11148
+           play_move:       11144
         orig_rbechec:        8913
         orig_rnechec:        5813
 solution finished. 
@@ -190,7 +190,7 @@ solution finished.
   1.Kg4-h3 Ke4-f3   2.g5-g4 + Kf3*g2 ## 
 
               empile:       99152
-            jouecoup:       43229
+           play_move:       43225
         orig_rbechec:       36661
         orig_rnechec:        6718
 solution finished. 
@@ -223,7 +223,7 @@ solution finished.
   1.Qb5-e2 Ka3-b3   2.Qe2-b2 + c3*b2 # 
 
               empile:       11919
-            jouecoup:        9140
+           play_move:        9136
         orig_rbechec:        8233
         orig_rnechec:        2301
 solution finished. 
@@ -256,7 +256,7 @@ hr#1.5 - don't write long solutions because Black must mate immediately
   1...b3-b2 # 
 
               empile:          10
-            jouecoup:          11
+           play_move:          10
         orig_rbechec:          11
         orig_rnechec:           2
 solution finished. 
@@ -289,7 +289,7 @@ hr#2 - don't write long solutions because Black must mate immediately
   1.f3-f4 b3-b2 # 
 
               empile:          18
-            jouecoup:          20
+           play_move:          18
         orig_rbechec:          18
         orig_rnechec:           4
 solution finished. 
@@ -322,7 +322,7 @@ stop solving when the goal is reached
   1.h3-h4 a5*b4 x 
 
               empile:           5
-            jouecoup:           7
+           play_move:           5
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -355,7 +355,7 @@ solution finished.
   1.Qf6-d8 # 
 
               empile:          76
-            jouecoup:          55
+           play_move:          54
         orig_rbechec:           8
         orig_rnechec:          55
 solution finished. 
@@ -390,7 +390,7 @@ a)
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 b) hs#2
@@ -398,7 +398,7 @@ PostKeyPlay not applicable - ignored
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 

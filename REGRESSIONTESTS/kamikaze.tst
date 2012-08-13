@@ -28,14 +28,14 @@ a)
 
 
               empile:          11
-            jouecoup:           1
+           play_move:           1
         orig_rbechec:           0
         orig_rnechec:           0
 b) Circe
 
 
               empile:          11
-            jouecoup:           1
+           play_move:           1
         orig_rbechec:           0
         orig_rnechec:           0
 c) Circe  bSh7-->f1  zf11
@@ -44,7 +44,7 @@ c) Circe  bSh7-->f1  zf11
 
 
               empile:          11
-            jouecoup:           1
+           play_move:           1
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -83,7 +83,7 @@ solution finished.
 
 
               empile:        7156
-            jouecoup:        7129
+           play_move:        7129
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -132,7 +132,7 @@ originally occupied by the other exchanger
 
 
               empile:       47971
-            jouecoup:       47397
+           play_move:       47397
         orig_rbechec:       11794
         orig_rnechec:           0
 solution finished. 

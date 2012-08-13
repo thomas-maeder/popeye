@@ -24,7 +24,7 @@ White at the move, but Black in check
 
 the side to play can capture the king
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           1
 solution finished. 
@@ -56,7 +56,7 @@ no ser-##2 solution because of stalemate after 1.Kh2-h3
 
 
               empile:          29
-            jouecoup:          19
+           play_move:          19
         orig_rbechec:          19
         orig_rnechec:           4
 solution finished. 
@@ -89,7 +89,7 @@ solution finished.
   1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##! 
 
               empile:        2250
-            jouecoup:        1763
+           play_move:        1760
         orig_rbechec:        1206
         orig_rnechec:        1023
 solution finished. 
@@ -122,7 +122,7 @@ solution finished.
   1.Sb5-d4   2.Sd4*e2   3.0-0 
 
               empile:         862
-            jouecoup:         410
+           play_move:         407
         orig_rbechec:         467
         orig_rnechec:         368
 solution finished. 
@@ -155,7 +155,7 @@ solution finished.
   1.Qb5-e2   2.Qe2-b2 + c3*b2 # 
 
               empile:        1198
-            jouecoup:         850
+           play_move:         847
         orig_rbechec:         688
         orig_rnechec:         293
 solution finished. 
@@ -188,7 +188,7 @@ SetPlay not applicable - ignored
 
 
               empile:           0
-            jouecoup:           0
+           play_move:           0
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -221,7 +221,7 @@ no solution in 2 - Black has to deliver mate immediately
   1.h3-h4 b3-b2 # 
 
               empile:          18
-            jouecoup:          20
+           play_move:          18
         orig_rbechec:          18
         orig_rnechec:           4
 solution finished. 
@@ -254,7 +254,7 @@ stop solving when the goal is reached
   1.h3-h4 Ka8*a7 x 
 
               empile:          11
-            jouecoup:          13
+           play_move:          11
         orig_rbechec:           0
         orig_rnechec:          11
 solution finished. 

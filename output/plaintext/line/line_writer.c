@@ -109,7 +109,7 @@ static void write_ply_history(slice_index si)
     ply const start_ply = 2;
     --write_line_status.length;
     nbply = write_line_status.ply_history[write_line_status.length];
-    if (nbply>start_ply && is_end_of_intro_series[nbply-1])
+    if (nbply>start_ply && is_end_of_intro_series[parent_ply[nbply]])
     {
       write_line_status.next_movenumber = 1;
       write_line_status.side = trait[nbply];
@@ -183,7 +183,7 @@ static slice_index alloc_writers_for_one_side(Goal goal)
 {
   slice_index const result = alloc_proxy_slice();
   slice_index const replaying = alloc_pipe(STReplayingMoves);
-  slice_index const replayer = alloc_move_replayer_slice();
+  slice_index const replayer = alloc_move_player_slice();
   slice_index const landing = alloc_pipe(STLandingAfterMovePlay);
   slice_index const proxyIntermediate = alloc_proxy_slice();
   slice_index const proxyLast = alloc_proxy_slice();
@@ -274,7 +274,7 @@ stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_ind
   TraceFunctionParamListEnd();
 
   write_move_number_if_necessary(si);
-  output_plaintext_write_move(nbply);
+  output_plaintext_write_move();
   write_potential_check(si);
   StdChar(blank);
 
@@ -308,7 +308,7 @@ stip_length_type output_plaintext_line_last_move_writer_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   write_move_number_if_necessary(si);
-  output_plaintext_write_move(nbply);
+  output_plaintext_write_move();
   if (!output_plaintext_goal_writer_replaces_check_writer(goal_type))
     write_potential_check(si);
   if (goal_type!=no_goal)

@@ -65,7 +65,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
 
 
               empile:        3987
-            jouecoup:        2826
+           play_move:        2826
         orig_rbechec:        1356
         orig_rnechec:        4573
 solution finished. 
@@ -102,7 +102,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   1...Sg2-f4   2.Kf2-e1 Sf4-d3[wK<>bK]   3.Kh3-h2 Ke1-f1   4.Kh2-h1 Se2-g3[wK<>bK] # 
 
               empile:      320339
-            jouecoup:      297756
+           play_move:      297742
         orig_rbechec:       86186
         orig_rnechec:      523808
 solution finished. 
@@ -149,7 +149,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
  11  (Ra1-b1 )
 
               empile:   119811906
-            jouecoup:   115442243
+           play_move:   115442236
         orig_rbechec:    20385541
         orig_rnechec:   212984718
 solution finished. 
@@ -185,7 +185,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   1.Bb7-c8   2.Sc3-d1[wK<>bK]   3.Kf2-f1 Sf5-g3[wK<>bK] # 
 
               empile:        9932
-            jouecoup:        9910
+           play_move:        9906
         orig_rbechec:        3409
         orig_rnechec:       17677
 solution finished. 
@@ -221,7 +221,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   1.Kd2-e1 Bf1-h3[wK<>bK]   2.d6-d5 0-0[wK<>bK] # 
 
               empile:       21539
-            jouecoup:       19824
+           play_move:       19820
         orig_rbechec:        2941
         orig_rnechec:       37263
 solution finished. 
@@ -258,7 +258,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   1.Kb8-a7 Kb5-a5   2.b7-b5 c5*b6 ep.[wK<>bK] # 
 
               empile:       14621
-            jouecoup:       13930
+           play_move:       13922
         orig_rbechec:        2031
         orig_rnechec:       26384
 solution finished. 
@@ -296,7 +296,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
 
 
               empile:        2012
-            jouecoup:        1453
+           play_move:        1453
         orig_rbechec:         366
         orig_rnechec:        2647
 solution finished. 
@@ -345,7 +345,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
 
 
               empile:       32168
-            jouecoup:       22073
+           play_move:       22073
         orig_rbechec:        8295
         orig_rnechec:       37576
 solution finished. 

@@ -102,6 +102,8 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "solving/selfcheck_guard.h"
+#include "solving/king_square.h"
+#include "solving/moving_pawn_promotion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "solving/battle_play/attack_play.h"
@@ -135,6 +137,45 @@
 #include "conditions/royal_square.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/cage.h"
+#include "conditions/circe/kamikaze.h"
+#include "conditions/circe/parrain.h"
+#include "conditions/circe/volage.h"
+#include "conditions/circe/promotion.h"
+#include "conditions/circe/frischauf.h"
+#include "conditions/circe/super.h"
+#include "conditions/circe/king_rebirth_avoider.h"
+#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/super.h"
+#include "conditions/sentinelles.h"
+#include "conditions/duellists.h"
+#include "conditions/haunted_chess.h"
+#include "conditions/ghost_chess.h"
+#include "conditions/kobul.h"
+#include "conditions/andernach.h"
+#include "conditions/antiandernach.h"
+#include "conditions/chameleon_pursuit.h"
+#include "conditions/norsk.h"
+#include "conditions/protean.h"
+#include "conditions/losing.h"
+#include "conditions/einstein/einstein.h"
+#include "conditions/einstein/reverse.h"
+#include "conditions/einstein/anti.h"
+#include "conditions/traitor.h"
+#include "conditions/volage.h"
+#include "conditions/magic_square.h"
+#include "conditions/tibet.h"
+#include "conditions/degradierung.h"
+#include "conditions/phantom.h"
+#include "conditions/marscirce/anti.h"
+#include "conditions/line_chameleon.h"
+#include "conditions/haan.h"
+#include "conditions/castling_chess.h"
+#include "conditions/exchange_castling.h"
+#include "conditions/transmuting_kings/super.h"
+#include "conditions/amu/attack_counter.h"
+#include "conditions/imitator.h"
+#include "conditions/football.h"
+#include "conditions/castling_chess.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -162,10 +203,19 @@
 #include "solving/trivial_end_filter.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/play_suppressor.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
+#include "solving/moving_pawn_promotion.h"
+#include "solving/post_move_iteration.h"
+#include "pieces/side_change.h"
+#include "pieces/attributes/magic.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/hurdle_colour_changing.h"
+#include "pieces/attributes/chameleon.h"
+#include "pieces/attributes/chameleon.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/circe.h"
 #include "conditions/anticirce/anticirce.h"
@@ -543,7 +593,7 @@ static void initialise_piece_flags(void)
       }
 
       /* known limitation: will print rK rather than just K as usual */
-      if (abs(e[*bnp])==King && (CondFlag[protean] || CondFlag[kobulkings] || flag_magic))
+      if (abs(e[*bnp])==King && (CondFlag[protean] || CondFlag[kobulkings] || TSTFLAG(PieSpExFlags,Magic)))
         SETFLAG(spec[*bnp],Royal);
     }
   }
@@ -747,7 +797,6 @@ static boolean verify_position(slice_index si)
 {
   square const *bnp;
   piece     p;
-  ply           n;
   int      cp, pp, tp, op, fp;
 
   jouegenre = false;
@@ -820,9 +869,6 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  flag_magic = TSTFLAG(PieSpExFlags, Magic);
-  flag_outputmultiplecolourchanges = flag_magic || CondFlag[masand];
-
 #ifdef _SE_DECORATE_SOLUTION_
   se_init();
 #endif
@@ -847,8 +893,7 @@ static boolean verify_position(slice_index si)
           flagleofamilyonly = false;
         flagveryfairy = true;
       }
-      if (flag_magic
-          && attackfunctions[p]==unsupported_uncalled_attackfunction)
+      if (TSTFLAG(PieSpExFlags,Magic) && !magic_is_piece_supported(p))
       {
         VerifieMsg(MagicAndFairyPieces);
         return false;
@@ -872,10 +917,6 @@ static boolean verify_position(slice_index si)
     flagfee = true;
     flagsimplehoppers = true;
   }
-
-  if (!CondFlag[noiprom])
-    for (n = 0; n <= maxply; n++)
-      Iprom[n] = false;
 
   flaglegalsquare=
       TSTFLAG(PieSpExFlags, Jigger)
@@ -1043,8 +1084,8 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
 
   eval_2 = eval_white = eval_ortho;
-  rbechec = &orig_rbechec;
-  rnechec = &orig_rnechec;
+  rechec[White] = &orig_rbechec;
+  rechec[Black] = &orig_rnechec;
 
   flaglegalsquare = flaglegalsquare
       || CondFlag[bichro]
@@ -1335,8 +1376,8 @@ static boolean verify_position(slice_index si)
   if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type3)) {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    rnechec = &singleboxtype3_rnechec;
-    rbechec = &singleboxtype3_rbechec;
+    rechec[Black] = &singleboxtype3_rnechec;
+    rechec[White] = &singleboxtype3_rbechec;
     gen_wh_piece = &singleboxtype3_gen_wh_piece;
     gen_bl_piece = &singleboxtype3_gen_bl_piece;
   }
@@ -1488,6 +1529,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[magicsquare]
       || TSTFLAG(PieSpExFlags, Chameleon)
       || CondFlag[einstein]
+      || CondFlag[reveinstein]
+      || CondFlag[antieinstein]
       || CondFlag[volage]
       || TSTFLAG(PieSpExFlags, Volage)
       || CondFlag[degradierung]
@@ -1573,6 +1616,8 @@ static boolean verify_position(slice_index si)
       || (king_square[Black] != initsquare && abs(e[king_square[Black]]) != King)
       || TSTFLAG(PieSpExFlags, Chameleon)
       || CondFlag[einstein]
+      || CondFlag[reveinstein]
+      || CondFlag[antieinstein]
       || CondFlag[degradierung]
       || CondFlag[norsk]
       || CondFlag[messigny]
@@ -1582,63 +1627,62 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(PieSpExFlags, HalfNeutral)
       || CondFlag[geneva]
       || CondFlag[dynasty] /* TODO why? */
-      || flag_magic)
+      || TSTFLAG(PieSpExFlags,Magic))
   {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
-
-  superbas = CondFlag[antisuper] ? square_a1 : square_a1-1;
 
   /* init promotioncounter and checkcounter */
   pp = 0;
   cp = 0;
   fp = 0;
   {
-    piece p;
-    piece firstprompiece;
+    PieNam p;
+    PieNam prev_prom_piece = Empty;
+    PieNam firstprompiece;
 
     if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
-      firstprompiece = roib;
+      firstprompiece = King;
     else if ((CondFlag[singlebox] && SingleBoxType!=singlebox_type1) || CondFlag[football])
-      firstprompiece = pb;
+      firstprompiece = Pawn;
     else
-      firstprompiece = db;
+      firstprompiece = Queen;
 
-    for (p = firstprompiece; p<=derbla; ++p)
+    for (p = firstprompiece; p<PieceCount; ++p)
     {
-      getprompiece[p] = vide;
-      getfootballpiece[p] = vide;
+      getprompiece[p] = Empty;
+      getfootballpiece[p] = Empty;
 
       if (exist[p])
       {
-          if ((p!=pb || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
-              && (p!=roib
+          if ((p!=Pawn || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
+              && (p!=King
                   || CondFlag[losingchess]
                   || CondFlag[dynasty]
                   || CondFlag[extinction])
-              && p!=dummyb
-              && p!=pbb
-              && p!=bspawnb
-              && p!=spawnb
-              && p!=reversepb
+              && p!=Dummy
+              && p!=BerolinaPawn
+              && p!=SuperBerolinaPawn
+              && p!=SuperPawn
+              && p!=ReversePawn
               && (!CondFlag[promotiononly] || promonly[p]))
           {
-            getprompiece[pp] = p;
-            pp = p;
+            getprompiece[prev_prom_piece] = p;
+            prev_prom_piece = p;
           }
 
           if (footballpromlimited ? footballpiece[p] :
-        		  ((p!=pb || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
-              && (p!=roib
+        		  ((p!=Pawn || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
+              && (p!=King
                   || CondFlag[losingchess]
                   || CondFlag[dynasty]
                   || CondFlag[extinction])
-              && p!=dummyb
-              && p!=pbb
-              && p!=bspawnb
-              && p!=spawnb
-              && p!=reversepb)
+              && p!=Dummy
+              && p!=BerolinaPawn
+              && p!=SuperBerolinaPawn
+              && p!=SuperPawn
+              && p!=ReversePawn)
               )
           {
             getfootballpiece[fp] = p;
@@ -1646,22 +1690,22 @@ static boolean verify_position(slice_index si)
           }
 
           if (!footballpromlimited) {
-        	  footballpiece[p] = (p!=roib
+        	  footballpiece[p] = (p!=King
                   || CondFlag[losingchess]
                   || CondFlag[dynasty]
                   || CondFlag[extinction])
-              && p!=dummyb
-              && p!=pbb
-              && p!=bspawnb
-              && p!=spawnb
-              && p!=reversepb;
+              && p!=Dummy
+              && p!=BerolinaPawn
+              && p!=SuperBerolinaPawn
+              && p!=SuperPawn
+              && p!=ReversePawn;
       	  }
 
-        if (p>fb && p!=dummyb) {
+        if (p>Bishop && p!=Dummy) {
           /* only fairy pieces until now ! */
           optim_neutralretractable = false;
           add_ortho_mating_moves_generation_obstacle();
-          if (p!=hamstb)
+          if (p!=Hamster)
           {
             checkpieces[cp] = p;
             cp++;
@@ -1670,7 +1714,7 @@ static boolean verify_position(slice_index si)
       }
     }
 
-    checkpieces[cp] = vide;
+    checkpieces[cp] = Empty;
   }
 
   tp = 0;
@@ -1703,7 +1747,7 @@ static boolean verify_position(slice_index si)
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
-  orphanpieces[op] = vide;
+  orphanpieces[op] = Empty;
 
   if ((calc_refl_king[White]
        && king_square[White] != initsquare
@@ -1732,13 +1776,16 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  for (n = 2; n <= maxply; n++)
-    inum[n] = inum[1];
-
   if ((CondFlag[chamchess] || CondFlag[linechamchess])
       && TSTFLAG(PieSpExFlags, Chameleon))
   {
     VerifieMsg(ChameleonPiecesAndChess);
+    return false;
+  }
+
+  if (CondFlag[platzwechselrochade] && CondFlag[haanerchess])
+  {
+    VerifieMsg(NonsenseCombination);
     return false;
   }
 
@@ -1762,8 +1809,8 @@ static boolean verify_position(slice_index si)
   {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    rbechec = &annan_rbechec;
-    rnechec = &annan_rnechec;
+    rechec[White] = &annan_rbechec;
+    rechec[Black] = &annan_rnechec;
   }
 
   if (CondFlag[losingchess])
@@ -1777,8 +1824,8 @@ static boolean verify_position(slice_index si)
     }
 
     /* no king is ever in check */
-    rbechec = &losingchess_rbnechec;
-    rnechec = &losingchess_rbnechec;
+    rechec[White] = &losingchess_rbnechec;
+    rechec[Black] = &losingchess_rbnechec;
 
     /* capturing moves are "longer" than non-capturing moves */
     black_length = &len_losingchess;
@@ -1791,18 +1838,7 @@ static boolean verify_position(slice_index si)
   CLEARFL(castling_flag[0]);
   /* castling_supported has to be adjusted if there are any problems */
   /* with castling and fairy conditions/pieces */
-  castling_supported = !(
-      /* Let's see if transmuting kings can castle without
-         problems ... */
-      /* Unfortunately they can't ! So I had to exclude them
-         again ...  */
-      /* A wK moving from anywhere to e1 and then like a queen from
-         e1 to g1 would get the castling right when this last move is
-         retracted  (:-( */
-      /* transmuting kings and castling enabled again
-       */
-      CondFlag[patience]
-      || anyparrain);
+  castling_supported = !(CondFlag[patience]|| anyparrain);
 
   complex_castling_through_flag = CondFlag[imitators];
 
@@ -1837,8 +1873,8 @@ static boolean verify_position(slice_index si)
   /* a small hack to enable ep keys */
   trait[1] = no_side;
 
-  whpwr[2]=whpwr[1]=true;
-  blpwr[2]=blpwr[1]=true;
+  platzwechsel_rochade_allowed[White][2]=platzwechsel_rochade_allowed[White][1]=true;
+  platzwechsel_rochade_allowed[Black][2]=platzwechsel_rochade_allowed[Black][1]=true;
 
   if (CondFlag[exclusive] && !exclusive_verifie_position(si))
     return false;
@@ -1848,10 +1884,6 @@ static boolean verify_position(slice_index si)
   {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-  }
-
-  if (!CondFlag[patience]) {           /* needed because of twinning */
-    PatienceB = false;
   }
 
   supergenre = supergenre
@@ -1901,8 +1933,8 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  RB_[1] = king_square[White];
-  RN_[1] = king_square[Black];
+  prev_king_square[White][1] = king_square[White];
+  prev_king_square[Black][1] = king_square[Black];
 
   if (CondFlag[SAT] || CondFlag[strictSAT])
   {
@@ -1994,7 +2026,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[takemake]
       || CondFlag[exclusive]
       || CondFlag[isardam]
-      || CondFlag[ohneschach])
+      || CondFlag[ohneschach]
+      || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(Black);
   if (flagmummer[White]
       || CondFlag[messigny]
@@ -2004,7 +2037,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[takemake]
       || CondFlag[exclusive]
       || CondFlag[isardam]
-      || CondFlag[ohneschach])
+      || CondFlag[ohneschach]
+      || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(White);
 
   if (flagmummer[Black])
@@ -2020,6 +2054,7 @@ boolean moves_equal(coup const *move1, coup const *move2)
   return (move1->cdzz==move2->cdzz
           && move1->cazz==move2->cazz
           && move1->norm_prom==move2->norm_prom
+          && move1->football_substitution==move2->football_substitution
           && move1->cir_prom==move2->cir_prom
           && move1->bool_cir_cham_prom==move2->bool_cir_cham_prom
           && move1->bool_norm_cham_prom==move2->bool_norm_cham_prom
@@ -2042,62 +2077,64 @@ boolean moves_equal(coup const *move1, coup const *move2)
           );
 }
 
-void current(ply ply_id, coup *mov)
+void current(coup *mov)
 {
-  numecoup const coup_id = ply_id==nbply ? current_move[nbply] : current_move[ply_id];
+  numecoup const coup_id = current_move[nbply];
   square const sq_arrival = move_generation_stack[coup_id].arrival;
 
-  mov->tr =          trait[ply_id];
+  mov->tr =          trait[nbply];
   mov->cdzz =           move_generation_stack[coup_id].departure;
   mov->cazz =            sq_arrival;
   mov->cpzz =            move_generation_stack[coup_id].capture;
-  mov->pjzz =            pjoue[ply_id];
-  mov->norm_prom =       current_promotion_of_moving[ply_id];
-  mov->ppri =            pprise[ply_id];
-  mov->sqren =           current_circe_rebirth_square[ply_id];
-  mov->cir_prom =        current_promotion_of_reborn[ply_id];
+  mov->pjzz =            pjoue[nbply];
+  /* at most one of the two current_promotion_of_*moving[nbply] is different from vide! */
+  mov->norm_prom = current_promotion_of_moving[nbply]+current_promotion_of_reborn_moving[nbply]-Empty;
+  mov->football_substitution = current_football_substitution[nbply];
+  mov->ppri =            pprise[nbply];
+  mov->sqren =           current_circe_rebirth_square[nbply];
+  mov->cir_prom =        current_promotion_of_capturee[nbply];
 
-  mov->renkam = current_anticirce_rebirth_square[ply_id];
-  mov->promi =  Iprom[ply_id];
-  mov->numi =     inum[ply_id] - (mov->promi ? 1 : 0);
+  mov->renkam = current_anticirce_rebirth_square[nbply];
+  mov->promi =  promotion_of_moving_into_imitator[nbply];
+  mov->numi =     number_of_imitators - (mov->promi ? 1 : 0);
   /* Promoted imitator will be output 'normally'
      from the next1 move on. */
   mov->sum = isquare[0] - im0;
-  mov->speci = jouespec[ply_id];
+  mov->speci = jouespec[nbply];
 
   /* hope the following works with parrain too */
-  mov->ren_spec =  spec[current_circe_rebirth_square[ply_id]];
-  mov->bool_senti = senti[ply_id];
-  mov->ren_parrain = ren_parrain[ply_id];
-  mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[ply_id];
-  mov->bool_cir_cham_prom = is_reborn_chameleon_promoted[ply_id];
-  mov->pjazz =     jouearr[ply_id];
+  mov->ren_spec =  spec[current_circe_rebirth_square[nbply]];
+  mov->bool_senti = senti[nbply];
+  mov->ren_parrain = ren_parrain[nbply];
+  mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[nbply];
+  mov->bool_cir_cham_prom = promotion_of_circe_reborn_into_chameleon[nbply];
+  mov->pjazz =     jouearr[nbply];
   if (CondFlag[republican])
-    republican_current(ply_id,mov);
+    republican_current(nbply,mov);
   mov->new_spec =  mov->renkam == initsquare ? spec[sq_arrival] : spec[mov->renkam];
   mov->hurdle =    chop[coup_id];
-  mov->sb3where =  sb3[coup_id].where;
-  mov->sb3what = sb3[coup_id].what;
+  mov->sb3where =  singlebox_type3_promotions[coup_id].where;
+  mov->sb3what = singlebox_type3_promotions[coup_id].what;
   if (mov->sb3what!=vide && mov->sb3where==mov->cdzz)
     mov->pjzz = mov->pjazz = mov->sb3what;
 
-  mov->sb2where = sb2[ply_id].where;
-  mov->sb2what = sb2[ply_id].what;
-  mov->mren = cmren[coup_id];
-  mov->osc = oscillatedKs[ply_id];
+  mov->sb2where = singlebox_type2_latent_pawn_promotions[nbply].where;
+  mov->sb2what = singlebox_type2_latent_pawn_promotions[nbply].what;
+  mov->mren = mars_circe_rebirth_square[coup_id];
+  mov->osc = oscillatedKs[nbply];
   /* following only overwritten if change stack is saved in
    * append_to_top_table() */
   /* redundant to init push_top */
   mov->push_bottom = NULL;
-  mov->roch_sq=rochade_sq[coup_id];
-  mov->roch_pc=rochade_pc[coup_id];
-  mov->roch_sp=rochade_sp[coup_id];
+  mov->roch_sq=castling_partner_origin[coup_id];
+  mov->roch_pc=castling_partner_kind[coup_id];
+  mov->roch_sp=castling_partner_spec[coup_id];
 
   mov->ghost_piece = e[mov->cdzz];
   mov->ghost_flags = spec[mov->cdzz];
   if (CondFlag[BGL]) {
-    mov->bgl_wh = BGL_values[White][ply_id];
-    mov->bgl_bl = BGL_values[Black][ply_id];
+    mov->bgl_wh = BGL_values[White][nbply];
+    mov->bgl_bl = BGL_values[Black][nbply];
   }
 }
 
@@ -2603,7 +2640,7 @@ static void solve_twin(slice_index si,
   Message(NewLine);
 
   WRITE_COUNTER(empile);
-  WRITE_COUNTER(jouecoup);
+  WRITE_COUNTER(play_move);
   WRITE_COUNTER(orig_rbechec);
   WRITE_COUNTER(orig_rnechec);
 
@@ -2719,7 +2756,7 @@ static Token iterate_twins(Token prev_token)
         stip_insert_bgl_filters(root_slice);
 
       if (TSTFLAG(PieSpExFlags,Kamikaze))
-        stip_insert_kamikaze_goal_filters(root_slice);
+        stip_insert_kamikaze(root_slice);
 
       stip_insert_root_slices(root_slice);
       stip_insert_intro_slices(root_slice);
@@ -2824,9 +2861,6 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[isardam])
         stip_insert_isardam_legality_testers(root_slice);
 
-      if (CondFlag[circeassassin])
-        stip_insert_king_assassination_avoiders(root_slice);
-
       if (CondFlag[patience])
         stip_insert_patience_chess(root_slice);
 
@@ -2892,14 +2926,158 @@ static Token iterate_twins(Token prev_token)
       if (royal_square[Black]!=initsquare || royal_square[White]!=initsquare)
         stip_insert_royal_square_handlers(root_slice);
 
-      if (anycirce)
+      if (anyparrain)
+        stip_insert_circe_parrain_rebirth_handlers(root_slice);
+      else if (CondFlag[supercirce] || CondFlag[april])
+        stip_insert_supercirce_rebirth_handlers(root_slice);
+      else if (CondFlag[circecage])
+        stip_insert_circe_cage(root_slice);
+      else if (CondFlag[circeassassin])
+        stip_insert_circe_assassin(root_slice);
+      else if (anycirce)
+      {
         stip_insert_circe_rebirth_handlers(root_slice);
+        if (TSTFLAG(PieSpExFlags,Kamikaze))
+          stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
+      }
 
-      if (CondFlag[circecage])
-        stip_insert_circe_cage_rebirth_handlers(root_slice);
+      if (anycirce && !rex_circe)
+        stip_insert_circe_king_rebirth_avoiders(root_slice);
+
+      if (anycirce)
+      {
+        if  (TSTFLAG(PieSpExFlags,Volage) || CondFlag[volage])
+          stip_insert_circe_volage_recolorers(root_slice);
+        if  (anycirprom)
+          stip_insert_circe_promoters(root_slice);
+      }
+
+      if (CondFlag[sentinelles])
+        stip_insert_sentinelles_inserters(root_slice);
+
+      if (TSTFLAG(PieSpExFlags,Magic))
+        stip_insert_magic_pieces_recolorers(root_slice);
+
+      if (CondFlag[antisuper])
+        stip_insert_antisupercirce_rebirth_handlers(root_slice);
+      else if (anyanticirce)
+        stip_insert_anticirce_rebirth_handlers(root_slice);
+
+      if (CondFlag[duellist])
+        stip_insert_duellists(root_slice);
+
+      if (CondFlag[hauntedchess])
+        stip_insert_haunted_chess(root_slice);
+
+      if (CondFlag[ghostchess])
+        stip_insert_ghost_chess(root_slice);
+
+      if (kobulking[White] || kobulking[Black])
+        stip_insert_kobul_king_substitutors(root_slice);
+
+      if (TSTFLAG(PieSpExFlags,HalfNeutral))
+        stip_insert_half_neutral_recolorers(root_slice);
+
+      if (CondFlag[andernach])
+        stip_insert_andernach(root_slice);
+
+      if (CondFlag[antiandernach])
+        stip_insert_antiandernach(root_slice);
+
+      if (CondFlag[champursue])
+        stip_insert_chameleon_pursuit(root_slice);
+
+      if (CondFlag[norsk])
+        stip_insert_norsk_chess(root_slice);
+
+      if (CondFlag[protean] || TSTFLAG(PieSpExFlags,Protean))
+        stip_insert_protean_chess(root_slice);
+
+      if (castling_supported && CondFlag[losingchess])
+        stip_insert_losing_chess_castling_rights_removers(root_slice);
+
+      if (castling_supported)
+        stip_insert_castling(root_slice);
+
+      if (CondFlag[einstein])
+        stip_insert_einstein_moving_adjusters(root_slice);
+
+      if (CondFlag[reveinstein])
+        stip_insert_reverse_einstein_moving_adjusters(root_slice);
+
+      if (CondFlag[antieinstein])
+        stip_insert_anti_einstein_moving_adjusters(root_slice);
+
+      if (CondFlag[traitor])
+        stip_insert_traitor_side_changers(root_slice);
+
+      if (CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
+        stip_insert_volage_side_changers(root_slice);
+
+      if (CondFlag[magicsquare])
+        stip_insert_magic_square_side_changers(root_slice);
+
+      if (CondFlag[dbltibet])
+        stip_insert_double_tibet(root_slice);
+      else if (CondFlag[tibet])
+        stip_insert_tibet(root_slice);
+
+      if (CondFlag[degradierung])
+        stip_insert_degradierung(root_slice);
+
+      if (TSTFLAG(PieSpExFlags,Chameleon))
+        stip_insert_chameleon(root_slice);
+
+      if (CondFlag[frischauf])
+        stip_insert_frischauf_promotee_markers(root_slice);
+
+      if (!CondFlag[losingchess])
+	      stip_insert_king_square_adjusters(root_slice);
+
+      if (CondFlag[phantom])
+        stip_insert_phantom_en_passant_adjusters(root_slice);
+      else if (anyantimars)
+        stip_insert_antimars_en_passant_adjusters(root_slice);
+      else
+        stip_insert_en_passant_adjusters(root_slice);
+
+      if (CondFlag[linechamchess])
+        stip_insert_line_chameleon_chess(root_slice);
+
+      stip_insert_moving_pawn_promoters(root_slice);
+
+      if (CondFlag[haanerchess])
+        stip_insert_haan_chess(root_slice);
+
+      if (CondFlag[castlingchess])
+        stip_insert_castling_chess(root_slice);
+
+      if (CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king])
+        stip_insert_supertransmuting_kings(root_slice);
+
+      if (CondFlag[amu])
+        stip_insert_amu_attack_counter(root_slice);
+
+      if (OptFlag[mutuallyexclusivecastling])
+        stip_insert_mutual_castling_rights_adjusters(root_slice);
+
+      if (CondFlag[imitators])
+        stip_insert_imitator(root_slice);
+
+      if (CondFlag[football])
+        stip_insert_football_chess(root_slice);
+
+      stip_insert_post_move_iteration(root_slice);
+
+      if (CondFlag[platzwechselrochade])
+        stip_insert_exchange_castling(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);
+#endif
+
+#if defined(DOMEASURE)
+      stip_insert_move_counters(root_slice);
 #endif
 
       resolve_proxies(&root_slice);

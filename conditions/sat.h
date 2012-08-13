@@ -2,6 +2,7 @@
 #define CONDITIONS_SAT_H
 
 #include "solving/battle_play/attack_play.h"
+#include "solving/battle_play/defense_play.h"
 
 extern boolean SATCheck;
 

@@ -41,7 +41,7 @@ a)
 
 
               empile:        8190
-            jouecoup:        4947
+           play_move:        4947
         orig_rbechec:         434
         orig_rnechec:        4949
 b) Circe
@@ -60,7 +60,7 @@ b) Circe
 
 
               empile:        7398
-            jouecoup:        4457
+           play_move:        4457
         orig_rbechec:         396
         orig_rnechec:        4459
 Loesung beendet. 

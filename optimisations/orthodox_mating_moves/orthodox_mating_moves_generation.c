@@ -1,5 +1,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pydata.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -74,16 +76,16 @@ static void GenMatingPawn(square sq_departure,
     else {
       /* not first rank */
       /* ep captures */
-      if (ep[nbply-1]!=initsquare
-          && trait[nbply-1]!=trait[nbply]
-          && (sq_departure+dir_up+dir_right==ep[nbply-1]
-              || sq_departure+dir_up+dir_left==ep[nbply-1]))
+      if (ep[parent_ply[nbply]]!=initsquare
+          && trait[parent_ply[nbply]]!=trait[nbply]
+          && (sq_departure+dir_up+dir_right==ep[parent_ply[nbply]]
+              || sq_departure+dir_up+dir_left==ep[parent_ply[nbply]]))
       {
         if (nbply==2)    /* ep.-key  standard pawn */
-          move_generation_stack[current_move[1]].arrival= ep[nbply-1]+dir_down;
+          move_generation_stack[current_move[1]].arrival= ep[parent_ply[nbply]]+dir_down;
         empile(sq_departure,
-               ep[nbply-1],
-               move_generation_stack[current_move[nbply-1]].arrival);
+               ep[parent_ply[nbply]],
+               move_generation_stack[current_move[parent_ply[nbply]]].arrival);
       }
 
       /* single step */
@@ -140,16 +142,16 @@ static void GenMatingPawn(square sq_departure,
 
     /* not last rank */
     /* ep captures */
-    if (ep[nbply-1]!=initsquare
-        && trait[nbply-1] != trait[nbply]
-        && (sq_departure+dir_down+dir_left==ep[nbply-1]
-            || sq_departure+dir_down+dir_right==ep[nbply-1]))
+    if (ep[parent_ply[nbply]]!=initsquare
+        && trait[parent_ply[nbply]] != trait[nbply]
+        && (sq_departure+dir_down+dir_left==ep[parent_ply[nbply]]
+            || sq_departure+dir_down+dir_right==ep[parent_ply[nbply]]))
     {
       if (nbply==2)    /* ep.-key  standard pawn */
-        move_generation_stack[current_move[1]].arrival= ep[nbply-1]+dir_up;
+        move_generation_stack[current_move[1]].arrival= ep[parent_ply[nbply]]+dir_up;
       empile(sq_departure,
-             ep[nbply-1],
-             move_generation_stack[current_move[nbply-1]].arrival);
+             ep[parent_ply[nbply]],
+             move_generation_stack[current_move[parent_ply[nbply]]].arrival);
     }
 
     /* single step */

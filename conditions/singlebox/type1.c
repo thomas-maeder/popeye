@@ -1,13 +1,39 @@
 #include "conditions/singlebox/type1.h"
 #include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
+
+PieNam next_singlebox_prom(PieNam p, Side c)
+{
+  PieNam pprom;
+  PieNam result = Empty;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(p);
+  TraceEnumerator(Side,c,"");
+  TraceFunctionParamListEnd();
+
+  for (pprom = getprompiece[p]; pprom!=Empty; pprom = getprompiece[pprom])
+  {
+    piece const colored = c==White ? pprom : -pprom;
+    if (pprom!=Pawn && nbpiece[colored]<nr_piece(game_array)[pprom])
+    {
+      result = pprom;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TracePiece(result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static boolean singlebox_officer_out_of_box(void)
 {
@@ -53,54 +79,16 @@ boolean singlebox_type1_illegal(void)
   return singlebox_officer_out_of_box() || singlebox_pawn_out_of_box();
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STSingleBoxType1LegalityTester);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_singlebox_type1(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STSingleBoxType1LegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

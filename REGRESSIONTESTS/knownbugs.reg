@@ -29,7 +29,7 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
 
 
               empile:          47
-            jouecoup:          47
+           play_move:          47
         orig_rbechec:           1
         orig_rnechec:          48
 solution finished. 
@@ -69,7 +69,7 @@ a)
 
 
               empile:          23
-            jouecoup:          23
+           play_move:          23
         orig_rbechec:           0
         orig_rnechec:           0
 b) SingleBox    Type2
@@ -80,7 +80,7 @@ b) SingleBox    Type2
 
 
               empile:          24
-            jouecoup:          28
+           play_move:          28
         orig_rbechec:           0
         orig_rnechec:           0
 c) wBa8 
@@ -91,7 +91,7 @@ c) wBa8
 
 
               empile:          24
-            jouecoup:          28
+           play_move:          28
         orig_rbechec:           0
         orig_rnechec:           0
 solving interrupted. 
@@ -127,7 +127,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
 
 
               empile:          66
-            jouecoup:          54
+           play_move:          54
         orig_rbechec:           4
         orig_rnechec:          55
 solution finished. 
@@ -163,7 +163,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
 
 
               empile:          38
-            jouecoup:          37
+           play_move:          37
         orig_rbechec:           4
         orig_rnechec:          38
 solution finished. 

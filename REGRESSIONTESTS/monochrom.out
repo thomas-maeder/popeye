@@ -34,7 +34,7 @@
 
 
               empile:      111928
-            jouecoup:       44496
+           play_move:       44496
         orig_rbechec:       15329
         orig_rnechec:       31594
 Loesung beendet. 
@@ -76,7 +76,7 @@ a)
   1.b7-b8=T   2.Tb8-c8 # 
 
               empile:         145
-            jouecoup:         107
+           play_move:          91
         orig_rbechec:          26
         orig_rnechec:          98
 b) wBb7-->d7
@@ -92,7 +92,7 @@ b) wBb7-->d7
   1.d7-d8=T   2.Td8-e8 # 
 
               empile:         150
-            jouecoup:         113
+           play_move:          95
         orig_rbechec:          27
         orig_rnechec:         103
 c) wBb7-->f7
@@ -108,7 +108,7 @@ c) wBb7-->f7
   1.f7-f8=T   2.Tf8-g8 # 
 
               empile:         130
-            jouecoup:         103
+           play_move:          85
         orig_rbechec:          26
         orig_rnechec:          93
 Loesung beendet. 

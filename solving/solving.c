@@ -24,7 +24,7 @@
 #include "solving/battle_play/setplay.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/single_move_generator_with_king_capture.h"
-#include "solving/castling_intermediate_move_generator.h"
+#include "solving/castling.h"
 #include "solving/single_move_generator.h"
 #include "solving/king_move_generator.h"
 #include "debugging/trace.h"

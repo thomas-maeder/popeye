@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 static void remember_to_keep_checking_line_open(square from, square to,
-                                                piece type, int delta)
+                                                PieNam type, int delta)
 {
   int const diff = to-from;
 
@@ -20,7 +20,7 @@ static void remember_to_keep_checking_line_open(square from, square to,
   TracePiece(type);
   TraceFunctionParamListEnd();
 
-  assert(type>vide);
+  assert(type>Empty);
 
   switch (type)
   {
@@ -116,7 +116,7 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
 }
 
 static void front_check_by_promotee_rider(unsigned int index_of_checker,
-                                          piece promotee_type,
+                                          PieNam promotee_type,
                                           square via,
                                           unsigned int vec_start,
                                           unsigned int vec_end)
@@ -198,24 +198,24 @@ static void front_check_by_promotee(unsigned int index_of_checker, square via)
   TraceFunctionParamListEnd();
 
   {
-    piece pp;
-    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (pp!=db
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+      if (pp!=Queen
           && intelligent_reserve_front_check_by_promotee(white[index_of_checker].diagram_square,
                                                          pp,
                                                          via))
       {
         switch (pp)
         {
-          case tb:
-            front_check_by_promotee_rider(index_of_checker,tb,via,vec_rook_start,vec_rook_end);
+          case Rook:
+            front_check_by_promotee_rider(index_of_checker,Rook,via,vec_rook_start,vec_rook_end);
             break;
 
-          case fb:
-            front_check_by_promotee_rider(index_of_checker,fb,via,vec_bishop_start,vec_bishop_end);
+          case Bishop:
+            front_check_by_promotee_rider(index_of_checker,Bishop,via,vec_bishop_start,vec_bishop_end);
             break;
 
-          case cb:
+          case Knight:
             front_check_by_promotee_knight(index_of_checker,via);
             break;
 
@@ -276,8 +276,8 @@ static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_
       && intelligent_reserve_front_check_by_pawn_without_capture(white[index_of_checker].diagram_square,
                                                                  via))
   {
-    piece pp;
-    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
       /* geometry doesn't allow for an interceptable check by a pawn that
        * doesn't capture */
       if (GuardDir[pp-Pawn][check_from].dir==guard_dir_check_uninterceptable)
@@ -312,15 +312,15 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
                                                               via,
                                                               check_from))
   {
-    piece pp;
-    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+    PieNam pp;
+    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
     {
       int const dir = CheckDir[pp][king_square[Black]-check_from];
       if (dir!=0)
         switch (pp)
         {
-          case db:
-          case tb:
+          case Queen:
+          case Rook:
             if (is_line_empty(check_from,king_square[Black],dir))
             {
               SetPiece(pp,check_from,white[index_of_checker].flags);
@@ -330,8 +330,8 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
             }
             break;
 
-          case fb:
-          case cb:
+          case Bishop:
+          case Knight:
             SetPiece(pp,check_from,white[index_of_checker].flags);
             intelligent_guard_flights();
             break;
@@ -450,7 +450,7 @@ static void generate_front_check(square rear_pos)
 
 static void rear_check_by_promotee(unsigned int index_of_checker,
                                    numvec start, numvec end,
-                                   piece checker_type)
+                                   PieNam checker_type)
 {
   Flags const checker_flags = white[index_of_checker].flags;
   numvec k;
@@ -492,24 +492,24 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
 
 static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
 {
-  piece pp;
+  PieNam pp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParamListEnd();
 
-  for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+  for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
     switch (pp)
     {
-      case db:
+      case Queen:
         rear_check_by_promotee(index_of_checker,vec_queen_start,vec_queen_end,pp);
         break;
 
-      case tb:
+      case Rook:
         rear_check_by_promotee(index_of_checker,vec_rook_start,vec_rook_end,pp);
         break;
 
-      case fb:
+      case Bishop:
         rear_check_by_promotee(index_of_checker,vec_bishop_start,vec_bishop_end,pp);
         break;
 
@@ -638,15 +638,15 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
 static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_index,
                                                          square check_from)
 {
-  piece pp;
+  PieNam pp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
   TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
-  for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-    if ((pp==db || pp==tb)
+  for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+    if ((pp==Queen || pp==Rook)
         && intelligent_reserve_promoting_white_pawn_moves_from_to(white[checker_index].diagram_square,
                                                                   pp,
                                                                   check_from))
@@ -749,7 +749,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
 {
   square const pawn_origin = white[checker_index].diagram_square;
   Flags const pawn_spec = white[checker_index].flags;
-  piece pp;
+  PieNam pp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
@@ -757,8 +757,8 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-    if ((pp==db || pp==fb)
+  for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+    if ((pp==Queen || pp==Bishop)
         && intelligent_reserve_promoting_white_pawn_moves_from_to(pawn_origin,
                                                                   pp,
                                                                   check_from))

@@ -6,7 +6,8 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  py.h utilities/boolean.h position/position.h pylang.h \
  solving/battle_play/attack_play.h stipulation/slice.h \
  stipulation/slice_type.h py1.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h pydata.h pyproc.h pydata.h \
+ stipulation/goals/goals.h pydata.h conditions/haunted_chess.h \
+ solving/battle_play/defense_play.h pydata.h pyproc.h \
  stipulation/help_play/branch.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
  stipulation/fork.h pyproof.h stipulation/slice.h stipulation/pipe.h \
@@ -22,8 +23,8 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
- stipulation/branch.h stipulation/temporary_hacks.h platform/maxtime.h \
- debugging/trace.h
+ stipulation/branch.h stipulation/temporary_hacks.h solving/castling.h \
+ solving/en_passant.h platform/maxtime.h debugging/trace.h
 
 optimisations/intelligent/intelligent.h:
 
@@ -67,9 +68,13 @@ stipulation/goals/goals.h:
 
 pydata.h:
 
-pyproc.h:
+conditions/haunted_chess.h:
+
+solving/battle_play/defense_play.h:
 
 pydata.h:
+
+pyproc.h:
 
 stipulation/help_play/branch.h:
 
@@ -118,6 +123,10 @@ optimisations/intelligent/mate/generate_doublechecking_moves.h:
 stipulation/branch.h:
 
 stipulation/temporary_hacks.h:
+
+solving/castling.h:
+
+solving/en_passant.h:
 
 platform/maxtime.h:
 
@@ -1010,7 +1019,8 @@ optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/intelligent.h position/position.h \
  stipulation/goals/goals.h solving/battle_play/attack_play.h \
  stipulation/slice.h optimisations/intelligent/moves_left.h \
- debugging/trace.h
+ solving/castling.h solving/battle_play/defense_play.h \
+ solving/en_passant.h debugging/trace.h
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -1059,5 +1069,11 @@ solving/battle_play/attack_play.h:
 stipulation/slice.h:
 
 optimisations/intelligent/moves_left.h:
+
+solving/castling.h:
+
+solving/battle_play/defense_play.h:
+
+solving/en_passant.h:
 
 debugging/trace.h:

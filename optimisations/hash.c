@@ -104,7 +104,11 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/solving.h"
 #include "solving/avoid_unsolvable.h"
+#include "solving/castling.h"
+#include "solving/en_passant.h"
 #include "conditions/bgl.h"
+#include "conditions/duellists.h"
+#include "conditions/haunted_chess.h"
 #include "options/nontrivial.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -1114,7 +1118,7 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
+    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
       len++;
 
     /* coding of no. of imitators and average of one
@@ -1216,8 +1220,8 @@ static byte *CommonEncode(byte *bp,
     }
   }
   if (CondFlag[duellist]) {
-    *bp++ = (byte)(whduell[nbply] - square_a1);
-    *bp++ = (byte)(blduell[nbply] - square_a1);
+    *bp++ = (byte)(duellists[White][nbply] - square_a1);
+    *bp++ = (byte)(duellists[Black][nbply] - square_a1);
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
@@ -1235,8 +1239,8 @@ static byte *CommonEncode(byte *bp,
     /* The number of imitators has to be coded too to avoid
      * ambiguities.
      */
-    *bp++ = (byte)inum[nbply];
-    for (imi_idx = 0; imi_idx<inum[nbply]; imi_idx++)
+    *bp++ = (byte)number_of_imitators;
+    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
       *bp++ = (byte)(isquare[imi_idx]-square_a1);
   }
 

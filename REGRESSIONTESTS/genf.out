@@ -36,7 +36,7 @@
 
 
               empile:          16
-            jouecoup:          15
+           play_move:          15
         orig_rbechec:           5
         orig_rnechec:          16
 Loesung beendet. 
@@ -72,7 +72,7 @@ Loesung beendet.
 
 
               empile:          65
-            jouecoup:          41
+           play_move:          41
         orig_rbechec:           0
         orig_rnechec:          42
 Loesung beendet. 
@@ -108,7 +108,7 @@ Loesung beendet.
 
 
               empile:          84
-            jouecoup:          42
+           play_move:          42
         orig_rbechec:          21
         orig_rnechec:          43
 Loesung beendet. 

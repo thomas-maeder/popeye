@@ -50,7 +50,7 @@
 
 
               empile:       91987
-            jouecoup:       61196
+           play_move:       61196
         orig_rbechec:        6197
         orig_rnechec:       70434
 Loesung beendet. 
@@ -127,7 +127,7 @@ Loesung beendet.
 
 
               empile:       32577
-            jouecoup:       20509
+           play_move:       20509
         orig_rbechec:        9147
         orig_rnechec:       27234
 Loesung beendet. 
