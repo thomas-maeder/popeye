@@ -1,4 +1,5 @@
 #include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/capture_fork.h"
 #include "pydata.h"
 #include "conditions/circe/cage.h"
 #include "conditions/einstein/einstein.h"
@@ -82,67 +83,62 @@ static square do_rebirth(Side trait_ply)
   square const prev_rb = prev_king_square[White][nbply];
   square const prev_rn = prev_king_square[Black][nbply];
   square result;
+  piece pi_reborn;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (pi_captured==vide)
-    result = initsquare;
-  else
+  if (anyclone
+      && sq_departure!=prev_rn && sq_departure!=prev_rb)
+    /* Circe Clone - new implementation
+    ** captured pieces are reborn as pieces
+    ** of the same type as the capturing piece
+    ** if the latter one is not royal.
+    */
+    /* change type of pieces according to colour */
+    pi_reborn = ((pi_departing * pi_captured < 0)
+                 ? -pi_departing
+                 : pi_departing);
+    /* If it is a pawn give it the pawn-attribut.
+    ** Otherwise delete it - the captured piece may
+    ** have been a pawn, but is not anymore.
+    */
+  else if (anytraitor)
   {
-    piece pi_reborn;
-    if (anyclone
-        && sq_departure!=prev_rn && sq_departure!=prev_rb)
-      /* Circe Clone - new implementation
-      ** captured pieces are reborn as pieces
-      ** of the same type as the capturing piece
-      ** if the latter one is not royal.
-      */
-      /* change type of pieces according to colour */
-      pi_reborn = ((pi_departing * pi_captured < 0)
-                   ? -pi_departing
-                   : pi_departing);
-      /* If it is a pawn give it the pawn-attribut.
-      ** Otherwise delete it - the captured piece may
-      ** have been a pawn, but is not anymore.
-      */
-    else if (anytraitor)
-    {
-      pi_reborn = -pi_captured;
-      spec_change_side(&spec_pi_captured);
-    }
-    else if (CondFlag[chamcirce])
-      pi_reborn= ChamCircePiece(pi_captured);
-    else if (CondFlag[antieinstein])
-      pi_reborn= einstein_increase_piece(pi_captured);
-    else
-      pi_reborn= pi_captured;
-
-    if (CondFlag[couscous])
-      result = (*circerenai)(nbply,
-                                 pi_arriving,
-                                 spec_pi_moving,
-                                 sq_capture,
-                                 sq_departure,
-                                 sq_arrival,
-                                 advers(trait_ply));
-    else
-      result = (*circerenai)(nbply,
-                                 pi_reborn,
-                                 spec_pi_captured,
-                                 sq_capture,
-                                 sq_departure,
-                                 sq_arrival,
-                                 trait_ply);
-
-    if (CondFlag[contactgrid] && nogridcontact(result))
-      result = initsquare;
-
-    if (e[result]==vide)
-      circe_do_rebirth(result,pi_reborn,spec_pi_captured);
-    else
-      result = initsquare;
+    pi_reborn = -pi_captured;
+    spec_change_side(&spec_pi_captured);
   }
+  else if (CondFlag[chamcirce])
+    pi_reborn= ChamCircePiece(pi_captured);
+  else if (CondFlag[antieinstein])
+    pi_reborn= einstein_increase_piece(pi_captured);
+  else
+    pi_reborn= pi_captured;
+
+  if (CondFlag[couscous])
+    result = (*circerenai)(nbply,
+                               pi_arriving,
+                               spec_pi_moving,
+                               sq_capture,
+                               sq_departure,
+                               sq_arrival,
+                               advers(trait_ply));
+  else
+    result = (*circerenai)(nbply,
+                               pi_reborn,
+                               spec_pi_captured,
+                               sq_capture,
+                               sq_departure,
+                               sq_arrival,
+                               trait_ply);
+
+  if (CondFlag[contactgrid] && nogridcontact(result))
+    result = initsquare;
+
+  if (e[result]==vide)
+    circe_do_rebirth(result,pi_reborn,spec_pi_captured);
+  else
+    result = initsquare;
 
   TraceFunctionExit(__func__);
   TraceSquare(result);
@@ -283,6 +279,8 @@ void stip_insert_circe_rebirth_handlers(slice_index si)
                                            STIsardamDefenderFinder,
                                            &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
+
+  stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

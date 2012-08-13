@@ -95,6 +95,7 @@ static slice_type const fork_slice_types[] =
     STCastlingChessMovePlayer,
     STExchangeCastlingMovePlayer,
     STCirceKingRebirthAvoider,
+    STCirceCaptureFork,
     STMovingPawnToImitatorPromoter
 };
 
@@ -220,6 +221,7 @@ static slice_type const binary_slice_types[] =
     STCastlingChessMovePlayer,
     STExchangeCastlingMovePlayer,
     STCirceKingRebirthAvoider,
+    STCirceCaptureFork,
     STMovingPawnToImitatorPromoter
 };
 

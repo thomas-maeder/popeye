@@ -140,6 +140,7 @@ static slice_index const slice_rank_order[] =
   STPromoteAnticirceRebornIntoChameleon,
   STAnticirceRebornPromoter,
   STCirceParrainRebirthHandler,
+  STCirceCaptureFork,
   STCirceRebirthHandler,
   STSuperCirceRebirthHandler,
   STCirceAssassinRebirth,

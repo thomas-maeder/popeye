@@ -38,6 +38,7 @@
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/republican.h"
 #include "conditions/royal_square.h"
+#include "conditions/circe/capture_fork.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/cage.h"
 #include "conditions/circe/kamikaze.h"
@@ -508,6 +509,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STCirceKingRebirthAvoider:
       result = circe_king_rebirth_avoider_attack(si,n);
+      break;
+
+    case STCirceCaptureFork:
+      result = circe_capture_fork_attack(si,n);
       break;
 
     case STCirceRebirthHandler:

@@ -42,8 +42,6 @@
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
 #include "conditions/ohneschach/legality_tester.h"
-#include "conditions/circe/assassin.h"
-#include "conditions/circe/frischauf.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
 #include "conditions/masand.h"
@@ -56,7 +54,10 @@
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/republican.h"
 #include "conditions/royal_square.h"
+#include "conditions/circe/capture_fork.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/assassin.h"
+#include "conditions/circe/frischauf.h"
 #include "conditions/circe/cage.h"
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
@@ -447,6 +448,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STCirceKingRebirthAvoider:
       result = circe_king_rebirth_avoider_defend(si,n);
+      break;
+
+    case STCirceCaptureFork:
+      result = circe_capture_fork_defend(si,n);
       break;
 
     case STCirceRebirthHandler:
