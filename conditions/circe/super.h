@@ -6,8 +6,6 @@
 
 /* This module implements Supercirce */
 
-square supercirce_next_rebirth_square(void);
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

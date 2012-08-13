@@ -151,6 +151,7 @@ stip_length_type circe_assassin_rebirth_attack(slice_index si,
     circe_do_rebirth(sq_rebirth,pi_captured,spec_pi_captured);
     result = attack(slices[si].next1,n);
     circe_undo_rebirth(sq_rebirth);
+    current_circe_rebirth_square[nbply] = initsquare;
   }
   else
   {
@@ -209,6 +210,7 @@ stip_length_type circe_assassin_rebirth_defend(slice_index si,
     circe_do_rebirth(sq_rebirth,pi_captured,spec_pi_captured);
     result = defend(slices[si].next1,n);
     circe_undo_rebirth(sq_rebirth);
+    current_circe_rebirth_square[nbply] = initsquare;
   }
   else
   {

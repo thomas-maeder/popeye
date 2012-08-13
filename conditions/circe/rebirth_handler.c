@@ -44,8 +44,6 @@ void circe_undo_rebirth(square sq_rebirth)
 
   if (anytraitor)
     spec_change_side(&spec[sq_rebirth]);
-
-  current_circe_rebirth_square[nbply] = initsquare;
 }
 
 void circe_do_rebirth(square sq_rebirth, piece pi_reborn, Flags spec_reborn)
@@ -179,6 +177,7 @@ stip_length_type circe_rebirth_handler_attack(slice_index si,
       current_circe_rebirth_square[nbply] = sq_rebirth;
       result = attack(slices[si].next1,n);
       circe_undo_rebirth(sq_rebirth);
+      current_circe_rebirth_square[nbply] = initsquare;
     }
   }
 
@@ -218,6 +217,7 @@ stip_length_type circe_rebirth_handler_defend(slice_index si,
       current_circe_rebirth_square[nbply] = sq_rebirth;
       result = defend(slices[si].next1,n);
       circe_undo_rebirth(sq_rebirth);
+      current_circe_rebirth_square[nbply] = initsquare;
     }
   }
 

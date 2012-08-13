@@ -16,19 +16,9 @@
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
-square supercirce_next_rebirth_square(void)
-{
-  square result = current_super_circe_rebirth_square[nbply]+1;
-
-  while (e[result]!=vide && result<square_h8)
-    ++result;
-
-  return result;
-}
-
 static void advance_rebirth_square(void)
 {
-  square next_rebirth_square = current_super_circe_rebirth_square[nbply]+1;
+  square next_rebirth_square = current_circe_rebirth_square[nbply]+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -37,10 +27,10 @@ static void advance_rebirth_square(void)
     ++next_rebirth_square;
 
   if (next_rebirth_square>square_h8)
-    current_super_circe_rebirth_square[nbply] = square_a1-1;
+    current_circe_rebirth_square[nbply] = initsquare;
   else
   {
-    current_super_circe_rebirth_square[nbply] = next_rebirth_square;
+    current_circe_rebirth_square[nbply] = next_rebirth_square;
     lock_post_move_iterations();
   }
 
@@ -70,12 +60,15 @@ stip_length_type supercirce_rebirth_handler_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (pi_captured==vide)
+  {
+    current_circe_rebirth_square[nbply] = initsquare;
     result = attack(slices[si].next1,n);
+  }
   else
   {
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
     {
-      current_super_circe_rebirth_square[nbply] = square_a1-1;
+      current_circe_rebirth_square[nbply] = square_a1-1;
 
       result = attack(slices[si].next1,n);
 
@@ -87,7 +80,7 @@ stip_length_type supercirce_rebirth_handler_attack(slice_index si,
     }
     else
     {
-      square const sq_rebirth = current_super_circe_rebirth_square[nbply];
+      square const sq_rebirth = current_circe_rebirth_square[nbply];
 
       circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
       result = attack(slices[si].next1,n);
@@ -129,12 +122,15 @@ stip_length_type supercirce_rebirth_handler_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   if (pi_captured==vide)
+  {
+    current_circe_rebirth_square[nbply] = initsquare;
     result = attack(slices[si].next1,n);
+  }
   else
   {
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
     {
-      current_super_circe_rebirth_square[nbply] = square_a1-1;
+      current_circe_rebirth_square[nbply] = square_a1-1;
 
       result = attack(slices[si].next1,n);
 
@@ -146,7 +142,7 @@ stip_length_type supercirce_rebirth_handler_defend(slice_index si,
     }
     else
     {
-      square const sq_rebirth = current_super_circe_rebirth_square[nbply];
+      square const sq_rebirth = current_circe_rebirth_square[nbply];
 
       circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
       result = attack(slices[si].next1,n);

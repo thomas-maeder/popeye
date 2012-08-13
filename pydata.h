@@ -141,7 +141,6 @@ EXTERN  boolean         pwcprom[maxply + 1];
 
 EXTERN  pilecase current_circe_rebirth_square;
 EXTERN  pilecase current_anticirce_rebirth_square;
-EXTERN  pilecase current_super_circe_rebirth_square;
 EXTERN  Flags    jouespec[maxply + 1];
 EXTERN  numecoup current_move[maxply + 1];
 
