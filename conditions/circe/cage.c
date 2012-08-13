@@ -1,4 +1,5 @@
 #include "conditions/circe/cage.h"
+#include "conditions/circe/capture_fork.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
@@ -359,6 +360,7 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
                                                    stip_length_type n)
 {
   stip_length_type result;
+  square sq_rebirth;
   square const pi_captured = pprise[nbply];
 
   TraceFunctionEntry(__func__);
@@ -366,44 +368,35 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pi_captured==vide)
+  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
+    sq_rebirth = current_circe_rebirth_square[nbply];
+  else
+    sq_rebirth = init_rebirth_square();
+
+  if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
   {
-    current_circe_rebirth_square[nbply] = initsquare;
+    /* rebirth on current cage */
+    circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
     result = attack(slices[si].next1,n);
+    circe_undo_rebirth(sq_rebirth);
+
+    if (!post_move_iteration_locked[nbply])
+    {
+      current_circe_rebirth_square[nbply] = advance_rebirth_square(sq_rebirth);
+      if (current_circe_rebirth_square[nbply]<=square_h8 || !cage_found[nbply])
+        lock_post_move_iterations();
+    }
+
+    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
+  else if (cage_found[nbply])
+    /* all >0 cages have been tried */
+    result = n+2;
   else
   {
-    square sq_rebirth;
-    if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
-      sq_rebirth = current_circe_rebirth_square[nbply];
-    else
-      sq_rebirth = init_rebirth_square();
-
-    if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
-    {
-      /* rebirth on current cage */
-      circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
-      result = attack(slices[si].next1,n);
-      circe_undo_rebirth(sq_rebirth);
-
-      if (!post_move_iteration_locked[nbply])
-      {
-        current_circe_rebirth_square[nbply] = advance_rebirth_square(sq_rebirth);
-        if (current_circe_rebirth_square[nbply]<=square_h8 || !cage_found[nbply])
-          lock_post_move_iterations();
-      }
-
-      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-    }
-    else if (cage_found[nbply])
-      /* all >0 cages have been tried */
-      result = n+2;
-    else
-    {
-      /* there is no cage */
-      current_circe_rebirth_square[nbply] = initsquare;
-      result = attack(slices[si].next1,n);
-    }
+    /* there is no cage */
+    current_circe_rebirth_square[nbply] = initsquare;
+    result = attack(slices[si].next1,n);
   }
 
   TraceFunctionExit(__func__);
@@ -427,6 +420,7 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
                                                    stip_length_type n)
 {
   stip_length_type result;
+  square sq_rebirth;
   square const pi_captured = pprise[nbply];
 
   TraceFunctionEntry(__func__);
@@ -434,44 +428,35 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pi_captured==vide)
+  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
+    sq_rebirth = current_circe_rebirth_square[nbply];
+  else
+    sq_rebirth = init_rebirth_square();
+
+  if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
   {
-    current_circe_rebirth_square[nbply] = initsquare;
+    /* rebirth on current cage */
+    circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
     result = defend(slices[si].next1,n);
+    circe_undo_rebirth(sq_rebirth);
+
+    if (!post_move_iteration_locked[nbply])
+    {
+      current_circe_rebirth_square[nbply] = advance_rebirth_square(sq_rebirth);
+      if (current_circe_rebirth_square[nbply]<=square_h8 || !cage_found[nbply])
+        lock_post_move_iterations();
+    }
+
+    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
+  else if (cage_found[nbply])
+    /* all >0 cages have been tried */
+    result = n+2;
   else
   {
-    square sq_rebirth;
-    if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
-      sq_rebirth = current_circe_rebirth_square[nbply];
-    else
-      sq_rebirth = init_rebirth_square();
-
-    if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
-    {
-      /* rebirth on current cage */
-      circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
-      result = defend(slices[si].next1,n);
-      circe_undo_rebirth(sq_rebirth);
-
-      if (!post_move_iteration_locked[nbply])
-      {
-        current_circe_rebirth_square[nbply] = advance_rebirth_square(sq_rebirth);
-        if (current_circe_rebirth_square[nbply]<=square_h8 || !cage_found[nbply])
-          lock_post_move_iterations();
-      }
-
-      prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-    }
-    else if (cage_found[nbply])
-      /* all >0 cages have been tried */
-      result = n+2;
-    else
-    {
-      /* there is no cage */
-      current_circe_rebirth_square[nbply] = initsquare;
-      result = defend(slices[si].next1,n);
-    }
+    /* there is no cage */
+    current_circe_rebirth_square[nbply] = initsquare;
+    result = defend(slices[si].next1,n);
   }
 
   TraceFunctionExit(__func__);
@@ -673,6 +658,8 @@ void stip_insert_circe_cage(slice_index si)
                                            STCageCirceNonCapturingMoveFinder,
                                            &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
+
+  stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

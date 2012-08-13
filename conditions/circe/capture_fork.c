@@ -25,14 +25,19 @@ stip_length_type circe_capture_fork_attack(slice_index si,
                                            stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = pprise[nbply]==vide ? slices[si].next2 : slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(next,n);
+  if (pprise[nbply]==vide)
+  {
+    current_circe_rebirth_square[nbply] = initsquare;
+    result = attack(slices[si].next2,n);
+  }
+  else
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -55,14 +60,19 @@ stip_length_type circe_capture_fork_defend(slice_index si,
                                            stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = pprise[nbply]==vide ? slices[si].next2 : slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(next,n);
+  if (pprise[nbply]==vide)
+  {
+    current_circe_rebirth_square[nbply] = initsquare;
+    result = defend(slices[si].next2,n);
+  }
+  else
+    result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
