@@ -36,4 +36,12 @@ stip_length_type circe_capture_fork_defend(slice_index si,
  */
 void stip_insert_circe_capture_forks(slice_index si);
 
+/* Instrument a stipulation with a type of "Circe rebirth avoiders" (i.e.
+ * slices that may detour around Circe rebirth under a certain condition;
+ * STCaptureFork is an example).
+ * @param si identifies root slice of stipulation
+ * @param type tye of Circe rebirth avoider
+ */
+void stip_insert_rebirth_avoider(slice_index si, slice_type type);
+
 #endif
