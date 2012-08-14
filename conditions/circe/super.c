@@ -35,7 +35,7 @@ static void advance_rebirth_square(void)
     lock_post_move_iterations();
   }
 
-  TraceSquare(current_super_circe_rebirth_square[nbply]);TraceText("\n");
+  TraceSquare(current_circe_rebirth_square[nbply]);TraceText("\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
