@@ -7,6 +7,7 @@
 #include "pymsg.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/temporary_hacks.h"
@@ -285,24 +286,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STRepublicanKingPlacer);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

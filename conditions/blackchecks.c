@@ -41,48 +41,13 @@ static void insert_null_move_handler(slice_index si, stip_structure_traversal *s
   assert(*landing!=no_slice);
   link_to_branch(proxy,*landing);
 
-  switch (st->context)
-  {
-    case stip_traversal_context_attack:
-      attack_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_defense:
-      defense_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_help:
-      help_branch_insert_slices(si,&prototype,1);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  branch_insert_slices_contextual(si,st->context,&prototype,1);
 }
 
 static void insert_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index const prototype = alloc_pipe(STLandingAfterMovingPieceMovement);
-
-  switch (st->context)
-  {
-    case stip_traversal_context_attack:
-      attack_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_defense:
-      defense_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_help:
-      help_branch_insert_slices(si,&prototype,1);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  branch_insert_slices_contextual(si,st->context,&prototype,1);
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
@@ -104,24 +69,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STBlackChecks);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

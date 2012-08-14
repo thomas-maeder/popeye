@@ -1,6 +1,7 @@
 #include "pieces/attributes/neutral/initialiser.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move_player.h"
@@ -203,24 +204,7 @@ static void insert_initialser(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_neutral_initialiser_slice();
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

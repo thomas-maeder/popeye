@@ -103,6 +103,21 @@ void branch_insert_slices(slice_index si,
                           slice_index const prototypes[],
                           unsigned int nr_prototypes);
 
+/* Insert slices into a branch, taking into account the context of a structure
+ * traversal that led to the insertion point.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by leaf_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param context context of a traversal at slice is
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void branch_insert_slices_contextual(slice_index si,
+                                     stip_traversal_context_type context,
+                                     slice_index const prototypes[],
+                                     unsigned int nr_prototypes);
+
 /* Instrument a traversal for traversing the "normal path" through a branch.
  * In particular, the traversal won't enter nested branches.
  * @param st traversal to be instrumented

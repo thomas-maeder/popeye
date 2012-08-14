@@ -165,24 +165,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   if (CondFlag[cond])
   {
     slice_index const prototype = alloc_pipe(STKingOscillator);
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

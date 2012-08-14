@@ -49,24 +49,7 @@ static void insert_move_iterator_move(slice_index si,
         alloc_pipe(STLandingAfterMovePlay)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,prototypes,nr_prototypes);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,prototypes,nr_prototypes);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,prototypes,nr_prototypes);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

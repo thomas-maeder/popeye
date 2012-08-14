@@ -5,9 +5,8 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
@@ -361,7 +360,6 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
 {
   stip_length_type result;
   square sq_rebirth;
-  square const pi_captured = pprise[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -376,7 +374,7 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
   if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
   {
     /* rebirth on current cage */
-    circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
+    circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
     result = attack(slices[si].next1,n);
     circe_undo_rebirth(sq_rebirth);
 
@@ -421,7 +419,6 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
 {
   stip_length_type result;
   square sq_rebirth;
-  square const pi_captured = pprise[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -436,7 +433,7 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
   if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
   {
     /* rebirth on current cage */
-    circe_do_rebirth(sq_rebirth,pi_captured,pprispec[nbply]);
+    circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
     result = defend(slices[si].next1,n);
     circe_undo_rebirth(sq_rebirth);
 
@@ -572,25 +569,8 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STCirceRebirthPromoter),
         alloc_pipe(STCirceCageCageTester)
     };
-
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,prototypes,3);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,prototypes,3);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,prototypes,3);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -612,25 +592,8 @@ static void instrument_move_replay(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STCirceCageRebirthHandler),
         alloc_pipe(STCirceRebirthPromoter)
     };
-
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,prototypes,2);
-        break;
-
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,prototypes,2);
-        break;
-
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,prototypes,2);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

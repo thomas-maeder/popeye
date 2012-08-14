@@ -83,25 +83,7 @@ stip_length_type circe_capture_fork_defend(slice_index si,
 static void insert_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index const prototype = alloc_pipe(STLandingAfterCirceRebirthHandler);
-
-  switch (st->context)
-  {
-    case stip_traversal_context_attack:
-      attack_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_defense:
-      defense_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_help:
-      help_branch_insert_slices(si,&prototype,1);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  branch_insert_slices_contextual(si,st->context,&prototype,1);
 }
 
 typedef struct
@@ -119,24 +101,7 @@ static void insert_fork(slice_index si, stip_structure_traversal *st)
   assert(state->landing!=no_slice);
   link_to_branch(proxy,state->landing);
 
-  switch (st->context)
-  {
-    case stip_traversal_context_attack:
-      attack_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_defense:
-      defense_branch_insert_slices(si,&prototype,1);
-      break;
-
-    case stip_traversal_context_help:
-      help_branch_insert_slices(si,&prototype,1);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  branch_insert_slices_contextual(si,st->context,&prototype,1);
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
