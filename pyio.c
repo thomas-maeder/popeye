@@ -533,7 +533,7 @@ static void WriteConditions(int alignment)
       while (true)
       {
         pp = getfootballpiece[pp];
-        if (pp==vide)
+        if (pp==Empty)
           break;
 
         if (PieceTab[pp][1] != ' ')
