@@ -8,7 +8,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/single_piece_move_generator.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 
@@ -32,282 +31,6 @@ static boolean find_non_capturing_move(square sq_departure, Side moving_side)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void circecage_advance_cage_prom_impl(square cage,
-                                             PieNam *circecage_next_cage_prom)
-{
-  Side const moving_side = trait[nbply];
-  Side const prisoner_side = advers(moving_side);
-  piece const save_prom = e[cage];
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(cage);
-  TracePiece(*circecage_next_cage_prom);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,prisoner_side,"\n");
-
-  while (true)
-  {
-    *circecage_next_cage_prom = getprompiece[*circecage_next_cage_prom];
-    if (*circecage_next_cage_prom==Empty)
-      break;
-    else
-    {
-      TracePiece(*circecage_next_cage_prom);TraceText("\n");
-      e[cage] = (prisoner_side==White
-                 ? *circecage_next_cage_prom
-                 : -*circecage_next_cage_prom);
-      if (!find_non_capturing_move(cage,prisoner_side))
-        break;
-    }
-  }
-
-  TracePiece(*circecage_next_cage_prom);TraceText("\n");
-
-  e[cage] = save_prom;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void circecage_advance_cage_impl(piece pi_captured,
-                                        square *nextcage,
-                                        PieNam *circecage_next_cage_prom)
-{
-  Side const moving_side = trait[nbply];
-  Side const prisoner_side = advers(moving_side);
-
-  TraceFunctionEntry(__func__);
-  TracePiece(pi_captured);
-  TraceSquare(*nextcage);
-  TracePiece(*circecage_next_cage_prom);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,prisoner_side,"\n");
-
-  while (true)
-  {
-    ++*nextcage;
-    if (*nextcage>square_h8)
-      break;
-    else
-    {
-      TraceSquare(*nextcage);TraceText("\n");
-      if (e[*nextcage]==vide)
-      {
-        if (is_pawn(pi_captured) && PromSq(prisoner_side,*nextcage))
-        {
-          circecage_advance_cage_prom_impl(*nextcage,circecage_next_cage_prom);
-          if (*circecage_next_cage_prom!=Empty)
-            break;
-        }
-        else
-        {
-          boolean cage_found;
-
-          e[*nextcage] = pi_captured;
-
-          cage_found = !find_non_capturing_move(*nextcage,prisoner_side);
-
-          e[*nextcage] = vide;
-
-          if (cage_found)
-            break;
-        }
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void circecage_advance_norm_prom_impl(square sq_arrival, piece pi_captured,
-                                             square *nextcage,
-                                             PieNam *circecage_next_cage_prom,
-                                             PieNam *circecage_next_norm_prom)
-{
-  Side const moving_side = trait[nbply];
-  piece const save_prom = e[sq_arrival];
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
-  TracePiece(pi_captured);
-  TraceSquare(*nextcage);
-  TracePiece(*circecage_next_cage_prom);
-  TracePiece(*circecage_next_norm_prom);
-  TraceFunctionParamListEnd();
-
-  *circecage_next_norm_prom = getprompiece[*circecage_next_norm_prom];
-  TracePiece(*circecage_next_norm_prom);TraceText("\n");
-
-  if (*circecage_next_norm_prom!=Empty)
-  {
-    e[sq_arrival] = (moving_side==White
-                     ? *circecage_next_norm_prom
-                     : -*circecage_next_norm_prom);
-    ++nbpiece[e[sq_arrival]];
-    circecage_advance_cage_impl(pi_captured,
-                                nextcage,
-                                circecage_next_cage_prom);
-    --nbpiece[e[sq_arrival]];
-  }
-
-  e[sq_arrival] = save_prom;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void circecage_find_initial_cage_impl(piece pi_departing,
-                                             square sq_arrival, piece pi_captured,
-                                             square *nextcage,
-                                             PieNam *circecage_next_cage_prom,
-                                             PieNam *circecage_next_norm_prom)
-{
-  TraceFunctionEntry(__func__);
-  TracePiece(pi_departing);
-  TraceSquare(sq_arrival);
-  TracePiece(pi_captured);
-  TraceSquare(*nextcage);
-  TracePiece(*circecage_next_cage_prom);
-  TracePiece(*circecage_next_norm_prom);
-  TraceFunctionParamListEnd();
-
-  if (is_pawn(pi_departing) && PromSq(trait[nbply],sq_arrival))
-    circecage_advance_norm_prom_impl(sq_arrival,pi_captured,
-                                     nextcage,
-                                     circecage_next_cage_prom,
-                                     circecage_next_norm_prom);
-  else
-    circecage_advance_cage_impl(pi_captured,
-                                nextcage,
-                                circecage_next_cage_prom);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static boolean circecage_are_we_finding_cage = false;
-
-void circecage_advance_cage(piece pi_captured,
-                            square *nextcage,
-                            PieNam *circecage_next_cage_prom)
-{
-  TraceFunctionEntry(__func__);
-  TracePiece(pi_captured);
-  TraceSquare(*nextcage);
-  TracePiece(*circecage_next_cage_prom);
-  TraceFunctionParamListEnd();
-
-  if (circecage_are_we_finding_cage)
-    *nextcage = square_h8+1;
-  else
-  {
-    circecage_are_we_finding_cage = true;
-    circecage_advance_cage_impl(pi_captured,nextcage,circecage_next_cage_prom);
-    circecage_are_we_finding_cage = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void circecage_advance_norm_prom(square sq_arrival, piece pi_captured,
-                                 square *nextcage,
-                                 PieNam *circecage_next_cage_prom,
-                                 PieNam *circecage_next_norm_prom)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
-  TracePiece(pi_captured);
-  TraceSquare(*nextcage);
-  TracePiece(*circecage_next_cage_prom);
-  TracePiece(*circecage_next_norm_prom);
-  TraceFunctionParamListEnd();
-
-  if (circecage_are_we_finding_cage)
-    *circecage_next_norm_prom = Empty;
-  else
-  {
-    circecage_are_we_finding_cage = true;
-    circecage_advance_norm_prom_impl(sq_arrival,pi_captured,nextcage,circecage_next_cage_prom,circecage_next_norm_prom);
-    circecage_are_we_finding_cage = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void circecage_advance_cage_prom(square cage,
-                                 PieNam *circecage_next_cage_prom)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(cage);
-  TracePiece(*circecage_next_cage_prom);
-  TraceFunctionParamListEnd();
-
-  if (circecage_are_we_finding_cage)
-    *circecage_next_cage_prom = Empty;
-  else
-  {
-    circecage_are_we_finding_cage = true;
-    circecage_advance_cage_prom_impl(cage,circecage_next_cage_prom);
-    circecage_are_we_finding_cage = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-square rencage(ply ply_id,
-               piece p_captured, Flags p_captured_spec,
-               square sq_capture,
-               square sq_departure, square sq_arrival,
-               Side capturer)
-{
-  square result = square_a1-1;
-  PieNam nextcageprom = vide;
-  PieNam nextnormprom = vide;
-  piece const pi_departing = e[sq_departure];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_id);
-  TracePiece(p_captured);
-  TraceSquare(sq_capture);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceFunctionParamListEnd();
-
-  TracePiece(e[sq_departure]);
-  TracePiece(e[sq_capture]);
-  TracePiece(e[sq_arrival]);
-  TraceText("\n");
-
-  if (!circecage_are_we_finding_cage)
-  {
-    circecage_are_we_finding_cage = true;
-
-    e[sq_departure] = vide;
-    e[sq_capture] = vide;
-    e[sq_arrival] = pi_departing;
-
-    circecage_find_initial_cage_impl(pi_departing,sq_capture,p_captured,
-                                     &result,&nextcageprom,&nextnormprom);
-
-    e[sq_arrival] = vide;
-    e[sq_capture] = p_captured;
-    e[sq_departure] = pi_departing;
-
-    circecage_are_we_finding_cage = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -393,8 +116,13 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
   else
   {
     /* there is no cage */
-    current_circe_rebirth_square[nbply] = initsquare;
-    result = attack(slices[si].next1,n);
+    if (CondFlag[immuncage])
+      result = n+2;
+    else
+    {
+      current_circe_rebirth_square[nbply] = initsquare;
+      result = attack(slices[si].next1,n);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -452,28 +180,14 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
   else
   {
     /* there is no cage */
-    current_circe_rebirth_square[nbply] = initsquare;
-    result = defend(slices[si].next1,n);
+    if (CondFlag[immuncage])
+      result = slack_length-1;
+    else
+    {
+      current_circe_rebirth_square[nbply] = initsquare;
+      result = defend(slices[si].next1,n);
+    }
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean find_non_capturing_move_locked(square sq_departure, Side moving_side)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceEnumerator(Side,moving_side,"");
-  TraceFunctionParamListEnd();
-
-  circecage_are_we_finding_cage = true;
-  result = find_non_capturing_move(sq_departure,moving_side);
-  circecage_are_we_finding_cage = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -502,7 +216,7 @@ stip_length_type circe_cage_cage_tester_attack(slice_index si,
 
   if (sq_cage==initsquare)
     result = attack(slices[si].next1,n);
-  else if (find_non_capturing_move_locked(sq_cage,advers(slices[si].starter)))
+  else if (find_non_capturing_move(sq_cage,advers(slices[si].starter)))
     result = n+2;
   else
   {
@@ -540,7 +254,7 @@ stip_length_type circe_cage_cage_tester_defend(slice_index si,
 
   if (sq_cage==initsquare)
     result = defend(slices[si].next1,n);
-  else if (find_non_capturing_move_locked(sq_cage,advers(slices[si].starter)))
+  else if (find_non_capturing_move(sq_cage,advers(slices[si].starter)))
     result = slack_length-1;
   else
   {

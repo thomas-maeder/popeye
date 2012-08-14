@@ -110,7 +110,7 @@
 109= Pieces magiques ne sont pas compatibles avec certaines pieces feeriques\n
 110= Trop de calculations magiques necessaires\n
 111= EchecsRepublicains incompatible avec des conditions qui dependent du fait si un coup donne echec.\n
-112= Popeye ne peut pas d�cider qui a le trait.\n
+112= Popeye ne peut pas decider qui a le trait.\n
 113= Option \"menace\" pas applicable ou longueur maximale de la menace trop grande\n
 114= EchecsGhost et EchecsHantes incompatibles avec Circe, Anticirce, Kamikaze, Echecs de Haan\n
 115= ApparentSeul pas applicable - ignore\n
@@ -120,3 +120,4 @@
 119= ButEstFin pas applicable - ignore\n
 120= ButEstFin et Quodlibet incompatibles\n
 121= Il ne peut pas etre decide si une condition s'applique aux Blancs ou aux Noirs\n
+122= ImmunCage seulement avec CirceCage\n

@@ -362,7 +362,6 @@ square renantipoden(ply ply_id, piece p, Flags pspec, square j, square i, square
 square rendiagramm(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 square rennormal(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegel(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rencage(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
 
 void pyfputs(char const *s, FILE *f);
 

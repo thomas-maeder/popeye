@@ -160,6 +160,7 @@ typedef enum
   GoalIsEndNotApplicable = 119,
   GoalIsEndAndQuodlibetIncompatible = 120,
   CantDecideOnSideWhichConditionAppliesTo = 121,
+  NoCageImmuneWithoutCage = 122,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

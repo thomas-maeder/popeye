@@ -869,6 +869,12 @@ static boolean verify_position(slice_index si)
     }
   }
 
+  if (CondFlag[immuncage] && !CondFlag[circecage])
+  {
+    VerifieMsg(NoCageImmuneWithoutCage);
+    CondFlag[immuncage] = false;
+  }
+
 #ifdef _SE_DECORATE_SOLUTION_
   se_init();
 #endif

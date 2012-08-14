@@ -412,9 +412,8 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/temporary_hacks.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/single_piece_move_generator.h \
- solving/moving_pawn_promotion.h solving/post_move_iteration.h \
+ stipulation/branch.h stipulation/temporary_hacks.h \
+ solving/single_piece_move_generator.h solving/post_move_iteration.h \
  debugging/trace.h
 
 conditions/circe/cage.h:
@@ -473,15 +472,11 @@ output/mode.h:
 
 stipulation/pipe.h:
 
+stipulation/branch.h:
+
 stipulation/temporary_hacks.h:
 
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
-
 solving/single_piece_move_generator.h:
-
-solving/moving_pawn_promotion.h:
 
 solving/post_move_iteration.h:
 

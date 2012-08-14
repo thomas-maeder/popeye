@@ -5234,10 +5234,6 @@ static char *ParseCond(void) {
         immunrenai= renequipollents;
         anyimmun= true;
         break;
-      case immuncage:
-        immunrenai = rencage;
-        anyimmun= true;
-        break;
 
         /* different types of mars circe */
       case mars:

@@ -120,3 +120,4 @@
 119= GoalIsEnd not applicable - ignored\n
 120= GoalIsEnd and Quodlibet are incompatible\n
 121= Can't decide whether condition applies to White or Black\n
+122= CageImmunChess only with CageCirce\n

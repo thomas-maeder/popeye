@@ -151,3 +151,4 @@
 119= ZielIstEnde nicht anwendbar - ignoriert\n
 120= ZielIstEnde und Quodlibet nicht kompatibel\n
 121= Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt\n
+122= KaefigImmunSchach nur mit KaefigCirce\n
