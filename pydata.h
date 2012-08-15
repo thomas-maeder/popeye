@@ -187,8 +187,8 @@ EXTERN  boolean         flagfee,
 			flagveryfairy,
 			flagleofamilyonly,
 			empilegenre,
-			flaglegalsquare, jouegenre,
-            repgenre, change_moving_piece,
+			flaglegalsquare,
+            change_moving_piece,
             supergenre ;
 
 

@@ -799,7 +799,6 @@ static boolean verify_position(slice_index si)
   piece     p;
   int      cp, pp, tp, op, fp;
 
-  jouegenre = false;
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
   reset_killer_move_optimisation();
@@ -1498,34 +1497,6 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  jouegenre = jouegenre
-      || CondFlag[black_oscillatingKs]
-      || CondFlag[white_oscillatingKs]
-      || anycirce
-      || CondFlag[sentinelles]
-      || anyanticirce
-      || CondFlag[singlebox]
-      || CondFlag[blroyalsq]
-      || CondFlag[whroyalsq]
-      || CondFlag[dynasty] /* TODO why? */
-      || CondFlag[strictSAT]
-      || CondFlag[masand]
-      || CondFlag[BGL]
-      || CondFlag[duellist]
-      || TSTFLAG(PieSpExFlags,HalfNeutral)
-      || exist[Orphan]
-      || exist[Friend]
-      || calc_refl_king[White] || calc_refl_king[Black]
-      || CondFlag[phantom]
-      || CondFlag[extinction] /* TODO why? */
-      || CondFlag[amu]
-      || CondFlag[imitators]
-      || CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king]
-      || TSTFLAG(PieSpExFlags, Magic)
-      || CondFlag[ghostchess]
-      || CondFlag[hauntedchess];
-
-
   change_moving_piece=
       TSTFLAG(PieSpExFlags, Kamikaze)
       || TSTFLAG(PieSpExFlags, Protean)
@@ -1546,17 +1517,6 @@ static boolean verify_position(slice_index si)
       || CondFlag[chamchess]
       || CondFlag[protean]
       || CondFlag[champursue];
-
-  repgenre =
-      CondFlag[sentinelles]
-      || CondFlag[imitators]
-      || anycirce
-      || TSTFLAG(PieSpExFlags, Neutral)
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
-      || anyanticirce
-      || CondFlag[ghostchess]
-      || CondFlag[hauntedchess]
-      || CondFlag[kobulkings];
 
   empilegenre=
       flaglegalsquare
@@ -1800,7 +1760,6 @@ static boolean verify_position(slice_index si)
     checkhopim = true;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    jouegenre = true;
   }
   checkhopim |= CondFlag[imitators];
 
@@ -1906,7 +1865,6 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[actrevolving] || CondFlag[arc])
   {
-    jouegenre = true;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
@@ -1916,8 +1874,8 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (CondFlag[kobulkings]) {
-    jouegenre = true;
+  if (CondFlag[kobulkings])
+  {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
@@ -2021,7 +1979,6 @@ static boolean verify_position(slice_index si)
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
     castling_supported = false;
-    jouegenre = true;
   }
 
   if (flagmummer[Black]

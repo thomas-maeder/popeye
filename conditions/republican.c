@@ -132,7 +132,6 @@ boolean republican_verifie_position(slice_index si)
       OptFlag[sansrb] = true;
       optim_neutralretractable = false;
       add_ortho_mating_moves_generation_obstacle();
-      jouegenre = true;
       supergenre = true;
       result = true;
     }
