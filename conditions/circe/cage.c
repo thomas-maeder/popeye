@@ -163,7 +163,7 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
   else
     sq_rebirth = advance_rebirth_square(square_a1-1);
 
-  if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
+  if (sq_rebirth<=square_h8)
   {
     /* rebirth on current cage */
     circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
@@ -217,7 +217,7 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
   else
     sq_rebirth = advance_rebirth_square(square_a1-1);
 
-  if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
+  if (sq_rebirth<=square_h8)
   {
     /* rebirth on current cage */
     circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
