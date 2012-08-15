@@ -524,6 +524,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = april_chess_fork_attack(si,n);
       break;
 
+    case STSuperNoRebirthFork:
+      result = supercirce_no_rebirth_fork_attack(si,n);
+      break;
+
     case STSuperCirceRebirthHandler:
       result = supercirce_rebirth_handler_attack(si,n);
       break;

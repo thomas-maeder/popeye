@@ -463,6 +463,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = april_chess_fork_defend(si,n);
       break;
 
+    case STSuperNoRebirthFork:
+      result = supercirce_no_rebirth_fork_defend(si,n);
+      break;
+
     case STSuperCirceRebirthHandler:
       result = supercirce_rebirth_handler_defend(si,n);
       break;
