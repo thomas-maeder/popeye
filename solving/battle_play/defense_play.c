@@ -479,6 +479,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = circe_kamikaze_rebirth_handler_defend(si,n);
       break;
 
+    case STCirceCageNoCageFork:
+      result = circe_cage_no_cage_fork_defend(si,n);
+      break;
+
     case STCirceCageRebirthHandler:
       result = circe_cage_rebirth_handler_defend(si,n);
       break;

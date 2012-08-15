@@ -544,6 +544,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = circe_kamikaze_rebirth_handler_attack(si,n);
       break;
 
+    case STCirceCageNoCageFork:
+      result = circe_cage_no_cage_fork_attack(si,n);
+      break;
+
     case STCirceCageRebirthHandler:
       result = circe_cage_rebirth_handler_attack(si,n);
       break;

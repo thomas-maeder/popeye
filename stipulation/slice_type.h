@@ -239,6 +239,7 @@
     ENUMERATOR(STAprilAprilFork),                                       \
     ENUMERATOR(STCirceRebirthHandler),                                  \
     ENUMERATOR(STSuperCirceRebirthHandler),                             \
+    ENUMERATOR(STCirceCageNoCageFork)    ,                              \
     ENUMERATOR(STCirceCageRebirthHandler),                              \
     ENUMERATOR(STCirceCageCageTester),                                  \
     ENUMERATOR(STCirceKamikazeRebirthHandler),                          \

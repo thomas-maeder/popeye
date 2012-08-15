@@ -14,20 +14,105 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
-static boolean cage_found[maxply+1];
+static post_move_iteration_id_type prev_post_move_iteration_id_rebirth[maxply+1];
+static post_move_iteration_id_type prev_post_move_iteration_id_no_cage[maxply+1];
 
-static boolean find_non_capturing_move(square sq_departure, Side moving_side)
+static boolean cage_found_for_current_capture[maxply+1];
+static boolean no_cage_for_current_capture[maxply+1];
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type circe_cage_no_cage_fork_attack(slice_index si,
+                                                stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceEnumerator(Side,moving_side,"");
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  init_single_piece_move_generator(sq_departure,e[sq_departure]);
-  result = attack(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==has_solution;
+  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_no_cage[nbply])
+  {
+    if (no_cage_for_current_capture[nbply])
+      result = attack(slices[si].next2,n);
+    else
+    {
+      result = attack(slices[si].next1,n);
+
+      if (!post_move_iteration_locked[nbply]
+          && current_circe_rebirth_square[nbply]==initsquare
+          && !cage_found_for_current_capture[nbply])
+      {
+        no_cage_for_current_capture[nbply] = true;
+        lock_post_move_iterations();
+      }
+    }
+  }
+  else
+  {
+    cage_found_for_current_capture[nbply] = false;
+    no_cage_for_current_capture[nbply] = false;
+    result = attack(slices[si].next1,n);
+  }
+
+  prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type circe_cage_no_cage_fork_defend(slice_index si,
+                                                stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_no_cage[nbply])
+  {
+    if (no_cage_for_current_capture[nbply])
+      result = defend(slices[si].next2,n);
+    else
+    {
+      result = attack(slices[si].next1,n);
+
+      if (!post_move_iteration_locked[nbply]
+          && current_circe_rebirth_square[nbply]==initsquare
+          && !cage_found_for_current_capture[nbply])
+      {
+        no_cage_for_current_capture[nbply] = true;
+        lock_post_move_iterations();
+      }
+    }
+  }
+  else
+  {
+    cage_found_for_current_capture[nbply] = false;
+    no_cage_for_current_capture[nbply] = false;
+    result = defend(slices[si].next1,n);
+  }
+
+  prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -54,22 +139,6 @@ static square advance_rebirth_square(square current)
   return current;
 }
 
-static square init_rebirth_square(void)
-{
-  square result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = advance_rebirth_square(square_a1-1);
-  cage_found[nbply] = false;
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -89,10 +158,10 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
+  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_rebirth[nbply])
     sq_rebirth = current_circe_rebirth_square[nbply];
   else
-    sq_rebirth = init_rebirth_square();
+    sq_rebirth = advance_rebirth_square(square_a1-1);
 
   if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
   {
@@ -104,26 +173,16 @@ stip_length_type circe_cage_rebirth_handler_attack(slice_index si,
     if (!post_move_iteration_locked[nbply])
     {
       current_circe_rebirth_square[nbply] = advance_rebirth_square(sq_rebirth);
-      if (current_circe_rebirth_square[nbply]<=square_h8 || !cage_found[nbply])
+      if (current_circe_rebirth_square[nbply]<=square_h8)
         lock_post_move_iterations();
+      else
+        current_circe_rebirth_square[nbply] = initsquare;
     }
 
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    prev_post_move_iteration_id_rebirth[nbply] = post_move_iteration_id[nbply];
   }
-  else if (cage_found[nbply])
-    /* all >0 cages have been tried */
-    result = n+2;
   else
-  {
-    /* there is no cage */
-    if (CondFlag[immuncage])
-      result = n+2;
-    else
-    {
-      current_circe_rebirth_square[nbply] = initsquare;
-      result = attack(slices[si].next1,n);
-    }
-  }
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -153,10 +212,10 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id[nbply])
+  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_rebirth[nbply])
     sq_rebirth = current_circe_rebirth_square[nbply];
   else
-    sq_rebirth = init_rebirth_square();
+    sq_rebirth = advance_rebirth_square(square_a1-1);
 
   if (sq_rebirth!=initsquare && sq_rebirth<=square_h8)
   {
@@ -168,26 +227,34 @@ stip_length_type circe_cage_rebirth_handler_defend(slice_index si,
     if (!post_move_iteration_locked[nbply])
     {
       current_circe_rebirth_square[nbply] = advance_rebirth_square(sq_rebirth);
-      if (current_circe_rebirth_square[nbply]<=square_h8 || !cage_found[nbply])
+      if (current_circe_rebirth_square[nbply]<=square_h8)
         lock_post_move_iterations();
+      else
+        current_circe_rebirth_square[nbply] = initsquare;
     }
 
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+    prev_post_move_iteration_id_rebirth[nbply] = post_move_iteration_id[nbply];
   }
-  else if (cage_found[nbply])
-    /* all >0 cages have been tried */
-    result = n+2;
   else
-  {
-    /* there is no cage */
-    if (CondFlag[immuncage])
-      result = slack_length-1;
-    else
-    {
-      current_circe_rebirth_square[nbply] = initsquare;
-      result = defend(slices[si].next1,n);
-    }
-  }
+    result = n+2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean find_non_capturing_move(square sq_departure, Side moving_side)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceEnumerator(Side,moving_side,"");
+  TraceFunctionParamListEnd();
+
+  init_single_piece_move_generator(sq_departure,e[sq_departure]);
+  result = attack(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -220,7 +287,7 @@ stip_length_type circe_cage_cage_tester_attack(slice_index si,
     result = n+2;
   else
   {
-    cage_found[nbply] = true;
+    cage_found_for_current_capture[nbply] = true;
     result = attack(slices[si].next1,n);
   }
 
@@ -258,7 +325,7 @@ stip_length_type circe_cage_cage_tester_defend(slice_index si,
     result = slack_length-1;
   else
   {
-    cage_found[nbply] = true;
+    cage_found_for_current_capture[nbply] = true;
     result = defend(slices[si].next1,n);
   }
 
@@ -337,6 +404,9 @@ void stip_insert_circe_cage(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_insert_circe_capture_forks(si);
+
+  if (!CondFlag[immuncage])
+    stip_insert_rebirth_avoider(si,STCirceCageNoCageFork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
