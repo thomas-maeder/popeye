@@ -274,16 +274,14 @@ stip_length_type circe_cage_cage_tester_attack(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
-  square const sq_cage = current_circe_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_cage==initsquare)
-    result = attack(slices[si].next1,n);
-  else if (find_non_capturing_move(sq_cage,advers(slices[si].starter)))
+  if (find_non_capturing_move(current_circe_rebirth_square[nbply],
+                              advers(slices[si].starter)))
     result = n+2;
   else
   {
@@ -312,16 +310,14 @@ stip_length_type circe_cage_cage_tester_defend(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
-  square const sq_cage = current_circe_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_cage==initsquare)
-    result = defend(slices[si].next1,n);
-  else if (find_non_capturing_move(sq_cage,advers(slices[si].starter)))
+  if (find_non_capturing_move(current_circe_rebirth_square[nbply],
+                              advers(slices[si].starter)))
     result = slack_length-1;
   else
   {
