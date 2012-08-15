@@ -144,7 +144,10 @@ stip_length_type supercirce_rebirth_handler_attack(slice_index si,
   }
 
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
+  {
+    current_circe_rebirth_square[nbply] = initsquare;
     result = n+2;
+  }
   else
   {
     square const sq_rebirth = current_circe_rebirth_square[nbply];
@@ -196,7 +199,10 @@ stip_length_type supercirce_rebirth_handler_defend(slice_index si,
   }
 
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
+  {
+    current_circe_rebirth_square[nbply] = initsquare;
     result = n+2;
+  }
   else
   {
     square const sq_rebirth = current_circe_rebirth_square[nbply];
@@ -260,7 +266,7 @@ void stip_insert_supercirce_rebirth_handlers(slice_index si)
                                            &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
-  stip_insert_rebirth_avoider(si,STSuperNoRebirthFork);
+  stip_insert_rebirth_avoider(si,STSuperCirceNoRebirthFork);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);

@@ -98,7 +98,7 @@ static slice_type const fork_slice_types[] =
     STCirceCaptureFork,
     STAprilAprilFork,
     STCirceCageNoCageFork,
-    STSuperNoRebirthFork,
+    STSuperCirceNoRebirthFork,
     STMovingPawnToImitatorPromoter
 };
 
@@ -227,7 +227,7 @@ static slice_type const binary_slice_types[] =
     STCirceCaptureFork,
     STAprilAprilFork,
     STCirceCageNoCageFork,
-    STSuperNoRebirthFork,
+    STSuperCirceNoRebirthFork,
     STMovingPawnToImitatorPromoter
 };
 

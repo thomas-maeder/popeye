@@ -463,7 +463,7 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = april_chess_fork_defend(si,n);
       break;
 
-    case STSuperNoRebirthFork:
+    case STSuperCirceNoRebirthFork:
       result = supercirce_no_rebirth_fork_defend(si,n);
       break;
 
@@ -485,10 +485,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STCirceCageNoCageFork:
       result = circe_cage_no_cage_fork_defend(si,n);
-      break;
-
-    case STCirceCageRebirthHandler:
-      result = circe_cage_rebirth_handler_defend(si,n);
       break;
 
     case STCirceCageCageTester:
