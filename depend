@@ -49,7 +49,8 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  solving/moving_pawn_promotion.h solving/post_move_iteration.h \
  conditions/bgl.h conditions/sat.h conditions/oscillating_kings.h \
  conditions/duellists.h conditions/kobul.h conditions/anticirce/super.h \
- conditions/imitator.h utilities/table.h debugging/trace.h
+ conditions/circe/april.h conditions/imitator.h utilities/table.h \
+ debugging/trace.h
 
 py.h:
 
@@ -148,6 +149,8 @@ conditions/duellists.h:
 conditions/kobul.h:
 
 conditions/anticirce/super.h:
+
+conditions/circe/april.h:
 
 conditions/imitator.h:
 
@@ -601,7 +604,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
  conditions/circe/volage.h conditions/circe/promotion.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
- conditions/circe/king_rebirth_avoider.h \
+ conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
  conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
  conditions/sentinelles.h conditions/duellists.h conditions/ghost_chess.h \
  conditions/kobul.h conditions/andernach.h conditions/antiandernach.h \
@@ -797,6 +800,8 @@ conditions/circe/promotion.h:
 conditions/circe/frischauf.h:
 
 conditions/circe/super.h:
+
+conditions/circe/april.h:
 
 conditions/circe/king_rebirth_avoider.h:
 
@@ -1044,9 +1049,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/try.h utilities/table.h solving/en_passant.h \
  conditions/republican.h conditions/bgl.h conditions/check_zigzag.h \
  conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
- conditions/kobul.h options/degenerate_tree.h options/nontrivial.h \
- options/maxthreatlength.h options/maxflightsquares.h \
- options/movenumbers.h options/maxsolutions/maxsolutions.h \
+ conditions/kobul.h conditions/circe/april.h options/degenerate_tree.h \
+ options/nontrivial.h options/maxthreatlength.h \
+ options/maxflightsquares.h options/movenumbers.h \
+ options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/intelligent.h position/position.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -1213,6 +1219,8 @@ conditions/sat.h:
 conditions/oscillating_kings.h:
 
 conditions/kobul.h:
+
+conditions/circe/april.h:
 
 options/degenerate_tree.h:
 

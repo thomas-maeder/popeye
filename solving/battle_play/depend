@@ -545,8 +545,9 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  conditions/circe/exchange_by_rebirth_special.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
- conditions/circe/king_rebirth_avoider.h conditions/exclusive.h \
- position/position.h conditions/ohneschach/legality_tester.h \
+ conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
+ conditions/exclusive.h position/position.h \
+ conditions/ohneschach/legality_tester.h \
  conditions/maff/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/owu/immobility_tester.h \
@@ -738,6 +739,8 @@ conditions/circe/assassin.h:
 conditions/circe/frischauf.h:
 
 conditions/circe/super.h:
+
+conditions/circe/april.h:
 
 conditions/circe/king_rebirth_avoider.h:
 
@@ -1151,7 +1154,8 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  conditions/circe/frischauf.h conditions/circe/cage.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
  conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/circe/super.h conditions/circe/king_rebirth_avoider.h \
+ conditions/circe/super.h conditions/circe/april.h \
+ conditions/circe/king_rebirth_avoider.h \
  conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
  conditions/sentinelles.h conditions/duellists.h \
  conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
@@ -1359,6 +1363,8 @@ conditions/circe/volage.h:
 conditions/circe/promotion.h:
 
 conditions/circe/super.h:
+
+conditions/circe/april.h:
 
 conditions/circe/king_rebirth_avoider.h:
 

@@ -89,7 +89,7 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h pylang.h \
  stipulation/has_solution_type.h pymsg.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/pipe.h stipulation/battle_play/branch.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/temporary_hacks.h \
  solving/post_move_iteration.h debugging/trace.h
 
@@ -150,6 +150,8 @@ pymsg.h:
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/pipe.h:
+
+stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
@@ -1268,9 +1270,9 @@ conditions/royal_square$(OBJ_SUFFIX): conditions/royal_square.c \
  stipulation/goals/goals.h utilities/boolean.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- debugging/trace.h
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/help_play/branch.h debugging/trace.h
 
 conditions/royal_square.h:
 
@@ -1318,6 +1320,8 @@ stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
+stipulation/branch.h:
+
 stipulation/battle_play/branch.h:
 
 stipulation/stipulation.h:
@@ -1338,9 +1342,9 @@ conditions/sentinelles$(OBJ_SUFFIX): conditions/sentinelles.c \
  stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h pieces/attributes/neutral/initialiser.h \
- debugging/trace.h
+ stipulation/branch.h stipulation/has_solution_type.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 conditions/sentinelles.h:
 
@@ -1391,6 +1395,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/branch.h:
 
 stipulation/has_solution_type.h:
 
@@ -1621,7 +1627,7 @@ conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h \
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/has_solution_type.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  pieces/attributes/neutral/initialiser.h debugging/trace.h
 
@@ -1674,6 +1680,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/branch.h:
 
 stipulation/has_solution_type.h:
 
@@ -2322,9 +2330,9 @@ conditions/tibet$(OBJ_SUFFIX): conditions/tibet.c conditions/tibet.h \
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- conditions/andernach.h debugging/trace.h
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/help_play/branch.h conditions/andernach.h debugging/trace.h
 
 conditions/tibet.h:
 
@@ -2372,6 +2380,8 @@ stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
+stipulation/branch.h:
+
 stipulation/battle_play/branch.h:
 
 stipulation/stipulation.h:
@@ -2394,9 +2404,10 @@ conditions/degradierung$(OBJ_SUFFIX): conditions/degradierung.c \
  stipulation/goals/goals.h utilities/boolean.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- stipulation/move_player.h debugging/trace.h
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/help_play/branch.h stipulation/move_player.h \
+ debugging/trace.h
 
 conditions/degradierung.h:
 
@@ -2443,6 +2454,8 @@ stipulation/pipe.h:
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
+
+stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 

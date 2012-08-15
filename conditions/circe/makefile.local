@@ -4,11 +4,11 @@ SRC_CFILES =   circe.c assassin.c \
            steingewinn_filter.c \
            circuit_by_rebirth_special.c exchange_by_rebirth_special.c \
            rebirth_handler.c cage.c kamikaze.c parrain.c volage.c promotion.c \
-           frischauf.c super.c king_rebirth_avoider.c capture_fork.c
+           frischauf.c super.c king_rebirth_avoider.c capture_fork.c april.c
 INCLUDES = circe.h assassin.h \
            steingewinn_filter.h \
            circuit_by_rebirth_special.h exchange_by_rebirth_special.h \
            rebirth_handler.h cage.h kamikaze.h parrain.h volage.h promotion.h \
-           frischauf.h super.h king_rebirth_avoider.h capture_fork.h
+           frischauf.h super.h king_rebirth_avoider.h capture_fork.h april.h
 
 include makefile.rules $(CURRPWD)depend

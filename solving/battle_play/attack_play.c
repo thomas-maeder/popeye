@@ -16,6 +16,7 @@
 #include "conditions/circe/assassin.h"
 #include "conditions/circe/frischauf.h"
 #include "conditions/circe/super.h"
+#include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/legality_tester.h"
@@ -517,6 +518,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STCirceRebirthHandler:
       result = circe_rebirth_handler_attack(si,n);
+      break;
+
+    case STAprilAprilFork:
+      result = april_chess_fork_attack(si,n);
       break;
 
     case STSuperCirceRebirthHandler:

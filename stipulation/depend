@@ -1435,7 +1435,7 @@ stipulation/move_player$(OBJ_SUFFIX): stipulation/move_player.c \
  stipulation/goals/goals.h utilities/boolean.h pyproc.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/has_solution_type.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  debugging/trace.h
 
@@ -1490,6 +1490,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/branch.h:
 
 stipulation/has_solution_type.h:
 

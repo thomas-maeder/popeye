@@ -74,6 +74,7 @@
 #include "conditions/duellists.h"
 #include "conditions/kobul.h"
 #include "conditions/anticirce/super.h"
+#include "conditions/circe/april.h"
 #include "conditions/imitator.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
@@ -276,7 +277,7 @@ void InitCond(void) {
 
   memset((char *) promonly, 0, sizeof(promonly));
   memset((char *) footballpiece, 0, sizeof(promonly));
-  memset((char *) isapril,0,sizeof(isapril));
+  memset((char *) is_april_kind,0,sizeof(is_april_kind));
   checkhopim = false;
   koekofunc= nokingcontact;
   antikoekofunc= nokingcontact;

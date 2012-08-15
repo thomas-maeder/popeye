@@ -236,6 +236,7 @@
     ENUMERATOR(STRepublicanType1DeadEnd),                               \
     ENUMERATOR(STRoyalSquareHandler),                                   \
     ENUMERATOR(STCirceCaptureFork),                                     \
+    ENUMERATOR(STAprilAprilFork),                                       \
     ENUMERATOR(STCirceRebirthHandler),                                  \
     ENUMERATOR(STSuperCirceRebirthHandler),                             \
     ENUMERATOR(STCirceCageRebirthHandler),                              \

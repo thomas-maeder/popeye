@@ -143,6 +143,7 @@
 #include "conditions/circe/promotion.h"
 #include "conditions/circe/frischauf.h"
 #include "conditions/circe/super.h"
+#include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/anticirce/rebirth_handler.h"
 #include "conditions/anticirce/super.h"
@@ -2891,8 +2892,10 @@ static Token iterate_twins(Token prev_token)
 
       if (anyparrain)
         stip_insert_circe_parrain_rebirth_handlers(root_slice);
-      else if (CondFlag[supercirce] || CondFlag[april])
+      else if (CondFlag[supercirce])
         stip_insert_supercirce_rebirth_handlers(root_slice);
+      else if (CondFlag[april])
+        stip_insert_april_chess(root_slice);
       else if (CondFlag[circecage])
         stip_insert_circe_cage(root_slice);
       else if (CondFlag[circeassassin])

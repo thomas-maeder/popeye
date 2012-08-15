@@ -123,6 +123,7 @@
 #include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/kobul.h"
+#include "conditions/circe/april.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -558,7 +559,7 @@ static void WriteConditions(int alignment)
       char LocalBuf[4];
       piece pp;
       for (pp= vide; pp!=derbla; ++pp)
-        if (isapril[pp]) {
+        if (is_april_kind[pp]) {
           if (PieceTab[pp][1] != ' ')
             sprintf(LocalBuf, " %c%c",
                     UPCASE(PieceTab[pp][0]),
@@ -6495,7 +6496,7 @@ char *ReadPieces(int condition) {
       footballpromlimited = true;
       break;
     case april:
-      isapril[tmp_piece]= true;
+      is_april_kind[tmp_piece]= true;
       break;
     default:
       /* Never mind ... */

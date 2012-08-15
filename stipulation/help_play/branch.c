@@ -136,6 +136,7 @@ static slice_index const slice_rank_order[] =
   STStrictSATUpdater,
   STCirceKingRebirthAvoider,
   STCirceCaptureFork,
+  STAprilAprilFork,
   STCirceCageRebirthHandler,
   STCirceKamikazeRebirthHandler,
   STPromoteAnticirceRebornIntoChameleon,
