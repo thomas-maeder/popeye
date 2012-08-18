@@ -1,57 +1,57 @@
 anfangproblem
 
-protokoll	duplex.out
+protokoll       duplex.out
 
-autor 		Norbert Geissler
-quelle 		7100, Die Schwalbe-125, 10/1990
+autor           Norbert Geissler
+quelle          7100, Die Schwalbe-125, 10/1990
 
-forderung 	h#2
-bedingung 	platzwechselcirce
+forderung       h#2
+bedingung       platzwechselcirce
 
-option 		duplex
+option          duplex
 
-steine 		weiss 	kf1 bb1
-		schwarz tb8f6 lg8 sc6 kd5 bf3f2
-
-weiteresproblem
-
-autor 		Erich Bartel
-quelle 		2483, Problemkiste-70, 8/1990
-
-forderung 	h#2
-bedingung 	koeko
-
-option 		duplex
-
-steine 	weiss 	kd3 wag1 
-	schwarz kb5 knb1
+steine          weiss   kf1 bb1
+                schwarz tb8f6 lg8 sc6 kd5 bf3f2
 
 weiteresproblem
 
-autor 		Norbert Geissler
-quelle 		2456, Problemkiste-69,6/1990
+autor           Erich Bartel
+quelle          2483, Problemkiste-70, 8/1990
 
-forderung 	h#2
-bedingung 	platzwechselcirce
+forderung       h#2
+bedingung       koeko
 
-option 		duplex
+option          duplex
 
-steine 		weiss 	ka6 nb1 
-		schwarz ka8 bc4
+steine  weiss   kd3 wag1 
+        schwarz kb5 knb1
 
 weiteresproblem
 
-autor 		Erich Bartel
-quelle 		7039, Die Schwalbe-124, 8/1990
+autor           Norbert Geissler
+quelle          2456, Problemkiste-69,6/1990
 
-forderung 	ser-h#3
-bedingung 	spiegelcirce
+forderung       h#2
+bedingung       platzwechselcirce
 
-option 		duplex 
+option          duplex
 
-steine 		weiss 	ka6 
-		schwarz kf6 
-		neutral db1 bd5e7g2
+steine          weiss   ka6 nb1 
+                schwarz ka8 bc4
+
+weiteresproblem
+
+autor           Erich Bartel
+quelle          7039, Die Schwalbe-124, 8/1990
+
+forderung       ser-h#3
+bedingung       spiegelcirce
+
+option          duplex 
+
+steine          weiss   ka6 
+                schwarz kf6 
+                neutral db1 bd5e7g2
 
 weiter
 
