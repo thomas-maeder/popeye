@@ -2,12 +2,12 @@ anfang
 
 protokoll       cham.out
 
-autor		Michel Olausson
-quelle		SoH815, springaren 80, 3/2000
-forderung	ser-#4
-bedingung	liniencham
-steine	weiss	kh7 lf1 sg1 bd4e5
-	schwarz	ka8 th3 ba7
+autor           Michel Olausson
+quelle          SoH815, springaren 80, 3/2000
+forderung       ser-#4
+bedingung       liniencham
+steine  weiss   kh7 lf1 sg1 bd4e5
+        schwarz ka8 th3 ba7
 weiter
 
 autor           Petko A. Petkow
@@ -87,8 +87,8 @@ forderung       #2
 option          varianten
 
 steine  weiss   cham    td8 dc7 lh2
-	weiss           lf6 kg6 bf5
-	schwarz         la7 bc5g5f3 ke4 se3f2
+        weiss           lf6 kg6 bf5
+        schwarz         la7 bc5g5f3 ke4 se3f2
 
 weiter
 
@@ -99,9 +99,9 @@ forderung       #2
 option          varianten
 
 steine  weiss   cham    sc3 th1
-	weiss           tb8d8 kc8 bb2d2f2
-	schwarz cham    sd3c2
-	schwarz         bc6c5b3f3 kc4
+        weiss           tb8d8 kc8 bb2d2f2
+        schwarz cham    sd3c2
+        schwarz         bc6c5b3f3 kc4
 
 weiter
 
@@ -112,8 +112,8 @@ forderung       #2
 option          varianten
 
 steine  weiss           sb7 kg6 bf5f4b5a2c2 da4
-	schwarz         sa8 bg7f6c3a3 kd5
-	neutral cham    sd7
+        schwarz         sa8 bg7f6c3a3 kd5
+        neutral cham    sd7
 
 weiter
 
@@ -124,9 +124,9 @@ forderung       #3
 option          varianten
 
 steine  weiss           sg6e4 bh5f3c3 kd2
-	weiss   cham    ld5
-	schwarz         td7 be7d6g2 kf5
-	neutral cham    se6
+        weiss   cham    ld5
+        schwarz         td7 be7d6g2 kf5
+        neutral cham    se6
 
 weiter
 
@@ -136,10 +136,10 @@ quelle          5), Europa-Rochade 5/1990, S. 36
 forderung       h#2
 
 steine  weiss           ka4 bd5
-	schwarz         sb8 ba6 kb6
-	schwarz cham    sd8
-	neutral cham    sb5
-	neutral         ba7
+        schwarz         sb8 ba6 kb6
+        schwarz cham    sd8
+        neutral cham    sb5
+        neutral         ba7
 
 weiter
 
@@ -151,8 +151,8 @@ option          varianten
 bedingung       circe
 
 steine  weiss           ka7 bc7e5f4d2 ld6 sa5c3
-	schwarz         lg8 th7 kd4 bf5f3d3b3
-	schwarz cham    ld7
+        schwarz         lg8 th7 kd4 bf5f3d3b3
+        schwarz cham    ld7
 
 weiter
 
