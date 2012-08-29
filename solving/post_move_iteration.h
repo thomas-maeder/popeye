@@ -46,17 +46,6 @@ stip_length_type post_move_iteration_initialiser_attack(slice_index si,
 stip_length_type post_move_iteration_initialiser_defend(slice_index si,
                                                         stip_length_type n);
 
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type post_move_iteration_avoider_attack(slice_index si,
-                                                    stip_length_type n);
-
 /* Instrument slices with post move iteration slices
  */
 void stip_insert_post_move_iteration(slice_index si);

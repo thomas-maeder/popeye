@@ -272,10 +272,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = post_move_iteration_initialiser_attack(si,n);
       break;
 
-    case STPostMoveIterationAvoider:
-      result = post_move_iteration_avoider_attack(si,n);
-      break;
-
     case STMoveEffectJournalReplayer:
       result = move_effect_journal_redoer_attack(si,n);
       break;

@@ -96,38 +96,6 @@ stip_length_type post_move_iteration_initialiser_defend(slice_index si,
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type post_move_iteration_avoider_attack(slice_index si,
-                                                    stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  post_move_iteration_locked[nbply] = true;
-  TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_locked[nbply]);
-
-  result = attack(slices[si].next1,n);
-
-  post_move_iteration_locked[nbply] = false;
-  TraceValue("%u",nbply);  TraceValue("%u\n",post_move_iteration_locked[nbply]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Instrument slices with post move iteration slices
  */
 void stip_insert_post_move_iteration(slice_index si)
@@ -137,7 +105,6 @@ void stip_insert_post_move_iteration(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STPostMoveIterationInitialiser);
-  stip_instrument_moves_replay(si,STPostMoveIterationAvoider);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

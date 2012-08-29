@@ -72,7 +72,6 @@ static slice_index const slice_rank_order[] =
   STAMUAttackCounter,
   STNullMovePlayer,
   STPostMoveIterationInitialiser,
-  STPostMoveIterationAvoider,
   STCastlingPlayer,
   STMessignyMovePlayer,
   STCastlingChessMovePlayer,

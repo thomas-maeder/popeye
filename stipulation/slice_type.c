@@ -33,7 +33,6 @@
     ENUMERATOR(STForEachMove), /* iterate over each generated move */  \
     ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
     ENUMERATOR(STPostMoveIterationInitialiser),                        \
-    ENUMERATOR(STPostMoveIterationAvoider),                            \
     ENUMERATOR(STMoveEffectJournalReplayer),                           \
     ENUMERATOR(STMoveEffectJournalUndoer),                             \
     ENUMERATOR(STMovePlayer),                                          \
