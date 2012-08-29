@@ -128,7 +128,7 @@ void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STCirceKamikazeRebirthHandler);
+  stip_instrument_moves(si,STCirceKamikazeRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

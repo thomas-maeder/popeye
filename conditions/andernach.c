@@ -97,7 +97,7 @@ void stip_insert_andernach(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STAndernachSideChanger);
+  stip_instrument_moves(si,STAndernachSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -132,7 +132,7 @@ void stip_insert_circe_parrain_rebirth_handlers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STCirceParrainRebirthHandler);
+  stip_instrument_moves(si,STCirceParrainRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

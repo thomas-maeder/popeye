@@ -233,7 +233,7 @@ void stip_insert_strict_sat(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STStrictSATUpdater);
+  stip_instrument_moves(si,STStrictSATUpdater);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

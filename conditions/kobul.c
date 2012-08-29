@@ -107,7 +107,7 @@ void stip_insert_kobul_king_substitutors(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STKobulKingSubstitutor);
+  stip_instrument_moves(si,STKobulKingSubstitutor);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

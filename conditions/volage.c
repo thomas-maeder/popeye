@@ -96,7 +96,7 @@ void stip_insert_volage_side_changers(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STVolageSideChanger);
+  stip_instrument_moves(si,STVolageSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

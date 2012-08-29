@@ -108,7 +108,7 @@ void stip_insert_reverse_einstein_moving_adjusters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STReverseEinsteinArrivingAdjuster);
+  stip_instrument_moves(si,STReverseEinsteinArrivingAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

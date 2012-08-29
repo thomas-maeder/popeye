@@ -20,8 +20,8 @@ void stip_insert_extinction_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STExtinctionRememberThreatened);
-  stip_instrument_moves_no_replay(si,STExtinctionTester);
+  stip_instrument_moves(si,STExtinctionRememberThreatened);
+  stip_instrument_moves(si,STExtinctionTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

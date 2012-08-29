@@ -119,7 +119,7 @@ void stip_insert_dynasty(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STDynastyKingSquareUpdater);
+  stip_instrument_moves(si,STDynastyKingSquareUpdater);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

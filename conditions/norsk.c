@@ -176,7 +176,7 @@ void stip_insert_norsk_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STNorskArrivingAdjuster);
+  stip_instrument_moves(si,STNorskArrivingAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -96,7 +96,7 @@ void stip_insert_magic_square_side_changers(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STMagicSquareSideChanger);
+  stip_instrument_moves(si,STMagicSquareSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

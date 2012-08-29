@@ -659,7 +659,7 @@ void stip_insert_magic_pieces_recolorers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STMagicPiecesRecolorer);
+  stip_instrument_moves(si,STMagicPiecesRecolorer);
 
   {
     slice_index const prototype = alloc_pipe(STMagicViewsInitialiser);

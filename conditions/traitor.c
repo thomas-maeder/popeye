@@ -94,7 +94,7 @@ void stip_insert_traitor_side_changers(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STTraitorSideChanger);
+  stip_instrument_moves(si,STTraitorSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

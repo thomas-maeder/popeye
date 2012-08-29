@@ -136,8 +136,8 @@ void stip_insert_post_move_iteration(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STPostMoveIterationInitialiser);
-  stip_instrument_moves_only_replay(si,STPostMoveIterationAvoider);
+  stip_instrument_moves(si,STPostMoveIterationInitialiser);
+  stip_instrument_moves_replay(si,STPostMoveIterationAvoider);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -230,7 +230,7 @@ void stip_insert_supercirce_rebirth_handlers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_insert_rebirth_avoider(si,STSuperCirceNoRebirthFork);
-  stip_instrument_moves_no_replay(si,STSuperCirceRebirthHandler);
+  stip_instrument_moves(si,STSuperCirceRebirthHandler);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);

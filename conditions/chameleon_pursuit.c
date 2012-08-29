@@ -87,7 +87,7 @@ void stip_insert_chameleon_pursuit(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STChameleonPursuitSideChanger);
+  stip_instrument_moves(si,STChameleonPursuitSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

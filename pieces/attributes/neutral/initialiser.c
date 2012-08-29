@@ -371,7 +371,8 @@ void stip_insert_neutral_initialisers(slice_index si)
                                            &insert_initialser);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_moves_no_replay(si,STPiecesNeutralRetractingRecolorer);
+  stip_instrument_moves(si,STPiecesNeutralRetractingRecolorer);
+  stip_instrument_moves_replay(si,STPiecesNeutralReplayingRecolorer);
   stip_instrument_moves(si,STPiecesNeutralReplayingRecolorer);
 
   TraceStipulation(si);

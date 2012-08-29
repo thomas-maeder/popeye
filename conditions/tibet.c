@@ -85,7 +85,7 @@ void stip_insert_double_tibet(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STDoubleTibetSideChanger);
+  stip_instrument_moves(si,STDoubleTibetSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -171,7 +171,7 @@ void stip_insert_tibet(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STTibetSideChanger);
+  stip_instrument_moves(si,STTibetSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

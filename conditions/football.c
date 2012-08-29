@@ -189,7 +189,7 @@ void stip_insert_football_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STFootballChessSubsitutor);
+  stip_instrument_moves(si,STFootballChessSubsitutor);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

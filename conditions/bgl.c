@@ -129,7 +129,7 @@ void stip_insert_bgl_filters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STBGLFilter);
+  stip_instrument_moves(si,STBGLFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

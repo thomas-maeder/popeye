@@ -590,7 +590,7 @@ void stip_insert_castling(slice_index si)
   TraceFunctionParamListEnd();
 
   insert_alternative_move_players_no_replay(si,STCastlingPlayer);
-  stip_instrument_moves_no_replay(si,STCastlingRightsAdjuster);
+  stip_instrument_moves(si,STCastlingRightsAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

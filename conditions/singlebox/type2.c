@@ -128,9 +128,9 @@ void stip_insert_singlebox_type2(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STSingleboxType2LatentPawnSelector);
-  stip_instrument_moves_no_replay(si,STSingleboxType2LatentPawnPromoter);
-  stip_instrument_moves_no_replay(si,STSingleBoxType2LegalityTester);
+  stip_instrument_moves(si,STSingleboxType2LatentPawnSelector);
+  stip_instrument_moves(si,STSingleboxType2LatentPawnPromoter);
+  stip_instrument_moves(si,STSingleBoxType2LegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -20,7 +20,7 @@ void stip_insert_circe_assassin(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STCirceAssassinRebirth);
+  stip_instrument_moves(si,STCirceAssassinRebirth);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

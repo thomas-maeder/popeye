@@ -186,7 +186,7 @@ void stip_insert_kamikaze(slice_index si)
   insert_goal_filters(si);
 
   if (!anycirce)
-    stip_instrument_moves_no_replay(si,STKamikazeCapturingPieceRemover);
+    stip_instrument_moves(si,STKamikazeCapturingPieceRemover);
 
   TraceStipulation(si);
 

@@ -101,7 +101,7 @@ void stip_insert_frischauf_promotee_markers(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STFrischaufPromoteeMarker);
+  stip_instrument_moves(si,STFrischaufPromoteeMarker);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

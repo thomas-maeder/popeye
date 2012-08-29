@@ -466,7 +466,7 @@ void stip_insert_imitator(slice_index si)
   if (!CondFlag[noiprom])
     insert_promoters(si);
 
-  stip_instrument_moves_no_replay(si,STImitatorMover);
+  stip_instrument_moves(si,STImitatorMover);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

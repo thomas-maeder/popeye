@@ -162,7 +162,7 @@ void stip_insert_line_chameleon_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STLineChameleonArrivingAdjuster);
+  stip_instrument_moves(si,STLineChameleonArrivingAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

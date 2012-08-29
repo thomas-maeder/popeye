@@ -409,14 +409,14 @@ void stip_insert_chameleon(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STChameleonArrivingAdjuster);
-  stip_instrument_moves_no_replay(si,STPromoteMovingIntoChameleon);
+  stip_instrument_moves(si,STChameleonArrivingAdjuster);
+  stip_instrument_moves(si,STPromoteMovingIntoChameleon);
 
   if (anycirprom)
-    stip_instrument_moves_no_replay(si,STPromoteCirceRebornIntoChameleon);
+    stip_instrument_moves(si,STPromoteCirceRebornIntoChameleon);
 
   if (anyanticirprom)
-    stip_instrument_moves_no_replay(si,STPromoteAnticirceRebornIntoChameleon);
+    stip_instrument_moves(si,STPromoteAnticirceRebornIntoChameleon);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

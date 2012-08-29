@@ -95,7 +95,7 @@ void stip_insert_degradierung(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STDegradierungDegrader);
+  stip_instrument_moves(si,STDegradierungDegrader);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

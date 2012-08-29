@@ -133,7 +133,7 @@ void stip_insert_sentinelles_inserters(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STSentinellesInserter);
+  stip_instrument_moves(si,STSentinellesInserter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

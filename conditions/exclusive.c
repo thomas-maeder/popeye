@@ -200,7 +200,7 @@ void stip_insert_exclusive_chess_legality_testers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STExclusiveChessLegalityTester);
+  stip_instrument_moves(si,STExclusiveChessLegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -7,14 +7,8 @@
 /* This module plays the orthodox part of a move.
  */
 
-/* Replace the arriving piece of the currently played move
- * @param p substitute
- */
-void replace_arriving_piece(piece p);
-
 void stip_instrument_moves(slice_index si, slice_type type);
-void stip_instrument_moves_no_replay(slice_index si, slice_type type);
-void stip_instrument_moves_only_replay(slice_index si, slice_type type);
+void stip_instrument_moves_replay(slice_index si, slice_type type);
 
 /* Allocate a STMovePlayer slice.
  * @return index of allocated slice

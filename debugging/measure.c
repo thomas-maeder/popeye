@@ -52,7 +52,7 @@ stip_length_type move_counter_defend(slice_index si, stip_length_type n)
  */
 void stip_insert_move_counters(slice_index si)
 {
-  stip_instrument_moves_no_replay(si,STMoveCounter);
+  stip_instrument_moves(si,STMoveCounter);
 }
 
 #endif

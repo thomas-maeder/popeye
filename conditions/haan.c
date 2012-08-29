@@ -93,7 +93,7 @@ void stip_insert_haan_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STHaanChessHoleInserter);
+  stip_instrument_moves(si,STHaanChessHoleInserter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

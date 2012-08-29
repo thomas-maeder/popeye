@@ -94,7 +94,7 @@ void stip_insert_hurdle_colour_changers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STHurdleColourChanger);
+  stip_instrument_moves(si,STHurdleColourChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

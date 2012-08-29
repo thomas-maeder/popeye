@@ -131,7 +131,7 @@ void stip_insert_half_neutral_recolorers(slice_index si)
 
   TraceStipulation(si);
 
-  stip_instrument_moves_no_replay(si,STPiecesHalfNeutralRecolorer);
+  stip_instrument_moves(si,STPiecesHalfNeutralRecolorer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

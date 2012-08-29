@@ -39,8 +39,8 @@ void stip_insert_singlebox_type3(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STSingleBoxType3LegalityTester);
-  stip_instrument_moves_no_replay(si,STSingleBoxType3PawnPromoter);
+  stip_instrument_moves(si,STSingleBoxType3LegalityTester);
+  stip_instrument_moves(si,STSingleBoxType3PawnPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

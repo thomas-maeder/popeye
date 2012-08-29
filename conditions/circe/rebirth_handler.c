@@ -176,7 +176,7 @@ void stip_insert_circe(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STCirceRebirthHandler);
+  stip_instrument_moves(si,STCirceRebirthHandler);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);

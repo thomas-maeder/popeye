@@ -12,26 +12,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Replace the arriving piece of the currently played move
- * @param p substitute
- */
-void replace_arriving_piece(piece p)
-{
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-
-  TraceFunctionEntry(__func__);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  --nbpiece[e[sq_arrival]];
-  e[sq_arrival] = p;
-  ++nbpiece[e[sq_arrival]];
-  jouearr[nbply] = e[sq_arrival];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -59,29 +39,13 @@ void stip_instrument_moves(slice_index si, slice_type type)
 
   stip_structure_traversal_init(&st,&type);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_structure_traversal_override_single(&st,STReplayingMoves,&instrument_move);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void stip_instrument_moves_no_replay(slice_index si, slice_type type)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&type);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void stip_instrument_moves_only_replay(slice_index si, slice_type type)
+void stip_instrument_moves_replay(slice_index si, slice_type type)
 {
   stip_structure_traversal st;
 

@@ -168,8 +168,8 @@ void stip_insert_ghost_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STGhostChessGhostRememberer);
-  stip_instrument_moves_no_replay(si,STGhostChessGhostSummoner);
+  stip_instrument_moves(si,STGhostChessGhostRememberer);
+  stip_instrument_moves(si,STGhostChessGhostSummoner);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

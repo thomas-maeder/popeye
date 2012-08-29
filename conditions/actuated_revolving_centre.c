@@ -16,7 +16,7 @@ void stip_insert_actuated_revolving_centre(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STActuatedRevolvingCentre);
+  stip_instrument_moves(si,STActuatedRevolvingCentre);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

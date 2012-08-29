@@ -38,7 +38,7 @@ void stip_insert_patience_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STPatienceChessLegalityTester);
+  stip_instrument_moves(si,STPatienceChessLegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -51,7 +51,7 @@ void stip_insert_isardam_legality_testers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STIsardamLegalityTester);
+  stip_instrument_moves(si,STIsardamLegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

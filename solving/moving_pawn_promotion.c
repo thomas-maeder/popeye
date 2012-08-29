@@ -162,7 +162,7 @@ void stip_insert_moving_pawn_promoters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STMovingPawnPromoter);
+  stip_instrument_moves(si,STMovingPawnPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

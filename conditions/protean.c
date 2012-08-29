@@ -123,7 +123,7 @@ void stip_insert_protean_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STProteanPawnAdjuster);
+  stip_instrument_moves(si,STProteanPawnAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
