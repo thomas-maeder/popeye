@@ -7,6 +7,7 @@
 #include "stipulation/move_player.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -39,7 +40,7 @@ void stip_insert_singlebox_type3(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves_no_replay(si,STSingleBoxType3LegalityTester);
-  stip_instrument_moves(si,STSingleBoxType3PawnPromoter);
+  stip_instrument_moves_no_replay(si,STSingleBoxType3PawnPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -57,7 +58,6 @@ stip_length_type singlebox_type3_pawn_promoter_attack(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
   numecoup const coup_id = current_move[nbply];
 
   TraceFunctionEntry(__func__);
@@ -66,21 +66,11 @@ stip_length_type singlebox_type3_pawn_promoter_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (singlebox_type3_promotions[coup_id].what!=vide)
-  {
-    piece const pawn = e[singlebox_type3_promotions[coup_id].where];
+    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                        singlebox_type3_promotions[coup_id].where,
+                                        singlebox_type3_promotions[coup_id].what);
 
-    --nbpiece[pawn];
-    e[singlebox_type3_promotions[coup_id].where] = singlebox_type3_promotions[coup_id].what;
-    ++nbpiece[singlebox_type3_promotions[coup_id].what];
-
-    result = attack(next,n);
-
-    --nbpiece[singlebox_type3_promotions[coup_id].what];
-    e[singlebox_type3_promotions[coup_id].where] = pawn;
-    ++nbpiece[pawn];
-  }
-  else
-    result = attack(next,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -103,7 +93,6 @@ stip_length_type singlebox_type3_pawn_promoter_defend(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
   numecoup const coup_id = current_move[nbply];
 
   TraceFunctionEntry(__func__);
@@ -111,22 +100,13 @@ stip_length_type singlebox_type3_pawn_promoter_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+
   if (singlebox_type3_promotions[coup_id].what!=vide)
-  {
-    piece const pawn = e[singlebox_type3_promotions[coup_id].where];
+    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                        singlebox_type3_promotions[coup_id].where,
+                                        singlebox_type3_promotions[coup_id].what);
 
-    --nbpiece[pawn];
-    e[singlebox_type3_promotions[coup_id].where] = singlebox_type3_promotions[coup_id].what;
-    ++nbpiece[singlebox_type3_promotions[coup_id].what];
-
-    result = defend(next,n);
-
-    --nbpiece[singlebox_type3_promotions[coup_id].what];
-    e[singlebox_type3_promotions[coup_id].where] = pawn;
-    ++nbpiece[pawn];
-  }
-  else
-    result = defend(next,n);
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

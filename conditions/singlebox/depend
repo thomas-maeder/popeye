@@ -149,7 +149,7 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move_player.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
- debugging/trace.h
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/singlebox/type3.h:
 
@@ -208,5 +208,7 @@ stipulation/move_player.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
