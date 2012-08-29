@@ -6,7 +6,7 @@ orig 3 H.M. Umenie 64 1999 (SAT #66)
 stip #2
 opt var try def 4
 cond strictsat
-fors 7r/7p/7P/2S5/1pBP4/3sBp2p/2Pks1PR/3K2R1/
+fors 7r/7p/7P/2S5/1pBP4/3sBp2/p2Pks1P/R3K2R
 
 next
 
