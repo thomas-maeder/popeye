@@ -3,9 +3,8 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
 #include "stipulation/move_player.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -19,21 +18,52 @@ static void recolor(Side trait_ply)
   {
     if (TSTFLAG(spec[sq_arrival],Neutral))
     {
-      CLRFLAG(spec[sq_arrival],advers(trait_ply));
-      CLRFLAG(spec[sq_arrival],Neutral);
-      replace_arriving_piece(trait_ply==Black ? -abs(e[sq_arrival]) : abs(e[sq_arrival]));
+      piece const deneutralised = trait[nbply]==Black ? -abs(e[sq_arrival]) : abs(e[sq_arrival]);
+
+      Flags deneutralised_spec = spec[sq_arrival];
+      assert(TSTFLAG(deneutralised_spec,White));
+      assert(TSTFLAG(deneutralised_spec,Black));
+      assert(TSTFLAG(deneutralised_spec,Neutral));
+      CLRFLAG(deneutralised_spec,Neutral);
+      CLRFLAG(deneutralised_spec,advers(trait_ply));
+
+      move_effect_journal_do_piece_change(move_effect_reason_half_neutral_deneutralisation,
+                                          sq_arrival,
+                                          deneutralised);
+
+      move_effect_journal_do_flags_change(move_effect_reason_half_neutral_deneutralisation,
+                                          sq_arrival,
+                                          deneutralised_spec);
+
       if (king_square[advers(trait_ply)]==sq_arrival)
-        king_square[advers(trait_ply)] = initsquare;
+        move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
+                                                    advers(trait_ply),
+                                                    initsquare);
     }
     else
     {
-      assert(TSTFLAG(spec[sq_arrival],trait_ply));
-      SETFLAG(spec[sq_arrival],Neutral);
-      SETFLAG(spec[sq_arrival],advers(trait_ply));
-      replace_arriving_piece(neutral_side==Black ? -abs(e[sq_arrival]) : abs(e[sq_arrival]));
+      piece const neutralised = neutral_side ? -abs(e[sq_arrival]) : abs(e[sq_arrival]);
+
+      Flags neutralised_spec = spec[sq_arrival];
+      assert(TSTFLAG(neutralised_spec,trait[nbply]));
+      SETFLAG(neutralised_spec,Neutral);
+      SETFLAG(neutralised_spec,advers(trait_ply));
+
+      move_effect_journal_do_piece_change(move_effect_reason_half_neutral_neutralisation,
+                                          sq_arrival,
+                                          neutralised);
+
+      move_effect_journal_do_flags_change(move_effect_reason_half_neutral_neutralisation,
+                                          sq_arrival,
+                                          neutralised_spec);
+
       if (king_square[trait_ply]==sq_arrival)
-        king_square[advers(trait_ply)] = sq_arrival;
+        move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
+                                                    advers(trait_ply),
+                                                    sq_arrival);
     }
+
+    jouearr[nbply] = e[sq_arrival];
   }
 }
 
@@ -90,46 +120,18 @@ stip_length_type half_neutral_recolorer_defend(slice_index si, stip_length_type 
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STPiecesHalfNeutralRecolorer);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation with goal filter slices
  * @param si root of branch to be instrumented
  */
 void stip_insert_half_neutral_recolorers(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
-
-  TraceStipulation(si);
+  stip_instrument_moves_no_replay(si,STPiecesHalfNeutralRecolorer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

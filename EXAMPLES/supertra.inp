@@ -7,7 +7,7 @@ pie whi ke4 qf8 rg8 bh7 sa7 gd8 pa6b4c4e3f5
     bla kd7 qa5 rf3 bb1e2 sb3c2 ga2c6e1 pc5c7e5f7
 sti #2
 con whitesupertr
-opt try var def 4
+opt set try var
 
 next
 aut Karol Mlynka
@@ -16,7 +16,7 @@ pie whi kd5 qf2 ra5d8 ba8 pa4b3
     bla kh1 rb7a3 ba2 pf3h7
 sti #2
 con whitesupertr
-opt try var 
+opt set try var 
 
 next
 aut Karol Mlynka
@@ -25,7 +25,7 @@ pie whi kb5 qb6 sf8 gd8 pb4d5
     bla kc8 qf6 bb3f1 sd3e4 gb1h1d7 pa4d6
 sti #2
 con whitesupertrans
-opt try var 
+opt set var 
 
 next
 
@@ -36,7 +36,6 @@ pie whi Kb3 Rd8c5h3 Ba6d1 Sa5g4c2b1 Pa7f3f2
      bla Kd3 Rd6h4 Bb5f1 Sc7d7 Pe5b4b2g2
 sti #2
 con whitesupertran
-
 opt try var 
 
 next
@@ -49,6 +48,5 @@ pie whi kd5
 sti h#3
 con whitesupertrans
 twi move a2 b2
-
 
 end

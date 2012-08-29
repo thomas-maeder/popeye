@@ -1,14 +1,10 @@
 #include "conditions/circe/super.h"
 #include "conditions/circe/capture_fork.h"
-#include "pydata.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 
@@ -154,7 +150,6 @@ stip_length_type supercirce_rebirth_handler_attack(slice_index si,
 
     circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
     result = attack(slices[si].next1,n);
-    circe_undo_rebirth(sq_rebirth);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -209,7 +204,6 @@ stip_length_type supercirce_rebirth_handler_defend(slice_index si,
 
     circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
     result = defend(slices[si].next1,n);
-    circe_undo_rebirth(sq_rebirth);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -226,47 +220,17 @@ stip_length_type supercirce_rebirth_handler_defend(slice_index si,
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STSuperCirceRebirthHandler);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_supercirce_rebirth_handlers(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STIsardamDefenderFinder,
-                                           &stip_traverse_structure_children_pipe);
-  stip_traverse_structure(si,&st);
-
   stip_insert_rebirth_avoider(si,STSuperCirceNoRebirthFork);
+  stip_instrument_moves_no_replay(si,STSuperCirceRebirthHandler);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);

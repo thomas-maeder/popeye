@@ -414,6 +414,7 @@ square rennormal(ply ply_id,
                       *(CondFlag[glasgow]
                         ? nr_of_slack_rows_below_board+nr_rows_on_board-2
                         : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
+          break;
         }
     }
   }
@@ -452,6 +453,7 @@ square rennormal(ply ply_id,
                       *(CondFlag[glasgow]
                         ? nr_of_slack_rows_below_board+1
                         : nr_of_slack_rows_below_board)));
+          break;
         }
     }
   }
@@ -568,16 +570,23 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
   }
   else
   {
-    piece const sides_king = side==White ? roib : roin;
-    e[from]= vide;
-    e[to]= sides_king;
+    e[to] = e[from];
+    spec[to] = spec[from];
+
+    e[from] = vide;
+    CLEARFL(spec[from]);
+
     if (king_square[side]!=initsquare)
       king_square[side] = to;
 
     result = !echecc(side);
 
-    e[from]= sides_king;
-    e[to]= vide;
+    e[from] = e[to];
+    spec[from] = spec[to];
+
+    e[to] = vide;
+    CLEARFL(spec[to]);
+
     if (king_square[side]!=initsquare)
       king_square[side] = from;
   }
@@ -587,43 +596,39 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
 
 void generate_castling(Side side)
 {
-  /* It works only for castling_supported == TRUE
-     have a look at funtion verifieposition() in py6.c
-  */
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
 
-  square const square_a = side==White ? square_a1 : square_a8;
-  square const square_e = square_a+file_e;
-  piece const sides_king = side==White ? roib : roin;
-
-  if (dont_generate_castling)
-    return;
-
-  if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
-      && e[square_e]==sides_king
-      /* then the king on e8 and at least one rook can castle !! */
-      && !echecc(side))
+  if (!dont_generate_castling)
   {
-    square const square_c = square_a+file_c;
-    square const square_d = square_a+file_d;
-    square const square_f = square_a+file_f;
-    square const square_g = square_a+file_g;
-    square const square_h = square_a+file_h;
-    piece const sides_rook = side==White ? tb : tn;
+    if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
+        && !echecc(side))
+    {
+      square const square_a = side==White ? square_a1 : square_a8;
+      square const square_c = square_a+file_c;
+      square const square_d = square_a+file_d;
+      square const square_e = square_a+file_e;
+      square const square_f = square_a+file_f;
+      square const square_g = square_a+file_g;
+      square const square_h = square_a+file_h;
 
-    /* 0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
-        && e[square_h]==sides_rook
-        && are_squares_empty(square_e,square_h,dir_right)
-        && castling_is_intermediate_king_move_legal(side,square_e,square_f))
-      empile(square_e,square_g,kingside_castling);
+      /* 0-0 */
+      if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
+          && are_squares_empty(square_e,square_h,dir_right)
+          && castling_is_intermediate_king_move_legal(side,square_e,square_f))
+        empile(square_e,square_g,kingside_castling);
 
-    /* 0-0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
-        && e[square_a]==sides_rook
-        && are_squares_empty(square_e,square_a,dir_left)
-        && castling_is_intermediate_king_move_legal(side,square_e,square_d))
-      empile(square_e,square_c,queenside_castling);
+      /* 0-0-0 */
+      if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
+          && are_squares_empty(square_e,square_a,dir_left)
+          && castling_is_intermediate_king_move_legal(side,square_e,square_d))
+        empile(square_e,square_c,queenside_castling);
+    }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void genrn(square sq_departure)
@@ -844,7 +849,10 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
       gen_bl_piece_aux(sq_departure,p);
 
       /* Kings normally don't move from their rebirth-square */
-      if (p == e[king_square[Black]] && !rex_phan) {
+      if (p == e[king_square[Black]] && !rex_phan)
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResultEnd();
         return;
       }
       /* generate moves from rebirth square */
@@ -861,7 +869,11 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
          we've already generated all the relevant moves.
       */
       if (sq_rebirth==sq_departure)
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResultEnd();
         return;
+      }
       if (e[sq_rebirth] == vide)
       {
         numecoup const anf2 = current_move[nbply];

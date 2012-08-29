@@ -98,7 +98,7 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/boolean/true.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
- stipulation/move_player.h stipulation/has_solution_type.h \
+ stipulation/has_solution_type.h \
  stipulation/discriminate_by_right_to_move.h \
  stipulation/help_play/adapter.h solving/fork_on_remaining.h py1.h \
  pydata.h conditions/haunted_chess.h debugging/trace.h pymsg.h \
@@ -161,8 +161,6 @@ stipulation/proxy.h:
 stipulation/pipe.h:
 
 stipulation/fork.h:
-
-stipulation/move_player.h:
 
 stipulation/has_solution_type.h:
 

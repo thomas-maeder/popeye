@@ -4,7 +4,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
-#include "stipulation/move_player.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/discriminate_by_right_to_move.h"
 #include "stipulation/help_play/adapter.h"
@@ -183,7 +182,7 @@ static slice_index alloc_writers_for_one_side(Goal goal)
 {
   slice_index const result = alloc_proxy_slice();
   slice_index const replaying = alloc_pipe(STReplayingMoves);
-  slice_index const replayer = alloc_move_player_slice();
+  slice_index const replayer = alloc_pipe(STMoveEffectJournalReplayer);
   slice_index const landing = alloc_pipe(STLandingAfterMovePlay);
   slice_index const proxyIntermediate = alloc_proxy_slice();
   slice_index const proxyLast = alloc_proxy_slice();

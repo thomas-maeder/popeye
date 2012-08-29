@@ -243,7 +243,6 @@ EXTERN  boolean         InitChamCirce;
 
 EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;
-EXTERN unsigned int     max_pn, max_pb, max_pt;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
 
 EXTERN boolean          checkhopim;
@@ -260,8 +259,11 @@ EXTERN piece            current_trans_gen;
 EXTERN piece            ctrans[toppile+1];
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          dont_generate_castling;
-EXTERN square           takemake_departuresquare;
-EXTERN square           takemake_capturesquare;
+EXTERN square           takemake_takedeparturesquare;
+EXTERN square           takemake_takecapturesquare;
+EXTERN square           takemake_takearrivalsquare;
+EXTERN Flags            takemake_takenspec;
+EXTERN piece            takemake_takenpiece;
 EXTERN boolean          flag_synchron;
 EXTERN int         annanvar;
 EXTERN ply      	      tempply;
@@ -1451,8 +1453,8 @@ void enforce_piecename_uniqueness(void);
       "Blanc",
       "Noir",
       "Neutre",
-      "Kamikaze",
       "Royale",
+      "Kamikaze",
       "Paralysante",
       "Chameleon",
       "Jigger",
@@ -1469,8 +1471,8 @@ void enforce_piecename_uniqueness(void);
       "Weiss",
       "Schwarz",
       "Neutral",
-      "Kamikaze",
       "Koeniglich",
+      "Kamikaze",
       "Paralysierend",
       "Chamaeleon",
       "Jigger",
@@ -1487,8 +1489,8 @@ void enforce_piecename_uniqueness(void);
       "White",
       "Black",
       "Neutral",
-      "Kamikaze",
       "Royal",
+      "Kamikaze",
       "Paralysing",
       "Chameleon",
       "Jigger",

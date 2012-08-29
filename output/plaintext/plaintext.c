@@ -23,263 +23,265 @@ static void editcoup(coup const *mov)
 
   if (mov->cazz==nullsquare) return;
 
-  /* Did we castle ?? */
-  if (mov->cpzz == kingside_castling
-      || mov->cpzz == queenside_castling)
+  if (mov->sb3what!=vide)
+  {
+    StdString("[");
+    WriteSquare(mov->sb3where);
+    StdString("=");
+    WritePiece(mov->sb3what);
+    StdString("]");
+  }
+
+  if (mov->cpzz==kingside_castling || mov->cpzz==queenside_castling)
   {
     /* castling */
     StdString("0-0");
-    if (mov->cpzz == queenside_castling) {
+    if (mov->cpzz == queenside_castling)
       StdString("-0");
-    }
-    if (CondFlag[einstein]) {
+    if (CondFlag[einstein])
+    {
       StdChar('=');
       if (CondFlag[reveinstein])
         WritePiece(db);
       else
         WritePiece(fb);
     }
-  } else {  /* no, we didn't castle */
-    if (mov->cpzz == messigny_exchange) {
+  }
+  else if (mov->cpzz == messigny_exchange)
+  {
+    WritePiece(mov->pjzz);
+    WriteSquare(mov->cdzz);
+    StdString("<->");
+    WritePiece(mov->ppri);
+    WriteSquare(mov->cazz);
+  }
+  else
+  {
+    if (WriteSpec(mov->speci,mov->pjzz, false)
+        || (mov->pjzz != pb && mov->pjzz != pn))
       WritePiece(mov->pjzz);
-      WriteSquare(mov->cdzz);
-      StdString("<->");
-      WritePiece(mov->ppri);
-      WriteSquare(mov->cazz);
+
+    WriteSquare(mov->cdzz);
+    if (anyantimars && (mov->ppri == vide || mov->cdzz == mov->cpzz))
+    {
+      StdString("->");
+      WriteSquare(mov->mren);
     }
-    else {
-      if (mov->sb3what!=vide) {
-        StdString("[");
-        WriteSquare(mov->sb3where);
-        StdString("=");
-        WritePiece(mov->sb3what);
-        StdString("]");
-      }
-      if (WriteSpec(mov->speci, false)
-          || (mov->pjzz != pb && mov->pjzz != pn))
-        WritePiece(mov->pjzz);
+    if (mov->ppri == vide || (anyantimars && mov->cdzz == mov->cpzz))
+      StdChar('-');
+    else
+      StdChar('*');
 
-      WriteSquare(mov->cdzz);
-      if (anyantimars && (mov->ppri == vide || mov->cdzz == mov->cpzz))
+    if (mov->cpzz != mov->cazz && mov->roch_sq == initsquare)
+    {
+      if (is_pawn(mov->pjzz) && !CondFlag[takemake])
       {
-        StdString("->");
-        WriteSquare(mov->mren);
+        WriteSquare(mov->cazz);
+        StdString(" ep.");
       }
-      if (mov->ppri == vide || (anyantimars && mov->cdzz == mov->cpzz))
-        StdChar('-');
       else
-        StdChar('*');
-
-      if (mov->cpzz != mov->cazz && mov->roch_sq == initsquare) {
-        if (is_pawn(mov->pjzz) && !CondFlag[takemake]) {
-          WriteSquare(mov->cazz);
-          StdString(" ep.");
-        }
-        else {
-          WriteSquare(mov->cpzz);
-          StdChar('-');
-          WriteSquare(mov->cazz);
-        }
-      }
-      else {
+      {
+        WriteSquare(mov->cpzz);
+        StdChar('-');
         WriteSquare(mov->cazz);
       }
     }
-
-    if (mov->pjzz!=mov->pjazz
-        || (mov->new_spec!=0
-            && GetPieceId(mov->speci)==GetPieceId(mov->new_spec)/* same piece */
-            && mov->speci!=mov->new_spec))                 /* different flags */
-    {
-      if (mov->pjazz == vide) {
-        if (mov->promi) {
-          StdString ("=I");
-        }
-      }
-      else if (mov->roch_sq >= initsquare &&
-              !((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
-                 (CondFlag[black_oscillatingKs] && mov->tr == Black && mov->pjzz == roin)))
-      {
-        Flags prev_spec = mov->speci;
-        if (mov->bool_norm_cham_prom)
-          SETFLAG(prev_spec,Chameleon);
-        {
-          boolean const print_sides =  prev_spec!=mov->new_spec;
-          StdChar('=');
-          WriteSpec(mov->new_spec,print_sides);
-          WritePiece(mov->pjazz);
-        }
-      }
-    }
-
-    if (mov->roch_sq > initsquare) {
-      StdChar('/');
-      WriteSpec(mov->roch_sp, true);
-      WritePiece(mov->roch_pc);
-      WriteSquare(mov->roch_sq);
-      StdChar('-');
-      WriteSquare((mov->cdzz + mov->cazz) / 2);
-    }
-
-    if (mov->roch_sq < initsquare) {
-      StdChar('/');
-      WriteSpec(mov->roch_sp, true);
-      WritePiece(mov->roch_pc);
-      WriteSquare(-(mov->roch_sq));
-      StdChar('-');
-      WriteSquare(mov->cdzz);
-    }
-
-    if (mov->sqren != initsquare) {
-      piece   p= CondFlag[antieinstein]
-          ? einstein_increase_piece(mov->ppri)
-          : CondFlag[parrain]
-          ? mov->ren_parrain
-          : CondFlag[chamcirce]
-          ? ChamCircePiece(mov->ppri)
-          : (anyclone && abs(mov->pjzz) != roib)
-          ? -mov->pjzz
-          : (anytraitor && abs(mov->ppri) >= roib)
-          ? -mov->ppri
-          : mov->ppri;
-      StdString(" [+");
-      WriteSpec(mov->ren_spec, p!=vide);
-      WritePiece(p);
-
-      WriteSquare(mov->sqren);
-      if (mov->cir_prom!=Empty)
-      {
-        Flags written_spec = mov->ren_spec;
-        if (mov->bool_cir_cham_prom)
-          SETFLAG(written_spec,Chameleon);
-        StdChar('=');
-        WriteSpec(written_spec,p!=vide);
-        WritePiece(mov->cir_prom);
-      }
-
-      if (TSTFLAG(mov->ren_spec, Volage)
-          && SquareCol(mov->cpzz) != SquareCol(mov->sqren))
-      {
-        sprintf(GlobalStr, "=(%c)",
-                (mov->tr == White) ? WhiteChar : BlackChar);
-        StdString(GlobalStr);
-      }
-      StdChar(']');
-    }
-
-    if (mov->sb2where!=initsquare) {
-      assert(mov->sb2what!=vide);
-      StdString(" [");
-      WriteSquare(mov->sb2where);
-      StdString("=");
-      WritePiece(mov->sb2what);
-      StdString("]");
-    }
-
-    if (CondFlag[republican])
-      write_republican_king_placement(mov);
-
-    if (mov->renkam!=initsquare)
-    {
-      StdChar('[');
-      WriteSpec(mov->new_spec, mov->pjazz != vide);
-      WritePiece(mov->pjazz);
+    else
       WriteSquare(mov->cazz);
-      StdString("->");
-      WriteSquare(mov->renkam);
-      if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
+  }
+
+  if (mov->pjzz!=mov->pjazz
+      || (mov->new_spec!=0
+          && GetPieceId(mov->speci)==GetPieceId(mov->new_spec)/* same piece */
+          && mov->speci!=mov->new_spec))                 /* different flags */
+  {
+    if (mov->pjazz == vide) {
+      if (mov->promi) {
+        StdString ("=I");
+      }
+    }
+    else if (mov->roch_sq >= initsquare &&
+            !((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
+               (CondFlag[black_oscillatingKs] && mov->tr == Black && mov->pjzz == roin)))
+    {
+      Flags prev_spec = mov->speci;
+      if (mov->bool_norm_cham_prom)
+        SETFLAG(prev_spec,Chameleon);
       {
+        boolean const print_sides =  prev_spec!=mov->new_spec;
         StdChar('=');
-        WriteSpec(mov->new_spec, true);
-        WritePiece(mov->norm_prom);
+        WriteSpec(mov->new_spec,mov->pjazz,print_sides);
+        WritePiece(mov->pjazz);
       }
-      StdChar(']');
     }
-    if (mov->bool_senti) {
-      StdString("[+");
-      StdChar((!SentPionNeutral || !TSTFLAG(mov->speci, Neutral))
-              ?  ((mov->tr==White) != SentPionAdverse
-                  ? WhiteChar
-                  : BlackChar)
-              : 'n');
-      WritePiece(sentinelb); WriteSquare(mov->cdzz);
-      StdChar(']');
-    }
-    if (TSTFLAG(mov->speci, ColourChange)
-        && (abs(e[mov->hurdle])>roib))
+  }
+
+  if (mov->roch_sq > initsquare) {
+    StdChar('/');
+    WriteSpec(mov->roch_sp,mov->roch_pc, true);
+    WritePiece(mov->roch_pc);
+    WriteSquare(mov->roch_sq);
+    StdChar('-');
+    WriteSquare((mov->cdzz + mov->cazz) / 2);
+  }
+
+  if (mov->roch_sq < initsquare) {
+    StdChar('/');
+    WriteSpec(mov->roch_sp,mov->roch_pc, true);
+    WritePiece(mov->roch_pc);
+    WriteSquare(-(mov->roch_sq));
+    StdChar('-');
+    WriteSquare(mov->cdzz);
+  }
+
+  if (mov->sqren != initsquare) {
+    piece   p= CondFlag[antieinstein]
+        ? einstein_increase_piece(mov->ppri)
+        : CondFlag[parrain]
+        ? mov->ren_parrain
+        : CondFlag[chamcirce]
+        ? ChamCircePiece(mov->ppri)
+        : (anyclone && abs(mov->pjzz) != roib)
+        ? -mov->pjzz
+        : (anytraitor && abs(mov->ppri) >= roib)
+        ? -mov->ppri
+        : mov->ppri;
+    StdString(" [+");
+    WriteSpec(mov->ren_spec,p, p!=vide);
+    WritePiece(p);
+
+    WriteSquare(mov->sqren);
+    if (mov->cir_prom!=Empty)
     {
-      Side hc= e[mov->hurdle] < vide ? Black : White;
-      StdString("[");
-      WriteSquare(mov->hurdle);
-      StdString("=");
-      StdChar(hc == White ? WhiteChar : BlackChar);
-      StdString("]");
+      Flags written_spec = mov->ren_spec;
+      if (mov->bool_cir_cham_prom)
+        SETFLAG(written_spec,Chameleon);
+      StdChar('=');
+      WriteSpec(written_spec,mov->cir_prom,p!=vide);
+      WritePiece(mov->cir_prom);
     }
-    if (CondFlag[kobulkings])
+
+    if (TSTFLAG(mov->ren_spec, Volage)
+        && SquareCol(mov->cpzz) != SquareCol(mov->sqren))
     {
-      if (mov->tr == Black && e[king_square[White]] != kobul[White][nbply])
+      sprintf(GlobalStr, "=(%c)",
+              (mov->tr == White) ? WhiteChar : BlackChar);
+      StdString(GlobalStr);
+    }
+    StdChar(']');
+  }
+
+  if (mov->sb2where!=initsquare) {
+    assert(mov->sb2what!=vide);
+    StdString(" [");
+    WriteSquare(mov->sb2where);
+    StdString("=");
+    WritePiece(mov->sb2what);
+    StdString("]");
+  }
+
+  if (CondFlag[republican])
+    write_republican_king_placement(mov);
+
+  if (mov->renkam!=initsquare)
+  {
+    StdChar('[');
+    WriteSpec(mov->new_spec,mov->pjazz, mov->pjazz != vide);
+    WritePiece(mov->pjazz);
+    WriteSquare(mov->cazz);
+    StdString("->");
+    WriteSquare(mov->renkam);
+    if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
+    {
+      StdChar('=');
+      WriteSpec(mov->new_spec,mov->norm_prom, true);
+      WritePiece(mov->norm_prom);
+    }
+    StdChar(']');
+  }
+  if (mov->bool_senti) {
+    StdString("[+");
+    StdChar((!SentPionNeutral || !TSTFLAG(mov->speci, Neutral))
+            ?  ((mov->tr==White) != SentPionAdverse
+                ? WhiteChar
+                : BlackChar)
+            : 'n');
+    WritePiece(sentinelb); WriteSquare(mov->cdzz);
+    StdChar(']');
+  }
+  if (TSTFLAG(mov->speci, ColourChange)
+      && (abs(e[mov->hurdle])>roib))
+  {
+    Side hc= e[mov->hurdle] < vide ? Black : White;
+    StdString("[");
+    WriteSquare(mov->hurdle);
+    StdString("=");
+    StdChar(hc == White ? WhiteChar : BlackChar);
+    StdString("]");
+  }
+  if (CondFlag[kobulkings])
+  {
+    if (mov->tr == Black && abs(e[king_square[White]]) != kobul[White][nbply])
+    {
+        StdString(" [");
+        WriteSpec(spec[king_square[White]],kobul[White][nbply], true);
+        WritePiece(kobul[White][nbply]);
+        StdString("=");
+        WriteSpec(spec[king_square[White]],e[king_square[White]], false);
+        WritePiece(e[king_square[White]]);
+        StdString("]");
+    }
+    if (mov->tr == White && -abs(e[king_square[Black]]) != kobul[Black][nbply])
+    {
+        StdString(" [");
+        WriteSpec(spec[king_square[Black]],kobul[Black][nbply], true);
+        WritePiece(kobul[Black][nbply]);
+        StdString("=");
+        WriteSpec(spec[king_square[Black]],e[king_square[Black]], false);
+        WritePiece(e[king_square[Black]]);
+        StdString("]");
+    }
+  }
+  if (TSTFLAG(PieSpExFlags,Magic) || CondFlag[masand])
+  {
+    if (mov->push_bottom != NULL) {
+
+      if (mov->push_top - mov->push_bottom > 0)
       {
-          StdString(" [");
-          WriteSpec(spec[king_square[White]], true);
-          WritePiece(kobul[White][nbply]);
-          StdString("=");
-          WriteSpec(spec[king_square[White]], false);
-          WritePiece(e[king_square[White]]);
-          StdString("]");
+        change_rec const * rec;
+        StdString(" [");
+        for (rec= mov->push_bottom; rec - mov->push_top < 0; rec++)
+        {
+          StdChar(rec->pc > vide ? WhiteChar : BlackChar);
+          WritePiece(rec->pc);
+          WriteSquare(rec->square);
+          if (mov->push_top - rec > 1)
+            StdString(", ");
+        }
+        StdChar(']');
       }
-      if (mov->tr == White && e[king_square[Black]] != kobul[Black][nbply])
+
+    } else {
+
+      if (side_change_sp[nbply] > side_change_sp[parent_ply[nbply]])
       {
-          StdString(" [");
-          WriteSpec(spec[king_square[Black]], true);
-          WritePiece(kobul[Black][nbply]);
-          StdString("=");
-          WriteSpec(spec[king_square[Black]], false);
-          WritePiece(e[king_square[Black]]);
-          StdString("]");
-      }
-    }
-    if (TSTFLAG(PieSpExFlags,Magic) || CondFlag[masand])
-    {
-      if (mov->push_bottom != NULL) {
-
-        if (mov->push_top - mov->push_bottom > 0)
+        change_rec const * rec;
+        StdString(" [");
+        for (rec = side_change_sp[parent_ply[nbply]];
+             rec<side_change_sp[nbply];
+             rec++)
         {
-          change_rec const * rec;
-          StdString(" [");
-          for (rec= mov->push_bottom; rec - mov->push_top < 0; rec++)
-          {
-            StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-            WritePiece(rec->pc);
-            WriteSquare(rec->square);
-            if (mov->push_top - rec > 1)
-              StdString(", ");
-          }
-          StdChar(']');
+          StdChar(rec->pc > vide ? WhiteChar : BlackChar);
+          WritePiece(rec->pc);
+          WriteSquare(rec->square);
+          if (side_change_sp[nbply]-rec > 1)
+            StdString(", ");
         }
-
-      } else {
-
-        if (side_change_sp[nbply] > side_change_sp[parent_ply[nbply]])
-        {
-          change_rec const * rec;
-          StdString(" [");
-          for (rec = side_change_sp[parent_ply[nbply]];
-               rec<side_change_sp[nbply];
-               rec++)
-          {
-            StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-            WritePiece(rec->pc);
-            WriteSquare(rec->square);
-            if (side_change_sp[nbply]-rec > 1)
-              StdString(", ");
-          }
-          StdChar(']');
-        }
-
+        StdChar(']');
       }
-    }
 
-  } /* No castling */
+    }
+  }
 
   if (mov->numi && CondFlag[imitators])
   {
@@ -309,7 +311,7 @@ static void editcoup(coup const *mov)
       && mov->ghost_piece!=vide)
   {
     StdString("[+");
-    WriteSpec(mov->ghost_flags, mov->ghost_piece != vide);
+    WriteSpec(mov->ghost_flags,mov->ghost_piece, mov->ghost_piece != vide);
     WritePiece(mov->ghost_piece);
     WriteSquare(mov->cdzz);
     StdString("]");

@@ -26,6 +26,11 @@ void einstein_decrease_castling_partner(Side trait_ply);
  */
 void einstein_increase_castling_partner(Side trait_ply);
 
+/* Remember all capturers of the current move
+ * @param is_capturer remembers capturers by their departure square (minus square_a1)
+ */
+void einstein_collect_capturers(boolean is_capturer[square_h8-square_a1]);
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

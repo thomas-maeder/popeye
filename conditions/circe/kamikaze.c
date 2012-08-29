@@ -2,13 +2,8 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/structure_traversal.h"
 #include "stipulation/move_player.h"
-#include "conditions/circe/rebirth_handler.h"
-#include "conditions/anticirce/rebirth_handler.h"
-#include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -48,23 +43,17 @@ static void do_kamikaze_rebirth(Side trait_ply)
                                                               sq_arrival,
                                                               advers(trait_ply));
 
-    e[sq_arrival] = vide;
-    spec[sq_arrival] = 0;
+    move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
+                                         sq_arrival);
 
     if (e[current_anticirce_rebirth_square[nbply]]==vide
         && !(CondFlag[contactgrid] && nogridcontact(current_anticirce_rebirth_square[nbply])))
-    {
-      e[current_anticirce_rebirth_square[nbply]] = pi_arriving;
-      spec[current_anticirce_rebirth_square[nbply]] = spec_pi_moving;
-      if (rex_circe)
-        do_king_rebirth(sq_departure,current_anticirce_rebirth_square[nbply]);
-      restore_castling_rights(current_anticirce_rebirth_square[nbply]);
-    }
+      move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
+                                            current_anticirce_rebirth_square[nbply],
+                                            pi_arriving,
+                                            spec_pi_moving);
     else
-    {
-      --nbpiece[pi_arriving];
       current_anticirce_rebirth_square[nbply] = initsquare;
-    }
   }
   else
     current_anticirce_rebirth_square[nbply] = initsquare;
@@ -93,8 +82,6 @@ stip_length_type circe_kamikaze_rebirth_handler_attack(slice_index si,
 
   do_kamikaze_rebirth(slices[si].starter);
   result = attack(slices[si].next1,n);
-  if (current_anticirce_rebirth_square[nbply]!=initsquare)
-    anticirce_undo_rebirth(current_anticirce_rebirth_square[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -125,8 +112,6 @@ stip_length_type circe_kamikaze_rebirth_handler_defend(slice_index si,
 
   do_kamikaze_rebirth(slices[si].starter);
   result = defend(slices[si].next1,n);
-  if (current_anticirce_rebirth_square[nbply]!=initsquare)
-    anticirce_undo_rebirth(current_anticirce_rebirth_square[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -143,7 +128,7 @@ void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STCirceKamikazeRebirthHandler);
+  stip_instrument_moves_no_replay(si,STCirceKamikazeRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

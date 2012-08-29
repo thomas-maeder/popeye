@@ -1,14 +1,33 @@
 #include "conditions/haan.h"
-#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
-#include "solving/castling.h"
-#include "solving/moving_pawn_promotion.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
+
+static void insert_holes(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement)
+    {
+      piece const from = move_effect_journal[curr].u.piece_movement.from;
+      if (e[from]==vide)
+        move_effect_journal_do_piece_change(move_effect_journal[curr].reason,
+                                            from,obs);
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -18,31 +37,17 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type haan_chess_block_departure_attack(slice_index si,
-                                                   stip_length_type n)
+stip_length_type haan_chess_hole_inserter_attack(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  e[sq_departure] = obs;
-
-  switch (sq_capture)
-  {
-    case kingside_castling:
-      e[sq_departure+3*dir_right] = obs;
-      break;
-
-    case queenside_castling:
-      e[sq_departure+4*dir_left] = obs;
-      break;
-  }
-
+  insert_holes();
   result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -62,31 +67,17 @@ stip_length_type haan_chess_block_departure_attack(slice_index si,
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type haan_chess_block_departure_defend(slice_index si,
-                                                   stip_length_type n)
+stip_length_type haan_chess_hole_inserter_defend(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  e[sq_departure] = obs;
-
-  switch (sq_capture)
-  {
-    case kingside_castling:
-      e[sq_departure+3*dir_right] = obs;
-      break;
-
-    case queenside_castling:
-      e[sq_departure+4*dir_left] = obs;
-      break;
-  }
-
+  insert_holes();
   result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -102,7 +93,7 @@ void stip_insert_haan_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STHaanChessDepartureBlocker);
+  stip_instrument_moves_no_replay(si,STHaanChessHoleInserter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

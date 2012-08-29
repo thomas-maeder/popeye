@@ -1,74 +1,40 @@
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/capture_fork.h"
 #include "pydata.h"
-#include "conditions/circe/cage.h"
 #include "conditions/einstein/einstein.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
-#include "solving/legal_move_counter.h"
-#include "solving/castling.h"
-#include "pieces/attributes/neutral/initialiser.h"
+#include "stipulation/move_player.h"
 #include "pieces/side_change.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
-/* Execute a king's rebirth in Circe rex. incl. and similar conditions
- * @param sq_from where the king was captured
- * @param sq_rebirth where the king is to be reborn
+/* Execute a Circe rebirth.
+ * This is a helper function for alternative Circe types
+ * @param sq_rebirth rebirth square
+ * @param pi_reborn type of piece to be reborn
+ * @param spec_reborn flags of the piece to be reborn
  */
-void do_king_rebirth(square sq_from, square sq_rebirth)
-{
-  if (sq_from==prev_king_square[White][nbply])
-    king_square[White] = sq_rebirth;
-  if (sq_from==prev_king_square[Black][nbply])
-    king_square[Black] = sq_rebirth;
-}
-
-void circe_undo_rebirth(square sq_rebirth)
-{
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-
-  assert(sq_rebirth!=initsquare);
-
-  if (sq_rebirth!=sq_arrival)
-  {
-    --nbpiece[e[sq_rebirth]];
-    e[sq_rebirth] = vide;
-    spec[sq_rebirth] = 0;
-  }
-
-  if (anytraitor)
-    spec_change_side(&spec[sq_rebirth]);
-}
-
 void circe_do_rebirth(square sq_rebirth, piece pi_reborn, Flags spec_reborn)
 {
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_rebirth);
   TracePiece(pi_reborn);
   TraceFunctionParamListEnd();
 
-  if (rex_circe)
-    do_king_rebirth(sq_capture,sq_rebirth);
-  e[sq_rebirth] = pi_reborn;
-  ++nbpiece[pi_reborn];
-  spec[sq_rebirth] = spec_reborn;
-  restore_castling_rights(sq_rebirth);
+  move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
+                                        sq_rebirth,
+                                        pi_reborn,
+                                        spec_reborn);
   current_circe_rebirth_square[nbply] = sq_rebirth;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static square do_rebirth(Side trait_ply)
+static void try_rebirth(Side trait_ply)
 {
   square const pi_captured = pprise[nbply];
   square const pi_departing = pjoue[nbply];
@@ -82,7 +48,7 @@ static square do_rebirth(Side trait_ply)
   piece const pi_arriving = e[sq_arrival];
   square const prev_rb = prev_king_square[White][nbply];
   square const prev_rn = prev_king_square[Black][nbply];
-  square result;
+  square sq_rebirth;
   piece pi_reborn;
 
   TraceFunctionEntry(__func__);
@@ -116,7 +82,7 @@ static square do_rebirth(Side trait_ply)
     pi_reborn= pi_captured;
 
   if (CondFlag[couscous])
-    result = (*circerenai)(nbply,
+    sq_rebirth = (*circerenai)(nbply,
                                pi_arriving,
                                spec_pi_moving,
                                sq_capture,
@@ -124,7 +90,7 @@ static square do_rebirth(Side trait_ply)
                                sq_arrival,
                                advers(trait_ply));
   else
-    result = (*circerenai)(nbply,
+    sq_rebirth = (*circerenai)(nbply,
                                pi_reborn,
                                spec_pi_captured,
                                sq_capture,
@@ -132,18 +98,16 @@ static square do_rebirth(Side trait_ply)
                                sq_arrival,
                                trait_ply);
 
-  if (CondFlag[contactgrid] && nogridcontact(result))
-    result = initsquare;
+  if (CondFlag[contactgrid] && nogridcontact(sq_rebirth))
+    sq_rebirth = initsquare;
 
-  if (e[result]==vide)
-    circe_do_rebirth(result,pi_reborn,spec_pi_captured);
+  if (e[sq_rebirth]==vide)
+    circe_do_rebirth(sq_rebirth,pi_reborn,spec_pi_captured);
   else
-    result = initsquare;
+    current_circe_rebirth_square[nbply] = initsquare;
 
   TraceFunctionExit(__func__);
-  TraceSquare(result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -164,18 +128,8 @@ stip_length_type circe_rebirth_handler_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    square const sq_rebirth = do_rebirth(slices[si].starter);
-    if (sq_rebirth==initsquare)
-      result = attack(slices[si].next1,n);
-    else
-    {
-      current_circe_rebirth_square[nbply] = sq_rebirth;
-      result = attack(slices[si].next1,n);
-      circe_undo_rebirth(sq_rebirth);
-      current_circe_rebirth_square[nbply] = initsquare;
-    }
-  }
+  try_rebirth(slices[si].starter);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -204,18 +158,8 @@ stip_length_type circe_rebirth_handler_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    square const sq_rebirth = do_rebirth(slices[si].starter);
-    if (sq_rebirth==initsquare)
-      result = defend(slices[si].next1,n);
-    else
-    {
-      current_circe_rebirth_square[nbply] = sq_rebirth;
-      result = defend(slices[si].next1,n);
-      circe_undo_rebirth(sq_rebirth);
-      current_circe_rebirth_square[nbply] = initsquare;
-    }
-  }
+  try_rebirth(slices[si].starter);
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -223,46 +167,16 @@ stip_length_type circe_rebirth_handler_defend(slice_index si,
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STCirceRebirthHandler);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_rebirth_handlers(slice_index si)
+void stip_insert_circe(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STIsardamDefenderFinder,
-                                           &stip_traverse_structure_children_pipe);
-  stip_traverse_structure(si,&st);
-
+  stip_instrument_moves_no_replay(si,STCirceRebirthHandler);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);

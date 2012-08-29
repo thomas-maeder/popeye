@@ -5,6 +5,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -49,6 +50,7 @@ boolean has_pawn_reached_promotion_square(Side side, square square_reached)
  */
 stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
 {
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -58,7 +60,6 @@ stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
     boolean const is_prom_square = has_pawn_reached_promotion_square(slices[si].starter,
                                                                      sq_arrival);
     current_promotion_of_moving[nbply] = is_prom_square ? getprompiece[Empty] : Empty;
@@ -68,16 +69,20 @@ stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
     result = attack(slices[si].next1,n);
   else
   {
-    replace_arriving_piece(pjoue[nbply]<vide
-                           ? -current_promotion_of_moving[nbply]
-                           : current_promotion_of_moving[nbply]);
+    piece const promotee = (e[sq_arrival]<vide
+                            ? -current_promotion_of_moving[nbply]
+                            : current_promotion_of_moving[nbply]);
+
+    jouearr[nbply] = promotee;
+
+    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                        sq_arrival,promotee);
 
     result = attack(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {
       current_promotion_of_moving[nbply] = getprompiece[current_promotion_of_moving[nbply]];
-      TracePiece(current_promotion_of_moving[nbply]);TraceText("\n");
       if (current_promotion_of_moving[nbply]!=Empty)
         lock_post_move_iterations();
     }
@@ -104,6 +109,7 @@ stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
  */
 stip_length_type moving_pawn_promoter_defend(slice_index si, stip_length_type n)
 {
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -113,7 +119,6 @@ stip_length_type moving_pawn_promoter_defend(slice_index si, stip_length_type n)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
     boolean const is_prom_square = has_pawn_reached_promotion_square(slices[si].starter,
                                                                      sq_arrival);
     current_promotion_of_moving[nbply] = is_prom_square ? getprompiece[Empty] : Empty;
@@ -123,16 +128,20 @@ stip_length_type moving_pawn_promoter_defend(slice_index si, stip_length_type n)
     result = defend(slices[si].next1,n);
   else
   {
-    replace_arriving_piece(pjoue[nbply]<vide
-                           ? -current_promotion_of_moving[nbply]
-                           : current_promotion_of_moving[nbply]);
+    piece const promotee = (e[sq_arrival]<vide
+                            ? -current_promotion_of_moving[nbply]
+                            : current_promotion_of_moving[nbply]);
+
+    jouearr[nbply] = promotee;
+
+    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                        sq_arrival,promotee);
 
     result = defend(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {
       current_promotion_of_moving[nbply] = getprompiece[current_promotion_of_moving[nbply]];
-      TracePiece(current_promotion_of_moving[nbply]);TraceText("\n");
       if (current_promotion_of_moving[nbply]!=Empty)
         lock_post_move_iterations();
     }
@@ -153,7 +162,7 @@ void stip_insert_moving_pawn_promoters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STMovingPawnPromoter);
+  stip_instrument_moves_no_replay(si,STMovingPawnPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

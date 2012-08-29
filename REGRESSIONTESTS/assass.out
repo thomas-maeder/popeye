@@ -27,7 +27,7 @@
   1.Ka2*b3 [+wBb2] d7-d8=D   2.Kb3-c2 Dd8-d1 # 
 
               empile:        2547
-           play_move:        2090
+           play_move:        2070
         orig_rbechec:         371
         orig_rnechec:        3802
 Loesung beendet. 
@@ -62,7 +62,7 @@ Loesung beendet.
   1.Kg4-f3   2.Kf3-e3   3.Ke3-d3   4.Kd3-c4   5.Kc4-c5   6.Kc5*c6 [+wBc2]   7.Kc6-c5   8.Kc5-c4   9.Kc4-c3  10.Kc3*b2 [+wTa1] Ke5-d4 = 
 
               empile:       12606
-           play_move:        4819
+           play_move:        4790
         orig_rbechec:        4574
         orig_rnechec:        8385
 Loesung beendet. 
@@ -133,7 +133,7 @@ Loesung beendet.
   1.a7-a5 Ke8-d7   2.Kb7-a7 Kd7-c6   3.Se6-c5 Kc6-b5 # 
 
               empile:      243909
-           play_move:      240103
+           play_move:      240034
         orig_rbechec:       29852
         orig_rnechec:      567029
 Loesung beendet. 
@@ -201,7 +201,7 @@ Loesung beendet.
 
 
               empile:       10229
-           play_move:        7083
+           play_move:        7032
         orig_rbechec:         815
         orig_rnechec:       10400
 Loesung beendet. 

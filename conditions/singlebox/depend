@@ -74,8 +74,8 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move_player.h \
- solving/post_move_iteration.h conditions/singlebox/type1.h \
- debugging/trace.h
+ solving/post_move_iteration.h solving/move_effect_journal.h \
+ conditions/singlebox/type1.h debugging/trace.h
 
 conditions/singlebox/type2.h:
 
@@ -132,6 +132,8 @@ stipulation/pipe.h:
 stipulation/move_player.h:
 
 solving/post_move_iteration.h:
+
+solving/move_effect_journal.h:
 
 conditions/singlebox/type1.h:
 

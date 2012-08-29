@@ -125,6 +125,7 @@ int len_max(square sq_departure, square sq_arrival, square sq_capture)
       else
        return (move_diff_code[abs(sq_arrival-sq_departure)]);
     }
+    break;
   }
 }
 
@@ -443,31 +444,31 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
        * break more or less everything that follows the if
        * (CondFlag[takemake]) clause, including Maximummer.
        *
-       * The global variable takemake_departuresquare is used to
+       * The global variable takemake_takedeparturesquare is used to
        * distinguish between the two cases; if its equal to
        * initsquare, we are generating a non-capturing move or the
        * take part of a capturing move; otherwise, we are generating
        * the make part of a capture where the capturing piece came
-       * from takemake_departuresquare.
+       * from takemake_takedeparturesquare.
        */
-      if (takemake_departuresquare==initsquare)
+      if (takemake_takedeparturesquare==initsquare)
       {
         /* We are not generating the make part */
 
-        piece takemake_takenpiece= e[sq_capture];
+        takemake_takenpiece= e[sq_capture];
         if (takemake_takenpiece == vide) {
           /* Non-capturing move - go on as in orthodox chess */
         }
         else
         {
           /* this is the take part */
-          Flags takemake_takenspec= spec[sq_capture];
+          takemake_takenspec= spec[sq_capture];
 
           /* Save the departure square for signaling the we are now
            * generating the make part and for using the value when we
            * will be recursively invoked during the generation of the
            * make part. */
-          takemake_departuresquare= sq_departure;
+          takemake_takedeparturesquare= sq_departure;
 
           /* At first, it may seem that saving ip isn't necessary
            * because the arrival square of the take part is the
@@ -475,7 +476,10 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
            * situations where capture square and arrival square are
            * different (the raison d'etre of ip, after all) - most
            * notably en passant captures. */
-          takemake_capturesquare= sq_capture;
+          takemake_takecapturesquare= sq_capture;
+
+          /* needed in m*ummer */
+          takemake_takearrivalsquare = sq_arrival;
 
           /* Execute the take part. The order ip, ia, id avoids losing
            * information and elegantly deals with the case where
@@ -505,8 +509,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           e[sq_capture]= takemake_takenpiece;
           spec[sq_capture]= takemake_takenspec;
 
-          takemake_capturesquare= initsquare;
-          takemake_departuresquare= initsquare;
+          takemake_takecapturesquare= initsquare;
+          takemake_takedeparturesquare= initsquare;
 
           /* This is the take part - actual moves were generated
            * during the recursive invokation for the make part, so
@@ -515,22 +519,25 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           return true;
         }
       }
-      else if (e[sq_capture]==vide) {
-        /* We are generating the make part */
-
-        /* Extra rule: pawns must not 'make' to their base line */
-        if (is_pawn(e[sq_departure])
-            && !CondFlag[normalp]
-            && ((traitnbply == White && sq_arrival<=square_h1)
-                || (traitnbply == Black && sq_arrival>=square_a8)))
-          return true;
-
-        sq_capture= takemake_capturesquare;
-        sq_departure= takemake_departuresquare;
-      }
       else
-        /* We must not capture in the make part */
-        return true;
+      {
+        /* We are generating the make part */
+        if (e[sq_capture]==vide)
+        {
+          /* Extra rule: pawns must not 'make' to their base line */
+          if (is_pawn(e[sq_departure])
+              && !CondFlag[normalp]
+              && ((traitnbply == White && sq_arrival<=square_h1)
+                  || (traitnbply == Black && sq_arrival>=square_a8)))
+            return true;
+
+          sq_capture = takemake_takecapturesquare;
+          sq_departure = takemake_takedeparturesquare;
+        }
+        else
+          /* We must not capture in the make part */
+          return true;
+      }
     }
 
     if (((CondFlag[nowhiteprom]
@@ -729,10 +736,38 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           /* not exact-maxi -> test for selfcheck */
           Side const save_neutcoul = neutral_side;
           boolean is_this_move_legal;
+
+          if (CondFlag[takemake] && takemake_takedeparturesquare!=initsquare)
+          {
+            /* undo the take part - the single move generator is going to redo it */
+            e[takemake_takedeparturesquare]= e[takemake_takearrivalsquare];
+            spec[takemake_takedeparturesquare]= spec[takemake_takearrivalsquare];
+
+            e[takemake_takearrivalsquare]= vide;
+            spec[takemake_takearrivalsquare]= EmptySpec;
+
+            e[takemake_takecapturesquare]= takemake_takenpiece;
+            spec[takemake_takecapturesquare]= takemake_takenspec;
+          }
+
           init_single_move_generator(sq_departure,sq_arrival,sq_capture,mren);
           is_this_move_legal = attack(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].next2,length_unspecified)==has_solution;
            /* TODO what for, if we don't have neutrals? Does it matter? */
           initialise_neutrals(save_neutcoul);
+
+          if (CondFlag[takemake] && takemake_takedeparturesquare!=initsquare)
+          {
+            /* redo the take part */
+            e[takemake_takecapturesquare] = vide;
+            spec[takemake_takecapturesquare] = EmptySpec;
+
+            e[takemake_takearrivalsquare]= e[takemake_takedeparturesquare];
+            spec[takemake_takearrivalsquare]= spec[takemake_takedeparturesquare];
+
+            e[takemake_takedeparturesquare]= vide;
+            spec[takemake_takedeparturesquare]= EmptySpec;
+          }
+
           if (!is_this_move_legal)
             return true;
         }
@@ -826,6 +861,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       break;
     case move_generation_not_optimized:
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
+      break;
   }
 
   return true;
@@ -2728,6 +2764,7 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     /* to check exactly if there is something to generate ...  */
     if ((pabs>=Hunter0) && (pabs<Hunter0+maxnrhuntertypes))
       genhunt(sq_departure,p,pabs);
+    break;
   }
 } /* gfeerrest */
 
@@ -2960,6 +2997,7 @@ void gfeerblanc(square i, piece p) {
 
   default:
     gfeerrest(i, p, White);
+    break;
   }
 }
 
@@ -3151,6 +3189,7 @@ void gfeernoir(square i, piece p) {
 
   default:
     gfeerrest(i, p, Black);
+    break;
   }
 } /* end of gfeernoir */
 

@@ -9,26 +9,12 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
-
-static void place_promotee(void)
-{
-  square const sq_rebirth = current_circe_rebirth_square[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  --nbpiece[e[sq_rebirth]];
-  e[sq_rebirth] = e[sq_rebirth]<vide ? -current_promotion_of_capturee[nbply] : current_promotion_of_capturee[nbply];
-  ++nbpiece[e[sq_rebirth]];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -40,6 +26,7 @@ static void place_promotee(void)
  */
 stip_length_type circe_promoter_attack(slice_index si, stip_length_type n)
 {
+  square const sq_rebirth = current_circe_rebirth_square[nbply];
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -49,8 +36,6 @@ stip_length_type circe_promoter_attack(slice_index si, stip_length_type n)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
-    square const sq_rebirth = current_circe_rebirth_square[nbply];
-
     /* check for both sides - this has to work for Circe Parrain and neutrals as well! */
     if ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
         || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)))
@@ -63,7 +48,11 @@ stip_length_type circe_promoter_attack(slice_index si, stip_length_type n)
     result = attack(slices[si].next1,n);
   else
   {
-    place_promotee();
+    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                        sq_rebirth,
+                                        e[sq_rebirth]<vide
+                                        ? -current_promotion_of_capturee[nbply]
+                                        : current_promotion_of_capturee[nbply]);
 
     result = attack(slices[si].next1,n);
 
@@ -98,6 +87,7 @@ stip_length_type circe_promoter_attack(slice_index si, stip_length_type n)
  */
 stip_length_type circe_promoter_defend(slice_index si, stip_length_type n)
 {
+  square const sq_rebirth = current_circe_rebirth_square[nbply];
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -107,8 +97,6 @@ stip_length_type circe_promoter_defend(slice_index si, stip_length_type n)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
-    square const sq_rebirth = current_circe_rebirth_square[nbply];
-
     /* check for both sides - this has to work for Circe Parrain and neutrals as well! */
     if ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
         || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)))
@@ -121,7 +109,11 @@ stip_length_type circe_promoter_defend(slice_index si, stip_length_type n)
     result = defend(slices[si].next1,n);
   else
   {
-    place_promotee();
+    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                        sq_rebirth,
+                                        e[sq_rebirth]<vide
+                                        ? -current_promotion_of_capturee[nbply]
+                                        : current_promotion_of_capturee[nbply]);
 
     result = defend(slices[si].next1,n);
 

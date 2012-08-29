@@ -320,10 +320,8 @@ conditions/anticirce/rebirth_handler$(OBJ_SUFFIX): \
  conditions/circe/rebirth_handler.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/branch.h stipulation/move_player.h \
- solving/post_move_iteration.h solving/legal_move_counter.h \
- solving/castling.h solving/moving_pawn_promotion.h \
- pieces/attributes/neutral/initialiser.h pieces/side_change.h \
+ stipulation/move_player.h solving/post_move_iteration.h \
+ solving/moving_pawn_promotion.h solving/move_effect_journal.h \
  debugging/trace.h
 
 conditions/anticirce/rebirth_handler.h:
@@ -378,23 +376,13 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/pipe.h:
-
-stipulation/branch.h:
-
 stipulation/move_player.h:
 
 solving/post_move_iteration.h:
 
-solving/legal_move_counter.h:
-
-solving/castling.h:
-
 solving/moving_pawn_promotion.h:
 
-pieces/attributes/neutral/initialiser.h:
-
-pieces/side_change.h:
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \

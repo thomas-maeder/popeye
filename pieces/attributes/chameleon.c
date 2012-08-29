@@ -6,6 +6,7 @@
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
 #include "solving/moving_pawn_promotion.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -43,7 +44,10 @@ stip_length_type chameleon_promote_moving_into_attack(slice_index si,
 
   if (promotion_of_moving_into_chameleon[nbply])
   {
-    SETFLAG(spec[move_generation_stack[current_move[nbply]].arrival],Chameleon);
+    Flags changed = spec[sq_arrival];
+    SETFLAG(changed,Chameleon);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_arrival,changed);
 
     result = attack(slices[si].next1,n);
 
@@ -92,7 +96,10 @@ stip_length_type chameleon_promote_moving_into_defend(slice_index si,
 
   if (promotion_of_moving_into_chameleon[nbply])
   {
-    SETFLAG(spec[move_generation_stack[current_move[nbply]].arrival],Chameleon);
+    Flags changed = spec[sq_arrival];
+    SETFLAG(changed,Chameleon);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_arrival,changed);
 
     result = defend(slices[si].next1,n);
 
@@ -138,7 +145,10 @@ stip_length_type chameleon_promote_circe_reborn_into_attack(slice_index si,
 
   if (promotion_of_circe_reborn_into_chameleon[nbply])
   {
-    SETFLAG(spec[sq_rebirth],Chameleon);
+    Flags changed = spec[sq_rebirth];
+    SETFLAG(changed,Chameleon);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_rebirth,changed);
 
     result = attack(slices[si].next1,n);
 
@@ -187,7 +197,10 @@ stip_length_type chameleon_promote_circe_reborn_into_defend(slice_index si,
 
   if (promotion_of_circe_reborn_into_chameleon[nbply])
   {
-    SETFLAG(spec[sq_rebirth],Chameleon);
+    Flags changed = spec[sq_rebirth];
+    SETFLAG(changed,Chameleon);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_rebirth,changed);
 
     result = defend(slices[si].next1,n);
 
@@ -233,7 +246,10 @@ stip_length_type chameleon_promote_anticirce_reborn_into_attack(slice_index si,
 
   if (promotion_of_anticirce_reborn_into_chameleon[nbply])
   {
-    SETFLAG(spec[sq_rebirth],Chameleon);
+    Flags changed = spec[sq_rebirth];
+    SETFLAG(changed,Chameleon);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_rebirth,changed);
 
     result = attack(slices[si].next1,n);
 
@@ -282,7 +298,10 @@ stip_length_type chameleon_promote_anticirce_reborn_into_defend(slice_index si,
 
   if (promotion_of_anticirce_reborn_into_chameleon[nbply])
   {
-    SETFLAG(spec[sq_rebirth],Chameleon);
+    Flags changed = spec[sq_rebirth];
+    SETFLAG(changed,Chameleon);
+    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                        sq_rebirth,changed);
 
     result = defend(slices[si].next1,n);
 
@@ -323,8 +342,16 @@ stip_length_type chameleon_arriving_adjuster_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(spec[sq_arrival],Chameleon))
-    replace_arriving_piece(champiece(e[sq_arrival]));
-  result = attack(slices[si].next1,n);
+  {
+    move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
+                                        sq_arrival,
+                                        champiece(e[sq_arrival]));
+    jouearr[nbply] = e[sq_arrival];
+
+    result = attack(slices[si].next1,n);
+  }
+  else
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -354,9 +381,18 @@ stip_length_type chameleon_arriving_adjuster_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+
   if (TSTFLAG(spec[sq_arrival],Chameleon))
-    replace_arriving_piece(champiece(e[sq_arrival]));
-  result = defend(slices[si].next1,n);
+  {
+    move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
+                                        sq_arrival,
+                                        champiece(e[sq_arrival]));
+    jouearr[nbply] = e[sq_arrival];
+
+    result = defend(slices[si].next1,n);
+  }
+  else
+    result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -373,14 +409,14 @@ void stip_insert_chameleon(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STChameleonArrivingAdjuster);
-  stip_instrument_moves(si,STPromoteMovingIntoChameleon);
+  stip_instrument_moves_no_replay(si,STChameleonArrivingAdjuster);
+  stip_instrument_moves_no_replay(si,STPromoteMovingIntoChameleon);
 
   if (anycirprom)
-    stip_instrument_moves(si,STPromoteCirceRebornIntoChameleon);
+    stip_instrument_moves_no_replay(si,STPromoteCirceRebornIntoChameleon);
 
   if (anyanticirprom)
-    stip_instrument_moves(si,STPromoteAnticirceRebornIntoChameleon);
+    stip_instrument_moves_no_replay(si,STPromoteAnticirceRebornIntoChameleon);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

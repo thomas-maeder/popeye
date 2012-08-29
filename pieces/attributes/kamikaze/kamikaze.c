@@ -11,6 +11,7 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/exchange_filter.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -99,19 +100,6 @@ static void insert_goal_filters(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void remove_capturing_piece(void)
-{
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-
-  if (TSTFLAG(spec[sq_arrival],Kamikaze) && pprise[nbply]!=vide)
-  {
-    --nbpiece[e[sq_arrival]];
-    e[sq_arrival] = vide;
-    spec[sq_arrival] = 0;
-    jouearr[nbply] = vide;
-  }
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -123,6 +111,7 @@ static void remove_capturing_piece(void)
 stip_length_type kamikaze_capturing_piece_remover_attack(slice_index si,
                                                          stip_length_type n)
 {
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -130,7 +119,13 @@ stip_length_type kamikaze_capturing_piece_remover_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  remove_capturing_piece();
+  if (TSTFLAG(spec[sq_arrival],Kamikaze) && pprise[nbply]!=vide)
+  {
+    jouearr[nbply] = vide;
+    move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
+                                         sq_arrival);
+  }
+
   result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -153,6 +148,7 @@ stip_length_type kamikaze_capturing_piece_remover_attack(slice_index si,
 stip_length_type kamikaze_capturing_piece_remover_defend(slice_index si,
                                                          stip_length_type n)
 {
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -160,7 +156,14 @@ stip_length_type kamikaze_capturing_piece_remover_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  remove_capturing_piece();
+
+  if (TSTFLAG(spec[sq_arrival],Kamikaze) && pprise[nbply]!=vide)
+  {
+    jouearr[nbply] = vide;
+    move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
+                                         sq_arrival);
+  }
+
   result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -183,7 +186,7 @@ void stip_insert_kamikaze(slice_index si)
   insert_goal_filters(si);
 
   if (!anycirce)
-    stip_instrument_moves(si,STKamikazeCapturingPieceRemover);
+    stip_instrument_moves_no_replay(si,STKamikazeCapturingPieceRemover);
 
   TraceStipulation(si);
 

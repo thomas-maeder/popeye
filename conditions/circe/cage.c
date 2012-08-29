@@ -228,28 +228,6 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-
-static void instrument_move_replay(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_pipe(STSuperCirceRebirthHandler)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
@@ -264,9 +242,6 @@ void stip_insert_circe_cage(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STMove,
                                            &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move_replay);
   stip_structure_traversal_override_single(&st,
                                            STCageCirceNonCapturingMoveFinder,
                                            &stip_traverse_structure_children_pipe);

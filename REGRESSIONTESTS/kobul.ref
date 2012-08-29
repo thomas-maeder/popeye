@@ -27,7 +27,7 @@
 
 a) 
 
-  1.b6-b5 Ra2-a4   2.rSc3*a4 [wrK=rR] rRb7*a7 [brS=rK] # 
+  1.b6-b5 Ra2-a4   2.rSc3*a4 [wK=rR] rRb7*a7 [brS=K] # 
 
               empile:       30800
            play_move:       23260
@@ -35,7 +35,7 @@ a)
         orig_rnechec:       23063
 b) bPa7-->b2
 
-  1.rSc3*a2 [wrK=rR] rRb7*b6 [brS=rK]   2.rKa2-a3 rRb6-a6 # 
+  1.rSc3*a2 [wK=rR] rRb7*b6 [brS=K]   2.Ka2-a3 rRb6-a6 # 
 
               empile:       47633
            play_move:       37169
@@ -72,28 +72,28 @@ solution finished.
 
 a) 
 
-  1.Sf7*d6 rKe7*d6 [brK=rS]   2.c5-c4 Rc1*c4 [brS=rK] # 
+  1.Sf7*d6 Ke7*d6 [bK=rS]   2.c5-c4 Rc1*c4 [brS=K] # 
 
-              empile:      537054
-           play_move:      448323
-        orig_rbechec:       24176
-        orig_rnechec:      447434
+              empile:      538016
+           play_move:      449193
+        orig_rbechec:       24224
+        orig_rnechec:      448304
 b) wBc1 
 
-  1.Sd7*f6 rKe7*f6 [brK=rS]   2.e4-e3 Bc1*e3 [brS=rK] # 
+  1.Sd7*f6 Ke7*f6 [bK=rS]   2.e4-e3 Bc1*e3 [brS=K] # 
 
-              empile:      289779
-           play_move:      236408
-        orig_rbechec:       15148
-        orig_rnechec:      235787
+              empile:      290596
+           play_move:      237283
+        orig_rbechec:       15151
+        orig_rnechec:      236662
 c) wSc1 
 
-  1.Bh3*e6 rKe7*e6 [brK=rB]   2.b4-b3 Sc1*b3 [brB=rK] # 
+  1.Bh3*e6 Ke7*e6 [bK=rB]   2.b4-b3 Sc1*b3 [brB=K] # 
 
-              empile:      316373
-           play_move:      236407
-        orig_rbechec:       19935
-        orig_rnechec:      235747
+              empile:      316633
+           play_move:      236685
+        orig_rbechec:       19936
+        orig_rnechec:      236025
 solution finished. 
 
 
@@ -123,8 +123,8 @@ solution finished.
   h#2                         7 + 4
               KobulKings
 
-  1.Qd6-e5 + Sg4*e5 [brK=rQ]   2.rQb7*d5 [wrK=rR] Se5*f3 [brQ=rK] # 
-  1.Qd6-f6 + Sg4*f6 [brK=rQ]   2.rQb7*e7 [wrK=rB] Sf6*h7 [brQ=rK] # 
+  1.Qd6-e5 + Sg4*e5 [bK=rQ]   2.rQb7*d5 [wK=rR] Se5*f3 [brQ=K] # 
+  1.Qd6-f6 + Sg4*f6 [bK=rQ]   2.rQb7*e7 [wK=rB] Sf6*h7 [brQ=K] # 
 
               empile:      557433
            play_move:      435415
@@ -159,13 +159,13 @@ solution finished.
   h#2                        6 + 14
               KobulKings
 
-  1.Rb4*b5 [wrK=rR] Rf6*f4 [brK=rR]   2.rRd3*g3 [wrR=rB] Rf4*f7 [brR=rK] # 
-  1.Bh4*g3 [wrK=rB] Be6*d5 [brK=rB]   2.rBd3*b5 [wrB=rR] Bd5*f7 [brB=rK] # 
+  1.Rb4*b5 [wK=rR] Rf6*f4 [bK=rR]   2.rRd3*g3 [wrR=rB] Rf4*f7 [brR=K] # 
+  1.Bh4*g3 [wK=rB] Be6*d5 [bK=rB]   2.rBd3*b5 [wrB=rR] Bd5*f7 [brB=K] # 
 
-              empile:      759934
-           play_move:      582493
-        orig_rbechec:       61685
-        orig_rnechec:      581496
+              empile:      760047
+           play_move:      582600
+        orig_rbechec:       61692
+        orig_rnechec:      581603
 solution finished. 
 
 
@@ -195,8 +195,8 @@ solution finished.
   h#2                        6 + 10
               KobulKings
 
-  1.Rb2*b8 [wrK=rB] rBa4*c6 [brK=rR]   2.f7-f5 Sh6*f5 [brR=rK] # 
-  1.Rc6*h6 [wrK=rS] rSa4*b2 [brK=rR]   2.e7-e5 Bb8*e5 [brR=rK] # 
+  1.Rb2*b8 [wK=rB] rBa4*c6 [bK=rR]   2.f7-f5 Sh6*f5 [brR=K] # 
+  1.Rc6*h6 [wK=rS] rSa4*b2 [bK=rR]   2.e7-e5 Bb8*e5 [brR=K] # 
 
               empile:      401508
            play_move:      310426
@@ -234,7 +234,7 @@ solution finished.
 
 a) 
 
-  1.Rc1-h1 rKc6-b7   2.rQb1-g1 Qh3*h1 [brQ=rR] # 
+  1.Rc1-h1 Kc6-b7   2.rQb1-g1 Qh3*h1 [brQ=rR] # 
 
               empile:      364190
            play_move:      277970
@@ -242,7 +242,7 @@ a)
         orig_rnechec:      277292
 b) bPg3-->e3
 
-  1.Rc1-f1 rKc6-b5   2.rQb1-e1 Qh3*f1 [brQ=rR] # 
+  1.Rc1-f1 Kc6-b5   2.rQb1-e1 Qh3*f1 [brQ=rR] # 
 
               empile:      428891
            play_move:      332714
@@ -250,7 +250,7 @@ b) bPg3-->e3
         orig_rnechec:      331947
 c) bPh4-->f3
 
-  1.Bc2-h7 rKc6-d7   2.rQb1-g6 Qh3*h7 [brQ=rB] # 
+  1.Bc2-h7 Kc6-d7   2.rQb1-g6 Qh3*h7 [brQ=rB] # 
 
               empile:      477871
            play_move:      371032
@@ -258,7 +258,7 @@ c) bPh4-->f3
         orig_rnechec:      370179
 d) bPg3-->e5
 
-  1.Bc2-d3 rKc6-d5   2.rQb1-c2 Qh3*d3 [brQ=rB] # 
+  1.Bc2-d3 Kc6-d5   2.rQb1-c2 Qh3*d3 [brQ=rB] # 
 
               empile:      562578
            play_move:      403945
@@ -293,34 +293,34 @@ solution finished.
   #2                          8 + 7
               KobulKings
 
-   1.Bh6*g7 [brK=rB] + ?
+   1.Bh6*g7 [bK=rB] + ?
     but
-      1...rBc3*g7 [wrK=rB] !
+      1...rBc3*g7 [wK=rB] !
 
    1.Qh2*f4 ! threat:
           2.Qf4*c4 #
-      1...rKc3*d3 [wrK=rS]
+      1...Kc3*d3 [wK=rS]
           2.Rg2-d2 #
-      1...Rf3*f4 [wrK=rQ]
-          2.Sd3*f4 [brK=rR] #
-      1...g5*f4 [wrK=rQ]
-          2.Bh6*g7 [brK=rB] #
+      1...Rf3*f4 [wK=rQ]
+          2.Sd3*f4 [bK=rR] #
+      1...g5*f4 [wK=rQ]
+          2.Bh6*g7 [bK=rB] #
       1...Bg7-d4
-          2.Qf4*d4 [brK=rB] #
+          2.Qf4*d4 [bK=rB] #
 
    1.Rg2*b2 ? threat:
           2.Qh2-c2 #
           2.Qh2-d2 #
-      1...rKc3*d3 [wrK=rS]
+      1...Kc3*d3 [wK=rS]
           2.Qh2-e2 #
     but
       1...Rf3-f2 !
 
    1.Rg2-c2 + ?
-      1...rKc3*d3 [wrK=rS]
+      1...Kc3*d3 [wK=rS]
           2.Qh2-e2 #
     but
-      1...rKc3*b3 [wrK=rS] !
+      1...Kc3*b3 [wK=rS] !
 
 
               empile:       12964
@@ -359,7 +359,7 @@ solution finished.
 
 a) 
 
-  1.c2-c1=S rKb2*c1[wrKc1->e1] [brK=rS]   2.rSd6*b7[brSb7->g8] [wrK=rR] rRe1-e8 # 
+  1.c2-c1=S Kb2*c1[wKc1->e1] [bK=rS]   2.rSd6*b7[brSb7->g8] [wK=rR] rRe1-e8 # 
 
               empile:       72975
            play_move:       51831
@@ -367,7 +367,7 @@ a)
         orig_rnechec:       51584
 b) +bBg8 
 
-  1.c2-c1=R rKb2*c1[wrKc1->e1] [brK=rR]   2.rRd6*d4[brRd4->h8] [wrK=rB] rBe1-c3 # 
+  1.c2-c1=R Kb2*c1[wKc1->e1] [bK=rR]   2.rRd6*d4[brRd4->h8] [wK=rB] rBe1-c3 # 
 
               empile:      180984
            play_move:      127000
@@ -406,10 +406,10 @@ solution finished.
   1.nGb3-e6 nrSd5-f6   2.nGe6-g6 Lh7*g6-f5 [nrS=nrG] # 
   1.nrSd5-c3 nGb3-d3   2.nrSc3-e2 Lh7*d3-c2 [nrS=nrG] # 
 
-              empile:        1418
-           play_move:         906
+              empile:        1424
+           play_move:         912
         orig_rbechec:         168
-        orig_rnechec:         852
+        orig_rnechec:         858
 solution finished. 
 
 
@@ -442,7 +442,7 @@ solution finished.
 
 a) 
 
-  1.e7-e6=wP g7-g8=bS   2.Sg8-e7=wS Se7-g6=bS   3.e4-e3=wP rKf7*g6 [brK=rS] # 
+  1.e7-e6=wP g7-g8=bS   2.Sg8-e7=wS Se7-g6=bS   3.e4-e3=wP Kf7*g6 [bK=rS] # 
 
               empile:      116686
            play_move:      118981
@@ -450,7 +450,7 @@ a)
         orig_rnechec:      115441
 b) bPg3-->f6
 
-  1.rKh5-h6 rKf7-f8   2.rKh6-h7 g7-g8=bB   3.rKh7-h8 rKf8*g8 [brK=rB] # 
+  1.Kh5-h6 Kf7-f8   2.Kh6-h7 g7-g8=bB   3.Kh7-h8 Kf8*g8 [bK=rB] # 
 
               empile:      117154
            play_move:      119551

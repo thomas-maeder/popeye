@@ -4,18 +4,18 @@ SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c \
              extinction.c patience.c madrasi.c isardam.c disparate.c eiffel.c \
              sat.c masand.c dynasty.c oscillating_kings.c messigny.c \
              actuated_revolving_centre.c actuated_revolving_board.c \
-             royal_square.c sentinelles.c duellists.c haunted_chess.c \
+             sentinelles.c duellists.c haunted_chess.c \
              ghost_chess.c kobul.c andernach.c antiandernach.c \
-             chameleon_pursuit.c norsk.c protean.c losing.c traitor.c volage.c \
+             chameleon_pursuit.c norsk.c protean.c traitor.c volage.c \
              magic_square.c tibet.c degradierung.c phantom.c line_chameleon.c \
              haan.c castling_chess.c imitator.c football.c exchange_castling.c
 INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            extinction.h patience.h madrasi.h isardam.h disparate.h eiffel.h \
            sat.h masand.h dynasty.h oscillating_kings.h messigny.h \
            actuated_revolving_centre.h actuated_revolving_board.h \
-           royal_square.h sentinelles.h duellists.h haunted_chess.h \
+           sentinelles.h duellists.h haunted_chess.h \
            ghost_chess.h kobul.h andernach.h antiandernach.h \
-           chameleon_pursuit.h norsk.h protean.h losing.h traitor.h volage.h \
+           chameleon_pursuit.h norsk.h protean.h traitor.h volage.h \
            magic_square.h tibet.h degradierung.h phantom.h line_chameleon.h \
            haan.h castling_chess.h imitator.h football.h exchange_castling.h
 

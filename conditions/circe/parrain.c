@@ -1,59 +1,69 @@
 #include "conditions/circe/parrain.h"
 #include "pydata.h"
-#include "conditions/circe/rebirth_handler.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-static square do_rebirth(void)
+static int move_vector(void)
 {
-  square sq_rebirth;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+  int result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(move_effect_journal_top[nbply-1]<=top);
+
+  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement)
+    {
+      square const from = move_effect_journal[curr].u.piece_movement.from;
+      square const to = move_effect_journal[curr].u.piece_movement.to;
+      result += to-from;
+    }
+
+  if (CondFlag[contraparrain])
+    result = -result;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void do_rebirth(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (pprise[parent_ply[nbply]]==vide)
-    sq_rebirth = initsquare;
+    current_circe_rebirth_square[nbply] = initsquare;
   else
   {
-    numecoup const coup_id = current_move[nbply];
-    piece const pi_captured = pprise[parent_ply[nbply]];
-    Flags spec_captured = pprispec[parent_ply[nbply]];
+    square const sq_capture = move_generation_stack[current_move[parent_ply[nbply]]].capture;
 
-    if (CondFlag[parrain]) {
-      sq_rebirth = (move_generation_stack[current_move[parent_ply[nbply]]].capture
-                                   + move_generation_stack[coup_id].arrival
-                                   - move_generation_stack[coup_id].departure);
-    }
-    if (CondFlag[contraparrain]) {
-      sq_rebirth = (move_generation_stack[current_move[parent_ply[nbply]]].capture
-                                   - move_generation_stack[coup_id].arrival
-                                   + move_generation_stack[coup_id].departure);
-    }
+    current_circe_rebirth_square[nbply] = sq_capture+move_vector();
 
-    if (e[sq_rebirth]==vide)
+    if (e[current_circe_rebirth_square[nbply]]==vide)
     {
-      ren_parrain[nbply] = pi_captured;
-      e[sq_rebirth] = pi_captured;
-      ++nbpiece[pi_captured];
-      spec[sq_rebirth] = spec_captured;
+      ren_parrain[nbply] = pprise[parent_ply[nbply]];
+      move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
+                                            current_circe_rebirth_square[nbply],
+                                            pprise[parent_ply[nbply]],
+                                            pprispec[parent_ply[nbply]]);
     }
     else
-      sq_rebirth = initsquare;
+      current_circe_rebirth_square[nbply] = initsquare;
   }
 
   TraceFunctionExit(__func__);
-  TraceSquare(sq_rebirth);
   TraceFunctionResultEnd();
-  return sq_rebirth;
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -74,18 +84,8 @@ stip_length_type circe_parrain_rebirth_handler_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    square const sq_rebirth = do_rebirth();
-    if (sq_rebirth==initsquare)
-      result = attack(slices[si].next1,n);
-    else
-    {
-      current_circe_rebirth_square[nbply] = sq_rebirth;
-      result = attack(slices[si].next1,n);
-      circe_undo_rebirth(sq_rebirth);
-      current_circe_rebirth_square[nbply] = initsquare;
-    }
-  }
+  do_rebirth();
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -114,18 +114,8 @@ stip_length_type circe_parrain_rebirth_handler_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    square const sq_rebirth = do_rebirth();
-    if (sq_rebirth==initsquare)
-      result = defend(slices[si].next1,n);
-    else
-    {
-      current_circe_rebirth_square[nbply] = sq_rebirth;
-      result = defend(slices[si].next1,n);
-      circe_undo_rebirth(sq_rebirth);
-      current_circe_rebirth_square[nbply] = initsquare;
-    }
-  }
+  do_rebirth();
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -133,42 +123,16 @@ stip_length_type circe_parrain_rebirth_handler_defend(slice_index si,
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STCirceParrainRebirthHandler);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe_parrain_rebirth_handlers(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STCirceParrainRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

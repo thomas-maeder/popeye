@@ -2,12 +2,10 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/move_player.h"
 #include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
 #include "pieces/side_change.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -17,11 +15,11 @@ static void update_hurdle_colour(void)
 {
   square const sq_hurdle = chop[current_move[nbply]];
   piece const pi_hurdle = e[sq_hurdle];
-  if (abs(pi_hurdle)>roib)
-  {
-    piece_change_side(&e[sq_hurdle]);
-    spec_change_side(&spec[sq_hurdle]);
-  }
+
+  if (abs(pi_hurdle)>King)
+    move_effect_journal_do_side_change(move_effect_reason_hurdle_colour_changing,
+                                       sq_hurdle,
+                                       e[sq_hurdle]<vide ? White : Black);
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -42,14 +40,11 @@ stip_length_type hurdle_colour_changer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[move_generation_stack[current_move[nbply]].arrival],ColourChange))
-  {
+  if (TSTFLAG(spec[move_generation_stack[current_move[nbply]].arrival],
+              ColourChange))
     update_hurdle_colour();
-    result = attack(slices[si].next1,n);
-    update_hurdle_colour();
-  }
-  else
-    result = attack(slices[si].next1,n);
+
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -78,14 +73,11 @@ stip_length_type hurdle_colour_changer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[move_generation_stack[current_move[nbply]].arrival],ColourChange))
-  {
+  if (TSTFLAG(spec[move_generation_stack[current_move[nbply]].arrival],
+              ColourChange))
     update_hurdle_colour();
-    result = defend(slices[si].next1,n);
-    update_hurdle_colour();
-  }
-  else
-    result = defend(slices[si].next1,n);
+
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -93,42 +85,16 @@ stip_length_type hurdle_colour_changer_defend(slice_index si,
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STHurdleColourChanger);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_hurdle_colour_changers(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STHurdleColourChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

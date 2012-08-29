@@ -1437,7 +1437,7 @@ stipulation/move_player$(OBJ_SUFFIX): stipulation/move_player.c \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/branch.h stipulation/has_solution_type.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h
+ solving/move_effect_journal.h debugging/trace.h
 
 stipulation/move_player.h:
 
@@ -1498,6 +1498,8 @@ stipulation/has_solution_type.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 stipulation/discriminate_by_right_to_move$(OBJ_SUFFIX): \

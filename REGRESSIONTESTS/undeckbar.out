@@ -28,7 +28,7 @@
   1.Sg6-f8 Lb2-c1   2.g7-g6 Lc1-h6   3.g6-g5 Ke8-f7 
 
               empile:     5091359
-           play_move:      940947
+           play_move:      940936
         orig_rbechec:      473446
         orig_rnechec:      845622
 Loesung beendet. 
@@ -62,7 +62,7 @@ Loesung beendet.
   1.Kd5-c4 Kb2-c1   2.Kc4-b3 e7-e8=D   3.Kb3-a2 De8-e3 
 
               empile:     1260996
-           play_move:      378581
+           play_move:      378575
         orig_rbechec:      174775
         orig_rnechec:      365066
 Loesung beendet. 
@@ -97,7 +97,7 @@ Loesung beendet.
   1.Kd5-c4 f7-f8=D   2.Kc4-b3 Ke3*d3   3.Kb3-a2 Kd3-c2 
 
               empile:     2637287
-           play_move:      650339
+           play_move:      650327
         orig_rbechec:      304474
         orig_rnechec:      616339
 Loesung beendet. 
@@ -133,7 +133,7 @@ Loesung beendet.
   1.Kc6-c7 a5-a6   2.Kc7-b6 a6*b7   3.Kb6-a6 b7-b8=D 
 
               empile:      198442
-           play_move:       56734
+           play_move:       56723
         orig_rbechec:       26156
         orig_rnechec:       51909
 Loesung beendet. 
@@ -186,7 +186,7 @@ a)
   1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-c3 
 
               empile:    19536627
-           play_move:     3114878
+           play_move:     3114734
         orig_rbechec:     1439195
         orig_rnechec:     2659272
 b) wBh5-->f4  schwarz 10hh[/2da[#]{!+}] 
@@ -459,7 +459,7 @@ b) wBh5-->f4  schwarz 10hh[/2da[#]{!+}]
   1.Kc3-b2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
 
               empile:    73476328
-           play_move:    13893133
+           play_move:    13890473
         orig_rbechec:     5821091
         orig_rnechec:    11668016
 Loesung beendet. 
@@ -514,7 +514,7 @@ Loesung beendet.
   1.Ta4-b4 b7-b8=D   2.Tb4-b6 Db8*b6   3.Kd3-c4 Ke1-d2 
 
               empile:    91133499
-           play_move:    17681911
+           play_move:    17681779
         orig_rbechec:     8834657
         orig_rnechec:    16505173
 Loesung beendet. 
@@ -550,7 +550,7 @@ a)
   1.b2-b1=L Ka5-b4 
 
               empile:       14557
-           play_move:        5755
+           play_move:        5753
         orig_rbechec:        2062
         orig_rnechec:        5724
 b) schwarz 4:4hh[/2da[#]{!+}] 
@@ -573,7 +573,7 @@ b) schwarz 4:4hh[/2da[#]{!+}]
   1.Sa4-b6 Dd4-c4 +   2.Kc2-b1 Ka5*b6 
 
               empile:     1935096
-           play_move:      596049
+           play_move:      595985
         orig_rbechec:      226469
         orig_rnechec:      583671
 Loesung beendet. 
@@ -618,7 +618,7 @@ Loesung beendet.
   1.Lc6-b7 Lg7-f6   2.0-0 Ta1-a2 
 
               empile:     3866628
-           play_move:      808859
+           play_move:      808817
         orig_rbechec:      384667
         orig_rnechec:      888306
 Loesung beendet. 
@@ -661,7 +661,7 @@ a)
   1.Ke8-d8 Ta4-g4   2.Ld7-e6 f5*e6 
 
               empile:     4744987
-           play_move:     1261865
+           play_move:     1261833
         orig_rbechec:      439965
         orig_rnechec:     1493867
 b) sTa8-->h8
@@ -673,7 +673,7 @@ b) sTa8-->h8
   1.Th8-f8 Ta4*a6   2.Ld7-c8 Ta6-a8 
 
               empile:     7170610
-           play_move:     1695082
+           play_move:     1695062
         orig_rbechec:      604145
         orig_rnechec:     1952964
 Loesung beendet. 
@@ -869,7 +869,7 @@ a)
   1.Tg8-f8 Dh7*h8   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 Df6-g7 
 
               empile:   161800423
-           play_move:    31263185
+           play_move:    31261897
         orig_rbechec:    14833872
         orig_rnechec:    29157879
 b)  -sBf6  schwarz 6hh[/2da[#]{!+}] 
@@ -878,7 +878,7 @@ b)  -sBf6  schwarz 6hh[/2da[#]{!+}]
   1.Tg8-g5 Kh4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f6 Kg5*f6 
 
               empile:     5900820
-           play_move:     1414528
+           play_move:     1414516
         orig_rbechec:      651320
         orig_rnechec:     1350513
 Loesung beendet. 
@@ -925,7 +925,7 @@ Loesung beendet.
   1.b5-b4 + Ka3*a4   2.b4-b3 Ka4-b4   3.c4-c3 Kb4*c3 
 
               empile:      158006
-           play_move:       30863
+           play_move:       30779
         orig_rbechec:       15880
         orig_rnechec:       25555
 Loesung beendet. 

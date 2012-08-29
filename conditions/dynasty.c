@@ -2,12 +2,9 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -15,28 +12,43 @@
 static void update_king_square(Side side)
 {
   piece const king_type = side==White ? roib : roin;
-  square const castling_basis = side==White ? square_e1 : square_e8;
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbpiece[king_type]);
   if (nbpiece[king_type]==1)
   {
     if (king_square[side]==initsquare)
     {
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
-      {
-        square const s = *bnp;
-        if (e[s]==king_type)
+        if (e[*bnp]==king_type)
         {
-          if (s==castling_basis)
-            SETCASTLINGFLAGMASK(nbply,side,k_cancastle);
-          king_square[side] = s;
+          Flags flags = spec[*bnp];
+          SETFLAG(flags,Royal);
+          move_effect_journal_do_flags_change(move_effect_reason_royal_dynasty,
+                                              *bnp,flags);
+          enable_castling_rights(*bnp);
           break;
         }
-      }
     }
   }
   else
-    king_square[side] = initsquare;
+  {
+    if (king_square[side]!=initsquare)
+    {
+      Flags flags = spec[king_square[side]];
+      CLRFLAG(flags,Royal);
+      move_effect_journal_do_flags_change(move_effect_reason_royal_dynasty,
+                                          king_square[side],flags);
+      disable_castling_rights(king_square[side]);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -98,42 +110,16 @@ stip_length_type dynasty_king_square_updater_defend(slice_index si,
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STDynastyKingSquareUpdater);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_dynasty(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STDynastyKingSquareUpdater);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

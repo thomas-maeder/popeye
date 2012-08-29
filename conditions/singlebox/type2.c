@@ -6,6 +6,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/singlebox/type1.h"
 #include "debugging/trace.h"
 
@@ -127,8 +128,8 @@ void stip_insert_singlebox_type2(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STSingleboxType2LatentPawnSelector);
-  stip_instrument_moves(si,STSingleboxType2LatentPawnPromoter);
+  stip_instrument_moves_no_replay(si,STSingleboxType2LatentPawnSelector);
+  stip_instrument_moves_no_replay(si,STSingleboxType2LatentPawnPromoter);
   stip_instrument_moves_no_replay(si,STSingleBoxType2LegalityTester);
 
   TraceFunctionExit(__func__);
@@ -291,30 +292,17 @@ static void advance_latent_pawn_promotion(Side trait_ply)
 
 static void place_promotee(Side trait_ply)
 {
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
-  TraceFunctionParamListEnd();
-
- --nbpiece[e[singlebox_type2_latent_pawn_promotions[nbply].where]];
-  e[singlebox_type2_latent_pawn_promotions[nbply].where] = (trait_ply==Black
+  piece const promotee = (trait_ply==Black
                           ? singlebox_type2_latent_pawn_promotions[nbply].what
                           : -singlebox_type2_latent_pawn_promotions[nbply].what);
-  ++nbpiece[e[singlebox_type2_latent_pawn_promotions[nbply].where]];
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void unplace_promotee(Side trait_ply)
-{
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,trait_ply,"");
   TraceFunctionParamListEnd();
 
-  assert(singlebox_type2_latent_pawn_promotions[nbply].what!=Empty);
-  --nbpiece[e[singlebox_type2_latent_pawn_promotions[nbply].where]];
-  e[singlebox_type2_latent_pawn_promotions[nbply].where] = trait_ply==Black ? pb : pn;
-  ++nbpiece[e[singlebox_type2_latent_pawn_promotions[nbply].where]];
+  move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                      singlebox_type2_latent_pawn_promotions[nbply].where,
+                                      promotee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -348,7 +336,6 @@ stip_length_type singlebox_type2_latent_pawn_promoter_attack(slice_index si,
   {
     place_promotee(slices[si].starter);
     result = attack(next,n);
-    unplace_promotee(slices[si].starter);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -398,7 +385,6 @@ stip_length_type singlebox_type2_latent_pawn_promoter_defend(slice_index si,
   {
     place_promotee(slices[si].starter);
     result = defend(next,n);
-    unplace_promotee(slices[si].starter);
 
     if (!post_move_iteration_locked[nbply])
     {

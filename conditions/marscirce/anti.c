@@ -100,7 +100,7 @@ void stip_insert_antimars_en_passant_adjusters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAntiMarsCirceEnPassantAdjuster);
+  stip_instrument_moves_no_replay(si,STAntiMarsCirceEnPassantAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

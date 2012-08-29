@@ -74,16 +74,16 @@ a)
 
               empile:       82373
            play_move:       24156
-        orig_rbechec:        4139
-        orig_rnechec:       54825
+        orig_rbechec:        2883
+        orig_rnechec:       54416
 b) RepublicanChess    Type2
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
 
               empile:       82373
            play_move:       24156
-        orig_rbechec:        4139
-        orig_rnechec:       54825
+        orig_rbechec:        2883
+        orig_rnechec:       54416
 solution finished. 
 
 
@@ -286,10 +286,10 @@ solution finished.
   1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] # 
   1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] # 
 
-              empile:     4180390
-           play_move:     1137455
-        orig_rbechec:     3314389
-        orig_rnechec:     2534734
+              empile:     4180266
+           play_move:     1137415
+        orig_rbechec:     3309137
+        orig_rnechec:     2523542
 solution finished. 
 
 

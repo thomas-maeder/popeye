@@ -74,7 +74,8 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  conditions/circe/rebirth_handler.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move_player.h debugging/trace.h
+ stipulation/move_player.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/circe/assassin.h:
 
@@ -129,6 +130,8 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/move_player.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \
@@ -320,14 +323,11 @@ conditions/circe/rebirth_handler$(OBJ_SUFFIX): conditions/circe/rebirth_handler.
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
- conditions/circe/capture_fork.h conditions/circe/cage.h \
- conditions/einstein/einstein.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/legal_move_counter.h \
- solving/castling.h pieces/attributes/neutral/initialiser.h \
- pieces/side_change.h debugging/trace.h
+ conditions/circe/capture_fork.h conditions/einstein/einstein.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ pieces/side_change.h solving/move_effect_journal.h debugging/trace.h
 
 conditions/circe/rebirth_handler.h:
 
@@ -369,8 +369,6 @@ utilities/boolean.h:
 
 conditions/circe/capture_fork.h:
 
-conditions/circe/cage.h:
-
 conditions/einstein/einstein.h:
 
 stipulation/has_solution_type.h:
@@ -385,21 +383,11 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/pipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
-
-solving/legal_move_counter.h:
-
-solving/castling.h:
-
-pieces/attributes/neutral/initialiser.h:
+stipulation/move_player.h:
 
 pieces/side_change.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cage.h \
@@ -490,11 +478,8 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  stipulation/goals/goals.h utilities/boolean.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move_player.h \
- conditions/circe/rebirth_handler.h \
- conditions/anticirce/rebirth_handler.h solving/castling.h \
- debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/circe/kamikaze.h:
 
@@ -546,17 +531,9 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/pipe.h:
-
-stipulation/branch.h:
-
 stipulation/move_player.h:
 
-conditions/circe/rebirth_handler.h:
-
-conditions/anticirce/rebirth_handler.h:
-
-solving/castling.h:
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
@@ -566,11 +543,10 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
- conditions/circe/rebirth_handler.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/circe/parrain.h:
 
@@ -610,8 +586,6 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-conditions/circe/rebirth_handler.h:
-
 stipulation/has_solution_type.h:
 
 stipulation/stipulation.h:
@@ -624,13 +598,9 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/pipe.h:
+stipulation/move_player.h:
 
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
@@ -644,7 +614,8 @@ conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h pieces/side_change.h debugging/trace.h
+ stipulation/help_play/branch.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/circe/rebirth_handler.h:
 
@@ -704,7 +675,7 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-pieces/side_change.h:
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/promotion$(OBJ_SUFFIX): conditions/circe/promotion.c \
@@ -719,7 +690,8 @@ conditions/circe/promotion$(OBJ_SUFFIX): conditions/circe/promotion.c \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/moving_pawn_promotion.h \
- solving/post_move_iteration.h debugging/trace.h
+ solving/post_move_iteration.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/circe/promotion.h:
 
@@ -783,6 +755,8 @@ solving/moving_pawn_promotion.h:
 
 solving/post_move_iteration.h:
 
+solving/move_effect_journal.h:
+
 debugging/trace.h:
 conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  conditions/circe/frischauf.h solving/battle_play/attack_play.h py.h \
@@ -795,7 +769,8 @@ conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/move_player.h solving/castling.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ solving/moving_pawn_promotion.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/circe/frischauf.h:
 
@@ -857,6 +832,8 @@ solving/castling.h:
 
 solving/moving_pawn_promotion.h:
 
+solving/move_effect_journal.h:
+
 debugging/trace.h:
 conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  conditions/circe/super.h solving/battle_play/attack_play.h py.h \
@@ -868,10 +845,8 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  conditions/circe/capture_fork.h conditions/circe/rebirth_handler.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/post_move_iteration.h \
- debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ solving/post_move_iteration.h debugging/trace.h
 
 conditions/circe/super.h:
 
@@ -927,13 +902,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/pipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
+stipulation/move_player.h:
 
 solving/post_move_iteration.h:
 

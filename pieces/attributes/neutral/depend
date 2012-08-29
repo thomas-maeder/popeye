@@ -8,9 +8,9 @@ pieces/attributes/neutral/initialiser$(OBJ_SUFFIX): \
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/battle_play/branch.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move_player.h \
- pieces/side_change.h debugging/trace.h
+ solving/move_effect_journal.h pieces/side_change.h debugging/trace.h
 
 pieces/attributes/neutral/initialiser.h:
 
@@ -62,11 +62,15 @@ output/mode.h:
 
 stipulation/pipe.h:
 
+stipulation/branch.h:
+
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
 stipulation/move_player.h:
+
+solving/move_effect_journal.h:
 
 pieces/side_change.h:
 
@@ -81,8 +85,8 @@ pieces/attributes/neutral/half$(OBJ_SUFFIX): pieces/attributes/neutral/half.c \
  pieces/attributes/neutral/initialiser.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/move_player.h debugging/trace.h
+ stipulation/branch.h stipulation/move_player.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 pieces/attributes/neutral/half.h:
 
@@ -136,10 +140,10 @@ output/mode.h:
 
 stipulation/pipe.h:
 
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
+stipulation/branch.h:
 
 stipulation/move_player.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:

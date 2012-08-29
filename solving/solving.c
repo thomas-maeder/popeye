@@ -369,7 +369,7 @@ static structure_traversers_visitor const solver_inserters[] =
   { STHelpAdapter,                            &insert_solvers_help_adapter                    },
   { STGeneratingMoves,                        &insert_move_generator                          },
   { STBrunnerDefenderFinder,                  &insert_single_move_generator_with_king_capture },
-  { STIsardamDefenderFinder,                  &insert_single_move_generator_with_king_capture },
+  { STKingCaptureLegalityTester,                  &insert_single_move_generator_with_king_capture },
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator             },
   { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator    },
   { STMaximummerCandidateMoveTester,          &insert_single_move_generator                   },

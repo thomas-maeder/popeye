@@ -8,15 +8,8 @@ extern PieNam current_promotion_of_reborn_moving[maxply+1];
 
 /* Perform an Anticirce rebirth on a specific rebirth square
  * @param sq_rebirth rebirth square
- * @param trait_ply side at the move
  */
-void anticirce_do_rebirth_on(square sq_rebirth, Side trait_ply);
-
-/* Undo an Anticirce rebirth on a specific rebirth square
- * @param sq_rebirth rebirth square
- * @pre sq_rebirt=!=initsquare
- */
-void anticirce_undo_rebirth(square sq_rebirth);
+void anticirce_do_rebirth_on(square sq_rebirth);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

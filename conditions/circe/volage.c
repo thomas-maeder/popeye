@@ -7,7 +7,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "pieces/side_change.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -24,10 +24,15 @@ static void recolor_reborn(void)
       && (SquareCol(sq_rebirth)
           !=SquareCol(move_generation_stack[current_move[nbply]].capture)))
   {
-    piece_change_side(&e[sq_rebirth]);
-    spec_change_side(&spec[sq_rebirth]);
-    if (!CondFlag[hypervolage]) {
-      CLRFLAG(spec[sq_rebirth], Volage);
+    move_effect_journal_do_side_change(move_effect_reason_volage,
+                                       sq_rebirth,
+                                       e[sq_rebirth]<vide ? White : Black);
+    if (!CondFlag[hypervolage])
+    {
+      Flags changed = spec[sq_rebirth];
+      CLRFLAG(changed,Volage);
+      move_effect_journal_do_flags_change(move_effect_reason_volage,
+                                          sq_rebirth,changed);
     }
   }
 

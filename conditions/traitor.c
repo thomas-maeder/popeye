@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "pieces/side_change.h"
 #include "debugging/trace.h"
 
@@ -13,10 +14,20 @@
 static void change_side(Side trait_ply)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  if (trait_ply==Black && sq_arrival<=square_h4 && !TSTFLAG(spec[sq_arrival],Neutral))
+  if (trait_ply==Black
+      && sq_arrival<=square_h4
+      && !TSTFLAG(spec[sq_arrival],Neutral))
   {
-    spec_change_side(&spec[sq_arrival]);
-    piece_change_side(&e[sq_arrival]);
+    Flags flags = spec[sq_arrival];
+    spec_change_side(&flags);
+    move_effect_journal_do_flags_change(move_effect_reason_traitor_defection,
+                                        sq_arrival,
+                                        flags);
+
+    move_effect_journal_do_piece_change(move_effect_reason_traitor_defection,
+                                        sq_arrival,
+                                        -e[sq_arrival]);
+
     jouearr[nbply] = e[sq_arrival];
   }
 }
@@ -83,7 +94,7 @@ void stip_insert_traitor_side_changers(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STTraitorSideChanger);
+  stip_instrument_moves_no_replay(si,STTraitorSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

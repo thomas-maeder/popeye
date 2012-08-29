@@ -5,14 +5,16 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
 
-static piece linechampiece(piece p, square sq)
+static piece linechampiece(square sq)
 {
+  piece const p = e[sq];
   piece pja = p;
 
   if (CondFlag[leofamily])
@@ -105,7 +107,11 @@ stip_length_type line_chameleon_arriving_adjuster_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  replace_arriving_piece(linechampiece(e[sq_arrival],sq_arrival));
+  move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
+                                      sq_arrival,
+                                      linechampiece(sq_arrival));
+  jouearr[nbply] = e[sq_arrival];
+
   result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -136,7 +142,11 @@ stip_length_type line_chameleon_arriving_adjuster_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  replace_arriving_piece(linechampiece(e[sq_arrival],sq_arrival));
+  move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
+                                      sq_arrival,
+                                      linechampiece(sq_arrival));
+  jouearr[nbply] = e[sq_arrival];
+
   result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -152,7 +162,7 @@ void stip_insert_line_chameleon_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STLineChameleonArrivingAdjuster);
+  stip_instrument_moves_no_replay(si,STLineChameleonArrivingAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

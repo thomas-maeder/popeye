@@ -3,15 +3,10 @@
 #include "conditions/circe/rebirth_handler.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
-#include "solving/legal_move_counter.h"
-#include "solving/castling.h"
 #include "solving/moving_pawn_promotion.h"
-#include "pieces/attributes/neutral/initialiser.h"
-#include "pieces/side_change.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -22,31 +17,23 @@ PieNam current_promotion_of_reborn_moving[maxply+1];
 
 /* Perform an Anticirce rebirth on a specific rebirth square
  * @param sq_rebirth rebirth square
- * @param trait_ply side at the move
  */
-void anticirce_do_rebirth_on(square sq_rebirth, Side trait_ply)
+void anticirce_do_rebirth_on(square sq_rebirth)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  piece const reborn = e[sq_arrival];
+  piece const rebornspec = spec[sq_arrival];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_rebirth);
-  TraceEnumerator(Side,trait_ply,"");
   TraceFunctionParamListEnd();
 
-  if (sq_arrival!=sq_rebirth)
-  {
-    e[sq_rebirth] = e[sq_arrival];
-    spec[sq_rebirth] = spec[sq_arrival];
-
-    e[sq_arrival] = vide;
-    spec[sq_arrival] = 0;
-  }
+  move_effect_journal_do_piece_removal(move_effect_reason_anticirce_rebirth,
+                                       sq_arrival);
+  move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
+                                        sq_rebirth,reborn,rebornspec);
 
   current_anticirce_rebirth_square[nbply] = sq_rebirth;
-
-  do_king_rebirth(sq_departure,sq_rebirth);
-  restore_castling_rights(sq_rebirth);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -81,31 +68,6 @@ static void determine_rebirth_square(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Undo an Anticirce rebirth on a specific rebirth square
- * @param sq_rebirth rebirth square
- * @pre sq_rebirt=!=initsquare
- */
-void anticirce_undo_rebirth(square sq_rebirth)
-{
-  square const sq_arrival= move_generation_stack[current_move[nbply]].arrival;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_rebirth);
-  TraceFunctionParamListEnd();
-
-  assert(sq_rebirth!=initsquare);
-
-  if (sq_rebirth!=sq_arrival)
-  {
-    --nbpiece[e[sq_rebirth]];
-    e[sq_rebirth]= vide;
-    spec[sq_rebirth]= 0;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -134,9 +96,8 @@ stip_length_type anticirce_rebirth_handler_attack(slice_index si,
               && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
              || e[sq_rebirth]==vide)
     {
-      anticirce_do_rebirth_on(sq_rebirth,slices[si].starter);
+      anticirce_do_rebirth_on(sq_rebirth);
       result = attack(slices[si].next1,n);
-      anticirce_undo_rebirth(sq_rebirth);
     }
     else
       result = n+2;
@@ -179,9 +140,8 @@ stip_length_type anticirce_rebirth_handler_defend(slice_index si,
               && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
              || e[sq_rebirth]==vide)
     {
-      anticirce_do_rebirth_on(sq_rebirth,slices[si].starter);
+      anticirce_do_rebirth_on(sq_rebirth);
       result = defend(slices[si].next1,n);
-      anticirce_undo_rebirth(sq_rebirth);
     }
     else
       result = slack_length-1;
@@ -203,22 +163,6 @@ static void init_promotee(Side trait_ply)
     current_promotion_of_reborn_moving[nbply] = getprompiece[Empty];
   else
     current_promotion_of_reborn_moving[nbply] = Empty;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void place_promotee(void)
-{
-  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
-  piece const pi_reborn = e[sq_rebirth];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  --nbpiece[e[sq_rebirth]];
-  e[sq_rebirth] = pi_reborn<vide ? -current_promotion_of_reborn_moving[nbply] : current_promotion_of_reborn_moving[nbply];
-  ++nbpiece[e[sq_rebirth]];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -249,7 +193,13 @@ stip_length_type anticirce_reborn_promoter_attack(slice_index si,
     result = attack(slices[si].next1,n);
   else
   {
-    place_promotee();
+    square const sq_rebirth = current_anticirce_rebirth_square[nbply];
+    piece const pi_reborn = e[sq_rebirth];
+    piece const promotee = pi_reborn<vide ? -current_promotion_of_reborn_moving[nbply] : current_promotion_of_reborn_moving[nbply];
+
+    move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
+                                        sq_rebirth,
+                                        promotee);
 
     result = attack(slices[si].next1,n);
 
@@ -298,7 +248,13 @@ stip_length_type anticirce_reborn_promoter_defend(slice_index si,
     result = defend(slices[si].next1,n);
   else
   {
-    place_promotee();
+    square const sq_rebirth = current_anticirce_rebirth_square[nbply];
+    piece const pi_reborn = e[sq_rebirth];
+    piece const promotee = pi_reborn<vide ? -current_promotion_of_reborn_moving[nbply] : current_promotion_of_reborn_moving[nbply];
+
+    move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
+                                        sq_rebirth,
+                                        promotee);
 
     result = defend(slices[si].next1,n);
 
@@ -327,10 +283,10 @@ void stip_insert_anticirce_rebirth_handlers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAnticirceRebirthHandler);
+  stip_instrument_moves_no_replay(si,STAnticirceRebirthHandler);
 
   if (anyanticirprom)
-    stip_instrument_moves(si,STAnticirceRebornPromoter);
+    stip_instrument_moves_no_replay(si,STAnticirceRebornPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

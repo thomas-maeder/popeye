@@ -5,6 +5,7 @@
 #include "stipulation/move_player.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/haunted_chess.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -31,7 +32,11 @@ stip_length_type ghost_chess_ghost_summoner_attack(slice_index si,
   if (haunted_chess_summon_ghost())
   {
     square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-    SETFLAG(spec[sq_departure],Uncapturable);
+    Flags flags = spec[sq_departure];
+    SETFLAG(flags,Uncapturable);
+    move_effect_journal_do_flags_change(move_effect_reason_ghost_summoned,
+                                        sq_departure,
+                                        flags);
     result = attack(slices[si].next1,n);
     haunted_chess_ban_ghost();
   }
@@ -68,7 +73,11 @@ stip_length_type ghost_chess_ghost_summoner_defend(slice_index si,
   if (haunted_chess_summon_ghost())
   {
     square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-    SETFLAG(spec[sq_departure],Uncapturable);
+    Flags flags = spec[sq_departure];
+    SETFLAG(flags,Uncapturable);
+    move_effect_journal_do_flags_change(move_effect_reason_ghost_summoned,
+                                        sq_departure,
+                                        flags);
     result = defend(slices[si].next1,n);
     haunted_chess_ban_ghost();
   }
@@ -159,8 +168,8 @@ void stip_insert_ghost_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STGhostChessGhostRememberer);
-  stip_instrument_moves(si,STGhostChessGhostSummoner);
+  stip_instrument_moves_no_replay(si,STGhostChessGhostRememberer);
+  stip_instrument_moves_no_replay(si,STGhostChessGhostSummoner);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

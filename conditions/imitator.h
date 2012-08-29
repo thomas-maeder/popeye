@@ -3,6 +3,7 @@
 
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
+#include "solving/move_effect_journal.h"
 
 /* This module implements imitators */
 
@@ -60,5 +61,11 @@ stip_length_type moving_pawn_to_imitator_promoter_defend(slice_index si,
 /* Instrument slices with move tracers
  */
 void stip_insert_imitator(slice_index si);
+
+void undo_imitator_movement(move_effect_journal_index_type curr);
+void replay_imitator_movement(move_effect_journal_index_type curr);
+
+void undo_imitator_addition(move_effect_journal_index_type curr);
+void replay_imitator_addition(move_effect_journal_index_type curr);
 
 #endif

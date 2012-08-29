@@ -146,6 +146,17 @@ static slice_index hash_slices[max_nr_slices];
 HashBuffer hashBuffers[maxply+1];
 
 #if defined(TESTHASH)
+static void dump_hash_buffer(void)
+{
+  unsigned int const length = hashBuffers[nbply].cmv.Leng;
+  unsigned int i;
+  for (i = 0; i!=length; ++i)
+    printf("%u ",(unsigned int)hashBuffers[nbply].cmv.Data[i]);
+  printf("\n");
+}
+#endif
+
+#if defined(TESTHASH)
 #define ifTESTHASH(x)   x
 #if defined(__unix)
 #include <unistd.h>

@@ -26,7 +26,7 @@ slice_index temporary_hack_mate_tester[nr_sides];
 slice_index temporary_hack_immobility_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
-slice_index temporary_hack_isardam_defense_finder[nr_sides];
+slice_index temporary_hack_king_capture_legality_tester[nr_sides];
 slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
@@ -49,7 +49,7 @@ void temporary_hacks_swap_colors(void)
   swap_colors(&temporary_hack_immobility_tester);
   swap_colors(&temporary_hack_exclusive_mating_move_counter);
   swap_colors(&temporary_hack_brunner_check_defense_finder);
-  swap_colors(&temporary_hack_isardam_defense_finder);
+  swap_colors(&temporary_hack_king_capture_legality_tester);
   swap_colors(&temporary_hack_cagecirce_noncapture_finder);
   swap_colors(&temporary_hack_castling_intermediate_move_legality_tester);
   swap_colors(&temporary_hack_maximummer_candidate_move_tester);
@@ -114,7 +114,7 @@ static slice_index make_brunner_check_defense_finder(Side side)
   return result;
 }
 
-static slice_index make_isardam_defense_finder(Side side)
+static slice_index make_king_capture_legality_tester(Side side)
 {
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
@@ -125,7 +125,7 @@ static slice_index make_isardam_defense_finder(Side side)
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
-  result = alloc_conditional_pipe(STIsardamDefenderFinder,proxy_branch);
+  result = alloc_conditional_pipe(STKingCaptureLegalityTester,proxy_branch);
   stip_impose_starter(result,side);
   return result;
 }
@@ -250,8 +250,8 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_brunner_check_defense_finder[Black] = make_brunner_check_defense_finder(Black);
     temporary_hack_brunner_check_defense_finder[White] = make_brunner_check_defense_finder(White);
 
-    temporary_hack_isardam_defense_finder[Black] = make_isardam_defense_finder(Black);
-    temporary_hack_isardam_defense_finder[White] = make_isardam_defense_finder(White);
+    temporary_hack_king_capture_legality_tester[Black] = make_king_capture_legality_tester(Black);
+    temporary_hack_king_capture_legality_tester[White] = make_king_capture_legality_tester(White);
 
     temporary_hack_cagecirce_noncapture_finder[Black] = make_cagecirce_noncapture_finder(Black);
     temporary_hack_cagecirce_noncapture_finder[White] = make_cagecirce_noncapture_finder(White);
@@ -278,8 +278,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_exclusive_mating_move_counter[White],
                 temporary_hack_brunner_check_defense_finder[White]);
     pipe_append(temporary_hack_brunner_check_defense_finder[White],
-                temporary_hack_isardam_defense_finder[White]);
-    pipe_append(temporary_hack_isardam_defense_finder[White],
+                temporary_hack_king_capture_legality_tester[White]);
+    pipe_append(temporary_hack_king_capture_legality_tester[White],
                 temporary_hack_cagecirce_noncapture_finder[White]);
     pipe_append(temporary_hack_cagecirce_noncapture_finder[White],
                 temporary_hack_castling_intermediate_move_legality_tester[White]);
@@ -300,8 +300,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_exclusive_mating_move_counter[Black],
                 temporary_hack_brunner_check_defense_finder[Black]);
     pipe_append(temporary_hack_brunner_check_defense_finder[Black],
-                temporary_hack_isardam_defense_finder[Black]);
-    pipe_append(temporary_hack_isardam_defense_finder[Black],
+                temporary_hack_king_capture_legality_tester[Black]);
+    pipe_append(temporary_hack_king_capture_legality_tester[Black],
                 temporary_hack_cagecirce_noncapture_finder[Black]);
     pipe_append(temporary_hack_cagecirce_noncapture_finder[Black],
                 temporary_hack_castling_intermediate_move_legality_tester[Black]);

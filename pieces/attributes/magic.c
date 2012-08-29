@@ -4,10 +4,9 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "pieces/side_change.h"
-#include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -547,9 +546,9 @@ static void ChangeMagic(void)
     /* only change if viewee suffers odd-no. new views */
     if (count_changed_views(*bnp)%2==1)
     {
-      piece_change_side(&e[*bnp]);
-      spec_change_side(&spec[*bnp]);
-      restore_castling_rights(*bnp);
+      move_effect_journal_do_side_change(move_effect_reason_magic_piece,
+                                         *bnp,
+                                         e[*bnp]<vide ? White : Black);
 
       /* don't store colour change of moving piece - it might
        * undergo other changes */
@@ -559,29 +558,6 @@ static void ChangeMagic(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static void UndoChangeMagic(void)
-{
-  change_rec const * rec;
-  for (rec = side_change_sp[parent_ply[nbply]];
-       rec<side_change_sp[nbply];
-       ++rec)
-  {
-    piece_change_side(&e[rec->square]);
-    spec_change_side(&spec[rec->square]);
-  }
-
-  /* colour change of moving piece wasn't pushed - see ChangeMagic() */
-  {
-    numecoup const coup_id = current_move[nbply];
-    square const sq_arrival = move_generation_stack[coup_id].arrival;
-    if (count_changed_views(sq_arrival)%2==1)
-    {
-      piece_change_side(&e[sq_arrival]);
-      spec_change_side(&spec[sq_arrival]);
-    }
-  }
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -635,7 +611,6 @@ stip_length_type magic_pieces_recolorer_attack(slice_index si,
   PushMagicViews();
   ChangeMagic();
   result = attack(slices[si].next1,n);
-  UndoChangeMagic();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -668,7 +643,6 @@ stip_length_type magic_pieces_recolorer_defend(slice_index si,
   PushMagicViews();
   ChangeMagic();
   result = defend(slices[si].next1,n);
-  UndoChangeMagic();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -676,42 +650,16 @@ stip_length_type magic_pieces_recolorer_defend(slice_index si,
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STMagicPiecesRecolorer);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_magic_pieces_recolorers(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STMagicPiecesRecolorer);
 
   {
     slice_index const prototype = alloc_pipe(STMagicViewsInitialiser);

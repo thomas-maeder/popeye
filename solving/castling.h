@@ -50,6 +50,18 @@ extern castling_flag_type castling_mutual_exclusive[nr_sides][2];
  */
 void restore_castling_rights(square sq_arrival);
 
+/* Enable castling rights for the piece that just arrived (for whatever reason)
+ * on a square
+ * @param on the arrival square
+ */
+void enable_castling_rights(square sq_arrival);
+
+/* Disable castling rights for the piece that just left (for whatever reason)
+ * a square
+ * @param on the square left
+ */
+void disable_castling_rights(square sq_departure);
+
 /* Allocate a STCastlingIntermediateMoveGenerator slice.
  * @return index of allocated slice
  */
@@ -105,8 +117,8 @@ stip_length_type castling_player_defend(slice_index si, stip_length_type n);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_rights_remover_attack(slice_index si,
-                                                stip_length_type n);
+stip_length_type castling_rights_adjuster_attack(slice_index si,
+                                                 stip_length_type n);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -116,8 +128,8 @@ stip_length_type castling_rights_remover_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_rights_remover_defend(slice_index si,
-                                                stip_length_type n);
+stip_length_type castling_rights_adjuster_defend(slice_index si,
+                                                 stip_length_type n);
 
 /* Instrument slices with move tracers
  */
@@ -152,6 +164,11 @@ stip_length_type mutual_castling_rights_adjuster_defend(slice_index si,
  * @param si identifies root slice of stipulation
  */
 void insert_alternative_move_players(slice_index si, slice_type type);
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void insert_alternative_move_players_no_replay(slice_index si, slice_type type);
 
 /* Instrument slices with move tracers
  */

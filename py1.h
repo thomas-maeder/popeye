@@ -33,6 +33,7 @@ typedef struct
   square      im0, rn_sic, rb_sic;
   ghosts_type ghosts;
   ghost_index_type nr_ghosts;
+  Side neutral_side;
 } stored_position_type;
 
 void    ResetPosition(stored_position_type const *store);

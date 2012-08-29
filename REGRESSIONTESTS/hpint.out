@@ -29,7 +29,7 @@
 598 moegliche Stellungen in 3+3
 
               empile:      323186
-           play_move:      295416
+           play_move:      295410
         orig_rbechec:       16087
         orig_rnechec:      283419
 Loesung beendet. 
@@ -71,7 +71,7 @@ Loesung beendet.
 3 moegliche Stellungen in 1+5
 
               empile:       46742
-           play_move:       45770
+           play_move:       45763
         orig_rbechec:        3944
         orig_rnechec:       53762
 Loesung beendet. 
@@ -111,7 +111,7 @@ Loesung beendet.
 25 moegliche Stellungen in 1+5
 
               empile:      841845
-           play_move:      615047
+           play_move:      615035
         orig_rbechec:       62701
         orig_rnechec:      691399
 Loesung beendet. 
@@ -152,7 +152,7 @@ Loesung beendet.
 12 moegliche Stellungen in 2+2
 
               empile:       14524
-           play_move:       14442
+           play_move:       14434
         orig_rbechec:         439
         orig_rnechec:       11244
 Loesung beendet. 
@@ -194,7 +194,7 @@ a)
 38 moegliche Stellungen in 4+0
 
               empile:        5190
-           play_move:        4720
+           play_move:        4716
         orig_rbechec:        1332
         orig_rnechec:        1834
 b) wKa6-->g2
@@ -206,7 +206,7 @@ b) wKa6-->g2
 33 moegliche Stellungen in 4+0
 
               empile:         900
-           play_move:         699
+           play_move:         695
         orig_rbechec:         260
         orig_rnechec:        1088
 Loesung beendet. 
@@ -247,7 +247,7 @@ Loesung beendet.
 33 moegliche Stellungen in 1+5
 
               empile:      229112
-           play_move:      154119
+           play_move:      154107
         orig_rbechec:       15881
         orig_rnechec:      183610
 Loesung beendet. 
@@ -285,7 +285,7 @@ Loesung beendet.
 9 moegliche Stellungen in 1+3
 
               empile:       13466
-           play_move:       13894
+           play_move:       13886
         orig_rbechec:         487
         orig_rnechec:        5864
 Loesung beendet. 
@@ -322,7 +322,7 @@ Loesung beendet.
 1293 moegliche Stellungen in 3+3
 
               empile:     5694719
-           play_move:     5685489
+           play_move:     5685483
         orig_rbechec:      282723
         orig_rnechec:     5789419
 Loesung beendet. 
@@ -363,7 +363,7 @@ Es fehlt ein weisser oder schwarzer Koenig
 168 moegliche Stellungen in 4+0
 
               empile:        9994
-           play_move:       12180
+           play_move:       12172
         orig_rbechec:           0
         orig_rnechec:        5015
 Loesung beendet. 
@@ -400,7 +400,7 @@ Loesung beendet.
 5694 moegliche Stellungen in 3+3
 
               empile:    11689165
-           play_move:    11045136
+           play_move:    11045130
         orig_rbechec:      616226
         orig_rnechec:     9533354
 Loesung beendet. 
@@ -437,7 +437,7 @@ Loesung beendet.
 3862 moegliche Stellungen in 3+2
 
               empile:     2384515
-           play_move:     2522027
+           play_move:     2522022
         orig_rbechec:       99789
         orig_rnechec:     2137231
 Loesung beendet. 
@@ -474,7 +474,7 @@ Loesung beendet.
 6899 moegliche Stellungen in 3+3
 
               empile:    13936644
-           play_move:    12828506
+           play_move:    12828500
         orig_rbechec:      807609
         orig_rnechec:    13348685
 Loesung beendet. 
@@ -511,7 +511,7 @@ Loesung beendet.
 889 moegliche Stellungen in 3+3
 
               empile:    13344860
-           play_move:     9388780
+           play_move:     9388774
         orig_rbechec:      629742
         orig_rnechec:     8958416
 Loesung beendet. 
@@ -548,7 +548,7 @@ Loesung beendet.
 4535 moegliche Stellungen in 3+2
 
               empile:     2057756
-           play_move:     1972683
+           play_move:     1972678
         orig_rbechec:      104398
         orig_rnechec:     2112409
 Loesung beendet. 
@@ -585,7 +585,7 @@ Loesung beendet.
 1979 moegliche Stellungen in 3+3
 
               empile:     4239142
-           play_move:     4332482
+           play_move:     4332476
         orig_rbechec:      225715
         orig_rnechec:     3709802
 Loesung beendet. 
@@ -630,7 +630,7 @@ a)
 29 moegliche Stellungen in 1+9
 
               empile:      637022
-           play_move:      642818
+           play_move:      642808
         orig_rbechec:      225433
         orig_rnechec:      270474
 b) ser-h=9
@@ -647,7 +647,7 @@ b) ser-h=9
 5 moegliche Stellungen in 1+9
 
               empile:      162315
-           play_move:      159344
+           play_move:      159334
         orig_rbechec:       48156
         orig_rnechec:      106405
 Loesung beendet. 
@@ -697,7 +697,7 @@ a)
 131 moegliche Stellungen in 1+14
 
               empile:      845709
-           play_move:      849590
+           play_move:      849575
         orig_rbechec:      290219
         orig_rnechec:      390895
 b) ser-h=14
@@ -719,7 +719,7 @@ b) ser-h=14
 14 moegliche Stellungen in 1+14
 
               empile:      340188
-           play_move:      323960
+           play_move:      323945
         orig_rbechec:       88502
         orig_rnechec:      282128
 Loesung beendet. 
@@ -764,7 +764,7 @@ a)
 34 moegliche Stellungen in 1+9
 
               empile:       29663
-           play_move:       29490
+           play_move:       29480
         orig_rbechec:        6964
         orig_rnechec:       35337
 b) ser-h=9
@@ -781,7 +781,7 @@ b) ser-h=9
 30 moegliche Stellungen in 1+9
 
               empile:       70827
-           play_move:       67342
+           play_move:       67332
         orig_rbechec:       11736
         orig_rnechec:      104676
 Loesung beendet. 
@@ -823,7 +823,7 @@ a)
 1 moegliche Stellungen in 1+6
 
               empile:       22880
-           play_move:       21196
+           play_move:       21189
         orig_rbechec:        4809
         orig_rnechec:       14802
 b) sBa2-->b3
@@ -837,7 +837,7 @@ b) sBa2-->b3
 1 moegliche Stellungen in 1+6
 
               empile:        9453
-           play_move:        8420
+           play_move:        8413
         orig_rbechec:        1223
         orig_rnechec:        8779
 Loesung beendet. 
@@ -880,7 +880,7 @@ a)
 7940 moegliche Stellungen in 6+0
 
               empile:      955007
-           play_move:     1025655
+           play_move:     1025649
         orig_rbechec:      237520
         orig_rnechec:      484453
 b) ser-=6
@@ -894,7 +894,7 @@ b) ser-=6
 7375 moegliche Stellungen in 6+0
 
               empile:     1252381
-           play_move:     1220372
+           play_move:     1220366
         orig_rbechec:      215720
         orig_rnechec:      430920
 Loesung beendet. 
@@ -936,7 +936,7 @@ a)
 857 moegliche Stellungen in 4+0
 
               empile:       39947
-           play_move:       53922
+           play_move:       53918
         orig_rbechec:       11038
         orig_rnechec:       30910
 b) ser-=4
@@ -948,7 +948,7 @@ b) ser-=4
 627 moegliche Stellungen in 4+0
 
               empile:       29537
-           play_move:       37722
+           play_move:       37718
         orig_rbechec:        5289
         orig_rnechec:       17314
 Loesung beendet. 
@@ -987,7 +987,7 @@ a)
 38 moegliche Stellungen in 2+0
 
               empile:        2852
-           play_move:        2833
+           play_move:        2831
         orig_rbechec:         529
         orig_rnechec:       20126
 b) ser-=2
@@ -997,7 +997,7 @@ b) ser-=2
 140 moegliche Stellungen in 2+0
 
               empile:        7529
-           play_move:        9237
+           play_move:        9235
         orig_rbechec:         725
         orig_rnechec:       35871
 Loesung beendet. 
@@ -1044,7 +1044,7 @@ Loesung beendet.
 31 moegliche Stellungen in 1+11
 
               empile:      880672
-           play_move:      759013
+           play_move:      758989
         orig_rbechec:       96767
         orig_rnechec:      674301
 Loesung beendet. 
@@ -1086,7 +1086,7 @@ Loesung beendet.
 565 moegliche Stellungen in 8+8
 
               empile:    37891277
-           play_move:    37575720
+           play_move:    37575704
         orig_rbechec:     2014964
         orig_rnechec:    11975234
 Loesung beendet. 
@@ -1128,7 +1128,7 @@ Loesung beendet.
 204 moegliche Stellungen in 8+8
 
               empile:     5716432
-           play_move:     5739601
+           play_move:     5739585
         orig_rbechec:      480514
         orig_rnechec:     1757103
 Loesung beendet. 
@@ -1165,7 +1165,7 @@ Loesung beendet.
 4435 moegliche Stellungen in 3+3
 
               empile:     2739421
-           play_move:     2351703
+           play_move:     2351697
         orig_rbechec:      178735
         orig_rnechec:     2309813
 Loesung beendet. 
@@ -1202,7 +1202,7 @@ Loesung beendet.
 4034 moegliche Stellungen in 3+3
 
               empile:     2751551
-           play_move:     2246826
+           play_move:     2246820
         orig_rbechec:      148672
         orig_rnechec:     2089779
 Loesung beendet. 
@@ -1239,7 +1239,7 @@ Loesung beendet.
 8492 moegliche Stellungen in 3+3
 
               empile:    37084797
-           play_move:    28043455
+           play_move:    28043449
         orig_rbechec:     2085122
         orig_rnechec:    30892023
 Loesung beendet. 
@@ -1276,7 +1276,7 @@ Loesung beendet.
 5865 moegliche Stellungen in 3+3
 
               empile:     7313639
-           play_move:     5471705
+           play_move:     5471699
         orig_rbechec:      461646
         orig_rnechec:     5961522
 Loesung beendet. 
@@ -1313,7 +1313,7 @@ Loesung beendet.
 9578 moegliche Stellungen in 3+3
 
               empile:     4782281
-           play_move:     3740842
+           play_move:     3740836
         orig_rbechec:      269308
         orig_rnechec:     3479204
 Loesung beendet. 
@@ -1352,7 +1352,7 @@ Loesung beendet.
 5211 moegliche Stellungen in 5+5
 
               empile:    15279379
-           play_move:    15456234
+           play_move:    15456224
         orig_rbechec:      760642
         orig_rnechec:     5241131
 Loesung beendet. 
@@ -1389,7 +1389,7 @@ Loesung beendet.
 17972 moegliche Stellungen in 3+3
 
               empile:    25001632
-           play_move:    23738314
+           play_move:    23738308
         orig_rbechec:     1327066
         orig_rnechec:    15430466
 Loesung beendet. 
@@ -1427,7 +1427,7 @@ Loesung beendet.
 635 moegliche Stellungen in 4+4
 
               empile:     8014698
-           play_move:     7475051
+           play_move:     7475043
         orig_rbechec:      250554
         orig_rnechec:     3317004
 Loesung beendet. 
@@ -1465,7 +1465,7 @@ Loesung beendet.
 704 moegliche Stellungen in 4+4
 
               empile:     8967902
-           play_move:     8183987
+           play_move:     8183979
         orig_rbechec:      300255
         orig_rnechec:     3932028
 Loesung beendet. 
@@ -1507,7 +1507,7 @@ a)
 7 moegliche Stellungen in 1+6
 
               empile:        8618
-           play_move:        7127
+           play_move:        7120
         orig_rbechec:         735
         orig_rnechec:        8193
 b) sBc7-->d6
@@ -1521,7 +1521,7 @@ b) sBc7-->d6
 7 moegliche Stellungen in 1+6
 
               empile:        7489
-           play_move:        6128
+           play_move:        6121
         orig_rbechec:         587
         orig_rnechec:        7592
 Loesung beendet. 
@@ -1559,7 +1559,7 @@ a)
 12 moegliche Stellungen in 2+2
 
               empile:         399
-           play_move:         393
+           play_move:         389
         orig_rbechec:          38
         orig_rnechec:        4718
 b) h=2
@@ -1569,7 +1569,7 @@ b) h=2
 13 moegliche Stellungen in 2+2
 
               empile:        8930
-           play_move:        8778
+           play_move:        8774
         orig_rbechec:         414
         orig_rnechec:       13929
 Loesung beendet. 
@@ -1607,7 +1607,7 @@ a)
 41 moegliche Stellungen in 2+2
 
               empile:        1078
-           play_move:        1347
+           play_move:        1343
         orig_rbechec:         138
         orig_rnechec:        1397
 b) h=2   -sBh4
@@ -1617,7 +1617,7 @@ b) h=2   -sBh4
 18 moegliche Stellungen in 2+2
 
               empile:        2796
-           play_move:        2682
+           play_move:        2678
         orig_rbechec:         173
         orig_rnechec:        3093
 Loesung beendet. 
@@ -1657,7 +1657,7 @@ Loesung beendet.
 2 moegliche Stellungen in 1+3
 
               empile:        6064
-           play_move:        5261
+           play_move:        5245
         orig_rbechec:         365
         orig_rnechec:        6772
 Loesung beendet. 
@@ -1698,7 +1698,7 @@ Loesung beendet.
 12 moegliche Stellungen in 1+5
 
               empile:       34186
-           play_move:       29948
+           play_move:       29936
         orig_rbechec:        2661
         orig_rnechec:       37370
 Loesung beendet. 
@@ -1738,7 +1738,7 @@ a)
 42 moegliche Stellungen in 4+4
 
               empile:       21668
-           play_move:       21712
+           play_move:       21704
         orig_rbechec:        1175
         orig_rnechec:        7155
 b) h=4
@@ -1750,7 +1750,7 @@ b) h=4
 25 moegliche Stellungen in 4+4
 
               empile:       26982
-           play_move:       27050
+           play_move:       27042
         orig_rbechec:        2104
         orig_rnechec:       16345
 Loesung beendet. 
@@ -1790,7 +1790,7 @@ a)
 23 moegliche Stellungen in 4+4
 
               empile:        1922
-           play_move:        1954
+           play_move:        1946
         orig_rbechec:         222
         orig_rnechec:        5666
 b) h=4  sBg6-->e6
@@ -1802,7 +1802,7 @@ b) h=4  sBg6-->e6
 11 moegliche Stellungen in 4+4
 
               empile:        1778
-           play_move:        1849
+           play_move:        1841
         orig_rbechec:         152
         orig_rnechec:       12400
 Loesung beendet. 
@@ -1840,7 +1840,7 @@ a)
 1 moegliche Stellungen in 2+2
 
               empile:          42
-           play_move:          44
+           play_move:          40
         orig_rbechec:           9
         orig_rnechec:         399
 b) h=2
@@ -1850,7 +1850,7 @@ b) h=2
 11 moegliche Stellungen in 2+2
 
               empile:         413
-           play_move:         417
+           play_move:         413
         orig_rbechec:          75
         orig_rnechec:        2714
 Loesung beendet. 
@@ -1889,7 +1889,7 @@ Loesung beendet.
 12 moegliche Stellungen in 4+4
 
               empile:        7858
-           play_move:        7874
+           play_move:        7858
         orig_rbechec:         424
         orig_rnechec:       39203
 Loesung beendet. 
@@ -1928,7 +1928,7 @@ Loesung beendet.
 316 moegliche Stellungen in 3+3
 
               empile:     8594177
-           play_move:     6841944
+           play_move:     6841926
         orig_rbechec:      446020
         orig_rnechec:     7445760
 Loesung beendet. 
@@ -1970,7 +1970,7 @@ a)
 1 moegliche Stellungen in 6+6
 
               empile:         177
-           play_move:         198
+           play_move:         186
         orig_rbechec:          22
         orig_rnechec:        3207
 b) h=6  sKa1-->h1
@@ -1984,7 +1984,7 @@ b) h=6  sKa1-->h1
 2 moegliche Stellungen in 6+6
 
               empile:        6035
-           play_move:        5969
+           play_move:        5957
         orig_rbechec:         371
         orig_rnechec:       12767
 Loesung beendet. 
@@ -2026,7 +2026,7 @@ a)
 1 moegliche Stellungen in 6+6
 
               empile:         168
-           play_move:         183
+           play_move:         171
         orig_rbechec:          20
         orig_rnechec:        1197
 b) h=6
@@ -2040,7 +2040,7 @@ b) h=6
 1 moegliche Stellungen in 6+6
 
               empile:         219
-           play_move:         234
+           play_move:         222
         orig_rbechec:          20
         orig_rnechec:        4291
 Loesung beendet. 
@@ -2082,7 +2082,7 @@ a)
 1 moegliche Stellungen in 6+6
 
               empile:         168
-           play_move:         183
+           play_move:         171
         orig_rbechec:          20
         orig_rnechec:        1197
 b) h=6
@@ -2096,7 +2096,7 @@ b) h=6
 1 moegliche Stellungen in 6+6
 
               empile:         219
-           play_move:         234
+           play_move:         222
         orig_rbechec:          20
         orig_rnechec:        4291
 Loesung beendet. 
@@ -2138,7 +2138,7 @@ a)
 1 moegliche Stellungen in 6+6
 
               empile:          94
-           play_move:         109
+           play_move:          97
         orig_rbechec:          16
         orig_rnechec:        1299
 b) h=6
@@ -2152,7 +2152,7 @@ b) h=6
 1 moegliche Stellungen in 6+6
 
               empile:         132
-           play_move:         147
+           play_move:         135
         orig_rbechec:          16
         orig_rnechec:        3951
 Loesung beendet. 
@@ -2200,7 +2200,7 @@ Loesung beendet.
 24 moegliche Stellungen in 1+14
 
               empile:     3784444
-           play_move:     3953395
+           play_move:     3953380
         orig_rbechec:      383043
         orig_rnechec:      778826
 Loesung beendet. 
@@ -2243,7 +2243,7 @@ a)
 243 moegliche Stellungen in 7+7
 
               empile:      112813
-           play_move:      112971
+           play_move:      112957
         orig_rbechec:        3592
         orig_rnechec:       82385
 b) h=7
@@ -2258,7 +2258,7 @@ b) h=7
 110 moegliche Stellungen in 7+7
 
               empile:      185026
-           play_move:      170353
+           play_move:      170339
         orig_rbechec:        5435
         orig_rnechec:      254085
 Loesung beendet. 
@@ -2297,7 +2297,7 @@ a)
 15 moegliche Stellungen in 3+3
 
               empile:        6015
-           play_move:        6340
+           play_move:        6334
         orig_rbechec:         240
         orig_rnechec:        6372
 b) h=3
@@ -2308,7 +2308,7 @@ b) h=3
 23 moegliche Stellungen in 3+3
 
               empile:       46179
-           play_move:       37934
+           play_move:       37928
         orig_rbechec:        2943
         orig_rnechec:       48647
 Loesung beendet. 
@@ -2354,7 +2354,7 @@ Loesung beendet.
 662 moegliche Stellungen in 1+8
 
               empile:    27862325
-           play_move:    26070721
+           play_move:    26070711
         orig_rbechec:     2092479
         orig_rnechec:    26938979
 Loesung beendet. 
@@ -2393,7 +2393,7 @@ Loesung beendet.
 667 moegliche Stellungen in 5+5
 
               empile:    10076962
-           play_move:     9792652
+           play_move:     9792642
         orig_rbechec:      360636
         orig_rnechec:     3286064
 Loesung beendet. 
@@ -2436,7 +2436,7 @@ Loesung beendet.
 646 moegliche Stellungen in 8+8
 
               empile:     6769726
-           play_move:     6231490
+           play_move:     6231474
         orig_rbechec:      279688
         orig_rnechec:     5368304
 Loesung beendet. 
@@ -2474,7 +2474,7 @@ bug
 3707 moegliche Stellungen in 3+3
 
               empile:     3445111
-           play_move:     2900971
+           play_move:     2900965
         orig_rbechec:      235341
         orig_rnechec:     3000451
 Loesung beendet. 
@@ -2514,7 +2514,7 @@ a)
 7 moegliche Stellungen in 4+4
 
               empile:       31399
-           play_move:       31407
+           play_move:       31399
         orig_rbechec:        2398
         orig_rnechec:       81559
 b) sSf6-->h1
@@ -2526,7 +2526,7 @@ b) sSf6-->h1
 7 moegliche Stellungen in 4+4
 
               empile:       21916
-           play_move:       21924
+           play_move:       21916
         orig_rbechec:        1697
         orig_rnechec:       79944
 Loesung beendet. 
@@ -2564,7 +2564,7 @@ Loesung beendet.
 5 moegliche Stellungen in 4+3
 
               empile:       28698
-           play_move:       27799
+           play_move:       27792
         orig_rbechec:        4875
         orig_rnechec:       70819
 Loesung beendet. 
@@ -2601,7 +2601,7 @@ Loesung beendet.
 23 moegliche Stellungen in 2+2
 
               empile:        1647
-           play_move:        1769
+           play_move:        1761
         orig_rbechec:         104
         orig_rnechec:        5272
 Loesung beendet. 
@@ -2639,7 +2639,7 @@ Loesung beendet.
 3 moegliche Stellungen in 3+3
 
               empile:         192
-           play_move:         204
+           play_move:         192
         orig_rbechec:          38
         orig_rnechec:        2352
 Loesung beendet. 
@@ -2680,7 +2680,7 @@ Loesung beendet.
 325 moegliche Stellungen in 7+7
 
               empile:    52170776
-           play_move:    56143368
+           play_move:    56143354
         orig_rbechec:     1848379
         orig_rnechec:    13109636
 Loesung beendet. 
@@ -2718,7 +2718,7 @@ Loesung beendet.
 618 moegliche Stellungen in 3+3
 
               empile:      481866
-           play_move:      460523
+           play_move:      460511
         orig_rbechec:       28501
         orig_rnechec:      707193
 Loesung beendet. 
@@ -2755,7 +2755,7 @@ Loesung beendet.
 40 moegliche Stellungen in 3+3
 
               empile:        2183
-           play_move:        2270
+           play_move:        2264
         orig_rbechec:         245
         orig_rnechec:       25573
 Loesung beendet. 
@@ -2801,7 +2801,7 @@ Loesung beendet.
 15 moegliche Stellungen in 1+12
 
               empile:    18420347
-           play_move:    16562679
+           play_move:    16562666
         orig_rbechec:     1763326
         orig_rnechec:    14734562
 Loesung beendet. 
@@ -2841,7 +2841,7 @@ Loesung beendet.
 64 moegliche Stellungen in 6+6
 
               empile:     2301761
-           play_move:     2394612
+           play_move:     2394600
         orig_rbechec:       98687
         orig_rnechec:      984733
 Loesung beendet. 
@@ -2885,7 +2885,7 @@ a)
 19 moegliche Stellungen in 6+6
 
               empile:       14999
-           play_move:       15430
+           play_move:       15418
         orig_rbechec:        1184
         orig_rnechec:       24406
 b) sKh2-->h1
@@ -2899,7 +2899,7 @@ b) sKh2-->h1
 11 moegliche Stellungen in 6+6
 
               empile:       15276
-           play_move:       15983
+           play_move:       15971
         orig_rbechec:        1163
         orig_rnechec:       21654
 c) wKg4-->f1  wBf2-->a2
@@ -2913,7 +2913,7 @@ c) wKg4-->f1  wBf2-->a2
 21 moegliche Stellungen in 6+6
 
               empile:       35481
-           play_move:       36787
+           play_move:       36775
         orig_rbechec:        2888
         orig_rnechec:       19499
 Loesung beendet. 
@@ -2952,7 +2952,7 @@ Loesung beendet.
 53 moegliche Stellungen in 5+5
 
               empile:      264769
-           play_move:      238089
+           play_move:      238079
         orig_rbechec:       10426
         orig_rnechec:      309010
 Loesung beendet. 
@@ -2991,7 +2991,7 @@ Loesung beendet.
 2609 moegliche Stellungen in 5+5
 
               empile:     3822732
-           play_move:     3237409
+           play_move:     3237399
         orig_rbechec:      242134
         orig_rnechec:     2129474
 Loesung beendet. 
@@ -3030,7 +3030,7 @@ Loesung beendet.
 140 moegliche Stellungen in 5+5
 
               empile:      254285
-           play_move:      213906
+           play_move:      213896
         orig_rbechec:       16563
         orig_rnechec:      232824
 Loesung beendet. 
@@ -3069,7 +3069,7 @@ Loesung beendet.
 39 moegliche Stellungen in 5+5
 
               empile:      139147
-           play_move:      120540
+           play_move:      120530
         orig_rbechec:        6298
         orig_rnechec:      232391
 Loesung beendet. 
@@ -3109,7 +3109,7 @@ Loesung beendet.
 154 moegliche Stellungen in 5+5
 
               empile:     8579249
-           play_move:     8580987
+           play_move:     8580977
         orig_rbechec:      292558
         orig_rnechec:     1223922
 Loesung beendet. 
@@ -3148,7 +3148,7 @@ Loesung beendet.
 1972 moegliche Stellungen in 5+5
 
               empile:    18508346
-           play_move:    17957804
+           play_move:    17957794
         orig_rbechec:      706510
         orig_rnechec:     4498909
 Loesung beendet. 
@@ -3187,7 +3187,7 @@ Loesung beendet.
 201 moegliche Stellungen in 5+5
 
               empile:     5179226
-           play_move:     5135924
+           play_move:     5135914
         orig_rbechec:      169559
         orig_rnechec:     1003815
 Loesung beendet. 
@@ -3226,7 +3226,7 @@ Loesung beendet.
 1476 moegliche Stellungen in 5+5
 
               empile:     7343868
-           play_move:     7030374
+           play_move:     7030364
         orig_rbechec:      266670
         orig_rnechec:     4389354
 Loesung beendet. 
@@ -3265,7 +3265,7 @@ Loesung beendet.
 376 moegliche Stellungen in 5+5
 
               empile:     3911000
-           play_move:     3808373
+           play_move:     3808363
         orig_rbechec:      137611
         orig_rnechec:     1141701
 Loesung beendet. 
@@ -3304,7 +3304,7 @@ Loesung beendet.
 845 moegliche Stellungen in 5+5
 
               empile:     9998262
-           play_move:     9852857
+           play_move:     9852847
         orig_rbechec:      418372
         orig_rnechec:     2367988
 Loesung beendet. 
@@ -3343,7 +3343,7 @@ Loesung beendet.
 1142 moegliche Stellungen in 5+5
 
               empile:     2862348
-           play_move:     2778483
+           play_move:     2778473
         orig_rbechec:      188949
         orig_rnechec:     1091372
 Loesung beendet. 
@@ -3382,7 +3382,7 @@ Loesung beendet.
 136 moegliche Stellungen in 5+5
 
               empile:     1439439
-           play_move:     1397552
+           play_move:     1397542
         orig_rbechec:       68197
         orig_rnechec:      501999
 Loesung beendet. 
@@ -3422,7 +3422,7 @@ Loesung beendet.
 1763 moegliche Stellungen in 5+5
 
               empile:     5145976
-           play_move:     4976362
+           play_move:     4976352
         orig_rbechec:      306828
         orig_rnechec:     1909644
 Loesung beendet. 
@@ -3461,7 +3461,7 @@ Loesung beendet.
 24 moegliche Stellungen in 5+5
 
               empile:     1624774
-           play_move:     1617514
+           play_move:     1617504
         orig_rbechec:       53351
         orig_rnechec:      409896
 Loesung beendet. 
@@ -3501,7 +3501,7 @@ Loesung beendet.
 17 moegliche Stellungen in 5+5
 
               empile:      230223
-           play_move:      237578
+           play_move:      237568
         orig_rbechec:        8875
         orig_rnechec:      110429
 Loesung beendet. 
@@ -3541,7 +3541,7 @@ Loesung beendet.
 158 moegliche Stellungen in 5+5
 
               empile:     1233283
-           play_move:     1145428
+           play_move:     1145418
         orig_rbechec:       48971
         orig_rnechec:      869850
 Loesung beendet. 
@@ -3584,7 +3584,7 @@ Loesung beendet.
 968 moegliche Stellungen in 3+3
 
               empile:      823593
-           play_move:      820014
+           play_move:      820002
         orig_rbechec:       38415
         orig_rnechec:      973279
 Loesung beendet. 
@@ -3623,7 +3623,7 @@ Loesung beendet.
 61 moegliche Stellungen in 1+5
 
               empile:       16174
-           play_move:       16204
+           play_move:       16198
         orig_rbechec:        2387
         orig_rnechec:       31168
 Loesung beendet. 
@@ -3663,7 +3663,7 @@ Loesung beendet.
 23 moegliche Stellungen in 6+6
 
               empile:      131227
-           play_move:      125630
+           play_move:      125618
         orig_rbechec:        8101
         orig_rnechec:       89047
 Loesung beendet. 
@@ -3704,7 +3704,7 @@ a)
 3737 moegliche Stellungen in 3+3
 
               empile:      946374
-           play_move:      937458
+           play_move:      937452
         orig_rbechec:       31736
         orig_rnechec:     1009346
 b) sBc2-->b2
@@ -3715,7 +3715,7 @@ b) sBc2-->b2
 3319 moegliche Stellungen in 3+3
 
               empile:      993665
-           play_move:      992386
+           play_move:      992380
         orig_rbechec:       31798
         orig_rnechec:     1013427
 Loesung beendet. 
@@ -3756,7 +3756,7 @@ Loesung beendet.
 2 moegliche Stellungen in 2+2
 
               empile:        4029
-           play_move:        4037
+           play_move:        4029
         orig_rbechec:         206
         orig_rnechec:        7772
 Loesung beendet. 
@@ -3796,7 +3796,7 @@ a)
 3 moegliche Stellungen in 3+3
 
               empile:       15603
-           play_move:       15081
+           play_move:       15075
         orig_rbechec:        2361
         orig_rnechec:       38470
 b) wTe1 
@@ -3807,7 +3807,7 @@ b) wTe1
 1 moegliche Stellungen in 3+3
 
               empile:       26540
-           play_move:       24243
+           play_move:       24237
         orig_rbechec:        3344
         orig_rnechec:       56043
 Loesung beendet. 
@@ -3849,7 +3849,7 @@ a)
 4 moegliche Stellungen in 1+5
 
               empile:        9525
-           play_move:        8742
+           play_move:        8730
         orig_rbechec:        1067
         orig_rnechec:       11832
 b) wKe5-->b3
@@ -3863,7 +3863,7 @@ b) wKe5-->b3
 8 moegliche Stellungen in 1+5
 
               empile:       12732
-           play_move:       12050
+           play_move:       12038
         orig_rbechec:        1347
         orig_rnechec:       13565
 Loesung beendet. 
@@ -3900,7 +3900,7 @@ Loesung beendet.
 1506 moegliche Stellungen in 3+3
 
               empile:      363913
-           play_move:      361615
+           play_move:      361609
         orig_rbechec:       27194
         orig_rnechec:      354302
 Loesung beendet. 
@@ -3941,7 +3941,7 @@ Loesung beendet.
 1 moegliche Stellungen in 1+3
 
               empile:        9310
-           play_move:        8434
+           play_move:        8418
         orig_rbechec:         308
         orig_rnechec:        5998
 Loesung beendet. 
@@ -3981,7 +3981,7 @@ Loesung beendet.
 40 moegliche Stellungen in 6+6
 
               empile:     3009266
-           play_move:     3239913
+           play_move:     3239901
         orig_rbechec:      126214
         orig_rnechec:      801683
 Loesung beendet. 
@@ -4022,7 +4022,7 @@ Loesung beendet.
 201 moegliche Stellungen in 7+7
 
               empile:   137999838
-           play_move:   151246662
+           play_move:   151246648
         orig_rbechec:     9179097
         orig_rnechec:    29900622
 Loesung beendet. 
@@ -4064,7 +4064,7 @@ Loesung beendet.
 314 moegliche Stellungen in 8+8
 
               empile:    11573830
-           play_move:    11631243
+           play_move:    11631227
         orig_rbechec:      892182
         orig_rnechec:     3822621
 Loesung beendet. 
@@ -4098,7 +4098,7 @@ Loesung beendet.
   1.f7-f8=S   2.Sf8-e6   3.Se6-g7   4.h7-h8=D   5.Dh8-h5   6.Sg7-e6 = 
 
               empile:      559649
-           play_move:      648696
+           play_move:      648690
         orig_rbechec:       89578
         orig_rnechec:      202786
 Loesung beendet. 
@@ -4138,7 +4138,7 @@ Loesung beendet.
 2 moegliche Stellungen in 1+3
 
               empile:        7349
-           play_move:        6424
+           play_move:        6408
         orig_rbechec:         360
         orig_rnechec:        5743
 Loesung beendet. 
@@ -4178,7 +4178,7 @@ Loesung beendet.
 9 moegliche Stellungen in 1+3
 
               empile:       17451
-           play_move:       14840
+           play_move:       14824
         orig_rbechec:         809
         orig_rnechec:        9140
 Loesung beendet. 
@@ -4218,7 +4218,7 @@ Loesung beendet.
 39 moegliche Stellungen in 3+2
 
               empile:       24014
-           play_move:       24339
+           play_move:       24319
         orig_rbechec:        1241
         orig_rnechec:       17985
 Loesung beendet. 
@@ -4255,7 +4255,7 @@ Loesung beendet.
 5678 moegliche Stellungen in 3+3
 
               empile:     2372841
-           play_move:     2186981
+           play_move:     2186975
         orig_rbechec:      152717
         orig_rnechec:     1949863
 Loesung beendet. 
@@ -4295,7 +4295,7 @@ Loesung beendet.
 30 moegliche Stellungen in 1+3
 
               empile:       13377
-           play_move:       12632
+           play_move:       12616
         orig_rbechec:         437
         orig_rnechec:       13651
 Loesung beendet. 
@@ -4338,7 +4338,7 @@ Loesung beendet.
 1 moegliche Stellungen in 3+3
 
               empile:         150
-           play_move:         161
+           play_move:         150
         orig_rbechec:          20
         orig_rnechec:        2569
 Loesung beendet. 
@@ -4375,7 +4375,7 @@ Loesung beendet.
 1 moegliche Stellungen in 3+3
 
               empile:         107
-           play_move:         113
+           play_move:         107
         orig_rbechec:          15
         orig_rnechec:        1258
 Loesung beendet. 
@@ -4427,7 +4427,7 @@ Loesung beendet.
 1 moegliche Stellungen in 1+18
 
               empile:      222200
-           play_move:      222219
+           play_move:      222200
         orig_rbechec:      114951
         orig_rnechec:      169532
 Loesung beendet. 
@@ -4476,7 +4476,7 @@ Loesung beendet.
 1 moegliche Stellungen in 14+0
 
               empile:      212826
-           play_move:      212840
+           play_move:      212826
         orig_rbechec:      146684
         orig_rnechec:      134627
 Loesung beendet. 
@@ -4519,7 +4519,7 @@ a)
 14 moegliche Stellungen in 7+0
 
               empile:        1987
-           play_move:        2085
+           play_move:        2078
         orig_rbechec:         371
         orig_rnechec:         612
 b) sKa8-->b8
@@ -4534,7 +4534,7 @@ b) sKa8-->b8
 4 moegliche Stellungen in 7+0
 
               empile:         596
-           play_move:         617
+           play_move:         610
         orig_rbechec:          78
         orig_rnechec:         447
 Loesung beendet. 
@@ -4577,7 +4577,7 @@ Loesung beendet.
 38 moegliche Stellungen in 3+3
 
               empile:        4641
-           play_move:        4653
+           play_move:        4641
         orig_rbechec:         365
         orig_rnechec:       24157
 Loesung beendet. 
@@ -4617,7 +4617,7 @@ Loesung beendet.
 856 moegliche Stellungen in 5+5
 
               empile:     8830060
-           play_move:     8438552
+           play_move:     8438542
         orig_rbechec:      385139
         orig_rnechec:     2586762
 Loesung beendet. 
@@ -4656,7 +4656,7 @@ Loesung beendet.
 14061 moegliche Stellungen in 5+5
 
               empile:    33138803
-           play_move:    29322521
+           play_move:    29322511
         orig_rbechec:     1521436
         orig_rnechec:    16734068
 Loesung beendet. 
@@ -4695,7 +4695,7 @@ Loesung beendet.
 5829 moegliche Stellungen in 3+3
 
               empile:    29055682
-           play_move:    26423488
+           play_move:    26423476
         orig_rbechec:     1354572
         orig_rnechec:    25318036
 Loesung beendet. 
@@ -4735,7 +4735,7 @@ Loesung beendet.
 3 moegliche Stellungen in 6+6
 
               empile:      296440
-           play_move:      281627
+           play_move:      281615
         orig_rbechec:       17040
         orig_rnechec:      208790
 Loesung beendet. 
@@ -4783,7 +4783,7 @@ Fassung: Theodor Steudel, Problemkiste 128, 4/2000
 80 moegliche Stellungen in 1+13
 
               empile:     3282528
-           play_move:     2584658
+           play_move:     2584644
         orig_rbechec:      259938
         orig_rnechec:     2880314
 Loesung beendet. 
@@ -4822,7 +4822,7 @@ Loesung beendet.
 1 moegliche Stellungen in 4+4
 
               empile:        1242
-           play_move:        1250
+           play_move:        1242
         orig_rbechec:         104
         orig_rnechec:        9355
 Loesung beendet. 
@@ -4861,7 +4861,7 @@ Loesung beendet.
 23 moegliche Stellungen in 4+4
 
               empile:       18153
-           play_move:       18365
+           play_move:       18349
         orig_rbechec:         846
         orig_rnechec:       65446
 Loesung beendet. 
@@ -4905,7 +4905,7 @@ Loesung beendet.
 15 moegliche Stellungen in 1+10
 
               empile:      554740
-           play_move:      483609
+           play_move:      483598
         orig_rbechec:      148908
         orig_rnechec:      346134
 Loesung beendet. 
@@ -4945,7 +4945,7 @@ Loesung beendet.
 706 moegliche Stellungen in 6+6
 
               empile:     4160581
-           play_move:     4107148
+           play_move:     4107136
         orig_rbechec:      345572
         orig_rnechec:     1322165
 Loesung beendet. 
@@ -4984,7 +4984,7 @@ a)
 419 moegliche Stellungen in 3+3
 
               empile:     1476593
-           play_move:     1472739
+           play_move:     1472733
         orig_rbechec:       11418
         orig_rnechec:     1691999
 b) wBd6-->g6
@@ -4995,7 +4995,7 @@ b) wBd6-->g6
 433 moegliche Stellungen in 3+3
 
               empile:     1523119
-           play_move:     1518834
+           play_move:     1518828
         orig_rbechec:       13198
         orig_rnechec:     1666495
 Loesung beendet. 
@@ -5034,7 +5034,7 @@ a)
   1.c4-c3 Dh1-d1 = 
 
               empile:        1700
-           play_move:        1858
+           play_move:        1854
         orig_rbechec:         252
         orig_rnechec:        2979
 b) sSa2 
@@ -5043,7 +5043,7 @@ b) sSa2
   1.c4-c3 Dh1-d1 = 
 
               empile:        1434
-           play_move:        1482
+           play_move:        1478
         orig_rbechec:         201
         orig_rnechec:        2646
 c) sLa2 
@@ -5052,7 +5052,7 @@ c) sLa2
   1.c4-c3 Dh1-d1 = 
 
               empile:        1803
-           play_move:        1877
+           play_move:        1873
         orig_rbechec:         221
         orig_rnechec:        2981
 d) sTa2 
@@ -5061,7 +5061,7 @@ d) sTa2
   1.c4-c3 Dh1-d1 = 
 
               empile:        1697
-           play_move:        1771
+           play_move:        1767
         orig_rbechec:         242
         orig_rnechec:        2882
 e) sDa2 
@@ -5070,7 +5070,7 @@ e) sDa2
   1.c4-c3 Dh1-d1 = 
 
               empile:        1792
-           play_move:        1855
+           play_move:        1851
         orig_rbechec:         219
         orig_rnechec:        2957
 Loesung beendet. 
@@ -5107,7 +5107,7 @@ dies ist ein Testfall fuer intelligent und loch
   1.Kb4-c5   2.Tb5-b3   3.Sc6-b4   4.La4-c6   5.Kc5-b5   6.Tc4-c5   7.Sb2-c4   8.Sc4-a3   9.Kb5-a4  10.Tc5-b5  11.Lc6-b7 Sa5*b7 = 
 
               empile:    21632191
-           play_move:    21488549
+           play_move:    21488525
         orig_rbechec:      571342
         orig_rnechec:    22815701
 Loesung beendet. 

@@ -1901,10 +1901,10 @@ solution finished.
    1.Kd1*c2 !
 
 
-              empile:       55042
-           play_move:       32181
-        orig_rbechec:       28761
-        orig_rnechec:       10226
+              empile:       56193
+           play_move:       33008
+        orig_rbechec:       29588
+        orig_rnechec:       10389
 solution finished. 
 
 

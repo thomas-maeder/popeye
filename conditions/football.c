@@ -6,6 +6,7 @@
 #include "stipulation/move_player.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -13,16 +14,15 @@
 
 piece current_football_substitution[maxply+1];
 
-static piece const *bench[maxply+1];
+static PieNam const *bench[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
-static piece const *get_bench(void)
+static PieNam const *get_bench(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
-  if (sq_departure!=king_square[Black] && sq_departure!=king_square[White]
+  if (sq_arrival!=king_square[Black] && sq_arrival!=king_square[White]
       && (sq_arrival%onerow==left_file || sq_arrival%onerow==right_file))
   {
     PieNam const p = abs(e[sq_arrival]);
@@ -104,7 +104,13 @@ stip_length_type football_chess_substitutor_attack(slice_index si,
     result = attack(slices[si].next1,n);
   else
   {
-    replace_arriving_piece(pjoue[nbply]<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply]);
+    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+    piece const substitute = e[sq_arrival]<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
+
+    move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
+                                        sq_arrival,
+                                        substitute);
+    jouearr[nbply] = e[sq_arrival];
 
     result = attack(slices[si].next1,n);
 
@@ -151,7 +157,13 @@ stip_length_type football_chess_substitutor_defend(slice_index si,
     result = defend(slices[si].next1,n);
   else
   {
-    replace_arriving_piece(pjoue[nbply]<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply]);
+    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+    piece const substitute = e[sq_arrival]<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
+
+    move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
+                                        sq_arrival,
+                                        substitute);
+    jouearr[nbply] = e[sq_arrival];
 
     result = defend(slices[si].next1,n);
 
@@ -177,7 +189,7 @@ void stip_insert_football_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STFootballChessSubsitutor);
+  stip_instrument_moves_no_replay(si,STFootballChessSubsitutor);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

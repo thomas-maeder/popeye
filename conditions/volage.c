@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "pieces/side_change.h"
 #include "debugging/trace.h"
 
@@ -14,13 +15,22 @@ static void change_side(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  if (TSTFLAG(spec[sq_arrival],Volage) && SquareCol(sq_departure)!=SquareCol(sq_arrival))
+
+  if (TSTFLAG(spec[sq_arrival],Volage)
+      && SquareCol(sq_departure)!=SquareCol(sq_arrival))
   {
-    spec_change_side(&spec[sq_arrival]);
-    piece_change_side(&e[sq_arrival]);
-    jouearr[nbply] = e[sq_arrival];
+    Flags flags = spec[sq_arrival];
+    spec_change_side(&flags);
     if (!CondFlag[hypervolage])
-      CLRFLAG(spec[sq_arrival],Volage);
+      CLRFLAG(flags,Volage);
+    move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
+                                        sq_arrival,
+                                        flags);
+
+    move_effect_journal_do_piece_change(move_effect_reason_volage_side_change,
+                                        sq_arrival,
+                                        -e[sq_arrival]);
+    jouearr[nbply] = e[sq_arrival];
   }
 }
 
@@ -86,7 +96,7 @@ void stip_insert_volage_side_changers(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STVolageSideChanger);
+  stip_instrument_moves_no_replay(si,STVolageSideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -45,6 +45,7 @@ static void insert_move_iterator_move(slice_index si,
                                    : alloc_for_each_move_slice());
     slice_index const prototypes[] = {
         prototype,
+        alloc_pipe(STMoveEffectJournalUndoer),
         alloc_move_player_slice(),
         alloc_pipe(STLandingAfterMovePlay)
     };

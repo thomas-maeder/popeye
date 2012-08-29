@@ -29,10 +29,10 @@
 #include "solving/find_by_increasing_length.h"
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/avoid_unsolvable.h"
-#include "solving/king_square.h"
 #include "solving/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/amu/attack_counter.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
@@ -53,7 +53,6 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/republican.h"
-#include "conditions/royal_square.h"
 #include "conditions/circe/capture_fork.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/assassin.h"
@@ -78,7 +77,6 @@
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
-#include "conditions/losing.h"
 #include "conditions/einstein/einstein.h"
 #include "conditions/einstein/reverse.h"
 #include "conditions/einstein/anti.h"
@@ -192,8 +190,8 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = move_generator_defend(si,n);
       break;
 
-    case STCastlingRightsRemover:
-      result = castling_rights_remover_defend(si,n);
+    case STCastlingRightsAdjuster:
+      result = castling_rights_adjuster_defend(si,n);
       break;
 
     case STMovingPawnPromoter:
@@ -212,6 +210,14 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = post_move_iteration_initialiser_defend(si,n);
       break;
 
+    case STMoveEffectJournalReplayer:
+      result = move_effect_journal_redoer_defend(si,n);
+      break;
+
+    case STMoveEffectJournalUndoer:
+      result = move_effect_journal_undoer_defend(si,n);
+      break;
+
     case STMessignyMovePlayer:
       result = messigny_move_player_defend(si,n);
       break;
@@ -222,10 +228,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STMovePlayer:
       result = move_player_defend(si,n);
-      break;
-
-    case STKingSquareAdjuster:
-      result = king_square_adjuster_defend(si,n);
       break;
 
     case STEnPassantAdjuster:
@@ -244,20 +246,12 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = kamikaze_capturing_piece_remover_defend(si,n);
       break;
 
-    case STHaanChessDepartureBlocker:
-      result = haan_chess_block_departure_defend(si,n);
+    case STHaanChessHoleInserter:
+      result = haan_chess_hole_inserter_defend(si,n);
       break;
 
     case STCastlingChessMovePlayer:
       result = castling_chess_move_player_defend(si,n);
-      break;
-
-    case STCastlingChessKingSquareAdjuster:
-      result = castling_chess_king_square_adjuster_defend(si,n);
-      break;
-
-    case STCastlingChessHaanPartnerSquareBlocker:
-      result = castling_chess_haan_chess_partner_square_blocker_defend(si,n);
       break;
 
     case STExchangeCastlingMovePlayer:
@@ -439,10 +433,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = republican_king_placer_defend(si,n);
       break;
 
-    case STRoyalSquareHandler:
-      result = royal_square_handler_defend(si,n);
-      break;
-
     case STCirceParrainRebirthHandler:
       result = circe_parrain_rebirth_handler_defend(si,n);
       break;
@@ -539,10 +529,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = circe_assassin_rebirth_defend(si,n);
       break;
 
-    case STKingAssassinationAvoider:
-      result = king_assassination_avoider_defend(si,n);
-      break;
-
     case STKingCaptureAvoider:
       result = king_capture_avoider_defend(si,n);
       break;
@@ -575,6 +561,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = neutral_retracting_recolorer_defend(si,n);
       break;
 
+    case STPiecesNeutralReplayingRecolorer:
+      result = neutral_replaying_recolorer_defend(si,n);
+      break;
+
     case STSentinellesInserter:
       result = sentinelles_inserter_defend(si,n);
       break;
@@ -603,44 +593,20 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = andernach_side_changer_defend(si,n);
       break;
 
-    case STAndernachCastlingRightsRestorer:
-      result = andernach_castling_rights_restorer_defend(si,n);
-      break;
-
     case STAntiAndernachSideChanger:
       result = antiandernach_side_changer_defend(si,n);
-      break;
-
-    case STAntiAndernachCastlingRightsRestorer:
-      result = antiandernach_castling_rights_restorer_defend(si,n);
       break;
 
     case STChameleonPursuitSideChanger:
       result = chameleon_pursuit_side_changer_defend(si,n);
       break;
 
-    case STChameleonPursuitCastlingRightsRestorer:
-      result = chameleon_pursuit_castling_rights_restorer_defend(si,n);
-      break;
-
-    case STNorskCastlingRightsRestorer:
-      result = norsk_castling_rights_restorer_defend(si,n);
-      break;
-
     case STNorskArrivingAdjuster:
       result = norsk_arriving_adjuster_defend(si,n);
       break;
 
-    case STProteanCastlingRightsRestorer:
-      result = protean_castling_rights_restorer_defend(si,n);
-      break;
-
     case STProteanPawnAdjuster:
       result = protean_pawn_adjuster_defend(si,n);
-      break;
-
-    case STLosingChessCastlingRightsRemover:
-      result = losing_chess_castling_rights_remover_defend(si,n);
       break;
 
     case STEinsteinArrivingAdjuster:

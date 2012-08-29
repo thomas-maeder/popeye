@@ -382,10 +382,10 @@ b) wLb7-->b8
   1.La8-c6 Lb8-d6   2.Th7-c7 Ld6*c7-b7   3.Ke6-d5 Kb6*c6-d7 # 
   1.La8-c6 Lb8-d6   2.Th7-e7 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 # 
 
-              empile:    19805579
-           play_move:    13905415
-        orig_rbechec:     1066688
-        orig_rnechec:    13747903
+              empile:    19714666
+           play_move:    13851517
+        orig_rbechec:     1061622
+        orig_rnechec:    13694005
 Loesung beendet. 
 
 
@@ -621,18 +621,18 @@ a)
 
   1.Kh2-h3 Ta7*d7-g4 [+sLc8]   2.Kh3*g4-g6 [+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5 [+wTh1] 0-0 
 
-              empile:       65315
-           play_move:       43858
-        orig_rbechec:       18937
-        orig_rnechec:       26129
+              empile:       65350
+           play_move:       43944
+        orig_rbechec:       18988
+        orig_rnechec:       26164
 b) sKh2-->b2
 
   1.Kb2-b3 Ta7*d7-h3 [+sLc8] +   2.Lc8*h3-h4 [+wTh1] + Th1*h4-d8 [+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2 [+wTa1] 0-0-0 
 
-              empile:       83107
-           play_move:       56877
-        orig_rbechec:       20978
-        orig_rnechec:       36923
+              empile:       83176
+           play_move:       57001
+        orig_rbechec:       21033
+        orig_rnechec:       36992
 Loesung beendet. 
 
 
@@ -752,10 +752,10 @@ Loesung beendet.
   4  (g3*f4-b8=L [+sLf8] )
   5  (La3-f8 )
 
-              empile:       70454
-           play_move:       39002
-        orig_rbechec:       19626
-        orig_rnechec:       20046
+              empile:       70650
+           play_move:       39199
+        orig_rbechec:       19636
+        orig_rnechec:       20233
 Loesung beendet. 
 
 

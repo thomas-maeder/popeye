@@ -843,8 +843,8 @@ typedef enum
 typedef enum
 {
   Neutral = nr_sides,
-  Kamikaze,
   Royal,
+  Kamikaze,
   Paralyse,
   Chameleon,
   Jigger,

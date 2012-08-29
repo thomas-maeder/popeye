@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move_player.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -121,6 +122,62 @@ void einstein_increase_castling_partner(Side trait_ply)
   }
 }
 
+/* Remember all capturers of the current move
+ * @param is_capturer remembers capturers by their departure square (minus square_a1)
+ */
+void einstein_collect_capturers(boolean is_capturer[square_h8-square_a1])
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_removal
+        && move_effect_journal[curr].reason==move_effect_reason_regular_capture)
+    {
+      move_effect_journal_index_type const movement = move_effect_journal[curr].u.piece_removal.capturing_movement;
+      square const capturer_origin = move_effect_journal[movement].u.piece_movement.from;
+      is_capturer[capturer_origin-square_a1] = true;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void adjust(void)
+{
+  boolean is_capturer[square_h8-square_a1] = { false };
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[parent_ply[nbply]]<=top);
+
+  einstein_collect_capturers(is_capturer);
+
+  for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement
+        && (move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement
+            || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement))
+    {
+      square const from = move_effect_journal[curr].u.piece_movement.from;
+      square const to = move_effect_journal[curr].u.piece_movement.to;
+      piece const einsteined = e[to];
+      piece const substitute = (is_capturer[from-square_a1]
+                                ? einstein_increase_piece(einsteined)
+                                : einstein_decrease_piece(einsteined));
+      move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
+                                          to,substitute);
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -133,22 +190,15 @@ stip_length_type einstein_moving_adjuster_attack(slice_index si,
                                                  stip_length_type n)
 {
   stip_length_type result;
-  piece const pi_arriving = e[move_generation_stack[current_move[nbply]].arrival];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  replace_arriving_piece(pprise[nbply]==vide
-                         ? einstein_decrease_piece(pi_arriving)
-                         : einstein_increase_piece(pi_arriving));
-
-  einstein_decrease_castling_partner(slices[si].starter);
-
+  adjust();
+  jouearr[nbply] = e[move_generation_stack[current_move[nbply]].arrival];
   result = attack(slices[si].next1,n);
-
-  einstein_increase_castling_partner(slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -171,22 +221,15 @@ stip_length_type einstein_moving_adjuster_defend(slice_index si,
                                                  stip_length_type n)
 {
   stip_length_type result;
-  piece const pi_arriving = e[move_generation_stack[current_move[nbply]].arrival];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  replace_arriving_piece(pprise[nbply]==vide
-                         ? einstein_decrease_piece(pi_arriving)
-                         : einstein_increase_piece(pi_arriving));
-
-  einstein_decrease_castling_partner(slices[si].starter);
-
+  adjust();
+  jouearr[nbply] = e[move_generation_stack[current_move[nbply]].arrival];
   result = defend(slices[si].next1,n);
-
-  einstein_increase_castling_partner(slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -201,7 +244,7 @@ void stip_insert_einstein_moving_adjusters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STEinsteinArrivingAdjuster);
+  stip_instrument_moves_no_replay(si,STEinsteinArrivingAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

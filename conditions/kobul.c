@@ -1,60 +1,43 @@
 #include "conditions/kobul.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <string.h>
+#include <stdlib.h>
 
 boolean kobulking[nr_sides];
 piece kobul[nr_sides][maxply+1];
 Flags kobulspec[nr_sides][maxply+1];
 
-void substitute(Side trait_ply)
+static void substitute(Side trait_ply)
 {
   piece const pi_captured = pprise[nbply];
+  square const king_pos = king_square[advers(trait_ply)];
+
   if (pi_captured!=vide
       && kobulking[advers(trait_ply)]
-      && king_square[advers(trait_ply)]!=initsquare)
+      && king_pos!=initsquare)
   {
-    piece pi_kobul;
+    PieNam const kobul_kind = is_pawn(pi_captured) ? King : abs(pi_captured);
+    piece const pi_kobul = e[king_pos]<=roin ? -kobul_kind : kobul_kind;
+
+    Flags const colour_mask = BIT(White)|BIT(Black)|BIT(Neutral);
     Flags spec_kobul = pprispec[nbply];
 
-    if (is_pawn(pi_captured))
-      pi_kobul = trait_ply==White ? roin : roib;
-    else
-      pi_kobul = pi_captured;
-
     SETFLAG(spec_kobul,Royal);
-    if (TSTFLAG(spec[king_square[advers(trait_ply)]],Neutral))
-    {
-      SETFLAG(spec_kobul,Black);
-      SETFLAG(spec_kobul,White);
-      SETFLAG(spec_kobul,Neutral);
-      setneutre(&pi_kobul);
-    }
+    SETFLAGMASK(spec_kobul, spec[king_pos]&colour_mask);
 
-    --nbpiece[e[king_square[advers(trait_ply)]]];
-    e[king_square[advers(trait_ply)]] = pi_kobul;
-    spec[king_square[advers(trait_ply)]] = spec_kobul;
-    ++nbpiece[e[king_square[advers(trait_ply)]]];
-  }
-}
+    move_effect_journal_do_piece_change(move_effect_reason_kobul_king,
+                                        king_pos,
+                                        pi_kobul);
 
-void restore(Side trait_ply)
-{
-  if (kobulking[advers(trait_ply)]
-      && king_square[advers(trait_ply)]!=initsquare)
-  {
-    --nbpiece[e[king_square[advers(trait_ply)]]];
-    e[king_square[advers(trait_ply)]] = kobul[advers(trait_ply)][nbply];
-    spec[king_square[advers(trait_ply)]] = kobulspec[advers(trait_ply)][nbply];
-    ++nbpiece[kobul[advers(trait_ply)][nbply]];
+    move_effect_journal_do_flags_change(move_effect_reason_kobul_king,
+                                        king_pos,
+                                        spec_kobul);
   }
 }
 
@@ -78,7 +61,6 @@ stip_length_type kobul_king_substitutor_attack(slice_index si,
 
   substitute(slices[si].starter);
   result = attack(slices[si].next1,n);
-  restore(slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,7 +91,6 @@ stip_length_type kobul_king_substitutor_defend(slice_index si,
 
   substitute(slices[si].starter);
   result = defend(slices[si].next1,n);
-  restore(slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -117,43 +98,16 @@ stip_length_type kobul_king_substitutor_defend(slice_index si,
   return result;
 }
 
-
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STKobulKingSubstitutor);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_kobul_king_substitutors(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STKobulKingSubstitutor);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

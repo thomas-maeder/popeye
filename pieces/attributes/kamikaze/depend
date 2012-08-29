@@ -12,7 +12,8 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  stipulation/boolean/true.h stipulation/move_player.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
- conditions/anticirce/exchange_filter.h debugging/trace.h
+ conditions/anticirce/exchange_filter.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
@@ -79,5 +80,7 @@ conditions/anticirce/target_square_filter.h:
 conditions/anticirce/exchange_special.h:
 
 conditions/anticirce/exchange_filter.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:

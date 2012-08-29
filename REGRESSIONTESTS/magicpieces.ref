@@ -671,15 +671,15 @@ a)
         orig_rnechec:           0
 b) wmKa5 
 
-   1.rmKa5-b5[+wPa5] !
+   1.mKa5-b5[+wPa5] !
 
-   1.rmKa5-a6[+wPa5] !
+   1.mKa5-a6[+wPa5] !
 
-   1.rmKa5-a4[+wPa5] !
+   1.mKa5-a4[+wPa5] !
 
-   1.rmKa5-b6[+wPa5] !
+   1.mKa5-b6[+wPa5] !
 
-   1.rmKa5-b4[+wPa5] !
+   1.mKa5-b4[+wPa5] !
 
 
               empile:           5
@@ -688,21 +688,55 @@ b) wmKa5
         orig_rnechec:           0
 c) nmKa5 
 
-   1.nrmKa5-b5[+wPa5] !
+   1.nmKa5-b5[+wPa5] !
 
-   1.nrmKa5-a6[+wPa5] !
+   1.nmKa5-a6[+wPa5] !
 
-   1.nrmKa5-a4[+wPa5] !
+   1.nmKa5-a4[+wPa5] !
 
-   1.nrmKa5-b6[+wPa5] + !
+   1.nmKa5-b6[+wPa5] + !
 
-   1.nrmKa5-b4[+wPa5] !
+   1.nmKa5-b4[+wPa5] !
 
 
               empile:           5
            play_move:           5
         orig_rbechec:           5
         orig_rnechec:           6
+solution finished. 
+
+
+
+an example for castling with a recolored rook
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1  -R   .   .  -G   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h001                        2 + 3
+               Magic d1
+
+  1.mGd1-d4 [wRa1] 0-0-0 + 
+
+              empile:          37
+           play_move:          20
+        orig_rbechec:           5
+        orig_rnechec:          20
 solution finished. 
 
 

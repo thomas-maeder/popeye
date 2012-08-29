@@ -7,7 +7,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -18,45 +18,25 @@ boolean oscillatedKs[toppile+1];
 
 static void perform_oscillation(void)
 {
+  piece const save_king_square[nr_sides] = {king_square[White],king_square[Black]};
+  piece const save_kings[nr_sides] = {e[king_square[White]],e[king_square[Black]]};
+  Flags const save_flags[nr_sides] = {spec[king_square[White]],spec[king_square[Black]]};
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  {
-    piece const temp = e[king_square[White]];
-    e[king_square[White]] = e[king_square[Black]];
-    e[king_square[Black]] = temp;
-  }
-
-  {
-    Flags const temp = spec[king_square[White]];
-    spec[king_square[White]] = spec[king_square[Black]];
-    spec[king_square[Black]] = temp;
-  }
-
-  {
-    square const temp = king_square[White];
-    king_square[White] = king_square[Black];
-    king_square[Black] = temp;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void adjust_castling_rights(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (king_square[White]==square_e1)
-    SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
-  else
-    CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
-
-  if (king_square[Black]==square_e8)
-    SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
-  else
-    CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+  move_effect_journal_do_piece_removal(move_effect_reason_oscillating_kings,
+                                       king_square[White]);
+  move_effect_journal_do_piece_removal(move_effect_reason_oscillating_kings,
+                                       king_square[Black]);
+  move_effect_journal_do_piece_addition(move_effect_reason_oscillating_kings,
+                                        save_king_square[Black],
+                                        save_kings[White],
+                                        save_flags[White]);
+  move_effect_journal_do_piece_addition(move_effect_reason_oscillating_kings,
+                                        save_king_square[White],
+                                        save_kings[Black],
+                                        save_flags[Black]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -89,14 +69,9 @@ stip_length_type king_oscillator_attack(slice_index si, stip_length_type n)
   {
     oscillatedKs[nbply] = !OscillatingKingsTypeC[starter] || echecc(advers(starter));
     if (oscillatedKs[nbply])
-    {
       perform_oscillation();
-      adjust_castling_rights();
-      result = attack(slices[si].next1,n);
-      perform_oscillation();
-    }
-    else
-      result = attack(slices[si].next1,n);
+
+    result = attack(slices[si].next1,n);
   }
 
   TraceFunctionExit(__func__);
@@ -135,14 +110,9 @@ stip_length_type king_oscillator_defend(slice_index si, stip_length_type n)
   {
     oscillatedKs[nbply] = !OscillatingKingsTypeC[starter] || echecc(advers(starter));
     if (oscillatedKs[nbply])
-    {
       perform_oscillation();
-      adjust_castling_rights();
-      result = defend(slices[si].next1,n);
-      perform_oscillation();
-    }
-    else
-      result = defend(slices[si].next1,n);
+
+    result = defend(slices[si].next1,n);
   }
 
   TraceFunctionExit(__func__);
@@ -186,12 +156,7 @@ void stip_insert_king_oscillators(slice_index si)
   stip_impose_starter(si,slices[si].starter);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
+  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

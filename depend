@@ -44,13 +44,14 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  options/maxflightsquares.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/magic.h \
- pieces/side_change.h platform/maxtime.h solving/battle_play/try.h \
- utilities/table.h solving/castling.h solving/en_passant.h \
- solving/moving_pawn_promotion.h solving/post_move_iteration.h \
- conditions/bgl.h conditions/sat.h conditions/oscillating_kings.h \
- conditions/duellists.h conditions/kobul.h conditions/anticirce/super.h \
- conditions/circe/april.h conditions/imitator.h utilities/table.h \
- debugging/trace.h
+ pieces/side_change.h platform/maxtime.h solving/move_effect_journal.h \
+ solving/battle_play/try.h utilities/table.h solving/castling.h \
+ solving/en_passant.h solving/moving_pawn_promotion.h \
+ solving/post_move_iteration.h conditions/bgl.h conditions/sat.h \
+ conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
+ conditions/anticirce/super.h conditions/circe/april.h \
+ conditions/imitator.h solving/move_effect_journal.h \
+ conditions/sentinelles.h utilities/table.h debugging/trace.h
 
 py.h:
 
@@ -126,6 +127,8 @@ pieces/side_change.h:
 
 platform/maxtime.h:
 
+solving/move_effect_journal.h:
+
 solving/battle_play/try.h:
 
 utilities/table.h:
@@ -153,6 +156,10 @@ conditions/anticirce/super.h:
 conditions/circe/april.h:
 
 conditions/imitator.h:
+
+solving/move_effect_journal.h:
+
+conditions/sentinelles.h:
 
 utilities/table.h:
 
@@ -583,7 +590,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pymsg.h DHT/dhtbcmem.h \
  pyproof.h stipulation/slice.h solving/selfcheck_guard.h \
- solving/king_square.h solving/moving_pawn_promotion.h stipulation/pipe.h \
+ solving/moving_pawn_promotion.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h solving/battle_play/attack_play.h \
  output/output.h output/mode.h conditions/bgl.h conditions/exclusive.h \
@@ -599,24 +606,24 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
- conditions/actuated_revolving_board.h conditions/royal_square.h \
- conditions/circe/rebirth_handler.h conditions/circe/cage.h \
- conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/circe/frischauf.h conditions/circe/super.h \
- conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
+ conditions/actuated_revolving_board.h conditions/circe/rebirth_handler.h \
+ conditions/circe/cage.h conditions/circe/kamikaze.h \
+ conditions/circe/parrain.h conditions/circe/volage.h \
+ conditions/circe/promotion.h conditions/circe/frischauf.h \
+ conditions/circe/super.h conditions/circe/april.h \
+ conditions/circe/king_rebirth_avoider.h \
  conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
  conditions/sentinelles.h conditions/duellists.h conditions/ghost_chess.h \
  conditions/kobul.h conditions/andernach.h conditions/antiandernach.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/losing.h conditions/einstein/einstein.h \
- conditions/einstein/reverse.h conditions/einstein/anti.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
- conditions/marscirce/anti.h conditions/line_chameleon.h \
- conditions/haan.h conditions/castling_chess.h \
- conditions/exchange_castling.h conditions/transmuting_kings/super.h \
- conditions/amu/attack_counter.h conditions/imitator.h \
+ conditions/einstein/einstein.h conditions/einstein/reverse.h \
+ conditions/einstein/anti.h conditions/traitor.h conditions/volage.h \
+ conditions/magic_square.h conditions/tibet.h conditions/degradierung.h \
+ conditions/phantom.h conditions/marscirce/anti.h \
+ conditions/line_chameleon.h conditions/haan.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
+ conditions/transmuting_kings/super.h conditions/amu/attack_counter.h \
+ conditions/imitator.h solving/move_effect_journal.h \
  conditions/football.h platform/maxmem.h platform/maxtime.h \
  platform/pytime.h platform/priority.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/end_of_branch.h \
@@ -709,8 +716,6 @@ stipulation/slice.h:
 
 solving/selfcheck_guard.h:
 
-solving/king_square.h:
-
 solving/moving_pawn_promotion.h:
 
 stipulation/pipe.h:
@@ -783,8 +788,6 @@ conditions/actuated_revolving_centre.h:
 
 conditions/actuated_revolving_board.h:
 
-conditions/royal_square.h:
-
 conditions/circe/rebirth_handler.h:
 
 conditions/circe/cage.h:
@@ -827,8 +830,6 @@ conditions/norsk.h:
 
 conditions/protean.h:
 
-conditions/losing.h:
-
 conditions/einstein/einstein.h:
 
 conditions/einstein/reverse.h:
@@ -862,6 +863,8 @@ conditions/transmuting_kings/super.h:
 conditions/amu/attack_counter.h:
 
 conditions/imitator.h:
+
+solving/move_effect_journal.h:
 
 conditions/football.h:
 
@@ -1049,8 +1052,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/try.h utilities/table.h solving/en_passant.h \
  conditions/republican.h conditions/bgl.h conditions/check_zigzag.h \
  conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
- conditions/kobul.h conditions/circe/april.h options/degenerate_tree.h \
- options/nontrivial.h options/maxthreatlength.h \
+ conditions/kobul.h conditions/circe/april.h conditions/sentinelles.h \
+ options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
@@ -1221,6 +1224,8 @@ conditions/oscillating_kings.h:
 conditions/kobul.h:
 
 conditions/circe/april.h:
+
+conditions/sentinelles.h:
 
 options/degenerate_tree.h:
 

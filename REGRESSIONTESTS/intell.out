@@ -30,7 +30,7 @@ a)
   1.Dd6-d5 + Kf3-e2   2.Kf5-f4 Sc6-d8   3.Lc2-f5 Sd8-e6 +   4.Kf4-e4 f2-f3 # 
 
               empile:       11200
-           play_move:       11099
+           play_move:       11091
         orig_rbechec:         331
         orig_rnechec:       32394
 b) sBc2 
@@ -38,7 +38,7 @@ b) sBc2
   1.c2-c1=L d4-d5   2.Lc1-b2 Kf3-e3   3.Lb2-f6 Sc6-e7 +   4.Kf5-e5 f2-f4 # 
 
               empile:       22461
-           play_move:       22640
+           play_move:       22632
         orig_rbechec:         646
         orig_rnechec:       32925
 Loesung beendet. 
@@ -72,7 +72,7 @@ Loesung beendet.
   1.Le6-a2 Lh7-g8   2.f5-f4 Lg8-b3   3.Ke5-f5 Lb3-c2   4.La2-e6 d3-d4 # 
 
               empile:      103678
-           play_move:      103609
+           play_move:      103601
         orig_rbechec:        7252
         orig_rnechec:       31886
 Loesung beendet. 
@@ -108,7 +108,7 @@ a)
   1.Kf4-e5 Se4-c5   2.Ke5-d6 Kc8-b7   3.Td4-d5 Lc3-g7   4.Lb2-e5 Lg7-f8 # 
 
               empile:        7853
-           play_move:        7807
+           play_move:        7799
         orig_rbechec:         444
         orig_rnechec:       76396
 b) sLb2-->b8
@@ -116,7 +116,7 @@ b) sLb2-->b8
   1.Kf4-e3 Se4-g5   2.Td4-g4 Kc8-d7   3.Lb8-g3 Kd7-e6   4.Ke3-f4 Lc3-d2 # 
 
               empile:       31345
-           play_move:       31230
+           play_move:       31222
         orig_rbechec:        1762
         orig_rnechec:       77684
 Loesung beendet. 
@@ -150,7 +150,7 @@ harmonie 23, 31.12.1988 (Neujahrsgru"s)
   1.Ld5-e4 + Kh7-h6   2.Dd4-d6 + Kh6*g5   3.Td3-d5 + Kg5-h4   4.Kc5-d4 Kh4-g4   5.Dd6-c5 Kg4*f4   6.Le4-d3 f2*e3 # 
 
               empile:      162909
-           play_move:      163403
+           play_move:      163391
         orig_rbechec:        4777
         orig_rnechec:       24030
 Loesung beendet. 
@@ -184,7 +184,7 @@ Loesung beendet.
   1.Se3-f5 + Kg7-f6   2.Sf5-d6 + Kf6*e5   3.Sd6-c4 + Ke5-d4   4.Sc4-e3 + Kd4-c3   5.Lg8-a2 Sa7-b5 # 
 
               empile:       50892
-           play_move:       51707
+           play_move:       51697
         orig_rbechec:        3571
         orig_rnechec:       16825
 Loesung beendet. 
@@ -218,7 +218,7 @@ Loesung beendet.
   1.c2-c1=D Se3-d5   2.Dc1-h6 Ka4-b5   3.Dh6-h8 Kb5-c6   4.e2-e1=D Kc6-d7   5.De1-b1 Kd7-e8   6.Db1-h7 Sd5-e7 # 
 
               empile:      244113
-           play_move:      253647
+           play_move:      253635
         orig_rbechec:       13274
         orig_rnechec:       35750
 Loesung beendet. 
@@ -254,7 +254,7 @@ a)
   1.Kh4-h5 h2-h4   2.Kh5-h6 h4-h5   3.Kh6-g7 h5-h6 +   4.Kg7-f8 h6-h7   5.Te6-e7 h7-h8=D # 
 
               empile:        3676
-           play_move:        3749
+           play_move:        3739
         orig_rbechec:          61
         orig_rnechec:        2683
 b) sKh4-->e1
@@ -262,7 +262,7 @@ b) sKh4-->e1
   1.Ke1-f2 h2-h4   2.Kf2-g3 h4-h5   3.Kg3-h4 h5-h6   4.Kh4-h5 h6-h7   5.Kh5-h6 h7-h8=D # 
 
               empile:       10202
-           play_move:       10269
+           play_move:       10259
         orig_rbechec:         363
         orig_rnechec:        2599
 Loesung beendet. 
@@ -296,7 +296,7 @@ Loesung beendet.
   1.Sd5-c7 Kf2-e3   2.Te5-d5 Ke3*e4   3.Ld6-e5 Ke4-f3   4.Td5-d6 Kf3-e3   5.Ke6-d5 Ke3-d3   6.Sc7-e6 e2-e4 # 
 
               empile:      131586
-           play_move:      131598
+           play_move:      131586
         orig_rbechec:        8982
         orig_rnechec:       25913
 Loesung beendet. 
@@ -332,7 +332,7 @@ a)
   1.Dd1-d6 f4-f5   2.Kc3-d4 f3-f4   3.Kd4-d5 f2-f3   4.La7-d4 e2-e4 # 
 
               empile:        1149
-           play_move:        1125
+           play_move:        1117
         orig_rbechec:          48
         orig_rnechec:       18508
 b) sLa7-->a8
@@ -340,7 +340,7 @@ b) sLa7-->a8
   1.La8-e4 Kb5-a5   2.Dd1-d5 + Ka5-a4   3.Kc3-d4 Ka4-b4   4.Le4-d3 e2-e3 # 
 
               empile:        1018
-           play_move:        1018
+           play_move:        1010
         orig_rbechec:          88
         orig_rnechec:       18437
 Loesung beendet. 
@@ -374,7 +374,7 @@ Loesung beendet.
   1.Kb6-c5 Kh1-g1   2.Tc6-b6 La8*f3   3.Td6-c6 Kg1-f2   4.Lc7-d6 Kf2-e3   5.Tc6-c7 Ke3-e4   6.Kc5-c6 Ke4-d4 # 
 
               empile:      508589
-           play_move:      511742
+           play_move:      511730
         orig_rbechec:       27653
         orig_rnechec:       49375
 Loesung beendet. 
@@ -411,7 +411,7 @@ a)
   1.Ld1-b3 f3-f4   2.Lb3-e6 f2-f3   3.Kc5-d5 Ka6-b5   4.Lc3-d4 e2-e4 # 
 
               empile:         858
-           play_move:         856
+           play_move:         848
         orig_rbechec:          56
         orig_rnechec:        9204
 b) sBd6-->d5
@@ -419,7 +419,7 @@ b) sBd6-->d5
   1.Lc3-e5 Ka6-a5   2.Kc5-d4 Ka5-b5   3.Ld1-c2 Kb5-b4   4.Lc2-d3 e2-e3 # 
 
               empile:         295
-           play_move:         298
+           play_move:         290
         orig_rbechec:          35
         orig_rnechec:        9161
 Loesung beendet. 
@@ -457,7 +457,7 @@ Loesung beendet.
   1...Lh2*e5   2.Kc5-c6 Le5-h2   3.Ld6-c5 Th4-f4   4.Kc6-d6 Tf4-f6 # 
 
               empile:     2901826
-           play_move:     2915470
+           play_move:     2915456
         orig_rbechec:      119812
         orig_rnechec:      264502
 Loesung beendet. 
@@ -493,7 +493,7 @@ a)
   1.Sf6-d7 Te6-h6   2.Tf1-f2 Th6-h3   3.Tf2-c2 Lf3-d5 # 
 
               empile:      735984
-           play_move:      764098
+           play_move:      764092
         orig_rbechec:       34722
         orig_rnechec:       94178
 b) sBa4-->c2
@@ -501,7 +501,7 @@ b) sBa4-->c2
   1.Sg4-f2 Lf3-h5   2.Lc8-d7 Lh5-f7   3.Ld7-a4 Te6-e3 # 
 
               empile:      603161
-           play_move:      632232
+           play_move:      632226
         orig_rbechec:       28208
         orig_rnechec:       90914
 Loesung beendet. 
@@ -538,7 +538,7 @@ a)
   1.Ld7-e6 Lc8*e6   2.Lf8-g7 Le6-g8   3.Te2-e6 Te1*e6 # 
 
               empile:      289208
-           play_move:      327347
+           play_move:      327341
         orig_rbechec:       10486
         orig_rnechec:       75889
 b) sKf6-->f7
@@ -546,7 +546,7 @@ b) sKf6-->f7
   1.Te2-e6 Te1*e6   2.Tg5-g7 Te6-h6   3.Ld7-e6 Lc8*e6 # 
 
               empile:      199626
-           play_move:      221268
+           play_move:      221262
         orig_rbechec:        5941
         orig_rnechec:       63135
 Loesung beendet. 
@@ -584,7 +584,7 @@ a)
   1.Lg5-f6 Kd3-d2   2.Ke5-e4 e2-e3   3.Lf6-e5 Lh5-g6 # 
 
               empile:        9379
-           play_move:        9347
+           play_move:        9341
         orig_rbechec:         359
         orig_rnechec:       16293
 b) sSe6-->c4
@@ -592,7 +592,7 @@ b) sSe6-->c4
   1.Ke5-f4 Lh5-g6   2.Sc4-e5 + Kd3-d2   3.Tg1-g3 e2-e3 # 
 
               empile:        7782
-           play_move:        7779
+           play_move:        7773
         orig_rbechec:         313
         orig_rnechec:       16177
 c) sKe5-->b1
@@ -600,7 +600,7 @@ c) sKe5-->b1
   1.Tg1-g2 e2-e3   2.Tg2-a2 Lh5-g6   3.b3-b2 Kd3-d2 # 
 
               empile:       71621
-           play_move:       71882
+           play_move:       71876
         orig_rbechec:        4142
         orig_rnechec:        9540
 Loesung beendet. 
@@ -636,7 +636,7 @@ a)
   1.Lg7-a1 Lh8*a1   2.Tg2-b2 Sg4-e5 +   3.Kd3-c3 La1*b2 # 
 
               empile:      730497
-           play_move:      728472
+           play_move:      728466
         orig_rbechec:       16879
         orig_rnechec:      210090
 b) sSb3-->c1
@@ -644,7 +644,7 @@ b) sSb3-->c1
   1.Tg2-a2 Th2*a2   2.Lg7-b2 Sg4-f2 +   3.Kd3-c2 Ta2*b2 # 
 
               empile:      669044
-           play_move:      667407
+           play_move:      667401
         orig_rbechec:       15841
         orig_rnechec:      207442
 Loesung beendet. 
@@ -682,7 +682,7 @@ a)
   1.Tb1-f1 f2-f4   2.Tf1*f4 Ta1-f1   3.Sg2-e3 Tf1*f4 # 
 
               empile:      429755
-           play_move:      506740
+           play_move:      506734
         orig_rbechec:       15261
         orig_rnechec:      111915
 b) sSg2-->f3
@@ -690,7 +690,7 @@ b) sSg2-->f3
   1.Tb1-g1 g3-g4   2.Tg1*g4 Ta1-g1   3.Sh6-f5 Tg1*g4 # 
 
               empile:      446160
-           play_move:      524509
+           play_move:      524503
         orig_rbechec:       17587
         orig_rnechec:      119506
 Loesung beendet. 
@@ -727,7 +727,7 @@ a)
   1.Le7-f6 + Ld8*f6   2.Tf8-a8 Tg8*a8   3.Da2-a1 Ta8*a1 # 
 
               empile:       59919
-           play_move:       62096
+           play_move:       62090
         orig_rbechec:        2029
         orig_rnechec:       20596
 b) sSg5-->b2
@@ -735,7 +735,7 @@ b) sSg5-->b2
   1.Le7-g5 Ld8*g5   2.Tf8-c8 Tg8*c8   3.Tc2-c1 Tc8*c1 # 
 
               empile:      134206
-           play_move:      139553
+           play_move:      139547
         orig_rbechec:        6212
         orig_rnechec:       23411
 Loesung beendet. 
@@ -773,7 +773,7 @@ a)
   1.Db3-b5 Ka1-a2   2.Le5-d6 Se1-f3   3.Se4-c5 Sf3-e5 # 
 
               empile:        2090
-           play_move:        2083
+           play_move:        2077
         orig_rbechec:         112
         orig_rnechec:       15158
 b) sKc6-->d5
@@ -781,7 +781,7 @@ b) sKc6-->d5
   1.Db3-c4 Ka1-b2   2.c7-c5 Se1-g2   3.Se4-d6 Sg2-f4 # 
 
               empile:        6426
-           play_move:        6369
+           play_move:        6363
         orig_rbechec:         299
         orig_rnechec:       19926
 Loesung beendet. 
@@ -818,7 +818,7 @@ a)
   1.Sf4-e2 Lb3-a4   2.Ta3-e3 La4*c6   3.Tb1-b3 Td5-f5 # 
 
               empile:      381938
-           play_move:      381340
+           play_move:      381334
         orig_rbechec:        8119
         orig_rnechec:       77474
 b) sBg3-->g2
@@ -826,7 +826,7 @@ b) sBg3-->g2
   1.Sg4-f2 Td5-a5   2.Dc6-e4 Ta5*a3   3.d7-d5 Lb3-d1 # 
 
               empile:       60035
-           play_move:       61774
+           play_move:       61768
         orig_rbechec:        1444
         orig_rnechec:       62322
 Loesung beendet. 
@@ -863,7 +863,7 @@ a)
   1.Lh3-g2 Te5-h5   2.Lf4-g5 Sg7-e6 +   3.Kd4-e5 Th5*g5 # 
 
               empile:     3496922
-           play_move:     3495187
+           play_move:     3495181
         orig_rbechec:       77434
         orig_rnechec:      204530
 b) sBd6-->h6
@@ -871,7 +871,7 @@ b) sBd6-->h6
   1.Tb2-f2 Te5-a5   2.Sa3-b5 Sg7-f5 +   3.Kd4-e5 Ta5*b5 # 
 
               empile:     2427149
-           play_move:     2425864
+           play_move:     2425858
         orig_rbechec:       55166
         orig_rnechec:      159766
 Loesung beendet. 
@@ -905,7 +905,7 @@ Loesung beendet.
   1.Ke6-d6 Se7-g8   2.Ld5-e6 Lf6-e7 +   3.Kd6-d5 Sg8-f6 # 
 
               empile:        1080
-           play_move:        1054
+           play_move:        1048
         orig_rbechec:          60
         orig_rnechec:       30950
 Loesung beendet. 
@@ -939,7 +939,7 @@ Loesung beendet.
   1.Te4-d4 Sf2-h1   2.Kd5-e4 Kg3-f2   3.Td4-d5 Sh1-g3 # 
 
               empile:         118
-           play_move:         119
+           play_move:         113
         orig_rbechec:          12
         orig_rnechec:        7790
 Loesung beendet. 
@@ -973,7 +973,7 @@ Loesung beendet.
   1.Df4-f5 Sg4-e3   2.Ke4-f4 g2-g4   3.Df5-e4 Se3-g2 # 
 
               empile:         239
-           play_move:         236
+           play_move:         230
         orig_rbechec:          17
         orig_rnechec:        6081
 Loesung beendet. 
@@ -1007,7 +1007,7 @@ Loesung beendet.
   1.Le4-h7 Kf2-e3   2.Kh6-g6 Ke3*d3   3.Lb3-g8 Kd3-e4   4.Kg6-f7 + Ke4-d5   5.Lh7-f5 Kd5-c6   6.Kf7-e6 d2-d4   7.Lg8-f7 d4-d5 # 
 
               empile:     2810872
-           play_move:     2810889
+           play_move:     2810875
         orig_rbechec:      146203
         orig_rnechec:      583714
 Loesung beendet. 
@@ -1045,7 +1045,7 @@ a) sLe5-->g8
   1.Lg8-a2 Lh7-g8   2.Kd6-e5 Lg8-b3   3.Ke5-f5 Lb3-c2   4.La2-e6 d3-d4 # 
 
               empile:      289844
-           play_move:      289127
+           play_move:      289119
         orig_rbechec:       15747
         orig_rnechec:       88428
 b) wLh7-->a7
@@ -1053,7 +1053,7 @@ b) wLh7-->a7
   1.Le5-h2 La7-b8 +   2.Kd6-c5 Lb8-g3   3.Df6-c6 Lg3-f2   4.Lh2-d6 e3-e4 # 
 
               empile:       86211
-           play_move:       85451
+           play_move:       85443
         orig_rbechec:        4606
         orig_rnechec:       73588
 Loesung beendet. 
@@ -1089,7 +1089,7 @@ Loesung beendet.
   1.Sc8-a7 Th1-g1   2.f2*g1=L Sh3-f4   3.Lg1-h2 Sf4-d5   4.Lh2-b8 Sd5-b6 # 
 
               empile:       24526
-           play_move:       24593
+           play_move:       24578
         orig_rbechec:        1131
         orig_rnechec:       47272
 Loesung beendet. 
@@ -1125,7 +1125,7 @@ a)
   1.Lb3-e6 Ld1-a4   2.Tb5-e5 Tg2-c2   3.Ke4-d5 La4-c6 # 
 
               empile:       37697
-           play_move:       37523
+           play_move:       37517
         orig_rbechec:         673
         orig_rnechec:       60143
 b) sBd4-->f4
@@ -1133,7 +1133,7 @@ b) sBd4-->f4
   1.Tg5-d5 Tg2-g6   2.Lf6-d4 Ld1-g4   3.Ke4-e5 Tg6-e6 # 
 
               empile:      285989
-           play_move:      285279
+           play_move:      285273
         orig_rbechec:        6221
         orig_rnechec:       67454
 Loesung beendet. 
@@ -1168,7 +1168,7 @@ Loesung beendet.
   1.Ta4-d4 Sa5-c4   2.Ld5-e6 Lc6-a4 +   3.Kc2-d3 Sc4-e5 # 
 
               empile:       83443
-           play_move:       91135
+           play_move:       91123
         orig_rbechec:        3258
         orig_rnechec:       19209
 Loesung beendet. 
@@ -1204,7 +1204,7 @@ Loesung beendet.
   1.Sa3-c4 Sb1-a3   2.Sc4*e5 Sa3-c4   3.Se5*g6 Sc4-e5 # 
 
               empile:     3227092
-           play_move:     3590895
+           play_move:     3590884
         orig_rbechec:      204590
         orig_rnechec:      935361
 Loesung beendet. 
@@ -1239,7 +1239,7 @@ Loesung beendet.
   1.Tb4-b3 + Kc3*c4   2.Tb3-b4 + Kc4-c3   3.Tb4*f4 Tf5-g5 # 
 
               empile:     2585182
-           play_move:     2585856
+           play_move:     2585844
         orig_rbechec:      163966
         orig_rnechec:      332704
 Loesung beendet. 
@@ -1273,7 +1273,7 @@ Loesung beendet.
   1.Kf6-e6 Kd8-e8   2.Ke6-d6 Ke8-f7   3.Kd6-c7 Kf7-e6   4.Kc7-b8 Ke6-d5   5.Kb8-a8 Kd5-c6   6.Le5-b8 Kc6-b6 # 
 
               empile:       65254
-           play_move:       65266
+           play_move:       65254
         orig_rbechec:       10330
         orig_rnechec:       21196
 Loesung beendet. 
@@ -1309,7 +1309,7 @@ a)
   1...Ta4-a8   2.Kd2-c2 Kb8-a7   3.Kc2-b3 c4-c5 +   4.Kb3-a4 Ka7-b6 # 
 
               empile:      261091
-           play_move:      257942
+           play_move:      257935
         orig_rbechec:       22857
         orig_rnechec:      229448
 b) Verschiebung a1 ==> e1
@@ -1317,7 +1317,7 @@ b) Verschiebung a1 ==> e1
   1...Lh5-e8   2.Kh2*g3 Kf8-f7   3.Kg3-h4 g4-g5 +   4.Kh4-h5 Kf7-f6 # 
 
               empile:       46551
-           play_move:       44948
+           play_move:       44941
         orig_rbechec:        4094
         orig_rnechec:      145766
 Loesung beendet. 
@@ -1355,7 +1355,7 @@ a)
   1.Ld5-c4 Ke5-f5   2.Ke3-d4 Sf6-e4   3.Kd4-d5 Sb2-d3   4.Lh8-d4 Sd3-b4 # 
 
               empile:        1883
-           play_move:        1850
+           play_move:        1826
         orig_rbechec:         142
         orig_rnechec:       51922
 b) wSb2-->f8
@@ -1365,7 +1365,7 @@ b) wSb2-->f8
   1.Ld5-c4 Ke5-f5   2.Ke3-d4 Sf6-e4   3.Kd4-d5 Sf8-g6   4.Lh8-d4 Sg6-e7 # 
 
               empile:        2225
-           play_move:        2184
+           play_move:        2160
         orig_rbechec:         148
         orig_rnechec:       55043
 Loesung beendet. 
@@ -1400,7 +1400,7 @@ Loesung beendet.
   1.Sd4-c6 Sc8-a7   2.Ke6-e7 Kg6-f5   3.Ke7-f7 Kf5-e4   4.Sc6-e7 Sa7-c6   5.Kf7-e6 Sc6-d8 # 
 
               empile:       28090
-           play_move:       28110
+           play_move:       28090
         orig_rbechec:        1992
         orig_rnechec:       20897
 Loesung beendet. 
@@ -1435,7 +1435,7 @@ Loesung beendet.
   1.Td2-d5 g2-g4   2.Td5-b5 g4-g5   3.Ke6-d5 g5-g6   4.Kd5-c4 g6-g7   5.Kc4-b3 g7-g8=D +   6.Kb3-a4 Dg8-a2 # 
 
               empile:     1172500
-           play_move:     1185379
+           play_move:     1185355
         orig_rbechec:       72670
         orig_rnechec:      151702
 Loesung beendet. 
@@ -1469,7 +1469,7 @@ Loesung beendet.
   1...Ld6-b8   2.Kc3-d4 Kb7-c7   3.Kd4-e5 Kc7-d8 +   4.Ke5-e6 Lb8-g3   5.h4-h3 f2-f4   6.Ke6-d6 f4-f5 # 
 
               empile:     5907730
-           play_move:     5893429
+           play_move:     5893418
         orig_rbechec:      605135
         orig_rnechec:     1598727
 Loesung beendet. 
@@ -1509,7 +1509,7 @@ Loesung beendet.
   1...Se7-c8   2.Sg4-e3 + Kd5-e4   3.Se3-d1 Sc8-b6 +   4.Ka4-b3 Sb6-d7   5.Sd1-c3 + Ke4-d3   6.Sc3-a2 Sd7-c5 +   7.Kb3-b2 Sc5-a4 +   8.Kb2-a1 Sa4-c5   9.Sa2-c1 + Kd3-c2  10.Sc1-a2 Sc5-b3 # 
 
               empile:      840062
-           play_move:      525470
+           play_move:      525433
         orig_rbechec:      181504
         orig_rnechec:      247099
 Loesung beendet. 
@@ -1545,7 +1545,7 @@ Loesung beendet.
   1.e6*f5 Lf8*h6   2.e7-e5 0-0-0   3.Tg3-g4 Le2-f3 # 
 
               empile:     3849074
-           play_move:     3854610
+           play_move:     3854592
         orig_rbechec:      195363
         orig_rnechec:      761007
 Loesung beendet. 
@@ -1581,7 +1581,7 @@ a)
   1.Sf1-e3 Ld8-g5   2.Se3-f5 0-0-0   3.Tg3-g4 g2*f3 # 
 
               empile:      992744
-           play_move:      984180
+           play_move:      984174
         orig_rbechec:       55808
         orig_rnechec:      393564
 b)  -sSf1
@@ -1589,7 +1589,7 @@ b)  -sSf1
   1.Ke4-d3 g2*f3   2.Dh2-a2 Ld8-g5   3.Da2-c4 0-0-0 # 
 
               empile:      810629
-           play_move:      803211
+           play_move:      803205
         orig_rbechec:       48313
         orig_rnechec:      383371
 +c)  -sDh2
@@ -1597,7 +1597,7 @@ b)  -sSf1
   1.Ke4-e3 0-0-0   2.Tg3-g5 g2*f3   3.Lh4-f2 Ld8*g5 # 
 
               empile:      596606
-           play_move:      596525
+           play_move:      596519
         orig_rbechec:       37950
         orig_rnechec:      362344
 Loesung beendet. 
@@ -1634,7 +1634,7 @@ a)
   1.0-0 Se3-d5   2.Db2-h8 Lf1-c4   3.Lh6-g7 Sd5-f6 # 
 
               empile:       13737
-           play_move:       14092
+           play_move:       14086
         orig_rbechec:         349
         orig_rnechec:       12467
 b) wTf1 
@@ -1642,7 +1642,7 @@ b) wTf1
   1.0-0-0 Se3-c4   2.Db2-b8 Tf1-c1   3.Sa5-b7 Sc4-b6 # 
 
               empile:      322495
-           play_move:      334254
+           play_move:      334248
         orig_rbechec:        7484
         orig_rnechec:       45782
 Loesung beendet. 
@@ -1678,7 +1678,7 @@ Loesung beendet.
   1.Lg2-f1 Lh1-g2   2.Lf1-d3 Lg2-f1   3.Ld3-g6 Lf1-d3   4.Lg6-h5 Ld3-f5 # 
 
               empile:       18525
-           play_move:       18617
+           play_move:       18609
         orig_rbechec:        1476
         orig_rnechec:       18496
 Loesung beendet. 
@@ -1713,7 +1713,7 @@ nach H. Ebert, 2741, Problemkiste 74/75, 5/1991
   1.d3-d2 Lf1*c4   2.Sd5-b4 Lc4-a6   3.Sb4-c2 Ka5-b5   4.Kd4-d3 Kb5*c5 # 
 
               empile:       10733
-           play_move:       11602
+           play_move:       11594
         orig_rbechec:        1206
         orig_rnechec:       14673
 Loesung beendet. 
@@ -1749,7 +1749,7 @@ a)
   1.Kf7-g6 Kc3-c2   2.Kg6-f5 Kc2-d1   3.Kf5-e4 Kd1-e2   4.Lh7-f5 d2-d3 # 
 
               empile:         280
-           play_move:         275
+           play_move:         267
         orig_rbechec:          31
         orig_rnechec:        7421
 b) wBd2-->d4
@@ -1757,7 +1757,7 @@ b) wBd2-->d4
   1.Lh7-e4 c4-c5   2.Le4-c6 Kc3-d3   3.Kf7-e6 f4-f5 +   4.Ke6-d5 e3-e4 # 
 
               empile:         299
-           play_move:         294
+           play_move:         286
         orig_rbechec:          27
         orig_rnechec:        7427
 Loesung beendet. 
@@ -1794,7 +1794,7 @@ a)
   1.Sb5-d4 Ld3-c2   2.De4-d3 Tg4-e4   3.Kf5*e4 Lc2*d3 # 
 
               empile:      409772
-           play_move:      395743
+           play_move:      395737
         orig_rbechec:       18276
         orig_rnechec:      362373
 b) sKf5-->d4
@@ -1802,7 +1802,7 @@ b) sKf5-->d4
   1.Sd6-f5 Tg4-h4   2.De4-g4 Ld3-e4   3.Kd4*e4 Th4*g4 # 
 
               empile:      647384
-           play_move:      635025
+           play_move:      635019
         orig_rbechec:       29567
         orig_rnechec:      379470
 Loesung beendet. 
@@ -1840,7 +1840,7 @@ a)
   1.Kd5-c6 Th1-h7   2.d6-d5 Th7-e7   3.Kc6-d6 b4-b5 # 
 
               empile:       24145
-           play_move:       25584
+           play_move:       25578
         orig_rbechec:         905
         orig_rnechec:       83576
 b) wBb4-->c2
@@ -1848,7 +1848,7 @@ b) wBb4-->c2
   1.Kd5-e4 Th1-f1   2.Se3-d5 Tf1-f4 +   3.Ke4-e3 La3-c1 # 
 
               empile:       63716
-           play_move:       66873
+           play_move:       66867
         orig_rbechec:        2363
         orig_rnechec:       95970
 Loesung beendet. 
@@ -1885,7 +1885,7 @@ a)
   1.Tc7-c5 Se8-c7   2.Tf8-a8 Tg8*a8   3.Sa5-b3 Ta8-a4 # 
 
               empile:       21490
-           play_move:       21107
+           play_move:       21101
         orig_rbechec:         734
         orig_rnechec:       82893
 b) sKc4-->f4
@@ -1893,7 +1893,7 @@ b) sKc4-->f4
   1.g7-g5 Se8-g7   2.Tf8-d8 Tg8*d8   3.Sd7-e5 Td8-d4 # 
 
               empile:      238641
-           play_move:      236883
+           play_move:      236877
         orig_rbechec:        7546
         orig_rnechec:      109990
 Loesung beendet. 
@@ -1932,7 +1932,7 @@ a)
   1.Lf4-h2 Le5-g3   2.Te7-b7 Lg3-f2   3.Lh2-c7 Se3-c4 # 
 
               empile:        8962
-           play_move:        8905
+           play_move:        8899
         orig_rbechec:         359
         orig_rnechec:       23686
 b) Farbwechsel  Spiegelung a1<-->a8
@@ -1940,7 +1940,7 @@ b) Farbwechsel  Spiegelung a1<-->a8
   1.Le4-b1 Lf5-c2   2.Se6-g5 Lc2-d1   3.Lb1-g6 Te2-h2 # 
 
               empile:         357
-           play_move:         363
+           play_move:         357
         orig_rbechec:          18
         orig_rnechec:       47799
 Loesung beendet. 
@@ -1977,7 +1977,7 @@ Loesung beendet.
   1.Tc2-c4 Td5-d8   2.Te7-d7 Sf7-g5 +   3.Ke4-d5 Td8*d7 # 
 
               empile:      234695
-           play_move:      234299
+           play_move:      234287
         orig_rbechec:        8643
         orig_rnechec:       62360
 Loesung beendet. 
@@ -2013,7 +2013,7 @@ a)
   1.Lc7-d6 Tb1-f1   2.Ta1-e1 Se6-g7   3.Te1-e4 Tf1-f5 # 
 
               empile:         947
-           play_move:         940
+           play_move:         934
         orig_rbechec:          44
         orig_rnechec:       41908
 b) sBd4-->c5
@@ -2021,7 +2021,7 @@ b) sBd4-->c5
   1.Ke5-d6 Tb1-e1   2.Ta1-d1 Se6-f8   3.Td1-d5 Te1-e6 # 
 
               empile:         935
-           play_move:         932
+           play_move:         926
         orig_rbechec:          43
         orig_rnechec:       41902
 Loesung beendet. 
@@ -2056,7 +2056,7 @@ Loesung beendet.
   1.Lh7-e4 f4-f5   2.Kd4-d5 f2-f4   3.Lg1-d4 c2-c4 # 
 
               empile:         508
-           play_move:         505
+           play_move:         493
         orig_rbechec:          29
         orig_rnechec:        3471
 Loesung beendet. 
@@ -2091,7 +2091,7 @@ Das Schwalbetreffen in L"uneburg 12/1990
   1.Ke3-f4 Kh1-g2   2.e4-e3 La5-c7 +   3.Kf4-e4 Sd7-f6 # 
 
               empile:        1966
-           play_move:        1952
+           play_move:        1940
         orig_rbechec:         123
         orig_rnechec:       18321
 Loesung beendet. 
@@ -2130,7 +2130,7 @@ a)
   1.Dg7-c3 Lb8-e5   2.Ld3-e2 Le5*c3   3.Lb6-d4 Lc3-d2 # 
 
               empile:     3622094
-           play_move:     3630835
+           play_move:     3630829
         orig_rbechec:      133155
         orig_rnechec:      375030
 b) sKe3-->h2
@@ -2138,7 +2138,7 @@ b) sKe3-->h2
   1.Lb6-c7 Tb3-c3   2.Tg3-g1 Tc3*c7   3.Dg7-g2 Tc7-h7 # 
 
               empile:      888284
-           play_move:      894164
+           play_move:      894158
         orig_rbechec:       22867
         orig_rnechec:       59388
 Loesung beendet. 
@@ -2177,7 +2177,7 @@ Loesung beendet.
   1.e7*f6 h6-h7   2.f6*e5 h7-h8=D   3.e5*f4 Dh8-d4 # 
 
               empile:       80992
-           play_move:       83186
+           play_move:       83175
         orig_rbechec:        6052
         orig_rnechec:      204598
 Loesung beendet. 
@@ -2214,7 +2214,7 @@ a)
   1.Td2-h2 Tg3-g2   2.Te5-e4 Tg2-c2   3.Th2-d2 Tc2-c3 # 
 
               empile:     3112128
-           play_move:     3107881
+           play_move:     3107875
         orig_rbechec:      109465
         orig_rnechec:      251494
 b) sKd3-->d4
@@ -2222,7 +2222,7 @@ b) sKd3-->d4
   1.Lc5-f8 Lf6-e7   2.Lf3-e4 Le7-b4   3.Lf8-c5 Lb4-c3 # 
 
               empile:     4588545
-           play_move:     4580673
+           play_move:     4580667
         orig_rbechec:      204577
         orig_rnechec:      370318
 Loesung beendet. 
@@ -2258,7 +2258,7 @@ a)
   1.Th1-h5 Tf1-f3   2.Th5-g5 Tf3-c3   3.Se5-f7 Tc3-c6 # 
 
               empile:       14406
-           play_move:       14301
+           play_move:       14295
         orig_rbechec:         560
         orig_rnechec:       56714
 b) sBe7-->g6
@@ -2266,7 +2266,7 @@ b) sBe7-->g6
   1.Da3-a6 Lb2-d4   2.Da6-e6 Ld4-f2   3.Sf5-g7 Lf2-h4 # 
 
               empile:      103648
-           play_move:      103578
+           play_move:      103572
         orig_rbechec:        3455
         orig_rnechec:       59845
 Loesung beendet. 
@@ -2301,7 +2301,7 @@ Loesung beendet.
   1.Lh4-g5 Lf6-e7   2.Lg5-f4 Le7-c5   3.Lf4-d6 Td4-f4 # 
 
               empile:      179480
-           play_move:      188166
+           play_move:      188154
         orig_rbechec:       10382
         orig_rnechec:       60285
 Loesung beendet. 
@@ -2341,7 +2341,7 @@ Loesung beendet.
   1...Ld6-f8   2.Te6-e7 Se2*c3 +   3.Kb5-c5 Lf8*e7 # 
 
               empile:      157611
-           play_move:      156060
+           play_move:      156050
         orig_rbechec:        7957
         orig_rnechec:      277991
 Loesung beendet. 
@@ -2375,7 +2375,7 @@ Loesung beendet.
   1.Kd4-c4 d2*e3   2.d5-d4 Se4-d2 +   3.Kc4-d5 e3-e4 # 
 
               empile:         637
-           play_move:         597
+           play_move:         591
         orig_rbechec:          49
         orig_rnechec:       53382
 Loesung beendet. 
@@ -2409,7 +2409,7 @@ Loesung beendet.
   1.Tc6-d6 Sa5-b7   2.Kd5-c6 Ld8-a5   3.Td6-d5 Sb7-d8 # 
 
               empile:        3910
-           play_move:        3800
+           play_move:        3794
         orig_rbechec:         230
         orig_rnechec:       26972
 Loesung beendet. 
@@ -2446,7 +2446,7 @@ Loesung beendet.
   1.Dd6-b8 Le5*b8   2.Lf4-c7 Sf5-g3 +   3.Ke4-e5 Lb8*c7 # 
 
               empile:      325454
-           play_move:      324928
+           play_move:      324916
         orig_rbechec:       11118
         orig_rnechec:       68078
 Loesung beendet. 
@@ -2480,7 +2480,7 @@ Loesung beendet.
   1.Ke5-d5 Se4-g3   2.Ld4-e5 e2-e4 +   3.Kd5-d4 Sg3-e2 # 
 
               empile:         687
-           play_move:         681
+           play_move:         675
         orig_rbechec:          29
         orig_rnechec:       12117
 Loesung beendet. 
@@ -2518,7 +2518,7 @@ Loesung beendet.
   1...Tf4*f1   2.Lh4-f2 Se7-f5 +   3.Ke3-f4 Tf1*f2 # 
 
               empile:       67667
-           play_move:       66377
+           play_move:       66367
         orig_rbechec:        3682
         orig_rnechec:      164941
 Loesung beendet. 
@@ -2555,7 +2555,7 @@ Loesung beendet.
   1.Kf5-f4 Sf6-e4   2.Kf4-g4 Se4-f2 +   3.Kg4-h4 g7-g5 # 
 
               empile:         220
-           play_move:         229
+           play_move:         217
         orig_rbechec:          23
         orig_rnechec:        5667
 Loesung beendet. 
@@ -2589,7 +2589,7 @@ Loesung beendet.
   1.Kd4-d5 Se4-f2   2.Le5-d4 Ld3-e4 +   3.Kd5-e5 Sf2-d3 # 
 
               empile:        4181
-           play_move:        4050
+           play_move:        4044
         orig_rbechec:         205
         orig_rnechec:       40288
 Loesung beendet. 
@@ -2627,7 +2627,7 @@ Loesung beendet.
   1...Le3-a7   2.Sb5-c3 b7-b6   3.Kc4-d4 b6-b5 # 
 
               empile:       38281
-           play_move:       35372
+           play_move:       35362
         orig_rbechec:        2360
         orig_rnechec:      214670
 Loesung beendet. 
@@ -2663,7 +2663,7 @@ a)
   1.Se7-f5 Sd1-e3   2.Tb1-f1 Ta1-e1   3.Tf1-f4 Se3-c4 # 
 
               empile:        2099
-           play_move:        2086
+           play_move:        2080
         orig_rbechec:          77
         orig_rnechec:       29271
 b) sKe5<-->sBf6
@@ -2671,7 +2671,7 @@ b) sKe5<-->sBf6
   1.Sd4-e6 Sd1-f2   2.Tb1-g1 Ta1-f1   3.Tg1-g6 Sf2-e4 # 
 
               empile:        6712
-           play_move:        6718
+           play_move:        6712
         orig_rbechec:         465
         orig_rnechec:       21514
 Loesung beendet. 
@@ -2708,7 +2708,7 @@ a)
   1.Th6-h3 Ld1-b3   2.h7-h5 Th8*h5   3.Th3-e3 Th5-d5 # 
 
               empile:       17124
-           play_move:       16975
+           play_move:       16969
         orig_rbechec:         844
         orig_rnechec:       66251
 b) sBe4-->c5
@@ -2716,7 +2716,7 @@ b) sBe4-->c5
   1.Tf8-d8 Ld1-c2   2.Dg8-e8 Th8*e8   3.Td8-d5 Te8-e4 # 
 
               empile:       19848
-           play_move:       19686
+           play_move:       19680
         orig_rbechec:         896
         orig_rnechec:       66162
 +c) sKd4-->a5
@@ -2724,7 +2724,7 @@ b) sBe4-->c5
   1.Tf8-a8 Ld1-e2   2.Dg8-b8 + Th8*b8   3.Ta8-a6 Tb8-b5 # 
 
               empile:       76439
-           play_move:       76154
+           play_move:       76148
         orig_rbechec:        2604
         orig_rnechec:       40892
 Loesung beendet. 
@@ -2760,7 +2760,7 @@ a)
   1.Tf8-c8 Tg8*c8   2.Ta3-e3 Tc8-c5   3.Lf1-d3 Sc1-b3 # 
 
               empile:         687
-           play_move:         675
+           play_move:         669
         orig_rbechec:          40
         orig_rnechec:       43885
 b) wBf3-->f4
@@ -2768,7 +2768,7 @@ b) wBf3-->f4
   1.Tf8-e8 Tg8*e8   2.Lf1-c4 Te8-e5   3.Ta3-d3 Sc1-e2 # 
 
               empile:        1852
-           play_move:        1803
+           play_move:        1797
         orig_rbechec:          97
         orig_rnechec:       40685
 Loesung beendet. 
@@ -2805,7 +2805,7 @@ a)
   1.Le7-f6 + Ld8*f6   2.Tf8-a8 Tg8*a8   3.La4-c2 Ta8-a1 # 
 
               empile:        8750
-           play_move:        8711
+           play_move:        8705
         orig_rbechec:         265
         orig_rnechec:       16635
 b) sDg5-->a2
@@ -2813,7 +2813,7 @@ b) sDg5-->a2
   1.Le7-g5 Ld8*g5   2.Tf8-c8 Tg8*c8   3.Sc4-b2 Tc8-c1 # 
 
               empile:       39454
-           play_move:       39359
+           play_move:       39353
         orig_rbechec:        1389
         orig_rnechec:       18408
 Loesung beendet. 
@@ -2848,7 +2848,7 @@ Loesung beendet.
   1.Ta6-a4 Sg7-e6   2.Ta4-d4 Ta7-e7   3.Ke3-e4 Se6-c5 # 
 
               empile:         910
-           play_move:         926
+           play_move:         914
         orig_rbechec:          44
         orig_rnechec:       24957
 Loesung beendet. 
@@ -2884,7 +2884,7 @@ a)
   1.Th3-h5 Th2-h4   2.Th5-e5 Th4-c4   3.e7-e6 Sa8-b6 # 
 
               empile:         418
-           play_move:         414
+           play_move:         408
         orig_rbechec:          29
         orig_rnechec:       20649
 b) sKd5-->e6
@@ -2892,7 +2892,7 @@ b) sKd5-->e6
   1.Th3-h6 Th2-h5   2.Th6-f6 Th5-d5   3.Sd6-f7 Sa8-c7 # 
 
               empile:        1678
-           play_move:        1671
+           play_move:        1665
         orig_rbechec:         106
         orig_rnechec:       17827
 Loesung beendet. 
@@ -2931,7 +2931,7 @@ Loesung beendet.
   1.Dc4-g4 La5-d2   2.Dg4-g6 Sf3-g5   3.f7-f6 Ld5-e6 # 
 
               empile:      273064
-           play_move:      283433
+           play_move:      283415
         orig_rbechec:        7749
         orig_rnechec:      153056
 Loesung beendet. 
@@ -2967,7 +2967,7 @@ Loesung beendet.
   1.Th6-h8 Th5*h8   2.Dd8-b6 Th8-c8   3.Db6-b3 Sc6-e5 # 
 
               empile:      412741
-           play_move:      410590
+           play_move:      410578
         orig_rbechec:       12125
         orig_rnechec:      139507
 Loesung beendet. 
@@ -3004,7 +3004,7 @@ a)
   1.Tf8-a8 Tg8*a8   2.Ta7-a3 Ta8*a3   3.Kg4-h3 Lb3-e6 # 
 
               empile:      435380
-           play_move:      473308
+           play_move:      473302
         orig_rbechec:       17498
         orig_rnechec:       94785
 b) wLb3-->d5
@@ -3012,7 +3012,7 @@ b) wLb3-->d5
   1.Tf8-c8 Tg8*c8   2.c7-c5 Tc8*c5   3.Kg4-h5 Ld5-f3 # 
 
               empile:      562548
-           play_move:      610327
+           play_move:      610321
         orig_rbechec:       21799
         orig_rnechec:      116229
 Loesung beendet. 
@@ -3049,7 +3049,7 @@ a)
   1.Tc8-f8 Tb8*f8   2.Sf6-d5 Tf8-f3   3.Lh4-g3 Sh3-g5 # 
 
               empile:        8580
-           play_move:        8443
+           play_move:        8437
         orig_rbechec:         335
         orig_rnechec:       32184
 b) sBd4-->f4
@@ -3057,7 +3057,7 @@ b) sBd4-->f4
   1.Tc8-d8 Tb8*d8   2.Ld7-f5 Td8-d3   3.Tg2-g3 Sh3-f2 # 
 
               empile:       13759
-           play_move:       13517
+           play_move:       13511
         orig_rbechec:         501
         orig_rnechec:       32363
 Loesung beendet. 
@@ -3094,7 +3094,7 @@ a)
   1.Th3-h6 Th2*h6   2.f6-f5 Th6-d6   3.Sd5-b4 Sa5-b7 # 
 
               empile:        3584
-           play_move:        3530
+           play_move:        3524
         orig_rbechec:         205
         orig_rnechec:       31503
 b) sKc5-->d4
@@ -3102,7 +3102,7 @@ b) sKc5-->d4
   1.Th3-h5 Th2*h5   2.g5-g4 Th5-e5   3.Sd5-c3 Sa5-c6 # 
 
               empile:        3787
-           play_move:        3723
+           play_move:        3717
         orig_rbechec:         206
         orig_rnechec:       33882
 Loesung beendet. 
@@ -3139,7 +3139,7 @@ a)
   1.Tf1-f7 Kd2-e1   2.Lc7-b6 Te2-e5   3.Tf7-b7 Sd5-b4 # 
 
               empile:      176264
-           play_move:      180022
+           play_move:      180016
         orig_rbechec:        9945
         orig_rnechec:       37454
 b) wLe2 
@@ -3147,7 +3147,7 @@ b) wLe2
   1.Tf1-f6 Kd2-d1   2.Lc7-a5 Le2-f3   3.Tf6-b6 Sd5-c7 # 
 
               empile:       30203
-           play_move:       31229
+           play_move:       31223
         orig_rbechec:        1205
         orig_rnechec:       22624
 Loesung beendet. 
@@ -3183,7 +3183,7 @@ a)
   1.Le1-c3 a3-a4   2.Tf1-b1 Tg1*b1   3.Lc3-d4 Tb1-b5 # 
 
               empile:       17621
-           play_move:       18170
+           play_move:       18164
         orig_rbechec:        1064
         orig_rnechec:      115602
 b) wBe5-->b3
@@ -3191,7 +3191,7 @@ b) wBe5-->b3
   1.Le1-a5 Ld5*b7   2.Tf1-d1 Tg1*d1   3.La5-b6 Td1-d5 # 
 
               empile:       27365
-           play_move:       28342
+           play_move:       28336
         orig_rbechec:        1482
         orig_rnechec:      125712
 Loesung beendet. 
@@ -3228,7 +3228,7 @@ a)
   1.Te8-e4 Kg1-f2   2.Tg8-d8 Th8*d8   3.Sb6-c4 Sd5-b4 # 
 
               empile:       56855
-           play_move:       56627
+           play_move:       56621
         orig_rbechec:        1239
         orig_rnechec:       72745
 b) sKd3-->b5
@@ -3236,7 +3236,7 @@ b) sKd3-->b5
   1.Dh6-c6 b2-b3   2.h7-h5 Th8*h5   3.La3-b4 Sd5-c7 # 
 
               empile:      162888
-           play_move:      162368
+           play_move:      162362
         orig_rbechec:        2852
         orig_rnechec:       72956
 Loesung beendet. 
@@ -3273,7 +3273,7 @@ a)
   1.Dh4-h8 Th3*h8   2.Tg8-a8 Th8*a8   3.a5-a4 Ta8*a4 # 
 
               empile:     6330308
-           play_move:     6326520
+           play_move:     6326514
         orig_rbechec:      163154
         orig_rnechec:      702046
 b) wBe2-->e3
@@ -3281,7 +3281,7 @@ b) wBe2-->e3
   1.Dh4-h6 Th3*h6   2.Tg6-d6 Th6*d6   3.d5-d4 Td6*d4 # 
 
               empile:     8534611
-           play_move:     8528378
+           play_move:     8528372
         orig_rbechec:      231229
         orig_rnechec:      842995
 Loesung beendet. 
@@ -3318,7 +3318,7 @@ a)
   1.Se8-f6 Kd1-c1   2.Kd7-e8 Ld2-g5   3.Sf6-d7 Sb7-d6 # 
 
               empile:       19105
-           play_move:       18942
+           play_move:       18936
         orig_rbechec:         864
         orig_rnechec:       18081
 b) sSf8-->f6
@@ -3326,7 +3326,7 @@ b) sSf8-->f6
   1.Kd7-e7 Kd1-e1   2.Le6-d7 Ld2-b4 +   3.Ke7-e6 Sb7-d8 # 
 
               empile:       24056
-           play_move:       23894
+           play_move:       23888
         orig_rbechec:         962
         orig_rnechec:       18572
 Loesung beendet. 
@@ -3363,7 +3363,7 @@ a)
   1.Th6-h5 Th7*h5   2.d5-d4 Th5-b5   3.Sb4-d3 Sf7-d6 # 
 
               empile:        1430
-           play_move:        1474
+           play_move:        1468
         orig_rbechec:          79
         orig_rnechec:       32005
 b) sKc4-->d3
@@ -3371,7 +3371,7 @@ b) sKc4-->d3
   1.Th6-h4 Th7*h4   2.e4-e3 Th4-c4   3.Sc3-e2 Sf7-e5 # 
 
               empile:        1875
-           play_move:        1927
+           play_move:        1921
         orig_rbechec:          95
         orig_rnechec:       28869
 Loesung beendet. 
@@ -3408,7 +3408,7 @@ a)
   1.Tf8-d8 Se1-f3   2.Dg8-e8 Th8*e8   3.Td8-d6 Te8-e5 # 
 
               empile:        6260
-           play_move:        6251
+           play_move:        6245
         orig_rbechec:         336
         orig_rnechec:       33842
 b) sKd5-->a4
@@ -3416,7 +3416,7 @@ b) sKd5-->a4
   1.Tf8-a8 Se1-c2   2.Dg8-b8 Th8*b8   3.Ta8-a5 Tb8-b4 # 
 
               empile:       11125
-           play_move:       11099
+           play_move:       11093
         orig_rbechec:         285
         orig_rnechec:       14730
 Loesung beendet. 
@@ -3454,7 +3454,7 @@ a)
   1.Db2-c1 Tc2-c8   2.Dc1-c7 Le1-c3 +   3.Kd4-c5 Tc8*c7 # 
 
               empile:      331270
-           play_move:      334730
+           play_move:      334724
         orig_rbechec:       13701
         orig_rnechec:       85965
 b) wLc2 
@@ -3462,7 +3462,7 @@ b) wLc2
   1.Db2-b1 Lc2-h7   2.Db1-g6 Le1-f2 +   3.Kd4-e4 Lh7*g6 # 
 
               empile:      324798
-           play_move:      324342
+           play_move:      324336
         orig_rbechec:       13276
         orig_rnechec:       64061
 Loesung beendet. 
@@ -3500,7 +3500,7 @@ Loesung beendet.
   1...Lh1*a8   2.Lg1-e3 Sb6-d5   3.Kg4-f3 Sd5-f6 # 
 
               empile:       22087
-           play_move:       21743
+           play_move:       21733
         orig_rbechec:        1076
         orig_rnechec:      122504
 Loesung beendet. 
@@ -3538,7 +3538,7 @@ a)
   1.f3-f2 Th5*h3   2.Kb4-a5 Th3-d3   3.Ka5-a6 Td3-a3 # 
 
               empile:       25296
-           play_move:       25386
+           play_move:       25380
         orig_rbechec:        1071
         orig_rnechec:       65214
 b) wKc7-->e7
@@ -3546,7 +3546,7 @@ b) wKc7-->e7
   1.g4-g3 Lf1*h3   2.Kb4-c4 Lh3-f5   3.Kc4-d5 Lf5-e6 # 
 
               empile:        3404
-           play_move:        3451
+           play_move:        3445
         orig_rbechec:         130
         orig_rnechec:       58619
 Loesung beendet. 
@@ -3584,7 +3584,7 @@ a)
   1.Lc4-e6 Lb3*e6   2.Te5-g5 Le6-g4   3.Sc6-e5 Td6-d4 # 
 
               empile:       50044
-           play_move:       52223
+           play_move:       52217
         orig_rbechec:        1992
         orig_rnechec:       68151
 b) sBe3-->g5
@@ -3592,7 +3592,7 @@ b) sBe3-->g5
   1.Lc4-d5 Lb3*d5   2.Te5-e3 Ld5-f3   3.e7-e5 Td6-f6 # 
 
               empile:      130968
-           play_move:      138327
+           play_move:      138321
         orig_rbechec:        5115
         orig_rnechec:       70546
 Loesung beendet. 
@@ -3629,7 +3629,7 @@ Loesung beendet.
   1.e7-e6 Le5-h8   2.Ta7-g7 Sg2-e3 +   3.Kd5-e5 Lh8*g7 # 
 
               empile:      809505
-           play_move:      808065
+           play_move:      808053
         orig_rbechec:       21910
         orig_rnechec:       97240
 Loesung beendet. 
@@ -3666,7 +3666,7 @@ Loesung beendet.
   1.Sf4-d3 Ka8-b8   2.Lh6-e3 Tb7-b5   3.Sd5-f4 Se6-g5 # 
 
               empile:       89924
-           play_move:       89253
+           play_move:       89241
         orig_rbechec:        4166
         orig_rnechec:       54658
 Loesung beendet. 
@@ -3700,7 +3700,7 @@ Loesung beendet.
   1.Kc4-c5   2.Tc3-c4   3.Se4-c3   4.Ld3-e4   5.d4-d3   6.Kc5-d4 Lg3-f2 # 
 
               empile:         733
-           play_move:         740
+           play_move:         733
         orig_rbechec:          37
         orig_rnechec:        2015
 Loesung beendet. 
@@ -3735,7 +3735,7 @@ Loesung beendet.
   1.Lc6-b7   2.Sa5-c6   3.Ta4-a5   4.Sb6-a4   5.Dc5-b6   6.Lb4-c5   7.b5-b4   8.Ka6-b5   9.Lb7-a6 b3*c4 # 
 
               empile:       13395
-           play_move:       13405
+           play_move:       13395
         orig_rbechec:         417
         orig_rnechec:         749
 Loesung beendet. 
@@ -3773,7 +3773,7 @@ Loesung beendet.
   1.Tb1-a1   2.Ta1-a6   3.Kb6-a5   4.Ka5-a4   5.Ka4-a3   6.Ta6-a4 c5-c4 # 
 
               empile:     2463826
-           play_move:     2461900
+           play_move:     2461886
         orig_rbechec:      348710
         orig_rnechec:      536206
 Loesung beendet. 
@@ -3807,7 +3807,7 @@ Loesung beendet.
   1.Tc4-b4   2.c5-c4   3.Kb6-c5   4.Dc6-b6   5.Ld5-c6   6.Td4-d5   7.Sb5-d4   8.Sd6-b5 Sf2-e4 # 
 
               empile:         682
-           play_move:         691
+           play_move:         682
         orig_rbechec:          36
         orig_rnechec:        1250
 Loesung beendet. 
@@ -3843,7 +3843,7 @@ Loesung beendet.
   1.Kd5-d4 Lg8*e6   2.Td6-d5 Le6*d5   3.De7-c5 e2-e3 # 
 
               empile:     3987052
-           play_move:     3968106
+           play_move:     3968094
         orig_rbechec:      102417
         orig_rnechec:      698546
 Loesung beendet. 
@@ -3877,7 +3877,7 @@ Loesung beendet.
   1.Kb3-c3 Kc1-b1   2.Kc3-d2 Lg2-f1   3.Kd2-e1 Kb1-c2   4.Sf2-h3 Kc2-d3   5.Ke1-f2 Kd3-e4   6.Kf2-g1 Ke4-f3   7.Kg1-h1 Kf3-g3   8.Sh3-g1 Lf1-g2 # 
 
               empile:      112663
-           play_move:      112679
+           play_move:      112663
         orig_rbechec:       25080
         orig_rnechec:       37949
 Loesung beendet. 
@@ -3911,7 +3911,7 @@ Loesung beendet.
   1.Lb7-h1 La8-g2   2.Dc2-h7 Kf1*f2   3.Td4-d8 Kf2-e3   4.Kc8-d7 Lg2-a8   5.Lh1-b7 Ke3-d4   6.Lb7-c8 Kd4-d5   7.Dh7-e7 La8-c6 # 
 
               empile:     1439240
-           play_move:     1460749
+           play_move:     1460735
         orig_rbechec:      101968
         orig_rnechec:      116598
 Loesung beendet. 
@@ -3946,7 +3946,7 @@ Loesung beendet.
   1.e2-e1=L Sh4-f3   2.Le1-a5 Sf3-g1   3.h2*g1=L + Ke3-d3   4.Lg1-c5 Kd3-c4   5.Lc5-a3 b2-b3 # 
 
               empile:       98069
-           play_move:       99597
+           play_move:       99587
         orig_rbechec:        8220
         orig_rnechec:       25362
 Loesung beendet. 
@@ -3980,7 +3980,7 @@ Loesung beendet.
   1.Kb5-c6 h7-h8=S   2.Kc6-d7 f7-f8=S +   3.Kd7-e7 g7-g8=S # 
 
               empile:     1016017
-           play_move:     1212960
+           play_move:     1212954
         orig_rbechec:       30297
         orig_rnechec:      576858
 Loesung beendet. 
@@ -4014,7 +4014,7 @@ Loesung beendet.
   1.f5-f4 La7-b8   2.f4-f3 Lb8-h2   3.f3-f2 Lh2-g1   4.f2*g1=T Sb5-d6   5.Tg1-g6 Sd6-f7 # 
 
               empile:       54823
-           play_move:       55070
+           play_move:       55060
         orig_rbechec:        4240
         orig_rnechec:      111033
 Loesung beendet. 
@@ -4049,7 +4049,7 @@ Loesung beendet.
   1.Sc2-b4 + Kc3-d4   2.Ld3-b1 Kd4*e3   3.Sb4-d3 Ke3-e2   4.Sd3-b2 Sd2-b3 # 
 
               empile:      648795
-           play_move:      659023
+           play_move:      659015
         orig_rbechec:       48389
         orig_rnechec:       50523
 Loesung beendet. 
@@ -4083,7 +4083,7 @@ Loesung beendet.
   1.b2-b1=T c2-c3   2.Tb1-b4 c3*b4   3.a2-a1=T b4-b5   4.Ta1-h1 b5-b6   5.Kf2-g1 b6-b7   6.f3-f2 b7-b8=D   7.f2-f1=T Db8-g3 # 
 
               empile:     3313198
-           play_move:     3542854
+           play_move:     3542840
         orig_rbechec:       90842
         orig_rnechec:      539073
 Loesung beendet. 
@@ -4117,7 +4117,7 @@ Loesung beendet.
   1.g7-g5 Kh1-g1   2.g5-g4 Kg1-f1   3.g4-g3 h2*g3   4.Kb8-c7 g3-g4   5.Kc7-d6 g4-g5   6.Kd6-e5 g5-g6   7.Ke5-f4 g6-g7   8.Kf4-g3 g7-g8=D +   9.Kg3-h2 Dg8-g1 # 
 
               empile:      371746
-           play_move:      372031
+           play_move:      372013
         orig_rbechec:       42117
         orig_rnechec:      175968
 Loesung beendet. 
@@ -4151,7 +4151,7 @@ Loesung beendet.
   1.Ld4-a7 Lh7-b1   2.Tb8-b6 Tf2-c2   3.Ke6-f5 h2-h4   4.Tb6-e6 + Tc2-f2 # 
 
               empile:     2071004
-           play_move:     2071385
+           play_move:     2071377
         orig_rbechec:      120492
         orig_rnechec:      472417
 Loesung beendet. 
@@ -4188,7 +4188,7 @@ Loesung beendet.
   1.Ka8*b7   2.Kb7-c6   3.Kc6-d5   4.Kd5-e4   5.Ke4-f3   6.Tb8-b1 # 
 
               empile:         214
-           play_move:         226
+           play_move:         214
         orig_rbechec:          20
         orig_rnechec:         473
 Loesung beendet. 
@@ -4249,7 +4249,7 @@ Loesung beendet.
   1.Tc3*c2   2.Ka4-b4   3.Kb4-c5   4.Kc5-d5   5.Kd5-e6   6.Ke6-f7   7.Tc2-h2 # 
 
               empile:        6737
-           play_move:        6902
+           play_move:        6724
         orig_rbechec:        1002
         orig_rnechec:        2322
 Bearbeitung abgebrochen. 
@@ -4330,7 +4330,7 @@ g) sLe5-->g3
   1.Tc3-c6 Lc7-f4   2.Kb4-c5 Kb2-c3   3.Kc5-b6 + Kc3-d4   4.Tc6-c8 Kd4-e5   5.Kb6-c7 Ke5-f6 +   6.Kc7-d8 Lf4-g5   7.Lg3-c7 Kf6-f7 # 
 
               empile:       21881
-           play_move:       21895
+           play_move:       21881
         orig_rbechec:        1340
         orig_rnechec:       41215
 h) sLe5-->f6

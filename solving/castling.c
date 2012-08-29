@@ -1,4 +1,5 @@
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"
@@ -31,34 +32,34 @@ void restore_castling_rights(square sq_arrival)
     piece const pi_arrived = e[sq_arrival];
     Flags const spec_arrived = spec[sq_arrival];
 
-    if (abs(pi_arrived) == Rook)
+    if (abs(pi_arrived)==Rook)
     {
       if (TSTFLAG(spec_arrived, White)) {
-        if (sq_arrival == square_h1)
+        if (sq_arrival==square_h1)
           /* white rook reborn on h1 */
           SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-        else if (sq_arrival == square_a1)
+        else if (sq_arrival==square_a1)
           /* white rook reborn on a1 */
           SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
       }
       if (TSTFLAG(spec_arrived, Black)) {
-        if (sq_arrival == square_h8)
+        if (sq_arrival==square_h8)
           /* black rook reborn on h8 */
           SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-        else if (sq_arrival == square_a8)
+        else if (sq_arrival==square_a8)
           /* black rook reborn on a8 */
           SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
       }
     }
 
-    else if (abs(pi_arrived) == King) {
+    else if (abs(pi_arrived)==King) {
       if (TSTFLAG(spec_arrived, White)
-          && sq_arrival == square_e1
+          && sq_arrival==square_e1
           && (!CondFlag[dynasty] || nbpiece[roib]==1))
         /* white king reborn on e1 */
         SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
       else if (TSTFLAG(spec_arrived, Black)
-               && sq_arrival == square_e8
+               && sq_arrival==square_e8
                && (!CondFlag[dynasty] || nbpiece[roin]==1))
         /* black king reborn on e8 */
         SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
@@ -160,51 +161,16 @@ static void castle(square sq_departure, square sq_arrival,
 
   jouespec[nbply] = spec[sq_departure];
   jouearr[nbply] = e[sq_departure];
-
-  assert(sq_arrival!=nullsquare);
-
   pjoue[nbply] = e[sq_departure];
-
-  e[sq_partner_arrival] = e[sq_partner_departure];
-  spec[sq_partner_arrival] = spec[sq_partner_departure];
-
-  e[sq_partner_departure] = vide;
-  CLEARFL(spec[sq_partner_departure]);
-
-  e[sq_departure] = vide;
-  spec[sq_departure]= 0;
-
-  e[sq_arrival] = jouearr[nbply];
-  spec[sq_arrival] = jouespec[nbply];
-
   pprise[nbply] = vide;
   pprispec[nbply] = 0;
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+  assert(sq_arrival!=nullsquare);
 
-static void uncastle(square sq_departure, square sq_arrival,
-                     square sq_partner_departure, square sq_partner_arrival)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_partner_departure);
-  TraceSquare(sq_partner_arrival);
-  TraceFunctionParamListEnd();
-
-  e[sq_partner_departure] = e[sq_partner_arrival];
-  spec[sq_partner_departure] = spec[sq_partner_arrival];
-
-  e[sq_partner_arrival] = vide;
-  CLEARFL(spec[sq_partner_arrival]);
-
-  e[sq_arrival] = vide;
-  spec[sq_arrival] = 0;
-
-  e[sq_departure] = pjoue[nbply];
-  spec[sq_departure] = jouespec[nbply];
+  move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+                                        sq_departure,sq_arrival);
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
+                                        sq_partner_departure,sq_partner_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -240,7 +206,6 @@ stip_length_type castling_player_attack(slice_index si, stip_length_type n)
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
       result = attack(slices[si].next2,n);
-      uncastle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
 
       break;
     }
@@ -252,7 +217,6 @@ stip_length_type castling_player_attack(slice_index si, stip_length_type n)
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
       result = attack(slices[si].next2,n);
-      uncastle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
 
       break;
     }
@@ -301,7 +265,6 @@ stip_length_type castling_player_defend(slice_index si, stip_length_type n)
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
       result = defend(slices[si].next2,n);
-      uncastle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
 
       break;
     }
@@ -313,7 +276,6 @@ stip_length_type castling_player_defend(slice_index si, stip_length_type n)
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
       result = defend(slices[si].next2,n);
-      uncastle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
 
       break;
     }
@@ -329,45 +291,123 @@ stip_length_type castling_player_defend(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Enable castling rights for the piece that just arrived (for whatever reason)
+ * on a square
+ * @param on the arrival square
+ */
+void enable_castling_rights(square sq_arrival)
+{
+  PieNam const p = abs(e[sq_arrival]);
+  Flags const specs = spec[sq_arrival];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
+
+  if (p==Rook)
+  {
+    if (TSTFLAG(specs,White))
+    {
+      if (sq_arrival==square_h1)
+        SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
+      else if (sq_arrival==square_a1)
+        SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
+    }
+    if (TSTFLAG(specs,Black))
+    {
+      if (sq_arrival==square_h8)
+        SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
+      else if (sq_arrival==square_a8)
+        SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+    }
+  }
+  else if (p==King)
+  {
+    if (TSTFLAG(specs,White) && sq_arrival==square_e1)
+      SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
+    else if (TSTFLAG(specs,Black) && sq_arrival==square_e8)
+      SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Disable castling rights for the piece that just left (for whatever reason)
+ * a square
+ * @param on the square left
+ */
+void disable_castling_rights(square sq_departure)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  if (sq_departure==square_e1)
+    CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
+  if (sq_departure==square_e8)
+    CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+
+  if (sq_departure==square_h1)
+    CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
+  else if (sq_departure==square_a1)
+    CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
+  else if (sq_departure==square_h8)
+    CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
+  else if (sq_departure==square_a8)
+    CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 /* Remove the castling rights according to the current move
  */
-static void remove_castling_rights(Side trait_ply)
+static void adjust_castling_rights(Side trait_ply)
 {
   if (castling_supported)
   {
-    square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+    move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+    move_effect_journal_index_type curr;
 
-    if (sq_capture==kingside_castling)
-      CLRCASTLINGFLAGMASK(nbply,trait_ply,k_castling);
-    if (sq_capture==queenside_castling)
-      CLRCASTLINGFLAGMASK(nbply,trait_ply,q_castling);
+    TraceFunctionEntry(__func__);
+    TraceEnumerator(Side,trait_ply,"");
+    TraceFunctionParamListEnd();
 
-    /* pieces vacating a1, h1, a8, h8 */
-    if (sq_departure == square_h1)
-      CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-    else if (sq_departure == square_a1)
-      CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-    else if (sq_departure == square_h8)
-      CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-    else if (sq_departure == square_a8)
-      CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+    assert(move_effect_journal_top[nbply-1]<=top);
 
-    if (sq_departure==prev_king_square[White][nbply])
-      CLRCASTLINGFLAGMASK(nbply,White,k_cancastle);
-    if (sq_departure==prev_king_square[Black][nbply])
-      CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+    for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+      switch (move_effect_journal[curr].type)
+      {
+        case move_effect_piece_movement:
+          disable_castling_rights(move_effect_journal[curr].u.piece_movement.from);
+          break;
 
-    /* pieces arriving at a1, h1, a8, h8 and possibly capturing a rook */
-    if (sq_arrival == square_h1)
-      CLRCASTLINGFLAGMASK(nbply,White,rh_cancastle);
-    else if (sq_arrival == square_a1)
-      CLRCASTLINGFLAGMASK(nbply,White,ra_cancastle);
-    else if (sq_arrival == square_h8)
-      CLRCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
-    else if (sq_arrival == square_a8)
-      CLRCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
+        case move_effect_piece_addition:
+          enable_castling_rights(move_effect_journal[curr].u.piece_addition.on);
+          break;
+
+        case move_effect_piece_removal:
+          disable_castling_rights(move_effect_journal[curr].u.piece_removal.from);
+          break;
+
+        case move_effect_side_change:
+          disable_castling_rights(move_effect_journal[curr].u.side_change.on);
+          enable_castling_rights(move_effect_journal[curr].u.side_change.on);
+          break;
+
+        case move_effect_piece_change:
+          disable_castling_rights(move_effect_journal[curr].u.piece_change.on);
+          enable_castling_rights(move_effect_journal[curr].u.piece_change.on);
+          break;
+
+        default:
+          break;
+      }
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
   }
 }
 
@@ -379,8 +419,8 @@ static void remove_castling_rights(Side trait_ply)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_rights_remover_attack(slice_index si,
-                                                stip_length_type n)
+stip_length_type castling_rights_adjuster_attack(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
 
@@ -389,7 +429,7 @@ stip_length_type castling_rights_remover_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  remove_castling_rights(slices[si].starter);
+  adjust_castling_rights(slices[si].starter);
   result = attack(slices[si].next1,n);
   castling_flag[nbply] = castling_flag[parent_ply[nbply]];
 
@@ -407,8 +447,8 @@ stip_length_type castling_rights_remover_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_rights_remover_defend(slice_index si,
-                                                stip_length_type n)
+stip_length_type castling_rights_adjuster_defend(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
 
@@ -417,7 +457,7 @@ stip_length_type castling_rights_remover_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  remove_castling_rights(slices[si].starter);
+  adjust_castling_rights(slices[si].starter);
   result = defend(slices[si].next1,n);
   castling_flag[nbply] = castling_flag[parent_ply[nbply]];
 
@@ -517,6 +557,31 @@ void insert_alternative_move_players(slice_index si, slice_type type)
   TraceFunctionResultEnd();
 }
 
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void insert_alternative_move_players_no_replay(slice_index si, slice_type type)
+{
+  stip_structure_traversal st;
+  alternative_move_player_installation_state_type state = { type, no_slice };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override_single(&st,
+                                           STMove,
+                                           &instrument_move);
+  stip_structure_traversal_override_single(&st,
+                                           STLandingAfterMovingPieceMovement,
+                                           &remember_landing);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument slices with move tracers
  */
 void stip_insert_castling(slice_index si)
@@ -524,8 +589,8 @@ void stip_insert_castling(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  insert_alternative_move_players(si,STCastlingPlayer);
-  stip_instrument_moves_no_replay(si,STCastlingRightsRemover);
+  insert_alternative_move_players_no_replay(si,STCastlingPlayer);
+  stip_instrument_moves_no_replay(si,STCastlingRightsAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

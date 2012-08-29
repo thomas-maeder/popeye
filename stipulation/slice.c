@@ -83,7 +83,7 @@ static slice_type const fork_slice_types[] =
     STSATFlightsCounterFork,
     STExclusiveChessMatingMoveCounter,
     STBrunnerDefenderFinder,
-    STIsardamDefenderFinder,
+    STKingCaptureLegalityTester,
     STCageCirceNonCapturingMoveFinder,
     STMaximummerCandidateMoveTester,
     STTrivialEndFilter,
@@ -260,7 +260,7 @@ static slice_type const conditional_pipe_slice_types[] =
     STSATFlightsCounterFork,
     STExclusiveChessMatingMoveCounter,
     STBrunnerDefenderFinder,
-    STIsardamDefenderFinder,
+    STKingCaptureLegalityTester,
     STCageCirceNonCapturingMoveFinder,
     STMaximummerCandidateMoveTester
 };

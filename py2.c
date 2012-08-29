@@ -2480,7 +2480,7 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
   single_move_generator_with_king_capture_init_next(sq_departure,
                                                     sq_arrival,
                                                     sq_capture);
-  result = attack(slices[temporary_hack_isardam_defense_finder[side]].next2,length_unspecified)==has_solution;
+  result = attack(slices[temporary_hack_king_capture_legality_tester[side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

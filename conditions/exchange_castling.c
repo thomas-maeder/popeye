@@ -2,6 +2,7 @@
 #include "conditions/castling_chess.h"
 #include "stipulation/stipulation.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -35,40 +36,29 @@ stip_length_type exchange_castling_move_player_attack(slice_index si,
     square const sq_departure = move_gen_top->departure;
     square const sq_arrival = move_gen_top->arrival;
 
-    jouespec[nbply] = spec[sq_departure];
-    jouearr[nbply] = e[sq_departure];
-
     assert(sq_arrival!=nullsquare);
 
+    jouespec[nbply] = spec[sq_departure];
+    jouearr[nbply] = e[sq_departure];
     pjoue[nbply] = e[sq_departure];
+    pprise[nbply] = vide;
+    pprispec[nbply] = 0;
 
     castling_partner_origin[coup_id] = sq_arrival;
     castling_partner_kind[coup_id] = e[sq_arrival];
     castling_partner_spec[coup_id] = spec[sq_arrival];
     castling_partner_origin[coup_id] = -sq_arrival; /* hack for output */
 
-    e[sq_arrival] = e[sq_departure];
-    spec[sq_arrival] = spec[sq_departure];
-
-    e[sq_departure] = castling_partner_kind[coup_id];
-    spec[sq_departure] = castling_partner_spec[coup_id];
+    move_effect_journal_do_piece_exchange(move_effect_reason_exchange_castling_exchange,
+                                          sq_departure,sq_arrival);
 
     platzwechsel_rochade_allowed[trait_ply][nbply] = false;
-
-    pprise[nbply] = vide;
-    pprispec[nbply] = 0;
 
     result = attack(slices[si].next2,n);
 
     platzwechsel_rochade_allowed[White][nbply] = platzwechsel_rochade_allowed[White][parent_ply[nbply]];
     platzwechsel_rochade_allowed[Black][nbply] = platzwechsel_rochade_allowed[Black][parent_ply[nbply]];
-
-    e[sq_arrival] = e[sq_departure];
-    spec[sq_arrival] = spec[sq_departure];
-
-    e[sq_departure] = pjoue[nbply];
-    spec[sq_departure] = jouespec[nbply];
-  }
+ }
   else
   {
     castling_partner_origin[coup_id] = initsquare;
@@ -112,39 +102,28 @@ stip_length_type exchange_castling_move_player_defend(slice_index si,
     square const sq_departure = move_gen_top->departure;
     square const sq_arrival = move_gen_top->arrival;
 
-    jouespec[nbply] = spec[sq_departure];
-    jouearr[nbply] = e[sq_departure];
-
     assert(sq_arrival!=nullsquare);
 
+    jouespec[nbply] = spec[sq_departure];
+    jouearr[nbply] = e[sq_departure];
     pjoue[nbply] = e[sq_departure];
+    pprise[nbply] = vide;
+    pprispec[nbply] = 0;
 
     castling_partner_origin[coup_id] = sq_arrival;
     castling_partner_kind[coup_id] = e[sq_arrival];
     castling_partner_spec[coup_id] = spec[sq_arrival];
     castling_partner_origin[coup_id] = -sq_arrival; /* hack for output */
 
-    e[sq_arrival] = e[sq_departure];
-    spec[sq_arrival] = spec[sq_departure];
-
-    e[sq_departure] = castling_partner_kind[coup_id];
-    spec[sq_departure] = castling_partner_spec[coup_id];
+    move_effect_journal_do_piece_exchange(move_effect_reason_exchange_castling_exchange,
+                                          sq_departure,sq_arrival);
 
     platzwechsel_rochade_allowed[trait_ply][nbply] = false;
-
-    pprise[nbply] = vide;
-    pprispec[nbply] = 0;
 
     result = defend(slices[si].next2,n);
 
     platzwechsel_rochade_allowed[White][nbply] = platzwechsel_rochade_allowed[White][parent_ply[nbply]];
     platzwechsel_rochade_allowed[Black][nbply] = platzwechsel_rochade_allowed[Black][parent_ply[nbply]];
-
-    e[sq_arrival] = e[sq_departure];
-    spec[sq_arrival] = spec[sq_departure];
-
-    e[sq_departure] = pjoue[nbply];
-    spec[sq_departure] = jouespec[nbply];
   }
   else
   {
@@ -165,7 +144,7 @@ void stip_insert_exchange_castling(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  insert_alternative_move_players(si,STExchangeCastlingMovePlayer);
+  insert_alternative_move_players_no_replay(si,STExchangeCastlingMovePlayer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -63,6 +63,7 @@
 #include "pieces/attributes/magic.h"
 #include "pieces/side_change.h"
 #include "platform/maxtime.h"
+#include "solving/move_effect_journal.h"
 #include "solving/battle_play/try.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
@@ -76,6 +77,7 @@
 #include "conditions/anticirce/super.h"
 #include "conditions/circe/april.h"
 #include "conditions/imitator.h"
+#include "conditions/sentinelles.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -130,6 +132,9 @@ void InitCheckDir(void)
 static void initply(ply parent, ply child)
 {
   parent_ply[child] = parent;
+
+  /* child -1 is correct and parent would be wrong! */
+  move_effect_journal_top[child] = move_effect_journal_top[child-1];
 
   ep2[child] = initsquare;
   ep[child] = initsquare;
@@ -231,8 +236,8 @@ void InitCond(void) {
     NextChamCircePiece[p]= p;
   InitChamCirce= true;
 
-  max_pn= max_pb= 8;
-  max_pt=16;
+  sentinelles_max_nr_pawns[Black]= sentinelles_max_nr_pawns[White]= 8;
+  sentinelles_max_nr_pawns_total=16;
   sentinelb= pb;
   sentineln= pn;
 
@@ -376,6 +381,9 @@ void InitBoard(void)
   king_square[Black] = initsquare;
 
   CLEARFL(PieSpExFlags);
+  SETFLAG(PieSpExFlags,White);
+  SETFLAG(PieSpExFlags,Black);
+  SETFLAG(PieSpExFlags,Royal);
 
   nrhuntertypes = 0;
 } /* InitBoard */
@@ -421,8 +429,8 @@ void InitAlways(void) {
   reset_tables();
   dont_generate_castling = false;
 
-  takemake_departuresquare= initsquare;
-  takemake_capturesquare= initsquare;
+  takemake_takedeparturesquare= initsquare;
+  takemake_takecapturesquare= initsquare;
 
   reset_max_nr_solutions_per_target_position();
 }
@@ -728,8 +736,8 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
            && !is_pawn(pj))
   {
     if ((pj<=roin) != SentPionAdverse) {
-      if (nbpiece[sentineln] < max_pn
-          && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
+      if (nbpiece[sentineln] < sentinelles_max_nr_pawns[Black]
+          && nbpiece[sentinelb]+nbpiece[sentineln] < sentinelles_max_nr_pawns_total
           && (!flagparasent
               || (nbpiece[sentineln]
                   <= nbpiece[sentinelb]+(pp==sentinelb?1:0))))
@@ -741,8 +749,8 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
       }
     }
     else { /* we assume  pj >= roib */
-      if (nbpiece[sentinelb] < max_pb
-          && nbpiece[sentinelb]+nbpiece[sentineln] < max_pt
+      if (nbpiece[sentinelb] < sentinelles_max_nr_pawns[White]
+          && nbpiece[sentinelb]+nbpiece[sentineln] < sentinelles_max_nr_pawns_total
           && (!flagparasent
               || (nbpiece[sentinelb]
                   <= nbpiece[sentineln]+(pp==sentineln?1:0))))
@@ -913,6 +921,8 @@ void StorePosition(stored_position_type *store)
 
   store->nr_ghosts = nr_ghosts;
   memcpy(store->ghosts, ghosts, nr_ghosts * sizeof ghosts[0]);
+
+  store->neutral_side = neutral_side;
 }
 
 void ResetPosition(stored_position_type const *store)
@@ -950,6 +960,8 @@ void ResetPosition(stored_position_type const *store)
 
   nr_ghosts = store->nr_ghosts;
   memcpy(ghosts, store->ghosts, nr_ghosts * sizeof ghosts[0]);
+
+  neutral_side = store->neutral_side;
 }
 
 boolean ooorphancheck(square sq_king,

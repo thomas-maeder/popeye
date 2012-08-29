@@ -7,6 +7,9 @@
 /* This module implements Echecs Sentinelles.
  */
 
+extern unsigned int sentinelles_max_nr_pawns[nr_sides];
+extern unsigned int sentinelles_max_nr_pawns_total;
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

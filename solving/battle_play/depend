@@ -559,16 +559,15 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
- conditions/royal_square.h conditions/circe/capture_fork.h \
- conditions/circe/rebirth_handler.h conditions/circe/cage.h \
- conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
- conditions/sentinelles.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
- conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/losing.h conditions/einstein/einstein.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_handler.h \
+ conditions/circe/cage.h conditions/circe/kamikaze.h \
+ conditions/circe/parrain.h conditions/circe/volage.h \
+ conditions/circe/promotion.h conditions/anticirce/rebirth_handler.h \
+ conditions/anticirce/super.h conditions/sentinelles.h \
+ conditions/duellists.h conditions/haunted_chess.h \
+ conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
+ conditions/antiandernach.h conditions/chameleon_pursuit.h \
+ conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
  conditions/einstein/reverse.h conditions/einstein/anti.h \
  conditions/traitor.h conditions/volage.h conditions/magic_square.h \
  conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
@@ -576,7 +575,8 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  conditions/haan.h conditions/castling_chess.h \
  conditions/exchange_castling.h conditions/transmuting_kings/super.h \
  optimisations/hash.h DHT/dhtbcmem.h conditions/imitator.h \
- conditions/football.h optimisations/keepmating.h \
+ solving/move_effect_journal.h conditions/football.h \
+ optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -626,10 +626,10 @@ solving/battle_play/attack_play$(OBJ_SUFFIX): solving/battle_play/attack_play.c 
  solving/single_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/single_piece_move_generator.h solving/trivial_end_filter.h \
- solving/king_square.h solving/en_passant.h \
- solving/moving_pawn_promotion.h solving/selfcheck_guard.h \
- solving/post_move_iteration.h stipulation/has_solution_type.h \
- stipulation/move_inverter.h stipulation/battle_play/attack_adapter.h \
+ solving/en_passant.h solving/moving_pawn_promotion.h \
+ solving/selfcheck_guard.h solving/post_move_iteration.h \
+ stipulation/has_solution_type.h stipulation/move_inverter.h \
+ stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
@@ -786,8 +786,6 @@ conditions/actuated_revolving_board.h:
 
 conditions/republican.h:
 
-conditions/royal_square.h:
-
 conditions/circe/capture_fork.h:
 
 conditions/circe/rebirth_handler.h:
@@ -826,8 +824,6 @@ conditions/norsk.h:
 
 conditions/protean.h:
 
-conditions/losing.h:
-
 conditions/einstein/einstein.h:
 
 conditions/einstein/reverse.h:
@@ -863,6 +859,8 @@ optimisations/hash.h:
 DHT/dhtbcmem.h:
 
 conditions/imitator.h:
+
+solving/move_effect_journal.h:
 
 conditions/football.h:
 
@@ -1010,8 +1008,6 @@ solving/single_piece_move_generator.h:
 
 solving/trivial_end_filter.h:
 
-solving/king_square.h:
-
 solving/en_passant.h:
 
 solving/moving_pawn_promotion.h:
@@ -1137,8 +1133,8 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  solving/battle_play/try.h utilities/table.h solving/battle_play/threat.h \
  solving/find_by_increasing_length.h \
  solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
- solving/king_square.h solving/en_passant.h \
- solving/moving_pawn_promotion.h solving/post_move_iteration.h \
+ solving/en_passant.h solving/moving_pawn_promotion.h \
+ solving/post_move_iteration.h solving/move_effect_journal.h \
  conditions/amu/attack_counter.h conditions/bgl.h \
  conditions/blackchecks.h conditions/extinction.h conditions/exclusive.h \
  position/position.h conditions/singlebox/type1.h \
@@ -1149,26 +1145,25 @@ solving/battle_play/defense_play$(OBJ_SUFFIX): solving/battle_play/defense_play.
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
- conditions/royal_square.h conditions/circe/capture_fork.h \
- conditions/circe/rebirth_handler.h conditions/circe/assassin.h \
- conditions/circe/frischauf.h conditions/circe/cage.h \
- conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/circe/super.h conditions/circe/april.h \
- conditions/circe/king_rebirth_avoider.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_handler.h \
+ conditions/circe/assassin.h conditions/circe/frischauf.h \
+ conditions/circe/cage.h conditions/circe/kamikaze.h \
+ conditions/circe/parrain.h conditions/circe/volage.h \
+ conditions/circe/promotion.h conditions/circe/super.h \
+ conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
  conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
  conditions/sentinelles.h conditions/duellists.h \
  conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
  conditions/andernach.h conditions/antiandernach.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/losing.h conditions/einstein/einstein.h \
- conditions/einstein/reverse.h conditions/einstein/anti.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
- conditions/marscirce/anti.h conditions/line_chameleon.h \
- conditions/haan.h conditions/castling_chess.h \
- conditions/exchange_castling.h conditions/transmuting_kings/super.h \
- conditions/imitator.h conditions/football.h optimisations/keepmating.h \
+ conditions/einstein/einstein.h conditions/einstein/reverse.h \
+ conditions/einstein/anti.h conditions/traitor.h conditions/volage.h \
+ conditions/magic_square.h conditions/tibet.h conditions/degradierung.h \
+ conditions/phantom.h conditions/marscirce/anti.h \
+ conditions/line_chameleon.h conditions/haan.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
+ conditions/transmuting_kings/super.h conditions/imitator.h \
+ conditions/football.h optimisations/keepmating.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/goals/enpassant/filter.h \
@@ -1292,13 +1287,13 @@ solving/battle_play/min_length_guard.h:
 
 solving/avoid_unsolvable.h:
 
-solving/king_square.h:
-
 solving/en_passant.h:
 
 solving/moving_pawn_promotion.h:
 
 solving/post_move_iteration.h:
+
+solving/move_effect_journal.h:
 
 conditions/amu/attack_counter.h:
 
@@ -1341,8 +1336,6 @@ conditions/actuated_revolving_centre.h:
 conditions/actuated_revolving_board.h:
 
 conditions/republican.h:
-
-conditions/royal_square.h:
 
 conditions/circe/capture_fork.h:
 
@@ -1391,8 +1384,6 @@ conditions/chameleon_pursuit.h:
 conditions/norsk.h:
 
 conditions/protean.h:
-
-conditions/losing.h:
 
 conditions/einstein/einstein.h:
 

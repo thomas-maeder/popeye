@@ -4,14 +4,13 @@
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
 
-void circe_undo_rebirth(square sq_rebirth);
-void circe_do_rebirth(square sq_rebirth, piece pi_reborn, Flags spec_reborn);
-
-/* Execute a king's rebirth in Circe rex. incl. and similar conditions
- * @param sq_from where the king was captured
- * @param sq_rebirth where the king is to be reborn
+/* Execute a Circe rebirth.
+ * This is a helper function for alternative Circe types
+ * @param sq_rebirth rebirth square
+ * @param pi_reborn type of piece to be reborn
+ * @param spec_reborn flags of the piece to be reborn
  */
-void do_king_rebirth(square sq_from, square sq_rebirth);
+void circe_do_rebirth(square sq_rebirth, piece pi_reborn, Flags spec_reborn);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -41,6 +40,6 @@ stip_length_type circe_rebirth_handler_defend(slice_index si,
 /* Instrument a stipulation for strict Circe rebirths
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_rebirth_handlers(slice_index si);
+void stip_insert_circe(slice_index si);
 
 #endif

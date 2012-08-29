@@ -24,10 +24,27 @@
   #2                        11 + 14
       WhiteSuperTransmutingKing
 
-   1.Qf8-d6 + ?
-    but
-      1...c7*d6 !
-      1...Kd7*d6 !
+      1...Sc2-a1 +
+          2.Ke4*c6=wB #
+      1...Sc2*e3 +
+          2.Ke4*c6=wB #
+      1...Sc2-a3 +
+          2.Ke4*c6=wB #
+      1...Be2-d1 +
+          2.Ke4-b7=wG #
+      1...Be2-f1 +
+          2.Ke4-b7=wG #
+      1...Be2*c4 +
+          2.Ke4-b7=wG #
+      1...Be2-d3 +
+          2.Ke4-b7=wG #
+          2.Ke4*c6=wB #
+      1...Sb3-d2 +
+          2.Ke4-f6=wS #
+      1...Rf3*f5
+          2.Bh7*f5 #
+      1...f7-f6
+          2.Rg8-g7 #
 
    1.Qf8-e7 + ?
     but
@@ -37,51 +54,32 @@
     but
       1...Kd7-d6 !
 
-   1.Qf8-e8 + ?
-    but
-      1...Gc6*e8 + !
-      1...Kd7-d6 !
-
-   1.Ke4*e5 ? threat:
-          2.Qf8*f7 #
-      1...Rf3*e3 +
-          2.Ke5-d5=R #
-      1...c5*b4 +
-          2.Ke5-e7=Q #
-      1...Gc6-e8
-          2.Qf8*e8 #
-      1...f7-f6 +
-          2.Ke5-e6=P #
-    but
-      1...Be2*c4 !
-      1...Rf3*f5 + !
-
    1.Ke4-d5 ! threat:
           2.Qf8*f7 #
       1...Sc2*e3 +
-          2.Kd5-f6=S #
+          2.Kd5-f6=wS #
       1...Sc2*b4 +
-          2.Kd5-f6=S #
+          2.Kd5-f6=wS #
       1...Be2*c4 +
-          2.Kd5*c6=B #
+          2.Kd5*c6=wB #
       1...Sb3-a1 +
-          2.Kd5-b7=G #
+          2.Kd5-b7=wG #
       1...Sb3-c1 +
-          2.Kd5-b7=G #
+          2.Kd5-b7=wG #
       1...Sb3-d2 +
-          2.Kd5-b7=G #
+          2.Kd5-b7=wG #
       1...Sb3-d4 +
-          2.Kd5-b7=G #
+          2.Kd5-b7=wG #
       1...Rf3*f5
           2.Bh7*f5 #
       1...Gc6-e8
           2.Qf8*e8 #
 
 
-              empile:       39532
-           play_move:       30654
-        orig_rbechec:        1655
-        orig_rnechec:       29777
+              empile:       25464
+           play_move:       19294
+        orig_rbechec:        1089
+        orig_rnechec:       18735
 solution finished. 
 
 
@@ -111,12 +109,19 @@ solution finished.
   #2                          7 + 6
       WhiteSuperTransmutingKing
 
+      1...Ba2*b3 +
+          2.Kd5*f3=wB #
+      1...Rb7-b5 +
+          2.Kd5-d1=wR #
+      1...Rb7-d7 +
+          2.Kd5-h5=wR #
+
    1.Rd8-g8 ? threat:
           2.Rg8-g1 #
           2.Qf2-g1 #
           2.Qf2-h4 #
       1...Ba2*b3 +
-          2.Kd5*f3=B #
+          2.Kd5*f3=wB #
       1...Ra3*a4
           2.Rg8-g1 #
           2.Qf2-g1 #
@@ -124,9 +129,9 @@ solution finished.
           2.Rg8-g1 #
           2.Qf2-g1 #
       1...Rb7-b5 +
-          2.Kd5-d1=R #
+          2.Kd5-d1=wR #
       1...Rb7-d7 +
-          2.Kd5-h5=R #
+          2.Kd5-h5=wR #
     but
       1...Rb7-g7 !
 
@@ -137,22 +142,22 @@ solution finished.
       1...Rb7-b5
           2.Ba8*f3 #
       1...Rb7-b6 +
-          2.Kd6-d1=R #
+          2.Kd6-d1=wR #
       1...Rb7-d7 +
-          2.Kd6-h6=R #
+          2.Kd6-h6=wR #
     but
       1...Ra3*a4 !
 
    1.Kd5-d4 ! threat:
           2.Ra5-h5 #
       1...Ra3*a4 +
-          2.Kd4-d1=R #
+          2.Kd4-d1=wR #
       1...Rb7-b4 +
-          2.Kd4-d1=R #
+          2.Kd4-d1=wR #
       1...Rb7-b5
           2.Ba8*f3 #
       1...Rb7-d7 +
-          2.Kd4-h4=R #
+          2.Kd4-h4=wR #
 
    1.Kd5-c6 ! threat:
           2.Rd8-d1 #
@@ -166,7 +171,7 @@ solution finished.
       1...Rb7-b5
           2.Rd8-d1 #
       1...Rb7-b6 +
-          2.Kc6-c1=R #
+          2.Kc6-c1=wR #
       1...Rb7-g7
           2.Ra5-h5 #
       1...Rb7-e7
@@ -174,7 +179,7 @@ solution finished.
       1...Rb7-d7
           2.Ra5-h5 #
       1...Rb7-c7 +
-          2.Kc6-h6=R #
+          2.Kc6-h6=wR #
 
    1.Kd5-e6 ? threat:
           2.Rd8-d1 #
@@ -188,11 +193,11 @@ solution finished.
           2.Rd8-d1 #
           2.Ba8*f3 #
       1...Rb7-b6 +
-          2.Ke6-e1=R #
+          2.Ke6-e1=wR #
       1...Rb7-g7
           2.Ra5-h5 #
       1...Rb7-e7 +
-          2.Ke6-h6=R #
+          2.Ke6-h6=wR #
       1...Rb7-d7
           2.Ba8*f3 #
           2.Ra5-h5 #
@@ -203,19 +208,19 @@ solution finished.
           2.Rd8-d1 #
           2.Ra5-h5 #
       1...Ba2-b1 +
-          2.Ke4*f3=B #
+          2.Ke4*f3=wB #
       1...Ba2*b3
           2.Ra5-h5 #
       1...Ra3*a4 +
-          2.Ke4-e1=R #
+          2.Ke4-e1=wR #
       1...Rb7-b4 +
-          2.Ke4-e1=R #
+          2.Ke4-e1=wR #
       1...Rb7-b5
           2.Rd8-d1 #
       1...Rb7-g7
           2.Ra5-h5 #
       1...Rb7-e7 +
-          2.Ke4-h4=R #
+          2.Ke4-h4=wR #
       1...Rb7-d7
           2.Ra5-h5 #
 
@@ -223,9 +228,9 @@ solution finished.
           2.Rd8-d1 #
           2.Ra5-h5 #
       1...Ra3*a4 +
-          2.Kc4-c1=R #
+          2.Kc4-c1=wR #
       1...Rb7-b4 +
-          2.Kc4-c1=R #
+          2.Kc4-c1=wR #
       1...Rb7-b5
           2.Rd8-d1 #
           2.Ba8*f3 #
@@ -238,7 +243,7 @@ solution finished.
           2.Ba8*f3 #
           2.Ra5-h5 #
       1...Rb7-c7 +
-          2.Kc4-h4=R #
+          2.Kc4-h4=wR #
     but
       1...Ba2*b3 + !
 
@@ -255,10 +260,10 @@ solution finished.
       1...Kh1*h2 !
 
 
-              empile:       35012
-           play_move:       21826
-        orig_rbechec:        2926
-        orig_rnechec:       19917
+              empile:       36416
+           play_move:       22935
+        orig_rbechec:        3156
+        orig_rnechec:       20878
 solution finished. 
 
 
@@ -288,48 +293,60 @@ solution finished.
   #2                         6 + 11
       WhiteSuperTransmutingKing
 
-   1.Qb6-c7 + ?
-    but
-      1...Kc8*c7 !
-
-   1.Qb6-b8 + ?
-    but
-      1...Kc8*b8 !
-
-   1.Qb6-b7 + ?
-      1...Kc8*d8
-          2.Qb7*d7 #
-    but
-      1...Kc8*b7 !
+      1...Bb3-a2 +
+          2.Kb5-e8=wG #
+      1...Bb3-d1 +
+          2.Kb5-e8=wG #
+      1...Bb3-c2 +
+          2.Kb5-e8=wG #
+      1...Bb3*d5 +
+          2.Kb5-e8=wG #
+      1...Bb3-c4 +
+          2.Kb5-e8=wG #
+          2.Kb5*d7=wB #
+      1...Sd3-b2 +
+          2.Kb5*d7=wB #
+      1...Sd3-c1 +
+          2.Kb5*d7=wB #
+      1...Sd3-e1 +
+          2.Kb5*d7=wB #
+      1...Sd3-f2 +
+          2.Kb5*d7=wB #
+      1...Sd3-f4 +
+          2.Kb5*d7=wB #
+      1...Sd3*b4 +
+          2.Kb5*d7=wB #
+      1...Se4-c3 +
+          2.Kb5-a7=wS #
 
    1.Kb5-c6 ! threat:
           2.Qb6-c7 #
       1...Bb3*d5 +
-          2.Kc6*d7=B #
+          2.Kc6*d7=wB #
       1...Sd3-e5 +
-          2.Kc6-a7=S #
+          2.Kc6-a7=wS #
       1...Sd3*b4 +
-          2.Kc6-a7=S #
+          2.Kc6-a7=wS #
       1...Se4-c3 +
-          2.Kc6-e8=G #
+          2.Kc6-e8=wG #
       1...Se4-d2 +
-          2.Kc6-e8=G #
+          2.Kc6-e8=wG #
       1...Se4-f2 +
-          2.Kc6-e8=G #
+          2.Kc6-e8=wG #
       1...Se4-g3 +
-          2.Kc6-e8=G #
+          2.Kc6-e8=wG #
       1...Se4-g5 +
-          2.Kc6-e8=G #
+          2.Kc6-e8=wG #
       1...Se4-c5 +
-          2.Kc6-e8=G #
+          2.Kc6-e8=wG #
       1...Qf6*d8
           2.Qb6-b7 #
 
 
-              empile:       14428
-           play_move:       11805
-        orig_rbechec:        1201
-        orig_rnechec:       11095
+              empile:       17273
+           play_move:       13717
+        orig_rbechec:        1378
+        orig_rnechec:       13042
 solution finished. 
 
 
@@ -365,7 +382,7 @@ solution finished.
       1...Rh4*g4
           2.f3*g4 #
       1...Bb5-c4 +
-          2.Kb3*c4=B #
+          2.Kb3*c4=wB #
       1...Rd6-d4
           2.Sc2-e1 #
           2.Sc2*b4 #
@@ -376,7 +393,7 @@ solution finished.
       1...Sc7*a8
           2.Ba6*b5 #
       1...Sd7*c5 +
-          2.Kb3*c5=S #
+          2.Kb3*c5=wS #
       1...Sd7-f6
           2.Sg4*e5 #
     but
@@ -387,7 +404,7 @@ solution finished.
       1...Rh4*g4
           2.f3*g4 #
       1...Bb5-c4 +
-          2.Kb3*c4=B #
+          2.Kb3*c4=wB #
       1...Rd6-d4
           2.Sc2-e1 #
           2.Sc2*b4 #
@@ -398,7 +415,7 @@ solution finished.
       1...Sc7*a8
           2.Ba6*b5 #
       1...Sd7*c5 +
-          2.Kb3*c5=S #
+          2.Kb3*c5=wS #
       1...Sd7-f6
           2.Sg4*e5 #
     but
@@ -416,13 +433,13 @@ solution finished.
           2.Sc2-e1 #
           2.Sc2*b4 #
       1...Bb5*c4 +
-          2.Kb3*c4=B #
+          2.Kb3*c4=wB #
       1...Sc7*a6
           2.Sc2-e1 #
       1...Sc7-d5
           2.Sc2-e1 #
       1...Sd7-c5 +
-          2.Kb3*c5=S #
+          2.Kb3*c5=wS #
     but
       1...Bb5-a4 + !
 
@@ -436,18 +453,18 @@ solution finished.
       1...Sc7*b5
           2.Ba6*b5 #
       1...Sd7-c5 +
-          2.Kb3*c5=S #
+          2.Kb3*c5=wS #
     but
       1...Sc7*a6 !
 
    1.Rc5*e5 ? threat:
           2.Re5-e3 #
       1...Bb5-c4 +
-          2.Kb3*c4=B #
+          2.Kb3*c4=wB #
       1...Sc7-d5
           2.Ba6*b5 #
       1...Sd7-c5 +
-          2.Kb3*c5=S #
+          2.Kb3*c5=wS #
       1...Sd7*e5
           2.Sg4*e5 #
     but
@@ -464,7 +481,7 @@ solution finished.
           2.Sc2-e1 #
           2.Sc2*b4 #
       1...Bb5-c4 +
-          2.Kb3*c4=B #
+          2.Kb3*c4=wB #
       1...Rd6*c6
           2.Sg4*e5 #
       1...Sc7*a6
@@ -482,11 +499,11 @@ solution finished.
    1.Kb3*b4 ! threat:
           2.Rc5-c3 #
       1...Rh4*g4 +
-          2.Kb4-b3=R #
+          2.Kb4-b3=wR #
       1...Bb5-c4
           2.Ba6*c4 #
       1...Rd6-d4 +
-          2.Kb4-b3=R #
+          2.Kb4-b3=wR #
       1...Rd6-c6
           2.Rc5-d5 #
       1...Sd7*c5
@@ -537,7 +554,7 @@ solution finished.
 
 a) 
 
-  1.Kg7-f8 Kd5-d4   2.a2-a1=Q + Kd4*a1=Q   3.Rh8-g8 Qa1-f6 # 
+  1.Kg7-f8 Kd5-d4   2.a2-a1=Q + Kd4*a1=wQ   3.Rh8-g8 Qa1-f6 # 
 
               empile:     6317423
            play_move:     4513505
@@ -545,11 +562,11 @@ a)
         orig_rnechec:     4168795
 b) bPa2-->b2
 
-  1.Kg7-f8 Kd5-c5   2.Rh8-g8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q # 
-  1.Kg7-f8 Kd5-c6   2.Rh8-g8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q # 
-  1.Re8-f8 Kd5-e4   2.b2-b1=Q + Ke4*b1=Q   3.Kg7-g8 Qb1-g6 # 
-  1.Rh8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q # 
-  1.Rh8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q # 
+  1.Kg7-f8 Kd5-c5   2.Rh8-g8 Kc5-b6   3.b2-b1=Q + Kb6-f6=wQ # 
+  1.Kg7-f8 Kd5-c6   2.Rh8-g8 Kc6-b6   3.b2-b1=Q + Kb6-f6=wQ # 
+  1.Re8-f8 Kd5-e4   2.b2-b1=Q + Ke4*b1=wQ   3.Kg7-g8 Qb1-g6 # 
+  1.Rh8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=Q + Kb6-f6=wQ # 
+  1.Rh8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=Q + Kb6-f6=wQ # 
 
               empile:     6484478
            play_move:     4570852

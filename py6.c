@@ -102,7 +102,6 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "solving/selfcheck_guard.h"
-#include "solving/king_square.h"
 #include "solving/moving_pawn_promotion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
@@ -134,7 +133,6 @@
 #include "conditions/messigny.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
-#include "conditions/royal_square.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/cage.h"
 #include "conditions/circe/kamikaze.h"
@@ -157,7 +155,6 @@
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
-#include "conditions/losing.h"
 #include "conditions/einstein/einstein.h"
 #include "conditions/einstein/reverse.h"
 #include "conditions/einstein/anti.h"
@@ -593,8 +590,10 @@ static void initialise_piece_flags(void)
         ErrorMsg(ColourChangeRestricted);
       }
 
-      /* known limitation: will print rK rather than just K as usual */
-      if (abs(e[*bnp])==King && (CondFlag[protean] || CondFlag[kobulkings] || TSTFLAG(PieSpExFlags,Magic)))
+      if (abs(e[*bnp])==King
+          && !CondFlag[losingchess]
+          && !CondFlag[extinction]
+          && (!CondFlag[dynasty] || nbpiece[e[*bnp]]==1))
         SETFLAG(spec[*bnp],Royal);
     }
   }
@@ -1804,7 +1803,7 @@ static boolean verify_position(slice_index si)
   CLEARFL(castling_flag[0]);
   /* castling_supported has to be adjusted if there are any problems */
   /* with castling and fairy conditions/pieces */
-  castling_supported = !(CondFlag[patience]|| anyparrain);
+  castling_supported = !CondFlag[patience];
 
   complex_castling_through_flag = CondFlag[imitators];
 
@@ -2102,7 +2101,8 @@ void current(coup *mov)
   }
 }
 
-boolean WriteSpec(Flags sp, boolean printcolours) {
+boolean WriteSpec(Flags sp, piece p, boolean printcolours)
+{
   boolean ret = false;
   PieSpec spname;
 
@@ -2125,8 +2125,9 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
   }
 
   for (spname = Neutral; spname < PieSpCount; spname++) {
-    if ( (spname != Volage || !CondFlag[volage])
-         && TSTFLAG(sp, spname))
+    if ((spname != Volage || !CondFlag[volage])
+        && (spname!=Royal || abs(p)!=King)
+        && TSTFLAG(sp, spname))
     {
       StdChar(tolower(*PieSpString[UserLanguage][spname]));
       ret = true;
@@ -2887,9 +2888,6 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[republican])
         stip_insert_republican_king_placers(root_slice);
 
-      if (royal_square[Black]!=initsquare || royal_square[White]!=initsquare)
-        stip_insert_royal_square_handlers(root_slice);
-
       if (anyparrain)
         stip_insert_circe_parrain_rebirth_handlers(root_slice);
       else if (CondFlag[supercirce])
@@ -2902,7 +2900,7 @@ static Token iterate_twins(Token prev_token)
         stip_insert_circe_assassin(root_slice);
       else if (anycirce)
       {
-        stip_insert_circe_rebirth_handlers(root_slice);
+        stip_insert_circe(root_slice);
         if (TSTFLAG(PieSpExFlags,Kamikaze))
           stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
       }
@@ -2959,9 +2957,6 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[protean] || TSTFLAG(PieSpExFlags,Protean))
         stip_insert_protean_chess(root_slice);
 
-      if (castling_supported && CondFlag[losingchess])
-        stip_insert_losing_chess_castling_rights_removers(root_slice);
-
       if (castling_supported)
         stip_insert_castling(root_slice);
 
@@ -2996,9 +2991,6 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[frischauf])
         stip_insert_frischauf_promotee_markers(root_slice);
-
-      if (!CondFlag[losingchess])
-	      stip_insert_king_square_adjusters(root_slice);
 
       if (CondFlag[phantom])
         stip_insert_phantom_en_passant_adjusters(root_slice);

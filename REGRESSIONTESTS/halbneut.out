@@ -711,18 +711,18 @@ a)
 
   1.hTe8-e7=nhT Kd5-d6   2.hLf8*e7=nhL [+nhTa1] + nhLe7-f6=whL # 
 
-              empile:      103010
-           play_move:       88269
-        orig_rbechec:        5423
-        orig_rnechec:       87794
+              empile:      101295
+           play_move:       86796
+        orig_rbechec:        5346
+        orig_rnechec:       86321
 b) sKb2-->c3
 
   1.hLf8-e7=nhL Kd5-e4   2.hTe8*e7=nhT [+nhLc1] + nhTe7-c7=whT # 
 
-              empile:       80645
-           play_move:       64922
-        orig_rbechec:        8666
-        orig_rnechec:       64527
+              empile:       78947
+           play_move:       63566
+        orig_rbechec:        8515
+        orig_rnechec:       63171
 Loesung beendet. 
 
 
@@ -839,7 +839,7 @@ Loesung beendet.
   h#2                    3 + 0 + 1n
             HalbNeutral e1
 
-  1...Lf1-h3   2.nSe3-g4 0-0 # 
+  1...Lf1-h3   2.nSe3-g4 0-0=nhK # 
   1...Lf1-d3   2.nSe3-c4 hKe1-d1=nhK # 
 
               empile:        6512

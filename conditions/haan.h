@@ -14,8 +14,8 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type haan_chess_block_departure_attack(slice_index si,
-                                                   stip_length_type n);
+stip_length_type haan_chess_hole_inserter_attack(slice_index si,
+                                                 stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -28,8 +28,8 @@ stip_length_type haan_chess_block_departure_attack(slice_index si,
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type haan_chess_block_departure_defend(slice_index si,
-                                                   stip_length_type n);
+stip_length_type haan_chess_hole_inserter_defend(slice_index si,
+                                                 stip_length_type n);
 
 /* Instrument slices with move tracers
  */

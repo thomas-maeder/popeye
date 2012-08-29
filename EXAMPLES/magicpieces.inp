@@ -66,6 +66,12 @@ stip ~1
 twin add white magic ka5
 twin add neutral magic ka5
 
+next
+
+title an example for castling with a recolored rook
+pieces white ke1 pb2
+       black kd3 ra1
+       black magic gd1
+stip h001
+
 end
-
-

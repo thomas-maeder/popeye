@@ -455,7 +455,8 @@ void ProofInitialiseStartPosition(void)
 
 void ProofSaveStartPosition(void)
 {
-  int i;
+  unsigned int i;
+  piece p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -463,11 +464,8 @@ void ProofSaveStartPosition(void)
   start.rn = king_square[Black];
   start.rb = king_square[White];
 
-  for (i = roib; i <= derbla; ++i)
-  {
-    nr_piece(start)[i] = nbpiece[i];
-    nr_piece(start)[-i] = nbpiece[-i];
-  }
+  for (p = dernoi; p<=derbla; ++p)
+    nr_piece(start)[p] = nbpiece[p];
 
   for (i = 0; i<maxsquare; ++i)
     start.board[i] = e[i];
@@ -485,7 +483,7 @@ void ProofSaveStartPosition(void)
 
 void ProofRestoreStartPosition(void)
 {
-  int i;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -577,7 +575,8 @@ void ProofStartReflectboard(void)
 
 void ProofSaveTargetPosition(void)
 {
-  int i;
+  unsigned int i;
+  piece p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -585,11 +584,8 @@ void ProofSaveTargetPosition(void)
   target.rb = king_square[White];
   target.rn = king_square[Black];
 
-  for (i = roib; i <= derbla; ++i)
-  {
-    nr_piece(target)[i] = nbpiece[i];
-    nr_piece(target)[-i] = nbpiece[-i];
-  }
+  for (p = dernoi; p<=derbla; ++p)
+    nr_piece(target)[p] = nbpiece[p];
 
   for (i = 0; i<maxsquare; ++i)
     target.board[i] = e[i];
@@ -607,7 +603,7 @@ void ProofSaveTargetPosition(void)
 
 void ProofRestoreTargetPosition(void)
 {
-  int i;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -618,7 +614,7 @@ void ProofRestoreTargetPosition(void)
   for (i = 0; i<maxsquare; ++i)
     e[i] = target.board[i];
 
-  for (i= 0; i<nr_squares_on_board; ++i)
+  for (i = 0; i<nr_squares_on_board; ++i)
   {
     square const square_i = boardnum[i];
     spec[square_i] = target.spec[square_i];
@@ -1985,13 +1981,15 @@ slice_type proof_make_goal_reachable_type(void)
    */
   TraceValue("%u\n",flagfee);
   if (flagfee
-      || (PieSpExFlags&(~(BIT(White)+BIT(Black))))
+      || (PieSpExFlags&(~(BIT(White)+BIT(Black)+BIT(Royal))))
       || CondFlag[masand])
-    result  = no_slice;
+    result  = no_slice_type;
   else if (ProofFairy)
     result = STGoalReachableGuardFilterProofFairy;
   else
     result = STGoalReachableGuardFilterProof;
+
+  TraceValue("%u\n",result);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(slice_type,result,"");

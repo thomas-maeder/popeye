@@ -6,9 +6,11 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 /* Replace the arriving piece of the currently played move
  * @param p substitute
@@ -120,52 +122,27 @@ static void play_move(void)
   square const sq_departure = move_gen_top->departure;
   square const sq_arrival = move_gen_top->arrival;
 
+  assert(sq_arrival!=nullsquare);
+
   jouespec[nbply] = spec[sq_departure];
   jouearr[nbply] = e[sq_departure];
-
-  assert(sq_arrival!=nullsquare);
-
   pjoue[nbply] = e[sq_departure];
-
-  --nbpiece[e[sq_departure]];
-  e[sq_departure] = vide;
-  spec[sq_departure]= 0;
-
   pprise[nbply] = e[sq_capture];
   pprispec[nbply] = spec[sq_capture];
-  if (pprise[nbply]!=vide)
-    --nbpiece[pprise[nbply]];
-  e[sq_capture] = vide;
-  spec[sq_capture] = 0;
 
-  e[sq_arrival] = jouearr[nbply];
-  spec[sq_arrival] = jouespec[nbply];
-  ++nbpiece[e[sq_arrival]];
-}
-
-static void retract_move(void)
-{
-  move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply];
-
-  square const sq_departure = move_gen_top->departure;
-  square const sq_arrival = move_gen_top->arrival;
-  square const sq_capture = move_gen_top->capture;
-  piece const pi_captured = pprise[nbply];
-
-  assert(sq_arrival!=nullsquare);
-
-  --nbpiece[e[sq_arrival]];
-  e[sq_arrival] = vide;
-  spec[sq_arrival] = 0;
-
-  e[sq_capture] = pi_captured;
-  spec[sq_capture] = pprispec[nbply];
-  if (pi_captured!=vide)
-    ++nbpiece[pi_captured];
-
-  e[sq_departure] = pjoue[nbply];
-  spec[sq_departure] = jouespec[nbply];
-  ++nbpiece[e[sq_departure]];
+  if (e[sq_capture]==vide)
+    move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+                                          sq_departure,sq_arrival);
+  else
+  {
+    move_effect_journal_index_type const
+      removal = move_effect_journal_do_piece_removal(move_effect_reason_regular_capture,
+                                                     sq_capture);
+    move_effect_journal_index_type const
+      movement = move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+                                                       sq_departure,sq_arrival);
+    move_effect_journal_link_capture_to_movement(removal,movement);
+  }
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -187,7 +164,6 @@ stip_length_type move_player_attack(slice_index si, stip_length_type n)
 
   play_move();
   result = attack(slices[si].next1,n);
-  retract_move();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -217,7 +193,6 @@ stip_length_type move_player_defend(slice_index si, stip_length_type n)
 
   play_move();
   result = defend(slices[si].next1,n);
-  retract_move();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

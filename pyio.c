@@ -124,6 +124,7 @@
 #include "conditions/oscillating_kings.h"
 #include "conditions/kobul.h"
 #include "conditions/circe/april.h"
+#include "conditions/sentinelles.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -785,12 +786,12 @@ static void WriteConditions(int alignment)
         strcat(CondLine,
                VariantTypeString[UserLanguage][PionNeutral]);
       }
-      if (max_pn !=8 || max_pb != 8) {
-        sprintf(pawns, " %u/%u", max_pb, max_pn);
+      if (sentinelles_max_nr_pawns[Black] !=8 || sentinelles_max_nr_pawns[White] != 8) {
+        sprintf(pawns, " %u/%u", sentinelles_max_nr_pawns[White], sentinelles_max_nr_pawns[Black]);
         strcat (CondLine, pawns);
       }
-      if (max_pt != 16) {
-        sprintf(pawns, " //%u", max_pt);
+      if (sentinelles_max_nr_pawns_total != 16) {
+        sprintf(pawns, " //%u", sentinelles_max_nr_pawns_total);
         strcat (CondLine, pawns);
       }
     }
@@ -1567,7 +1568,7 @@ static char *ParseSquareList(char *tok,
         }
         if (e[Square] == vide)
           StdChar(echo);
-        WriteSpec(Spec, Name!=Empty);
+        WriteSpec(Spec,Name, Name!=Empty);
         WritePiece(Name);
         WriteSquare(Square);
         StdChar(' ');
@@ -4465,11 +4466,11 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     else if (type==PionNeutral && group==gpSentinelles)
       SentPionNeutral= true;
     else if (type==PionNoirMaximum && group==gpSentinelles)
-      tok = ParseMaximumPawn(&max_pn,8,64);
+      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns[Black],8,64);
     else if (type==PionBlancMaximum && group==gpSentinelles)
-      tok = ParseMaximumPawn(&max_pb,8,64);
+      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns[White],8,64);
     else if (type==PionTotalMaximum && group==gpSentinelles)
-      tok = ParseMaximumPawn(&max_pt,16,64);
+      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns_total,16,64);
     else if (type==ParaSent && group==gpSentinelles)
       flagparasent= true;
     else if (type==SentBerolina && group==gpSentinelles)
@@ -5943,12 +5944,12 @@ static char *ParseTwinningMove(int indexx)
     strcat(ActTwinning, GlobalStr);
   }
 
-  WriteSpec(spec[sq1], e[sq1]!=vide);
+  WriteSpec(spec[sq1],e[sq1], e[sq1]!=vide);
   WritePiece(e[sq1]);
   WriteSquare(sq1);
   if (indexx == TwinningExchange) {
     StdString("<-->");
-    WriteSpec(spec[sq2], e[sq2]!=vide);
+    WriteSpec(spec[sq2],e[sq2], e[sq2]!=vide);
     WritePiece(e[sq2]);
     if (LaTeXout) {
       strcat(ActTwinning, "{\\lra}");
@@ -6181,7 +6182,7 @@ static char *ParseTwinningRemove(void) {
       }
 
       StdString(" -");
-      WriteSpec(spec[sq], e[sq]!=vide);
+      WriteSpec(spec[sq],e[sq], e[sq]!=vide);
       WritePiece(e[sq]);
       WriteSquare(sq);
       e[sq]= vide;
@@ -6806,6 +6807,7 @@ void WritePosition() {
   char    StipOptStr[40];
   PieSpec sp;
   char    ListSpec[PieSpCount][256];
+  unsigned int SpecCount[PieSpCount] = { 0 };
   FILE    *OrigSolFile= SolFile;
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
@@ -6884,8 +6886,12 @@ void WritePosition() {
       }
 
       for (sp= Neutral + 1; sp < PieSpCount; sp++)
-        if (TSTFLAG(spec[square], sp))
+        if (TSTFLAG(spec[square], sp)
+            && !(sp==Royal && abs(e[square])==King))
+        {
           AddSquare(ListSpec[sp], square);
+          ++SpecCount[sp];
+        }
 
       if (pp<hunter0b || pp >= (hunter0b + maxnrhuntertypes))
       {
@@ -6966,7 +6972,10 @@ void WritePosition() {
     StdString(GlobalStr);
   }
 
-  for (sp = Neutral+1; sp<PieSpCount; sp++)
+  if (SpecCount[Royal]>0)
+    CenterLine(ListSpec[Royal]);
+
+  for (sp = Royal+1; sp<PieSpCount; sp++)
     if (TSTFLAG(PieSpExFlags,sp))
       CenterLine(ListSpec[sp]);
 
@@ -7111,6 +7120,7 @@ void LaTeXBeginDiagram(void)
   PieSpec sp;
   Flags remspec[PieceCount];
   char ListSpec[PieSpCount][256];
+  unsigned int SpecCount[PieSpCount] = { 0 };
   piece p;
   char    HolesSqList[256] = "";
   square const *bnp;
@@ -7366,8 +7376,11 @@ void LaTeXBeginDiagram(void)
       }
 
       for (sp= Neutral + 1; sp < PieSpCount; sp++) {
-        if (TSTFLAG(spec[*bnp], sp)) {
+        if (TSTFLAG(spec[*bnp], sp)
+            && !(sp==Royal && abs(e[*bnp])==King))
+        {
           AddSquare(ListSpec[sp], *bnp);
+          ++SpecCount[sp];
         }
       }
     }
@@ -7383,7 +7396,7 @@ void LaTeXBeginDiagram(void)
   }
 
   for (sp= Neutral + 1; sp < PieSpCount; sp++)
-    if (TSTFLAG(PieSpExFlags, sp))
+    if (SpecCount[sp]>0)
       modifiedpieces =true;     /* to be used below */
 
   /* stipulation */
@@ -7535,7 +7548,7 @@ void LaTeXBeginDiagram(void)
 
     if (modifiedpieces) {
       for (sp= Neutral + 1; sp < PieSpCount; sp++)
-        if (TSTFLAG(PieSpExFlags, sp)) {
+        if (SpecCount[sp]>0) {
           if (!firstline)
             fprintf(LaTeXFile, "{\\newline}\n    ");
           fprintf(LaTeXFile, "%s\n", ListSpec[sp]);

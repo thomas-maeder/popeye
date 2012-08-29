@@ -1,5 +1,6 @@
 #include "conditions/messigny.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
@@ -15,7 +16,7 @@ void stip_insert_messigny(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_alternative_move_players(si,STMessignyMovePlayer);
+  insert_alternative_move_players_no_replay(si,STMessignyMovePlayer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -50,35 +51,14 @@ stip_length_type messigny_move_player_attack(slice_index si, stip_length_type n)
 
     pjoue[nbply] = pi_moving;
     jouespec[nbply] = spec_pi_moving;
-
     pprise[nbply] = e[sq_arrival];
     pprispec[nbply] = spec[sq_arrival];
-
-    e[sq_departure] = e[sq_arrival];
-    spec[sq_departure] = spec[sq_arrival];
-
     jouearr[nbply] = pi_moving;
-    e[sq_arrival] = pi_moving;
 
-    spec[sq_arrival] = spec_pi_moving;
-
-    if (king_square[White]==sq_departure)
-      king_square[White] = sq_arrival;
-    else if (king_square[White]==sq_arrival)
-      king_square[White] = sq_departure;
-
-    if (king_square[Black]==sq_departure)
-      king_square[Black] = sq_arrival;
-    else if (king_square[Black]==sq_arrival)
-      king_square[Black] = sq_departure;
+    move_effect_journal_do_piece_exchange(move_effect_reason_messigny_exchange,
+                                          sq_arrival,sq_departure);
 
     result = attack(slices[si].next2,n);
-
-    e[sq_arrival] = e[sq_departure];
-    spec[sq_arrival] = spec[sq_departure];
-
-    e[sq_departure] = pi_moving;
-    spec[sq_departure] = spec_pi_moving;
   }
   else
     result = attack(slices[si].next1,n);
@@ -121,35 +101,14 @@ stip_length_type messigny_move_player_defend(slice_index si, stip_length_type n)
 
     pjoue[nbply] = pi_moving;
     jouespec[nbply] = spec_pi_moving;
-
     pprise[nbply] = e[sq_arrival];
     pprispec[nbply] = spec[sq_arrival];
-
-    e[sq_departure] = e[sq_arrival];
-    spec[sq_departure] = spec[sq_arrival];
-
     jouearr[nbply] = pi_moving;
-    e[sq_arrival] = pi_moving;
 
-    spec[sq_arrival] = spec_pi_moving;
-
-    if (king_square[White]==sq_departure)
-      king_square[White] = sq_arrival;
-    else if (king_square[White]==sq_arrival)
-      king_square[White] = sq_departure;
-
-    if (king_square[Black]==sq_departure)
-      king_square[Black] = sq_arrival;
-    else if (king_square[Black]==sq_arrival)
-      king_square[Black] = sq_departure;
+    move_effect_journal_do_piece_exchange(move_effect_reason_messigny_exchange,
+                                          sq_arrival,sq_departure);
 
     result = defend(slices[si].next2,n);
-
-    e[sq_arrival] = e[sq_departure];
-    spec[sq_arrival] = spec[sq_departure];
-
-    e[sq_departure] = pi_moving;
-    spec[sq_departure] = spec_pi_moving;
   }
   else
     result = defend(slices[si].next1,n);

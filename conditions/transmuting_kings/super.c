@@ -5,6 +5,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "pieces/side_change.h"
 #include "debugging/trace.h"
 
@@ -15,18 +16,27 @@ static void transmute(Side trait_ply)
 {
   numecoup const coup_id = current_move[nbply];
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,trait_ply,"");
+  TraceFunctionParamListEnd();
+
   if (ctrans[coup_id]!=vide)
   {
     square const sq_arrival = move_generation_stack[coup_id].arrival;
+    Flags flags = spec[sq_arrival];
 
-    king_square[trait_ply] = initsquare;
+    CLRFLAG(flags,Royal);
+    move_effect_journal_do_flags_change(move_effect_reason_king_transmutation,
+                                        sq_arrival,flags);
 
-    --nbpiece[e[sq_arrival]];
-    e[sq_arrival] = ctrans[coup_id];
-    ++nbpiece[e[sq_arrival]];
+    move_effect_journal_do_piece_change(move_effect_reason_king_transmutation,
+                                        sq_arrival,ctrans[coup_id]);
 
     jouearr[nbply] = e[sq_arrival];
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -119,7 +129,6 @@ void stip_insert_supertransmuting_kings(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_structure_traversal_override_single(&st,STReplayingMoves,&instrument_move);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

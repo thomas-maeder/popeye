@@ -27,7 +27,7 @@
   1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0 
 
               empile:    52830392
-           play_move:    11644429
+           play_move:    11644417
         orig_rbechec:     4905601
         orig_rnechec:    11568335
 Loesung beendet. 
@@ -73,7 +73,7 @@ a)
   9  (Kc1-d2 )
 
               empile:   104550963
-           play_move:   104550972
+           play_move:   104550961
         orig_rbechec:    25397113
         orig_rnechec:   104345819
 b) wKc1-->b3
@@ -93,7 +93,7 @@ b) wKc1-->b3
  21  (Kb3-a2 + )
 
               empile:   172423409
-           play_move:   172423418
+           play_move:   172423407
         orig_rbechec:    43072625
         orig_rnechec:   172169416
 Loesung beendet. 
@@ -143,7 +143,7 @@ Motto: Viele Koeche verderben den Brei
  11  (d7-d6 )
 
               empile:    89545466
-           play_move:    47937141
+           play_move:    47937131
         orig_rbechec:     3348158
         orig_rnechec:    45164407
 Loesung beendet. 
@@ -195,7 +195,7 @@ Loesung beendet.
  17  (Sf6-d7 )
 
               empile:    55587893
-           play_move:    37849181
+           play_move:    37849173
         orig_rbechec:    27353548
         orig_rnechec:    58090435
 Loesung beendet. 
@@ -1669,7 +1669,7 @@ Loesung beendet.
   1.b2-b1=T a5-a6   2.Tb1-h1 Ka7-b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 = 
 
               empile:  1051029823
-           play_move:   128020479
+           play_move:   128020459
         orig_rbechec:   154260207
         orig_rnechec:   162470025
 Loesung beendet. 
@@ -1717,7 +1717,7 @@ Loesung beendet.
  13  (Kh5-g4 )
 
               empile:  1222651305
-           play_move:   209475141
+           play_move:   209475133
         orig_rbechec:   152678631
         orig_rnechec:   249239228
 Loesung beendet. 
@@ -1766,7 +1766,7 @@ Loesung beendet.
  13  (h2-h1=T )
 
               empile:   874964656
-           play_move:   106180337
+           play_move:   106180327
         orig_rbechec:   134486587
         orig_rnechec:   140894981
 Loesung beendet. 
@@ -1840,7 +1840,7 @@ Loesung beendet.
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 = 
 
               empile:  2262522021
-           play_move:   257015421
+           play_move:   257015171
         orig_rbechec:   289920800
         orig_rnechec:   330296938
 Loesung beendet. 
@@ -1887,7 +1887,7 @@ Loesung beendet.
   8  (c2-c1=L )
 
               empile:  3828790658
-           play_move:   475880652
+           play_move:   475880604
         orig_rbechec:   588990083
         orig_rnechec:   635628103
 Loesung beendet. 
@@ -1967,7 +1967,7 @@ a)
  42  (Le8-f7 )
 
               empile:     9767783
-           play_move:     9581864
+           play_move:     9581858
         orig_rbechec:      144364
         orig_rnechec:     9513181
 b) sKa7-->b1
@@ -2018,7 +2018,7 @@ b) sKa7-->b1
  85  (Le8-f7 )
 
               empile:    10436294
-           play_move:     9679670
+           play_move:     9679664
         orig_rbechec:      445584
         orig_rnechec:     9610554
 Loesung beendet. 
@@ -2052,8 +2052,9 @@ Loesung beendet.
 
 a) 
 
-  1  (g7-g8=D[Ig7] )
-  2  (g7-g8=S[Ig7] )
+  1  (g7-g8=I[Ig7] )
+  2  (g7-g8=D[Ig7] )
+  3  (g7-g8=S[Ig7] )
    1.g7-g8=S[Ig7] ! Zugzwang.
       1...f6*e5[If6]
           2.f7-f8=S[If7] Zugzwang.
@@ -2067,9 +2068,8 @@ a)
                                           6.b7-b8=S[Ib7]
                                               6...Kh3*g2[Ia6] #
 
-  3  (g7-g8=T[Ig7] )
-  4  (g7-g8=L[Ig7] )
-  5  (g7-g8=I[Ig7] )
+  4  (g7-g8=T[Ig7] )
+  5  (g7-g8=L[Ig7] )
   6  (Se5*c4[Ie5] )
   7  (Se5-d3[If4] + )
   8  (Se5-f3[Ih4] + )
@@ -2084,16 +2084,17 @@ a)
  17  (Sb4-a6[If8] )
  18  (Tg2-g1[Ig5] + )
 
-              empile:   148951589
-           play_move:    60265636
-        orig_rbechec:    59914607
-        orig_rnechec:    29300455
+              empile:   145516256
+           play_move:    59739088
+        orig_rbechec:    59388140
+        orig_rnechec:    28922606
 b) sBc4-->c3
 
- 19  (g7-g8=D[Ig7] )
- 20  (g7-g8=S[Ig7] )
- 21  (g7-g8=T[Ig7] )
- 22  (g7-g8=L[Ig7] )
+ 19  (g7-g8=I[Ig7] )
+ 20  (g7-g8=D[Ig7] )
+ 21  (g7-g8=S[Ig7] )
+ 22  (g7-g8=T[Ig7] )
+ 23  (g7-g8=L[Ig7] )
    1.g7-g8=L[Ig7] ! Zugzwang.
       1...f6*e5[If6]
           2.f7-f8=L[If7] Zugzwang.
@@ -2107,7 +2108,6 @@ b) sBc4-->c3
                                           6.b7-b8=L[Ib7]
                                               6...Kh3*g2[Ia6] #
 
- 23  (g7-g8=I[Ig7] )
  24  (Se5-c4[Ie5] )
  25  (Se5-d3[If4] + )
  26  (Se5-f3[Ih4] + )
@@ -2123,15 +2123,16 @@ b) sBc4-->c3
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
 
-              empile:   171550404
-           play_move:    69313121
-        orig_rbechec:    68923457
-        orig_rnechec:    33788909
+              empile:   159011209
+           play_move:    66156776
+        orig_rbechec:    65770486
+        orig_rnechec:    31982794
 c) sBb3-->c3
 
- 38  (g7-g8=D[Ig7] )
- 39  (g7-g8=S[Ig7] )
- 40  (g7-g8=T[Ig7] )
+ 38  (g7-g8=I[Ig7] )
+ 39  (g7-g8=D[Ig7] )
+ 40  (g7-g8=S[Ig7] )
+ 41  (g7-g8=T[Ig7] )
    1.g7-g8=T[Ig7] ! Zugzwang.
       1...f6*e5[If6]
           2.f7-f8=T[If7] Zugzwang.
@@ -2145,8 +2146,7 @@ c) sBb3-->c3
                                           6.b7-b8=T[Ib7]
                                               6...Kh3*g2[Ia6] #
 
- 41  (g7-g8=L[Ig7] )
- 42  (g7-g8=I[Ig7] )
+ 42  (g7-g8=L[Ig7] )
  43  (Se5*c4[Ie5] )
  44  (Se5-d3[If4] + )
  45  (Se5-f3[Ih4] + )
@@ -2161,10 +2161,10 @@ c) sBb3-->c3
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
 
-              empile:   159489490
-           play_move:    64187937
-        orig_rbechec:    63864167
-        orig_rnechec:    31778206
+              empile:   154377597
+           play_move:    63414065
+        orig_rbechec:    63090478
+        orig_rnechec:    31287968
 Loesung beendet. 
 
 
@@ -2218,7 +2218,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
  20  (Sb1-a3 )
 
               empile:  2820100787
-           play_move:  2820104790
+           play_move:  2820104780
         orig_rbechec:  1976985418
         orig_rnechec:  1179567317
 Loesung beendet. 
@@ -2332,7 +2332,7 @@ dauert 13 min mit Athlon 2400 / 200MB
 
 
               empile:    89448571
-           play_move:    54706744
+           play_move:    58246350
         orig_rbechec:    58585887
         orig_rnechec:    10800221
 Loesung beendet. 
@@ -2495,7 +2495,7 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
  11  (h2-h1=L )
 
               empile:   126848084
-           play_move:   113258164
+           play_move:   113258154
         orig_rbechec:    29641747
         orig_rnechec:    89227789
 Loesung beendet. 
@@ -2903,7 +2903,7 @@ Loesung beendet.
   1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=L 
 
               empile:  1562714492
-           play_move:   242090428
+           play_move:   242089612
         orig_rbechec:   111823403
         orig_rnechec:   225066989
 Loesung beendet. 
@@ -2950,7 +2950,7 @@ Loesung beendet.
   1.Th7-h8 Ke8-d8   2.Tf7-f8 + Kd8-c7   3.Tf8-b8 Tg8*g1   4.Th8-c8 + Kc7*b6 
 
               empile: 28066401482
-           play_move:  2693328834
+           play_move:  2693328722
         orig_rbechec:  1375251886
         orig_rnechec:  2301864437
 Loesung beendet. 
@@ -2988,7 +2988,7 @@ a)
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
 
               empile:  7696988919
-           play_move:   688595267
+           play_move:   688595243
         orig_rbechec:   366948663
         orig_rnechec:   557642443
 b) sBe5 
@@ -3002,7 +3002,7 @@ b) sBe5
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
 
               empile:  3070459900
-           play_move:   310226816
+           play_move:   310226760
         orig_rbechec:   166391729
         orig_rnechec:   249100139
 Loesung beendet. 

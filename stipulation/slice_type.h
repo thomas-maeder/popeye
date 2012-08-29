@@ -42,9 +42,10 @@
     ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
     ENUMERATOR(STPostMoveIterationInitialiser),                        \
     ENUMERATOR(STPostMoveIterationAvoider),                            \
+    ENUMERATOR(STMoveEffectJournalReplayer),                           \
+    ENUMERATOR(STMoveEffectJournalUndoer),                             \
     ENUMERATOR(STMovePlayer),                                          \
     ENUMERATOR(STCastlingPlayer),                                      \
-    ENUMERATOR(STKingSquareAdjuster),                                  \
     ENUMERATOR(STEnPassantAdjuster),                                   \
     ENUMERATOR(STMovingPawnPromoter),                                  \
     ENUMERATOR(STFootballChessSubsitutor),                             \
@@ -69,7 +70,6 @@
     ENUMERATOR(STOhneschachLegalityTester),                            \
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinRebirth),                                \
-    ENUMERATOR(STKingAssassinationAvoider),                            \
     ENUMERATOR(STKingCaptureAvoider),                                  \
     ENUMERATOR(STPatienceChessLegalityTester),                         \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
@@ -119,7 +119,7 @@
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
     ENUMERATOR(STCastlingIntermediateMoveGenerator), /* generates intermediate castling moves */ \
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
-    ENUMERATOR(STCastlingRightsRemover),                                \
+    ENUMERATOR(STCastlingRightsAdjuster),                                \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
     ENUMERATOR(STRefutationsFilter), /* only consider refutations */ \
@@ -203,6 +203,7 @@
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STPiecesNeutralInitialiser),                           \
     ENUMERATOR(STPiecesNeutralRetractingRecolorer),                   \
+    ENUMERATOR(STPiecesNeutralReplayingRecolorer),                    \
     ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STOpponentMovesCounterFork), \
@@ -222,7 +223,7 @@
     ENUMERATOR(STOWUImmobilityTesterKing), \
     ENUMERATOR(STSingleMoveGeneratorWithKingCapture),                          \
     ENUMERATOR(STBrunnerDefenderFinder), \
-    ENUMERATOR(STIsardamDefenderFinder), \
+    ENUMERATOR(STKingCaptureLegalityTester), \
     ENUMERATOR(STCageCirceNonCapturingMoveFinder), \
     ENUMERATOR(STSinglePieceMoveGenerator),                          \
     ENUMERATOR(STSingleMoveGenerator), \
@@ -234,7 +235,6 @@
     ENUMERATOR(STActuatedRevolvingBoard),                               \
     ENUMERATOR(STRepublicanKingPlacer),                                 \
     ENUMERATOR(STRepublicanType1DeadEnd),                               \
-    ENUMERATOR(STRoyalSquareHandler),                                   \
     ENUMERATOR(STCirceCaptureFork),                                     \
     ENUMERATOR(STAprilAprilFork),                                       \
     ENUMERATOR(STCirceRebirthHandler),                                  \
@@ -262,17 +262,11 @@
     ENUMERATOR(STGhostChessGhostSummoner),                              \
     ENUMERATOR(STGhostChessGhostRememberer),                            \
     ENUMERATOR(STKobulKingSubstitutor),                                 \
-    ENUMERATOR(STAndernachCastlingRightsRestorer),                      \
     ENUMERATOR(STAndernachSideChanger),                                 \
-    ENUMERATOR(STAntiAndernachCastlingRightsRestorer),                  \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
-    ENUMERATOR(STChameleonPursuitCastlingRightsRestorer),               \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \
-    ENUMERATOR(STNorskCastlingRightsRestorer),                          \
     ENUMERATOR(STNorskArrivingAdjuster),                                \
-    ENUMERATOR(STProteanCastlingRightsRestorer),                        \
     ENUMERATOR(STProteanPawnAdjuster),                                  \
-    ENUMERATOR(STLosingChessCastlingRightsRemover),                     \
     ENUMERATOR(STEinsteinArrivingAdjuster),                             \
     ENUMERATOR(STReverseEinsteinArrivingAdjuster),                      \
     ENUMERATOR(STAntiEinsteinArrivingAdjuster),                         \
@@ -291,10 +285,8 @@
     ENUMERATOR(STPhantomChessEnPassantAdjuster),                        \
     ENUMERATOR(STAntiMarsCirceEnPassantAdjuster),                       \
     ENUMERATOR(STKamikazeCapturingPieceRemover),                        \
-    ENUMERATOR(STHaanChessDepartureBlocker),                            \
+    ENUMERATOR(STHaanChessHoleInserter),                                \
     ENUMERATOR(STCastlingChessMovePlayer),                              \
-    ENUMERATOR(STCastlingChessKingSquareAdjuster),                      \
-    ENUMERATOR(STCastlingChessHaanPartnerSquareBlocker),                \
     ENUMERATOR(STExchangeCastlingMovePlayer),                           \
     ENUMERATOR(STSuperTransmutingKingTransmuter),                       \
     ENUMERATOR(STAMUAttackCounter),                                     \

@@ -11,6 +11,7 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/castling_chess.h"
 #include "debugging/trace.h"
 
@@ -22,41 +23,192 @@ square im0;                    /* position of the 1st imitator */
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
-static int imitator_diff(void)
-{
-  numecoup const coup_id = current_move[nbply];
-  square const sq_departure = move_generation_stack[coup_id].departure;
-  square const sq_capture = move_generation_stack[coup_id].capture;
-  square const sq_arrival = move_generation_stack[coup_id].arrival;
-
-  if (sq_capture==queenside_castling)
-    return +dir_right;
-  else if (sq_capture==kingside_castling)
-    return 0;
-  else if (sq_capture>platzwechsel_rochade)
-    return (3*sq_arrival-sq_departure-castling_partner_origin[coup_id]) / 2;
-  else
-    return sq_arrival-sq_departure;
-}
-
-static void move_imitators(int diff)
+static void move_imitators(int delta)
 {
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",diff);
+  TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",number_of_imitators);
   for (i=0; i!=number_of_imitators; ++i)
   {
-    isquare[i] += diff;
+    isquare[i] += delta;
     TraceSquare(isquare[i]);
   }
   TraceText("\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Add the movement of all imitators
+ * @param reason reason for moving the imitators
+ * @param delta how to move the imitators (to-from)
+ */
+static void move_effect_journal_do_imitator_movement(move_effect_reason_type reason,
+                                                     int delta)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceFunctionParam("%d",delta);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_imitator_movement;
+  top_elmt->reason = reason;
+  top_elmt->u.imitator_movement.delta = delta;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  move_imitators(delta);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void undo_imitator_movement(move_effect_journal_index_type curr)
+{
+  int const delta = move_effect_journal[curr].u.imitator_movement.delta;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  move_imitators(-delta);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void replay_imitator_movement(move_effect_journal_index_type curr)
+{
+  int const delta = move_effect_journal[curr].u.imitator_movement.delta;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  move_imitators(delta);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Add the addition of an imitator to the current move of the current ply
+ * @param reason reason for adding the imitator
+ * @param to where to add the imitator
+ */
+static void move_effect_journal_do_imitator_addition(move_effect_reason_type reason,
+                                                     square to)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(to);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_imitator_addition;
+  top_elmt->reason = reason;
+  top_elmt->u.imitator_addition.to = to;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  if (number_of_imitators==maxinum)
+    FtlMsg(ManyImitators);
+
+  isquare[number_of_imitators] = to;
+  ++number_of_imitators;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void undo_imitator_addition(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  assert(number_of_imitators>0);
+  --number_of_imitators;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void replay_imitator_addition(move_effect_journal_index_type curr)
+{
+  square const to = move_effect_journal[curr].u.imitator_addition.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  if (number_of_imitators==maxinum)
+    FtlMsg(ManyImitators);
+
+  isquare[number_of_imitators] = to;
+  ++number_of_imitators;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static int imitator_diff(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+  int result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_movement)
+      switch (move_effect_journal[curr].reason)
+      {
+        case move_effect_reason_moving_piece_movement:
+        case move_effect_reason_castling_partner_movement:
+          result += move_effect_journal[curr].u.piece_movement.to-move_effect_journal[curr].u.piece_movement.from;
+          break;
+
+        default:
+          break;
+      }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -77,9 +229,10 @@ stip_length_type imitator_mover_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_imitators(diff);
+  move_effect_journal_do_imitator_movement(move_effect_reason_movement_imitation,
+                                           diff);
+  jouearr[nbply] = vide;
   result = attack(slices[si].next1,n);
-  move_imitators(-diff);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -108,9 +261,9 @@ stip_length_type imitator_mover_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_imitators(diff);
+  move_effect_journal_do_imitator_movement(move_effect_reason_movement_imitation,diff);
+  jouearr[nbply] = vide;
   result = defend(slices[si].next1,n);
-  move_imitators(-diff);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -142,16 +295,12 @@ stip_length_type moving_pawn_to_imitator_promoter_attack(slice_index si,
 
   if (promotion_of_moving_into_imitator[nbply])
   {
-    if (number_of_imitators==maxinum)
-      FtlMsg(ManyImitators);
-
-    isquare[number_of_imitators] = sq_arrival;
-    ++number_of_imitators;
-    replace_arriving_piece(vide);
+    move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
+                                         sq_arrival);
+    move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
+                                             sq_arrival);
 
     result = attack(slices[si].next2,n);
-
-    --number_of_imitators;
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -197,16 +346,12 @@ stip_length_type moving_pawn_to_imitator_promoter_defend(slice_index si,
 
   if (promotion_of_moving_into_imitator[nbply])
   {
-    if (number_of_imitators==maxinum)
-      FtlMsg(ManyImitators);
-
-    isquare[number_of_imitators] = sq_arrival;
-    ++number_of_imitators;
-    replace_arriving_piece(vide);
+    move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
+                                         sq_arrival);
+    move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
+                                             sq_arrival);
 
     result = defend(slices[si].next2,n);
-
-    --number_of_imitators;
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -304,7 +449,6 @@ static void insert_promoters(slice_index si)
 
   stip_structure_traversal_init(&st,&landing);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_structure_traversal_override_single(&st,STReplayingMoves,&instrument_move);
   stip_structure_traversal_override_single(&st,STLandingAfterMovingPawnPromoter,&remember_landing);
   stip_traverse_structure(si,&st);
 
@@ -322,7 +466,7 @@ void stip_insert_imitator(slice_index si)
   if (!CondFlag[noiprom])
     insert_promoters(si);
 
-  stip_instrument_moves(si,STImitatorMover);
+  stip_instrument_moves_no_replay(si,STImitatorMover);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
