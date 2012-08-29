@@ -5,6 +5,7 @@
 
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
+#include "solving/move_effect_journal.h"
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -35,5 +36,8 @@ stip_length_type actuated_revolving_centre_attack(slice_index si,
  */
 stip_length_type actuated_revolving_centre_defend(slice_index si,
                                                   stip_length_type n);
+
+void undo_centre_revolution(move_effect_journal_index_type curr);
+void replay_centre_revolution(move_effect_journal_index_type curr);
 
 #endif

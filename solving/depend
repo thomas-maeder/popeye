@@ -135,7 +135,8 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h conditions/imitator.h \
- pieces/attributes/neutral/half.h debugging/trace.h
+ conditions/actuated_revolving_centre.h pieces/attributes/neutral/half.h \
+ debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -186,6 +187,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 conditions/imitator.h:
+
+conditions/actuated_revolving_centre.h:
 
 pieces/attributes/neutral/half.h:
 

@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "conditions/imitator.h"
+#include "conditions/actuated_revolving_centre.h"
 #include "pieces/attributes/neutral/half.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
@@ -1002,6 +1003,10 @@ static void redo_move_effects(void)
         replay_board_transformation(curr);
         break;
 
+      case move_effect_centre_revoluation:
+        replay_centre_revolution(curr);
+        break;
+
       case move_effect_imitator_addition:
         replay_imitator_addition(curr);
         break;
@@ -1067,6 +1072,10 @@ static void undo_move_effects(void)
 
       case move_effect_board_transformation:
         undo_board_transformation(top-1);
+        break;
+
+      case move_effect_centre_revoluation:
+        undo_centre_revolution(top-1);
         break;
 
       case move_effect_imitator_addition:

@@ -1,53 +1,22 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/proxy.h"
-#include "stipulation/pipe.h"
-#include "stipulation/fork.h"
-#include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STActuatedRevolvingCentre);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_actuated_revolving_centre(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STActuatedRevolvingCentre);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -69,24 +38,6 @@ static void revolve(void)
 
   e[square_d5] = piece_temp;
   spec[square_d5] = spec_temp;
-
-  if (king_square[White]==square_d4)
-    king_square[White] = square_d5;
-  else if (king_square[White]==square_d5)
-    king_square[White] = square_e5;
-  else if (king_square[White]==square_e5)
-    king_square[White] = square_e4;
-  else if (king_square[White]==square_e4)
-    king_square[White] = square_d4;
-
-  if (king_square[Black]==square_d4)
-    king_square[Black] = square_d5;
-  else if (king_square[Black]==square_d5)
-    king_square[Black] = square_e5;
-  else if (king_square[Black]==square_e5)
-    king_square[Black] = square_e4;
-  else if (king_square[Black]==square_e4)
-    king_square[Black] = square_d4;
 }
 
 static void unrevolve(void)
@@ -105,24 +56,97 @@ static void unrevolve(void)
 
   e[square_d4] = piece_temp;
   spec[square_d4] = spec_temp;
+}
 
-  if (king_square[White]==square_d4)
-    king_square[White] = square_e4;
-  else if (king_square[White]==square_d5)
-    king_square[White] = square_d4;
-  else if (king_square[White]==square_e5)
-    king_square[White] = square_d5;
-  else if (king_square[White]==square_e4)
-    king_square[White] = square_e5;
+static square revolve_square(square s)
+{
+  square result;
 
-  if (king_square[Black]==square_d4)
-    king_square[Black] = square_e4;
-  else if (king_square[Black]==square_d5)
-    king_square[Black] = square_d4;
-  else if (king_square[Black]==square_e5)
-    king_square[Black] = square_d5;
-  else if (king_square[Black]==square_e4)
-    king_square[Black] = square_e5;
+  if (s==square_d4)
+    result = square_d5;
+  else if (s==square_d5)
+    result = square_e5;
+  else if (s==square_e5)
+    result = square_e4;
+  else if (s==square_e4)
+    result = square_d4;
+  else
+    result = initsquare;
+
+  return result;
+}
+
+/* Add transforming the board to the current move of the current ply
+ * @param reason reason for moving the king square
+ * @param transformation how to transform the board
+ */
+static void move_effect_journal_do_centre_revolution(move_effect_reason_type reason)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",transformation);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_centre_revoluation;
+  top_elmt->reason = reason;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  revolve();
+
+  {
+    square revolved = revolve_square(king_square[White]);
+    if (revolved!=initsquare)
+      move_effect_journal_do_king_square_movement(reason,White,revolved);
+  }
+
+  {
+    square revolved = revolve_square(king_square[Black]);
+    if (revolved!=initsquare)
+      move_effect_journal_do_king_square_movement(reason,Black,revolved);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void undo_centre_revolution(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  unrevolve();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void replay_centre_revolution(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  revolve();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean does_move_trigger_revolution(void)
@@ -167,9 +191,8 @@ stip_length_type actuated_revolving_centre_attack(slice_index si,
 
   if (does_move_trigger_revolution())
   {
-    revolve();
+    move_effect_journal_do_centre_revolution(move_effect_reason_actuate_revolving_centre);
     result = attack(next,n);
-    unrevolve();
   }
   else
     result = attack(next,n);
@@ -204,9 +227,8 @@ stip_length_type actuated_revolving_centre_defend(slice_index si,
 
   if (does_move_trigger_revolution())
   {
-    revolve();
+    move_effect_journal_do_centre_revolution(move_effect_reason_actuate_revolving_centre);
     result = defend(next,n);
-    unrevolve();
   }
   else
     result = defend(next,n);
