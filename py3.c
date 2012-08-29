@@ -827,7 +827,8 @@ boolean rbimmunech(square sq_departure, square sq_arrival, square sq_capture) {
 
 static boolean echecc_wh_extinction(void)
 {
-  square const save_rb = king_square[White];
+  boolean result = false;
+
   piece p;
   for (p=roib; p<derbla; p++)
   {
@@ -842,18 +843,20 @@ static boolean echecc_wh_extinction(void)
     king_square[White] = *bnp;
     if (rechec[White](eval_white))
     {
-      king_square[White] = save_rb;
-      return true;
+      result = true;
+      break;
     }
   }
 
-  king_square[White] = save_rb;
-  return false;
+  king_square[White] = initsquare;
+
+  return result;
 }
 
 static boolean echecc_bl_extinction(void)
 {
-  square const save_rn = king_square[Black];
+  boolean result = false;
+
   piece p;
   for (p=roib; p<derbla; p++)
   {
@@ -869,13 +872,14 @@ static boolean echecc_bl_extinction(void)
     king_square[Black] = *bnp;
     if (rechec[Black](eval_black))
     {
-      king_square[Black] = save_rn;
-      return true;
+      result = true;
+      break;
     }
   }
 
-  king_square[Black] = save_rn;
-  return false;
+  king_square[Black] = initsquare;
+
+  return result;
 }
 
 static boolean echecc_wh_assassin(void)
