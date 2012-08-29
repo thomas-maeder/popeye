@@ -38,6 +38,6 @@ stip_length_type actuated_revolving_centre_defend(slice_index si,
                                                   stip_length_type n);
 
 void undo_centre_revolution(move_effect_journal_index_type curr);
-void replay_centre_revolution(move_effect_journal_index_type curr);
+void redo_centre_revolution(move_effect_journal_index_type curr);
 
 #endif

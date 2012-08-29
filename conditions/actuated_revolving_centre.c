@@ -133,7 +133,7 @@ void undo_centre_revolution(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-void replay_centre_revolution(move_effect_journal_index_type curr)
+void redo_centre_revolution(move_effect_journal_index_type curr)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);

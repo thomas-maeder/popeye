@@ -101,7 +101,7 @@ static void undo_piece_movement(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_piece_movement(move_effect_journal_index_type curr)
+static void redo_piece_movement(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const from = curr_elmt->u.piece_movement.from;
@@ -204,7 +204,7 @@ static void undo_piece_addition(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_piece_addition(move_effect_journal_index_type curr)
+static void redo_piece_addition(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
@@ -331,7 +331,7 @@ static void undo_piece_removal(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_piece_removal(move_effect_journal_index_type curr)
+static void redo_piece_removal(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const from = curr_elmt->u.piece_removal.from;
@@ -424,7 +424,7 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_piece_change(move_effect_journal_index_type curr)
+static void redo_piece_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.piece_change.on;
   piece const to = move_effect_journal[curr].u.piece_change.to;
@@ -528,7 +528,7 @@ static void undo_piece_exchange(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_piece_exchange(move_effect_journal_index_type curr)
+static void redo_piece_exchange(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const from = curr_elmt->u.piece_exchange.from;
@@ -709,7 +709,7 @@ static void undo_king_square_movement(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_king_square_movement(move_effect_journal_index_type curr)
+static void redo_king_square_movement(move_effect_journal_index_type curr)
 {
   Side const side = move_effect_journal[curr].u.king_square_removal.side;
   square const to = move_effect_journal[curr].u.king_square_movement.to;
@@ -807,7 +807,7 @@ static void undo_flags_change(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_flags_change(move_effect_journal_index_type curr)
+static void redo_flags_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.flags_change.on;
   Flags const to = move_effect_journal[curr].u.flags_change.to;
@@ -831,7 +831,7 @@ static void transformBoard(SquareTransformation transformation)
 {
   piece t_e[nr_squares_on_board];
   Flags t_spec[nr_squares_on_board];
-  square t_rb, t_rn, sq1, sq2;
+  square sq1, sq2;
   imarr t_isquare;
   int i;
 
@@ -936,7 +936,7 @@ static void undo_board_transformation(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void replay_board_transformation(move_effect_journal_index_type curr)
+static void redo_board_transformation(move_effect_journal_index_type curr)
 {
   SquareTransformation const transformation = move_effect_journal[curr].u.board_transformation.transformation;
 
@@ -968,23 +968,23 @@ static void redo_move_effects(void)
     switch (move_effect_journal[curr].type)
     {
       case move_effect_piece_movement:
-        replay_piece_movement(curr);
+        redo_piece_movement(curr);
         break;
 
       case move_effect_piece_addition:
-        replay_piece_addition(curr);
+        redo_piece_addition(curr);
         break;
 
       case move_effect_piece_removal:
-        replay_piece_removal(curr);
+        redo_piece_removal(curr);
         break;
 
       case move_effect_piece_change:
-        replay_piece_change(curr);
+        redo_piece_change(curr);
         break;
 
       case move_effect_piece_exchange:
-        replay_piece_exchange(curr);
+        redo_piece_exchange(curr);
         break;
 
       case move_effect_side_change:
@@ -992,27 +992,27 @@ static void redo_move_effects(void)
         break;
 
       case move_effect_king_square_movement:
-        replay_king_square_movement(curr);
+        redo_king_square_movement(curr);
         break;
 
       case move_effect_flags_change:
-        replay_flags_change(curr);
+        redo_flags_change(curr);
         break;
 
       case move_effect_board_transformation:
-        replay_board_transformation(curr);
+        redo_board_transformation(curr);
         break;
 
       case move_effect_centre_revoluation:
-        replay_centre_revolution(curr);
+        redo_centre_revolution(curr);
         break;
 
       case move_effect_imitator_addition:
-        replay_imitator_addition(curr);
+        redo_imitator_addition(curr);
         break;
 
       case move_effect_imitator_movement:
-        replay_imitator_movement(curr);
+        redo_imitator_movement(curr);
         break;
 
       default:

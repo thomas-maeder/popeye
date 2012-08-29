@@ -93,7 +93,7 @@ void undo_imitator_movement(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-void replay_imitator_movement(move_effect_journal_index_type curr)
+void redo_imitator_movement(move_effect_journal_index_type curr)
 {
   int const delta = move_effect_journal[curr].u.imitator_movement.delta;
 
@@ -162,7 +162,7 @@ void undo_imitator_addition(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-void replay_imitator_addition(move_effect_journal_index_type curr)
+void redo_imitator_addition(move_effect_journal_index_type curr)
 {
   square const to = move_effect_journal[curr].u.imitator_addition.to;
 
