@@ -107,7 +107,7 @@ void stip_insert_amu_attack_counter(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAMUAttackCounter);
+  stip_instrument_moves_no_replay(si,STAMUAttackCounter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
