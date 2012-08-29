@@ -826,6 +826,133 @@ static void replay_flags_change(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
+static void transformBoard(SquareTransformation transformation)
+{
+  piece t_e[nr_squares_on_board];
+  Flags t_spec[nr_squares_on_board];
+  square t_rb, t_rn, sq1, sq2;
+  imarr t_isquare;
+  int i;
+
+  /* save the position to be mirrored/rotated */
+  for (i = 0; i<nr_squares_on_board; i++)
+  {
+    t_e[i] = e[boardnum[i]];
+    t_spec[i] = spec[boardnum[i]];
+  }
+
+  for (i = 0; i<maxinum; i++)
+    t_isquare[i] = isquare[i];
+
+  /* now rotate/mirror */
+  /* pieces */
+  for (i = 0; i<nr_squares_on_board; i++)
+  {
+    sq1 = boardnum[i];
+    sq2 = transformSquare(sq1,transformation);
+
+    e[sq2] = t_e[i];
+    spec[sq2] = t_spec[i];
+  }
+
+  /* imitators */
+  for (i= 0; i<maxinum; i++)
+  {
+    sq1 = t_isquare[i];
+    sq2 = transformSquare(sq1, transformation);
+    isquare[i]= sq2;
+  }
+}
+
+/* Add transforming the board to the current move of the current ply
+ * @param reason reason for moving the king square
+ * @param transformation how to transform the board
+ */
+void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
+                                                 SquareTransformation transformation)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",transformation);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_board_transformation;
+  top_elmt->reason = reason;
+  top_elmt->u.board_transformation.transformation = transformation;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  transformBoard(transformation);
+
+  if (king_square[White]!=initsquare)
+  {
+    square const transformed = transformSquare(king_square[White],transformation);
+    move_effect_journal_do_king_square_movement(reason,White,transformed);
+  }
+  if (king_square[Black]!=initsquare)
+  {
+    square const transformed = transformSquare(king_square[Black],transformation);
+    move_effect_journal_do_king_square_movement(reason,Black,transformed);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static SquareTransformation const inverse_transformation[] =
+{
+    rot270,
+    rot180,
+    rot90,
+    mirra1h1,
+    mirra1a8,
+    mirra1h8,
+    mirra8h1
+};
+
+static void undo_board_transformation(move_effect_journal_index_type curr)
+{
+  SquareTransformation const transformation = move_effect_journal[curr].u.board_transformation.transformation;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  transformBoard(inverse_transformation[transformation]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void replay_board_transformation(move_effect_journal_index_type curr)
+{
+  SquareTransformation const transformation = move_effect_journal[curr].u.board_transformation.transformation;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  transformBoard(transformation);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void redo_move_effects(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
@@ -869,6 +996,10 @@ static void redo_move_effects(void)
 
       case move_effect_flags_change:
         replay_flags_change(curr);
+        break;
+
+      case move_effect_board_transformation:
+        replay_board_transformation(curr);
         break;
 
       case move_effect_imitator_addition:
@@ -932,6 +1063,10 @@ static void undo_move_effects(void)
 
       case move_effect_flags_change:
         undo_flags_change(top-1);
+        break;
+
+      case move_effect_board_transformation:
+        undo_board_transformation(top-1);
         break;
 
       case move_effect_imitator_addition:

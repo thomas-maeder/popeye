@@ -25,6 +25,7 @@ typedef enum
   move_effect_side_change,
   move_effect_king_square_movement,
   move_effect_flags_change,
+  move_effect_board_transformation,
   move_effect_imitator_addition,
   move_effect_imitator_movement,
 
@@ -70,7 +71,8 @@ typedef enum
   move_effect_reason_oscillating_kings,
   move_effect_reason_hurdle_colour_changing,
   move_effect_reason_royal_dynasty,
-  move_effect_reason_volage
+  move_effect_reason_volage,
+  move_effect_reason_actuate_revolving_board
 } move_effect_reason_type;
 
 typedef unsigned int move_effect_journal_index_type;
@@ -138,6 +140,10 @@ typedef struct
             Flags from;
             Flags to;
         } flags_change;
+        struct
+        {
+            SquareTransformation transformation;
+        } board_transformation;
         struct
         {
             square to;
@@ -254,6 +260,13 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
 void move_effect_journal_do_flags_change(move_effect_reason_type reason,
                                          square on,
                                          Flags to);
+
+/* Add transforming the board to the current move of the current ply
+ * @param reason reason for moving the king square
+ * @param transformation how to transform the board
+ */
+void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
+                                                 SquareTransformation transformation);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

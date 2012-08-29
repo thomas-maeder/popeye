@@ -1,53 +1,23 @@
 #include "conditions/actuated_revolving_board.h"
 #include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/proxy.h"
-#include "stipulation/pipe.h"
-#include "stipulation/fork.h"
-#include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/move_player.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STActuatedRevolvingBoard);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_actuated_revolving_board(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves_no_replay(si,STActuatedRevolvingBoard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -71,9 +41,9 @@ stip_length_type actuated_revolving_board_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  transformPosition(rot270);
+  move_effect_journal_do_board_transformation(move_effect_reason_actuate_revolving_board,
+                                              rot270);
   result = attack(slices[si].next1,n);
-  transformPosition(rot90);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -102,9 +72,9 @@ stip_length_type actuated_revolving_board_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  transformPosition(rot270);
+  move_effect_journal_do_board_transformation(move_effect_reason_actuate_revolving_board,
+                                              rot270);
   result = defend(slices[si].next1,n);
-  transformPosition(rot90);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
