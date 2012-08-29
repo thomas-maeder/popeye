@@ -46,7 +46,7 @@ weiteresproblem
 
 autor  Thomas Maeder
 quelle feenschach 1987, Wenigsteiner des Jahres 1987
-bedingung	Imitator e5
+bedingung       Imitator e5
 forderung h=2
 steine  Weiss   kf5 bb7
         Schwarz kb6
@@ -56,60 +56,60 @@ zwilling bedingung imitator a7
 
 weiteresproblem
 
-autor		Peter Kahl
-quelle		6323, feenschach 1963
-titel		nebenloesig - eigentlich #6
-forderung 	#4
-bedingung	imitator a8
-steine  	weiss 	bc7d7e7f7g7 tf1 kg2
-		schwarz tb7 lh7c6g6f5e4d3c2b1 sg1 kh1
+autor           Peter Kahl
+quelle          6323, feenschach 1963
+titel           nebenloesig - eigentlich #6
+forderung       #4
+bedingung       imitator a8
+steine          weiss   bc7d7e7f7g7 tf1 kg2
+                schwarz tb7 lh7c6g6f5e4d3c2b1 sg1 kh1
 
 weiteresproblem
 
-autor		Rene J. Millour
-quelle		1. Preis, Thema Danicum 1984
-titel		Verbesserung (+wBe3, +sBh4)
-forderung 	#4
-bedingung	imitator d1
-		ohneiuw
-option 		varianten
-steine  	weiss 	sa6e1 lb6 bf7a5e4d2 dd5 kc1 be3
-		schwarz tb8 kc8 be6e5f2 sh3 lh1 bh4
+autor           Rene J. Millour
+quelle          1. Preis, Thema Danicum 1984
+titel           Verbesserung (+wBe3, +sBh4)
+forderung       #4
+bedingung       imitator d1
+                ohneiuw
+option          varianten
+steine          weiss   sa6e1 lb6 bf7a5e4d2 dd5 kc1 be3
+                schwarz tb8 kc8 be6e5f2 sh3 lh1 bh4
 
 weiteresproblem
 
-autor		Rene J. Millour
-quelle		feenschach 1982
-forderung 	s#3
-bedingung	imitator b2
-		ohneiuw
-option 		varianten
-steine  	weiss 	bh7a3 kg2 sc1f1 lg1h1
-		schwarz sg8 bf7g6a5g3f2 th6d1 ke1
+autor           Rene J. Millour
+quelle          feenschach 1982
+forderung       s#3
+bedingung       imitator b2
+                ohneiuw
+option          varianten
+steine          weiss   bh7a3 kg2 sc1f1 lg1h1
+                schwarz sg8 bf7g6a5g3f2 th6d1 ke1
 
 weiteresproblem
 
-autor		Rene J. Millour
-quelle		4. Preis, diagrammes 1980-81
-titel		Neufassung 
-titel		(weiss   th8 bh7a4 kh3 sd1f1)
-titel		(schwarz dg8 bg7h6c2 kg6 tg5h5 sh2)
-forderung 	h=3
-bedingung	imitator a5
-		ohneiuw
-steine  	weiss 	kh6 se1 ba4g7
-		schwarz kf6 th7h8 sh1f8 le8 bd2d5g2f7g6h4
+autor           Rene J. Millour
+quelle          4. Preis, diagrammes 1980-81
+titel           Neufassung 
+titel           (weiss   th8 bh7a4 kh3 sd1f1)
+titel           (schwarz dg8 bg7h6c2 kg6 tg5h5 sh2)
+forderung       h=3
+bedingung       imitator a5
+                ohneiuw
+steine          weiss   kh6 se1 ba4g7
+                schwarz kf6 th7h8 sh1f8 le8 bd2d5g2f7g6h4
 
 weiteresproblem
 
-autor		Rene J. Millour
-quelle		1. ehr. Erw., Die Schwalbe 1982
-forderung 	r#4
-bedingung	imitator b8
-		ohneiuw
-option 		varianten
-steine  	weiss 	bf7b3g3c2d2h2 sh3 ta2d1 lb1 kc1
-		schwarz se8g7 ba7g6a5a4b4f2 kh6
+autor           Rene J. Millour
+quelle          1. ehr. Erw., Die Schwalbe 1982
+forderung       r#4
+bedingung       imitator b8
+                ohneiuw
+option          varianten
+steine          weiss   bf7b3g3c2d2h2 sh3 ta2d1 lb1 kc1
+                schwarz se8g7 ba7g6a5a4b4f2 kh6
 
 weiter
 auto Wolfgang A. Bruder

@@ -21,9 +21,9 @@ forderung       #2
 option          varianten
 
 steine          
-		weiss   df3 tc8
-		schwarz le8
-		neutral kg8
+                weiss   df3 tc8
+                schwarz le8
+                neutral kg8
 
 weiteresproblem
 
@@ -43,10 +43,10 @@ quelle          Testoriginal
 
 forderung       ser-#2
 bedingung       circe
-		loch    c1c2
+                loch    c1c2
 steine  weiss                   kf2
-	schwarz                 kh3
-	neutral kamikaze        ba7b7
+        schwarz                 kh3
+        neutral kamikaze        ba7b7
 
 zwilling versetze h3 d2
 
@@ -62,8 +62,8 @@ bedingung       schwarzerlaengstzueger
 option          varianten
 
 steine  weiss           kc8
-	schwarz         kc1
-	neutral         ba7b7e7h7
+        schwarz         kc1
+        neutral         ba7b7e7h7
 
 weiteresproblem
 
@@ -77,8 +77,8 @@ bedingung       schwarzerlaengstzueger
 option          weissbeginnt
 
 steine  weiss           kb5
-	schwarz         kg8
-	neutral         sba3b4e2f2
+        schwarz         kg8
+        neutral         sba3b4e2f2
 
 weiteresproblem
 
@@ -88,11 +88,11 @@ quelle          40) Problemkiste-79, 2/1992, S. 120
 forderung       ser-#4
 
 bedingung       weisserschlagzwang
-		platzwechselcirce
+                platzwechselcirce
 
 steine  weiss           kb1
-	schwarz         kd7
-	neutral         bba7b7 bf7g7
+        schwarz         kd7
+        neutral         bba7b7 bf7g7
 
 weiteresproblem
 
@@ -103,11 +103,11 @@ forderung       #4
 
 bedingung       schwarzerlaengstzueger
 option          varianten
-		ohnedrohung
+                ohnedrohung
 
 steine  weiss           kh1
-	schwarz         kd8
-	neutral         ba7b7h7 sbc3
+        schwarz         kd8
+        neutral         ba7b7h7 sbc3
 
 weiteresproblem
 
@@ -118,11 +118,11 @@ quelle          36) Problemkiste-79, 2/1992, S. 119
 
 bedingung       schwarzerlaengstzueger
 option          varianten
-		ohnedrohung
+                ohnedrohung
 
 steine  weiss           kd4
-	schwarz         kc6
-	neutral         bba7c7d7e7
+        schwarz         kc6
+        neutral         bba7c7d7e7
 
 weiteresproblem
 
@@ -133,11 +133,11 @@ forderung       #4
 
 bedingung       schwarzerlaengstzueger
 option          varianten
-		ohnedrohung
+                ohnedrohung
 
 steine  weiss           kd4
-	schwarz         kc6
-	neutral         bb7c7d7e7
+        schwarz         kc6
+        neutral         bb7c7d7e7
 
 weiteresproblem
 
@@ -147,8 +147,8 @@ quelle          1. heterodoxer Preis, Andernach 1992
 forderung       h#2
 
 steine  weiss   kd1 se2
-	schwarz kd5 le3 se7 ba7g4
-	neutral sbb4f2h4
+        schwarz kd5 le3 se7 ba7g4
+        neutral sbb4f2h4
 
 zwilling versetze e3 f6
 zwilling versetze d5 g6

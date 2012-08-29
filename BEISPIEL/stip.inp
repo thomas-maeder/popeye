@@ -193,13 +193,13 @@ option          duplex
 
 weiteresproblem
 
-autor 		Vlaicu Crisan
-quelle		3067, Probleemblad 9-10/1996
-forderung  	2->ser-#3
-bedingung	circe andernach
-steine	weiss	ka5 ba7
-	schwarz kd2 ta8 lb8e2 sc8 ba6b4d3d6e3
-zwill	versetz d2 c2
+autor           Vlaicu Crisan
+quelle          3067, Probleemblad 9-10/1996
+forderung       2->ser-#3
+bedingung       circe andernach
+steine  weiss   ka5 ba7
+        schwarz kd2 ta8 lb8e2 sc8 ba6b4d3d6e3
+zwill   versetz d2 c2
 zwill   versetz d2 a1
 
 weiter
@@ -245,99 +245,99 @@ zwill ford exact-#4
 
 weiter
 
-autor		Dieter Werner
-quelle		5. PK-TT, Problemkiste 62, 4/1989
-titel		Abt. B, 1. Platz
-forderung	zh35
-option		varianten
-		ohnedrohung
-steine		weiss	kg8 lc1d5 sd6 bg2g4
-		schwarz ka2 ta1b3 lb1h4 bc2b6g3g5g6
+autor           Dieter Werner
+quelle          5. PK-TT, Problemkiste 62, 4/1989
+titel           Abt. B, 1. Platz
+forderung       zh35
+option          varianten
+                ohnedrohung
+steine          weiss   kg8 lc1d5 sd6 bg2g4
+                schwarz ka2 ta1b3 lb1h4 bc2b6g3g5g6
 
 weiter
 
-autor		Norbert Geissler & Dieter Werner
-quelle		2419, Problemkiste-68 4/1990
-forderung 	ser-h=4
-bedingung 	koeko
-steine 		weiss 	caf5 kh1
-		schwarz	cad3 bg3g2 kh3
+autor           Norbert Geissler & Dieter Werner
+quelle          2419, Problemkiste-68 4/1990
+forderung       ser-h=4
+bedingung       koeko
+steine          weiss   caf5 kh1
+                schwarz cad3 bg3g2 kh3
 
 weiteresproblem
 
-autor 		Henning M"uller
-quelle 		2336, Problemkiste-66 12/1989
-forderung 	ser-#4
-bedingung 	circe
-steine 		weiss 	kd4 
-		schwarz	ke8 
-		neutral ba7b7g7h7
+autor           Henning M"uller
+quelle          2336, Problemkiste-66 12/1989
+forderung       ser-#4
+bedingung       circe
+steine          weiss   kd4 
+                schwarz ke8 
+                neutral ba7b7g7h7
 
 weiteresproblem
 
-autor		Michel Olausson
-quelle		??,  Problemkiste
-forderung	ser-+6
-steine		weiss	kb2
-		schwarz	kh2
-		neutral	ba2
+autor           Michel Olausson
+quelle          ??,  Problemkiste
+forderung       ser-+6
+steine          weiss   kb2
+                schwarz kh2
+                neutral ba2
 
 weiteresproblem
 
-autor		Rudolf Queck
-quelle 		2421, Problemkiste-68, 4/1990
-forderung 	ser-s#8
-bedingung 	gitter
-steine 	weiss 	ke8 ge5
-	schwarz gd8h6a5b2
-option 		ohnesk
+autor           Rudolf Queck
+quelle          2421, Problemkiste-68, 4/1990
+forderung       ser-s#8
+bedingung       gitter
+steine  weiss   ke8 ge5
+        schwarz gd8h6a5b2
+option          ohnesk
 
 weiteresproblem
 
-autor 		Gy"orgy Bakcsi
-quelle 		5103, feenschach-83,4-6/1987
-forderung 	ser-s#4
-steine 		weiss 	ba7b6e3h2 sc5 lc2 kg1
-		schwarz be6 da4 kf3
+autor           Gy"orgy Bakcsi
+quelle          5103, feenschach-83,4-6/1987
+forderung       ser-s#4
+steine          weiss   ba7b6e3h2 sc5 lc2 kg1
+                schwarz be6 da4 kf3
 
 weiteresproblem
 
-autor		Heinz Winterberg
-quelle		feenschach-39,VII-X/1977
-forderung	ser-s==6
-bedingung	haanerschach
-steine 	weiss	kc8 bb6
-	schwarz	ka8 ba7
+autor           Heinz Winterberg
+quelle          feenschach-39,VII-X/1977
+forderung       ser-s==6
+bedingung       haanerschach
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
 
 weiteresproblem
 
-autor		Peter R"osler
-quelle		5989, feenschach-98, 12/1990
-forderung	hzd28
-bedingung	koeko
-option		ohnewk
-		ohnesk
-		satz
-steine		weiss	sd2
-		schwarz	ge2
+autor           Peter R"osler
+quelle          5989, feenschach-98, 12/1990
+forderung       hzd28
+bedingung       koeko
+option          ohnewk
+                ohnesk
+                satz
+steine          weiss   sd2
+                schwarz ge2
 
 weiteresproblem
 
-autor		J. J. Burbach
-quelle		f-95, 6-8/1991, S.303
-forderung	zd63
-steine		weiss	bd7d3 lc4 sb2 kb1
-		schwarz	ta8 sd8 bb4b3 ka3
-option		varianten
+autor           J. J. Burbach
+quelle          f-95, 6-8/1991, S.303
+forderung       zd63
+steine          weiss   bd7d3 lc4 sb2 kb1
+                schwarz ta8 sd8 bb4b3 ka3
+option          varianten
 
 weiteresproblem
 
-autor		Romeo Bedoni
-quelle		894, feenschach V/1973
-forderung	semi-r+2
-option		varianten
-steine		weiss	kc7 sb5d7 bb4c4d4h4 rog1
-		schwarz	ka8 ba3b3c3d3e3f3h3
+autor           Romeo Bedoni
+quelle          894, feenschach V/1973
+forderung       semi-r+2
+option          varianten
+steine          weiss   kc7 sb5d7 bb4c4d4h4 rog1
+                schwarz ka8 ba3b3c3d3e3f3h3
 
 weiteresproblem
 
@@ -346,8 +346,8 @@ quelle          2971v, Problemkiste 81, 6/1992, (V: PK-83, 10/1992)
 forderung       ser-%4
 bedingung       circe
 steine  weiss           kg8
-	schwarz         ka4 td7h1
-	neutral         bb7
+        schwarz         ka4 td7h1
+        neutral         bb7
 zwilling versetze a4 e8
 zwilling versetze d7 b2
 zwilling versetze d7 f8
@@ -577,13 +577,13 @@ steine  weiss   kc1 bh5
 
 weiteresproblem
 
-autor		Th. Steudel
-quelle		Jugendschach 49, 8/1985
+autor           Th. Steudel
+quelle          Jugendschach 49, 8/1985
 
-forderung	ser-h=6
+forderung       ser-h=6
 
-steine		weiss	ka8 sd4f3 crc1
-		schwarz	kd1 ba7
+steine          weiss   ka8 sd4f3 crc1
+                schwarz kd1 ba7
 
 weiteresproblem
 
