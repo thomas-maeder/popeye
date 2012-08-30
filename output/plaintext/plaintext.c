@@ -244,42 +244,21 @@ static void editcoup(coup const *mov)
   }
   if (TSTFLAG(PieSpExFlags,Magic) || CondFlag[masand])
   {
-    if (mov->push_bottom != NULL) {
-
-      if (mov->push_top - mov->push_bottom > 0)
+    if (side_change_sp[nbply] > side_change_sp[parent_ply[nbply]])
+    {
+      change_rec const * rec;
+      StdString(" [");
+      for (rec = side_change_sp[parent_ply[nbply]];
+           rec<side_change_sp[nbply];
+           rec++)
       {
-        change_rec const * rec;
-        StdString(" [");
-        for (rec= mov->push_bottom; rec - mov->push_top < 0; rec++)
-        {
-          StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-          WritePiece(rec->pc);
-          WriteSquare(rec->square);
-          if (mov->push_top - rec > 1)
-            StdString(", ");
-        }
-        StdChar(']');
+        StdChar(rec->pc > vide ? WhiteChar : BlackChar);
+        WritePiece(rec->pc);
+        WriteSquare(rec->square);
+        if (side_change_sp[nbply]-rec > 1)
+          StdString(", ");
       }
-
-    } else {
-
-      if (side_change_sp[nbply] > side_change_sp[parent_ply[nbply]])
-      {
-        change_rec const * rec;
-        StdString(" [");
-        for (rec = side_change_sp[parent_ply[nbply]];
-             rec<side_change_sp[nbply];
-             rec++)
-        {
-          StdChar(rec->pc > vide ? WhiteChar : BlackChar);
-          WritePiece(rec->pc);
-          WriteSquare(rec->square);
-          if (side_change_sp[nbply]-rec > 1)
-            StdString(", ");
-        }
-        StdChar(']');
-      }
-
+      StdChar(']');
     }
   }
 
