@@ -1,55 +1,25 @@
 #include "conditions/masand.h"
 #include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
-#include "stipulation/proxy.h"
-#include "stipulation/pipe.h"
-#include "stipulation/fork.h"
-#include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
-#include "solving/castling.h"
+#include "stipulation/move_player.h"
+#include "solving/move_effect_journal.h"
 #include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STMasandRecolorer);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_masand(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_traverse_structure(si,&st);
+  stip_instrument_moves(si,STMasandRecolorer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -92,26 +62,14 @@ static void change_observed(square observer_pos)
         && *bnp!=observer_pos
         && observed(*bnp,observer_pos))
     {
-      piece_change_side(&e[*bnp]);
-      spec_change_side(&spec[*bnp]);
+      move_effect_journal_do_side_change(move_effect_reason_masand,
+                                         *bnp,
+                                         e[*bnp]<vide ? White : Black);
       push_side_change(&side_change_sp[nbply],side_change_stack_limit,*bnp);
-      restore_castling_rights(*bnp);
     }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static void undo_change_observed()
-{
-  change_rec const * rec;
-  for (rec = side_change_sp[parent_ply[nbply]];
-       rec<side_change_sp[nbply];
-       ++rec)
-  {
-    piece_change_side(&e[rec->square]);
-    spec_change_side(&spec[rec->square]);
-  }
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -136,18 +94,9 @@ stip_length_type masand_recolorer_attack(slice_index si, stip_length_type n)
 
   side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   if (echecc(opponent) && observed(king_square[opponent],sq_arrival))
-  {
     change_observed(sq_arrival);
-    TraceValue("%d\n",e[square_f1]);
-    result = attack(next,n);
-    undo_change_observed();
-    TraceValue("%d\n",e[square_f1]);
-  }
-  else
-  {
-    TraceValue("!%d\n",e[square_f1]);
-    result = attack(next,n);
-  }
+
+  result = attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -180,13 +129,9 @@ stip_length_type masand_recolorer_defend(slice_index si, stip_length_type n)
 
   side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   if (echecc(opponent) && observed(king_square[opponent],sq_arrival))
-  {
     change_observed(sq_arrival);
-    result = defend(next,n);
-    undo_change_observed();
-  }
-  else
-    result = defend(next,n);
+
+  result = defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
