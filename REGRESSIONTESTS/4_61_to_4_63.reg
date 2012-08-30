@@ -1,0 +1,34 @@
+both sides need a king
+versions <= 4.61 didn't support castling in Circe Parrain
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   B   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   R   .   .   .   .   .   .   2
+|                                   |
+1   .   .  -B   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h002                        3 + 1
+             ParrainCirce
+
+  1.Bc1*b2 Be5-d4 [+wRa1]   2.Bb2*d4 0-0-0 [+wBe4] 
+
+              empile:        1387
+           play_move:        1298
+        orig_rbechec:         172
+        orig_rnechec:           0
+solution finished. 
+
+
