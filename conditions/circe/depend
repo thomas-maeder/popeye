@@ -768,9 +768,8 @@ conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h solving/castling.h \
- solving/moving_pawn_promotion.h solving/move_effect_journal.h \
- debugging/trace.h
+ stipulation/move_player.h solving/moving_pawn_promotion.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/circe/frischauf.h:
 
@@ -827,8 +826,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move_player.h:
-
-solving/castling.h:
 
 solving/moving_pawn_promotion.h:
 

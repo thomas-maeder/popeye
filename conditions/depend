@@ -1677,7 +1677,7 @@ conditions/antiandernach$(OBJ_SUFFIX): conditions/antiandernach.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- solving/castling.h conditions/andernach.h debugging/trace.h
+ conditions/andernach.h debugging/trace.h
 
 conditions/antiandernach.h:
 
@@ -1732,8 +1732,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move_player.h:
-
-solving/castling.h:
 
 conditions/andernach.h:
 
@@ -1954,8 +1952,8 @@ conditions/traitor$(OBJ_SUFFIX): conditions/traitor.c conditions/traitor.h \
  stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h solving/castling.h \
- solving/move_effect_journal.h pieces/side_change.h debugging/trace.h
+ stipulation/move_player.h solving/move_effect_journal.h \
+ pieces/side_change.h debugging/trace.h
 
 conditions/traitor.h:
 
@@ -2011,8 +2009,6 @@ output/mode.h:
 
 stipulation/move_player.h:
 
-solving/castling.h:
-
 solving/move_effect_journal.h:
 
 pieces/side_change.h:
@@ -2027,8 +2023,8 @@ conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
  stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h solving/castling.h \
- solving/move_effect_journal.h pieces/side_change.h debugging/trace.h
+ stipulation/move_player.h solving/move_effect_journal.h \
+ pieces/side_change.h debugging/trace.h
 
 conditions/volage.h:
 
@@ -2083,8 +2079,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move_player.h:
-
-solving/castling.h:
 
 solving/move_effect_journal.h:
 
@@ -2375,8 +2369,8 @@ conditions/line_chameleon$(OBJ_SUFFIX): conditions/line_chameleon.c \
  stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h solving/castling.h \
- solving/move_effect_journal.h debugging/trace.h
+ stipulation/move_player.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/line_chameleon.h:
 
@@ -2433,8 +2427,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move_player.h:
-
-solving/castling.h:
 
 solving/move_effect_journal.h:
 

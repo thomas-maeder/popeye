@@ -3,7 +3,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
-#include "solving/castling.h"
 #include "solving/move_effect_journal.h"
 #include "pieces/side_change.h"
 #include "debugging/trace.h"

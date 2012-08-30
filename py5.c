@@ -74,7 +74,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/move_player.h"
 #include "solving/single_piece_move_generator.h"
-#include "solving/castling.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
