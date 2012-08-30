@@ -826,12 +826,10 @@ conditions/masand$(OBJ_SUFFIX): conditions/masand.c conditions/masand.h \
  position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h solving/battle_play/defense_play.h pydata.h \
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
- stipulation/has_solution_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/fork.h stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/help_play/branch.h solving/castling.h pieces/side_change.h \
- debugging/trace.h
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/has_solution_type.h stipulation/move_player.h \
+ solving/move_effect_journal.h pieces/side_change.h debugging/trace.h
 
 conditions/masand.h:
 
@@ -871,31 +869,21 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-stipulation/has_solution_type.h:
+stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/proxy.h:
-
-stipulation/pipe.h:
-
-stipulation/fork.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/stipulation.h:
-
 stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/help_play/branch.h:
+stipulation/has_solution_type.h:
 
-solving/castling.h:
+stipulation/move_player.h:
+
+solving/move_effect_journal.h:
 
 pieces/side_change.h:
 

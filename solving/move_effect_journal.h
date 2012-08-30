@@ -61,6 +61,7 @@ typedef enum
   move_effect_reason_volage_side_change,
   move_effect_reason_magic_piece,
   move_effect_reason_magic_square,
+  move_effect_reason_masand,
   move_effect_reason_einstein_chess,
   move_effect_reason_kobul_king,
   move_effect_reason_ghost_summoned,
