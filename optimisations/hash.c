@@ -1299,15 +1299,13 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
                               int row, int col,
                               piece p, Flags pspec)
 {
-  if (!TSTFLAG(pspec, Neutral))
-    SETFLAG(pspec, (p < vide ? Black : White));
-  p = abs(p);
+  PieNam const pienam = abs(p);
   if (one_byte_hash)
-    *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
-    *bp++ = p;
+    *bp++ = pienam;
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
   }
@@ -1370,16 +1368,14 @@ static byte *SmallEncodePiece(byte *bp,
                               int row, int col,
                               piece p, Flags pspec)
 {
-  if (!TSTFLAG(pspec,Neutral))
-    SETFLAG(pspec, (p < vide ? Black : White));
-  p= abs(p);
+  PieNam const pienam = abs(p);
   *bp++= (byte)((row<<(CHAR_BIT/2))+col);
   if (one_byte_hash)
-    *bp++ = (byte)pspec + ((byte)piece_nbr[p] << (CHAR_BIT/2));
+    *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
   else
   {
     unsigned int i;
-    *bp++ = p;
+    *bp++ = pienam;
     for (i = 0; i<bytes_per_spec; i++)
       *bp++ = (byte)((pspec>>(CHAR_BIT*i)) & ByteMask);
   }
