@@ -32,3 +32,40 @@ versions <= 4.61 didn't support castling in Circe Parrain
 solution finished. 
 
 
+
+versions <= 4.61 didn't properly disable castling when a king was added
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  exact-ser-002               3 + 0
+             RoyalDynasty
+
+  1.a7-a8=Q   2.0-0 
+  1.a7-a8=S   2.0-0 
+  1.a7-a8=R   2.0-0 
+  1.a7-a8=B   2.0-0 
+
+              empile:         118
+           play_move:          24
+        orig_rbechec:          33
+        orig_rnechec:           0
+solution finished. 
+
+

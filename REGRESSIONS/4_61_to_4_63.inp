@@ -7,4 +7,11 @@ pieces white ke1 rb2 be5 black bc1
 stip h002
 cond parrain
 
+next
+
+title versions <= 4.61 didn't properly disable castling when a king was added
+cond royaldynasty
+stip exact-ser-002
+pieces white pa7 ke1 rh1
+
 end
