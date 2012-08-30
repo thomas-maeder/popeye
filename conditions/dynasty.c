@@ -40,10 +40,15 @@ static void update_king_square(Side side)
     if (king_square[side]!=initsquare)
     {
       Flags flags = spec[king_square[side]];
+
+      /* before move_effect_journal_do_flags_change() or king_square may have
+       * been modified
+       */
+      disable_castling_rights(king_square[side]);
+
       CLRFLAG(flags,Royal);
       move_effect_journal_do_flags_change(move_effect_reason_royal_dynasty,
                                           king_square[side],flags);
-      disable_castling_rights(king_square[side]);
     }
   }
 
