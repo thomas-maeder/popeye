@@ -85,7 +85,6 @@ static void move_effect_journal_do_centre_revolution(move_effect_reason_type rea
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",transformation);
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);

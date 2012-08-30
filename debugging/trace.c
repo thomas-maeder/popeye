@@ -592,7 +592,7 @@ void stip_insert_move_tracers(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves_no_replay(si,STMoveTracer);
+  stip_instrument_moves(si,STMoveTracer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
