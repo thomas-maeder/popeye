@@ -184,6 +184,12 @@ static void editcoup(coup const *mov)
         break;
       }
 
+      case move_effect_imitator_addition:
+      {
+        StdString("=I");
+        break;
+      }
+
       default:
         break;
     }
@@ -193,10 +199,8 @@ static void editcoup(coup const *mov)
           && GetPieceId(mov->speci)==GetPieceId(mov->new_spec)/* same piece */
           && mov->speci!=mov->new_spec))                 /* different flags */
   {
-    if (mov->pjazz == vide) {
-      if (mov->promi) {
-        StdString ("=I");
-      }
+    if (mov->pjazz == vide)
+    {
     }
     else if (mov->roch_sq >= initsquare &&
             !((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
