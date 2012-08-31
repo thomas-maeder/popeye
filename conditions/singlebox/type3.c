@@ -66,7 +66,7 @@ stip_length_type singlebox_type3_pawn_promoter_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (singlebox_type3_promotions[coup_id].what!=vide)
-    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+    move_effect_journal_do_piece_change(move_effect_reason_singlebox_type3_promotion,
                                         singlebox_type3_promotions[coup_id].where,
                                         singlebox_type3_promotions[coup_id].what);
 

@@ -9,6 +9,7 @@
 #include "conditions/einstein/einstein.h"
 #include "conditions/imitator.h"
 #include "pieces/side_change.h"
+#include "solving/en_passant.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -17,78 +18,175 @@ static void editcoup(coup const *mov)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+  move_effect_journal_index_type capture = move_effect_journal_index_null;
+  move_effect_journal_index_type castling = move_effect_journal_index_null;
+
 #ifdef _SE_DECORATE_SOLUTION_
   se_move(mov);
 #endif
 
   if (mov->cazz==nullsquare) return;
 
-  if (mov->sb3what!=vide)
-  {
-    StdString("[");
-    WriteSquare(mov->sb3where);
-    StdString("=");
-    WritePiece(mov->sb3what);
-    StdString("]");
-  }
-
-  if (mov->cpzz==kingside_castling || mov->cpzz==queenside_castling)
-  {
-    /* castling */
-    StdString("0-0");
-    if (mov->cpzz == queenside_castling)
-      StdString("-0");
-    if (CondFlag[einstein])
+  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+    switch (move_effect_journal[curr].type)
     {
-      StdChar('=');
-      if (CondFlag[reveinstein])
-        WritePiece(db);
-      else
-        WritePiece(fb);
-    }
-  }
-  else if (mov->cpzz == messigny_exchange)
-  {
-    WritePiece(mov->pjzz);
-    WriteSquare(mov->cdzz);
-    StdString("<->");
-    WritePiece(mov->ppri);
-    WriteSquare(mov->cazz);
-  }
-  else
-  {
-    if (WriteSpec(mov->speci,mov->pjzz, false)
-        || (mov->pjzz != pb && mov->pjzz != pn))
-      WritePiece(mov->pjzz);
-
-    WriteSquare(mov->cdzz);
-    if (anyantimars && (mov->ppri == vide || mov->cdzz == mov->cpzz))
-    {
-      StdString("->");
-      WriteSquare(mov->mren);
-    }
-    if (mov->ppri == vide || (anyantimars && mov->cdzz == mov->cpzz))
-      StdChar('-');
-    else
-      StdChar('*');
-
-    if (mov->cpzz != mov->cazz && mov->roch_sq == initsquare)
-    {
-      if (is_pawn(mov->pjzz) && !CondFlag[takemake])
+      case move_effect_piece_change:
       {
-        WriteSquare(mov->cazz);
-        StdString(" ep.");
+        switch (move_effect_journal[curr].reason)
+        {
+          case move_effect_reason_singlebox_type3_promotion:
+            StdString("[");
+            WriteSquare(move_effect_journal[curr].u.piece_change.on);
+            StdString("=");
+            WritePiece(move_effect_journal[curr].u.piece_change.to);
+            StdString("]");
+            break;
+
+          case move_effect_reason_einstein_chess:
+            StdChar('=');
+            WritePiece(move_effect_journal[curr].u.piece_change.to);
+            break;
+
+          default:
+            break;
+        }
+        break;
       }
-      else
+
+      case move_effect_piece_movement:
       {
-        WriteSquare(mov->cpzz);
-        StdChar('-');
-        WriteSquare(mov->cazz);
+        switch (move_effect_journal[curr].reason)
+        {
+          case move_effect_reason_moving_piece_movement:
+          {
+            piece const moving = move_effect_journal[curr].u.piece_movement.moving;
+            square const sq_arrival = move_effect_journal[curr].u.piece_movement.to;
+            if (WriteSpec(move_effect_journal[curr].u.piece_movement.movingspec,moving,false)
+                || (moving!=pb && moving!=pn))
+              WritePiece(moving);
+
+            WriteSquare(move_effect_journal[curr].u.piece_movement.from);
+
+            if (capture==move_effect_journal_index_null)
+            {
+              /* TODO better modeling for antimars */
+              if (anyantimars)
+              {
+                StdString("->");
+                WriteSquare(mov->mren);
+              }
+              StdChar('-');
+              WriteSquare(sq_arrival);
+            }
+            else
+            {
+              move_effect_journal_index_type const capturing_movement = move_effect_journal[capture].u.piece_removal.capturing_movement;
+              if (capturing_movement==curr)
+              {
+                square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
+                StdChar('*');
+                if (sq_capture==sq_arrival)
+                  WriteSquare(sq_arrival);
+                else
+                {
+                  /* TODO better modeling for e.p.? */
+                  if (is_pawn(move_effect_journal[capture].u.piece_removal.removed)
+                      && is_pawn(moving)
+                      && (sq_arrival==ep[parent_ply[nbply]]
+                          || sq_arrival==ep2[parent_ply[nbply]]))
+                  {
+                    WriteSquare(sq_arrival);
+                    StdString(" ep.");
+                  }
+                  else
+                  {
+                    WriteSquare(sq_capture);
+                    StdChar('-');
+                    WriteSquare(sq_arrival);
+                  }
+                }
+
+                capture = move_effect_journal_index_null;
+              }
+              else
+              {
+                StdChar('-');
+                WriteSquare(sq_arrival);
+              }
+            }
+            break;
+          }
+
+          case move_effect_reason_castling_king_movement:
+          {
+            square const to = move_effect_journal[curr].u.piece_movement.to;
+            if (to==square_g1 || to==square_g8)
+              StdString("0-0");
+            else
+              StdString("0-0-0");
+            castling = curr;
+            break;
+          }
+
+          case move_effect_reason_castling_partner_movement:
+          {
+            /* TODO model a connection between
+             * move_effect_reason_castling_king_movement
+             * /move_effect_reason_moving_piece_movement
+             * and move_effect_reason_castling_partner_movement? */
+            if (castling==move_effect_journal_index_null)
+            {
+              StdChar('/');
+              WriteSpec(move_effect_journal[curr].u.piece_movement.movingspec,
+                        move_effect_journal[curr].u.piece_movement.moving,
+                        true);
+              WritePiece(move_effect_journal[curr].u.piece_movement.moving);
+              WriteSquare(move_effect_journal[curr].u.piece_movement.from);
+              StdChar('-');
+              WriteSquare(move_effect_journal[curr].u.piece_movement.to);
+
+              castling = move_effect_journal_index_null;
+            }
+            break;
+          }
+
+          default:
+            break;
+        }
+        break;
       }
+
+      case move_effect_piece_removal:
+      {
+        switch (move_effect_journal[curr].reason)
+        {
+          case move_effect_reason_regular_capture:
+          {
+            capture = curr;
+            break;
+          }
+
+          default:
+            break;
+        }
+        break;
+      }
+
+      case move_effect_piece_exchange:
+      {
+        WritePiece(e[move_effect_journal[curr].u.piece_exchange.from]);
+        WriteSquare(move_effect_journal[curr].u.piece_exchange.to);
+        StdString("<->");
+        WritePiece(e[move_effect_journal[curr].u.piece_exchange.to]);
+        WriteSquare(move_effect_journal[curr].u.piece_exchange.from);
+        break;
+      }
+
+      default:
+        break;
     }
-    else
-      WriteSquare(mov->cazz);
-  }
 
   if (mov->pjzz!=mov->pjazz
       || (mov->new_spec!=0
@@ -114,24 +212,6 @@ static void editcoup(coup const *mov)
         WritePiece(mov->pjazz);
       }
     }
-  }
-
-  if (mov->roch_sq > initsquare) {
-    StdChar('/');
-    WriteSpec(mov->roch_sp,mov->roch_pc, true);
-    WritePiece(mov->roch_pc);
-    WriteSquare(mov->roch_sq);
-    StdChar('-');
-    WriteSquare((mov->cdzz + mov->cazz) / 2);
-  }
-
-  if (mov->roch_sq < initsquare) {
-    StdChar('/');
-    WriteSpec(mov->roch_sp,mov->roch_pc, true);
-    WritePiece(mov->roch_pc);
-    WriteSquare(-(mov->roch_sq));
-    StdChar('-');
-    WriteSquare(mov->cdzz);
   }
 
   if (mov->sqren != initsquare) {

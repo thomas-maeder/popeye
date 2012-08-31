@@ -38,6 +38,7 @@ typedef enum
 {
   move_effect_reason_moving_piece_movement,
   move_effect_reason_regular_capture,
+  move_effect_reason_castling_king_movement,
   move_effect_reason_castling_partner_movement,
   move_effect_reason_pawn_promotion,
   move_effect_reason_messigny_exchange,
@@ -75,7 +76,8 @@ typedef enum
   move_effect_reason_royal_dynasty,
   move_effect_reason_volage,
   move_effect_reason_actuate_revolving_board,
-  move_effect_reason_actuate_revolving_centre
+  move_effect_reason_actuate_revolving_centre,
+  move_effect_reason_singlebox_type3_promotion
 } move_effect_reason_type;
 
 typedef unsigned int move_effect_journal_index_type;
@@ -100,6 +102,8 @@ typedef struct
         } piece_change;
         struct
         {
+            piece moving;
+            Flags movingspec;
             square from;
             square to;
         } piece_movement;

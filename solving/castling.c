@@ -167,7 +167,7 @@ static void castle(square sq_departure, square sq_arrival,
 
   assert(sq_arrival!=nullsquare);
 
-  move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+  move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                         sq_departure,sq_arrival);
   move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
                                         sq_partner_departure,sq_partner_arrival);

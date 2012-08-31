@@ -106,10 +106,10 @@ Loesung beendet.
 
   1.Df3-b3=T c2*b3=S [+sTa8]   2.Ta8-a1=L Sb3*a1=L [+sLf8]   3.Lf8-g7=S La1*g7=T [+sSb8]   4.Sb8-d7=B Tg7*d7=D # 
 
-              empile:      128532
-           play_move:      119907
+              empile:      128034
+           play_move:      119417
         orig_rbechec:           0
-        orig_rnechec:      114148
+        orig_rnechec:      113575
 Loesung beendet. 
 
 
@@ -146,7 +146,7 @@ Loesung beendet.
 
               empile:       91296
            play_move:       68977
-        orig_rbechec:       40961
+        orig_rbechec:       40944
         orig_rnechec:       38329
 Loesung beendet. 
 

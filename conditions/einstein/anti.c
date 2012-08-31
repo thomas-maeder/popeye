@@ -26,12 +26,15 @@ static void adjust(void)
   for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_movement
         && (move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement
+            || move_effect_journal[curr].reason==move_effect_reason_castling_king_movement
             || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement)
         && !is_capturer[move_effect_journal[curr].u.piece_movement.from-square_a1])
     {
       square const to = move_effect_journal[curr].u.piece_movement.to;
-      move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
-                                          to,einstein_decrease_piece(e[to]));
+      piece const substitute = einstein_decrease_piece(e[to]);
+      if (e[to]!=substitute)
+        move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
+                                            to,substitute);
     }
 
   TraceFunctionExit(__func__);
@@ -57,7 +60,6 @@ stip_length_type anti_einstein_moving_adjuster_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   adjust();
-  jouearr[nbply] = e[move_generation_stack[current_move[nbply]].arrival];
   result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -88,7 +90,6 @@ stip_length_type anti_einstein_moving_adjuster_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   adjust();
-  jouearr[nbply] = e[move_generation_stack[current_move[nbply]].arrival];
   result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
