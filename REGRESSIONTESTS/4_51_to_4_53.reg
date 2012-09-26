@@ -143,8 +143,8 @@ solution finished.
 
 
 
- 20  (Sb1-a3=bS )
-  1.Sb1-a3=bS Sa3-b1=wS dia 
+ 20  (Sb1-a3=b )
+  1.Sb1-a3=b Sa3-b1=w dia 
 
               empile:          44
            play_move:          44
@@ -177,8 +177,8 @@ solution finished.
   dia1.0                    16 + 16
              Hypervolage
 
- 20  (Sb1-a3=bS )
-  1.Sb1-a3=bS Sa3-b1=wS dia 
+ 20  (Sb1-a3=b )
+  1.Sb1-a3=b Sa3-b1=w dia 
 
               empile:          44
            play_move:          44
@@ -2358,9 +2358,9 @@ b) nPf7
         orig_rnechec:          61
 c) nhPf7 
 
-   1.nhPf7*e8-a8=whQ # !
+   1.nhPf7*e8-a8=nhQ=wh # !
 
-   1.nhPf7*e8-a8=whB # !
+   1.nhPf7*e8-a8=nhB=wh # !
 
 
               empile:          25

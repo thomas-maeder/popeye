@@ -18,17 +18,19 @@ static void change_side(void)
   if (TSTFLAG(spec[sq_arrival],Volage)
       && SquareCol(sq_departure)!=SquareCol(sq_arrival))
   {
-    Flags flags = spec[sq_arrival];
-    spec_change_side(&flags);
-    if (!CondFlag[hypervolage])
-      CLRFLAG(flags,Volage);
-    move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
-                                        sq_arrival,
-                                        flags);
+    move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
+                                       sq_arrival,
+                                       e[sq_arrival]<vide ? White : Black);
 
-    move_effect_journal_do_piece_change(move_effect_reason_volage_side_change,
-                                        sq_arrival,
-                                        -e[sq_arrival]);
+    if (!CondFlag[hypervolage])
+    {
+      Flags flags = spec[sq_arrival];
+      CLRFLAG(flags,Volage);
+      move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
+                                          sq_arrival,
+                                          flags);
+    }
+
     jouearr[nbply] = e[sq_arrival];
   }
 }

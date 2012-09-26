@@ -4823,11 +4823,11 @@ Loesung beendet.
   2  (nBg2-g1=nS )
   3  (nBg2-g1=nT )
   4  (nBg2-g1=nL )
-  5  (vBh2-h1=wD )
-  1.vBh2-h1=wD Dh1*h5 [+nBh1=nT]   2.nBg2*h1=nL [+nTg2] c7-c8=S = 
-  6  (vBh2-h1=wS )
-  7  (vBh2-h1=wT )
-  8  (vBh2-h1=wL )
+  5  (vBh2-h1=vD=w )
+  1.vBh2-h1=vD=w Dh1*h5 [+nBh1=nT]   2.nBg2*h1=nL [+nTg2] c7-c8=S = 
+  6  (vBh2-h1=vS=w )
+  7  (vBh2-h1=vT=w )
+  8  (vBh2-h1=vL=w )
   9  (nBh5-h4 )
  10  (Kf8-g8 )
  11  (Kf8-e8 )

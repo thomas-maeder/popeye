@@ -24,14 +24,14 @@ static void recolor_reborn(void)
       && (SquareCol(sq_rebirth)
           !=SquareCol(move_generation_stack[current_move[nbply]].capture)))
   {
-    move_effect_journal_do_side_change(move_effect_reason_volage,
+    move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
                                        sq_rebirth,
                                        e[sq_rebirth]<vide ? White : Black);
     if (!CondFlag[hypervolage])
     {
       Flags changed = spec[sq_rebirth];
       CLRFLAG(changed,Volage);
-      move_effect_journal_do_flags_change(move_effect_reason_volage,
+      move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
                                           sq_rebirth,changed);
     }
   }

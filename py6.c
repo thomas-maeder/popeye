@@ -2089,9 +2089,6 @@ void current(coup *mov)
    * append_to_top_table() */
   /* redundant to init push_top */
   mov->push_bottom = NULL;
-  mov->roch_sq=castling_partner_origin[coup_id];
-  mov->roch_pc=castling_partner_kind[coup_id];
-  mov->roch_sp=castling_partner_spec[coup_id];
 
   mov->ghost_piece = e[mov->cdzz];
   mov->ghost_flags = spec[mov->cdzz];

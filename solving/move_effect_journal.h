@@ -74,10 +74,9 @@ typedef enum
   move_effect_reason_oscillating_kings,
   move_effect_reason_hurdle_colour_changing,
   move_effect_reason_royal_dynasty,
-  move_effect_reason_volage,
   move_effect_reason_actuate_revolving_board,
   move_effect_reason_actuate_revolving_centre,
-  move_effect_reason_singlebox_type3_promotion
+  move_effect_reason_singlebox_promotion
 } move_effect_reason_type;
 
 typedef unsigned int move_effect_journal_index_type;

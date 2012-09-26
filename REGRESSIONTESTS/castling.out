@@ -2748,7 +2748,7 @@ Loesung beendet.
 
 a) 
 
-  1.0-0   2.Tf8-f7=wT   3.Dg6-e6=wD De6-e8 # 
+  1.0-0   2.Tf8-f7=w   3.Dg6-e6=w De6-e8 # 
 
               empile:       23672
            play_move:       22095
@@ -2756,7 +2756,7 @@ a)
         orig_rnechec:       22256
 b) sTh8-->h6
 
-  1.Ke8-d8   2.Dg6-f7=wD   3.Th6-e6=wT Te6-e8 # 
+  1.Ke8-d8   2.Dg6-f7=w   3.Th6-e6=w Te6-e8 # 
 
               empile:       24520
            play_move:       22385

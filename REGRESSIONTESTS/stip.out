@@ -910,7 +910,7 @@ Loesung beendet.
 
 a) 
 
-  1.Sc8*a7=wS [+wBa2]   2.Ta8*a7=wT [+wSg1]   1.Ta7-c7   2.Tc7-c1   3.Sg1-f3 # 
+  1.Sc8*a7=w [+wBa2]   2.Ta8*a7=w [+wSg1]   1.Ta7-c7   2.Tc7-c1   3.Sg1-f3 # 
 
               empile:       27984
            play_move:       23613
@@ -918,7 +918,7 @@ a)
         orig_rnechec:       18483
 b) sKd2-->c2
 
-  1.Ta8*a7=wT [+wBa2]   2.Lb8*a7=wL [+wTa1]   1.La7-d4   2.Ld4-c3   3.Ta1-c1 # 
+  1.Ta8*a7=w [+wBa2]   2.Lb8*a7=w [+wTa1]   1.La7-d4   2.Ld4-c3   3.Ta1-c1 # 
 
               empile:       38224
            play_move:       29053
@@ -926,7 +926,7 @@ b) sKd2-->c2
         orig_rnechec:       22643
 c) sKd2-->a1
 
-  1.Lb8*a7=wL [+wBa2]   2.Sc8*a7=wS [+wLc1]   1.Sa7-b5   2.Sb5-c3   3.Lc1-b2 # 
+  1.Lb8*a7=w [+wBa2]   2.Sc8*a7=w [+wLc1]   1.Sa7-b5   2.Sb5-c3   3.Lc1-b2 # 
 
               empile:       21780
            play_move:       21494

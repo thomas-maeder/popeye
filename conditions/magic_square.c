@@ -19,15 +19,9 @@ static void change_side(void)
       && prev_king_square[Black][nbply]!=sq_departure
       && prev_king_square[White][nbply]!=sq_departure)
   {
-    Flags flags = spec[sq_arrival];
-    spec_change_side(&flags);
-    move_effect_journal_do_flags_change(move_effect_reason_magic_square,
-                                        sq_arrival,
-                                        flags);
-
-    move_effect_journal_do_piece_change(move_effect_reason_magic_square,
-                                        sq_arrival,
-                                        -e[sq_arrival]);
+    move_effect_journal_do_side_change(move_effect_reason_magic_square,
+                                       sq_arrival,
+                                       e[sq_arrival]<vide ? White : Black);
     jouearr[nbply] = e[sq_arrival];
   }
 }

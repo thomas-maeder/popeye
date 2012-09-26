@@ -490,9 +490,6 @@ typedef struct {
   boolean   osc;      /*                            */
   change_rec  *push_bottom,   /*                            */
       *push_top;    /*                            */
-  square    roch_sq;    /*                            */
-  piece   roch_pc;    /*                            */
-  Flags   roch_sp;    /*                            */
   piece   ghost_piece;    /*                            */
   Flags   ghost_flags;    /*                            */
   long int  bgl_wh,     /*                            */

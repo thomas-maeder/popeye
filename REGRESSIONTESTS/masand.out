@@ -24,11 +24,11 @@
   h#2                         2 + 4
                 Masand
 
-  1.Ta1-f1 Ta3-f3   2.Lg3-f4 Tf3-f2 [wTf1, wLf4] # 
-  1.Ta1-e1 Ta3-e3   2.Lg3-e5 Te3-e2 [wTe1, wLe5] # 
-  1.Ta1-d1 Ta3-d3   2.Lg3-d6 Td3-d2 [wTd1, wLd6] # 
-  1.Ta1-c1 Ta3-c3   2.Lg3-c7 + Tc3-c2 [wTc1, wLc7] # 
-  1.Ta1-b1 Ta3-b3   2.Lg3-b8 Tb3-b2 [wTb1, wLb8] # 
+  1.Ta1-f1 Ta3-f3   2.Lg3-f4 Tf3-f2 [f1=w, f4=w] # 
+  1.Ta1-e1 Ta3-e3   2.Lg3-e5 Te3-e2 [e1=w, e5=w] # 
+  1.Ta1-d1 Ta3-d3   2.Lg3-d6 Td3-d2 [d1=w, d6=w] # 
+  1.Ta1-c1 Ta3-c3   2.Lg3-c7 + Tc3-c2 [c1=w, c7=w] # 
+  1.Ta1-b1 Ta3-b3   2.Lg3-b8 Tb3-b2 [b1=w, b8=w] # 
 
               empile:       17227
            play_move:       11076
@@ -69,12 +69,12 @@ Loesung beendet.
               2...Kh7-h8
                   3.Kf2-g1
                       3...Kh8-h7
-                          4.Sh3-g5 [sBf3] +
+                          4.Sh3-g5 [f3=s] +
                               4...Kh7-h8
                                   5.Kg1-h1
                                       5...f3-f2
                                           6.Dd3-h3 +
-                                              6...f2-f1=D [sDh3] #
+                                              6...f2-f1=D [h3=s] #
 
 
               empile:    40038528
@@ -111,15 +111,15 @@ Loesung beendet.
                 Masand
 
    1.h7-h8=T ! Drohung:
-          2.Th8*h5 [wBd5] #
+          2.Th8*h5 [d5=w] #
       1...Db1-b4 +
-          2.Dg6-e4 [sBc2, wBe2, wDb4, wBd5] #
-      1...Db1-b3 [wSa2, sBc2, sSh3, wBd5] +
-          2.Dg6-g3 [wBf2, sBh2, wDb3, wSh3] #
-      1...Db1-b2 [wSa2, sBc2, sTh8] +
-          2.Dg6-f6 [wDb2, wBf2, wTh8] #
-      1...Db1-c1 [wLf1, sBc2] +
-          2.Dg6-g5 [wDc1, wBd5, wBh5] #
+          2.Dg6-e4 [c2=s, e2=w, b4=w, d5=w] #
+      1...Db1-b3 [a2=w, c2=s, h3=s, d5=w] +
+          2.Dg6-g3 [f2=w, h2=s, b3=w, h3=w] #
+      1...Db1-b2 [a2=w, c2=s, h8=s] +
+          2.Dg6-f6 [b2=w, f2=w, h8=w] #
+      1...Db1-c1 [f1=w, c2=s] +
+          2.Dg6-g5 [c1=w, d5=w, h5=w] #
 
 
               empile:        5603
@@ -155,81 +155,81 @@ Loesung beendet.
   #2                         12 + 6
                 Masand
 
-   1.Te8-e4 [sTe1] + ?
+   1.Te8-e4 [e1=s] + ?
     Aber
       1...Te1*e4 !
 
    1.Te8-e6 ? Drohung:
-          2.Te6-d6 [wBb6, sSd8] #
+          2.Te6-d6 [b6=w, d8=s] #
       1...Tg1*e1
-          2.Te6-e4 [wTe1] #
+          2.Te6-e4 [e1=w] #
       1...b6*a5 +
-          2.Sd8-c6 [wBa5] #
+          2.Sd8-c6 [a5=w] #
     Aber
       1...b6*c5 + !
 
    1.Te8-e7 ? Drohung:
-          2.Te7-d7 [sBb7, sSd8] #
+          2.Te7-d7 [b7=s, d8=s] #
       1...Tg1*e1
-          2.Te7-e4 [wTe1] #
+          2.Te7-e4 [e1=w] #
       1...b6*a5 +
-          2.Sd8-c6 [wBa5, sTe7] #
+          2.Sd8-c6 [a5=w, e7=s] #
       1...b6*c5 +
-          2.Sd8-e6 [wBc5, wBg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     Aber
       1...Th8-h6 !
 
    1.Te8*h8 ? Drohung:
           2.Te1-e4 #
       1...b6*a5 +
-          2.Sd8-c6 [wBa5] #
+          2.Sd8-c6 [a5=w] #
       1...b6*c5 +
-          2.Sd8-e6 [wBc5, wBg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     Aber
       1...Tg1*e1 !
 
    1.Te8-g8 ? Drohung:
           2.Te1-e4 #
       1...b6*a5 +
-          2.Sd8-c6 [wBa5] #
+          2.Sd8-c6 [a5=w] #
       1...b6*c5 +
-          2.Sd8-e6 [wBc5, wBg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     Aber
       1...Tg1*e1 !
 
    1.Te8-f8 ? Drohung:
           2.Te1-e4 #
       1...b6*a5 +
-          2.Sd8-c6 [wBa5] #
+          2.Sd8-c6 [a5=w] #
       1...b6*c5 +
-          2.Sd8-e6 [wBc5, wBg5, sTf8] #
+          2.Sd8-e6 [c5=w, g5=w, f8=s] #
     Aber
       1...Tg1*e1 !
 
    1.b7-b8=L ! Drohung:
-          2.Lb8-e5 [wTh8] #
+          2.Lb8-e5 [h8=w] #
       1...Tg1*e1
-          2.Te8-e4 [wTe1] #
+          2.Te8-e4 [e1=w] #
       1...b6*a5 +
-          2.Sd8-c6 [wBa5, sLb8] #
+          2.Sd8-c6 [a5=w, b8=s] #
       1...b6*c5 +
-          2.Sd8-e6 [wBc5, wBg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
       1...Th8*e8
-          2.Te1-e4 [wTe8] #
+          2.Te1-e4 [e8=w] #
 
    1.c5*b6 ? Drohung:
-          2.Sd8-e6 [wBg5] #
+          2.Sd8-e6 [g5=w] #
       1...Tg1*e1
-          2.Te8-e4 [wTe1] #
+          2.Te8-e4 [e1=w] #
       1...Th8*e8
-          2.Te1-e4 [wTe8] #
+          2.Te1-e4 [e8=w] #
     Aber
       1...Th8-h6 !
 
    1.a5-a6 ? Drohung:
           2.Sd8-c6 #
       1...b6*c5 +
-          2.Sd8-e6 [wBc5, wBg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     Aber
       1...Th8-h6 !
 
@@ -238,7 +238,7 @@ Loesung beendet.
     Aber
       1...Th8-h6 !
 
-   1.Te1-e4 [sTe8] + ?
+   1.Te1-e4 [e8=s] + ?
     Aber
       1...Te8*e4 !
 
@@ -276,51 +276,51 @@ Loesung beendet.
   #2                          9 + 5
                 Masand
 
-      1...Sh4-f3 [sSg1] +
-          2.Dg3-f4 [wSf3, wBe4, sBf5, wLb8] #
-      1...Lb8*g3 [wSh4] +
-          2.Sg1-e2 [wLg3] #
+      1...Sh4-f3 [g1=s] +
+          2.Dg3-f4 [f3=w, e4=w, f5=s, b8=w] #
+      1...Lb8*g3 [h4=w] +
+          2.Sg1-e2 [g3=w] #
       1...Lb8-e5
-          2.Dg3-c3 [wLe5] #
+          2.Dg3-c3 [e5=w] #
       1...Lb8-d6
-          2.Dg3-a3 [sBa4, wLd6] #
+          2.Dg3-a3 [a4=s, d6=w] #
       1...Lb8-c7
-          2.Dg3-c3 [wLc7] #
+          2.Dg3-c3 [c7=w] #
 
    1.Tb6-b5 ! Drohung:
-          2.Dg3-c7 [wBa7, wLb8] #
-      1...Sh4-f3 [sSg1] +
-          2.Dg3-f4 [wSf3, wBe4, sBf5, wLb8] #
-      1...Lb8*g3 [wSh4] +
-          2.Sg1-e2 [wLg3] #
+          2.Dg3-c7 [a7=w, b8=w] #
+      1...Sh4-f3 [g1=s] +
+          2.Dg3-f4 [f3=w, e4=w, f5=s, b8=w] #
+      1...Lb8*g3 [h4=w] +
+          2.Sg1-e2 [g3=w] #
       1...Lb8-f4
-          2.Dg3-e3 [sSg1, wBe4, wLf4, wBa7] #
+          2.Dg3-e3 [g1=s, e4=w, f4=w, a7=w] #
       1...Lb8-e5
-          2.Dg3-c3 [wLe5] #
+          2.Dg3-c3 [e5=w] #
       1...Lb8-d6
-          2.Dg3-a3 [sBa4, wLd6] #
+          2.Dg3-a3 [a4=s, d6=w] #
 
    1.Tb6*b8 ? Drohung:
-          2.Dg3-a3 [sBa4] #
+          2.Dg3-a3 [a4=s] #
           2.Dg3-c3 #
-          2.Dg3-e3 [sSg1, wBe4, wBa7] #
+          2.Dg3-e3 [g1=s, e4=w, a7=w] #
       1...e4-e3
-          2.Dg3*e3 [sSg1, wBa7] #
+          2.Dg3*e3 [g1=s, a7=w] #
       1...Sh4-g2
-          2.Dg3-a3 [sBa4] #
+          2.Dg3-a3 [a4=s] #
           2.Dg3-c3 #
       1...Sh4*f5
-          2.Dg3-a3 [sBa4] #
+          2.Dg3-a3 [a4=s] #
           2.Dg3-c3 #
     Aber
-      1...Sh4-f3 [sSg1] + !
+      1...Sh4-f3 [g1=s] + !
 
    1.Dg3*b8 ? Drohung:
-          2.Db8-c8 [sBf5] #
+          2.Db8-c8 [f5=s] #
           2.Tb6-c6 #
           2.Sg1-e2 #
-      1...Sh4-f3 [sSg1] +
-          2.Db8-f4 [wSf3, wBe4, sBf5] #
+      1...Sh4-f3 [g1=s] +
+          2.Db8-f4 [f3=w, e4=w, f5=s] #
     Aber
       1...a7*b6 !
 
@@ -383,11 +383,11 @@ Loesung beendet.
                 Masand
 
    1.Lb8-c7 ! Drohung:
-          2.De4-e8 [wBf7] #
+          2.De4-e8 [f7=w] #
       1...f7-f5
-          2.De4-e6 [wBf5] #
+          2.De4-e6 [f5=w] #
       1...f7-f6
-          2.De4-e7 [wBf6] #
+          2.De4-e7 [f6=w] #
 
 
               empile:        3677
@@ -424,38 +424,38 @@ Loesung beendet.
                 Masand
 
    1.Kd8-d7 ? Drohung:
-          2.De2-e6 [wBg4, wBb6, sBf6, wBf7] #
+          2.De2-e6 [g4=w, b6=w, f6=s, f7=w] #
       1...Sb2-d3
-          2.De2-f3 [wSd3, wBg4, sBf6] #
+          2.De2-f3 [d3=w, g4=w, f6=s] #
       1...d4-d3
-          2.De2-e4 [wBd3, wTc4, wBg4] #
+          2.De2-e4 [d3=w, c4=w, g4=w] #
       1...Da5-c5
-          2.De2*c4 [wBc3, wBa4, wBd4, wDc5] #
-      1...Da5-b5 [wSb2, wBa4, wTc4, wBb6] +
-          2.Tc4-c5 [wBc3, wDb5, wBc7] #
+          2.De2*c4 [c3=w, a4=w, d4=w, c5=w] #
+      1...Da5-b5 [b2=w, a4=w, c4=w, b6=w] +
+          2.Tc4-c5 [c3=w, b5=w, c7=w] #
       1...Sh8-g6
-          2.Lb1-e4 [wSg6] #
+          2.Lb1-e4 [g6=w] #
     Aber
       1...Da5-b4 !
 
    1.Kd8-e7 ! Drohung:
-          2.De2-e6 [wBg4, wBb6, sBf6, wBf7] #
+          2.De2-e6 [g4=w, b6=w, f6=s, f7=w] #
       1...d4-d3
-          2.De2-e4 [wBd3, wTc4, wBg4] #
-      1...Da5-b4 [wSb2, wBc3, wBa4, wTc4, wBb6] +
-          2.Tc4*d4 [wDb4, wBg4] #
-      1...Da5-c5 [wTc4, wBd4, wBb6, wBc7] +
-          2.Tc4*c5 [wBc3, sBc7] #
+          2.De2-e4 [d3=w, c4=w, g4=w] #
+      1...Da5-b4 [b2=w, c3=w, a4=w, c4=w, b6=w] +
+          2.Tc4*d4 [b4=w, g4=w] #
+      1...Da5-c5 [c4=w, d4=w, b6=w, c7=w] +
+          2.Tc4*c5 [c3=w, c7=s] #
       1...Da5-b5
-          2.De2*c4 [wBc3, wBa4, wBd4, wDb5, wBc7] #
+          2.De2*c4 [c3=w, a4=w, d4=w, b5=w, c7=w] #
       1...Sh8-g6 +
-          2.Lb1-e4 [wSg6] #
+          2.Lb1-e4 [g6=w] #
 
-   1.De2-e6 [wBg4, wBb6, sBf6, wBf7] + ?
+   1.De2-e6 [g4=w, b6=w, f6=s, f7=w] + ?
     Aber
       1...Kd5*e6 !
 
-   1.De2-e5 [wBd4, sBf6, wBc7] + ?
+   1.De2-e5 [d4=w, f6=s, c7=w] + ?
     Aber
       1...f6*e5 !
 

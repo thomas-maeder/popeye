@@ -234,9 +234,9 @@ solution finished.
             AndernachChess
                  SAT
 
-  1.e3-e2 c3-c4   2.Bg1*a7=wB c4-c5 # 
-  1.c6-c5 Sb1-d2   2.Bg2*b7=wB Sd2-e4 # 
-  1.d6-d5 Rh6-h7   2.Qh2*b8=wQ Rh7-c7 # 
+  1.e3-e2 c3-c4   2.Bg1*a7=w c4-c5 # 
+  1.c6-c5 Sb1-d2   2.Bg2*b7=w Sd2-e4 # 
+  1.d6-d5 Rh6-h7   2.Qh2*b8=w Rh7-c7 # 
 
               empile:       17567
            play_move:       17407

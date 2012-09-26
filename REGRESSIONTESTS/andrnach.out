@@ -26,7 +26,7 @@
 
 a) 
 
-  1.Le4*d3=wL Th1-h4   2.Tc4*h4=wT Ld3-c4 # 
+  1.Le4*d3=w Th1-h4   2.Tc4*h4=w Ld3-c4 # 
 
               empile:       81890
            play_move:       54561
@@ -34,7 +34,7 @@ a)
         orig_rnechec:       53811
 b) sBg7-->f7
 
-  1.Tf3*d3=wT La3-d6   2.Lg3*d6=wL Td3-g3 # 
+  1.Tf3*d3=w La3-d6   2.Lg3*d6=w Td3-g3 # 
 
               empile:       97378
            play_move:       56909
@@ -72,8 +72,8 @@ Loesung beendet.
   h#2                        5 + 15
            AndernachSchach
 
-  1.Th3*c3=wT Dd8*d7=sD   2.Dd7-b5 Tc3-d3 # 
-  1.La6*e2=wL Dd8*g5=sD   2.Dg5-g3 Le2-f3 # 
+  1.Th3*c3=w Dd8*d7=s   2.Dd7-b5 Tc3-d3 # 
+  1.La6*e2=w Dd8*g5=s   2.Dg5-g3 Le2-f3 # 
 
               empile:      295092
            play_move:      220219
@@ -113,7 +113,7 @@ Loesung beendet.
 
 a) 
 
-  1.Lc5-b4 Sd5*b4=sS   2.Tc8*c4=wT Tc4-c3 # 
+  1.Lc5-b4 Sd5*b4=s   2.Tc8*c4=w Tc4-c3 # 
 
               empile:       25264
            play_move:       24748
@@ -121,7 +121,7 @@ a)
         orig_rnechec:       24122
 b) sLc5-->c7
 
-  1.Tf3-b3 Lc4*b3=sL   2.Dh1*d5=wD Dd5-d6 # 
+  1.Tf3-b3 Lc4*b3=s   2.Dh1*d5=w Dd5-d6 # 
 
               empile:       19270
            play_move:       18686
@@ -157,8 +157,8 @@ Loesung beendet.
   h#2                         3 + 8
            AndernachSchach
 
-  1.Dh5-g4 Sd1-e3   2.Lh6*e3=wL Le3-d4 # 
-  1.Dh5-g5 Ld3-c4   2.Th4*c4=wT Tc4-c1 # 
+  1.Dh5-g4 Sd1-e3   2.Lh6*e3=w Le3-d4 # 
+  1.Dh5-g5 Ld3-c4   2.Th4*c4=w Tc4-c1 # 
 
               empile:       17467
            play_move:       16021
@@ -196,9 +196,9 @@ Loesung beendet.
   h#3                         4 + 5
            AndernachSchach
 
-  1...  ...  2.Ta4*c4=wT Tc4-a4   3.Dd7*a4=wD Da4-d4 # 
+  1...  ...  2.Ta4*c4=w Tc4-a4   3.Dd7*a4=w Da4-d4 # 
 
-  1...Sg7-h5   2.Sd1*c3=wS Sc3-d1   3.Dd7*d1=wD Dd1-d5 # 
+  1...Sg7-h5   2.Sd1*c3=w Sc3-d1   3.Dd7*d1=w Dd1-d5 # 
 
               empile:      213507
            play_move:      103217
@@ -235,7 +235,7 @@ Loesung beendet.
 
 a) 
 
-  1.Sc3*e4=wS Se4*d6=sS   2.Sd6*b5=wS Sb5-c3 # 
+  1.Sc3*e4=w Se4*d6=s   2.Sd6*b5=w Sb5-c3 # 
 
               empile:       30645
            play_move:       21723
@@ -243,7 +243,7 @@ a)
         orig_rnechec:       21265
 b) wBc2-->b2
 
-  1.Sc3*b5=wS Sb5*d6=sS   2.Sd6*e4=wS Se4-c3 # 
+  1.Sc3*b5=w Sb5*d6=s   2.Sd6*e4=w Se4-c3 # 
 
               empile:       36142
            play_move:       24697
@@ -327,7 +327,7 @@ Loesung beendet.
 
 a) 
 
-  1.Tc1-c3 + d2*c3=sB   2.c3*b2=wB b2-b4 # 
+  1.Tc1-c3 + d2*c3=s   2.c3*b2=w b2-b4 # 
 
               empile:       16372
            play_move:        9495
@@ -335,7 +335,7 @@ a)
         orig_rnechec:        9195
 b) Verschiebung a1 ==> a2
 
-  1.Tc2-c1 Sb3*c1=sS   2.Sc1*d3=wS Sd3-b4 # 
+  1.Tc2-c1 Sb3*c1=s   2.Sc1*d3=w Sd3-b4 # 
 
               empile:       13047
            play_move:        8131
@@ -370,8 +370,8 @@ Loesung beendet.
   h#2                         2 + 4
            AndernachSchach
 
-  1.La4*b3=wL Lb3-e6   2.Dh6*e6=wD De6-a6 # 
-  1.Tb4*b3=wT Tb3-e3   2.Dh6*e3=wD De3-b6 # 
+  1.La4*b3=w Lb3-e6   2.Dh6*e6=w De6-a6 # 
+  1.Tb4*b3=w Tb3-e3   2.Dh6*e3=w De3-b6 # 
 
               empile:       10387
            play_move:        7446
@@ -409,15 +409,15 @@ Loesung beendet.
 
    1.Ta5-a4 ! Drohung:
           2.Db3-e6 Drohung:
-                  3.Sb4*a2=sS +
+                  3.Sb4*a2=s +
                       3...Sa2-b4 #
       1...f4-f3
-          2.Lf1*e2=sL Drohung:
-                  3.Sb4*d3=sS +
+          2.Lf1*e2=s Drohung:
+                  3.Sb4*d3=s +
                       3...Sd3-b4 #
       1...Tg7-g2
-          2.Th6*f6=sT Drohung:
-                  3.Sb4*c6=sS +
+          2.Th6*f6=s Drohung:
+                  3.Sb4*c6=s +
                       3...Sc6-b4 #
 
 
@@ -457,33 +457,33 @@ Loesung beendet.
 
    1.Tb8-b4 ! Drohung:
           2.Tb4-e4 +
-              2...Lg6*e4=wL
+              2...Lg6*e4=w
                   3.Dh7-f5 #
       1...Lg6-e4
           2.Dh7-f5 +
-              2...Le4*f5=wL
+              2...Le4*f5=w
                   3.Tb4-e4 #
-      1...Sg8*e7=wS +
+      1...Sg8*e7=w +
           2.Se7-c8 Drohung:
                   3.Dh7-c7 #
-              2...Lg6*h7=wL
+              2...Lg6*h7=w
                   3.Tb4-e4 #
               2...Lg6-f7
                   3.Tb4-e4 #
                   3.Dh7-e4 #
-      1...Sg8*f6=wS +
+      1...Sg8*f6=w +
           2.Sf6-e8 Drohung:
                   3.Dh7-g7 #
-              2...Lg6*h7=wL
+              2...Lg6*h7=w
                   3.Tb4-e4 #
-      1...Sg8*h6=wS +
+      1...Sg8*h6=w +
           2.Sh6-g8 Drohung:
                   3.Dh7-h2 #
               2...Lg6-h5
                   3.Tb4-e4 #
                   3.Dh7-e4 #
                   3.Dh7-f5 #
-              2...Lg6*h7=wL
+              2...Lg6*h7=w
                   3.Tb4-e4 #
 
 
@@ -566,20 +566,20 @@ Loesung beendet.
   #2                          6 + 8
            AndernachSchach
 
-      1...Dc1*d2=wD
+      1...Dc1*d2=w
           2.Dd2-g5 #
-      1...Sf1*d2=wS
+      1...Sf1*d2=w
           2.Sd2-c4 #
       1...c6-c5
           2.Td3-d5 #
 
    1.Td3-e3 ! Drohung:
           2.d2-d4 #
-      1...Sf1*e3=wS
+      1...Sf1*e3=w
           2.Tf7-f5 #
-      1...Sf1*d2=wS
+      1...Sf1*d2=w
           2.Sd2-f3 #
-      1...Lg1*e3=wL
+      1...Lg1*e3=w
           2.Le3-d4 #
 
 
@@ -623,24 +623,24 @@ Loesung beendet.
       1...Tg2-f2 #
 
    1.Le3-g1 !
-      1...h2*g1=wD
+      1...h2*g1=D=w
           2.Dg1-e1 +
               2...Tg2-f2 #
-      1...h2*g1=wS
+      1...h2*g1=S=w
           2.Sg1-h3
               2...Tg2-g1 #
               2...Tg2-d2 #
               2...Tg2-e2 #
               2...Tg2-f2 #
               2...Tg2-h2 #
-      1...h2*g1=wT
-          2.Tg1*g2=sT
+      1...h2*g1=T=w
+          2.Tg1*g2=s
               2...Tg2-g1 #
               2...Tg2-d2 #
               2...Tg2-e2 #
               2...Tg2-f2 #
               2...Tg2-h2 #
-      1...h2*g1=wL
+      1...h2*g1=L=w
           2.Lg1-e3
               2...Tg2-g1 #
               2...Tg2-d2 #
@@ -682,11 +682,11 @@ Loesung beendet.
   s#2                       11 + 11
            AndernachSchach
 
-   1.Tc6*a6=sT ! Drohung:
-          2.Lf4*d6=sL +
+   1.Tc6*a6=s ! Drohung:
+          2.Lf4*d6=s +
               2...Ld6-f4 #
-      1...Dh3*h5=wD
-          2.Sg4*h2=sS +
+      1...Dh3*h5=w
+          2.Sg4*h2=s +
               2...Sh2-g4 #
 
 
@@ -738,10 +738,10 @@ a)
 b) r#2
 
    1.Lc7-d8 ! Drohung:
-          2.De6*d6=sD
+          2.De6*d6=s
               2...Dd6-g3 #
       1...d6-d5
-          2.De6*d5=sD
+          2.De6*d5=s
               2...Dd5-h1 #
 
 
@@ -780,11 +780,11 @@ Loesung beendet.
 
    1.Le3-g5 ! Drohung:
           2.e2-e4 #
-      1...Sc1*e2=wS
+      1...Sc1*e2=w
           2.Se2-g3 #
-      1...Th2*e2=wT
+      1...Th2*e2=w
           2.Te2-e5 #
-      1...Lg4*e2=wL
+      1...Lg4*e2=w
           2.Le2-g4 #
 
 
@@ -823,13 +823,13 @@ Loesung beendet.
 
    1.Le3-b6 ! Drohung:
           2.e2-e4 +
-              2...f4*e3 ep.=wB
+              2...f4*e3 ep.=w
                   3.e3-e4 #
-      1...Sc7*b5=wS
+      1...Sc7*b5=w
           2.Sb5-c7 +
               2...Kd5-c4
                   3.Te6-c6 #
-      1...Sc7*e6=wS
+      1...Sc7*e6=w
           2.Se6-c7 +
               2...Kd5-d6
                   3.Te8-e6 #
@@ -868,7 +868,7 @@ Loesung beendet.
   dia3.0                    15 + 15
            AndernachSchach
 
-  1.Sg1-f3 Sb8-c6   2.Sf3-e5 Sc6*e5=wS   3.Se5*d7=sS Sd7-b8 dia 
+  1.Sg1-f3 Sb8-c6   2.Sf3-e5 Sc6*e5=w   3.Se5*d7=s Sd7-b8 dia 
 
               empile:     1084806
            play_move:     1084806

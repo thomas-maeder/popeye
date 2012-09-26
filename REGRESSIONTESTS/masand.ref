@@ -24,11 +24,11 @@
   h#2                         2 + 4
                 Masand
 
-  1.Ra1-f1 Ra3-f3   2.Bg3-f4 Rf3-f2 [wRf1, wBf4] # 
-  1.Ra1-e1 Ra3-e3   2.Bg3-e5 Re3-e2 [wRe1, wBe5] # 
-  1.Ra1-d1 Ra3-d3   2.Bg3-d6 Rd3-d2 [wRd1, wBd6] # 
-  1.Ra1-c1 Ra3-c3   2.Bg3-c7 + Rc3-c2 [wRc1, wBc7] # 
-  1.Ra1-b1 Ra3-b3   2.Bg3-b8 Rb3-b2 [wRb1, wBb8] # 
+  1.Ra1-f1 Ra3-f3   2.Bg3-f4 Rf3-f2 [f1=w, f4=w] # 
+  1.Ra1-e1 Ra3-e3   2.Bg3-e5 Re3-e2 [e1=w, e5=w] # 
+  1.Ra1-d1 Ra3-d3   2.Bg3-d6 Rd3-d2 [d1=w, d6=w] # 
+  1.Ra1-c1 Ra3-c3   2.Bg3-c7 + Rc3-c2 [c1=w, c7=w] # 
+  1.Ra1-b1 Ra3-b3   2.Bg3-b8 Rb3-b2 [b1=w, b8=w] # 
 
               empile:       17227
            play_move:       11076
@@ -69,12 +69,12 @@ solution finished.
               2...Kh7-h8
                   3.Kf2-g1
                       3...Kh8-h7
-                          4.Sh3-g5 [bPf3] +
+                          4.Sh3-g5 [f3=b] +
                               4...Kh7-h8
                                   5.Kg1-h1
                                       5...f3-f2
                                           6.Qd3-h3 +
-                                              6...f2-f1=Q [bQh3] #
+                                              6...f2-f1=Q [h3=b] #
 
 
               empile:    40038528
@@ -111,15 +111,15 @@ solution finished.
                 Masand
 
    1.h7-h8=R ! threat:
-          2.Rh8*h5 [wPd5] #
+          2.Rh8*h5 [d5=w] #
       1...Qb1-b4 +
-          2.Qg6-e4 [bPc2, wPe2, wQb4, wPd5] #
-      1...Qb1-b3 [wSa2, bPc2, bSh3, wPd5] +
-          2.Qg6-g3 [wPf2, bPh2, wQb3, wSh3] #
-      1...Qb1-b2 [wSa2, bPc2, bRh8] +
-          2.Qg6-f6 [wQb2, wPf2, wRh8] #
-      1...Qb1-c1 [wBf1, bPc2] +
-          2.Qg6-g5 [wQc1, wPd5, wPh5] #
+          2.Qg6-e4 [c2=b, e2=w, b4=w, d5=w] #
+      1...Qb1-b3 [a2=w, c2=b, h3=b, d5=w] +
+          2.Qg6-g3 [f2=w, h2=b, b3=w, h3=w] #
+      1...Qb1-b2 [a2=w, c2=b, h8=b] +
+          2.Qg6-f6 [b2=w, f2=w, h8=w] #
+      1...Qb1-c1 [f1=w, c2=b] +
+          2.Qg6-g5 [c1=w, d5=w, h5=w] #
 
 
               empile:        5603
@@ -155,81 +155,81 @@ solution finished.
   #2                         12 + 6
                 Masand
 
-   1.Re8-e4 [bRe1] + ?
+   1.Re8-e4 [e1=b] + ?
     but
       1...Re1*e4 !
 
    1.Re8-e6 ? threat:
-          2.Re6-d6 [wPb6, bSd8] #
+          2.Re6-d6 [b6=w, d8=b] #
       1...Rg1*e1
-          2.Re6-e4 [wRe1] #
+          2.Re6-e4 [e1=w] #
       1...b6*a5 +
-          2.Sd8-c6 [wPa5] #
+          2.Sd8-c6 [a5=w] #
     but
       1...b6*c5 + !
 
    1.Re8-e7 ? threat:
-          2.Re7-d7 [bPb7, bSd8] #
+          2.Re7-d7 [b7=b, d8=b] #
       1...Rg1*e1
-          2.Re7-e4 [wRe1] #
+          2.Re7-e4 [e1=w] #
       1...b6*a5 +
-          2.Sd8-c6 [wPa5, bRe7] #
+          2.Sd8-c6 [a5=w, e7=b] #
       1...b6*c5 +
-          2.Sd8-e6 [wPc5, wPg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     but
       1...Rh8-h6 !
 
    1.Re8*h8 ? threat:
           2.Re1-e4 #
       1...b6*a5 +
-          2.Sd8-c6 [wPa5] #
+          2.Sd8-c6 [a5=w] #
       1...b6*c5 +
-          2.Sd8-e6 [wPc5, wPg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     but
       1...Rg1*e1 !
 
    1.Re8-g8 ? threat:
           2.Re1-e4 #
       1...b6*a5 +
-          2.Sd8-c6 [wPa5] #
+          2.Sd8-c6 [a5=w] #
       1...b6*c5 +
-          2.Sd8-e6 [wPc5, wPg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     but
       1...Rg1*e1 !
 
    1.Re8-f8 ? threat:
           2.Re1-e4 #
       1...b6*a5 +
-          2.Sd8-c6 [wPa5] #
+          2.Sd8-c6 [a5=w] #
       1...b6*c5 +
-          2.Sd8-e6 [wPc5, wPg5, bRf8] #
+          2.Sd8-e6 [c5=w, g5=w, f8=b] #
     but
       1...Rg1*e1 !
 
    1.b7-b8=B ! threat:
-          2.Bb8-e5 [wRh8] #
+          2.Bb8-e5 [h8=w] #
       1...Rg1*e1
-          2.Re8-e4 [wRe1] #
+          2.Re8-e4 [e1=w] #
       1...b6*a5 +
-          2.Sd8-c6 [wPa5, bBb8] #
+          2.Sd8-c6 [a5=w, b8=b] #
       1...b6*c5 +
-          2.Sd8-e6 [wPc5, wPg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
       1...Rh8*e8
-          2.Re1-e4 [wRe8] #
+          2.Re1-e4 [e8=w] #
 
    1.c5*b6 ? threat:
-          2.Sd8-e6 [wPg5] #
+          2.Sd8-e6 [g5=w] #
       1...Rg1*e1
-          2.Re8-e4 [wRe1] #
+          2.Re8-e4 [e1=w] #
       1...Rh8*e8
-          2.Re1-e4 [wRe8] #
+          2.Re1-e4 [e8=w] #
     but
       1...Rh8-h6 !
 
    1.a5-a6 ? threat:
           2.Sd8-c6 #
       1...b6*c5 +
-          2.Sd8-e6 [wPc5, wPg5] #
+          2.Sd8-e6 [c5=w, g5=w] #
     but
       1...Rh8-h6 !
 
@@ -238,7 +238,7 @@ solution finished.
     but
       1...Rh8-h6 !
 
-   1.Re1-e4 [bRe8] + ?
+   1.Re1-e4 [e8=b] + ?
     but
       1...Re8*e4 !
 
@@ -276,51 +276,51 @@ solution finished.
   #2                          9 + 5
                 Masand
 
-      1...Sh4-f3 [bSg1] +
-          2.Qg3-f4 [wSf3, wPe4, bPf5, wBb8] #
-      1...Bb8*g3 [wSh4] +
-          2.Sg1-e2 [wBg3] #
+      1...Sh4-f3 [g1=b] +
+          2.Qg3-f4 [f3=w, e4=w, f5=b, b8=w] #
+      1...Bb8*g3 [h4=w] +
+          2.Sg1-e2 [g3=w] #
       1...Bb8-e5
-          2.Qg3-c3 [wBe5] #
+          2.Qg3-c3 [e5=w] #
       1...Bb8-d6
-          2.Qg3-a3 [bPa4, wBd6] #
+          2.Qg3-a3 [a4=b, d6=w] #
       1...Bb8-c7
-          2.Qg3-c3 [wBc7] #
+          2.Qg3-c3 [c7=w] #
 
    1.Rb6-b5 ! threat:
-          2.Qg3-c7 [wPa7, wBb8] #
-      1...Sh4-f3 [bSg1] +
-          2.Qg3-f4 [wSf3, wPe4, bPf5, wBb8] #
-      1...Bb8*g3 [wSh4] +
-          2.Sg1-e2 [wBg3] #
+          2.Qg3-c7 [a7=w, b8=w] #
+      1...Sh4-f3 [g1=b] +
+          2.Qg3-f4 [f3=w, e4=w, f5=b, b8=w] #
+      1...Bb8*g3 [h4=w] +
+          2.Sg1-e2 [g3=w] #
       1...Bb8-f4
-          2.Qg3-e3 [bSg1, wPe4, wBf4, wPa7] #
+          2.Qg3-e3 [g1=b, e4=w, f4=w, a7=w] #
       1...Bb8-e5
-          2.Qg3-c3 [wBe5] #
+          2.Qg3-c3 [e5=w] #
       1...Bb8-d6
-          2.Qg3-a3 [bPa4, wBd6] #
+          2.Qg3-a3 [a4=b, d6=w] #
 
    1.Rb6*b8 ? threat:
-          2.Qg3-a3 [bPa4] #
+          2.Qg3-a3 [a4=b] #
           2.Qg3-c3 #
-          2.Qg3-e3 [bSg1, wPe4, wPa7] #
+          2.Qg3-e3 [g1=b, e4=w, a7=w] #
       1...e4-e3
-          2.Qg3*e3 [bSg1, wPa7] #
+          2.Qg3*e3 [g1=b, a7=w] #
       1...Sh4-g2
-          2.Qg3-a3 [bPa4] #
+          2.Qg3-a3 [a4=b] #
           2.Qg3-c3 #
       1...Sh4*f5
-          2.Qg3-a3 [bPa4] #
+          2.Qg3-a3 [a4=b] #
           2.Qg3-c3 #
     but
-      1...Sh4-f3 [bSg1] + !
+      1...Sh4-f3 [g1=b] + !
 
    1.Qg3*b8 ? threat:
-          2.Qb8-c8 [bPf5] #
+          2.Qb8-c8 [f5=b] #
           2.Rb6-c6 #
           2.Sg1-e2 #
-      1...Sh4-f3 [bSg1] +
-          2.Qb8-f4 [wSf3, wPe4, bPf5] #
+      1...Sh4-f3 [g1=b] +
+          2.Qb8-f4 [f3=w, e4=w, f5=b] #
     but
       1...a7*b6 !
 
@@ -383,11 +383,11 @@ solution finished.
                 Masand
 
    1.Bb8-c7 ! threat:
-          2.Qe4-e8 [wPf7] #
+          2.Qe4-e8 [f7=w] #
       1...f7-f5
-          2.Qe4-e6 [wPf5] #
+          2.Qe4-e6 [f5=w] #
       1...f7-f6
-          2.Qe4-e7 [wPf6] #
+          2.Qe4-e7 [f6=w] #
 
 
               empile:        3677
@@ -424,38 +424,38 @@ solution finished.
                 Masand
 
    1.Kd8-d7 ? threat:
-          2.Qe2-e6 [wPg4, wPb6, bPf6, wPf7] #
+          2.Qe2-e6 [g4=w, b6=w, f6=b, f7=w] #
       1...Sb2-d3
-          2.Qe2-f3 [wSd3, wPg4, bPf6] #
+          2.Qe2-f3 [d3=w, g4=w, f6=b] #
       1...d4-d3
-          2.Qe2-e4 [wPd3, wRc4, wPg4] #
+          2.Qe2-e4 [d3=w, c4=w, g4=w] #
       1...Qa5-c5
-          2.Qe2*c4 [wPc3, wPa4, wPd4, wQc5] #
-      1...Qa5-b5 [wSb2, wPa4, wRc4, wPb6] +
-          2.Rc4-c5 [wPc3, wQb5, wPc7] #
+          2.Qe2*c4 [c3=w, a4=w, d4=w, c5=w] #
+      1...Qa5-b5 [b2=w, a4=w, c4=w, b6=w] +
+          2.Rc4-c5 [c3=w, b5=w, c7=w] #
       1...Sh8-g6
-          2.Bb1-e4 [wSg6] #
+          2.Bb1-e4 [g6=w] #
     but
       1...Qa5-b4 !
 
    1.Kd8-e7 ! threat:
-          2.Qe2-e6 [wPg4, wPb6, bPf6, wPf7] #
+          2.Qe2-e6 [g4=w, b6=w, f6=b, f7=w] #
       1...d4-d3
-          2.Qe2-e4 [wPd3, wRc4, wPg4] #
-      1...Qa5-b4 [wSb2, wPc3, wPa4, wRc4, wPb6] +
-          2.Rc4*d4 [wQb4, wPg4] #
-      1...Qa5-c5 [wRc4, wPd4, wPb6, wPc7] +
-          2.Rc4*c5 [wPc3, bPc7] #
+          2.Qe2-e4 [d3=w, c4=w, g4=w] #
+      1...Qa5-b4 [b2=w, c3=w, a4=w, c4=w, b6=w] +
+          2.Rc4*d4 [b4=w, g4=w] #
+      1...Qa5-c5 [c4=w, d4=w, b6=w, c7=w] +
+          2.Rc4*c5 [c3=w, c7=b] #
       1...Qa5-b5
-          2.Qe2*c4 [wPc3, wPa4, wPd4, wQb5, wPc7] #
+          2.Qe2*c4 [c3=w, a4=w, d4=w, b5=w, c7=w] #
       1...Sh8-g6 +
-          2.Bb1-e4 [wSg6] #
+          2.Bb1-e4 [g6=w] #
 
-   1.Qe2-e6 [wPg4, wPb6, bPf6, wPf7] + ?
+   1.Qe2-e6 [g4=w, b6=w, f6=b, f7=w] + ?
     but
       1...Kd5*e6 !
 
-   1.Qe2-e5 [wPd4, bPf6, wPc7] + ?
+   1.Qe2-e5 [d4=w, f6=b, c7=w] + ?
     but
       1...f6*e5 !
 

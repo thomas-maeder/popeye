@@ -300,7 +300,7 @@ static void place_promotee(Side trait_ply)
   TraceEnumerator(Side,trait_ply,"");
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+  move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
                                       singlebox_type2_latent_pawn_promotions[nbply].where,
                                       promotee);
 

@@ -442,7 +442,7 @@ solution finished.
 
 a) 
 
-  1.e7-e6=wP g7-g8=bS   2.Sg8-e7=wS Se7-g6=bS   3.e4-e3=wP Kf7*g6 [bK=rS] # 
+  1.e7-e6=w g7-g8=S=b   2.Sg8-e7=w Se7-g6=b   3.e4-e3=w Kf7*g6 [bK=rS] # 
 
               empile:      116686
            play_move:      118981
@@ -450,7 +450,7 @@ a)
         orig_rnechec:      115441
 b) bPg3-->f6
 
-  1.Kh5-h6 Kf7-f8   2.Kh6-h7 g7-g8=bB   3.Kh7-h8 Kf8*g8 [bK=rB] # 
+  1.Kh5-h6 Kf7-f8   2.Kh6-h7 g7-g8=B=b   3.Kh7-h8 Kf8*g8 [bK=rB] # 
 
               empile:      117154
            play_move:      119551

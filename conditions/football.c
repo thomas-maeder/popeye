@@ -105,12 +105,16 @@ stip_length_type football_chess_substitutor_attack(slice_index si,
   else
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    piece const substitute = e[sq_arrival]<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
+    piece const substituted = e[sq_arrival];
+    piece const substitute = substituted<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
 
-    move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
-                                        sq_arrival,
-                                        substitute);
-    jouearr[nbply] = e[sq_arrival];
+    if (substitute!=substituted)
+    {
+      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
+                                          sq_arrival,
+                                          substitute);
+      jouearr[nbply] = e[sq_arrival];
+    }
 
     result = attack(slices[si].next1,n);
 
@@ -158,12 +162,16 @@ stip_length_type football_chess_substitutor_defend(slice_index si,
   else
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    piece const substitute = e[sq_arrival]<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
+    piece const substituted = e[sq_arrival];
+    piece const substitute = substituted<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
 
-    move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
-                                        sq_arrival,
-                                        substitute);
-    jouearr[nbply] = e[sq_arrival];
+    if (substitute!=substituted)
+    {
+      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
+                                          sq_arrival,
+                                          substitute);
+      jouearr[nbply] = e[sq_arrival];
+    }
 
     result = defend(slices[si].next1,n);
 
