@@ -309,23 +309,23 @@ Loesung beendet.
 
    1.b6*a7 [+sSb8] ! Drohung:
           2.c7*b8=D
-              2...Ta8*a7=w [+sBa2] #
-              2...Ta8*b8=w [+sDd1] #
+              2...Ta8*a7=w [+wBa2=s] #
+              2...Ta8*b8=w [+wDd1=s] #
       1...Sb8-a6=w
           2.b7-b8=L=s
-              2...Ta8*a7=w [+sBa2] #
-              2...Lb8*a7 [+sBa2] #
-              2...Lb8*c7 [+sBc2] #
+              2...Ta8*a7=w [+wBa2=s] #
+              2...Lb8*a7 [+wBa2=s] #
+              2...Lb8*c7 [+wBc2=s] #
       1...Sb8-c6=w
           2.b7-b8=L=s
-              2...Ta8*a7=w [+sBa2] #
-              2...Lb8*a7 [+sBa2] #
-              2...Lb8*c7 [+sBc2] #
+              2...Ta8*a7=w [+wBa2=s] #
+              2...Lb8*a7 [+wBa2=s] #
+              2...Lb8*c7 [+wBc2=s] #
       1...Sb8-d7=w
           2.b7-b8=L=s
-              2...Ta8*a7=w [+sBa2] #
-              2...Lb8*a7 [+sBa2] #
-              2...Lb8*c7 [+sBc2] #
+              2...Ta8*a7=w [+wBa2=s] #
+              2...Lb8*a7 [+wBa2=s] #
+              2...Lb8*c7 [+wBc2=s] #
 
 
               empile:        9488

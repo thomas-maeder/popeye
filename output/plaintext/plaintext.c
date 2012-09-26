@@ -6,7 +6,6 @@
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 #include "conditions/kobul.h"
-#include "conditions/einstein/einstein.h"
 #include "conditions/imitator.h"
 #include "pieces/side_change.h"
 #include "solving/en_passant.h"
@@ -280,6 +279,41 @@ static void editcoup(coup const *mov)
       case move_effect_piece_addition:
       {
         active_piece_pos = initsquare; /* move_effect_journal[curr].u.piece_addition.on; */
+
+        switch (move_effect_journal[curr].reason)
+        {
+          case move_effect_reason_circe_rebirth:
+          {
+            StdString(" [+");
+            WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
+                      move_effect_journal[curr].u.piece_addition.added,
+                      true);
+            WritePiece(move_effect_journal[curr].u.piece_addition.added);
+
+            WriteSquare(move_effect_journal[curr].u.piece_addition.on);
+            if (mov->cir_prom!=Empty)
+            {
+              Flags written_spec = move_effect_journal[curr].u.piece_addition.addedspec;
+              if (mov->bool_cir_cham_prom)
+                SETFLAG(written_spec,Chameleon);
+              StdChar('=');
+              WriteSpec(written_spec,mov->cir_prom,true);
+              WritePiece(mov->cir_prom);
+            }
+
+            if (TSTFLAG(move_effect_journal[curr].u.piece_addition.addedspec,Volage)
+                && SquareCol(mov->cpzz) != SquareCol(move_effect_journal[curr].u.piece_addition.on))
+            {
+              StdChar('=');
+              StdChar((mov->tr == White) ? WhiteChar : BlackChar);
+            }
+            StdChar(']');
+            break;
+          }
+
+          default:
+            break;
+        }
         break;
       }
 
@@ -318,43 +352,6 @@ static void editcoup(coup const *mov)
       default:
         break;
     }
-
-  if (mov->sqren != initsquare) {
-    piece   p= CondFlag[antieinstein]
-        ? einstein_increase_piece(mov->ppri)
-        : CondFlag[parrain]
-        ? mov->ren_parrain
-        : CondFlag[chamcirce]
-        ? ChamCircePiece(mov->ppri)
-        : (anyclone && abs(mov->pjzz) != roib)
-        ? -mov->pjzz
-        : (anytraitor && abs(mov->ppri) >= roib)
-        ? -mov->ppri
-        : mov->ppri;
-    StdString(" [+");
-    WriteSpec(mov->ren_spec,p, p!=vide);
-    WritePiece(p);
-
-    WriteSquare(mov->sqren);
-    if (mov->cir_prom!=Empty)
-    {
-      Flags written_spec = mov->ren_spec;
-      if (mov->bool_cir_cham_prom)
-        SETFLAG(written_spec,Chameleon);
-      StdChar('=');
-      WriteSpec(written_spec,mov->cir_prom,p!=vide);
-      WritePiece(mov->cir_prom);
-    }
-
-    if (TSTFLAG(mov->ren_spec, Volage)
-        && SquareCol(mov->cpzz) != SquareCol(mov->sqren))
-    {
-      sprintf(GlobalStr, "=(%c)",
-              (mov->tr == White) ? WhiteChar : BlackChar);
-      StdString(GlobalStr);
-    }
-    StdChar(']');
-  }
 
   if (CondFlag[republican])
     write_republican_king_placement(mov);

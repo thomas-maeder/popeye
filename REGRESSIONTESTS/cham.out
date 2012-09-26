@@ -658,13 +658,13 @@ Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
 
    1.cLf1-g2=cT !
 
-   1.cLf1*a6=cT [+scBf1=scD] !
+   1.cLf1*a6=cT [+sBf1=scD] !
 
-   1.cLf1*a6=cT [+scBf1=scS] !
+   1.cLf1*a6=cT [+sBf1=scS] !
 
-   1.cLf1*a6=cT [+scBf1=scT] !
+   1.cLf1*a6=cT [+sBf1=scT] !
 
-   1.cLf1*a6=cT [+scBf1=scL] !
+   1.cLf1*a6=cT [+sBf1=scL] !
 
    1.cLf1*a6=cT [+sBf1=sD] !
 

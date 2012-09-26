@@ -463,8 +463,6 @@ typedef struct {
       cpzz;     /* capture square             */
   square          sqren;      /* rebirth square (Circe ...) */
   piece           pjzz,     /* piece moving               */
-      ppri,     /* piece captured             */
-      ren_parrain,    /*                            */
       football_substitution;    /*                            */
   PieNam norm_prom;    /*                            */
   PieNam cir_prom;    /*                            */

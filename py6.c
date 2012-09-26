@@ -2053,7 +2053,6 @@ void current(coup *mov)
   /* at most one of the two current_promotion_of_*moving[nbply] is different from vide! */
   mov->norm_prom = current_promotion_of_moving[nbply]+current_promotion_of_reborn_moving[nbply]-Empty;
   mov->football_substitution = current_football_substitution[nbply];
-  mov->ppri =            pprise[nbply];
   mov->sqren =           current_circe_rebirth_square[nbply];
   mov->cir_prom =        current_promotion_of_capturee[nbply];
 
@@ -2068,7 +2067,6 @@ void current(coup *mov)
   /* hope the following works with parrain too */
   mov->ren_spec =  spec[current_circe_rebirth_square[nbply]];
   mov->bool_senti = senti[nbply];
-  mov->ren_parrain = ren_parrain[nbply];
   mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[nbply];
   mov->bool_cir_cham_prom = promotion_of_circe_reborn_into_chameleon[nbply];
   mov->pjazz =     jouearr[nbply];
