@@ -30,11 +30,6 @@ void republican_current(ply ply_id, coup *move);
  */
 boolean republican_moves_equal(coup const *move1, coup const *move2);
 
-/* Write how the opposite king is placed as part of a move
- * @param move address of move being written
- */
-void write_republican_king_placement(coup const *move);
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */

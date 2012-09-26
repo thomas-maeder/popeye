@@ -212,23 +212,6 @@ boolean republican_moves_equal(coup const *move1, coup const *move2)
   return result;
 }
 
-/* Write how the opposite king is placed as part of a move
- * @param move address of move being written
- */
-void write_republican_king_placement(coup const *mov)
-{
-  if (mov->repub_k<=square_h8 && mov->repub_k>=square_a1)
-  {
-    Flags ren_spec = mov->ren_spec;
-    SETFLAG(ren_spec,advers(mov->tr));
-    StdString("[+");
-    WriteSpec(ren_spec,roib, true);
-    WritePiece(roib);
-    WriteSquare(mov->repub_k);
-    StdChar(']');
-  }
-}
-
 static void instrument_defense(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);

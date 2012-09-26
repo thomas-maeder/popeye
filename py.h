@@ -475,8 +475,7 @@ typedef struct {
       bool_norm_cham_prom,  /*                            */
       bool_cir_cham_prom; /*                            */
   Side    tr;     /*                            */
-  Flags           speci,      /*                            */
-      ren_spec;   /*                            */
+  Flags           speci;   /*                            */
   square    repub_k;    /*                            */
   Flags           new_spec;   /*                            */
   square    hurdle;     /*                            */

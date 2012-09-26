@@ -311,6 +311,18 @@ static void editcoup(coup const *mov)
             break;
           }
 
+          case move_effect_reason_republican_king_insertion:
+          {
+            StdString("[+");
+            WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
+                      move_effect_journal[curr].u.piece_addition.added,
+                      true);
+            WritePiece(move_effect_journal[curr].u.piece_addition.added);
+            WriteSquare(move_effect_journal[curr].u.piece_addition.on);
+            StdChar(']');
+            break;
+          }
+
           default:
             break;
         }
@@ -352,9 +364,6 @@ static void editcoup(coup const *mov)
       default:
         break;
     }
-
-  if (CondFlag[republican])
-    write_republican_king_placement(mov);
 
   if (mov->renkam!=initsquare)
   {
