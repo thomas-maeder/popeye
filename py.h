@@ -467,10 +467,7 @@ typedef struct {
   PieNam norm_prom;    /*                            */
   PieNam cir_prom;    /*                            */
   square          renkam;     /*                            */
-  unsigned int    numi;     /*                            */
-  int             sum;      /*                            */
-  boolean         promi,      /*                            */
-      bool_norm_cham_prom,  /*                            */
+  boolean         bool_norm_cham_prom,  /*                            */
       bool_cir_cham_prom; /*                            */
   square    repub_k;    /*                            */
   square    hurdle;     /*                            */

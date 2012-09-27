@@ -26,13 +26,17 @@ static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 static void move_imitators(int delta)
 {
   unsigned int i;
+  unsigned int number_of_imitators_to_be_moved = number_of_imitators;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",number_of_imitators);
-  for (i=0; i!=number_of_imitators; ++i)
+  if (promotion_of_moving_into_imitator[nbply])
+    --number_of_imitators_to_be_moved;
+
+  TraceValue("%u",number_of_imitators_to_be_moved);
+  for (i=0; i!=number_of_imitators_to_be_moved; ++i)
   {
     isquare[i] += delta;
     TraceSquare(isquare[i]);

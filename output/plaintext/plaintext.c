@@ -437,26 +437,31 @@ static void editcoup(coup const *mov)
         break;
       }
 
+      case move_effect_imitator_movement:
+      {
+        context_close(&context);
+
+        context_open(&context,"[","]");
+
+        StdChar('I');
+        {
+          unsigned int icount;
+          for (icount = 0; icount<number_of_imitators; ++icount)
+          {
+            WriteSquare(isquare[icount]);
+            if (icount+1<number_of_imitators)
+              StdChar(',');
+          }
+        }
+        break;
+      }
+
       default:
         break;
     }
 
   context_close(&context);
 
-  if (mov->numi && CondFlag[imitators])
-  {
-    unsigned int icount;
-    int const diff = im0-isquare[0];
-    StdChar('[');
-    for (icount = 1; icount<=mov->numi; icount++)
-    {
-      StdChar('I');
-      WriteSquare(isquare[icount-1] + mov->sum + diff);
-      if (icount<mov->numi)
-        StdChar(',');
-    }
-    StdChar(']');
-  }
   if (mov->osc) {
     StdString("[");
     StdChar(WhiteChar);

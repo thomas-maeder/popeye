@@ -2056,11 +2056,6 @@ void current(coup *mov)
   mov->cir_prom =        current_promotion_of_capturee[nbply];
 
   mov->renkam = current_anticirce_rebirth_square[nbply];
-  mov->promi =  promotion_of_moving_into_imitator[nbply];
-  mov->numi =     number_of_imitators - (mov->promi ? 1 : 0);
-  /* Promoted imitator will be output 'normally'
-     from the next1 move on. */
-  mov->sum = isquare[0] - im0;
 
   /* hope the following works with parrain too */
   mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[nbply];
