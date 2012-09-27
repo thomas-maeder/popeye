@@ -25,9 +25,9 @@
           PlatzwechselCirce
                 Duplex
 
-  1.Tb8*b1 [+wBb8=wD] + Kf1*f2 [+sBf1=sL]   2.Lf1-c4 Db8-e5 # 
+  1.Tb8*b1 [+wBb8=D] + Kf1*f2 [+sBf1=L]   2.Lf1-c4 Db8-e5 # 
 
-  1.Kf1*f2 [+sBf1=sS] Tb8*b1 [+wBb8=wT]   2.Tb8*g8 [+sLb8] Lb8-a7 # 
+  1.Kf1*f2 [+sBf1=S] Tb8*b1 [+wBb8=T]   2.Tb8*g8 [+sLb8] Lb8-a7 # 
 
               empile:       20748
            play_move:       12029
@@ -101,9 +101,9 @@ Loesung beendet.
           PlatzwechselCirce
                 Duplex
 
-  1.c4-c3 Nb1*c3 [+sBb1=sT]   2.Tb1-b8 Nc3-g5 # 
+  1.c4-c3 Nb1*c3 [+sBb1=T]   2.Tb1-b8 Nc3-g5 # 
 
-  1.Ka6-a5 c4-c3   2.Nb1*c3 [+sBb1=sD] Db1-b5 # 
+  1.Ka6-a5 c4-c3   2.Nb1*c3 [+sBb1=D] Db1-b5 # 
 
               empile:        3908
            play_move:        3564

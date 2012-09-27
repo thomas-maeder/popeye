@@ -48,7 +48,7 @@ static void do_kamikaze_rebirth(Side trait_ply)
 
     if (e[current_anticirce_rebirth_square[nbply]]==vide
         && !(CondFlag[contactgrid] && nogridcontact(current_anticirce_rebirth_square[nbply])))
-      move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
+      move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
                                             current_anticirce_rebirth_square[nbply],
                                             pi_arriving,
                                             spec_pi_moving);

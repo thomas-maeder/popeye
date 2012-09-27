@@ -13,6 +13,47 @@
 #include <assert.h>
 #include <stdlib.h>
 
+typedef struct
+{
+    char const * closing_sequence;
+    piece moving;
+    Flags non_side_flags;
+    square target_square;
+} editcoup_context;
+
+static void context_open(editcoup_context *context,
+                         char const *opening_sequence,
+                         char const *closing_sequence)
+{
+  StdString(opening_sequence);
+
+  context->moving = vide;
+  context->non_side_flags = 0;
+  context->target_square = initsquare;
+  context->closing_sequence = closing_sequence;
+}
+
+static void context_close(editcoup_context *context)
+{
+  StdString(context->closing_sequence);
+}
+
+static void context_set_target_square(editcoup_context *context, square s)
+{
+  context->target_square = s;
+}
+
+static void context_set_moving_piece(editcoup_context *context, piece p)
+{
+  context->moving = p;
+}
+
+static void context_set_non_side_flags(editcoup_context *context, Flags flags)
+{
+  Flags const side_flag_mask = BIT(White)|BIT(Black);
+  context->non_side_flags = flags&~side_flag_mask;
+}
+
 static void editcoup(coup const *mov)
 {
   char    BlackChar= *GetMsgString(BlackColor);
@@ -21,9 +62,7 @@ static void editcoup(coup const *mov)
   move_effect_journal_index_type curr;
   move_effect_journal_index_type capture = move_effect_journal_index_null;
   move_effect_journal_index_type castling = move_effect_journal_index_null;
-  Flags active_non_side_flags = 0;
-  piece active_piece = vide;
-  square active_piece_pos = initsquare;
+  editcoup_context context = { "", vide, 0, initsquare };
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_move(mov);
@@ -39,27 +78,23 @@ static void editcoup(coup const *mov)
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_pawn_promotion:
-            if (active_piece_pos==move_effect_journal[curr].u.flags_change.on)
+            if (context.target_square==move_effect_journal[curr].u.flags_change.on)
             {
               StdChar('=');
               WriteSpec(move_effect_journal[curr].u.flags_change.to,
-                        active_piece,
+                        context.moving,
                         false);
-
-              {
-                Flags const side_flag_mask = BIT(White)|BIT(Black);
-                active_non_side_flags = move_effect_journal[curr].u.flags_change.to&~side_flag_mask;
-              }
+              context_set_non_side_flags(&context,move_effect_journal[curr].u.flags_change.to);
             }
             break;
 
           case move_effect_reason_half_neutral_neutralisation:
           case move_effect_reason_half_neutral_deneutralisation:
-            if (active_piece_pos==move_effect_journal[curr].u.flags_change.on)
+            if (context.target_square==move_effect_journal[curr].u.flags_change.on)
             {
               StdChar('=');
               WriteSpec(move_effect_journal[curr].u.flags_change.to,
-                        active_piece,
+                        context.moving,
                         true);
             }
             break;
@@ -77,7 +112,7 @@ static void editcoup(coup const *mov)
           case move_effect_reason_andernach_chess:
           case move_effect_reason_volage_side_change:
           case move_effect_reason_magic_square:
-            if (active_piece_pos==move_effect_journal[curr].u.side_change.on)
+            if (context.target_square==move_effect_journal[curr].u.side_change.on)
             {
               StdChar('=');
               StdChar(move_effect_journal[curr].u.side_change.to==White ? WhiteChar : BlackChar);
@@ -87,24 +122,14 @@ static void editcoup(coup const *mov)
           case move_effect_reason_magic_piece:
           case move_effect_reason_masand:
           {
-            StdString(" [");
+            context_close(&context);
 
+            context_open(&context," [","]");
             WriteSquare(move_effect_journal[curr].u.side_change.on);
             StdChar('=');
             StdChar(move_effect_journal[curr].u.side_change.to==White ? WhiteChar : BlackChar);
-
-            while (curr+1!=top
-                   && move_effect_journal[curr+1].type==move_effect_side_change
-                   && move_effect_journal[curr+1].reason==move_effect_journal[curr].reason)
-            {
-              ++curr;
-              StdString(", ");
-              WriteSquare(move_effect_journal[curr].u.side_change.on);
-              StdChar('=');
-              StdChar(move_effect_journal[curr].u.side_change.to==White ? WhiteChar : BlackChar);
-            }
-
-            StdString("]");
+            context_set_target_square(&context,move_effect_journal[curr].u.side_change.on);
+            context_set_moving_piece(&context,-context.moving);
             break;
           }
 
@@ -123,29 +148,27 @@ static void editcoup(coup const *mov)
           case move_effect_reason_chameleon_movement:
           case move_effect_reason_degradierung:
           case move_effect_reason_norsk_chess:
-            if (active_piece_pos==move_effect_journal[curr].u.piece_change.on
+            if (context.target_square==move_effect_journal[curr].u.piece_change.on
                 /* regular promotion doesn't test whether the "promotion" is
                  * into pawn (e.g. in SingleBox); it's more efficient to test here */
                 && (move_effect_journal[curr].u.piece_change.to
                     !=move_effect_journal[curr].u.piece_change.from))
             {
               StdChar('=');
-              if (active_non_side_flags!=0)
-              {
-                WriteSpec(active_non_side_flags,move_effect_journal[curr].u.piece_change.to,false);
-                active_non_side_flags = 0;
-              }
+              if (context.non_side_flags!=0)
+                WriteSpec(context.non_side_flags,move_effect_journal[curr].u.piece_change.to,false);
               WritePiece(move_effect_journal[curr].u.piece_change.to);
             }
             break;
 
           case move_effect_reason_singlebox_promotion:
           {
-            StdString(" [");
+            context_close(&context);
+
+            context_open(&context," [","]");
             WriteSquare(move_effect_journal[curr].u.piece_change.on);
             StdString("=");
             WritePiece(move_effect_journal[curr].u.piece_change.to);
-            StdString("]");
             break;
           }
 
@@ -170,11 +193,16 @@ static void editcoup(coup const *mov)
         {
           case move_effect_reason_moving_piece_movement:
           {
-            piece const moving = move_effect_journal[curr].u.piece_movement.moving;
-            square const sq_arrival = move_effect_journal[curr].u.piece_movement.to;
-            if (WriteSpec(move_effect_journal[curr].u.piece_movement.movingspec,moving,false)
-                || (moving!=pb && moving!=pn))
-              WritePiece(moving);
+            context_close(&context);
+
+            context_open(&context,"","");
+
+            if (WriteSpec(move_effect_journal[curr].u.piece_movement.movingspec,
+                          move_effect_journal[curr].u.piece_movement.moving,
+                          false)
+                || (move_effect_journal[curr].u.piece_movement.moving!=pb
+                    && move_effect_journal[curr].u.piece_movement.moving!=pn))
+              WritePiece(move_effect_journal[curr].u.piece_movement.moving);
 
             WriteSquare(move_effect_journal[curr].u.piece_movement.from);
 
@@ -187,7 +215,7 @@ static void editcoup(coup const *mov)
                 WriteSquare(mov->mren);
               }
               StdChar('-');
-              WriteSquare(sq_arrival);
+              WriteSquare(move_effect_journal[curr].u.piece_movement.to);
             }
             else
             {
@@ -196,24 +224,24 @@ static void editcoup(coup const *mov)
               {
                 square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
                 StdChar('*');
-                if (sq_capture==sq_arrival)
-                  WriteSquare(sq_arrival);
+                if (sq_capture==move_effect_journal[curr].u.piece_movement.to)
+                  WriteSquare(move_effect_journal[curr].u.piece_movement.to);
                 else
                 {
                   /* TODO better modeling for e.p.? */
                   if (is_pawn(move_effect_journal[capture].u.piece_removal.removed)
-                      && is_pawn(moving)
-                      && (sq_arrival==ep[parent_ply[nbply]]
-                          || sq_arrival==ep2[parent_ply[nbply]]))
+                      && is_pawn(move_effect_journal[curr].u.piece_movement.moving)
+                      && (move_effect_journal[curr].u.piece_movement.to==ep[parent_ply[nbply]]
+                          || move_effect_journal[curr].u.piece_movement.to==ep2[parent_ply[nbply]]))
                   {
-                    WriteSquare(sq_arrival);
+                    WriteSquare(move_effect_journal[curr].u.piece_movement.to);
                     StdString(" ep.");
                   }
                   else
                   {
                     WriteSquare(sq_capture);
                     StdChar('-');
-                    WriteSquare(sq_arrival);
+                    WriteSquare(move_effect_journal[curr].u.piece_movement.to);
                   }
                 }
 
@@ -222,7 +250,7 @@ static void editcoup(coup const *mov)
               else
               {
                 StdChar('-');
-                WriteSquare(sq_arrival);
+                WriteSquare(move_effect_journal[curr].u.piece_movement.to);
               }
             }
             break;
@@ -265,67 +293,68 @@ static void editcoup(coup const *mov)
             break;
         }
 
-        {
-          Flags const side_flag_mask = BIT(White)|BIT(Black);
-          active_non_side_flags = move_effect_journal[curr].u.piece_movement.movingspec&~side_flag_mask;
-        }
-
-        active_piece = move_effect_journal[curr].u.piece_movement.moving;
-        active_piece_pos = move_effect_journal[curr].u.piece_movement.to;
+        context_set_target_square(&context,move_effect_journal[curr].u.piece_movement.to);
+        context_set_moving_piece(&context,move_effect_journal[curr].u.piece_movement.moving);
+        context_set_non_side_flags(&context,move_effect_journal[curr].u.piece_movement.movingspec);
 
         break;
       }
 
       case move_effect_piece_addition:
       {
-        active_piece_pos = initsquare; /* move_effect_journal[curr].u.piece_addition.on; */
-
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_circe_rebirth:
           {
-            StdString(" [+");
+            context_close(&context);
+
+            context_open(&context," [+","]");
             WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
                       move_effect_journal[curr].u.piece_addition.added,
                       true);
             WritePiece(move_effect_journal[curr].u.piece_addition.added);
-
             WriteSquare(move_effect_journal[curr].u.piece_addition.on);
-            if (mov->cir_prom!=Empty)
-            {
-              Flags written_spec = move_effect_journal[curr].u.piece_addition.addedspec;
-              if (mov->bool_cir_cham_prom)
-                SETFLAG(written_spec,Chameleon);
-              StdChar('=');
-              WriteSpec(written_spec,mov->cir_prom,true);
-              WritePiece(mov->cir_prom);
-            }
-
-            if (TSTFLAG(move_effect_journal[curr].u.piece_addition.addedspec,Volage)
-                && SquareCol(mov->cpzz) != SquareCol(move_effect_journal[curr].u.piece_addition.on))
-            {
-              StdChar('=');
-              StdChar((mov->tr == White) ? WhiteChar : BlackChar);
-            }
-            StdChar(']');
             break;
           }
 
           case move_effect_reason_republican_king_insertion:
           {
-            StdString("[+");
+            context_close(&context);
+
+            context_open(&context,"[+","]");
             WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
                       move_effect_journal[curr].u.piece_addition.added,
                       true);
             WritePiece(move_effect_journal[curr].u.piece_addition.added);
             WriteSquare(move_effect_journal[curr].u.piece_addition.on);
-            StdChar(']');
+            break;
+          }
+
+          case move_effect_reason_anticirce_rebirth:
+          {
+            StdString("->");
+            WriteSquare(move_effect_journal[curr].u.piece_addition.on);
+            if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
+            {
+              StdChar('=');
+              WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
+                        mov->norm_prom,
+                        true);
+              WritePiece(mov->norm_prom);
+            }
             break;
           }
 
           default:
             break;
         }
+
+        context_set_target_square(&context,
+                                  move_effect_journal[curr].u.piece_addition.on);
+        context_set_moving_piece(&context,
+                                 move_effect_journal[curr].u.piece_addition.added);
+        context_set_non_side_flags(&context,
+                                   move_effect_journal[curr].u.piece_addition.addedspec);
         break;
       }
 
@@ -336,6 +365,32 @@ static void editcoup(coup const *mov)
           case move_effect_reason_regular_capture:
           {
             capture = curr;
+            break;
+          }
+
+          case move_effect_reason_anticirce_rebirth:
+          {
+            context_close(&context);
+
+            context_open(&context,"[","]");
+            WriteSpec(move_effect_journal[curr].u.piece_removal.removedspec,
+                      move_effect_journal[curr].u.piece_removal.removed,
+                      true);
+            WritePiece(move_effect_journal[curr].u.piece_removal.removed);
+            WriteSquare(move_effect_journal[curr].u.piece_removal.from);
+            break;
+          }
+
+          case move_effect_reason_kamikaze_capturer:
+          {
+            context_close(&context);
+
+            context_open(&context,"[-","]");
+            WriteSpec(move_effect_journal[curr].u.piece_removal.removedspec,
+                      move_effect_journal[curr].u.piece_removal.removed,
+                      true);
+            WritePiece(move_effect_journal[curr].u.piece_removal.removed);
+            WriteSquare(move_effect_journal[curr].u.piece_removal.from);
             break;
           }
 
@@ -365,22 +420,8 @@ static void editcoup(coup const *mov)
         break;
     }
 
-  if (mov->renkam!=initsquare)
-  {
-    StdChar('[');
-    WriteSpec(mov->new_spec,mov->pjazz, mov->pjazz != vide);
-    WritePiece(mov->pjazz);
-    WriteSquare(mov->cazz);
-    StdString("->");
-    WriteSquare(mov->renkam);
-    if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
-    {
-      StdChar('=');
-      WriteSpec(mov->new_spec,mov->norm_prom, true);
-      WritePiece(mov->norm_prom);
-    }
-    StdChar(']');
-  }
+  context_close(&context);
+
   if (mov->bool_senti) {
     StdString("[+");
     StdChar((!SentPionNeutral || !TSTFLAG(mov->speci, Neutral))

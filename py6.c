@@ -2071,12 +2071,11 @@ void current(coup *mov)
   mov->pjazz =     jouearr[nbply];
   if (CondFlag[republican])
     republican_current(nbply,mov);
-  mov->new_spec =  mov->renkam == initsquare ? spec[sq_arrival] : spec[mov->renkam];
   mov->hurdle =    chop[coup_id];
   mov->sb3where =  singlebox_type3_promotions[coup_id].where;
   mov->sb3what = singlebox_type3_promotions[coup_id].what;
   if (mov->sb3what!=vide && mov->sb3where==mov->cdzz)
-    mov->pjzz = mov->pjazz = mov->sb3what;
+    mov->pjzz = mov->sb3what;
 
   mov->sb2where = singlebox_type2_latent_pawn_promotions[nbply].where;
   mov->sb2what = singlebox_type2_latent_pawn_promotions[nbply].what;

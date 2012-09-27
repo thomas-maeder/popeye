@@ -115,9 +115,9 @@ solution finished.
                 Circe
             AntiSuperCirce
 
-  1...b6*a7 [+bPa7][wPa7->a6] = 
+  1...b6*a7[wPa7->a6] [+bPa7] = 
 
-  1.a7*b6 [+wPb2][bPb6->a3] b2*a3 [+bPa7][wPa3->a6] = 
+  1.a7*b6[bPb6->a3] [+wPb2] b2*a3[wPa3->a6] [+bPa7] = 
 
               empile:        3456
            play_move:        2824

@@ -477,7 +477,6 @@ typedef struct {
   Side    tr;     /*                            */
   Flags           speci;   /*                            */
   square    repub_k;    /*                            */
-  Flags           new_spec;   /*                            */
   square    hurdle;     /*                            */
   square    sb2where;   /*                            */
   piece   sb2what;    /*                            */

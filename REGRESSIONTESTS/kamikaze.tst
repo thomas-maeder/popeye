@@ -40,7 +40,7 @@ b) Circe
         orig_rnechec:           0
 c) Circe  bSh7-->f1  zf11
 
-   1.kBd3*f1 [+bSg8][wkBf1->f1] z !
+   1.kBd3*f1[-wkBf1] [+wkBf1] [+bSg8] z !
 
 
               empile:          11
@@ -79,7 +79,7 @@ solution finished.
       1...b5-b4
           2.Rh1-b1
               2...b4-b3
-                  3.kRb2*b3 [+bPb7][wkRb3->h1]
+                  3.kRb2*b3[-wkRb3] [+wkRh1] [+bPb7]
 
 
               empile:        7156
@@ -122,13 +122,13 @@ originally occupied by the other exchanger
               2...kPg3-g2
                   3.Rg1-d1
                       3...kPg2-g1=kQ
-                          4.kSh3*g1 [+bkQd8][wkSg1->g1]
+                          4.kSh3*g1[-wkSg1] [+wkSg1] [+bkQd8]
                       3...kPg2-g1=kS
-                          4.kSh3*g1 [+bkSb8][wkSg1->g1]
+                          4.kSh3*g1[-wkSg1] [+wkSg1] [+bkSb8]
                       3...kPg2-g1=kR
-                          4.kSh3*g1 [+bkRh8][wkSg1->g1]
+                          4.kSh3*g1[-wkSg1] [+wkSg1] [+bkRh8]
                       3...kPg2-g1=kB
-                          4.kSh3*g1 [+bkBf8][wkSg1->g1]
+                          4.kSh3*g1[-wkSg1] [+wkSg1] [+bkBf8]
 
 
               empile:       47971

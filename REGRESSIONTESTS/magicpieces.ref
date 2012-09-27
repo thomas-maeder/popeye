@@ -25,11 +25,11 @@
   #2                          9 + 9
       Magic a8 b7 e6 f6 h6 e2 g1
 
-      1...mPe2-e1=mQ [b1=w, e3=w, g3=w]
+      1...mPe2-e1=mQ [b1=w] [e3=w] [g3=w]
           2.mPb7-b8=mS #
       1...mPe2-e1=mS
-          2.mPb7-b8=mQ [b1=w, g3=w] #
-      1...mPe2-e1=mR [b1=w, e3=w]
+          2.mPb7-b8=mQ [b1=w] [g3=w] #
+      1...mPe2-e1=mR [b1=w] [e3=w]
           2.mPb7-b8=mB [g3=w] #
       1...mPe2-e1=mB [g3=w]
           2.mPb7-b8=mR [b1=w] #
@@ -37,38 +37,38 @@
           2.mPb7-b8=mQ [b1=w] #
           2.mPb7-b8=mR [b1=w] #
       1...Sf7-e5
-          2.mSf6-d7 [c5=b, e5=w] #
+          2.mSf6-d7 [c5=b] [e5=w] #
 
-   1.mQh6-g7 [g3=w, f7=w] ! threat:
+   1.mQh6-g7 [g3=w] [f7=w] ! threat:
           2.Sf7-e5 #
-      1...mPe2-e1=mQ [b1=w, e3=w, g3=b]
+      1...mPe2-e1=mQ [b1=w] [e3=w] [g3=b]
           2.mPb7-b8=mB [g3=w] #
       1...mPe2-e1=mS
           2.mPb7-b8=mR [b1=w] #
-      1...mPe2-e1=mR [b1=w, e3=w]
+      1...mPe2-e1=mR [b1=w] [e3=w]
           2.mPb7-b8=mS #
       1...mPe2-e1=mB [g3=b]
-          2.mPb7-b8=mQ [b1=w, g3=w] #
+          2.mPb7-b8=mQ [b1=w] [g3=w] #
 
-   1.mQh6-g6 [b1=w, g3=w, h5=w, f7=w] ! threat:
+   1.mQh6-g6 [b1=w] [g3=w] [h5=w] [f7=w] ! threat:
           2.Sf7-e5 #
-      1...mPe2-e1=mQ [b1=b, e3=w, g3=b]
-          2.mPb7-b8=mQ [b1=w, g3=w] #
+      1...mPe2-e1=mQ [b1=b] [e3=w] [g3=b]
+          2.mPb7-b8=mQ [b1=w] [g3=w] #
       1...mPe2-e1=mS
           2.mPb7-b8=mS #
-      1...mPe2-e1=mR [b1=b, e3=w]
+      1...mPe2-e1=mR [b1=b] [e3=w]
           2.mPb7-b8=mR [b1=w] #
       1...mPe2-e1=mB [g3=b]
           2.mPb7-b8=mB [g3=w] #
 
-   1.mQh6-h7 [b1=w, f7=w] ! threat:
+   1.mQh6-h7 [b1=w] [f7=w] ! threat:
           2.Sf7-e5 #
-      1...mPe2-e1=mQ [b1=b, e3=w, g3=w]
+      1...mPe2-e1=mQ [b1=b] [e3=w] [g3=w]
           2.mPb7-b8=mR [b1=w] #
       1...mPe2-e1=mS
           2.mPb7-b8=mB [g3=w] #
-      1...mPe2-e1=mR [b1=b, e3=w]
-          2.mPb7-b8=mQ [b1=w, g3=w] #
+      1...mPe2-e1=mR [b1=b] [e3=w]
+          2.mPb7-b8=mQ [b1=w] [g3=w] #
       1...mPe2-e1=mB [g3=w]
           2.mPb7-b8=mS #
       1...Sg3*h1
@@ -112,7 +112,7 @@ solution finished.
   #2                        15 + 11
 Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
 
-   1.mPf7-f8=mQ [d6=w, f6=w] + ?
+   1.mPf7-f8=mQ [d6=w] [f6=w] + ?
     but
       1...Bg2-d5 !
 
@@ -127,22 +127,22 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
       1...d6*c5 [c7=w] !
 
    1.mSg3-e2 [g2=w] ? threat:
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mPd4*e3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mBf4*e3 [d6=w, f6=w]
+      1...mBf4*e3 [d6=w] [f6=w]
           2.mPf7-f8=mS [d7=b] #
       1...mBf4-g3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mBf4-h6 [d6=w, f6=w]
+      1...mBf4-h6 [d6=w] [f6=w]
           2.mPf7-f8=mS [d7=b] #
       1...mBf4-g5 [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...mSh4-f5 [e3=b, d6=w]
+      1...mSh4-f5 [e3=b] [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...d6-d5 [d5=w, c7=w]
+      1...d6-d5 [d5=w] [c7=w]
           2.Rc7*c6 #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
@@ -150,59 +150,59 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
       1...Sf6*g8 !
 
    1.mSg3-h1 [g2=w] ? threat:
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mPd4*e3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mBf4*e3 [d6=w, f6=w]
+      1...mBf4*e3 [d6=w] [f6=w]
           2.mPf7-f8=mS [d7=b] #
       1...mBf4-g3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mBf4-h6 [d6=w, f6=w]
+      1...mBf4-h6 [d6=w] [f6=w]
           2.mPf7-f8=mS [d7=b] #
       1...mBf4-g5 [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...mSh4-f5 [e3=b, d6=w]
+      1...mSh4-f5 [e3=b] [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...d6-d5 [d5=w, c7=w]
+      1...d6-d5 [d5=w] [c7=w]
           2.Rc7*c6 #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
     but
       1...Sf6*g8 !
 
-   1.mSg3-h5 [g2=w, f6=w] ! threat:
+   1.mSg3-h5 [g2=w] [f6=w] ! threat:
           2.mPf7-f8=mB [d6=w] #
       1...mPd4-d3 [f6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4*e3 [f6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
-      1...mBf4*e3 [d6=w, f6=b]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
+      1...mBf4*e3 [d6=w] [f6=b]
           2.mPf7-f8=mR [f6=w] #
       1...mBf4-g3 [f6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
-      1...mBf4-h6 [d6=w, f6=b]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
+      1...mBf4-h6 [d6=w] [f6=b]
           2.mPf7-f8=mR [f6=w] #
       1...mBf4-g5 [d6=w]
           2.mPf7-f8=mS [d7=b] #
-      1...mSh4-f5 [e3=b, d6=w]
+      1...mSh4-f5 [e3=b] [d6=w]
           2.mPf7-f8=mS [d7=b] #
-      1...d6-d5 [d5=w, c7=w]
+      1...d6-d5 [d5=w] [c7=w]
           2.Rc7*c6 #
 
-   1.mSg3-f5 [g2=w, e3=b, d6=w] ? threat:
+   1.mSg3-f5 [g2=w] [e3=b] [d6=w] ? threat:
           2.mPf7-f8=mR [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mS [d7=b] #
       1...mBf4-h6 [d6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
-      1...mBf4-g5 [d6=b, f6=w]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
+      1...mBf4-g5 [d6=b] [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mBf4-e5 [f6=w]
           2.mPf7-f8=mS [d7=b] #
-      1...mSh4*f5 [e3=w, d6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+      1...mSh4*f5 [e3=w] [d6=b]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
       1...Sf6*g8
@@ -210,33 +210,33 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
     but
       1...e3*d2 !
 
-   1.mSg3-e4 [g2=w, d6=w, f6=w] ? threat:
+   1.mSg3-e4 [g2=w] [d6=w] [f6=w] ? threat:
           2.mPf7-f8=mS [d7=b] #
       1...mPd4-d3 [f6=b]
           2.mPf7-f8=mR [f6=w] #
       1...mPd4*e3 [f6=b]
           2.mPf7-f8=mR [f6=w] #
-      1...mBf4*e3 [d6=b, f6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+      1...mBf4*e3 [d6=b] [f6=b]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mBf4-g3 [f6=b]
           2.mPf7-f8=mR [f6=w] #
-      1...mBf4-h6 [d6=b, f6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+      1...mBf4-h6 [d6=b] [f6=b]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mBf4-g5 [d6=b]
           2.mPf7-f8=mB [d6=w] #
-      1...mBf4*d6 [f6=b, c7=w]
+      1...mBf4*d6 [f6=b] [c7=w]
           2.mPf7-f8=mQ [f6=w] #
           2.mPf7-f8=mR [f6=w] #
-      1...mSh4-f5 [e3=b, d6=b]
+      1...mSh4-f5 [e3=b] [d6=b]
           2.mPf7-f8=mB [d6=w] #
     but
       1...Rc7*d7 [d7=w] !
 
    1.mBd2-e1 [g2=w] ? threat:
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mPd4*e3 [d6=w, f6=w]
+      1...mPd4*e3 [d6=w] [f6=w]
           2.mPf7-f8=mS [d7=b] #
       1...mBf4*e3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
@@ -244,22 +244,22 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mB [d6=w] #
       1...mBf4-h6 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mSh4-f5 [e3=b, d6=w]
+      1...mSh4-f5 [e3=b] [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...d6-d5 [d5=w, c7=w]
+      1...d6-d5 [d5=w] [c7=w]
           2.Rc7*c6 #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
     but
       1...Sf6*g8 !
 
-   1.mBd2-a5 [g2=w, c7=w] ? threat:
+   1.mBd2-a5 [g2=w] [c7=w] ? threat:
           2.Rc7*c6 #
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4-d3 [f6=w]
           2.Rc7*c6 #
           2.mPf7-f8=mB [d6=w] #
-      1...mPd4*e3 [d6=w, f6=w]
+      1...mPd4*e3 [d6=w] [f6=w]
           2.Rc7*c6 #
           2.mPf7-f8=mS [d7=b] #
           2.Bg2-d5 #
@@ -273,25 +273,25 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.Rc7*c6 #
           2.mPf7-f8=mB [d6=w] #
       1...mSh4-f3
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mSh4-g6
-          2.mPf7-f8=mQ [d6=w, f6=w] #
-      1...mSh4-f5 [e3=b, d6=w]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
+      1...mSh4-f5 [e3=b] [d6=w]
           2.mPf7-f8=mR [f6=w] #
       1...mPc6-c5
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...Sf6-d5 [d5=w]
           2.Rc7*c6 #
       1...Sf6*g8
           2.Rc7*c6 #
     but
-      1...d6-d5 [d5=w, c7=b] !
+      1...d6-d5 [d5=w] [c7=b] !
 
-   1.mBd2-b4 [g2=w, d6=w] ? threat:
+   1.mBd2-b4 [g2=w] [d6=w] ? threat:
           2.mPf7-f8=mR [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mS [d7=b] #
-      1...mPd4*e3 [d6=b, f6=w]
+      1...mPd4*e3 [d6=b] [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mBf4*e3 [f6=w]
           2.mPf7-f8=mS [d7=b] #
@@ -299,11 +299,11 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mS [d7=b] #
       1...mBf4-h6 [f6=w]
           2.mPf7-f8=mS [d7=b] #
-      1...mBf4*d6 [f6=w, c7=w]
+      1...mBf4*d6 [f6=w] [c7=w]
           2.mPf7-f8=mS [d7=b] #
           2.mPf7-f8=mB #
-      1...mSh4-f5 [e3=b, d6=b]
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+      1...mSh4-f5 [e3=b] [d6=b]
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
       1...Sf6*g8
@@ -317,16 +317,16 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
       1...mBa1-c3 !
 
    1.mRf1-f3 [e3=b] ? threat:
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mBf4*g3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mBf4-h6 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mSh4-f5 [e3=w, d6=w]
+      1...mSh4-f5 [e3=w] [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...d6-d5 [d5=w, c7=w]
+      1...d6-d5 [d5=w] [c7=w]
           2.Rc7*c6 #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
@@ -334,7 +334,7 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
       1...Sf6*g8 !
 
    1.mRf1-f2 [g2=w] ? threat:
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mPd4*e3 [f6=w]
@@ -345,9 +345,9 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mB [d6=w] #
       1...mBf4-h6 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mSh4-f5 [e3=b, d6=w]
+      1...mSh4-f5 [e3=b] [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...d6-d5 [d5=w, c7=w]
+      1...d6-d5 [d5=w] [c7=w]
           2.Rc7*c6 #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
@@ -355,7 +355,7 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
       1...Sf6*g8 !
 
    1.mRf1-g1 [g2=w] ? threat:
-          2.mPf7-f8=mQ [d6=w, f6=w] #
+          2.mPf7-f8=mQ [d6=w] [f6=w] #
       1...mPd4-d3 [f6=w]
           2.mPf7-f8=mB [d6=w] #
       1...mPd4*e3 [f6=w]
@@ -364,9 +364,9 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mB [d6=w] #
       1...mBf4-e5 [f6=w]
           2.mPf7-f8=mB [d6=w] #
-      1...mSh4-f5 [e3=b, d6=w]
+      1...mSh4-f5 [e3=b] [d6=w]
           2.mPf7-f8=mR [f6=w] #
-      1...d6-d5 [d5=w, c7=w]
+      1...d6-d5 [d5=w] [c7=w]
           2.Rc7*c6 #
       1...Sf6-d5 [d5=w]
           2.Sd5-b6 #
@@ -412,31 +412,31 @@ Magic h8 g7 f4 g4 h4 a3 d3 f3 g3 h3 c2 d2 e2 g2 c1 e1
 
 a) 
 
-   1.mQf4-e3 [c5=w, e6=w] ! threat:
+   1.mQf4-e3 [c5=w] [e6=w] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, g6=w]
+      1...mBe2*d3 [c4=w] [g6=w]
           2.mPg7-g8=mS [e7=b] #
       1...mSg2*e3 [c4=w]
           2.mPg7-g8=mR [g6=w] #
-      1...mPg4*f3 [c4=w, e6=b, g6=w]
+      1...mPg4*f3 [c4=w] [e6=b] [g6=w]
           2.mPg7-g8=mB [e6=w] #
 
-   1.mQf4-g5 [c5=w, g6=w, e7=b] ! threat:
+   1.mQf4-g5 [c5=w] [g6=w] [e7=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=w, g6=b]
+      1...mBe2*d3 [c4=w] [e6=w] [g6=b]
           2.mPg7-g8=mR [g6=w] #
       1...mSg2-e3 [c4=w]
           2.mPg7-g8=mB [e6=w] #
-      1...mPg4*f3 [c4=w, e6=w]
+      1...mPg4*f3 [c4=w] [e6=w]
           2.mPg7-g8=mS [e7=w] #
 
-   1.mQf4-f5 [c5=w, e6=w, g6=w] ! threat:
+   1.mQf4-f5 [c5=w] [e6=w] [g6=w] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=b]
+      1...mBe2*d3 [c4=w] [e6=b]
           2.mPg7-g8=mB [e6=w] #
       1...mSg2-e3 [c4=w]
           2.mPg7-g8=mS [e7=b] #
-      1...mPg4*f3 [c4=w, g6=b]
+      1...mPg4*f3 [c4=w] [g6=b]
           2.mPg7-g8=mR [g6=w] #
 
 
@@ -446,32 +446,32 @@ a)
         orig_rnechec:       20341
 b) wPe6 
 
-   1.mQf4-e3 [c5=w, e6=b] ! threat:
+   1.mQf4-e3 [c5=w] [e6=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, g6=w]
+      1...mBe2*d3 [c4=w] [g6=w]
           2.mPg7-g8=mB [e6=w] #
       1...mSg2*e3 [c4=w]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
-      1...mPg4*f3 [c4=w, e6=w, g6=w]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
+      1...mPg4*f3 [c4=w] [e6=w] [g6=w]
           2.mPg7-g8=mS [e7=b] #
 
-   1.mQf4-g5 [c5=w, g6=w, e7=b] ! threat:
+   1.mQf4-g5 [c5=w] [g6=w] [e7=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=b, g6=b]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
+      1...mBe2*d3 [c4=w] [e6=b] [g6=b]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
       1...mSg2-e3 [c4=w]
           2.mPg7-g8=mS [e7=w] #
-      1...mPg4*f3 [c4=w, e6=b]
+      1...mPg4*f3 [c4=w] [e6=b]
           2.mPg7-g8=mB [e6=w] #
 
-   1.mQf4-f5 [c5=w, e6=b, g6=w] ! threat:
+   1.mQf4-f5 [c5=w] [e6=b] [g6=w] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=w]
+      1...mBe2*d3 [c4=w] [e6=w]
           2.mPg7-g8=mS [e7=b] #
       1...mSg2-e3 [c4=w]
           2.mPg7-g8=mB [e6=w] #
-      1...mPg4*f3 [c4=w, g6=b]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
+      1...mPg4*f3 [c4=w] [g6=b]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
 
 
               empile:       29898
@@ -480,31 +480,31 @@ b) wPe6
         orig_rnechec:       20605
 +c) wSg6 
 
-   1.mQf4-e3 [c5=w, e6=b] ! threat:
+   1.mQf4-e3 [c5=w] [e6=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, g6=b]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
+      1...mBe2*d3 [c4=w] [g6=b]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
       1...mSg2*e3 [c4=w]
           2.mPg7-g8=mB [e6=w] #
-      1...mPg4*f3 [c4=w, e6=w, g6=b]
+      1...mPg4*f3 [c4=w] [e6=w] [g6=b]
           2.mPg7-g8=mR [g6=w] #
 
-   1.mQf4-g5 [c5=w, g6=b, e7=b] ! threat:
+   1.mQf4-g5 [c5=w] [g6=b] [e7=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=b, g6=w]
+      1...mBe2*d3 [c4=w] [e6=b] [g6=w]
           2.mPg7-g8=mB [e6=w] #
       1...mSg2-e3 [c4=w]
           2.mPg7-g8=mR [g6=w] #
-      1...mPg4*f3 [c4=w, e6=b]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
+      1...mPg4*f3 [c4=w] [e6=b]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
 
-   1.mQf4-f5 [c5=w, e6=b, g6=b] ! threat:
+   1.mQf4-f5 [c5=w] [e6=b] [g6=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=w]
+      1...mBe2*d3 [c4=w] [e6=w]
           2.mPg7-g8=mR [g6=w] #
       1...mSg2-e3 [c4=w]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
-      1...mPg4*f3 [c4=w, g6=w]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
+      1...mPg4*f3 [c4=w] [g6=w]
           2.mPg7-g8=mB [e6=w] #
 
 
@@ -514,31 +514,31 @@ b) wPe6
         orig_rnechec:       20791
 +d) bPe6 
 
-   1.mQf4-e3 [c5=w, e6=w] ! threat:
+   1.mQf4-e3 [c5=w] [e6=w] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, g6=b]
+      1...mBe2*d3 [c4=w] [g6=b]
           2.mPg7-g8=mR [g6=w] #
       1...mSg2*e3 [c4=w]
           2.mPg7-g8=mS [e7=b] #
-      1...mPg4*f3 [c4=w, e6=b, g6=b]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
+      1...mPg4*f3 [c4=w] [e6=b] [g6=b]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
 
-   1.mQf4-g5 [c5=w, g6=b, e7=b] ! threat:
+   1.mQf4-g5 [c5=w] [g6=b] [e7=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=w, g6=w]
+      1...mBe2*d3 [c4=w] [e6=w] [g6=w]
           2.mPg7-g8=mS [e7=w] #
       1...mSg2-e3 [c4=w]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
-      1...mPg4*f3 [c4=w, e6=w]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
+      1...mPg4*f3 [c4=w] [e6=w]
           2.mPg7-g8=mR [g6=w] #
 
-   1.mQf4-f5 [c5=w, e6=w, g6=b] ! threat:
+   1.mQf4-f5 [c5=w] [e6=w] [g6=b] ! threat:
           2.mSa3*c4 [d6=b] #
-      1...mBe2*d3 [c4=w, e6=b]
-          2.mPg7-g8=mQ [e6=w, g6=w] #
+      1...mBe2*d3 [c4=w] [e6=b]
+          2.mPg7-g8=mQ [e6=w] [g6=w] #
       1...mSg2-e3 [c4=w]
           2.mPg7-g8=mR [g6=w] #
-      1...mPg4*f3 [c4=w, g6=w]
+      1...mPg4*f3 [c4=w] [g6=w]
           2.mPg7-g8=mS [e7=b] #
 
 
@@ -578,42 +578,42 @@ solution finished.
   #2                        11 + 15
 Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
 
-   1.mPe7-e8=mR [e6=w, f7=w] + ?
+   1.mPe7-e8=mR [e6=w] [f7=w] + ?
     but
       1...Bh2-d6 !
 
-   1.LIa5-c3 [c3=b, c6=b] ? threat:
+   1.LIa5-c3 [c3=b] [c6=b] ? threat:
           2.mRa8*a4 [a3=w] #
     but
       1...Bd1*c2 !
 
-   1.mLIg2-g8 [h2=w, e6=w] ! threat:
-          2.mPe7-e8=mS [f6=b, f7=w] #
+   1.mLIg2-g8 [h2=w] [e6=w] ! threat:
+          2.mPe7-e8=mS [f6=b] [f7=w] #
       1...Bd1-g4 [e6=b]
-          2.mPe7-e8=mR [e6=w, f7=w] #
+          2.mPe7-e8=mR [e6=w] [f7=w] #
       1...mLIh3-c8 [c6=b]
           2.mPe7-e8=mB [c6=w] #
       1...mLIa4-g4 [e6=b]
-          2.mPe7-e8=mR [e6=w, f7=w] #
+          2.mPe7-e8=mR [e6=w] [f7=w] #
       1...mLIa4-e4 [g6=b]
-          2.mPe7-e8=mLI [b5=w, g6=w, f7=w] #
-      1...mLIa4-c4 [c6=b, e6=b, f7=w]
-          2.mPe7-e8=mQ [c6=w, e6=w] #
+          2.mPe7-e8=mLI [b5=w] [g6=w] [f7=w] #
+      1...mLIa4-c4 [c6=b] [e6=b] [f7=w]
+          2.mPe7-e8=mQ [c6=w] [e6=w] #
 
-   1.mLIc2-e2 [d1=w, h2=w] ? threat:
-          2.mPe7-e8=mR [e6=w, f7=w] #
+   1.mLIc2-e2 [d1=w] [h2=w] ? threat:
+          2.mPe7-e8=mR [e6=w] [f7=w] #
       1...mLIh3-c8 [c6=b]
-          2.mPe7-e8=mQ [c6=w, e6=w] #
-      1...mLIh3-h1 [h4=w, c6=b]
-          2.mPe7-e8=mQ [c6=w, e6=w] #
-      1...mLIa4-g4 [d1=b, h5=w, e6=w, g6=b]
-          2.mPe7-e8=mLI [b5=w, g6=w, f7=w] #
-      1...mLIa4-e4 [c6=b, e6=w]
+          2.mPe7-e8=mQ [c6=w] [e6=w] #
+      1...mLIh3-h1 [h4=w] [c6=b]
+          2.mPe7-e8=mQ [c6=w] [e6=w] #
+      1...mLIa4-g4 [d1=b] [h5=w] [e6=w] [g6=b]
+          2.mPe7-e8=mLI [b5=w] [g6=w] [f7=w] #
+      1...mLIa4-e4 [c6=b] [e6=w]
           2.mPe7-e8=mB [c6=w] #
-      1...mLIa4-c4 [b5=w, e6=w, f7=w]
-          2.mPe7-e8=mS [f6=b, f7=b] #
+      1...mLIa4-c4 [b5=w] [e6=w] [f7=w]
+          2.mPe7-e8=mS [f6=b] [f7=b] #
       1...Se6-g5 [g6=b]
-          2.mPe7-e8=mLI [b5=w, g6=w, f7=w] #
+          2.mPe7-e8=mLI [b5=w] [g6=w] [f7=w] #
       1...Se6*f8
           2.mPe7*f8=mQ #
           2.mPe7*f8=mB [f7=w] #

@@ -27,14 +27,14 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
 
    1.kDh1-c1 ! Drohung:
           2.kSc6-b8 #
-      1...kBd2*c1=kD [+wkDd1][skDc1->d8]
+      1...kBd2*c1=kD[-skDc1] [+skDd8] [+wkDd1]
           2.kLd3-g6 #
-      1...kBd2*c1=kS [+wkDd1][skSc1->b8]
+      1...kBd2*c1=kS[-skSc1] [+skSb8] [+wkDd1]
           2.kLd3-a6 #
-      1...kBd2*c1=kT [+wkDd1][skTc1->h8] +
+      1...kBd2*c1=kT[-skTc1] [+skTh8] [+wkDd1] +
           2.kLd3-h7 #
-      1...kBd2*c1=kL [+wkDd1][skLc1->f8]
-          2.kLd3*e2 [+skBe7][wkLe2->f1] #
+      1...kBd2*c1=kL[-skLc1] [+skLf8] [+wkDd1]
+          2.kLd3*e2[-wkLe2] [+wkLf1] [+skBe7] #
 
 
               empile:       17516
@@ -72,22 +72,22 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
                 Circe
 
    1.kTe8-e7 ! Zugzwang.
-      1...kBb2*c1=kD [+wkSg1][skDc1->d8]
-          2.kBc7*d8=kL [+skDd8][wkLd8->c1] #
-      1...kBb2*c1=kS [+wkSg1][skSc1->b8]
-          2.kBc7*b8=kL [+skSb8][wkLb8->c1] #
-      1...kBb2*c1=kT [+wkSg1][skTc1->h8]
-          2.kBg7*h8=kL [+skTh8][wkLh8->c1] #
-      1...kBb2*c1=kL [+wkSg1][skLc1->f8]
-          2.kBg7*f8=kL [+skLf8][wkLf8->c1] #
-      1...kBc2*b1=kD [+wkLf1][skDb1->d8]
-          2.kBc7*d8=kT [+skDd8][wkTd8->a1] #
-      1...kBc2*b1=kS [+wkLf1][skSb1->g8]
-          2.kBf7*g8=kS [+skSg8][wkSg8->b1] #
-      1...kBc2*b1=kT [+wkLf1][skTb1->a8]
-          2.kBb7*a8=kS [+skTa8][wkSa8->b1] #
-      1...kBc2*b1=kL [+wkLf1][skLb1->c8]
-          2.kBb7*c8=kS [+skLc8][wkSc8->b1] #
+      1...kBb2*c1=kD[-skDc1] [+skDd8] [+wkSg1]
+          2.kBc7*d8=kL[-wkLd8] [+wkLc1] [+skDd8] #
+      1...kBb2*c1=kS[-skSc1] [+skSb8] [+wkSg1]
+          2.kBc7*b8=kL[-wkLb8] [+wkLc1] [+skSb8] #
+      1...kBb2*c1=kT[-skTc1] [+skTh8] [+wkSg1]
+          2.kBg7*h8=kL[-wkLh8] [+wkLc1] [+skTh8] #
+      1...kBb2*c1=kL[-skLc1] [+skLf8] [+wkSg1]
+          2.kBg7*f8=kL[-wkLf8] [+wkLc1] [+skLf8] #
+      1...kBc2*b1=kD[-skDb1] [+skDd8] [+wkLf1]
+          2.kBc7*d8=kT[-wkTd8] [+wkTa1] [+skDd8] #
+      1...kBc2*b1=kS[-skSb1] [+skSg8] [+wkLf1]
+          2.kBf7*g8=kS[-wkSg8] [+wkSb1] [+skSg8] #
+      1...kBc2*b1=kT[-skTb1] [+skTa8] [+wkLf1]
+          2.kBb7*a8=kS[-wkSa8] [+wkSb1] [+skTa8] #
+      1...kBc2*b1=kL[-skLb1] [+skLc8] [+wkLf1]
+          2.kBb7*c8=kS[-wkSc8] [+wkSb1] [+skLc8] #
 
 
               empile:        6040
@@ -124,7 +124,7 @@ Loesung beendet.
 Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
           Circe RexInklusive
 
-  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[wkTh3->h1] # 
+  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3] [+wkTh1] # 
 
               empile:       70274
            play_move:       63021
@@ -160,33 +160,33 @@ Wo? (nachgedruckt in 'buletin problemistic' 53/1990)
 Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
                 Circe
 
-   1.kTh5*h7 [+skDd8][wkTh7->h1] ? Drohung:
-          2.kTh1*b1 [+skLc8][wkTb1->h1] #
+   1.kTh5*h7[-wkTh7] [+wkTh1] [+skDd8] ? Drohung:
+          2.kTh1*b1[-wkTb1] [+wkTh1] [+skLc8] #
     Aber
       1...kDd8-h8 !
 
-   1.kDf5*h7 [+skDd8][wkDh7->d1] ? Drohung:
-          2.kDd1*b1 [+skLc8][wkDb1->d1] #
+   1.kDf5*h7[-wkDh7] [+wkDd1] [+skDd8] ? Drohung:
+          2.kDd1*b1[-wkDb1] [+wkDd1] [+skLc8] #
     Aber
       1...kDd8-f6 !
 
-   1.kSf3*d4 [+skBd7][wkSd4->g1] ? Drohung:
+   1.kSf3*d4[-wkSd4] [+wkSg1] [+skBd7] ? Drohung:
           2.kDf5-e5 #
           2.kLh2-e5 #
-      1...kLb1*c2 [+wkTh1][skLc2->c8]
+      1...kLb1*c2[-skLc2] [+skLc8] [+wkTh1]
           2.kDf5-b1 #
           2.kLh2-e5 #
-      1...kDh7*f5 [+wkDd1][skDf5->d8]
-          2.kDd1*b1 [+skLc8][wkDb1->d1] #
+      1...kDh7*f5[-skDf5] [+skDd8] [+wkDd1]
+          2.kDd1*b1[-wkDb1] [+wkDd1] [+skLc8] #
     Aber
-      1...kDh7*h5 [+wkTh1][skDh5->d8] !
+      1...kDh7*h5[-skDh5] [+skDd8] [+wkTh1] !
 
    1.kLh2-e5 ! Drohung:
-          2.kSf3*d4 [+skBd7][wkSd4->g1] #
-      1...kDh7*f5 [+wkDd1][skDf5->d8]
-          2.kDd1*b1 [+skLc8][wkDb1->d1] #
-      1...kDh7*h5 [+wkTh1][skDh5->d8]
-          2.kTh1*b1 [+skLc8][wkTb1->h1] #
+          2.kSf3*d4[-wkSd4] [+wkSg1] [+skBd7] #
+      1...kDh7*f5[-skDf5] [+skDd8] [+wkDd1]
+          2.kDd1*b1[-wkDb1] [+wkDd1] [+skLc8] #
+      1...kDh7*h5[-skDh5] [+skDd8] [+wkTh1]
+          2.kTh1*b1[-wkTb1] [+wkTh1] [+skLc8] #
 
 
               empile:       14745

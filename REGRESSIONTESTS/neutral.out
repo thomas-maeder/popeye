@@ -145,7 +145,7 @@ Loesung beendet.
 
 a) 
 
-  1.nkBa7-a8=nkL   2.nkBb7*a8=nkT [+nkLc8][nkTa8->h1] # 
+  1.nkBa7-a8=nkL   2.nkBb7*a8=nkT[-nkTa8] [+nkTh1] [+nkLc8] # 
 
               empile:         405
            play_move:         425
@@ -153,7 +153,7 @@ a)
         orig_rnechec:         425
 b) sKh3-->d2
 
-  1.nkBa7-a8=nkD   2.nkBb7*a8=nkS [+nkDd8][nkSa8->b1] # 
+  1.nkBa7-a8=nkD   2.nkBb7*a8=nkS[-nkSa8] [+nkSb1] [+nkDd8] # 
 
               empile:         404
            play_move:         422

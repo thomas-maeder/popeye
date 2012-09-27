@@ -289,17 +289,17 @@ Loesung beendet.
 
    1.ncLb5-e8=ncT ! Zugzwang.
       1...Se7-c6
-          2.nBg7-g8=nc=ncS=L #
+          2.nBg7-g8=nc=ncS=ncL #
       1...Se7-d5
-          2.nBg7-g8=nc=ncS=L #
+          2.nBg7-g8=nc=ncS=ncL #
       1...Se7-f5
-          2.nBg7-g8=nc=ncS=L #
+          2.nBg7-g8=nc=ncS=ncL #
       1...Se7-g6
-          2.nBg7-g8=nc=ncS=L #
+          2.nBg7-g8=nc=ncS=ncL #
       1...Se7-g8
-          2.nBh7-h8=nc=ncD=S #
+          2.nBh7-h8=nc=ncD=ncS #
       1...Se7-c8
-          2.nBg7-g8=nc=ncS=L #
+          2.nBg7-g8=nc=ncS=ncL #
       1...nBg7-g5
           2.De5-f6 #
       1...Ld8*c7
@@ -555,20 +555,20 @@ Loesung beendet.
   h#2                    2 + 4 + 2n
            Chamaeleon d8 b5
 
-  1.ncSb5-c3=ncL ncLc3-e1=ncT   2.ncTe1-e7=ncD nBa7-a8=nc=ncD=S # 
-  1.ncSb5-c3=ncL ncLc3-g7=ncT   2.ncTg7-e7=ncD nBa7-a8=nc=ncD=S # 
-  1.ncSb5-c3=ncL ncLc3-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nc=ncD=S # 
-  1.ncSb5-d6=ncL ncLd6-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nc=ncD=S # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.ncTc7-e7=ncD nBa7-a8=nc=ncD=S # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.Sb8-d7 nBa7-a8=nc=ncD=S # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-e6=cL nBa7-a8=nc=ncD=S # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-f7=cL nBa7-a8=nc=ncD=S # 
+  1.ncSb5-c3=ncL ncLc3-e1=ncT   2.ncTe1-e7=ncD nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-c3=ncL ncLc3-g7=ncT   2.ncTg7-e7=ncD nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-c3=ncL ncLc3-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-d6=ncL ncLd6-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.ncTc7-e7=ncD nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.Sb8-d7 nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-e6=cL nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-f7=cL nBa7-a8=nc=ncD=ncS # 
   1.Kb6-b7 Ka4-b4   2.ncSb5-c7=ncL nBa7*b8=nD # 
   1.Kb6-b7 Ka4-b3   2.ncSb5-c7=ncL nBa7*b8=nD # 
-  1.Sb8-d7 ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=S # 
-  1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=nc=ncD=S # 
-  1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=S # 
-  1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=S # 
+  1.Sb8-d7 ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=ncS # 
+  1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=nc=ncD=ncS # 
+  1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=ncS # 
+  1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=ncS # 
 
               empile:      132630
            play_move:       99165
@@ -604,7 +604,7 @@ Loesung beendet.
             Chamaeleon d7
                 Circe
 
-   1.c7-c8=c=cT=D ! Drohung:
+   1.c7-c8=c=cT=cD ! Drohung:
           2.Ld6-c5 #
       1...cLd7-a4=cT +
           2.cDc8*f5=cS [+sBf7] #
@@ -658,21 +658,21 @@ Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
 
    1.cLf1-g2=cT !
 
-   1.cLf1*a6=cT [+sBf1=scD] !
+   1.cLf1*a6=cT [+sBf1=c=cD] !
 
-   1.cLf1*a6=cT [+sBf1=scS] !
+   1.cLf1*a6=cT [+sBf1=c=cS] !
 
-   1.cLf1*a6=cT [+sBf1=scT] !
+   1.cLf1*a6=cT [+sBf1=c=cT] !
 
-   1.cLf1*a6=cT [+sBf1=scL] !
+   1.cLf1*a6=cT [+sBf1=c=cL] !
 
-   1.cLf1*a6=cT [+sBf1=sD] !
+   1.cLf1*a6=cT [+sBf1=D] !
 
-   1.cLf1*a6=cT [+sBf1=sS] !
+   1.cLf1*a6=cT [+sBf1=S] !
 
-   1.cLf1*a6=cT [+sBf1=sT] !
+   1.cLf1*a6=cT [+sBf1=T] !
 
-   1.cLf1*a6=cT [+sBf1=sL] !
+   1.cLf1*a6=cT [+sBf1=L] !
 
    1.cLf1-b5=cT !
 
@@ -719,13 +719,13 @@ Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
 
    1.c6-c7 !
 
-   1.c6*d7[wcBd7->e8=wcD] !
+   1.c6*d7[wBd7->e8=wD=c] !
 
-   1.c6*d7[wcBd7->e8=wcS] !
+   1.c6*d7[wBd7->e8=wS=c] !
 
-   1.c6*d7[wcBd7->e8=wcT] !
+   1.c6*d7[wBd7->e8=wT=c] !
 
-   1.c6*d7[wcBd7->e8=wcL] !
+   1.c6*d7[wBd7->e8=wL=c] !
 
    1.c6*d7[wBd7->e8=wD] !
 
