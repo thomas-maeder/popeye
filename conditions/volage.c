@@ -30,8 +30,6 @@ static void change_side(void)
                                           sq_arrival,
                                           flags);
     }
-
-    jouearr[nbply] = e[sq_arrival];
   }
 }
 

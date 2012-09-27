@@ -19,7 +19,6 @@ void andernach_assume_side(Side side)
   move_effect_journal_do_side_change(move_effect_reason_andernach_chess,
                                      sq_arrival,
                                      side);
-  jouearr[nbply] = e[sq_arrival];
 }
 
 /* Try to solve in n half-moves after a defense.

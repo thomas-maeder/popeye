@@ -120,11 +120,8 @@ stip_length_type kamikaze_capturing_piece_remover_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(spec[sq_arrival],Kamikaze) && pprise[nbply]!=vide)
-  {
-    jouearr[nbply] = vide;
     move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
                                          sq_arrival);
-  }
 
   result = attack(slices[si].next1,n);
 
@@ -158,11 +155,8 @@ stip_length_type kamikaze_capturing_piece_remover_defend(slice_index si,
 
 
   if (TSTFLAG(spec[sq_arrival],Kamikaze) && pprise[nbply]!=vide)
-  {
-    jouearr[nbply] = vide;
     move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
                                          sq_arrival);
-  }
 
   result = defend(slices[si].next1,n);
 

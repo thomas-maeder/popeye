@@ -2068,7 +2068,6 @@ void current(coup *mov)
   mov->bool_senti = senti[nbply];
   mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[nbply];
   mov->bool_cir_cham_prom = promotion_of_circe_reborn_into_chameleon[nbply];
-  mov->pjazz =     jouearr[nbply];
   if (CondFlag[republican])
     republican_current(nbply,mov);
   mov->hurdle =    chop[coup_id];

@@ -62,8 +62,6 @@ static void recolor(Side trait_ply)
                                                     advers(trait_ply),
                                                     sq_arrival);
     }
-
-    jouearr[nbply] = e[sq_arrival];
   }
 }
 

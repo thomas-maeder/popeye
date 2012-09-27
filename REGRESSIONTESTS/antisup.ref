@@ -26,7 +26,7 @@
 
 a) 
 
-   1.b6*a7[wPa7->d8=wQ] !
+   1.b6*a7[wPa7->d8=Q] !
       1...Ka8-a7
           2.Qd8-a5 #
 
@@ -39,7 +39,7 @@ b) =2
 
    1.b6*a7[wPa7->b6] = !
 
-   1.b6*a7[wPa7->e8=wQ] !
+   1.b6*a7[wPa7->e8=Q] !
       1...Ka8-a7
           2.Qe8-c6 =
 
@@ -78,7 +78,7 @@ solution finished.
             AntiSuperCirce
               HalfDuplex
 
-  1.a7*b6[bPb6->e1=bQ]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 # 
+  1.a7*b6[bPb6->e1=Q]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 # 
 
               empile:       17082
            play_move:       14459
@@ -303,69 +303,69 @@ a)
 
    1.c6*b7[wPb7->h7] x !
 
-   1.c6*b7[wPb7->a8=wQ] x !
+   1.c6*b7[wPb7->a8=Q] x !
 
-   1.c6*b7[wPb7->a8=wS] x !
+   1.c6*b7[wPb7->a8=S] x !
 
-   1.c6*b7[wPb7->a8=wR] x !
+   1.c6*b7[wPb7->a8=R] x !
 
-   1.c6*b7[wPb7->a8=wB] x !
+   1.c6*b7[wPb7->a8=B] x !
 
-   1.c6*b7[wPb7->b8=wQ] x !
+   1.c6*b7[wPb7->b8=Q] x !
 
-   1.c6*b7[wPb7->b8=wS] x !
+   1.c6*b7[wPb7->b8=S] x !
 
-   1.c6*b7[wPb7->b8=wR] x !
+   1.c6*b7[wPb7->b8=R] x !
 
-   1.c6*b7[wPb7->b8=wB] x !
+   1.c6*b7[wPb7->b8=B] x !
 
-   1.c6*b7[wPb7->c8=wQ] x !
+   1.c6*b7[wPb7->c8=Q] x !
 
-   1.c6*b7[wPb7->c8=wS] x !
+   1.c6*b7[wPb7->c8=S] x !
 
-   1.c6*b7[wPb7->c8=wR] x !
+   1.c6*b7[wPb7->c8=R] x !
 
-   1.c6*b7[wPb7->c8=wB] x !
+   1.c6*b7[wPb7->c8=B] x !
 
-   1.c6*b7[wPb7->d8=wQ] x !
+   1.c6*b7[wPb7->d8=Q] x !
 
-   1.c6*b7[wPb7->d8=wS] x !
+   1.c6*b7[wPb7->d8=S] x !
 
-   1.c6*b7[wPb7->d8=wR] x !
+   1.c6*b7[wPb7->d8=R] x !
 
-   1.c6*b7[wPb7->d8=wB] x !
+   1.c6*b7[wPb7->d8=B] x !
 
-   1.c6*b7[wPb7->e8=wQ] x !
+   1.c6*b7[wPb7->e8=Q] x !
 
-   1.c6*b7[wPb7->e8=wS] x !
+   1.c6*b7[wPb7->e8=S] x !
 
-   1.c6*b7[wPb7->e8=wR] x !
+   1.c6*b7[wPb7->e8=R] x !
 
-   1.c6*b7[wPb7->e8=wB] x !
+   1.c6*b7[wPb7->e8=B] x !
 
-   1.c6*b7[wPb7->f8=wQ] x !
+   1.c6*b7[wPb7->f8=Q] x !
 
-   1.c6*b7[wPb7->f8=wS] x !
+   1.c6*b7[wPb7->f8=S] x !
 
-   1.c6*b7[wPb7->f8=wR] x !
+   1.c6*b7[wPb7->f8=R] x !
 
-   1.c6*b7[wPb7->f8=wB] x !
+   1.c6*b7[wPb7->f8=B] x !
 
-   1.c6*b7[wPb7->g8=wQ] x !
+   1.c6*b7[wPb7->g8=Q] x !
 
-   1.c6*b7[wPb7->g8=wS] x !
+   1.c6*b7[wPb7->g8=S] x !
 
-   1.c6*b7[wPb7->g8=wR] x !
+   1.c6*b7[wPb7->g8=R] x !
 
-   1.c6*b7[wPb7->g8=wB] x !
+   1.c6*b7[wPb7->g8=B] x !
 
-   1.c6*b7[wPb7->h8=wQ] x !
+   1.c6*b7[wPb7->h8=Q] x !
 
-   1.c6*b7[wPb7->h8=wS] x !
+   1.c6*b7[wPb7->h8=S] x !
 
-   1.c6*b7[wPb7->h8=wR] x !
+   1.c6*b7[wPb7->h8=R] x !
 
-   1.c6*b7[wPb7->h8=wB] x !
+   1.c6*b7[wPb7->h8=B] x !
 
 
               empile:           2

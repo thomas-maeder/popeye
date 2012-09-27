@@ -148,6 +148,7 @@ static void editcoup(coup const *mov)
           case move_effect_reason_chameleon_movement:
           case move_effect_reason_degradierung:
           case move_effect_reason_norsk_chess:
+          case move_effect_reason_promotion_of_reborn:
             if (context.target_square==move_effect_journal[curr].u.piece_change.on
                 /* regular promotion doesn't test whether the "promotion" is
                  * into pawn (e.g. in SingleBox); it's more efficient to test here */
@@ -334,14 +335,14 @@ static void editcoup(coup const *mov)
           {
             StdString("->");
             WriteSquare(move_effect_journal[curr].u.piece_addition.on);
-            if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
-            {
-              StdChar('=');
-              WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
-                        mov->norm_prom,
-                        true);
-              WritePiece(mov->norm_prom);
-            }
+//            if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
+//            {
+//              StdChar('=');
+//              WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
+//                        mov->norm_prom,
+//                        true);
+//              WritePiece(mov->norm_prom);
+//            }
             break;
           }
 

@@ -466,7 +466,6 @@ typedef struct {
       football_substitution;    /*                            */
   PieNam norm_prom;    /*                            */
   PieNam cir_prom;    /*                            */
-  piece           pjazz;      /* piece arriving             */
   square          renkam;     /*                            */
   unsigned int    numi;     /*                            */
   int             sum;      /*                            */

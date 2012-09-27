@@ -53,7 +53,6 @@ stip_length_type messigny_move_player_attack(slice_index si, stip_length_type n)
     jouespec[nbply] = spec_pi_moving;
     pprise[nbply] = e[sq_arrival];
     pprispec[nbply] = spec[sq_arrival];
-    jouearr[nbply] = pi_moving;
 
     move_effect_journal_do_piece_exchange(move_effect_reason_messigny_exchange,
                                           sq_arrival,sq_departure);
@@ -103,7 +102,6 @@ stip_length_type messigny_move_player_defend(slice_index si, stip_length_type n)
     jouespec[nbply] = spec_pi_moving;
     pprise[nbply] = e[sq_arrival];
     pprispec[nbply] = spec[sq_arrival];
-    jouearr[nbply] = pi_moving;
 
     move_effect_journal_do_piece_exchange(move_effect_reason_messigny_exchange,
                                           sq_arrival,sq_departure);

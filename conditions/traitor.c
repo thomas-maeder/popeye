@@ -26,8 +26,6 @@ static void change_side(Side trait_ply)
     move_effect_journal_do_piece_change(move_effect_reason_traitor_defection,
                                         sq_arrival,
                                         -e[sq_arrival]);
-
-    jouearr[nbply] = e[sq_arrival];
   }
 }
 

@@ -50,7 +50,6 @@ stip_length_type protean_pawn_adjuster_attack(slice_index si,
     move_effect_journal_do_piece_change(move_effect_reason_protean_adjustment,
                                         sq_arrival,
                                         substitute);
-    jouearr[nbply] = e[sq_arrival];
   }
 
   result = attack(slices[si].next1,n);
@@ -105,7 +104,6 @@ stip_length_type protean_pawn_adjuster_defend(slice_index si,
     move_effect_journal_do_piece_change(move_effect_reason_protean_adjustment,
                                         sq_arrival,
                                         substitute);
-    jouearr[nbply] = e[sq_arrival];
   }
 
   result = defend(slices[si].next1,n);

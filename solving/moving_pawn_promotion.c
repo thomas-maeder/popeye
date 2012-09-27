@@ -73,8 +73,6 @@ stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
                             ? -current_promotion_of_moving[nbply]
                             : current_promotion_of_moving[nbply]);
 
-    jouearr[nbply] = promotee;
-
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_arrival,promotee);
 
@@ -131,8 +129,6 @@ stip_length_type moving_pawn_promoter_defend(slice_index si, stip_length_type n)
     piece const promotee = (e[sq_arrival]<vide
                             ? -current_promotion_of_moving[nbply]
                             : current_promotion_of_moving[nbply]);
-
-    jouearr[nbply] = promotee;
 
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_arrival,promotee);

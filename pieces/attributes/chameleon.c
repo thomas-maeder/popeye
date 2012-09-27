@@ -342,16 +342,11 @@ stip_length_type chameleon_arriving_adjuster_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(spec[sq_arrival],Chameleon))
-  {
     move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
                                         sq_arrival,
                                         champiece(e[sq_arrival]));
-    jouearr[nbply] = e[sq_arrival];
 
-    result = attack(slices[si].next1,n);
-  }
-  else
-    result = attack(slices[si].next1,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -383,16 +378,11 @@ stip_length_type chameleon_arriving_adjuster_defend(slice_index si,
 
 
   if (TSTFLAG(spec[sq_arrival],Chameleon))
-  {
     move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
                                         sq_arrival,
                                         champiece(e[sq_arrival]));
-    jouearr[nbply] = e[sq_arrival];
 
-    result = defend(slices[si].next1,n);
-  }
-  else
-    result = defend(slices[si].next1,n);
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

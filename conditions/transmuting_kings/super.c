@@ -30,8 +30,6 @@ static void transmute(Side trait_ply)
 
     move_effect_journal_do_piece_change(move_effect_reason_king_transmutation,
                                         sq_arrival,ctrans[coup_id]);
-
-    jouearr[nbply] = e[sq_arrival];
   }
 
   TraceFunctionExit(__func__);

@@ -18,12 +18,9 @@ static void change_side(void)
   if (TSTFLAG(sq_spec[sq_arrival],MagicSq)
       && prev_king_square[Black][nbply]!=sq_departure
       && prev_king_square[White][nbply]!=sq_departure)
-  {
     move_effect_journal_do_side_change(move_effect_reason_magic_square,
                                        sq_arrival,
                                        e[sq_arrival]<vide ? White : Black);
-    jouearr[nbply] = e[sq_arrival];
-  }
 }
 
 /* Try to solve in n half-moves after a defense.

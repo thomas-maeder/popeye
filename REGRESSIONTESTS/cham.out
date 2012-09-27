@@ -719,21 +719,21 @@ Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
 
    1.c6-c7 !
 
-   1.c6*d7[wBd7->e8=wD=c] !
+   1.c6*d7[wBd7->e8=c=cD] !
 
-   1.c6*d7[wBd7->e8=wS=c] !
+   1.c6*d7[wBd7->e8=c=cS] !
 
-   1.c6*d7[wBd7->e8=wT=c] !
+   1.c6*d7[wBd7->e8=c=cT] !
 
-   1.c6*d7[wBd7->e8=wL=c] !
+   1.c6*d7[wBd7->e8=c=cL] !
 
-   1.c6*d7[wBd7->e8=wD] !
+   1.c6*d7[wBd7->e8=D] !
 
-   1.c6*d7[wBd7->e8=wS] !
+   1.c6*d7[wBd7->e8=S] !
 
-   1.c6*d7[wBd7->e8=wT] !
+   1.c6*d7[wBd7->e8=T] !
 
-   1.c6*d7[wBd7->e8=wL] !
+   1.c6*d7[wBd7->e8=L] !
 
 
               empile:           2

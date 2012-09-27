@@ -232,7 +232,6 @@ stip_length_type imitator_mover_attack(slice_index si, stip_length_type n)
 
   move_effect_journal_do_imitator_movement(move_effect_reason_movement_imitation,
                                            diff);
-  jouearr[nbply] = vide;
   result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -263,7 +262,6 @@ stip_length_type imitator_mover_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_imitator_movement(move_effect_reason_movement_imitation,diff);
-  jouearr[nbply] = vide;
   result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

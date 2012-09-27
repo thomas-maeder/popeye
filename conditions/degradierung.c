@@ -21,12 +21,9 @@ static void degrade(Side trait_ply)
       && (trait_ply==Black
           ? sq_arrival>=square_a7 && sq_arrival<=square_h7
           : sq_arrival>=square_a2 && sq_arrival<=square_h2))
-  {
     move_effect_journal_do_piece_change(move_effect_reason_degradierung,
                                         sq_arrival,
                                         pjoue[nbply]<vide ? pn : pb);
-    jouearr[nbply] = e[sq_arrival];
-  }
 }
 
 /* Try to solve in n half-moves after a defense.

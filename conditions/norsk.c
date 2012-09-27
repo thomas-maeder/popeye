@@ -110,12 +110,9 @@ stip_length_type norsk_arriving_adjuster_attack(slice_index si,
     piece const norsked = e[sq_arrival];
     piece const norsked_to = norskpiece(norsked);
     if (norsked!=norsked_to)
-    {
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
                                           sq_arrival,
                                           norsked_to);
-      jouearr[nbply] = e[sq_arrival];
-    }
   }
 
   result = attack(slices[si].next1,n);
@@ -153,12 +150,9 @@ stip_length_type norsk_arriving_adjuster_defend(slice_index si,
     piece const norsked = e[sq_arrival];
     piece const norsked_to = norskpiece(norsked);
     if (norsked!=norsked_to)
-    {
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
                                           sq_arrival,
                                           norsked_to);
-      jouearr[nbply] = e[sq_arrival];
-    }
   }
 
   result = defend(slices[si].next1,n);
