@@ -335,14 +335,6 @@ static void editcoup(coup const *mov)
           {
             StdString("->");
             WriteSquare(move_effect_journal[curr].u.piece_addition.on);
-//            if (mov->norm_prom!=Empty && mov->norm_prom!=abs(mov->pjazz))
-//            {
-//              StdChar('=');
-//              WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
-//                        mov->norm_prom,
-//                        true);
-//              WritePiece(mov->norm_prom);
-//            }
             break;
           }
 
