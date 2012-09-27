@@ -10,8 +10,6 @@
 #include <stdlib.h>
 
 boolean kobulking[nr_sides];
-piece kobul[nr_sides][maxply+1];
-Flags kobulspec[nr_sides][maxply+1];
 
 static void substitute(Side trait_ply)
 {

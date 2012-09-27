@@ -84,7 +84,8 @@ static void editcoup(coup const *mov)
               WriteSpec(move_effect_journal[curr].u.flags_change.to,
                         context.moving,
                         false);
-              context_set_non_side_flags(&context,move_effect_journal[curr].u.flags_change.to);
+              context_set_non_side_flags(&context,
+                                         move_effect_journal[curr].u.flags_change.to);
             }
             break;
 
@@ -98,6 +99,17 @@ static void editcoup(coup const *mov)
                         true);
             }
             break;
+
+          case move_effect_reason_kobul_king:
+          {
+            WriteSquare(move_effect_journal[curr].u.flags_change.on);
+            StdString("=");
+            WriteSpec(move_effect_journal[curr].u.flags_change.to,
+                      context.moving,
+                      false);
+            WritePiece(context.moving);
+            break;
+          }
 
           default:
             break;
@@ -158,7 +170,9 @@ static void editcoup(coup const *mov)
             {
               StdChar('=');
               if (context.non_side_flags!=0)
-                WriteSpec(context.non_side_flags,move_effect_journal[curr].u.piece_change.to,false);
+                WriteSpec(context.non_side_flags,
+                          move_effect_journal[curr].u.piece_change.to,
+                          false);
               WritePiece(move_effect_journal[curr].u.piece_change.to);
             }
             break;
@@ -171,6 +185,18 @@ static void editcoup(coup const *mov)
             WriteSquare(move_effect_journal[curr].u.piece_change.on);
             StdString("=");
             WritePiece(move_effect_journal[curr].u.piece_change.to);
+            break;
+          }
+
+          case move_effect_reason_kobul_king:
+          {
+            context_close(&context);
+
+            context_open(&context," [","]");
+            context_set_target_square(&context,
+                                      move_effect_journal[curr].u.piece_change.on);
+            context_set_moving_piece(&context,
+                                     move_effect_journal[curr].u.piece_change.to);
             break;
           }
 
@@ -416,30 +442,6 @@ static void editcoup(coup const *mov)
     }
 
   context_close(&context);
-
-  if (CondFlag[kobulkings])
-  {
-    if (mov->tr == Black && abs(e[king_square[White]]) != kobul[White][nbply])
-    {
-        StdString(" [");
-        WriteSpec(spec[king_square[White]],kobul[White][nbply], true);
-        WritePiece(kobul[White][nbply]);
-        StdString("=");
-        WriteSpec(spec[king_square[White]],e[king_square[White]], false);
-        WritePiece(e[king_square[White]]);
-        StdString("]");
-    }
-    if (mov->tr == White && -abs(e[king_square[Black]]) != kobul[Black][nbply])
-    {
-        StdString(" [");
-        WriteSpec(spec[king_square[Black]],kobul[Black][nbply], true);
-        WritePiece(kobul[Black][nbply]);
-        StdString("=");
-        WriteSpec(spec[king_square[Black]],e[king_square[Black]], false);
-        WritePiece(e[king_square[Black]]);
-        StdString("]");
-    }
-  }
 
   if (mov->numi && CondFlag[imitators])
   {

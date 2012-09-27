@@ -8,8 +8,6 @@
  */
 
 extern boolean kobulking[nr_sides];
-extern piece kobul[nr_sides][maxply+1];
-extern Flags kobulspec[nr_sides][maxply+1];
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

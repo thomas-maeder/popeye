@@ -159,10 +159,6 @@ static void initply(ply parent, ply child)
 
   magicstate[child] = magicstate[parent];
 
-  kobul[White][child] = e[king_square[White]];
-  kobul[Black][child] = e[king_square[Black]];
-  kobulspec[White][child] = spec[king_square[White]];
-  kobulspec[Black][child] = spec[king_square[Black]];
   platzwechsel_rochade_allowed[White][child] = platzwechsel_rochade_allowed[White][parent];
   platzwechsel_rochade_allowed[Black][child] = platzwechsel_rochade_allowed[Black][parent];
 

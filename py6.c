@@ -2045,7 +2045,6 @@ void current(coup *mov)
   numecoup const coup_id = current_move[nbply];
   square const sq_arrival = move_generation_stack[coup_id].arrival;
 
-  mov->tr =          trait[nbply];
   mov->cdzz =           move_generation_stack[coup_id].departure;
   mov->cazz =            sq_arrival;
   mov->cpzz =            move_generation_stack[coup_id].capture;
