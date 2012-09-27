@@ -2071,7 +2071,6 @@ void current(coup *mov)
   mov->sb2where = singlebox_type2_latent_pawn_promotions[nbply].where;
   mov->sb2what = singlebox_type2_latent_pawn_promotions[nbply].what;
   mov->mren = mars_circe_rebirth_square[coup_id];
-  mov->osc = oscillatedKs[nbply];
   /* following only overwritten if change stack is saved in
    * append_to_top_table() */
   /* redundant to init push_top */

@@ -28,13 +28,13 @@
 a) 
 
    1.Tb6-f6 + !
-      1...Kf5*f6[wK<>sK]
+      1...Kf5*f6[Kf6<->Kc5]
           2.Sf2-e4 #
-      1...Kf5-e5[wK<>sK]
+      1...Kf5-e5[Ke5<->Kc5]
           2.d3-d4 #
 
    1.c3-c4 ! Zugzwang.
-      1...Kf5-e5[wK<>sK]
+      1...Kf5-e5[Ke5<->Kc5]
           2.Tb6-b5 #
           2.d3-d4 #
           2.Sf2-e4 #
@@ -46,9 +46,9 @@ a)
         orig_rnechec:        1654
 b) WeisseOszillierendeKoenige    TypB
 
-   1.Sf2-d1[wK<>sK] ! Zugzwang.
+   1.Sf2-d1[Kf5<->Kc5] ! Zugzwang.
       1...Kc5-d5
-          2.Sd1-e3[wK<>sK] #
+          2.Sd1-e3[Kd5<->Kf5] #
 
 
               empile:        2287
@@ -93,9 +93,9 @@ Loesung beendet.
  SchwarzeOszillierendeKoenige    TypB
 
    1.Df2-d4 ! Zugzwang.
-      1...Lf4-e5[wK<>sK] +
+      1...Lf4-e5[Ka8<->Kh8] +
           2.Dd4-d5
-              2...Lf3*d5[wK<>sK] #
+              2...Lf3*d5[Kh8<->Ka8] #
 
 
               empile:        4429
@@ -132,15 +132,15 @@ Loesung beendet.
      SchwarzeOszillierendeKoenige
 
    1.Dg5-c1 ! Zugzwang.
-      1...Sg2-f4[wK<>sK]
+      1...Sg2-f4[Kf3<->Kh6]
           2.Dc1*f4 #
-      1...Sg2-e3[wK<>sK]
+      1...Sg2-e3[Kf3<->Kh6]
           2.Dc1*e3 #
-      1...Kf3-f4[wK<>sK] +
+      1...Kf3-f4[Kf4<->Kh6] +
           2.Kf4-g3 #
-      1...Kf3-e3[wK<>sK] +
+      1...Kf3-e3[Ke3<->Kh6] +
           2.Ke3-f2 #
-      1...g6-g5[wK<>sK]
+      1...g6-g5[Kf3<->Kh6]
           2.Dc1-c6 #
 
 

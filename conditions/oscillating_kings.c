@@ -18,25 +18,12 @@ boolean oscillatedKs[toppile+1];
 
 static void perform_oscillation(void)
 {
-  piece const save_king_square[nr_sides] = {king_square[White],king_square[Black]};
-  piece const save_kings[nr_sides] = {e[king_square[White]],e[king_square[Black]]};
-  Flags const save_flags[nr_sides] = {spec[king_square[White]],spec[king_square[Black]]};
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_piece_removal(move_effect_reason_oscillating_kings,
-                                       king_square[White]);
-  move_effect_journal_do_piece_removal(move_effect_reason_oscillating_kings,
-                                       king_square[Black]);
-  move_effect_journal_do_piece_addition(move_effect_reason_oscillating_kings,
-                                        save_king_square[Black],
-                                        save_kings[White],
-                                        save_flags[White]);
-  move_effect_journal_do_piece_addition(move_effect_reason_oscillating_kings,
-                                        save_king_square[White],
-                                        save_kings[Black],
-                                        save_flags[Black]);
+  move_effect_journal_do_piece_exchange(move_effect_reason_oscillating_kings,
+                                        king_square[White],
+                                        king_square[Black]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

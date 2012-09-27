@@ -423,11 +423,32 @@ static void editcoup(coup const *mov)
 
       case move_effect_piece_exchange:
       {
-        WritePiece(e[move_effect_journal[curr].u.piece_exchange.from]);
-        WriteSquare(move_effect_journal[curr].u.piece_exchange.to);
-        StdString("<->");
-        WritePiece(e[move_effect_journal[curr].u.piece_exchange.to]);
-        WriteSquare(move_effect_journal[curr].u.piece_exchange.from);
+        switch (move_effect_journal[curr].reason)
+        {
+          case move_effect_reason_oscillating_kings:
+          {
+            context_close(&context);
+
+            context_open(&context,"[","]");
+            WritePiece(e[move_effect_journal[curr].u.piece_exchange.from]);
+            WriteSquare(move_effect_journal[curr].u.piece_exchange.to);
+            StdString("<->");
+            WritePiece(e[move_effect_journal[curr].u.piece_exchange.to]);
+            WriteSquare(move_effect_journal[curr].u.piece_exchange.from);
+            break;
+          }
+
+          default:
+          {
+            WritePiece(e[move_effect_journal[curr].u.piece_exchange.from]);
+            WriteSquare(move_effect_journal[curr].u.piece_exchange.to);
+            StdString("<->");
+            WritePiece(e[move_effect_journal[curr].u.piece_exchange.to]);
+            WriteSquare(move_effect_journal[curr].u.piece_exchange.from);
+            break;
+          }
+        }
+
         break;
       }
 
@@ -461,16 +482,6 @@ static void editcoup(coup const *mov)
     }
 
   context_close(&context);
-
-  if (mov->osc) {
-    StdString("[");
-    StdChar(WhiteChar);
-    WritePiece(roib);
-    StdString("<>");
-    StdChar(BlackChar);
-    WritePiece(roib);
-    StdString("]");
-  }
 
   if ((CondFlag[ghostchess] || CondFlag[hauntedchess])
       && mov->ghost_piece!=vide)

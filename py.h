@@ -476,7 +476,6 @@ typedef struct {
   square    sb3where;   /*                            */
   piece   sb3what;    /*                            */
   square    mren;     /*                            */
-  boolean   osc;      /*                            */
   change_rec  *push_bottom,   /*                            */
       *push_top;    /*                            */
   piece   ghost_piece;    /*                            */
