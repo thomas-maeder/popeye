@@ -319,6 +319,7 @@ static void editcoup(coup const *mov)
           }
 
           case move_effect_reason_republican_king_insertion:
+          case move_effect_reason_sentinelles:
           {
             context_close(&context);
 
@@ -415,16 +416,6 @@ static void editcoup(coup const *mov)
 
   context_close(&context);
 
-  if (mov->bool_senti) {
-    StdString("[+");
-    StdChar((!SentPionNeutral || !TSTFLAG(mov->speci, Neutral))
-            ?  ((mov->tr==White) != SentPionAdverse
-                ? WhiteChar
-                : BlackChar)
-            : 'n');
-    WritePiece(sentinelb); WriteSquare(mov->cdzz);
-    StdChar(']');
-  }
   if (TSTFLAG(mov->speci, ColourChange)
       && (abs(e[mov->hurdle])>roib))
   {

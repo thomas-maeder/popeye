@@ -2065,7 +2065,6 @@ void current(coup *mov)
   mov->speci = jouespec[nbply];
 
   /* hope the following works with parrain too */
-  mov->bool_senti = senti[nbply];
   mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[nbply];
   mov->bool_cir_cham_prom = promotion_of_circe_reborn_into_chameleon[nbply];
   if (CondFlag[republican])
