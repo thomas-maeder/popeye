@@ -50,7 +50,6 @@ stip_length_type messigny_move_player_attack(slice_index si, stip_length_type n)
     Flags const spec_pi_moving = spec[sq_departure];
 
     pjoue[nbply] = pi_moving;
-    jouespec[nbply] = spec_pi_moving;
     pprise[nbply] = e[sq_arrival];
     pprispec[nbply] = spec[sq_arrival];
 
@@ -99,7 +98,6 @@ stip_length_type messigny_move_player_defend(slice_index si, stip_length_type n)
     Flags const spec_pi_moving = spec[sq_departure];
 
     pjoue[nbply] = pi_moving;
-    jouespec[nbply] = spec_pi_moving;
     pprise[nbply] = e[sq_arrival];
     pprispec[nbply] = spec[sq_arrival];
 

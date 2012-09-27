@@ -159,7 +159,6 @@ static void castle(square sq_departure, square sq_arrival,
   TraceSquare(sq_partner_arrival);
   TraceFunctionParamListEnd();
 
-  jouespec[nbply] = spec[sq_departure];
   pjoue[nbply] = e[sq_departure];
   pprise[nbply] = vide;
   pprispec[nbply] = 0;

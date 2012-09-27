@@ -121,6 +121,7 @@ static void editcoup(coup const *mov)
 
           case move_effect_reason_magic_piece:
           case move_effect_reason_masand:
+          case move_effect_reason_hurdle_colour_changing:
           {
             context_close(&context);
 
@@ -416,16 +417,6 @@ static void editcoup(coup const *mov)
 
   context_close(&context);
 
-  if (TSTFLAG(mov->speci, ColourChange)
-      && (abs(e[mov->hurdle])>roib))
-  {
-    Side hc= e[mov->hurdle] < vide ? Black : White;
-    StdString("[");
-    WriteSquare(mov->hurdle);
-    StdString("=");
-    StdChar(hc == White ? WhiteChar : BlackChar);
-    StdString("]");
-  }
   if (CondFlag[kobulkings])
   {
     if (mov->tr == Black && abs(e[king_square[White]]) != kobul[White][nbply])

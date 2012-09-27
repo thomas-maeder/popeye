@@ -44,7 +44,6 @@ stip_length_type castling_chess_move_player_attack(slice_index si,
 
     assert(sq_arrival!=nullsquare);
 
-    jouespec[nbply] = spec[sq_departure];
     pjoue[nbply] = e[sq_departure];
     pprise[nbply] = vide;
     pprispec[nbply] = 0;
@@ -105,7 +104,6 @@ stip_length_type castling_chess_move_player_defend(slice_index si,
 
     assert(sq_arrival!=nullsquare);
 
-    jouespec[nbply] = spec[sq_departure];
     pjoue[nbply] = e[sq_departure];
     pprise[nbply] = vide;
     pprispec[nbply] = 0;

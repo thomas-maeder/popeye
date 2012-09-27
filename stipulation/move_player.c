@@ -88,7 +88,6 @@ static void play_move(void)
 
   assert(sq_arrival!=nullsquare);
 
-  jouespec[nbply] = spec[sq_departure];
   pjoue[nbply] = e[sq_departure];
   pprise[nbply] = e[sq_capture];
   pprispec[nbply] = spec[sq_capture];

@@ -2062,7 +2062,6 @@ void current(coup *mov)
   /* Promoted imitator will be output 'normally'
      from the next1 move on. */
   mov->sum = isquare[0] - im0;
-  mov->speci = jouespec[nbply];
 
   /* hope the following works with parrain too */
   mov->bool_norm_cham_prom = promotion_of_moving_into_chameleon[nbply];

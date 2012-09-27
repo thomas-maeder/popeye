@@ -95,8 +95,6 @@ EXTERN square royal_square[nr_sides];
 
 EXTERN echiquier e, e_ubi, e_ubi_mad;
 
-EXTERN boolean senti[maxply+1];
-
 EXTERN  square          ppridia[maxply + 1];
 
 EXTERN square prev_king_square[nr_sides][maxply+1];

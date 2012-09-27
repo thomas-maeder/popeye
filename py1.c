@@ -420,7 +420,6 @@ void InitAlways(void) {
     trait[i] = White;
     current_anticirce_rebirth_square[i] = initsquare;
     pwcprom[i] = false;
-    senti[i] = false;
     oscillatedKs[i] = false;
     side_change_sp[i] = side_change_stack;
   }

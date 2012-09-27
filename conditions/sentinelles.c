@@ -29,7 +29,6 @@ static void insert_sentinelle(Side trait_ply)
                                             sq_departure,
                                             sentinelb,
                                             sentinelle_spec);
-      senti[nbply]= true;
     }
     else
     {
@@ -61,7 +60,6 @@ static void insert_sentinelle(Side trait_ply)
                                               sq_departure,
                                               sentinelle_type,
                                               sentinelle_spec);
-        senti[nbply]= true;
       }
     }
   }
@@ -86,7 +84,6 @@ stip_length_type sentinelles_inserter_attack(slice_index si, stip_length_type n)
 
   insert_sentinelle(slices[si].starter);
   result = attack(slices[si].next1,n);
-  senti[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -116,7 +113,6 @@ stip_length_type sentinelles_inserter_defend(slice_index si, stip_length_type n)
 
   insert_sentinelle(slices[si].starter);
   result = defend(slices[si].next1,n);
-  senti[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
