@@ -65,7 +65,7 @@ typedef enum
   move_effect_reason_masand,
   move_effect_reason_einstein_chess,
   move_effect_reason_kobul_king,
-  move_effect_reason_ghost_summoned,
+  move_effect_reason_summon_ghost,
   move_effect_reason_circe_rebirth,
   move_effect_reason_assassin_circe_rebirth,
   move_effect_reason_anticirce_rebirth,

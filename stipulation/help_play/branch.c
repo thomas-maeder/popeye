@@ -81,7 +81,6 @@ static slice_index const slice_rank_order[] =
   STMutualCastlingRightsAdjuster,
   STSuperTransmutingKingTransmuter,
   STGhostChessGhostRememberer,
-  STGhostChessGhostSummoner,
   STHauntedChessGhostRememberer,
   STHauntedChessGhostSummoner,
   STHaanChessHoleInserter,

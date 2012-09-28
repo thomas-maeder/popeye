@@ -2076,8 +2076,6 @@ void current(coup *mov)
   /* redundant to init push_top */
   mov->push_bottom = NULL;
 
-  mov->ghost_piece = e[mov->cdzz];
-  mov->ghost_flags = spec[mov->cdzz];
   if (CondFlag[BGL]) {
     mov->bgl_wh = BGL_values[White][nbply];
     mov->bgl_bl = BGL_values[Black][nbply];

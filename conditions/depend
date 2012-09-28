@@ -1453,8 +1453,7 @@ conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
- pieces/attributes/neutral/initialiser.h conditions/haunted_chess.h \
- solving/move_effect_journal.h debugging/trace.h
+ conditions/haunted_chess.h debugging/trace.h
 
 conditions/ghost_chess.h:
 
@@ -1510,11 +1509,7 @@ stipulation/has_solution_type.h:
 
 stipulation/move_player.h:
 
-pieces/attributes/neutral/initialiser.h:
-
 conditions/haunted_chess.h:
-
-solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h \

@@ -478,8 +478,6 @@ typedef struct {
   square    mren;     /*                            */
   change_rec  *push_bottom,   /*                            */
       *push_top;    /*                            */
-  piece   ghost_piece;    /*                            */
-  Flags   ghost_flags;    /*                            */
   long int  bgl_wh,     /*                            */
       bgl_bl;     /*                            */
 } coup;

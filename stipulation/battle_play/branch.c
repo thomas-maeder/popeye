@@ -86,7 +86,6 @@ static slice_index const slice_rank_order[] =
   STGhostChessGhostRememberer,
   STHauntedChessGhostRememberer,
   STHauntedChessGhostSummoner,
-  STGhostChessGhostSummoner,
   STHaanChessHoleInserter,
   STKamikazeCapturingPieceRemover, /* here to avoid useless promotions of a vanishing pawn */
   STMovingPawnToImitatorPromoter,
@@ -243,7 +242,6 @@ static slice_index const slice_rank_order[] =
   STGhostChessGhostRememberer,
   STHauntedChessGhostRememberer,
   STHauntedChessGhostSummoner,
-  STGhostChessGhostSummoner,
   STHaanChessHoleInserter,
   STKamikazeCapturingPieceRemover, /* here to avoid useless promotions of a vanishing pawn */
   STMovingPawnToImitatorPromoter,

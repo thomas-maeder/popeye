@@ -258,7 +258,6 @@
     ENUMERATOR(STDuellistsRememberDuellist),                            \
     ENUMERATOR(STHauntedChessGhostSummoner),                            \
     ENUMERATOR(STHauntedChessGhostRememberer),                          \
-    ENUMERATOR(STGhostChessGhostSummoner),                              \
     ENUMERATOR(STGhostChessGhostRememberer),                            \
     ENUMERATOR(STKobulKingSubstitutor),                                 \
     ENUMERATOR(STAndernachSideChanger),                                 \

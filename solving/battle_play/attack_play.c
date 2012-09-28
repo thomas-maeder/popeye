@@ -562,10 +562,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = haunted_chess_ghost_rememberer_attack(si,n);
       break;
 
-    case STGhostChessGhostSummoner:
-      result = ghost_chess_ghost_summoner_attack(si,n);
-      break;
-
     case STGhostChessGhostRememberer:
       result = ghost_chess_ghost_rememberer_attack(si,n);
       break;

@@ -37,14 +37,6 @@ void haunted_chess_remember_ghost(void);
  */
 void haunted_chess_forget_ghost(void);
 
-/* Summon a ghost on the departure square
- */
-boolean haunted_chess_summon_ghost(void);
-
-/* Ban a ghost on the departure square (usally while taking a move back)
- */
-void haunted_chess_ban_ghost(void);
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

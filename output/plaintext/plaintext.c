@@ -111,6 +111,16 @@ static void editcoup(coup const *mov)
             break;
           }
 
+          case move_effect_reason_summon_ghost:
+          {
+            WriteSpec(move_effect_journal[curr].u.flags_change.to,
+                      context.moving,
+                      true);
+            WritePiece(context.moving);
+            WriteSquare(move_effect_journal[curr].u.flags_change.on);
+            break;
+          }
+
           default:
             break;
         }
@@ -206,6 +216,16 @@ static void editcoup(coup const *mov)
           {
             StdChar('=');
             WritePiece(move_effect_journal[curr].u.piece_change.to);
+            break;
+          }
+
+          case move_effect_reason_summon_ghost:
+          {
+            context_close(&context);
+
+            context_open(&context,"[+","]");
+            context_set_moving_piece(&context,
+                                     move_effect_journal[curr].u.piece_change.to);
             break;
           }
 
@@ -482,16 +502,6 @@ static void editcoup(coup const *mov)
     }
 
   context_close(&context);
-
-  if ((CondFlag[ghostchess] || CondFlag[hauntedchess])
-      && mov->ghost_piece!=vide)
-  {
-    StdString("[+");
-    WriteSpec(mov->ghost_flags,mov->ghost_piece, mov->ghost_piece != vide);
-    WritePiece(mov->ghost_piece);
-    WriteSquare(mov->cdzz);
-    StdString("]");
-  }
 
   if (CondFlag[BGL])
   {

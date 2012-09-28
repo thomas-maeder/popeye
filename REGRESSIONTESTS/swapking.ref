@@ -26,39 +26,39 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
             SwappingKings
 
    1.Qa4-e8 ? threat:
-          2.Qe8-c8[wK<>bK] #
+          2.Qe8-c8[Ka6<->Ka8] #
       1...Ka6-b6
-          2.Qe8-d8[wK<>bK] #
+          2.Qe8-d8[Kb6<->Ka8] #
     but
       1...Sa5-b7 !
 
    1.Qa4-d7 ! threat:
-          2.Qd7-a7[wK<>bK] #
-          2.Qd7-c8[wK<>bK] #
+          2.Qd7-a7[Ka6<->Ka8] #
+          2.Qd7-c8[Ka6<->Ka8] #
       1...Sa5-c6
-          2.Qd7-c8[wK<>bK] #
-          2.Qd7-b7[wK<>bK] #
+          2.Qd7-c8[Ka6<->Ka8] #
+          2.Qd7-b7[Ka6<->Ka8] #
       1...Sa5-b7
-          2.Qd7*b7[wK<>bK] #
+          2.Qd7*b7[Ka6<->Ka8] #
       1...Ka6-b6
-          2.Qd7-a7[wK<>bK] #
-          2.Qd7-d8[wK<>bK] #
+          2.Qd7-a7[Kb6<->Ka8] #
+          2.Qd7-d8[Kb6<->Ka8] #
 
    1.Qa4-d4 ? threat:
-          2.Qd4-a7[wK<>bK] #
+          2.Qd4-a7[Ka6<->Ka8] #
     but
       1...Sa5-c6 !
       1...Ka6-b5 !
 
    1.Qa4-b4 ? zugzwang.
       1...Sa5-b3
-          2.Qb4-b7[wK<>bK] #
+          2.Qb4-b7[Ka6<->Ka8] #
       1...Sa5-c4
-          2.Qb4-b7[wK<>bK] #
+          2.Qb4-b7[Ka6<->Ka8] #
       1...Sa5-c6
-          2.Qb4-b7[wK<>bK] #
+          2.Qb4-b7[Ka6<->Ka8] #
       1...Sa5-b7
-          2.Qb4*b7[wK<>bK] #
+          2.Qb4*b7[Ka6<->Ka8] #
     but
       1...h7-h5 !
       1...h7-h6 !
@@ -98,13 +98,13 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   h#4                         3 + 1
             SwappingKings
 
-  1...Kh3-h2   2.Kf2-f1 Sg2-e3[wK<>bK]   3.Kh2-h1 Se2-g3[wK<>bK] +   4.Kf1-f2 Se3-g4[wK<>bK] # 
-  1...Sg2-f4   2.Kf2-e1 Sf4-d3[wK<>bK]   3.Kh3-h2 Ke1-f1   4.Kh2-h1 Se2-g3[wK<>bK] # 
+  1...Kh3-h2   2.Kf2-f1 Sg2-e3[Kf1<->Kh2]   3.Kh2-h1 Se2-g3[Kh1<->Kf1] +   4.Kf1-f2 Se3-g4[Kf2<->Kh1] # 
+  1...Sg2-f4   2.Kf2-e1 Sf4-d3[Ke1<->Kh3]   3.Kh3-h2 Ke1-f1   4.Kh2-h1 Se2-g3[Kh1<->Kf1] # 
 
-              empile:      320339
-           play_move:      297742
-        orig_rbechec:       86180
-        orig_rnechec:      523800
+              empile:      320127
+           play_move:      297534
+        orig_rbechec:       86143
+        orig_rnechec:      523406
 solution finished. 
 
 
@@ -142,16 +142,16 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   5  (Ke1-f2 )
   6  (Bc1*d2 )
   7  (Bc1*a3 )
-  8  (Bc1-b2[wK<>bK] + )
-  1...Bc1-b2[wK<>bK] +   2.Be3-d4[wK<>bK] 0-0-0   3.Sa3-c2 Bb2-a3   4.Bd4-c5 Rd1-h1[wK<>bK] # 
+  8  (Bc1-b2[Kh8<->Ke1] + )
+  1...Bc1-b2[Kh8<->Ke1] +   2.Be3-d4[Ke1<->Kh8] 0-0-0   3.Sa3-c2 Bb2-a3   4.Bd4-c5 Rd1-h1[Kh8<->Kc1] # 
   9  (Ra1*a3 )
  10  (Ra1-a2 )
  11  (Ra1-b1 )
 
-              empile:   119811906
-           play_move:   115442236
-        orig_rbechec:    20385538
-        orig_rnechec:   212984714
+              empile:   120497824
+           play_move:   116108950
+        orig_rbechec:    20516391
+        orig_rnechec:   214265241
 solution finished. 
 
 
@@ -182,7 +182,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   ser-h#3                     2 + 4
             SwappingKings
 
-  1.Bb7-c8   2.Sc3-d1[wK<>bK]   3.Kf2-f1 Sf5-g3[wK<>bK] # 
+  1.Bb7-c8   2.Sc3-d1[Kh1<->Kf2]   3.Kf2-f1 Sf5-g3[Kf1<->Kh1] # 
 
               empile:        9932
            play_move:        9906
@@ -218,12 +218,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   h#2                         4 + 2
             SwappingKings
 
-  1.Kd2-e1 Bf1-h3[wK<>bK]   2.d6-d5 0-0[wK<>bK] # 
 
-              empile:       21539
-           play_move:       19820
-        orig_rbechec:        2939
-        orig_rnechec:       37261
+              empile:       21434
+           play_move:       19748
+        orig_rbechec:        2813
+        orig_rnechec:       37149
 solution finished. 
 
 
@@ -254,8 +253,8 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   h#2                         4 + 3
             SwappingKings
 
-  1.b7-b6 Bd1-b3   2.Kb8-b7 c5-c6[wK<>bK] # 
-  1.Kb8-a7 Kb5-a5   2.b7-b5 c5*b6 ep.[wK<>bK] # 
+  1.b7-b6 Bd1-b3   2.Kb8-b7 c5-c6[Kb7<->Kb5] # 
+  1.Kb8-a7 Kb5-a5   2.b7-b5 c5*b6 ep.[Ka7<->Ka5] # 
 
               empile:       14621
            play_move:       13922
@@ -292,7 +291,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
             SwappingKings
 
    1.Qg1-a1 ! threat:
-          2.Kb2-a3[wK<>bK] #
+          2.Kb2-a3[Kh8<->Ka3] #
 
 
               empile:        2012
@@ -330,18 +329,18 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
             SwappingKings
 
    1.Kf4-g3 ! threat:
-          2.Qg6-e4[wK<>bK] threat:
-                  3.Qe4-g2[wK<>bK] #
-                  3.Qe4-e1[wK<>bK] #
+          2.Qg6-e4[Kh1<->Kg3] threat:
+                  3.Qe4-g2[Kg3<->Kh1] #
+                  3.Qe4-e1[Kg3<->Kh1] #
               2...Kg3-h3
-                  3.Qe4-g2[wK<>bK] #
+                  3.Qe4-g2[Kh3<->Kh1] #
               2...Kg3-f2
-                  3.Qe4-g2[wK<>bK] #
-                  3.Qe4-h4[wK<>bK] #
+                  3.Qe4-g2[Kf2<->Kh1] #
+                  3.Qe4-h4[Kf2<->Kh1] #
       1...Kh1-g1
-          2.Kg3-h4[wK<>bK] zugzwang.
+          2.Kg3-h4[Kg1<->Kh4] zugzwang.
               2...Kh4-h3
-                  3.Qg6-g2[wK<>bK] #
+                  3.Qg6-g2[Kh3<->Kg1] #
 
 
               empile:       32168

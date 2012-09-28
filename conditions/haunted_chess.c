@@ -123,7 +123,7 @@ void haunted_chess_forget_ghost(void)
   TraceFunctionResultEnd();
 }
 
-void haunted_chess_ban_ghost(void)
+static void ban_ghost(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]].departure;
 
@@ -142,7 +142,7 @@ void haunted_chess_ban_ghost(void)
   TraceFunctionResultEnd();
 }
 
-boolean haunted_chess_summon_ghost(void)
+static boolean summon_ghost(void)
 {
   boolean result;
 
@@ -155,12 +155,12 @@ boolean haunted_chess_summon_ghost(void)
     if (ghost_pos!=ghost_not_found && !ghosts[ghost_pos].hidden)
     {
       piece const piece_summoned = ghosts[ghost_pos].ghost_piece;
-      Flags spec_summoned = ghosts[ghost_pos].ghost_flags;
+      Flags const spec_summoned = ghosts[ghost_pos].ghost_flags;
 
-      move_effect_journal_do_piece_change(move_effect_reason_ghost_summoned,
+      move_effect_journal_do_piece_change(move_effect_reason_summon_ghost,
                                           sq_departure,
                                           piece_summoned);
-      move_effect_journal_do_flags_change(move_effect_reason_ghost_summoned,
+      move_effect_journal_do_flags_change(move_effect_reason_summon_ghost,
                                           sq_departure,
                                           spec_summoned);
 
@@ -196,10 +196,10 @@ stip_length_type haunted_chess_ghost_summoner_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (haunted_chess_summon_ghost())
+  if (summon_ghost())
   {
     result = attack(slices[si].next1,n);
-    haunted_chess_ban_ghost();
+    ban_ghost();
   }
   else
     result = attack(slices[si].next1,n);
@@ -231,10 +231,10 @@ stip_length_type haunted_chess_ghost_summoner_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (haunted_chess_summon_ghost())
+  if (summon_ghost())
   {
     result = defend(slices[si].next1,n);
-    haunted_chess_ban_ghost();
+    ban_ghost();
   }
   else
     result = defend(slices[si].next1,n);
