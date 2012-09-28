@@ -478,8 +478,6 @@ typedef struct {
   square    mren;     /*                            */
   change_rec  *push_bottom,   /*                            */
       *push_top;    /*                            */
-  long int  bgl_wh,     /*                            */
-      bgl_bl;     /*                            */
 } coup;
 
 typedef char PieceChar[2];

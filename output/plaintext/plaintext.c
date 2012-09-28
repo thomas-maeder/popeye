@@ -505,14 +505,20 @@ static void editcoup(coup const *mov)
 
   if (CondFlag[BGL])
   {
-    char s[30], buf1[12], buf2[12];
-    if (BGL_global)
-      sprintf(s, " (%s)", WriteBGLNumber(buf1, mov->bgl_wh));
-    else
-      sprintf(s, " (%s/%s)",
-              WriteBGLNumber(buf1, mov->bgl_wh),
-              WriteBGLNumber(buf2, mov->bgl_bl));
-    StdString(s);
+    char buf[12];
+
+    StdString(" (");
+    WriteBGLNumber(buf,BGL_values[White][nbply]);
+    StdString(buf);
+
+    if (!BGL_global)
+    {
+      StdString("/");
+      WriteBGLNumber(buf,BGL_values[Black][nbply]);
+      StdString(buf);
+    }
+
+    StdString(")");
   }
 } /* editcoup */
 

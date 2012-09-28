@@ -2075,11 +2075,6 @@ void current(coup *mov)
    * append_to_top_table() */
   /* redundant to init push_top */
   mov->push_bottom = NULL;
-
-  if (CondFlag[BGL]) {
-    mov->bgl_wh = BGL_values[White][nbply];
-    mov->bgl_bl = BGL_values[Black][nbply];
-  }
 }
 
 boolean WriteSpec(Flags sp, piece p, boolean printcolours)

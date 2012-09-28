@@ -451,14 +451,18 @@ static void WriteConditions(int alignment)
 
     if (cond == BGL)
     {
-      char buf1[12], buf2[12];
+      char buf1[12];
+      char buf2[12];
       if (BGL_global)
       {
-        sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_values[White][1]));
+        WriteBGLNumber(buf1, BGL_values[White][1]);
+        sprintf(CondLine, "%s %s", CondTab[cond], buf1);
       }
       else
       {
-        sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_values[White][1]), WriteBGLNumber(buf2, BGL_values[Black][1]));
+        WriteBGLNumber(buf1, BGL_values[White][1]);
+        WriteBGLNumber(buf2, BGL_values[Black][1]);
+        sprintf(CondLine, "%s %s/%s", CondTab[cond],buf1,buf2);
       }
     }
 
@@ -1383,7 +1387,7 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
   }
 }
 
-char* WriteBGLNumber(char* buf, long int num)
+void WriteBGLNumber(char* buf, long int num)
 {
   if (num == BGL_infinity)
     sprintf(buf, "-");
@@ -1393,7 +1397,6 @@ char* WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%1i", (int) (num / 100), (int) ((num % 100) / 10));
   else
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
-  return buf;
 }
 
 static void ReadBeginSpec(void)
