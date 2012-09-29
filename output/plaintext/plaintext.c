@@ -74,15 +74,12 @@ void output_plaintext_write_move(void)
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_pawn_promotion:
-            if (context.target_square==move_effect_journal[curr].u.flags_change.on)
-            {
-              StdChar('=');
-              WriteSpec(move_effect_journal[curr].u.flags_change.to,
-                        context.moving,
-                        false);
-              context_set_non_side_flags(&context,
-                                         move_effect_journal[curr].u.flags_change.to);
-            }
+            StdChar('=');
+            WriteSpec(move_effect_journal[curr].u.flags_change.to,
+                      context.moving,
+                      false);
+            context_set_non_side_flags(&context,
+                                       move_effect_journal[curr].u.flags_change.to);
             break;
 
           case move_effect_reason_half_neutral_neutralisation:
@@ -97,7 +94,6 @@ void output_plaintext_write_move(void)
             break;
 
           case move_effect_reason_kobul_king:
-          {
             WriteSquare(move_effect_journal[curr].u.flags_change.on);
             StdString("=");
             WriteSpec(move_effect_journal[curr].u.flags_change.to,
@@ -105,17 +101,14 @@ void output_plaintext_write_move(void)
                       false);
             WritePiece(context.moving);
             break;
-          }
 
           case move_effect_reason_summon_ghost:
-          {
             WriteSpec(move_effect_journal[curr].u.flags_change.to,
                       context.moving,
                       true);
             WritePiece(context.moving);
             WriteSquare(move_effect_journal[curr].u.flags_change.on);
             break;
-          }
 
           default:
             break;
@@ -130,11 +123,8 @@ void output_plaintext_write_move(void)
           case move_effect_reason_andernach_chess:
           case move_effect_reason_volage_side_change:
           case move_effect_reason_magic_square:
-            if (context.target_square==move_effect_journal[curr].u.side_change.on)
-            {
-              StdChar('=');
-              StdChar(side_shortcut[move_effect_journal[curr].u.side_change.to]);
-            }
+            StdChar('=');
+            StdChar(side_shortcut[move_effect_journal[curr].u.side_change.to]);
             break;
 
           case move_effect_reason_magic_piece:
@@ -168,17 +158,15 @@ void output_plaintext_write_move(void)
           case move_effect_reason_degradierung:
           case move_effect_reason_norsk_chess:
           case move_effect_reason_promotion_of_reborn:
-            if (context.target_square==move_effect_journal[curr].u.piece_change.on
-                /* regular promotion doesn't test whether the "promotion" is
+            if (/* regular promotion doesn't test whether the "promotion" is
                  * into pawn (e.g. in SingleBox); it's more efficient to test here */
-                && (move_effect_journal[curr].u.piece_change.to
-                    !=move_effect_journal[curr].u.piece_change.from))
+                move_effect_journal[curr].u.piece_change.to
+                !=move_effect_journal[curr].u.piece_change.from)
             {
               StdChar('=');
-              if (context.non_side_flags!=0)
-                WriteSpec(context.non_side_flags,
-                          move_effect_journal[curr].u.piece_change.to,
-                          false);
+              WriteSpec(context.non_side_flags,
+                        move_effect_journal[curr].u.piece_change.to,
+                        false);
               WritePiece(move_effect_journal[curr].u.piece_change.to);
             }
             break;
