@@ -102,14 +102,6 @@ void output_plaintext_write_move(void)
             WritePiece(context.moving);
             break;
 
-          case move_effect_reason_summon_ghost:
-            WriteSpec(move_effect_journal[curr].u.flags_change.to,
-                      context.moving,
-                      true);
-            WritePiece(context.moving);
-            WriteSquare(move_effect_journal[curr].u.flags_change.on);
-            break;
-
           default:
             break;
         }
@@ -200,16 +192,6 @@ void output_plaintext_write_move(void)
           {
             StdChar('=');
             WritePiece(move_effect_journal[curr].u.piece_change.to);
-            break;
-          }
-
-          case move_effect_reason_summon_ghost:
-          {
-            context_close(&context);
-
-            context_open(&context,"[+","]");
-            context_set_moving_piece(&context,
-                                     move_effect_journal[curr].u.piece_change.to);
             break;
           }
 
@@ -331,20 +313,9 @@ void output_plaintext_write_move(void)
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_circe_rebirth:
-          {
-            context_close(&context);
-
-            context_open(&context," [+","]");
-            WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
-                      move_effect_journal[curr].u.piece_addition.added,
-                      true);
-            WritePiece(move_effect_journal[curr].u.piece_addition.added);
-            WriteSquare(move_effect_journal[curr].u.piece_addition.on);
-            break;
-          }
-
           case move_effect_reason_republican_king_insertion:
           case move_effect_reason_sentinelles:
+          case move_effect_reason_summon_ghost:
           {
             context_close(&context);
 

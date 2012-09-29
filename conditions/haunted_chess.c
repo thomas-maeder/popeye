@@ -154,15 +154,10 @@ static boolean summon_ghost(void)
     ghost_index_type const ghost_pos = find_ghost(sq_departure);
     if (ghost_pos!=ghost_not_found && !ghosts[ghost_pos].hidden)
     {
-      piece const piece_summoned = ghosts[ghost_pos].ghost_piece;
-      Flags const spec_summoned = ghosts[ghost_pos].ghost_flags;
-
-      move_effect_journal_do_piece_change(move_effect_reason_summon_ghost,
-                                          sq_departure,
-                                          piece_summoned);
-      move_effect_journal_do_flags_change(move_effect_reason_summon_ghost,
-                                          sq_departure,
-                                          spec_summoned);
+      move_effect_journal_do_piece_addition(move_effect_reason_summon_ghost,
+                                            sq_departure,
+                                            ghosts[ghost_pos].ghost_piece,
+                                            ghosts[ghost_pos].ghost_flags);
 
       forget_ghost_at_pos(ghost_pos);
 
