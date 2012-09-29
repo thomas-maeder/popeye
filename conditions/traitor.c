@@ -4,7 +4,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/move_effect_journal.h"
-#include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -16,17 +15,9 @@ static void change_side(Side trait_ply)
   if (trait_ply==Black
       && sq_arrival<=square_h4
       && !TSTFLAG(spec[sq_arrival],Neutral))
-  {
-    Flags flags = spec[sq_arrival];
-    spec_change_side(&flags);
-    move_effect_journal_do_flags_change(move_effect_reason_traitor_defection,
-                                        sq_arrival,
-                                        flags);
-
-    move_effect_journal_do_piece_change(move_effect_reason_traitor_defection,
-                                        sq_arrival,
-                                        -e[sq_arrival]);
-  }
+    move_effect_journal_do_side_change(move_effect_reason_traitor_defection,
+                                       sq_arrival,
+                                       White);
 }
 
 /* Try to solve in n half-moves after a defense.

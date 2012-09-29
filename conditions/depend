@@ -1934,7 +1934,7 @@ conditions/traitor$(OBJ_SUFFIX): conditions/traitor.c conditions/traitor.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/move_player.h solving/move_effect_journal.h \
- pieces/side_change.h debugging/trace.h
+ debugging/trace.h
 
 conditions/traitor.h:
 
@@ -1991,8 +1991,6 @@ output/mode.h:
 stipulation/move_player.h:
 
 solving/move_effect_journal.h:
-
-pieces/side_change.h:
 
 debugging/trace.h:
 conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
