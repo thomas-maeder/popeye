@@ -9,7 +9,7 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- pieces/side_change.h solving/move_effect_journal.h debugging/trace.h
+ solving/move_effect_journal.h debugging/trace.h
 
 pieces/attributes/hurdle_colour_changing.h:
 
@@ -63,8 +63,6 @@ output/mode.h:
 
 stipulation/move_player.h:
 
-pieces/side_change.h:
-
 solving/move_effect_journal.h:
 
 debugging/trace.h:
@@ -78,7 +76,7 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/branch.h stipulation/move_player.h \
- pieces/side_change.h solving/move_effect_journal.h debugging/trace.h
+ solving/move_effect_journal.h debugging/trace.h
 
 pieces/attributes/magic.h:
 
@@ -135,8 +133,6 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 stipulation/move_player.h:
-
-pieces/side_change.h:
 
 solving/move_effect_journal.h:
 

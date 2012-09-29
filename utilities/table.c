@@ -1,7 +1,6 @@
 #include "utilities/table.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pieces/side_change.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/anticirce/rebirth_handler.h"
 #include "conditions/football.h"
@@ -21,14 +20,6 @@ enum
 typedef unsigned int table_position;
 
 static unsigned int number_of_tables;
-
-enum
-{
-  push_side_change_stack_size = 2000
-};
-
-static change_rec push_side_change_stack[push_side_change_stack_size];
-static change_rec const * const push_side_change_stack_limit = &push_side_change_stack[push_side_change_stack_size];
 
 /* current position in a specific table
  */
@@ -52,8 +43,6 @@ typedef struct
   piece sb2what;
   square sb3where;
   piece sb3what;
-  change_rec *push_bottom;
-  change_rec *push_top;
 } table_elmt_type;
 
 static table_elmt_type tables_stack[tables_stack_size];
@@ -82,10 +71,6 @@ static void make_move_snapshot(table_elmt_type *mov)
   mov->sb3what = singlebox_type3_promotions[coup_id].what;
   mov->sb2where = singlebox_type2_latent_pawn_promotions[nbply].where;
   mov->sb2what = singlebox_type2_latent_pawn_promotions[nbply].what;
-  /* following only overwritten if change stack is saved in
-   * append_to_top_table() */
-  /* redundant to init push_top */
-  mov->push_bottom = NULL;
 }
 
 static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *move2)
@@ -120,7 +105,6 @@ void reset_tables(void)
 {
   number_of_tables = 0;
   current_position[0] = 0;
-  tables_stack[0].push_top = push_side_change_stack;
 }
 
 /* Allocate a table.
@@ -171,18 +155,6 @@ void append_to_top_table(void)
   {
     ++current_position[number_of_tables];
     make_move_snapshot(&tables_stack[current_position[number_of_tables]]);
-  }
-
-  if (TSTFLAG(PieSpExFlags,Magic) || CondFlag[masand])
-  {
-    table_position const curr = current_position[number_of_tables];
-    tables_stack[curr].push_bottom = tables_stack[curr-1].push_top;
-    tables_stack[curr].push_top = tables_stack[curr].push_bottom;
-    assert(side_change_sp[parent_ply[nbply]]<=side_change_sp[nbply]);
-    copy_side_change_stack_segment(side_change_sp[parent_ply[nbply]],
-                                   side_change_sp[nbply],
-                                   &tables_stack[curr].push_top,
-                                   push_side_change_stack_limit);
   }
 
   TraceFunctionExit(__func__);

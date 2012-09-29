@@ -205,7 +205,6 @@
 #include "solving/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
-#include "pieces/side_change.h"
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"

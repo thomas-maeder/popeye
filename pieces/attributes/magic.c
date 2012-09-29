@@ -5,7 +5,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move_player.h"
-#include "pieces/side_change.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -545,16 +544,9 @@ static void ChangeMagic(void)
   for (bnp = boardnum; *bnp; ++bnp)
     /* only change if viewee suffers odd-no. new views */
     if (count_changed_views(*bnp)%2==1)
-    {
       move_effect_journal_do_side_change(move_effect_reason_magic_piece,
                                          *bnp,
                                          e[*bnp]<vide ? White : Black);
-
-      /* don't store colour change of moving piece - it might
-       * undergo other changes */
-      if (*bnp!=move_generation_stack[current_move[nbply]].arrival)
-        push_side_change(&side_change_sp[nbply],side_change_stack_limit,*bnp);
-    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -607,7 +599,6 @@ stip_length_type magic_pieces_recolorer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   PushMagicViews();
   ChangeMagic();
   result = attack(slices[si].next1,n);
@@ -639,7 +630,6 @@ stip_length_type magic_pieces_recolorer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   PushMagicViews();
   ChangeMagic();
   result = defend(slices[si].next1,n);

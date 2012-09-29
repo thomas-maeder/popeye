@@ -62,7 +62,6 @@
 #include "pymsg.h"
 #include "conditions/exclusive.h"
 #include "conditions/madrasi.h"
-#include "pieces/side_change.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/battle_play/attack_play.h"
 #include "solving/single_move_generator_with_king_capture.h"

@@ -7,8 +7,7 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  conditions/republican.h solving/battle_play/attack_play.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h conditions/bgl.h conditions/kobul.h \
- conditions/imitator.h solving/move_effect_journal.h pieces/side_change.h \
- solving/en_passant.h
+ conditions/imitator.h solving/move_effect_journal.h solving/en_passant.h
 
 output/plaintext/plaintext.h:
 
@@ -65,8 +64,6 @@ conditions/kobul.h:
 conditions/imitator.h:
 
 solving/move_effect_journal.h:
-
-pieces/side_change.h:
 
 solving/en_passant.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \

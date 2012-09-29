@@ -7,7 +7,6 @@
 #include "conditions/bgl.h"
 #include "conditions/kobul.h"
 #include "conditions/imitator.h"
-#include "pieces/side_change.h"
 #include "solving/en_passant.h"
 
 #include <assert.h>

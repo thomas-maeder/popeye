@@ -91,7 +91,6 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
-#include "pieces/side_change.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "optimisations/hash.h"

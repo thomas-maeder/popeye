@@ -61,7 +61,6 @@
 #include "stipulation/stipulation.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/attributes/magic.h"
-#include "pieces/side_change.h"
 #include "platform/maxtime.h"
 #include "solving/move_effect_journal.h"
 #include "solving/battle_play/try.h"
@@ -417,7 +416,6 @@ void InitAlways(void) {
     current_anticirce_rebirth_square[i] = initsquare;
     pwcprom[i] = false;
     oscillatedKs[i] = false;
-    side_change_sp[i] = side_change_stack;
   }
 
   initialise_neutrals(White);

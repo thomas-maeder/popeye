@@ -5,7 +5,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/move_effect_journal.h"
-#include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

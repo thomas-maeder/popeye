@@ -5,7 +5,6 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/move_player.h"
 #include "solving/move_effect_journal.h"
-#include "pieces/side_change.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -61,12 +60,9 @@ static void change_observed(square observer_pos)
         && *bnp!=king_square[White]
         && *bnp!=observer_pos
         && observed(*bnp,observer_pos))
-    {
       move_effect_journal_do_side_change(move_effect_reason_masand,
                                          *bnp,
                                          e[*bnp]<vide ? White : Black);
-      push_side_change(&side_change_sp[nbply],side_change_stack_limit,*bnp);
-    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -92,7 +88,6 @@ stip_length_type masand_recolorer_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   if (echecc(opponent) && observed(king_square[opponent],sq_arrival))
     change_observed(sq_arrival);
 
@@ -127,7 +122,6 @@ stip_length_type masand_recolorer_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  side_change_sp[nbply] = side_change_sp[parent_ply[nbply]];
   if (echecc(opponent) && observed(king_square[opponent],sq_arrival))
     change_observed(sq_arrival);
 

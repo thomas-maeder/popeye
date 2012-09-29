@@ -4,7 +4,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "stipulation/structure_traversal.h"
-#include "pieces/side_change.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 

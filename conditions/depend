@@ -829,7 +829,7 @@ conditions/masand$(OBJ_SUFFIX): conditions/masand.c conditions/masand.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
- solving/move_effect_journal.h pieces/side_change.h debugging/trace.h
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/masand.h:
 
@@ -884,8 +884,6 @@ stipulation/has_solution_type.h:
 stipulation/move_player.h:
 
 solving/move_effect_journal.h:
-
-pieces/side_change.h:
 
 debugging/trace.h:
 conditions/dynasty$(OBJ_SUFFIX): conditions/dynasty.c conditions/dynasty.h \
@@ -2007,7 +2005,7 @@ conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/move_player.h solving/move_effect_journal.h \
- pieces/side_change.h debugging/trace.h
+ debugging/trace.h
 
 conditions/volage.h:
 
@@ -2065,8 +2063,6 @@ stipulation/move_player.h:
 
 solving/move_effect_journal.h:
 
-pieces/side_change.h:
-
 debugging/trace.h:
 conditions/magic_square$(OBJ_SUFFIX): conditions/magic_square.c \
  conditions/magic_square.h solving/battle_play/attack_play.h py.h \
@@ -2078,7 +2074,7 @@ conditions/magic_square$(OBJ_SUFFIX): conditions/magic_square.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- solving/move_effect_journal.h pieces/side_change.h debugging/trace.h
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/magic_square.h:
 
@@ -2135,8 +2131,6 @@ output/mode.h:
 stipulation/move_player.h:
 
 solving/move_effect_journal.h:
-
-pieces/side_change.h:
 
 debugging/trace.h:
 conditions/tibet$(OBJ_SUFFIX): conditions/tibet.c conditions/tibet.h \

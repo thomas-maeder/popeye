@@ -44,7 +44,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  options/maxflightsquares.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/magic.h \
- pieces/side_change.h platform/maxtime.h solving/move_effect_journal.h \
+ platform/maxtime.h solving/move_effect_journal.h \
  solving/battle_play/try.h utilities/table.h solving/castling.h \
  solving/en_passant.h solving/moving_pawn_promotion.h \
  solving/post_move_iteration.h conditions/bgl.h conditions/sat.h \
@@ -123,8 +123,6 @@ pieces/attributes/neutral/initialiser.h:
 
 pieces/attributes/magic.h:
 
-pieces/side_change.h:
-
 platform/maxtime.h:
 
 solving/move_effect_journal.h:
@@ -173,8 +171,7 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  py4.h stipulation/goals/goals.h pydata.h pymsg.h conditions/exclusive.h \
  position/position.h solving/battle_play/attack_play.h \
  solving/battle_play/defense_play.h pydata.h conditions/madrasi.h \
- pieces/side_change.h stipulation/has_solution_type.h \
- solving/battle_play/attack_play.h \
+ stipulation/has_solution_type.h solving/battle_play/attack_play.h \
  solving/single_move_generator_with_king_capture.h solving/en_passant.h \
  stipulation/temporary_hacks.h pieces/attributes/neutral/initialiser.h \
  debugging/trace.h
@@ -234,8 +231,6 @@ solving/battle_play/defense_play.h:
 pydata.h:
 
 conditions/madrasi.h:
-
-pieces/side_change.h:
 
 stipulation/has_solution_type.h:
 
@@ -466,8 +461,7 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/circe/cage.h conditions/circe/super.h \
  conditions/anticirce/super.h conditions/haunted_chess.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
- conditions/singlebox/type3.h pieces/side_change.h \
- pieces/attributes/paralysing/paralysing.h \
+ conditions/singlebox/type3.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h
 
@@ -571,8 +565,6 @@ conditions/singlebox/type2.h:
 
 conditions/singlebox/type3.h:
 
-pieces/side_change.h:
-
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
@@ -639,8 +631,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/try.h utilities/table.h solving/battle_play/threat.h \
  solving/trivial_end_filter.h solving/avoid_unsolvable.h \
  solving/play_suppressor.h solving/castling.h solving/en_passant.h \
- solving/post_move_iteration.h pieces/side_change.h \
- pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
+ solving/post_move_iteration.h pieces/attributes/magic.h \
+ pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
@@ -933,8 +925,6 @@ solving/castling.h:
 solving/en_passant.h:
 
 solving/post_move_iteration.h:
-
-pieces/side_change.h:
 
 pieces/attributes/magic.h:
 
