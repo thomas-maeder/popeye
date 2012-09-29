@@ -210,9 +210,6 @@ square  coinequis(square a);
 
 boolean echecc(Side a);
 
-boolean moves_equal(coup const *move1, coup const *move2);
-void current(coup *mov);
-
 boolean eval_ortho(square departure, square arrival, square capture);
 
 boolean feebechec(evalfunction_t *evaluate );

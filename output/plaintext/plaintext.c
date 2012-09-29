@@ -19,9 +19,9 @@ typedef struct
     piece moving;
     Flags non_side_flags;
     square target_square;
-} editcoup_context;
+} move_context;
 
-static void context_open(editcoup_context *context,
+static void context_open(move_context *context,
                          char const *opening_sequence,
                          char const *closing_sequence)
 {
@@ -33,42 +33,39 @@ static void context_open(editcoup_context *context,
   context->closing_sequence = closing_sequence;
 }
 
-static void context_close(editcoup_context *context)
+static void context_close(move_context *context)
 {
   StdString(context->closing_sequence);
 }
 
-static void context_set_target_square(editcoup_context *context, square s)
+static void context_set_target_square(move_context *context, square s)
 {
   context->target_square = s;
 }
 
-static void context_set_moving_piece(editcoup_context *context, piece p)
+static void context_set_moving_piece(move_context *context, piece p)
 {
   context->moving = p;
 }
 
-static void context_set_non_side_flags(editcoup_context *context, Flags flags)
+static void context_set_non_side_flags(move_context *context, Flags flags)
 {
   Flags const side_flag_mask = BIT(White)|BIT(Black);
   context->non_side_flags = flags&~side_flag_mask;
 }
 
-static void editcoup(coup const *mov)
+void output_plaintext_write_move(void)
 {
-  char    BlackChar= *GetMsgString(BlackColor);
-  char    WhiteChar= *GetMsgString(WhiteColor);
+  char const side_shortcut[nr_sides] = { GetMsgString(WhiteColor)[0], GetMsgString(BlackColor)[0] };
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_index_type curr;
   move_effect_journal_index_type capture = move_effect_journal_index_null;
   move_effect_journal_index_type castling = move_effect_journal_index_null;
-  editcoup_context context = { "", vide, 0, initsquare };
+  move_context context = { "", vide, 0, initsquare };
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_move(mov);
 #endif
-
-  if (mov->cazz==nullsquare) return;
 
   for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
     switch (move_effect_journal[curr].type)
@@ -137,7 +134,7 @@ static void editcoup(coup const *mov)
             if (context.target_square==move_effect_journal[curr].u.side_change.on)
             {
               StdChar('=');
-              StdChar(move_effect_journal[curr].u.side_change.to==White ? WhiteChar : BlackChar);
+              StdChar(side_shortcut[move_effect_journal[curr].u.side_change.to]);
             }
             break;
 
@@ -150,7 +147,7 @@ static void editcoup(coup const *mov)
             context_open(&context," [","]");
             WriteSquare(move_effect_journal[curr].u.side_change.on);
             StdChar('=');
-            StdChar(move_effect_journal[curr].u.side_change.to==White ? WhiteChar : BlackChar);
+            StdChar(side_shortcut[move_effect_journal[curr].u.side_change.to]);
             context_set_target_square(&context,move_effect_journal[curr].u.side_change.on);
             context_set_moving_piece(&context,-context.moving);
             break;
@@ -256,12 +253,6 @@ static void editcoup(coup const *mov)
 
             if (capture==move_effect_journal_index_null)
             {
-              /* TODO better modeling for antimars */
-              if (anyantimars)
-              {
-                StdString("->");
-                WriteSquare(mov->mren);
-              }
               StdChar('-');
               WriteSquare(move_effect_journal[curr].u.piece_movement.to);
             }
@@ -520,13 +511,6 @@ static void editcoup(coup const *mov)
 
     StdString(")");
   }
-} /* editcoup */
-
-void output_plaintext_write_move(void)
-{
-  coup mov;
-  current(&mov);
-  editcoup(&mov);
 }
 
 /* Determine whether a goal writer slice should replace the check writer slice

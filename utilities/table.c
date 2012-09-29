@@ -2,13 +2,20 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pieces/side_change.h"
+#include "pieces/attributes/chameleon.h"
+#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/football.h"
+#include "conditions/republican.h"
+#include "conditions/singlebox/type2.h"
+#include "conditions/singlebox/type3.h"
+#include "solving/moving_pawn_promotion.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
 enum
 {
-  tables_max_position = 2048
+  tables_stack_size = 2048
 };
 
 typedef unsigned int table_position;
@@ -27,10 +34,85 @@ static change_rec const * const push_side_change_stack_limit = &push_side_change
  */
 static table_position current_position[3*maxply];
 
-/* elements of *all* tables
- */
-static coup liste[tables_max_position];
+typedef struct
+{
+  square sq_departure;
+  square sq_arrival;
+  square sq_capture;
+  square sq_rebirth;
+  piece football_substitution;
+  PieNam promotion_of_moving;
+  square sq_rebirth_anti;
+  PieNam promotion_of_reborn;
+  boolean promotion_of_moving_to_chameleon;
+  boolean promotion_of_reborn_to_chameleon;
+  square king_placement;
+  square hurdle;
+  square sb2where;
+  piece sb2what;
+  square sb3where;
+  piece sb3what;
+  change_rec *push_bottom;
+  change_rec *push_top;
+} table_elmt_type;
 
+static table_elmt_type tables_stack[tables_stack_size];
+
+static void make_move_snapshot(table_elmt_type *mov)
+{
+  numecoup const coup_id = current_move[nbply];
+
+  mov->sq_departure = move_generation_stack[coup_id].departure;
+  mov->sq_arrival = move_generation_stack[coup_id].arrival;
+  mov->sq_capture = move_generation_stack[coup_id].capture;
+  /* at most one of the two current_promotion_of_*moving[nbply] is different from vide! */
+  mov->promotion_of_moving = current_promotion_of_moving[nbply]+current_promotion_of_reborn_moving[nbply]-Empty;
+  mov->football_substitution = current_football_substitution[nbply];
+  mov->sq_rebirth = current_circe_rebirth_square[nbply];
+  mov->promotion_of_reborn = current_promotion_of_capturee[nbply];
+
+  mov->sq_rebirth_anti = current_anticirce_rebirth_square[nbply];
+
+  /* hope the following works with parrain too */
+  mov->promotion_of_moving_to_chameleon = promotion_of_moving_into_chameleon[nbply];
+  mov->promotion_of_reborn_to_chameleon = promotion_of_circe_reborn_into_chameleon[nbply];
+  mov->king_placement = republican_king_placement[nbply];
+  mov->hurdle = chop[coup_id];
+  mov->sb3where = singlebox_type3_promotions[coup_id].where;
+  mov->sb3what = singlebox_type3_promotions[coup_id].what;
+  mov->sb2where = singlebox_type2_latent_pawn_promotions[nbply].where;
+  mov->sb2what = singlebox_type2_latent_pawn_promotions[nbply].what;
+  /* following only overwritten if change stack is saved in
+   * append_to_top_table() */
+  /* redundant to init push_top */
+  mov->push_bottom = NULL;
+}
+
+static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *move2)
+{
+  return (move1->sq_departure==move2->sq_departure
+          && move1->sq_arrival==move2->sq_arrival
+          && move1->promotion_of_moving==move2->promotion_of_moving
+          && move1->football_substitution==move2->football_substitution
+          && move1->promotion_of_reborn==move2->promotion_of_reborn
+          && move1->promotion_of_reborn_to_chameleon==move2->promotion_of_reborn_to_chameleon
+          && move1->promotion_of_moving_to_chameleon==move2->promotion_of_moving_to_chameleon
+          && move1->sb3where==move2->sb3where
+          && move1->sb3what==move2->sb3what
+          && move1->sb2where==move2->sb2where
+          && move1->sb2what==move2->sb2what
+          && move1->hurdle==move2->hurdle
+          && (!CondFlag[takemake] || move1->sq_capture==move2->sq_capture)
+          && (!supergenre
+              || ((!(CondFlag[supercirce]
+                     || CondFlag[april]
+                     || CondFlag[circecage])
+                   || move1->sq_rebirth==move2->sq_rebirth)
+                  && (!CondFlag[republican] || move1->king_placement==move2->king_placement)
+                  && (!CondFlag[antisuper] || move1->sq_rebirth_anti==move2->sq_rebirth_anti))
+              )
+          );
+}
 
 /* Reset table module (i.e. free all tables)
  */
@@ -38,7 +120,7 @@ void reset_tables(void)
 {
   number_of_tables = 0;
   current_position[0] = 0;
-  liste[0].push_top = push_side_change_stack;
+  tables_stack[0].push_top = push_side_change_stack;
 }
 
 /* Allocate a table.
@@ -83,23 +165,23 @@ void append_to_top_table(void)
 
   TraceValue("%u\n",number_of_tables);
 
-  if (current_position[number_of_tables]>=tables_max_position)
+  if (current_position[number_of_tables]>=tables_stack_size)
     ErrorMsg(TooManySol);
   else
   {
     ++current_position[number_of_tables];
-    current(&liste[current_position[number_of_tables]]);
+    make_move_snapshot(&tables_stack[current_position[number_of_tables]]);
   }
 
   if (TSTFLAG(PieSpExFlags,Magic) || CondFlag[masand])
   {
     table_position const curr = current_position[number_of_tables];
-    liste[curr].push_bottom = liste[curr-1].push_top;
-    liste[curr].push_top = liste[curr].push_bottom;
+    tables_stack[curr].push_bottom = tables_stack[curr-1].push_top;
+    tables_stack[curr].push_top = tables_stack[curr].push_bottom;
     assert(side_change_sp[parent_ply[nbply]]<=side_change_sp[nbply]);
     copy_side_change_stack_segment(side_change_sp[parent_ply[nbply]],
                                    side_change_sp[nbply],
-                                   &liste[curr].push_top,
+                                   &tables_stack[curr].push_top,
                                    push_side_change_stack_limit);
   }
 
@@ -140,16 +222,16 @@ unsigned int table_length(table t)
 boolean is_current_move_in_table(table t)
 {
   table_position i;
-  coup mov;
+  table_elmt_type mov;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  current(&mov);
+  make_move_snapshot(&mov);
   assert(current_position[t]>=current_position[t-1]);
   for (i = current_position[t-1]+1; i<=current_position[t]; i++)
-    if (moves_equal(&mov,&liste[i]))
+    if (moves_equal(&mov,&tables_stack[i]))
     {
       result = true;
       break;
@@ -159,17 +241,4 @@ boolean is_current_move_in_table(table t)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Invoke a function on each element of a table
- * @param t table to iterate over
- * @param callback address of function to invoke on each element of t
- */
-void table_iterate(table t, table_callback_function_type *callback)
-{
-  table_position i;
-
-  assert(current_position[t]>=current_position[t-1]);
-  for (i = current_position[t]; i>current_position[t-1]; --i)
-    (*callback)(&liste[i]);
 }

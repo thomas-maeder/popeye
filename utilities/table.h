@@ -58,15 +58,4 @@ void clear_top_table(void);
  */
 boolean is_current_move_in_table(table t);
 
-
-/* Alias name for table_iterate() callback functions
- */
-typedef void table_callback_function_type(coup *);
-
-/* Invoke a function on each element of a table
- * @param t table to iterate over
- * @param callback address of function to invoke on each element of t
- */
-void table_iterate(table t, table_callback_function_type *callback);
-
 #endif

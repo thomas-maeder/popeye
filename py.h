@@ -456,30 +456,6 @@ typedef enum
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;
 
-/* some more comments about the elements of the structure below and what they are intended for are appreciated ... NG */
-typedef struct {
-  square          cdzz,     /* departure square           */
-      cazz,     /* arrival square             */
-      cpzz;     /* capture square             */
-  square          sqren;      /* rebirth square (Circe ...) */
-  piece           pjzz,     /* piece moving               */
-      football_substitution;    /*                            */
-  PieNam norm_prom;    /*                            */
-  PieNam cir_prom;    /*                            */
-  square          renkam;     /*                            */
-  boolean         bool_norm_cham_prom,  /*                            */
-      bool_cir_cham_prom; /*                            */
-  square    repub_k;    /*                            */
-  square    hurdle;     /*                            */
-  square    sb2where;   /*                            */
-  piece   sb2what;    /*                            */
-  square    sb3where;   /*                            */
-  piece   sb3what;    /*                            */
-  square    mren;     /*                            */
-  change_rec  *push_bottom,   /*                            */
-      *push_top;    /*                            */
-} coup;
-
 typedef char PieceChar[2];
 typedef PieceChar       PieTable[PieceCount];
 

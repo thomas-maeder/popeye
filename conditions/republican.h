@@ -4,6 +4,8 @@
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
 
+extern pilecase republican_king_placement;
+
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem
  * @param si identifies root slice of stipulation
@@ -16,19 +18,6 @@ boolean republican_verifie_position(slice_index si);
  * @param lineLength size of array CondLine
  */
 void republican_write_diagram_caption(char CondLine[], size_t lineLength);
-
-/* Save the Republican Chess part of the current move in a play
- * @param ply_id identifies ply of move to be saved
- * @param mov address of structure where to save the move
- */
-void republican_current(ply ply_id, coup *move);
-
-/* Compare the Republican Chess parts of two saved moves
- * @param move1 address of 1st saved move
- * @param move2 address of 2nd saved move
- * @return true iff the Republican Chess parts are equal
- */
-boolean republican_moves_equal(coup const *move1, coup const *move2);
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
