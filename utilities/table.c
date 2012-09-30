@@ -36,7 +36,6 @@ typedef struct
   piece football_substitution;
   square sq_rebirth_anti;
   square king_placement;
-  square hurdle;
 } table_elmt_type;
 
 static table_elmt_type tables_stack[tables_stack_size];
@@ -127,7 +126,6 @@ static void make_move_snapshot(table_elmt_type *mov)
   mov->sq_rebirth_anti = current_anticirce_rebirth_square[nbply];
 
   mov->king_placement = republican_king_placement[nbply];
-  mov->hurdle = chop[coup_id];
 }
 
 static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *move2)
@@ -185,8 +183,7 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
   if (id_relevant<move2->nr_relevant_effects)
     return false;
 
-  return (move1->hurdle==move2->hurdle
-          && (!CondFlag[takemake] || move1->sq_capture==move2->sq_capture)
+  return ((!CondFlag[takemake] || move1->sq_capture==move2->sq_capture)
           && (!supergenre
               || ((!(CondFlag[supercirce]
                      || CondFlag[april]
