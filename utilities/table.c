@@ -3,7 +3,6 @@
 #include "pymsg.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/anticirce/rebirth_handler.h"
-#include "conditions/football.h"
 #include "conditions/republican.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
@@ -86,6 +85,18 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       }
       break;
 
+    case move_effect_piece_change:
+      switch (move_effect_journal[idx].reason)
+      {
+        case move_effect_reason_football_chess_substitution:
+          result = true;
+          break;
+
+        default:
+          break;
+      }
+      break;
+
     default:
       break;
   }
@@ -111,7 +122,6 @@ static void make_move_snapshot(table_elmt_type *mov)
   mov->sq_capture = move_generation_stack[coup_id].capture;
   /* at most one of the two current_promotion_of_*moving[nbply] is different from vide! */
   mov->promotion_of_moving = current_promotion_of_moving[nbply]+current_promotion_of_reborn_moving[nbply]-Empty;
-  mov->football_substitution = current_football_substitution[nbply];
   mov->sq_rebirth = current_circe_rebirth_square[nbply];
   mov->promotion_of_reborn = current_promotion_of_capturee[nbply];
 
@@ -157,6 +167,12 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
               return false;
             break;
 
+          case move_effect_piece_change:
+            if (move_effect_journal[curr].u.piece_change.on!=move2->relevant_effects[id_relevant].u.piece_change.on
+                || move_effect_journal[curr].u.piece_change.to!=move2->relevant_effects[id_relevant].u.piece_change.to)
+              return false;
+            break;
+
           default:
             assert(0);
             break;
@@ -172,7 +188,6 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
     return false;
 
   return (move1->promotion_of_moving==move2->promotion_of_moving
-          && move1->football_substitution==move2->football_substitution
           && move1->promotion_of_reborn==move2->promotion_of_reborn
           && move1->promotion_of_reborn_to_chameleon==move2->promotion_of_reborn_to_chameleon
           && move1->promotion_of_moving_to_chameleon==move2->promotion_of_moving_to_chameleon
