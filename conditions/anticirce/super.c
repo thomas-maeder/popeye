@@ -102,12 +102,12 @@ stip_length_type antisupercirce_rebirth_handler_attack(slice_index si,
 
     if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
     {
-      current_circe_rebirth_square[nbply] = initsquare;
+      current_anticirce_rebirth_square[nbply] = initsquare;
       result = n+2;
     }
     else
     {
-      anticirce_do_rebirth_on(current_anticirce_rebirth_square[nbply]);
+      anticirce_do_rebirth();
       result = attack(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply])
@@ -162,12 +162,12 @@ stip_length_type antisupercirce_rebirth_handler_defend(slice_index si,
 
     if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
     {
-      current_circe_rebirth_square[nbply] = initsquare;
+      current_anticirce_rebirth_square[nbply] = initsquare;
       result = slack_length-1;
     }
     else
     {
-      anticirce_do_rebirth_on(current_anticirce_rebirth_square[nbply]);
+      anticirce_do_rebirth();
       result = defend(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply])

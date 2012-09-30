@@ -15,10 +15,9 @@ static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
 PieNam current_promotion_of_reborn_moving[maxply+1];
 
-/* Perform an Anticirce rebirth on a specific rebirth square
- * @param sq_rebirth rebirth square
+/* Perform an Anticirce rebirth
  */
-void anticirce_do_rebirth_on(square sq_rebirth)
+void anticirce_do_rebirth(void)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   piece const reborn = e[sq_arrival];
@@ -31,9 +30,9 @@ void anticirce_do_rebirth_on(square sq_rebirth)
   move_effect_journal_do_piece_removal(move_effect_reason_anticirce_rebirth,
                                        sq_arrival);
   move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
-                                        sq_rebirth,reborn,rebornspec);
-
-  current_anticirce_rebirth_square[nbply] = sq_rebirth;
+                                        current_anticirce_rebirth_square[nbply],
+                                        reborn,
+                                        rebornspec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -96,7 +95,7 @@ stip_length_type anticirce_rebirth_handler_attack(slice_index si,
               && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
              || e[sq_rebirth]==vide)
     {
-      anticirce_do_rebirth_on(sq_rebirth);
+      anticirce_do_rebirth();
       result = attack(slices[si].next1,n);
     }
     else
@@ -140,7 +139,7 @@ stip_length_type anticirce_rebirth_handler_defend(slice_index si,
               && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
              || e[sq_rebirth]==vide)
     {
-      anticirce_do_rebirth_on(sq_rebirth);
+      anticirce_do_rebirth();
       result = defend(slices[si].next1,n);
     }
     else
