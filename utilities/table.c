@@ -1,7 +1,6 @@
 #include "utilities/table.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pieces/attributes/chameleon.h"
 #include "conditions/republican.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
@@ -36,8 +35,6 @@ typedef struct
   square sq_rebirth;
   piece football_substitution;
   square sq_rebirth_anti;
-  boolean promotion_of_moving_to_chameleon;
-  boolean promotion_of_reborn_to_chameleon;
   square king_placement;
   square hurdle;
 } table_elmt_type;
@@ -90,6 +87,18 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       }
       break;
 
+    case move_effect_flags_change:
+      switch (move_effect_journal[idx].reason)
+      {
+        case move_effect_reason_pawn_promotion:
+          result = true;
+          break;
+
+        default:
+          break;
+      }
+      break;
+
     default:
       break;
   }
@@ -117,8 +126,6 @@ static void make_move_snapshot(table_elmt_type *mov)
   mov->sq_rebirth = current_circe_rebirth_square[nbply];
   mov->sq_rebirth_anti = current_anticirce_rebirth_square[nbply];
 
-  mov->promotion_of_moving_to_chameleon = promotion_of_moving_into_chameleon[nbply];
-  mov->promotion_of_reborn_to_chameleon = promotion_of_circe_reborn_into_chameleon[nbply];
   mov->king_placement = republican_king_placement[nbply];
   mov->hurdle = chop[coup_id];
 }
@@ -158,6 +165,12 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
               return false;
             break;
 
+          case move_effect_flags_change:
+            if (move_effect_journal[curr].u.flags_change.on!=move2->relevant_effects[id_relevant].u.flags_change.on
+                || move_effect_journal[curr].u.flags_change.to!=move2->relevant_effects[id_relevant].u.flags_change.to)
+              return false;
+            break;
+
           default:
             assert(0);
             break;
@@ -172,9 +185,7 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
   if (id_relevant<move2->nr_relevant_effects)
     return false;
 
-  return (move1->promotion_of_reborn_to_chameleon==move2->promotion_of_reborn_to_chameleon
-          && move1->promotion_of_moving_to_chameleon==move2->promotion_of_moving_to_chameleon
-          && move1->hurdle==move2->hurdle
+  return (move1->hurdle==move2->hurdle
           && (!CondFlag[takemake] || move1->sq_capture==move2->sq_capture)
           && (!supergenre
               || ((!(CondFlag[supercirce]
