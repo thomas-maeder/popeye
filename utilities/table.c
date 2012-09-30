@@ -2,11 +2,9 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pieces/attributes/chameleon.h"
-#include "conditions/anticirce/rebirth_handler.h"
 #include "conditions/republican.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -39,9 +37,7 @@ typedef struct
   square sq_capture;
   square sq_rebirth;
   piece football_substitution;
-  PieNam promotion_of_moving;
   square sq_rebirth_anti;
-  PieNam promotion_of_reborn;
   boolean promotion_of_moving_to_chameleon;
   boolean promotion_of_reborn_to_chameleon;
   square king_placement;
@@ -89,6 +85,8 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       switch (move_effect_journal[idx].reason)
       {
         case move_effect_reason_football_chess_substitution:
+        case move_effect_reason_pawn_promotion:
+        case move_effect_reason_promotion_of_reborn:
           result = true;
           break;
 
@@ -120,14 +118,10 @@ static void make_move_snapshot(table_elmt_type *mov)
     }
 
   mov->sq_capture = move_generation_stack[coup_id].capture;
-  /* at most one of the two current_promotion_of_*moving[nbply] is different from vide! */
-  mov->promotion_of_moving = current_promotion_of_moving[nbply]+current_promotion_of_reborn_moving[nbply]-Empty;
-  mov->sq_rebirth = current_circe_rebirth_square[nbply];
-  mov->promotion_of_reborn = current_promotion_of_capturee[nbply];
 
+  mov->sq_rebirth = current_circe_rebirth_square[nbply];
   mov->sq_rebirth_anti = current_anticirce_rebirth_square[nbply];
 
-  /* hope the following works with parrain too */
   mov->promotion_of_moving_to_chameleon = promotion_of_moving_into_chameleon[nbply];
   mov->promotion_of_reborn_to_chameleon = promotion_of_circe_reborn_into_chameleon[nbply];
   mov->king_placement = republican_king_placement[nbply];
@@ -187,9 +181,7 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
   if (id_relevant<move2->nr_relevant_effects)
     return false;
 
-  return (move1->promotion_of_moving==move2->promotion_of_moving
-          && move1->promotion_of_reborn==move2->promotion_of_reborn
-          && move1->promotion_of_reborn_to_chameleon==move2->promotion_of_reborn_to_chameleon
+  return (move1->promotion_of_reborn_to_chameleon==move2->promotion_of_reborn_to_chameleon
           && move1->promotion_of_moving_to_chameleon==move2->promotion_of_moving_to_chameleon
           && move1->sb3where==move2->sb3where
           && move1->sb3what==move2->sb3what

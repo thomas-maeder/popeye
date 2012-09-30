@@ -5,9 +5,8 @@ utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  stipulation/goals/goals.h pymsg.h pieces/attributes/chameleon.h \
  solving/battle_play/attack_play.h stipulation/slice.h \
  stipulation/slice_type.h solving/battle_play/defense_play.h \
- conditions/anticirce/rebirth_handler.h conditions/republican.h \
- conditions/singlebox/type2.h conditions/singlebox/type3.h \
- solving/moving_pawn_promotion.h solving/move_effect_journal.h \
+ conditions/republican.h conditions/singlebox/type2.h \
+ conditions/singlebox/type3.h solving/move_effect_journal.h \
  debugging/trace.h
 
 utilities/table.h:
@@ -52,15 +51,11 @@ stipulation/slice_type.h:
 
 solving/battle_play/defense_play.h:
 
-conditions/anticirce/rebirth_handler.h:
-
 conditions/republican.h:
 
 conditions/singlebox/type2.h:
 
 conditions/singlebox/type3.h:
-
-solving/moving_pawn_promotion.h:
 
 solving/move_effect_journal.h:
 
