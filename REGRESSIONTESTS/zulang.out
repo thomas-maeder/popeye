@@ -1579,10 +1579,10 @@ Loesung beendet.
                                                   7.Tc1-c3 #
 
 
-              empile:  6410939056
-           play_move:  2088394398
-        orig_rbechec:   161103011
-        orig_rnechec:  1945927669
+              empile:  6413950089
+           play_move:  2089121145
+        orig_rbechec:   161141051
+        orig_rnechec:  1946573492
 Loesung beendet. 
 
 
@@ -1922,11 +1922,11 @@ Loesung beendet.
 
 a) 
 
-  1  (La3*c1 [+Sg1] )
+  1  (La3*c1[+wSg1] )
   2  (La3-b2 )
   3  (La3-b4 )
   4  (f3-f2 )
-  5  (Tc5*c1 [+Sg1] )
+  5  (Tc5*c1[+wSg1] )
   6  (Tc5-c2 )
   7  (Tc5-c3 )
   8  (Tc5-c4 + )
@@ -1940,7 +1940,7 @@ a)
  16  (Tc5-f5 )
  17  (Tc5-e5 + )
  18  (Tc5-d5 )
-  1.Tc5-d5 Kd4*e5 [+Th8]   2.Lh6*f8 [+Sg1] Kd4-d3   3.Le8-c6 Sh7*f6 [+sLf8] # 
+  1.Tc5-d5 Kd4*e5[+sTh8]   2.Lh6*f8[+wSg1] Kd4-d3   3.Le8-c6 Sh7*f6[+sLf8] # 
  19  (Ka7-a8 )
  20  (Ka7-a6 )
  21  (Ka7-b8 )
@@ -1966,23 +1966,23 @@ a)
  41  (Le8-g6 + )
  42  (Le8-f7 )
 
-              empile:     9767783
-           play_move:     9581858
-        orig_rbechec:      144364
-        orig_rnechec:     9513181
+              empile:     9606263
+           play_move:     9422213
+        orig_rbechec:      143489
+        orig_rnechec:     9353631
 b) sKa7-->b1
 
- 43  (Kb1*c1 [+Sg1] )
+ 43  (Kb1*c1[+wSg1] )
  44  (Kb1-b2 )
  45  (Kb1-a1 )
  46  (Kb1-a2 )
  47  (Kb1-c2 )
- 48  (La3*c1 [+Sg1] )
-  1.La3*c1 [+Sg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6 [+Ta8] # 
+ 48  (La3*c1[+wSg1] )
+  1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] # 
  49  (La3-b2 )
  50  (La3-b4 )
  51  (f3-f2 )
- 52  (Tc5*c1 [+Sg1] )
+ 52  (Tc5*c1[+wSg1] )
  53  (Tc5-c2 )
  54  (Tc5-c3 )
  55  (Tc5-c4 + )
@@ -2017,10 +2017,10 @@ b) sKa7-->b1
  84  (Le8-g6 + )
  85  (Le8-f7 )
 
-              empile:    10436294
-           play_move:     9679664
-        orig_rbechec:      445584
-        orig_rnechec:     9610554
+              empile:    10257208
+           play_move:     9516156
+        orig_rbechec:      439335
+        orig_rnechec:     9447178
 Loesung beendet. 
 
 
@@ -2052,7 +2052,7 @@ Loesung beendet.
 
 a) 
 
-  1  (g7-g8=I[Ig7] )
+  1  (g7-g8=I[Ig7,g8] )
   2  (g7-g8=D[Ig7] )
   3  (g7-g8=S[Ig7] )
    1.g7-g8=S[Ig7] ! Zugzwang.
@@ -2090,7 +2090,7 @@ a)
         orig_rnechec:    28922606
 b) sBc4-->c3
 
- 19  (g7-g8=I[Ig7] )
+ 19  (g7-g8=I[Ig7,g8] )
  20  (g7-g8=D[Ig7] )
  21  (g7-g8=S[Ig7] )
  22  (g7-g8=T[Ig7] )
@@ -2123,13 +2123,13 @@ b) sBc4-->c3
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
 
-              empile:   159011209
-           play_move:    66156776
-        orig_rbechec:    65770486
-        orig_rnechec:    31982794
+              empile:   159209677
+           play_move:    66238837
+        orig_rbechec:    65852177
+        orig_rnechec:    32022143
 c) sBb3-->c3
 
- 38  (g7-g8=I[Ig7] )
+ 38  (g7-g8=I[Ig7,g8] )
  39  (g7-g8=D[Ig7] )
  40  (g7-g8=S[Ig7] )
  41  (g7-g8=T[Ig7] )
@@ -2161,10 +2161,10 @@ c) sBb3-->c3
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
 
-              empile:   154377597
-           play_move:    63414065
-        orig_rbechec:    63090478
-        orig_rnechec:    31287968
+              empile:   154347104
+           play_move:    63393770
+        orig_rbechec:    63070350
+        orig_rnechec:    31277025
 Loesung beendet. 
 
 
@@ -2204,7 +2204,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
   7  (e2-e4 )
   8  (e2-e3 )
   9  (d2-d4 )
-  1.d2-d4 c7-c6   2.Dd1-d3 Dd8-a5[wK<>sK]   3.Ke8*f8 Ke1*f1   4.Dd3-d1[wK<>sK] Da5-d8   5.Kf1-e1 Kf8-e8 dia 
+  1.d2-d4 c7-c6   2.Dd1-d3 Dd8-a5[Ke8<->Ke1]   3.Ke8*f8 Ke1*f1   4.Dd3-d1[Kf1<->Kf8] Da5-d8   5.Kf1-e1 Kf8-e8 dia 
  10  (d2-d3 )
  11  (c2-c4 )
  12  (c2-c3 )
@@ -2217,10 +2217,10 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:  2820100787
-           play_move:  2820104780
-        orig_rbechec:  1976985418
-        orig_rnechec:  1179567317
+              empile:  2820100763
+           play_move:  2820104756
+        orig_rbechec:  1977000778
+        orig_rnechec:  1179612855
 Loesung beendet. 
 
 
@@ -2447,10 +2447,10 @@ Loesung beendet.
  56  (Tb1-d1 )
  57  (Tb1-c1 )
 
-              empile: 81833479346
-           play_move: 13520052768
-        orig_rbechec: 13520052776
-        orig_rnechec:  9055944024
+              empile: 81728859330
+           play_move: 13500989483
+        orig_rbechec: 13500989491
+        orig_rnechec:  9042919638
 Loesung beendet. 
 
 
@@ -2494,10 +2494,10 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
  10  (h2-h1=T + )
  11  (h2-h1=L )
 
-              empile:   126848084
-           play_move:   113258154
-        orig_rbechec:    29641747
-        orig_rnechec:    89227789
+              empile:   126853468
+           play_move:   113261934
+        orig_rbechec:    29642230
+        orig_rnechec:    89231569
 Loesung beendet. 
 
 
@@ -2902,10 +2902,10 @@ Loesung beendet.
   1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=D 
   1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=L 
 
-              empile:  1562714492
-           play_move:   242089612
-        orig_rbechec:   111823403
-        orig_rnechec:   225066989
+              empile:  1562714956
+           play_move:   242089803
+        orig_rbechec:   111823542
+        orig_rnechec:   225067180
 Loesung beendet. 
 
 
@@ -2949,10 +2949,10 @@ Loesung beendet.
   1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8 
   1.Th7-h8 Ke8-d8   2.Tf7-f8 + Kd8-c7   3.Tf8-b8 Tg8*g1   4.Th8-c8 + Kc7*b6 
 
-              empile: 28066401482
-           play_move:  2693328722
-        orig_rbechec:  1375251886
-        orig_rnechec:  2301864437
+              empile: 26751716908
+           play_move:  2561062470
+        orig_rbechec:  1306313450
+        orig_rnechec:  2187914751
 Loesung beendet. 
 
 
@@ -2987,10 +2987,10 @@ a)
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2 
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
 
-              empile:  7696988919
-           play_move:   688595243
-        orig_rbechec:   366948663
-        orig_rnechec:   557642443
+              empile:  7935779378
+           play_move:   710001162
+        orig_rbechec:   378836417
+        orig_rnechec:   574748369
 b) sBe5 
 
   1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=D 
@@ -3001,10 +3001,10 @@ b) sBe5
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2 
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
 
-              empile:  3070459900
-           play_move:   310226760
-        orig_rbechec:   166391729
-        orig_rnechec:   249100139
+              empile:  3066122438
+           play_move:   310256761
+        orig_rbechec:   166370835
+        orig_rnechec:   249115276
 Loesung beendet. 
 
 
