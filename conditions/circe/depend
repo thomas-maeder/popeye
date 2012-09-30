@@ -71,10 +71,10 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
- conditions/circe/rebirth_handler.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move_player.h solving/move_effect_journal.h \
+ conditions/circe/rebirth_handler.h solving/move_effect_journal.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/has_solution_type.h stipulation/move_player.h \
  debugging/trace.h
 
 conditions/circe/assassin.h:
@@ -117,6 +117,8 @@ utilities/boolean.h:
 
 conditions/circe/rebirth_handler.h:
 
+solving/move_effect_journal.h:
+
 stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
@@ -130,8 +132,6 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/move_player.h:
-
-solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \
@@ -323,11 +323,11 @@ conditions/circe/rebirth_handler$(OBJ_SUFFIX): conditions/circe/rebirth_handler.
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
- conditions/circe/capture_fork.h conditions/einstein/einstein.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- pieces/side_change.h solving/move_effect_journal.h debugging/trace.h
+ solving/move_effect_journal.h conditions/circe/capture_fork.h \
+ conditions/einstein/einstein.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move_player.h pieces/side_change.h debugging/trace.h
 
 conditions/circe/rebirth_handler.h:
 
@@ -367,6 +367,8 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
+solving/move_effect_journal.h:
+
 conditions/circe/capture_fork.h:
 
 conditions/einstein/einstein.h:
@@ -387,8 +389,6 @@ stipulation/move_player.h:
 
 pieces/side_change.h:
 
-solving/move_effect_journal.h:
-
 debugging/trace.h:
 conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cage.h \
  py.h utilities/boolean.h position/position.h position/board.h \
@@ -397,10 +397,10 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  stipulation/slice_type.h solving/battle_play/defense_play.h pydata.h \
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  conditions/circe/capture_fork.h conditions/circe/rebirth_handler.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/temporary_hacks.h \
+ solving/move_effect_journal.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/temporary_hacks.h \
  solving/single_piece_move_generator.h solving/post_move_iteration.h \
  debugging/trace.h
 
@@ -445,6 +445,8 @@ utilities/boolean.h:
 conditions/circe/capture_fork.h:
 
 conditions/circe/rebirth_handler.h:
+
+solving/move_effect_journal.h:
 
 stipulation/has_solution_type.h:
 
@@ -610,12 +612,11 @@ conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/move_effect_journal.h \
- debugging/trace.h
+ solving/move_effect_journal.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h debugging/trace.h
 
 conditions/circe/rebirth_handler.h:
 
@@ -655,6 +656,8 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
+solving/move_effect_journal.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/stipulation.h:
@@ -674,8 +677,6 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
-
-solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/promotion$(OBJ_SUFFIX): conditions/circe/promotion.c \
@@ -840,10 +841,11 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h \
  conditions/circe/capture_fork.h conditions/circe/rebirth_handler.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- solving/post_move_iteration.h debugging/trace.h
+ solving/move_effect_journal.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move_player.h solving/post_move_iteration.h \
+ debugging/trace.h
 
 conditions/circe/super.h:
 
@@ -886,6 +888,8 @@ utilities/boolean.h:
 conditions/circe/capture_fork.h:
 
 conditions/circe/rebirth_handler.h:
+
+solving/move_effect_journal.h:
 
 stipulation/has_solution_type.h:
 

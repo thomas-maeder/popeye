@@ -4,8 +4,6 @@
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
 
-extern pilecase republican_king_placement;
-
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem
  * @param si identifies root slice of stipulation

@@ -313,6 +313,7 @@ void output_plaintext_write_move(void)
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_circe_rebirth:
+          case move_effect_reason_supercirce_rebirth:
           case move_effect_reason_republican_king_insertion:
           case move_effect_reason_sentinelles:
           case move_effect_reason_summon_ghost:
@@ -329,6 +330,7 @@ void output_plaintext_write_move(void)
           }
 
           case move_effect_reason_anticirce_rebirth:
+          case move_effect_reason_antisupercirce_rebirth:
           {
             StdString("->");
             WriteSquare(move_effect_journal[curr].u.piece_addition.on);
@@ -359,6 +361,7 @@ void output_plaintext_write_move(void)
           }
 
           case move_effect_reason_anticirce_rebirth:
+          case move_effect_reason_antisupercirce_rebirth:
           {
             context_close(&context);
 

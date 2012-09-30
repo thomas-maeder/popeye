@@ -92,7 +92,8 @@ stip_length_type circe_assassin_rebirth_attack(slice_index si,
   }
   else if (e[sq_rebirth]==vide)
   {
-    circe_do_rebirth(sq_rebirth,pi_captured,spec_pi_captured);
+    circe_do_rebirth(move_effect_reason_circe_rebirth,
+                     sq_rebirth,pi_captured,spec_pi_captured);
     result = attack(slices[si].next1,n);
   }
   else if (sq_rebirth==king_square[slices[si].starter])
@@ -101,7 +102,8 @@ stip_length_type circe_assassin_rebirth_attack(slice_index si,
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                          sq_rebirth);
-    circe_do_rebirth(sq_rebirth,pi_captured,spec_pi_captured);
+    circe_do_rebirth(move_effect_reason_circe_rebirth,
+                     sq_rebirth,pi_captured,spec_pi_captured);
     result = attack(slices[si].next1,n);
   }
 
@@ -143,7 +145,8 @@ stip_length_type circe_assassin_rebirth_defend(slice_index si,
   }
   else if (e[sq_rebirth]==vide)
   {
-    circe_do_rebirth(sq_rebirth,pi_captured,spec_pi_captured);
+    circe_do_rebirth(move_effect_reason_circe_rebirth,
+                     sq_rebirth,pi_captured,spec_pi_captured);
     result = defend(slices[si].next1,n);
   }
   else if (sq_rebirth==king_square[slices[si].starter])
@@ -152,7 +155,8 @@ stip_length_type circe_assassin_rebirth_defend(slice_index si,
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                          sq_rebirth);
-    circe_do_rebirth(sq_rebirth,pi_captured,spec_pi_captured);
+    circe_do_rebirth(move_effect_reason_circe_rebirth,
+                     sq_rebirth,pi_captured,spec_pi_captured);
     result = defend(slices[si].next1,n);
   }
 

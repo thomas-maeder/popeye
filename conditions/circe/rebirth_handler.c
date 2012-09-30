@@ -17,14 +17,15 @@
  * @param pi_reborn type of piece to be reborn
  * @param spec_reborn flags of the piece to be reborn
  */
-void circe_do_rebirth(square sq_rebirth, piece pi_reborn, Flags spec_reborn)
+void circe_do_rebirth(move_effect_reason_type reason,
+                      square sq_rebirth, piece pi_reborn, Flags spec_reborn)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_rebirth);
   TracePiece(pi_reborn);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
+  move_effect_journal_do_piece_addition(reason,
                                         sq_rebirth,
                                         pi_reborn,
                                         spec_reborn);
@@ -102,7 +103,8 @@ static void try_rebirth(Side trait_ply)
     sq_rebirth = initsquare;
 
   if (e[sq_rebirth]==vide)
-    circe_do_rebirth(sq_rebirth,pi_reborn,spec_pi_captured);
+    circe_do_rebirth(move_effect_reason_circe_rebirth,
+                     sq_rebirth,pi_reborn,spec_pi_captured);
   else
     current_circe_rebirth_square[nbply] = initsquare;
 

@@ -3,12 +3,14 @@
 
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
+#include "solving/move_effect_journal.h"
 
 extern PieNam current_promotion_of_reborn_moving[maxply+1];
 
 /* Perform an Anticirce rebirth
+ * @param reason reason for rebirth
  */
-void anticirce_do_rebirth(void);
+void anticirce_do_rebirth(move_effect_reason_type reason);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

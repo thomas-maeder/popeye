@@ -17,22 +17,18 @@ PieNam current_promotion_of_reborn_moving[maxply+1];
 
 /* Perform an Anticirce rebirth
  */
-void anticirce_do_rebirth(void)
+void anticirce_do_rebirth(move_effect_reason_type reason)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   piece const reborn = e[sq_arrival];
   piece const rebornspec = spec[sq_arrival];
+  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_rebirth);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_piece_removal(move_effect_reason_anticirce_rebirth,
-                                       sq_arrival);
-  move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
-                                        current_anticirce_rebirth_square[nbply],
-                                        reborn,
-                                        rebornspec);
+  move_effect_journal_do_piece_removal(reason,sq_arrival);
+  move_effect_journal_do_piece_addition(reason,sq_rebirth,reborn,rebornspec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -95,7 +91,7 @@ stip_length_type anticirce_rebirth_handler_attack(slice_index si,
               && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
              || e[sq_rebirth]==vide)
     {
-      anticirce_do_rebirth();
+      anticirce_do_rebirth(move_effect_reason_anticirce_rebirth);
       result = attack(slices[si].next1,n);
     }
     else
@@ -139,7 +135,7 @@ stip_length_type anticirce_rebirth_handler_defend(slice_index si,
               && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
              || e[sq_rebirth]==vide)
     {
-      anticirce_do_rebirth();
+      anticirce_do_rebirth(move_effect_reason_anticirce_rebirth);
       result = defend(slices[si].next1,n);
     }
     else

@@ -1,7 +1,6 @@
 #include "utilities/table.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "conditions/republican.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -32,10 +31,6 @@ typedef struct
     relevant_effects_idx_type nr_relevant_effects;
     move_effect_journal_entry_type relevant_effects[max_nr_relevant_effects_per_move];
   square sq_capture;
-  square sq_rebirth;
-  piece football_substitution;
-  square sq_rebirth_anti;
-  square king_placement;
 } table_elmt_type;
 
 static table_elmt_type tables_stack[tables_stack_size];
@@ -86,6 +81,20 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       }
       break;
 
+    case move_effect_piece_addition:
+      switch (move_effect_journal[idx].reason)
+      {
+        case move_effect_reason_supercirce_rebirth:
+        case move_effect_reason_antisupercirce_rebirth:
+        case move_effect_reason_republican_king_insertion:
+          result = true;
+          break;
+
+        default:
+          break;
+      }
+      break;
+
     case move_effect_flags_change:
       switch (move_effect_journal[idx].reason)
       {
@@ -121,11 +130,6 @@ static void make_move_snapshot(table_elmt_type *mov)
     }
 
   mov->sq_capture = move_generation_stack[coup_id].capture;
-
-  mov->sq_rebirth = current_circe_rebirth_square[nbply];
-  mov->sq_rebirth_anti = current_anticirce_rebirth_square[nbply];
-
-  mov->king_placement = republican_king_placement[nbply];
 }
 
 static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *move2)
@@ -163,6 +167,13 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
               return false;
             break;
 
+          case move_effect_piece_addition:
+            if (move_effect_journal[curr].u.piece_addition.on!=move2->relevant_effects[id_relevant].u.piece_addition.on
+                || move_effect_journal[curr].u.piece_addition.added!=move2->relevant_effects[id_relevant].u.piece_addition.added
+                || move_effect_journal[curr].u.piece_addition.addedspec!=move2->relevant_effects[id_relevant].u.piece_addition.addedspec)
+              return false;
+            break;
+
           case move_effect_flags_change:
             if (move_effect_journal[curr].u.flags_change.on!=move2->relevant_effects[id_relevant].u.flags_change.on
                 || move_effect_journal[curr].u.flags_change.to!=move2->relevant_effects[id_relevant].u.flags_change.to)
@@ -183,16 +194,7 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
   if (id_relevant<move2->nr_relevant_effects)
     return false;
 
-  return ((!CondFlag[takemake] || move1->sq_capture==move2->sq_capture)
-          && (!supergenre
-              || ((!(CondFlag[supercirce]
-                     || CondFlag[april]
-                     || CondFlag[circecage])
-                   || move1->sq_rebirth==move2->sq_rebirth)
-                  && (!CondFlag[republican] || move1->king_placement==move2->king_placement)
-                  && (!CondFlag[antisuper] || move1->sq_rebirth_anti==move2->sq_rebirth_anti))
-              )
-          );
+  return !CondFlag[takemake] || move1->sq_capture==move2->sq_capture;
 }
 
 /* Reset table module (i.e. free all tables)

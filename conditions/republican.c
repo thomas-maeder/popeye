@@ -18,7 +18,7 @@
 #include <assert.h>
 #include <string.h>
 
-pilecase republican_king_placement;
+static pilecase king_placement;
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
@@ -76,7 +76,7 @@ static void advance_mate_square(Side side)
 
   assert(republican_goal.type==goal_mate);
 
-  king_square[other_side] =  republican_king_placement[nbply]+1;
+  king_square[other_side] =  king_placement[nbply]+1;
   ++nbpiece[to_be_placed];
   while (king_square[other_side]<=square_h8)
     if (is_mate_square(other_side,to_be_placed))
@@ -85,10 +85,10 @@ static void advance_mate_square(Side side)
       ++king_square[other_side];
 
   --nbpiece[to_be_placed];
-  republican_king_placement[nbply] = king_square[other_side];
+  king_placement[nbply] = king_square[other_side];
   king_square[other_side] = initsquare;
 
-  TraceSquare(republican_king_placement[nbply]);TraceText("\n");
+  TraceSquare(king_placement[nbply]);TraceText("\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -175,7 +175,7 @@ static void place_king(Side moving)
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_piece_addition(move_effect_reason_republican_king_insertion,
-                                        republican_king_placement[nbply],
+                                        king_placement[nbply],
                                         king_type,
                                         king_flags);
 
@@ -272,7 +272,7 @@ static void determine_king_placement(Side trait_ply)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
-    republican_king_placement[nbply] = square_a1-1;
+    king_placement[nbply] = square_a1-1;
     is_mate_square_dirty[nbply] = true;
   }
 
@@ -308,10 +308,10 @@ stip_length_type republican_king_placer_attack(slice_index si,
   {
     determine_king_placement(slices[si].starter);
 
-    if (republican_king_placement[nbply]==king_not_placed)
+    if (king_placement[nbply]==king_not_placed)
     {
       result = attack(slices[si].next1,n);
-      republican_king_placement[nbply] = to_be_initialised;
+      king_placement[nbply] = to_be_initialised;
     }
     else
     {
@@ -361,10 +361,10 @@ stip_length_type republican_king_placer_defend(slice_index si,
   {
     determine_king_placement(slices[si].starter);
 
-    if (republican_king_placement[nbply]==king_not_placed)
+    if (king_placement[nbply]==king_not_placed)
     {
       result = defend(slices[si].next1,n);
-      republican_king_placement[nbply] = to_be_initialised;
+      king_placement[nbply] = to_be_initialised;
     }
     else
     {
@@ -407,7 +407,7 @@ stip_length_type republican_type1_dead_end_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (republican_king_placement[nbply]==king_not_placed)
+  if (king_placement[nbply]==king_not_placed)
     result = attack(slices[si].next1,n);
   else
     /* defender has inserted the attacker's king - no use to go on */

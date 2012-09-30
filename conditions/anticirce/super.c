@@ -107,7 +107,7 @@ stip_length_type antisupercirce_rebirth_handler_attack(slice_index si,
     }
     else
     {
-      anticirce_do_rebirth();
+      anticirce_do_rebirth(move_effect_reason_antisupercirce_rebirth);
       result = attack(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply])
@@ -167,7 +167,7 @@ stip_length_type antisupercirce_rebirth_handler_defend(slice_index si,
     }
     else
     {
-      anticirce_do_rebirth();
+      anticirce_do_rebirth(move_effect_reason_antisupercirce_rebirth);
       result = defend(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply])

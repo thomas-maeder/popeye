@@ -148,7 +148,8 @@ stip_length_type supercirce_rebirth_handler_attack(slice_index si,
   {
     square const sq_rebirth = current_circe_rebirth_square[nbply];
 
-    circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
+    circe_do_rebirth(move_effect_reason_supercirce_rebirth,
+                     sq_rebirth,pprise[nbply],pprispec[nbply]);
     result = attack(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
@@ -202,7 +203,8 @@ stip_length_type supercirce_rebirth_handler_defend(slice_index si,
   {
     square const sq_rebirth = current_circe_rebirth_square[nbply];
 
-    circe_do_rebirth(sq_rebirth,pprise[nbply],pprispec[nbply]);
+    circe_do_rebirth(move_effect_reason_supercirce_rebirth,
+                     sq_rebirth,pprise[nbply],pprispec[nbply]);
     result = defend(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
