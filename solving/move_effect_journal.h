@@ -26,7 +26,7 @@ typedef enum
   move_effect_king_square_movement,
   move_effect_flags_change,
   move_effect_board_transformation,
-  move_effect_centre_revoluation,
+  move_effect_centre_revolution,
   move_effect_imitator_addition,
   move_effect_imitator_movement,
 

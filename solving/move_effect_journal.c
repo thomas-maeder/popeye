@@ -1005,7 +1005,7 @@ static void redo_move_effects(void)
         redo_board_transformation(curr);
         break;
 
-      case move_effect_centre_revoluation:
+      case move_effect_centre_revolution:
         redo_centre_revolution(curr);
         break;
 
@@ -1076,7 +1076,7 @@ static void undo_move_effects(void)
         undo_board_transformation(top-1);
         break;
 
-      case move_effect_centre_revoluation:
+      case move_effect_centre_revolution:
         undo_centre_revolution(top-1);
         break;
 

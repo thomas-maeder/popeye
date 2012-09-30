@@ -89,7 +89,7 @@ static void move_effect_journal_do_centre_revolution(move_effect_reason_type rea
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
-  top_elmt->type = move_effect_centre_revoluation;
+  top_elmt->type = move_effect_centre_revolution;
   top_elmt->reason = reason;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
