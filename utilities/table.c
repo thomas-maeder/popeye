@@ -3,8 +3,6 @@
 #include "pymsg.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/republican.h"
-#include "conditions/singlebox/type2.h"
-#include "conditions/singlebox/type3.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -42,10 +40,6 @@ typedef struct
   boolean promotion_of_reborn_to_chameleon;
   square king_placement;
   square hurdle;
-  square sb2where;
-  piece sb2what;
-  square sb3where;
-  piece sb3what;
 } table_elmt_type;
 
 static table_elmt_type tables_stack[tables_stack_size];
@@ -87,6 +81,7 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
         case move_effect_reason_football_chess_substitution:
         case move_effect_reason_pawn_promotion:
         case move_effect_reason_promotion_of_reborn:
+        case move_effect_reason_singlebox_promotion:
           result = true;
           break;
 
@@ -126,10 +121,6 @@ static void make_move_snapshot(table_elmt_type *mov)
   mov->promotion_of_reborn_to_chameleon = promotion_of_circe_reborn_into_chameleon[nbply];
   mov->king_placement = republican_king_placement[nbply];
   mov->hurdle = chop[coup_id];
-  mov->sb3where = singlebox_type3_promotions[coup_id].where;
-  mov->sb3what = singlebox_type3_promotions[coup_id].what;
-  mov->sb2where = singlebox_type2_latent_pawn_promotions[nbply].where;
-  mov->sb2what = singlebox_type2_latent_pawn_promotions[nbply].what;
 }
 
 static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *move2)
@@ -183,10 +174,6 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
 
   return (move1->promotion_of_reborn_to_chameleon==move2->promotion_of_reborn_to_chameleon
           && move1->promotion_of_moving_to_chameleon==move2->promotion_of_moving_to_chameleon
-          && move1->sb3where==move2->sb3where
-          && move1->sb3what==move2->sb3what
-          && move1->sb2where==move2->sb2where
-          && move1->sb2what==move2->sb2what
           && move1->hurdle==move2->hurdle
           && (!CondFlag[takemake] || move1->sq_capture==move2->sq_capture)
           && (!supergenre
