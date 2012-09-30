@@ -2,7 +2,7 @@ utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  utilities/boolean.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h pymsg.h solving/move_effect_journal.h \
+ stipulation/goals/goals.h solving/move_effect_journal.h \
  solving/battle_play/attack_play.h stipulation/slice.h \
  stipulation/slice_type.h solving/battle_play/defense_play.h \
  debugging/trace.h
@@ -36,8 +36,6 @@ py4.h:
 py.h:
 
 stipulation/goals/goals.h:
-
-pymsg.h:
 
 solving/move_effect_journal.h:
 

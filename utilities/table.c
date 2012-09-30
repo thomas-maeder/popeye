@@ -30,7 +30,6 @@ typedef struct
 {
     relevant_effects_idx_type nr_relevant_effects;
     move_effect_journal_entry_type relevant_effects[max_nr_relevant_effects_per_move];
-  square sq_capture;
 } table_elmt_type;
 
 static table_elmt_type tables_stack[tables_stack_size];
@@ -95,6 +94,18 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       }
       break;
 
+    case move_effect_piece_removal:
+      switch (move_effect_journal[idx].reason)
+      {
+        case move_effect_reason_regular_capture:
+          result = CondFlag[takemake];
+          break;
+
+        default:
+          break;
+      }
+      break;
+
     case move_effect_flags_change:
       switch (move_effect_journal[idx].reason)
       {
@@ -114,25 +125,21 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
   return result;
 }
 
-static void make_move_snapshot(table_elmt_type *mov)
+static void make_move_snapshot(table_elmt_type *snapshot)
 {
-  numecoup const coup_id = current_move[nbply];
-
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_index_type curr;
-  mov->nr_relevant_effects = 0;
+  snapshot->nr_relevant_effects = 0;
   for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
     if (is_effect_relevant(curr))
     {
-      assert(mov->nr_relevant_effects<max_nr_relevant_effects_per_move);
-      mov->relevant_effects[mov->nr_relevant_effects] = move_effect_journal[curr];
-      ++mov->nr_relevant_effects;
+      assert(snapshot->nr_relevant_effects<max_nr_relevant_effects_per_move);
+      snapshot->relevant_effects[snapshot->nr_relevant_effects] = move_effect_journal[curr];
+      ++snapshot->nr_relevant_effects;
     }
-
-  mov->sq_capture = move_generation_stack[coup_id].capture;
 }
 
-static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *move2)
+static boolean moves_equal(table_elmt_type const *snapshot)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_index_type curr;
@@ -142,41 +149,46 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
   for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
     if (is_effect_relevant(curr))
     {
-      if (id_relevant==move2->nr_relevant_effects)
+      if (id_relevant==snapshot->nr_relevant_effects)
         return false;
-      else if (move_effect_journal[curr].type==move2->relevant_effects[id_relevant].type
-               && move_effect_journal[curr].reason==move2->relevant_effects[id_relevant].reason)
+      else if (move_effect_journal[curr].type==snapshot->relevant_effects[id_relevant].type
+               && move_effect_journal[curr].reason==snapshot->relevant_effects[id_relevant].reason)
       {
         switch (move_effect_journal[curr].type)
         {
           case move_effect_piece_movement:
-            if (move_effect_journal[curr].u.piece_movement.from!=move2->relevant_effects[id_relevant].u.piece_movement.from
-                || move_effect_journal[curr].u.piece_movement.to!=move2->relevant_effects[id_relevant].u.piece_movement.to)
+            if (move_effect_journal[curr].u.piece_movement.from!=snapshot->relevant_effects[id_relevant].u.piece_movement.from
+                || move_effect_journal[curr].u.piece_movement.to!=snapshot->relevant_effects[id_relevant].u.piece_movement.to)
               return false;
             break;
 
           case move_effect_piece_exchange:
-            if (move_effect_journal[curr].u.piece_exchange.from!=move2->relevant_effects[id_relevant].u.piece_exchange.from
-                || move_effect_journal[curr].u.piece_exchange.to!=move2->relevant_effects[id_relevant].u.piece_exchange.to)
+            if (move_effect_journal[curr].u.piece_exchange.from!=snapshot->relevant_effects[id_relevant].u.piece_exchange.from
+                || move_effect_journal[curr].u.piece_exchange.to!=snapshot->relevant_effects[id_relevant].u.piece_exchange.to)
               return false;
             break;
 
           case move_effect_piece_change:
-            if (move_effect_journal[curr].u.piece_change.on!=move2->relevant_effects[id_relevant].u.piece_change.on
-                || move_effect_journal[curr].u.piece_change.to!=move2->relevant_effects[id_relevant].u.piece_change.to)
+            if (move_effect_journal[curr].u.piece_change.on!=snapshot->relevant_effects[id_relevant].u.piece_change.on
+                || move_effect_journal[curr].u.piece_change.to!=snapshot->relevant_effects[id_relevant].u.piece_change.to)
               return false;
             break;
 
           case move_effect_piece_addition:
-            if (move_effect_journal[curr].u.piece_addition.on!=move2->relevant_effects[id_relevant].u.piece_addition.on
-                || move_effect_journal[curr].u.piece_addition.added!=move2->relevant_effects[id_relevant].u.piece_addition.added
-                || move_effect_journal[curr].u.piece_addition.addedspec!=move2->relevant_effects[id_relevant].u.piece_addition.addedspec)
+            if (move_effect_journal[curr].u.piece_addition.on!=snapshot->relevant_effects[id_relevant].u.piece_addition.on
+                || move_effect_journal[curr].u.piece_addition.added!=snapshot->relevant_effects[id_relevant].u.piece_addition.added
+                || move_effect_journal[curr].u.piece_addition.addedspec!=snapshot->relevant_effects[id_relevant].u.piece_addition.addedspec)
+              return false;
+            break;
+
+          case move_effect_piece_removal:
+            if (move_effect_journal[curr].u.piece_removal.from!=snapshot->relevant_effects[id_relevant].u.piece_removal.from)
               return false;
             break;
 
           case move_effect_flags_change:
-            if (move_effect_journal[curr].u.flags_change.on!=move2->relevant_effects[id_relevant].u.flags_change.on
-                || move_effect_journal[curr].u.flags_change.to!=move2->relevant_effects[id_relevant].u.flags_change.to)
+            if (move_effect_journal[curr].u.flags_change.on!=snapshot->relevant_effects[id_relevant].u.flags_change.on
+                || move_effect_journal[curr].u.flags_change.to!=snapshot->relevant_effects[id_relevant].u.flags_change.to)
               return false;
             break;
 
@@ -191,10 +203,7 @@ static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *
         return false;
     }
 
-  if (id_relevant<move2->nr_relevant_effects)
-    return false;
-
-  return !CondFlag[takemake] || move1->sq_capture==move2->sq_capture;
+  return id_relevant==snapshot->nr_relevant_effects;
 }
 
 /* Reset table module (i.e. free all tables)
@@ -292,16 +301,14 @@ unsigned int table_length(table t)
 boolean is_current_move_in_table(table t)
 {
   table_position i;
-  table_elmt_type mov;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  make_move_snapshot(&mov);
   assert(current_position[t]>=current_position[t-1]);
   for (i = current_position[t-1]+1; i<=current_position[t]; i++)
-    if (moves_equal(&mov,&tables_stack[i]))
+    if (moves_equal(&tables_stack[i]))
     {
       result = true;
       break;
