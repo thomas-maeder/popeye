@@ -8,6 +8,7 @@
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
 #include "solving/moving_pawn_promotion.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -25,10 +26,17 @@ static unsigned int number_of_tables;
  */
 static table_position current_position[3*maxply];
 
+typedef unsigned int relevant_effects_idx_type;
+
+enum
+{
+  max_nr_relevant_effects_per_move = 10
+};
+
 typedef struct
 {
-  square sq_departure;
-  square sq_arrival;
+    relevant_effects_idx_type nr_relevant_effects;
+    move_effect_journal_entry_type relevant_effects[max_nr_relevant_effects_per_move];
   square sq_capture;
   square sq_rebirth;
   piece football_substitution;
@@ -47,12 +55,59 @@ typedef struct
 
 static table_elmt_type tables_stack[tables_stack_size];
 
+static boolean is_effect_relevant(move_effect_journal_index_type idx)
+{
+  boolean result = false;
+
+  switch (move_effect_journal[idx].type)
+  {
+    case move_effect_piece_movement:
+      switch (move_effect_journal[idx].reason)
+      {
+        case move_effect_reason_moving_piece_movement:
+        case move_effect_reason_castling_king_movement:
+          result = true;
+          break;
+
+        default:
+          break;
+      }
+      break;
+
+    case move_effect_piece_exchange:
+      switch (move_effect_journal[idx].reason)
+      {
+        case move_effect_reason_messigny_exchange:
+          result = true;
+          break;
+
+        default:
+          break;
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  return result;
+}
+
 static void make_move_snapshot(table_elmt_type *mov)
 {
   numecoup const coup_id = current_move[nbply];
 
-  mov->sq_departure = move_generation_stack[coup_id].departure;
-  mov->sq_arrival = move_generation_stack[coup_id].arrival;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+  mov->nr_relevant_effects = 0;
+  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+    if (is_effect_relevant(curr))
+    {
+      assert(mov->nr_relevant_effects<max_nr_relevant_effects_per_move);
+      mov->relevant_effects[mov->nr_relevant_effects] = move_effect_journal[curr];
+      ++mov->nr_relevant_effects;
+    }
+
   mov->sq_capture = move_generation_stack[coup_id].capture;
   /* at most one of the two current_promotion_of_*moving[nbply] is different from vide! */
   mov->promotion_of_moving = current_promotion_of_moving[nbply]+current_promotion_of_reborn_moving[nbply]-Empty;
@@ -75,9 +130,48 @@ static void make_move_snapshot(table_elmt_type *mov)
 
 static boolean moves_equal(table_elmt_type const *move1, table_elmt_type const *move2)
 {
-  return (move1->sq_departure==move2->sq_departure
-          && move1->sq_arrival==move2->sq_arrival
-          && move1->promotion_of_moving==move2->promotion_of_moving
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  relevant_effects_idx_type id_relevant = 0;
+
+  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+    if (is_effect_relevant(curr))
+    {
+      if (id_relevant==move2->nr_relevant_effects)
+        return false;
+      else if (move_effect_journal[curr].type==move2->relevant_effects[id_relevant].type
+               && move_effect_journal[curr].reason==move2->relevant_effects[id_relevant].reason)
+      {
+        switch (move_effect_journal[curr].type)
+        {
+          case move_effect_piece_movement:
+            if (move_effect_journal[curr].u.piece_movement.from!=move2->relevant_effects[id_relevant].u.piece_movement.from
+                || move_effect_journal[curr].u.piece_movement.to!=move2->relevant_effects[id_relevant].u.piece_movement.to)
+              return false;
+            break;
+
+          case move_effect_piece_exchange:
+            if (move_effect_journal[curr].u.piece_exchange.from!=move2->relevant_effects[id_relevant].u.piece_exchange.from
+                || move_effect_journal[curr].u.piece_exchange.to!=move2->relevant_effects[id_relevant].u.piece_exchange.to)
+              return false;
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+
+        ++id_relevant;
+      }
+      else
+        return false;
+    }
+
+  if (id_relevant<move2->nr_relevant_effects)
+    return false;
+
+  return (move1->promotion_of_moving==move2->promotion_of_moving
           && move1->football_substitution==move2->football_substitution
           && move1->promotion_of_reborn==move2->promotion_of_reborn
           && move1->promotion_of_reborn_to_chameleon==move2->promotion_of_reborn_to_chameleon
