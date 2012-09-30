@@ -1,5 +1,6 @@
 #include "pieces/attributes/chameleon.h"
 #include "pydata.h"
+#include "conditions/anticirce/rebirth_handler.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -40,7 +41,7 @@ stip_length_type chameleon_promote_moving_into_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_moving[nbply])
-    promotion_of_moving_into_chameleon[nbply] = has_pawn_reached_promotion_square(slices[si].starter,sq_arrival);
+    promotion_of_moving_into_chameleon[nbply] = false;
 
   if (promotion_of_moving_into_chameleon[nbply])
   {
@@ -50,16 +51,18 @@ stip_length_type chameleon_promote_moving_into_attack(slice_index si,
                                         sq_arrival,changed);
 
     result = attack(slices[si].next1,n);
+  }
+  else
+  {
+    result = attack(slices[si].next1,n);
 
-    if (!post_move_iteration_locked[nbply])
+    if (current_promotion_of_moving[nbply]!=Empty
+        && !post_move_iteration_locked[nbply])
     {
-      promotion_of_moving_into_chameleon[nbply] = false;
-      TraceValue("%u\n",promotion_of_moving_into_chameleon[nbply]);
+      promotion_of_moving_into_chameleon[nbply] = true;
       lock_post_move_iterations();
     }
   }
-  else
-    result = attack(slices[si].next1,n);
 
   prev_post_move_iteration_id_moving[nbply] = post_move_iteration_id[nbply];
 
@@ -92,7 +95,7 @@ stip_length_type chameleon_promote_moving_into_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_moving[nbply])
-    promotion_of_moving_into_chameleon[nbply] = has_pawn_reached_promotion_square(slices[si].starter,sq_arrival);
+    promotion_of_moving_into_chameleon[nbply] = false;
 
   if (promotion_of_moving_into_chameleon[nbply])
   {
@@ -102,15 +105,18 @@ stip_length_type chameleon_promote_moving_into_defend(slice_index si,
                                         sq_arrival,changed);
 
     result = defend(slices[si].next1,n);
+  }
+  else
+  {
+    result = defend(slices[si].next1,n);
 
-    if (!post_move_iteration_locked[nbply])
+    if (current_promotion_of_moving[nbply]!=Empty
+        && !post_move_iteration_locked[nbply])
     {
-      promotion_of_moving_into_chameleon[nbply] = false;
+      promotion_of_moving_into_chameleon[nbply] = true;
       lock_post_move_iterations();
     }
   }
-  else
-    result = defend(slices[si].next1,n);
 
   prev_post_move_iteration_id_moving[nbply] = post_move_iteration_id[nbply];
 
@@ -140,8 +146,7 @@ stip_length_type chameleon_promote_circe_reborn_into_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_circe_reborn[nbply])
-    promotion_of_circe_reborn_into_chameleon[nbply] = ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
-                                                   || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)));
+    promotion_of_circe_reborn_into_chameleon[nbply] = false;
 
   if (promotion_of_circe_reborn_into_chameleon[nbply])
   {
@@ -151,15 +156,18 @@ stip_length_type chameleon_promote_circe_reborn_into_attack(slice_index si,
                                         sq_rebirth,changed);
 
     result = attack(slices[si].next1,n);
+  }
+  else
+  {
+    result = attack(slices[si].next1,n);
 
-    if (!post_move_iteration_locked[nbply])
+    if (current_promotion_of_capturee[nbply]!=Empty
+        && !post_move_iteration_locked[nbply])
     {
-      promotion_of_circe_reborn_into_chameleon[nbply] = false;
+      promotion_of_circe_reborn_into_chameleon[nbply] = true;
       lock_post_move_iterations();
     }
   }
-  else
-    result = attack(slices[si].next1,n);
 
   prev_post_move_iteration_id_circe_reborn[nbply] = post_move_iteration_id[nbply];
 
@@ -192,8 +200,7 @@ stip_length_type chameleon_promote_circe_reborn_into_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_circe_reborn[nbply])
-    promotion_of_circe_reborn_into_chameleon[nbply] = ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
-                                                   || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)));
+    promotion_of_circe_reborn_into_chameleon[nbply] = false;
 
   if (promotion_of_circe_reborn_into_chameleon[nbply])
   {
@@ -203,15 +210,18 @@ stip_length_type chameleon_promote_circe_reborn_into_defend(slice_index si,
                                         sq_rebirth,changed);
 
     result = defend(slices[si].next1,n);
+  }
+  else
+  {
+    result = defend(slices[si].next1,n);
 
-    if (!post_move_iteration_locked[nbply])
+    if (current_promotion_of_capturee[nbply]!=Empty
+        && !post_move_iteration_locked[nbply])
     {
-      promotion_of_circe_reborn_into_chameleon[nbply] = false;
+      promotion_of_circe_reborn_into_chameleon[nbply] = true;
       lock_post_move_iterations();
     }
   }
-  else
-    result = defend(slices[si].next1,n);
 
   prev_post_move_iteration_id_circe_reborn[nbply] = post_move_iteration_id[nbply];
 
@@ -241,8 +251,7 @@ stip_length_type chameleon_promote_anticirce_reborn_into_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_anticirce_reborn[nbply])
-    promotion_of_anticirce_reborn_into_chameleon[nbply] = ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
-                                                           || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)));
+    promotion_of_anticirce_reborn_into_chameleon[nbply] = false;
 
   if (promotion_of_anticirce_reborn_into_chameleon[nbply])
   {
@@ -252,15 +261,18 @@ stip_length_type chameleon_promote_anticirce_reborn_into_attack(slice_index si,
                                         sq_rebirth,changed);
 
     result = attack(slices[si].next1,n);
+  }
+  else
+  {
+    result = attack(slices[si].next1,n);
 
-    if (!post_move_iteration_locked[nbply])
+    if (current_promotion_of_reborn_moving[nbply]!=Empty
+        && !post_move_iteration_locked[nbply])
     {
-      promotion_of_anticirce_reborn_into_chameleon[nbply] = false;
+      promotion_of_anticirce_reborn_into_chameleon[nbply] = true;
       lock_post_move_iterations();
     }
   }
-  else
-    result = attack(slices[si].next1,n);
 
   prev_post_move_iteration_id_anticirce_reborn[nbply] = post_move_iteration_id[nbply];
 
@@ -293,8 +305,7 @@ stip_length_type chameleon_promote_anticirce_reborn_into_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_anticirce_reborn[nbply])
-    promotion_of_anticirce_reborn_into_chameleon[nbply] = ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
-                                                           || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)));
+    promotion_of_anticirce_reborn_into_chameleon[nbply] = false;
 
   if (promotion_of_anticirce_reborn_into_chameleon[nbply])
   {
@@ -304,15 +315,18 @@ stip_length_type chameleon_promote_anticirce_reborn_into_defend(slice_index si,
                                         sq_rebirth,changed);
 
     result = defend(slices[si].next1,n);
+  }
+  else
+  {
+    result = defend(slices[si].next1,n);
 
-    if (!post_move_iteration_locked[nbply])
+    if (current_promotion_of_reborn_moving[nbply]!=Empty
+        && !post_move_iteration_locked[nbply])
     {
-      promotion_of_anticirce_reborn_into_chameleon[nbply] = false;
+      promotion_of_anticirce_reborn_into_chameleon[nbply] = true;
       lock_post_move_iterations();
     }
   }
-  else
-    result = defend(slices[si].next1,n);
 
   prev_post_move_iteration_id_anticirce_reborn[nbply] = post_move_iteration_id[nbply];
 

@@ -162,10 +162,10 @@ Loesung beendet.
       1...Kd4*e3 !
 
 
-              empile:       27160
-           play_move:       18514
+              empile:       27168
+           play_move:       18522
         orig_rbechec:        1374
-        orig_rnechec:       18381
+        orig_rnechec:       18389
 Loesung beendet. 
 
 
@@ -254,10 +254,10 @@ Loesung beendet.
           2.cSd6-e4=cL #
 
 
-              empile:       10061
-           play_move:        5705
-        orig_rbechec:         497
-        orig_rnechec:        5707
+              empile:       10032
+           play_move:        5709
+        orig_rbechec:         493
+        orig_rnechec:        5711
 Loesung beendet. 
 
 
@@ -289,17 +289,17 @@ Loesung beendet.
 
    1.ncLb5-e8=ncT ! Zugzwang.
       1...Se7-c6
-          2.nBg7-g8=nc=ncS=ncL #
+          2.nBg7-g8=nL=nc #
       1...Se7-d5
-          2.nBg7-g8=nc=ncS=ncL #
+          2.nBg7-g8=nL=nc #
       1...Se7-f5
-          2.nBg7-g8=nc=ncS=ncL #
+          2.nBg7-g8=nL=nc #
       1...Se7-g6
-          2.nBg7-g8=nc=ncS=ncL #
+          2.nBg7-g8=nL=nc #
       1...Se7-g8
-          2.nBh7-h8=nc=ncD=ncS #
+          2.nBh7-h8=nS=nc #
       1...Se7-c8
-          2.nBg7-g8=nc=ncS=ncL #
+          2.nBg7-g8=nL=nc #
       1...nBg7-g5
           2.De5-f6 #
       1...Ld8*c7
@@ -308,10 +308,10 @@ Loesung beendet.
           2.De5-e6 #
 
 
-              empile:       17746
-           play_move:       11406
-        orig_rbechec:        1099
-        orig_rnechec:       11408
+              empile:       19750
+           play_move:       12600
+        orig_rbechec:        1133
+        orig_rnechec:       12602
 Loesung beendet. 
 
 
@@ -522,10 +522,10 @@ Loesung beendet.
                   3.Se4-g5 #
 
 
-              empile:      132768
-           play_move:       74018
-        orig_rbechec:        7799
-        orig_rnechec:       72453
+              empile:      122131
+           play_move:       65348
+        orig_rbechec:        7125
+        orig_rnechec:       63783
 Loesung beendet. 
 
 
@@ -555,20 +555,20 @@ Loesung beendet.
   h#2                    2 + 4 + 2n
            Chamaeleon d8 b5
 
-  1.ncSb5-c3=ncL ncLc3-e1=ncT   2.ncTe1-e7=ncD nBa7-a8=nc=ncD=ncS # 
-  1.ncSb5-c3=ncL ncLc3-g7=ncT   2.ncTg7-e7=ncD nBa7-a8=nc=ncD=ncS # 
-  1.ncSb5-c3=ncL ncLc3-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nc=ncD=ncS # 
-  1.ncSb5-d6=ncL ncLd6-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nc=ncD=ncS # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.ncTc7-e7=ncD nBa7-a8=nc=ncD=ncS # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.Sb8-d7 nBa7-a8=nc=ncD=ncS # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-e6=cL nBa7-a8=nc=ncD=ncS # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-f7=cL nBa7-a8=nc=ncD=ncS # 
+  1.ncSb5-c3=ncL ncLc3-e1=ncT   2.ncTe1-e7=ncD nBa7-a8=nS=nc # 
+  1.ncSb5-c3=ncL ncLc3-g7=ncT   2.ncTg7-e7=ncD nBa7-a8=nS=nc # 
+  1.ncSb5-c3=ncL ncLc3-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nS=nc # 
+  1.ncSb5-d6=ncL ncLd6-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nS=nc # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.ncTc7-e7=ncD nBa7-a8=nS=nc # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.Sb8-d7 nBa7-a8=nS=nc # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-e6=cL nBa7-a8=nS=nc # 
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-f7=cL nBa7-a8=nS=nc # 
   1.Kb6-b7 Ka4-b4   2.ncSb5-c7=ncL nBa7*b8=nD # 
   1.Kb6-b7 Ka4-b3   2.ncSb5-c7=ncL nBa7*b8=nD # 
-  1.Sb8-d7 ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=ncS # 
-  1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=nc=ncD=ncS # 
-  1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=ncS # 
-  1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nc=ncD=ncS # 
+  1.Sb8-d7 ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
+  1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=nS=nc # 
+  1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
+  1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
 
               empile:      132630
            play_move:       99165
@@ -604,26 +604,26 @@ Loesung beendet.
             Chamaeleon d7
                 Circe
 
-   1.c7-c8=c=cT=cD ! Drohung:
+   1.c7-c8=D=c ! Drohung:
           2.Ld6-c5 #
       1...cLd7-a4=cT +
-          2.cDc8*f5=cS [+sBf7] #
+          2.cDc8*f5=cS[+sBf7] #
       1...cLd7-b5=cT +
-          2.cDc8*f5=cS [+sBf7] #
+          2.cDc8*f5=cS[+sBf7] #
       1...cLd7-c6=cT +
-          2.cDc8*f5=cS [+sBf7] #
+          2.cDc8*f5=cS[+sBf7] #
       1...cLd7-e6=cT +
-          2.Sa5*b3 [+sBb7] #
+          2.Sa5*b3[+sBb7] #
       1...cLd7-e8=cT +
-          2.cDc8*f5=cS [+sBf7] #
-      1...cLd7*c8=cT [+wcDd1] +
-          2.cDd1*f3=cS [+sBf7] #
+          2.cDc8*f5=cS[+sBf7] #
+      1...cLd7*c8=cT[+wcDd1] +
+          2.cDd1*f3=cS[+sBf7] #
 
 
-              empile:        6086
-           play_move:        3365
-        orig_rbechec:         297
-        orig_rnechec:        3367
+              empile:        6137
+           play_move:        3403
+        orig_rbechec:         298
+        orig_rnechec:        3405
 Loesung beendet. 
 
 
@@ -658,21 +658,21 @@ Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
 
    1.cLf1-g2=cT !
 
-   1.cLf1*a6=cT [+sBf1=c=cD] !
+   1.cLf1*a6=cT[+sBf1=D] !
 
-   1.cLf1*a6=cT [+sBf1=c=cS] !
+   1.cLf1*a6=cT[+sBf1=D=c] !
 
-   1.cLf1*a6=cT [+sBf1=c=cT] !
+   1.cLf1*a6=cT[+sBf1=S] !
 
-   1.cLf1*a6=cT [+sBf1=c=cL] !
+   1.cLf1*a6=cT[+sBf1=S=c] !
 
-   1.cLf1*a6=cT [+sBf1=D] !
+   1.cLf1*a6=cT[+sBf1=T] !
 
-   1.cLf1*a6=cT [+sBf1=S] !
+   1.cLf1*a6=cT[+sBf1=T=c] !
 
-   1.cLf1*a6=cT [+sBf1=T] !
+   1.cLf1*a6=cT[+sBf1=L] !
 
-   1.cLf1*a6=cT [+sBf1=L] !
+   1.cLf1*a6=cT[+sBf1=L=c] !
 
    1.cLf1-b5=cT !
 
@@ -719,21 +719,21 @@ Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
 
    1.c6-c7 !
 
-   1.c6*d7[wBd7->e8=c=cD] !
-
-   1.c6*d7[wBd7->e8=c=cS] !
-
-   1.c6*d7[wBd7->e8=c=cT] !
-
-   1.c6*d7[wBd7->e8=c=cL] !
-
    1.c6*d7[wBd7->e8=D] !
+
+   1.c6*d7[wBd7->e8=D=c] !
 
    1.c6*d7[wBd7->e8=S] !
 
+   1.c6*d7[wBd7->e8=S=c] !
+
    1.c6*d7[wBd7->e8=T] !
 
+   1.c6*d7[wBd7->e8=T=c] !
+
    1.c6*d7[wBd7->e8=L] !
+
+   1.c6*d7[wBd7->e8=L=c] !
 
 
               empile:           2
