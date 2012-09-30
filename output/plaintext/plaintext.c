@@ -187,7 +187,7 @@ void output_plaintext_write_move(void)
           }
 
           case move_effect_reason_einstein_chess:
-          case move_effect_reason_football_chess_substituition:
+          case move_effect_reason_football_chess_substitution:
           case move_effect_reason_king_transmutation:
           {
             StdChar('=');

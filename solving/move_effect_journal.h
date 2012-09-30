@@ -51,7 +51,7 @@ typedef enum
   move_effect_reason_kamikaze_capturer,
   move_effect_reason_half_neutral_neutralisation,
   move_effect_reason_half_neutral_deneutralisation,
-  move_effect_reason_football_chess_substituition,
+  move_effect_reason_football_chess_substitution,
   move_effect_reason_chameleon_movement,
   move_effect_reason_norsk_chess,
   move_effect_reason_protean_adjustment,

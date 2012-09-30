@@ -109,7 +109,7 @@ stip_length_type football_chess_substitutor_attack(slice_index si,
     piece const substitute = substituted<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
 
     if (substitute!=substituted)
-      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
+      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substitution,
                                           sq_arrival,
                                           substitute);
 
@@ -163,7 +163,7 @@ stip_length_type football_chess_substitutor_defend(slice_index si,
     piece const substitute = substituted<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
 
     if (substitute!=substituted)
-      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substituition,
+      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substitution,
                                           sq_arrival,
                                           substitute);
 
