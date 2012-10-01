@@ -132,32 +132,32 @@ Loesung beendet.
                 Circe
               Heffalumps
 
-   1.Lf1*e2 [+sLc8] ! Drohung:
+   1.Lf1*e2[+sLc8] ! Drohung:
           2.Dd1-b1 +
-              2...Dh7*b1 [+wDd1] #
+              2...Dh7*b1[+wDd1] #
       1...Sb4-c2
-          2.Dd1*c2 [+sSg8] +
-              2...Dh7*c2 [+wDd1] #
+          2.Dd1*c2[+sSg8] +
+              2...Dh7*c2[+wDd1] #
           2.Dd1-d3 +
-              2...Dh7*d3 [+wDd1] #
+              2...Dh7*d3[+wDd1] #
       1...Sb4-d3
-          2.Dd1*d3 [+sSg8] +
-              2...Dh7*d3 [+wDd1] #
+          2.Dd1*d3[+sSg8] +
+              2...Dh7*d3[+wDd1] #
       1...Th6-h3
           2.Tg2-g3 +
-              2...Th3*g3 [+wTa1] #
+              2...Th3*g3[+wTa1] #
       1...Th6-h5
           2.Se6-g5 +
               2...Th5*g5 #
       1...Dh7-h8
           2.Dd1-d8 +
-              2...Dh8*d8 [+wDd1] #
-      1...Lc8*b7 [+wSb1]
+              2...Dh8*d8[+wDd1] #
+      1...Lc8*b7[+wSb1]
           2.Sb1-d2 +
-              2...Th6*e6 [+wSb1] #
-      1...Lc8*e6 [+wSb1]
+              2...Th6*e6[+wSb1] #
+      1...Lc8*e6[+wSb1]
           2.Sb1-d2 +
-              2...Dh7*b7 [+wSb1] #
+              2...Dh7*b7[+wSb1] #
 
 
               empile:       62996

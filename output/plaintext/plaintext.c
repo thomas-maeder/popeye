@@ -125,7 +125,7 @@ void output_plaintext_write_move(void)
           {
             context_close(&context);
 
-            context_open(&context," [","]");
+            context_open(&context,"[","]");
             WriteSquare(move_effect_journal[curr].u.side_change.on);
             StdChar('=');
             StdChar(side_shortcut[move_effect_journal[curr].u.side_change.to]);
@@ -167,7 +167,7 @@ void output_plaintext_write_move(void)
           {
             context_close(&context);
 
-            context_open(&context," [","]");
+            context_open(&context,"[","]");
             WriteSquare(move_effect_journal[curr].u.piece_change.on);
             StdString("=");
             WritePiece(move_effect_journal[curr].u.piece_change.to);
@@ -178,7 +178,7 @@ void output_plaintext_write_move(void)
           {
             context_close(&context);
 
-            context_open(&context," [","]");
+            context_open(&context,"[","]");
             context_set_target_square(&context,
                                       move_effect_journal[curr].u.piece_change.on);
             context_set_moving_piece(&context,

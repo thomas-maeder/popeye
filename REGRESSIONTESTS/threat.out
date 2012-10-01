@@ -84,14 +84,14 @@ Loesung beendet.
           2.Sa3-c2 #
       1...Lc8-d7
           2.Sa3-c2 #
-      1...Lf8*a3 [+wSg1]
+      1...Lf8*a3[+wSg1]
           2.Sg1-f3 +
               2...Kd4-e4
                   3.Sf3-g5 +
                       3...Ke4-d4
                           4.Sg5-e6 +
-                              4...Tg6*e6 [+wSb1]
-                                  5.Sb1*a3 [+sLf8] Drohung:
+                              4...Tg6*e6[+wSb1]
+                                  5.Sb1*a3[+sLf8] Drohung:
                                           6.Sa3-c2 #
                                           6.Sa3-b5 #
                                       5...c3-c2
@@ -102,21 +102,21 @@ Loesung beendet.
                                           6.Sa3-c2 #
                                       5...Lc8-d7
                                           6.Sa3-c2 #
-                                      5...Lf8*a3 [+wSg1]
+                                      5...Lf8*a3[+wSg1]
                                           6.Sg1-f3 +
                                               6...Kd4-e4
                                                   7.Sf3-h4 +
                                                       7...Ke4-d4
                                                           8.Sh4-f5 #
-                              4...Lc8*e6 [+wSb1]
-                                  5.Sb1*a3 [+sLf8] Drohung:
+                              4...Lc8*e6[+wSb1]
+                                  5.Sb1*a3[+sLf8] Drohung:
                                           6.Sa3-b5 #
                                           6.Sa3-c2 #
                                       5...c3-c2
                                           6.Sa3-b5 #
                                       5...Le6-d7
                                           6.Sa3-c2 #
-                                      5...Lf8*a3 [+wSg1]
+                                      5...Lf8*a3[+wSg1]
                                           6.Sg1-f3 +
                                               6...Kd4-e4
                                                   7.Sf3-e5 +
@@ -206,26 +206,26 @@ nebenloesig - eigentlich #6
           PlatzwechselCirce
 
    1.ROd1-f6 ! Drohung:
-          2.ROf6*b2 [+sSf6] #
+          2.ROf6*b2[+sSf6] #
       1...Sb2-d1
-          2.ROf6*d1 [+sSf6] #
+          2.ROf6*d1[+sSf6] #
       1...f3-f2
-          2.ROf6*c3 [+sBf6] +
-              2...d4*c3 [+wROd4]
+          2.ROf6*c3[+sBf6] +
+              2...d4*c3[+wROd4]
                   3.ROd4-g7 Drohung:
-                          4.ROg7*c3 [+sBg7] #
-                      3...Se6*g7 [+wROe6]
-                          4.ROe6*c5 [+sBe6] #
+                          4.ROg7*c3[+sBg7] #
+                      3...Se6*g7[+wROe6]
+                          4.ROe6*c5[+sBe6] #
       1...g5-g4
-          2.ROf6*c3 [+sBf6] +
-              2...d4*c3 [+wROd4]
+          2.ROf6*c3[+sBf6] +
+              2...d4*c3[+wROd4]
                   3.ROd4-g7 Drohung:
-                          4.ROg7*c3 [+sBg7] #
+                          4.ROg7*c3[+sBg7] #
                       3...g4-g3
-                          4.ROg7*g3 [+sBg7] Drohung:
-                                  5.ROg3*c3 [+sBg3] #
-                      3...Se6*g7 [+wROe6]
-                          4.ROe6*c5 [+sBe6] #
+                          4.ROg7*g3[+sBg7] Drohung:
+                                  5.ROg3*c3[+sBg3] #
+                      3...Se6*g7[+wROe6]
+                          4.ROe6*c5[+sBe6] #
 
 
               empile:      133957

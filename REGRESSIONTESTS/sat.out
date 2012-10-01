@@ -309,29 +309,29 @@ Loesung beendet.
 
    1.Ta6-a2 ! Zugzwang.
       1...e3-e2
-          2.Ta2*e2 [+sBe7] +
+          2.Ta2*e2[+sBe7] +
               2...e7-e5
-                  3.Te2*e5 [+sBe7] +
+                  3.Te2*e5[+sBe7] +
                       3...e7-e6
-                          4.Te5*e6 [+sBe7] #
+                          4.Te5*e6[+sBe7] #
               2...e7-e6
-                  3.Te2*e6 [+sBe7] #
+                  3.Te2*e6[+sBe7] #
       1...f3-f2
-          2.Ta2*f2 [+sBf7] +
+          2.Ta2*f2[+sBf7] +
               2...f7-f5
-                  3.Tf2*f5 [+sBf7] +
+                  3.Tf2*f5[+sBf7] +
                       3...f7-f6
-                          4.Tf5*f6 [+sBf7] #
+                          4.Tf5*f6[+sBf7] #
               2...f7-f6
-                  3.Tf2*f6 [+sBf7] #
+                  3.Tf2*f6[+sBf7] #
       1...g3-g2
-          2.Ta2*g2 [+sBg7] +
+          2.Ta2*g2[+sBg7] +
               2...g7-g5
-                  3.Tg2*g5 [+sBg7] +
+                  3.Tg2*g5[+sBg7] +
                       3...g7-g6
-                          4.Tg5*g6 [+sBg7] #
+                          4.Tg5*g6[+sBg7] #
               2...g7-g6
-                  3.Tg2*g6 [+sBg7] #
+                  3.Tg2*g6[+sBg7] #
 
 
               empile:       97628

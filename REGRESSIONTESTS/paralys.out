@@ -29,14 +29,14 @@
           2.Kd1-e2 #
           2.Kd1-c2 #
       1...Gb4-b6
-          2.Kd1*d2 [+sSg1] #
+          2.Kd1*d2[+sSg1] #
           2.Kd1-c2 #
       1...Sd7-b6
           2.Kd1-c2 #
       1...Sd7-e5
           2.Kd1-e2 #
     Aber
-      1...Sd7*b8 [+wpDd8] !
+      1...Sd7*b8[+wpDd8] !
 
    1.pBb7-b8=pS ? Zugzwang.
       1...Sd2-b1
@@ -53,11 +53,11 @@
       1...Sd2-b3
           2.Kd1-c2 #
       1...Gh2-c2
-          2.Kd1*c2 [+sGc8] #
+          2.Kd1*c2[+sGc8] #
       1...Gb4-b6
-          2.Kd1*d2 [+sSg1] #
+          2.Kd1*d2[+sSg1] #
       1...Gb5-e2
-          2.Kd1*e2 [+sGe8] #
+          2.Kd1*e2[+sGe8] #
       1...Gb5-e8
           2.Kd1-e2 #
       1...Gb5-b3
@@ -68,8 +68,8 @@
    1.pBb7-b8=pT ? Drohung:
           2.Kd1-e2 #
       1...Gb4-b6
-          2.Kd1*d2 [+sSg1] #
-      1...Sd7*b8 [+wpTh8]
+          2.Kd1*d2[+sSg1] #
+      1...Sd7*b8[+wpTh8]
           2.Kd1-c2 #
     Aber
       1...Sd7-b6 !
@@ -77,14 +77,14 @@
    1.pBb7-b8=pL ? Drohung:
           2.Kd1-c2 #
       1...Gb5-e2
-          2.Kd1*e2 [+sGe8] #
-      1...Sd7*b8 [+wpLf8]
-          2.Kd1*d2 [+sSg1] #
+          2.Kd1*e2[+sGe8] #
+      1...Sd7*b8[+wpLf8]
+          2.Kd1*d2[+sSg1] #
     Aber
       1...Sd7-e5 !
 
    1.pBb7-b8=pG ! Drohung:
-          2.Kd1*d2 [+sSg1] #
+          2.Kd1*d2[+sSg1] #
       1...Sd2-b1
           2.Kd1-c2 #
       1...Sd2-f1
@@ -94,14 +94,14 @@
       1...Sd2-e4
           2.Kd1-c2 #
       1...Gb5-e2
-          2.Kd1*e2 [+sGe8] #
+          2.Kd1*e2[+sGe8] #
       1...Gb5-e8
           2.Kd1-e2 #
       1...Gb5-b3
           2.Kd1-e2 #
       1...Sd7-b6
           2.Kd1-e2 #
-      1...Sd7*b8 [+wpGb1]
+      1...Sd7*b8[+wpGb1]
           2.Kd1-e2 #
 
 
@@ -284,13 +284,13 @@ a)
 
    1.Df6-g5 ! Drohung:
           2.Dg5-g4 #
-      1...Td5*c5 [+wpSg1]
-          2.Dg5*g2 [+spSg8] #
-      1...Td5*d8 [+wpLc1]
+      1...Td5*c5[+wpSg1]
+          2.Dg5*g2[+spSg8] #
+      1...Td5*d8[+wpLc1]
           2.Dg5-g3 #
-      1...Lh6*g5 [+wDd1]
-          2.Dd1*d5 [+sTa8] #
-      1...Lh6*f8 [+wpTa1]
+      1...Lh6*g5[+wDd1]
+          2.Dd1*d5[+sTa8] #
+      1...Lh6*f8[+wpTa1]
           2.Sb3-d4 #
 
 
@@ -302,14 +302,14 @@ b) PlatzwechselCirce
 
    1.Df6-g5 ! Drohung:
           2.Dg5-g4 #
-      1...Td5*c5 [+wpSd5]
+      1...Td5*c5[+wpSd5]
           2.Dg5-g3 #
-      1...Td5*d8 [+wpLd5]
+      1...Td5*d8[+wpLd5]
           2.Sb3-d4 #
-      1...Lh6*g5 [+wDh6]
-          2.Dh6*h3 [+sBh6] #
-      1...Lh6*f8 [+wpTh6]
-          2.Dg5*g2 [+spSg5] #
+      1...Lh6*g5[+wDh6]
+          2.Dh6*h3[+sBh6] #
+      1...Lh6*f8[+wpTh6]
+          2.Dg5*g2[+spSg5] #
 
 
               empile:        7399

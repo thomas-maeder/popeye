@@ -1239,7 +1239,7 @@ a)
 b) weiss 3:3a[#]d 
 
    1.d7-d8=T + !
-      1...Sb7*d8 [+wTa1]
+      1...Sb7*d8[+wTa1]
           2.Ta1-d1 #
 
 
@@ -1250,10 +1250,10 @@ b) weiss 3:3a[#]d
 c) weiss 5:5a[#]d 
 
    1.d7-d8=L ! Zugzwang.
-      1...Sb7*d8 [+wLc1]
+      1...Sb7*d8[+wLc1]
           2.Lc1-f4 +
-              2...g5*f4 [+wLc1]
-                  3.Lc1*f4 [+sBf7] #
+              2...g5*f4[+wLc1]
+                  3.Lc1*f4[+sBf7] #
 
 
               empile:        3973
@@ -1267,8 +1267,8 @@ d) weiss 7:7a[#]d
                   3.Se6-g7 Drohung:
                           4.Sg7-f5 #
                           4.Sg7-e8 #
-      1...Sb7*d8 [+wSg1]
-          2.Sg1*f3 [+sBf7] Drohung:
+      1...Sb7*d8[+wSg1]
+          2.Sg1*f3[+sBf7] Drohung:
                   3.Sf3-d2 Drohung:
                           4.Sd2-e4 #
                   3.Sf3-e5 Zugzwang.

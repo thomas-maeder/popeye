@@ -25,7 +25,7 @@
                 Circe
              Degradierung
 
-  1.La3-b2=B   2.b2-b4   3.b4-b5   4.b5-b6   5.b6-b7   6.b7-b8=S   7.Sb8-c6   8.Sc6-d4   9.Sd4-e2=B  10.e2-e4  11.e4-e5  12.e5-e6  13.e6-e7  14.e7-e8=L  15.Le8*g6 [+sSg8]  16.Lg6-c2=B  17.c2-c4  18.c4-c5  19.c5-c6  20.c6-c7  21.c7-c8=T  22.Tc8-c7  23.Tc7-h7 # 
+  1.La3-b2=B   2.b2-b4   3.b4-b5   4.b5-b6   5.b6-b7   6.b7-b8=S   7.Sb8-c6   8.Sc6-d4   9.Sd4-e2=B  10.e2-e4  11.e4-e5  12.e5-e6  13.e6-e7  14.e7-e8=L  15.Le8*g6[+sSg8]  16.Lg6-c2=B  17.c2-c4  18.c4-c5  19.c5-c6  20.c6-c7  21.c7-c8=T  22.Tc8-c7  23.Tc7-h7 # 
 
               empile:       14292
            play_move:       14430

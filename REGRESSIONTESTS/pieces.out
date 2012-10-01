@@ -100,7 +100,7 @@ Loesung beendet.
   r#9;1,1                     5 + 2
                 Circe
 
-  1  (Hc6*f3-g2 [+sHf1] + )
+  1  (Hc6*f3-g2[+sHf1] + )
   2  (Kh4-h5 )
   3  (Kh4-g4 )
   4  (Kh4-h3 )
@@ -110,26 +110,26 @@ Loesung beendet.
   8  (Lc1-g5 )
   9  (Lc1-f4 )
    1.Lc1-f4 !
-      1...Hf3*f4-f5 [+wLc1]
+      1...Hf3*f4-f5[+wLc1]
           2.Lc1-g5
-              2...Hf5*g5-h5 [+wLc1] +
+              2...Hf5*g5-h5[+wLc1] +
                   3.Kh4-g3
                       3...Hh5*h7-h8
                           4.Lc1-b2
-                              4...Hh8*b2-a1 [+wLc1]
+                              4...Hh8*b2-a1[+wLc1]
                                   5.Kg3-h4
-                                      5...Ha1*c1-d1 [+wLc1]
+                                      5...Ha1*c1-d1[+wLc1]
                                           6.Lc1-d2
-                                              6...Hd1*d2-d3 [+wLc1]
+                                              6...Hd1*d2-d3[+wLc1]
                                                   7.Lc1-e3
-                                                      7...Hd3*e3-f3 [+wLc1]
-                                                          8.Hc6*f3-g2 [+sHf1] +
+                                                      7...Hd3*e3-f3[+wLc1]
+                                                          8.Hc6*f3-g2[+sHf1] +
                                                               8...Kb5-c5
                                                                   9.Lc1-g5
-                                                                      9...Hf1*g2-h3 [+wHg8] #
+                                                                      9...Hf1*g2-h3[+wHg8] #
                                                               8...Kb5-b6
                                                                   9.Lc1-g5
-                                                                      9...Hf1*g2-h3 [+wHg8] #
+                                                                      9...Hf1*g2-h3[+wHg8] #
 
  10  (Lc1-e3 )
  11  (Lc1-d2 )

@@ -3352,12 +3352,12 @@ Loesung beendet.
  18  (Th1-f1 )
  19  (Th1-g1 + )
    1.Th1-g1 + !
-      1...Kg2*g1 [+wTa1]
+      1...Kg2*g1[+wTa1]
           2.0-0-0 +
               2...Kg1-g2
                   3.Td1-g1 +
-                      3...Kg2*g1 [+wTa1]
-                          4.Kc1*b2 [+sTh8] +
+                      3...Kg2*g1[+wTa1]
+                          4.Kc1*b2[+sTh8] +
                               4...Kg1-g2
                                   5.Ta1-g1 #
 
@@ -3533,16 +3533,16 @@ Loesung beendet.
    1.Kd6-c7 ! Zugzwang.
       1...Ta8-d8
           2.Kc7-d6 Drohung:
-                  3.Kd6*e5 [+sSb8] Drohung:
+                  3.Kd6*e5[+sSb8] Drohung:
                           4.Ke5-f6 Drohung:
-                                  5.Kf6*g7 [+sTh8] Zugzwang.
+                                  5.Kf6*g7[+sTh8] Zugzwang.
                                       5...Sb8-c6
                                           6.Kg7-f6
                                               6...0-0 #
 
   6  (Kd6-e7 + )
-  7  (Kd6*e5 [+sSb8] )
-   1.Kd6*e5 [+sSb8] ? Zugzwang.
+  7  (Kd6*e5[+sSb8] )
+   1.Kd6*e5[+sSb8] ? Zugzwang.
     Aber
       1...Sb8-c6 + !
 

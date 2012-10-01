@@ -309,29 +309,29 @@ solution finished.
 
    1.Ra6-a2 ! zugzwang.
       1...e3-e2
-          2.Ra2*e2 [+bPe7] +
+          2.Ra2*e2[+bPe7] +
               2...e7-e5
-                  3.Re2*e5 [+bPe7] +
+                  3.Re2*e5[+bPe7] +
                       3...e7-e6
-                          4.Re5*e6 [+bPe7] #
+                          4.Re5*e6[+bPe7] #
               2...e7-e6
-                  3.Re2*e6 [+bPe7] #
+                  3.Re2*e6[+bPe7] #
       1...f3-f2
-          2.Ra2*f2 [+bPf7] +
+          2.Ra2*f2[+bPf7] +
               2...f7-f5
-                  3.Rf2*f5 [+bPf7] +
+                  3.Rf2*f5[+bPf7] +
                       3...f7-f6
-                          4.Rf5*f6 [+bPf7] #
+                          4.Rf5*f6[+bPf7] #
               2...f7-f6
-                  3.Rf2*f6 [+bPf7] #
+                  3.Rf2*f6[+bPf7] #
       1...g3-g2
-          2.Ra2*g2 [+bPg7] +
+          2.Ra2*g2[+bPg7] +
               2...g7-g5
-                  3.Rg2*g5 [+bPg7] +
+                  3.Rg2*g5[+bPg7] +
                       3...g7-g6
-                          4.Rg5*g6 [+bPg7] #
+                          4.Rg5*g6[+bPg7] #
               2...g7-g6
-                  3.Rg2*g6 [+bPg7] #
+                  3.Rg2*g6[+bPg7] #
 
 
               empile:       97628

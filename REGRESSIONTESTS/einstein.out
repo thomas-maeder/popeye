@@ -104,7 +104,7 @@ Loesung beendet.
                 Circe
             EinsteinSchach
 
-  1.Df3-b3=T c2*b3=S [+sTa8]   2.Ta8-a1=L Sb3*a1=L [+sLf8]   3.Lf8-g7=S La1*g7=T [+sSb8]   4.Sb8-d7=B Tg7*d7=D # 
+  1.Df3-b3=T c2*b3=S[+sTa8]   2.Ta8-a1=L Sb3*a1=L[+sLf8]   3.Lf8-g7=S La1*g7=T[+sSb8]   4.Sb8-d7=B Tg7*d7=D # 
 
               empile:      128034
            play_move:      119417

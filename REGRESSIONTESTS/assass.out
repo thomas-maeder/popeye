@@ -24,7 +24,7 @@
   h#2                         3 + 1
             AssassinCirce
 
-  1.Ka2*b3 [+wBb2] d7-d8=D   2.Kb3-c2 Dd8-d1 # 
+  1.Ka2*b3[+wBb2] d7-d8=D   2.Kb3-c2 Dd8-d1 # 
 
               empile:        2547
            play_move:        2070
@@ -59,7 +59,7 @@ Loesung beendet.
   ser-h=10                    3 + 1
             AssassinCirce
 
-  1.Kg4-f3   2.Kf3-e3   3.Ke3-d3   4.Kd3-c4   5.Kc4-c5   6.Kc5*c6 [+wBc2]   7.Kc6-c5   8.Kc5-c4   9.Kc4-c3  10.Kc3*b2 [+wTa1] Ke5-d4 = 
+  1.Kg4-f3   2.Kf3-e3   3.Ke3-d3   4.Kd3-c4   5.Kc4-c5   6.Kc5*c6[+wBc2]   7.Kc6-c5   8.Kc5-c4   9.Kc4-c3  10.Kc3*b2[+wTa1] Ke5-d4 = 
 
               empile:       12606
            play_move:        4790
@@ -94,8 +94,8 @@ Loesung beendet.
   h=2                         3 + 2
             AssassinCirce
 
-  1.Sg3-f1 e7-e8=L +   2.Kd7*e8 [+wLf1] Lf1-h3 = 
-  1.Sg3-h1 e7-e8=T   2.Kd7*e8 [+wTh1] Th1-d1 = 
+  1.Sg3-f1 e7-e8=L +   2.Kd7*e8[+wLf1] Lf1-h3 = 
+  1.Sg3-h1 e7-e8=T   2.Kd7*e8[+wTh1] Th1-d1 = 
 
               empile:      138777
            play_move:       55276
@@ -169,7 +169,7 @@ Loesung beendet.
           2.Te7-b7 #
       1...Sa2-c3
           2.Sb4-a6 #
-      1...Sa2*b4 [+wSg1]
+      1...Sa2*b4[+wSg1]
           2.Td2-b2 #
       1...e5-e4
           2.Lg5-f4 #
@@ -192,7 +192,7 @@ Loesung beendet.
           2.Te7-b7 #
       1...Sa2-c3
           2.Sb4-a6 #
-      1...Sa2*b4 [+wSg1]
+      1...Sa2*b4[+wSg1]
           2.Td2-b2 #
       1...Lc8-b7
           2.c6-c7 #

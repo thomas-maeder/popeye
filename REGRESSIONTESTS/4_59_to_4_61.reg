@@ -174,7 +174,7 @@ solution finished.
 
 a) 
 
-  1.Qh2*c7[+bPh2] [+bPg1=R] Rg1-g8   2.Qc7*h2[+bPc7] [+bPg3] Qc4-h4[+wPc4] # 
+  1.Qh2*c7[+bPh2][+bPg1=R] Rg1-g8   2.Qc7*h2[+bPc7][+bPg3] Qc4-h4[+wPc4] # 
 
               empile:      389662
            play_move:       13808
@@ -182,7 +182,7 @@ a)
         orig_rnechec:           0
 b) bQc4-->g5
 
-  1.Qh2*c7[+bPh2] [+bPe1=S] Qg5-a5[+wPg5]   2.Qc7*h2[+bPc7] [+bPe5] Qa5-d2[+wPa5] # 
+  1.Qh2*c7[+bPh2][+bPe1=S] Qg5-a5[+wPg5]   2.Qc7*h2[+bPc7][+bPe5] Qa5-d2[+wPa5] # 
 
               empile:      531747
            play_move:       15039

@@ -145,7 +145,7 @@ Loesung beendet.
 
 a) 
 
-  1.nkBa7-a8=nkL   2.nkBb7*a8=nkT[-nkTa8] [+nkTh1] [+nkLc8] # 
+  1.nkBa7-a8=nkL   2.nkBb7*a8=nkT[-nkTa8][+nkTh1][+nkLc8] # 
 
               empile:         405
            play_move:         425
@@ -153,7 +153,7 @@ a)
         orig_rnechec:         425
 b) sKh3-->d2
 
-  1.nkBa7-a8=nkD   2.nkBb7*a8=nkS[-nkSa8] [+nkSb1] [+nkDd8] # 
+  1.nkBa7-a8=nkD   2.nkBb7*a8=nkS[-nkSa8][+nkSb1][+nkDd8] # 
 
               empile:         404
            play_move:         422
@@ -267,8 +267,8 @@ Loesung beendet.
           PlatzwechselCirce
           WeisserSchlagzwang
 
-  1.nBBb7-c8=nT   2.nBBa7-b8=nL   3.nTc8-e8   4.nBf7*e8=nD [+nTf7] # 
-  1.nBBa7-b8=nL   2.nBBb7*b8=nD [+nLb7]   3.nBf7-f8=nT   4.nBg7*f8=nS [+nTg7] # 
+  1.nBBb7-c8=nT   2.nBBa7-b8=nL   3.nTc8-e8   4.nBf7*e8=nD[+nTf7] # 
+  1.nBBa7-b8=nL   2.nBBb7*b8=nD[+nLb7]   3.nBf7-f8=nT   4.nBg7*f8=nS[+nTg7] # 
 
               empile:       55410
            play_move:       28338

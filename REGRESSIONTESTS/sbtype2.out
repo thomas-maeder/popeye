@@ -23,27 +23,27 @@
   +1                          3 + 5
      NurPartiesatzSteine    Typ2
 
-   1.Sh4*f3 [h1=S] + !
+   1.Sh4*f3[h1=S] + !
 
-   1.Sh4*f3 [h1=L] + !
+   1.Sh4*f3[h1=L] + !
 
-   1.Sh4*g2 [h1=S] + !
+   1.Sh4*g2[h1=S] + !
 
-   1.Sh4*g2 [h1=L] + !
+   1.Sh4*g2[h1=L] + !
 
-   1.Se3-c2 [h1=S] + !
+   1.Se3-c2[h1=S] + !
 
-   1.Se3-c2 [h1=T] + !
+   1.Se3-c2[h1=T] + !
 
-   1.Se3-c2 [h1=L] + !
+   1.Se3-c2[h1=L] + !
 
-   1.Se3*g2 [h1=D] + !
+   1.Se3*g2[h1=D] + !
 
-   1.Se3*g2 [h1=S] + !
+   1.Se3*g2[h1=S] + !
 
-   1.Se3*g2 [h1=T] + !
+   1.Se3*g2[h1=T] + !
 
-   1.Se3*g2 [h1=L] + !
+   1.Se3*g2[h1=L] + !
 
 
               empile:           4
@@ -78,7 +78,7 @@ Loesung beendet.
   h+1                         9 + 4
      NurPartiesatzSteine    Typ2
 
-  1.g5*f4 [a8=S] Tg6*g1 + 
+  1.g5*f4[a8=S] Tg6*g1 + 
 
               empile:          14
            play_move:          14
@@ -112,8 +112,8 @@ Schlagende Seite entscheidet "uber Bauernumwandlung -> Ta1 darf schlagen
   h#1                        15 + 3
      NurPartiesatzSteine    Typ2
 
-  1.Ta1*a2 [h8=T] Lc8-d7 # 
-  1.Ta1*b1 [h8=T] Lc8-d7 # 
+  1.Ta1*a2[h8=T] Lc8-d7 # 
+  1.Ta1*b1[h8=T] Lc8-d7 # 
   1.a4-a3 Lc8-d7 # 
 
               empile:          68
@@ -149,7 +149,7 @@ Nicht verwirrt werden mit mehr als einem latenten Bauern
      NurPartiesatzSteine    Typ2
 
    1.Sc4-e3 + !
-      1...Sf1*e3 [e8=S]
+      1...Sf1*e3[e8=S]
           2.Se8*c7 #
 
 
@@ -186,7 +186,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
      NurPartiesatzSteine    Typ2
 
    1.d7-d8 ! Zugzwang.
-      1...Df2*g1 [d8=L]
+      1...Df2*g1[d8=L]
           2.Ld8-b6 #
       1...Ke3-f4
           2.Db2-d2 #
@@ -244,23 +244,23 @@ Loesung beendet.
 
    1.f7-f8 ! Drohung:
           2.Dh1*e4 +
-              2...d5*e4 [f8=D]
+              2...d5*e4[f8=D]
                   3.Df8-f5 #
       1...g3-g2
           2.Lh2*f4 +
-              2...Lh6*f4 [f8=L]
+              2...Lh6*f4[f8=L]
                   3.Lf8*g7 #
-      1...g3*h2 [f8=L]
+      1...g3*h2[f8=L]
           2.Lf8*g7 +
               2...Lh6*g7
                   3.Tg4-g5 #
       1...f4-f3
           2.Tg4*e4 +
-              2...d5*e4 [f8=T]
+              2...d5*e4[f8=T]
                   3.Tf8-f5 #
       1...d7*e6
           2.Sd4-f3 +
-              2...e4*f3 [f8=S]
+              2...e4*f3[f8=S]
                   3.Sf8-d7 #
 
    1.Tg4-g5 + ?
@@ -317,11 +317,11 @@ Loesung beendet.
      NurPartiesatzSteine    Typ2
 
    1.Dg1-d4 + !
-      1...c5*d4 [e8=D]
+      1...c5*d4[e8=D]
           2.De8-e5 #
 
    1.Dg1-d1 + !
-      1...e2*d1=T [e8=D]
+      1...e2*d1=T[e8=D]
           2.De8-e5 #
 
 

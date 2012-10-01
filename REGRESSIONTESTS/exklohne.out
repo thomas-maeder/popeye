@@ -115,8 +115,8 @@ Hans Burbach zum 75. Geburtstag gewidmet
            ChamaeleonCirce
             ExklusivSchach
 
-  1.Tb1-b7 Ka8*b7 [+sDd8]   2.Lf2-g1 f7-f8=T # 
-  1.Lf2-a7 Ka8*a7 [+sTh8]   2.Tb1-d1 f7-f8=D # 
+  1.Tb1-b7 Ka8*b7[+sDd8]   2.Lf2-g1 f7-f8=T # 
+  1.Lf2-a7 Ka8*a7[+sTh8]   2.Tb1-d1 f7-f8=D # 
 
               empile:      610957
            play_move:      404853
@@ -1589,7 +1589,7 @@ Loesung beendet.
                 Circe
               OhneSchach
 
-  1.a7-a6 Kc8-d7   2.Ka8-b7 Kd7-d6   3.Kb7*b6 [+wBb2] b2-b3   4.Kb6-a5 Kd6-c5 = 
+  1.a7-a6 Kc8-d7   2.Ka8-b7 Kd7-d6   3.Kb7*b6[+wBb2] b2-b3   4.Kb6-a5 Kd6-c5 = 
 
               empile:      107604
            play_move:       36456
@@ -1737,7 +1737,7 @@ Loesung beendet.
 
 a) 
 
-  1.e2-e1=S Tb1*e1 [+sSb8]   2.c2-c1=D Te1*c1 [+sDd8] # 
+  1.e2-e1=S Tb1*e1[+sSb8]   2.c2-c1=D Te1*c1[+sDd8] # 
   1.Kc7-c6 Tb1-d1   2.Lb6-c7 Td1-d6 # 
 
               empile:      175335
@@ -1746,7 +1746,7 @@ a)
         orig_rnechec:      196798
 b) Verschiebung b1 ==> a1
 
-  1.d2-d1=T Ta1*d1 [+sTa8]   2.b2-b1=L Td1*b1 [+sLc8] # 
+  1.d2-d1=T Ta1*d1[+sTa8]   2.b2-b1=L Td1*b1[+sLc8] # 
   1.Kb7-b6 Ta1-c1   2.La6-b7 Tc1-c6 # 
 
               empile:       89899
@@ -3800,7 +3800,7 @@ Loesung beendet.
                 Circe
               OhneSchach
 
-  1.Kg8-h7   2.Kh7-g6   3.Kg6-f5   4.Kf5-e4   5.Ke4-d3   6.Kd3*c3 [+sLf8]   7.Kc3-b4   8.c2-c4   9.c4-c5  10.c5-c6  11.c6-c7  12.c7-c8=S # 
+  1.Kg8-h7   2.Kh7-g6   3.Kg6-f5   4.Kf5-e4   5.Ke4-d3   6.Kd3*c3[+sLf8]   7.Kc3-b4   8.c2-c4   9.c4-c5  10.c5-c6  11.c6-c7  12.c7-c8=S # 
 
               empile:        6362
            play_move:        6236
@@ -3875,7 +3875,7 @@ Loesung beendet.
              SpiegelCirce
               OhneSchach
 
-  1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4*c3 [+sTa1]   6.Kc3-c4   7.Kc4-b5   8.Kb5*a5 [+sBa2]   9.Ka5-b4  10.Kb4-c3  11.Kc3-d2  12.Kd2-d1 = 
+  1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4*c3[+sTa1]   6.Kc3-c4   7.Kc4-b5   8.Kb5*a5[+sBa2]   9.Ka5-b4  10.Kb4-c3  11.Kc3-d2  12.Kd2-d1 = 
 
               empile:        9382
            play_move:        3962
@@ -4006,7 +4006,7 @@ Loesung beendet.
                                       5...Tg1-g8
                                           6.Kh3-h2
                                               6...Tg8-g1
-                                                  7.Kh2*g1 [+sTh8]
+                                                  7.Kh2*g1[+sTh8]
                                                       7...Th8-a8
                                                           8.Kg1-f1
                                                               8...Ta8-h8
@@ -4824,7 +4824,7 @@ Loesung beendet.
   3  (nBg2-g1=nT )
   4  (nBg2-g1=nL )
   5  (vBh2-h1=vD=w )
-  1.vBh2-h1=vD=w Dh1*h5 [+nBh1=nT]   2.nBg2*h1=nL [+nTg2] c7-c8=S = 
+  1.vBh2-h1=vD=w Dh1*h5[+nBh1=nT]   2.nBg2*h1=nL[+nTg2] c7-c8=S = 
   6  (vBh2-h1=vS=w )
   7  (vBh2-h1=vT=w )
   8  (vBh2-h1=vL=w )

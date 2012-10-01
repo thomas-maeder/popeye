@@ -375,8 +375,8 @@ Loesung beendet.
                 Circe
              EiffelSchach
 
-  1.Da8-g8 f5-f6   2.Th6*f6 [+wBf2] Kf4*f3 # 
-  1.Da8-b8 e5-e6   2.Th6*e6 [+wBe2] Kf4*g3 # 
+  1.Da8-g8 f5-f6   2.Th6*f6[+wBf2] Kf4*f3 # 
+  1.Da8-b8 e5-e6   2.Th6*e6[+wBe2] Kf4*g3 # 
 
               empile:      917781
            play_move:      875493

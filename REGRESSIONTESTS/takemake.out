@@ -619,7 +619,7 @@ Loesung beendet.
 
 a) 
 
-  1.Kh2-h3 Ta7*d7-g4 [+sLc8]   2.Kh3*g4-g6 [+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5 [+wTh1] 0-0 
+  1.Kh2-h3 Ta7*d7-g4[+sLc8]   2.Kh3*g4-g6[+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5[+wTh1] 0-0 
 
               empile:       65350
            play_move:       43944
@@ -627,7 +627,7 @@ a)
         orig_rnechec:       26164
 b) sKh2-->b2
 
-  1.Kb2-b3 Ta7*d7-h3 [+sLc8] +   2.Lc8*h3-h4 [+wTh1] + Th1*h4-d8 [+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2 [+wTa1] 0-0-0 
+  1.Kb2-b3 Ta7*d7-h3[+sLc8] +   2.Lc8*h3-h4[+wTh1] + Th1*h4-d8[+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2[+wTa1] 0-0-0 
 
               empile:       83176
            play_move:       57001
@@ -744,12 +744,12 @@ Loesung beendet.
          WeisserLaengstzueger
            Take&MakeSchach
 
-  1  (g3*f4-b8=D [+sLf8] + )
-  2  (g3*f4-b8=S [+sLf8] )
-  3  (g3*f4-b8=T [+sLf8] + )
-  1...g3*f4-b8=T [+sLf8] +   2.Kc8*b8-b6 [+wTa1] La3*f8-h6 [+sLf8]   3.Lf8-b4 + Lh6-d2   4.Lb4-a5 0-0-0 
-  1...g3*f4-b8=T [+sLf8] +   2.Kc8*b8-b7 [+wTa1] La3*f8-h6 [+sLf8]   3.Lf8*h6-c1 Ta1*c1-h6 [+sLf8]   4.Lf8*h6-a6 [+wTa1] 0-0-0 
-  4  (g3*f4-b8=L [+sLf8] )
+  1  (g3*f4-b8=D[+sLf8] + )
+  2  (g3*f4-b8=S[+sLf8] )
+  3  (g3*f4-b8=T[+sLf8] + )
+  1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b6[+wTa1] La3*f8-h6[+sLf8]   3.Lf8-b4 + Lh6-d2   4.Lb4-a5 0-0-0 
+  1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b7[+wTa1] La3*f8-h6[+sLf8]   3.Lf8*h6-c1 Ta1*c1-h6[+sLf8]   4.Lf8*h6-a6[+wTa1] 0-0-0 
+  4  (g3*f4-b8=L[+sLf8] )
   5  (La3-f8 )
 
               empile:       70650
@@ -1543,7 +1543,7 @@ Loesung beendet.
                 Circe
            Take&MakeSchach
 
-   1.Da1*g7-f5 [+sSb8] + !
+   1.Da1*g7-f5[+sSb8] + !
       1...Ld5*g8-g4
           2.Le4-g2 +
               2...Kh3*g2-f1 #

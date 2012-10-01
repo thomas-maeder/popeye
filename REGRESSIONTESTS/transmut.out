@@ -133,7 +133,7 @@ NullStellung
 
 a) sKf8-->a4
 
-  1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=w [+wSb1] Sb1-c3 # 
+  1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=w[+wSb1] Sb1-c3 # 
 
               empile:      128815
            play_move:       72796
@@ -141,7 +141,7 @@ a) sKf8-->a4
         orig_rnechec:       72216
 b) wKa2-->f2
 
-  1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=w [+wLc1] Lc1-a3 # 
+  1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=w[+wLc1] Lc1-a3 # 
 
               empile:      129776
            play_move:       73064

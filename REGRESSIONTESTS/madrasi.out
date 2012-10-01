@@ -146,40 +146,40 @@ Loesung beendet.
 
    1.Td4*c4 + ?
     Aber
-      1...Te1*e4 [+wBe2] !
+      1...Te1*e4[+wBe2] !
 
    1.Sc1-e2 ? Drohung:
           2.Td4*c4 #
-      1...Te1*e2 [+wSb1]
+      1...Te1*e2[+wSb1]
           2.Sb1*c3 #
-      1...Lh8*d4 [+wTa1]
+      1...Lh8*d4[+wTa1]
           2.Dd6-b4 #
     Aber
       1...Df3*e4 !
 
-   1.Sc1*d3 [+sBd7] ! Drohung:
+   1.Sc1*d3[+sBd7] ! Drohung:
           2.Sd3-c5 #
-      1...Df3*d3 [+wSb1]
+      1...Df3*d3[+wSb1]
           2.Dd6-b4 #
           2.Dd6-a3 #
-      1...c7*d6 [+wDd1]
-          2.Td4*c4 [+sBc7] #
-      1...Lh8*d4 [+wTa1]
+      1...c7*d6[+wDd1]
+          2.Td4*c4[+sBc7] #
+      1...Lh8*d4[+wTa1]
           2.Dd6-b4 #
 
    1.Sc1-b3 ? Drohung:
           2.Sb3-c5 #
-      1...Lh8*d4 [+wTa1]
+      1...Lh8*d4[+wTa1]
           2.Dd6-b4 #
     Aber
-      1...c7*d6 [+wDd1] !
+      1...c7*d6[+wDd1] !
 
    1.Sc1-a2 ? Drohung:
           2.Sa2*c3 #
       1...Te1-c1
           2.Td4*c4 #
     Aber
-      1...Lh8*d4 [+wTa1] !
+      1...Lh8*d4[+wTa1] !
 
 
               empile:       22003
@@ -217,9 +217,9 @@ Loesung beendet.
                 Circe
          Madrasi RexInklusive
 
-  1.Ld2-c1 Le7*a3 [+sTh8]   2.Ke5-d6 g7*h8=S # 
-  1.Ta3-a2 Td8*d2 [+sLf8]   2.Ke5-d6 g7*f8=S # 
-  1.Ke5-e6 Le7*a3 [+sTh8]   2.Ke6-d7 g7*h8=S # 
+  1.Ld2-c1 Le7*a3[+sTh8]   2.Ke5-d6 g7*h8=S # 
+  1.Ta3-a2 Td8*d2[+sLf8]   2.Ke5-d6 g7*f8=S # 
+  1.Ke5-e6 Le7*a3[+sTh8]   2.Ke6-d7 g7*h8=S # 
 
               empile:     1310728
            play_move:     1001544

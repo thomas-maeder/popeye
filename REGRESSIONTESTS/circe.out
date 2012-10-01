@@ -27,14 +27,14 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
 
    1.kDh1-c1 ! Drohung:
           2.kSc6-b8 #
-      1...kBd2*c1=kD[-skDc1] [+skDd8] [+wkDd1]
+      1...kBd2*c1=kD[-skDc1][+skDd8][+wkDd1]
           2.kLd3-g6 #
-      1...kBd2*c1=kS[-skSc1] [+skSb8] [+wkDd1]
+      1...kBd2*c1=kS[-skSc1][+skSb8][+wkDd1]
           2.kLd3-a6 #
-      1...kBd2*c1=kT[-skTc1] [+skTh8] [+wkDd1] +
+      1...kBd2*c1=kT[-skTc1][+skTh8][+wkDd1] +
           2.kLd3-h7 #
-      1...kBd2*c1=kL[-skLc1] [+skLf8] [+wkDd1]
-          2.kLd3*e2[-wkLe2] [+wkLf1] [+skBe7] #
+      1...kBd2*c1=kL[-skLc1][+skLf8][+wkDd1]
+          2.kLd3*e2[-wkLe2][+wkLf1][+skBe7] #
 
 
               empile:       17516
@@ -72,22 +72,22 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
                 Circe
 
    1.kTe8-e7 ! Zugzwang.
-      1...kBb2*c1=kD[-skDc1] [+skDd8] [+wkSg1]
-          2.kBc7*d8=kL[-wkLd8] [+wkLc1] [+skDd8] #
-      1...kBb2*c1=kS[-skSc1] [+skSb8] [+wkSg1]
-          2.kBc7*b8=kL[-wkLb8] [+wkLc1] [+skSb8] #
-      1...kBb2*c1=kT[-skTc1] [+skTh8] [+wkSg1]
-          2.kBg7*h8=kL[-wkLh8] [+wkLc1] [+skTh8] #
-      1...kBb2*c1=kL[-skLc1] [+skLf8] [+wkSg1]
-          2.kBg7*f8=kL[-wkLf8] [+wkLc1] [+skLf8] #
-      1...kBc2*b1=kD[-skDb1] [+skDd8] [+wkLf1]
-          2.kBc7*d8=kT[-wkTd8] [+wkTa1] [+skDd8] #
-      1...kBc2*b1=kS[-skSb1] [+skSg8] [+wkLf1]
-          2.kBf7*g8=kS[-wkSg8] [+wkSb1] [+skSg8] #
-      1...kBc2*b1=kT[-skTb1] [+skTa8] [+wkLf1]
-          2.kBb7*a8=kS[-wkSa8] [+wkSb1] [+skTa8] #
-      1...kBc2*b1=kL[-skLb1] [+skLc8] [+wkLf1]
-          2.kBb7*c8=kS[-wkSc8] [+wkSb1] [+skLc8] #
+      1...kBb2*c1=kD[-skDc1][+skDd8][+wkSg1]
+          2.kBc7*d8=kL[-wkLd8][+wkLc1][+skDd8] #
+      1...kBb2*c1=kS[-skSc1][+skSb8][+wkSg1]
+          2.kBc7*b8=kL[-wkLb8][+wkLc1][+skSb8] #
+      1...kBb2*c1=kT[-skTc1][+skTh8][+wkSg1]
+          2.kBg7*h8=kL[-wkLh8][+wkLc1][+skTh8] #
+      1...kBb2*c1=kL[-skLc1][+skLf8][+wkSg1]
+          2.kBg7*f8=kL[-wkLf8][+wkLc1][+skLf8] #
+      1...kBc2*b1=kD[-skDb1][+skDd8][+wkLf1]
+          2.kBc7*d8=kT[-wkTd8][+wkTa1][+skDd8] #
+      1...kBc2*b1=kS[-skSb1][+skSg8][+wkLf1]
+          2.kBf7*g8=kS[-wkSg8][+wkSb1][+skSg8] #
+      1...kBc2*b1=kT[-skTb1][+skTa8][+wkLf1]
+          2.kBb7*a8=kS[-wkSa8][+wkSb1][+skTa8] #
+      1...kBc2*b1=kL[-skLb1][+skLc8][+wkLf1]
+          2.kBb7*c8=kS[-wkSc8][+wkSb1][+skLc8] #
 
 
               empile:        6040
@@ -124,7 +124,7 @@ Loesung beendet.
 Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
           Circe RexInklusive
 
-  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3] [+wkTh1] # 
+  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3][+wkTh1] # 
 
               empile:       70274
            play_move:       63021
@@ -160,33 +160,33 @@ Wo? (nachgedruckt in 'buletin problemistic' 53/1990)
 Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
                 Circe
 
-   1.kTh5*h7[-wkTh7] [+wkTh1] [+skDd8] ? Drohung:
-          2.kTh1*b1[-wkTb1] [+wkTh1] [+skLc8] #
+   1.kTh5*h7[-wkTh7][+wkTh1][+skDd8] ? Drohung:
+          2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
     Aber
       1...kDd8-h8 !
 
-   1.kDf5*h7[-wkDh7] [+wkDd1] [+skDd8] ? Drohung:
-          2.kDd1*b1[-wkDb1] [+wkDd1] [+skLc8] #
+   1.kDf5*h7[-wkDh7][+wkDd1][+skDd8] ? Drohung:
+          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
     Aber
       1...kDd8-f6 !
 
-   1.kSf3*d4[-wkSd4] [+wkSg1] [+skBd7] ? Drohung:
+   1.kSf3*d4[-wkSd4][+wkSg1][+skBd7] ? Drohung:
           2.kDf5-e5 #
           2.kLh2-e5 #
-      1...kLb1*c2[-skLc2] [+skLc8] [+wkTh1]
+      1...kLb1*c2[-skLc2][+skLc8][+wkTh1]
           2.kDf5-b1 #
           2.kLh2-e5 #
-      1...kDh7*f5[-skDf5] [+skDd8] [+wkDd1]
-          2.kDd1*b1[-wkDb1] [+wkDd1] [+skLc8] #
+      1...kDh7*f5[-skDf5][+skDd8][+wkDd1]
+          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
     Aber
-      1...kDh7*h5[-skDh5] [+skDd8] [+wkTh1] !
+      1...kDh7*h5[-skDh5][+skDd8][+wkTh1] !
 
    1.kLh2-e5 ! Drohung:
-          2.kSf3*d4[-wkSd4] [+wkSg1] [+skBd7] #
-      1...kDh7*f5[-skDf5] [+skDd8] [+wkDd1]
-          2.kDd1*b1[-wkDb1] [+wkDd1] [+skLc8] #
-      1...kDh7*h5[-skDh5] [+skDd8] [+wkTh1]
-          2.kTh1*b1[-wkTb1] [+wkTh1] [+skLc8] #
+          2.kSf3*d4[-wkSd4][+wkSg1][+skBd7] #
+      1...kDh7*f5[-skDf5][+skDd8][+wkDd1]
+          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
+      1...kDh7*h5[-skDh5][+skDd8][+wkTh1]
+          2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
 
 
               empile:       14745
@@ -223,112 +223,112 @@ Loesung beendet.
                 Circe
 
    1.Sb3-a5 ! Drohung:
-          2.Sa5*c4 [+sBc7] #
-      1...Lf2*g3 [+wDd1]
-          2.Dd1*e2 [+sBe7] +
-              2...Tc2*e2 [+wDd1]
-                  3.Dd1*e2 [+sTa8] +
-                      3...d3*e2 [+wDd1]
+          2.Sa5*c4[+sBc7] #
+      1...Lf2*g3[+wDd1]
+          2.Dd1*e2[+sBe7] +
+              2...Tc2*e2[+wDd1]
+                  3.Dd1*e2[+sTa8] +
+                      3...d3*e2[+wDd1]
                           4.Dd1*e2 #
-              2...d3*e2 [+wDd1]
+              2...d3*e2[+wDd1]
                   3.Dd1*e2 +
-                      3...Tc2*e2 [+wDd1]
-                          4.Dd1*e2 [+sTa8] #
+                      3...Tc2*e2[+wDd1]
+                          4.Dd1*e2[+sTa8] #
       1...d3-d2
-          2.Sa5*c4 [+sBc7] +
+          2.Sa5*c4[+sBc7] +
               2...Ke3-d3
-                  3.Dg3*g6 [+sBg7] +
-                      3...Lh5*g6 [+wDd1]
-                          4.Dd1*e2 [+sBe7] #
+                  3.Dg3*g6[+sBg7] +
+                      3...Lh5*g6[+wDd1]
+                          4.Dd1*e2[+sBe7] #
       1...Ke3-d2
-          2.Dg3*f2 [+sLf8] Drohung:
+          2.Dg3*f2[+sLf8] Drohung:
                   3.Sa5-b3 +
                       3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
-                  3.Sa5*c4 [+sBc7] +
+                          4.Df2*e1[+sSb8] #
+                  3.Sa5*c4[+sBc7] +
                       3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
+                          4.Df2*e1[+sSb8] #
                       3...Kd2-c1
-                          4.Df2*e1 [+sSb8] #
-                  3.Df2*e1 [+sSb8] +
+                          4.Df2*e1[+sSb8] #
+                  3.Df2*e1[+sSb8] +
                       3...Kd2-e3
-                          4.Sa5*c4 [+sBc7] #
-                  3.Df2*e2 [+sBe7] +
+                          4.Sa5*c4[+sBc7] #
+                  3.Df2*e2[+sBe7] +
                       3...Kd2-c1
-                          4.De2*c2 [+sTa8] #
+                          4.De2*c2[+sTa8] #
               2...Se1-g2
                   3.Df2-e1 +
                       3...Kd2-e3
-                          4.Sa5*c4 [+sBc7] #
-                  3.Df2*e2 [+sBe7] +
+                          4.Sa5*c4[+sBc7] #
+                  3.Df2*e2[+sBe7] +
                       3...Kd2-c1
-                          4.De2*c2 [+sTa8] #
+                          4.De2*c2[+sTa8] #
               2...Tc2-a2
-                  3.Df2*e1 [+sSb8] +
+                  3.Df2*e1[+sSb8] +
                       3...Kd2-c2
                           4.De1-c1 #
                       3...Kd2-e3
-                          4.Sa5*c4 [+sBc7] #
-                  3.Df2*e2 [+sBe7] +
+                          4.Sa5*c4[+sBc7] #
+                  3.Df2*e2[+sBe7] +
                       3...Kd2-c1
                           4.De2-c2 #
               2...Tc2-b2
-                  3.Df2*e1 [+sSb8] +
+                  3.Df2*e1[+sSb8] +
                       3...Kd2-c2
                           4.De1-c1 #
                       3...Kd2-e3
-                          4.Sa5*c4 [+sBc7] #
-                  3.Df2*e2 [+sBe7] +
+                          4.Sa5*c4[+sBc7] #
+                  3.Df2*e2[+sBe7] +
                       3...Kd2-c1
                           4.De2-c2 #
               2...Kd2-c1
-                  3.Df2*e1 [+sSb8] +
+                  3.Df2*e1[+sSb8] +
                       3...Kc1-b2
                           4.De1-a1 #
               2...Tf3-h3
                   3.Sa5-b3 +
                       3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
-                  3.Sa5*c4 [+sBc7] +
+                          4.Df2*e1[+sSb8] #
+                  3.Sa5*c4[+sBc7] +
                       3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
+                          4.Df2*e1[+sSb8] #
                       3...Kd2-c1
-                          4.Df2*e1 [+sSb8] #
-                  3.Df2*e2 [+sBe7] +
+                          4.Df2*e1[+sSb8] #
+                  3.Df2*e2[+sBe7] +
                       3...Kd2-c1
-                          4.De2*c2 [+sTa8] #
+                          4.De2*c2[+sTa8] #
               2...Tf3-g3
                   3.Sa5-b3 +
                       3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
-                  3.Sa5*c4 [+sBc7] +
+                          4.Df2*e1[+sSb8] #
+                  3.Sa5*c4[+sBc7] +
                       3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
+                          4.Df2*e1[+sSb8] #
                       3...Kd2-c1
-                          4.Df2*e1 [+sSb8] #
-                  3.Df2*e2 [+sBe7] +
+                          4.Df2*e1[+sSb8] #
+                  3.Df2*e2[+sBe7] +
                       3...Kd2-c1
-                          4.De2*c2 [+sTa8] #
-      1...Tf3*g3 [+wDd1]
-          2.Dd1*d3 [+sBd7] +
-              2...Se1*d3 [+wDd1]
-                  3.Dd1*d3 [+sSg8] +
-                      3...c4*d3 [+wDd1]
+                          4.De2*c2[+sTa8] #
+      1...Tf3*g3[+wDd1]
+          2.Dd1*d3[+sBd7] +
+              2...Se1*d3[+wDd1]
+                  3.Dd1*d3[+sSg8] +
+                      3...c4*d3[+wDd1]
                           4.Dd1*d3 #
-              2...c4*d3 [+wDd1]
+              2...c4*d3[+wDd1]
                   3.Dd1*d3 +
-                      3...Se1*d3 [+wDd1]
-                          4.Dd1*d3 [+sSg8] #
-      1...f4*g3 [+wDd1]
+                      3...Se1*d3[+wDd1]
+                          4.Dd1*d3[+sSg8] #
+      1...f4*g3[+wDd1]
           2.Dd1-d2 +
-              2...Tc2*d2 [+wDd1]
-                  3.Dd1*d2 [+sTh8] +
-                      3...c3*d2 [+wDd1]
-                          4.Dd1*d2 [+sBd7] #
-              2...c3*d2 [+wDd1]
-                  3.Dd1*d2 [+sBd7] +
-                      3...Tc2*d2 [+wDd1]
-                          4.Dd1*d2 [+sTh8] #
+              2...Tc2*d2[+wDd1]
+                  3.Dd1*d2[+sTh8] +
+                      3...c3*d2[+wDd1]
+                          4.Dd1*d2[+sBd7] #
+              2...c3*d2[+wDd1]
+                  3.Dd1*d2[+sBd7] +
+                      3...Tc2*d2[+wDd1]
+                          4.Dd1*d2[+sTh8] #
 
 
               empile:      587117
@@ -399,8 +399,8 @@ Loesung beendet.
   h#2                    1 + 1 + 5n
                 Circe
 
-  1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI [+nCAd1] # 
-  1...nBc7-c8=nCA   2.Kc4*b4 [+nGIb8] nBd7*c8=nGI [+nCAc1] # 
+  1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI[+nCAd1] # 
+  1...nBc7-c8=nCA   2.Kc4*b4[+nGIb8] nBd7*c8=nGI[+nCAc1] # 
 
               empile:       57032
            play_move:       39255
@@ -434,7 +434,7 @@ Loesung beendet.
                 Circe
 
    1.Lc1-h6 !
-      1...g7*h6 [+wLc1]
+      1...g7*h6[+wLc1]
 
 
               empile:           9
@@ -470,7 +470,7 @@ Loesung beendet.
 
    1.h5-h6 ! Zugzwang.
       1...g7*h6
-          2.Kh2-h1 [+wBh5]
+          2.Kh2-h1[+wBh5]
 
 
               empile:          27
@@ -508,7 +508,7 @@ Loesung beendet.
    1.Le2-c4 ! Zugzwang.
       1...d6-d5
           2.Kf1-e2
-              2...d5*c4 [+wLf1]
+              2...d5*c4[+wLf1]
 
 
               empile:         252

@@ -270,8 +270,8 @@ Loesung beendet.
              SpiegelCirce
                 Volage
 
-  1.a2-a1=S=w   2.b2*a1=D [+wSb8]   3.Da1-a2=w Da2-g8 = 
-  1.b2-b1=L=w   2.a2*b1=T [+wLc8]   3.Tb1-b8=w Lc8-e6 = 
+  1.a2-a1=S=w   2.b2*a1=D[+wSb8]   3.Da1-a2=w Da2-g8 = 
+  1.b2-b1=L=w   2.a2*b1=T[+wLc8]   3.Tb1-b8=w Lc8-e6 = 
 
               empile:       82040
            play_move:       28373
@@ -307,25 +307,25 @@ Loesung beendet.
                 Circe
                 Volage
 
-   1.b6*a7 [+sSb8] ! Drohung:
+   1.b6*a7[+sSb8] ! Drohung:
           2.c7*b8=D
-              2...Ta8*a7=w [+wBa2=s] #
-              2...Ta8*b8=w [+wDd1=s] #
+              2...Ta8*a7=w[+wBa2=s] #
+              2...Ta8*b8=w[+wDd1=s] #
       1...Sb8-a6=w
           2.b7-b8=L=s
-              2...Ta8*a7=w [+wBa2=s] #
-              2...Lb8*a7 [+wBa2=s] #
-              2...Lb8*c7 [+wBc2=s] #
+              2...Ta8*a7=w[+wBa2=s] #
+              2...Lb8*a7[+wBa2=s] #
+              2...Lb8*c7[+wBc2=s] #
       1...Sb8-c6=w
           2.b7-b8=L=s
-              2...Ta8*a7=w [+wBa2=s] #
-              2...Lb8*a7 [+wBa2=s] #
-              2...Lb8*c7 [+wBc2=s] #
+              2...Ta8*a7=w[+wBa2=s] #
+              2...Lb8*a7[+wBa2=s] #
+              2...Lb8*c7[+wBc2=s] #
       1...Sb8-d7=w
           2.b7-b8=L=s
-              2...Ta8*a7=w [+wBa2=s] #
-              2...Lb8*a7 [+wBa2=s] #
-              2...Lb8*c7 [+wBc2=s] #
+              2...Ta8*a7=w[+wBa2=s] #
+              2...Lb8*a7[+wBa2=s] #
+              2...Lb8*c7[+wBc2=s] #
 
 
               empile:        9488

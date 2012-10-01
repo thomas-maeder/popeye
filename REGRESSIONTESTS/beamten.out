@@ -26,7 +26,7 @@
            Beamtet a8 b8 a6
                 Circe
 
-  1.bSa8-c7 bTa6-b6   2.bKb8-a8 Kd5-c6   3.bSc7-d5 bTb6-a6   4.bSd5-b6 Kc6*b6 [+sbSb8] # 
+  1.bSa8-c7 bTa6-b6   2.bKb8-a8 Kd5-c6   3.bSc7-d5 bTb6-a6   4.bSd5-b6 Kc6*b6[+sbSb8] # 
 
               empile:      119511
            play_move:       52490
@@ -268,7 +268,7 @@ Loesung beendet.
                 Circe
 
   1  (bTe5-e4 )
-  2  (bTe5*a5 [+sbBa7] + )
+  2  (bTe5*a5[+sbBa7] + )
   3  (bTe5-b5 )
   4  (bTe5-c5 )
   5  (bTe5-d5 )
@@ -293,12 +293,12 @@ Loesung beendet.
  24  (Lg2-c6 )
    1.Lg2-c6 !
       1...bBa5-a4
-          2.Lc6*a4 [+sbBa7]
-              2...bBa7*b6 [+wbBb2]
+          2.Lc6*a4[+sbBa7]
+              2...bBa7*b6[+wbBb2]
                   3.La4-b3
                       3...bBb6-b5
                           4.Lb3-c4
-                              4...bBb5*c4 [+wLf1]
+                              4...bBb5*c4[+wLf1]
                                   5.bTe5-b5
                                       5...bBc4-c3
                                           6.Lf1-g2

@@ -366,19 +366,19 @@ Loesung beendet.
         SchwarzerLaengstzueger
 
    1.Tb1-f1 ! Zugzwang.
-      1...e2*f1=D [+wTh1]
-          2.Tf8*f1 [+sDd8] Zugzwang.
+      1...e2*f1=D[+wTh1]
+          2.Tf8*f1[+sDd8] Zugzwang.
               2...Dd8-h8
                   3.Tf1-f2 #
-      1...e2*f1=S [+wTh1]
+      1...e2*f1=S[+wTh1]
           2.Tf8-f2 +
               2...Sf1-d2
                   3.Th1-c1 #
-      1...e2*f1=T [+wTh1]
+      1...e2*f1=T[+wTh1]
           2.Ka2-a3 Zugzwang.
-              2...Tf1*f8 [+wTa1]
+              2...Tf1*f8[+wTa1]
                   3.Ta1-a2 #
-      1...e2*f1=L [+wTh1]
+      1...e2*f1=L[+wTh1]
           2.e6-e7 Zugzwang.
               2...Lf1-h3
                   3.Tf8-f2 #

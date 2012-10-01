@@ -217,7 +217,7 @@ Loesung beendet.
                 Circe
        WeisserUltraSchachZwang
 
-  1.Kg3-f4 e2-e3 +   2.Kf4-f5 e3-e4 +   3.Kf5-f6 e4-e5 +   4.Kf6-f7 e5-e6 +   5.Kf7-f8 e6-e7 +   6.Kf8-f7 e7-e8=D +   7.Kf7*e8 [+wDd1] Dd1-a4 +   8.Ke8-d8 Da4-d7 # 
+  1.Kg3-f4 e2-e3 +   2.Kf4-f5 e3-e4 +   3.Kf5-f6 e4-e5 +   4.Kf6-f7 e5-e6 +   5.Kf7-f8 e6-e7 +   6.Kf8-f7 e7-e8=D +   7.Kf7*e8[+wDd1] Dd1-a4 +   8.Ke8-d8 Da4-d7 # 
 
               empile:        7036
            play_move:        3097

@@ -223,7 +223,7 @@ a)
         orig_rnechec:          56
 b)  -wQc1
 
-   1.h7*g8=R [+wQd1] # !
+   1.h7*g8=R[+wQd1] # !
 
 
               empile:          15
@@ -1255,7 +1255,7 @@ solution finished.
 
    1.Ka1-b1 !
 
-   1.Ka1-a2 [+wBh2] !
+   1.Ka1-a2[+wBh2] !
 
    1.Ka1-b2 !
 
@@ -1501,7 +1501,7 @@ solution finished.
 
    1.c6-c7 !
 
-   1.c6*b7 [+bBa8] !
+   1.c6*b7[+bBa8] !
 
 
               empile:         539
@@ -1538,9 +1538,9 @@ solution finished.
 
    1.c6-c7 !
 
-   1.c6*b7 [+bPa8] !
+   1.c6*b7[+bPa8] !
 
-   1.c6*b7 [+bPb8] !
+   1.c6*b7[+bPb8] !
 
 
               empile:         414
@@ -1577,11 +1577,11 @@ solution finished.
 
    1.a3-a4 !
 
-   1.a3*b4 [+bPh1=B] !
+   1.a3*b4[+bPh1=B] !
 
-   1.a3*b4 [+bPg3] !
+   1.a3*b4[+bPg3] !
 
-   1.a3*b4 [+bPb5] !
+   1.a3*b4[+bPb5] !
 
    1.g2-g4 !
 
@@ -1626,13 +1626,13 @@ cage for promoted pawn, capturer part of cage
 
    1.g2-g3 !
 
-   1.g2*h3 [+bPg1=S] !
+   1.g2*h3[+bPg1=S] !
 
-   1.g2*h3 [+bPe3] !
+   1.g2*h3[+bPe3] !
 
-   1.g2*h3 [+bPf4] !
+   1.g2*h3[+bPf4] !
 
-   1.g2*h3 [+bPh4] !
+   1.g2*h3[+bPh4] !
 
    1.e2-e4 !
 
@@ -1671,8 +1671,8 @@ solution finished.
   h#2                         4 + 4
               CageCirce
 
-  1.Ke4*f3 [+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2 [+bRf3] # 
-  1.Ke4*f3 [+wRh1] g1*h2   2.g5-g4 0-0 # 
+  1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] # 
+  1.Ke4*f3[+wRh1] g1*h2   2.g5-g4 0-0 # 
 
               empile:     8137277
            play_move:     1210884
@@ -1736,8 +1736,8 @@ never generates the same solution twice (but some solutions
   a=>b1.5                   16 + 16
               CageCirce
 
-  1.Qb3*d5 [+bPc2] Ke8-d7   2.Qd5-f3 a=>b 
-  1.Qb3*d5 [+bPf3] Ke8-d7   2.Qd5*f3 [+bPc2] a=>b 
+  1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b 
+  1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b 
 
               empile:       28339
            play_move:       17067
@@ -1875,73 +1875,73 @@ consider previous cage after advancing type of promotee
               CageCirce
               HalfDuplex
 
-   1.e2*d1=Q [+wQf1] + !
+   1.e2*d1=Q[+wQf1] + !
 
-   1.e2*d1=Q [+wQd2] + !
+   1.e2*d1=Q[+wQd2] + !
 
-   1.e2*d1=Q [+wQe2] + !
+   1.e2*d1=Q[+wQe2] + !
 
-   1.e2*d1=Q [+wQa3] + !
+   1.e2*d1=Q[+wQa3] + !
 
-   1.e2*d1=Q [+wQb3] + !
+   1.e2*d1=Q[+wQb3] + !
 
-   1.e2*d1=Q [+wQc3] + !
+   1.e2*d1=Q[+wQc3] + !
 
-   1.e2*d1=Q [+wQe3] + !
+   1.e2*d1=Q[+wQe3] + !
 
-   1.e2*d1=Q [+wQf3] + !
+   1.e2*d1=Q[+wQf3] + !
 
-   1.e2*d1=Q [+wQg3] + !
+   1.e2*d1=Q[+wQg3] + !
 
-   1.e2*d1=Q [+wQh3] + !
+   1.e2*d1=Q[+wQh3] + !
 
-   1.e2*d1=Q [+wQa4] + !
+   1.e2*d1=Q[+wQa4] + !
 
-   1.e2*d1=Q [+wQb4] + !
+   1.e2*d1=Q[+wQb4] + !
 
-   1.e2*d1=Q [+wQc4] + !
+   1.e2*d1=Q[+wQc4] + !
 
-   1.e2*d1=Q [+wQd4] + !
+   1.e2*d1=Q[+wQd4] + !
 
-   1.e2*d1=Q [+wQf4] + !
+   1.e2*d1=Q[+wQf4] + !
 
-   1.e2*d1=Q [+wQg4] + !
+   1.e2*d1=Q[+wQg4] + !
 
-   1.e2*d1=Q [+wQh4] + !
+   1.e2*d1=Q[+wQh4] + !
 
-   1.e2*d1=Q [+wQa5] + !
+   1.e2*d1=Q[+wQa5] + !
 
-   1.e2*d1=Q [+wQc5] + !
+   1.e2*d1=Q[+wQc5] + !
 
-   1.e2*d1=Q [+wQd5] + !
+   1.e2*d1=Q[+wQd5] + !
 
-   1.e2*d1=Q [+wQe5] + !
+   1.e2*d1=Q[+wQe5] + !
 
-   1.e2*d1=Q [+wQf5] + !
+   1.e2*d1=Q[+wQf5] + !
 
-   1.e2*d1=Q [+wQg5] + !
+   1.e2*d1=Q[+wQg5] + !
 
-   1.e2*d1=Q [+wQh5] + !
+   1.e2*d1=Q[+wQh5] + !
 
-   1.e2*d1=Q [+wQa6] + !
+   1.e2*d1=Q[+wQa6] + !
 
-   1.e2*d1=Q [+wQb6] + !
+   1.e2*d1=Q[+wQb6] + !
 
-   1.e2*d1=Q [+wQc6] + !
+   1.e2*d1=Q[+wQc6] + !
 
-   1.e2*d1=Q [+wQd6] + !
+   1.e2*d1=Q[+wQd6] + !
 
-   1.e2*d1=Q [+wQe6] + !
+   1.e2*d1=Q[+wQe6] + !
 
-   1.e2*d1=Q [+wQf6] + !
+   1.e2*d1=Q[+wQf6] + !
 
-   1.e2*d1=Q [+wQg6] + !
+   1.e2*d1=Q[+wQg6] + !
 
-   1.e2*d1=Q [+wQh6] + !
+   1.e2*d1=Q[+wQh6] + !
 
-   1.e2*d1=Q [+wQc8] + !
+   1.e2*d1=Q[+wQc8] + !
 
-   1.e2*d1=S [+wQc8] !
+   1.e2*d1=S[+wQc8] !
 
 
               empile:        1700
@@ -2233,7 +2233,7 @@ issue 2886962: 4.51 didn't allow a reborn rook
   a=>b1.0                     2 + 2
                 Circe
 
-  1.Rb8*c8 [+wRh1] 0-0 a=>b 
+  1.Rb8*c8[+wRh1] 0-0 a=>b 
 
               empile:          25
            play_move:          25

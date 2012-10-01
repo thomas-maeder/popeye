@@ -23,7 +23,7 @@ versions <= 4.61 didn't support castling in Circe Parrain
   h002                        3 + 1
              ParrainCirce
 
-  1.Bc1*b2 Be5-d4 [+wRa1]   2.Bb2*d4 0-0-0 [+wBe4] 
+  1.Bc1*b2 Be5-d4[+wRa1]   2.Bb2*d4 0-0-0[+wBe4] 
 
               empile:        1387
            play_move:        1298
