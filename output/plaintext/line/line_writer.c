@@ -143,14 +143,11 @@ void output_plaintext_line_save_position(void)
 
 static void write_line(slice_index si, Side starting_side)
 {
-  stored_position_type end_position;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,starting_side,"");
   TraceFunctionParamListEnd();
 
-  StorePosition(&end_position);
   ResetPosition(&initial_position);
 
 #ifdef _SE_DECORATE_SOLUTION_
@@ -164,8 +161,6 @@ static void write_line(slice_index si, Side starting_side)
   init_ply_history();
   line_writer_slice = si;
   write_ply_history(si);
-
-  ResetPosition(&end_position);
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_end_pos();

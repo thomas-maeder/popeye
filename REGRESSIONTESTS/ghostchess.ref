@@ -29,10 +29,10 @@
   1.Bc3-e5 Rf8-f5   2.Kg4*f5 e2-e4 +   3.Kf5*e4[+wuRf5] uRf5-f3   4.Ke4-d4[+wuPe4] uRf3-d3 # 
   1.Sc5-e4 Rf8-f4 +   2.Kg4*f4 e2-e3 +   3.Kf4*e3[+wuRf4] uRf4-f2   4.Ke3-d3[+wuPe3] uRf2-d2 # 
 
-              empile:    43375984
-           play_move:    24292262
+              empile:    43391994
+           play_move:    24297200
         orig_rbechec:           0
-        orig_rnechec:    22168702
+        orig_rnechec:    22173358
 solution finished. 
 
 
@@ -281,18 +281,18 @@ a)
 
   1.Bh4-f6   2.Qa6*c6   3.Qc6*c2[+buPc6]   4.Bf6*e5   5.Be5-f4[+buSe5]   6.Qc2*d3[+buPc2] + uSe5*d3 # 
 
-              empile:    37186730
-           play_move:    12579419
-        orig_rbechec:    12579419
-        orig_rnechec:     7933424
+              empile:    37128459
+           play_move:    12557501
+        orig_rbechec:    12557501
+        orig_rnechec:     7925836
 b)  -bPg7
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 # 
 
-              empile:    40366253
-           play_move:    12620404
-        orig_rbechec:    12620404
-        orig_rnechec:     8134378
+              empile:    40297953
+           play_move:    12596335
+        orig_rbechec:    12596335
+        orig_rnechec:     8124283
 solution finished. 
 
 
@@ -364,18 +364,18 @@ a)
 
   1.Qe1*c3 Se4-f6 +   2.Qc3-f3[+wuSc3] uSc3-b5 # 
 
-              empile:      187645
-           play_move:       74913
-        orig_rbechec:       22709
-        orig_rnechec:       74473
+              empile:      187672
+           play_move:       74921
+        orig_rbechec:       22712
+        orig_rnechec:       74481
 b) wKa7-->d8
 
   1.Qe1*e4 Sc3-a4 +   2.Qe4-c2[+wuSe4] uSe4-d6 # 
 
-              empile:      185776
-           play_move:       70657
-        orig_rbechec:       22589
-        orig_rnechec:       70217
+              empile:      185785
+           play_move:       70659
+        orig_rbechec:       22590
+        orig_rnechec:       70219
 solution finished. 
 
 
@@ -1155,18 +1155,18 @@ a) wRf5-->e5
 
   1.Qd4*e5   2.Kd6-c5   3.Kc5*c4   4.Qe5-c3[+wuRe5] uRe5-c5 # 
 
-              empile:      156035
-           play_move:      115187
+              empile:      156057
+           play_move:      115204
         orig_rbechec:           0
-        orig_rnechec:      115187
+        orig_rnechec:      115204
 b) wCAc7-->d7
 
   1.Qd4*c4   2.Kd6-e6   3.Ke6*f5   4.Qc4-g4[+wuBc4] uBc4-e6 # 
 
-              empile:      133743
-           play_move:      105158
+              empile:      133707
+           play_move:      105136
         orig_rbechec:           0
-        orig_rnechec:      105158
+        orig_rnechec:      105136
 solution finished. 
 
 
@@ -1247,10 +1247,10 @@ Jacques Rotenberg & Christian Poisson
   1.nPf2-f1=nQ nPf7-f8=nS +   2.nQf1*f8 + nQf8*e8[+nuSf8] # 
   1.nPf2*e1=nR nPf7*e8=nB +   2.nRe1*e8[+nuRe1] + nRe8-d8[+nuBe8] # 
 
-              empile:      223238
-           play_move:      161541
-        orig_rbechec:       31256
-        orig_rnechec:      160688
+              empile:      223742
+           play_move:      161769
+        orig_rbechec:       31341
+        orig_rnechec:      160916
 solution finished. 
 
 

@@ -1344,14 +1344,14 @@ static void LargeEncode(stip_length_type min_length,
 
   for (gi = 0; gi<nr_ghosts; ++gi)
   {
-    square s = (ghosts[gi].ghost_square
+    square s = (ghosts[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
     row = s/onerow;
     col = s%onerow;
     bp = LargeEncodePiece(bp,position,
                           row,col,
-                          ghosts[gi].ghost_piece,ghosts[gi].ghost_flags);
+                          ghosts[gi].ghost,ghosts[gi].flags);
   }
 
   /* Now the rest of the party */
@@ -1409,14 +1409,14 @@ static void SmallEncode(stip_length_type min_length,
 
   for (gi = 0; gi<nr_ghosts; ++gi)
   {
-    square s = (ghosts[gi].ghost_square
+    square s = (ghosts[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
     row = s/onerow;
     col = s%onerow;
     bp = SmallEncodePiece(bp,
                           row,col,
-                          ghosts[gi].ghost_piece,ghosts[gi].ghost_flags);
+                          ghosts[gi].ghost,ghosts[gi].flags);
   }
 
   /* Now the rest of the party */

@@ -27,15 +27,13 @@ stip_length_type ghost_chess_ghost_rememberer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]==vide)
-    result = attack(slices[si].next1,n);
-  else
+  if (pprise[nbply]!=vide)
   {
-    haunted_chess_remember_ghost();
-    SETFLAG(ghosts[nr_ghosts-1].ghost_flags,Uncapturable);
-    result = attack(slices[si].next1,n);
-    haunted_chess_forget_ghost();
+    move_effect_journal_do_remember_ghost();
+    SETFLAG(ghosts[nr_ghosts-1].flags,Uncapturable);
   }
+
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,15 +62,13 @@ stip_length_type ghost_chess_ghost_rememberer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]==vide)
-    result = defend(slices[si].next1,n);
-  else
+  if (pprise[nbply]!=vide)
   {
-    haunted_chess_remember_ghost();
-    SETFLAG(ghosts[nr_ghosts-1].ghost_flags,Uncapturable);
-    result = defend(slices[si].next1,n);
-    haunted_chess_forget_ghost();
+    move_effect_journal_do_remember_ghost();
+    SETFLAG(ghosts[nr_ghosts-1].flags,Uncapturable);
   }
+
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

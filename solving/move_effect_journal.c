@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "conditions/imitator.h"
 #include "conditions/actuated_revolving_centre.h"
+#include "conditions/haunted_chess.h"
 #include "pieces/attributes/neutral/half.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
@@ -82,6 +83,7 @@ static void undo_piece_movement(move_effect_journal_index_type curr)
   square const to = move_effect_journal[curr].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
 #if defined(DOTRACE)
@@ -1017,6 +1019,14 @@ static void redo_move_effects(void)
         redo_imitator_movement(curr);
         break;
 
+      case move_effect_remember_ghost:
+        move_effect_journal_redo_remember_ghost(curr);
+        break;
+
+      case move_effect_forget_ghost:
+        move_effect_journal_redo_forget_ghost(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1086,6 +1096,14 @@ static void undo_move_effects(void)
 
       case move_effect_imitator_movement:
         undo_imitator_movement(top-1);
+        break;
+
+      case move_effect_remember_ghost:
+        move_effect_journal_undo_remember_ghost(top-1);
+        break;
+
+      case move_effect_forget_ghost:
+        move_effect_journal_undo_forget_ghost(top-1);
         break;
 
       default:

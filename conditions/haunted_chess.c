@@ -25,7 +25,9 @@ static ghost_index_type find_ghost(square pos)
   while (current>0)
   {
     --current;
-    if (ghosts[current].ghost_square==pos)
+    TraceSquare(ghosts[current].on);
+    TraceValue("%u\n",current);
+    if (ghosts[current].on==pos)
     {
       result = current;
       break;
@@ -38,139 +40,85 @@ static ghost_index_type find_ghost(square pos)
   return result;
 }
 
-static void forget_ghost_at_pos(ghost_index_type ghost_pos)
+static void make_space(ghost_index_type ghost_pos)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ghost_pos);
-  TraceFunctionParamListEnd();
+  memmove(ghosts+ghost_pos+1, ghosts+ghost_pos,
+          (nr_ghosts-ghost_pos) * sizeof ghosts[0]);
+  ++nr_ghosts;
+}
 
-  assert(ghost_pos!=ghost_not_found);
-  assert(nr_ghosts>0);
+static void lose_space(ghost_index_type ghost_pos)
+{
   --nr_ghosts;
-
-  TraceValue("->%u ",nr_ghosts);
-  TraceSquare(ghosts[ghost_pos].ghost_square);
-  TracePiece(ghosts[ghost_pos].ghost_piece);
-  TraceText("\n");
   memmove(ghosts+ghost_pos, ghosts+ghost_pos+1,
           (nr_ghosts-ghost_pos) * sizeof ghosts[0]);
+}
+
+static void move_effect_journal_do_forget_ghost(ghost_index_type const summoned)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",summoned);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_forget_ghost;
+  top_elmt->reason = move_effect_reason_summon_ghost;
+  top_elmt->u.handle_ghost.ghost_pos = summoned;
+  top_elmt->u.handle_ghost.ghost = ghosts[summoned].ghost;
+  top_elmt->u.handle_ghost.flags = ghosts[summoned].flags;
+  top_elmt->u.handle_ghost.on = ghosts[summoned].on;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  lose_space(summoned);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void haunted_chess_remember_ghost(void)
+void move_effect_journal_undo_forget_ghost(move_effect_journal_index_type curr)
 {
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+  ghost_index_type const ghost_pos = move_effect_journal[curr].u.handle_ghost.ghost_pos;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-  assert(nr_ghosts<ghost_capacity);
-  ghosts[nr_ghosts].ghost_square = sq_capture;
-  ghosts[nr_ghosts].ghost_piece = pprise[nbply];
-  ghosts[nr_ghosts].ghost_flags = pprispec[nbply];
-  ghosts[nr_ghosts].hidden = false;
-  ++nr_ghosts;
-  TraceValue("->%u\n",nr_ghosts);
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  make_space(ghost_pos);
+
+  ghosts[ghost_pos].ghost = move_effect_journal[curr].u.handle_ghost.ghost;
+  ghosts[ghost_pos].flags = move_effect_journal[curr].u.handle_ghost.flags;
+  ghosts[ghost_pos].on = move_effect_journal[curr].u.handle_ghost.on;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void preempt_ghost(void)
+void move_effect_journal_redo_forget_ghost(move_effect_journal_index_type curr)
 {
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-  ghost_index_type const ghost_pos = find_ghost(sq_capture);
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",ghost_pos);
-  if (ghost_pos!=ghost_not_found)
-    ghosts[ghost_pos].hidden = true;
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  lose_space(move_effect_journal[curr].u.handle_ghost.ghost_pos);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static void unpreempt_ghost(void)
-{
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-  ghost_index_type const ghost_pos = find_ghost(sq_capture);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",ghost_pos);
-  if (ghost_pos!=ghost_not_found)
-    ghosts[ghost_pos].hidden = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void haunted_chess_forget_ghost(void)
-{
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  forget_ghost_at_pos(find_ghost(sq_capture));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void ban_ghost(void)
-{
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(nr_ghosts<ghost_capacity);
-  ghosts[nr_ghosts].ghost_square = sq_departure;
-  ghosts[nr_ghosts].ghost_piece = e[sq_departure];
-  ghosts[nr_ghosts].ghost_flags = spec[sq_departure];
-  ghosts[nr_ghosts].hidden = false;
-  ++nr_ghosts;
-  TraceValue("->%u\n",nr_ghosts);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static boolean summon_ghost(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  {
-    square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-    ghost_index_type const ghost_pos = find_ghost(sq_departure);
-    if (ghost_pos!=ghost_not_found && !ghosts[ghost_pos].hidden)
-    {
-      move_effect_journal_do_piece_addition(move_effect_reason_summon_ghost,
-                                            sq_departure,
-                                            ghosts[ghost_pos].ghost_piece,
-                                            ghosts[ghost_pos].ghost_flags);
-
-      forget_ghost_at_pos(ghost_pos);
-
-      result = true;
-    }
-    else
-      result = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -185,19 +133,25 @@ stip_length_type haunted_chess_ghost_summoner_attack(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  ghost_index_type const ghost_pos = find_ghost(sq_departure);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (summon_ghost())
+  if (ghost_pos!=ghost_not_found)
   {
-    result = attack(slices[si].next1,n);
-    ban_ghost();
+    move_effect_journal_do_piece_addition(move_effect_reason_summon_ghost,
+                                          sq_departure,
+                                          ghosts[ghost_pos].ghost,
+                                          ghosts[ghost_pos].flags);
+
+    move_effect_journal_do_forget_ghost(ghost_pos);
   }
-  else
-    result = attack(slices[si].next1,n);
+
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -220,24 +174,102 @@ stip_length_type haunted_chess_ghost_summoner_defend(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  ghost_index_type const ghost_pos = find_ghost(sq_departure);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (summon_ghost())
+  if (ghost_pos!=ghost_not_found)
   {
-    result = defend(slices[si].next1,n);
-    ban_ghost();
+    move_effect_journal_do_piece_addition(move_effect_reason_summon_ghost,
+                                          sq_departure,
+                                          ghosts[ghost_pos].ghost,
+                                          ghosts[ghost_pos].flags);
+
+    move_effect_journal_do_forget_ghost(ghost_pos);
   }
-  else
-    result = defend(slices[si].next1,n);
+
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+void move_effect_journal_do_remember_ghost(void)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_remember_ghost;
+  top_elmt->reason = move_effect_reason_regular_capture;
+  top_elmt->u.handle_ghost.ghost_pos = nr_ghosts;
+  top_elmt->u.handle_ghost.ghost = pprise[nbply];
+  top_elmt->u.handle_ghost.flags = pprispec[nbply];
+  top_elmt->u.handle_ghost.on = sq_capture;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  ghosts[nr_ghosts].on = sq_capture;
+  ghosts[nr_ghosts].ghost = pprise[nbply];
+  ghosts[nr_ghosts].flags = pprispec[nbply];
+  ++nr_ghosts;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void move_effect_journal_undo_remember_ghost(move_effect_journal_index_type curr)
+{
+  ghost_index_type const ghost_pos = move_effect_journal[curr].u.handle_ghost.ghost_pos;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  lose_space(ghost_pos);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void move_effect_journal_redo_remember_ghost(move_effect_journal_index_type curr)
+{
+  ghost_index_type const ghost_pos = move_effect_journal[curr].u.handle_ghost.ghost_pos;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  make_space(ghost_pos);
+
+  ghosts[ghost_pos].on = move_effect_journal[curr].u.handle_ghost.on;
+  ghosts[ghost_pos].ghost = move_effect_journal[curr].u.handle_ghost.ghost;
+  ghosts[ghost_pos].flags = move_effect_journal[curr].u.handle_ghost.flags;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -262,11 +294,15 @@ stip_length_type haunted_chess_ghost_rememberer_attack(slice_index si,
     result = attack(slices[si].next1,n);
   else
   {
-    preempt_ghost();
-    haunted_chess_remember_ghost();
+    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+    ghost_index_type const preempted_idx = find_ghost(sq_capture);
+
+    if (preempted_idx!=ghost_not_found)
+      move_effect_journal_do_forget_ghost(preempted_idx);
+
+    move_effect_journal_do_remember_ghost();
+
     result = attack(slices[si].next1,n);
-    haunted_chess_forget_ghost();
-    unpreempt_ghost();
   }
 
   TraceFunctionExit(__func__);
@@ -300,11 +336,15 @@ stip_length_type haunted_chess_ghost_rememberer_defend(slice_index si,
     result = defend(slices[si].next1,n);
   else
   {
-    preempt_ghost();
-    haunted_chess_remember_ghost();
+    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+    ghost_index_type const preempted_idx = find_ghost(sq_capture);
+
+    if (preempted_idx!=ghost_not_found)
+      move_effect_journal_do_forget_ghost(preempted_idx);
+
+    move_effect_journal_do_remember_ghost();
+
     result = defend(slices[si].next1,n);
-    haunted_chess_forget_ghost();
-    unpreempt_ghost();
   }
 
   TraceFunctionExit(__func__);

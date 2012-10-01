@@ -90,18 +90,18 @@ a)
 
   1.Qf1*b5 Be3*c5   2.Kd5*c5 Bf7*e6 = 
 
-              empile:     1022460
-           play_move:      400775
-        orig_rbechec:      173434
-        orig_rnechec:      372226
+              empile:     1023364
+           play_move:      401058
+        orig_rbechec:      173569
+        orig_rnechec:      372491
 b) wRe3 
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 = 
 
-              empile:     1051389
-           play_move:      464140
-        orig_rbechec:      181916
-        orig_rnechec:      435015
+              empile:     1052061
+           play_move:      464436
+        orig_rbechec:      182020
+        orig_rnechec:      435299
 solution finished. 
 
 
@@ -135,10 +135,10 @@ Sake, Portoroz 2002, 5eme Recommand\'e
   1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 # 
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 # 
 
-              empile:      617530
-           play_move:      244273
-        orig_rbechec:       75249
-        orig_rnechec:      243368
+              empile:      618803
+           play_move:      244734
+        orig_rbechec:       75396
+        orig_rnechec:      243829
 solution finished. 
 
 
@@ -188,10 +188,10 @@ solution finished.
                   3.Bc5-b4 #
 
 
-              empile:      128617
-           play_move:       86276
+              empile:      128632
+           play_move:       86291
         orig_rbechec:       31151
-        orig_rnechec:       60430
+        orig_rnechec:       60445
 solution finished. 
 
 

@@ -29,6 +29,8 @@ typedef enum
   move_effect_centre_revolution,
   move_effect_imitator_addition,
   move_effect_imitator_movement,
+  move_effect_remember_ghost,
+  move_effect_forget_ghost,
 
   nr_move_effect_types
 } move_effect_type;
@@ -164,6 +166,13 @@ typedef struct
         {
             square on;
         } half_neutral_neutralisation;
+        struct
+        {
+            unsigned int ghost_pos;
+            square on;
+            piece ghost;
+            Flags flags;
+        } handle_ghost;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

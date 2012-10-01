@@ -1375,12 +1375,12 @@ conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
+ stipulation/goals/goals.h utilities/boolean.h \
+ solving/move_effect_journal.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
- pieces/attributes/neutral/initialiser.h solving/move_effect_journal.h \
- debugging/trace.h
+ pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 conditions/haunted_chess.h:
 
@@ -1420,6 +1420,8 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
+solving/move_effect_journal.h:
+
 stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
@@ -1438,8 +1440,6 @@ stipulation/move_player.h:
 
 pieces/attributes/neutral/initialiser.h:
 
-solving/move_effect_journal.h:
-
 debugging/trace.h:
 conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  conditions/ghost_chess.h solving/battle_play/attack_play.h py.h \
@@ -1451,7 +1451,8 @@ conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
- conditions/haunted_chess.h debugging/trace.h
+ conditions/haunted_chess.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/ghost_chess.h:
 
@@ -1508,6 +1509,8 @@ stipulation/has_solution_type.h:
 stipulation/move_player.h:
 
 conditions/haunted_chess.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h \

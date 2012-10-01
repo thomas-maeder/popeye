@@ -3,16 +3,16 @@
 
 #include "solving/battle_play/attack_play.h"
 #include "solving/battle_play/defense_play.h"
+#include "solving/move_effect_journal.h"
 
 /* This module implements Haunted Chess.
  */
 
 typedef struct
 {
-    square ghost_square;
-    piece ghost_piece;
-    Flags ghost_flags;
-    boolean hidden;
+    square on;
+    piece ghost;
+    Flags flags;
 } ghost_record_type;
 
 enum
@@ -29,13 +29,16 @@ typedef unsigned int ghost_index_type;
 
 extern ghost_index_type nr_ghosts;
 
-/* Remember a captured piece as a ghost
+/* Remember a ghost "below" a square
  */
-void haunted_chess_remember_ghost(void);
+void move_effect_journal_do_remember_ghost(void);
+void move_effect_journal_undo_remember_ghost(move_effect_journal_index_type curr);
+void move_effect_journal_redo_remember_ghost(move_effect_journal_index_type curr);
 
-/* Forget a ghost (usually while taking a back a capturing move)
+/* Forget a ghost "below" a square (typically because it is on the board now)
  */
-void haunted_chess_forget_ghost(void);
+void move_effect_journal_undo_forget_ghost(move_effect_journal_index_type curr);
+void move_effect_journal_redo_forget_ghost(move_effect_journal_index_type curr);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
