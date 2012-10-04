@@ -11,7 +11,6 @@
 #include "optimisations/intelligent/intelligent.h"
 
 #include "py.h"
-#include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "solving/battle_play/attack_play.h"
@@ -89,7 +88,50 @@ unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
 static stip_length_type nr_of_moves;
 
+typedef struct
+{
+  Flags       spec[nr_squares_on_board];
+  piece       e[nr_squares_on_board];
+  square      rn_sic, rb_sic;
+} stored_position_type;
+
 static stored_position_type initial_position;
+
+static void StorePosition(stored_position_type *store)
+{
+  store->rn_sic = king_square[Black];
+  store->rb_sic = king_square[White];
+
+  {
+    unsigned int i;
+    for (i = 0; i<nr_squares_on_board; i++)
+    {
+      store->e[i] = e[boardnum[i]];
+      store->spec[i] = spec[boardnum[i]];
+    }
+  }
+}
+
+static void ResetPosition(stored_position_type const *store)
+{
+  {
+    piece p;
+    for (p = dernoi; p<=derbla; p++)
+      nbpiece[p]= 0;
+  }
+
+  king_square[Black] = store->rn_sic;
+  king_square[White] = store->rb_sic;
+
+  {
+    unsigned int i;
+    for (i = 0; i<nr_squares_on_board; i++)
+    {
+      nbpiece[e[boardnum[i]]= store->e[i]]++;
+      spec[boardnum[i]]= store->spec[i];
+    }
+  }
+}
 
 void remember_to_keep_rider_line_open(square from, square to,
                                       int dir, int delta)
