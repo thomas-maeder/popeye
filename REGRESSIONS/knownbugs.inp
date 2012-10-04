@@ -2,7 +2,7 @@ begin
 
 prot knownbugs.reg
 
-remark Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
+remark Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
 remark (cf. issue 2790694)
 pieces white kd3 qb1 rh7 ba1g8 sa8b2
        magic white ra7 pe6
