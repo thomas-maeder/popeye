@@ -139,7 +139,7 @@ void stip_insert_castling_chess(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  insert_alternative_move_players_no_replay(si,STCastlingChessMovePlayer);
+  insert_alternative_move_players(si,STCastlingChessMovePlayer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

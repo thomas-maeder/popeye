@@ -45,39 +45,4 @@ stip_length_type output_plaintext_line_line_writer_attack(slice_index si,
 stip_length_type output_plaintext_line_line_writer_defend(slice_index si,
                                                           stip_length_type n);
 
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type output_plaintext_line_intermediate_move_writer_attack(slice_index si, stip_length_type n);
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type output_plaintext_line_last_move_writer_attack(slice_index si,
-                                                               stip_length_type n);
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type discriminate_by_right_to_move_attack(slice_index si,
-                                                      stip_length_type n);
-
-/* allow line-oriented output to restore the initial position */
-void output_plaintext_line_save_position(void);
-
 #endif

@@ -165,11 +165,6 @@ stip_length_type mutual_castling_rights_adjuster_defend(slice_index si,
  */
 void insert_alternative_move_players(slice_index si, slice_type type);
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void insert_alternative_move_players_no_replay(slice_index si, slice_type type);
-
 /* Instrument slices with move tracers
  */
 void stip_insert_mutual_castling_rights_adjusters(slice_index si);

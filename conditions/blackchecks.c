@@ -76,26 +76,6 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_move_replay(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const landing = st->param;
-  slice_index const save_landing = *landing;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *landing = no_slice;
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  insert_null_move_handler(si,st);
-  *landing = save_landing;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void remember_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const landing = st->param;
@@ -127,9 +107,6 @@ void stip_insert_blackchecks(slice_index si)
 
   stip_structure_traversal_init(&st,&landing);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move_replay);
   stip_structure_traversal_override_single(&st,
                                            STLandingAfterMovingPieceMovement,
                                            &remember_landing);

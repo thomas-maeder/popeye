@@ -140,7 +140,7 @@ void stip_insert_exchange_castling(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  insert_alternative_move_players_no_replay(si,STExchangeCastlingMovePlayer);
+  insert_alternative_move_players(si,STExchangeCastlingMovePlayer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

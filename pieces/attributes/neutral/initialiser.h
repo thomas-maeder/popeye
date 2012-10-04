@@ -24,6 +24,11 @@ void setneutre(piece *p);
  */
 void initialise_neutrals(Side captured_side);
 
+/* make sure that the retracting neutrals belong to the right side if our
+ * posteriority has changed the neutral side*/
+void neutral_initialiser_recolor_retracting(void);
+void neutral_initialiser_recolor_replaying(void);
+
 /* Allocate a STPiecesParalysingMateFilter slice.
  * @param starter_or_adversary is the starter mated or its adversary?
  * @return index of allocated slice

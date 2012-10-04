@@ -37,6 +37,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/haunted_chess.h solving/battle_play/attack_play.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h \
+ solving/move_effect_journal.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  stipulation/goals/goals.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -50,8 +51,8 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  solving/post_move_iteration.h conditions/bgl.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
  conditions/anticirce/super.h conditions/circe/april.h \
- conditions/imitator.h solving/move_effect_journal.h \
- conditions/sentinelles.h utilities/table.h debugging/trace.h
+ conditions/imitator.h conditions/sentinelles.h utilities/table.h \
+ debugging/trace.h
 
 py.h:
 
@@ -96,6 +97,8 @@ stipulation/slice_type.h:
 solving/battle_play/defense_play.h:
 
 pydata.h:
+
+solving/move_effect_journal.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
@@ -154,8 +157,6 @@ conditions/anticirce/super.h:
 conditions/circe/april.h:
 
 conditions/imitator.h:
-
-solving/move_effect_journal.h:
 
 conditions/sentinelles.h:
 
@@ -333,10 +334,10 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h py1.h \
  pyproc.h py4.h stipulation/goals/goals.h pydata.h \
  conditions/haunted_chess.h solving/battle_play/attack_play.h \
- solving/battle_play/defense_play.h pydata.h pymsg.h \
- stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- solving/battle_play/attack_play.h solving/castling.h \
- solving/en_passant.h solving/single_move_generator.h \
+ solving/battle_play/defense_play.h pydata.h \
+ solving/move_effect_journal.h pymsg.h stipulation/has_solution_type.h \
+ stipulation/temporary_hacks.h solving/battle_play/attack_play.h \
+ solving/castling.h solving/en_passant.h solving/single_move_generator.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
@@ -397,6 +398,8 @@ solving/battle_play/attack_play.h:
 solving/battle_play/defense_play.h:
 
 pydata.h:
+
+solving/move_effect_journal.h:
 
 pymsg.h:
 
@@ -460,8 +463,9 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
  conditions/circe/cage.h conditions/circe/super.h \
  conditions/anticirce/super.h conditions/haunted_chess.h \
- conditions/singlebox/type1.h conditions/singlebox/type2.h \
- conditions/singlebox/type3.h pieces/attributes/paralysing/paralysing.h \
+ solving/move_effect_journal.h conditions/singlebox/type1.h \
+ conditions/singlebox/type2.h conditions/singlebox/type3.h \
+ pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h
 
@@ -559,6 +563,8 @@ conditions/anticirce/super.h:
 
 conditions/haunted_chess.h:
 
+solving/move_effect_journal.h:
+
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
@@ -580,8 +586,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/goals/goals.h utilities/boolean.h py.h pydata.h \
  conditions/haunted_chess.h solving/battle_play/attack_play.h \
  stipulation/slice.h stipulation/slice_type.h \
- solving/battle_play/defense_play.h pydata.h pymsg.h DHT/dhtbcmem.h \
- pyproof.h stipulation/slice.h solving/selfcheck_guard.h \
+ solving/battle_play/defense_play.h pydata.h \
+ solving/move_effect_journal.h pymsg.h DHT/dhtbcmem.h pyproof.h \
+ stipulation/slice.h solving/selfcheck_guard.h \
  solving/moving_pawn_promotion.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h solving/battle_play/attack_play.h \
@@ -597,7 +604,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/circe/assassin.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/messigny.h \
- conditions/actuated_revolving_centre.h solving/move_effect_journal.h \
+ conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/circe/rebirth_handler.h \
  conditions/circe/cage.h conditions/circe/kamikaze.h \
  conditions/circe/parrain.h conditions/circe/volage.h \
@@ -653,8 +660,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
- output/plaintext/line/line_writer.h debugging/trace.h \
- debugging/measure.h pyproc.h
+ debugging/trace.h debugging/measure.h pyproc.h
 
 py.h:
 
@@ -697,6 +703,8 @@ stipulation/slice_type.h:
 solving/battle_play/defense_play.h:
 
 pydata.h:
+
+solving/move_effect_journal.h:
 
 pymsg.h:
 
@@ -777,8 +785,6 @@ conditions/oscillating_kings.h:
 conditions/messigny.h:
 
 conditions/actuated_revolving_centre.h:
-
-solving/move_effect_journal.h:
 
 conditions/actuated_revolving_board.h:
 
@@ -991,8 +997,6 @@ optimisations/count_nr_opponent_moves/move_generator.h:
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
-
-output/plaintext/line/line_writer.h:
 
 debugging/trace.h:
 

@@ -272,10 +272,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = post_move_iteration_initialiser_attack(si,n);
       break;
 
-    case STMoveEffectJournalReplayer:
-      result = move_effect_journal_redoer_attack(si,n);
-      break;
-
     case STMoveEffectJournalUndoer:
       result = move_effect_journal_undoer_attack(si,n);
       break;
@@ -456,14 +452,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STOutputPlaintextLineLineWriter:
       result = output_plaintext_line_line_writer_attack(si,n);
-      break;
-
-    case STOutputPlaintextLineIntermediateMoveWriter:
-      result = output_plaintext_line_intermediate_move_writer_attack(si,n);
-      break;
-
-    case STOutputPlaintextLineLastMoveWriter:
-      result = output_plaintext_line_last_move_writer_attack(si,n);
       break;
 
     case STDiscriminateByRightToMove:

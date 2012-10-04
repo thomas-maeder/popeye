@@ -8,7 +8,6 @@
  */
 
 void stip_instrument_moves(slice_index si, slice_type type);
-void stip_instrument_moves_replay(slice_index si, slice_type type);
 
 /* Allocate a STMovePlayer slice.
  * @return index of allocated slice

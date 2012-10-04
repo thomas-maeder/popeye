@@ -238,7 +238,6 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
-#include "output/plaintext/line/line_writer.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #ifdef _SE_
@@ -2103,7 +2102,6 @@ static void reflectboard(void)
  */
 static void solveHalfADuplex(slice_index si)
 {
-  output_plaintext_line_save_position();
   inithash(si);
   attack(si,length_unspecified);
   closehash();

@@ -958,7 +958,9 @@ static void redo_board_transformation(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_move_effects(void)
+/* Redo the effects of the current move in ply nbply
+ */
+void redo_move_effects(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_index_type curr;
@@ -1036,7 +1038,9 @@ static void redo_move_effects(void)
   TraceFunctionResultEnd();
 }
 
-static void undo_move_effects(void)
+/* Undo the effects of the current move in ply nbply
+ */
+void undo_move_effects(void)
 {
   move_effect_journal_index_type const parent_top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type top;

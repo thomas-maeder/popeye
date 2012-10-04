@@ -162,9 +162,6 @@ void stip_insert_rebirth_avoider(slice_index si, slice_type type)
                                            STMove,
                                            &instrument_move);
   stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
                                            STKingCaptureLegalityTester,
                                            &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(&st,

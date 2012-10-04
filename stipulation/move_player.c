@@ -45,21 +45,6 @@ void stip_instrument_moves(slice_index si, slice_type type)
   TraceFunctionResultEnd();
 }
 
-void stip_instrument_moves_replay(slice_index si, slice_type type)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&type);
-  stip_structure_traversal_override_single(&st,STReplayingMoves,&instrument_move);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a STMovePlayer slice.
  * @return index of allocated slice
  */

@@ -210,10 +210,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = post_move_iteration_initialiser_defend(si,n);
       break;
 
-    case STMoveEffectJournalReplayer:
-      result = move_effect_journal_redoer_defend(si,n);
-      break;
-
     case STMoveEffectJournalUndoer:
       result = move_effect_journal_undoer_defend(si,n);
       break;

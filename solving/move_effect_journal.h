@@ -335,4 +335,12 @@ stip_length_type move_effect_journal_redoer_attack(slice_index si,
 stip_length_type move_effect_journal_redoer_defend(slice_index si,
                                                    stip_length_type n);
 
+/* Undo the effects of the current move in ply nbply
+ */
+void undo_move_effects(void);
+
+/* Redo the effects of the current move in ply nbply
+ */
+void redo_move_effects(void);
+
 #endif

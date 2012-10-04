@@ -544,34 +544,6 @@ void insert_alternative_move_players(slice_index si, slice_type type)
                                            STMove,
                                            &instrument_move);
   stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STLandingAfterMovingPieceMovement,
-                                           &remember_landing);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void insert_alternative_move_players_no_replay(slice_index si, slice_type type)
-{
-  stip_structure_traversal st;
-  alternative_move_player_installation_state_type state = { type, no_slice };
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
                                            STLandingAfterMovingPieceMovement,
                                            &remember_landing);
   stip_traverse_structure(si,&st);
@@ -587,7 +559,7 @@ void stip_insert_castling(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  insert_alternative_move_players_no_replay(si,STCastlingPlayer);
+  insert_alternative_move_players(si,STCastlingPlayer);
   stip_instrument_moves(si,STCastlingRightsAdjuster);
 
   TraceFunctionExit(__func__);

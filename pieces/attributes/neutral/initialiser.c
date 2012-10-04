@@ -52,12 +52,21 @@ void initialise_neutrals(Side captured_side)
   /* I don't know why, but the solution below is not slower */
   /* than the double loop solution of genblanc(). NG */
 
+  TraceEnumerator(Side,neutral_side,"\n");
   if (neutral_side!=captured_side)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
+    {
+      if (e[*bnp]!=vide)
+      {
+        TraceSquare(*bnp);
+        TraceValue("%d",e[*bnp]);
+        TraceValue("%u\n",TSTFLAG(spec[*bnp],Neutral));
+      }
       if (TSTFLAG(spec[*bnp],Neutral))
         piece_change_side(&e[*bnp]);
+    }
 
     neutral_side = captured_side;
   }
@@ -140,7 +149,7 @@ stip_length_type neutral_initialiser_defend(slice_index si, stip_length_type n)
 
 /* make sure that the retracting neutrals belong to the right side if our
  * posteriority has changed the neutral side*/
-static void recolor_retracting(void)
+void neutral_initialiser_recolor_retracting(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_index_type curr;
@@ -203,7 +212,7 @@ stip_length_type neutral_retracting_recolorer_attack(slice_index si,
 
   result = attack(slices[si].next1,n);
 
-  recolor_retracting();
+  neutral_initialiser_recolor_retracting();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -232,7 +241,7 @@ stip_length_type neutral_retracting_recolorer_defend(slice_index si,
 
   result = defend(slices[si].next1,n);
 
-  recolor_retracting();
+  neutral_initialiser_recolor_retracting();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -240,7 +249,7 @@ stip_length_type neutral_retracting_recolorer_defend(slice_index si,
   return result;
 }
 
-static void recolor_replaying(void)
+void neutral_initialiser_recolor_replaying(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_index_type curr;
@@ -293,7 +302,7 @@ stip_length_type neutral_replaying_recolorer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  recolor_replaying();
+  neutral_initialiser_recolor_replaying();
 
   result = attack(slices[si].next1,n);
 
@@ -322,7 +331,7 @@ stip_length_type neutral_replaying_recolorer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  recolor_replaying();
+  neutral_initialiser_recolor_replaying();
 
   result = defend(slices[si].next1,n);
 
@@ -366,13 +375,9 @@ void stip_insert_neutral_initialisers(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STGeneratingMoves,
                                            &insert_initialser);
-  stip_structure_traversal_override_single(&st,
-                                           STReplayingMoves,
-                                           &insert_initialser);
   stip_traverse_structure(si,&st);
 
   stip_instrument_moves(si,STPiecesNeutralRetractingRecolorer);
-  stip_instrument_moves_replay(si,STPiecesNeutralReplayingRecolorer);
   stip_instrument_moves(si,STPiecesNeutralReplayingRecolorer);
 
   TraceStipulation(si);

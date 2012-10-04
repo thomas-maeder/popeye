@@ -33,7 +33,6 @@
     ENUMERATOR(STForEachMove), /* iterate over each generated move */  \
     ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
     ENUMERATOR(STPostMoveIterationInitialiser),                        \
-    ENUMERATOR(STMoveEffectJournalReplayer),                           \
     ENUMERATOR(STMoveEffectJournalUndoer),                             \
     ENUMERATOR(STMovePlayer),                                          \
     ENUMERATOR(STCastlingPlayer),                                      \
@@ -104,7 +103,6 @@
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
     ENUMERATOR(STGeneratingMoves),  /* proxy marking start of move generation */ \
-    ENUMERATOR(STReplayingMoves),  /* proxy marking start of move replay */ \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
@@ -298,8 +296,6 @@
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
     ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
-    ENUMERATOR(STOutputPlaintextLineIntermediateMoveWriter),            \
-    ENUMERATOR(STOutputPlaintextLineLastMoveWriter),                    \
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \

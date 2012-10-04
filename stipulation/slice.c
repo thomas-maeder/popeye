@@ -87,7 +87,6 @@ static slice_type const fork_slice_types[] =
     STCageCirceNonCapturingMoveFinder,
     STMaximummerCandidateMoveTester,
     STTrivialEndFilter,
-    STOutputPlaintextLineLineWriter,
     STDiscriminateByRightToMove,
     STNullMovePlayer,
     STCastlingPlayer,
@@ -181,7 +180,6 @@ static slice_type const proxy_slice_types[] =
     STGoalDoubleStalemateReachedTester,
     STGoalAutoStalemateReachedTester,
     STGeneratingMoves,
-    STReplayingMoves,
     STEndOfRefutationSolvingBranch,
     STSolvingContinuation,
     STThreatStart,
@@ -287,8 +285,6 @@ static slice_type const writer_slice_types[] =
     STRefutationWriter,
     STOutputPlaintextTreeCheckWriter,
     STOutputPlaintextLineLineWriter,
-    STOutputPlaintextLineIntermediateMoveWriter,
-    STOutputPlaintextLineLastMoveWriter,
     STOutputPlaintextTreeGoalWriter
 };
 

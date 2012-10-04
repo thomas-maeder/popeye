@@ -16,7 +16,7 @@ void stip_insert_messigny(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_alternative_move_players_no_replay(si,STMessignyMovePlayer);
+  insert_alternative_move_players(si,STMessignyMovePlayer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -47,7 +47,6 @@ stip_length_type messigny_move_player_attack(slice_index si, stip_length_type n)
     square const sq_arrival = move_gen_top->arrival;
     square const sq_departure = move_gen_top->departure;
     piece const pi_moving = e[sq_departure];
-    Flags const spec_pi_moving = spec[sq_departure];
 
     pjoue[nbply] = pi_moving;
     pprise[nbply] = e[sq_arrival];
@@ -95,7 +94,6 @@ stip_length_type messigny_move_player_defend(slice_index si, stip_length_type n)
     square const sq_arrival = move_gen_top->arrival;
     square const sq_departure = move_gen_top->departure;
     piece const pi_moving = e[sq_departure];
-    Flags const spec_pi_moving = spec[sq_departure];
 
     pjoue[nbply] = pi_moving;
     pprise[nbply] = e[sq_arrival];

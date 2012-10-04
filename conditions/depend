@@ -1306,9 +1306,8 @@ conditions/duellists$(OBJ_SUFFIX): conditions/duellists.c conditions/duellists.h
  pyproc.h py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ debugging/trace.h
 
 conditions/duellists.h:
 
@@ -1360,13 +1359,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/pipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
+stipulation/move_player.h:
 
 debugging/trace.h:
 conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
