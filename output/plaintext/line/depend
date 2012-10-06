@@ -94,18 +94,14 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  stipulation/slice.h stipulation/slice_type.h \
  solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/boolean/true.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
- stipulation/has_solution_type.h \
- stipulation/discriminate_by_right_to_move.h \
- stipulation/help_play/adapter.h solving/fork_on_remaining.h py1.h \
- pydata.h conditions/haunted_chess.h solving/move_effect_journal.h \
- debugging/trace.h pymsg.h output/plaintext/plaintext.h \
+ stipulation/goals/goals.h utilities/boolean.h pymsg.h \
+ output/plaintext/plaintext.h stipulation/goals/goals.h \
  output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h \
- pieces/attributes/neutral/initialiser.h platform/beep.h
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/pipe.h solving/move_effect_journal.h platform/beep.h \
+ debugging/trace.h
 
 output/plaintext/line/line_writer.h:
 
@@ -145,53 +141,33 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
+pymsg.h:
+
+output/plaintext/plaintext.h:
+
+stipulation/goals/goals.h:
+
+output/plaintext/move_inversion_counter.h:
+
+output/plaintext/line/end_of_intro_series_marker.h:
+
 stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/goals/goals.h:
-
 output/mode.h:
-
-stipulation/boolean/true.h:
-
-stipulation/proxy.h:
-
-stipulation/pipe.h:
-
-stipulation/fork.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/discriminate_by_right_to_move.h:
-
-stipulation/help_play/adapter.h:
-
-solving/fork_on_remaining.h:
-
-py1.h:
-
-pydata.h:
-
-conditions/haunted_chess.h:
+stipulation/pipe.h:
 
 solving/move_effect_journal.h:
 
-debugging/trace.h:
-
-pymsg.h:
-
-output/plaintext/plaintext.h:
-
-output/plaintext/move_inversion_counter.h:
-
-output/plaintext/line/end_of_intro_series_marker.h:
-
-pieces/attributes/neutral/initialiser.h:
-
 platform/beep.h:
+
+debugging/trace.h:
 output/plaintext/line/end_of_intro_series_marker$(OBJ_SUFFIX): \
  output/plaintext/line/end_of_intro_series_marker.c \
  output/plaintext/line/end_of_intro_series_marker.h \

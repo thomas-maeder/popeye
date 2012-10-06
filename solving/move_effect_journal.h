@@ -31,6 +31,8 @@ typedef enum
   move_effect_imitator_movement,
   move_effect_remember_ghost,
   move_effect_forget_ghost,
+  move_effect_neutral_recoloring_do,
+  move_effect_neutral_recoloring_undo,
 
   nr_move_effect_types
 } move_effect_type;
@@ -80,7 +82,9 @@ typedef enum
   move_effect_reason_royal_dynasty,
   move_effect_reason_actuate_revolving_board,
   move_effect_reason_actuate_revolving_centre,
-  move_effect_reason_singlebox_promotion
+  move_effect_reason_singlebox_promotion,
+  move_effect_reason_neutral_recoloring,
+
 } move_effect_reason_type;
 
 typedef unsigned int move_effect_journal_index_type;

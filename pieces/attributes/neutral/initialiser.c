@@ -192,6 +192,28 @@ void neutral_initialiser_recolor_retracting(void)
   TraceFunctionResultEnd();
 }
 
+static void move_effect_journal_undo_neutral_initialisation(void)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_neutral_recoloring_undo;
+  top_elmt->reason = move_effect_reason_neutral_recoloring;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -210,9 +232,8 @@ stip_length_type neutral_retracting_recolorer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  move_effect_journal_undo_neutral_initialisation();
   result = attack(slices[si].next1,n);
-
-  neutral_initialiser_recolor_retracting();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -239,9 +260,8 @@ stip_length_type neutral_retracting_recolorer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  move_effect_journal_undo_neutral_initialisation();
   result = defend(slices[si].next1,n);
-
-  neutral_initialiser_recolor_retracting();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -284,6 +304,30 @@ void neutral_initialiser_recolor_replaying(void)
   TraceFunctionResultEnd();
 }
 
+static void move_effect_journal_do_neutral_initialisation(void)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_neutral_recoloring_do;
+  top_elmt->reason = move_effect_reason_neutral_recoloring;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  neutral_initialiser_recolor_replaying();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -302,7 +346,7 @@ stip_length_type neutral_replaying_recolorer_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  neutral_initialiser_recolor_replaying();
+  move_effect_journal_do_neutral_initialisation();
 
   result = attack(slices[si].next1,n);
 
@@ -331,7 +375,7 @@ stip_length_type neutral_replaying_recolorer_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  neutral_initialiser_recolor_replaying();
+  move_effect_journal_do_neutral_initialisation();
 
   result = defend(slices[si].next1,n);
 

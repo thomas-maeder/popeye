@@ -136,7 +136,8 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h conditions/imitator.h \
  conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
- pieces/attributes/neutral/half.h debugging/trace.h
+ pieces/attributes/neutral/half.h pieces/attributes/neutral/initialiser.h \
+ debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -193,6 +194,8 @@ conditions/actuated_revolving_centre.h:
 conditions/haunted_chess.h:
 
 pieces/attributes/neutral/half.h:
+
+pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \

@@ -9,7 +9,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "solving/move_effect_journal.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "platform/beep.h"
 #include "debugging/trace.h"
 
@@ -60,9 +59,9 @@ static void write_line_intro(unsigned int *next_move_number)
 }
 
 static void write_move_number_if_necessary(unsigned int *next_move_number,
-                                           Side const *side_to_move)
+                                           Side const *numbered_side)
 {
-  if (trait[nbply]==*side_to_move)
+  if (trait[nbply]==*numbered_side)
   {
     sprintf(GlobalStr,"%3u.",*next_move_number);
     StdString(GlobalStr);
@@ -87,7 +86,7 @@ static void write_potential_check(void)
 }
 
 static void write_ply_history(unsigned int *next_move_number,
-                              Side *side_to_move)
+                              Side *numbered_side)
 {
   ply const start_ply = 2;
   ply const child_nbply = nbply;
@@ -104,27 +103,25 @@ static void write_ply_history(unsigned int *next_move_number,
     if (encore())
     {
       undo_move_effects();
-      neutral_initialiser_recolor_retracting();
 
-      write_ply_history(next_move_number,side_to_move);
+      write_ply_history(next_move_number,numbered_side);
 
       redo_move_effects();
-      neutral_initialiser_recolor_replaying();
 
-      write_move_number_if_necessary(next_move_number,side_to_move);
+      write_move_number_if_necessary(next_move_number,numbered_side);
       output_plaintext_write_move();
       write_potential_check();
       StdChar(blank);
     }
     else
       /* dummy move ply */
-      write_ply_history(next_move_number,side_to_move);
+      write_ply_history(next_move_number,numbered_side);
   }
 
   if (is_end_of_intro_series[nbply])
   {
     *next_move_number = 1;
-    *side_to_move = trait[child_nbply];
+    *numbered_side = trait[child_nbply];
   }
 
   nbply = child_nbply;
@@ -133,14 +130,14 @@ static void write_ply_history(unsigned int *next_move_number,
   TraceFunctionResultEnd();
 }
 
-static void write_line(slice_index si, Side side_to_move)
+static void write_line(slice_index si, Side numbered_side)
 {
   goal_type const type = slices[si].u.goal_handler.goal.type;
   unsigned int next_movenumber = 1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,side_to_move,"");
+  TraceEnumerator(Side,numbered_side,"");
   TraceFunctionParamListEnd();
 
 #ifdef _SE_DECORATE_SOLUTION_
@@ -150,14 +147,12 @@ static void write_line(slice_index si, Side side_to_move)
   write_line_intro(&next_movenumber);
 
   undo_move_effects();
-  neutral_initialiser_recolor_retracting();
 
-  write_ply_history(&next_movenumber,&side_to_move);
+  write_ply_history(&next_movenumber,&numbered_side);
 
   redo_move_effects();
-  neutral_initialiser_recolor_replaying();
 
-  write_move_number_if_necessary(&next_movenumber,&side_to_move);
+  write_move_number_if_necessary(&next_movenumber,&numbered_side);
   output_plaintext_write_move();
   if (!output_plaintext_goal_writer_replaces_check_writer(type))
     write_potential_check();

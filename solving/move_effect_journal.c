@@ -5,6 +5,7 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
 #include "pieces/attributes/neutral/half.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -1029,6 +1030,14 @@ void redo_move_effects(void)
         move_effect_journal_redo_forget_ghost(curr);
         break;
 
+      case move_effect_neutral_recoloring_do:
+        neutral_initialiser_recolor_replaying();
+        break;
+
+      case move_effect_neutral_recoloring_undo:
+        /* nothing */
+        break;
+
       default:
         assert(0);
         break;
@@ -1108,6 +1117,14 @@ void undo_move_effects(void)
 
       case move_effect_forget_ghost:
         move_effect_journal_undo_forget_ghost(top-1);
+        break;
+
+      case move_effect_neutral_recoloring_do:
+        /* nothing */
+        break;
+
+      case move_effect_neutral_recoloring_undo:
+        neutral_initialiser_recolor_retracting();
         break;
 
       default:
