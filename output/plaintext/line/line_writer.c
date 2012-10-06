@@ -22,14 +22,12 @@
  * Slices of this type write lines in line mode.
  */
 
-/* identifies a slice whose starter is the nominal starter of the stipulation
- * before any move inversions are applied
- * (e.g. in a h#N.5, this slice's starter is Black)
- */
-slice_index output_plaintext_slice_determining_starter = no_slice;
-
-static void write_line_intro(unsigned int *next_move_number)
+static void write_line_intro(unsigned int *next_move_number,
+                             Side *numbered_side)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (OptFlag[beep])
     produce_beep();
 
@@ -41,26 +39,42 @@ static void write_line_intro(unsigned int *next_move_number)
     case 2:
       StdString("  1...  ...");
       *next_move_number = 2;
+      *numbered_side = trait[nbply];
       break;
 
     case 1:
       StdString("  1...");
       *next_move_number = 2;
+      *numbered_side = advers(trait[nbply]);
       break;
 
     case 0:
-      /* nothing */
+      *next_move_number = 1;
+      *numbered_side = trait[nbply];
       break;
 
     default:
       assert(0);
       break;
   }
+
+  TraceValue("%u",*next_move_number);
+  TraceValue("%u",nbply);
+  TraceEnumerator(Side,trait[nbply],"");
+  TraceEnumerator(Side,*numbered_side,"\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_move_number_if_necessary(unsigned int *next_move_number,
                                            Side const *numbered_side)
 {
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",*next_move_number);
+  TraceEnumerator(Side,*numbered_side,"");
+  TraceFunctionParamListEnd();
+
   if (trait[nbply]==*numbered_side)
   {
     sprintf(GlobalStr,"%3u.",*next_move_number);
@@ -68,6 +82,9 @@ static void write_move_number_if_necessary(unsigned int *next_move_number,
 
     ++*next_move_number;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void write_potential_check(void)
@@ -89,68 +106,63 @@ static void write_ply_history(unsigned int *next_move_number,
                               Side *numbered_side)
 {
   ply const start_ply = 2;
-  ply const child_nbply = nbply;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",parent_ply[nbply]);
-  nbply = parent_ply[nbply];
-
-  if (nbply>=start_ply)
+  if (nbply==start_ply)
+    write_line_intro(next_move_number,numbered_side);
+  else
   {
+    ply const child_nbply = nbply;
+
+    undo_move_effects();
+
+    TraceValue("%u",nbply);
+    TraceValue("%u\n",parent_ply[nbply]);
+    nbply = parent_ply[nbply];
+
+    write_ply_history(next_move_number,numbered_side);
+
     if (encore())
     {
-      undo_move_effects();
-
-      write_ply_history(next_move_number,numbered_side);
-
-      redo_move_effects();
-
+      /* not a dummy move ply */
       write_move_number_if_necessary(next_move_number,numbered_side);
       output_plaintext_write_move();
       write_potential_check();
       StdChar(blank);
     }
-    else
-      /* dummy move ply */
-      write_ply_history(next_move_number,numbered_side);
-  }
 
-  if (is_end_of_intro_series[nbply])
-  {
-    *next_move_number = 1;
-    *numbered_side = trait[child_nbply];
-  }
+    if (is_end_of_intro_series[nbply])
+    {
+      *next_move_number = 1;
+      *numbered_side = trait[child_nbply];
+    }
 
-  nbply = child_nbply;
+    nbply = child_nbply;
+
+    redo_move_effects();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void write_line(slice_index si, Side numbered_side)
+static void write_line(slice_index si)
 {
   goal_type const type = slices[si].u.goal_handler.goal.type;
-  unsigned int next_movenumber = 1;
+  unsigned int next_movenumber = 0;
+  Side numbered_side = no_side;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,numbered_side,"");
   TraceFunctionParamListEnd();
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_start_pos();
 #endif
 
-  write_line_intro(&next_movenumber);
-
-  undo_move_effects();
-
   write_ply_history(&next_movenumber,&numbered_side);
-
-  redo_move_effects();
 
   write_move_number_if_necessary(&next_movenumber,&numbered_side);
   output_plaintext_write_move();
@@ -212,13 +224,7 @@ stip_length_type output_plaintext_line_line_writer_attack(slice_index si, stip_l
   result = attack(slices[si].next1,n);
 
   if (slack_length<=result && result<=n)
-  {
-    Side initial_starter = slices[output_plaintext_slice_determining_starter].starter;
-    if (areColorsSwapped)
-      initial_starter = advers(initial_starter);
-    TraceValue("%u\n",output_plaintext_slice_determining_starter);
-    write_line(si,initial_starter);
-  }
+    write_line(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -249,13 +255,7 @@ stip_length_type output_plaintext_line_line_writer_defend(slice_index si, stip_l
   result = defend(slices[si].next1,n);
 
   if (result<=n+2)
-  {
-    Side initial_starter = slices[output_plaintext_slice_determining_starter].starter;
-    if (areColorsSwapped)
-      initial_starter = advers(initial_starter);
-    TraceValue("%u\n",output_plaintext_slice_determining_starter);
-    write_line(si,initial_starter);
-  }
+    write_line(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

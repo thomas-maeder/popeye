@@ -1,7 +1,7 @@
 #include "output/plaintext/line/line.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
-#include "pyoutput.h"
+#include "output/output.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -46,23 +46,6 @@ static void instrument_goal_reached_tester(slice_index si,
     slice_index const prototype = alloc_line_writer_slice(goal);
     help_branch_insert_slices(si,&prototype,1);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*root_slice==no_slice)
-    *root_slice = si;
-
-  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -185,14 +168,9 @@ static void instrument_end_of_branch(slice_index si,
 static void insert_move_inversion_counter(slice_index si,
                                           stip_structure_traversal *st)
 {
-  slice_index * const root_slice = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  if (*root_slice==no_slice)
-    *root_slice = si;
 
   stip_traverse_structure_children_pipe(si,st);
 
@@ -207,9 +185,7 @@ static structure_traversers_visitor regular_inserters[] =
 {
   { STMoveInverter,      &insert_move_inversion_counter  },
   { STPlaySuppressor,    &instrument_suppressor          },
-  { STGoalReachedTester, &instrument_goal_reached_tester },
-  { STAttackAdapter,     &instrument_root                },
-  { STHelpAdapter,       &instrument_root                }
+  { STGoalReachedTester, &instrument_goal_reached_tester }
 };
 
 enum
@@ -230,9 +206,7 @@ void stip_insert_output_plaintext_line_slices(slice_index si)
 
   TraceStipulation(si);
 
-  output_plaintext_slice_determining_starter = no_slice;
-
-  stip_structure_traversal_init(&st,&output_plaintext_slice_determining_starter);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
                                                 &stip_traverse_structure_children_pipe);
