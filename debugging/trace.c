@@ -564,7 +564,7 @@ void TraceStipulation(slice_index si)
 stip_length_type move_tracer_solve(slice_index si, stip_length_type n)
 {
   TraceCurrentMove();
-  return attack(slices[si].next1,n);
+  return solve(slices[si].next1,n);
 }
 
 /* Instrument slices with move tracers
