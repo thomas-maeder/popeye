@@ -96,7 +96,6 @@
     ENUMERATOR(STOr),       /* logical OR */                            \
     ENUMERATOR(STNot),             /* logical NOT */                    \
     /* auxiliary slices */                                              \
-    ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side has exposed its king */ \
     ENUMERATOR(STOhneschachCheckGuard),  /* stop when a side has attacked the opponent's king */ \
     ENUMERATOR(STMoveInverter),    /* inverts side to move */           \

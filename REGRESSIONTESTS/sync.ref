@@ -140,7 +140,7 @@ a)
               empile:       44179
            play_move:       32254
         orig_rbechec:       19217
-        orig_rnechec:       14223
+        orig_rnechec:       14220
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
@@ -161,7 +161,7 @@ b) BlackSynchronMover
               empile:        1393
            play_move:         786
         orig_rbechec:         401
-        orig_rnechec:         410
+        orig_rnechec:         409
 solution finished. 
 
 

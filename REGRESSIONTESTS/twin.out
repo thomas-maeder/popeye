@@ -150,7 +150,7 @@ c) s#2
               empile:        4589
            play_move:        3455
         orig_rbechec:        3456
-        orig_rnechec:        1279
+        orig_rnechec:        1278
 d) h=2
 
   1.e6-e5 e7-e8=T   2.e5-e4 + Te8*e4 = 
@@ -554,7 +554,7 @@ a)
               empile:        8410
            play_move:        6166
         orig_rbechec:         881
-        orig_rnechec:        6169
+        orig_rnechec:        6168
 b) Circe
 
    1.Sg8-f6 !
@@ -595,7 +595,7 @@ b) Circe
               empile:        5587
            play_move:        3973
         orig_rbechec:         797
-        orig_rnechec:        3976
+        orig_rnechec:        3975
 Loesung beendet. 
 
 
@@ -661,7 +661,7 @@ b) s#2
               empile:       14297
            play_move:        6662
         orig_rbechec:        6666
-        orig_rnechec:        3644
+        orig_rnechec:        3640
 Loesung beendet. 
 
 
@@ -708,7 +708,7 @@ a)
               empile:        5374
            play_move:        2640
         orig_rbechec:         570
-        orig_rnechec:        2643
+        orig_rnechec:        2642
 b) wBe5-->c5
 
    1.Sh1*f2 !
@@ -725,7 +725,7 @@ b) wBe5-->c5
               empile:        4663
            play_move:        2269
         orig_rbechec:         478
-        orig_rnechec:        2272
+        orig_rnechec:        2271
 Loesung beendet. 
 
 
@@ -771,7 +771,7 @@ a)
               empile:        1424
            play_move:         826
         orig_rbechec:         163
-        orig_rnechec:         829
+        orig_rnechec:         828
 b) =2
 
    1.d2-d4 !
@@ -788,7 +788,7 @@ b) =2
               empile:       11063
            play_move:        7456
         orig_rbechec:        1374
-        orig_rnechec:        7449
+        orig_rnechec:        7448
 Loesung beendet. 
 
 

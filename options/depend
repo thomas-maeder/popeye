@@ -262,7 +262,7 @@ options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
  stipulation/branch.h stipulation/dummy_move.h stipulation/move_played.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h solving/solving.h \
- solving/battle_play/check_detector.h debugging/trace.h
+ debugging/trace.h
 
 options/maxthreatlength.h:
 
@@ -327,8 +327,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 solving/solving.h:
-
-solving/battle_play/check_detector.h:
 
 debugging/trace.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \

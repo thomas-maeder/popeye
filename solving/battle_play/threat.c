@@ -8,7 +8,6 @@
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/solving.h"
-#include "solving/battle_play/check_detector.h"
 #include "solving/avoid_unsolvable.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
@@ -135,7 +134,7 @@ stip_length_type threat_solver_solve(slice_index si, stip_length_type n)
   TraceValue("%u\n",threats_ply);
   threats[threats_ply] = allocate_table();
 
-  if (!attack_gives_check[nbply])
+  if (!echecc(slices[si].starter))
     threat_lengths[threats_ply] = solve(slices[si].next2,n)-1;
 
   result = solve(next,n);

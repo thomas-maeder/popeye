@@ -34,7 +34,7 @@ a)
               empile:        1151
            play_move:         955
         orig_rbechec:         282
-        orig_rnechec:         958
+        orig_rnechec:         957
 b) =2
 
    1.b6*a7[wPa7->b6] = !
@@ -47,7 +47,7 @@ b) =2
               empile:        3498
            play_move:        1830
         orig_rbechec:         836
-        orig_rnechec:        1682
+        orig_rnechec:        1681
 solution finished. 
 
 

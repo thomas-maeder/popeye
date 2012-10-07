@@ -6,7 +6,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/battle_play/check_detector.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -94,7 +93,6 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
     slice_index const prototypes[] =
     {
       alloc_move_writer_slice(),
-      alloc_check_detector_slice(),
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -338,8 +336,6 @@ static void insert_postkey_writers(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-      /* indicate check in the diagram position */
-      alloc_check_detector_slice(),
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -556,7 +552,6 @@ static structure_traversers_visitor const goal_writer_slice_inserters[] =
   { STGoalReachedTester,              &remember_goal                        },
   { STKeyWriter,                      &remember_key_writer                  },
   { STMoveWriter,                     &remove_continuation_writer_if_unused },
-  { STCheckDetector,                  &remove_check_handler_if_unused       },
   { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
 };
 

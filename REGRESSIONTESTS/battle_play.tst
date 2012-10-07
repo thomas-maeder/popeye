@@ -581,7 +581,7 @@ solution finished.
               empile:          21
            play_move:          21
         orig_rbechec:          22
-        orig_rnechec:           6
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -616,7 +616,7 @@ solution finished.
               empile:         106
            play_move:          70
         orig_rbechec:          70
-        orig_rnechec:          23
+        orig_rnechec:          22
 solution finished. 
 
 
@@ -652,7 +652,7 @@ s#1 with incomplete set play (not given)
               empile:         104
            play_move:          68
         orig_rbechec:          66
-        orig_rnechec:          27
+        orig_rnechec:          26
 solution finished. 
 
 
@@ -689,7 +689,7 @@ solution finished.
               empile:         160
            play_move:         119
         orig_rbechec:         120
-        orig_rnechec:          35
+        orig_rnechec:          34
 solution finished. 
 
 
@@ -748,7 +748,7 @@ solution finished.
               empile:         233
            play_move:         190
         orig_rbechec:         166
-        orig_rnechec:         119
+        orig_rnechec:         112
 solution finished. 
 
 
@@ -783,7 +783,7 @@ solution finished.
               empile:         561
            play_move:         542
         orig_rbechec:         105
-        orig_rnechec:         506
+        orig_rnechec:         505
 solution finished. 
 
 
@@ -818,7 +818,7 @@ solution finished.
               empile:          18
            play_move:          18
         orig_rbechec:          11
-        orig_rnechec:          11
+        orig_rnechec:          10
 solution finished. 
 
 
@@ -854,7 +854,7 @@ solution finished.
               empile:         255
            play_move:         165
         orig_rbechec:         167
-        orig_rnechec:          69
+        orig_rnechec:          68
 solution finished. 
 
 
@@ -891,7 +891,7 @@ solution finished.
               empile:        3013
            play_move:        1440
         orig_rbechec:        1441
-        orig_rnechec:         771
+        orig_rnechec:         770
 solution finished. 
 
 
@@ -1005,7 +1005,7 @@ solution finished.
               empile:        3275
            play_move:        1577
         orig_rbechec:        1580
-        orig_rnechec:         783
+        orig_rnechec:         780
 solution finished. 
 
 
@@ -1044,7 +1044,7 @@ solution finished.
               empile:         672
            play_move:         419
         orig_rbechec:         421
-        orig_rnechec:         148
+        orig_rnechec:         146
 solution finished. 
 
 
@@ -1108,7 +1108,7 @@ solution finished.
               empile:        3901
            play_move:        2085
         orig_rbechec:        2072
-        orig_rnechec:         994
+        orig_rnechec:         984
 solution finished. 
 
 
@@ -1141,7 +1141,7 @@ solution finished.
               empile:           4
            play_move:           4
         orig_rbechec:           5
-        orig_rnechec:           3
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1176,7 +1176,7 @@ solution finished.
               empile:          30
            play_move:          29
         orig_rbechec:          29
-        orig_rnechec:           8
+        orig_rnechec:           7
 solution finished. 
 
 
@@ -1213,7 +1213,7 @@ solution finished.
               empile:          19
            play_move:          19
         orig_rbechec:          20
-        orig_rnechec:           6
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -1282,7 +1282,7 @@ solution finished.
               empile:          52
            play_move:          44
         orig_rbechec:          43
-        orig_rnechec:          11
+        orig_rnechec:          10
 solution finished. 
 
 
@@ -1315,7 +1315,7 @@ solution finished.
               empile:           5
            play_move:           5
         orig_rbechec:           6
-        orig_rnechec:           3
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1352,7 +1352,7 @@ solution finished.
               empile:         307
            play_move:         201
         orig_rbechec:         174
-        orig_rnechec:          57
+        orig_rnechec:          56
 solution finished. 
 
 
@@ -1389,7 +1389,7 @@ r#2 with short set play and short solution
               empile:          24
            play_move:          24
         orig_rbechec:          25
-        orig_rnechec:           7
+        orig_rnechec:           6
 solution finished. 
 
 
@@ -1426,7 +1426,7 @@ exact r#2 that would have a solution in 1
               empile:         849
            play_move:         610
         orig_rbechec:         564
-        orig_rnechec:         176
+        orig_rnechec:         175
 solution finished. 
 
 
@@ -1497,7 +1497,7 @@ solution finished.
               empile:        1038
            play_move:         680
         orig_rbechec:         601
-        orig_rnechec:         183
+        orig_rnechec:         182
 solution finished. 
 
 
@@ -1552,7 +1552,7 @@ solution finished.
               empile:        9345
            play_move:        6012
         orig_rbechec:        5347
-        orig_rnechec:        1273
+        orig_rnechec:        1272
 solution finished. 
 
 
@@ -1664,7 +1664,7 @@ would have to deliver mate (issue 2843251)
               empile:         484
            play_move:         343
         orig_rbechec:         307
-        orig_rnechec:          97
+        orig_rnechec:          94
 solution finished. 
 
 
@@ -1697,7 +1697,7 @@ solution finished.
               empile:           4
            play_move:           4
         orig_rbechec:           5
-        orig_rnechec:           3
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1732,7 +1732,7 @@ solution finished.
               empile:         104
            play_move:          59
         orig_rbechec:          59
-        orig_rnechec:          11
+        orig_rnechec:          10
 solution finished. 
 
 
@@ -1801,7 +1801,7 @@ semi-r#2 with short solution; White needn't deliver mate immediately
               empile:         225
            play_move:         165
         orig_rbechec:         154
-        orig_rnechec:          30
+        orig_rnechec:          29
 solution finished. 
 
 
@@ -1904,7 +1904,7 @@ solution finished.
               empile:       55042
            play_move:       32181
         orig_rbechec:       28761
-        orig_rnechec:       10229
+        orig_rnechec:       10226
 solution finished. 
 
 

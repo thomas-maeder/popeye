@@ -56,68 +56,6 @@ utilities/boolean.h:
 output/mode.h:
 
 debugging/trace.h:
-solving/battle_play/check_detector$(OBJ_SUFFIX): \
- solving/battle_play/check_detector.c \
- solving/battle_play/check_detector.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h
-
-solving/battle_play/check_detector.h:
-
-solving/solve.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-position/piece.h:
-
-utilities/enumeration.h:
-
-pylang.h:
-
-pydata.h:
-
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-stipulation/goals/goals.h:
-
-utilities/boolean.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/traversal.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-debugging/trace.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  solving/battle_play/threat.h stipulation/structure_traversal.h \
  stipulation/slice.h py.h utilities/boolean.h position/position.h \
@@ -130,8 +68,7 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  stipulation/dummy_move.h stipulation/move_played.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h solving/solving.h \
- solving/battle_play/check_detector.h solving/avoid_unsolvable.h \
- utilities/table.h debugging/trace.h
+ solving/avoid_unsolvable.h utilities/table.h debugging/trace.h
 
 solving/battle_play/threat.h:
 
@@ -196,8 +133,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 solving/solving.h:
-
-solving/battle_play/check_detector.h:
 
 solving/avoid_unsolvable.h:
 

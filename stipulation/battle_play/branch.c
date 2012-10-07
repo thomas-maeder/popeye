@@ -192,7 +192,6 @@ static slice_index const slice_rank_order[] =
   STThreatWriter,
   STThreatEnd,
   STMoveWriter,
-  STCheckDetector,
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STRefutationsSolver,

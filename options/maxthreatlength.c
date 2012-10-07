@@ -9,7 +9,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/solve.h"
 #include "solving/solving.h"
-#include "solving/battle_play/check_detector.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

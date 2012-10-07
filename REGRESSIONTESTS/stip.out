@@ -253,8 +253,8 @@ Loesung beendet.
 
               empile:     1950074
            play_move:      397249
-        orig_rbechec:      387355
-        orig_rnechec:       96988
+        orig_rbechec:      387354
+        orig_rnechec:       96987
 Loesung beendet. 
 
 
@@ -649,7 +649,7 @@ Loesung beendet.
               empile:        9953
            play_move:         853
         orig_rbechec:         538
-        orig_rnechec:         560
+        orig_rnechec:         548
 Loesung beendet. 
 
 
@@ -980,7 +980,7 @@ b) exact-#2
               empile:         140
            play_move:          84
         orig_rbechec:          22
-        orig_rnechec:          73
+        orig_rnechec:          72
 c) exact-#3
 
    1.d7-d8=L !
@@ -993,7 +993,7 @@ c) exact-#3
               empile:        3745
            play_move:        1778
         orig_rbechec:         781
-        orig_rnechec:        1226
+        orig_rnechec:        1224
 d) exact-#4
 
    1.d7-d8=S !
@@ -1020,7 +1020,7 @@ d) exact-#4
               empile:       40265
            play_move:       24210
         orig_rbechec:       16341
-        orig_rnechec:        9376
+        orig_rnechec:        9372
 Loesung beendet. 
 
 
@@ -1069,7 +1069,7 @@ b) exact-#2
               empile:        1130
            play_move:         457
         orig_rbechec:         127
-        orig_rnechec:         424
+        orig_rnechec:         423
 c) exact-#3
 
    1.Tg6-c6 !
@@ -1082,7 +1082,7 @@ c) exact-#3
               empile:       22205
            play_move:        7879
         orig_rbechec:        3559
-        orig_rnechec:        5925
+        orig_rnechec:        5923
 d) exact-#4
 
    1.Sd4-e2 !
@@ -1097,7 +1097,7 @@ d) exact-#4
               empile:      433783
            play_move:      186523
         orig_rbechec:      111951
-        orig_rnechec:       99211
+        orig_rnechec:       99208
 Loesung beendet. 
 
 
@@ -1145,7 +1145,7 @@ b) exact-#2
               empile:         730
            play_move:         319
         orig_rbechec:          88
-        orig_rnechec:         305
+        orig_rnechec:         304
 c) exact-#3
 
    1.d7-d8=L !
@@ -1160,7 +1160,7 @@ c) exact-#3
               empile:        6456
            play_move:        3446
         orig_rbechec:        1533
-        orig_rnechec:        2377
+        orig_rnechec:        2375
 d) exact-#4
 
    1.d7-d8=S !
@@ -1181,7 +1181,7 @@ d) exact-#4
               empile:       77606
            play_move:       42205
         orig_rbechec:       23208
-        orig_rnechec:       23555
+        orig_rnechec:       23550
 Loesung beendet. 
 
 
@@ -1267,7 +1267,7 @@ Loesung beendet.
               empile:     5671672
            play_move:     2771901
         orig_rbechec:     2475114
-        orig_rnechec:      296865
+        orig_rnechec:      296839
 Loesung beendet. 
 
 
@@ -1557,7 +1557,7 @@ Loesung beendet.
               empile:       10179
            play_move:        3607
         orig_rbechec:        2437
-        orig_rnechec:        1183
+        orig_rnechec:        1181
 Loesung beendet. 
 
 
@@ -1613,7 +1613,7 @@ Loesung beendet.
               empile:        7656
            play_move:        9632
         orig_rbechec:        9580
-        orig_rnechec:        1012
+        orig_rnechec:        1005
 Loesung beendet. 
 
 
@@ -2191,7 +2191,7 @@ Loesung beendet.
               empile:         338
            play_move:         273
         orig_rbechec:          70
-        orig_rnechec:         274
+        orig_rnechec:         263
 Loesung beendet. 
 
 
@@ -2893,7 +2893,7 @@ Loesung beendet.
               empile:        4983
            play_move:        2062
         orig_rbechec:        2032
-        orig_rnechec:        1109
+        orig_rnechec:        1104
 Loesung beendet. 
 
 

@@ -147,7 +147,7 @@ post-key play
               empile:         620
            play_move:         122
         orig_rbechec:          34
-        orig_rnechec:          55
+        orig_rnechec:          53
 solution finished. 
 
 

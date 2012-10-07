@@ -195,7 +195,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "solving/solving.h"
 #include "solving/for_each_move.h"
-#include "solving/battle_play/check_detector.h"
 #include "solving/battle_play/try.h"
 #include "solving/battle_play/threat.h"
 #include "solving/trivial_end_filter.h"

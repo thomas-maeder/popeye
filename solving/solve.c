@@ -133,7 +133,6 @@
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/try.h"
-#include "solving/battle_play/check_detector.h"
 #include "solving/battle_play/threat.h"
 #include "solving/castling.h"
 #include "solving/capture_counter.h"
@@ -1178,10 +1177,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STContinuationSolver:
       result = continuation_solver_solve(si,n);
-      break;
-
-    case STCheckDetector:
-      result = check_detector_solve(si,n);
       break;
 
     case STDefensePlayed:

@@ -1606,8 +1606,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  solving/avoid_unsolvable.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
- solving/battle_play/try.h utilities/table.h \
- solving/battle_play/check_detector.h solving/castling.h \
+ solving/battle_play/try.h utilities/table.h solving/castling.h \
  solving/capture_counter.h solving/find_by_increasing_length.h \
  solving/find_move.h solving/find_shortest.h solving/for_each_move.h \
  solving/fork_on_remaining.h solving/king_move_generator.h \
@@ -1965,8 +1964,6 @@ solving/battle_play/threat.h:
 solving/battle_play/try.h:
 
 utilities/table.h:
-
-solving/battle_play/check_detector.h:
 
 solving/castling.h:
 

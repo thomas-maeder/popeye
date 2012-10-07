@@ -8,8 +8,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  solving/solve.h stipulation/fork.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- solving/battle_play/check_detector.h output/plaintext/plaintext.h \
- output/plaintext/end_of_phase_writer.h \
+ output/plaintext/plaintext.h output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/move_inversion_counter.h solving/trivial_end_filter.h \
  output/plaintext/tree/end_of_solution_writer.h \
@@ -79,8 +78,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/help_play/branch.h:
-
-solving/battle_play/check_detector.h:
 
 output/plaintext/plaintext.h:
 
