@@ -791,34 +791,6 @@ enum
                           / sizeof starter_inverters[0])
 };
 
-/* Impose the starting side on a stipulation.
- * @param si identifies slice
- * @param st address of structure that holds the state of the traversal
- */
-void impose_starter_discrimate_by_right_to_move(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,*starter,"");
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-
-  *starter = White;
-  stip_traverse_structure_children_pipe(si,st);
-
-  *starter = Black;
-  stip_traverse_structure(slices[si].next2,st);
-
-  *starter = slices[si].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void stip_impose_starter_impl(slice_index si,
                                      Side starter,
                                      stip_structure_traversal *st)
@@ -849,9 +821,6 @@ static void stip_impose_starter_impl(slice_index si,
   stip_structure_traversal_override_single(st,
                                            STGoalImmobileReachedTester,
                                            &impose_starter_goal_immobile_tester);
-  stip_structure_traversal_override_single(st,
-                                           STDiscriminateByRightToMove,
-                                           &impose_starter_discrimate_by_right_to_move);
 
   stip_traverse_structure(si,st);
 

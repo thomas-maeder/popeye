@@ -138,7 +138,6 @@
     ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
     ENUMERATOR(STAnyMoveCounter), /* counts moves whether legal or not */            \
     ENUMERATOR(STCaptureCounter), /* counts captures */            \
-    ENUMERATOR(STDiscriminateByRightToMove),                            \
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STTestingPrerequisites),  /* proxy marking start of prerequisites tests */ \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \

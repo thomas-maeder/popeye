@@ -172,7 +172,6 @@
 #include "stipulation/dummy_move.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/end_of_branch.h"
-#include "stipulation/discriminate_by_right_to_move.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
 #include "stipulation/goals/castling/reached_tester.h"
@@ -513,10 +512,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STOutputPlaintextLineLineWriter:
       result = output_plaintext_line_line_writer_solve(si,n);
-      break;
-
-    case STDiscriminateByRightToMove:
-      result = discriminate_by_right_to_move_solve(si,n);
       break;
 
     case STBGLFilter:
