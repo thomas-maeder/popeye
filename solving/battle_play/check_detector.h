@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H)
 #define SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H
 
-#include "solving/battle_play/defense_play.h"
+#include "solving/solve.h"
 
 /* This module provides functionality around STCheckDetector slices.
  */
@@ -24,6 +24,6 @@ slice_index alloc_check_detector_slice(void);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type check_detector_defend(slice_index si, stip_length_type n);
+stip_length_type check_detector_solve(slice_index si, stip_length_type n);
 
 #endif

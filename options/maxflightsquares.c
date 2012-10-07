@@ -72,7 +72,7 @@ static boolean are_there_too_many_flights(slice_index si)
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
   save_rbn = king_square[fleeing];
-  result = attack(slices[si].next2,length_unspecified)==has_solution;
+  result = solve(slices[si].next2,length_unspecified)==has_solution;
   save_rbn = initsquare;
 
   TraceFunctionExit(__func__);
@@ -112,18 +112,15 @@ static slice_index alloc_maxflight_guard_slice(void)
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
+stip_length_type maxflight_guard_solve(slice_index si, stip_length_type n)
 {
   slice_index const next = slices[si].next1;
   stip_length_type result;
@@ -136,7 +133,7 @@ stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
   if (n>slack_length+3 && are_there_too_many_flights(si))
     result = n+2;
   else
-    result = defend(next,n);
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -144,15 +141,15 @@ stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type flightsquares_counter_attack(slice_index si,
+stip_length_type flightsquares_counter_solve(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result = n+2;

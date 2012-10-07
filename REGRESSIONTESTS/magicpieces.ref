@@ -79,7 +79,7 @@
               empile:       21655
            play_move:       12536
         orig_rbechec:        1096
-        orig_rnechec:       12525
+        orig_rnechec:       12528
 solution finished. 
 
 
@@ -377,7 +377,7 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
               empile:      107614
            play_move:       66000
         orig_rbechec:        2387
-        orig_rnechec:       65490
+        orig_rnechec:       65505
 solution finished. 
 
 
@@ -443,7 +443,7 @@ a)
               empile:       29391
            play_move:       20337
         orig_rbechec:         760
-        orig_rnechec:       20341
+        orig_rnechec:       20344
 b) wPe6 
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -477,7 +477,7 @@ b) wPe6
               empile:       29898
            play_move:       20601
         orig_rbechec:         773
-        orig_rnechec:       20605
+        orig_rnechec:       20608
 +c) wSg6 
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -511,7 +511,7 @@ b) wPe6
               empile:       30157
            play_move:       20787
         orig_rbechec:         760
-        orig_rnechec:       20791
+        orig_rnechec:       20794
 +d) bPe6 
 
    1.mQf4-e3[c5=w][e6=w] ! threat:
@@ -545,7 +545,7 @@ b) wPe6
               empile:       29816
            play_move:       20681
         orig_rbechec:         755
-        orig_rnechec:       20685
+        orig_rnechec:       20688
 solution finished. 
 
 
@@ -624,7 +624,7 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
               empile:       41202
            play_move:       30450
         orig_rbechec:        1389
-        orig_rnechec:       30327
+        orig_rnechec:       30331
 solution finished. 
 
 
@@ -702,7 +702,7 @@ c) nmKa5
               empile:           5
            play_move:           5
         orig_rbechec:           5
-        orig_rnechec:           6
+        orig_rnechec:          11
 solution finished. 
 
 

@@ -40,15 +40,15 @@ boolean has_pawn_reached_promotion_square(Side side, square square_reached)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
+stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   stip_length_type result;
@@ -66,7 +66,7 @@ stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
   }
 
   if (current_promotion_of_moving[nbply]==Empty)
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
   {
     piece const promotee = (e[sq_arrival]<vide
@@ -76,64 +76,7 @@ stip_length_type moving_pawn_promoter_attack(slice_index si, stip_length_type n)
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_arrival,promotee);
 
-    result = attack(slices[si].next1,n);
-
-    if (!post_move_iteration_locked[nbply])
-    {
-      current_promotion_of_moving[nbply] = getprompiece[current_promotion_of_moving[nbply]];
-      if (current_promotion_of_moving[nbply]!=Empty)
-        lock_post_move_iterations();
-    }
-  }
-
-  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type moving_pawn_promoter_defend(slice_index si, stip_length_type n)
-{
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-  {
-    boolean const is_prom_square = has_pawn_reached_promotion_square(slices[si].starter,
-                                                                     sq_arrival);
-    current_promotion_of_moving[nbply] = is_prom_square ? getprompiece[Empty] : Empty;
-  }
-
-  if (current_promotion_of_moving[nbply]==Empty)
-    result = defend(slices[si].next1,n);
-  else
-  {
-    piece const promotee = (e[sq_arrival]<vide
-                            ? -current_promotion_of_moving[nbply]
-                            : current_promotion_of_moving[nbply]);
-
-    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
-                                        sq_arrival,promotee);
-
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {

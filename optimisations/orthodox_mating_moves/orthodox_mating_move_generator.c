@@ -140,7 +140,7 @@ typedef struct
 
 static final_move_optimisation_state const init_state = { { no_goal, initsquare }, 0, false };
 
-/* Remember the goal imminent after a defense or attack move
+/* Remember the goal imminent after a defense or solve move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -328,16 +328,16 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
-orthodox_mating_move_generator_attack(slice_index si, stip_length_type n)
+orthodox_mating_move_generator_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -353,7 +353,7 @@ orthodox_mating_move_generator_attack(slice_index si, stip_length_type n)
   empile_for_goal = slices[si].u.move_generator.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
-  result = attack(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
   finply();
 
   TraceFunctionExit(__func__);

@@ -55,15 +55,15 @@ void single_move_generator_with_king_capture_init_next(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type single_move_generator_with_king_capture_attack(slice_index si,
+stip_length_type single_move_generator_with_king_capture_solve(slice_index si,
                                                                 stip_length_type n)
 {
   stip_length_type result;
@@ -82,7 +82,7 @@ stip_length_type single_move_generator_with_king_capture_attack(slice_index si,
   empile(square_departure[nbply],square_arrival[nbply],square_capture[nbply]);
   k_cap = false;
   finish_move_generation_optimizer();
-  result = attack(next,n);
+  result = solve(next,n);
   finply();
 
   square_departure[nbply+1] = initsquare;

@@ -169,15 +169,15 @@ void stip_optimise_dead_end_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type dead_end_attack(slice_index si, stip_length_type n)
+stip_length_type dead_end_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -189,80 +189,10 @@ stip_length_type dead_end_attack(slice_index si, stip_length_type n)
   assert(n>=slack_length);
 
   TraceValue("%u\n",max_unsolvable);
-  if (n<=max_unsolvable)
+  if (n<=max_unsolvable || n==slack_length)
     result = n+2;
   else
-    result = attack(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type dead_end_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length);
-
-  TraceValue("%u\n",max_unsolvable);
-  if (n<max_unsolvable || n==slack_length)
-    result = n+2;
-  else
-    result = defend(next,n);
-
-  max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type dead_end_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length);
-
-  if (n<=max_unsolvable)
-    result = n+2;
-  else
-    result = attack(next,n);
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

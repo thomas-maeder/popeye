@@ -200,10 +200,10 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 #
 
 
-              empile:    22526630
-           play_move:    18916959
+              empile:    22526712
+           play_move:    18917041
         orig_rbechec:    16164345
-        orig_rnechec:     5360552
+        orig_rnechec:     5360716
 solution finished. 
 
 
@@ -334,10 +334,10 @@ solution finished.
                   3.Rg2*g6[+bPg7] #
 
 
-              empile:       97628
-           play_move:       60515
+              empile:       97640
+           play_move:       60523
         orig_rbechec:       11019
-        orig_rnechec:       51665
+        orig_rnechec:       51680
 solution finished. 
 
 
@@ -408,10 +408,10 @@ solution finished.
           2.Re2*c2 #
 
 
-              empile:       12403
-           play_move:        7142
+              empile:       12409
+           play_move:        7146
         orig_rbechec:         329
-        orig_rnechec:        6920
+        orig_rnechec:        6926
 solution finished. 
 
 
@@ -446,10 +446,10 @@ solution finished.
           2.Bb1-h7 #
 
 
-              empile:         341
-           play_move:         273
+              empile:         342
+           play_move:         274
         orig_rbechec:          42
-        orig_rnechec:         252
+        orig_rnechec:         254
 solution finished. 
 
 
@@ -489,10 +489,10 @@ a)
                       3...g3*f2 #
 
 
-              empile:       22423
-           play_move:       14805
+              empile:       22429
+           play_move:       14808
         orig_rbechec:       13143
-        orig_rnechec:        3259
+        orig_rnechec:        3265
 b) wSh4 
 
    1.Sh4-f5 ! zugzwang.
@@ -506,10 +506,10 @@ b) wSh4
                       3...g2*f1=B #
 
 
-              empile:        3946
-           play_move:        2510
+              empile:        3952
+           play_move:        2513
         orig_rbechec:        2307
-        orig_rnechec:         401
+        orig_rnechec:         407
 solution finished. 
 
 
@@ -669,10 +669,10 @@ solution finished.
       1...Kd1-e1 !
 
 
-              empile:       55808
-           play_move:       40199
+              empile:       55901
+           play_move:       40292
         orig_rbechec:       28986
-        orig_rnechec:       15455
+        orig_rnechec:       15579
 solution finished. 
 
 

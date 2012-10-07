@@ -3,7 +3,7 @@
 #include "pydata.h"
 #include "pylang.h"
 #include "stipulation/has_solution_type.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "pymsg.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/pipe.h"
@@ -48,7 +48,7 @@ static boolean is_mate_square(Side other_side, piece king_type)
     e[king_square[other_side]] = king_type;
     spec[king_square[other_side]] = BIT(Royal)|BIT(other_side);
 
-    if (attack(slices[temporary_hack_mate_tester[other_side]].next2,length_unspecified)==has_solution)
+    if (solve(slices[temporary_hack_mate_tester[other_side]].next2,length_unspecified)==has_solution)
       result = true;
 
     CLEARFL(spec[king_square[other_side]]);
@@ -286,15 +286,15 @@ static void determine_king_placement(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type republican_king_placer_attack(slice_index si,
+stip_length_type republican_king_placer_solve(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
@@ -310,13 +310,13 @@ stip_length_type republican_king_placer_attack(slice_index si,
 
     if (king_placement[nbply]==king_not_placed)
     {
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
       king_placement[nbply] = to_be_initialised;
     }
     else
     {
       place_king(slices[si].starter);
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply])
       {
@@ -328,7 +328,7 @@ stip_length_type republican_king_placer_attack(slice_index si,
     prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
   else
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -336,68 +336,15 @@ stip_length_type republican_king_placer_attack(slice_index si,
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type republican_king_placer_defend(slice_index si,
-                                               stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (king_square[advers(slices[si].starter)]==vide)
-  {
-    determine_king_placement(slices[si].starter);
-
-    if (king_placement[nbply]==king_not_placed)
-    {
-      result = defend(slices[si].next1,n);
-      king_placement[nbply] = to_be_initialised;
-    }
-    else
-    {
-      place_king(slices[si].starter);
-      result = defend(slices[si].next1,n);
-
-      if (!post_move_iteration_locked[nbply])
-      {
-        is_mate_square_dirty[nbply] = true;
-        lock_post_move_iterations();
-      }
-    }
-
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-  }
-  else
-    result = defend(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type republican_type1_dead_end_attack(slice_index si,
+stip_length_type republican_type1_dead_end_solve(slice_index si,
                                                   stip_length_type n)
 {
   stip_length_type result;
@@ -408,7 +355,7 @@ stip_length_type republican_type1_dead_end_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (king_placement[nbply]==king_not_placed)
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
     /* defender has inserted the attacker's king - no use to go on */
     result = n+2;

@@ -2,7 +2,7 @@
 #define STIPULATION_HELP_PLAY_ADAPTER_H
 
 #include "stipulation/structure_traversal.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 /* This module provides functionality dealing with STHelpAdapter
  * stipulation slices. STHelpAdapter slices switch from general play to help
@@ -37,14 +37,14 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st);
  */
 void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type help_adapter_attack(slice_index si, stip_length_type n);
+stip_length_type help_adapter_solve(slice_index si, stip_length_type n);
 
 #endif

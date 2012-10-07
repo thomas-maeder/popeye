@@ -9,9 +9,8 @@
 #include "stipulation/proxy.h"
 #include "stipulation/binary.h"
 #include "stipulation/boolean/false.h"
-#include "solving/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "solving/solving.h"
 #include "debugging/trace.h"
 
@@ -95,18 +94,15 @@ slice_index alloc_refutations_allocator(void)
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n)
+stip_length_type refutations_allocator_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -118,7 +114,7 @@ stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n
 
   assert(refutations==table_nil);
   refutations = allocate_table();
-  result = defend(next,n);
+  result = solve(next,n);
   assert(refutations==get_top_table());
   free_table();
   refutations = table_nil;
@@ -147,18 +143,15 @@ static slice_index alloc_refutations_solver(void)
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
+stip_length_type refutations_solver_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -167,10 +160,10 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   if (table_length(refutations)>0)
-    defend(slices[si].next2,n);
+    solve(slices[si].next2,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -200,15 +193,15 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_collector_attack(slice_index si,
+stip_length_type refutations_collector_solve(slice_index si,
                                               stip_length_type n)
 {
   stip_length_type result;
@@ -220,7 +213,7 @@ stip_length_type refutations_collector_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(next,n);
+  result = solve(next,n);
 
   if (result>n)
   {
@@ -285,15 +278,15 @@ slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_avoider_attack(slice_index si, stip_length_type n)
+stip_length_type refutations_avoider_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -305,7 +298,7 @@ stip_length_type refutations_avoider_attack(slice_index si, stip_length_type n)
   if (is_current_move_in_table(refutations))
     result = n;
   else
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -331,15 +324,15 @@ static slice_index alloc_refutations_filter_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_filter_attack(slice_index si, stip_length_type n)
+stip_length_type refutations_filter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -349,7 +342,7 @@ stip_length_type refutations_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (is_current_move_in_table(refutations))
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
     result = n;
 

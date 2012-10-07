@@ -30,7 +30,7 @@ option maxsolutions didn't work in "battle play" in 4.57
               empile:         130
            play_move:          94
         orig_rbechec:          29
-        orig_rnechec:          96
+        orig_rnechec:          97
 solution finished. 
 
 
@@ -72,7 +72,7 @@ if no non-space text followed the remark token on its line
               empile:        4066
            play_move:        2128
         orig_rbechec:        2128
-        orig_rnechec:        1686
+        orig_rnechec:        1688
 solution finished. 
 
 

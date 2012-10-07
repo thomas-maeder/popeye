@@ -130,7 +130,7 @@ a)
               empile:         675
            play_move:         428
         orig_rbechec:         109
-        orig_rnechec:         430
+        orig_rnechec:         431
 b) h#2
 
   1.e6-e5 e7-e8=D   2.e5-e4 + De8*e4 # 
@@ -150,7 +150,7 @@ c) s#2
               empile:        4589
            play_move:        3455
         orig_rbechec:        3456
-        orig_rnechec:        1277
+        orig_rnechec:        1279
 d) h=2
 
   1.e6-e5 e7-e8=T   2.e5-e4 + Te8*e4 = 
@@ -554,7 +554,7 @@ a)
               empile:        8410
            play_move:        6166
         orig_rbechec:         881
-        orig_rnechec:        6168
+        orig_rnechec:        6169
 b) Circe
 
    1.Sg8-f6 !
@@ -595,7 +595,7 @@ b) Circe
               empile:        5587
            play_move:        3973
         orig_rbechec:         797
-        orig_rnechec:        3975
+        orig_rnechec:        3976
 Loesung beendet. 
 
 
@@ -640,7 +640,7 @@ a)
               empile:        5202
            play_move:        2625
         orig_rbechec:         465
-        orig_rnechec:        2627
+        orig_rnechec:        2628
 b) s#2
 
    1.Tc2-c3 + !
@@ -661,7 +661,7 @@ b) s#2
               empile:       14297
            play_move:        6662
         orig_rbechec:        6666
-        orig_rnechec:        3639
+        orig_rnechec:        3644
 Loesung beendet. 
 
 
@@ -708,7 +708,7 @@ a)
               empile:        5374
            play_move:        2640
         orig_rbechec:         570
-        orig_rnechec:        2642
+        orig_rnechec:        2643
 b) wBe5-->c5
 
    1.Sh1*f2 !
@@ -725,7 +725,7 @@ b) wBe5-->c5
               empile:        4663
            play_move:        2269
         orig_rbechec:         478
-        orig_rnechec:        2271
+        orig_rnechec:        2272
 Loesung beendet. 
 
 
@@ -771,7 +771,7 @@ a)
               empile:        1424
            play_move:         826
         orig_rbechec:         163
-        orig_rnechec:         828
+        orig_rnechec:         829
 b) =2
 
    1.d2-d4 !
@@ -788,7 +788,7 @@ b) =2
               empile:       11063
            play_move:        7456
         orig_rbechec:        1374
-        orig_rnechec:        7448
+        orig_rnechec:        7449
 Loesung beendet. 
 
 
@@ -838,7 +838,7 @@ a)
               empile:       17571
            play_move:       11425
         orig_rbechec:         735
-        orig_rnechec:       11427
+        orig_rnechec:       11428
 b) Circe
 
    1.Gf8-d6 ! Drohung:
@@ -860,7 +860,7 @@ b) Circe
               empile:       16146
            play_move:       11027
         orig_rbechec:         746
-        orig_rnechec:       11029
+        orig_rnechec:       11030
 Loesung beendet. 
 
 
@@ -904,7 +904,7 @@ a)
               empile:        5898
            play_move:        4728
         orig_rbechec:         346
-        orig_rnechec:        4730
+        orig_rnechec:        4731
 b) ChamaeleonCirce
 
    1.Ld5-c6 ! Drohung:
@@ -920,7 +920,7 @@ b) ChamaeleonCirce
               empile:        5471
            play_move:        4099
         orig_rbechec:         329
-        orig_rnechec:        4101
+        orig_rnechec:        4102
 c) CirceClone
 
    1.Ld5-a2 ! Drohung:
@@ -935,7 +935,7 @@ c) CirceClone
               empile:        5807
            play_move:        4527
         orig_rbechec:         347
-        orig_rnechec:        4529
+        orig_rnechec:        4530
 Loesung beendet. 
 
 
@@ -983,7 +983,7 @@ a)
               empile:       10608
            play_move:        7357
         orig_rbechec:         424
-        orig_rnechec:        7359
+        orig_rnechec:        7360
 b) AndernachSchach
 
    1.Ld4-b6 ! Drohung:
@@ -1001,7 +1001,7 @@ b) AndernachSchach
               empile:       10145
            play_move:        6919
         orig_rbechec:         393
-        orig_rnechec:        6921
+        orig_rnechec:        6922
 Loesung beendet. 
 
 
@@ -1050,7 +1050,7 @@ a)
               empile:        8636
            play_move:        6784
         orig_rbechec:         564
-        orig_rnechec:        6786
+        orig_rnechec:        6787
 b) CirceClone
 
    1.Td3-c3 ! Drohung:
@@ -1070,7 +1070,7 @@ b) CirceClone
               empile:        8281
            play_move:        6482
         orig_rbechec:         524
-        orig_rnechec:        6484
+        orig_rnechec:        6485
 Loesung beendet. 
 
 
@@ -1115,7 +1115,7 @@ a)
               empile:        8617
            play_move:        6588
         orig_rbechec:         483
-        orig_rnechec:        6590
+        orig_rnechec:        6591
 b) CirceClone
 
    1.Se3-f1 ! Drohung:
@@ -1131,7 +1131,7 @@ b) CirceClone
               empile:       10000
            play_move:        8094
         orig_rbechec:         524
-        orig_rnechec:        8096
+        orig_rnechec:        8097
 Loesung beendet. 
 
 
@@ -1178,7 +1178,7 @@ a)
               empile:        3373
            play_move:        2074
         orig_rbechec:         250
-        orig_rnechec:        2076
+        orig_rnechec:        2077
 b) CirceClone
 
    1.Ld4-c5 ! Drohung:
@@ -1198,7 +1198,7 @@ b) CirceClone
               empile:        3680
            play_move:        2454
         orig_rbechec:         254
-        orig_rnechec:        2456
+        orig_rnechec:        2457
 Loesung beendet. 
 
 
@@ -1248,7 +1248,7 @@ a)
               empile:        8868
            play_move:        7050
         orig_rbechec:         358
-        orig_rnechec:        7052
+        orig_rnechec:        7053
 b) ChamaeleonCirce
 
    1.Sd5-b4 ! Drohung:
@@ -1266,7 +1266,7 @@ b) ChamaeleonCirce
               empile:        8344
            play_move:        6599
         orig_rbechec:         332
-        orig_rnechec:        6601
+        orig_rnechec:        6602
 Loesung beendet. 
 
 
@@ -1309,7 +1309,7 @@ a)
               empile:        2171
            play_move:        1201
         orig_rbechec:         204
-        orig_rnechec:        1203
+        orig_rnechec:        1204
 b) EquipollentsCirce
 
    1.Le8*a4 ! Drohung:
@@ -1323,7 +1323,7 @@ b) EquipollentsCirce
               empile:        2108
            play_move:        1106
         orig_rbechec:         198
-        orig_rnechec:        1108
+        orig_rnechec:        1109
 Loesung beendet. 
 
 
@@ -1369,7 +1369,7 @@ a)
               empile:        3355
            play_move:        2625
         orig_rbechec:         210
-        orig_rnechec:        2627
+        orig_rnechec:        2628
 b) ChamaeleonCirce
 
    1.Sc6*a5[+sTh8] ! Drohung:
@@ -1392,7 +1392,7 @@ b) ChamaeleonCirce
               empile:        4617
            play_move:        3775
         orig_rbechec:         249
-        orig_rnechec:        3777
+        orig_rnechec:        3778
 c) CirceClone
 
    1.Sc6-b8 ! Drohung:
@@ -1408,7 +1408,7 @@ c) CirceClone
               empile:        3257
            play_move:        2566
         orig_rbechec:         198
-        orig_rnechec:        2568
+        orig_rnechec:        2569
 Loesung beendet. 
 
 
@@ -1455,7 +1455,7 @@ a)
               empile:        9748
            play_move:        6430
         orig_rbechec:         737
-        orig_rnechec:        6432
+        orig_rnechec:        6433
 b) sTc4<-->sBd3
 
    1.Dc8-f5 ! Drohung:
@@ -1474,7 +1474,7 @@ b) sTc4<-->sBd3
               empile:        8953
            play_move:        5900
         orig_rbechec:         678
-        orig_rnechec:        5902
+        orig_rnechec:        5903
 Loesung beendet. 
 
 
@@ -1522,7 +1522,7 @@ a)
               empile:        9606
            play_move:        6033
         orig_rbechec:         698
-        orig_rnechec:        6035
+        orig_rnechec:        6036
 b) wKg8-->e8
 
    1.Df1-g2 ! Drohung:
@@ -1540,7 +1540,7 @@ b) wKg8-->e8
               empile:        7579
            play_move:        4759
         orig_rbechec:         592
-        orig_rnechec:        4761
+        orig_rnechec:        4762
 Loesung beendet. 
 
 

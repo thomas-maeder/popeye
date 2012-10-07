@@ -1,4 +1,5 @@
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"

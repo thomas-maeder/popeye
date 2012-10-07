@@ -25,18 +25,15 @@ slice_index alloc_continuation_solver_slice(void)
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
+stip_length_type continuation_solver_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -45,14 +42,14 @@ stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(slices[si].next2,n);
+  result = solve(slices[si].next2,n);
   if (slack_length<=result && result<=n)
   {
     stip_length_type const n_next = n<result ? n : result;
 #if !defined(NDEBUG)
     stip_length_type const defend_result =
 #endif
-    defend(slices[si].next1,n_next);
+    solve(slices[si].next1,n_next);
     assert(defend_result==result);
   }
 

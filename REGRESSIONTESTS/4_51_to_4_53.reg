@@ -1263,7 +1263,7 @@ solution finished.
               empile:           3
            play_move:           3
         orig_rbechec:           3
-        orig_rnechec:           4
+        orig_rnechec:           7
 solution finished. 
 
 
@@ -1301,7 +1301,7 @@ solution finished.
               empile:           3
            play_move:           3
         orig_rbechec:           3
-        orig_rnechec:           4
+        orig_rnechec:           7
 solution finished. 
 
 
@@ -1946,7 +1946,7 @@ consider previous cage after advancing type of promotee
 
               empile:        1700
            play_move:        1048
-        orig_rbechec:         786
+        orig_rbechec:         820
         orig_rnechec:          35
 solving interrupted. 
 
@@ -2141,7 +2141,7 @@ White would have to deliver mate after the key
               empile:         484
            play_move:         343
         orig_rbechec:         307
-        orig_rnechec:          93
+        orig_rnechec:          97
 solution finished. 
 
 
@@ -2176,7 +2176,7 @@ issue 2903930: countermate used to only work in help play
               empile:         561
            play_move:         542
         orig_rbechec:         105
-        orig_rnechec:         505
+        orig_rnechec:         506
 solution finished. 
 
 

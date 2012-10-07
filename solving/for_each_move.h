@@ -1,32 +1,26 @@
 #if !defined(SOLVING_FOR_EACH_MOVE_H)
 #define SOLVING_FOR_EACH_MOVE_H
 
-#include "solving/battle_play/attack_play.h"
-#include "solving/battle_play/defense_play.h"
+#include "solving/solve.h"
 
 /* This module provides functionality dealing with the attacking side
- * in STForEachMove stipulation slices.
+ * in STForEachAttack stipulation slices.
  */
-
-/* Allocate a STForEachMove slice.
- * @return index of allocated slice
- */
-slice_index alloc_for_each_move_slice(void);
 
 /* Instrument the stipulation with move iterator slices
  * @param root_slice identifies root slice of stipulation
  */
 void stip_insert_move_iterators(slice_index root_slice);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type for_each_move_attack(slice_index si, stip_length_type n);
+stip_length_type for_each_attack_solve(slice_index si, stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -37,6 +31,6 @@ stip_length_type for_each_move_attack(slice_index si, stip_length_type n);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type for_each_move_defend(slice_index si, stip_length_type n);
+stip_length_type for_each_defense_solve(slice_index si, stip_length_type n);
 
 #endif

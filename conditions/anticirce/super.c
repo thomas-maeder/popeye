@@ -69,15 +69,15 @@ static boolean advance_rebirth_square()
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type antisupercirce_rebirth_handler_attack(slice_index si,
+stip_length_type antisupercirce_rebirth_handler_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
@@ -90,7 +90,7 @@ stip_length_type antisupercirce_rebirth_handler_attack(slice_index si,
   if (pprise[nbply]==vide)
   {
     current_anticirce_rebirth_square[nbply] = initsquare;
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   }
   else
   {
@@ -103,72 +103,12 @@ stip_length_type antisupercirce_rebirth_handler_attack(slice_index si,
     if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
     {
       current_anticirce_rebirth_square[nbply] = initsquare;
-      result = n+2;
+      result = slack_length-2;
     }
     else
     {
       anticirce_do_rebirth(move_effect_reason_antisupercirce_rebirth);
-      result = attack(slices[si].next1,n);
-
-      if (!post_move_iteration_locked[nbply])
-      {
-        is_rebirth_square_dirty[nbply] = true;
-        lock_post_move_iterations();
-      }
-    }
-
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type antisupercirce_rebirth_handler_defend(slice_index si,
-                                                       stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (pprise[nbply]==vide)
-  {
-    current_anticirce_rebirth_square[nbply] = initsquare;
-    result = defend(slices[si].next1,n);
-  }
-  else
-  {
-    if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    {
-      current_anticirce_rebirth_square[nbply] = square_a1-1;
-      is_rebirth_square_dirty[nbply] = true;
-    }
-
-    if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
-    {
-      current_anticirce_rebirth_square[nbply] = initsquare;
-      result = slack_length-1;
-    }
-    else
-    {
-      anticirce_do_rebirth(move_effect_reason_antisupercirce_rebirth);
-      result = defend(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply])
       {

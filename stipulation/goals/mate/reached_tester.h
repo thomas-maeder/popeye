@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_MATE_REACHED_TESTER_H)
 #define STIPULATION_GOAL_MATE_REACHED_TESTER_H
 
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 /* This module provides functionality that detects whether mate goal has
  * been reached

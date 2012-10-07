@@ -70,7 +70,7 @@ static boolean pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || attack(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,length_unspecified)!=has_solution);
+            || solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,length_unspecified)!=has_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -99,7 +99,7 @@ void exclusive_init_genmove(Side side)
   /* stop counting once we have found >1 mating moves */
   legal_move_counter_interesting[nbply] = 1;
 
-  attack(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
+  solve(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
 
   is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply]<2;
   TraceValue("%u",legal_move_counter_count[nbply+1]);
@@ -115,15 +115,15 @@ void exclusive_init_genmove(Side side)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type exclusive_chess_unsuspender_attack(slice_index si,
+stip_length_type exclusive_chess_unsuspender_solve(slice_index si,
                                                     stip_length_type n)
 {
   stip_length_type result;
@@ -136,7 +136,7 @@ stip_length_type exclusive_chess_unsuspender_attack(slice_index si,
   add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
   is_reaching_goal_allowed[nbply] = true;
-  result = attack(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
   is_reaching_goal_allowed[nbply] = false;
   CondFlag[exclusive] = false;
   remove_ortho_mating_moves_generation_obstacle();
@@ -206,15 +206,15 @@ void stip_insert_exclusive_chess_legality_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type exclusive_chess_legality_tester_attack(slice_index si,
+stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
                                                         stip_length_type n)
 {
   stip_length_type result;
@@ -226,42 +226,9 @@ stip_length_type exclusive_chess_legality_tester_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (!CondFlag[exclusive] || pos_legal())
-    result = attack(next,n);
+    result = solve(next,n);
   else
-    result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type exclusive_chess_legality_tester_defend(slice_index si,
-                                                        stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (!CondFlag[exclusive] || pos_legal())
-    result = defend(next,n);
-  else
-    result = slack_length-1;
+    result = slack_length-2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

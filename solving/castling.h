@@ -4,8 +4,8 @@
 /* This module implements castling.
  */
 
-#include "solving/battle_play/attack_play.h"
-#include "solving/battle_play/defense_play.h"
+#include "stipulation/slice_type.h"
+#include "solving/solve.h"
 
 enum
 {
@@ -74,90 +74,52 @@ slice_index alloc_castling_intermediate_move_generator_slice(void);
 void castling_intermediate_move_generator_init_next(square sq_departure,
                                                     square sq_arrival);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_intermediate_move_generator_attack(slice_index si,
+stip_length_type castling_intermediate_move_generator_solve(slice_index si,
                                                              stip_length_type n);
 
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_player_attack(slice_index si, stip_length_type n);
+stip_length_type castling_player_solve(slice_index si, stip_length_type n);
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type castling_player_defend(slice_index si, stip_length_type n);
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_rights_adjuster_attack(slice_index si,
-                                                 stip_length_type n);
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type castling_rights_adjuster_defend(slice_index si,
+stip_length_type castling_rights_adjuster_solve(slice_index si,
                                                  stip_length_type n);
 
 /* Instrument slices with move tracers
  */
 void stip_insert_castling(slice_index si);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type mutual_castling_rights_adjuster_attack(slice_index si,
-                                                        stip_length_type n);
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type mutual_castling_rights_adjuster_defend(slice_index si,
+stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
                                                         stip_length_type n);
 
 /* Instrument a stipulation with alternative move player slices

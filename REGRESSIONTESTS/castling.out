@@ -30,7 +30,7 @@
               empile:        2557
            play_move:        1057
         orig_rbechec:         370
-        orig_rnechec:        1059
+        orig_rnechec:        1060
 Loesung beendet. 
 
 
@@ -112,7 +112,7 @@ Loesung beendet.
               empile:      151691
            play_move:       60993
         orig_rbechec:       24011
-        orig_rnechec:       55148
+        orig_rnechec:       55152
 Loesung beendet. 
 
 
@@ -158,7 +158,7 @@ Loesung beendet.
               empile:       31648
            play_move:       12747
         orig_rbechec:        7200
-        orig_rnechec:        8224
+        orig_rnechec:        8228
 Loesung beendet. 
 
 
@@ -271,7 +271,7 @@ Loesung beendet.
               empile:       60280
            play_move:       25233
         orig_rbechec:       10468
-        orig_rnechec:       21248
+        orig_rnechec:       21264
 Loesung beendet. 
 
 
@@ -361,7 +361,7 @@ Loesung beendet.
               empile:       34745
            play_move:       18854
         orig_rbechec:        9583
-        orig_rnechec:       12853
+        orig_rnechec:       12856
 Loesung beendet. 
 
 
@@ -742,7 +742,7 @@ Loesung beendet.
               empile:      546571
            play_move:      350739
         orig_rbechec:      275193
-        orig_rnechec:      106661
+        orig_rnechec:      106747
 Loesung beendet. 
 
 
@@ -923,7 +923,7 @@ Loesung beendet.
               empile:     1097677
            play_move:      798370
         orig_rbechec:      602933
-        orig_rnechec:      242975
+        orig_rnechec:      243014
 Loesung beendet. 
 
 
@@ -970,7 +970,7 @@ Loesung beendet.
               empile:       14402
            play_move:        7193
         orig_rbechec:        4449
-        orig_rnechec:        3907
+        orig_rnechec:        3911
 Loesung beendet. 
 
 
@@ -1141,7 +1141,7 @@ Loesung beendet.
               empile:      527562
            play_move:      456637
         orig_rbechec:      352678
-        orig_rnechec:      145550
+        orig_rnechec:      145574
 Loesung beendet. 
 
 
@@ -1289,7 +1289,7 @@ Loesung beendet.
               empile:     1211195
            play_move:      525008
         orig_rbechec:      246068
-        orig_rnechec:      427256
+        orig_rnechec:      427271
 Loesung beendet. 
 
 
@@ -1511,7 +1511,7 @@ Loesung beendet.
               empile:     1776401
            play_move:     1365187
         orig_rbechec:      955113
-        orig_rnechec:      487443
+        orig_rnechec:      487476
 Loesung beendet. 
 
 
@@ -1547,7 +1547,7 @@ Loesung beendet.
               empile:         347
            play_move:         277
         orig_rbechec:          35
-        orig_rnechec:         279
+        orig_rnechec:         280
 Loesung beendet. 
 
 
@@ -1652,7 +1652,7 @@ Loesung beendet.
               empile:      533795
            play_move:      342338
         orig_rbechec:       93149
-        orig_rnechec:      278353
+        orig_rnechec:      278371
 Loesung beendet. 
 
 
@@ -2236,7 +2236,7 @@ Loesung beendet.
               empile:     1212054
            play_move:      761148
         orig_rbechec:      587360
-        orig_rnechec:      243194
+        orig_rnechec:      243350
 Loesung beendet. 
 
 
@@ -2677,7 +2677,7 @@ Loesung beendet.
               empile:        1380
            play_move:         938
         orig_rbechec:         942
-        orig_rnechec:         134
+        orig_rnechec:         135
 Loesung beendet. 
 
 
@@ -2715,7 +2715,7 @@ Loesung beendet.
               empile:        8085
            play_move:        3964
         orig_rbechec:        3983
-        orig_rnechec:        1536
+        orig_rnechec:        1538
 Loesung beendet. 
 
 
@@ -3302,7 +3302,7 @@ Loesung beendet.
               empile:    13259945
            play_move:     8018631
         orig_rbechec:     7205273
-        orig_rnechec:      838276
+        orig_rnechec:      838418
 Loesung beendet. 
 
 
@@ -3377,7 +3377,7 @@ Loesung beendet.
               empile:      680754
            play_move:      568558
         orig_rbechec:      515988
-        orig_rnechec:       70806
+        orig_rnechec:       70810
 Loesung beendet. 
 
 
@@ -3421,7 +3421,7 @@ Loesung beendet.
               empile:        5463
            play_move:        2924
         orig_rbechec:        1020
-        orig_rnechec:        2894
+        orig_rnechec:        2895
 Loesung beendet. 
 
 
@@ -3555,7 +3555,7 @@ Loesung beendet.
               empile:       78744
            play_move:       20239
         orig_rbechec:        8505
-        orig_rnechec:       15589
+        orig_rnechec:       15598
 Loesung beendet. 
 
 
@@ -3597,7 +3597,7 @@ RochadenGegenseitigAusschliessend a1h8
               empile:        2924
            play_move:        1947
         orig_rbechec:         406
-        orig_rnechec:        2189
+        orig_rnechec:        2191
 Loesung beendet. 
 
 
@@ -3639,7 +3639,7 @@ RochadenGegenseitigAusschliessend h1a8
               empile:        1426
            play_move:        1078
         orig_rbechec:         198
-        orig_rnechec:        1185
+        orig_rnechec:        1187
 Loesung beendet. 
 
 
@@ -4275,7 +4275,7 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
               empile:      707099
            play_move:      368881
         orig_rbechec:      128362
-        orig_rnechec:      326835
+        orig_rnechec:      326909
 Loesung beendet. 
 
 

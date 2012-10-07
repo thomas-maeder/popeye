@@ -33,18 +33,15 @@ static stip_length_type const no_threats_found = UINT_MAX;
  */
 static unsigned int nr_threats_to_be_confirmed;
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type threat_defeated_tester_defend(slice_index si,
+stip_length_type threat_defeated_tester_solve(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
@@ -55,7 +52,7 @@ stip_length_type threat_defeated_tester_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(next,n);
+  result = solve(next,n);
 
   if (n>=threat_lengths[nbply]-2)
   {
@@ -87,18 +84,15 @@ stip_length_type threat_defeated_tester_defend(slice_index si,
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
+stip_length_type threat_collector_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -108,7 +102,7 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(next,n);
+  result = solve(next,n);
 
   if (slack_length<=result && result<=n)
     append_to_top_table();
@@ -119,18 +113,15 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
+stip_length_type threat_solver_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -145,9 +136,9 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
   threats[threats_ply] = allocate_table();
 
   if (!attack_gives_check[nbply])
-    threat_lengths[threats_ply] = defend(slices[si].next2,n)-1;
+    threat_lengths[threats_ply] = solve(slices[si].next2,n)-1;
 
-  result = defend(next,n);
+  result = solve(next,n);
 
   assert(get_top_table()==threats[threats_ply]);
   free_table();
@@ -160,15 +151,15 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
+stip_length_type threat_enforcer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -184,10 +175,10 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
   TraceValue("%u\n",len_threat);
 
   if (len_threat<=slack_length)
-    /* the attack has something stronger than threats (typically, it
+    /* the solve has something stronger than threats (typically, it
      * delivers check)
      */
-    result = attack(next,n);
+    result = solve(next,n);
   else if (len_threat<=n)
   {
     /* there are >=1 threats - don't report variations shorter than
@@ -198,23 +189,23 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
 
     nr_threats_to_be_confirmed = table_length(threats_table);
 
-    len_test_threats = attack(threat_start,len_threat);
+    len_test_threats = solve(threat_start,len_threat);
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */
-      result = attack(next,n);
+      result = solve(next,n);
     else if (len_test_threats>len_threat-2 && nr_threats_to_be_confirmed>0)
       /* variation has same length as the threat(s), but it has
        * defeated at least one threat
        */
-      result = attack(next,n);
+      result = solve(next,n);
     else
       /* variation is shorter than threat */
       result = len_test_threats;
   }
   else
     /* zugzwang, or we haven't looked for threats yet */
-    result = attack(next,n);
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -380,7 +371,7 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] = {
         alloc_dummy_move_slice(),
-        alloc_move_played_slice(),
+        alloc_defense_played_slice(),
         alloc_pipe(STThreatCollector)
     };
     defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,3,si);

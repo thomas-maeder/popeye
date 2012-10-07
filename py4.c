@@ -67,7 +67,7 @@
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
 #include "solving/single_move_generator.h"
@@ -221,7 +221,7 @@ static int count_opponent_moves(void)
                              move_generation_stack[current_move[nbply]].capture,
                              mars_circe_rebirth_square[current_move[nbply]]);
 
-  attack(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,length_unspecified);
+  solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,length_unspecified);
 
   result = fini_opponent_moves_counter();
 
@@ -751,7 +751,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           }
 
           init_single_move_generator(sq_departure,sq_arrival,sq_capture,mren);
-          is_this_move_legal = attack(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].next2,length_unspecified)==has_solution;
+          is_this_move_legal = solve(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].next2,length_unspecified)==has_solution;
            /* TODO what for, if we don't have neutrals? Does it matter? */
           initialise_neutrals(save_neutcoul);
 

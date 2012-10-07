@@ -1,4 +1,4 @@
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "stipulation/fork.h"
 #include "pyproof.h"
 #include "conditions/amu/mate_filter.h"
@@ -90,6 +90,7 @@
 #include "optimisations/intelligent/stalemate/goalreachable_guard.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "optimisations/killer_move/collector.h"
+#include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/initialiser.h"
@@ -106,13 +107,17 @@
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
+#include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
+#include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
+#include "output/plaintext/tree/threat_writer.h"
+#include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
@@ -128,8 +133,10 @@
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/try.h"
-#include "solving/capture_counter.h"
+#include "solving/battle_play/check_detector.h"
+#include "solving/battle_play/threat.h"
 #include "solving/castling.h"
+#include "solving/capture_counter.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_move.h"
 #include "solving/find_shortest.h"
@@ -162,6 +169,7 @@
 #include "stipulation/if_then_else.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/dummy_move.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/discriminate_by_right_to_move.h"
@@ -196,15 +204,15 @@
 
 #include <assert.h>
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack(slice_index si, stip_length_type n)
+stip_length_type solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -216,916 +224,997 @@ stip_length_type attack(slice_index si, stip_length_type n)
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STThreatSolver:
+      result = threat_solver_solve(si,n);
+      break;
+
+    case STDummyMove:
+      result = dummy_move_solve(si,n);
+      break;
+
+    case STThreatCollector:
+      result = threat_collector_solve(si,n);
+      break;
+
     case STThreatEnforcer:
-      result = threat_enforcer_attack(si,n);
+      result = threat_enforcer_solve(si,n);
+      break;
+
+    case STThreatDefeatedTester:
+      result = threat_defeated_tester_solve(si,n);
+      break;
+
+    case STThreatWriter:
+      result = threat_writer_solve(si,n);
       break;
 
     case STZugzwangWriter:
-      result = zugzwang_writer_attack(si,n);
+      result = zugzwang_writer_solve(si,n);
+      break;
+
+    case STKeyWriter:
+      result = key_writer_solve(si,n);
+      break;
+
+    case STTryWriter:
+      result = try_writer_solve(si,n);
+      break;
+
+    case STRefutationsAllocator:
+      result = refutations_allocator_solve(si,n);
+      break;
+
+    case STRefutationsSolver:
+      result = refutations_solver_solve(si,n);
+      break;
+
+    case STRefutationsIntroWriter:
+      result = refutations_intro_writer_solve(si,n);
       break;
 
     case STRefutationsAvoider:
-      result = refutations_avoider_attack(si,n);
+      result = refutations_avoider_solve(si,n);
       break;
 
     case STRefutationsFilter:
-      result = refutations_filter_attack(si,n);
-      break;
-
-    case STMoveWriter:
-      result = move_writer_attack(si,n);
-      break;
-
-    case STTrivialEndFilter:
-      result = trivial_end_filter_attack(si,n);
+      result = refutations_filter_solve(si,n);
       break;
 
     case STRefutingVariationWriter:
-      result = refuting_variation_writer_attack(si,n);
+      result = refuting_variation_writer_solve(si,n);
+      break;
+
+    case STMoveWriter:
+      result = move_writer_solve(si,n);
+      break;
+
+    case STTrivialEndFilter:
+      result = trivial_end_filter_solve(si,n);
       break;
 
     case STNoShortVariations:
-      result = no_short_variations_attack(si,n);
+      result = no_short_variations_solve(si,n);
       break;
 
     case STOr:
-      result = or_attack(si,n);
+      result = or_solve(si,n);
       break;
 
     case STFindShortest:
-      result = find_shortest_attack(si,n);
+      result = find_shortest_solve(si,n);
       break;
 
     case STMoveGenerator:
-      result = move_generator_attack(si,n);
+      result = move_generator_solve(si,n);
       break;
 
-    case STForEachMove:
-      result = for_each_move_attack(si,n);
+    case STForEachAttack:
+      result = for_each_attack_solve(si,n);
+      break;
+
+    case STFindAttack:
+      result = find_attack_solve(si,n);
+      break;
+
+    case STForEachDefense:
+      result = for_each_defense_solve(si,n);
+      break;
+
+    case STFindDefense:
+      result = find_defense_solve(si,n);
       break;
 
     case STNullMovePlayer:
-      result = null_move_player_attack(si,n);
+      result = null_move_player_solve(si,n);
       break;
 
     case STPostMoveIterationInitialiser:
-      result = post_move_iteration_initialiser_attack(si,n);
+      result = post_move_iteration_initialiser_solve(si,n);
       break;
 
     case STMoveEffectJournalUndoer:
-      result = move_effect_journal_undoer_attack(si,n);
+      result = move_effect_journal_undoer_solve(si,n);
       break;
 
     case STMessignyMovePlayer:
-      result = messigny_move_player_attack(si,n);
+      result = messigny_move_player_solve(si,n);
       break;
 
     case STCastlingPlayer:
-      result = castling_player_attack(si,n);
+      result = castling_player_solve(si,n);
       break;
 
     case STMovePlayer:
-      result = move_player_attack(si,n);
+      result = move_player_solve(si,n);
       break;
 
     case STEnPassantAdjuster:
-      result = en_passant_adjuster_attack(si,n);
+      result = en_passant_adjuster_solve(si,n);
       break;
 
     case STMovingPawnPromoter:
-      result = moving_pawn_promoter_attack(si,n);
+      result = moving_pawn_promoter_solve(si,n);
       break;
 
     case STPhantomChessEnPassantAdjuster:
-      result = phantom_en_passant_adjuster_attack(si,n);
+      result = phantom_en_passant_adjuster_solve(si,n);
       break;
 
     case STAntiMarsCirceEnPassantAdjuster:
-      result = antimars_en_passant_adjuster_attack(si,n);
+      result = antimars_en_passant_adjuster_solve(si,n);
       break;
 
     case STKamikazeCapturingPieceRemover:
-      result = kamikaze_capturing_piece_remover_attack(si,n);
+      result = kamikaze_capturing_piece_remover_solve(si,n);
       break;
 
     case STHaanChessHoleInserter:
-      result = haan_chess_hole_inserter_attack(si,n);
+      result = haan_chess_hole_inserter_solve(si,n);
       break;
 
     case STCastlingChessMovePlayer:
-      result = castling_chess_move_player_attack(si,n);
+      result = castling_chess_move_player_solve(si,n);
       break;
 
     case STExchangeCastlingMovePlayer:
-      result = exchange_castling_move_player_attack(si,n);
+      result = exchange_castling_move_player_solve(si,n);
       break;
 
     case STSuperTransmutingKingTransmuter:
-      result = supertransmuting_kings_transmuter_attack(si,n);
+      result = supertransmuting_kings_transmuter_solve(si,n);
       break;
 
     case STAMUAttackCounter:
-      result = amu_attack_counter_attack(si,n);
+      result = amu_attack_counter_solve(si,n);
       break;
 
     case STMutualCastlingRightsAdjuster:
-      result = mutual_castling_rights_adjuster_attack(si,n);
+      result = mutual_castling_rights_adjuster_solve(si,n);
       break;
 
     case STImitatorMover:
-      result = imitator_mover_attack(si,n);
+      result = imitator_mover_solve(si,n);
       break;
 
     case STMovingPawnToImitatorPromoter:
-      result = moving_pawn_to_imitator_promoter_attack(si,n);
+      result = moving_pawn_to_imitator_promoter_solve(si,n);
       break;
 
-    case STMovePlayed:
-      result = move_played_attack(si,n);
+    case STAttackPlayed:
+      result = attack_played_solve(si,n);
       break;
 
 #if defined(DOTRACE)
     case STMoveTracer:
-      result = move_tracer_attack(si,n);
+      result = move_tracer_solve(si,n);
       break;
 #endif
 
 #if defined(DOMEASURE)
     case STMoveCounter:
-      result = move_counter_attack(si,n);
+      result = move_counter_solve(si,n);
       break;
 #endif
 
     case STOrthodoxMatingMoveGenerator:
-      result = orthodox_mating_move_generator_attack(si,n);
+      result = orthodox_mating_move_generator_solve(si,n);
       break;
 
     case STDeadEnd:
-      result = dead_end_attack(si,n);
+    case STDeadEndGoal:
+      result = dead_end_solve(si,n);
       break;
 
     case STMinLengthOptimiser:
-      result = min_length_optimiser_attack(si,n);
+      result = min_length_optimiser_solve(si,n);
       break;
 
     case STForkOnRemaining:
-      result = fork_on_remaining_attack(si,n);
+      result = fork_on_remaining_solve(si,n);
       break;
 
     case STAttackHashed:
-      result = attack_hashed_attack(si,n);
+      result = attack_hashed_solve(si,n);
       break;
 
     case STEndOfBranch:
     case STEndOfBranchForced:
     case STEndOfBranchTester:
-      result = end_of_branch_attack(si,n);
+      result = end_of_branch_solve(si,n);
       break;
 
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
     case STEndOfBranchGoalTester:
-      result = end_of_branch_goal_attack(si,n);
+      result = end_of_branch_goal_solve(si,n);
       break;
 
     case STGoalReachedTester:
-      result = goal_reached_tester_attack(si,n);
+      result = goal_reached_tester_solve(si,n);
       break;
 
     case STAvoidUnsolvable:
-      result = avoid_unsolvable_attack(si,n);
+      result = avoid_unsolvable_solve(si,n);
       break;
 
     case STResetUnsolvable:
-      result = reset_unsolvable_attack(si,n);
+      result = reset_unsolvable_solve(si,n);
       break;
 
     case STLearnUnsolvable:
-      result = learn_unsolvable_attack(si,n);
+      result = learn_unsolvable_solve(si,n);
       break;
 
     case STConstraintSolver:
     case STConstraintTester:
     case STGoalConstraintTester:
-      result = constraint_attack(si,n);
+      result = constraint_solve(si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_attack(si,n);
+      result = selfcheck_guard_solve(si,n);
       break;
 
     case STKeepMatingFilter:
-      result = keepmating_filter_attack(si,n);
+      result = keepmating_filter_solve(si,n);
       break;
 
     case STOutputPlaintextTreeCheckWriter:
-      result = output_plaintext_tree_check_writer_attack(si,n);
+      result = output_plaintext_tree_check_writer_solve(si,n);
       break;
 
     case STRefutationWriter:
-      result = refutation_writer_attack(si,n);
+      result = refutation_writer_solve(si,n);
       break;
 
     case STDoubleMateFilter:
-      result = doublemate_filter_attack(si,n);
+      result = doublemate_filter_solve(si,n);
       break;
 
     case STCounterMateFilter:
-      result = countermate_filter_attack(si,n);
+      result = countermate_filter_solve(si,n);
       break;
 
     case STEnPassantFilter:
-      result = enpassant_filter_attack(si,n);
+      result = enpassant_filter_solve(si,n);
       break;
 
     case STCastlingFilter:
-      result = castling_filter_attack(si,n);
+      result = castling_filter_solve(si,n);
       break;
 
     case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_attack(si,n);
+      result = goal_prerequisite_optimiser_solve(si,n);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
-      result = output_plaintext_tree_goal_writer_attack(si,n);
+      result = output_plaintext_tree_goal_writer_solve(si,n);
       break;
 
     case STOutputPlaintextLineLineWriter:
-      result = output_plaintext_line_line_writer_attack(si,n);
+      result = output_plaintext_line_line_writer_solve(si,n);
       break;
 
     case STDiscriminateByRightToMove:
-      result = discriminate_by_right_to_move_attack(si,n);
+      result = discriminate_by_right_to_move_solve(si,n);
       break;
 
     case STBGLFilter:
-      result = bgl_filter_attack(si,n);
+      result = bgl_filter_solve(si,n);
       break;
 
     case STMasandRecolorer:
-      result = masand_recolorer_attack(si,n);
+      result = masand_recolorer_solve(si,n);
       break;
 
     case STActuatedRevolvingCentre:
-      result = actuated_revolving_centre_attack(si,n);
+      result = actuated_revolving_centre_solve(si,n);
       break;
 
     case STActuatedRevolvingBoard:
-      result = actuated_revolving_board_attack(si,n);
+      result = actuated_revolving_board_solve(si,n);
       break;
 
     case STRepublicanKingPlacer:
-      result = republican_king_placer_attack(si,n);
+      result = republican_king_placer_solve(si,n);
       break;
 
     case STRepublicanType1DeadEnd:
-      result = republican_type1_dead_end_attack(si,n);
+      result = republican_type1_dead_end_solve(si,n);
       break;
 
     case STCirceKingRebirthAvoider:
-      result = circe_king_rebirth_avoider_attack(si,n);
+      result = circe_king_rebirth_avoider_solve(si,n);
       break;
 
     case STCirceCaptureFork:
-      result = circe_capture_fork_attack(si,n);
+      result = circe_capture_fork_solve(si,n);
       break;
 
     case STCirceRebirthHandler:
-      result = circe_rebirth_handler_attack(si,n);
+      result = circe_rebirth_handler_solve(si,n);
       break;
 
     case STAprilAprilFork:
-      result = april_chess_fork_attack(si,n);
+      result = april_chess_fork_solve(si,n);
       break;
 
     case STSuperCirceNoRebirthFork:
-      result = supercirce_no_rebirth_fork_attack(si,n);
+      result = supercirce_no_rebirth_fork_solve(si,n);
       break;
 
     case STSuperCirceRebirthHandler:
-      result = supercirce_rebirth_handler_attack(si,n);
+      result = supercirce_rebirth_handler_solve(si,n);
       break;
 
     case STCirceRebirthPromoter:
-      result = circe_promoter_attack(si,n);
+      result = circe_promoter_solve(si,n);
       break;
 
     case STCirceVolageRecolorer:
-      result = circe_volage_recolorer_attack(si,n);
+      result = circe_volage_recolorer_solve(si,n);
       break;
 
     case STCirceParrainRebirthHandler:
-      result = circe_parrain_rebirth_handler_attack(si,n);
+      result = circe_parrain_rebirth_handler_solve(si,n);
       break;
 
     case STCirceKamikazeRebirthHandler:
-      result = circe_kamikaze_rebirth_handler_attack(si,n);
+      result = circe_kamikaze_rebirth_handler_solve(si,n);
       break;
 
     case STCirceCageNoCageFork:
-      result = circe_cage_no_cage_fork_attack(si,n);
+      result = circe_cage_no_cage_fork_solve(si,n);
       break;
 
     case STCirceCageCageTester:
-      result = circe_cage_cage_tester_attack(si,n);
+      result = circe_cage_cage_tester_solve(si,n);
       break;
 
     case STSentinellesInserter:
-      result = sentinelles_inserter_attack(si,n);
+      result = sentinelles_inserter_solve(si,n);
       break;
 
     case STMagicViewsInitialiser:
-      result = magic_views_initialiser_attack(si,n);
+      result = magic_views_initialiser_solve(si,n);
       break;
 
     case STMagicPiecesRecolorer:
-      result = magic_pieces_recolorer_attack(si,n);
+      result = magic_pieces_recolorer_solve(si,n);
       break;
 
     case STHauntedChessGhostSummoner:
-      result = haunted_chess_ghost_summoner_attack(si,n);
+      result = haunted_chess_ghost_summoner_solve(si,n);
       break;
 
     case STHauntedChessGhostRememberer:
-      result = haunted_chess_ghost_rememberer_attack(si,n);
+      result = haunted_chess_ghost_rememberer_solve(si,n);
       break;
 
     case STGhostChessGhostRememberer:
-      result = ghost_chess_ghost_rememberer_attack(si,n);
+      result = ghost_chess_ghost_rememberer_solve(si,n);
       break;
 
     case STAndernachSideChanger:
-      result = andernach_side_changer_attack(si,n);
+      result = andernach_side_changer_solve(si,n);
       break;
 
     case STAntiAndernachSideChanger:
-      result = antiandernach_side_changer_attack(si,n);
+      result = antiandernach_side_changer_solve(si,n);
       break;
 
     case STChameleonPursuitSideChanger:
-      result = chameleon_pursuit_side_changer_attack(si,n);
+      result = chameleon_pursuit_side_changer_solve(si,n);
       break;
 
     case STNorskArrivingAdjuster:
-      result = norsk_arriving_adjuster_attack(si,n);
+      result = norsk_arriving_adjuster_solve(si,n);
       break;
 
     case STProteanPawnAdjuster:
-      result = protean_pawn_adjuster_attack(si,n);
+      result = protean_pawn_adjuster_solve(si,n);
       break;
 
     case STEinsteinArrivingAdjuster:
-      result = einstein_moving_adjuster_attack(si,n);
+      result = einstein_moving_adjuster_solve(si,n);
       break;
 
     case STReverseEinsteinArrivingAdjuster:
-      result = reverse_einstein_moving_adjuster_attack(si,n);
+      result = reverse_einstein_moving_adjuster_solve(si,n);
       break;
 
     case STAntiEinsteinArrivingAdjuster:
-      result = anti_einstein_moving_adjuster_attack(si,n);
+      result = anti_einstein_moving_adjuster_solve(si,n);
       break;
 
     case STTraitorSideChanger:
-      result = traitor_side_changer_attack(si,n);
+      result = traitor_side_changer_solve(si,n);
       break;
 
     case STVolageSideChanger:
-      result = volage_side_changer_attack(si,n);
+      result = volage_side_changer_solve(si,n);
       break;
 
     case STMagicSquareSideChanger:
-      result = magic_square_side_changer_attack(si,n);
+      result = magic_square_side_changer_solve(si,n);
       break;
 
     case STTibetSideChanger:
-      result = tibet_attack(si,n);
+      result = tibet_solve(si,n);
       break;
 
     case STDoubleTibetSideChanger:
-      result = double_tibet_attack(si,n);
+      result = double_tibet_solve(si,n);
       break;
 
     case STDegradierungDegrader:
-      result = degradierung_degrader_attack(si,n);
+      result = degradierung_degrader_solve(si,n);
       break;
 
     case STPromoteMovingIntoChameleon:
-      result = chameleon_promote_moving_into_attack(si,n);
+      result = chameleon_promote_moving_into_solve(si,n);
       break;
 
     case STPromoteCirceRebornIntoChameleon:
-      result = chameleon_promote_circe_reborn_into_attack(si,n);
+      result = chameleon_promote_circe_reborn_into_solve(si,n);
       break;
 
     case STPromoteAnticirceRebornIntoChameleon:
-      result = chameleon_promote_anticirce_reborn_into_attack(si,n);
+      result = chameleon_promote_anticirce_reborn_into_solve(si,n);
       break;
 
     case STChameleonArrivingAdjuster:
-      result = chameleon_arriving_adjuster_attack(si,n);
+      result = chameleon_arriving_adjuster_solve(si,n);
       break;
 
     case STLineChameleonArrivingAdjuster:
-      result = line_chameleon_arriving_adjuster_attack(si,n);
+      result = line_chameleon_arriving_adjuster_solve(si,n);
       break;
 
     case STFrischaufPromoteeMarker:
-      result = frischauf_promotee_marker_attack(si,n);
+      result = frischauf_promotee_marker_solve(si,n);
       break;
 
     case STPiecesHalfNeutralRecolorer:
-      result = half_neutral_recolorer_attack(si,n);
+      result = half_neutral_recolorer_solve(si,n);
       break;
 
     case STKobulKingSubstitutor:
-      result = kobul_king_substitutor_attack(si,n);
+      result = kobul_king_substitutor_solve(si,n);
       break;
 
     case STDuellistsRememberDuellist:
-      result = duellists_remember_duellist_attack(si,n);
+      result = duellists_remember_duellist_solve(si,n);
       break;
 
     case STSingleboxType2LatentPawnSelector:
-      result = singlebox_type2_latent_pawn_selector_attack(si,n);
+      result = singlebox_type2_latent_pawn_selector_solve(si,n);
       break;
 
     case STSingleboxType2LatentPawnPromoter:
-      result = singlebox_type2_latent_pawn_promoter_attack(si,n);
+      result = singlebox_type2_latent_pawn_promoter_solve(si,n);
       break;
 
     case STAnticirceRebirthHandler:
-      result = anticirce_rebirth_handler_attack(si,n);
+      result = anticirce_rebirth_handler_solve(si,n);
       break;
 
     case STAnticirceRebornPromoter:
-      result = anticirce_reborn_promoter_attack(si,n);
+      result = anticirce_reborn_promoter_solve(si,n);
       break;
 
     case STAntisupercirceRebirthHandler:
-      result = antisupercirce_rebirth_handler_attack(si,n);
+      result = antisupercirce_rebirth_handler_solve(si,n);
       break;
 
     case STFootballChessSubsitutor:
-      result = football_chess_substitutor_attack(si,n);
+      result = football_chess_substitutor_solve(si,n);
       break;
 
     case STRefutationsCollector:
-      result = refutations_collector_attack(si,n);
+      result = refutations_collector_solve(si,n);
       break;
 
     case STMinLengthGuard:
-      result = min_length_guard_attack(si,n);
-      break;
-
-    case STFindMove:
-      result = find_move_attack(si,n);
+      result = min_length_guard_solve(si,n);
       break;
 
     case STAttackHashedTester:
-      result = attack_hashed_tester_attack(si,n);
+      result = attack_hashed_tester_solve(si,n);
       break;
 
     case STDegenerateTree:
-      result = degenerate_tree_attack(si,n);
+      result = degenerate_tree_solve(si,n);
       break;
 
     case STMaxNrNonTrivialCounter:
-      result = max_nr_nontrivial_counter_attack(si,n);
+      result = max_nr_nontrivial_counter_solve(si,n);
       break;
 
-    case STKillerMoveCollector:
-      result = killer_move_collector_attack(si,n);
+    case STKillerDefenseCollector:
+      result = killer_defense_collector_solve(si,n);
       break;
 
     case STFindByIncreasingLength:
-      result = find_by_increasing_length_attack(si,n);
+      result = find_by_increasing_length_solve(si,n);
       break;
 
     case STHelpMovePlayed:
-      result = help_move_played_attack(si,n);
-      break;
-
-    case STDeadEndGoal:
-      result = dead_end_help(si,n);
+      result = help_move_played_solve(si,n);
       break;
 
     case STHelpHashed:
-      result = help_hashed_attack(si,n);
+      result = help_hashed_solve(si,n);
       break;
 
     case STIntelligentMovesLeftInitialiser:
-      result = intelligent_moves_left_initialiser_attack(si,n);
+      result = intelligent_moves_left_initialiser_solve(si,n);
       break;
 
     case STRestartGuardIntelligent:
-      result = restart_guard_intelligent_attack(si,n);
+      result = restart_guard_intelligent_solve(si,n);
       break;
 
     case STIntelligentTargetCounter:
-      result = intelligent_target_counter_attack(si,n);
+      result = intelligent_target_counter_solve(si,n);
       break;
 
     case STIntelligentMateFilter:
-      result = intelligent_mate_filter_attack(si,n);
+      result = intelligent_mate_filter_solve(si,n);
       break;
 
     case STIntelligentStalemateFilter:
-      result = intelligent_stalemate_filter_attack(si,n);
+      result = intelligent_stalemate_filter_solve(si,n);
       break;
 
     case STIntelligentProof:
-      result = intelligent_proof_attack(si,n);
+      result = intelligent_proof_solve(si,n);
       break;
 
     case STIntelligentLimitNrSolutionsPerTargetPos:
-      result = intelligent_limit_nr_solutions_per_target_position_attack(si,n);
+      result = intelligent_limit_nr_solutions_per_target_position_solve(si,n);
       break;
 
     case STGoalReachableGuardFilterMate:
-      result = goalreachable_guard_mate_attack(si,n);
+      result = goalreachable_guard_mate_solve(si,n);
       break;
 
     case STGoalReachableGuardFilterStalemate:
-      result = goalreachable_guard_stalemate_attack(si,n);
+      result = goalreachable_guard_stalemate_solve(si,n);
       break;
 
     case STGoalReachableGuardFilterProof:
-      result = goalreachable_guard_proofgame_attack(si,n);
+      result = goalreachable_guard_proofgame_solve(si,n);
       break;
 
     case STGoalReachableGuardFilterProofFairy:
-      result = goalreachable_guard_proofgame_fairy_attack(si,n);
+      result = goalreachable_guard_proofgame_fairy_solve(si,n);
       break;
 
     case STRestartGuard:
-      result = restart_guard_attack(si,n);
+      result = restart_guard_solve(si,n);
       break;
 
     case STMaxTimeGuard:
-      result = maxtime_guard_attack(si,n);
+      result = maxtime_guard_solve(si,n);
       break;
 
     case STMaxSolutionsCounter:
-      result = maxsolutions_counter_attack(si,n);
+      result = maxsolutions_counter_solve(si,n);
       break;
 
     case STMaxSolutionsGuard:
-      result = maxsolutions_guard_attack(si,n);
+      result = maxsolutions_guard_solve(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:
-      result = stoponshortsolutions_attack(si,n);
+      result = stoponshortsolutions_solve(si,n);
       break;
 
     case STIfThenElse:
-      result = if_then_else_attack(si,n);
+      result = if_then_else_solve(si,n);
       break;
 
     case STHelpHashedTester:
-      result = help_hashed_tester_attack(si,n);
+      result = help_hashed_tester_solve(si,n);
       break;
 
     case STFlightsquaresCounter:
-      result = flightsquares_counter_attack(si,n);
+      result = flightsquares_counter_solve(si,n);
       break;
 
     case STKingMoveGenerator:
-      result = king_move_generator_attack(si,n);
+      result = king_move_generator_solve(si,n);
       break;
 
     case STNonKingMoveGenerator:
-      result = non_king_move_generator_attack(si,n);
+      result = non_king_move_generator_solve(si,n);
       break;
 
     case STLegalMoveCounter:
     case STAnyMoveCounter:
-      result = legal_move_counter_attack(si,n);
+      result = legal_move_counter_solve(si,n);
       break;
 
     case STCaptureCounter:
-      result = capture_counter_attack(si,n);
+      result = capture_counter_solve(si,n);
       break;
 
     case STOhneschachCheckGuard:
-      result = ohneschach_check_guard_attack(si,n);
+      result = ohneschach_check_guard_solve(si,n);
       break;
 
     case STExclusiveChessUnsuspender:
-      result = exclusive_chess_unsuspender_attack(si,n);
+      result = exclusive_chess_unsuspender_solve(si,n);
       break;
 
     case STSingleMoveGeneratorWithKingCapture:
-      result = single_move_generator_with_king_capture_attack(si,n);
+      result = single_move_generator_with_king_capture_solve(si,n);
       break;
 
     case STSinglePieceMoveGenerator:
-      result = single_piece_move_generator_attack(si,n);
+      result = single_piece_move_generator_solve(si,n);
       break;
 
     case STCastlingIntermediateMoveGenerator:
-      result = castling_intermediate_move_generator_attack(si,n);
+      result = castling_intermediate_move_generator_solve(si,n);
       break;
 
     case STCastlingRightsAdjuster:
-      result = castling_rights_adjuster_attack(si,n);
+      result = castling_rights_adjuster_solve(si,n);
       break;
 
     case STSingleMoveGenerator:
-      result = single_move_generator_attack(si,n);
+      result = single_move_generator_solve(si,n);
       break;
 
     case STOpponentMovesCounter:
-      result = opponent_moves_counter_attack(si,n);
+      result = opponent_moves_counter_solve(si,n);
       break;
 
     case STIntelligentImmobilisationCounter:
-      result = intelligent_immobilisation_counter_attack(si,n);
+      result = intelligent_immobilisation_counter_solve(si,n);
       break;
 
     case STIntelligentDuplicateAvoider:
-      result = intelligent_duplicate_avoider_attack(si,n);
+      result = intelligent_duplicate_avoider_solve(si,n);
       break;
 
     case STIntelligentSolutionsPerTargetPosCounter:
-      result = intelligent_nr_solutions_per_target_position_counter_attack(si,n);
+      result = intelligent_nr_solutions_per_target_position_counter_solve(si,n);
       break;
 
     case STSetplayFork:
-      result = setplay_fork_attack(si,n);
+      result = setplay_fork_solve(si,n);
       break;
 
     case STAttackAdapter:
-      result = attack_adapter_attack(si,n);
+      result = attack_adapter_solve(si,n);
       break;
 
     case STDefenseAdapter:
-      result = defense_adapter_attack(si,n);
+      result = defense_adapter_solve(si,n);
       break;
 
     case STHelpAdapter:
-      result = help_adapter_attack(si,n);
+      result = help_adapter_solve(si,n);
       break;
 
     case STAnd:
-      result = and_attack(si,n);
+      result = and_solve(si,n);
       break;
 
     case STNot:
-      result = not_attack(si,n);
+      result = not_solve(si,n);
       break;
 
     case STMoveInverter:
-      result = move_inverter_attack(si,n);
+      result = move_inverter_solve(si,n);
       break;
 
     case STMaxSolutionsInitialiser:
-      result = maxsolutions_initialiser_attack(si,n);
+      result = maxsolutions_initialiser_solve(si,n);
       break;
 
     case STStopOnShortSolutionsInitialiser:
-      result = stoponshortsolutions_initialiser_attack(si,n);
+      result = stoponshortsolutions_initialiser_solve(si,n);
       break;
 
     case STIllegalSelfcheckWriter:
-      result = illegal_selfcheck_writer_attack(si,n);
+      result = illegal_selfcheck_writer_solve(si,n);
       break;
 
     case STEndOfPhaseWriter:
-      result = end_of_phase_writer_attack(si,n);
+      result = end_of_phase_writer_solve(si,n);
       break;
 
     case STOutputPlaintextMoveInversionCounter:
-      result = output_plaintext_move_inversion_counter_attack(si,n);
+      result = output_plaintext_move_inversion_counter_solve(si,n);
       break;
 
     case STOutputPlaintextLineEndOfIntroSeriesMarker:
-      result = output_plaintext_line_end_of_intro_series_marker_attack(si,n);
+      result = output_plaintext_line_end_of_intro_series_marker_solve(si,n);
       break;
 
     case STPiecesParalysingMateFilter:
-      result = paralysing_mate_filter_attack(si,n);
+      result = paralysing_mate_filter_solve(si,n);
       break;
 
     case STPiecesParalysingStalemateSpecial:
-      result = paralysing_stalemate_special_attack(si,n);
+      result = paralysing_stalemate_special_solve(si,n);
       break;
 
     case STAmuMateFilter:
-      result = amu_mate_filter_attack(si,n);
+      result = amu_mate_filter_solve(si,n);
       break;
 
     case STUltraschachzwangGoalFilter:
-      result = ultraschachzwang_goal_filter_attack(si,n);
+      result = ultraschachzwang_goal_filter_solve(si,n);
       break;
 
     case STCirceSteingewinnFilter:
-      result = circe_steingewinn_filter_attack(si,n);
+      result = circe_steingewinn_filter_solve(si,n);
       break;
 
     case STCirceCircuitSpecial:
-      result = circe_circuit_special_attack(si,n);
+      result = circe_circuit_special_solve(si,n);
       break;
 
     case STCirceExchangeSpecial:
-      result = circe_exchange_special_attack(si,n);
+      result = circe_exchange_special_solve(si,n);
       break;
 
     case STAnticirceTargetSquareFilter:
-      result = anticirce_target_square_filter_attack(si,n);
+      result = anticirce_target_square_filter_solve(si,n);
       break;
 
     case STAnticirceCircuitSpecial:
-      result = anticirce_circuit_special_attack(si,n);
+      result = anticirce_circuit_special_solve(si,n);
       break;
 
     case STAnticirceExchangeSpecial:
-      result = anticirce_exchange_special_attack(si,n);
+      result = anticirce_exchange_special_solve(si,n);
       break;
 
     case STAnticirceExchangeFilter:
-      result = anticirce_exchange_filter_attack(si,n);
+      result = anticirce_exchange_filter_solve(si,n);
       break;
 
     case STTemporaryHackFork:
-      result = attack(slices[si].next1,length_unspecified);
+      result = solve(slices[si].next1,length_unspecified);
       break;
 
     case STGoalTargetReachedTester:
-      result = goal_target_reached_tester_attack(si,n);
+      result = goal_target_reached_tester_solve(si,n);
       break;
 
     case STGoalCheckReachedTester:
-      result = goal_check_reached_tester_attack(si,n);
+      result = goal_check_reached_tester_solve(si,n);
       break;
 
     case STGoalCaptureReachedTester:
-      result = goal_capture_reached_tester_attack(si,n);
+      result = goal_capture_reached_tester_solve(si,n);
       break;
 
     case STGoalSteingewinnReachedTester:
-      result = goal_steingewinn_reached_tester_attack(si,n);
+      result = goal_steingewinn_reached_tester_solve(si,n);
       break;
 
     case STGoalEnpassantReachedTester:
-      result = goal_enpassant_reached_tester_attack(si,n);
+      result = goal_enpassant_reached_tester_solve(si,n);
       break;
 
     case STGoalDoubleMateReachedTester:
-      result = goal_doublemate_reached_tester_attack(si,n);
+      result = goal_doublemate_reached_tester_solve(si,n);
       break;
 
     case STGoalCounterMateReachedTester:
-      result = goal_countermate_reached_tester_attack(si,n);
+      result = goal_countermate_reached_tester_solve(si,n);
       break;
 
     case STGoalCastlingReachedTester:
-      result = goal_castling_reached_tester_attack(si,n);
+      result = goal_castling_reached_tester_solve(si,n);
       break;
 
     case STGoalCircuitReachedTester:
-      result = goal_circuit_reached_tester_attack(si,n);
+      result = goal_circuit_reached_tester_solve(si,n);
       break;
 
     case STGoalExchangeReachedTester:
-      result = goal_exchange_reached_tester_attack(si,n);
+      result = goal_exchange_reached_tester_solve(si,n);
       break;
 
     case STGoalCircuitByRebirthReachedTester:
-      result = goal_circuit_by_rebirth_reached_tester_attack(si,n);
+      result = goal_circuit_by_rebirth_reached_tester_solve(si,n);
       break;
 
     case STGoalExchangeByRebirthReachedTester:
-      result = goal_exchange_by_rebirth_reached_tester_attack(si,n);
+      result = goal_exchange_by_rebirth_reached_tester_solve(si,n);
       break;
 
     case STGoalProofgameReachedTester:
     case STGoalAToBReachedTester:
-      result = goal_proofgame_reached_tester_attack(si,n);
+      result = goal_proofgame_reached_tester_solve(si,n);
       break;
 
     case STGoalImmobileReachedTester:
-      result = goal_immobile_reached_tester_attack(si,n);
+      result = goal_immobile_reached_tester_solve(si,n);
       break;
 
     case STImmobilityTester:
-      result = immobility_tester_attack(si,n);
+      result = immobility_tester_solve(si,n);
       break;
 
     case STMaffImmobilityTesterKing:
-      result = maff_immobility_tester_king_attack(si,n);
+      result = maff_immobility_tester_king_solve(si,n);
       break;
 
     case STOWUImmobilityTesterKing:
-      result = owu_immobility_tester_king_attack(si,n);
+      result = owu_immobility_tester_king_solve(si,n);
       break;
 
     case STGoalNotCheckReachedTester:
-      result = goal_notcheck_reached_tester_attack(si,n);
+      result = goal_notcheck_reached_tester_solve(si,n);
       break;
 
     case STGoalAnyReachedTester:
-      result = goal_any_reached_tester_attack(si,n);
+      result = goal_any_reached_tester_solve(si,n);
       break;
 
     case STGoalChess81ReachedTester:
-      result = goal_chess81_reached_tester_attack(si,n);
+      result = goal_chess81_reached_tester_solve(si,n);
       break;
 
     case STPiecesParalysingMateFilterTester:
-      result = paralysing_mate_filter_tester_attack(si,n);
+      result = paralysing_mate_filter_tester_solve(si,n);
       break;
 
     case STBlackChecks:
-      result = blackchecks_attack(si,n);
+      result = blackchecks_solve(si,n);
       break;
 
     case STExtinctionRememberThreatened:
-      result = extinction_remember_threatened_attack(si,n);
+      result = extinction_remember_threatened_solve(si,n);
       break;
 
     case STExtinctionTester:
-      result = extinction_tester_attack(si,n);
+      result = extinction_tester_solve(si,n);
       break;
 
     case STSingleBoxType1LegalityTester:
-      result = singlebox_type1_legality_tester_attack(si,n);
+      result = singlebox_type1_legality_tester_solve(si,n);
       break;
 
     case STSingleBoxType2LegalityTester:
-      result = singlebox_type2_legality_tester_attack(si,n);
+      result = singlebox_type2_legality_tester_solve(si,n);
       break;
 
     case STSingleBoxType3LegalityTester:
-      result = singlebox_type3_legality_tester_attack(si,n);
+      result = singlebox_type3_legality_tester_solve(si,n);
       break;
 
     case STSingleBoxType3PawnPromoter:
-      result = singlebox_type3_pawn_promoter_attack(si,n);
+      result = singlebox_type3_pawn_promoter_solve(si,n);
       break;
 
     case STExclusiveChessLegalityTester:
-      result = exclusive_chess_legality_tester_attack(si,n);
+      result = exclusive_chess_legality_tester_solve(si,n);
       break;
 
     case STOhneschachLegalityTester:
-      result = ohneschach_legality_tester_attack(si,n);
+      result = ohneschach_legality_tester_solve(si,n);
       break;
 
     case STUltraschachzwangLegalityTester:
-      result = ultraschachzwang_legality_tester_attack(si,n);
+      result = ultraschachzwang_legality_tester_solve(si,n);
       break;
 
     case STIsardamLegalityTester:
-      result = isardam_legality_tester_attack(si,n);
+      result = isardam_legality_tester_solve(si,n);
       break;
 
     case STCirceAssassinRebirth:
-      result = circe_assassin_rebirth_attack(si,n);
+      result = circe_assassin_rebirth_solve(si,n);
       break;
 
     case STKingCaptureAvoider:
-      result = king_capture_avoider_attack(si,n);
+      result = king_capture_avoider_solve(si,n);
       break;
 
     case STPatienceChessLegalityTester:
-      result = patience_chess_legality_tester_attack(si,n);
+      result = patience_chess_legality_tester_solve(si,n);
       break;
 
     case STPiecesNeutralInitialiser:
-      result = neutral_initialiser_attack(si,n);
+      result = neutral_initialiser_solve(si,n);
       break;
 
     case STPiecesNeutralRetractingRecolorer:
-      result = neutral_retracting_recolorer_attack(si,n);
+      result = neutral_retracting_recolorer_solve(si,n);
       break;
 
     case STPiecesNeutralReplayingRecolorer:
-      result = neutral_replaying_recolorer_attack(si,n);
+      result = neutral_replaying_recolorer_solve(si,n);
       break;
 
     case STSATFlightMoveGenerator:
-      result = sat_flight_moves_generator_attack(si,n);
+      result = sat_flight_moves_generator_solve(si,n);
       break;
 
     case STStrictSATUpdater:
-      result = strict_sat_updater_attack(si,n);
+      result = strict_sat_updater_solve(si,n);
       break;
 
     case STDynastyKingSquareUpdater:
-      result = dynasty_king_square_updater_attack(si,n);
+      result = dynasty_king_square_updater_solve(si,n);
       break;
 
     case STHurdleColourChanger:
-      result = hurdle_colour_changer_attack(si,n);
+      result = hurdle_colour_changer_solve(si,n);
       break;
 
     case STKingOscillator:
-      result = king_oscillator_attack(si,n);
+      result = king_oscillator_solve(si,n);
       break;
 
     case STPlaySuppressor:
-      result = play_suppressor_attack(si,n);
+      result = play_suppressor_solve(si,n);
+      break;
+
+    case STContinuationSolver:
+      result = continuation_solver_solve(si,n);
+      break;
+
+    case STCheckDetector:
+      result = check_detector_solve(si,n);
+      break;
+
+    case STDefensePlayed:
+      result = defense_played_solve(si,n);
+      break;
+
+    case STMaxFlightsquares:
+      result = maxflight_guard_solve(si,n);
+      break;
+
+    case STMaxNrNonTrivial:
+      result = max_nr_nontrivial_guard_solve(si,n);
+      break;
+
+    case STEndOfSolutionWriter:
+      result = end_of_solution_writer_solve(si,n);
+      break;
+
+    case STKillerMoveFinalDefenseMove:
+      result = killer_move_final_defense_move_solve(si,n);
+      break;
+
+    case STMaxThreatLength:
+      result = maxthreatlength_guard_solve(si,n);
+      break;
+
+    case STKillerAttackCollector:
+      result = killer_attack_collector_solve(si,n);
       break;
 
     case STTrue:

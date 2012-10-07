@@ -4,7 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -42,7 +42,7 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].next2,n)<=n;
+  result = solve(slices[si].next2,n)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -50,15 +50,15 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type no_short_variations_attack(slice_index si, stip_length_type n)
+stip_length_type no_short_variations_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -72,7 +72,7 @@ stip_length_type no_short_variations_attack(slice_index si, stip_length_type n)
       && has_short_solution(si,n-2))
     result = slack_length;
   else
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

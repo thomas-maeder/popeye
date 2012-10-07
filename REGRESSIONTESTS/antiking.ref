@@ -33,7 +33,7 @@
               empile:         502
            play_move:         282
         orig_rbechec:          68
-        orig_rnechec:         284
+        orig_rnechec:         285
 solution finished. 
 
 
@@ -204,7 +204,7 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
               empile:       31554
            play_move:       24868
         orig_rbechec:         988
-        orig_rnechec:       24598
+        orig_rnechec:       24606
 solution finished. 
 
 

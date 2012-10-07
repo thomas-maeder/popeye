@@ -110,15 +110,15 @@ void castling_intermediate_move_generator_init_next(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_intermediate_move_generator_attack(slice_index si,
+stip_length_type castling_intermediate_move_generator_solve(slice_index si,
                                                              stip_length_type n)
 {
   stip_length_type result;
@@ -137,7 +137,7 @@ stip_length_type castling_intermediate_move_generator_attack(slice_index si,
    */
   current_move[parent_ply[nbply]] = current_move[nbply];
   empile(square_departure,square_arrival,square_arrival);
-  result = attack(next,n);
+  result = solve(next,n);
   current_move[parent_ply[nbply]] = save_repere;
 
   /* clean up after ourselves */
@@ -174,15 +174,15 @@ static void castle(square sq_departure, square sq_arrival,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_player_attack(slice_index si, stip_length_type n)
+stip_length_type castling_player_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   numecoup const coup_id = current_move[nbply];
@@ -203,7 +203,7 @@ stip_length_type castling_player_attack(slice_index si, stip_length_type n)
       square const sq_partner_arrival = sq_departure+dir_right;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      result = attack(slices[si].next2,n);
+      result = solve(slices[si].next2,n);
 
       break;
     }
@@ -214,72 +214,13 @@ stip_length_type castling_player_attack(slice_index si, stip_length_type n)
       square const sq_partner_arrival = sq_departure+dir_left;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      result = attack(slices[si].next2,n);
+      result = solve(slices[si].next2,n);
 
       break;
     }
 
     default:
-      result = attack(slices[si].next1,n);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type castling_player_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  numecoup const coup_id = current_move[nbply];
-  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
-  square const sq_departure = move_gen_top->departure;
-  square const sq_arrival = move_gen_top->arrival;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  switch (move_gen_top->capture)
-  {
-    case kingside_castling:
-    {
-      square const sq_partner_departure = sq_departure+3*dir_right;
-      square const sq_partner_arrival = sq_departure+dir_right;
-
-      castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      result = defend(slices[si].next2,n);
-
-      break;
-    }
-
-    case queenside_castling:
-    {
-      square const sq_partner_departure = sq_departure+4*dir_left;
-      square const sq_partner_arrival = sq_departure+dir_left;
-
-      castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      result = defend(slices[si].next2,n);
-
-      break;
-    }
-
-    default:
-      result = defend(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
       break;
   }
 
@@ -409,15 +350,15 @@ static void adjust_castling_rights(Side trait_ply)
   }
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type castling_rights_adjuster_attack(slice_index si,
+stip_length_type castling_rights_adjuster_solve(slice_index si,
                                                  stip_length_type n)
 {
   stip_length_type result;
@@ -428,35 +369,7 @@ stip_length_type castling_rights_adjuster_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   adjust_castling_rights(slices[si].starter);
-  result = attack(slices[si].next1,n);
-  castling_flag[nbply] = castling_flag[parent_ply[nbply]];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type castling_rights_adjuster_defend(slice_index si,
-                                                 stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  adjust_castling_rights(slices[si].starter);
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
   castling_flag[nbply] = castling_flag[parent_ply[nbply]];
 
   TraceFunctionExit(__func__);
@@ -566,31 +479,15 @@ void stip_insert_castling(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void adjust_mutual_castling_rights(Side trait_ply)
-{
-  switch (move_generation_stack[current_move[nbply]].capture)
-  {
-    case kingside_castling:
-      CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
-                          castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
-      break;
-
-    case queenside_castling:
-      CLRCASTLINGFLAGMASK(nbply,advers(trait_ply),
-                          castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
-      break;
-  }
-}
-
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type mutual_castling_rights_adjuster_attack(slice_index si,
+stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
                                                         stip_length_type n)
 {
   stip_length_type result;
@@ -600,38 +497,20 @@ stip_length_type mutual_castling_rights_adjuster_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  adjust_mutual_castling_rights(slices[si].starter);
-  result = attack(slices[si].next1,n);
+  switch (move_generation_stack[current_move[nbply]].capture)
+  {
+    case kingside_castling:
+      CLRCASTLINGFLAGMASK(nbply,advers(slices[si].starter),
+                          castling_mutual_exclusive[slices[si].starter][kingside_castling-min_castling]);
+      break;
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
+    case queenside_castling:
+      CLRCASTLINGFLAGMASK(nbply,advers(slices[si].starter),
+                          castling_mutual_exclusive[slices[si].starter][queenside_castling-min_castling]);
+      break;
+  }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type mutual_castling_rights_adjuster_defend(slice_index si,
-                                                        stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  adjust_mutual_castling_rights(slices[si].starter);
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -731,7 +731,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
  * @param si slice index of slice
  * @return value of contribution of slice si to *he's value
  */
-static hash_value_type own_value_of_data_attack(hashElement_union_t const *hue,
+static hash_value_type own_value_of_data_solve(hashElement_union_t const *hue,
                                                 slice_index si)
 {
   stip_length_type const length = slices[si].u.branch.length;
@@ -809,7 +809,7 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
   switch (slices[si].type)
   {
     case STAttackHashed:
-      result = own_value_of_data_attack(hue,si) << offset;
+      result = own_value_of_data_solve(hue,si) << offset;
       break;
 
     case STHelpHashed:
@@ -1908,15 +1908,15 @@ void stip_insert_hash_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_attack(slice_index si, stip_length_type n)
+stip_length_type attack_hashed_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -1927,7 +1927,7 @@ stip_length_type attack_hashed_attack(slice_index si, stip_length_type n)
 
   assert((slices[si].u.branch.length-n)%2==0);
 
-  result = attack(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2033,7 +2033,7 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
-  result = attack(next,n);
+  result = solve(next,n);
 
   if (result<=n)
     addtohash_battle_success(base,result,min_length_adjusted);
@@ -2046,15 +2046,15 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n)
+stip_length_type attack_hashed_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   dhtElement const *he;
@@ -2205,15 +2205,15 @@ static void addtohash_help(slice_index si, stip_length_type n)
 #endif /*HASHRATE*/
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type help_hashed_attack(slice_index si, stip_length_type n)
+stip_length_type help_hashed_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -2231,11 +2231,11 @@ stip_length_type help_hashed_attack(slice_index si, stip_length_type n)
     if (slices[si].u.branch.min_length>slack_length+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
 
     if (result==n+2)
       addtohash_help(si,n);
@@ -2247,15 +2247,15 @@ stip_length_type help_hashed_attack(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type help_hashed_tester_attack(slice_index si, stip_length_type n)
+stip_length_type help_hashed_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const base = slices[si].u.derived_pipe.base;
@@ -2274,11 +2274,11 @@ stip_length_type help_hashed_tester_attack(slice_index si, stip_length_type n)
     if (slices[base].u.branch.min_length>slack_length+1)
     {
       slices[base].u.branch.min_length -= 2;
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
       slices[base].u.branch.min_length += 2;
     }
     else
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
 
     if (result>n)
       addtohash_help(base,n);

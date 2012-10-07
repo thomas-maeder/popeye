@@ -44,15 +44,15 @@ void stip_insert_patience_chess(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type patience_chess_legality_tester_attack(slice_index si,
+stip_length_type patience_chess_legality_tester_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
@@ -65,43 +65,9 @@ stip_length_type patience_chess_legality_tester_attack(slice_index si,
 
   /* don't call patience_legal if TypeB as obs > vide ! */
   if (!PatienceB && !patience_legal())
-    result = n+2;
+    result = slack_length-2;
   else
-    result = attack(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type patience_chess_legality_tester_defend(slice_index si,
-                                                       stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  /* don't call patience_legal if TypeB as obs > vide ! */
-  if (!PatienceB && !patience_legal())
-    result = slack_length-1;
-  else
-    result = defend(next,n);
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -130,7 +130,6 @@ EXTERN  unsigned int    zzzaa[derbla - dernoi + 1];     /* nbpiece */
 EXTERN piece pjoue[maxply+1];
 EXTERN piece pprise[maxply+1];
 EXTERN PieNam current_promotion_of_capturee[maxply+1];
-EXTERN piece ren_parrain[maxply+1];
 
 EXTERN  boolean			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
                         rex_mess_ex, rex_wooz_ex;

@@ -1,7 +1,7 @@
 #include "stipulation/boolean/not.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "stipulation/pipe.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -27,15 +27,15 @@ slice_index alloc_not_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type not_attack(slice_index si, stip_length_type n)
+stip_length_type not_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type next_result;
@@ -45,7 +45,7 @@ stip_length_type not_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  next_result = attack(slices[si].next1,n);
+  next_result = solve(slices[si].next1,n);
   if (next_result>n)
     result = n;
   else if (next_result>=slack_length)

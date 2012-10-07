@@ -40,15 +40,15 @@ void generate_king_moves(Side side)
   }
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type king_move_generator_attack(slice_index si, stip_length_type n)
+stip_length_type king_move_generator_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const attacker = slices[si].starter;
@@ -63,42 +63,7 @@ stip_length_type king_move_generator_attack(slice_index si, stip_length_type n)
   nextply(nbply);
   trait[nbply] = attacker;
   generate_king_moves(attacker);
-  result = attack(next,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type king_move_generator_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  Side const defender = slices[si].starter;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = defender;
-  generate_king_moves(defender);
-  result = defend(next,n);
+  result = solve(next,n);
   finply();
 
   TraceFunctionExit(__func__);

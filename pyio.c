@@ -70,7 +70,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "solving/castling.h"
 #include "pyproof.h"
 #include "stipulation/pipe.h"

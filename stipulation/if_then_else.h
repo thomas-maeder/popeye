@@ -5,8 +5,7 @@
  */
 
 #include "stipulation/structure_traversal.h"
-#include "solving/battle_play/defense_play.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 /* Allocate a STIfThenElse slice.
  * @param normal identifies "normal" (else) successor
@@ -18,28 +17,15 @@ slice_index alloc_if_then_else_slice(slice_index normal,
                                      slice_index exceptional,
                                      slice_index condition);
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type if_then_else_defend(slice_index si, stip_length_type n);
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type if_then_else_attack(slice_index si, stip_length_type n);
+stip_length_type if_then_else_solve(slice_index si, stip_length_type n);
 
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a binary slice

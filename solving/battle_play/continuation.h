@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_CONTINUATION_H)
 #define SOLVING_BATTLE_PLAY_CONTINUATION_H
 
-#include "solving/battle_play/defense_play.h"
+#include "solving/solve.h"
 
 /* This module provides functionality dealing with solutions and
  * continuations.
@@ -21,7 +21,7 @@ slice_index alloc_continuation_solver_slice(void);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type continuation_solver_defend(slice_index si, stip_length_type n);
+stip_length_type continuation_solver_solve(slice_index si, stip_length_type n);
 
 /* Instrument the stipulation structure with STContinuationSolver slices
  * @param root_slice root slice of the stipulation

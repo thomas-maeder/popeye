@@ -11,7 +11,7 @@
 
 #include "DHT/dhtbcmem.h"
 #include "py.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 /* typedefs */
 typedef unsigned char byte;
@@ -59,45 +59,45 @@ void HashStats(unsigned int level, char *trailer);
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n);
+stip_length_type attack_hashed_tester_solve(slice_index si, stip_length_type n);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_attack(slice_index si, stip_length_type n);
+stip_length_type attack_hashed_solve(slice_index si, stip_length_type n);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type help_hashed_attack(slice_index si, stip_length_type n);
+stip_length_type help_hashed_solve(slice_index si, stip_length_type n);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type help_hashed_tester_attack(slice_index si, stip_length_type n);
+stip_length_type help_hashed_tester_solve(slice_index si, stip_length_type n);
 
 /* Instrument stipulation with hashing slices
  * @param si identifies slice where to start

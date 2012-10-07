@@ -1,4 +1,5 @@
 #include "conditions/line_chameleon.h"
+#include "pydata.h"
 #include "conditions/andernach.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -87,15 +88,15 @@ static piece linechampiece(square sq)
   }
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type line_chameleon_arriving_adjuster_attack(slice_index si,
+stip_length_type line_chameleon_arriving_adjuster_solve(slice_index si,
                                                          stip_length_type n)
 {
   stip_length_type result;
@@ -112,43 +113,7 @@ stip_length_type line_chameleon_arriving_adjuster_attack(slice_index si,
                                         sq_arrival,
                                         substitute);
 
-  result = attack(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type line_chameleon_arriving_adjuster_defend(slice_index si,
-                                                         stip_length_type n)
-{
-  stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  piece const substitute = linechampiece(sq_arrival);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (e[sq_arrival]!=substitute)
-    move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
-                                        sq_arrival,
-                                        substitute);
-
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

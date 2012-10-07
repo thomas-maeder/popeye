@@ -6,10 +6,9 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/slice_type.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h utilities/boolean.h stipulation/proxy.h \
  stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/traversal.h solving/battle_play/attack_play.h \
- stipulation/branch.h stipulation/boolean/or.h \
- pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h \
+ stipulation/traversal.h solving/solve.h stipulation/branch.h \
+ stipulation/boolean/or.h pieces/attributes/paralysing/mate_filter.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  pieces/attributes/paralysing/stalemate_special.h debugging/trace.h
 
 pieces/attributes/paralysing/paralysing.h:
@@ -54,7 +53,7 @@ stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 stipulation/branch.h:
 
@@ -79,8 +78,7 @@ pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- solving/battle_play/attack_play.h stipulation/pipe.h \
- stipulation/has_solution_type.h \
+ solving/solve.h stipulation/pipe.h stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h debugging/trace.h
 
 pieces/attributes/paralysing/mate_filter.h:
@@ -117,7 +115,7 @@ utilities/boolean.h:
 
 output/mode.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 stipulation/pipe.h:
 
@@ -134,8 +132,8 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- output/mode.h solving/battle_play/attack_play.h pydata.h pyproc.h py4.h \
- py.h stipulation/goals/goals.h stipulation/pipe.h \
+ output/mode.h solving/solve.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h debugging/trace.h
 
@@ -173,7 +171,7 @@ utilities/boolean.h:
 
 output/mode.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 pydata.h:
 

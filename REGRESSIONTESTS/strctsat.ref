@@ -49,10 +49,10 @@
           2.0-0 #
 
 
-              empile:       91987
-           play_move:       61196
+              empile:       91992
+           play_move:       61200
         orig_rbechec:        6197
-        orig_rnechec:       70434
+        orig_rnechec:       70440
 solution finished. 
 
 
@@ -126,10 +126,10 @@ solution finished.
       1...Rg7-f7 !
 
 
-              empile:       32577
-           play_move:       20509
+              empile:       32604
+           play_move:       20536
         orig_rbechec:        9147
-        orig_rnechec:       27234
+        orig_rnechec:       27279
 solution finished. 
 
 

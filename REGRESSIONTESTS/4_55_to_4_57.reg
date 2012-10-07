@@ -340,7 +340,7 @@ a)
               empile:         706
            play_move:         681
         orig_rbechec:         108
-        orig_rnechec:         652
+        orig_rnechec:         653
 b) ser-s##!1
 
   1.Qa3-c5 + Kc8-b7 ##! 
@@ -560,7 +560,7 @@ don't output reflexmates if variations are not asked for
               empile:          10
            play_move:           9
         orig_rbechec:           9
-        orig_rnechec:           3
+        orig_rnechec:           4
 solution finished. 
 
 
@@ -799,7 +799,7 @@ checks weren't indicated on the move reaching a goal
               empile:         101
            play_move:          30
         orig_rbechec:           0
-        orig_rnechec:          25
+        orig_rnechec:          27
 solution finished. 
 
 

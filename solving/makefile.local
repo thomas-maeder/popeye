@@ -11,7 +11,7 @@ SRC_CFILES =   solving.c move_effect_journal.c \
            castling.c \
            single_move_generator.c trivial_end_filter.c moving_pawn_promotion.c \
            avoid_unsolvable.c selfcheck_guard.c en_passant.c \
-           post_move_iteration.c
+           post_move_iteration.c solve.c
 INCLUDES = solving.h move_effect_journal.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
@@ -23,6 +23,6 @@ INCLUDES = solving.h move_effect_journal.h \
            castling.h \
            single_move_generator.h trivial_end_filter.h moving_pawn_promotion.h \
            avoid_unsolvable.h selfcheck_guard.h en_passant.h \
-           post_move_iteration.h
+           post_move_iteration.h solve.h
 
 include makefile.rules $(CURRPWD)depend

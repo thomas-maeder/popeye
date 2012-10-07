@@ -1582,7 +1582,7 @@ Loesung beendet.
               empile:  6413950089
            play_move:  2089121145
         orig_rbechec:   161141051
-        orig_rnechec:  1946573492
+        orig_rnechec:  1946573717
 Loesung beendet. 
 
 
@@ -1635,7 +1635,7 @@ Loesung beendet.
               empile:  2407620855
            play_move:   387806133
         orig_rbechec:           0
-        orig_rnechec:   320394410
+        orig_rnechec:   320394417
 Loesung beendet. 
 
 
@@ -2087,7 +2087,7 @@ a)
               empile:   145516256
            play_move:    59739088
         orig_rbechec:    59388140
-        orig_rnechec:    28922606
+        orig_rnechec:    28922612
 b) sBc4-->c3
 
  19  (g7-g8=I[Ig7,g8] )
@@ -2126,7 +2126,7 @@ b) sBc4-->c3
               empile:   159209677
            play_move:    66238837
         orig_rbechec:    65852177
-        orig_rnechec:    32022143
+        orig_rnechec:    32022149
 c) sBb3-->c3
 
  38  (g7-g8=I[Ig7,g8] )
@@ -2164,7 +2164,7 @@ c) sBb3-->c3
               empile:   154347104
            play_move:    63393770
         orig_rbechec:    63070350
-        orig_rnechec:    31277025
+        orig_rnechec:    31277031
 Loesung beendet. 
 
 
@@ -2334,7 +2334,7 @@ dauert 13 min mit Athlon 2400 / 200MB
               empile:    89448571
            play_move:    58246350
         orig_rbechec:    58585887
-        orig_rnechec:    10800221
+        orig_rnechec:    10800256
 Loesung beendet. 
 
 
@@ -2450,7 +2450,7 @@ Loesung beendet.
               empile: 81728859330
            play_move: 13500989483
         orig_rbechec: 13500989491
-        orig_rnechec:  9042919638
+        orig_rnechec:  9042919650
 Loesung beendet. 
 
 
@@ -2494,10 +2494,10 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
  10  (h2-h1=T + )
  11  (h2-h1=L )
 
-              empile:   126853468
-           play_move:   113261934
-        orig_rbechec:    29642230
-        orig_rnechec:    89231569
+              empile:   128321246
+           play_move:   114413155
+        orig_rbechec:    29861799
+        orig_rnechec:    90280126
 Loesung beendet. 
 
 
@@ -2736,7 +2736,7 @@ Initial (Weiss ->):
               empile:  8676429640
            play_move:  7299874124
         orig_rbechec:  4012675256
-        orig_rnechec:   377741614
+        orig_rnechec:   377741704
 Loesung beendet. 
 
 

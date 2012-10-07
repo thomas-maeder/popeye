@@ -2,7 +2,6 @@
 #define STIPULATION_BATTLE_PLAY_DEFENSE_ADAPTER_H
 
 #include "stipulation/structure_traversal.h"
-#include "solving/battle_play/defense_play.h"
 
 /* STDefenseAdapter slices switch from generic solving to defense solving.
  */
@@ -29,14 +28,14 @@ void defense_adapter_make_root(slice_index si, stip_structure_traversal *st);
 void defense_adapter_make_intro(slice_index adapter,
                                 stip_structure_traversal *st);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type defense_adapter_attack(slice_index si, stip_length_type n);
+stip_length_type defense_adapter_solve(slice_index si, stip_length_type n);
 
 #endif

@@ -79,15 +79,15 @@ static boolean advance_substitution(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type football_chess_substitutor_attack(slice_index si,
+stip_length_type football_chess_substitutor_solve(slice_index si,
                                                    stip_length_type n)
 {
   stip_length_type result;
@@ -101,7 +101,7 @@ stip_length_type football_chess_substitutor_attack(slice_index si,
     init_substitution();
 
   if (current_football_substitution[nbply]==vide)
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
@@ -113,61 +113,7 @@ stip_length_type football_chess_substitutor_attack(slice_index si,
                                           sq_arrival,
                                           substitute);
 
-    result = attack(slices[si].next1,n);
-
-    if (!post_move_iteration_locked[nbply])
-    {
-      if (advance_substitution())
-        lock_post_move_iterations();
-    }
-  }
-
-  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type football_chess_substitutor_defend(slice_index si,
-                                                   stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    init_substitution();
-
-  if (current_football_substitution[nbply]==vide)
-    result = defend(slices[si].next1,n);
-  else
-  {
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    piece const substituted = e[sq_arrival];
-    piece const substitute = substituted<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
-
-    if (substitute!=substituted)
-      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substitution,
-                                          sq_arrival,
-                                          substitute);
-
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {

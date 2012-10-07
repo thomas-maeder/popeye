@@ -68,7 +68,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "solving/castling.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/temporary_hacks.h"
@@ -563,7 +563,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
     boolean const save_flagmummer = flagmummer[side];
     flagmummer[side] = false;
     castling_intermediate_move_generator_init_next(from,to);
-    result = attack(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==has_solution;
+    result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==has_solution;
     flagmummer[side] = save_flagmummer;
   }
   else

@@ -9,21 +9,15 @@
 
 square duellists[nr_sides][maxply+1];
 
-static void remember_duellist(Side trait_ply)
-{
-  duellists[advers(trait_ply)][nbply] = duellists[advers(trait_ply)][parent_ply[nbply]];
-  duellists[trait_ply][nbply] = move_generation_stack[current_move[nbply]].arrival;
-}
-
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type duellists_remember_duellist_attack(slice_index si,
+stip_length_type duellists_remember_duellist_solve(slice_index si,
                                                     stip_length_type n)
 {
   stip_length_type result;
@@ -33,38 +27,10 @@ stip_length_type duellists_remember_duellist_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  remember_duellist(slices[si].starter);
-  result = attack(slices[si].next1,n);
+  duellists[advers(slices[si].starter)][nbply] = duellists[advers(slices[si].starter)][parent_ply[nbply]];
+  duellists[slices[si].starter][nbply] = move_generation_stack[current_move[nbply]].arrival;
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type duellists_remember_duellist_defend(slice_index si,
-                                                    stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  remember_duellist(slices[si].starter);
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

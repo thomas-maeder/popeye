@@ -136,16 +136,16 @@ slice_index alloc_intelligent_nr_solutions_per_target_position_counter_slice(voi
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
-intelligent_nr_solutions_per_target_position_counter_attack(slice_index si,
+intelligent_nr_solutions_per_target_position_counter_solve(slice_index si,
                                                             stip_length_type n)
 {
   stip_length_type result;
@@ -155,7 +155,7 @@ intelligent_nr_solutions_per_target_position_counter_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
   if (slack_length<=result && result<=n)
     ++nr_solutions_in_current_target_position;
 
@@ -183,16 +183,16 @@ slice_index alloc_intelligent_limit_nr_solutions_per_target_position_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
-intelligent_limit_nr_solutions_per_target_position_attack(slice_index si,
+intelligent_limit_nr_solutions_per_target_position_solve(slice_index si,
                                                           stip_length_type n)
 {
   has_solution_type result;
@@ -209,7 +209,7 @@ intelligent_limit_nr_solutions_per_target_position_attack(slice_index si,
     result = n+2;
   }
   else
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

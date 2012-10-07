@@ -70,7 +70,7 @@ static void init_moves_left(slice_index si,
   stip_moves_traversal_init(&st,&n);
   st.context = stip_traversal_context_help;
   stip_moves_traversal_set_remaining(&st,n,full_length);
-  stip_moves_traversal_override_single(&st,STForEachMove,&moves_left_move);
+  stip_moves_traversal_override_single(&st,STForEachAttack,&moves_left_move);
   stip_traverse_moves(si,&st);
 
   TraceValue("%u",MovesLeft[White]);
@@ -80,15 +80,15 @@ static void init_moves_left(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_moves_left_initialiser_attack(slice_index si,
+stip_length_type intelligent_moves_left_initialiser_solve(slice_index si,
                                                            stip_length_type n)
 {
   stip_length_type result;
@@ -101,7 +101,7 @@ stip_length_type intelligent_moves_left_initialiser_attack(slice_index si,
   init_moves_left(si,n-slack_length,n-slack_length);
 
   if (MovesLeft[White]+MovesLeft[Black]>0)
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
     result = n+2;
 

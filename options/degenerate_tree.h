@@ -10,7 +10,7 @@
  * solution in all lengths from 1 to N.
  */
 
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 /* Reset the degenerate tree setting
  */
@@ -27,14 +27,14 @@ void init_degenerate_tree(stip_length_type max_length_short);
  */
 void stip_insert_degenerate_tree_guards(slice_index si);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n);
+stip_length_type degenerate_tree_solve(slice_index si, stip_length_type n);
 
 #endif

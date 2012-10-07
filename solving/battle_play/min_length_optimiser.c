@@ -27,16 +27,16 @@ slice_index alloc_min_length_optimiser_slice(stip_length_type length,
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
-min_length_optimiser_attack(slice_index si, stip_length_type n)
+min_length_optimiser_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -49,13 +49,14 @@ min_length_optimiser_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",max_unsolvable);
   if (max_unsolvable+length-min_length<n)
   {
-    max_unsolvable = n-(length-min_length);
+    max_unsolvable = n-1-(length-min_length);
     TraceValue("->%u\n",max_unsolvable);
   }
 
-  result = attack(next,n);
+  result = solve(next,n);
 
   max_unsolvable = save_max_unsolvable;
   TraceValue("->%u\n",max_unsolvable);

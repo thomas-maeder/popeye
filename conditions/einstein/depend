@@ -1,18 +1,17 @@
 conditions/einstein/einstein$(OBJ_SUFFIX): conditions/einstein/einstein.c \
- conditions/einstein/einstein.h solving/battle_play/attack_play.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h \
- solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
+ conditions/einstein/einstein.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/einstein/einstein.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 py.h:
 
@@ -30,12 +29,6 @@ utilities/enumeration.h:
 
 pylang.h:
 
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-solving/battle_play/defense_play.h:
-
 pydata.h:
 
 pyproc.h:
@@ -51,6 +44,10 @@ utilities/boolean.h:
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
 
 stipulation/traversal.h:
 
@@ -68,21 +65,20 @@ solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/einstein/reverse$(OBJ_SUFFIX): conditions/einstein/reverse.c \
- conditions/einstein/reverse.h solving/battle_play/attack_play.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h \
- solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h \
+ conditions/einstein/reverse.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  conditions/einstein/einstein.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/einstein/reverse.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 py.h:
 
@@ -99,12 +95,6 @@ position/piece.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-solving/battle_play/defense_play.h:
 
 pydata.h:
 
@@ -123,6 +113,10 @@ conditions/einstein/einstein.h:
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
 
 stipulation/traversal.h:
 
@@ -140,21 +134,20 @@ solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/einstein/anti$(OBJ_SUFFIX): conditions/einstein/anti.c \
- conditions/einstein/anti.h solving/battle_play/attack_play.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h \
- solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h \
+ conditions/einstein/anti.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  conditions/einstein/einstein.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/einstein/anti.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 py.h:
 
@@ -171,12 +164,6 @@ position/piece.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-solving/battle_play/defense_play.h:
 
 pydata.h:
 
@@ -195,6 +182,10 @@ conditions/einstein/einstein.h:
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
 
 stipulation/traversal.h:
 

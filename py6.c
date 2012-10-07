@@ -105,7 +105,7 @@
 #include "solving/moving_pawn_promotion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "output/output.h"
 #include "conditions/bgl.h"
 #include "conditions/exclusive.h"
@@ -2103,7 +2103,7 @@ static void reflectboard(void)
 static void solveHalfADuplex(slice_index si)
 {
   inithash(si);
-  attack(si,length_unspecified);
+  solve(si,length_unspecified);
   closehash();
 
 #ifdef _SE_DECORATE_SOLUTION_

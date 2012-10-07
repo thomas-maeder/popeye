@@ -47,7 +47,7 @@ a)
               empile:        2218
            play_move:        1174
         orig_rbechec:         199
-        orig_rnechec:        1757
+        orig_rnechec:        1760
 b) WhiteOscillatingKings    TypeB
 
    1.Sf2-d1[Kf5<->Kc5] ! zugzwang.
@@ -58,7 +58,7 @@ b) WhiteOscillatingKings    TypeB
               empile:        3221
            play_move:        1610
         orig_rbechec:        1382
-        orig_rnechec:        1612
+        orig_rnechec:        1613
 c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
 
@@ -105,7 +105,7 @@ solution finished.
               empile:        4429
            play_move:        1792
         orig_rbechec:        1793
-        orig_rnechec:        3158
+        orig_rnechec:        3160
 solution finished. 
 
 
@@ -151,7 +151,7 @@ solution finished.
               empile:        2014
            play_move:        1286
         orig_rbechec:         182
-        orig_rnechec:        1288
+        orig_rnechec:        1289
 solution finished. 
 
 

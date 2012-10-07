@@ -26,18 +26,15 @@ slice_index alloc_check_detector_slice(void)
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type check_detector_defend(slice_index si, stip_length_type n)
+stip_length_type check_detector_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -47,7 +44,7 @@ stip_length_type check_detector_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   attack_gives_check[nbply] = echecc(slices[si].starter);
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

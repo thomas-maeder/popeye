@@ -675,7 +675,8 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitor starter_detectors[] =
 {
-  { STMovePlayed,     &move_played_detect_starter   },
+  { STAttackPlayed,   &move_played_detect_starter   },
+  { STDefensePlayed,  &move_played_detect_starter   },
   { STHelpMovePlayed, &move_played_detect_starter   },
   { STMoveInverter,   &move_inverter_detect_starter }
 };
@@ -778,7 +779,8 @@ static void impose_inverted_starter(slice_index si,
  */
 static slice_type starter_inverters[] =
 {
-  STMovePlayed,
+  STAttackPlayed,
+  STDefensePlayed,
   STHelpMovePlayed,
   STMoveInverter
 };

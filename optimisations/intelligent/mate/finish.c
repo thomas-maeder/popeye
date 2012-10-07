@@ -2,7 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -75,7 +75,7 @@ static boolean exists_redundant_white_piece(void)
         e[sq] = vide;
         spec[sq] = EmptySpec;
 
-        result = attack(slices[current_start_slice].next2,length_unspecified)==has_solution;
+        result = solve(slices[current_start_slice].next2,length_unspecified)==has_solution;
 
         /* restore piece */
         e[sq] = p;

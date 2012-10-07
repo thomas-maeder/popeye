@@ -63,15 +63,15 @@ static void determine_rebirth_square(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type anticirce_rebirth_handler_attack(slice_index si,
+stip_length_type anticirce_rebirth_handler_solve(slice_index si,
                                                   stip_length_type n)
 {
   stip_length_type result;
@@ -86,60 +86,16 @@ stip_length_type anticirce_rebirth_handler_attack(slice_index si,
   {
     square const sq_rebirth = current_anticirce_rebirth_square[nbply];
     if (sq_rebirth==initsquare)
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
     else if ((!AntiCirCheylan
               && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
              || e[sq_rebirth]==vide)
     {
       anticirce_do_rebirth(move_effect_reason_anticirce_rebirth);
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
     }
     else
-      result = n+2;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type anticirce_rebirth_handler_defend(slice_index si,
-                                                  stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  determine_rebirth_square(slices[si].starter);
-
-  {
-    square const sq_rebirth = current_anticirce_rebirth_square[nbply];
-    if (sq_rebirth==initsquare)
-      result = defend(slices[si].next1,n);
-    else if ((!AntiCirCheylan
-              && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
-             || e[sq_rebirth]==vide)
-    {
-      anticirce_do_rebirth(move_effect_reason_anticirce_rebirth);
-      result = defend(slices[si].next1,n);
-    }
-    else
-      result = slack_length-1;
+      result = slack_length-2;
   }
 
   TraceFunctionExit(__func__);
@@ -163,15 +119,15 @@ static void init_promotee(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type anticirce_reborn_promoter_attack(slice_index si,
+stip_length_type anticirce_reborn_promoter_solve(slice_index si,
                                                   stip_length_type n)
 {
   stip_length_type result;
@@ -185,7 +141,7 @@ stip_length_type anticirce_reborn_promoter_attack(slice_index si,
     init_promotee(slices[si].starter);
 
   if (current_promotion_of_reborn_moving[nbply]==Empty)
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
   {
     square const sq_rebirth = current_anticirce_rebirth_square[nbply];
@@ -196,66 +152,12 @@ stip_length_type anticirce_reborn_promoter_attack(slice_index si,
                                         sq_rebirth,
                                         promotee);
 
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {
       current_promotion_of_reborn_moving[nbply] = getprompiece[current_promotion_of_reborn_moving[nbply]];
       TracePiece(current_promotion_of_reborn_moving[nbply]);TraceText("\n");
-      if (current_promotion_of_reborn_moving[nbply]!=Empty)
-        lock_post_move_iterations();
-    }
-
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type anticirce_reborn_promoter_defend(slice_index si,
-                                                  stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    init_promotee(slices[si].starter);
-
-  if (current_promotion_of_reborn_moving[nbply]==Empty)
-    result = defend(slices[si].next1,n);
-  else
-  {
-    square const sq_rebirth = current_anticirce_rebirth_square[nbply];
-    piece const pi_reborn = e[sq_rebirth];
-    piece const promotee = pi_reborn<vide ? -current_promotion_of_reborn_moving[nbply] : current_promotion_of_reborn_moving[nbply];
-
-    move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
-                                        sq_rebirth,
-                                        promotee);
-
-    result = defend(slices[si].next1,n);
-
-    if (!post_move_iteration_locked[nbply])
-    {
-      current_promotion_of_reborn_moving[nbply] = getprompiece[current_promotion_of_reborn_moving[nbply]];
       if (current_promotion_of_reborn_moving[nbply]!=Empty)
         lock_post_move_iterations();
     }

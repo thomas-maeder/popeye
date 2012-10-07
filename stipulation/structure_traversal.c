@@ -192,7 +192,8 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
         stip_traverse_structure(slices[pipe].next1,st);
         break;
 
-      case STMovePlayed:
+      case STAttackPlayed:
+      case STDefensePlayed:
       {
         stip_traversal_context_type const save_context = st->context;
         st->context = context_after_move(st->context);

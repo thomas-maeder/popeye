@@ -43,7 +43,7 @@ a)
               empile:       11998
            play_move:        9536
         orig_rbechec:         492
-        orig_rnechec:        9538
+        orig_rnechec:        9539
 b) ChamaeleonCirce    S->L->T->D->S
 
    1.Da7-d7 ! Drohung:
@@ -63,7 +63,7 @@ b) ChamaeleonCirce    S->L->T->D->S
               empile:       12256
            play_move:        9756
         orig_rbechec:         508
-        orig_rnechec:        9758
+        orig_rnechec:        9759
 c) CirceClone
 
    1.Da7-d7 ! Drohung:
@@ -83,7 +83,7 @@ c) CirceClone
               empile:       11866
            play_move:        9393
         orig_rbechec:         484
-        orig_rnechec:        9395
+        orig_rnechec:        9396
 d) ChamaeleonCirce    S->D->T->L->S
 
    1.Da7-d7 ! Drohung:
@@ -103,7 +103,7 @@ d) ChamaeleonCirce    S->D->T->L->S
               empile:       12648
            play_move:       10103
         orig_rbechec:         520
-        orig_rnechec:       10105
+        orig_rnechec:       10106
 Loesung beendet. 
 
 
@@ -273,7 +273,7 @@ Loesung beendet.
               empile:         688
            play_move:         508
         orig_rbechec:         110
-        orig_rnechec:         510
+        orig_rnechec:         511
 Loesung beendet. 
 
 
@@ -433,7 +433,7 @@ Loesung beendet.
               empile:        3704
            play_move:        1845
         orig_rbechec:        1846
-        orig_rnechec:        1069
+        orig_rnechec:        1071
 Loesung beendet. 
 
 

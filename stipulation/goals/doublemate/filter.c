@@ -27,15 +27,15 @@ slice_index alloc_doublemate_filter_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type doublemate_filter_attack(slice_index si, stip_length_type n)
+stip_length_type doublemate_filter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -44,9 +44,9 @@ stip_length_type doublemate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (attack(slices[si].next2,length_unspecified)==has_no_solution)
+  if (solve(slices[si].next2,length_unspecified)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = attack(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);

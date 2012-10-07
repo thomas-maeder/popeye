@@ -34,15 +34,15 @@ slice_index alloc_selfcheck_guard_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n)
+stip_length_type selfcheck_guard_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -54,39 +54,7 @@ stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n)
   if (echecc(advers(slices[si].starter)))
     result = slack_length-2;
   else
-    result = attack(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (echecc(advers(slices[si].starter)))
-    result = n+2;
-  else
-    result = defend(next,n);
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -367,14 +335,15 @@ static structure_traversers_visitor in_branch_guards_inserters[] =
   { STNotEndOfBranchGoal,              &insert_selfcheck_guard_branch            },
   { STGoalReachedTester,               &insert_selfcheck_guard_goal              },
   { STCounterMateFilter,               &stip_traverse_structure_children_pipe    },
-  { STKingCaptureLegalityTester,           &stip_traverse_structure_children_pipe    },
+  { STKingCaptureLegalityTester,       &stip_traverse_structure_children_pipe    },
   { STCageCirceNonCapturingMoveFinder, &suspend_insertion                        },
   { STAnd,                             &instrument_doublestalemate_tester        },
   { STNot,                             &instrument_negated_tester                },
   { STGoalCheckReachedTester,          &dont_instrument_selfcheck_ignoring_goals },
   { STSelfCheckGuard,                  &remember_last_checked                    },
   { STMoveInverter,                    &invert_last_checked                      },
-  { STMovePlayed,                      &forget_last_checked                      },
+  { STAttackPlayed,                    &forget_last_checked                      },
+  { STDefensePlayed,                   &forget_last_checked                      },
   { STHelpMovePlayed,                  &forget_last_checked                      }
 };
 

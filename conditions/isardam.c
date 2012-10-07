@@ -57,15 +57,15 @@ void stip_insert_isardam_legality_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type isardam_legality_tester_attack(slice_index si,
+stip_length_type isardam_legality_tester_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
@@ -77,42 +77,9 @@ stip_length_type isardam_legality_tester_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (pos_legal())
-    result = attack(next,n);
+    result = solve(next,n);
   else
-    result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type isardam_legality_tester_defend(slice_index si,
-                                                       stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (pos_legal())
-    result = defend(next,n);
-  else
-    result = slack_length-1;
+    result = slack_length-2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -34,48 +34,15 @@ slice_index alloc_if_then_else_slice(slice_index normal,
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type if_then_else_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index succ;
-  slice_index const op1 = slices[si].next1;
-  slice_index const op2 = slices[si].next2;
-  slice_index const condition = slices[si].u.if_then_else.condition;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  succ = attack(condition,length_unspecified)==has_solution ? op2 : op1;
-  result = defend(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type if_then_else_attack(slice_index si, stip_length_type n)
+stip_length_type if_then_else_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index succ;
@@ -88,8 +55,8 @@ stip_length_type if_then_else_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  succ = attack(condition,length_unspecified)==has_solution ? op2 : op1;
-  result = attack(succ,n);
+  succ = solve(condition,length_unspecified)==has_solution ? op2 : op1;
+  result = solve(succ,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

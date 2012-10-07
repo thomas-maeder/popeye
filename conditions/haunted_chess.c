@@ -1,4 +1,5 @@
 #include "conditions/haunted_chess.h"
+#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -121,15 +122,15 @@ void move_effect_journal_redo_forget_ghost(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type haunted_chess_ghost_summoner_attack(slice_index si,
+stip_length_type haunted_chess_ghost_summoner_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
@@ -151,48 +152,7 @@ stip_length_type haunted_chess_ghost_summoner_attack(slice_index si,
     move_effect_journal_do_forget_ghost(ghost_pos);
   }
 
-  result = attack(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type haunted_chess_ghost_summoner_defend(slice_index si,
-                                                     stip_length_type n)
-{
-  stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  ghost_index_type const ghost_pos = find_ghost(sq_departure);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (ghost_pos!=ghost_not_found)
-  {
-    move_effect_journal_do_piece_addition(move_effect_reason_summon_ghost,
-                                          sq_departure,
-                                          ghosts[ghost_pos].ghost,
-                                          ghosts[ghost_pos].flags);
-
-    move_effect_journal_do_forget_ghost(ghost_pos);
-  }
-
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -272,15 +232,15 @@ void move_effect_journal_redo_remember_ghost(move_effect_journal_index_type curr
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type haunted_chess_ghost_rememberer_attack(slice_index si,
+stip_length_type haunted_chess_ghost_rememberer_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
@@ -291,7 +251,7 @@ stip_length_type haunted_chess_ghost_rememberer_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (pprise[nbply]==vide)
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
   {
     square const sq_capture = move_generation_stack[current_move[nbply]].capture;
@@ -302,49 +262,7 @@ stip_length_type haunted_chess_ghost_rememberer_attack(slice_index si,
 
     move_effect_journal_do_remember_ghost();
 
-    result = attack(slices[si].next1,n);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type haunted_chess_ghost_rememberer_defend(slice_index si,
-                                                       stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (pprise[nbply]==vide)
-    result = defend(slices[si].next1,n);
-  else
-  {
-    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-    ghost_index_type const preempted_idx = find_ghost(sq_capture);
-
-    if (preempted_idx!=ghost_not_found)
-      move_effect_journal_do_forget_ghost(preempted_idx);
-
-    move_effect_journal_do_remember_ghost();
-
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   }
 
   TraceFunctionExit(__func__);

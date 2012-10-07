@@ -28,16 +28,16 @@ slice_index alloc_goal_prerequisite_optimiser_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
-goal_prerequisite_optimiser_attack(slice_index si, stip_length_type n)
+goal_prerequisite_optimiser_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -56,49 +56,7 @@ goal_prerequisite_optimiser_attack(slice_index si, stip_length_type n)
     TraceValue("->%u\n",max_unsolvable);
   }
 
-  result = attack(next,n);
-
-  max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type
-goal_prerequisite_optimiser_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(max_unsolvable<=slack_length);
-
-  if (goal_preprequisites_met[nbply]==0)
-  {
-    max_unsolvable = slack_length+2;
-    TraceValue("->%u\n",max_unsolvable);
-  }
-
-  result = defend(next,n);
+  result = solve(next,n);
 
   max_unsolvable = save_max_unsolvable;
   TraceValue("->%u\n",max_unsolvable);

@@ -65,12 +65,12 @@ static slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves to try
- * @return length of solution found, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-static stip_length_type delegate_attack(slice_index si,
+static stip_length_type delegate_solve(slice_index si,
                                         stip_length_type n,
                                         stip_length_type n_min)
 {
@@ -85,7 +85,7 @@ static stip_length_type delegate_attack(slice_index si,
 
   for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
   {
-    result = attack(slices[si].next1,n_current);
+    result = solve(slices[si].next1,n_current);
     if (result<=n_current)
       break;
   }
@@ -96,15 +96,15 @@ static stip_length_type delegate_attack(slice_index si,
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
+stip_length_type degenerate_tree_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type const length = slices[si].u.branch.length;
@@ -124,15 +124,15 @@ stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
     {
       stip_length_type const parity = (n-slack_length)%2;
       stip_length_type const n_interm = max_length_short_solutions-parity;
-      result = delegate_attack(si,n_interm,n_min);
+      result = delegate_solve(si,n_interm,n_min);
       if (result>n_interm)
-        result = delegate_attack(si,n,n);
+        result = delegate_solve(si,n,n);
     }
     else
-      result = delegate_attack(si,n,n);
+      result = delegate_solve(si,n,n);
   }
   else
-    result = delegate_attack(si,n,n_min);
+    result = delegate_solve(si,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

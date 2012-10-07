@@ -40,7 +40,7 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
               empile:       17516
            play_move:       10090
         orig_rbechec:         495
-        orig_rnechec:       10092
+        orig_rnechec:       10093
 Loesung beendet. 
 
 
@@ -93,7 +93,7 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
               empile:        6040
            play_move:        5682
         orig_rbechec:         349
-        orig_rnechec:        5684
+        orig_rnechec:        5685
 Loesung beendet. 
 
 
@@ -192,7 +192,7 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
               empile:       14745
            play_move:        9323
         orig_rbechec:         353
-        orig_rnechec:        9276
+        orig_rnechec:        9280
 Loesung beendet. 
 
 
@@ -334,7 +334,7 @@ Loesung beendet.
               empile:      587117
            play_move:      398049
         orig_rbechec:      273871
-        orig_rnechec:      143503
+        orig_rnechec:      143533
 Loesung beendet. 
 
 

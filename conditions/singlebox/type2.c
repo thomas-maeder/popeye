@@ -166,15 +166,15 @@ static void advance_latent_pawn_selection(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type singlebox_type2_latent_pawn_selector_attack(slice_index si,
+stip_length_type singlebox_type2_latent_pawn_selector_solve(slice_index si,
                                                              stip_length_type n)
 {
   stip_length_type result;
@@ -188,7 +188,7 @@ stip_length_type singlebox_type2_latent_pawn_selector_attack(slice_index si,
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_selection[nbply])
     init_latent_pawn_selection(slices[si].starter);
 
-  result = attack(next,n);
+  result = solve(next,n);
 
   if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
   {
@@ -196,51 +196,6 @@ stip_length_type singlebox_type2_latent_pawn_selector_attack(slice_index si,
     {
       advance_latent_pawn_selection(slices[si].starter);
 
-      if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
-        lock_post_move_iterations();
-    }
-  }
-
-  prev_post_move_iteration_id_selection[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type singlebox_type2_latent_pawn_selector_defend(slice_index si,
-                                                             stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_selection[nbply])
-    init_latent_pawn_selection(slices[si].starter);
-
-  result = defend(next,n);
-
-  if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
-  {
-    if (!post_move_iteration_locked[nbply])
-    {
-      advance_latent_pawn_selection(slices[si].starter);
       if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
         lock_post_move_iterations();
     }
@@ -308,15 +263,15 @@ static void place_promotee(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type singlebox_type2_latent_pawn_promoter_attack(slice_index si,
+stip_length_type singlebox_type2_latent_pawn_promoter_solve(slice_index si,
                                                              stip_length_type n)
 {
   stip_length_type result;
@@ -331,11 +286,11 @@ stip_length_type singlebox_type2_latent_pawn_promoter_attack(slice_index si,
     init_latent_pawn_promotion(slices[si].starter);
 
   if (singlebox_type2_latent_pawn_promotions[nbply].what==Empty)
-    result = attack(next,n);
+    result = solve(next,n);
   else
   {
     place_promotee(slices[si].starter);
-    result = attack(next,n);
+    result = solve(next,n);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -354,64 +309,15 @@ stip_length_type singlebox_type2_latent_pawn_promoter_attack(slice_index si,
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type singlebox_type2_latent_pawn_promoter_defend(slice_index si,
-                                                             stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_promotion[nbply])
-    init_latent_pawn_promotion(slices[si].starter);
-
-  if (singlebox_type2_latent_pawn_promotions[nbply].what==Empty)
-    result = defend(next,n);
-  else
-  {
-    place_promotee(slices[si].starter);
-    result = defend(next,n);
-
-    if (!post_move_iteration_locked[nbply])
-    {
-      advance_latent_pawn_promotion(slices[si].starter);
-
-      if (singlebox_type2_latent_pawn_promotions[nbply].what!=Empty)
-        lock_post_move_iterations();
-    }
-  }
-
-  prev_post_move_iteration_id_promotion[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type singlebox_type2_legality_tester_attack(slice_index si,
+stip_length_type singlebox_type2_legality_tester_solve(slice_index si,
                                                         stip_length_type n)
 {
   stip_length_type result;
@@ -423,42 +329,9 @@ stip_length_type singlebox_type2_legality_tester_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (is_last_move_illegal())
-    result = n+2;
+    result = slack_length-2;
   else
-    result = attack(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type singlebox_type2_legality_tester_defend(slice_index si,
-                                                        stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (is_last_move_illegal())
-    result = slack_length-1;
-  else
-    result = defend(next,n);
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

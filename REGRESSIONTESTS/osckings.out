@@ -43,7 +43,7 @@ a)
               empile:        2305
            play_move:        1097
         orig_rbechec:         183
-        orig_rnechec:        1654
+        orig_rnechec:        1656
 b) WeisseOszillierendeKoenige    TypB
 
    1.Sf2-d1[Kf5<->Kc5] ! Zugzwang.
@@ -54,7 +54,7 @@ b) WeisseOszillierendeKoenige    TypB
               empile:        2287
            play_move:        1182
         orig_rbechec:        1083
-        orig_rnechec:        1184
+        orig_rnechec:        1185
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
 
@@ -101,7 +101,7 @@ Loesung beendet.
               empile:        4429
            play_move:        1792
         orig_rbechec:        1793
-        orig_rnechec:        3158
+        orig_rnechec:        3160
 Loesung beendet. 
 
 
@@ -147,7 +147,7 @@ Loesung beendet.
               empile:        2014
            play_move:        1286
         orig_rbechec:         182
-        orig_rnechec:        1288
+        orig_rnechec:        1289
 Loesung beendet. 
 
 

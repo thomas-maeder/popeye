@@ -34,15 +34,15 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type goal_reached_tester_attack(slice_index si, stip_length_type n)
+stip_length_type goal_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -51,7 +51,7 @@ stip_length_type goal_reached_tester_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (attack(slices[si].next2,length_unspecified))
+  switch (solve(slices[si].next2,length_unspecified))
   {
     case opponent_self_check:
       result = slack_length-2;
@@ -62,53 +62,7 @@ stip_length_type goal_reached_tester_attack(slice_index si, stip_length_type n)
       break;
 
     case has_solution:
-      result = attack(slices[si].next1,n);
-      break;
-
-    default:
-      assert(0);
-      result = opponent_self_check;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type goal_reached_tester_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  switch (attack(slices[si].next2,length_unspecified))
-  {
-    case opponent_self_check:
-      result = slack_length-2;
-      break;
-
-    case has_no_solution:
-      result = n+2;
-      break;
-
-    case has_solution:
-      result = defend(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
       break;
 
     default:

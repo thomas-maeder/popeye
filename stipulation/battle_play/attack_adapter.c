@@ -33,7 +33,7 @@ slice_index alloc_attack_adapter_slice(stip_length_type length,
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param adapter identifies attack adapter slice
+ * @param adapter identifies solve adapter slice
  * @param st address of structure holding the traversal state
  */
 void attack_adapter_make_root(slice_index adapter,
@@ -52,7 +52,7 @@ void attack_adapter_make_root(slice_index adapter,
 }
 
 /* Wrap the slices representing the nested slices
- * @param adapter identifies attack adapter slice
+ * @param adapter identifies solve adapter slice
  * @param st address of structure holding the traversal state
  */
 void attack_adapter_make_intro(slice_index adapter,
@@ -186,9 +186,9 @@ static boolean find_defense_in_normal_path(slice_index adapter,
   return result;
 }
 
-/* Attempt to add set play to an attack stipulation (battle play, not
+/* Attempt to add set play to an solve stipulation (battle play, not
  * postkey only)
- * @param adapter identifies attack adapter slice
+ * @param adapter identifies solve adapter slice
  * @param st address of structure representing traversal
  */
 void attack_adapter_apply_setplay(slice_index adapter,
@@ -210,15 +210,15 @@ void attack_adapter_apply_setplay(slice_index adapter,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_adapter_attack(slice_index si, stip_length_type n)
+stip_length_type attack_adapter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -230,7 +230,7 @@ stip_length_type attack_adapter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = attack(next,length);
+  nr_moves_needed = solve(next,length);
   if (nr_moves_needed<slack_length)
     result = slack_length-2;
   else if (nr_moves_needed<=length)

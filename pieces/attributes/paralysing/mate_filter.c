@@ -53,15 +53,15 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type paralysing_mate_filter_tester_attack(slice_index si, stip_length_type n)
+stip_length_type paralysing_mate_filter_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -75,7 +75,7 @@ stip_length_type paralysing_mate_filter_tester_attack(slice_index si, stip_lengt
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(next,n);
+  result = solve(next,n);
   if (slack_length<=result && result<=n && suffocated_by_paralysis(mated))
     result = n+2;
 
@@ -85,15 +85,15 @@ stip_length_type paralysing_mate_filter_tester_attack(slice_index si, stip_lengt
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type paralysing_mate_filter_attack(slice_index si, stip_length_type n)
+stip_length_type paralysing_mate_filter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -110,7 +110,7 @@ stip_length_type paralysing_mate_filter_attack(slice_index si, stip_length_type 
   if (suffocated_by_paralysis(mated))
     result = has_no_solution;
   else
-    result = attack(next,length_unspecified);
+    result = solve(next,length_unspecified);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

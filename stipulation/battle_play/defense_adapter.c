@@ -3,7 +3,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -33,7 +33,7 @@ slice_index alloc_defense_adapter_slice(stip_length_type length,
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param adapter identifies attack adapter slice
+ * @param adapter identifies solve adapter slice
  * @param st address of structure holding the traversal state
  */
 void defense_adapter_make_root(slice_index adapter,
@@ -52,7 +52,7 @@ void defense_adapter_make_root(slice_index adapter,
 }
 
 /* Wrap the slices representing the nested slices
- * @param adapter identifies attack adapter slice
+ * @param adapter identifies solve adapter slice
  * @param st address of structure holding the traversal state
  */
 void defense_adapter_make_intro(slice_index adapter,
@@ -75,15 +75,15 @@ void defense_adapter_make_intro(slice_index adapter,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type defense_adapter_attack(slice_index si, stip_length_type n)
+stip_length_type defense_adapter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -95,7 +95,7 @@ stip_length_type defense_adapter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  defense_result = defend(next,length);
+  defense_result = solve(next,length);
   result = slack_length<=defense_result && defense_result<=length ? n : n+2;
 
   TraceFunctionExit(__func__);

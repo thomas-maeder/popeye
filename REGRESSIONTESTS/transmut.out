@@ -37,7 +37,7 @@ a)
               empile:       20180
            play_move:       12401
         orig_rbechec:         497
-        orig_rnechec:       12403
+        orig_rnechec:       12404
 b) TransmutierendeKoenige
 
    1.Ka7-b6 ! Drohung:
@@ -51,7 +51,7 @@ b) TransmutierendeKoenige
               empile:       14399
            play_move:        7799
         orig_rbechec:         435
-        orig_rnechec:        7801
+        orig_rnechec:        7802
 Loesung beendet. 
 
 
@@ -298,7 +298,7 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
               empile:      399489
            play_move:      300028
         orig_rbechec:       97739
-        orig_rnechec:      220977
+        orig_rnechec:      220991
 Loesung beendet. 
 
 

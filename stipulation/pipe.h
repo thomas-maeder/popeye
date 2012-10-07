@@ -7,7 +7,7 @@
  */
 
 #include "stipulation/structure_traversal.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 /* Allocate a new non-proxy pipe
  * @param type which slice type

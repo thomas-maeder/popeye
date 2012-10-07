@@ -6,7 +6,7 @@
  */
 
 #include "stipulation/structure_traversal.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 /* Allocate a new branch fork slice
  * @param type which slice type

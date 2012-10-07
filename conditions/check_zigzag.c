@@ -32,7 +32,7 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
-    slice_index const played = alloc_move_played_slice();
+    slice_index const played = alloc_defense_played_slice();
     slice_index const condition = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
     slice_index const jump = alloc_if_then_else_slice(proxy1,proxy2,condition);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);

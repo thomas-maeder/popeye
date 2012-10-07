@@ -470,7 +470,7 @@ b) exact-=2
 
               empile:           9
            play_move:           8
-        orig_rbechec:           8
+        orig_rbechec:           9
         orig_rnechec:           6
 c) exact-=3
 
@@ -483,7 +483,7 @@ c) exact-=3
 
               empile:          15
            play_move:          16
-        orig_rbechec:          11
+        orig_rbechec:          13
         orig_rnechec:          12
 Loesung beendet. 
 
@@ -534,7 +534,7 @@ Loesung beendet.
 
               empile:         845
            play_move:         944
-        orig_rbechec:         459
+        orig_rbechec:         466
         orig_rnechec:         519
 Loesung beendet. 
 

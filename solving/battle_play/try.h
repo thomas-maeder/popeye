@@ -2,7 +2,6 @@
 #define SOLVING_BATTLE_PLAY_TRY_H
 
 #include "utilities/table.h"
-#include "solving/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with writing tries.
  * This functionality is a superset of that provided by solution_writer
@@ -31,18 +30,15 @@ void set_max_nr_refutations(unsigned int mnr);
  */
 slice_index alloc_refutations_allocator(void);
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n);
+stip_length_type refutations_allocator_solve(slice_index si, stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -53,17 +49,17 @@ stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type refutations_solver_defend(slice_index si, stip_length_type n);
+stip_length_type refutations_solver_solve(slice_index si, stip_length_type n);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_collector_attack(slice_index si,
+stip_length_type refutations_collector_solve(slice_index si,
                                               stip_length_type n);
 
 /* Allocate a STRefutationsAvoider slice.
@@ -72,25 +68,25 @@ stip_length_type refutations_collector_attack(slice_index si,
  */
 slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_avoider_attack(slice_index si, stip_length_type n);
+stip_length_type refutations_avoider_solve(slice_index si, stip_length_type n);
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_filter_attack(slice_index si, stip_length_type n);
+stip_length_type refutations_filter_solve(slice_index si, stip_length_type n);
 
 /* Instrument the stipulation structure with slices solving tries
  * @param root_slice root slice of the stipulation

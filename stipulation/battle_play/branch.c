@@ -65,8 +65,8 @@ static slice_index const slice_rank_order[] =
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
-  STForEachMove,
-  STFindMove,
+  STForEachAttack,
+  STFindAttack,
   STExtinctionRememberThreatened,
   STMoveEffectJournalUndoer,
   STPiecesNeutralRetractingRecolorer,
@@ -164,7 +164,7 @@ static slice_index const slice_rank_order[] =
   STPatienceChessLegalityTester,
   STBGLFilter,
   STMoveTracer,
-  STMovePlayed,
+  STAttackPlayed,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STMaxSolutionsCounter,
@@ -172,7 +172,7 @@ static slice_index const slice_rank_order[] =
   STEndOfSolutionWriter,
   STThreatCollector,
   STThreatDefeatedTester,
-  STKillerMoveCollector,
+  STKillerAttackCollector,
   STEndOfBranchGoal,
   STGoalReachedTester,
   STNotEndOfBranchGoal,
@@ -220,8 +220,8 @@ static slice_index const slice_rank_order[] =
   STMoveGenerator,
   STKillerMoveFinalDefenseMove,
   STMove,
-  STForEachMove,
-  STFindMove,
+  STForEachDefense,
+  STFindDefense,
   STExtinctionRememberThreatened,
   STMoveEffectJournalUndoer,
   STPiecesNeutralRetractingRecolorer,
@@ -320,14 +320,14 @@ static slice_index const slice_rank_order[] =
   STBGLFilter,
   STMoveTracer,
   STDummyMove,
-  STMovePlayed,
+  STDefensePlayed,
   STResetUnsolvable,
   STAvoidUnsolvable,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
   STRefutationsAvoider,
   STRefutationsFilter,
-  STKillerMoveCollector,
+  STKillerDefenseCollector,
   STEndOfRoot,
   STMinLengthGuard,
   STEndOfBranchGoal,
@@ -429,13 +429,13 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy].type!=STMovePlayed);
+  assert(slices[proxy].type!=STAttackPlayed);
 
-  state.base_rank = get_slice_rank(STMovePlayed,&state);
+  state.base_rank = get_slice_rank(STAttackPlayed,&state);
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
-  state.base_rank = get_slice_rank(STMovePlayed,&state);
+  state.base_rank = get_slice_rank(STDefensePlayed,&state);
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
@@ -499,7 +499,7 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(STMovePlayed,&state);
+  state.base_rank = get_slice_rank(STAttackPlayed,&state);
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
@@ -541,7 +541,7 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
-    slice_index const played = alloc_move_played_slice();
+    slice_index const played = alloc_defense_played_slice();
     slice_index const notgoal = alloc_pipe(STNotEndOfBranchGoal);
     slice_index const notend = alloc_pipe(STNotEndOfBranch);
 
@@ -589,7 +589,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_pipe(STMove);
-    slice_index const aplayed = alloc_move_played_slice();
+    slice_index const aplayed = alloc_attack_played_slice();
     slice_index const anotgoal = alloc_pipe(STNotEndOfBranchGoal);
     slice_index const anotend = alloc_pipe(STNotEndOfBranch);
     slice_index const dready = alloc_branch(STReadyForDefense,
@@ -598,7 +598,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const ddeadend = alloc_dead_end_slice();
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
-    slice_index const dplayed = alloc_move_played_slice();
+    slice_index const dplayed = alloc_defense_played_slice();
     slice_index const dnotgoal = alloc_pipe(STNotEndOfBranchGoal);
     slice_index const dnotend = alloc_pipe(STNotEndOfBranch);
 

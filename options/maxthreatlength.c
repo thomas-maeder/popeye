@@ -7,7 +7,7 @@
 #include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
 #include "debugging/trace.h"
@@ -86,18 +86,15 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-stip_length_type maxthreatlength_guard_defend(slice_index si,
+stip_length_type maxthreatlength_guard_solve(slice_index si,
                                               stip_length_type n)
 {
   slice_index const next = slices[si].next1;
@@ -108,12 +105,12 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* determining whether the attack move has delivered check is
+  /* determining whether the solve move has delivered check is
      expensive, so let's try to avoid it */
   if (max_len_threat==0)
   {
     if (echecc(slices[si].starter))
-      result = defend(next,n);
+      result = solve(next,n);
     else
       result = n+2;
   }
@@ -123,15 +120,15 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
     if (n>=n_max)
     {
       if (echecc(slices[si].starter))
-        result = defend(next,n);
-      else if (n_max<defend(slices[si].next2,n_max))
+        result = solve(next,n);
+      else if (n_max<solve(slices[si].next2,n_max))
         result = n+2;
       else
-        result = defend(next,n);
+        result = solve(next,n);
     }
     else
       /* remainder of play is too short for max_len_threat to apply */
-      result = defend(next,n);
+      result = solve(next,n);
   }
 
   TraceFunctionExit(__func__);
@@ -164,7 +161,7 @@ static void insert_maxthreatlength_guard(slice_index si,
                                                        stip_traversal_context_defense);
     slice_index const proxy = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
-    slice_index const played = alloc_move_played_slice();
+    slice_index const played = alloc_defense_played_slice();
     slice_index const prototype = alloc_maxthreatlength_guard(proxy);
     assert(threat_start!=no_slice);
     pipe_link(proxy,dummy);

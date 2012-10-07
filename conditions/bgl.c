@@ -1,4 +1,5 @@
 #include "conditions/bgl.h"
+#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -37,15 +38,15 @@ static long int BGL_move_diff_code[square_h8 - square_a1 + 1] =
  /* 7 right up   */       700,  707,  728,  762,  806,  860,  922,  990
 };
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type bgl_filter_attack(slice_index si, stip_length_type n)
+stip_length_type bgl_filter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply];
@@ -63,51 +64,7 @@ stip_length_type bgl_filter_attack(slice_index si, stip_length_type n)
     BGL_values[Black][nbply] -= diff;
 
   if (BGL_values[trait[nbply]][nbply]>=0)
-    result = attack(slices[si].next1,n);
-  else
-    result = slack_length-2;
-
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] += diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] += diff;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type bgl_filter_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply];
-  int const move_diff = move_gen_top->departure-move_gen_top->arrival;
-  long int const diff = BGL_move_diff_code[abs(move_diff)];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] -= diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] -= diff;
-
-  if (BGL_values[trait[nbply]][nbply]>=0)
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
     result = slack_length-2;
 

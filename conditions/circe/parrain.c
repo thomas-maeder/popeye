@@ -37,13 +37,26 @@ static int move_vector(void)
   return result;
 }
 
-static void do_rebirth(void)
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type circe_parrain_rebirth_handler_solve(slice_index si,
+                                                      stip_length_type n)
 {
+  stip_length_type result;
+
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (pprise[parent_ply[nbply]]==vide)
-    current_circe_rebirth_square[nbply] = initsquare;
+     current_circe_rebirth_square[nbply] = initsquare;
   else
   {
     square const sq_capture = move_generation_stack[current_move[parent_ply[nbply]]].capture;
@@ -51,71 +64,15 @@ static void do_rebirth(void)
     current_circe_rebirth_square[nbply] = sq_capture+move_vector();
 
     if (e[current_circe_rebirth_square[nbply]]==vide)
-    {
-      ren_parrain[nbply] = pprise[parent_ply[nbply]];
       move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
                                             current_circe_rebirth_square[nbply],
                                             pprise[parent_ply[nbply]],
                                             pprispec[parent_ply[nbply]]);
-    }
     else
       current_circe_rebirth_square[nbply] = initsquare;
   }
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type circe_parrain_rebirth_handler_attack(slice_index si,
-                                                      stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  do_rebirth();
-  result = attack(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type circe_parrain_rebirth_handler_defend(slice_index si,
-                                                      stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  do_rebirth();
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

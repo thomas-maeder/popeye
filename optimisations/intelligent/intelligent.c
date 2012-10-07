@@ -13,7 +13,7 @@
 #include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/fork.h"
 #include "pyproof.h"
@@ -338,7 +338,7 @@ void solve_target_position(void)
   closehash();
   inithash(current_start_slice);
 
-  if (attack(slices[current_start_slice].next1,nr_of_moves)<=nr_of_moves)
+  if (solve(slices[current_start_slice].next1,nr_of_moves)<=nr_of_moves)
     solutions_found = true;
 
   /* reset the old mating position */

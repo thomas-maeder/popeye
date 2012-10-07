@@ -85,7 +85,7 @@ Loesung beendet.
               empile:       19965
            play_move:       16944
         orig_rbechec:        8689
-        orig_rnechec:        9647
+        orig_rnechec:        9655
 Loesung beendet. 
 
 
@@ -119,7 +119,7 @@ Loesung beendet.
               empile:          75
            play_move:          75
         orig_rbechec:          76
-        orig_rnechec:          51
+        orig_rnechec:          52
 Loesung beendet. 
 
 
@@ -153,7 +153,7 @@ Loesung beendet.
               empile:          75
            play_move:          75
         orig_rbechec:          76
-        orig_rnechec:          51
+        orig_rnechec:          52
 Loesung beendet. 
 
 
@@ -232,7 +232,7 @@ Loesung beendet.
               empile:       22006
            play_move:        8721
         orig_rbechec:        1001
-        orig_rnechec:        8723
+        orig_rnechec:        8724
 Loesung beendet. 
 
 
@@ -409,7 +409,7 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
               empile:         722
            play_move:         722
         orig_rbechec:          44
-        orig_rnechec:         713
+        orig_rnechec:         714
 Loesung beendet. 
 
 
@@ -494,7 +494,7 @@ zweimal eine Anzuginversion (-)
               empile:       12426
            play_move:        8885
         orig_rbechec:        5743
-        orig_rnechec:        5742
+        orig_rnechec:        5745
 Loesung beendet. 
 
 
@@ -546,10 +546,10 @@ eigentlich semi-r#2
               2...Td8*d3 #
 
 
-              empile:      115837
-           play_move:      109083
+              empile:      115851
+           play_move:      109097
         orig_rbechec:       32648
-        orig_rnechec:        4566
+        orig_rnechec:        4573
 Loesung beendet. 
 
 
@@ -605,7 +605,7 @@ und Einschraenkung kein wAngriff zum Matt
               empile:        8974
            play_move:        7379
         orig_rbechec:        6642
-        orig_rnechec:        1028
+        orig_rnechec:        1034
 Loesung beendet. 
 
 
@@ -1197,7 +1197,7 @@ eigentlich: sKg4 s#2 b) g4->e3
               empile:       58773
            play_move:       31285
         orig_rbechec:       31296
-        orig_rnechec:       18362
+        orig_rnechec:       18373
 Loesung beendet. 
 
 
@@ -1246,7 +1246,7 @@ b) weiss 3:3a[#]d
               empile:         140
            play_move:          84
         orig_rbechec:          22
-        orig_rnechec:          72
+        orig_rnechec:          73
 c) weiss 5:5a[#]d 
 
    1.d7-d8=L ! Zugzwang.
@@ -1259,7 +1259,7 @@ c) weiss 5:5a[#]d
               empile:        3973
            play_move:        1900
         orig_rbechec:         814
-        orig_rnechec:        1333
+        orig_rnechec:        1335
 d) weiss 7:7a[#]d 
 
    1.d7-d8=S ! Drohung:
@@ -1287,7 +1287,7 @@ d) weiss 7:7a[#]d
               empile:       44060
            play_move:       26527
         orig_rbechec:       17727
-        orig_rnechec:       10422
+        orig_rnechec:       10430
 Loesung beendet. 
 
 
@@ -1570,7 +1570,7 @@ Loesung beendet.
               empile:        9474
            play_move:        3936
         orig_rbechec:        2720
-        orig_rnechec:        2148
+        orig_rnechec:        2151
 Loesung beendet. 
 
 
@@ -1613,7 +1613,7 @@ Beispiel fuer eine unnegierte Einschraenkung:
               empile:         260
            play_move:         159
         orig_rbechec:          54
-        orig_rnechec:         144
+        orig_rnechec:         145
 Loesung beendet. 
 
 

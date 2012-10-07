@@ -19,15 +19,15 @@ static post_move_iteration_id_type prev_post_move_iteration_id_no_cage[maxply+1]
 static boolean cage_found_for_current_capture[maxply+1];
 static boolean no_cage_for_current_capture[maxply+1];
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_cage_no_cage_fork_attack(slice_index si,
+stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
                                                 stip_length_type n)
 {
   stip_length_type result;
@@ -40,10 +40,10 @@ stip_length_type circe_cage_no_cage_fork_attack(slice_index si,
   if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_no_cage[nbply])
   {
     if (no_cage_for_current_capture[nbply])
-      result = attack(slices[si].next2,n);
+      result = solve(slices[si].next2,n);
     else
     {
-      result = attack(slices[si].next1,n);
+      result = solve(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply]
           && current_circe_rebirth_square[nbply]==initsquare
@@ -58,57 +58,7 @@ stip_length_type circe_cage_no_cage_fork_attack(slice_index si,
   {
     cage_found_for_current_capture[nbply] = false;
     no_cage_for_current_capture[nbply] = false;
-    result = attack(slices[si].next1,n);
-  }
-
-  prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type circe_cage_no_cage_fork_defend(slice_index si,
-                                                stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_no_cage[nbply])
-  {
-    if (no_cage_for_current_capture[nbply])
-      result = defend(slices[si].next2,n);
-    else
-    {
-      result = attack(slices[si].next1,n);
-
-      if (!post_move_iteration_locked[nbply]
-          && current_circe_rebirth_square[nbply]==initsquare
-          && !cage_found_for_current_capture[nbply])
-      {
-        no_cage_for_current_capture[nbply] = true;
-        lock_post_move_iterations();
-      }
-    }
-  }
-  else
-  {
-    cage_found_for_current_capture[nbply] = false;
-    no_cage_for_current_capture[nbply] = false;
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   }
 
   prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
@@ -129,7 +79,7 @@ static boolean find_non_capturing_move(square sq_departure, Side moving_side)
   TraceFunctionParamListEnd();
 
   init_single_piece_move_generator(sq_departure,e[sq_departure]);
-  result = attack(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==has_solution;
+  result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -137,15 +87,15 @@ static boolean find_non_capturing_move(square sq_departure, Side moving_side)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_cage_cage_tester_attack(slice_index si,
+stip_length_type circe_cage_cage_tester_solve(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
@@ -157,47 +107,11 @@ stip_length_type circe_cage_cage_tester_attack(slice_index si,
 
   if (find_non_capturing_move(current_circe_rebirth_square[nbply],
                               advers(slices[si].starter)))
-    result = n+2;
+    result = slack_length-2;
   else
   {
     cage_found_for_current_capture[nbply] = true;
-    result = attack(slices[si].next1,n);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type circe_cage_cage_tester_defend(slice_index si,
-                                               stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (find_non_capturing_move(current_circe_rebirth_square[nbply],
-                              advers(slices[si].starter)))
-    result = slack_length-1;
-  else
-  {
-    cage_found_for_current_capture[nbply] = true;
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   }
 
   TraceFunctionExit(__func__);

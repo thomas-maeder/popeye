@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "stipulation/stipulation.h"
 #include "pydata.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -120,7 +120,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   TraceFunctionParamListEnd();
 
   current_state = &immobilisation_state;
-  attack(slices[current_start_slice].next2,length_unspecified);
+  solve(slices[current_start_slice].next2,length_unspecified);
   next_trouble_maker();
   current_state = 0;
 
@@ -221,15 +221,15 @@ static void update_pawn_requirement(void)
   }
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_immobilisation_counter_attack(slice_index si,
+stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
                                                            stip_length_type n)
 {
   stip_length_type result;

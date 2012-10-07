@@ -11,7 +11,7 @@
 
 #include "position/position.h"
 #include "stipulation/goals/goals.h"
-#include "solving/battle_play/attack_play.h"
+#include "solving/solve.h"
 
 #define piece_usageENUMERATORS \
     ENUMERATOR(piece_is_unused), \

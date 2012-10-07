@@ -63,15 +63,15 @@ static square determine_rebirth_square(Side trait_ply)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_assassin_rebirth_attack(slice_index si,
+stip_length_type circe_assassin_rebirth_solve(slice_index si,
                                                stip_length_type n)
 {
   square const pi_captured = pprise[nbply];
@@ -88,76 +88,23 @@ stip_length_type circe_assassin_rebirth_attack(slice_index si,
   if (sq_rebirth==initsquare)
   {
     current_circe_rebirth_square[nbply] = initsquare;
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   }
   else if (e[sq_rebirth]==vide)
   {
     circe_do_rebirth(move_effect_reason_circe_rebirth,
                      sq_rebirth,pi_captured,spec_pi_captured);
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   }
   else if (sq_rebirth==king_square[slices[si].starter])
-    result = n+2;
+    result = slack_length-2;
   else
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                          sq_rebirth);
     circe_do_rebirth(move_effect_reason_circe_rebirth,
                      sq_rebirth,pi_captured,spec_pi_captured);
-    result = attack(slices[si].next1,n);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type circe_assassin_rebirth_defend(slice_index si,
-                                               stip_length_type n)
-{
-  square const pi_captured = pprise[nbply];
-  Flags const spec_pi_captured = pprispec[nbply];
-  square sq_rebirth;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  sq_rebirth = determine_rebirth_square(slices[si].starter);
-  if (sq_rebirth==initsquare)
-  {
-    current_circe_rebirth_square[nbply] = initsquare;
-    result = defend(slices[si].next1,n);
-  }
-  else if (e[sq_rebirth]==vide)
-  {
-    circe_do_rebirth(move_effect_reason_circe_rebirth,
-                     sq_rebirth,pi_captured,spec_pi_captured);
-    result = defend(slices[si].next1,n);
-  }
-  else if (sq_rebirth==king_square[slices[si].starter])
-    result = slack_length-1;
-  else
-  {
-    move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
-                                         sq_rebirth);
-    circe_do_rebirth(move_effect_reason_circe_rebirth,
-                     sq_rebirth,pi_captured,spec_pi_captured);
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   }
 
   TraceFunctionExit(__func__);

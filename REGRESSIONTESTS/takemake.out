@@ -182,7 +182,7 @@ Loesung beendet.
               empile:        1238
            play_move:         543
         orig_rbechec:         250
-        orig_rnechec:         300
+        orig_rnechec:         303
 Loesung beendet. 
 
 
@@ -848,7 +848,7 @@ Es fehlt ein weisser oder schwarzer Koenig
               empile:      184275
            play_move:       93945
         orig_rbechec:           0
-        orig_rnechec:       93668
+        orig_rnechec:       93675
 Loesung beendet. 
 
 
@@ -956,7 +956,7 @@ Loesung beendet.
               empile:   134509219
            play_move:    42435730
         orig_rbechec:     4979495
-        orig_rnechec:    40895818
+        orig_rnechec:    40895826
 Loesung beendet. 
 
 
@@ -1001,7 +1001,7 @@ Loesung beendet.
               empile:       22006
            play_move:        8721
         orig_rbechec:        1001
-        orig_rnechec:        8723
+        orig_rnechec:        8724
 Loesung beendet. 
 
 
@@ -1046,7 +1046,7 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
               empile:       14778
            play_move:        6271
         orig_rbechec:         685
-        orig_rnechec:        6273
+        orig_rnechec:        6274
 Loesung beendet. 
 
 
@@ -1104,7 +1104,7 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
               empile:       35121
            play_move:       17026
         orig_rbechec:        1285
-        orig_rnechec:       16982
+        orig_rnechec:       16985
 Loesung beendet. 
 
 
@@ -1325,7 +1325,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
               empile:      147413
            play_move:       78785
         orig_rbechec:        4294
-        orig_rnechec:       78377
+        orig_rnechec:       78388
 Loesung beendet. 
 
 
@@ -1420,7 +1420,7 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
               empile:       23052
            play_move:       10928
         orig_rbechec:         909
-        orig_rnechec:       10776
+        orig_rnechec:       10785
 Loesung beendet. 
 
 
@@ -1470,7 +1470,7 @@ Loesung beendet.
               empile:        5912
            play_move:        3305
         orig_rbechec:         291
-        orig_rnechec:        3308
+        orig_rnechec:        3310
 Loesung beendet. 
 
 
@@ -1512,7 +1512,7 @@ Loesung beendet.
               empile:       32631
            play_move:       11871
         orig_rbechec:       11873
-        orig_rnechec:        6969
+        orig_rnechec:        6972
 Loesung beendet. 
 
 
@@ -1553,7 +1553,7 @@ Loesung beendet.
               empile:      158790
            play_move:       12006
         orig_rbechec:       12007
-        orig_rnechec:        6174
+        orig_rnechec:        6176
 Loesung beendet. 
 
 

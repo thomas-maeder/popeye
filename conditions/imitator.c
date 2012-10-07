@@ -1,4 +1,5 @@
 #include "conditions/imitator.h"
+#include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
@@ -216,15 +217,15 @@ static int imitator_diff(void)
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type imitator_mover_attack(slice_index si, stip_length_type n)
+stip_length_type imitator_mover_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   int const diff = imitator_diff();
@@ -236,7 +237,7 @@ stip_length_type imitator_mover_attack(slice_index si, stip_length_type n)
 
   move_effect_journal_do_imitator_movement(move_effect_reason_movement_imitation,
                                            diff);
-  result = attack(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -244,45 +245,15 @@ stip_length_type imitator_mover_attack(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type imitator_mover_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  int const diff = imitator_diff();
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_imitator_movement(move_effect_reason_movement_imitation,diff);
-  result = defend(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type moving_pawn_to_imitator_promoter_attack(slice_index si,
+stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
                                                          stip_length_type n)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
@@ -303,7 +274,7 @@ stip_length_type moving_pawn_to_imitator_promoter_attack(slice_index si,
     move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
                                              sq_arrival);
 
-    result = attack(slices[si].next2,n);
+    result = solve(slices[si].next2,n);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -312,58 +283,7 @@ stip_length_type moving_pawn_to_imitator_promoter_attack(slice_index si,
     }
   }
   else
-    result = attack(slices[si].next1,n);
-
-  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type moving_pawn_to_imitator_promoter_defend(slice_index si,
-                                                         stip_length_type n)
-{
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    promotion_of_moving_into_imitator[nbply] = has_pawn_reached_promotion_square(slices[si].starter,sq_arrival);
-
-  if (promotion_of_moving_into_imitator[nbply])
-  {
-    move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
-                                         sq_arrival);
-    move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
-                                             sq_arrival);
-
-    result = defend(slices[si].next2,n);
-
-    if (!post_move_iteration_locked[nbply])
-    {
-      promotion_of_moving_into_imitator[nbply] = false;
-      lock_post_move_iterations();
-    }
-  }
-  else
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
   prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 

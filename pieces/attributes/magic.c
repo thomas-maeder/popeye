@@ -284,11 +284,11 @@ void unsupported_uncalled_attackfunction(square from, square to) {}
 
 /* magic pieces -
 for most types a magic piece of that type can only
-attack another unit from one direction in any given position. Therefore
+solve another unit from one direction in any given position. Therefore
 all that is needed is to see if it checks, and use the relative diff to
 calculate the vector. These types have NULL entries in the table below.
 
-More complicated types can attack from more than one direction and need
+More complicated types can solve from more than one direction and need
 special functions listed below to calculate each potential direction.
 
 Unsupported types are listed below with the entry
@@ -475,7 +475,7 @@ static void PushMagicViews(void)
 
           if (!attackfunctions[abs(p)])
           {
-            /* if single attack at most */
+            /* if single solve at most */
             if ((*checkfunctions[abs(p)])(*royal,
                                           p,
                                           eval_fromspecificsquare))
@@ -552,15 +552,15 @@ static void ChangeMagic(void)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type magic_views_initialiser_attack(slice_index si,
+stip_length_type magic_views_initialiser_solve(slice_index si,
                                                 stip_length_type n)
 {
   stip_length_type result;
@@ -573,7 +573,7 @@ stip_length_type magic_views_initialiser_attack(slice_index si,
   assert(nbply==1);
   nr_magic_views = 0;
   PushMagicViews();
-  result = attack(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -581,15 +581,15 @@ stip_length_type magic_views_initialiser_attack(slice_index si,
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type magic_pieces_recolorer_attack(slice_index si,
+stip_length_type magic_pieces_recolorer_solve(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
@@ -601,38 +601,7 @@ stip_length_type magic_pieces_recolorer_attack(slice_index si,
 
   PushMagicViews();
   ChangeMagic();
-  result = attack(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type magic_pieces_recolorer_defend(slice_index si,
-                                               stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  PushMagicViews();
-  ChangeMagic();
-  result = defend(slices[si].next1,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

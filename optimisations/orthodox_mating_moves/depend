@@ -5,9 +5,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
  py4.h py.h stipulation/goals/goals.h solving/castling.h \
- solving/battle_play/attack_play.h stipulation/slice.h \
- stipulation/slice_type.h solving/battle_play/defense_play.h \
- solving/en_passant.h debugging/trace.h
+ stipulation/slice_type.h solving/solve.h solving/en_passant.h \
+ debugging/trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
@@ -43,13 +42,9 @@ stipulation/goals/goals.h:
 
 solving/castling.h:
 
-solving/battle_play/attack_play.h:
-
-stipulation/slice.h:
-
 stipulation/slice_type.h:
 
-solving/battle_play/defense_play.h:
+solving/solve.h:
 
 solving/en_passant.h:
 
@@ -57,10 +52,10 @@ debugging/trace.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- solving/battle_play/attack_play.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/enumeration.h pylang.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/stipulation.h \
+ solving/solve.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h \
+ utilities/enumeration.h pylang.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h pydata.h \
  pyproc.h py4.h py.h stipulation/goals/goals.h pyproc.h \
@@ -69,11 +64,11 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/moves_traversal.h solving/fork_on_remaining.h \
- solving/battle_play/defense_play.h debugging/trace.h
+ debugging/trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 py.h:
 
@@ -91,11 +86,11 @@ utilities/enumeration.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
 stipulation/slice.h:
 
 stipulation/slice_type.h:
-
-stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
 
@@ -134,7 +129,5 @@ stipulation/branch.h:
 stipulation/moves_traversal.h:
 
 solving/fork_on_remaining.h:
-
-solving/battle_play/defense_play.h:
 
 debugging/trace.h:

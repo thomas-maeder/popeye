@@ -16,15 +16,15 @@
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
-/* Try to solve in n half-moves after a defense.
+/* Try to solve in n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
+ *            slack_length-2 the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_promoter_attack(slice_index si, stip_length_type n)
+stip_length_type circe_promoter_solve(slice_index si, stip_length_type n)
 {
   square const sq_rebirth = current_circe_rebirth_square[nbply];
   stip_length_type result;
@@ -45,7 +45,7 @@ stip_length_type circe_promoter_attack(slice_index si, stip_length_type n)
   }
 
   if (current_promotion_of_capturee[nbply]==Empty)
-    result = attack(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
   else
   {
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
@@ -54,68 +54,7 @@ stip_length_type circe_promoter_attack(slice_index si, stip_length_type n)
                                         ? -current_promotion_of_capturee[nbply]
                                         : current_promotion_of_capturee[nbply]);
 
-    result = attack(slices[si].next1,n);
-
-    if (!post_move_iteration_locked[nbply])
-    {
-      current_promotion_of_capturee[nbply] = getprompiece[current_promotion_of_capturee[nbply]];
-      TracePiece(current_promotion_of_capturee[nbply]);TraceText("\n");
-
-      if (current_promotion_of_capturee[nbply]!=Empty)
-        lock_post_move_iterations();
-    }
-  }
-
-  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type circe_promoter_defend(slice_index si, stip_length_type n)
-{
-  square const sq_rebirth = current_circe_rebirth_square[nbply];
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-  {
-    /* check for both sides - this has to work for Circe Parrain and neutrals as well! */
-    if ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
-        || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)))
-      current_promotion_of_capturee[nbply] = getprompiece[Empty];
-    else
-      current_promotion_of_capturee[nbply] = Empty;
-  }
-
-  if (current_promotion_of_capturee[nbply]==Empty)
-    result = defend(slices[si].next1,n);
-  else
-  {
-    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
-                                        sq_rebirth,
-                                        e[sq_rebirth]<vide
-                                        ? -current_promotion_of_capturee[nbply]
-                                        : current_promotion_of_capturee[nbply]);
-
-    result = defend(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {

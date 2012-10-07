@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_KEY_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_KEY_WRITER_H
 
-#include "solving/battle_play/defense_play.h"
+#include "solving/solve.h"
 
 /* Allocate a STKeyWriter defender slice.
  * @return index of allocated slice
@@ -17,6 +17,6 @@ slice_index alloc_key_writer(void);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type key_writer_defend(slice_index si, stip_length_type n);
+stip_length_type key_writer_solve(slice_index si, stip_length_type n);
 
 #endif

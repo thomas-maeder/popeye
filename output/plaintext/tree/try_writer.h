@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_TRY_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_TRY_WRITER_H
 
-#include "solving/battle_play/defense_play.h"
+#include "solving/solve.h"
 
 /* Allocate a STTryWriter defender slice.
  * @return index of allocated slice
@@ -17,6 +17,6 @@ slice_index alloc_try_writer(void);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type try_writer_defend(slice_index si, stip_length_type n);
+stip_length_type try_writer_solve(slice_index si, stip_length_type n);
 
 #endif

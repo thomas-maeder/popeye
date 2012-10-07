@@ -30,8 +30,10 @@
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMove),                                                \
-    ENUMERATOR(STForEachMove), /* iterate over each generated move */  \
-    ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
+    ENUMERATOR(STForEachAttack), /* iterate over each attack */          \
+    ENUMERATOR(STForEachDefense), /* iterate over each defense */      \
+    ENUMERATOR(STFindAttack), /* find an attack */                     \
+    ENUMERATOR(STFindDefense), /* find a defense*/                     \
     ENUMERATOR(STPostMoveIterationInitialiser),                        \
     ENUMERATOR(STMoveEffectJournalUndoer),                             \
     ENUMERATOR(STMovePlayer),                                          \
@@ -43,7 +45,8 @@
     ENUMERATOR(STNullMovePlayer),                                      \
     ENUMERATOR(STLandingAfterMovingPieceMovement),                     \
     ENUMERATOR(STLandingAfterMovePlay),                                \
-    ENUMERATOR(STMovePlayed),                                          \
+    ENUMERATOR(STAttackPlayed),                                        \
+    ENUMERATOR(STDefensePlayed),                                       \
     ENUMERATOR(STHelpMovePlayed),                                      \
     ENUMERATOR(STDummyMove),    /* dummy move */                       \
     ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \
@@ -146,7 +149,8 @@
     ENUMERATOR(STEndOfBranchGoalImmobile), /* end of branch leading to "immobile goal" (#, =, ...) */ \
     ENUMERATOR(STDeadEndGoal), /* like STDeadEnd, but all ends are goals */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
-    ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
+    ENUMERATOR(STKillerAttackCollector), /* remember killer defenses */ \
+    ENUMERATOR(STKillerDefenseCollector), /* remember killer moves */   \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
