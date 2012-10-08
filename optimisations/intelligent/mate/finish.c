@@ -143,12 +143,15 @@ static void fix_white_king_on_diagram_square(void)
   TraceFunctionParamListEnd();
 
   if (e[king_diagram_square]==vide
-      && nr_reasons_for_staying_empty[king_diagram_square]==0)
+      && nr_reasons_for_staying_empty[king_diagram_square]==0
+      && intelligent_reserve_masses(White,1))
   {
     white[index_of_king].usage = piece_is_fixed_to_diagram_square;
     intelligent_place_white_king(king_diagram_square,
                                  &intelligent_mate_test_target_position);
     white[index_of_king].usage = piece_is_unused;
+
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);

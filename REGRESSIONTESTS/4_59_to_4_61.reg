@@ -102,10 +102,10 @@ don't miss double checks with promoted front piece ...
 
   1...b7-b8=S   2.Kb4-a4 Sb8-d7   3.b5-b4 Sd7-c5 # 
 
-              empile:        8608
-           play_move:        8820
+              empile:       10119
+           play_move:       10463
         orig_rbechec:           0
-        orig_rnechec:       32805
+        orig_rnechec:       33151
 solution finished. 
 
 
@@ -138,7 +138,7 @@ solution finished.
               empile:       42224
            play_move:       42154
         orig_rbechec:           0
-        orig_rnechec:       41587
+        orig_rnechec:       41595
 solution finished. 
 
 

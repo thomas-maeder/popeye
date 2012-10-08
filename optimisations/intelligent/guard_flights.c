@@ -878,27 +878,32 @@ static void king()
 
   if (white[index_of_king].usage==piece_is_unused)
   {
-    square const comes_from = white[index_of_king].diagram_square;
-    square const *bnp;
+    if (intelligent_reserve_masses(White,1))
+    {
+      square const comes_from = white[index_of_king].diagram_square;
+      square const *bnp;
 
-    white[index_of_king].usage = piece_guards;
+      white[index_of_king].usage = piece_guards;
 
-    for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-      if (e[*bnp]==vide
-          && nr_reasons_for_staying_empty[*bnp]==0
-          && white_king_guards_flight(*bnp)
-          && intelligent_reserve_white_king_moves_from_to(comes_from,*bnp))
-      {
-        king_square[White]= *bnp;
-        SetPiece(roib,*bnp,white[index_of_king].flags);
-        intelligent_continue_guarding_flights();
-        e[*bnp] = vide;
-        spec[*bnp] = EmptySpec;
-        intelligent_unreserve();
-      }
+      for (bnp = boardnum; *bnp!=initsquare; ++bnp)
+        if (e[*bnp]==vide
+            && nr_reasons_for_staying_empty[*bnp]==0
+            && white_king_guards_flight(*bnp)
+            && intelligent_reserve_white_king_moves_from_to(comes_from,*bnp))
+        {
+          king_square[White]= *bnp;
+          SetPiece(roib,*bnp,white[index_of_king].flags);
+          intelligent_continue_guarding_flights();
+          e[*bnp] = vide;
+          spec[*bnp] = EmptySpec;
+          intelligent_unreserve();
+        }
 
-    king_square[White] = initsquare;
-    white[index_of_king].usage = piece_is_unused;
+      king_square[White] = initsquare;
+      white[index_of_king].usage = piece_is_unused;
+
+      intelligent_unreserve();
+    }
   }
 
   TraceFunctionExit(__func__);

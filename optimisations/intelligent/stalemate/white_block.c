@@ -21,12 +21,14 @@ void intelligent_stalemate_white_block(square to_be_blocked)
   TraceSquare(to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (white[index_of_king].usage==piece_is_unused)
+  if (white[index_of_king].usage==piece_is_unused
+      && intelligent_reserve_masses(White,1))
   {
     white[index_of_king].usage = piece_blocks;
     intelligent_place_white_king(to_be_blocked,
                                  &intelligent_stalemate_test_target_position);
     white[index_of_king].usage = piece_is_unused;
+    intelligent_unreserve();
   }
 
   if (intelligent_reserve_masses(White,1))

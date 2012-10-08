@@ -393,7 +393,7 @@ static void GenerateBlackKing(void)
   assert(black[index_of_king].type==roin);
 
   intelligent_init_reservations(MovesLeft[White],MovesLeft[Black],
-                                MaxPiece[White]-1,MaxPiece[Black]-1);
+                                MaxPiece[White],MaxPiece[Black]-1);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
     if (e[*bnp]!=obs

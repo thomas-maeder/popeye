@@ -69,3 +69,36 @@ versions <= 4.61 didn't properly disable castling when a king was added
 solution finished. 
 
 
+
+recent Popeye versions didn't find this any more
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P   .  -P   4
+|                                   |
+3   .   .   .   .   .  -P  -P  -R   3
+|                                   |
+2   .   .   .   .   .  -P  -R  -Q   2
+|                                   |
+1   .   .   .   .   .   S  -B  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=0.5                      2 + 11
+
+  1...Kc5-b6 = 
+
+              empile:         161
+           play_move:         176
+        orig_rbechec:           9
+        orig_rnechec:         175
+solution finished. 
+
+

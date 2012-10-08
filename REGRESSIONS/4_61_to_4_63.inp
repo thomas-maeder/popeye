@@ -14,4 +14,11 @@ cond royaldynasty
 stip exact-ser-002
 pieces white pa7 ke1 rh1
 
+next
+
+title recent Popeye versions didn't find this any more
+stip h=0.5
+pieces white kc5 sf1 black kh1 qh2 rh3g2 bg1 pb7f2f3f4g3h4
+option intelligent
+
 end
