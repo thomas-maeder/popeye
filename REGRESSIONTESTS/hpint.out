@@ -28,10 +28,10 @@
   1.b2-b1=T c7-c8=T   2.Tb1-b7 Tc8-h8   3.Tb7-h7 Th8*h7 = 
 609 moegliche Stellungen in 3+3
 
-              empile:      325154
-           play_move:      297498
+              empile:      324866
+           play_move:      297308
         orig_rbechec:       16226
-        orig_rnechec:      283936
+        orig_rnechec:      283730
 Loesung beendet. 
 
 
@@ -70,10 +70,10 @@ Loesung beendet.
   1.Kg1*f1   2.Tg2-g1   3.g3-g2   4.Lh2-f4   5.Lf4-d2 Kd1*d2 = 
 3 moegliche Stellungen in 1+5
 
-              empile:       59457
-           play_move:       58785
+              empile:       58155
+           play_move:       57583
         orig_rbechec:        5189
-        orig_rnechec:       68175
+        orig_rnechec:       66827
 Loesung beendet. 
 
 
@@ -246,10 +246,10 @@ Loesung beendet.
   1.a2-a1=L   2.La1-c3   3.Lc3-e1   4.Le1-h4   5.Lh4-d8 c7*d8=D = 
 35 moegliche Stellungen in 1+5
 
-              empile:      273419
-           play_move:      185065
+              empile:      273393
+           play_move:      185050
         orig_rbechec:       19160
-        orig_rnechec:      217825
+        orig_rnechec:      217804
 Loesung beendet. 
 
 
@@ -284,10 +284,10 @@ Loesung beendet.
   1.g2-g1=T   2.Tg1-g8   3.Tg8-d8 + c7*d8=S = 
 9 moegliche Stellungen in 1+3
 
-              empile:       14463
-           play_move:       14636
+              empile:       14439
+           play_move:       14624
         orig_rbechec:         566
-        orig_rnechec:        6699
+        orig_rnechec:        6681
 Loesung beendet. 
 
 
@@ -319,12 +319,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 8 moegliche Stellungen in 2+2
   1.Td7-e7 Td4-d8 +   2.Lg6-e8 De4-b4   3.Tg3-g7 Le3-h6 = 
-1593 moegliche Stellungen in 3+3
+1587 moegliche Stellungen in 3+3
 
-              empile:     5865756
-           play_move:     5857954
-        orig_rbechec:      293340
-        orig_rnechec:     5921743
+              empile:     5855672
+           play_move:     5847674
+        orig_rbechec:      293334
+        orig_rnechec:     5911700
 Loesung beendet. 
 
 
@@ -399,10 +399,10 @@ Loesung beendet.
   1.g2-g1=L a7*b8=D   2.Lg1-b6 b7*c8=T   3.Lb6-d8 e7*d8=S = 
 5698 moegliche Stellungen in 3+3
 
-              empile:    11953416
-           play_move:    11231793
+              empile:    11939258
+           play_move:    11222981
         orig_rbechec:      631790
-        orig_rnechec:     9736455
+        orig_rnechec:     9726826
 Loesung beendet. 
 
 
@@ -436,10 +436,10 @@ Loesung beendet.
   1...a7*b8=D   2.d2-d1=T d7*e8=L   3.Td1-d8 c7*d8=S = 
 3862 moegliche Stellungen in 3+2
 
-              empile:     2455745
-           play_move:     2570430
+              empile:     2454606
+           play_move:     2569782
         orig_rbechec:      103431
-        orig_rnechec:     2189337
+        orig_rnechec:     2188633
 Loesung beendet. 
 
 
@@ -473,10 +473,10 @@ Loesung beendet.
   1.a3-a2 a7*b8=D   2.a2-a1=L c7*d8=S   3.Tc1-c8 b7*c8=T = 
 7615 moegliche Stellungen in 3+3
 
-              empile:    14587633
-           play_move:    13399537
+              empile:    14580818
+           play_move:    13395802
         orig_rbechec:      839078
-        orig_rnechec:    13743139
+        orig_rnechec:    13739076
 Loesung beendet. 
 
 
@@ -510,10 +510,10 @@ Loesung beendet.
   1.h2-h1=S b7*c8=T   2.Tb6-b8 a7*b8=D   3.Da5-d8 e7*d8=L = 
 892 moegliche Stellungen in 3+3
 
-              empile:    13656324
-           play_move:     9588148
+              empile:    13656283
+           play_move:     9588116
         orig_rbechec:      646371
-        orig_rnechec:     9174147
+        orig_rnechec:     9174111
 Loesung beendet. 
 
 
@@ -547,10 +547,10 @@ Loesung beendet.
   1...f7*e8=L   2.d2-d1=T b7-b8=D   3.Td1-d8 c7*d8=S = 
 4535 moegliche Stellungen in 3+2
 
-              empile:     2236436
-           play_move:     2096312
+              empile:     2233965
+           play_move:     2094655
         orig_rbechec:      113687
-        orig_rnechec:     2245460
+        orig_rnechec:     2243675
 Loesung beendet. 
 
 
@@ -582,12 +582,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
   1.a2-a1=L h7*g8=S   2.La1-h8 d7*e8=D +   3.Kg6-g7 e7*f8=T = 
-2003 moegliche Stellungen in 3+3
+1979 moegliche Stellungen in 3+3
 
-              empile:     4330590
-           play_move:     4395105
-        orig_rbechec:      230791
-        orig_rnechec:     3776085
+              empile:     4327925
+           play_move:     4392096
+        orig_rbechec:      230671
+        orig_rnechec:     3774384
 Loesung beendet. 
 
 
@@ -646,10 +646,10 @@ b) ser-h=9
   1.d2-d1=T   2.Td1*d4   3.Td4-c4   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=S   8.Sd1-b2   9.Ka2-a3 Lf1*c4 = 
 5 moegliche Stellungen in 1+9
 
-              empile:      163395
-           play_move:      160507
+              empile:      163266
+           play_move:      160378
         orig_rbechec:       48352
-        orig_rnechec:      107802
+        orig_rnechec:      107645
 Loesung beendet. 
 
 
@@ -718,10 +718,10 @@ b) ser-h=14
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=T   7.Td1*d4   8.Td4-c4   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=S  13.Sd1-b2  14.Ka2-a3 Lf1*c4 = 
 17 moegliche Stellungen in 1+14
 
-              empile:      353538
-           play_move:      336057
+              empile:      353388
+           play_move:      335907
         orig_rbechec:       91663
-        orig_rnechec:      292569
+        orig_rnechec:      292383
 Loesung beendet. 
 
 
@@ -780,10 +780,10 @@ b) ser-h=9
   1.Lg8-f7   2.Lf7-e8   3.Le8-b5   4.Lb5-d3   5.Ke6-d5   6.e7-e5   7.e5-e4   8.e4-e3   9.Kd5-e4 Td1*d3 = 
 34 moegliche Stellungen in 1+9
 
-              empile:       85897
-           play_move:       81447
+              empile:       85547
+           play_move:       81149
         orig_rbechec:       14541
-        orig_rnechec:      115943
+        orig_rnechec:      115599
 Loesung beendet. 
 
 
@@ -1043,10 +1043,10 @@ Loesung beendet.
   1.f4-f3   2.f3-f2   3.f2-f1=S   4.Sf1-e3   5.Se3-c2   6.Sc2-b4   7.g4-g3   8.g3-g2   9.g2-g1=L  10.Lg1-b6  11.Lb6-a5 Tc6-a6 = 
 38 moegliche Stellungen in 1+11
 
-              empile:      937212
-           play_move:      806744
+              empile:      934652
+           play_move:      804351
         orig_rbechec:      102546
-        orig_rnechec:      726543
+        orig_rnechec:      723826
 Loesung beendet. 
 
 
@@ -1083,12 +1083,12 @@ Loesung beendet.
 5 moegliche Stellungen in 6+6
 304 moegliche Stellungen in 7+7
   1.e2-e1=S Kc4*c5   2.Se1-f3 g2*f3   3.c2-c1=L f3*g4   4.Lc1-h6 g4-g5   5.g3-g2 g5*h6   6.g2-g1=T h6-h7   7.Tg1-g8 h7*g8=D +   8.Kb8-a7 Dg8-c8 = 
-582 moegliche Stellungen in 8+8
+565 moegliche Stellungen in 8+8
 
-              empile:    38089247
-           play_move:    37755780
-        orig_rbechec:     2017164
-        orig_rnechec:    12161971
+              empile:    37896560
+           play_move:    37580222
+        orig_rbechec:     2015470
+        orig_rnechec:    11980258
 Loesung beendet. 
 
 
@@ -1123,14 +1123,14 @@ Loesung beendet.
 0 moegliche Stellungen in 4+4
 0 moegliche Stellungen in 5+5
 3 moegliche Stellungen in 6+6
-113 moegliche Stellungen in 7+7
+81 moegliche Stellungen in 7+7
   1.c2-c1=S Kh8*g7   2.Sc1-b3 a2*b3   3.g2-g1=L b3-b4   4.Lg1-c5 b4*c5   5.a3-a2 c5*b6   6.a2-a1=T b6-b7   7.Ta1-a3 b7-b8=D   8.Ta3-g3 + Db8*g3 = 
-349 moegliche Stellungen in 8+8
+256 moegliche Stellungen in 8+8
 
-              empile:     7568155
-           play_move:     7555523
-        orig_rbechec:      537715
-        orig_rnechec:     2499113
+              empile:     6179736
+           play_move:     6203819
+        orig_rbechec:      505909
+        orig_rnechec:     1910153
 Loesung beendet. 
 
 
@@ -1162,12 +1162,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 17 moegliche Stellungen in 2+2
   1.h2-h1=S Te1-b1   2.c2-c1=L g7-g8=D   3.a2*b1=T Dg8-b3 = 
-4587 moegliche Stellungen in 3+3
+4586 moegliche Stellungen in 3+3
 
-              empile:     2767212
-           play_move:     2377519
+              empile:     2762870
+           play_move:     2373442
         orig_rbechec:      180178
-        orig_rnechec:     2333058
+        orig_rnechec:     2328603
 Loesung beendet. 
 
 
@@ -1199,12 +1199,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 22 moegliche Stellungen in 2+2
   1.f2-f1=S b7-b8=D   2.h2-h1=L Db8*f4   3.b2*a1=T Df4-d2 = 
-5034 moegliche Stellungen in 3+3
+4966 moegliche Stellungen in 3+3
 
-              empile:     3827283
-           play_move:     3046864
-        orig_rbechec:      197343
-        orig_rnechec:     2890391
+              empile:     3784537
+           play_move:     3017212
+        orig_rbechec:      197446
+        orig_rnechec:     2858080
 Loesung beendet. 
 
 
@@ -1238,10 +1238,10 @@ Loesung beendet.
   1.h2-h1=S Dc1-b1   2.a2*b1=T e7-e8=D   3.c2-c1=L De8*a4 = 
 9408 moegliche Stellungen in 3+3
 
-              empile:    38765848
-           play_move:    29177329
-        orig_rbechec:     2161857
-        orig_rnechec:    32094355
+              empile:    38536620
+           play_move:    29024627
+        orig_rbechec:     2161815
+        orig_rnechec:    31927995
 Loesung beendet. 
 
 
@@ -1275,10 +1275,10 @@ Loesung beendet.
   1.h2-h1=S Tc1-b1 +   2.a2*b1=T d7-d8=D   3.c2-c1=L Dd8-a5 = 
 6423 moegliche Stellungen in 3+3
 
-              empile:     7962290
-           play_move:     5908452
+              empile:     7952688
+           play_move:     5900663
         orig_rbechec:      497746
-        orig_rnechec:     6418903
+        orig_rnechec:     6410413
 Loesung beendet. 
 
 
@@ -1310,12 +1310,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 34 moegliche Stellungen in 2+2
   1.e2-e1=L b7-b8=D   2.h2-h1=S Db8*f4   3.b2*a1=T Df4-d2 = 
-11386 moegliche Stellungen in 3+3
+11489 moegliche Stellungen in 3+3
 
-              empile:     6517064
-           play_move:     4986190
-        orig_rbechec:      352878
-        orig_rnechec:     4760583
+              empile:     6471704
+           play_move:     4954122
+        orig_rbechec:      353223
+        orig_rnechec:     4719333
 Loesung beendet. 
 
 
@@ -1351,10 +1351,10 @@ Loesung beendet.
   1.b2-b1=T a4-a5   2.Tb1-b6 a5*b6   3.e2-e1=S b6-b7   4.Se1-g2 b7-b8=D   5.h2-h1=L Db8-g3 = 
 6048 moegliche Stellungen in 5+5
 
-              empile:    15768924
-           play_move:    15897352
+              empile:    15751081
+           play_move:    15878851
         orig_rbechec:      790174
-        orig_rnechec:     5559650
+        orig_rnechec:     5539113
 Loesung beendet. 
 
 
@@ -1424,12 +1424,12 @@ Loesung beendet.
 0 moegliche Stellungen in 2+2
 31 moegliche Stellungen in 3+3
   1.c2-c1=T h6-h7   2.Tc1-h1 h7-h8=D   3.g2-g1=L Dh8-h3   4.b2-b1=S Dh3-f1 = 
-918 moegliche Stellungen in 4+4
+903 moegliche Stellungen in 4+4
 
-              empile:    10909173
-           play_move:    10192185
-        orig_rbechec:      363282
-        orig_rnechec:     4850151
+              empile:    10676242
+           play_move:     9962272
+        orig_rbechec:      360188
+        orig_rnechec:     4698029
 Loesung beendet. 
 
 
@@ -1462,12 +1462,12 @@ Loesung beendet.
 0 moegliche Stellungen in 2+2
 31 moegliche Stellungen in 3+3
   1.c2-c1=T g6-g7   2.Tc1-h1 g7-g8=D   3.g2-g1=L Dg8-g2   4.b2-b1=S Dg2-f1 = 
-1019 moegliche Stellungen in 4+4
+1004 moegliche Stellungen in 4+4
 
-              empile:    11995788
-           play_move:    10846322
-        orig_rbechec:      435758
-        orig_rnechec:     5845424
+              empile:    11763599
+           play_move:    10626426
+        orig_rbechec:      433513
+        orig_rnechec:     5667543
 Loesung beendet. 
 
 
@@ -1656,10 +1656,10 @@ Loesung beendet.
   1.g2-g1=L   2.Lg1-h2   3.Lh2-f4 Se2*f4 = 
 2 moegliche Stellungen in 1+3
 
-              empile:        7462
-           play_move:        6464
+              empile:        7429
+           play_move:        6431
         orig_rbechec:         509
-        orig_rnechec:        8139
+        orig_rnechec:        8102
 Loesung beendet. 
 
 
@@ -1804,7 +1804,7 @@ b) h=4  sBg6-->e6
               empile:        1786
            play_move:        1849
         orig_rbechec:         154
-        orig_rnechec:       12414
+        orig_rnechec:       12410
 Loesung beendet. 
 
 
@@ -1927,10 +1927,10 @@ Loesung beendet.
   1.Se8-c7 Dd6-a6 +   2.Tb2-b7 Lc2-f5 +   3.Th7-d7 Th3-c3 = 
 321 moegliche Stellungen in 3+3
 
-              empile:     8626126
-           play_move:     6869336
+              empile:     8625319
+           play_move:     6868530
         orig_rbechec:      448629
-        orig_rnechec:     7475500
+        orig_rnechec:     7474586
 Loesung beendet. 
 
 
@@ -1986,7 +1986,7 @@ b) h=6  sKa1-->h1
               empile:        6901
            play_move:        6520
         orig_rbechec:         431
-        orig_rnechec:       13396
+        orig_rnechec:       13390
 Loesung beendet. 
 
 
@@ -2199,10 +2199,10 @@ Loesung beendet.
   1.Df3-a8   2.Kc8-b7   3.Kb7-c6   4.Kc6-d5   5.Kd5-e4   6.Ke4-f3   7.Kf3-g2   8.Kg2-g1   9.Da8-h1  10.g3-g2  11.Lc7-h2  12.g4-g3  13.Ld7-h3  14.g5-g4 Ke1-e2 = 
 24 moegliche Stellungen in 1+14
 
-              empile:     3902859
-           play_move:     4073454
+              empile:     3784444
+           play_move:     3953380
         orig_rbechec:      383043
-        orig_rnechec:      907360
+        orig_rnechec:      778826
 Loesung beendet. 
 
 
@@ -2240,12 +2240,12 @@ a)
 0 moegliche Stellungen in 5+5
 0 moegliche Stellungen in 6+6
   1.Lb7-a6 d2-d3   2.La6-c4 d3*c4   3.Db1-b5 + c4*b5   4.d4-d3 b5*c6   5.d3-d2 c6-c7   6.d2-d1=T c7-c8=D   7.Td1-g1 Dc8-h3 # 
-245 moegliche Stellungen in 7+7
+243 moegliche Stellungen in 7+7
 
-              empile:      116832
-           play_move:      116976
-        orig_rbechec:        3765
-        orig_rnechec:       82765
+              empile:      112813
+           play_move:      112957
+        orig_rbechec:        3592
+        orig_rnechec:       82385
 b) h=7
 
 0 moegliche Stellungen in 1+1
@@ -2257,10 +2257,10 @@ b) h=7
   1.Db1-e4 d2-d3   2.Lb7-c8 d3*e4   3.Lc8-f5 e4*f5   4.d4-d3 f5-f6   5.d3-d2 f6-f7   6.d2-d1=S f7-f8=D   7.Sd1-f2 Df8*f2 = 
 110 moegliche Stellungen in 7+7
 
-              empile:      193252
-           play_move:      178077
+              empile:      185643
+           play_move:      170884
         orig_rbechec:        5479
-        orig_rnechec:      263163
+        orig_rnechec:      254680
 Loesung beendet. 
 
 
@@ -2307,10 +2307,10 @@ b) h=3
   1.Se8-g7 f6*g7   2.f2-f1=S g7*h8=T   3.Sf1-h2 Th8*h2 = 
 23 moegliche Stellungen in 3+3
 
-              empile:       51008
-           play_move:       42386
+              empile:       50976
+           play_move:       42354
         orig_rbechec:        3400
-        orig_rnechec:       53571
+        orig_rnechec:       53530
 Loesung beendet. 
 
 
@@ -2344,19 +2344,19 @@ Loesung beendet.
 2 moegliche Stellungen in 1+0
 
 2 moegliche Stellungen in 1+1
-14 moegliche Stellungen in 1+2
-18 moegliche Stellungen in 1+3
-55 moegliche Stellungen in 1+4
-175 moegliche Stellungen in 1+5
-311 moegliche Stellungen in 1+6
-698 moegliche Stellungen in 1+7
+8 moegliche Stellungen in 1+2
+10 moegliche Stellungen in 1+3
+43 moegliche Stellungen in 1+4
+156 moegliche Stellungen in 1+5
+293 moegliche Stellungen in 1+6
+646 moegliche Stellungen in 1+7
   1.e2-e1=S   2.Sg1-e2   3.g2-g1=T   4.Se1-g2   5.Sg2-f4   6.Tg1-g2   7.Se2-g1   8.Sf4-e2 Dc1-d2 = 
-1290 moegliche Stellungen in 1+8
+1200 moegliche Stellungen in 1+8
 
-              empile:    59418143
-           play_move:    55484079
-        orig_rbechec:     4580290
-        orig_rnechec:    57833557
+              empile:    56371092
+           play_move:    52293177
+        orig_rbechec:     4380237
+        orig_rnechec:    54688101
 Loesung beendet. 
 
 
@@ -2392,10 +2392,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5*f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=S = 
 667 moegliche Stellungen in 5+5
 
-              empile:    10079913
-           play_move:     9795431
+              empile:    10077271
+           play_move:     9792951
         orig_rbechec:      360669
-        orig_rnechec:     3289164
+        orig_rnechec:     3286406
 Loesung beendet. 
 
 
@@ -2431,14 +2431,14 @@ Loesung beendet.
 0 moegliche Stellungen in 4+4
 0 moegliche Stellungen in 5+5
 2 moegliche Stellungen in 6+6
-137 moegliche Stellungen in 7+7
+134 moegliche Stellungen in 7+7
   1.d2-d1=L Kb1-a1   2.Ld1-b3 a2*b3   3.f2-f1=L b3-b4   4.Lf1-a6 b4-b5   5.g2-g1=L b5*a6   6.Lg1-h2 a6-a7   7.Lh2-b8 a7*b8=D   8.a3-a2 Db8-g3 = 
-674 moegliche Stellungen in 8+8
+656 moegliche Stellungen in 8+8
 
-              empile:     8643790
-           play_move:     7921330
-        orig_rbechec:      298249
-        orig_rnechec:     7172303
+              empile:     7041829
+           play_move:     6479503
+        orig_rbechec:      295589
+        orig_rnechec:     5634241
 Loesung beendet. 
 
 
@@ -2473,10 +2473,10 @@ bug
   1.d2-d1=S Ta1*b1 +   2.c2*b1=T e7-e8=D   3.a2-a1=L De8*e1 = 
 3777 moegliche Stellungen in 3+3
 
-              empile:     3583422
-           play_move:     3035768
+              empile:     3565408
+           play_move:     3016371
         orig_rbechec:      236599
-        orig_rnechec:     3119494
+        orig_rnechec:     3097192
 Loesung beendet. 
 
 
@@ -2563,10 +2563,10 @@ Loesung beendet.
   1...Lf2-e1   2.f3-f2 Kf1-g2   3.f2-f1=T Le1-d2   4.Tf1-c1 Ld2*c1 = 
 5 moegliche Stellungen in 4+3
 
-              empile:       30246
-           play_move:       29360
+              empile:       28780
+           play_move:       27874
         orig_rbechec:        4895
-        orig_rnechec:       72760
+        orig_rnechec:       70924
 Loesung beendet. 
 
 
@@ -2603,7 +2603,7 @@ Loesung beendet.
               empile:        1680
            play_move:        1792
         orig_rbechec:         110
-        orig_rnechec:        5310
+        orig_rnechec:        5309
 Loesung beendet. 
 
 
@@ -2677,12 +2677,12 @@ Loesung beendet.
 6 moegliche Stellungen in 5+5
 81 moegliche Stellungen in 6+6
   1.e2-e1=L Kc2-c1   2.Le1-b4 a3*b4   3.g2-g1=L b4-b5   4.Lg1-a7 b5-b6   5.h3-h2 b6*a7   6.h2-h1=L a7-a8=L   7.Lh1-d5 La8*d5 = 
-326 moegliche Stellungen in 7+7
+325 moegliche Stellungen in 7+7
 
-              empile:    53535851
-           play_move:    57575836
-        orig_rbechec:     1938818
-        orig_rnechec:    13358221
+              empile:    52170838
+           play_move:    56143416
+        orig_rbechec:     1848387
+        orig_rnechec:    13109706
 Loesung beendet. 
 
 
@@ -2717,10 +2717,10 @@ Loesung beendet.
   1.Sg3-e2 Lf5-g6   2.Kg5-h6 Sf4*e2   3.Lh8*f6 + Ke5*f6 = 
 620 moegliche Stellungen in 3+3
 
-              empile:      494425
-           play_move:      471316
+              empile:      491686
+           play_move:      469057
         orig_rbechec:       29171
-        orig_rnechec:      717113
+        orig_rnechec:      714654
 Loesung beendet. 
 
 
@@ -2757,7 +2757,7 @@ Loesung beendet.
               empile:        2183
            play_move:        2264
         orig_rbechec:         245
-        orig_rnechec:       25586
+        orig_rnechec:       25573
 Loesung beendet. 
 
 
@@ -2800,10 +2800,10 @@ Loesung beendet.
   1.Sa8*c7   2.Da7-a8   3.Lb8-a7   4.Tb7-b8   5.Kc8-b7   6.Kb7-a6   7.Ka6-a5   8.Lb5-a6   9.La6-c8  10.Ka5-a6  11.Ka6-b7  12.Sc7-b5 + a4*b5 = 
 15 moegliche Stellungen in 1+12
 
-              empile:    18965457
-           play_move:    17025524
+              empile:    18886243
+           play_move:    16952827
         orig_rbechec:     1794969
-        orig_rnechec:    15238431
+        orig_rnechec:    15159340
 Loesung beendet. 
 
 
@@ -2840,10 +2840,10 @@ Loesung beendet.
   1.c2-c1=L g3-g4   2.Lc1-h6 g4-g5   3.a2-a1=L g5*h6   4.La1-g7 h6*g7   5.f2-f1=L g7-g8=T   6.Lf1-g2 + Tg8*g2 = 
 64 moegliche Stellungen in 6+6
 
-              empile:     2316761
-           play_move:     2407194
+              empile:     2307857
+           play_move:     2400515
         orig_rbechec:       99377
-        orig_rnechec:      999945
+        orig_rnechec:      991338
 Loesung beendet. 
 
 
@@ -2887,7 +2887,7 @@ a)
               empile:       15148
            play_move:       15539
         orig_rbechec:        1202
-        orig_rnechec:       24550
+        orig_rnechec:       24545
 b) sKh2-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2901,7 +2901,7 @@ b) sKh2-->h1
               empile:       16059
            play_move:       16520
         orig_rbechec:        1220
-        orig_rnechec:       22264
+        orig_rnechec:       22260
 c) wKg4-->f1  wBf2-->a2
 
 0 moegliche Stellungen in 1+1
@@ -2915,7 +2915,7 @@ c) wKg4-->f1  wBf2-->a2
               empile:       35481
            play_move:       36775
         orig_rbechec:        2888
-        orig_rnechec:       19501
+        orig_rnechec:       19499
 Loesung beendet. 
 
 
@@ -2951,10 +2951,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7*f8=L = 
 89 moegliche Stellungen in 5+5
 
-              empile:      311989
-           play_move:      282053
+              empile:      311891
+           play_move:      281967
         orig_rbechec:       12902
-        orig_rnechec:      322869
+        orig_rnechec:      322768
 Loesung beendet. 
 
 
@@ -2988,12 +2988,12 @@ Loesung beendet.
 13 moegliche Stellungen in 3+3
 373 moegliche Stellungen in 4+4
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*g7   5.a2-a1=S g7-g8=T = 
-3293 moegliche Stellungen in 5+5
+3279 moegliche Stellungen in 5+5
 
-              empile:     4155023
-           play_move:     3506740
-        orig_rbechec:      265870
-        orig_rnechec:     2272703
+              empile:     4121513
+           play_move:     3479973
+        orig_rbechec:      264567
+        orig_rnechec:     2259596
 Loesung beendet. 
 
 
@@ -3027,12 +3027,12 @@ Loesung beendet.
 0 moegliche Stellungen in 3+3
 26 moegliche Stellungen in 4+4
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
-170 moegliche Stellungen in 5+5
+169 moegliche Stellungen in 5+5
 
-              empile:      273064
-           play_move:      228655
-        orig_rbechec:       17848
-        orig_rnechec:      242511
+              empile:      270914
+           play_move:      227453
+        orig_rbechec:       17829
+        orig_rnechec:      241378
 Loesung beendet. 
 
 
@@ -3068,10 +3068,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7-e8=S = 
 60 moegliche Stellungen in 5+5
 
-              empile:      146361
-           play_move:      126784
+              empile:      146349
+           play_move:      126772
         orig_rbechec:        6815
-        orig_rnechec:      236261
+        orig_rnechec:      236245
 Loesung beendet. 
 
 
@@ -3108,10 +3108,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=S = 
 154 moegliche Stellungen in 5+5
 
-              empile:     8579655
-           play_move:     8581348
+              empile:     8579615
+           play_move:     8581308
         orig_rbechec:      292615
-        orig_rnechec:     1224364
+        orig_rnechec:     1224310
 Loesung beendet. 
 
 
@@ -3145,12 +3145,12 @@ Loesung beendet.
 33 moegliche Stellungen in 3+3
 355 moegliche Stellungen in 4+4
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=S h7-h8=L = 
-1987 moegliche Stellungen in 5+5
+1990 moegliche Stellungen in 5+5
 
-              empile:    18714341
-           play_move:    18163650
-        orig_rbechec:      713454
-        orig_rnechec:     4524403
+              empile:    18771350
+           play_move:    18222368
+        orig_rbechec:      719360
+        orig_rnechec:     4523413
 Loesung beendet. 
 
 
@@ -3186,10 +3186,10 @@ Loesung beendet.
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=L h7-h8=L = 
 203 moegliche Stellungen in 5+5
 
-              empile:     5184072
-           play_move:     5140233
+              empile:     5181173
+           play_move:     5137445
         orig_rbechec:      169702
-        orig_rnechec:     1008552
+        orig_rnechec:     1005419
 Loesung beendet. 
 
 
@@ -3223,12 +3223,12 @@ Loesung beendet.
 5 moegliche Stellungen in 3+3
 123 moegliche Stellungen in 4+4
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
-1596 moegliche Stellungen in 5+5
+1592 moegliche Stellungen in 5+5
 
-              empile:     8036167
-           play_move:     7695754
-        orig_rbechec:      284318
-        orig_rnechec:     4534398
+              empile:     8015606
+           play_move:     7675206
+        orig_rbechec:      283498
+        orig_rnechec:     4527621
 Loesung beendet. 
 
 
@@ -3264,10 +3264,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5*f6   4.a3-a2 f6-f7   5.a2-a1=S f7*g8=T = 
 376 moegliche Stellungen in 5+5
 
-              empile:     3911500
-           play_move:     3808863
+              empile:     3911046
+           play_move:     3808409
         orig_rbechec:      137619
-        orig_rnechec:     1142271
+        orig_rnechec:     1141755
 Loesung beendet. 
 
 
@@ -3303,10 +3303,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7*g8=T = 
 849 moegliche Stellungen in 5+5
 
-              empile:    10049116
-           play_move:     9903808
+              empile:    10047961
+           play_move:     9903052
         orig_rbechec:      421310
-        orig_rnechec:     2375414
+        orig_rnechec:     2374439
 Loesung beendet. 
 
 
@@ -3340,12 +3340,12 @@ Loesung beendet.
 4 moegliche Stellungen in 3+3
 142 moegliche Stellungen in 4+4
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=T = 
-1308 moegliche Stellungen in 5+5
+1300 moegliche Stellungen in 5+5
 
-              empile:     2929710
-           play_move:     2841908
-        orig_rbechec:      193250
-        orig_rnechec:     1120331
+              empile:     2925430
+           play_move:     2838563
+        orig_rbechec:      193188
+        orig_rnechec:     1116648
 Loesung beendet. 
 
 
@@ -3381,10 +3381,10 @@ Loesung beendet.
   1.a7-a5 g2-g4   2.a5-a4 g4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
 136 moegliche Stellungen in 5+5
 
-              empile:     1439469
-           play_move:     1397562
+              empile:     1439439
+           play_move:     1397542
         orig_rbechec:       68197
-        orig_rnechec:      502023
+        orig_rnechec:      501999
 Loesung beendet. 
 
 
@@ -3419,12 +3419,12 @@ Loesung beendet.
 16 moegliche Stellungen in 3+3
 227 moegliche Stellungen in 4+4
   1.a7-a5 c2-c4   2.a5-a4 c4*d5   3.a4-a3 d5-d6   4.a3-a2 d6-d7   5.a2-a1=L d7-d8=D = 
-1932 moegliche Stellungen in 5+5
+1911 moegliche Stellungen in 5+5
 
-              empile:     5208996
-           play_move:     5039645
-        orig_rbechec:      311069
-        orig_rnechec:     1925992
+              empile:     5184353
+           play_move:     5014847
+        orig_rbechec:      309258
+        orig_rnechec:     1921352
 Loesung beendet. 
 
 
@@ -3500,10 +3500,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D = 
 20 moegliche Stellungen in 5+5
 
-              empile:      232428
-           play_move:      239773
+              empile:      232328
+           play_move:      239673
         orig_rbechec:        9055
-        orig_rnechec:      111910
+        orig_rnechec:      111784
 Loesung beendet. 
 
 
@@ -3583,10 +3583,10 @@ Loesung beendet.
   1.Tc4-c3 + Sa4*c3   2.Kd3-d2 Sc3*d5 +   3.Kd2-d1 Tc6*c2 = 
 968 moegliche Stellungen in 3+3
 
-              empile:      825673
-           play_move:      822082
+              empile:      825591
+           play_move:      822000
         orig_rbechec:       38464
-        orig_rnechec:      973883
+        orig_rnechec:      973786
 Loesung beendet. 
 
 
@@ -3618,14 +3618,14 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 9 moegliche Stellungen in 1+2
 26 moegliche Stellungen in 1+3
-51 moegliche Stellungen in 1+4
+49 moegliche Stellungen in 1+4
   1.d5*e4   2.Kd6-d5   3.Kd5-d4   4.d7-d5   5.e4*d3 + c2*d3 = 
-63 moegliche Stellungen in 1+5
+61 moegliche Stellungen in 1+5
 
-              empile:       16534
-           play_move:       16561
-        orig_rbechec:        2391
-        orig_rnechec:       31514
+              empile:       16195
+           play_move:       16219
+        orig_rbechec:        2387
+        orig_rnechec:       31192
 Loesung beendet. 
 
 
@@ -3660,12 +3660,12 @@ Loesung beendet.
 0 moegliche Stellungen in 4+4
 8 moegliche Stellungen in 5+5
   1.Kb2-c3 a2*b3   2.Kc3-d4 b3*c4   3.Kd4-e5 c4*d5   4.Ke5-f6 d5*e6   5.Kf6-g7 e6*f7   6.Kg7-h8 Kh5-h6 = 
-60 moegliche Stellungen in 6+6
+58 moegliche Stellungen in 6+6
 
-              empile:      224445
-           play_move:      212202
-        orig_rbechec:       12708
-        orig_rnechec:      126437
+              empile:      211397
+           play_move:      199858
+        orig_rbechec:       12494
+        orig_rnechec:      121700
 Loesung beendet. 
 
 
@@ -3795,10 +3795,10 @@ a)
   1.d3-d2 + Kc1-c2   2.d2-d1=T Le1-f2   3.Td1-g1 Lf2*g1 = 
 3 moegliche Stellungen in 3+3
 
-              empile:       17172
-           play_move:       16640
+              empile:       15749
+           play_move:       15221
         orig_rbechec:        2409
-        orig_rnechec:       40393
+        orig_rnechec:       38668
 b) wTe1 
 
 0 moegliche Stellungen in 1+1
@@ -3806,10 +3806,10 @@ b) wTe1
   1.d3-d2 + Kc1-b1   2.d2-d1=L Te1-e2   3.Ld1-c2 + Kb1*c2 = 
 1 moegliche Stellungen in 3+3
 
-              empile:       31601
-           play_move:       29276
+              empile:       27033
+           play_move:       24730
         orig_rbechec:        3508
-        orig_rnechec:       62173
+        orig_rnechec:       56702
 Loesung beendet. 
 
 
@@ -3851,7 +3851,7 @@ a)
               empile:       11160
            play_move:       10072
         orig_rbechec:        1215
-        orig_rnechec:       13373
+        orig_rnechec:       13322
 b) wKe5-->b3
 
 0 moegliche Stellungen in 1+1
@@ -3865,7 +3865,7 @@ b) wKe5-->b3
               empile:       14005
            play_move:       13086
         orig_rbechec:        1466
-        orig_rnechec:       14850
+        orig_rnechec:       14732
 Loesung beendet. 
 
 
@@ -3899,10 +3899,10 @@ Loesung beendet.
   1.Th1-g1 Kd5-e5   2.Kg2-h1 Le6-d5 +   3.Tg1-g2 Ke5-e6 = 
 1767 moegliche Stellungen in 3+3
 
-              empile:      378137
-           play_move:      376101
+              empile:      378031
+           play_move:      375995
         orig_rbechec:       28130
-        orig_rnechec:      360511
+        orig_rnechec:      360397
 Loesung beendet. 
 
 
@@ -3943,7 +3943,7 @@ Loesung beendet.
               empile:       10818
            play_move:        9573
         orig_rbechec:         415
-        orig_rnechec:        7292
+        orig_rnechec:        7260
 Loesung beendet. 
 
 
@@ -3978,12 +3978,12 @@ Loesung beendet.
 0 moegliche Stellungen in 4+4
 7 moegliche Stellungen in 5+5
   1.g2-g1=L b4-b5   2.Lg1-a7 b5-b6   3.b2-b1=T b6*a7   4.Tb1-b8 a7*b8=D   5.d2-d1=S Db8*f4   6.Sd1-f2 Df4*f2 = 
-42 moegliche Stellungen in 6+6
+40 moegliche Stellungen in 6+6
 
-              empile:     3219792
-           play_move:     3441305
-        orig_rbechec:      135631
-        orig_rnechec:      963662
+              empile:     3063579
+           play_move:     3285338
+        orig_rbechec:      131864
+        orig_rnechec:      853088
 Loesung beendet. 
 
 
@@ -4019,12 +4019,12 @@ Loesung beendet.
 10 moegliche Stellungen in 5+5
 59 moegliche Stellungen in 6+6
   1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.h2-h1=T e5*f6   4.Th1-h8 f6-f7   5.Th8-g8 f7*g8=D   6.d2-d1=S Dg8*g3   7.Sd1-c3 Dg3*c3 = 
-206 moegliche Stellungen in 7+7
+201 moegliche Stellungen in 7+7
 
-              empile:   138661592
-           play_move:   151947101
-        orig_rbechec:     9203787
-        orig_rnechec:    30167619
+              empile:   138028342
+           play_move:   151272315
+        orig_rbechec:     9181917
+        orig_rnechec:    29929121
 Loesung beendet. 
 
 
@@ -4059,14 +4059,14 @@ Loesung beendet.
 0 moegliche Stellungen in 4+4
 1 moegliche Stellungen in 5+5
 7 moegliche Stellungen in 6+6
-124 moegliche Stellungen in 7+7
+123 moegliche Stellungen in 7+7
   1.f2-f1=S Kd7-c6   2.Sf1-g3 h2*g3   3.c2-c1=L g3-g4   4.Lc1-h6 g4-g5   5.h3-h2 g5*h6   6.h2-h1=T h6*g7   7.Th1-h8 g7*h8=D   8.Kb3-a4 Dh8-c3 = 
-321 moegliche Stellungen in 8+8
+314 moegliche Stellungen in 8+8
 
-              empile:    11845965
-           play_move:    11885815
-        orig_rbechec:      897117
-        orig_rnechec:     4075007
+              empile:    11591439
+           play_move:    11645975
+        orig_rbechec:      893893
+        orig_rnechec:     3839080
 Loesung beendet. 
 
 
@@ -4252,12 +4252,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 51 moegliche Stellungen in 2+2
   1.d2-d1=S c7-c8=D   2.a2-a1=L Dc8-b8   3.c2*b1=T Db8-h2 = 
-8027 moegliche Stellungen in 3+3
+7958 moegliche Stellungen in 3+3
 
-              empile:     3057273
-           play_move:     2784837
-        orig_rbechec:      193241
-        orig_rnechec:     2495990
+              empile:     3037063
+           play_move:     2764304
+        orig_rbechec:      193063
+        orig_rnechec:     2472822
 Loesung beendet. 
 
 
@@ -4616,10 +4616,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7*g8=T = 
 860 moegliche Stellungen in 5+5
 
-              empile:     8841242
-           play_move:     8448043
+              empile:     8839772
+           play_move:     8446680
         orig_rbechec:      385883
-        orig_rnechec:     2596041
+        orig_rnechec:     2594458
 Loesung beendet. 
 
 
@@ -4653,12 +4653,12 @@ Loesung beendet.
 12 moegliche Stellungen in 3+3
 844 moegliche Stellungen in 4+4
   1.b7-b5 e2-e4   2.b5-b4 e4*f5   3.b4-b3 f5*e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
-14493 moegliche Stellungen in 5+5
+14454 moegliche Stellungen in 5+5
 
-              empile:    33520152
-           play_move:    29663442
-        orig_rbechec:     1543834
-        orig_rnechec:    16958968
+              empile:    33479904
+           play_move:    29626035
+        orig_rbechec:     1543523
+        orig_rnechec:    16926647
 Loesung beendet. 
 
 
@@ -4692,12 +4692,12 @@ Loesung beendet.
 134 moegliche Stellungen in 2+2
   1.Tg6-d6 Sc4*e3   2.Td6-d2 Se3-c4   3.Td2*g2 Kf1*g2 = 
   1.Tg6-h6 Sc4*e3   2.Th6-h2 Se3-c4   3.Th2*g2 Kf1*g2 = 
-6805 moegliche Stellungen in 3+3
+6846 moegliche Stellungen in 3+3
 
-              empile:    31226894
-           play_move:    28265332
-        orig_rbechec:     1426180
-        orig_rnechec:    26995638
+              empile:    30777648
+           play_move:    27958200
+        orig_rbechec:     1426044
+        orig_rnechec:    26671656
 Loesung beendet. 
 
 
@@ -4734,10 +4734,10 @@ Loesung beendet.
   1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.g2-g1=T e5*f6   4.Tg1-g7 + f6*g7   5.d2-d1=S g7*f8=D   6.Sd1-f2 Df8*f2 = 
 4 moegliche Stellungen in 6+6
 
-              empile:      360414
-           play_move:      339013
-        orig_rbechec:       22296
-        orig_rnechec:      263969
+              empile:      358174
+           play_move:      336955
+        orig_rbechec:       22278
+        orig_rnechec:      260389
 Loesung beendet. 
 
 
@@ -4782,10 +4782,10 @@ Fassung: Theodor Steudel, Problemkiste 128, 4/2000
   1.d2-d1=L   2.d3-d2   3.d4-d3   4.d5-d4   5.d6-d5   6.d7-d6   7.Kc8-d7   8.Kd7-e6   9.Ke6-f5  10.Kf5-g4  11.Kg4-h3  12.Kh3-h2  13.Kh2-h1 Lh4-g3 = 
 80 moegliche Stellungen in 1+13
 
-              empile:     4593521
-           play_move:     3657983
+              empile:     4562263
+           play_move:     3629276
         orig_rbechec:      365332
-        orig_rnechec:     4061799
+        orig_rnechec:     4030518
 Loesung beendet. 
 
 
@@ -4904,10 +4904,10 @@ Loesung beendet.
   1.Dg7-g3   2.Dg3-b8   3.Ld8-c7   4.Lc7-e5   5.Le5*c3   6.Lc3-e5   7.Le5-c7   8.Lc7-d8   9.Db8-g3  10.Dg3-g7 Lb2*g7 = 
 15 moegliche Stellungen in 1+10
 
-              empile:      554922
-           play_move:      483696
+              empile:      554900
+           play_move:      483684
         orig_rbechec:      148918
-        orig_rnechec:      346244
+        orig_rnechec:      346230
 Loesung beendet. 
 
 
@@ -4944,10 +4944,10 @@ Loesung beendet.
   1.Sf3-h2 Kh1*h2   2.Tf1-e1 Kh2*h3   3.Te1-e2 Kh3*h4   4.Kf2-g2 Sg1*e2   5.Kg2-h1 Kh4-g3   6.h5-h4 + Kg3-h3 = 
 706 moegliche Stellungen in 6+6
 
-              empile:     4171341
-           play_move:     4118608
+              empile:     4160606
+           play_move:     4107161
         orig_rbechec:      345578
-        orig_rnechec:     1335385
+        orig_rnechec:     1322196
 Loesung beendet. 
 
 

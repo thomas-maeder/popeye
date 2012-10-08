@@ -27,7 +27,7 @@
               empile:       34585
            play_move:       35576
         orig_rbechec:        1673
-        orig_rnechec:       86631
+        orig_rnechec:       86613
 solution finished. 
 
 

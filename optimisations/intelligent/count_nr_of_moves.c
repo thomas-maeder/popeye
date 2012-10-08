@@ -854,6 +854,7 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
   boolean result;
   unsigned int nr_of_moves;
   unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+  unsigned int nr_capturable_white_masses = reserve[curr_reserve].nr_unused_masses[White];
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
@@ -862,8 +863,11 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
 
   nr_of_moves = black_pawn_no_promotion(from_square,to_square);
 
+  if (white[index_of_king].usage==piece_is_unused)
+    --nr_capturable_white_masses;
+
   if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black]
-      && diffcol<=reserve[curr_reserve].nr_unused_masses[White])
+      && diffcol<=nr_capturable_white_masses)
   {
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[Black] -= nr_of_moves;
@@ -1003,28 +1007,59 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
   return result;
 }
 
-static boolean reserve_promoting_pawn_moves_from_to(Side side,
-                                                    unsigned int min_nr_of_moves,
-                                                    unsigned int min_diffcol)
+static boolean reserve_promoting_black_pawn_moves_from_to(unsigned int min_nr_of_moves,
+                                                          unsigned int min_diffcol)
 {
   boolean result;
-  Side const opponent = advers(side);
+  unsigned int nr_capturable_masses = reserve[curr_reserve].nr_unused_masses[White];
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",min_nr_of_moves);
   TraceFunctionParam("%u",min_diffcol);
   TraceFunctionParamListEnd();
 
-  if (min_nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[side]
-      && min_diffcol<=reserve[curr_reserve].nr_unused_masses[opponent])
+  if (white[index_of_king].usage==piece_is_unused)
+    --nr_capturable_masses;
+
+  if (min_nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black]
+      && min_diffcol<=nr_capturable_masses)
   {
     push_reserve();
-    reserve[curr_reserve].nr_remaining_moves[side] -= min_nr_of_moves;
-    reserve[curr_reserve].nr_unused_masses[opponent] -= min_diffcol;
+    reserve[curr_reserve].nr_remaining_moves[Black] -= min_nr_of_moves;
+    reserve[curr_reserve].nr_unused_masses[White] -= min_diffcol;
     TraceEnumerator(Side,side,"");
-    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[side]);
-    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[opponent]);
+    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
+    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean reserve_promoting_white_pawn_moves_from_to(unsigned int min_nr_of_moves,
+                                                          unsigned int min_diffcol)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",min_nr_of_moves);
+  TraceFunctionParam("%u",min_diffcol);
+  TraceFunctionParamListEnd();
+
+  if (min_nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White]
+      && min_diffcol<=reserve[curr_reserve].nr_unused_masses[Black])
+  {
+    push_reserve();
+    reserve[curr_reserve].nr_remaining_moves[White] -= min_nr_of_moves;
+    reserve[curr_reserve].nr_unused_masses[Black] -= min_diffcol;
+    TraceEnumerator(Side,side,"");
+    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
     result = true;
   }
   else
@@ -1074,7 +1109,7 @@ boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_squar
     }
   }
 
-  result = reserve_promoting_pawn_moves_from_to(White,min_nr_of_moves,min_diffcol);
+  result = reserve_promoting_white_pawn_moves_from_to(min_nr_of_moves,min_diffcol);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1120,7 +1155,7 @@ boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_squar
     }
   }
 
-  result = reserve_promoting_pawn_moves_from_to(Black,min_nr_of_moves,min_diffcol);
+  result = reserve_promoting_black_pawn_moves_from_to(min_nr_of_moves,min_diffcol);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1408,7 +1443,7 @@ boolean intelligent_reserve_front_check_by_promotee(square from_square,
     }
   }
 
-  result = reserve_promoting_pawn_moves_from_to(White,min_nr_of_moves+1,min_diffcol);
+  result = reserve_promoting_white_pawn_moves_from_to(min_nr_of_moves+1,min_diffcol);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
