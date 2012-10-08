@@ -80,6 +80,11 @@ unsigned int intelligent_get_nr_remaining_moves(Side side);
  */
 boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses);
 
+/* Test whether a white pinner is available
+ * @return true iff a white pinner is available
+ */
+boolean intelligent_reserve_pinner(void);
+
 /* Roughly test whether Black can possibly block all flights; if yes, reserve
  * the necessary black masses
  * @param flights flights to be blocked

@@ -2301,7 +2301,7 @@ d) sBa6-->d6
               empile:       20607
            play_move:       22762
         orig_rbechec:         604
-        orig_rnechec:       35042
+        orig_rnechec:       35035
 e) sBa6-->e6
 
   1.Ke5-f5 Th8-h5   2.e6-e5 Da2-f7 # 
@@ -2317,7 +2317,7 @@ f) sBa6-->f6
               empile:        4873
            play_move:        5190
         orig_rbechec:         223
-        orig_rnechec:       33603
+        orig_rnechec:       33596
 g) sBa6-->g6
 
   1.Ke5-f6 Da2*a8   2.Kf6-g7 Da8-f8 # 

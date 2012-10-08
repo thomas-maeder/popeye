@@ -170,7 +170,7 @@ void intelligent_pin_pinnable_black_piece(square piece_pos,
 
   assert(pin_dir!=0);
 
-  if (intelligent_reserve_masses(White,1))
+  if (intelligent_reserve_pinner())
   {
     boolean const is_pin_on_diagonal = SquareCol(piece_pos+pin_dir)==SquareCol(piece_pos);
 

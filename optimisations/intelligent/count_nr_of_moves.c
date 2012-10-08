@@ -842,6 +842,36 @@ boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses)
   return result;
 }
 
+/* Test whether a white pinner is available
+ * @return true iff a white pinner is available
+ */
+boolean intelligent_reserve_pinner(void)
+{
+  boolean result;
+  unsigned int nr_pinners = reserve[curr_reserve].nr_unused_masses[White];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (white[index_of_king].usage==piece_is_unused)
+    --nr_pinners;
+
+  if (nr_pinners>=1)
+  {
+    push_reserve();
+    --reserve[curr_reserve].nr_unused_masses[White];
+    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Tests if a specific checking white sequence of moves by the same black pawn
  * without promotion is still possible.
  * @param from_square from
