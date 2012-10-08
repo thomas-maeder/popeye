@@ -1027,7 +1027,6 @@ static boolean reserve_promoting_black_pawn_moves_from_to(unsigned int min_nr_of
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[Black] -= min_nr_of_moves;
     reserve[curr_reserve].nr_unused_masses[White] -= min_diffcol;
-    TraceEnumerator(Side,side,"");
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
     result = true;
@@ -1057,7 +1056,6 @@ static boolean reserve_promoting_white_pawn_moves_from_to(unsigned int min_nr_of
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[White] -= min_nr_of_moves;
     reserve[curr_reserve].nr_unused_masses[Black] -= min_diffcol;
-    TraceEnumerator(Side,side,"");
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
     result = true;
