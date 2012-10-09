@@ -45,6 +45,7 @@ slice_index alloc_goal_enpassant_reached_tester_system(void)
 stip_length_type goal_enpassant_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -53,7 +54,8 @@ stip_length_type goal_enpassant_reached_tester_solve(slice_index si, stip_length
 
   assert(nbply!=nil_ply);
 
-  if (move_generation_stack[current_move[nbply]].arrival!=move_generation_stack[current_move[nbply]].capture
+  if (sq_capture!=move_generation_stack[current_move[nbply]].arrival
+      && sq_capture<=square_h8
       && is_pawn(pjoue[nbply]))
     result = solve(slices[si].next1,n);
   else
