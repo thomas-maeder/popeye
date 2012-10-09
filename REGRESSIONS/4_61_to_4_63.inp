@@ -17,8 +17,17 @@ pieces white pa7 ke1 rh1
 next
 
 title recent Popeye versions didn't find this any more
-stip h=0.5
 pieces white kc5 sf1 black kh1 qh2 rh3g2 bg1 pb7f2f3f4g3h4
+stip h=0.5
 option intelligent
+
+next
+
+title recent Popeye versions allowed promotion to grasshopper in b
+stip ~1
+pie wh pa7
+pie bl qa2
+zero subst q g
+twin subst q ca
 
 end

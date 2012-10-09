@@ -102,3 +102,66 @@ recent Popeye versions didn't find this any more
 solution finished. 
 
 
+
+recent Popeye versions allowed promotion to grasshopper in b
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -Q   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+
+zeroposition
+
+a) Q ==> G
+both sides need a kingboth sides need a king
+   1.a7-a8=Q !
+
+   1.a7-a8=S !
+
+   1.a7-a8=R !
+
+   1.a7-a8=B !
+
+   1.a7-a8=G !
+
+
+              empile:           1
+           play_move:           5
+        orig_rbechec:           0
+        orig_rnechec:           0
+b) Q ==> CA
+both sides need a kingboth sides need a king
+   1.a7-a8=Q !
+
+   1.a7-a8=S !
+
+   1.a7-a8=R !
+
+   1.a7-a8=B !
+
+   1.a7-a8=CA !
+
+
+              empile:           1
+           play_move:           5
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
