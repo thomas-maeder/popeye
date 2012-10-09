@@ -5,6 +5,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/move_player.h"
+#include "solving/moving_pawn_promotion.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

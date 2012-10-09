@@ -5,6 +5,7 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "solving/moving_pawn_promotion.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

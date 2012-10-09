@@ -145,7 +145,8 @@ optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
  utilities/boolean.h optimisations/intelligent/intelligent.h \
  position/position.h stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/guard_flights.h debugging/trace.h
+ optimisations/intelligent/guard_flights.h \
+ solving/moving_pawn_promotion.h debugging/trace.h
 
 optimisations/intelligent/mate/generate_checking_moves.h:
 
@@ -189,6 +190,8 @@ optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/guard_flights.h:
 
+solving/moving_pawn_promotion.h:
+
 debugging/trace.h:
 optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_doublechecking_moves.c \
@@ -201,7 +204,7 @@ optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
- debugging/trace.h
+ solving/moving_pawn_promotion.h debugging/trace.h
 
 optimisations/intelligent/mate/generate_doublechecking_moves.h:
 
@@ -246,6 +249,8 @@ optimisations/intelligent/count_nr_of_moves.h:
 optimisations/intelligent/guard_flights.h:
 
 optimisations/intelligent/mate/generate_checking_moves.h:
+
+solving/moving_pawn_promotion.h:
 
 debugging/trace.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \

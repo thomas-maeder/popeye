@@ -409,7 +409,7 @@ static void initPieces(void)
             : db);
        p <= derbla;
        p++)
-    if (promonly[p] || footballpiece[p])
+    if (promonly[p] || is_football_substitute[p])
       exist[p] = true;
 
   if (CondFlag[protean])
@@ -566,6 +566,10 @@ static void initialise_piece_flags(void)
 {
   square const *bnp;
   PieceIdType id = MinPieceId;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (bnp = boardnum; *bnp; bnp++)
   {
     piece const p = e[*bnp];
@@ -594,6 +598,9 @@ static void initialise_piece_flags(void)
         SETFLAG(spec[*bnp],Royal);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 typedef boolean is_restricted_type[nr_sides];
@@ -794,7 +801,7 @@ static boolean verify_position(slice_index si)
 {
   square const *bnp;
   piece     p;
-  int      cp, pp, tp, op, fp;
+  int      tp, op;
 
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
@@ -877,7 +884,7 @@ static boolean verify_position(slice_index si)
   flagleofamilyonly = CondFlag[leofamily] ? true : false;
   for (p = fb + 1; p <= derbla; p++)
   {
-    if (exist[p] || promonly[p] || footballpiece[p])
+    if (exist[p] || promonly[p] || is_football_substitute[p])
     {
       flagfee = true;
       if (is_rider(p))
@@ -1596,14 +1603,15 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  /* init promotioncounter and checkcounter */
-  pp = 0;
-  cp = 0;
-  fp = 0;
+  init_promotion_pieces();
+
+  if (CondFlag[football])
+    init_football_substitutes();
+
   {
     PieNam p;
-    PieNam prev_prom_piece = Empty;
     PieNam firstprompiece;
+    unsigned int check_piece_index = 0;
 
     if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
       firstprompiece = King;
@@ -1613,71 +1621,21 @@ static boolean verify_position(slice_index si)
       firstprompiece = Queen;
 
     for (p = firstprompiece; p<PieceCount; ++p)
-    {
-      getprompiece[p] = Empty;
-      getfootballpiece[p] = Empty;
-
       if (exist[p])
       {
-          if ((p!=Pawn || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
-              && (p!=King
-                  || CondFlag[losingchess]
-                  || CondFlag[dynasty]
-                  || CondFlag[extinction])
-              && p!=Dummy
-              && p!=BerolinaPawn
-              && p!=SuperBerolinaPawn
-              && p!=SuperPawn
-              && p!=ReversePawn
-              && (!CondFlag[promotiononly] || promonly[p]))
-          {
-            getprompiece[prev_prom_piece] = p;
-            prev_prom_piece = p;
-          }
-
-          if (footballpromlimited ? footballpiece[p] :
-        		  ((p!=Pawn || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
-              && (p!=King
-                  || CondFlag[losingchess]
-                  || CondFlag[dynasty]
-                  || CondFlag[extinction])
-              && p!=Dummy
-              && p!=BerolinaPawn
-              && p!=SuperBerolinaPawn
-              && p!=SuperPawn
-              && p!=ReversePawn)
-              )
-          {
-            getfootballpiece[fp] = p;
-            fp = p;
-          }
-
-          if (!footballpromlimited) {
-        	  footballpiece[p] = (p!=King
-                  || CondFlag[losingchess]
-                  || CondFlag[dynasty]
-                  || CondFlag[extinction])
-              && p!=Dummy
-              && p!=BerolinaPawn
-              && p!=SuperBerolinaPawn
-              && p!=SuperPawn
-              && p!=ReversePawn;
-      	  }
-
         if (p>Bishop && p!=Dummy) {
           /* only fairy pieces until now ! */
           optim_neutralretractable = false;
           add_ortho_mating_moves_generation_obstacle();
           if (p!=Hamster)
           {
-            checkpieces[cp] = p;
-            cp++;
+            checkpieces[check_piece_index] = p;
+            check_piece_index++;
           }
         }
       }
-    }
 
-    checkpieces[cp] = Empty;
+    checkpieces[check_piece_index] = Empty;
   }
 
   tp = 0;

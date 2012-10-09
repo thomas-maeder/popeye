@@ -7,6 +7,10 @@
 
 extern piece current_football_substitution[maxply+1];
 
+/* Initialise the substitutes' bench for the current twin
+ */
+void init_football_substitutes(void);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

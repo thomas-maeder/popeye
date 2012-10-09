@@ -116,6 +116,7 @@
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
 #include "solving/en_passant.h"
+#include "solving/moving_pawn_promotion.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 #include "conditions/check_zigzag.h"
@@ -538,7 +539,7 @@ static void WriteConditions(int alignment)
       PieNam pp= Empty;
       while (true)
       {
-        pp = getfootballpiece[pp];
+        pp = next_football_substitute[pp];
         if (pp==Empty)
           break;
 
@@ -5437,7 +5438,7 @@ static char *ParseCond(void) {
         tok = ReadPieces(promotiononly);
         break;
       case football:
-    	footballpromlimited = false;
+    	football_are_substitutes_limited = false;
     	tok = ReadPieces(football);
     	break;
       case april:
@@ -6496,8 +6497,8 @@ char *ReadPieces(int condition) {
       promonly[tmp_piece]= true;
       break;
     case football:
-      footballpiece[tmp_piece]= true;
-      footballpromlimited = true;
+      is_football_substitute[tmp_piece]= true;
+      football_are_substitutes_limited = true;
       break;
     case april:
       is_april_kind[tmp_piece]= true;
@@ -6799,7 +6800,8 @@ void MultiCenter(char *s) {
   }
 }
 
-void WritePosition() {
+void WritePosition()
+{
   int nBlack, nWhite, nNeutr;
   square square, square_a;
   int row, file;

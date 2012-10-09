@@ -145,7 +145,7 @@ EXTERN  boolean platzwechsel_rochade_allowed[nr_sides][maxply+1];
 
 EXTERN  boolean  exist[derbla + 1];
 EXTERN  boolean  promonly[derbla + 1];
-EXTERN  boolean  footballpiece[derbla + 1];
+EXTERN  boolean  is_football_substitute[derbla + 1];
 
 EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
@@ -220,10 +220,9 @@ EXTERN  boolean         k_cap,
 EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
 
-EXTERN  PieNam          getprompiece[PieceCount + 1];       /* it's a inittable ! */
-EXTERN  PieNam          getfootballpiece[PieceCount + 1];       /* it's a inittable ! */
+EXTERN  PieNam          next_football_substitute[PieceCount + 1];       /* it's a inittable ! */
 
-EXTERN  boolean         footballpromlimited;
+EXTERN  boolean         football_are_substitutes_limited;
 EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
 
 EXTERN  piece           transmpieces[nr_sides][derbla];

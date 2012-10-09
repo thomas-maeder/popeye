@@ -276,7 +276,7 @@ void InitCond(void) {
   number_of_imitators = 0;
 
   memset((char *) promonly, 0, sizeof(promonly));
-  memset((char *) footballpiece, 0, sizeof(promonly));
+  memset((char *) is_football_substitute, 0, sizeof(promonly));
   memset((char *) is_april_kind,0,sizeof(is_april_kind));
   checkhopim = false;
   koekofunc= nokingcontact;

@@ -18,6 +18,52 @@ static PieNam const *bench[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
+/* Initialise the substitutes' bench for the current twin
+ */
+void init_football_substitutes(void)
+{
+  PieNam first_candidate;
+  PieNam substitute_index = Empty;
+  PieNam p;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+ if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
+    first_candidate = King;
+  else if ((CondFlag[singlebox] && SingleBoxType!=singlebox_type1) || CondFlag[football])
+    first_candidate = Pawn;
+  else
+    first_candidate = Queen;
+
+  if (!football_are_substitutes_limited)
+    for (p = first_candidate; p<PieceCount; ++p)
+      if (exist[p])
+        is_football_substitute[p] = ((p!=King
+                                      || CondFlag[losingchess]
+                                      || CondFlag[dynasty]
+                                      || CondFlag[extinction])
+                                     && p!=Dummy
+                                     && p!=BerolinaPawn
+                                     && p!=SuperBerolinaPawn
+                                     && p!=SuperPawn
+                                     && p!=ReversePawn);
+
+  for (p = first_candidate; p<PieceCount; ++p)
+    if (is_football_substitute[p])
+    {
+      next_football_substitute[substitute_index] = p;
+      substitute_index = p;
+    }
+    else
+      next_football_substitute[p] = Empty;
+
+  next_football_substitute[substitute_index] = Empty;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static PieNam const *get_bench(void)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
@@ -26,24 +72,24 @@ static PieNam const *get_bench(void)
       && (sq_arrival%onerow==left_file || sq_arrival%onerow==right_file))
   {
     PieNam const p = abs(e[sq_arrival]);
-    PieNam tmp = getfootballpiece[Empty];
+    PieNam tmp = next_football_substitute[Empty];
 
     /* ensure moving piece is on list to allow null (= non-) substitutions */
     if (tmp!=p)
     {
       /* remove old head-of-list if not part of standard set */
-      if (!footballpiece[tmp])
-        getfootballpiece[Empty] = getfootballpiece[tmp];
+      if (!is_football_substitute[tmp])
+        next_football_substitute[Empty] = next_football_substitute[tmp];
 
       /* add moving piece to head-of-list if not already part of standard set */
-      if (!footballpiece[p])
+      if (!is_football_substitute[p])
       {
-        getfootballpiece[p] = getfootballpiece[vide];
-        getfootballpiece[Empty] = p;
+        next_football_substitute[p] = next_football_substitute[vide];
+        next_football_substitute[Empty] = p;
       }
     }
 
-    return getfootballpiece;
+    return next_football_substitute;
   }
   else
     return NULL;

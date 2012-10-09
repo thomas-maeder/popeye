@@ -6,14 +6,65 @@
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
+#include "solving/moving_pawn_promotion.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
+PieNam getprompiece[PieceCount+1];
 PieNam current_promotion_of_moving[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
+
+/* Initialise the set of promotion pieces for the current twin
+ */
+void init_promotion_pieces(void)
+{
+  PieNam p;
+  PieNam prev_prom_piece = Empty;
+  PieNam firstprompiece;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
+    firstprompiece = King;
+  else if ((CondFlag[singlebox] && SingleBoxType!=singlebox_type1) || CondFlag[football])
+    firstprompiece = Pawn;
+  else
+    firstprompiece = Queen;
+
+  for (p = firstprompiece; p<PieceCount; ++p)
+  {
+    getprompiece[p] = Empty;
+
+    if (exist[p])
+    {
+      if ((p!=Pawn || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
+          && (p!=King
+              || CondFlag[losingchess]
+              || CondFlag[dynasty]
+              || CondFlag[extinction])
+          && p!=Dummy
+          && p!=BerolinaPawn
+          && p!=SuperBerolinaPawn
+          && p!=SuperPawn
+          && p!=ReversePawn
+          && (!CondFlag[promotiononly] || promonly[p]))
+      {
+        TracePiece(prev_prom_piece);
+        TracePiece(p);
+        TraceText("\n");
+        getprompiece[prev_prom_piece] = p;
+        prev_prom_piece = p;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Has a pawn reached a promotion square
  * @param side the pawn's side

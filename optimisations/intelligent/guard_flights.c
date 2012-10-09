@@ -6,6 +6,7 @@
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/intercept_check_from_guard.h"
 #include "options/maxsolutions/maxsolutions.h"
+#include "solving/moving_pawn_promotion.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
 

@@ -1007,9 +1007,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  stipulation/help_play/adapter.h solving/find_shortest.h \
  solving/play_suppressor.h solving/battle_play/continuation.h \
  solving/battle_play/try.h utilities/table.h solving/en_passant.h \
- conditions/republican.h conditions/bgl.h conditions/check_zigzag.h \
- conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
- conditions/kobul.h conditions/circe/april.h conditions/sentinelles.h \
+ solving/moving_pawn_promotion.h conditions/republican.h conditions/bgl.h \
+ conditions/check_zigzag.h conditions/patience.h conditions/sat.h \
+ conditions/oscillating_kings.h conditions/kobul.h \
+ conditions/circe/april.h conditions/sentinelles.h \
  options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
  options/maxsolutions/maxsolutions.h \
@@ -1161,6 +1162,8 @@ solving/battle_play/try.h:
 utilities/table.h:
 
 solving/en_passant.h:
+
+solving/moving_pawn_promotion.h:
 
 conditions/republican.h:
 
