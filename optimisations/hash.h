@@ -59,6 +59,14 @@ void HashStats(unsigned int level, char *trailer);
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
+byte *CommonEncode(byte *bp,
+                   stip_length_type min_length,
+                   stip_length_type validity_value);
+
+byte *SmallEncodePiece(byte *bp,
+                       int row, int col,
+                       piece p, Flags pspec);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

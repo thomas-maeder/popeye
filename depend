@@ -1263,7 +1263,8 @@ pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h position/position.h \
  solving/solve.h solving/castling.h solving/solve.h solving/en_passant.h \
  optimisations/hash.h DHT/dhtbcmem.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h \
- conditions/duellists.h debugging/trace.h
+ conditions/duellists.h conditions/haunted_chess.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 py.h:
 
@@ -1334,6 +1335,10 @@ optimisations/intelligent/moves_left.h:
 platform/maxtime.h:
 
 conditions/duellists.h:
+
+conditions/haunted_chess.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \

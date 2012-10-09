@@ -36,6 +36,7 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
 #include "conditions/duellists.h"
+#include "conditions/haunted_chess.h"
 #include "debugging/trace.h"
 #include "position/position.h"
 
@@ -68,6 +69,7 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
   int       row, col;
   square a_square= square_a1;
   boolean even= false;
+  ghost_index_type gi;
 
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board);
@@ -92,20 +94,21 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
   if (even)
     *bp++ = pieces+(15<<(CHAR_BIT/2));
 
-  assert(validity_value<=(1<<CHAR_BIT));
-  if (min_length>slack_length)
-    *bp++ = (byte)(validity_value);
 
-  if (CondFlag[duellist]) {
-    *bp++ = (byte)(duellists[White][nbply] - square_a1);
-    *bp++ = (byte)(duellists[Black][nbply] - square_a1);
+  for (gi = 0; gi<nr_ghosts; ++gi)
+  {
+    square s = (ghosts[gi].on
+                - nr_of_slack_rows_below_board*onerow
+                - nr_of_slack_files_left_of_board);
+    row = s/onerow;
+    col = s%onerow;
+    bp = SmallEncodePiece(bp,
+                          row,col,
+                          ghosts[gi].ghost,ghosts[gi].flags);
   }
 
-  if (CondFlag[blfollow] || CondFlag[whfollow])
-    *bp++ = (byte)(move_generation_stack[current_move[nbply]].departure - square_a1);
-
-  if (ep[nbply])
-    *bp++ = (byte)(ep[nbply] - square_a1);
+  /* Now the rest of the party */
+  bp = CommonEncode(bp,min_length,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);

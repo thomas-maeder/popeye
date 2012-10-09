@@ -1216,9 +1216,9 @@ static unsigned int TellSmallEncodePosLeng(void)
   return result;
 } /* TellSmallEncodePosLeng */
 
-static byte *CommonEncode(byte *bp,
-                          stip_length_type min_length,
-                          stip_length_type validity_value)
+byte *CommonEncode(byte *bp,
+                   stip_length_type min_length,
+                   stip_length_type validity_value)
 {
   if (CondFlag[messigny]) {
     if (move_generation_stack[current_move[nbply]].capture == messigny_exchange) {
@@ -1364,9 +1364,9 @@ static void LargeEncode(stip_length_type min_length,
   TraceFunctionResultEnd();
 } /* LargeEncode */
 
-static byte *SmallEncodePiece(byte *bp,
-                              int row, int col,
-                              piece p, Flags pspec)
+byte *SmallEncodePiece(byte *bp,
+                       int row, int col,
+                       piece p, Flags pspec)
 {
   PieNam const pienam = abs(p);
   *bp++= (byte)((row<<(CHAR_BIT/2))+col);
