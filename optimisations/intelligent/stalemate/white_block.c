@@ -15,36 +15,31 @@
  */
 void intelligent_stalemate_white_block(square to_be_blocked)
 {
-  unsigned int blocker_index;
-
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (white[index_of_king].usage==piece_is_unused
-      && intelligent_reserve_masses(White,1))
-  {
-    white[index_of_king].usage = piece_blocks;
-    intelligent_place_white_king(to_be_blocked,
-                                 &intelligent_stalemate_test_target_position);
-    white[index_of_king].usage = piece_is_unused;
-    intelligent_unreserve();
-  }
-
   if (intelligent_reserve_masses(White,1))
   {
-    for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
+    unsigned int blocker_index;
+    for (blocker_index = 0; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)
       {
         white[blocker_index].usage = piece_blocks;
 
         switch (white[blocker_index].type)
         {
+          case roib:
+            intelligent_place_white_king(to_be_blocked,
+                                         &intelligent_stalemate_test_target_position);
+            break;
+
           case db:
             intelligent_place_white_queen(blocker_index,
                                           to_be_blocked,
                                           &intelligent_stalemate_test_target_position);
             break;
+
           case tb:
           case fb:
             intelligent_place_white_rider(blocker_index,
