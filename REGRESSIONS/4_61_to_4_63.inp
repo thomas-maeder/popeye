@@ -92,6 +92,16 @@ Remark        Dit is een grote test
 
 next
 
+title Condition FileCirce RexInclusiv was accepted, but RexInclusiv was ignored
+Pieces      White Rh3 
+            Black Rb5 Sb4b8
+            Neutral Ka4 
+Stipulation H#0.5
+Condition   FileCirce RexInclusiv
+twin add white sa8
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces
 White Se5 Rf3 Ke1

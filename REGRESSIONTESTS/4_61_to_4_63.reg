@@ -377,6 +377,49 @@ b) wuSa3-->g5Dit is een grote test
 solution finished. 
 
 
+
+Condition FileCirce RexInclusiv was accepted, but RexInclusiv was ignored
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -R   .   .   .   .   .   .   5
+|                                   |
+4  =K  -S   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#0.5                  1 + 3 + 1n
+              FileCirce
+
+a) 
+
+
+              empile:          26
+           play_move:          20
+        orig_rbechec:           0
+        orig_rnechec:           3
+b) +wSa8 
+
+  1...Rh3-a3 # 
+
+              empile:          53
+           play_move:          45
+        orig_rbechec:           0
+        orig_rnechec:          43
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

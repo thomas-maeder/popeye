@@ -5296,17 +5296,11 @@ static char *ParseCond(void) {
         tok = ParseRex(&rex_mess_ex, rexexcl);
         break;
       case woozles:
-        tok = ParseRex(&rex_wooz_ex, rexexcl);
-        break;
       case biwoozles:
         tok = ParseRex(&rex_wooz_ex, rexexcl);
         break;
       case immun:
-        tok = ParseRex(&rex_immun, rexincl);
-        break;
       case immunmalefique:
-        tok = ParseRex(&rex_immun, rexincl);
-        break;
       case immundiagramm:
         tok = ParseRex(&rex_immun, rexincl);
         break;
@@ -5314,21 +5308,18 @@ static char *ParseCond(void) {
         ReadChameleonCirceSequence();
         break;
       case circe:
-        tok = ParseRex(&rex_circe, rexincl);
-        break;
       case circemalefique:
-        tok = ParseRex(&rex_circe, rexincl);
-        break;
+      case circefile:
+      case circeequipollents:
       case circediagramm:
-        tok = ParseRex(&rex_circe, rexincl);
-        break;
+      case circesymmetry:
       case circeclone:
-        tok = ParseRex(&rex_circe, rexincl);
-        break;
+      case circefilemalefique:
       case circeclonemalefique:
-        tok = ParseRex(&rex_circe, rexincl);
-        break;
+      case circeantipoden:
       case circemalefiquevertical:
+      case circediametral:
+      case circerank:
         tok = ParseRex(&rex_circe, rexincl);
         break;
       case protean:

@@ -240,21 +240,36 @@ square renfile(ply ply_id,
                Side capturer)
 {
   int col= sq_capture % onerow;
+  square result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TracePiece(p_captured);
+  TraceSquare(sq_capture);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceEnumerator(Side,capturer,"");
+  TraceFunctionParamListEnd();
 
   if (capturer==Black)
   {
     if (is_pawn(p_captured))
-      return col + (nr_of_slack_rows_below_board+1)*onerow;
+      result = col + (nr_of_slack_rows_below_board+1)*onerow;
     else
-      return col + nr_of_slack_rows_below_board*onerow;
+      result = col + nr_of_slack_rows_below_board*onerow;
   }
   else
   {
     if (is_pawn(p_captured))
-      return col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
+      result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else
-      return col + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
+      result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 square renspiegelfile(ply ply_id,
