@@ -69,4 +69,14 @@ Stipulation H#3
 Condition EiffelChess
 Twin Move e8 h8
 
+next
+
+title issue 2925255:
+title Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
+pieces white kh3 rb8
+       black kh1
+       neutral ra7
+stipulation #1
+condition madrasi
+
 end
