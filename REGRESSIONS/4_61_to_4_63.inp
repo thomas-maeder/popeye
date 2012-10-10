@@ -81,6 +81,17 @@ condition madrasi
 
 next
 
+title Popeye used to produce an error message on remark after twin
+Pieces        White Bb8 Kc8 
+              White Uncapturable Sa3
+              Black Ka8 Sh1 
+Stipulation   #2
+Option         Variation 
+Twin          move a3 g5
+Remark        Dit is een grote test
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces
 White Se5 Rf3 Ke1

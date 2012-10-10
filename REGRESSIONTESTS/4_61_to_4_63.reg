@@ -326,6 +326,57 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
 solution finished. 
 
 
+
+Popeye used to produce an error message on remark after twin
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   B   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   S   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 2
+           Uncapturable a3
+
+a) 
+
+   1.uSa3-c4 ! threat:
+          2.uSc4-b6 #
+
+   1.uSa3-b5 ! threat:
+          2.uSb5-c7 #
+
+
+              empile:         187
+           play_move:         139
+        orig_rbechec:          25
+        orig_rnechec:         144
+b) wuSa3-->g5Dit is een grote test
+
+   1.uSg5-e6 ! threat:
+          2.uSe6-c7 #
+
+
+              empile:         148
+           play_move:          88
+        orig_rbechec:          22
+        orig_rnechec:          91
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

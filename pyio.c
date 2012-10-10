@@ -6307,10 +6307,11 @@ static char *ParseTwinning(slice_index root_slice_hook)
 
   while (true)
   {
-    TwinningType twinning;
+    TwinningType twinning = 0;
     Token tk = StringToToken(tok);
 
-    if (tk==TwinProblem
+    if (twinning>=TwinningCount
+        || tk==TwinProblem
         || tk==NextProblem
         || tk==EndProblem)
     {
@@ -6321,27 +6322,16 @@ static char *ParseTwinning(slice_index root_slice_hook)
     }
 
     twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
-    if (twinning>TwinningCount)
-    {
-      IoErrorMsg(OptNotUniq,0);
-      tok = ReadNextTokStr();
-      continue;
-    }
+    if (twinning>=TwinningCount)
+      return tok;
     else
       switch (twinning)
       {
-        case TwinningCount:
-          IoErrorMsg(ComNotKnown,0);
-          tok = ReadNextTokStr();
-          continue;
-
         case TwinningContinued:
-          if (TwinningRead == true) {
+          if (TwinningRead == true)
             Message(ContinuedFirst);
-          }
-          else {
+          else
             continued= true;
-          }
           tok = ReadNextTokStr();
           continue;
 
@@ -6458,6 +6448,8 @@ static char *ParseTwinning(slice_index root_slice_hook)
         break;
     }
   }
+
+  TraceText("ParseTwinning() returns\n");
 } /* ParseTwinning */
 
 /***** twinning *****  end  *****/
@@ -6511,6 +6503,19 @@ char *ReadPieces(int condition) {
   return tok;
 }
 
+static void ReadRemark(void)
+{
+  if (LastChar != '\n')
+  {
+    ReadToEndOfLine();
+    if (TraceFile!=NULL)
+    {
+      fputs(InputLine, TraceFile);
+      fflush(TraceFile);
+    }
+    Message(NewLine);
+  }
+}
 
 Token ReadTwin(Token tk, slice_index root_slice_hook)
 {
@@ -6519,6 +6524,8 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
   /* open mode for protocol and/or TeX file; overwrite existing file(s)
    * if we are doing a regression test */
   char const *open_mode = flag_regression ? "w" : "a";
+
+  TraceValue("ReadTwin() - %u\n",tk);
 
   if (tk==BeginProblem)
   {
@@ -6536,7 +6543,9 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
       TwinNumber= 0;
       TwinStorePosition();
     }
+    TraceText("-> ParseTwinning()\n");
     tok = ParseTwinning(root_slice_hook);
+    TraceValue("ParseTwinning() -> %s\n",tok);
 
     while (true)
     {
@@ -6569,6 +6578,11 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
               tok = ReadNextTokStr();
               break;
             }
+
+          case RemToken:
+            ReadRemark();
+            tok = ReadNextTokStr();
+            break;
 
           default:
             IoErrorMsg(ComNotKnown,0);
@@ -6687,16 +6701,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case RemToken:
-            if (LastChar != '\n')
-            {
-              ReadToEndOfLine();
-              if (TraceFile!=NULL)
-              {
-                fputs(InputLine, TraceFile);
-                fflush(TraceFile);
-              }
-              Message(NewLine);
-            }
+            ReadRemark();
             tok = ReadNextTokStr();
             break;
 
