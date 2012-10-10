@@ -1687,7 +1687,7 @@ boolean rookmoosecheck(square    i,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
+  return rmhopech(i, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
 }
 
 boolean rookeaglecheck(square    i,
@@ -1701,14 +1701,14 @@ boolean rooksparrcheck(square    i,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
+  return rmhopech(i, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
 }
 
 boolean bishopmoosecheck(square    i,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
+  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
 }
 
 boolean bishopeaglecheck(square    i,
@@ -1722,7 +1722,7 @@ boolean bishopsparrcheck(square    i,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
+  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
 }
 
 boolean archcheck(square    i,
