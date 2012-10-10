@@ -174,19 +174,19 @@ solution finished.
 
 a) 
 
-  1.Qh2*c7[+bPh2][+bPg1=R] Rg1-g8   2.Qc7*h2[+bPc7][+bPg3] Qc4-h4[+wPc4] # 
+  1.Qh2*c7[+bPg1=R][+bPh2] Rg1-g8   2.Qc7*h2[+bPg3][+bPc7] Qc4-h4[+wPc4] # 
 
-              empile:      389662
-           play_move:       13808
-        orig_rbechec:       13723
+              empile:      393210
+           play_move:       13974
+        orig_rbechec:       13889
         orig_rnechec:           0
 b) bQc4-->g5
 
-  1.Qh2*c7[+bPh2][+bPe1=S] Qg5-a5[+wPg5]   2.Qc7*h2[+bPc7][+bPe5] Qa5-d2[+wPa5] # 
+  1.Qh2*c7[+bPe1=S][+bPh2] Qg5-a5[+wPg5]   2.Qc7*h2[+bPe5][+bPc7] Qa5-d2[+wPa5] # 
 
-              empile:      531747
-           play_move:       15039
-        orig_rbechec:       14833
+              empile:      537511
+           play_move:       15213
+        orig_rbechec:       15007
         orig_rnechec:           0
 solution finished. 
 

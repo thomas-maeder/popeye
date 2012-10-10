@@ -21,7 +21,8 @@ static void insert_sentinelle(Side trait_ply)
   piece const pi_captured = pprise[nbply];
 
   if (sq_departure>=square_a2 && sq_departure<=square_h7
-      && !is_pawn(pi_departing))
+      && !is_pawn(pi_departing)
+      && e[sq_departure]==vide)
   {
     if (SentPionNeutral && TSTFLAG(spec_pi_moving,Neutral))
     {

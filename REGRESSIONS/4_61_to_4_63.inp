@@ -102,6 +102,16 @@ twin add white sa8
 
 next
 
+title Sentinelle insertion would occur before rebirth, which caused
+title MaximumWhite/Black to be exceeded
+stip h#2
+pieces
+neutral kd5 white pc3c6 black pc4
+condition EquipollentsCirce
+          Sentinelles PionAdvers MaximumWhite 2 MaximumBlack 2
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces
 White Se5 Rf3 Ke1
