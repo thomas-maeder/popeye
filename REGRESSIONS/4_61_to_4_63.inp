@@ -79,4 +79,13 @@ pieces white kh3 rb8
 stipulation #1
 condition madrasi
 
+next
+
+title stipulation token without actual stipulation caused a crash
+Pieces
+White Se5 Rf3 Ke1
+Black Rb8 Kd8 Rf8 Sf6
+Stipulation
+Option Variation NoBoard
+
 end

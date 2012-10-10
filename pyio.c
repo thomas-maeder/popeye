@@ -2044,7 +2044,7 @@ static goalInputConfig_t const *detectGoalType(char *tok)
   TraceFunctionParamListEnd();
 
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
-    if (strstr(tok,gic->inputText)==tok)
+    if (gic->inputText!=0 && strstr(tok,gic->inputText)==tok)
       break;
 
   TraceFunctionExit(__func__);
