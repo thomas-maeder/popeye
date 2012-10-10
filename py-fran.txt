@@ -966,7 +966,7 @@ suivante est un peu plus compliquee:
     Miroir a1<-->h1: axe verticale
     Miroir a1<-->a8: axe horizontale
     Miroir a1<-->h8: axe diagonale a8-h1
-    Miroir h1<-->a8: axe diagonale a1-h8
+    Miroir a8<-->h1: axe diagonale a1-h8
 	Le parametre n'indique donc pas l'axe!
     Translation <case1> <case2>: Translation de la position entiere, les deux 
 	cases indiquant la direction et la longueur de la translation. 

@@ -999,7 +999,7 @@ aufwendiger ist das Kommando
     Spiegelung a1<-->h1: Spiegelung an der vertikalen Mittellinie,
     Spiegelung a1<-->a8: Spiegelung an der horizontalen Mittellinie,
     Spiegelung a1<-->h8: Spiegelung an der Diagonalen a8-h1,
-    Spiegelung h1<-->a8: Spiegelung an der Diagonalen a1-h8.
+    Spiegelung a8<-->h1: Spiegelung an der Diagonalen a1-h8.
 	Es wird also nicht die Spiegelungslinie angegeben, sondern in welches
 	Feld das Feld a1 (bzw. h1) uebergeht.
     Verschiebung <Feld1> <Feld2>: Verschiebung der gesamten Stellung, wobei

@@ -956,7 +956,7 @@ sstipulation). A little bit more elaborate is the command
     Mirror a1<-->h1: Mirrors the position on the vertical middle line.
     Mirror a1<-->a8: Mirrors the position on the horizontal middle line.
     Mirror a1<-->h8: Mirrors the position on the diagonal a8-h1.
-    Mirror h1<-->a8: Mirrors the position on the diagonal a1-h8.
+    Mirror a8<-->h1: Mirrors the position on the diagonal a1-h8.
 	So, not the mirror line is given, but square into which a1 (or h1)
 	is turned into.
     Shift <square1> <square2>: Shift the whole position into the direction
