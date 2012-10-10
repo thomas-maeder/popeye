@@ -37,7 +37,7 @@
 5= Zuviele Loesungen
 6= Im HaanerSchach sind Kamikaze-Steine nicht erlaubt
 7= Verfuehrung nicht anwendbar\n
-8= Neutrale Steine und Orphan oder Freund nicht erlaubt
+8= Neutrale Steine und Orphan, Freund oder variierendem Koenig nicht erlaubt
 9= Leofamily mit orthodoxen Figuren nicht erlaubt
 10= Dummy-Figuren bei Circe nicht erlaubt.
 11= FarbeWechselnd nur bei einigen Huepfern erlaubt

@@ -6,7 +6,7 @@
 5= too much solutions
 6= haaner chess not allowed with kamikaze-pieces
 7= try play not applicable\n
-8= neutral pieces together with Orphans or Friends not allowed
+8= neutral pieces together with Orphan, Friend or varying King not allowed
 9= leofamily with orthodox pieces ?
 10= dummy-pieces not allowed with circe.
 11= ColourChange only with certain hoppers allowed

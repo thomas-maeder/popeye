@@ -6,7 +6,7 @@
 5= trop de solutions
 6= en EchecsHaan les pieces kamikazees sont interdites
 7= jeu d'essai pas applicable
-8= pieces neutres et orphan ou ami interdit
+8= pieces neutres et orphan, ami ou roi variable interdit
 9= leofamily avec pieces orthodoxes ?
 10= en circe les pieces impuissantes sont interdites
 11= CouleurEchangeant seulement avec quelques sauteurs
