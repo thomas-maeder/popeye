@@ -76,7 +76,7 @@ static boolean can_piece_check(square sq)
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq],Neutral))
+  if (TSTFLAG(PieSpExFlags,Neutral))
     initialise_neutrals(advers(neutral_side));
 
   eiffel_piece = get_paralyser(p);

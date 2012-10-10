@@ -55,4 +55,18 @@ Black royal Pe2
 White Pd6
 Black Pe4
 
+next
+
+title bug in Eiffel Chess with neutral pieces; the cook wasn't found and
+title checks were indicated after Black's 3rd moves
+Author Lev Grolman & Oleg Rabinovich
+Origin F1006 StrateGems 52 October 2010
+Pieces
+White Ke7
+Black Kh7 Qg6 Be8
+Neutral Rg8
+Stipulation H#3
+Condition EiffelChess
+Twin Move e8 h8
+
 end

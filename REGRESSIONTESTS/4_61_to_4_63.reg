@@ -244,3 +244,51 @@ all Popeye versions have wrongly detected a White check in the diagram
 solution finished. 
 
 
+
+    Lev Grolman & Oleg Rabinovich
+   F1006 StrateGems 52 October 2010
+bug in Eiffel Chess with neutral pieces; the cook wasn't found and
+checks were indicated after Black's 3rd moves
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -B   .  =R   .   8
+|                                   |
+7   .   .   .   .   K   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .  -Q   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                    1 + 3 + 1n
+             EiffelChess
+
+a) 
+
+  1.nRg8-f8 nRf8-f5   2.Be8-f7 nRf5-h5 +   3.Qg6-g5 Ke7*f7 # 
+
+              empile:     2393145
+           play_move:     2150259
+        orig_rbechec:      185502
+        orig_rnechec:     2125212
+b) bBe8-->h8
+
+  1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 # 
+  1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 # 
+
+              empile:     4065413
+           play_move:     3693946
+        orig_rbechec:      309625
+        orig_rnechec:     3638415
+solution finished. 
+
+
