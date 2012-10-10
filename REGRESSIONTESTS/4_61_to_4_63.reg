@@ -208,3 +208,39 @@ strange "cages" were selected for neutral pieces
 solving interrupted. 
 
 
+
+               Unknown
+               Unknown
+all Popeye versions have wrongly detected a White check in the diagram
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=1                         2 + 2
+             Royal b7 e2
+              MarsCirce
+
+
+              empile:         182
+           play_move:          62
+        orig_rbechec:          35
+        orig_rnechec:          54
+solution finished. 
+
+

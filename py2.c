@@ -1993,19 +1993,6 @@ boolean pioncheck(square sq_king,
 {
   square sq_departure;
 
-  if (anymars) {
-    boolean anymarscheck=
-        (p==e[king_square[White]]
-         && (e[sq_king+dir_down+dir_right]==p
-             || e[sq_king+dir_down+dir_left]==p))
-        || (p==e[king_square[Black]]
-            && (e[sq_king+dir_up+dir_left]==p
-                || e[sq_king+dir_up+dir_right]==p));
-    if (!CondFlag[phantom] || anymarscheck) {
-      return anymarscheck;
-    }
-  }
-
   if (p<=roin) {
     if (sq_king<=square_h6
         || anyparrain

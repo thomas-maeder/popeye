@@ -41,4 +41,18 @@ Stipulation pser-h~1
 Condition CageCirce
 option maxsol 10
 
+next
+
+title all Popeye versions have wrongly detected a White check in the diagram
+BeginProblem
+Author Unknown
+Origin Unknown
+Stipulation h=1
+Condition MarsCirce
+Pieces
+White royal Pb7
+Black royal Pe2
+White Pd6
+Black Pe4
+
 end

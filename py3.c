@@ -242,8 +242,8 @@ static boolean marsechecc(Side camp, evalfunction_t *evaluate)
             e[z] = vide;
             e[sq_rebirth] = p;
             spec[sq_rebirth] = psp;
-            is_check = (*checkfunctions[marsmap(abs(p))])
-                (sq_rebirth, camp ? e[king_square[Black]] : e[king_square[White]], evaluate);
+            fromspecificsquare = sq_rebirth;
+            is_check = (*checkfunctions[marsmap(abs(p))])(king_square[camp],p,&eval_fromspecificsquare);
             e[sq_rebirth] = vide;
             spec[sq_rebirth] = spec_rebirth;
             e[z] = p;
