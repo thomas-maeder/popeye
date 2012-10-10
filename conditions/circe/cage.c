@@ -78,7 +78,7 @@ static boolean find_non_capturing_move(square sq_departure, Side moving_side)
   TraceEnumerator(Side,moving_side,"");
   TraceFunctionParamListEnd();
 
-  init_single_piece_move_generator(sq_departure,e[sq_departure]);
+  init_single_piece_move_generator(sq_departure);
   result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);

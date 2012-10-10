@@ -7,7 +7,7 @@
  * in STSinglePieceMoveGenerator stipulation slices.
  */
 
-void init_single_piece_move_generator(square sq_departure, piece pi_moving);
+void init_single_piece_move_generator(square sq_departure);
 
 /* Allocate a STSinglePieceMoveGenerator slice.
  * @return index of allocated slice

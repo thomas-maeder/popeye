@@ -8,18 +8,15 @@
 #include <assert.h>
 
 static square square_departure;
-static piece piece_moving;
 
-void init_single_piece_move_generator(square sq_departure, piece pi_moving)
+void init_single_piece_move_generator(square sq_departure)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TracePiece(pi_moving);
   TraceFunctionParamListEnd();
 
   assert(square_departure==initsquare);
   square_departure = sq_departure;
-  piece_moving = pi_moving;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -66,10 +63,19 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
   nextply(nbply);
 
   TraceValue("%u\n",current_move[nbply]);
-  if (side_at_move==White)
-    gen_wh_piece(square_departure,piece_moving);
-  else
-    gen_bl_piece(square_departure,piece_moving);
+
+  {
+    piece p = e[square_departure];
+
+    if (TSTFLAG(spec[square_departure],Neutral))
+      p = -p;
+
+    if (side_at_move==White)
+      gen_wh_piece(square_departure,p);
+    else
+      gen_bl_piece(square_departure,p);
+  }
+
   TraceValue("%u\n",current_move[nbply]);
 
   result = solve(next,n);

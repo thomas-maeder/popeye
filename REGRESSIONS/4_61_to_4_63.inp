@@ -30,4 +30,15 @@ pie bl qa2
 zero subst q g
 twin subst q ca
 
+next
+
+title strange "cages" were selected for neutral pieces
+Pieces
+White Kf3
+Black Ke7
+Neutral Pg5
+Stipulation pser-h~1
+Condition CageCirce
+option maxsol 10
+
 end

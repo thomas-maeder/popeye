@@ -165,3 +165,46 @@ both sides need a kingboth sides need a king
 solution finished. 
 
 
+
+strange "cages" were selected for neutral pieces
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  =P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   K   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  pser-h~1               1 + 1 + 1n
+              CageCirce
+
+  1.nPg5-g4 + nPg4-g5 
+  1.nPg5-g4 + Kf3-g3 
+  1.nPg5-g4 + Kf3-f4 
+  1.nPg5-g4 + Kf3-e3 
+  1.nPg5-g4 + Kf3-f2 
+  1.nPg5-g4 + Kf3-e4 
+  1.nPg5-g4 + Kf3*g4[+nPg5] 
+  1.nPg5-g4 + Kf3-g2 
+  1.nPg5-g4 + Kf3-e2 
+  1.Ke7-f7 nPg5-g6 + 
+
+              empile:         749
+           play_move:         144
+        orig_rbechec:          21
+        orig_rnechec:         126
+solving interrupted. 
+
+
