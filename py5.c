@@ -367,6 +367,16 @@ square rennormal(ply ply_id,
   Side  cou;
   PieNam pnam_captured = abs(p_captured);
 
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",ply_id);
+  TracePiece(p_captured);
+  TraceValue("%d",p_captured);
+  TraceSquare(sq_capture);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceEnumerator(Side,capturer,"");
+  TraceFunctionParamListEnd();
+
   col = sq_capture % onerow;
   ran = sq_capture / onerow;
 
@@ -471,6 +481,10 @@ square rennormal(ply ply_id,
     }
   }
 
+
+  TraceFunctionExit(__func__);
+  TraceSquare(Result);
+  TraceFunctionResultEnd();
   return(Result);
 } /* rennormal */
 
