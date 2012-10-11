@@ -135,6 +135,9 @@
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/cage.h"
+#include "conditions/circe/chameleon.h"
+#include "conditions/circe/clone.h"
+#include "conditions/circe/double_agents.h"
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/volage.h"
@@ -2768,6 +2771,12 @@ static Token iterate_twins(Token prev_token)
       else if (anycirce)
       {
         stip_insert_circe(root_slice);
+        if (CondFlag[circedoubleagents])
+          stip_insert_circe_double_agents(root_slice);
+        if (CondFlag[chamcirce])
+          stip_insert_chameleon_circe(root_slice);
+        if (anyclone)
+          stip_insert_circe_clone(root_slice);
         if (TSTFLAG(PieSpExFlags,Kamikaze))
           stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
       }

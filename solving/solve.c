@@ -10,7 +10,9 @@
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
 #include "conditions/extinction.h"
+#include "conditions/circe/chameleon.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
+#include "conditions/circe/clone.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/circe/assassin.h"
@@ -42,6 +44,7 @@
 #include "conditions/circe/capture_fork.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "conditions/circe/cage.h"
+#include "conditions/circe/double_agents.h"
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/volage.h"
@@ -544,6 +547,26 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceCaptureFork:
       result = circe_capture_fork_solve(si,n);
+      break;
+
+    case STCirceDetermineRebornPiece:
+      result = circe_determine_reborn_piece_solve(si,n);
+      break;
+
+    case STCirceCloneDetermineRebornPiece:
+      result = circe_clone_determine_reborn_piece_solve(si,n);
+      break;
+
+    case STCirceDoubleAgentsAdaptRebornPiece:
+      result = circe_doubleagents_adapt_reborn_piece_solve(si,n);
+      break;
+
+    case STChameleonCirceAdaptRebornPiece:
+      result = chameleon_circe_adapt_reborn_piece_solve(si,n);
+      break;
+
+    case STAntiEinsteinDetermineRebornPiece:
+      result = anti_einstein_determine_reborn_piece_solve(si,n);
       break;
 
     case STCirceRebirthHandler:

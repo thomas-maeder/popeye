@@ -1,4 +1,4 @@
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/volage.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -8,6 +8,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/move_effect_journal.h"
+#include "conditions/circe/rebirth_handler.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

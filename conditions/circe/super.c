@@ -104,12 +104,14 @@ stip_length_type supercirce_rebirth_handler_solve(slice_index si,
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
   {
     current_circe_rebirth_square[nbply] = initsquare;
+    current_circe_reborn_piece[nbply] = vide;
     result = slack_length-2;
   }
   else
   {
-    circe_do_rebirth(move_effect_reason_supercirce_rebirth,
-                     pprise[nbply],pprispec[nbply]);
+    current_circe_reborn_piece[nbply] = pprise[nbply];
+    current_circe_reborn_spec[nbply] = pprispec[nbply];
+    circe_do_rebirth(move_effect_reason_supercirce_rebirth);
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])

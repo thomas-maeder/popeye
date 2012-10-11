@@ -135,7 +135,6 @@ EXTERN  boolean			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];
 
-EXTERN  pilecase current_circe_rebirth_square;
 EXTERN  pilecase current_anticirce_rebirth_square;
 EXTERN  numecoup current_move[maxply + 1];
 

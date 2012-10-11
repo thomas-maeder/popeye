@@ -138,12 +138,12 @@ conditions/einstein/anti$(OBJ_SUFFIX): conditions/einstein/anti.c \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
  py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
- conditions/einstein/einstein.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
- solving/move_effect_journal.h debugging/trace.h
+ conditions/einstein/einstein.h conditions/circe/rebirth_handler.h \
+ solving/move_effect_journal.h stipulation/slice_type.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/move_player.h debugging/trace.h
 
 conditions/einstein/anti.h:
 
@@ -179,13 +179,17 @@ utilities/boolean.h:
 
 conditions/einstein/einstein.h:
 
+conditions/circe/rebirth_handler.h:
+
+solving/move_effect_journal.h:
+
+stipulation/slice_type.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/traversal.h:
 
@@ -198,7 +202,5 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/move_player.h:
-
-solving/move_effect_journal.h:
 
 debugging/trace.h:

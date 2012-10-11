@@ -1529,7 +1529,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/target_square_filter.h conditions/bgl.h \
  conditions/blackchecks.h conditions/extinction.h \
- conditions/circe/circuit_by_rebirth_special.h \
+ conditions/circe/chameleon.h \
+ conditions/circe/circuit_by_rebirth_special.h conditions/circe/clone.h \
  conditions/circe/exchange_by_rebirth_special.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
@@ -1548,22 +1549,22 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/actuated_revolving_centre.h solving/move_effect_journal.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/rebirth_handler.h \
- conditions/circe/cage.h conditions/circe/kamikaze.h \
- conditions/circe/parrain.h conditions/circe/volage.h \
- conditions/circe/promotion.h conditions/anticirce/rebirth_handler.h \
- conditions/anticirce/super.h conditions/sentinelles.h \
- conditions/duellists.h conditions/haunted_chess.h \
- conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
- conditions/antiandernach.h conditions/chameleon_pursuit.h \
- conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
- conditions/einstein/reverse.h conditions/einstein/anti.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
- conditions/marscirce/anti.h conditions/line_chameleon.h \
- conditions/haan.h conditions/castling_chess.h \
- conditions/exchange_castling.h conditions/transmuting_kings/super.h \
- optimisations/hash.h DHT/dhtbcmem.h conditions/imitator.h \
- conditions/football.h optimisations/keepmating.h \
+ conditions/circe/cage.h conditions/circe/double_agents.h \
+ conditions/circe/kamikaze.h conditions/circe/parrain.h \
+ conditions/circe/volage.h conditions/circe/promotion.h \
+ conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
+ conditions/sentinelles.h conditions/duellists.h \
+ conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
+ conditions/andernach.h conditions/antiandernach.h \
+ conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
+ conditions/einstein/einstein.h conditions/einstein/reverse.h \
+ conditions/einstein/anti.h conditions/traitor.h conditions/volage.h \
+ conditions/magic_square.h conditions/tibet.h conditions/degradierung.h \
+ conditions/phantom.h conditions/marscirce/anti.h \
+ conditions/line_chameleon.h conditions/haan.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
+ conditions/transmuting_kings/super.h optimisations/hash.h DHT/dhtbcmem.h \
+ conditions/imitator.h conditions/football.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -1705,7 +1706,11 @@ conditions/blackchecks.h:
 
 conditions/extinction.h:
 
+conditions/circe/chameleon.h:
+
 conditions/circe/circuit_by_rebirth_special.h:
+
+conditions/circe/clone.h:
 
 conditions/circe/exchange_by_rebirth_special.h:
 
@@ -1774,6 +1779,8 @@ conditions/circe/capture_fork.h:
 conditions/circe/rebirth_handler.h:
 
 conditions/circe/cage.h:
+
+conditions/circe/double_agents.h:
 
 conditions/circe/kamikaze.h:
 

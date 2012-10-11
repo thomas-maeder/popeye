@@ -2,6 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
+#include "conditions/circe/rebirth_handler.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

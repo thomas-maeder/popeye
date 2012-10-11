@@ -10,6 +10,7 @@
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
+#include "conditions/circe/rebirth_handler.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

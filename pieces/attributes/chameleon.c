@@ -1,6 +1,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pydata.h"
 #include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/circe/rebirth_handler.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

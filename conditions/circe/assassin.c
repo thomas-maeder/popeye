@@ -73,9 +73,6 @@ static square determine_rebirth_square(Side trait_ply)
 stip_length_type circe_assassin_rebirth_solve(slice_index si,
                                                stip_length_type n)
 {
-  square const pi_captured = pprise[nbply];
-  Flags const spec_pi_captured = pprispec[nbply];
-  square sq_rebirth;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -83,28 +80,28 @@ stip_length_type circe_assassin_rebirth_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  sq_rebirth = determine_rebirth_square(slices[si].starter);
-  if (sq_rebirth==initsquare)
+  current_circe_rebirth_square[nbply] = determine_rebirth_square(slices[si].starter);
+  if (current_circe_rebirth_square[nbply]==initsquare)
   {
-    current_circe_rebirth_square[nbply] = initsquare;
+    current_circe_reborn_piece[nbply] = vide;
     result = solve(slices[si].next1,n);
   }
-  else if (e[sq_rebirth]==vide)
+  else if (e[current_circe_rebirth_square[nbply]]==vide)
   {
-    current_circe_rebirth_square[nbply] = sq_rebirth;
-    circe_do_rebirth(move_effect_reason_circe_rebirth,
-                     pi_captured,spec_pi_captured);
+    current_circe_reborn_piece[nbply] = pprise[nbply];
+    current_circe_reborn_spec[nbply] = pprispec[nbply];
+    circe_do_rebirth(move_effect_reason_circe_rebirth);
     result = solve(slices[si].next1,n);
   }
-  else if (sq_rebirth==king_square[slices[si].starter])
+  else if (current_circe_rebirth_square[nbply]==king_square[slices[si].starter])
     result = slack_length-2;
   else
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
-                                         sq_rebirth);
-    current_circe_rebirth_square[nbply] = sq_rebirth;
-    circe_do_rebirth(move_effect_reason_circe_rebirth,
-                     pi_captured,spec_pi_captured);
+                                         current_circe_rebirth_square[nbply]);
+    current_circe_reborn_piece[nbply] = pprise[nbply];
+    current_circe_reborn_spec[nbply] = pprispec[nbply];
+    circe_do_rebirth(move_effect_reason_circe_rebirth);
     result = solve(slices[si].next1,n);
   }
 

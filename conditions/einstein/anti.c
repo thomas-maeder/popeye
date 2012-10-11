@@ -1,6 +1,7 @@
 #include "conditions/einstein/anti.h"
 #include "pydata.h"
 #include "conditions/einstein/einstein.h"
+#include "conditions/circe/rebirth_handler.h"
 #include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
@@ -69,6 +70,35 @@ stip_length_type anti_einstein_moving_adjuster_solve(slice_index si,
   return result;
 }
 
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type anti_einstein_determine_reborn_piece_solve(slice_index si,
+                                                            stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  current_circe_reborn_piece[nbply] = einstein_increase_piece(pprise[nbply]);
+  current_circe_reborn_spec[nbply] = pprispec[nbply];
+
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Instrument slices with move tracers
  */
 void stip_insert_anti_einstein_moving_adjusters(slice_index si)
@@ -77,6 +107,7 @@ void stip_insert_anti_einstein_moving_adjusters(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAntiEinsteinArrivingAdjuster);
+  stip_replace_circe_determine_reborn_piece(si,STAntiEinsteinDetermineRebornPiece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -228,6 +228,11 @@
     ENUMERATOR(STRepublicanType1DeadEnd),                               \
     ENUMERATOR(STCirceCaptureFork),                                     \
     ENUMERATOR(STAprilAprilFork),                                       \
+    ENUMERATOR(STCirceDetermineRebornPiece),                            \
+    ENUMERATOR(STCirceCloneDetermineRebornPiece),                       \
+    ENUMERATOR(STCirceDoubleAgentsAdaptRebornPiece),                    \
+    ENUMERATOR(STChameleonCirceAdaptRebornPiece),                       \
+    ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                         \
     ENUMERATOR(STCirceRebirthHandler),                                  \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \
     ENUMERATOR(STSuperCirceRebirthHandler),                             \
