@@ -582,7 +582,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/circe/parrain.h conditions/circe/volage.h \
  conditions/circe/promotion.h conditions/circe/frischauf.h \
  conditions/circe/super.h conditions/circe/april.h \
- conditions/circe/king_rebirth_avoider.h \
+ conditions/circe/king_rebirth_avoider.h conditions/circe/turncoats.h \
  conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
  conditions/sentinelles.h conditions/duellists.h conditions/ghost_chess.h \
  conditions/kobul.h conditions/andernach.h conditions/antiandernach.h \
@@ -774,6 +774,8 @@ conditions/circe/super.h:
 conditions/circe/april.h:
 
 conditions/circe/king_rebirth_avoider.h:
+
+conditions/circe/turncoats.h:
 
 conditions/anticirce/rebirth_handler.h:
 

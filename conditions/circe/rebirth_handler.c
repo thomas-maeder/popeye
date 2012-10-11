@@ -70,7 +70,7 @@ static void try_rebirth(Side trait_ply)
     ** Otherwise delete it - the captured piece may
     ** have been a pawn, but is not anymore.
     */
-  else if (anytraitor)
+  else if (CondFlag[circedoubleagents])
   {
     pi_reborn = -pi_captured;
     spec_change_side(&spec_pi_captured);

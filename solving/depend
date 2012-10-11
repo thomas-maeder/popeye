@@ -1534,8 +1534,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
  conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
- conditions/exclusive.h utilities/boolean.h position/position.h \
- conditions/ohneschach/legality_tester.h \
+ conditions/circe/turncoats.h conditions/exclusive.h utilities/boolean.h \
+ position/position.h conditions/ohneschach/legality_tester.h \
  conditions/maff/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/owu/immobility_tester.h \
@@ -1720,6 +1720,8 @@ conditions/circe/super.h:
 conditions/circe/april.h:
 
 conditions/circe/king_rebirth_avoider.h:
+
+conditions/circe/turncoats.h:
 
 conditions/exclusive.h:
 

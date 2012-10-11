@@ -143,6 +143,7 @@
 #include "conditions/circe/super.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
+#include "conditions/circe/turncoats.h"
 #include "conditions/anticirce/rebirth_handler.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/sentinelles.h"
@@ -1824,7 +1825,8 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (anytraitor) {
+  if (CondFlag[circeturncoats] || CondFlag[circedoubleagents])
+  {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
@@ -2779,6 +2781,8 @@ static Token iterate_twins(Token prev_token)
           stip_insert_circe_volage_recolorers(root_slice);
         if  (anycirprom)
           stip_insert_circe_promoters(root_slice);
+        if (CondFlag[circeturncoats])
+          stip_insert_circe_turncoats_side_changers(root_slice);
       }
 
       if (CondFlag[sentinelles])

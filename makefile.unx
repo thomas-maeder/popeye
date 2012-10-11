@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.173 2012/08/13 16:55:34 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.174 2012/10/11 04:52:28 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -242,8 +242,8 @@ NESTEDLIBDIRS = . \
     conditions/owu conditions/maff conditions/singlebox conditions/einstein \
     conditions/transmuting_kings \
     optimisations DHT \
-    pieces pieces/attributes pieces/attributes/neutral \
-    pieces/attributes/paralysing pieces/attributes/kamikaze \
+    pieces/attributes pieces/attributes/neutral \
+    pieces/attributes/paralysing pieces/attributes/kamikaze pieces \
     optimisations/orthodox_mating_moves \
     optimisations/killer_move optimisations/count_nr_opponent_moves \
     options options/no_short_variations \

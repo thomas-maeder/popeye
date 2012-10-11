@@ -62,6 +62,7 @@ typedef enum
   move_effect_reason_degradierung,
   move_effect_reason_andernach_chess, /* includes Anti-Andernach, Tibet, Chameleon pursuit */
   move_effect_reason_traitor_defection,
+  move_effect_reason_circe_turncoats,
   move_effect_reason_volage_side_change,
   move_effect_reason_magic_piece,
   move_effect_reason_magic_square,

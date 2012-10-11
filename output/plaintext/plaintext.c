@@ -115,6 +115,7 @@ void output_plaintext_write_move(void)
           case move_effect_reason_andernach_chess:
           case move_effect_reason_volage_side_change:
           case move_effect_reason_magic_square:
+          case move_effect_reason_circe_turncoats:
             StdChar('=');
             StdChar(side_shortcut[move_effect_journal[curr].u.side_change.to]);
             break;

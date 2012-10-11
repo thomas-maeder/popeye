@@ -243,7 +243,6 @@ EXTERN boolean          checkhopim;
 EXTERN square           chop[toppile + 1];
 
 EXTERN piece            sentinelb, sentineln;
-EXTERN boolean          anytraitor;
 EXTERN nocontactfunc_t  koekofunc;
 EXTERN nocontactfunc_t  antikoekofunc;
 EXTERN boolean		anyantimars;

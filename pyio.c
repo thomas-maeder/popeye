@@ -5162,12 +5162,10 @@ static char *ParseCond(void) {
         /* different types of anticirce */
       case circeturncoats:
         anycirce= true;
-        anytraitor= true;
         circerenai= rennormal;
         break;
       case circedoubleagents:
         anycirce= true;
-        anytraitor= true;
         circerenai= renspiegel;
         break;
       case anti:

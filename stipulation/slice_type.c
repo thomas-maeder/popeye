@@ -263,6 +263,7 @@
     ENUMERATOR(STTraitorSideChanger),                                   \
     ENUMERATOR(STVolageSideChanger),                                    \
     ENUMERATOR(STMagicSquareSideChanger),                               \
+    ENUMERATOR(STCirceTraitorSideChanger),                              \
     ENUMERATOR(STTibetSideChanger),                                     \
     ENUMERATOR(STDoubleTibetSideChanger),                               \
     ENUMERATOR(STDegradierungDegrader),                                 \

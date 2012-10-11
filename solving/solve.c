@@ -18,6 +18,7 @@
 #include "conditions/circe/super.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
+#include "conditions/circe/turncoats.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/legality_tester.h"
 #include "conditions/maff/immobility_tester.h"
@@ -651,6 +652,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMagicSquareSideChanger:
       result = magic_square_side_changer_solve(si,n);
+      break;
+
+    case STCirceTraitorSideChanger:
+      result = circe_turncoats_side_changer_solve(si,n);
       break;
 
     case STTibetSideChanger:

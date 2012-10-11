@@ -1085,3 +1085,69 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 debugging/trace.h:
+conditions/circe/turncoats$(OBJ_SUFFIX): conditions/circe/turncoats.c \
+ conditions/circe/turncoats.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ solving/move_effect_journal.h debugging/trace.h
+
+conditions/circe/turncoats.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/move_player.h:
+
+solving/move_effect_journal.h:
+
+debugging/trace.h:

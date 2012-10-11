@@ -201,7 +201,7 @@ void InitCond(void) {
   PieNam p;
 
   wh_exact= ultra_mummer[White]= bl_exact= ultra_mummer[Black]= false;
-  anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anyanticirprom = anytraitor= false;
+  anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anyanticirprom = false;
   anymars= anyantimars= anygeneva= false;
 
   anyparrain= false;
