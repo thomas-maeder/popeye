@@ -154,7 +154,7 @@ EXTERN  evalfunction_t *eval_black;
 EXTERN  int   (* white_length)(square departure, square arrival, square capture),
 		(* black_length)(square departure, square arrival, square capture);
 
-typedef square  (* renaifunc)(ply, piece, Flags, square, square, square, Side);
+typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 
 EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;
 

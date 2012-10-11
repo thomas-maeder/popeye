@@ -1340,14 +1340,14 @@ static boolean verify_position(slice_index si)
     if (rex_circe) {
       eval_white = rbcircech;
       eval_black = rncircech;
-      cirrenroib = (*circerenai)(nbply, roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
-      cirrenroin = (*circerenai)(nbply, roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
+      cirrenroib = (*circerenai)(roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
+      cirrenroin = (*circerenai)(roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
     }
     else {
       eval_white = rbimmunech;
       eval_black = rnimmunech;
-      immrenroib = (*immunrenai)(nbply, roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
-      immrenroin = (*immunrenai)(nbply, roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
+      immrenroib = (*immunrenai)(roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
+      immrenroin = (*immunrenai)(roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
     }
   }
 

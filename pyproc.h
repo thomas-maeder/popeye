@@ -348,17 +348,17 @@ boolean rbsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rnsingleboxtype3ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
 
-square renfile(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renrank(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegelfile(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renpwc(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renequipollents(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renequipollents_anti(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rensymmetrie(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renantipoden(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rendiagramm(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rennormal(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegel(ply ply_id, piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renfile(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renrank(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegelfile(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renpwc(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents_anti(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square rensymmetrie(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renantipoden(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square rendiagramm(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square rennormal(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegel(piece p, Flags pspec, square j, square i, square ip, Side camp);
 
 void pyfputs(char const *s, FILE *f);
 
@@ -392,14 +392,14 @@ char *ReadPieces(int cond);
 
 boolean eval_isardam(square departure, square arrival, square capture);
 boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture);
-square rendiametral(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
+square rendiametral(piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void LaTeXOpen(void);
 void LaTeXClose(void);
 void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
 
-square renplus(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
+square renplus(piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void transformPosition(SquareTransformation transformation);
 void generate_castling(Side side);

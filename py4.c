@@ -604,7 +604,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
 
       if (anyimmun) {
-        hcr= (*immunrenai)(nbply, e[sq_capture], spec[sq_capture], sq_capture, sq_departure, sq_arrival, traitnbply);
+        hcr= (*immunrenai)(e[sq_capture], spec[sq_capture], sq_capture, sq_departure, sq_arrival, traitnbply);
         if (hcr != sq_departure && e[hcr] != vide) {
           return true;
         }
@@ -627,8 +627,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         /* capturing kamikaze pieces without circe condition are possible now */
         if (TSTFLAG(spec[sq_departure], Kamikaze)
             &&  ((traitnbply == White)
-                 ? ((sq_departure == king_square[White]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
-                 : ((sq_departure == king_square[Black]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
+                 ? ((sq_departure == king_square[White]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
+                 : ((sq_departure == king_square[Black]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
         {
           return true;
         }
@@ -636,16 +636,16 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if ((CondFlag[vogt]
              || CondFlag[antikings])
             && ((traitnbply == Black)
-                ? ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide))
-                : ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
+                ? ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide))
+                : ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
         {
           return true;
         }
 
         if (SATCheck &&
             ((traitnbply == Black) ?
-             ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
-             ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
+             ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
+             ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
           return true;
 
         if (anyanticirce
@@ -3436,7 +3436,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       /* generate moves from rebirth square */
       flagactive= true;
       psp= spec[sq_departure];
-      mren= (*marsrenai)(nbply,p,psp,sq_departure,initsquare,initsquare,Black);
+      mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,Black);
       /* if rebirth square is where the piece stands,
          we've already generated all the relevant moves.
       */
@@ -3498,7 +3498,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       mars_circe_rebirth_state = 0;
       do {    /* Echecs Plus */
         psp=spec[sq_departure];
-        mren= (*marsrenai)(nbply,p,psp,sq_departure,initsquare,initsquare,Black);
+        mren= (*marsrenai)(p,psp,sq_departure,initsquare,initsquare,Black);
         if (mren==sq_departure || e[mren]==vide) {
           pp= e[sq_departure];      /* Mars/Neutral bug */
           e[sq_departure]= vide;

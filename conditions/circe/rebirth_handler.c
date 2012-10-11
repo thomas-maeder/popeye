@@ -83,16 +83,14 @@ static void try_rebirth(Side trait_ply)
     pi_reborn= pi_captured;
 
   if (CondFlag[couscous])
-    sq_rebirth = (*circerenai)(nbply,
-                               pi_arriving,
+    sq_rebirth = (*circerenai)(pi_arriving,
                                spec_pi_moving,
                                sq_capture,
                                sq_departure,
                                sq_arrival,
                                advers(trait_ply));
   else
-    sq_rebirth = (*circerenai)(nbply,
-                               pi_reborn,
+    sq_rebirth = (*circerenai)(pi_reborn,
                                spec_pi_captured,
                                sq_capture,
                                sq_departure,

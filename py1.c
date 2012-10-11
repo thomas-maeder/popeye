@@ -818,10 +818,10 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
         }
 
         if (CondFlag[couscous]) {
-          cr= (*circerenai)(nbply, pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? White : Black);
+          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? White : Black);
         }
         else {
-          cr= (*circerenai)(nbply, pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? Black : White);
+          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? Black : White);
         }
 
         if ((pc= e[cr]) == vide) {

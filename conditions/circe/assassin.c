@@ -45,8 +45,7 @@ static square determine_rebirth_square(Side trait_ply)
     square const sq_capture = move_gen_top->capture;
     square const sq_departure = move_gen_top->departure;
     Flags const spec_pi_captured = pprispec[nbply];
-    result = rennormal(nbply,
-                       pi_captured,
+    result = rennormal(pi_captured,
                        spec_pi_captured,
                        sq_capture,
                        sq_departure,

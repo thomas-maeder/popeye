@@ -27,16 +27,14 @@ static void do_kamikaze_rebirth(Side trait_ply)
   if (TSTFLAG(spec_pi_moving,Kamikaze) && pi_captured!=vide)
   {
     if (CondFlag[couscous])
-      current_anticirce_rebirth_square[nbply] = (*circerenai)(nbply,
-                                                              pi_captured,
+      current_anticirce_rebirth_square[nbply] = (*circerenai)(pi_captured,
                                                               spec_pi_captured,
                                                               sq_capture,
                                                               sq_departure,
                                                               sq_arrival,
                                                               trait_ply);
     else
-      current_anticirce_rebirth_square[nbply] = (*circerenai)(nbply,
-                                                              pi_arriving,
+      current_anticirce_rebirth_square[nbply] = (*circerenai)(pi_arriving,
                                                               spec_pi_moving,
                                                               sq_capture,
                                                               sq_departure,

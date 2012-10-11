@@ -180,8 +180,7 @@ piece champiece(piece p)
 # pragma warn -par
 #endif
 
-square renplus(ply ply_id,
-               piece p_captured, Flags p_captured_spec,
+square renplus(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
                Side capturer) {
   /* Echecs plus */
@@ -222,20 +221,18 @@ square renplus(ply ply_id,
     return sq_capture;
 }
 
-square renrank(ply ply_id,
-               piece p_captured, Flags p_captured_spec,
+square renrank(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
                Side capturer) {
   square sq= ((sq_capture/onerow)%2==1
-              ? rennormal(ply_id,p_captured,p_captured_spec,
+              ? rennormal(p_captured,p_captured_spec,
                           sq_capture,sq_departure,sq_arrival,capturer)
-              : renspiegel(ply_id,p_captured,p_captured_spec,
+              : renspiegel(p_captured,p_captured_spec,
                            sq_capture,sq_departure,sq_arrival,capturer));
   return onerow*(sq_capture/onerow) + sq%onerow;
 }
 
-square renfile(ply ply_id,
-               piece p_captured, Flags p_captured_spec,
+square renfile(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
                Side capturer)
 {
@@ -243,7 +240,6 @@ square renfile(ply ply_id,
   square result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_id);
   TracePiece(p_captured);
   TraceSquare(sq_capture);
   TraceSquare(sq_departure);
@@ -272,26 +268,23 @@ square renfile(ply ply_id,
   return result;
 }
 
-square renspiegelfile(ply ply_id,
-                      piece p_captured, Flags p_captured_spec,
+square renspiegelfile(piece p_captured, Flags p_captured_spec,
                       square sq_capture,
                       square sq_departure, square sq_arrival,
                       Side capturer)
 {
-  return renfile(ply_id,p_captured,p_captured_spec,
+  return renfile(p_captured,p_captured_spec,
                  sq_capture,sq_departure,sq_arrival,advers(capturer));
 } /* renspiegelfile */
 
-square renpwc(ply ply_id,
-              piece p_captured, Flags p_captured_spec,
+square renpwc(piece p_captured, Flags p_captured_spec,
               square sq_capture, square sq_departure, square sq_arrival,
               Side capturer)
 {
   return sq_departure;
 } /* renpwc */
 
-square renequipollents(ply ply_id,
-                       piece p_captured, Flags p_captured_spec,
+square renequipollents(piece p_captured, Flags p_captured_spec,
                        square sq_capture,
                        square sq_departure, square sq_arrival,
                        Side capturer)
@@ -303,8 +296,7 @@ square renequipollents(ply ply_id,
   return sq_capture + sq_capture - sq_departure;
 } /* renequipollents */
 
-square renequipollents_anti(ply ply_id,
-                            piece p_captured, Flags p_captured_spec,
+square renequipollents_anti(piece p_captured, Flags p_captured_spec,
                             square sq_capture,
                             square sq_departure, square sq_arrival,
                             Side capturer)
@@ -316,8 +308,7 @@ square renequipollents_anti(ply ply_id,
   return sq_capture + sq_capture - sq_departure;
 } /* renequipollents_anti */
 
-square rensymmetrie(ply ply_id,
-                    piece p_captured, Flags p_captured_spec,
+square rensymmetrie(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
                     Side capturer)
@@ -325,8 +316,7 @@ square rensymmetrie(ply ply_id,
   return (square_h8+square_a1) - sq_capture;
 } /* rensymmetrie */
 
-square renantipoden(ply ply_id,
-                    piece p_captured, Flags p_captured_spec,
+square renantipoden(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
                     Side capturer)
@@ -349,16 +339,14 @@ square renantipoden(ply ply_id,
   return sq_departure;
 } /* renantipoden */
 
-square rendiagramm(ply ply_id,
-                   piece p_captured, Flags p_captured_spec,
+square rendiagramm(piece p_captured, Flags p_captured_spec,
                    square sq_capture, square sq_departure, square sq_arrival,
                    Side capturer)
 {
   return GetPositionInDiagram(p_captured_spec);
 }
 
-square rennormal(ply ply_id,
-                 piece p_captured, Flags p_captured_spec,
+square rennormal(piece p_captured, Flags p_captured_spec,
                  square sq_capture, square sq_departure, square sq_arrival,
                  Side capturer)
 {
@@ -368,7 +356,6 @@ square rennormal(ply ply_id,
   PieNam pnam_captured = abs(p_captured);
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",ply_id);
   TracePiece(p_captured);
   TraceValue("%d",p_captured);
   TraceSquare(sq_capture);
@@ -488,23 +475,21 @@ square rennormal(ply ply_id,
   return(Result);
 } /* rennormal */
 
-square rendiametral(ply ply_id,
-                    piece p_captured, Flags p_captured_spec,
+square rendiametral(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
                     Side capturer) {
   return (square_h8+square_a1
-          - rennormal(ply_id,p_captured,p_captured_spec,
+          - rennormal(p_captured,p_captured_spec,
                       sq_capture,sq_departure,sq_arrival,capturer));
 }
 
-square renspiegel(ply ply_id,
-                  piece p_captured, Flags p_captured_spec,
+square renspiegel(piece p_captured, Flags p_captured_spec,
                   square sq_capture,
                   square sq_departure, square sq_arrival,
                   Side capturer)
 {
-  return rennormal(ply_id,p_captured,p_captured_spec,
+  return rennormal(p_captured,p_captured_spec,
                    sq_capture,sq_departure,sq_arrival,advers(capturer));
 }
 
@@ -885,13 +870,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
       /* generate moves from rebirth square */
       flagactive= true;
       spec_departing=spec[sq_departure];
-      sq_rebirth= (*marsrenai)(nbply,
-                               p,
-                               spec_departing,
-                               sq_departure,
-                               initsquare,
-                               initsquare,
-                               White);
+      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
       /* if rebirth square is where the piece stands,
          we've already generated all the relevant moves.
       */
@@ -952,13 +931,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
       mars_circe_rebirth_state = 0;
       do {   /* Echecs Plus */
         spec_departing= spec[sq_departure];
-        sq_rebirth= (*marsrenai)(nbply,
-                                 p,
-                                 spec_departing,
-                                 sq_departure,
-                                 initsquare,
-                                 initsquare,
-                                 White);
+        sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
         if (sq_rebirth==sq_departure || e[sq_rebirth]==vide) {
           pi_departing= e[sq_departure]; /* Mars/Neutral bug */
 

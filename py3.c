@@ -228,13 +228,7 @@ static boolean marsechecc(Side camp, evalfunction_t *evaluate)
         {
           piece const p = e[z];
           Flags const psp = spec[z];
-          square const sq_rebirth = (*marsrenai)(nbply,
-                                                 p,
-                                                 psp,
-                                                 z,
-                                                 initsquare,
-                                                 initsquare,
-                                                 camp);
+          square const sq_rebirth = (*marsrenai)(p,psp,z,initsquare,initsquare,camp);
           if (e[sq_rebirth]==vide || sq_rebirth==z)
           {
             boolean is_check;
@@ -787,7 +781,7 @@ boolean singleboxtype3_rbechec(evalfunction_t *evaluate)
 
 
 boolean rncircech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (sq_departure == (*circerenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)) {
+  if (sq_departure == (*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)) {
     return false;
   }
   else
@@ -795,7 +789,7 @@ boolean rncircech(square sq_departure, square sq_arrival, square sq_capture) {
 }
 
 boolean rbcircech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (sq_departure == (*circerenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)) {
+  if (sq_departure == (*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)) {
     return false;
   }
   else {
@@ -804,7 +798,7 @@ boolean rbcircech(square sq_departure, square sq_arrival, square sq_capture) {
 }
 
 boolean rnimmunech(square sq_departure, square sq_arrival, square sq_capture) {
-  immrenroin= (*immunrenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White);
+  immrenroin= (*immunrenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White);
 
   if ((e[immrenroin] != vide && sq_departure != immrenroin)) {
     return false;
@@ -815,7 +809,7 @@ boolean rnimmunech(square sq_departure, square sq_arrival, square sq_capture) {
 }
 
 boolean rbimmunech(square sq_departure, square sq_arrival, square sq_capture) {
-  immrenroib= (*immunrenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black);
+  immrenroib= (*immunrenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black);
 
   if ((e[immrenroib] != vide && sq_departure != immrenroib)) {
     return false;
@@ -895,7 +889,7 @@ static boolean echecc_wh_assassin(void)
 
     if (p!=vide
         && p>roib
-        && (*circerenai)(nbply, p,spec[*bnp],*bnp,initsquare,initsquare,Black)==king_square[White])
+        && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,Black)==king_square[White])
     {
       boolean flag;
       square const rb_sic = king_square[White];
@@ -924,13 +918,7 @@ static boolean echecc_bl_assassin(void)
     piece const p = e[*bnp];
     if (p!=vide
         && p<roin
-        && ((*circerenai)(nbply,
-                          p,
-                          spec[*bnp],
-                          *bnp,
-                          initsquare,
-                          initsquare,
-                          White)
+        && ((*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,White)
             ==king_square[Black]))
     {
       boolean flag;
@@ -996,8 +984,13 @@ boolean echecc(Side camp)
       result = false;
     else if (rex_circe
              && (CondFlag[pwc]
-                 || e[(*circerenai)
-                      (nbply, e[king_square[White]], spec[king_square[White]], king_square[White], initsquare, initsquare, Black)] == vide))
+                 || (e[(*circerenai)(e[king_square[White]],
+                                     spec[king_square[White]],
+                                     king_square[White],
+                                     initsquare,
+                                     initsquare,
+                                     Black)]
+                     == vide)))
       result = false;
     else
     {
@@ -1019,8 +1012,13 @@ boolean echecc(Side camp)
       result = false;
     else if (rex_circe
              && (CondFlag[pwc]
-                 || e[(*circerenai)
-                      (nbply, e[king_square[Black]], spec[king_square[Black]], king_square[Black], initsquare, initsquare, White)] == vide))
+                 || (e[(*circerenai)(e[king_square[Black]],
+                                     spec[king_square[Black]],
+                                     king_square[Black],
+                                     initsquare,
+                                     initsquare,
+                                     White)]
+                     == vide)))
       result = false;
     else
     {
@@ -1107,8 +1105,7 @@ boolean bhuntcheck(square    i,
       || ridcheck(i, 7, 8, p, evaluate);
 }
 
-static boolean AntiCirceEch(ply ply_id,
-                            square sq_departure,
+static boolean AntiCirceEch(square sq_departure,
                             square sq_arrival,
                             square sq_capture,
                             Side    camp)
@@ -1133,7 +1130,7 @@ static boolean AntiCirceEch(ply ply_id,
       PieNam pprom= acprompieces[vide];
       square    cren;
       do {
-        cren= (*antirenai)(ply_id, pprom, spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
+        cren= (*antirenai)(pprom, spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
         pprom= acprompieces[pprom];
       } while (!LegalAntiCirceMove(cren, sq_capture, sq_departure) && pprom != Empty);
       if (  !LegalAntiCirceMove(cren, sq_capture, sq_departure)
@@ -1144,7 +1141,7 @@ static boolean AntiCirceEch(ply ply_id,
     }
     else {
       square    cren;
-      cren= (*antirenai)( ply_id, TSTFLAG(spec[sq_departure], Chameleon)
+      cren= (*antirenai)(TSTFLAG(spec[sq_departure], Chameleon)
                           ? champiece(e[sq_departure])
                           : e[sq_departure],
                           spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
@@ -1158,11 +1155,11 @@ static boolean AntiCirceEch(ply ply_id,
 } /* AntiCirceEch */
 
 boolean rnanticircech(square sq_departure, square sq_arrival, square sq_capture) {
-  return AntiCirceEch(nbply, sq_departure, sq_arrival, sq_capture, Black);
+  return AntiCirceEch(sq_departure, sq_arrival, sq_capture, Black);
 }
 
 boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture) {
-  return AntiCirceEch(nbply, sq_departure, sq_arrival, sq_capture, White);
+  return AntiCirceEch(sq_departure, sq_arrival, sq_capture, White);
 }
 
 boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {

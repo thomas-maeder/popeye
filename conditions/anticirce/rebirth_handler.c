@@ -50,8 +50,7 @@ static void determine_rebirth_square(Side trait_ply)
     piece const pi_arriving = e[sq_arrival];
     Flags const spec_pi_moving = spec[sq_arrival];
 
-    current_anticirce_rebirth_square[nbply] = (*antirenai)(nbply,
-                                                           pi_arriving,
+    current_anticirce_rebirth_square[nbply] = (*antirenai)(pi_arriving,
                                                            spec_pi_moving,
                                                            sq_capture,
                                                            sq_departure,
