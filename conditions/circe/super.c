@@ -108,10 +108,8 @@ stip_length_type supercirce_rebirth_handler_solve(slice_index si,
   }
   else
   {
-    square const sq_rebirth = current_circe_rebirth_square[nbply];
-
     circe_do_rebirth(move_effect_reason_supercirce_rebirth,
-                     sq_rebirth,pprise[nbply],pprispec[nbply]);
+                     pprise[nbply],pprispec[nbply]);
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])

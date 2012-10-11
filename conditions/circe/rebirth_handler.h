@@ -7,12 +7,11 @@
 /* Execute a Circe rebirth.
  * This is a helper function for alternative Circe types
  * @param reason reason for rebirth
- * @param sq_rebirth rebirth square
  * @param pi_reborn type of piece to be reborn
  * @param spec_reborn flags of the piece to be reborn
  */
 void circe_do_rebirth(move_effect_reason_type reason,
-                      square sq_rebirth, piece pi_reborn, Flags spec_reborn);
+                      piece pi_reborn, Flags spec_reborn);
 
 /* Try to solve in n half-moves.
  * @param si slice index

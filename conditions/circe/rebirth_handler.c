@@ -13,12 +13,11 @@
 
 /* Execute a Circe rebirth.
  * This is a helper function for alternative Circe types
- * @param sq_rebirth rebirth square
  * @param pi_reborn type of piece to be reborn
  * @param spec_reborn flags of the piece to be reborn
  */
 void circe_do_rebirth(move_effect_reason_type reason,
-                      square sq_rebirth, piece pi_reborn, Flags spec_reborn)
+                      piece pi_reborn, Flags spec_reborn)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_rebirth);
@@ -26,10 +25,9 @@ void circe_do_rebirth(move_effect_reason_type reason,
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_piece_addition(reason,
-                                        sq_rebirth,
+                                        current_circe_rebirth_square[nbply],
                                         pi_reborn,
                                         spec_reborn);
-  current_circe_rebirth_square[nbply] = sq_rebirth;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -101,8 +99,11 @@ static void try_rebirth(Side trait_ply)
     sq_rebirth = initsquare;
 
   if (e[sq_rebirth]==vide)
+  {
+    current_circe_rebirth_square[nbply] = sq_rebirth;
     circe_do_rebirth(move_effect_reason_circe_rebirth,
-                     sq_rebirth,pi_reborn,spec_pi_captured);
+                     pi_reborn,spec_pi_captured);
+  }
   else
     current_circe_rebirth_square[nbply] = initsquare;
 
