@@ -8,9 +8,9 @@
 
 #include <assert.h>
 
-static PieNam chameleon_circe_reborn_pieces[PieceCount];
+static PieNam reborn_pieces[PieceCount];
 
-static boolean chameleon_circe_are_reborn_pieces_implicit;
+static boolean are_reborn_pieces_implicit;
 
 /* Reset the mapping from captured to reborn pieces
  */
@@ -18,9 +18,9 @@ void chameleon_circe_reset_reborn_pieces(void)
 {
   PieNam p;
   for (p = Empty; p!=PieceCount; ++p)
-    chameleon_circe_reborn_pieces[p] = p;
+    reborn_pieces[p] = p;
 
-  chameleon_circe_are_reborn_pieces_implicit = true;
+  are_reborn_pieces_implicit = true;
 }
 
 /* Initialise one mapping captured->reborn from an explicit indication
@@ -29,8 +29,8 @@ void chameleon_circe_reset_reborn_pieces(void)
  */
 void chameleon_circe_set_reborn_piece_explicit(PieNam from, PieNam to)
 {
-  chameleon_circe_reborn_pieces[from] = to;
-  chameleon_circe_are_reborn_pieces_implicit = false;
+  reborn_pieces[from] = to;
+  are_reborn_pieces_implicit = false;
 }
 
 /* Initialise the reborn pieces if they haven't been already initialised
@@ -38,22 +38,22 @@ void chameleon_circe_set_reborn_piece_explicit(PieNam from, PieNam to)
  */
 void chameleon_circe_init_implicit(void)
 {
-  if (chameleon_circe_are_reborn_pieces_implicit)
+  if (are_reborn_pieces_implicit)
   {
     if (CondFlag[leofamily])
     {
-      chameleon_circe_reborn_pieces[Leo] = Mao;
-      chameleon_circe_reborn_pieces[Pao] = Leo;
-      chameleon_circe_reborn_pieces[Vao] = Pao;
-      chameleon_circe_reborn_pieces[Mao] = Vao;
+      reborn_pieces[Leo] = Mao;
+      reborn_pieces[Pao] = Leo;
+      reborn_pieces[Vao] = Pao;
+      reborn_pieces[Mao] = Vao;
     }
     else
     {
       PieNam const knight = CondFlag[cavaliermajeur] ? NightRider : Knight;
-      chameleon_circe_reborn_pieces[knight] = Bishop;
-      chameleon_circe_reborn_pieces[Bishop] = Rook;
-      chameleon_circe_reborn_pieces[Rook] = Queen;
-      chameleon_circe_reborn_pieces[Queen] = knight;
+      reborn_pieces[knight] = Bishop;
+      reborn_pieces[Bishop] = Rook;
+      reborn_pieces[Rook] = Queen;
+      reborn_pieces[Queen] = knight;
     }
   }
 }
@@ -65,8 +65,8 @@ void chameleon_circe_init_implicit(void)
 piece chameleon_circe_get_reborn_piece(piece captured)
 {
   return (captured<vide
-          ? -chameleon_circe_reborn_pieces[-captured]
-          : chameleon_circe_reborn_pieces[captured]);
+          ? -reborn_pieces[-captured]
+          : reborn_pieces[captured]);
 }
 
 /* Try to solve in n half-moves.
