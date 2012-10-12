@@ -231,9 +231,6 @@ EXTERN  PieNam          orphanpieces[PieceCount + 1];
 EXTERN boolean isBoardReflected;
 EXTERN boolean areColorsSwapped;
 
-EXTERN  piece           NextChamCircePiece[PieceCount];
-EXTERN  boolean         InitChamCirce;
-
 EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;

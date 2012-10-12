@@ -907,9 +907,6 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define PromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
 #define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
 
-#define ChamCircePiece(p)    ((((p) < vide) ? - NextChamCircePiece[-(p)] : \
-                               NextChamCircePiece[(p)]))
-
 #define EndOfLine(from,dir,end)  {end = (from); \
     do (end)+= (dir);                           \
     while (e[(end)] == vide);}

@@ -125,6 +125,7 @@
 #include "conditions/oscillating_kings.h"
 #include "conditions/kobul.h"
 #include "conditions/circe/april.h"
+#include "conditions/circe/chameleon.h"
 #include "conditions/sentinelles.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
@@ -4764,53 +4765,75 @@ static char *ParseVaultingPieces(Flags fl)
   return tok;
 }
 
+static boolean handle_chameleon_circe_reborn_piece(PieNam from, PieNam to,
+                                                   char const *tok)
+{
+  boolean result;
+  char to_str[3];
+
+  if (to==Empty)
+  {
+    IoErrorMsg(WrongPieceName,0);
+    result = false;
+  }
+  else
+  {
+    if (from!=Empty)
+    {
+      chameleon_circe_set_reborn_piece_explicit(from,to);
+      strcat(ChameleonSequence, "->");
+    }
+    sprintf(to_str,
+            "%c%c",
+            UPCASE(tok[0]),
+            tok[1]==' ' ? '\0' : UPCASE(tok[1]));
+    strcat(ChameleonSequence,to_str);
+    result = true;
+  }
+
+  return result;
+}
+
 static char *ReadChameleonCirceSequence(void)
 {
-  piece old_piece, new_piece;
-  char  *tok, newpiece[3];
+  PieNam from = Empty;
 
-  old_piece= vide;
+  chameleon_circe_reset_reborn_pieces();
 
-  for (new_piece= vide; new_piece < derbla; new_piece++) {
-    NextChamCircePiece[new_piece]= new_piece;
-  }
   ChameleonSequence[0]= '\0';
 
   while (true)
   {
-    tok = ReadNextTokStr();
+    char *tok = ReadNextTokStr();
     switch (strlen(tok))
     {
-    case 1:
-      new_piece= GetPieNamIndex(*tok,' ');
-      break;
-
-    case 2:
-      new_piece= GetPieNamIndex(*tok,tok[1]);
-      break;
-
-    default:
-      return tok;
-    }
-    if (!new_piece) {
-      IoErrorMsg(WrongPieceName,0);
-      break;
-    }
-    else {
-      InitChamCirce= false;
-      if (old_piece != vide) {
-        NextChamCircePiece[old_piece]= new_piece;
-        strcat(ChameleonSequence, "->");
+      case 1:
+      {
+        PieNam const to = GetPieNamIndex(tok[0],' ');
+        if (handle_chameleon_circe_reborn_piece(from,to,tok))
+          from = to;
+        else
+          return tok;
+        break;
       }
-      old_piece= new_piece;
-      sprintf(newpiece,
-              "%c%c", UPCASE(*tok), tok[1] == ' ' ? '\0' :
-              UPCASE(tok[1]));
-      strcat(ChameleonSequence, newpiece);
+
+      case 2:
+      {
+        PieNam const to = GetPieNamIndex(tok[0],tok[1]);
+        if (handle_chameleon_circe_reborn_piece(from,to,tok))
+          from = to;
+        else
+          return tok;
+        break;
+      }
+
+      default:
+        return tok;
     }
   }
-  return tok;
-} /* ReadChameleonCirceSequence */
+
+  return 0; /* avoid compiler warning */
+}
 
 static char *ParseCond(void) {
   char    *tok, *ptr;

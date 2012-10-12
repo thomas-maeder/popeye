@@ -1840,22 +1840,8 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (InitChamCirce)
-  {
-    if (CondFlag[leofamily]) {
-      NextChamCircePiece[Leo] = Mao;
-      NextChamCircePiece[Pao] = Leo;
-      NextChamCircePiece[Vao] = Pao;
-      NextChamCircePiece[Mao] = Vao;
-    }
-    else {
-      piece actknight = CondFlag[cavaliermajeur] ? NightRider : Knight;
-      NextChamCircePiece[actknight] = Bishop;
-      NextChamCircePiece[Bishop] = Rook;
-      NextChamCircePiece[Rook] = Queen;
-      NextChamCircePiece[Queen] = actknight;
-    }
-  }
+  if (CondFlag[chamcirce])
+    chameleon_circe_init_implicit();
 
   prev_king_square[White][1] = king_square[White];
   prev_king_square[Black][1] = king_square[Black];

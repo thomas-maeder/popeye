@@ -75,6 +75,7 @@
 #include "conditions/kobul.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/chameleon.h"
 #include "conditions/circe/april.h"
 #include "conditions/imitator.h"
 #include "conditions/sentinelles.h"
@@ -227,10 +228,6 @@ void InitCond(void) {
     rex_mess_ex= rex_wooz_ex= false;
   rex_protean_ex = false;
   calctransmute= false;
-
-  for (p = Empty; p<PieceCount; ++p)
-    NextChamCircePiece[p]= p;
-  InitChamCirce= true;
 
   sentinelles_max_nr_pawns[Black]= sentinelles_max_nr_pawns[White]= 8;
   sentinelles_max_nr_pawns_total=16;
@@ -814,7 +811,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
         else {
           /* Chameleon Circe or ordinary Circe type */
           pren= CondFlag[chamcirce]
-            ? ChamCircePiece(pp)
+            ? chameleon_circe_get_reborn_piece(pp)
             : pp;
         }
 

@@ -5,6 +5,27 @@
 
 #include "solving/solve.h"
 
+/* Reset the mapping from captured to reborn pieces
+ */
+void chameleon_circe_reset_reborn_pieces(void);
+
+/* Initialise one mapping captured->reborn from an explicit indication
+ * @param captured captured piece
+ * @param reborn type of reborn piece if a piece of type captured is captured
+ */
+void chameleon_circe_set_reborn_piece_explicit(PieNam captured, PieNam reborn);
+
+/* Initialise the reborn pieces if they haven't been already initialised
+ * from explicit indications
+ */
+void chameleon_circe_init_implicit(void);
+
+/* What kind of piece is to be reborn if a certain piece is captured?
+ * @param captured kind of captured piece
+ * @return kind of piece to be reborn
+ */
+piece chameleon_circe_get_reborn_piece(piece captured);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

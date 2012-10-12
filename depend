@@ -49,8 +49,9 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  solving/post_move_iteration.h conditions/bgl.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
  conditions/anticirce/super.h conditions/circe/rebirth_handler.h \
- conditions/circe/april.h conditions/imitator.h conditions/sentinelles.h \
- utilities/table.h debugging/trace.h
+ conditions/circe/chameleon.h conditions/circe/april.h \
+ conditions/imitator.h conditions/sentinelles.h utilities/table.h \
+ debugging/trace.h
 
 py.h:
 
@@ -149,6 +150,8 @@ conditions/kobul.h:
 conditions/anticirce/super.h:
 
 conditions/circe/rebirth_handler.h:
+
+conditions/circe/chameleon.h:
 
 conditions/circe/april.h:
 
@@ -1022,10 +1025,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  solving/moving_pawn_promotion.h conditions/republican.h conditions/bgl.h \
  conditions/check_zigzag.h conditions/patience.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/kobul.h \
- conditions/circe/april.h conditions/sentinelles.h \
- options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
- options/maxflightsquares.h options/movenumbers.h \
- options/maxsolutions/maxsolutions.h \
+ conditions/circe/april.h conditions/circe/chameleon.h \
+ conditions/sentinelles.h options/degenerate_tree.h options/nontrivial.h \
+ options/maxthreatlength.h options/maxflightsquares.h \
+ options/movenumbers.h options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/intelligent.h position/position.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -1192,6 +1195,8 @@ conditions/oscillating_kings.h:
 conditions/kobul.h:
 
 conditions/circe/april.h:
+
+conditions/circe/chameleon.h:
 
 conditions/sentinelles.h:
 

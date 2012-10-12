@@ -8,6 +8,67 @@
 
 #include <assert.h>
 
+static PieNam chameleon_circe_reborn_pieces[PieceCount];
+
+static boolean chameleon_circe_are_reborn_pieces_implicit;
+
+/* Reset the mapping from captured to reborn pieces
+ */
+void chameleon_circe_reset_reborn_pieces(void)
+{
+  PieNam p;
+  for (p = Empty; p!=PieceCount; ++p)
+    chameleon_circe_reborn_pieces[p] = p;
+
+  chameleon_circe_are_reborn_pieces_implicit = true;
+}
+
+/* Initialise one mapping captured->reborn from an explicit indication
+ * @param captured captured piece
+ * @param reborn type of reborn piece if a piece of type captured is captured
+ */
+void chameleon_circe_set_reborn_piece_explicit(PieNam from, PieNam to)
+{
+  chameleon_circe_reborn_pieces[from] = to;
+  chameleon_circe_are_reborn_pieces_implicit = false;
+}
+
+/* Initialise the reborn pieces if they haven't been already initialised
+ * from the explicit indication
+ */
+void chameleon_circe_init_implicit(void)
+{
+  if (chameleon_circe_are_reborn_pieces_implicit)
+  {
+    if (CondFlag[leofamily])
+    {
+      chameleon_circe_reborn_pieces[Leo] = Mao;
+      chameleon_circe_reborn_pieces[Pao] = Leo;
+      chameleon_circe_reborn_pieces[Vao] = Pao;
+      chameleon_circe_reborn_pieces[Mao] = Vao;
+    }
+    else
+    {
+      PieNam const knight = CondFlag[cavaliermajeur] ? NightRider : Knight;
+      chameleon_circe_reborn_pieces[knight] = Bishop;
+      chameleon_circe_reborn_pieces[Bishop] = Rook;
+      chameleon_circe_reborn_pieces[Rook] = Queen;
+      chameleon_circe_reborn_pieces[Queen] = knight;
+    }
+  }
+}
+
+/* What kind of piece is to be reborn if a certain piece is captured?
+ * @param captured kind of captured piece
+ * @return kind of piece to be reborn
+ */
+piece chameleon_circe_get_reborn_piece(piece captured)
+{
+  return (captured<vide
+          ? -chameleon_circe_reborn_pieces[-captured]
+          : chameleon_circe_reborn_pieces[captured]);
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -26,7 +87,7 @@ stip_length_type chameleon_circe_adapt_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_piece[nbply] = ChamCircePiece(current_circe_reborn_piece[nbply]);
+  current_circe_reborn_piece[nbply] = chameleon_circe_get_reborn_piece(current_circe_reborn_piece[nbply]);
 
   result = solve(slices[si].next1,n);
 
