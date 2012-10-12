@@ -29,8 +29,8 @@ void initialise_game_array(position *pos)
   int i;
   square const *bnp;
 
-  pos->rb = square_e1;
-  pos->rn = square_e8;
+  pos->king_square[White] = square_e1;
+  pos->king_square[Black] = square_e8;
 
   for (i = 0; i <= derbla; ++i)
   {

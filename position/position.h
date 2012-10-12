@@ -54,12 +54,11 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
  */
 typedef struct
 {
-    echiquier board;          /* placement of the pieces */
-    Flags spec[maxsquare+4];  /* spec[s] contains flags for piece board[i]*/
-    square rb;                /* placement of the white ... */
-    square rn;                /* ... and black king */
-    unsigned int inum;        /* number of iterators */
-    imarr isquare;            /* placement of iterators */
+    echiquier board;                     /* placement of the pieces */
+    Flags spec[maxsquare+4];      /* spec[s] contains flags for piece board[i]*/
+    square king_square[nr_sides];        /* placement of the kings */
+    unsigned int inum;                   /* number of iterators */
+    imarr isquare;                       /* placement of iterators */
     unsigned int zzznp[derbla-dernoi+1]; /* number of piece kind */
 } position;
 

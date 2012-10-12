@@ -81,7 +81,7 @@ static void dump_spec_initialiser_to_stream(FILE *dest, Flags const spec[])
  */
 static void dump_royal_initialisers_to_stream(FILE *dest, square rb, square rn)
 {
-  fprintf(dest,"  %u,%u /* king positions */",rb,rn);
+  fprintf(dest,"  { %u,%u } /* king positions */",rb,rn);
 }
 
 /* Write imitator initialiser to output file
@@ -138,7 +138,7 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
   fprintf(dest,",\n");
   dump_spec_initialiser_to_stream(dest,pos->spec);
   fprintf(dest,",\n");
-  dump_royal_initialisers_to_stream(dest,pos->rb,pos->rn);
+  dump_royal_initialisers_to_stream(dest,pos->king_square[White],pos->king_square[Black]);
   fprintf(dest,",\n");
   dump_imitator_initialisers_to_stream(dest,pos->inum,pos->isquare);
   fprintf(dest,",\n");

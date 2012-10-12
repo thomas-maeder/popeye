@@ -387,7 +387,7 @@ void ProofInitialiseIntelligent(stip_length_type length)
     castling_flag[2] = castling_flag[1] = castling_flag[0];
 
     /* initialise king diff_move arrays */
-    ProofInitialiseKingMoves(target.rb, target.rn);
+    ProofInitialiseKingMoves(target.king_square[White], target.king_square[Black]);
   }
 
   TraceFunctionExit(__func__);
@@ -464,8 +464,8 @@ void ProofSaveStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  start.rn = king_square[Black];
-  start.rb = king_square[White];
+  start.king_square[Black] = king_square[Black];
+  start.king_square[White] = king_square[White];
 
   for (p = dernoi; p<=derbla; ++p)
     nr_piece(start)[p] = nbpiece[p];
@@ -491,8 +491,8 @@ void ProofRestoreStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  king_square[Black] = start.rn;
-  king_square[White] = start.rb;
+  king_square[Black] = start.king_square[Black];
+  king_square[White] = start.king_square[White];
 
   for (i = 0; i<nr_squares_on_board; ++i)
   {
@@ -584,8 +584,8 @@ void ProofSaveTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  target.rb = king_square[White];
-  target.rn = king_square[Black];
+  target.king_square[White] = king_square[White];
+  target.king_square[Black] = king_square[Black];
 
   for (p = dernoi; p<=derbla; ++p)
     nr_piece(target)[p] = nbpiece[p];
@@ -611,8 +611,8 @@ void ProofRestoreTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  king_square[Black] = target.rn;
-  king_square[White] = target.rb;
+  king_square[Black] = target.king_square[Black];
+  king_square[White] = target.king_square[White];
 
   for (i = 0; i<maxsquare; ++i)
     e[i] = target.board[i];
