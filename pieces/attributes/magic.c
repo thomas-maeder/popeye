@@ -294,7 +294,7 @@ special functions listed below to calculate each potential direction.
 Unsupported types are listed below with the entry
 unsupported_uncalled_attackfunction
 */
-static attackfunction_t *attackfunctions[derbla + 1] = {
+static attackfunction_t *attackfunctions[PieceCount] = {
 /*  0 */        0, /* not used */
 /*  1 */        0, /* not used */
 /*  2 */        0,

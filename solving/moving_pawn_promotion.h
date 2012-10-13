@@ -6,7 +6,7 @@
 /* This module provides implements the promotion of the moving pawn
  */
 
-extern PieNam getprompiece[PieceCount+1];
+extern PieNam getprompiece[PieceCount];
 extern PieNam current_promotion_of_moving[maxply+1];
 
 /* Initialise the set of promotion pieces for the current twin

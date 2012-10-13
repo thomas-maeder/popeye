@@ -5,7 +5,7 @@
 
 /* This module implements April Chess */
 
-extern boolean is_april_kind[PieceCount+1];
+extern boolean is_april_kind[PieceCount];
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-PieNam getprompiece[PieceCount+1];
+PieNam getprompiece[PieceCount];
 PieNam current_promotion_of_moving[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];

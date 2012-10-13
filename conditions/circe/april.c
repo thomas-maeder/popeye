@@ -9,7 +9,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-boolean is_april_kind[PieceCount+1];
+boolean is_april_kind[PieceCount];
 
 /* Try to solve in n half-moves.
  * @param si slice index

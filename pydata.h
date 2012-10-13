@@ -142,9 +142,9 @@ EXTERN  ply      parent_ply[maxply + 1];
 
 EXTERN  boolean platzwechsel_rochade_allowed[nr_sides][maxply+1];
 
-EXTERN  boolean  exist[PieceCount + 1];
-EXTERN  boolean  promonly[derbla + 1];
-EXTERN  boolean  is_football_substitute[derbla + 1];
+EXTERN  boolean  exist[PieceCount];
+EXTERN  boolean  promonly[PieceCount];
+EXTERN  boolean  is_football_substitute[PieceCount];
 
 EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
@@ -215,14 +215,14 @@ EXTERN  boolean         k_cap,
 EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
 
-EXTERN  PieNam          next_football_substitute[PieceCount + 1];       /* it's a inittable ! */
+EXTERN  PieNam          next_football_substitute[PieceCount];       /* it's a inittable ! */
 
 EXTERN  boolean         football_are_substitutes_limited;
 EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
 
 EXTERN  piece           transmpieces[nr_sides][derbla];
 EXTERN  boolean         normaltranspieces[nr_sides];
-EXTERN  PieNam          orphanpieces[PieceCount + 1];
+EXTERN  PieNam          orphanpieces[PieceCount];
 
 EXTERN boolean isBoardReflected;
 EXTERN boolean areColorsSwapped;
@@ -1789,10 +1789,10 @@ enum {
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern  checkfunction_t *checkfunctions[derbla + 1];
+	extern  checkfunction_t *checkfunctions[PieceCount];
 #else
 /* This are the used checkingfunctions  */
-    checkfunction_t *checkfunctions[derbla + 1] = {
+    checkfunction_t *checkfunctions[PieceCount] = {
 /*  0 */        0, /* not used */
 /*  1 */        0, /* not used */
 /*  2 */        roicheck,
