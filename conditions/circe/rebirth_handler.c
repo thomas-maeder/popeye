@@ -10,8 +10,13 @@
 #include <assert.h>
 
 pilecase current_circe_rebirth_square;
+
 piece current_circe_reborn_piece[maxply+1];
 Flags current_circe_reborn_spec[maxply+1];
+
+piece current_circe_relevant_piece[maxply+1];
+Flags current_circe_relevant_spec[maxply+1];
+Side current_circe_capturer[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -50,6 +55,52 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
+stip_length_type circe_determine_relevant_piece_solve(slice_index si,
+                                                      stip_length_type n)
+{
+  stip_length_type result;
+  numecoup const coup_id = current_move[nbply];
+  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
+  square const sq_arrival = move_gen_top->arrival;
+  square const sq_capture = move_gen_top->capture;
+  square const sq_departure = move_gen_top->departure;
+  Flags const spec_pi_moving = spec[sq_arrival];
+  piece const pi_arriving = e[sq_arrival];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[couscous])
+  {
+    current_circe_relevant_piece[nbply] = pi_arriving;
+    current_circe_relevant_spec[nbply] = spec_pi_moving;
+    current_circe_capturer[nbply] = advers(slices[si].starter);
+  }
+  else
+  {
+    current_circe_relevant_piece[nbply] = current_circe_reborn_piece[nbply];
+    current_circe_relevant_spec[nbply] = current_circe_reborn_spec[nbply];
+    current_circe_capturer[nbply] = slices[si].starter;
+  }
+
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
 stip_length_type circe_rebirth_handler_solve(slice_index si,
                                               stip_length_type n)
 {
@@ -67,20 +118,12 @@ stip_length_type circe_rebirth_handler_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[couscous])
-    current_circe_rebirth_square[nbply] = (*circerenai)(pi_arriving,
-                                                        spec_pi_moving,
-                                                        sq_capture,
-                                                        sq_departure,
-                                                        sq_arrival,
-                                                        advers(slices[si].starter));
-  else
-    current_circe_rebirth_square[nbply] = (*circerenai)(current_circe_reborn_piece[nbply],
-                                                        current_circe_reborn_spec[nbply],
-                                                        sq_capture,
-                                                        sq_departure,
-                                                        sq_arrival,
-                                                        slices[si].starter);
+  current_circe_rebirth_square[nbply] = (*circerenai)(current_circe_relevant_piece[nbply],
+                                                      current_circe_relevant_spec[nbply],
+                                                      sq_capture,
+                                                      sq_departure,
+                                                      sq_arrival,
+                                                      current_circe_capturer[nbply]);
 
   result = solve(slices[si].next1,n);
 
@@ -171,6 +214,7 @@ void stip_insert_circe(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
+  stip_instrument_moves(si,STCirceDetermineRelevantPiece);
   stip_instrument_moves(si,STCirceRebirthHandler);
   stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_circe_capture_forks(si);

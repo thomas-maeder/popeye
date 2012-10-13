@@ -570,6 +570,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anti_einstein_determine_reborn_piece_solve(si,n);
       break;
 
+    case STCirceDetermineRelevantPiece:
+      result = circe_determine_relevant_piece_solve(si,n);
+      break;
+
     case STCirceRebirthHandler:
       result = circe_rebirth_handler_solve(si,n);
       break;

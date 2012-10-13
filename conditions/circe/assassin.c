@@ -68,6 +68,7 @@ void stip_insert_circe_assassin(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
+  stip_instrument_moves(si,STCirceDetermineRelevantPiece);
   stip_instrument_moves(si,STCirceRebirthHandler);
   stip_instrument_moves(si,STCirceAssassinPlaceReborn);
   stip_insert_circe_capture_forks(si);

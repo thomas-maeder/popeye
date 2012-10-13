@@ -241,6 +241,7 @@
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornPiece),                    \
     ENUMERATOR(STChameleonCirceAdaptRebornPiece),                       \
     ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                     \
+    ENUMERATOR(STCirceDetermineRelevantPiece),                          \
     ENUMERATOR(STCirceRebirthHandler),                                  \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
     ENUMERATOR(STCircePlaceReborn),                                     \
