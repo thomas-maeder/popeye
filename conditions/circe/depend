@@ -829,7 +829,7 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/move_player.h solving/post_move_iteration.h \
- solving/move_effect_journal.h debugging/trace.h
+ debugging/trace.h
 
 conditions/circe/super.h:
 
@@ -886,8 +886,6 @@ output/mode.h:
 stipulation/move_player.h:
 
 solving/post_move_iteration.h:
-
-solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/king_rebirth_avoider$(OBJ_SUFFIX): \

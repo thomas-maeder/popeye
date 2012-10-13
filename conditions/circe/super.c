@@ -6,7 +6,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -103,19 +102,9 @@ stip_length_type supercirce_rebirth_handler_solve(slice_index si,
   }
 
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
-  {
-    current_circe_rebirth_square[nbply] = initsquare;
-    current_circe_reborn_piece[nbply] = vide;
     result = slack_length-2;
-  }
   else
   {
-    current_circe_reborn_piece[nbply] = pprise[nbply];
-    current_circe_reborn_spec[nbply] = pprispec[nbply];
-    move_effect_journal_do_piece_addition(move_effect_reason_supercirce_rebirth,
-                                          current_circe_rebirth_square[nbply],
-                                          current_circe_reborn_piece[nbply],
-                                          current_circe_reborn_spec[nbply]);
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
@@ -143,7 +132,9 @@ void stip_insert_supercirce_rebirth_handlers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_insert_rebirth_avoider(si,STSuperCirceNoRebirthFork);
+  stip_instrument_moves(si,STCirceDetermineRebornPiece);
   stip_instrument_moves(si,STSuperCirceRebirthHandler);
+  stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);
