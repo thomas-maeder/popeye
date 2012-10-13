@@ -4,7 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move_player.h"
 #include "solving/move_effect_journal.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "conditions/circe/capture_fork.h"
 #include "stipulation/move_player.h"
 #include "debugging/trace.h"
@@ -69,7 +69,7 @@ void stip_insert_circe_assassin(slice_index si)
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
   stip_instrument_moves(si,STCirceDetermineRelevantPiece);
-  stip_instrument_moves(si,STCirceRebirthHandler);
+  stip_instrument_moves(si,STCirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCirceAssassinPlaceReborn);
   stip_insert_circe_capture_forks(si);
 

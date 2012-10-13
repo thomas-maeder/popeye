@@ -1,5 +1,5 @@
 #include "conditions/contact_grid.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -70,7 +70,7 @@ void stip_insert_contact_grid(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STCirceRebirthHandler,
+                                           STCirceDetermineRebirthSquare,
                                            &instrument_rebirth);
   stip_structure_traversal_override_single(&st,
                                            STCirceParrainDetermineRebirth,

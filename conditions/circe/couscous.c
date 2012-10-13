@@ -1,10 +1,7 @@
-#include "conditions/circe/double_agents.h"
-#include "pydata.h"
-#include "stipulation/has_solution_type.h"
+#include "conditions/circe/couscous.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move_player.h"
-#include "pieces/side_change.h"
 #include "conditions/circe/circe.h"
+#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -17,18 +14,20 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
-                                                             stip_length_type n)
+stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
+                                                               stip_length_type n)
 {
   stip_length_type result;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_piece[nbply] = -current_circe_reborn_piece[nbply];
-  spec_change_side(&current_circe_reborn_spec[nbply]);
+  current_circe_relevant_piece[nbply] = e[sq_arrival];
+  current_circe_relevant_spec[nbply] = spec[sq_arrival];
+  current_circe_capturer[nbply] = advers(slices[si].starter);
 
   result = solve(slices[si].next1,n);
 
@@ -41,13 +40,14 @@ stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_double_agents(slice_index si)
+void stip_insert_couscous_circe(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STCirceDoubleAgentsAdaptRebornPiece);
+  stip_replace_circe_determine_relevant_piece(si,
+                                              STCirceCouscousDetermineRelevantPiece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

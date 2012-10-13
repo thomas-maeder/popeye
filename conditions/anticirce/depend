@@ -313,9 +313,9 @@ conditions/anticirce/rebirth_handler$(OBJ_SUFFIX): \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  solving/move_effect_journal.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h \
- conditions/circe/rebirth_handler.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ stipulation/goals/goals.h utilities/boolean.h conditions/circe/circe.h \
+ stipulation/slice_type.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
  solving/post_move_iteration.h solving/moving_pawn_promotion.h \
@@ -355,15 +355,15 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-conditions/circe/rebirth_handler.h:
+conditions/circe/circe.h:
+
+stipulation/slice_type.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/stipulation.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/structure_traversal.h:
 
@@ -385,14 +385,13 @@ conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
  py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
- conditions/circe/rebirth_handler.h solving/move_effect_journal.h \
+ conditions/circe/circe.h stipulation/slice_type.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move_player.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/move_player.h \
  solving/post_move_iteration.h conditions/anticirce/rebirth_handler.h \
- debugging/trace.h
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/anticirce/super.h:
 
@@ -426,17 +425,15 @@ stipulation/goals/goals.h:
 
 utilities/boolean.h:
 
-conditions/circe/rebirth_handler.h:
+conditions/circe/circe.h:
 
-solving/move_effect_journal.h:
+stipulation/slice_type.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/stipulation.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/structure_traversal.h:
 
@@ -455,5 +452,7 @@ stipulation/move_player.h:
 solving/post_move_iteration.h:
 
 conditions/anticirce/rebirth_handler.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:

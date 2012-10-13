@@ -14,6 +14,7 @@
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/clone.h"
+#include "conditions/circe/couscous.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/circe/assassin.h"
@@ -43,7 +44,7 @@
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/republican.h"
 #include "conditions/circe/capture_fork.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "conditions/circe/cage.h"
 #include "conditions/circe/double_agents.h"
 #include "conditions/circe/kamikaze.h"
@@ -574,8 +575,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_determine_relevant_piece_solve(si,n);
       break;
 
-    case STCirceRebirthHandler:
-      result = circe_rebirth_handler_solve(si,n);
+    case STCirceCouscousDetermineRelevantPiece:
+      result = circe_couscous_determine_relevant_piece_solve(si,n);
+      break;
+
+    case STCirceDetermineRebirthSquare:
+      result = circe_determine_rebirth_square_solve(si,n);
       break;
 
     case STContactGridAvoidCirceRebirth:

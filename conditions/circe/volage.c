@@ -8,7 +8,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/move_effect_journal.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -88,7 +88,7 @@ void stip_insert_circe_volage_recolorers(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STCirceRebirthHandler,
+                                           STCirceDetermineRebirthSquare,
                                            &instrument_rebirth);
   stip_structure_traversal_override_single(&st,
                                            STSuperCirceRebirthHandler,

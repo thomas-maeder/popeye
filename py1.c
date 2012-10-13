@@ -74,7 +74,7 @@
 #include "conditions/duellists.h"
 #include "conditions/kobul.h"
 #include "conditions/anticirce/super.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/april.h"
 #include "conditions/imitator.h"

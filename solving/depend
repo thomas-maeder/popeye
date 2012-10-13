@@ -1531,6 +1531,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/blackchecks.h conditions/contact_grid.h \
  conditions/extinction.h conditions/circe/chameleon.h \
  conditions/circe/circuit_by_rebirth_special.h conditions/circe/clone.h \
+ conditions/circe/couscous.h \
  conditions/circe/exchange_by_rebirth_special.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
@@ -1548,7 +1549,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h solving/move_effect_journal.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
- conditions/circe/capture_fork.h conditions/circe/rebirth_handler.h \
+ conditions/circe/capture_fork.h conditions/circe/circe.h \
  conditions/circe/cage.h conditions/circe/double_agents.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
  conditions/circe/volage.h conditions/circe/promotion.h \
@@ -1714,6 +1715,8 @@ conditions/circe/circuit_by_rebirth_special.h:
 
 conditions/circe/clone.h:
 
+conditions/circe/couscous.h:
+
 conditions/circe/exchange_by_rebirth_special.h:
 
 conditions/circe/steingewinn_filter.h:
@@ -1778,7 +1781,7 @@ conditions/republican.h:
 
 conditions/circe/capture_fork.h:
 
-conditions/circe/rebirth_handler.h:
+conditions/circe/circe.h:
 
 conditions/circe/cage.h:
 

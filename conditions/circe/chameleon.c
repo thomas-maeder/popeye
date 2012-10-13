@@ -3,7 +3,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "pieces/walks.h"
 #include "debugging/trace.h"
 

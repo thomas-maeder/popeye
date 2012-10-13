@@ -134,10 +134,11 @@
 #include "conditions/messigny.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "conditions/circe/cage.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/clone.h"
+#include "conditions/circe/couscous.h"
 #include "conditions/circe/double_agents.h"
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
@@ -219,7 +220,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/amu/mate_filter.h"
-#include "conditions/circe/circe.h"
+#include "conditions/circe/goal_filters.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "options/no_short_variations/no_short_variations.h"
@@ -2769,6 +2770,8 @@ static Token iterate_twins(Token prev_token)
           stip_insert_circe_clone(root_slice);
         if (TSTFLAG(PieSpExFlags,Kamikaze))
           stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
+        if (CondFlag[couscous])
+          stip_insert_couscous_circe(root_slice);
       }
 
       if (CondFlag[contactgrid])

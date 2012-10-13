@@ -1,7 +1,7 @@
 #include "conditions/einstein/anti.h"
 #include "pydata.h"
 #include "conditions/einstein/einstein.h"
-#include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
