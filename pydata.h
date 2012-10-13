@@ -176,10 +176,6 @@ EXTERN  enum
 
 EXTERN  pileside     trait;
 EXTERN  boolean         flagfee,
-			flagriders, flagleapers, flagsimplehoppers,
-                        flagsimpledecomposedleapers, flagsymmetricfairy,
-			flagveryfairy,
-			flagleofamilyonly,
 			empilegenre,
 			flaglegalsquare,
             change_moving_piece,

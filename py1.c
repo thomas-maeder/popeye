@@ -396,12 +396,6 @@ void InitAlways(void) {
   CondFlag[circeassassin] = false;
   k_cap = false;
   flagfee = false;
-  flagriders = false;
-  flagleapers = false;
-  flagsimplehoppers = false;
-  flagsimpledecomposedleapers = false;
-  flagsymmetricfairy = false;
-  flagveryfairy = false;
 
   for (i= maxply; i > 0; i--)
   {

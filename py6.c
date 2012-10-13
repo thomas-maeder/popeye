@@ -806,6 +806,10 @@ static boolean verify_position(slice_index si)
   square const *bnp;
   piece     p;
   int      tp, op;
+  boolean flagleofamilyonly;
+  boolean flagveryfairy = false;
+  boolean flagsymmetricfairy = false;
+  boolean flagsimplehoppers = false;
 
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
@@ -885,23 +889,21 @@ static boolean verify_position(slice_index si)
 #ifdef _SE_DECORATE_SOLUTION_
   se_init();
 #endif
-  flagleofamilyonly = CondFlag[leofamily] ? true : false;
+  flagleofamilyonly = CondFlag[leofamily];
   for (p = fb + 1; p <= derbla; p++)
   {
     if (exist[p] || promonly[p] || is_football_substitute[p])
     {
       flagfee = true;
-      if (is_rider(p))
-        flagriders = true;
-      else if (is_leaper(p))
-        flagleapers = true;
+      if (is_rider(p)) {}
+      else if (is_leaper(p)) {}
       else if (is_simplehopper(p))
         flagsimplehoppers = true;
-      else if (is_simpledecomposedleaper(p))
-        flagsimpledecomposedleapers = true;
+      else if (is_simpledecomposedleaper(p)) {}
       else if (is_symmetricfairy(p))
         flagsymmetricfairy = true;
-      else {
+      else
+      {
         if (!is_pawn(p) && p != dummyb && (p<leob || p>vaob))
           flagleofamilyonly = false;
         flagveryfairy = true;
