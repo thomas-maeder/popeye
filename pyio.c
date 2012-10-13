@@ -5300,7 +5300,6 @@ static char *ParseCond(void) {
 
         /*****  different types of geneva chess   *****/
       case geneva:
-        genevarenai= rennormal;
         anygeneva= true;
         break;
 

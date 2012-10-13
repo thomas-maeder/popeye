@@ -155,7 +155,7 @@ EXTERN  int   (* white_length)(square departure, square arrival, square capture)
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 
-EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai, genevarenai;
+EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai;
 
 EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyanticirprom, anyimmun, anyclone, anygeneva;
 

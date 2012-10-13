@@ -213,7 +213,6 @@ void InitCond(void) {
   circerenai= rennormal;
   immunrenai= rennormal;
   marsrenai= rennormal;
-  genevarenai= rennormal;
 
   royal_square[White] = initsquare;
   royal_square[Black] = initsquare;

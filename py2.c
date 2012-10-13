@@ -122,10 +122,10 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
   }
   if (anygeneva) {
     if ((e[sq_capture] <= roin) && (rex_geneva || (sq_departure != king_square[White])))
-      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,Black)] != vide)
+      if (e[rennormal(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,Black)] != vide)
         return(false);
     if ((e[sq_capture] >= roib) && (rex_geneva || (sq_departure != king_square[Black])))
-      if (e[(*genevarenai)(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,White)] != vide)
+      if (e[rennormal(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,White)] != vide)
         return(false);
   }
   return(true);
