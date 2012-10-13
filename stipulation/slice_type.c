@@ -62,7 +62,7 @@
     ENUMERATOR(STExclusiveChessLegalityTester),                        \
     ENUMERATOR(STOhneschachLegalityTester),                            \
     ENUMERATOR(STIsardamLegalityTester),                               \
-    ENUMERATOR(STCirceAssassinRebirth),                                \
+    ENUMERATOR(STCirceAssassinPlaceReborn),                            \
     ENUMERATOR(STKingCaptureAvoider),                                  \
     ENUMERATOR(STPatienceChessLegalityTester),                         \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \

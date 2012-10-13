@@ -67,14 +67,13 @@ debugging/trace.h:
 conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  conditions/circe/assassin.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/enumeration.h pylang.h \
- conditions/circe/rebirth_handler.h solving/move_effect_journal.h \
- stipulation/slice_type.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h utilities/boolean.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
- debugging/trace.h
+ position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/move_player.h solving/move_effect_journal.h \
+ conditions/circe/rebirth_handler.h debugging/trace.h
 
 conditions/circe/assassin.h:
 
@@ -96,12 +95,6 @@ utilities/enumeration.h:
 
 pylang.h:
 
-conditions/circe/rebirth_handler.h:
-
-solving/move_effect_journal.h:
-
-stipulation/slice_type.h:
-
 pydata.h:
 
 pyproc.h:
@@ -118,6 +111,8 @@ stipulation/stipulation.h:
 
 stipulation/slice.h:
 
+stipulation/slice_type.h:
+
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
@@ -129,6 +124,10 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/move_player.h:
+
+solving/move_effect_journal.h:
+
+conditions/circe/rebirth_handler.h:
 
 debugging/trace.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \

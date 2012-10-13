@@ -1164,8 +1164,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = isardam_legality_tester_solve(si,n);
       break;
 
-    case STCirceAssassinRebirth:
-      result = circe_assassin_rebirth_solve(si,n);
+    case STCirceAssassinPlaceReborn:
+      result = circe_assassin_place_reborn_solve(si,n);
       break;
 
     case STKingCaptureAvoider:
