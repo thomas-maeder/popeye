@@ -137,6 +137,8 @@ static slice_index const slice_rank_order[] =
   STAntiEinsteinDetermineRebornPiece,
   STCirceRebirthHandler,
   STSuperCirceRebirthHandler,
+  STContactGridAvoidCirceRebirth,
+  STCircePlaceReborn,
   STCirceAssassinRebirth,
   STCirceRebirthPromoter,
   STPromoteCirceRebornIntoChameleon,

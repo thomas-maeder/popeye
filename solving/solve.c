@@ -9,6 +9,7 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
+#include "conditions/contact_grid.h"
 #include "conditions/extinction.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
@@ -571,6 +572,14 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceRebirthHandler:
       result = circe_rebirth_handler_solve(si,n);
+      break;
+
+    case STContactGridAvoidCirceRebirth:
+      result = contact_grid_avoid_circe_rebirth(si,n);
+      break;
+
+    case STCircePlaceReborn:
+      result = circe_place_reborn_solve(si,n);
       break;
 
     case STAprilAprilFork:

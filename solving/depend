@@ -1528,8 +1528,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/target_square_filter.h conditions/bgl.h \
- conditions/blackchecks.h conditions/extinction.h \
- conditions/circe/chameleon.h \
+ conditions/blackchecks.h conditions/contact_grid.h \
+ conditions/extinction.h conditions/circe/chameleon.h \
  conditions/circe/circuit_by_rebirth_special.h conditions/circe/clone.h \
  conditions/circe/exchange_by_rebirth_special.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
@@ -1703,6 +1703,8 @@ conditions/anticirce/target_square_filter.h:
 conditions/bgl.h:
 
 conditions/blackchecks.h:
+
+conditions/contact_grid.h:
 
 conditions/extinction.h:
 

@@ -240,8 +240,10 @@
     ENUMERATOR(STCirceCloneDetermineRebornPiece),                       \
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornPiece),                    \
     ENUMERATOR(STChameleonCirceAdaptRebornPiece),                       \
-    ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                         \
+    ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                     \
     ENUMERATOR(STCirceRebirthHandler),                                  \
+    ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
+    ENUMERATOR(STCircePlaceReborn),                                     \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \
     ENUMERATOR(STSuperCirceRebirthHandler),                             \
     ENUMERATOR(STCirceCageNoCageFork)    ,                              \

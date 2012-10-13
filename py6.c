@@ -108,6 +108,7 @@
 #include "solving/solve.h"
 #include "output/output.h"
 #include "conditions/bgl.h"
+#include "conditions/contact_grid.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/blackchecks.h"
@@ -2769,6 +2770,9 @@ static Token iterate_twins(Token prev_token)
         if (TSTFLAG(PieSpExFlags,Kamikaze))
           stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
       }
+
+      if (CondFlag[contactgrid])
+        stip_insert_contact_grid(root_slice);
 
       if (anycirce && !rex_circe)
         stip_insert_circe_king_rebirth_avoiders(root_slice);

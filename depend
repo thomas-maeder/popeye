@@ -572,9 +572,10 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/solve.h output/output.h output/mode.h conditions/bgl.h \
- conditions/exclusive.h position/position.h conditions/republican.h \
- conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
- conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/contact_grid.h conditions/exclusive.h position/position.h \
+ conditions/republican.h conditions/blackchecks.h conditions/extinction.h \
+ conditions/madrasi.h conditions/maff/immobility_tester.h \
+ conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -711,6 +712,8 @@ output/output.h:
 output/mode.h:
 
 conditions/bgl.h:
+
+conditions/contact_grid.h:
 
 conditions/exclusive.h:
 

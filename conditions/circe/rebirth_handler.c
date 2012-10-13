@@ -99,8 +99,30 @@ stip_length_type circe_rebirth_handler_solve(slice_index si,
                                                         sq_arrival,
                                                         slices[si].starter);
 
-  if (CondFlag[contactgrid] && nogridcontact(current_circe_rebirth_square[nbply]))
-    current_circe_rebirth_square[nbply] = initsquare;
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   if (e[current_circe_rebirth_square[nbply]]==vide)
     circe_do_rebirth(move_effect_reason_circe_rebirth);
@@ -164,6 +186,7 @@ void stip_insert_circe(slice_index si)
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
   stip_instrument_moves(si,STCirceRebirthHandler);
+  stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);
