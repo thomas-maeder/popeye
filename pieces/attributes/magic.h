@@ -17,7 +17,7 @@ extern magicstate_type magicstate[maxply + 1];
  * @param p type of piece
  * @return true iff pieces of type p can be magic
  */
-boolean magic_is_piece_supported(piece p);
+boolean magic_is_piece_supported(PieNam p);
 
 /* Try to solve in n half-moves.
  * @param si slice index

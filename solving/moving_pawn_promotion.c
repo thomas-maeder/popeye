@@ -80,8 +80,8 @@ boolean has_pawn_reached_promotion_square(Side side, square square_reached)
   TraceSquare(square_reached);
   TraceFunctionParamListEnd();
 
-  result = (is_pawn(e[square_reached])
-           && PromSq(is_reversepawn(e[square_reached])^side,square_reached)
+  result = (is_pawn(abs(e[square_reached]))
+           && PromSq(is_reversepawn(abs(e[square_reached]))^side,square_reached)
            && ((!CondFlag[protean] && !TSTFLAG(spec[square_reached],Protean))
                || pprise[nbply]==vide));
 

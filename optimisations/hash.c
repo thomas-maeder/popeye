@@ -1602,7 +1602,7 @@ void inithash(slice_index si)
 
   if (pyhash!=0)
   {
-    int i, j;
+    int j;
 
 #if defined(__unix) && defined(TESTHASH)
     OldBreak= sbrk(0);
@@ -1622,9 +1622,13 @@ void inithash(slice_index si)
 
     /* check whether a piece can be coded in a single byte */
     j = 0;
-    for (i = PieceCount; Empty < i; i--)
-      if (exist[i])
-        piece_nbr[i] = j++;
+
+    {
+      PieNam i;
+      for (i = PieceCount; i>Empty; --i)
+        if (exist[i])
+          piece_nbr[i] = j++;
+    }
 
     if (CondFlag[haanerchess])
       piece_nbr[obs]= j++;

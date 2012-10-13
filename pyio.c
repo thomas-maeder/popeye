@@ -780,7 +780,7 @@ static void WriteConditions(int alignment)
 
     if (cond == sentinelles) {
       char pawns[7];
-      if (sentinelb == pbb)
+      if (sentinelle[White] == pbb)
         strcat(CondLine, " Berolina");
       if (SentPionAdverse) {
         strcat(CondLine, "  ");
@@ -4373,7 +4373,7 @@ static char *ReadFrischAufSquares(void)
         break;
       else
       {
-        if (e[sq]==vide || e[sq]==obs || is_pawn(e[sq]))
+        if (e[sq]==vide || e[sq]==obs || is_pawn(abs(e[sq])))
           Message(NoFrischAufPromPiece);
         else
         {
@@ -4480,8 +4480,8 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
       flagparasent= true;
     else if (type==SentBerolina && group==gpSentinelles)
     {
-      sentinelb= pbb;
-      sentineln= pbn;
+      sentinelle[White] = pbb;
+      sentinelle[Black] = pbn;
     }
     else if (type==AntiCirTypeCheylan && group==gpAntiCirce)
       *is_variant_set= true;

@@ -525,7 +525,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if (e[sq_capture]==vide)
         {
           /* Extra rule: pawns must not 'make' to their base line */
-          if (is_pawn(e[sq_departure])
+          if (is_pawn(abs(e[sq_departure]))
               && !CondFlag[normalp]
               && ((traitnbply == White && sq_arrival<=square_h1)
                   || (traitnbply == Black && sq_arrival>=square_a8)))
@@ -549,7 +549,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
              && PromSq(Black,sq_arrival)
            )
           )
-        && is_forwardpawn(e[sq_departure]))
+        && is_forwardpawn(abs(e[sq_departure])))
     {
       return true;
     }
@@ -563,7 +563,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
              && ReversePromSq(Black,sq_arrival)
            )
           )
-        && is_reversepawn(e[sq_departure]))
+        && is_reversepawn(abs(e[sq_departure])))
     {
       return true;
     }
@@ -3297,7 +3297,7 @@ void genrb(square sq_departure)
       if ((p = e[z]) != vide) {
       if (TSTFLAG(spec[z], Neutral))
         p = -p;
-      if (p > obs && !is_pawn(p)) /* not sure if "castling" with Ps forbidden */
+      if (p > obs && !is_pawn(abs(p))) /* not sure if "castling" with Ps forbidden */
         empile(sq_departure,z,platzwechsel_rochade);
       }
     }

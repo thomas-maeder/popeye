@@ -319,7 +319,7 @@ typedef enum
   Pao,                    /* 10 */
   Vao,                    /* 11 */
   Rose,                   /* 12 */
-  Grashopper,             /* 13 */
+  Grasshopper,            /* 13 */
   NightRider,             /* 14 */
   Zebra,                  /* 15 */
   Camel,                  /* 16 */

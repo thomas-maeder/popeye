@@ -1248,7 +1248,7 @@ conditions/circe/chameleon$(OBJ_SUFFIX): conditions/circe/chameleon.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
  conditions/circe/rebirth_handler.h solving/move_effect_journal.h \
- debugging/trace.h
+ pieces/walks.h debugging/trace.h
 
 conditions/circe/chameleon.h:
 
@@ -1303,6 +1303,8 @@ stipulation/move_player.h:
 conditions/circe/rebirth_handler.h:
 
 solving/move_effect_journal.h:
+
+pieces/walks.h:
 
 debugging/trace.h:
 conditions/circe/double_agents$(OBJ_SUFFIX): conditions/circe/double_agents.c \

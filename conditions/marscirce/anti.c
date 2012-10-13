@@ -18,7 +18,7 @@ static void adjust(void)
   ep[nbply] = initsquare;
   ep2[nbply] = initsquare;
 
-  if (is_pawn(pi_arriving) && pprise[nbply]==vide)
+  if (is_pawn(abs(pi_arriving)) && pprise[nbply]==vide)
   {
     square const sq_departure = move_generation_stack[current_move[nbply]].departure;
 

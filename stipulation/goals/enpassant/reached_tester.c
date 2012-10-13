@@ -56,7 +56,7 @@ stip_length_type goal_enpassant_reached_tester_solve(slice_index si, stip_length
 
   if (sq_capture!=move_generation_stack[current_move[nbply]].arrival
       && sq_capture<=square_h8
-      && is_pawn(pjoue[nbply]))
+      && is_pawn(abs(pjoue[nbply])))
     result = solve(slices[si].next1,n);
   else
     result = n+2;

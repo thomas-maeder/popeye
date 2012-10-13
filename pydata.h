@@ -142,7 +142,7 @@ EXTERN  ply      parent_ply[maxply + 1];
 
 EXTERN  boolean platzwechsel_rochade_allowed[nr_sides][maxply+1];
 
-EXTERN  boolean  exist[derbla + 1];
+EXTERN  boolean  exist[PieceCount + 1];
 EXTERN  boolean  promonly[derbla + 1];
 EXTERN  boolean  is_football_substitute[derbla + 1];
 
@@ -234,7 +234,7 @@ EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
 EXTERN boolean          checkhopim;
 EXTERN square           chop[toppile + 1];
 
-EXTERN piece            sentinelb, sentineln;
+EXTERN piece            sentinelle[nr_sides];
 EXTERN nocontactfunc_t  koekofunc;
 EXTERN nocontactfunc_t  antikoekofunc;
 EXTERN boolean		anyantimars;

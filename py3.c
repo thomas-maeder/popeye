@@ -824,13 +824,13 @@ static boolean echecc_wh_extinction(void)
   boolean result = false;
 
   piece p;
-  for (p=roib; p<derbla; p++)
+  for (p = roib; p<derbla; ++p)
   {
     square const *bnp;
     if (!exist[p] || nbpiece[p]!=1)
       continue;
 
-    for (bnp= boardnum; *bnp; bnp++)
+    for (bnp= boardnum; *bnp; ++bnp)
       if (e[*bnp]==p)
         break;
 
@@ -852,15 +852,15 @@ static boolean echecc_bl_extinction(void)
   boolean result = false;
 
   piece p;
-  for (p=roib; p<derbla; p++)
+  for (p=roin; p>dernoi; --p)
   {
     square const *bnp;
 
-    if (!exist[p] || nbpiece[-p]!=1)
+    if (!exist[-p] || nbpiece[p]!=1)
       continue;
 
     for (bnp= boardnum; *bnp; bnp++)
-      if (e[*bnp]==-p)
+      if (e[*bnp]==p)
         break;
 
     king_square[Black] = *bnp;
@@ -1163,7 +1163,7 @@ boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture)
 }
 
 boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (is_forwardpawn(e[sq_departure]) && PromSq(White, sq_capture)) {
+  if (is_forwardpawn(abs(e[sq_departure])) && PromSq(White, sq_capture)) {
     /* Pawn checking on last rank */
     return next_singlebox_prom(Empty,White)!=Empty;
   }
@@ -1173,7 +1173,7 @@ boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_ca
 }
 
 boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (is_forwardpawn(e[sq_departure]) && PromSq(Black, sq_capture)) {
+  if (is_forwardpawn(abs(e[sq_departure])) && PromSq(Black, sq_capture)) {
     /* Pawn checking on last rank */
     return next_singlebox_prom(Empty,Black)!=Empty;
   }

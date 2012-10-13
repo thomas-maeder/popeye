@@ -238,8 +238,8 @@ void output_plaintext_write_move(void)
                 else
                 {
                   /* TODO better modeling for e.p.? */
-                  if (is_pawn(move_effect_journal[capture].u.piece_removal.removed)
-                      && is_pawn(move_effect_journal[curr].u.piece_movement.moving)
+                  if (is_pawn(abs(move_effect_journal[capture].u.piece_removal.removed))
+                      && is_pawn(abs(move_effect_journal[curr].u.piece_movement.moving))
                       && (move_effect_journal[curr].u.piece_movement.to==ep[parent_ply[nbply]]
                           || move_effect_journal[curr].u.piece_movement.to==ep2[parent_ply[nbply]]))
                   {

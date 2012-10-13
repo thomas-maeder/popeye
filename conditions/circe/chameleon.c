@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "pieces/walks.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -40,21 +41,10 @@ void chameleon_circe_init_implicit(void)
 {
   if (are_reborn_pieces_implicit)
   {
-    if (CondFlag[leofamily])
-    {
-      reborn_pieces[Leo] = Mao;
-      reborn_pieces[Pao] = Leo;
-      reborn_pieces[Vao] = Pao;
-      reborn_pieces[Mao] = Vao;
-    }
-    else
-    {
-      PieNam const knight = CondFlag[cavaliermajeur] ? NightRider : Knight;
-      reborn_pieces[knight] = Bishop;
-      reborn_pieces[Bishop] = Rook;
-      reborn_pieces[Rook] = Queen;
-      reborn_pieces[Queen] = knight;
-    }
+    reborn_pieces[standard_walks[Knight]] = standard_walks[Bishop];
+    reborn_pieces[standard_walks[Bishop]] = standard_walks[Rook];
+    reborn_pieces[standard_walks[Rook]] = standard_walks[Queen];
+    reborn_pieces[standard_walks[Queen]] = standard_walks[Knight];
   }
 }
 

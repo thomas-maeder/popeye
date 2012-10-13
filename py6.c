@@ -208,6 +208,7 @@
 #include "solving/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
+#include "pieces/walks.h"
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
@@ -247,117 +248,121 @@
 #include "se.h"
 #endif
 
-boolean is_rider(piece p)
+static boolean is_rider(PieNam p)
 {
   switch (p)
   {
-    case    nb:
-    case    amazb:
-    case    impb:
-    case    princb:
-    case    waranb:
-    case    camridb:
-    case    zebridb:
-    case    gnuridb:
-    case    rhuntb:
-    case    bhuntb:
-    case    tb:
-    case    db:
-    case    fb:
-    case    vizridb:
-    case    fersridb:
+    case    NightRider:
+    case    Amazone:
+    case    Empress:
+    case    Princess:
+    case    Waran:
+    case    Camelrider:
+    case    Zebrarider:
+    case    Gnurider:
+    case    RookHunter:
+    case    BishopHunter:
+    case    Rook:
+    case    Queen:
+    case    Bishop:
+    case    WesirRider:
+    case    FersRider:
       return true;
-    default:  return false;
-  }
-}
 
-boolean is_leaper(piece p)
-{
-  switch (p)
-  {
-    case    zb:
-    case    chb:
-    case    gib:
-    case    rccinqb:
-    case    bub:
-    case    vizirb:
-    case    alfilb:
-    case    fersb:
-    case    dabb:
-    case    gnoub:
-    case    antilb:
-    case    ecurb:
-    case    ekingb:
-    case    okapib:
-    case    cb:
-    case    leap15b:
-    case    leap16b:
-    case    leap24b:
-    case    leap25b:
-    case    leap35b:
-    case    leap37b:
-    case    leap36b:
-      return true;
-    default:  return false;
-  }
-} /* is_leaper */
-
-boolean is_simplehopper(piece p)
-{
-  switch (p)
-  {
-    case sb:
-    case nsautb:
-    case camhopb:
-    case zebhopb:
-    case gnuhopb:
-    case equib:
-    case nequib:
-    case g2b:
-    case g3b:
-    case khb:
-    case orixb:
-    case norixb:
-
-    case mooseb:
-    case rookmooseb:
-    case bishopmooseb:
-    case eagleb:
-    case rookeagleb:
-    case bishopeagleb:
-    case sparrb:
-    case rooksparrb:
-    case bishopsparrb:
-
-      return true;
-    default:  return false;
-  }
-}
-
-static boolean is_simpledecomposedleaper(piece p)
-{
-  switch (p)
-  {
-    case maob:
-    case moab:
-      return true;
     default:
       return false;
   }
 }
 
-static boolean is_symmetricfairy(piece p)
+static boolean is_leaper(PieNam p)
+{
+  switch (p)
+  {
+    case    Zebra:
+    case    Camel:
+    case    Giraffe:
+    case    RootFiftyLeaper:
+    case    Bucephale:
+    case    Wesir:
+    case    Alfil:
+    case    Fers:
+    case    Dabbaba:
+    case    Gnu:
+    case    Antilope:
+    case    Squirrel:
+    case    ErlKing:
+    case    Okapi:
+    case    Knight:
+    case    Leap15:
+    case    Leap16:
+    case    Leap24:
+    case    Leap25:
+    case    Leap35:
+    case    Leap37:
+    case    Leap36:
+      return true;
+    default:  return false;
+  }
+} /* is_leaper */
+
+static boolean is_simplehopper(PieNam p)
+{
+  switch (p)
+  {
+    case Grasshopper:
+    case NightriderHopper:
+    case CamelHopper:
+    case ZebraHopper:
+    case GnuHopper:
+    case EquiHopper:
+    case NonStopEquihopper:
+    case GrassHopper2:
+    case GrassHopper3:
+    case KingHopper:
+    case Orix:
+    case NonStopOrix:
+    case Elk:
+    case RookMoose:
+    case BishopMoose:
+    case Eagle:
+    case RookEagle:
+    case BishopEagle:
+    case Sparrow:
+    case RookSparrow:
+    case BishopSparrow:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+static boolean is_simpledecomposedleaper(PieNam p)
+{
+  switch (p)
+  {
+    case Mao:
+    case Moa:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+static boolean is_symmetricfairy(PieNam p)
 {
   /* any piece where, if p captures X is legal, then it's also legal if p and X are swapped */
   switch (p)
   {
-    case leob:
-    case vaob:
-    case paob:
-    case lionb:
-    case tlionb:
-    case flionb:
+    case Leo:
+    case Vao:
+    case Pao:
+    case Lion:
+    case RookLion:
+    case BishopLion:
       return true;
+
     default:
       return false;
   }
@@ -377,47 +382,39 @@ static boolean SetKing(int *kingsquare, int square)
 
 static void initPieces(void)
 {
-  piece p;
+  PieNam p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (p = roib; p<=fb; p++)
-    exist[p] = true;
+  initalise_standard_walks();
 
-  for (p = fb+1; p<=derbla; p++)
+  for (p = Empty; p<PieceCount; ++p)
     exist[p] = false;
+
+  for (p = Empty; p<=Bishop; p++)
+    exist[standard_walks[p]] = true;
 
   if (CondFlag[sentinelles])
   {
-    exist[sentineln] = true;
-    exist[sentinelb] = true;
+    exist[sentinelle[Black]] = true;
+    exist[sentinelle[White]] = true;
   }
-
-  if (CondFlag[leofamily])
-    for (p = db; p<=fb; p++)
-      exist[p] = false;
 
   if (CondFlag[chinoises])
-    for (p = leob; p <= vaob; p++)
+    for (p = Leo; p<=Vao; ++p)
       exist[p] = true;
 
-  if (CondFlag[cavaliermajeur])
-  {
-    exist[cb] = false;
-    exist[nb] = true;
-  }
-
   for (p = (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction]
-            ? roib
-            : db);
-       p <= derbla;
-       p++)
+            ? King
+            : Queen);
+       p < PieceCount;
+       ++p)
     if (promonly[p] || is_football_substitute[p])
       exist[p] = true;
 
   if (CondFlag[protean])
-    exist[reversepb] = true;
+    exist[ReversePawn] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -425,29 +422,29 @@ static void initPieces(void)
 
 static void countPieces(void)
 {
-  square const *bnp;
-  piece p;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (p = roib; p<=derbla; p++)
   {
-    nbpiece[p] = 0;
-    nbpiece[-p] = 0;
+    piece p;
+    for (p = roib; p<=derbla; ++p)
+    {
+      nbpiece[p] = 0;
+      nbpiece[-p] = 0;
+    }
   }
 
-  for (bnp = boardnum; *bnp; bnp++)
   {
-    p = e[*bnp];
-    if (p!=vide)
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
     {
-      if (p<fn)
-        exist[-p] = true;
-      else if (p>fb)
-        exist[p] = true;
+      piece const p = e[*bnp];
 
-      ++nbpiece[p];
+      if (p!=vide)
+      {
+        exist[abs(p)] = true;
+        ++nbpiece[p];
+      }
     }
   }
 
@@ -804,7 +801,6 @@ static stip_length_type get_max_nr_moves(slice_index si)
 static boolean verify_position(slice_index si)
 {
   square const *bnp;
-  piece     p;
   int      tp, op;
   boolean flagleofamilyonly;
   boolean flagveryfairy = false;
@@ -890,33 +886,37 @@ static boolean verify_position(slice_index si)
   se_init();
 #endif
   flagleofamilyonly = CondFlag[leofamily];
-  for (p = fb + 1; p <= derbla; p++)
+
   {
-    if (exist[p] || promonly[p] || is_football_substitute[p])
+    PieNam p;
+    for (p = Bishop+1; p<PieceCount; ++p)
     {
-      flagfee = true;
-      if (is_rider(p)) {}
-      else if (is_leaper(p)) {}
-      else if (is_simplehopper(p))
-        flagsimplehoppers = true;
-      else if (is_simpledecomposedleaper(p)) {}
-      else if (is_symmetricfairy(p))
-        flagsymmetricfairy = true;
-      else
+      if (exist[p] || promonly[p] || is_football_substitute[p])
       {
-        if (!is_pawn(p) && p != dummyb && (p<leob || p>vaob))
-          flagleofamilyonly = false;
-        flagveryfairy = true;
-      }
-      if (TSTFLAG(PieSpExFlags,Magic) && !magic_is_piece_supported(p))
-      {
-        VerifieMsg(MagicAndFairyPieces);
-        return false;
-      }
-      if (CondFlag[einstein])
-      {
-        VerifieMsg(EinsteinAndFairyPieces);
-        return false;
+        flagfee = true;
+        if (is_rider(p)) {}
+        else if (is_leaper(p)) {}
+        else if (is_simplehopper(p))
+          flagsimplehoppers = true;
+        else if (is_simpledecomposedleaper(p)) {}
+        else if (is_symmetricfairy(p))
+          flagsymmetricfairy = true;
+        else
+        {
+          if (!is_pawn(p) && p!=Dummy && (p<Leo || p>Vao))
+            flagleofamilyonly = false;
+          flagveryfairy = true;
+        }
+        if (TSTFLAG(PieSpExFlags,Magic) && !magic_is_piece_supported(p))
+        {
+          VerifieMsg(MagicAndFairyPieces);
+          return false;
+        }
+        if (CondFlag[einstein])
+        {
+          VerifieMsg(EinsteinAndFairyPieces);
+          return false;
+        }
       }
     }
   }
@@ -961,6 +961,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[leofamily])
   {
+    piece p;
     for (p = db; p<=fb; p++)
     {
       if (nbpiece[p]+nbpiece[-p]!=0)
@@ -976,7 +977,7 @@ static boolean verify_position(slice_index si)
 
   if (anycirce)
   {
-    if (exist[dummyb])
+    if (exist[Dummy])
     {
       VerifieMsg(CirceAndDummy);
       return false;
@@ -1457,34 +1458,34 @@ static boolean verify_position(slice_index si)
        || CondFlag[blmax]
        || CondFlag[heffalumps]
        )
-      && (exist[roseb]
-          || exist[csb]
-          || exist[ubib]
-          || exist[hamstb]
-          || exist[mooseb]
-          || exist[eagleb]
-          || exist[sparrb]
-          || exist[archb]
-          || exist[reffoub]
-          || exist[cardb]
-          || exist[bscoutb]
-          || exist[gscoutb]
-          || exist[dcsb]
-          || exist[refcb]
-          || exist[refnb]
-          || exist[catb]
-          || exist[rosehopperb]
-          || exist[roselionb]
-          || exist[raob]
-          || exist[rookmooseb]
-          || exist[rookeagleb]
-          || exist[rooksparrb]
-          || exist[bishopmooseb]
-          || exist[bishopeagleb]
-          || exist[bishopsparrb]
-          || exist[doublegb]
-          || exist[doublerookhopperb]
-          || exist[doublebishopperb]))
+      && (exist[Rose]
+          || exist[SpiralSpringer]
+          || exist[UbiUbi]
+          || exist[Hamster]
+          || exist[Elk]
+          || exist[Eagle]
+          || exist[Sparrow]
+          || exist[Archbishop]
+          || exist[ReflectBishop]
+          || exist[Cardinal]
+          || exist[BoyScout]
+          || exist[GirlScout]
+          || exist[DiagonalSpiralSpringer]
+          || exist[BouncyKnight]
+          || exist[BouncyNightrider]
+          || exist[CAT]
+          || exist[RoseHopper]
+          || exist[RoseLion]
+          || exist[Rao]
+          || exist[RookMoose]
+          || exist[RookEagle]
+          || exist[RookSparrow]
+          || exist[BishopMoose]
+          || exist[BishopEagle]
+          || exist[BishopSparrow]
+          || exist[DoubleGras]
+          || exist[DoubleRookHopper]
+          || exist[DoubleBishopper]))
   {
     VerifieMsg(SomePiecesAndMaxiHeffa);
     return false;
@@ -1882,8 +1883,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[schwarzschacher]
       || CondFlag[republican]
       || CondFlag[kobulkings]
-      || exist[ubib] /* sorting by nr of opponents moves doesn't work - why?? */
-      || exist[hunter0b] /* ditto */
+      || exist[UbiUbi] /* sorting by nr of opponents moves doesn't work - why?? */
+      || exist[Hunter0] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(White);
 
@@ -1904,8 +1905,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[schwarzschacher]
       || CondFlag[republican]
       || CondFlag[kobulkings]
-      || exist[ubib] /* sorting by nr of opponents moves doesn't work  - why?? */
-      || exist[hunter0b] /* ditto */
+      || exist[UbiUbi] /* sorting by nr of opponents moves doesn't work  - why?? */
+      || exist[Hunter0] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(Black);
 

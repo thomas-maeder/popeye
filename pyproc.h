@@ -363,13 +363,10 @@ square renspiegel(piece p, Flags pspec, square j, square i, square ip, Side camp
 void pyfputs(char const *s, FILE *f);
 
 boolean hopimok(square i, square j, square k, numvec d, numvec d1);
-boolean is_rider(piece p);
-boolean is_leaper(piece p);
-boolean is_simplehopper(piece p);
-boolean is_pawn(piece p);
-boolean is_forwardpawn(piece p);
-boolean is_reversepawn(piece p);
-boolean is_short(piece p);
+boolean is_pawn(PieNam p);
+boolean is_forwardpawn(PieNam p);
+boolean is_reversepawn(PieNam p);
+boolean is_short(PieNam p);
 
 void    geskylla(square i, Side camp);
 void    gecharybdis(square i, Side camp);

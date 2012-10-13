@@ -19,7 +19,7 @@ static void adjust(Side trait_ply)
   ep[nbply] = initsquare;
   ep2[nbply] = initsquare;
 
-  if (is_pawn(e[sq_arrival]) && pprise[nbply]==vide)
+  if (is_pawn(abs(e[sq_arrival])) && pprise[nbply]==vide)
   {
     square const sq_departure = move_generation_stack[coup_id].departure;
     square const sq_multistep_departure = rennormal(pjoue[nbply],

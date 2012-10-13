@@ -5,86 +5,24 @@
 #include "stipulation/move_player.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
+#include "pieces/walks.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-static piece norskpiece(piece p)
+static PieNam norsk_walk(PieNam p)
 {
-  if (CondFlag[leofamily]) {
-    switch (p)
-    {
-      case leob:
-        return maob;
-      case leon:
-        return maon;
-      case maob:
-        return leob;
-      case maon:
-        return leon;
-      case vaob:
-        return paob;
-      case vaon:
-        return paon;
-      case paob:
-        return vaob;
-      case paon:
-        return vaon;
-      default:
-        break;
-    }
-  }
-  else if (CondFlag[cavaliermajeur])
-  {
-    switch (p)
-    {
-      case db:
-        return nb;
-      case dn:
-        return nn;
-      case nb:
-        return db;
-      case nn:
-        return dn;
-      case fb:
-        return tb;
-      case fn:
-        return tn;
-      case tb:
-        return fb;
-      case tn:
-        return fn;
-      default:
-        break;
-    }
-  }
+  if (p==standard_walks[Queen])
+    return standard_walks[Knight];
+  else if (p==standard_walks[Knight])
+    return standard_walks[Queen];
+  else if (p==standard_walks[Rook])
+    return standard_walks[Bishop];
+  else if (p==standard_walks[Bishop])
+    return standard_walks[Rook];
   else
-  {
-    switch (p)
-    {
-      case db:
-        return cb;
-      case dn:
-        return cn;
-      case cb:
-        return db;
-      case cn:
-        return dn;
-      case fb:
-        return tb;
-      case fn:
-        return tn;
-      case tb:
-        return fb;
-      case tn:
-        return fn;
-      default:
-        break;
-    }
-  }
-
-  return p;
+    return p;
 }
 
 /* Try to solve in n half-moves.
@@ -109,7 +47,8 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
     piece const norsked = e[sq_arrival];
-    piece const norsked_to = norskpiece(norsked);
+    PieNam const norsked_to_walk = norsk_walk(abs(norsked));
+    piece const norsked_to = norsked<vide ? -norsked_to_walk : norsked_to_walk;
     if (norsked!=norsked_to)
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
                                           sq_arrival,

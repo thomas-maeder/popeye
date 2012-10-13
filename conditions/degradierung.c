@@ -30,7 +30,7 @@ stip_length_type degradierung_degrader_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!is_pawn(pjoue[nbply])
+  if (!is_pawn(abs(pjoue[nbply]))
       && sq_departure!=prev_king_square[Black][nbply]
       && sq_departure!=prev_king_square[White][nbply]
       && (slices[si].starter==Black

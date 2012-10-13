@@ -21,7 +21,7 @@ static void insert_sentinelle(Side trait_ply)
   piece const pi_captured = pprise[nbply];
 
   if (sq_departure>=square_a2 && sq_departure<=square_h7
-      && !is_pawn(pi_departing)
+      && !is_pawn(abs(pi_departing))
       && e[sq_departure]==vide)
   {
     if (SentPionNeutral && TSTFLAG(spec_pi_moving,Neutral))
@@ -29,29 +29,28 @@ static void insert_sentinelle(Side trait_ply)
       Flags const sentinelle_spec = BIT(White)|BIT(Black)|BIT(Neutral);
       move_effect_journal_do_piece_addition(move_effect_reason_sentinelles,
                                             sq_departure,
-                                            sentinelb,
+                                            sentinelle[White],
                                             sentinelle_spec);
     }
     else
     {
       Side sentinelle_side = SentPionAdverse ? advers(trait_ply) : trait_ply;
-      piece const sentinelle_type = sentinelle_side==White ? sentinelb : sentineln;
 
       if (flagparasent)
       {
-        unsigned int prev_nr_other_sentinelles = nbpiece[-sentinelle_type];
+        unsigned int prev_nr_other_sentinelles = nbpiece[-sentinelle[sentinelle_side]];
 
-        if (pi_captured==-sentinelle_type)
+        if (pi_captured==-sentinelle[sentinelle_side])
           ++prev_nr_other_sentinelles;
 
-        if (nbpiece[sentinelle_type]>prev_nr_other_sentinelles)
+        if (nbpiece[sentinelle[sentinelle_side]]>prev_nr_other_sentinelles)
           sentinelle_side = no_side;
       }
 
       if (sentinelle_side!=no_side)
       {
-        if (nbpiece[sentinelle_type]+1>sentinelles_max_nr_pawns[sentinelle_side]
-            || nbpiece[sentinelb]+nbpiece[sentineln]+1 > sentinelles_max_nr_pawns_total)
+        if (nbpiece[sentinelle[sentinelle_side]]+1>sentinelles_max_nr_pawns[sentinelle_side]
+            || nbpiece[sentinelle[White]]+nbpiece[sentinelle[Black]]+1 > sentinelles_max_nr_pawns_total)
           sentinelle_side = no_side;
       }
 
@@ -60,7 +59,7 @@ static void insert_sentinelle(Side trait_ply)
         Flags const sentinelle_spec = BIT(sentinelle_side);
         move_effect_journal_do_piece_addition(move_effect_reason_sentinelles,
                                               sq_departure,
-                                              sentinelle_type,
+                                              sentinelle[sentinelle_side],
                                               sentinelle_spec);
       }
     }

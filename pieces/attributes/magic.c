@@ -441,7 +441,7 @@ static attackfunction_t *attackfunctions[derbla + 1] = {
  * @param p type of piece
  * @return true iff pieces of type p can be magic
  */
-boolean magic_is_piece_supported(piece p)
+boolean magic_is_piece_supported(PieNam p)
 {
   return attackfunctions[p]!=unsupported_uncalled_attackfunction;
 }

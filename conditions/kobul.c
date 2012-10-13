@@ -21,7 +21,7 @@ static void substitute(Side trait_ply)
       && kobulking[advers(trait_ply)]
       && king_pos!=initsquare)
   {
-    PieNam const kobul_kind = is_pawn(pi_captured) ? King : abs(pi_captured);
+    PieNam const kobul_kind = is_pawn(abs(pi_captured)) ? King : abs(pi_captured);
     piece const pi_kobul = e[king_pos]<=roin ? -kobul_kind : kobul_kind;
 
     Flags const colour_mask = BIT(White)|BIT(Black)|BIT(Neutral);

@@ -91,89 +91,28 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
+#include "pieces/walks.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
 
 
-piece champiece(piece p)
+piece champiece(piece pi_arriving)
 {
-  /* function realisiert Figurenwechsel bei Chamaeleoncirce */
-  if (CondFlag[leofamily])
-  {
-    switch (p)
-    {
-      case leob:
-        return maob;
-      case leon:
-        return maon;
-      case maob:
-        return vaob;
-      case maon:
-        return vaon;
-      case vaob:
-        return paob;
-      case vaon:
-        return paon;
-      case paob:
-        return leob;
-      case paon:
-        return leon;
-      default:
-        break;
-    }
-  }
-  else if (CondFlag[cavaliermajeur])
-  {
-    switch (p)
-    {
-      case db:
-        return nb;
-      case dn:
-        return nn;
-      case nb:
-        return fb;
-      case nn:
-        return fn;
-      case fb:
-        return tb;
-      case fn:
-        return tn;
-      case tb:
-        return db;
-      case tn:
-        return dn;
-      default:
-        break;
-    }
-  }
-  else
-  {
-    switch (p)
-    {
-      case db:
-        return cb;
-      case dn:
-        return cn;
-      case cb:
-        return fb;
-      case cn:
-        return fn;
-      case fb:
-        return tb;
-      case fn:
-        return tn;
-      case tb:
-        return db;
-      case tn:
-        return dn;
-      default:
-        break;
-    }
-  }
+  PieNam const walk_arriving = abs(pi_arriving);
+  PieNam walk_chameleonised = walk_arriving;
 
-  return p;
+  if (walk_arriving==standard_walks[Queen])
+    walk_chameleonised = standard_walks[Knight];
+  else if (walk_arriving==standard_walks[Knight])
+    walk_chameleonised = standard_walks[Bishop];
+  else if (walk_arriving==standard_walks[Bishop])
+    walk_chameleonised = standard_walks[Rook];
+  else if (walk_arriving==standard_walks[Rook])
+    walk_chameleonised = standard_walks[Queen];
+
+  return  pi_arriving<vide ? -walk_chameleonised : walk_chameleonised;
 }
 
 #if defined(DOS)
@@ -249,14 +188,14 @@ square renfile(piece p_captured, Flags p_captured_spec,
 
   if (capturer==Black)
   {
-    if (is_pawn(p_captured))
+    if (is_pawn(abs(p_captured)))
       result = col + (nr_of_slack_rows_below_board+1)*onerow;
     else
       result = col + nr_of_slack_rows_below_board*onerow;
   }
   else
   {
-    if (is_pawn(p_captured))
+    if (is_pawn(abs(p_captured)))
       result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else
       result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
@@ -351,8 +290,8 @@ square rennormal(piece p_captured, Flags p_captured_spec,
                  Side capturer)
 {
   square  Result;
-  int col, ran;
-  Side  cou;
+  unsigned int col = sq_capture % onerow;
+  unsigned int const ran = sq_capture / onerow;
   PieNam pnam_captured = abs(p_captured);
 
   TraceFunctionEntry(__func__);
@@ -364,116 +303,79 @@ square rennormal(piece p_captured, Flags p_captured_spec,
   TraceEnumerator(Side,capturer,"");
   TraceFunctionParamListEnd();
 
-  col = sq_capture % onerow;
-  ran = sq_capture / onerow;
-
-  if (CondFlag[circemalefiquevertical]) {
-    col= onerow-1 - col;
+  if (CondFlag[circemalefiquevertical])
+  {
+    col = onerow-1 - col;
     if (pnam_captured==Queen)
       pnam_captured = King;
     else if (pnam_captured==King)
       pnam_captured = Queen;
   }
 
-  if ((ran&1) != (col&1))
-    cou = White;
-  else
-    cou = Black;
-
-  if (CondFlag[cavaliermajeur])
-    if (pnam_captured==NightRider)
-      pnam_captured = Knight;
-
-  /* Below is the reason for the define problems. What a "hack" ! */
-  if (CondFlag[leofamily]
-      && pnam_captured>=Leo && Vao>=pnam_captured)
-    pnam_captured -= 4;
-
-  if (capturer == Black)
   {
-    if (is_pawn(pnam_captured))
-      Result= col + (nr_of_slack_rows_below_board+1)*onerow;
-    else {
-      if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf)) {
-        Result= (col
-                 + (onerow
-                    *(CondFlag[glasgow]
-                      ? nr_of_slack_rows_below_board+nr_rows_on_board-2
-                      : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
-      }
+    Side const cou = (ran&1) != (col&1) ? White : Black;
+
+    if (capturer == Black)
+    {
+      if (is_pawn(pnam_captured))
+        Result = col + (nr_of_slack_rows_below_board+1)*onerow;
+      else if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf))
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+nr_rows_on_board-2
+                       : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
+      else if (pnam_captured==standard_walks[Knight])
+        Result = cou == White ? square_b1 : square_g1;
+      else if (pnam_captured==standard_walks[Rook])
+        Result = cou == White ? square_h1 : square_a1;
+      else if (pnam_captured==standard_walks[Queen])
+        Result = square_d1;
+      else if (pnam_captured==standard_walks[Bishop])
+        Result = cou == White ? square_f1 : square_c1;
+      else if (pnam_captured==standard_walks[King])
+        Result = square_e1;
       else
-        switch(pnam_captured) {
-        case King:
-          Result= square_e1;
-          break;
-        case Knight:
-          Result= cou == White ? square_b1 : square_g1;
-          break;
-        case Rook:
-          Result= cou == White ? square_h1 : square_a1;
-          break;
-        case Queen:
-          Result= square_d1;
-          break;
-        case Bishop:
-          Result= cou == White ? square_f1 : square_c1;
-          break;
-        default: /* fairy piece */
-          Result= (col
-                   + (onerow
-                      *(CondFlag[glasgow]
-                        ? nr_of_slack_rows_below_board+nr_rows_on_board-2
-                        : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
-          break;
-        }
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+nr_rows_on_board-2
+                       : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
+    }
+    else
+    {
+      if (is_pawn(pnam_captured))
+        Result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
+      else if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf))
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+1
+                       : nr_of_slack_rows_below_board)));
+      else if (pnam_captured==standard_walks[King])
+        Result = square_e8;
+      else if (pnam_captured==standard_walks[Knight])
+        Result = cou == White ? square_g8 : square_b8;
+      else if (pnam_captured==standard_walks[Rook])
+        Result = cou == White ? square_a8 : square_h8;
+      else if (pnam_captured==standard_walks[Queen])
+        Result = square_d8;
+      else if (pnam_captured==standard_walks[Bishop])
+        Result = cou == White ? square_c8 : square_f8;
+      else
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+1
+                       : nr_of_slack_rows_below_board)));
     }
   }
-  else
-  {
-    if (is_pawn(pnam_captured))
-      Result= col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
-    else {
-      if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf)) {
-        Result= (col
-                 + (onerow
-                    *(CondFlag[glasgow]
-                      ? nr_of_slack_rows_below_board+1
-                      : nr_of_slack_rows_below_board)));
-      }
-      else
-        switch(pnam_captured) {
-        case Bishop:
-          Result= cou == White ? square_c8 : square_f8;
-          break;
-        case Queen:
-          Result= square_d8;
-          break;
-        case Rook:
-          Result= cou == White ? square_a8 : square_h8;
-          break;
-        case Knight:
-          Result= cou == White ? square_g8 : square_b8;
-          break;
-        case King:
-          Result= square_e8;
-          break;
-        default: /* fairy piece */
-          Result= (col
-                   + (onerow
-                      *(CondFlag[glasgow]
-                        ? nr_of_slack_rows_below_board+1
-                        : nr_of_slack_rows_below_board)));
-          break;
-        }
-    }
-  }
-
 
   TraceFunctionExit(__func__);
   TraceSquare(Result);
   TraceFunctionResultEnd();
   return(Result);
-} /* rennormal */
+}
 
 square rendiametral(piece p_captured, Flags p_captured_spec,
                     square sq_capture,
@@ -497,57 +399,65 @@ square renspiegel(piece p_captured, Flags p_captured_spec,
 # pragma warn +par
 #endif
 
-boolean is_short(piece p)
+boolean is_short(PieNam p)
 {
-  switch (abs(p)) {
-  case  Pawn:
-  case  BerolinaPawn:
-  case  ReversePawn:
-  case  Mao:
-  case  Moa:
-  case  Skylla:
-  case  Charybdis:
-  case  ChinesePawn:
-    return  true;
-  default:
-    return  false;
+  switch (p)
+  {
+    case  Pawn:
+    case  BerolinaPawn:
+    case  ReversePawn:
+    case  Mao:
+    case  Moa:
+    case  Skylla:
+    case  Charybdis:
+    case  ChinesePawn:
+      return  true;
+
+    default:
+      return  false;
   }
 }
 
-boolean is_pawn(piece p)
+boolean is_pawn(PieNam p)
 {
-  switch (abs(p)) {
-  case  Pawn:
-  case  BerolinaPawn:
-  case  SuperBerolinaPawn:
-  case  SuperPawn:
-  case  ReversePawn:
-    return  true;
-  default:
-    return  false;
+  switch (p)
+  {
+    case  Pawn:
+    case  BerolinaPawn:
+    case  SuperBerolinaPawn:
+    case  SuperPawn:
+    case  ReversePawn:
+      return  true;
+
+    default:
+      return  false;
   }
 }
 
-boolean is_forwardpawn(piece p)
+boolean is_forwardpawn(PieNam p)
 {
-  switch (abs(p)) {
-  case  Pawn:
-  case  BerolinaPawn:
-  case  SuperBerolinaPawn:
-  case  SuperPawn:
-    return  true;
-  default:
-    return  false;
+  switch (p)
+  {
+    case  Pawn:
+    case  BerolinaPawn:
+    case  SuperBerolinaPawn:
+    case  SuperPawn:
+      return  true;
+
+    default:
+      return  false;
   }
 }
 
-boolean is_reversepawn(piece p)
+boolean is_reversepawn(PieNam p)
 {
-  switch (abs(p)) {
-  case  ReversePawn:
-    return  true;
-  default:
-    return  false;
+  switch (p)
+  {
+    case  ReversePawn:
+      return  true;
+
+    default:
+      return  false;
   }
 }
 
@@ -741,7 +651,7 @@ void genrn(square sq_departure)
       if ((p = e[z]) != vide) {
       if (TSTFLAG(spec[z], Neutral))
         p = -p;
-      if (p < vide && !is_pawn(p))  /* not sure if "castling" with Ps forbidden */
+      if (p < vide && !is_pawn(abs(p)))  /* not sure if "castling" with Ps forbidden */
         empile(sq_departure,z,platzwechsel_rochade);
       }
     }

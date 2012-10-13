@@ -89,7 +89,7 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
   ep[nbply] = initsquare;
   ep2[nbply] = initsquare;
 
-  if (is_pawn(pjoue[nbply]) && pprise[nbply]==vide)
+  if (is_pawn(abs(pjoue[nbply])) && pprise[nbply]==vide)
     adjust_ep_squares(move_generation_stack[current_move[nbply]].departure);
 
   result = solve(slices[si].next1,n);

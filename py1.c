@@ -231,8 +231,8 @@ void InitCond(void) {
 
   sentinelles_max_nr_pawns[Black]= sentinelles_max_nr_pawns[White]= 8;
   sentinelles_max_nr_pawns_total=16;
-  sentinelb= pb;
-  sentineln= pn;
+  sentinelle[White] = pb;
+  sentinelle[Black] = pn;
 
   gridvar = grid_normal;
   numgridlines = 0;
@@ -718,29 +718,29 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   }
   else if (CondFlag[sentinelles]
            && sq_departure>=square_a2 && sq_departure<=square_h7
-           && !is_pawn(pj))
+           && !is_pawn(abs(pj)))
   {
     if ((pj<=roin) != SentPionAdverse) {
-      if (nbpiece[sentineln] < sentinelles_max_nr_pawns[Black]
-          && nbpiece[sentinelb]+nbpiece[sentineln] < sentinelles_max_nr_pawns_total
+      if (nbpiece[sentinelle[Black]] < sentinelles_max_nr_pawns[Black]
+          && nbpiece[sentinelle[White]]+nbpiece[sentinelle[Black]] < sentinelles_max_nr_pawns_total
           && (!flagparasent
-              || (nbpiece[sentineln]
-                  <= nbpiece[sentinelb]+(pp==sentinelb?1:0))))
+              || (nbpiece[sentinelle[Black]]
+                  <= nbpiece[sentinelle[White]]+(pp==sentinelle[White]?1:0))))
       {
-        e[sq_departure]= sentineln;
+        e[sq_departure]= sentinelle[Black];
       }
       else {
         e[sq_departure]= vide;
       }
     }
     else { /* we assume  pj >= roib */
-      if (nbpiece[sentinelb] < sentinelles_max_nr_pawns[White]
-          && nbpiece[sentinelb]+nbpiece[sentineln] < sentinelles_max_nr_pawns_total
+      if (nbpiece[sentinelle[White]] < sentinelles_max_nr_pawns[White]
+          && nbpiece[sentinelle[White]]+nbpiece[sentinelle[Black]] < sentinelles_max_nr_pawns_total
           && (!flagparasent
-              || (nbpiece[sentinelb]
-                  <= nbpiece[sentineln]+(pp==sentineln?1:0))))
+              || (nbpiece[sentinelle[White]]
+                  <= nbpiece[sentinelle[Black]]+(pp==sentinelle[Black]?1:0))))
       {
-        e[sq_departure]= sentinelb;
+        e[sq_departure]= sentinelle[White];
       }
       else {
         e[sq_departure]= vide;
@@ -1155,8 +1155,8 @@ PieNam* GetPromotingPieces (square sq_departure,
                            square sq_arrival,
                            piece pi_captured)
 {
-    if (is_pawn(pi_departing) &&
-	    PromSq(is_reversepawn(pi_departing)^camp,sq_arrival) &&
+    if (is_pawn(abs(pi_departing))
+        && PromSq(is_reversepawn(abs(pi_departing))^camp,sq_arrival) &&
 	    ((!CondFlag[protean] && !TSTFLAG(spec_pi_moving, Protean)) || pi_captured == vide)) {
     	return getprompiece;
     }

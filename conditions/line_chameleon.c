@@ -1,91 +1,57 @@
 #include "conditions/line_chameleon.h"
 #include "pydata.h"
-#include "conditions/andernach.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/move_effect_journal.h"
+#include "pieces/walks.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-
-static piece linechampiece(square sq)
+static piece linechampiece(square sq_arrival)
 {
-  piece const p = e[sq];
-  piece pja = p;
+  piece const pi_moving = e[sq_arrival];
+  PieNam walk_moving = abs(pi_moving);
+  PieNam walk_chameleonised = walk_moving;
 
-  if (CondFlag[leofamily])
-  {
-    switch (abs(p))
+  if (walk_moving==standard_walks[Queen]
+      || walk_moving==standard_walks[Rook]
+      || walk_moving==standard_walks[Bishop]
+      || walk_moving==standard_walks[Knight])
+    switch(sq_arrival%onerow-nr_of_slack_files_left_of_board)
     {
-      case leob:
-      case maob:
-      case vaob:
-      case paob:
-        switch(sq%onerow)
-        {
-          case 8:  case 15:   pja= paob; break;
-          case 9:  case 14:   pja= maob; break;
-          case 10: case 13:   pja= vaob; break;
-          case 11:     pja= leob; break;
-        }
+      case file_a:
+      case file_h:
+        walk_chameleonised = standard_walks[Rook];
+        break;
+
+      case file_b:
+      case file_g:
+        walk_chameleonised = standard_walks[Knight];
+        break;
+
+      case file_c:
+      case file_f:
+        walk_chameleonised = standard_walks[Bishop];
+        break;
+
+      case file_d:
+        walk_chameleonised = standard_walks[Queen];
+        break;
+
+      case file_e:
+        /* nothing */
         break;
 
       default:
+        assert(0);
         break;
     }
 
-    return (pja != p && p < vide) ? - pja : pja;
-  }
-  else if (CondFlag[cavaliermajeur])
-  {
-    switch (abs(p))
-    {
-      case db:
-      case nb:
-      case fb:
-      case tb:
-        switch(sq%onerow)
-        {
-          case 8:  case 15:   pja= tb;  break;
-          case 9:  case 14:   pja= nb;  break;
-          case 10: case 13:   pja= fb;  break;
-          case 11:     pja= db;  break;
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    return (pja != p && p < vide) ? - pja : pja;
-  }
-  else
-  {
-    switch (abs(p))
-    {
-      case db:
-      case cb:
-      case fb:
-      case tb:
-        switch(sq%onerow)
-        {
-          case 8:  case 15:   pja= tb;  break;
-          case 9:  case 14:   pja= cb;  break;
-          case 10: case 13:   pja= fb;  break;
-          case 11:     pja= db;  break;
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    return (pja != p && p < vide) ? - pja : pja;
-  }
+  return pi_moving<vide ? -walk_chameleonised : walk_chameleonised;
 }
 
 /* Try to solve in n half-moves.

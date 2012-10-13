@@ -37,8 +37,9 @@
 #include "platform/maxtime.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
-#include "debugging/trace.h"
 #include "position/position.h"
+#include "pieces/walks.h"
+#include "debugging/trace.h"
 
 
 static position start;
@@ -394,6 +395,16 @@ void ProofInitialiseIntelligent(stip_length_type length)
   TraceFunctionResultEnd();
 }
 
+static void override_standard_walk(square s, Side side, PieNam orthodox_walk)
+{
+  PieNam const overriding_walk = standard_walks[orthodox_walk];
+  piece const overrider = side==White ? overriding_walk : -overriding_walk;
+
+  --nr_piece(start)[start.board[s]];
+  start.board[s] = overrider;
+  ++nr_piece(start)[start.board[s]];
+}
+
 void ProofInitialiseStartPosition(void)
 {
   TraceFunctionEntry(__func__);
@@ -401,56 +412,20 @@ void ProofInitialiseStartPosition(void)
 
   start = game_array;
 
-  if (CondFlag[cavaliermajeur])
-  {
-    start.board[square_b1] = nb;
-    start.board[square_g1] = nb;
-
-    start.board[square_b8] = nn;
-    start.board[square_g8] = nn;
-
-    nr_piece(start)[nb] = 2;
-    nr_piece(start)[nn] = 2;
-
-    nr_piece(start)[cb] = 0;
-    nr_piece(start)[cn] = 0;
-  }
-  else if (CondFlag[leofamily])
-  {
-    start.board[square_d1] = leob;
-    start.board[square_a1] = paob;
-    start.board[square_h1] = paob;
-    start.board[square_c1] = vaob;
-    start.board[square_f1] = vaob;
-    start.board[square_b1] = maob;
-    start.board[square_g1] = maob;
-
-    start.board[square_d8] = leon;
-    start.board[square_a8] = paon;
-    start.board[square_h8] = paon;
-    start.board[square_c8] = vaon;
-    start.board[square_f8] = vaon;
-    start.board[square_b8] = maon;
-    start.board[square_g8] = maon;
-
-    nr_piece(start)[leob] = 1;
-    nr_piece(start)[paob] = 2;
-    nr_piece(start)[vaob] = 2;
-    nr_piece(start)[maob] = 2;
-    nr_piece(start)[leon] = 1;
-    nr_piece(start)[paon] = 2;
-    nr_piece(start)[vaon] = 2;
-    nr_piece(start)[maon] = 2;
-
-    nr_piece(start)[db] = 0;
-    nr_piece(start)[tb] = 0;
-    nr_piece(start)[fb] = 0;
-    nr_piece(start)[cb] = 0;
-    nr_piece(start)[dn] = 0;
-    nr_piece(start)[tn] = 0;
-    nr_piece(start)[fn] = 0;
-    nr_piece(start)[cn] = 0;
-  }
+  override_standard_walk(square_d1,White,Queen);
+  override_standard_walk(square_a1,White,Rook);
+  override_standard_walk(square_h1,White,Rook);
+  override_standard_walk(square_c1,White,Bishop);
+  override_standard_walk(square_f1,White,Bishop);
+  override_standard_walk(square_b1,White,Knight);
+  override_standard_walk(square_g1,White,Knight);
+  override_standard_walk(square_d8,Black,Queen);
+  override_standard_walk(square_a8,Black,Rook);
+  override_standard_walk(square_h8,Black,Rook);
+  override_standard_walk(square_c8,Black,Bishop);
+  override_standard_walk(square_f8,Black,Bishop);
+  override_standard_walk(square_b8,Black,Knight);
+  override_standard_walk(square_g8,Black,Knight);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
