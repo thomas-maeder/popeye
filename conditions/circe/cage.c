@@ -131,7 +131,9 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
+        alloc_pipe(STCirceDetermineRebornPiece),
         alloc_pipe(STSuperCirceRebirthHandler),
+        alloc_pipe(STCircePlaceReborn),
         alloc_pipe(STCirceCageCageTester)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

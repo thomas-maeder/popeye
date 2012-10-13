@@ -64,6 +64,7 @@ static boolean advance_rebirth_square(void)
       ++current_circe_rebirth_square[nbply];
     else
     {
+      current_circe_rebirth_square[nbply] = initsquare;
       result = false;
       break;
     }
