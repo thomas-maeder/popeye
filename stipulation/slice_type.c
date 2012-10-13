@@ -241,7 +241,7 @@
     ENUMERATOR(STCirceCageNoCageFork)    ,                              \
     ENUMERATOR(STCirceCageCageTester),                                  \
     ENUMERATOR(STCirceKamikazeRebirthHandler),                          \
-    ENUMERATOR(STCirceParrainRebirthHandler),                           \
+    ENUMERATOR(STCirceParrainDetermineRebirth),                         \
     ENUMERATOR(STCirceKingRebirthAvoider),                              \
     ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
     ENUMERATOR(STCirceVolageRecolorer),                                 \

@@ -3,7 +3,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
-#include "solving/move_effect_journal.h"
 #include "conditions/circe/rebirth_handler.h"
 #include "debugging/trace.h"
 
@@ -46,8 +45,8 @@ static int move_vector(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_parrain_rebirth_handler_solve(slice_index si,
-                                                      stip_length_type n)
+stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
+                                                       stip_length_type n)
 {
   stip_length_type result;
 
@@ -61,16 +60,9 @@ stip_length_type circe_parrain_rebirth_handler_solve(slice_index si,
   else
   {
     square const sq_capture = move_generation_stack[current_move[parent_ply[nbply]]].capture;
-
     current_circe_rebirth_square[nbply] = sq_capture+move_vector();
-
-    if (e[current_circe_rebirth_square[nbply]]==vide)
-      move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
-                                            current_circe_rebirth_square[nbply],
-                                            pprise[parent_ply[nbply]],
-                                            pprispec[parent_ply[nbply]]);
-    else
-      current_circe_rebirth_square[nbply] = initsquare;
+    current_circe_reborn_piece[nbply] = pprise[parent_ply[nbply]];
+    current_circe_reborn_spec[nbply] = pprispec[parent_ply[nbply]];
   }
 
   result = solve(slices[si].next1,n);
@@ -90,7 +82,8 @@ void stip_insert_circe_parrain_rebirth_handlers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STCirceParrainRebirthHandler);
+  stip_instrument_moves(si,STCirceParrainDetermineRebirth);
+  stip_instrument_moves(si,STCircePlaceReborn);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

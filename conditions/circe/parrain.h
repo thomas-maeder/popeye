@@ -11,8 +11,8 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_parrain_rebirth_handler_solve(slice_index si,
-                                                      stip_length_type n);
+stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
+                                                       stip_length_type n);
 
 /* Instrument a stipulation for strict SAT
  * @param si identifies root slice of stipulation

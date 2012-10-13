@@ -544,7 +544,7 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- solving/move_effect_journal.h conditions/circe/rebirth_handler.h \
+ conditions/circe/rebirth_handler.h solving/move_effect_journal.h \
  debugging/trace.h
 
 conditions/circe/parrain.h:
@@ -597,9 +597,9 @@ output/mode.h:
 
 stipulation/move_player.h:
 
-solving/move_effect_journal.h:
-
 conditions/circe/rebirth_handler.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \

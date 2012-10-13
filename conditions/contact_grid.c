@@ -76,10 +76,10 @@ void stip_insert_contact_grid(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STSuperCirceRebirthHandler,
                                            &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STCirceParrainRebirthHandler,
-                                           &instrument_rebirth);
   */
+  stip_structure_traversal_override_single(&st,
+                                           STCirceParrainDetermineRebirth,
+                                           &instrument_rebirth);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -129,7 +129,7 @@ static slice_index const slice_rank_order[] =
   STCirceKamikazeRebirthHandler,
   STAnticirceRebornPromoter,
   STPromoteAnticirceRebornIntoChameleon,
-  STCirceParrainRebirthHandler,
+  STCirceParrainDetermineRebirth,
   STCirceDetermineRebornPiece,
   STCirceCloneDetermineRebornPiece,
   STCirceDoubleAgentsAdaptRebornPiece,

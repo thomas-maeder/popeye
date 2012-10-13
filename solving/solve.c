@@ -602,8 +602,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_volage_recolorer_solve(si,n);
       break;
 
-    case STCirceParrainRebirthHandler:
-      result = circe_parrain_rebirth_handler_solve(si,n);
+    case STCirceParrainDetermineRebirth:
+      result = circe_parrain_determine_rebirth_solve(si,n);
       break;
 
     case STCirceKamikazeRebirthHandler:
