@@ -8,6 +8,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* Try to solve in n half-moves.

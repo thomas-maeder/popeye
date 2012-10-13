@@ -73,7 +73,8 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/move_player.h solving/move_effect_journal.h \
- conditions/circe/rebirth_handler.h debugging/trace.h
+ conditions/circe/rebirth_handler.h conditions/circe/capture_fork.h \
+ debugging/trace.h
 
 conditions/circe/assassin.h:
 
@@ -128,6 +129,8 @@ stipulation/move_player.h:
 solving/move_effect_journal.h:
 
 conditions/circe/rebirth_handler.h:
+
+conditions/circe/capture_fork.h:
 
 debugging/trace.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \

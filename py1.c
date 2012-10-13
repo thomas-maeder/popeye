@@ -200,7 +200,6 @@ void finply()
 void InitCond(void) {
   square const *bnp;
   square i, j;
-  PieNam p;
 
   wh_exact= ultra_mummer[White]= bl_exact= ultra_mummer[Black]= false;
   anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anyanticirprom = false;

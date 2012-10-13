@@ -5,6 +5,7 @@
 #include "stipulation/move_player.h"
 #include "solving/move_effect_journal.h"
 #include "conditions/circe/rebirth_handler.h"
+#include "conditions/circe/capture_fork.h"
 #include "stipulation/move_player.h"
 #include "debugging/trace.h"
 
