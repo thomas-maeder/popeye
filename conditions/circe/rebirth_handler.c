@@ -13,23 +13,6 @@ pilecase current_circe_rebirth_square;
 piece current_circe_reborn_piece[maxply+1];
 Flags current_circe_reborn_spec[maxply+1];
 
-/* Execute a Circe rebirth.
- * This is a helper function for alternative Circe types
- */
-void circe_do_rebirth(move_effect_reason_type reason)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_piece_addition(reason,
-                                        current_circe_rebirth_square[nbply],
-                                        current_circe_reborn_piece[nbply],
-                                        current_circe_reborn_spec[nbply]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -125,7 +108,10 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (e[current_circe_rebirth_square[nbply]]==vide)
-    circe_do_rebirth(move_effect_reason_circe_rebirth);
+    move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
+                                          current_circe_rebirth_square[nbply],
+                                          current_circe_reborn_piece[nbply],
+                                          current_circe_reborn_spec[nbply]);
   else
     current_circe_rebirth_square[nbply] = initsquare;
 

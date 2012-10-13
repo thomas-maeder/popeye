@@ -2,18 +2,11 @@
 #define CONDITIONS_CIRCE_REBIRTH_HANDLER_H
 
 #include "solving/solve.h"
-#include "solving/move_effect_journal.h"
 #include "stipulation/slice_type.h"
 
 extern pilecase current_circe_rebirth_square;
 extern piece current_circe_reborn_piece[maxply+1];
 extern Flags current_circe_reborn_spec[maxply+1];
-
-/* Execute a Circe rebirth.
- * This is a helper function for alternative Circe types
- * @param reason reason for rebirth
- */
-void circe_do_rebirth(move_effect_reason_type reason);
 
 /* Try to solve in n half-moves.
  * @param si slice index
