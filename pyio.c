@@ -239,7 +239,7 @@ static char *TokenString[LanguageCount][TokenCount] = {
 #define WCleft        1
 #define WCLaTeX       2
 
-static void WritePieces(piece *p, char* CondLine)
+static void WritePieces(PieNam const *p, char* CondLine)
 {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
   char LocalBuf[4];
@@ -482,7 +482,7 @@ static void WriteConditions(int alignment)
 
     if ( cond == whvault_king || cond == vault_king)
     {
-        if (transmpieces[White][0] != equib || transmpieces[White][1] != vide)
+        if (transmpieces[White][0] != EquiHopper || transmpieces[White][1] != Empty)
           WritePieces(transmpieces[White], CondLine);
         if (calc_trans_king[White])
         {
@@ -495,7 +495,7 @@ static void WriteConditions(int alignment)
 
     if ( cond == blvault_king )
     {
-        if (transmpieces[Black][0] != equib || transmpieces[Black][1] != vide)
+        if (transmpieces[Black][0] != EquiHopper || transmpieces[Black][1] != Empty)
           WritePieces(transmpieces[Black], CondLine);
         if (calc_trans_king[Black])
         {
@@ -4711,7 +4711,7 @@ static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
 
 static char *ParseVaultingPieces(Flags fl)
 {
-  piece p;
+  PieNam p;
   char  *tok;
   int tp = 0;
   boolean gotpiece;
@@ -4755,10 +4755,10 @@ static char *ParseVaultingPieces(Flags fl)
       }
       tp++;
       if (TSTFLAG(fl, White)) {
-        transmpieces[White][tp] = vide;
+        transmpieces[White][tp] = Empty;
       }
       if (TSTFLAG(fl, Black)) {
-        transmpieces[Black][tp] = vide;
+        transmpieces[Black][tp] = Empty;
       }
     }
   }
@@ -5032,23 +5032,23 @@ static char *ParseCond(void) {
       case whvault_king:
         calc_refl_king[White]= true;
         normaltranspieces[White] = false;
-        transmpieces[White][0]= equib;
-        transmpieces[White][1]= vide;
+        transmpieces[White][0]= EquiHopper;
+        transmpieces[White][1]= Empty;
         break;
       case blvault_king:
         calc_refl_king[Black]= true;
         normaltranspieces[Black] = false;
-        transmpieces[Black][0]= equib;
-        transmpieces[Black][1]= vide;
+        transmpieces[Black][0]= EquiHopper;
+        transmpieces[Black][1]= Empty;
       case vault_king:
         calc_refl_king[White]= true;
         calc_refl_king[Black]= true;
         normaltranspieces[White] = false;
         normaltranspieces[Black] = false;
-        transmpieces[White][0]= equib;
-        transmpieces[Black][0]= equib;
-        transmpieces[White][1]= vide;
-        transmpieces[Black][1]= vide;
+        transmpieces[White][0]= EquiHopper;
+        transmpieces[Black][0]= EquiHopper;
+        transmpieces[White][1]= Empty;
+        transmpieces[Black][1]= Empty;
         break;
       case whsupertrans_king:
         calc_refl_king[White]= true;

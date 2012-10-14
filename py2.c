@@ -2613,7 +2613,8 @@ static boolean aux_wh(square sq_departure,
 
 boolean woohefflibre(square to, square from)
 {
-  piece   *pcheck, p;
+  PieNam *pcheck;
+  piece p;
 
   if (rex_wooz_ex && (from == king_square[White] || from == king_square[Black])) {
     return true;

@@ -271,7 +271,7 @@ typedef enum {
 ** as they are common in PASCAL. The arrays zzza? are defined in
 ** pydata.h                                                     ElB
 */
-#define nbpiece         (zzzaa - dernoi)
+#define nbpiece         (zzzaa - (dernoi+1))
 
 #include "pylang.h"
 

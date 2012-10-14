@@ -116,7 +116,7 @@ static void ResetPosition(stored_position_type const *store)
 {
   {
     piece p;
-    for (p = dernoi; p<=derbla; p++)
+    for (p = dernoi+1; p<derbla; p++)
       nbpiece[p]= 0;
   }
 

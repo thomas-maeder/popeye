@@ -9,7 +9,7 @@
 
 #include <assert.h>
 
-static unsigned int prev_nbpiece[derbla];
+static unsigned int prev_nbpiece[PieceCount];
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -31,19 +31,22 @@ void stip_insert_extinction_chess(slice_index si)
  */
 static boolean move_extincts_kind(Side starter)
 {
-  piece p;
+  PieNam walk;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,starter,"");
   TraceFunctionParamListEnd();
 
-  for (p = roib; p<derbla; ++p)
-    if (prev_nbpiece[p]>0
-        && nbpiece[starter==White ? p : -p]==0)
+  for (walk = King; walk<PieceCount; ++walk)
+    if (prev_nbpiece[walk]>0)
     {
-      result = true;
-      break;
+      piece const p = starter==White ? walk : -walk;
+      if (nbpiece[p]==0)
+      {
+        result = true;
+        break;
+      }
     }
 
   TraceFunctionExit(__func__);
@@ -66,15 +69,18 @@ stip_length_type extinction_remember_threatened_solve(slice_index si,
   stip_length_type result;
   Side const starter = slices[si].starter;
   slice_index const next = slices[si].next1;
-  piece p;
+  PieNam walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (p = roib; p<derbla; p++)
-    prev_nbpiece[p] = nbpiece[starter==White ? p : -p];
+  for (walk = King; walk<PieceCount; walk++)
+  {
+    piece const p = starter==White ? walk : -walk;
+    prev_nbpiece[walk] = nbpiece[p];
+  }
 
   result = solve(next,n);
 

@@ -111,7 +111,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
   unsigned int column = 0;
 
   fprintf(dest,"  { /* numbers of pieces */\n    ");
-  for (p = dernoi; p+1<derbla; ++p)
+  for (p = dernoi+1; p+1<derbla; ++p)
   {
     fprintf(dest,"%u,",nr_piece(*pos)[p]);
     ++column;

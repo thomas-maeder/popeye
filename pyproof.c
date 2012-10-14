@@ -442,7 +442,7 @@ void ProofSaveStartPosition(void)
   start.king_square[Black] = king_square[Black];
   start.king_square[White] = king_square[White];
 
-  for (p = dernoi; p<=derbla; ++p)
+  for (p = dernoi+1; p<derbla; ++p)
     nr_piece(start)[p] = nbpiece[p];
 
   for (i = 0; i<maxsquare; ++i)
@@ -562,7 +562,7 @@ void ProofSaveTargetPosition(void)
   target.king_square[White] = king_square[White];
   target.king_square[Black] = king_square[Black];
 
-  for (p = dernoi; p<=derbla; ++p)
+  for (p = dernoi+1; p<derbla; ++p)
     nr_piece(target)[p] = nbpiece[p];
 
   for (i = 0; i<maxsquare; ++i)

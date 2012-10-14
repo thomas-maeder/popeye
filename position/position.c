@@ -32,7 +32,7 @@ void initialise_game_array(position *pos)
   pos->king_square[White] = square_e1;
   pos->king_square[Black] = square_e8;
 
-  for (i = 0; i <= derbla; ++i)
+  for (i = 0; i <derbla; ++i)
   {
     nr_piece(*pos)[i] = 0;
     nr_piece(*pos)[-i] = 0;

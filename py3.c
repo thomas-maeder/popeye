@@ -300,7 +300,6 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
 
   if (nbpiece[roib]>0) {
     if (calc_refl_king[White]) {
-      piece   *ptrans;
       boolean flag = true;
 
       /* attempted bug fix - wrong eval function used to detect
@@ -315,6 +314,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
 
       if (!normaltranspieces[White] && echecc(White))
       {
+        PieNam *ptrans;
         flag= false;
         for (ptrans= transmpieces[White]; *ptrans; ptrans++) {
           if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate)) {
@@ -325,9 +325,12 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
       }
       else if (normaltranspieces[White])
       {
-        for (ptrans= transmpieces[White]; *ptrans; ptrans++) {
-          if (nbpiece[-*ptrans]>0
-              && (*checkfunctions[*ptrans])(king_square[White], -*ptrans, eval_ad))
+        PieNam *ptrans;
+        for (ptrans= transmpieces[White]; *ptrans; ptrans++)
+        {
+          piece const ptrans_black = -*ptrans;
+          if (nbpiece[ptrans_black]>0
+              && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,eval_ad))
           {
             flag= false;
             if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate)) {
@@ -562,7 +565,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   {
     if (calc_refl_king[Black])
     {
-      piece   *ptrans;
+      PieNam   *ptrans;
       boolean flag= true;
 
       /* attempted bug fix - wrong eval function used to detect

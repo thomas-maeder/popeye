@@ -3205,8 +3205,8 @@ void genrb(square sq_departure)
     calctransmute = true;
     if (!normaltranspieces[side] && echecc(side))
     {
-      piece const *ptrans;
-      for (ptrans = transmpieces[side]; *ptrans!=vide; ++ptrans)
+      PieNam const *ptrans;
+      for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
       {
         flag = true;
         current_trans_gen = *ptrans;
@@ -3216,11 +3216,12 @@ void genrb(square sq_departure)
     }
     else if (normaltranspieces[side])
     {
-      piece const *ptrans;
-      for (ptrans = transmpieces[side]; *ptrans!=vide; ++ptrans)
+      PieNam const *ptrans;
+      for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
       {
-        if (nbpiece[-*ptrans]
-            && (*checkfunctions[*ptrans])(sq_departure,-*ptrans,eval_white))
+        piece const ptrans_black = -*ptrans;
+        if (nbpiece[ptrans_black]
+            && (*checkfunctions[*ptrans])(sq_departure,ptrans_black,eval_white))
         {
           flag = true;
           current_trans_gen = *ptrans;

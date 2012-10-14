@@ -125,7 +125,7 @@ extern numvec const * const * const CheckDir;
  * neutral piece and the side to be mated can simply undo it?*/
 EXTERN  boolean         optim_neutralretractable;
 
-EXTERN  unsigned int    zzzaa[derbla - dernoi + 1];     /* nbpiece */
+EXTERN  unsigned int    zzzaa[derbla-dernoi-1];     /* nbpiece */
 
 EXTERN piece pjoue[maxply+1];
 EXTERN piece pprise[maxply+1];
@@ -220,7 +220,7 @@ EXTERN  PieNam          next_football_substitute[PieceCount];       /* it's a in
 EXTERN  boolean         football_are_substitutes_limited;
 EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
 
-EXTERN  piece           transmpieces[nr_sides][derbla];
+EXTERN  PieNam          transmpieces[nr_sides][PieceCount];
 EXTERN  boolean         normaltranspieces[nr_sides];
 EXTERN  PieNam          orphanpieces[PieceCount];
 

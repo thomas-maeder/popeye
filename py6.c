@@ -429,7 +429,7 @@ static void countPieces(void)
 
   {
     piece p;
-    for (p = roib; p<=derbla; ++p)
+    for (p = roib; p<derbla; ++p)
     {
       nbpiece[p] = 0;
       nbpiece[-p] = 0;
@@ -1668,9 +1668,9 @@ static boolean verify_position(slice_index si)
   }
 
   if (normaltranspieces[White])
-    transmpieces[White][tp] = vide;
+    transmpieces[White][tp] = Empty;
   if (normaltranspieces[Black])
-    transmpieces[Black][tp] = vide;
+    transmpieces[Black][tp] = Empty;
 
   if (calc_refl_king[White] || calc_refl_king[Black])
   {
