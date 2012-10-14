@@ -8,6 +8,7 @@
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
 #include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -81,53 +82,44 @@ stip_length_type antisupercirce_rebirth_handler_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]==vide)
+  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
+  {
+    current_anticirce_reborn_piece[nbply] = e[sq_arrival];
+    current_anticirce_reborn_spec[nbply] = spec[sq_arrival];
+    current_anticirce_rebirth_square[nbply] = square_a1-1;
+    is_rebirth_square_dirty[nbply] = true;
+  }
+
+  if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
   {
     current_anticirce_rebirth_square[nbply] = initsquare;
-    result = solve(slices[si].next1,n);
+    result = slack_length-2;
   }
   else
   {
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+    move_effect_journal_do_piece_removal(move_effect_reason_antisupercirce_rebirth,
+                                         sq_arrival);
+    move_effect_journal_do_piece_addition(move_effect_reason_antisupercirce_rebirth,
+                                          current_anticirce_rebirth_square[nbply],
+                                          current_anticirce_reborn_piece[nbply],
+                                          current_anticirce_reborn_spec[nbply]);
+    result = solve(slices[si].next1,n);
 
-    if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
+    if (!post_move_iteration_locked[nbply])
     {
-      current_anticirce_reborn_piece[nbply] = e[sq_arrival];
-      current_anticirce_reborn_spec[nbply] = spec[sq_arrival];
-      current_anticirce_rebirth_square[nbply] = square_a1-1;
       is_rebirth_square_dirty[nbply] = true;
+      lock_post_move_iterations();
     }
-
-    if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
-    {
-      current_anticirce_rebirth_square[nbply] = initsquare;
-      result = slack_length-2;
-    }
-    else
-    {
-      move_effect_journal_do_piece_removal(move_effect_reason_antisupercirce_rebirth,
-                                           sq_arrival);
-      move_effect_journal_do_piece_addition(move_effect_reason_antisupercirce_rebirth,
-                                            current_anticirce_rebirth_square[nbply],
-                                            current_anticirce_reborn_piece[nbply],
-                                            current_anticirce_reborn_spec[nbply]);
-      result = solve(slices[si].next1,n);
-
-      if (!post_move_iteration_locked[nbply])
-      {
-        is_rebirth_square_dirty[nbply] = true;
-        lock_post_move_iterations();
-      }
-    }
-
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
+
+  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -145,6 +137,7 @@ void stip_insert_antisupercirce_rebirth_handlers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAntisupercirceRebirthHandler);
+  stip_insert_anticirce_capture_forks(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

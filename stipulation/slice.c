@@ -94,6 +94,7 @@ static slice_type const fork_slice_types[] =
     STExchangeCastlingMovePlayer,
     STCirceKingRebirthAvoider,
     STCirceCaptureFork,
+    STAnticirceCaptureFork,
     STAprilAprilFork,
     STCirceCageNoCageFork,
     STSuperCirceNoRebirthFork,
@@ -187,6 +188,7 @@ static slice_type const proxy_slice_types[] =
     STMaxThreatLengthStart,
     STOutputModeSelector,
     STOhneschachSuspender,
+    STLandingAfterAnticirceRebirth,
     STLandingAfterCirceRebirthHandler,
     STLandingAfterMovingPawnPromoter
 };
@@ -221,6 +223,7 @@ static slice_type const binary_slice_types[] =
     STExchangeCastlingMovePlayer,
     STCirceKingRebirthAvoider,
     STCirceCaptureFork,
+    STAnticirceCaptureFork,
     STAprilAprilFork,
     STCirceCageNoCageFork,
     STSuperCirceNoRebirthFork,

@@ -243,11 +243,13 @@
     ENUMERATOR(STCirceCageNoCageFork)    ,                              \
     ENUMERATOR(STCirceCageCageTester),                                  \
     ENUMERATOR(STCirceKamikazeRebirthHandler),                          \
+    ENUMERATOR(STLandingAfterAnticirceRebirth),                         \
     ENUMERATOR(STCirceParrainDetermineRebirth),                         \
     ENUMERATOR(STCirceKingRebirthAvoider),                              \
     ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
     ENUMERATOR(STCirceVolageRecolorer),                                 \
     ENUMERATOR(STCirceRebirthPromoter),                                 \
+    ENUMERATOR(STAnticirceCaptureFork),                                 \
     ENUMERATOR(STAnticirceRebirthHandler),                              \
     ENUMERATOR(STAnticirceRebornPromoter),                              \
     ENUMERATOR(STAntisupercirceRebirthHandler),                         \

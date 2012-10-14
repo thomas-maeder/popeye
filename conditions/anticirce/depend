@@ -318,7 +318,7 @@ conditions/anticirce/rebirth_handler$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- debugging/trace.h
+ conditions/anticirce/capture_fork.h debugging/trace.h
 
 conditions/anticirce/rebirth_handler.h:
 
@@ -372,6 +372,8 @@ output/mode.h:
 
 stipulation/move_player.h:
 
+conditions/anticirce/capture_fork.h:
+
 debugging/trace.h:
 conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
  conditions/anticirce/super.h solving/solve.h py.h utilities/boolean.h \
@@ -384,7 +386,8 @@ conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/branch.h stipulation/move_player.h \
  solving/post_move_iteration.h conditions/anticirce/rebirth_handler.h \
- solving/move_effect_journal.h debugging/trace.h
+ solving/move_effect_journal.h conditions/anticirce/capture_fork.h \
+ debugging/trace.h
 
 conditions/anticirce/super.h:
 
@@ -447,6 +450,8 @@ solving/post_move_iteration.h:
 conditions/anticirce/rebirth_handler.h:
 
 solving/move_effect_journal.h:
+
+conditions/anticirce/capture_fork.h:
 
 debugging/trace.h:
 conditions/anticirce/promotion$(OBJ_SUFFIX): conditions/anticirce/promotion.c \
@@ -514,6 +519,85 @@ stipulation/move_player.h:
 solving/post_move_iteration.h:
 
 solving/moving_pawn_promotion.h:
+
+solving/move_effect_journal.h:
+
+debugging/trace.h:
+conditions/anticirce/capture_fork$(OBJ_SUFFIX): conditions/anticirce/capture_fork.c \
+ conditions/anticirce/capture_fork.h stipulation/slice_type.h \
+ utilities/enumeration.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h pylang.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/fork.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h conditions/anticirce/rebirth_handler.h \
+ solving/move_effect_journal.h debugging/trace.h
+
+conditions/anticirce/capture_fork.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/proxy.h:
+
+stipulation/pipe.h:
+
+stipulation/branch.h:
+
+stipulation/fork.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+conditions/anticirce/rebirth_handler.h:
 
 solving/move_effect_journal.h:
 

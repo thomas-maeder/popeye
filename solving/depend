@@ -1524,7 +1524,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h pyproof.h py.h \
  stipulation/slice.h conditions/amu/mate_filter.h \
- conditions/amu/attack_counter.h conditions/anticirce/circuit_special.h \
+ conditions/amu/attack_counter.h conditions/anticirce/capture_fork.h \
+ conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/target_square_filter.h \
@@ -1693,6 +1694,8 @@ stipulation/slice.h:
 conditions/amu/mate_filter.h:
 
 conditions/amu/attack_counter.h:
+
+conditions/anticirce/capture_fork.h:
 
 conditions/anticirce/circuit_special.h:
 

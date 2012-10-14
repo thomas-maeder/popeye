@@ -472,7 +472,7 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
  solving/move_effect_journal.h conditions/anticirce/rebirth_handler.h \
- debugging/trace.h
+ conditions/anticirce/capture_fork.h debugging/trace.h
 
 conditions/circe/kamikaze.h:
 
@@ -527,6 +527,8 @@ stipulation/move_player.h:
 solving/move_effect_journal.h:
 
 conditions/anticirce/rebirth_handler.h:
+
+conditions/anticirce/capture_fork.h:
 
 debugging/trace.h:
 conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \

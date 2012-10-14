@@ -3,6 +3,7 @@
 #include "pyproof.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/amu/attack_counter.h"
+#include "conditions/anticirce/capture_fork.h"
 #include "conditions/anticirce/circuit_special.h"
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/anticirce/exchange_special.h"
@@ -754,6 +755,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STSingleboxType2LatentPawnPromoter:
       result = singlebox_type2_latent_pawn_promoter_solve(si,n);
+      break;
+
+    case STAnticirceCaptureFork:
+      result = anticirce_capture_fork_solve(si,n);
       break;
 
     case STAnticirceRebirthHandler:
