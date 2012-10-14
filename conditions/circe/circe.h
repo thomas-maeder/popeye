@@ -15,7 +15,7 @@ extern Flags current_circe_reborn_spec[maxply+1];
 
 extern piece current_circe_relevant_piece[maxply+1];
 extern Flags current_circe_relevant_spec[maxply+1];
-extern Side current_circe_capturer[maxply+1];
+extern Side current_circe_relevant_side[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -16,7 +16,7 @@ Flags current_circe_reborn_spec[maxply+1];
 
 piece current_circe_relevant_piece[maxply+1];
 Flags current_circe_relevant_spec[maxply+1];
-Side current_circe_capturer[maxply+1];
+Side current_circe_relevant_side[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -67,7 +67,7 @@ stip_length_type circe_determine_relevant_piece_solve(slice_index si,
 
   current_circe_relevant_piece[nbply] = current_circe_reborn_piece[nbply];
   current_circe_relevant_spec[nbply] = current_circe_reborn_spec[nbply];
-  current_circe_capturer[nbply] = slices[si].starter;
+  current_circe_relevant_side[nbply] = slices[si].starter;
 
   result = solve(slices[si].next1,n);
 
@@ -105,7 +105,7 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
                                                       sq_capture,
                                                       sq_departure,
                                                       sq_arrival,
-                                                      current_circe_capturer[nbply]);
+                                                      current_circe_relevant_side[nbply]);
 
   result = solve(slices[si].next1,n);
 

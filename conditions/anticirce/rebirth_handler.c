@@ -7,52 +7,12 @@
 
 #include <assert.h>
 
-/* Perform an Anticirce rebirth
- */
-void anticirce_do_rebirth(move_effect_reason_type reason)
-{
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  piece const reborn = e[sq_arrival];
-  piece const rebornspec = spec[sq_arrival];
-  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
+piece current_anticirce_reborn_piece[maxply+1];
+Flags current_anticirce_reborn_spec[maxply+1];
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_piece_removal(reason,sq_arrival);
-  move_effect_journal_do_piece_addition(reason,sq_rebirth,reborn,rebornspec);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void determine_rebirth_square(Side trait_ply)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
-  TraceFunctionParamListEnd();
-
-  if (pprise[nbply]==vide)
-    current_anticirce_rebirth_square[nbply] = initsquare;
-  else
-  {
-    square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    piece const pi_arriving = e[sq_arrival];
-    Flags const spec_pi_moving = spec[sq_arrival];
-
-    current_anticirce_rebirth_square[nbply] = (*antirenai)(pi_arriving,
-                                                           spec_pi_moving,
-                                                           sq_capture,
-                                                           sq_departure,
-                                                           sq_arrival,
-                                                           advers(trait_ply));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+piece current_anticirce_relevant_piece[maxply+1];
+Flags current_anticirce_relevant_spec[maxply+1];
+Side current_anticirce_relevant_side[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -72,21 +32,59 @@ stip_length_type anticirce_rebirth_handler_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  determine_rebirth_square(slices[si].starter);
-
+  if (pprise[nbply]==vide)
   {
-    square const sq_rebirth = current_anticirce_rebirth_square[nbply];
-    if (sq_rebirth==initsquare)
+    current_anticirce_rebirth_square[nbply] = initsquare;
+    result = solve(slices[si].next1,n);
+  }
+  else
+  {
+    square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+
+    current_anticirce_reborn_piece[nbply] = e[sq_arrival];
+    current_anticirce_reborn_spec[nbply] = spec[sq_arrival];
+
+    if (CondFlag[couscous])
+    {
+      current_anticirce_relevant_piece[nbply] = pprise[nbply];
+      current_anticirce_relevant_spec[nbply] = pprispec[nbply];
+      current_anticirce_relevant_side[nbply] = slices[si].starter;
+    }
+    else
+    {
+      current_anticirce_relevant_piece[nbply] = current_anticirce_reborn_piece[nbply];
+      current_anticirce_relevant_spec[nbply] = current_anticirce_reborn_spec[nbply];
+      current_anticirce_relevant_side[nbply] = advers(slices[si].starter);
+    }
+
+    current_anticirce_rebirth_square[nbply] = (*antirenai)(current_anticirce_relevant_piece[nbply],
+                                                           current_anticirce_relevant_spec[nbply],
+                                                           sq_capture,
+                                                           sq_departure,
+                                                           sq_arrival,
+                                                           current_anticirce_relevant_side[nbply]);
+
+    if (current_anticirce_rebirth_square[nbply]==initsquare)
       result = solve(slices[si].next1,n);
     else if ((!AntiCirCheylan
-              && sq_rebirth==move_generation_stack[current_move[nbply]].arrival)
-             || e[sq_rebirth]==vide)
+              && current_anticirce_rebirth_square[nbply]==move_generation_stack[current_move[nbply]].arrival)
+             || e[current_anticirce_rebirth_square[nbply]]==vide)
     {
-      anticirce_do_rebirth(move_effect_reason_anticirce_rebirth);
+      move_effect_journal_do_piece_removal(move_effect_reason_anticirce_rebirth,
+                                           sq_arrival);
+      move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
+                                            current_anticirce_rebirth_square[nbply],
+                                            current_anticirce_reborn_piece[nbply],
+                                            current_anticirce_reborn_spec[nbply]);
       result = solve(slices[si].next1,n);
     }
     else
+    {
+      current_anticirce_rebirth_square[nbply] = initsquare;
       result = slack_length-2;
+    }
   }
 
   TraceFunctionExit(__func__);

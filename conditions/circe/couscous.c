@@ -27,7 +27,7 @@ stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
 
   current_circe_relevant_piece[nbply] = e[sq_arrival];
   current_circe_relevant_spec[nbply] = spec[sq_arrival];
-  current_circe_capturer[nbply] = advers(slices[si].starter);
+  current_circe_relevant_side[nbply] = advers(slices[si].starter);
 
   result = solve(slices[si].next1,n);
 

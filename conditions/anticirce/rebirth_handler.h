@@ -4,10 +4,12 @@
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
 
-/* Perform an Anticirce rebirth
- * @param reason reason for rebirth
- */
-void anticirce_do_rebirth(move_effect_reason_type reason);
+extern piece current_anticirce_reborn_piece[maxply+1];
+extern Flags current_anticirce_reborn_spec[maxply+1];
+
+extern piece current_anticirce_relevant_piece[maxply+1];
+extern Flags current_anticirce_relevant_spec[maxply+1];
+extern Side current_anticirce_relevant_side[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index

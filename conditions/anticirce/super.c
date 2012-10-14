@@ -94,8 +94,12 @@ stip_length_type antisupercirce_rebirth_handler_solve(slice_index si,
   }
   else
   {
+    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
     {
+      current_anticirce_reborn_piece[nbply] = e[sq_arrival];
+      current_anticirce_reborn_spec[nbply] = spec[sq_arrival];
       current_anticirce_rebirth_square[nbply] = square_a1-1;
       is_rebirth_square_dirty[nbply] = true;
     }
@@ -107,7 +111,12 @@ stip_length_type antisupercirce_rebirth_handler_solve(slice_index si,
     }
     else
     {
-      anticirce_do_rebirth(move_effect_reason_antisupercirce_rebirth);
+      move_effect_journal_do_piece_removal(move_effect_reason_antisupercirce_rebirth,
+                                           sq_arrival);
+      move_effect_journal_do_piece_addition(move_effect_reason_antisupercirce_rebirth,
+                                            current_anticirce_rebirth_square[nbply],
+                                            current_anticirce_reborn_piece[nbply],
+                                            current_anticirce_reborn_spec[nbply]);
       result = solve(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply])

@@ -4,61 +4,11 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/move_effect_journal.h"
+#include "conditions/anticirce/rebirth_handler.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
-
-static void do_kamikaze_rebirth(Side trait_ply)
-{
-  square const pi_captured = pprise[nbply];
-  numecoup const coup_id = current_move[nbply];
-  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
-  square const sq_arrival = move_gen_top->arrival;
-  square const sq_capture = move_gen_top->capture;
-  square const sq_departure = move_gen_top->departure;
-  Flags const spec_pi_moving = spec[sq_arrival];
-  Flags const spec_pi_captured = pprispec[nbply];
-  piece const pi_arriving = e[sq_arrival];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (TSTFLAG(spec_pi_moving,Kamikaze) && pi_captured!=vide)
-  {
-    if (CondFlag[couscous])
-      current_anticirce_rebirth_square[nbply] = (*circerenai)(pi_captured,
-                                                              spec_pi_captured,
-                                                              sq_capture,
-                                                              sq_departure,
-                                                              sq_arrival,
-                                                              trait_ply);
-    else
-      current_anticirce_rebirth_square[nbply] = (*circerenai)(pi_arriving,
-                                                              spec_pi_moving,
-                                                              sq_capture,
-                                                              sq_departure,
-                                                              sq_arrival,
-                                                              advers(trait_ply));
-
-    move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
-                                         sq_arrival);
-
-    if (e[current_anticirce_rebirth_square[nbply]]==vide
-        && !(CondFlag[contactgrid] && nogridcontact(current_anticirce_rebirth_square[nbply])))
-      move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
-                                            current_anticirce_rebirth_square[nbply],
-                                            pi_arriving,
-                                            spec_pi_moving);
-    else
-      current_anticirce_rebirth_square[nbply] = initsquare;
-  }
-  else
-    current_anticirce_rebirth_square[nbply] = initsquare;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -78,8 +28,58 @@ stip_length_type circe_kamikaze_rebirth_handler_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  do_kamikaze_rebirth(slices[si].starter);
-  result = solve(slices[si].next1,n);
+  if (pprise[nbply]==vide)
+  {
+    current_anticirce_rebirth_square[nbply] = initsquare;
+    result = solve(slices[si].next1,n);
+  }
+  else
+  {
+    square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+
+    current_anticirce_reborn_piece[nbply] = e[sq_arrival];
+    current_anticirce_reborn_spec[nbply] = spec[sq_arrival];
+
+    if (CondFlag[couscous])
+    {
+      current_anticirce_relevant_piece[nbply] = pprise[nbply];
+      current_anticirce_relevant_spec[nbply] = pprispec[nbply];
+      current_anticirce_relevant_side[nbply] = slices[si].starter;
+    }
+    else
+    {
+      current_anticirce_relevant_piece[nbply] = current_anticirce_reborn_piece[nbply];
+      current_anticirce_relevant_spec[nbply] = current_anticirce_reborn_spec[nbply];
+      current_anticirce_relevant_side[nbply] = advers(slices[si].starter);
+    }
+
+    if (TSTFLAG(spec[sq_arrival],Kamikaze))
+    {
+      current_anticirce_rebirth_square[nbply] = (*circerenai)(current_anticirce_relevant_piece[nbply],
+                                                              current_anticirce_relevant_spec[nbply],
+                                                              sq_capture,
+                                                              sq_departure,
+                                                              sq_arrival,
+                                                              current_anticirce_relevant_side[nbply]);
+
+      move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
+                                           sq_arrival);
+
+      if (e[current_anticirce_rebirth_square[nbply]]==vide)
+        move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
+                                              current_anticirce_rebirth_square[nbply],
+                                              current_anticirce_reborn_piece[nbply],
+                                              current_anticirce_reborn_spec[nbply]);
+      else
+        current_anticirce_rebirth_square[nbply] = initsquare;
+    }
+    else
+      current_anticirce_rebirth_square[nbply] = initsquare;
+
+    result = solve(slices[si].next1,n);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
