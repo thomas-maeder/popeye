@@ -91,8 +91,6 @@ stip_length_type antisupercirce_rebirth_handler_solve(slice_index si,
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
-    current_anticirce_reborn_piece[nbply] = e[sq_arrival];
-    current_anticirce_reborn_spec[nbply] = spec[sq_arrival];
     current_anticirce_rebirth_square[nbply] = square_a1-1;
     is_rebirth_square_dirty[nbply] = true;
   }
@@ -136,6 +134,7 @@ void stip_insert_antisupercirce_rebirth_handlers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
   stip_instrument_moves(si,STAntisupercirceRebirthHandler);
   stip_insert_anticirce_capture_forks(si);
 

@@ -32,9 +32,6 @@ stip_length_type circe_kamikaze_rebirth_handler_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_anticirce_reborn_piece[nbply] = e[sq_arrival];
-  current_anticirce_reborn_spec[nbply] = spec[sq_arrival];
-
   if (CondFlag[couscous])
   {
     current_anticirce_relevant_piece[nbply] = pprise[nbply];
@@ -88,6 +85,7 @@ void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
   stip_instrument_moves(si,STCirceKamikazeRebirthHandler);
   stip_insert_anticirce_capture_forks(si);
 

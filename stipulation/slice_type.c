@@ -250,6 +250,7 @@
     ENUMERATOR(STCirceVolageRecolorer),                                 \
     ENUMERATOR(STCirceRebirthPromoter),                                 \
     ENUMERATOR(STAnticirceCaptureFork),                                 \
+    ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
     ENUMERATOR(STAnticirceRebirthHandler),                              \
     ENUMERATOR(STAnticirceRebornPromoter),                              \
     ENUMERATOR(STAntisupercirceRebirthHandler),                         \
