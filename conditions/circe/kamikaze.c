@@ -53,21 +53,12 @@ stip_length_type circe_kamikaze_rebirth_handler_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  current_anticirce_rebirth_square[nbply] = (*circerenai)(current_anticirce_relevant_piece[nbply],
-                                                          current_anticirce_relevant_spec[nbply],
-                                                          sq_capture,
-                                                          sq_departure,
-                                                          sq_arrival,
-                                                          current_anticirce_relevant_side[nbply]);
 
   move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
                                        sq_arrival);
@@ -113,6 +104,7 @@ void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si)
 
   stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
   stip_instrument_moves(si,STAnticirceDetermineRevelantPiece);
+  stip_instrument_moves(si,STAnticirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCirceKamikazeRebirthHandler);
   stip_insert_anticirce_capture_forks(si);
 

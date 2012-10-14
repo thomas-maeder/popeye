@@ -262,6 +262,7 @@
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
     ENUMERATOR(STAnticirceDetermineRevelantPiece),                      \
     ENUMERATOR(STAnticirceCouscousDetermineRevelantPiece),              \
+    ENUMERATOR(STAnticirceDetermineRebirthSquare),                      \
     ENUMERATOR(STAnticirceRebirthHandler),                              \
     ENUMERATOR(STAnticirceRebornPromoter),                              \
     ENUMERATOR(STAntisupercirceRebirthHandler),                         \
