@@ -762,6 +762,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anticirce_capture_fork_solve(si,n);
       break;
 
+    case STCirceKamikazeCaptureFork:
+      result = circe_kamikaze_capture_fork_solve(si,n);
+      break;
+
     case STAnticirceDetermineRebornPiece:
       result = anticirce_determine_reborn_piece_solve(si,n);
       break;
