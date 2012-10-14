@@ -136,7 +136,6 @@ void stip_insert_antisupercirce_rebirth_handlers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAntisupercirceRebirthHandler);
-  stip_instrument_moves(si,STAnticirceRebornPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

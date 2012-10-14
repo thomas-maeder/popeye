@@ -7,6 +7,7 @@
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/target_square_filter.h"
+#include "conditions/anticirce/promotion.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
 #include "conditions/contact_grid.h"

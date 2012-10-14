@@ -222,6 +222,7 @@
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
 #include "conditions/anticirce/anticirce.h"
+#include "pieces/attributes/chameleon.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/hash.h"
@@ -2797,9 +2798,16 @@ static Token iterate_twins(Token prev_token)
         stip_insert_magic_pieces_recolorers(root_slice);
 
       if (CondFlag[antisuper])
+      {
         stip_insert_antisupercirce_rebirth_handlers(root_slice);
+        stip_insert_anticirce_promotion(root_slice);
+      }
       else if (anyanticirce)
+      {
         stip_insert_anticirce_rebirth_handlers(root_slice);
+        if (anyanticirprom)
+          stip_insert_anticirce_promotion(root_slice);
+      }
 
       if (CondFlag[duellist])
         stip_insert_duellists(root_slice);
