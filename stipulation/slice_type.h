@@ -259,6 +259,8 @@
     ENUMERATOR(STCirceRebirthPromoter),                                 \
     ENUMERATOR(STAnticirceCaptureFork),                                 \
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
+    ENUMERATOR(STAnticirceDetermineRevelantPiece),                      \
+    ENUMERATOR(STAnticirceCouscousDetermineRevelantPiece),              \
     ENUMERATOR(STAnticirceRebirthHandler),                              \
     ENUMERATOR(STAnticirceRebornPromoter),                              \
     ENUMERATOR(STAntisupercirceRebirthHandler),                         \

@@ -765,6 +765,14 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anticirce_determine_reborn_piece_solve(si,n);
       break;
 
+    case STAnticirceDetermineRevelantPiece:
+      result = anticirce_determine_relevant_piece_solve(si,n);
+      break;
+
+    case STAnticirceCouscousDetermineRevelantPiece:
+      result = anticirce_couscous_determine_relevant_piece_solve(si,n);
+      break;
+
     case STAnticirceRebirthHandler:
       result = anticirce_rebirth_handler_solve(si,n);
       break;

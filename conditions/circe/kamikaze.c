@@ -32,19 +32,6 @@ stip_length_type circe_kamikaze_rebirth_handler_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[couscous])
-  {
-    current_anticirce_relevant_piece[nbply] = pprise[nbply];
-    current_anticirce_relevant_spec[nbply] = pprispec[nbply];
-    current_anticirce_relevant_side[nbply] = slices[si].starter;
-  }
-  else
-  {
-    current_anticirce_relevant_piece[nbply] = current_anticirce_reborn_piece[nbply];
-    current_anticirce_relevant_spec[nbply] = current_anticirce_reborn_spec[nbply];
-    current_anticirce_relevant_side[nbply] = advers(slices[si].starter);
-  }
-
   if (TSTFLAG(spec[sq_arrival],Kamikaze))
   {
     current_anticirce_rebirth_square[nbply] = (*circerenai)(current_anticirce_relevant_piece[nbply],
@@ -86,6 +73,9 @@ void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
+  stip_instrument_moves(si,STAnticirceDetermineRevelantPiece);
+  if (CondFlag[couscous])
+    stip_replace_anticirce_determine_relevant_piece(si,STAnticirceCouscousDetermineRevelantPiece);
   stip_instrument_moves(si,STCirceKamikazeRebirthHandler);
   stip_insert_anticirce_capture_forks(si);
 

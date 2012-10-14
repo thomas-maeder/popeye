@@ -53,6 +53,66 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
+stip_length_type anticirce_determine_relevant_piece_solve(slice_index si,
+                                                          stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  current_anticirce_relevant_piece[nbply] = current_anticirce_reborn_piece[nbply];
+  current_anticirce_relevant_spec[nbply] = current_anticirce_reborn_spec[nbply];
+  current_anticirce_relevant_side[nbply] = advers(slices[si].starter);
+
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type anticirce_couscous_determine_relevant_piece_solve(slice_index si,
+                                                                   stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  current_anticirce_relevant_piece[nbply] = pprise[nbply];
+  current_anticirce_relevant_spec[nbply] = pprispec[nbply];
+  current_anticirce_relevant_side[nbply] = slices[si].starter;
+
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
 stip_length_type anticirce_rebirth_handler_solve(slice_index si,
                                                  stip_length_type n)
 {
@@ -65,19 +125,6 @@ stip_length_type anticirce_rebirth_handler_solve(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  if (CondFlag[couscous])
-  {
-    current_anticirce_relevant_piece[nbply] = pprise[nbply];
-    current_anticirce_relevant_spec[nbply] = pprispec[nbply];
-    current_anticirce_relevant_side[nbply] = slices[si].starter;
-  }
-  else
-  {
-    current_anticirce_relevant_piece[nbply] = current_anticirce_reborn_piece[nbply];
-    current_anticirce_relevant_spec[nbply] = current_anticirce_reborn_spec[nbply];
-    current_anticirce_relevant_side[nbply] = advers(slices[si].starter);
-  }
 
   current_anticirce_rebirth_square[nbply] = (*antirenai)(current_anticirce_relevant_piece[nbply],
                                                          current_anticirce_relevant_spec[nbply],
@@ -112,6 +159,45 @@ stip_length_type anticirce_rebirth_handler_solve(slice_index si,
   return result;
 }
 
+static void replace(slice_index si, stip_structure_traversal *st)
+{
+  slice_type const * const substitute = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  slices[si].type = *substitute;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Use an alternative type of slices for determining the piece relevant for
+ * determining the rebirth square
+ * @param si identifies root slice of stipulation
+ * @param substitute substitute slice type
+ */
+void stip_replace_anticirce_determine_relevant_piece(slice_index si,
+                                                     slice_type substitute)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,substitute,"");
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&substitute);
+  stip_structure_traversal_override_single(&st,STAnticirceDetermineRevelantPiece,&replace);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
@@ -122,6 +208,9 @@ void stip_insert_anticirce_rebirth_handlers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
+  stip_instrument_moves(si,STAnticirceDetermineRevelantPiece);
+  if (CondFlag[couscous])
+    stip_replace_anticirce_determine_relevant_piece(si,STAnticirceCouscousDetermineRevelantPiece);
   stip_instrument_moves(si,STAnticirceRebirthHandler);
   stip_insert_anticirce_capture_forks(si);
 
