@@ -5,6 +5,7 @@
 #include "conditions/amu/attack_counter.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "conditions/anticirce/circuit_special.h"
+#include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/target_square_filter.h"

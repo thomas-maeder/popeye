@@ -74,8 +74,6 @@ void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si)
 
   stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
   stip_instrument_moves(si,STAnticirceDetermineRevelantPiece);
-  if (CondFlag[couscous])
-    stip_replace_anticirce_determine_relevant_piece(si,STAnticirceCouscousDetermineRevelantPiece);
   stip_instrument_moves(si,STCirceKamikazeRebirthHandler);
   stip_insert_anticirce_capture_forks(si);
 

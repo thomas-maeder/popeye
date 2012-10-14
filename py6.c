@@ -149,7 +149,9 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/circe/turncoats.h"
+#include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"
@@ -2770,7 +2772,11 @@ static Token iterate_twins(Token prev_token)
         if (anyclone)
           stip_insert_circe_clone(root_slice);
         if (TSTFLAG(PieSpExFlags,Kamikaze))
+        {
           stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
+          if (CondFlag[couscous])
+            stip_insert_anticirce_couscous(root_slice);
+        }
         if (CondFlag[couscous])
           stip_insert_couscous_circe(root_slice);
       }
@@ -2807,6 +2813,8 @@ static Token iterate_twins(Token prev_token)
         stip_insert_anticirce_rebirth_handlers(root_slice);
         if (anyanticirprom)
           stip_insert_anticirce_promotion(root_slice);
+        if (CondFlag[couscous])
+          stip_insert_anticirce_couscous(root_slice);
       }
 
       if (CondFlag[duellist])

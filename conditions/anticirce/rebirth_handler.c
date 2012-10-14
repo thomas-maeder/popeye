@@ -83,36 +83,6 @@ stip_length_type anticirce_determine_relevant_piece_solve(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type anticirce_couscous_determine_relevant_piece_solve(slice_index si,
-                                                                   stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  current_anticirce_relevant_piece[nbply] = pprise[nbply];
-  current_anticirce_relevant_spec[nbply] = pprispec[nbply];
-  current_anticirce_relevant_side[nbply] = slices[si].starter;
-
-  result = solve(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
 stip_length_type anticirce_rebirth_handler_solve(slice_index si,
                                                  stip_length_type n)
 {
@@ -209,8 +179,6 @@ void stip_insert_anticirce_rebirth_handlers(slice_index si)
 
   stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
   stip_instrument_moves(si,STAnticirceDetermineRevelantPiece);
-  if (CondFlag[couscous])
-    stip_replace_anticirce_determine_relevant_piece(si,STAnticirceCouscousDetermineRevelantPiece);
   stip_instrument_moves(si,STAnticirceRebirthHandler);
   stip_insert_anticirce_capture_forks(si);
 
