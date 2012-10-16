@@ -121,7 +121,7 @@ static slice_index const slice_rank_order[] =
   STAnticirceCouscousDetermineRevelantPiece,
   STAnticirceDetermineRebirthSquare,
   STAnticirceCheylanFilter,
-  STAnticirceRebirthHandler,
+  STAnticircePlaceRebornStrict,
   STAntisupercirceRebirthHandler,
   STCirceKamikazeRebirthHandler,
   STAnticirceRebornPromoter,

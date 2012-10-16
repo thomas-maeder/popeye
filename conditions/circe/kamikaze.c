@@ -66,8 +66,8 @@ stip_length_type circe_kamikaze_rebirth_handler_solve(slice_index si,
   if (e[current_anticirce_rebirth_square[nbply]]==vide)
     move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
                                           current_anticirce_rebirth_square[nbply],
-                                          current_anticirce_reborn_piece[nbply],
-                                          current_anticirce_reborn_spec[nbply]);
+                                          anticirce_current_reborn_piece[nbply],
+                                          anticirce_current_reborn_spec[nbply]);
   else
     current_anticirce_rebirth_square[nbply] = initsquare;
 

@@ -7,6 +7,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
@@ -106,8 +107,8 @@ stip_length_type antisupercirce_rebirth_handler_solve(slice_index si,
                                          sq_arrival);
     move_effect_journal_do_piece_addition(move_effect_reason_antisupercirce_rebirth,
                                           current_anticirce_rebirth_square[nbply],
-                                          current_anticirce_reborn_piece[nbply],
-                                          current_anticirce_reborn_spec[nbply]);
+                                          anticirce_current_reborn_piece[nbply],
+                                          anticirce_current_reborn_spec[nbply]);
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])

@@ -10,6 +10,7 @@
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/target_square_filter.h"
+#include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/promotion.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
@@ -787,8 +788,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anticirce_cheylan_filter_solve(si,n);
       break;
 
-    case STAnticirceRebirthHandler:
-      result = anticirce_rebirth_handler_solve(si,n);
+    case STAnticircePlaceRebornStrict:
+      result = anticirce_place_reborn_strict_solve(si,n);
       break;
 
     case STAnticirceRebornPromoter:

@@ -25,9 +25,9 @@ stip_length_type anticirce_couscous_determine_relevant_piece_solve(slice_index s
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_anticirce_relevant_piece[nbply] = pprise[nbply];
-  current_anticirce_relevant_spec[nbply] = pprispec[nbply];
-  current_anticirce_relevant_side[nbply] = slices[si].starter;
+  anticirce_current_relevant_piece[nbply] = pprise[nbply];
+  anticirce_current_relevant_spec[nbply] = pprispec[nbply];
+  anticirce_current_relevant_side[nbply] = slices[si].starter;
 
   result = solve(slices[si].next1,n);
 

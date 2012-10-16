@@ -153,6 +153,7 @@
 #include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/promotion.h"
+#include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"
@@ -2813,7 +2814,8 @@ static Token iterate_twins(Token prev_token)
       {
         if (AntiCirCheylan)
           stip_insert_anticirce_cheylan(root_slice);
-        stip_insert_anticirce_rebirth_handlers(root_slice);
+        stip_insert_anticirce_strict(root_slice);
+        stip_insert_anticirce(root_slice);
         if (anyanticirprom)
           stip_insert_anticirce_promotion(root_slice);
         if (CondFlag[couscous])

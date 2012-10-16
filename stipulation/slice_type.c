@@ -256,7 +256,7 @@
     ENUMERATOR(STAnticirceCouscousDetermineRevelantPiece),              \
     ENUMERATOR(STAnticirceDetermineRebirthSquare),                      \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
-    ENUMERATOR(STAnticirceRebirthHandler),                              \
+    ENUMERATOR(STAnticircePlaceRebornStrict),                           \
     ENUMERATOR(STAnticirceRebornPromoter),                              \
     ENUMERATOR(STAntisupercirceRebirthHandler),                         \
     ENUMERATOR(STSentinellesInserter),                                  \
