@@ -1,4 +1,4 @@
-#include "conditions/anticirce/anticirce.h"
+#include "conditions/anticirce/goal_filters.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

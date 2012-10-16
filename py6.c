@@ -224,7 +224,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
-#include "conditions/anticirce/anticirce.h"
+#include "conditions/anticirce/goal_filters.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "options/no_short_variations/no_short_variations.h"

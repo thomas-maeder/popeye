@@ -1,5 +1,5 @@
-conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
- conditions/anticirce/anticirce.h stipulation/slice.h py.h \
+conditions/anticirce/goal_filters$(OBJ_SUFFIX): conditions/anticirce/goal_filters.c \
+ conditions/anticirce/goal_filters.h stipulation/slice.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  stipulation/slice_type.h stipulation/stipulation.h \
@@ -12,7 +12,7 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h debugging/trace.h
 
-conditions/anticirce/anticirce.h:
+conditions/anticirce/goal_filters.h:
 
 stipulation/slice.h:
 
