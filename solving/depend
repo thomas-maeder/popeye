@@ -1556,7 +1556,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/circe/cage.h conditions/circe/double_agents.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
  conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/anticirce/rebirth_handler.h conditions/anticirce/super.h \
+ conditions/anticirce/anticirce.h conditions/anticirce/super.h \
  conditions/sentinelles.h conditions/duellists.h \
  conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
  conditions/andernach.h conditions/antiandernach.h \
@@ -1806,7 +1806,7 @@ conditions/circe/volage.h:
 
 conditions/circe/promotion.h:
 
-conditions/anticirce/rebirth_handler.h:
+conditions/anticirce/anticirce.h:
 
 conditions/anticirce/super.h:
 

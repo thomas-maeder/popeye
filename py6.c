@@ -151,7 +151,7 @@
 #include "conditions/circe/turncoats.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/couscous.h"
-#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/sentinelles.h"

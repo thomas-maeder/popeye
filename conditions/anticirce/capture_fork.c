@@ -9,7 +9,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/anticirce.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

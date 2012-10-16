@@ -1,10 +1,10 @@
 # -*- Makefile -*-
 #
-SRC_CFILES =   goal_filters.c target_square_filter.c circuit_special.c \
-           exchange_special.c exchange_filter.c rebirth_handler.c super.c \
+SRC_CFILES = anticirce.c goal_filters.c target_square_filter.c circuit_special.c \
+           exchange_special.c exchange_filter.c super.c \
            promotion.c capture_fork.c couscous.c cheylan.c
-INCLUDES = goal_filters.h target_square_filter.h circuit_special.h \
-           exchange_special.h exchange_filter.h rebirth_handler.h super.h \
+INCLUDES = anticirce.h goal_filters.h target_square_filter.h circuit_special.h \
+           exchange_special.h exchange_filter.h super.h \
            promotion.h capture_fork.h couscous.h cheylan.h
 
 include makefile.rules $(CURRPWD)depend

@@ -1,5 +1,5 @@
-#if !defined(CONDITIONS_ANTICIRCE_REBIRTH_HANDLER_H)
-#define CONDITIONS_ANTICIRCE_REBIRTH_HANDLER_H
+#if !defined(CONDITIONS_ANTICIRCE_ANTICIRCE_H)
+#define CONDITIONS_ANTICIRCE_ANTICIRCE_H
 
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"

@@ -1,5 +1,5 @@
 #include "conditions/anticirce/couscous.h"
-#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/anticirce.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

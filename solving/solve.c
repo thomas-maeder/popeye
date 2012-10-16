@@ -55,7 +55,7 @@
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/volage.h"
 #include "conditions/circe/promotion.h"
-#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"

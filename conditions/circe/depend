@@ -471,7 +471,7 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- solving/move_effect_journal.h conditions/anticirce/rebirth_handler.h \
+ solving/move_effect_journal.h conditions/anticirce/anticirce.h \
  conditions/anticirce/capture_fork.h debugging/trace.h
 
 conditions/circe/kamikaze.h:
@@ -526,7 +526,7 @@ stipulation/move_player.h:
 
 solving/move_effect_journal.h:
 
-conditions/anticirce/rebirth_handler.h:
+conditions/anticirce/anticirce.h:
 
 conditions/anticirce/capture_fork.h:
 

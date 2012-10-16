@@ -4,7 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
 #include "solving/move_effect_journal.h"
-#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
 

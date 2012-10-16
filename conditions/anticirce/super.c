@@ -7,7 +7,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/move_player.h"
 #include "solving/post_move_iteration.h"
-#include "conditions/anticirce/rebirth_handler.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
 
