@@ -3,6 +3,7 @@
 #include "pyproof.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/amu/attack_counter.h"
+#include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "conditions/anticirce/circuit_special.h"
 #include "conditions/anticirce/couscous.h"
@@ -780,6 +781,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STAnticirceDetermineRebirthSquare:
       result = anticirce_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STAnticirceCheylanFilter:
+      result = anticirce_cheylan_filter_solve(si,n);
       break;
 
     case STAnticirceRebirthHandler:

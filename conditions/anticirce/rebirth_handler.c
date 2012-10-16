@@ -129,14 +129,11 @@ stip_length_type anticirce_rebirth_handler_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_anticirce_rebirth_square[nbply]==initsquare)
-    result = solve(slices[si].next1,n);
-  else if ((!AntiCirCheylan
-            && current_anticirce_rebirth_square[nbply]==move_generation_stack[current_move[nbply]].arrival)
-           || e[current_anticirce_rebirth_square[nbply]]==vide)
+  move_effect_journal_do_piece_removal(move_effect_reason_anticirce_rebirth,
+                                       sq_arrival);
+
+  if (e[current_anticirce_rebirth_square[nbply]]==vide)
   {
-    move_effect_journal_do_piece_removal(move_effect_reason_anticirce_rebirth,
-                                         sq_arrival);
     move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
                                           current_anticirce_rebirth_square[nbply],
                                           current_anticirce_reborn_piece[nbply],

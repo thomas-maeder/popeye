@@ -149,6 +149,7 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/circe/turncoats.h"
+#include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/rebirth_handler.h"
 #include "conditions/anticirce/promotion.h"
@@ -2810,6 +2811,8 @@ static Token iterate_twins(Token prev_token)
       }
       else if (anyanticirce)
       {
+        if (AntiCirCheylan)
+          stip_insert_anticirce_cheylan(root_slice);
         stip_insert_anticirce_rebirth_handlers(root_slice);
         if (anyanticirprom)
           stip_insert_anticirce_promotion(root_slice);
