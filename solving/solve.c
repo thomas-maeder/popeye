@@ -797,8 +797,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anticirce_reborn_promoter_solve(si,n);
       break;
 
-    case STAntisupercirceRebirthHandler:
-      result = antisupercirce_rebirth_handler_solve(si,n);
+    case STAntisupercirceDetermineRebirthSquare:
+      result = antisupercirce_determine_rebirth_square_solve(si,n);
       break;
 
     case STFootballChessSubsitutor:

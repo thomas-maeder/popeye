@@ -266,7 +266,7 @@
     ENUMERATOR(STAnticircePlaceRebornRelaxed),                          \
     ENUMERATOR(STAnticircePlaceRebornStrict),                           \
     ENUMERATOR(STAnticirceRebornPromoter),                              \
-    ENUMERATOR(STAntisupercirceRebirthHandler),                         \
+    ENUMERATOR(STAntisupercirceDetermineRebirthSquare),                 \
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \
     ENUMERATOR(STMagicPiecesRecolorer),                                 \

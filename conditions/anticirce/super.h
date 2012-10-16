@@ -15,12 +15,12 @@ square antisupercirce_next_rebirth_square(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type antisupercirce_rebirth_handler_solve(slice_index si,
-                                                       stip_length_type n);
+stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
+                                                               stip_length_type n);
 
 /* Instrument a stipulation for strict Circe rebirths
  * @param si identifies root slice of stipulation
  */
-void stip_insert_antisupercirce_rebirth_handlers(slice_index si);
+void stip_insert_antisupercirce(slice_index si);
 
 #endif
