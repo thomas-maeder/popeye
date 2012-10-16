@@ -22,10 +22,10 @@ stip_length_type circe_kamikaze_capture_fork_solve(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type circe_kamikaze_rebirth_handler_solve(slice_index si,
-                                                       stip_length_type n);
+stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
+                                                      stip_length_type n);
 
-/* Instrument a stipulation for strict SAT
+/* Instrument a stipulation for Kamikaze pieces in Circe
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si);

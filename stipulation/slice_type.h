@@ -250,7 +250,6 @@
     ENUMERATOR(STSuperCirceRebirthHandler),                             \
     ENUMERATOR(STCirceCageNoCageFork)    ,                              \
     ENUMERATOR(STCirceCageCageTester),                                  \
-    ENUMERATOR(STCirceKamikazeRebirthHandler),                          \
     ENUMERATOR(STLandingAfterAnticirceRebirth),                         \
     ENUMERATOR(STCirceParrainDetermineRebirth),                         \
     ENUMERATOR(STCirceKingRebirthAvoider),                              \
@@ -264,6 +263,7 @@
     ENUMERATOR(STAnticirceCouscousDetermineRevelantPiece),              \
     ENUMERATOR(STAnticirceDetermineRebirthSquare),                      \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
+    ENUMERATOR(STAnticircePlaceRebornRelaxed),                          \
     ENUMERATOR(STAnticircePlaceRebornStrict),                           \
     ENUMERATOR(STAnticirceRebornPromoter),                              \
     ENUMERATOR(STAntisupercirceRebirthHandler),                         \

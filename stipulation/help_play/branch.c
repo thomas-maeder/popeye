@@ -123,7 +123,7 @@ static slice_index const slice_rank_order[] =
   STAnticirceCheylanFilter,
   STAnticircePlaceRebornStrict,
   STAntisupercirceRebirthHandler,
-  STCirceKamikazeRebirthHandler,
+  STAnticircePlaceRebornRelaxed,
   STAnticirceRebornPromoter,
   STPromoteAnticirceRebornIntoChameleon,
   STLandingAfterAnticirceRebirth,

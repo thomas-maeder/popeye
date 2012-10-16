@@ -154,6 +154,7 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/strict.h"
+#include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"
@@ -2775,6 +2776,7 @@ static Token iterate_twins(Token prev_token)
           stip_insert_circe_clone(root_slice);
         if (TSTFLAG(PieSpExFlags,Kamikaze))
         {
+          stip_insert_anticirce_relaxed(root_slice);
           stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
           if (CondFlag[couscous])
             stip_insert_anticirce_couscous(root_slice);
