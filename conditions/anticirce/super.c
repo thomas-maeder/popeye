@@ -30,13 +30,6 @@ static square next_rebirth_square(void)
   while (e[result]!=vide && result<=square_h8)
     ++result;
 
-  if (AntiCirCheylan && result==sq_capture)
-  {
-    ++result;
-    while (e[result]!=vide && result<=square_h8)
-      ++result;
-  }
-
   e[sq_capture] = pi_captured;
 
   return result;

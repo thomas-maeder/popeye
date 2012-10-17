@@ -2810,6 +2810,8 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[antisuper])
       {
         stip_insert_anticirce_strict(root_slice);
+        if (AntiCirCheylan)
+          stip_insert_anticirce_cheylan(root_slice);
         stip_insert_antisupercirce(root_slice);
         stip_insert_anticirce_promotion(root_slice);
       }

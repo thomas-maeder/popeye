@@ -28,10 +28,7 @@ stip_length_type anticirce_cheylan_filter_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (sq_arrival==current_anticirce_rebirth_square[nbply])
-  {
-    current_anticirce_rebirth_square[nbply] = initsquare;
     result = slack_length-2;
-  }
   else
     result = solve(slices[si].next1,n);
 
