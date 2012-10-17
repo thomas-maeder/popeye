@@ -249,9 +249,10 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  solving/solve.h conditions/sat.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- solving/en_passant.h debugging/trace.h debugging/measure.h pyproc.h
+ conditions/magic_square.h stipulation/stipulation.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h solving/en_passant.h \
+ debugging/trace.h debugging/measure.h pyproc.h
 
 py.h:
 
@@ -298,6 +299,8 @@ conditions/ultraschachzwang/legality_tester.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
+
+conditions/magic_square.h:
 
 stipulation/stipulation.h:
 

@@ -3237,3 +3237,39 @@ Definition of the "Magic Square" ( + types I and II in AntiCirce) 2012
 Loesung beendet. 
 
 
+
+spezifisches Pattbild fuer magisches Feld Typ 2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .   .   .   .   T  -K   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =1                          3 + 2
+      MagischeFelder Typ2 f8 g8
+              AntiCirce
+
+   1.Th1-h8 = !
+
+
+              empile:         204
+           play_move:         140
+        orig_rbechec:          27
+        orig_rnechec:         139
+Loesung beendet. 
+
+

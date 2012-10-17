@@ -720,4 +720,12 @@ bedingung magischefelder c5 typ2 anticirce
 forderung #2
 option vari
 
+weiter
+
+titel spezifisches Pattbild fuer magisches Feld Typ 2
+steine weiss kf6 tf8h1
+       schwarz kg8 ta8
+forderung =1       
+bedingung anticirce magischefelder f8g8 typ2
+
 endeproblem

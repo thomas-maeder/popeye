@@ -42,6 +42,7 @@
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
+#include "conditions/magic_square.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "debugging/trace.h"
@@ -1122,13 +1123,21 @@ static boolean AntiCirceEch(square sq_departure,
   }
   else
   {
-	PieNam* acprompieces= GetPromotingPieces(sq_departure,
-										    e[sq_departure],
-										    advers(camp),
-										    spec[sq_departure],
-										    sq_arrival,
-										    e[sq_capture]);
-    if (acprompieces) {
+    PieNam* acprompieces;
+
+    if (!TSTFLAG(spec[sq_departure],Royal)
+        && TSTFLAG(sq_spec[sq_capture],MagicSq)
+        && magic_square_type==magic_square_type2)
+      camp = advers(camp);
+
+    acprompieces= GetPromotingPieces(sq_departure,
+                                     e[sq_departure],
+                                     advers(camp),
+                                     spec[sq_departure],
+                                     sq_arrival,
+                                     e[sq_capture]);
+    if (acprompieces)
+    {
       /* Pawn checking on last rank or football check on a/h file */
       PieNam pprom= acprompieces[vide];
       square    cren;
@@ -1142,15 +1151,14 @@ static boolean AntiCirceEch(square sq_departure,
         return false;
       }
     }
-    else {
-      square    cren;
-      cren= (*antirenai)(TSTFLAG(spec[sq_departure], Chameleon)
-                          ? champiece(e[sq_departure])
-                          : e[sq_departure],
-                          spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
-      if (!LegalAntiCirceMove(cren, sq_capture, sq_departure)) {
+    else
+    {
+      square cren= (*antirenai)(TSTFLAG(spec[sq_departure], Chameleon)
+                                ? champiece(e[sq_departure])
+                                : e[sq_departure],
+                                spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
+      if (!LegalAntiCirceMove(cren, sq_capture, sq_departure))
         return false;
-      }
     }
   }
 

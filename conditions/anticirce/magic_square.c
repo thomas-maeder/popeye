@@ -28,7 +28,8 @@ stip_length_type magic_square_anticirce_relevant_side_adapter_solve(slice_index 
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(sq_spec[sq_arrival],MagicSq))
+  if (!TSTFLAG(anticirce_current_relevant_spec[nbply],Royal)
+      && TSTFLAG(sq_spec[sq_arrival],MagicSq))
       anticirce_current_relevant_side[nbply] = slices[si].starter;
 
   result = solve(slices[si].next1,n);
