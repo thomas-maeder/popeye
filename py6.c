@@ -838,7 +838,6 @@ static boolean verify_position(slice_index si)
       for (i = 0; i < 8; i++)
         SETFLAG(sq_spec[CondFlag[glasgow] ? square_a2+i : square_a1+i],
                 BlPromSq);
-
   }
 
   im0 = isquare[0];
@@ -1093,16 +1092,23 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[bicolores])
+  if (CondFlag[bicolores]
+      || CondFlag[andernach]
+      || CondFlag[antiandernach]
+      || CondFlag[magicsquare]
+      || CondFlag[volage]
+      || CondFlag[masand]
+      || TSTFLAG(PieSpExFlags,Magic))
   {
     if (TSTFLAG(PieSpExFlags, Neutral))
     {
-      VerifieMsg(NeutralAndBicolor);
+      VerifieMsg(TooFairyForNeutral);
       return false;
     }
-    else
-      add_ortho_mating_moves_generation_obstacle();
   }
+
+  if (CondFlag[bicolores])
+    add_ortho_mating_moves_generation_obstacle();
 
   if (CondFlag[bichro] || CondFlag[monochro])
     add_ortho_mating_moves_generation_obstacle();
@@ -1124,20 +1130,20 @@ static boolean verify_position(slice_index si)
       VerifieMsg(MonoAndBiChrom);
       return false;
     }
-    if (  (CondFlag[koeko]
-           || CondFlag[newkoeko]
-           || CondFlag[antikoeko]
-           || TSTFLAG(PieSpExFlags, Jigger))
-          && anycirce
-          && TSTFLAG(PieSpExFlags, Neutral))
-    {
-      VerifieMsg(KoeKoCirceNeutral);
-      return false;
-    }
   }
 
-  if ((flaglegalsquare || TSTFLAG(PieSpExFlags,Neutral))
-      && CondFlag[volage])
+  if ((CondFlag[koeko]
+       || CondFlag[newkoeko]
+       || CondFlag[antikoeko]
+       || TSTFLAG(PieSpExFlags, Jigger))
+      && anycirce
+      && TSTFLAG(PieSpExFlags, Neutral))
+  {
+    VerifieMsg(TooFairyForNeutral);
+    return false;
+  }
+
+  if (flaglegalsquare && CondFlag[volage])
   {
     VerifieMsg(SomeCondAndVolage);
     return false;
@@ -1413,25 +1419,32 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
+
   if (ultra_mummer[White] && !CondFlag[whcapt]) {
-    eval_2 = eval_white;
-    eval_black = rnultraech;
     if (TSTFLAG(PieSpExFlags, Neutral))
     {
-      VerifieMsg(OthersNeutral);
+      VerifieMsg(TooFairyForNeutral);
       return false;
     }
-  }
-  if (ultra_mummer[Black] && !CondFlag[blcapt]) {
-    eval_2 = eval_white;
-    eval_white = rbultraech;
-    if (TSTFLAG(PieSpExFlags, Neutral))
+    else
     {
-      VerifieMsg(OthersNeutral);
-      return false;
+      eval_2 = eval_white;
+      eval_black = rnultraech;
     }
   }
 
+  if (ultra_mummer[Black] && !CondFlag[blcapt]) {
+    if (TSTFLAG(PieSpExFlags, Neutral))
+    {
+      VerifieMsg(TooFairyForNeutral);
+      return false;
+    }
+    else
+    {
+      eval_2 = eval_white;
+      eval_white = rbultraech;
+    }
+  }
   if (CondFlag[football])
   {
     optim_neutralretractable = false;
@@ -1702,7 +1715,7 @@ static boolean verify_position(slice_index si)
        || calc_refl_king[Black])
       && TSTFLAG(PieSpExFlags, Neutral))
   {
-    VerifieMsg(NeutralAndOrphanReflKing);
+    VerifieMsg(TooFairyForNeutral);
     return false;
   }
 
