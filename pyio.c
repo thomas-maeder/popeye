@@ -127,6 +127,7 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/sentinelles.h"
+#include "conditions/magic_square.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -590,6 +591,8 @@ static void WriteConditions(int alignment)
 
     if (cond == magicsquare) {
       square  i;
+      if (magic_square_type==magic_square_type2)
+        strcat(CondLine, " Type2");
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], MagicSq)) {
           AddSquare(CondLine, i);
@@ -4410,6 +4413,7 @@ typedef enum
   gpAnnan,
   gpGrid,
   gpRepublican,
+  gpMagicSquare,
   gpColour
 } VariantGroup;
 
@@ -4466,6 +4470,10 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
       *is_variant_set = true;
     else if (type==Type2 && group==gpRepublican)
       *is_variant_set = false;
+    else if (type==Type1 && group==gpMagicSquare)
+      *is_variant_set = false;
+    else if (type==Type2 && group==gpMagicSquare)
+      *is_variant_set = true;
     else if (type==PionAdverse && group==gpSentinelles)
       *is_variant_set= true;
     else if (type==PionNeutral && group==gpSentinelles)
@@ -4925,6 +4933,7 @@ static char *ParseCond(void) {
         ReadSquares(ReadWhRoyalSq);
         break;
       case magicsquare:
+        magic_square_type = magic_square_type1;
         ReadSquares(MagicSq);
         break;
       case dbltibet:
@@ -5443,6 +5452,13 @@ static char *ParseCond(void) {
         boolean RepublicanType1 = false;
         tok = ParseVariant(&RepublicanType1, gpRepublican);
         RepublicanType = RepublicanType1 ? republican_type1 : republican_type2;
+        break;
+      }
+      case magicsquare:
+      {
+        boolean MagicSquaresType2 = false;
+        tok = ParseVariant(&MagicSquaresType2, gpMagicSquare);
+        magic_square_type = MagicSquaresType2 ? magic_square_type2 : magic_square_type1;
         break;
       }
       case promotiononly:

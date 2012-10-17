@@ -1,6 +1,5 @@
 #include "conditions/magic_square.h"
 #include "pydata.h"
-#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
@@ -9,6 +8,8 @@
 
 #include <assert.h>
 #include <stdlib.h>
+
+magic_square_type_type magic_square_type;
 
 static void side_change_if_magic(square on, Flags changedspec)
 {
@@ -81,14 +82,17 @@ stip_length_type magic_square_side_changer_solve(slice_index si,
   return result;
 }
 
-/* Instrument slices with move tracers
+/* Instrument slices with magic square side changers
  */
-void stip_insert_magic_square_side_changers(slice_index si)
+void stip_insert_magic_square(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STMagicSquareSideChanger);
+  if (magic_square_type==magic_square_type1)
+    stip_instrument_moves(si,STMagicSquareSideChanger);
+  else
+    stip_instrument_moves(si,STMagicSquareType2SideChanger);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

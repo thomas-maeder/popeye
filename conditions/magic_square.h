@@ -5,6 +5,15 @@
 
 /* This module implements the condition Magic squares */
 
+
+typedef enum
+{
+  magic_square_type1,
+  magic_square_type2
+} magic_square_type_type;
+
+extern magic_square_type_type magic_square_type;
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -16,8 +25,8 @@
 stip_length_type magic_square_side_changer_solve(slice_index si,
                                                   stip_length_type n);
 
-/* Instrument slices with move tracers
+/* Instrument slices with magic square side changers
  */
-void stip_insert_magic_square_side_changers(slice_index si);
+void stip_insert_magic_square(slice_index si);
 
 #endif

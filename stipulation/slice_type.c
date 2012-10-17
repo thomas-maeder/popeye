@@ -280,6 +280,8 @@
     ENUMERATOR(STTraitorSideChanger),                                   \
     ENUMERATOR(STVolageSideChanger),                                    \
     ENUMERATOR(STMagicSquareSideChanger),                               \
+    ENUMERATOR(STMagicSquareType2SideChanger),                          \
+    ENUMERATOR(STMagicSquareType2AnticirceRelevantSideAdapter),         \
     ENUMERATOR(STCirceTraitorSideChanger),                              \
     ENUMERATOR(STTibetSideChanger),                                     \
     ENUMERATOR(STDoubleTibetSideChanger),                               \

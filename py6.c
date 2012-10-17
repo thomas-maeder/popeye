@@ -156,6 +156,7 @@
 #include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/super.h"
+#include "conditions/anticirce/magic_square.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
@@ -2833,6 +2834,8 @@ static Token iterate_twins(Token prev_token)
         if (AntiCirCheylan)
           stip_insert_anticirce_cheylan(root_slice);
         stip_insert_anticirce_strict(root_slice);
+        if (CondFlag[magicsquare] && magic_square_type==magic_square_type2)
+          stip_insert_magic_square_type2(root_slice);
         stip_insert_anticirce(root_slice);
         if (anyanticirprom)
           stip_insert_anticirce_promotion(root_slice);
@@ -2889,7 +2892,7 @@ static Token iterate_twins(Token prev_token)
         stip_insert_volage_side_changers(root_slice);
 
       if (CondFlag[magicsquare])
-        stip_insert_magic_square_side_changers(root_slice);
+        stip_insert_magic_square(root_slice);
 
       if (CondFlag[dbltibet])
         stip_insert_double_tibet(root_slice);

@@ -710,5 +710,14 @@ bedingung anticirce calvet
 forderung <>4
 option ohnesk vari ohnedroh
 
+weiter
+
+autor Guenter Weeth
+quelle Definition of the "Magic Square" ( + types I and II in AntiCirce) 2012
+steine weiss kd7 sd3g8 ba6b6c6
+       schwarz ka8 sc5 bb7c7  
+bedingung magischefelder c5 typ2 anticirce
+forderung #2
+option vari
 
 endeproblem

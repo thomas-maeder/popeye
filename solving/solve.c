@@ -13,6 +13,7 @@
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/promotion.h"
+#include "conditions/anticirce/magic_square.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
 #include "conditions/contact_grid.h"
@@ -698,7 +699,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       break;
 
     case STMagicSquareSideChanger:
+    case STMagicSquareType2SideChanger:
       result = magic_square_side_changer_solve(si,n);
+      break;
+
+    case STMagicSquareType2AnticirceRelevantSideAdapter:
+      result = magic_square_anticirce_relevant_side_adapter_solve(si,n);
       break;
 
     case STCirceTraitorSideChanger:

@@ -596,9 +596,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/anticirce/cheylan.h conditions/anticirce/couscous.h \
  conditions/anticirce/anticirce.h conditions/anticirce/promotion.h \
  conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
- conditions/anticirce/super.h conditions/sentinelles.h \
- conditions/duellists.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
+ conditions/anticirce/super.h conditions/anticirce/magic_square.h \
+ conditions/sentinelles.h conditions/duellists.h conditions/ghost_chess.h \
+ conditions/kobul.h conditions/andernach.h conditions/antiandernach.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
  conditions/einstein/einstein.h conditions/einstein/reverse.h \
  conditions/einstein/anti.h conditions/traitor.h conditions/volage.h \
@@ -813,6 +813,8 @@ conditions/anticirce/strict.h:
 conditions/anticirce/relaxed.h:
 
 conditions/anticirce/super.h:
+
+conditions/anticirce/magic_square.h:
 
 conditions/sentinelles.h:
 
@@ -1048,9 +1050,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/check_zigzag.h conditions/patience.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/kobul.h \
  conditions/circe/april.h conditions/circe/chameleon.h \
- conditions/sentinelles.h options/degenerate_tree.h options/nontrivial.h \
- options/maxthreatlength.h options/maxflightsquares.h \
- options/movenumbers.h options/maxsolutions/maxsolutions.h \
+ conditions/sentinelles.h conditions/magic_square.h \
+ options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
+ options/maxflightsquares.h options/movenumbers.h \
+ options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/intelligent.h position/position.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -1221,6 +1224,8 @@ conditions/circe/april.h:
 conditions/circe/chameleon.h:
 
 conditions/sentinelles.h:
+
+conditions/magic_square.h:
 
 options/degenerate_tree.h:
 

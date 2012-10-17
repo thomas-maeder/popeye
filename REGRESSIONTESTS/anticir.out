@@ -3198,3 +3198,42 @@ Platzwechsel mit Repuls des schlagenden Steins auf sein Ursprungsfeld
 Loesung beendet. 
 
 
+
+            Guenter Weeth
+Definition of the "Magic Square" ( + types I and II in AntiCirce) 2012
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   S   .   8
+|                                   |
+7   .  -B  -B   K   .   .   .   .   7
+|                                   |
+6   B   B   B   .   .   .   .   .   6
+|                                   |
+5   .   .  -S   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   S   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 4
+       MagischeFelder Type2 c5
+              AntiCirce
+
+   1.Sd3*c5=s[sSc5->b8] ! Zugzwang.
+      1...b7*a6[sBa6->a7]
+          2.b6-b7 #
+
+
+              empile:         644
+           play_move:         434
+        orig_rbechec:          28
+        orig_rnechec:         437
+Loesung beendet. 
+
+
