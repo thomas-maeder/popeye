@@ -10,6 +10,17 @@
 #include <assert.h>
 #include <stdlib.h>
 
+static void side_change_if_magic(square on, Flags changedspec)
+{
+  if (TSTFLAG(sq_spec[on],MagicSq)
+      && !TSTFLAG(changedspec,Royal)
+      && e[on]!=vide
+      && GetPieceId(changedspec)==GetPieceId(spec[on]))
+    move_effect_journal_do_side_change(move_effect_reason_magic_square,
+                                       on,
+                                       e[on]<vide ? White : Black);
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -22,20 +33,45 @@ stip_length_type magic_square_side_changer_solve(slice_index si,
                                                   stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(sq_spec[sq_arrival],MagicSq)
-      && prev_king_square[Black][nbply]!=sq_departure
-      && prev_king_square[White][nbply]!=sq_departure)
-    move_effect_journal_do_side_change(move_effect_reason_magic_square,
-                                       sq_arrival,
-                                       e[sq_arrival]<vide ? White : Black);
+  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+    switch (move_effect_journal[curr].type)
+    {
+      case move_effect_piece_movement:
+      {
+        square const to = move_effect_journal[curr].u.piece_movement.to;
+        Flags const movingspec = move_effect_journal[curr].u.piece_movement.movingspec;
+        side_change_if_magic(to,movingspec);
+        break;
+      }
+
+      case move_effect_piece_addition:
+      {
+        square const on = move_effect_journal[curr].u.piece_addition.on;
+        Flags const addedspec = move_effect_journal[curr].u.piece_addition.addedspec;
+        side_change_if_magic(on,addedspec);
+        break;
+      }
+
+      case move_effect_piece_exchange:
+      {
+        square const from = move_effect_journal[curr].u.piece_exchange.from;
+        square const to = move_effect_journal[curr].u.piece_exchange.to;
+        side_change_if_magic(from,spec[from]);
+        side_change_if_magic(from,spec[to]);
+        break;
+      }
+
+      default:
+        break;
+    }
 
   result = solve(slices[si].next1,n);
 

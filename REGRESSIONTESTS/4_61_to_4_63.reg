@@ -496,8 +496,8 @@ solution finished.
 
 
 
-Fixed absurd notation in Magic square+Andernach
-Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
+Fixed absurd notation in Magic square+Anticirce
+Until 4.61, the first used to be 1.Sa1*c2=bS[bSc2->b1]
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -520,6 +520,44 @@ Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
            MagicSquares c2
+              AntiCirce
+
+   1.Sa1*c2[wSc2->b1] !
+
+   1.Sa1-b3 !
+
+
+              empile:           2
+           play_move:           2
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
+
+Apply magic square recoloring to the final arrival square
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .   .   .   2
+|                                   |
+1   S   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           MagicSquares b1
               AntiCirce
 
    1.Sa1*c2[wSc2->b1=b] !

@@ -121,11 +121,19 @@ option nowk nobk
 
 next
 
-title Fixed absurd notation in Magic square+Andernach
-title Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
+title Fixed absurd notation in Magic square+Anticirce
+title Until 4.61, the first used to be 1.Sa1*c2=bS[bSc2->b1]
 pieces white sa1 black pc2
 stip ~1
 cond magicsquare c2 anticirce
+option nowk nobk
+
+next
+
+title Apply magic square recoloring to the final arrival square
+pieces white sa1 black pc2
+stip ~1
+cond magicsquare b1 anticirce
 option nowk nobk
 
 next
