@@ -456,6 +456,84 @@ Sentinelle insertion would occur before rebirth, which caused
 solution finished. 
 
 
+
+Fixed absurd notation in Anticirce+Andernach
+Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .   .   .   2
+|                                   |
+1   S   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+              AntiCirce
+            AndernachChess
+
+   1.Sa1*c2[wSc2->b1=b] !
+
+   1.Sa1-b3 !
+
+
+              empile:           2
+           play_move:           2
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
+
+Fixed absurd notation in Magic square+Andernach
+Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .   .   .   .   .   2
+|                                   |
+1   S   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           MagicSquares c2
+              AntiCirce
+
+   1.Sa1*c2[wSc2->b1=b] !
+
+   1.Sa1-b3 !
+
+
+              empile:           2
+           play_move:           2
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known
