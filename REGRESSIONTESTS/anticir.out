@@ -3222,7 +3222,7 @@ Definition of the "Magic Square" ( + types I and II in AntiCirce) 2012
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 4
-       MagischeFelder Type2 c5
+        MagischeFelder Typ2 c5
               AntiCirce
 
    1.Sd3*c5=s[sSc5->b8] ! Zugzwang.

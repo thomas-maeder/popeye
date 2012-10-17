@@ -592,7 +592,10 @@ static void WriteConditions(int alignment)
     if (cond == magicsquare) {
       square  i;
       if (magic_square_type==magic_square_type2)
-        strcat(CondLine, " Type2");
+      {
+        strcat(CondLine, " ");
+        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
+      }
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], MagicSq)) {
           AddSquare(CondLine, i);

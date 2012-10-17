@@ -8,7 +8,7 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/move_player.h conditions/anticirce/capture_fork.h \
- conditions/magic_square.h debugging/trace.h
+ debugging/trace.h
 
 conditions/anticirce/anticirce.h:
 
@@ -61,8 +61,6 @@ output/mode.h:
 stipulation/move_player.h:
 
 conditions/anticirce/capture_fork.h:
-
-conditions/magic_square.h:
 
 debugging/trace.h:
 conditions/anticirce/goal_filters$(OBJ_SUFFIX): conditions/anticirce/goal_filters.c \
