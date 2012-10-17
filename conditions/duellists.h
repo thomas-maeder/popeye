@@ -18,7 +18,7 @@ extern square duellists[nr_sides][maxply+1];
 stip_length_type duellists_remember_duellist_solve(slice_index si,
                                                     stip_length_type n);
 
-/* Instrument a stipulation for strict SAT
+/* Instrument a stipulation for Duellists
  * @param si identifies root slice of stipulation
  */
 void stip_insert_duellists(slice_index si);

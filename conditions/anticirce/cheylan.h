@@ -1,6 +1,10 @@
 #if !defined(CONDITIONS_ANTICIRCE_CHEYLAN_H)
 #define CONDITIONS_ANTICIRCE_CHEYLAN_H
 
+/* This module helps filtering out Anticirce rebirths that are not allowed
+ * because of the Cheylan variety of Anticirce
+ */
+
 #include "solving/solve.h"
 
 /* Try to solve in n half-moves.
@@ -14,7 +18,7 @@
 stip_length_type anticirce_cheylan_filter_solve(slice_index si,
                                                 stip_length_type n);
 
-/* Instrument a stipulation for strict Circe rebirths
+/* Instrument a stipulation for Circe Cheylan
  * @param si identifies root slice of stipulation
  */
 void stip_insert_anticirce_cheylan(slice_index si);

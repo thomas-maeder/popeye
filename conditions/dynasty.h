@@ -16,7 +16,7 @@
 stip_length_type dynasty_king_square_updater_solve(slice_index si,
                                                     stip_length_type n);
 
-/* Instrument a stipulation for strict SAT
+/* Instrument a stipulation for Royal Dynasty
  * @param si identifies root slice of stipulation
  */
 void stip_insert_dynasty(slice_index si);

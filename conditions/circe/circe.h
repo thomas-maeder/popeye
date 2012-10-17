@@ -75,7 +75,7 @@ void stip_replace_circe_determine_reborn_piece(slice_index si,
 void stip_replace_circe_determine_relevant_piece(slice_index si,
                                                  slice_type substitute);
 
-/* Instrument a stipulation for strict Circe rebirths
+/* Instrument a stipulation for Circe
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe(slice_index si);

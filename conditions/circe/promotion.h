@@ -13,7 +13,8 @@
  */
 stip_length_type circe_promoter_solve(slice_index si, stip_length_type n);
 
-/* Instrument a stipulation for strict Circe rebirths
+/* Instrument a stipulation for promotion of Circe reborns (only possible in
+ * some Circe variations)
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe_promoters(slice_index si);

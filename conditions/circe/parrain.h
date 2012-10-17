@@ -14,7 +14,7 @@
 stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
                                                        stip_length_type n);
 
-/* Instrument a stipulation for strict SAT
+/* Instrument a stipulation for Circe Parrain
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe_parrain_rebirth_handlers(slice_index si);

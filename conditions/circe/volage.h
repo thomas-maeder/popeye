@@ -14,7 +14,7 @@
 stip_length_type circe_volage_recolorer_solve(slice_index si,
                                                stip_length_type n);
 
-/* Instrument a stipulation for strict Circe rebirths
+/* Instrument a stipulation for volage recolorings of Circe reborns
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe_volage_recolorers(slice_index si);

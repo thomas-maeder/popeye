@@ -53,7 +53,7 @@ stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
 void stip_replace_anticirce_determine_relevant_piece(slice_index si,
                                                      slice_type substitute);
 
-/* Instrument a stipulation for strict Circe rebirths
+/* Instrument a stipulation for Anticirce
  * @param si identifies root slice of stipulation
  */
 void stip_insert_anticirce(slice_index si);
