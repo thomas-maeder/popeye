@@ -97,3 +97,55 @@ c) wBa8
 solving interrupted. 
 
 
+
+Strict Circe (==Circe+Immun according to the docs) is not enforced
+if combined with Anticirce - 1.Ra8*a7[wRa7->a1] is illegal!
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R   .   .   .   .   .   .   .   8
+|                                   |
+7  -G   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+                Circe
+              ImmunChess
+              AntiCirce
+
+   1.Ra8*a7[wRa7->a1] !
+
+   1.Ra8-h8 !
+
+   1.Ra8-g8 !
+
+   1.Ra8-f8 !
+
+   1.Ra8-e8 !
+
+   1.Ra8-d8 !
+
+   1.Ra8-c8 !
+
+   1.Ra8-b8 !
+
+
+              empile:           8
+           play_move:           8
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
