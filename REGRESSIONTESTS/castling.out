@@ -271,7 +271,7 @@ Loesung beendet.
               empile:       60280
            play_move:       25233
         orig_rbechec:       10468
-        orig_rnechec:       21264
+        orig_rnechec:       21270
 Loesung beendet. 
 
 
@@ -923,7 +923,7 @@ Loesung beendet.
               empile:     1097677
            play_move:      798370
         orig_rbechec:      602933
-        orig_rnechec:      243014
+        orig_rnechec:      243019
 Loesung beendet. 
 
 
@@ -1141,7 +1141,7 @@ Loesung beendet.
               empile:      527562
            play_move:      456637
         orig_rbechec:      352678
-        orig_rnechec:      145574
+        orig_rnechec:      145578
 Loesung beendet. 
 
 
@@ -1511,7 +1511,7 @@ Loesung beendet.
               empile:     1776401
            play_move:     1365187
         orig_rbechec:      955113
-        orig_rnechec:      487476
+        orig_rnechec:      487482
 Loesung beendet. 
 
 
@@ -1652,7 +1652,7 @@ Loesung beendet.
               empile:      533795
            play_move:      342338
         orig_rbechec:       93149
-        orig_rnechec:      278371
+        orig_rnechec:      278379
 Loesung beendet. 
 
 
@@ -2236,7 +2236,7 @@ Loesung beendet.
               empile:     1212054
            play_move:      761148
         orig_rbechec:      587360
-        orig_rnechec:      243350
+        orig_rnechec:      243352
 Loesung beendet. 
 
 
@@ -3555,7 +3555,7 @@ Loesung beendet.
               empile:       78744
            play_move:       20239
         orig_rbechec:        8505
-        orig_rnechec:       15598
+        orig_rnechec:       15601
 Loesung beendet. 
 
 
@@ -3597,7 +3597,7 @@ RochadenGegenseitigAusschliessend a1h8
               empile:        2924
            play_move:        1947
         orig_rbechec:         406
-        orig_rnechec:        2191
+        orig_rnechec:        2192
 Loesung beendet. 
 
 
@@ -3639,7 +3639,7 @@ RochadenGegenseitigAusschliessend h1a8
               empile:        1426
            play_move:        1078
         orig_rbechec:         198
-        orig_rnechec:        1187
+        orig_rnechec:        1188
 Loesung beendet. 
 
 
@@ -4275,7 +4275,7 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
               empile:      707099
            play_move:      368881
         orig_rbechec:      128362
-        orig_rnechec:      326909
+        orig_rnechec:      326915
 Loesung beendet. 
 
 

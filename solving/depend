@@ -4,18 +4,13 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
  stipulation/slice_type.h stipulation/traversal.h utilities/boolean.h \
  pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- stipulation/fork.h solving/solve.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/has_solution_type.h \
- stipulation/if_then_else.h stipulation/testing_pipe.h \
+ stipulation/fork.h solving/solve.h stipulation/has_solution_type.h \
+ stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/and.h stipulation/boolean/true.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- solving/move_generator.h solving/for_each_move.h solving/find_shortest.h \
- solving/find_by_increasing_length.h solving/fork_on_remaining.h \
- solving/battle_play/continuation.h solving/battle_play/try.h \
- utilities/table.h solving/battle_play/min_length_guard.h \
- solving/battle_play/setplay.h solving/single_piece_move_generator.h \
+ solving/move_generator.h solving/single_piece_move_generator.h \
  solving/single_move_generator_with_king_capture.h solving/castling.h \
  solving/single_move_generator.h solving/king_move_generator.h \
  debugging/trace.h
@@ -62,15 +57,13 @@ stipulation/fork.h:
 
 solving/solve.h:
 
-stipulation/proxy.h:
-
-stipulation/pipe.h:
-
 stipulation/has_solution_type.h:
 
 stipulation/if_then_else.h:
 
 stipulation/testing_pipe.h:
+
+stipulation/pipe.h:
 
 stipulation/conditional_pipe.h:
 
@@ -93,24 +86,6 @@ output/mode.h:
 stipulation/help_play/branch.h:
 
 solving/move_generator.h:
-
-solving/for_each_move.h:
-
-solving/find_shortest.h:
-
-solving/find_by_increasing_length.h:
-
-solving/fork_on_remaining.h:
-
-solving/battle_play/continuation.h:
-
-solving/battle_play/try.h:
-
-utilities/table.h:
-
-solving/battle_play/min_length_guard.h:
-
-solving/battle_play/setplay.h:
 
 solving/single_piece_move_generator.h:
 
@@ -195,13 +170,15 @@ debugging/trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
- utilities/enumeration.h pylang.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- solving/avoid_unsolvable.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h solving/avoid_unsolvable.h \
+ solving/find_by_increasing_length.h solving/fork_on_remaining.h \
+ debugging/trace.h
 
 solving/find_shortest.h:
 
@@ -223,6 +200,20 @@ utilities/enumeration.h:
 
 pylang.h:
 
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+stipulation/proxy.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -243,11 +234,13 @@ stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
-utilities/boolean.h:
-
 output/mode.h:
 
 solving/avoid_unsolvable.h:
+
+solving/find_by_increasing_length.h:
+
+solving/fork_on_remaining.h:
 
 debugging/trace.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \

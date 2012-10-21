@@ -1,7 +1,6 @@
 #include "solving/solving.h"
 #include "pydata.h"
 #include "stipulation/fork.h"
-#include "stipulation/proxy.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/if_then_else.h"
 #include "stipulation/testing_pipe.h"
@@ -13,15 +12,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/move_generator.h"
-#include "solving/for_each_move.h"
-#include "solving/find_shortest.h"
-#include "solving/find_by_increasing_length.h"
-#include "solving/fork_on_remaining.h"
-#include "solving/battle_play/continuation.h"
-#include "solving/battle_play/try.h"
-#include "solving/battle_play/min_length_guard.h"
-#include "solving/battle_play/continuation.h"
-#include "solving/battle_play/setplay.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/single_move_generator_with_king_capture.h"
 #include "solving/castling.h"
@@ -207,70 +197,6 @@ void stip_spin_off_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static slice_index find_ready_for_move_in_loop(slice_index ready_root)
-{
-  slice_index result = ready_root;
-  do
-  {
-    result = branch_find_slice(STReadyForHelpMove,
-                               result,
-                               stip_traversal_context_help);
-  } while ((slices[result].u.branch.length-slack_length)%2
-           !=(slices[ready_root].u.branch.length-slack_length)%2);
-  return result;
-}
-
-static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (length+2>=min_length)
-  {
-    if (st->level==structure_traversal_level_nested)
-    {
-      if (st->context==stip_traversal_context_intro)
-      {
-        slice_index const prototype = alloc_find_shortest_slice(length,min_length);
-        branch_insert_slices(si,&prototype,1);
-      }
-    }
-    else /* root or set play */
-    {
-      if (!OptFlag[restart] && length>=slack_length+2)
-      {
-        {
-          slice_index const prototype =
-              alloc_find_by_increasing_length_slice(length,min_length);
-          branch_insert_slices(si,&prototype,1);
-        }
-        {
-          slice_index const ready_root = branch_find_slice(STReadyForHelpMove,
-                                                           si,
-                                                           st->context);
-          slice_index const ready_loop = find_ready_for_move_in_loop(ready_root);
-          slice_index const proxy_root = alloc_proxy_slice();
-          slice_index const proxy_loop = alloc_proxy_slice();
-          pipe_set_successor(proxy_loop,ready_loop);
-          pipe_link(slices[ready_root].prev,
-                    alloc_fork_on_remaining_slice(proxy_root,proxy_loop,
-                                                  length-1-slack_length));
-          pipe_link(proxy_root,ready_root);
-        }
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_move_generator(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -343,7 +269,7 @@ static void insert_castling_intermediate_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_single_move_generator(slice_index si,
+static void substitute_single_move_generator(slice_index si,
                                          stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -366,14 +292,13 @@ static void insert_single_move_generator(slice_index si,
 
 static structure_traversers_visitor const solver_inserters[] =
 {
-  { STHelpAdapter,                            &insert_solvers_help_adapter                    },
   { STGeneratingMoves,                        &insert_move_generator                          },
   { STBrunnerDefenderFinder,                  &insert_single_move_generator_with_king_capture },
-  { STKingCaptureLegalityTester,                  &insert_single_move_generator_with_king_capture },
+  { STKingCaptureLegalityTester,              &insert_single_move_generator_with_king_capture },
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator             },
   { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator    },
-  { STMaximummerCandidateMoveTester,          &insert_single_move_generator                   },
-  { STOpponentMovesCounterFork,               &insert_single_move_generator                   }
+  { STMaximummerCandidateMoveTester,          &substitute_single_move_generator               },
+  { STOpponentMovesCounterFork,               &substitute_single_move_generator               }
 };
 
 enum
@@ -381,7 +306,10 @@ enum
   nr_solver_inserters = sizeof solver_inserters / sizeof solver_inserters[0]
 };
 
-static void insert_other_solvers(slice_index si)
+/* Instrument a stipulation with move generator slices
+ * @param si root of branch to be instrumented
+ */
+void stip_insert_move_generators(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -392,46 +320,6 @@ static void insert_other_solvers(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,solver_inserters,nr_solver_inserters);
   stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with solving slices
- * @param root_slice root slice of the stipulation
- */
-void stip_insert_solvers(slice_index root_slice)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root_slice);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(root_slice);
-
-  stip_insert_continuation_solvers(root_slice);
-
-  TraceStipulation(root_slice);
-
-  if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-    stip_insert_try_solvers(root_slice);
-
-  TraceStipulation(root_slice);
-
-  stip_insert_setplay_solvers(root_slice);
-
-  TraceStipulation(root_slice);
-
-  stip_insert_find_shortest_solvers(root_slice);
-
-  TraceStipulation(root_slice);
-
-  stip_insert_min_length_solvers(root_slice);
-
-  TraceStipulation(root_slice);
-
-  insert_other_solvers(root_slice);
-
-  TraceStipulation(root_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

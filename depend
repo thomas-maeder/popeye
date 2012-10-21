@@ -622,8 +622,10 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/doublemate/king_capture_avoider.h solving/solving.h \
- solving/for_each_move.h solving/battle_play/try.h utilities/table.h \
- solving/battle_play/threat.h solving/trivial_end_filter.h \
+ solving/find_shortest.h solving/for_each_move.h \
+ solving/battle_play/try.h utilities/table.h solving/battle_play/threat.h \
+ solving/battle_play/continuation.h solving/battle_play/setplay.h \
+ solving/battle_play/min_length_guard.h solving/trivial_end_filter.h \
  solving/avoid_unsolvable.h solving/play_suppressor.h solving/castling.h \
  solving/en_passant.h solving/post_move_iteration.h pieces/walks.h \
  pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
@@ -917,6 +919,8 @@ stipulation/goals/doublemate/king_capture_avoider.h:
 
 solving/solving.h:
 
+solving/find_shortest.h:
+
 solving/for_each_move.h:
 
 solving/battle_play/try.h:
@@ -924,6 +928,12 @@ solving/battle_play/try.h:
 utilities/table.h:
 
 solving/battle_play/threat.h:
+
+solving/battle_play/continuation.h:
+
+solving/battle_play/setplay.h:
+
+solving/battle_play/min_length_guard.h:
 
 solving/trivial_end_filter.h:
 

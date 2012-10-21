@@ -206,9 +206,13 @@
 #include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/solving.h"
+#include "solving/find_shortest.h"
 #include "solving/for_each_move.h"
 #include "solving/battle_play/try.h"
 #include "solving/battle_play/threat.h"
+#include "solving/battle_play/continuation.h"
+#include "solving/battle_play/setplay.h"
+#include "solving/battle_play/min_length_guard.h"
 #include "solving/trivial_end_filter.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/play_suppressor.h"
@@ -2573,14 +2577,42 @@ static Token iterate_twins(Token prev_token)
 
       insert_temporary_hacks(root_slice);
 
-      if (OptFlag[nontrivial])
-        stip_insert_max_nr_nontrivial_guards(root_slice);
-
+      /* must come before stip_insert_selfcheck_guards() and
+       * stip_insert_move_generators() because flight counting machinery needs
+       * selfcheck guards and move generators */
       if (OptFlag[solflights])
         stip_insert_maxflight_guards(root_slice);
 
-      if (dealWithMaxtime())
-        stip_insert_maxtime_guards(root_slice);
+      /* must come before stip_insert_selfcheck_guards() because the
+       * instrumentation of the goal filters inserts or slices of
+       * which both branches need selfcheck guards */
+      if (anycirce)
+        stip_insert_circe_goal_filters(root_slice);
+      if (anyanticirce)
+        stip_insert_anticirce_goal_filters(root_slice);
+      if (TSTFLAG(PieSpExFlags,Kamikaze))
+        stip_insert_kamikaze(root_slice);
+
+      /* must come before stip_apply_setplay() */
+      stip_insert_root_slices(root_slice);
+      stip_insert_intro_slices(root_slice);
+
+      /* must come before stip_insert_selfcheck_guards() because the set play
+       * branch needs a selfcheck guard */
+      if (OptFlag[solapparent] && !OptFlag[restart]
+          && !stip_apply_setplay(root_slice))
+        Message(SetPlayNotApplicable);
+
+      /* must come before stip_insert_move_generators() because immobilise_black
+       * needs a move generator */
+      if (!init_intelligent_mode(root_slice))
+        Message(IntelligentRestricted);
+
+      /* must come here because in conditions like Ohneschach, we are going
+       * to tampter with the slices inserted here
+       */
+      stip_insert_selfcheck_guards(root_slice);
+      stip_insert_move_generators(root_slice);
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
@@ -2591,54 +2623,6 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[whiteultraschachzwang]
           || CondFlag[blackultraschachzwang])
         stip_insert_ultraschachzwang_goal_filters(root_slice);
-
-      if (anycirce)
-        stip_insert_circe_goal_filters(root_slice);
-
-      if (anyanticirce)
-        stip_insert_anticirce_goal_filters(root_slice);
-
-      if (CondFlag[BGL])
-        stip_insert_bgl_filters(root_slice);
-
-      if (TSTFLAG(PieSpExFlags,Kamikaze))
-        stip_insert_kamikaze(root_slice);
-
-      stip_insert_root_slices(root_slice);
-      stip_insert_intro_slices(root_slice);
-
-      /* operations depend on existance of root slices from here on */
-
-      if (OptFlag[noshort])
-        stip_insert_no_short_variations_filters(root_slice);
-
-      if (OptFlag[maxsols])
-        stip_insert_maxsolutions_filters(root_slice);
-
-      if (OptFlag[solapparent] && !OptFlag[restart]
-          && !stip_apply_setplay(root_slice))
-        Message(SetPlayNotApplicable);
-
-      stip_optimise_dead_end_slices(root_slice);
-
-      if (OptFlag[stoponshort]
-          && !stip_insert_stoponshortsolutions_filters(root_slice))
-        Message(NoStopOnShortSolutions);
-
-      if (is_hashtable_allocated())
-        stip_insert_hash_slices(root_slice);
-
-      if (!init_intelligent_mode(root_slice))
-        Message(IntelligentRestricted);
-
-      stip_insert_selfcheck_guards(root_slice);
-
-      stip_remove_irrelevant_constraints(root_slice);
-
-      if (OptFlag[movenbr])
-        stip_insert_restart_guards(root_slice);
-
-      stip_insert_solvers(root_slice);
 
       if (CondFlag[ohneschach])
         ohneschach_replace_immobility_testers(root_slice);
@@ -2653,26 +2637,6 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[exclusive])
         optimise_away_unnecessary_selfcheckguards(root_slice);
-
-      stip_impose_starter(root_slice,slices[root_slice].starter);
-
-      stip_optimise_with_orthodox_mating_move_generators(root_slice);
-
-      stip_insert_detours_around_end_of_branch(root_slice);
-
-      stip_insert_end_of_branch_testers(root_slice);
-
-      if (!OptFlag[solvariantes])
-        stip_insert_play_suppressors(root_slice);
-
-      stip_spin_off_refutation_solver_slices(root_slice);
-
-      stip_insert_trivial_variation_filters(root_slice);
-
-      if (OptFlag[solvariantes] && !OptFlag[nothreat])
-        stip_insert_threat_boundaries(root_slice);
-
-      stip_spin_off_testers(root_slice);
 
       if (CondFlag[extinction])
         stip_insert_extinction_chess(root_slice);
@@ -2710,29 +2674,8 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[patience])
         stip_insert_patience_chess(root_slice);
 
-      if (OptFlag[solvariantes] && !OptFlag[nothreat])
-        stip_insert_threat_handlers(root_slice);
-
-      if (OptFlag[degeneratetree])
-        stip_insert_degenerate_tree_guards(root_slice);
-
-      stip_impose_starter(root_slice,slices[root_slice].starter);
-      stip_optimise_with_countnropponentmoves(root_slice);
-
-      stip_insert_output_slices(root_slice);
-
-      stip_optimise_with_killer_moves(root_slice);
-
-      if (OptFlag[solmenaces]
-          && !stip_insert_maxthreatlength_guards(root_slice))
-        Message(ThreatOptionAndExactStipulationIncompatible);
-
-      stip_insert_avoid_unsolvable_forks(root_slice);
-
       if (TSTFLAG(PieSpExFlags,Paralyse))
         stip_insert_paralysing_goal_filters(root_slice);
-
-      stip_insert_move_iterators(root_slice);
 
       if (TSTFLAG(PieSpExFlags,Neutral))
         stip_insert_neutral_initialisers(root_slice);
@@ -2765,9 +2708,6 @@ static Token iterate_twins(Token prev_token)
 
       if (CondFlag[actrevolving])
         stip_insert_actuated_revolving_board(root_slice);
-
-      if (CondFlag[republican])
-        stip_insert_republican_king_placers(root_slice);
 
       if (anyparrain)
         stip_insert_circe_parrain_rebirth_handlers(root_slice);
@@ -2941,10 +2881,92 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[football])
         stip_insert_football_chess(root_slice);
 
-      stip_insert_post_move_iteration(root_slice);
-
       if (CondFlag[platzwechselrochade])
         stip_insert_exchange_castling(root_slice);
+
+      stip_insert_post_move_iteration(root_slice);
+
+      if (OptFlag[nontrivial])
+        stip_insert_max_nr_nontrivial_guards(root_slice);
+
+      if (dealWithMaxtime())
+        stip_insert_maxtime_guards(root_slice);
+
+      if (CondFlag[BGL])
+        stip_insert_bgl_filters(root_slice);
+
+      if (OptFlag[noshort])
+        stip_insert_no_short_variations_filters(root_slice);
+
+      if (OptFlag[maxsols])
+        stip_insert_maxsolutions_filters(root_slice);
+
+      stip_optimise_dead_end_slices(root_slice);
+
+      if (OptFlag[stoponshort]
+          && !stip_insert_stoponshortsolutions_filters(root_slice))
+        Message(NoStopOnShortSolutions);
+
+      if (is_hashtable_allocated())
+        stip_insert_hash_slices(root_slice);
+
+      stip_remove_irrelevant_constraints(root_slice);
+
+      if (OptFlag[movenbr])
+        stip_insert_restart_guards(root_slice);
+
+      stip_insert_continuation_solvers(root_slice);
+
+      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+        stip_insert_try_solvers(root_slice);
+
+      stip_insert_setplay_solvers(root_slice);
+
+      stip_insert_find_shortest_solvers(root_slice);
+
+      stip_insert_min_length_solvers(root_slice);
+
+      stip_optimise_with_orthodox_mating_move_generators(root_slice);
+
+      stip_insert_detours_around_end_of_branch(root_slice);
+
+      stip_insert_end_of_branch_testers(root_slice);
+
+      if (!OptFlag[solvariantes])
+        stip_insert_play_suppressors(root_slice);
+
+      stip_spin_off_refutation_solver_slices(root_slice);
+
+      stip_insert_trivial_variation_filters(root_slice);
+
+      if (OptFlag[solvariantes] && !OptFlag[nothreat])
+        stip_insert_threat_boundaries(root_slice);
+
+      stip_spin_off_testers(root_slice);
+
+      if (OptFlag[solvariantes] && !OptFlag[nothreat])
+        stip_insert_threat_handlers(root_slice);
+
+      if (OptFlag[degeneratetree])
+        stip_insert_degenerate_tree_guards(root_slice);
+
+      stip_impose_starter(root_slice,slices[root_slice].starter);
+      stip_optimise_with_countnropponentmoves(root_slice);
+
+      stip_insert_output_slices(root_slice);
+
+      stip_optimise_with_killer_moves(root_slice);
+
+      if (OptFlag[solmenaces]
+          && !stip_insert_maxthreatlength_guards(root_slice))
+        Message(ThreatOptionAndExactStipulationIncompatible);
+
+      stip_insert_avoid_unsolvable_forks(root_slice);
+
+      stip_insert_move_iterators(root_slice);
+
+      if (CondFlag[republican])
+        stip_insert_republican_king_placers(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

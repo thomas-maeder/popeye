@@ -1,9 +1,13 @@
 #include "solving/find_shortest.h"
+#include "pydata.h"
+#include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/avoid_unsolvable.h"
+#include "solving/find_by_increasing_length.h"
+#include "solving/fork_on_remaining.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -103,10 +107,76 @@ static void insert_find_shortest_battle_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static slice_index find_ready_for_move_in_loop(slice_index ready_root)
+{
+  slice_index result = ready_root;
+  do
+  {
+    result = branch_find_slice(STReadyForHelpMove,
+                               result,
+                               stip_traversal_context_help);
+  } while ((slices[result].u.branch.length-slack_length)%2
+           !=(slices[ready_root].u.branch.length-slack_length)%2);
+  return result;
+}
+
+static void insert_find_shortest_help_adapter(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (length+2>=min_length)
+  {
+    if (st->level==structure_traversal_level_nested)
+    {
+      if (st->context==stip_traversal_context_intro)
+      {
+        slice_index const prototype = alloc_find_shortest_slice(length,min_length);
+        branch_insert_slices(si,&prototype,1);
+      }
+    }
+    else /* root or set play */
+    {
+      if (!OptFlag[restart] && length>=slack_length+2)
+      {
+        {
+          slice_index const prototype =
+              alloc_find_by_increasing_length_slice(length,min_length);
+          branch_insert_slices(si,&prototype,1);
+        }
+        {
+          slice_index const ready_root = branch_find_slice(STReadyForHelpMove,
+                                                           si,
+                                                           st->context);
+          slice_index const ready_loop = find_ready_for_move_in_loop(ready_root);
+          slice_index const proxy_root = alloc_proxy_slice();
+          slice_index const proxy_loop = alloc_proxy_slice();
+          pipe_set_successor(proxy_loop,ready_loop);
+          pipe_link(slices[ready_root].prev,
+                    alloc_fork_on_remaining_slice(proxy_root,proxy_loop,
+                                                  length-1-slack_length));
+          pipe_link(proxy_root,ready_root);
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor const find_shortest_inserters[] =
 {
   { STAttackAdapter,  &insert_find_shortest_battle_adapter },
-  { STDefenseAdapter, &insert_find_shortest_battle_adapter }
+  { STDefenseAdapter, &insert_find_shortest_battle_adapter },
+  { STHelpAdapter,    &insert_find_shortest_help_adapter   }
 };
 
 enum

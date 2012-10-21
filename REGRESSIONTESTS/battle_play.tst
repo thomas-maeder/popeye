@@ -748,7 +748,7 @@ solution finished.
               empile:         233
            play_move:         190
         orig_rbechec:         166
-        orig_rnechec:         112
+        orig_rnechec:         118
 solution finished. 
 
 
@@ -1108,7 +1108,7 @@ solution finished.
               empile:        3901
            play_move:        2085
         orig_rbechec:        2072
-        orig_rnechec:         984
+        orig_rnechec:         985
 solution finished. 
 
 
@@ -1904,7 +1904,7 @@ solution finished.
               empile:       55042
            play_move:       32181
         orig_rbechec:       28761
-        orig_rnechec:       10226
+        orig_rnechec:       10228
 solution finished. 
 
 

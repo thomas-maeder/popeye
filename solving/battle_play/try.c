@@ -489,9 +489,10 @@ void stip_insert_try_solvers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void slice_copy(slice_index si, stip_structure_traversal *st)
+static void copy_to_refutations_filter(slice_index si,
+                                       stip_structure_traversal *st)
 {
-  slice_index * const result = st->param;
+  stip_deep_copies_type * const copies = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -499,95 +500,60 @@ static void slice_copy(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (*result!=no_slice)
-  {
-    slice_index const copy = copy_slice(si);
-    link_to_branch(copy,*result);
-    *result = copy;
-  }
+  assert((*copies)[slices[si].next1]!=no_slice);
+
+  (*copies)[si] = alloc_refutations_filter_slice();
+  link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void substitute_refutations_filter(slice_index si, stip_structure_traversal *st)
+static void copy_to_constraint_solver(slice_index si,
+                                      stip_structure_traversal *st)
 {
-  slice_index * const result = st->param;
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  assert((*copies)[slices[si].next1]!=no_slice);
+  assert((*copies)[slices[si].next2]!=no_slice);
+
+  (*copies)[si] = alloc_constraint_solver_slice((*copies)[slices[si].next2]);
+  link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stop_copying(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*copies)[si] = alloc_false_slice();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void skip_over_pipe(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-
-  assert(*result!=no_slice);
-
-  {
-    slice_index const filter = alloc_refutations_filter_slice();
-    link_to_branch(filter,*result);
-    *result = filter;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_constraint_solver(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  assert(*result!=no_slice);
-
-  {
-    slice_index const solver = alloc_constraint_solver_slice(stip_deep_copy(slices[si].next2));
-    link_to_branch(solver,*result);
-    *result = solver;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_deep_copy(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  assert(*result!=no_slice);
-
-  {
-    slice_index copy = copy_slice(si);
-    slices[copy].next2 = stip_deep_copy(slices[si].next2);
-    link_to_branch(copy,*result);
-    *result = copy;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(*result==no_slice);
-  *result = alloc_false_slice();
+  (*copies)[si] = (*copies)[slices[si].next1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -595,13 +561,10 @@ static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor const to_refutation_branch_copiers[] =
 {
-  { STRefutationsAvoider,           &substitute_refutations_filter          },
-  { STPlaySuppressor,               &stip_traverse_structure_children_pipe  },
-  { STSelfCheckGuard,               &stip_traverse_structure_children_pipe  },
-  { STMinLengthGuard,               &stip_traverse_structure_children_pipe  },
-  { STConstraintTester,             &insert_constraint_solver               },
-  { STEndOfBranchGoal,              &insert_deep_copy                       },
-  { STEndOfRefutationSolvingBranch, &stop_spinning_off                      }
+  { STRefutationsAvoider,           &copy_to_refutations_filter },
+  { STConstraintTester,             &copy_to_constraint_solver  }, /* write reflex mates */
+  { STPlaySuppressor,               &skip_over_pipe             }, /* write refutations even if we don't write variations */
+  { STEndOfRefutationSolvingBranch, &stop_copying               }
 };
 
 enum
@@ -614,36 +577,24 @@ static void spin_off_from_refutations_solver(slice_index si,
                                              stip_structure_traversal *st)
 {
   stip_structure_traversal st_nested;
-  slice_index spun_off = no_slice;
+  stip_deep_copies_type copies;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init_nested(&st_nested,st,&spun_off);
-  stip_structure_traversal_override_by_structure(&st_nested,
-                                                 slice_structure_pipe,
-                                                 &slice_copy);
-  stip_structure_traversal_override_by_structure(&st_nested,
-                                                 slice_structure_branch,
-                                                 &slice_copy);
-  stip_structure_traversal_override_by_structure(&st_nested,
-                                                 slice_structure_fork,
-                                                 &slice_copy);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_binary,
-                                                &stip_traverse_structure_children_pipe);
+  init_deep_copy(&st_nested,st,&copies);
   stip_structure_traversal_override_by_function(&st_nested,
                                                 slice_function_end_of_branch,
-                                                &stip_traverse_structure_children_pipe);
+                                                &skip_over_pipe);
   stip_structure_traversal_override(&st_nested,
                                     to_refutation_branch_copiers,
                                     nr_to_refutation_branch_copiers);
   stip_traverse_structure_children_pipe(si,&st_nested);
 
-  assert(spun_off!=no_slice);
+  assert(copies[slices[si].next1]!=no_slice);
   slices[si].next2 = alloc_proxy_slice();
-  link_to_branch(slices[si].next2,spun_off);
+  link_to_branch(slices[si].next2,copies[slices[si].next1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

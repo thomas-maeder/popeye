@@ -79,7 +79,7 @@
               empile:       22767
            play_move:       13420
         orig_rbechec:        4183
-        orig_rnechec:       16293
+        orig_rnechec:       16300
 Loesung beendet. 
 
 
@@ -199,8 +199,8 @@ a)
 
               empile:       14329
            play_move:        9913
-        orig_rbechec:        2152
-        orig_rnechec:        9880
+        orig_rbechec:        2153
+        orig_rnechec:        9886
 b) s#3
 
    1.Le6-d5 + ?
@@ -226,7 +226,7 @@ b) s#3
               empile:      704502
            play_move:      251119
         orig_rbechec:      280340
-        orig_rnechec:      190480
+        orig_rnechec:      190483
 Loesung beendet. 
 
 

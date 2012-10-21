@@ -25,10 +25,10 @@
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
 
-              empile:    20720549
-           play_move:     3767693
-        orig_rbechec:     1916677
-        orig_rnechec:     3748900
+              empile:    21815411
+           play_move:     4007910
+        orig_rbechec:     1992711
+        orig_rnechec:     3989200
 Bearbeitung abgebrochen. 
 
 
@@ -61,10 +61,10 @@ Bearbeitung abgebrochen.
            Beamtet h8 a3 a1
 
 
-              empile:    16117735
-           play_move:     6575795
-        orig_rbechec:    10552078
-        orig_rnechec:     9472521
+              empile:    16161883
+           play_move:     6597599
+        orig_rbechec:    10579768
+        orig_rnechec:     9502413
 Bearbeitung abgebrochen. 
 
 
@@ -97,17 +97,17 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 a) 
 
 
-              empile:     8690159
-           play_move:     8690159
-        orig_rbechec:     1982966
-        orig_rnechec:     8663687
+              empile:    10872234
+           play_move:    10872234
+        orig_rbechec:     2482112
+        orig_rnechec:    10840400
 b) wKc1-->b3
 
 
-              empile:    10581525
-           play_move:    10581525
-        orig_rbechec:     2431808
-        orig_rnechec:    10559262
+              empile:    11639252
+           play_move:    11639252
+        orig_rbechec:     2686050
+        orig_rnechec:    11614912
 Bearbeitung abgebrochen. 
 
 
@@ -191,10 +191,10 @@ Motto: Viele Koeche verderben den Brei
   7  (Ke2-d3 )
   8  (Ke2-f3 )
 
-              empile:    11423336
-           play_move:     6012501
-        orig_rbechec:      308638
-        orig_rnechec:     5807898
+              empile:    13220322
+           play_move:     6971213
+        orig_rbechec:      360124
+        orig_rnechec:     6724781
 Bearbeitung abgebrochen. 
 
 
@@ -227,10 +227,10 @@ Bearbeitung abgebrochen.
   1  (Sh1-g3 )
   2  (Sh1-f2 )
 
-              empile:    20578963
-           play_move:    13660623
-        orig_rbechec:     9948530
-        orig_rnechec:    21150955
+              empile:    20849155
+           play_move:    13823332
+        orig_rbechec:    10047089
+        orig_rnechec:    21387085
 Bearbeitung abgebrochen. 
 
 
@@ -261,10 +261,10 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-              empile:    15930984
-           play_move:     6275128
-        orig_rbechec:      276947
-        orig_rnechec:     6041152
+              empile:    27779183
+           play_move:    10677001
+        orig_rbechec:      499326
+        orig_rnechec:    10241788
 Bearbeitung abgebrochen. 
 
 
@@ -296,10 +296,10 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-              empile:    39391064
-           play_move:     6528367
+              empile:    54396675
+           play_move:     9205711
         orig_rbechec:           0
-        orig_rnechec:     6235244
+        orig_rnechec:     8784290
 Bearbeitung abgebrochen. 
 
 
@@ -567,10 +567,10 @@ Loesung beendet.
               OhneSchach
 
 
-              empile:    67982067
-           play_move:     7884000
-        orig_rbechec:    10353210
-        orig_rnechec:    10641084
+              empile:   110499722
+           play_move:    12249832
+        orig_rbechec:    15809896
+        orig_rnechec:    16343760
 Bearbeitung abgebrochen. 
 
 
@@ -602,10 +602,10 @@ Bearbeitung abgebrochen.
 
   1  (b2-b1=D )
 
-              empile:    77431932
-           play_move:    12573129
-        orig_rbechec:     8728412
-        orig_rnechec:    14714686
+              empile:   112510592
+           play_move:    17985565
+        orig_rbechec:    12331396
+        orig_rnechec:    20860048
 Bearbeitung abgebrochen. 
 
 
@@ -637,10 +637,10 @@ Bearbeitung abgebrochen.
               OhneSchach
 
 
-              empile:    66717299
-           play_move:     7417675
-        orig_rbechec:     9927602
-        orig_rnechec:    10256299
+              empile:    77774673
+           play_move:     8757403
+        orig_rbechec:    11682811
+        orig_rnechec:    12085543
 Bearbeitung abgebrochen. 
 
 
@@ -671,11 +671,12 @@ Bearbeitung abgebrochen.
                 Circe
               OhneSchach
 
+  1  (Kb1-c1 )
 
-              empile:    62433061
-           play_move:     7073241
-        orig_rbechec:     9137276
-        orig_rnechec:     9671631
+              empile:    93809198
+           play_move:    10974659
+        orig_rbechec:    13943015
+        orig_rnechec:    14973960
 Bearbeitung abgebrochen. 
 
 
@@ -707,10 +708,10 @@ Bearbeitung abgebrochen.
               OhneSchach
 
 
-              empile:    54917391
-           play_move:     6664985
-        orig_rbechec:     8921475
-        orig_rnechec:     9389217
+              empile:    76948979
+           play_move:     9094906
+        orig_rbechec:    12075076
+        orig_rnechec:    12630679
 Bearbeitung abgebrochen. 
 
 
@@ -749,28 +750,31 @@ a)
   4  (f3-f2 )
   5  (Tc5*c1[+wSg1] )
   6  (Tc5-c2 )
+  7  (Tc5-c3 )
 
-              empile:     3189606
-           play_move:     3142563
-        orig_rbechec:       38720
-        orig_rnechec:     3125749
+              empile:     3651061
+           play_move:     3597517
+        orig_rbechec:       44334
+        orig_rnechec:     3577522
 b) sKa7-->b1
 
-  7  (Kb1*c1[+wSg1] )
-  8  (Kb1-b2 )
-  9  (Kb1-a1 )
- 10  (Kb1-a2 )
- 11  (Kb1-c2 )
- 12  (La3*c1[+wSg1] )
+  8  (Kb1*c1[+wSg1] )
+  9  (Kb1-b2 )
+ 10  (Kb1-a1 )
+ 11  (Kb1-a2 )
+ 12  (Kb1-c2 )
+ 13  (La3*c1[+wSg1] )
   1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] # 
- 13  (La3-b2 )
- 14  (La3-b4 )
- 15  (f3-f2 )
+ 14  (La3-b2 )
+ 15  (La3-b4 )
+ 16  (f3-f2 )
+ 17  (Tc5*c1[+wSg1] )
+ 18  (Tc5-c2 )
 
-              empile:     3703465
-           play_move:     3372902
-        orig_rbechec:      187445
-        orig_rnechec:     3354482
+              empile:     5176563
+           play_move:     4762465
+        orig_rbechec:      241476
+        orig_rnechec:     4734611
 Bearbeitung abgebrochen. 
 
 

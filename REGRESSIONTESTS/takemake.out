@@ -848,7 +848,7 @@ Es fehlt ein weisser oder schwarzer Koenig
               empile:      184275
            play_move:       93945
         orig_rbechec:           0
-        orig_rnechec:       93675
+        orig_rnechec:       93681
 Loesung beendet. 
 
 
@@ -956,7 +956,7 @@ Loesung beendet.
               empile:   134509219
            play_move:    42435730
         orig_rbechec:     4979495
-        orig_rnechec:    40895826
+        orig_rnechec:    40895828
 Loesung beendet. 
 
 
@@ -1104,7 +1104,7 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
               empile:       35121
            play_move:       17026
         orig_rbechec:        1285
-        orig_rnechec:       16985
+        orig_rnechec:       16987
 Loesung beendet. 
 
 
@@ -1325,7 +1325,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
               empile:      147413
            play_move:       78785
         orig_rbechec:        4294
-        orig_rnechec:       78388
+        orig_rnechec:       78398
 Loesung beendet. 
 
 
@@ -1420,7 +1420,7 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
               empile:       23052
            play_move:       10928
         orig_rbechec:         909
-        orig_rnechec:       10785
+        orig_rnechec:       10793
 Loesung beendet. 
 
 
