@@ -2922,8 +2922,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_find_shortest_solvers(root_slice);
 
-      stip_insert_min_length_solvers(root_slice);
-
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
 
       stip_insert_detours_around_end_of_branch(root_slice);
@@ -2941,6 +2939,8 @@ static Token iterate_twins(Token prev_token)
         stip_insert_threat_boundaries(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      stip_insert_min_length(root_slice);
 
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards(root_slice);

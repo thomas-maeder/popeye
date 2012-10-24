@@ -1,5 +1,5 @@
-#if !defined(SOLVING_MIN_LENGTH_GUARD_H)
-#define SOLVING_MIN_LENGTH_GUARD_H
+#if !defined(SOLVING_BATTLE_PLAY_MIN_LENGTH_H)
+#define SOLVING_BATTLE_PLAY_MIN_LENGTH_H
 
 /* make sure that the minimum length of a branch is respected
  */
@@ -16,9 +16,9 @@
  */
 stip_length_type min_length_guard_solve(slice_index si, stip_length_type n);
 
-/* Instrument the stipulation to be able to cope with minimum lengths
+/* Instrument the stipulation with minimum length functionality
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_min_length_solvers(slice_index si);
+void stip_insert_min_length(slice_index si);
 
 #endif
