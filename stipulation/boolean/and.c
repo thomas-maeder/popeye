@@ -67,25 +67,15 @@ stip_length_type and_solve(slice_index si, stip_length_type n)
  */
 void stip_spin_off_testers_and(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const spinning_off = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*spinning_off)
-    stip_spin_off_testers_binary(si,st);
-  else
-  {
-    stip_traverse_structure_binary_operand1(si,st);
-    *spinning_off = true;
-    stip_traverse_structure_binary_operand2(si,st);
-    *spinning_off = false;
+  stip_spin_off_testers_binary(si,st);
 
-    assert(slices[slices[si].next2].tester!=no_slice);
-    pipe_append(slices[si].next1,
-                alloc_constraint_tester_slice(slices[slices[si].next2].tester));
-  }
+  assert(slices[slices[si].next2].tester!=no_slice);
+  pipe_append(slices[si].next1,
+              alloc_constraint_tester_slice(slices[slices[si].next2].tester));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

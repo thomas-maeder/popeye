@@ -74,6 +74,12 @@ static void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
     proxy_slice_resolve(&slices[si].next1,st);
   }
 
+  if (slices[si].tester!=no_slice)
+  {
+    stip_traverse_structure(slices[si].tester,st);
+    proxy_slice_resolve(&slices[si].tester,st);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

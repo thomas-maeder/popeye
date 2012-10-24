@@ -36,9 +36,6 @@ slice_index alloc_testing_pipe(slice_type type)
 void stip_spin_off_testers_testing_pipe(slice_index si,
                                         stip_structure_traversal *st)
 {
-  boolean * const spinning_off = st->param;
-  boolean const save_spinning_off = *spinning_off;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -48,9 +45,7 @@ void stip_spin_off_testers_testing_pipe(slice_index si,
 
   slices[si].tester = alloc_proxy_slice();
 
-  *spinning_off = true;
   stip_traverse_structure_children(si,st);
-  *spinning_off = save_spinning_off;
 
   link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
   slices[si].next2 = slices[si].tester;

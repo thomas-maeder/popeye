@@ -275,6 +275,7 @@ static void insert_enforcers(slice_index si, stip_structure_traversal *st)
 
     assert(*threat_start!=no_slice);
     assert(threat_start_tester!=no_slice);
+    assert(slices[threat_start_tester].type==STThreatStart);
 
     {
       slice_index const prototype = alloc_pipe(STThreatDefeatedTester);
@@ -488,8 +489,6 @@ void stip_insert_threat_handlers(slice_index si)
                                     threat_handler_inserters,
                                     nr_threat_handler_inserters);
   stip_traverse_structure(si,&st);
-
-  register_spin_off_testers_visitor(STThreatSolver,&stip_spin_off_testers_pipe_skip);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

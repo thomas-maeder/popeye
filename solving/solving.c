@@ -89,66 +89,12 @@ static void instrument_spin_off_traversal(stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void start_spinning_off_end_of_root(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  boolean * const spinning_off = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*spinning_off)
-    stip_spin_off_testers_pipe(si,st);
-  else if (st->context==stip_traversal_context_attack)
-  {
-    /* we are solving something like #3 option postkey
-     * start spinning off testers at the loop entry
-     */
-    *spinning_off = true;
-    stip_spin_off_testers_pipe(si,st);
-    *spinning_off = false;
-  }
-  else
-    stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void start_spinning_off_end_of_intro(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  boolean * const spinning_off = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*spinning_off)
-    stip_spin_off_testers_pipe(si,st);
-  else if (st->context==stip_traversal_context_attack
-           || st->context==stip_traversal_context_defense)
-  {
-    /* we are solving a nested battle play branch */
-    *spinning_off = true;
-    stip_spin_off_testers_pipe(si,st);
-    *spinning_off = false;
-  }
-  else
-    stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation
  */
 void stip_spin_off_testers(slice_index si)
 {
   stip_structure_traversal st;
-  boolean spinning_off = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -156,7 +102,7 @@ void stip_spin_off_testers(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&spinning_off);
+  stip_structure_traversal_init(&st,0);
 
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
@@ -180,8 +126,7 @@ void stip_spin_off_testers(slice_index si)
                                                 slice_function_conditional_pipe,
                                                 &stip_spin_off_testers_conditional_pipe);
 
-  stip_structure_traversal_override_single(&st,STEndOfRoot,&start_spinning_off_end_of_root);
-  stip_structure_traversal_override_single(&st,STEndOfIntro,&start_spinning_off_end_of_intro);
+  stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_spin_off_testers_pipe_skip);
 
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
   stip_structure_traversal_override_single(&st,STPlaySuppressor,&stip_spin_off_testers_pipe_skip);

@@ -124,28 +124,15 @@ enum
 static void stip_spin_off_testers_end_of_branch_tester(slice_index si,
                                                        stip_structure_traversal *st)
 {
-  boolean * const spinning_off = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*spinning_off)
-  {
-    slices[si].tester = copy_slice(si);
-    stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
-    slices[slices[si].tester].next2 = slices[slices[si].next2].tester;
-  }
-  else
-  {
-    stip_traverse_structure_children_pipe(si,st);
-
-    *spinning_off = true;
-    stip_traverse_structure_next_branch(si,st);
-    *spinning_off = false;
-  }
-
+  slices[si].tester = copy_slice(si);
+  stip_traverse_structure_children_pipe(si,st);
+  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+  slices[slices[si].tester].next2 = slices[slices[si].next2].tester;
+  stip_traverse_structure_next_branch(si,st);
   slices[si].next2 = slices[slices[si].next2].tester;
 
   TraceFunctionExit(__func__);

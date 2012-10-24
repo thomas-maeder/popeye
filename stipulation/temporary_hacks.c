@@ -316,8 +316,6 @@ void insert_temporary_hacks(slice_index root_slice)
       pipe_append(proxy,alloc_move_inverter_slice());
   }
 
-  register_spin_off_testers_visitor(STTemporaryHackFork,&stip_traverse_structure_children_pipe);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

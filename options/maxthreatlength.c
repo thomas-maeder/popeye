@@ -151,13 +151,12 @@ static void insert_maxthreatlength_guard(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->activity==stip_traversal_activity_testing
-      && length>=2*max_len_threat+slack_length)
+  if (length>=2*max_len_threat+slack_length)
   {
     boolean * const inserted = st->param;
     slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,
                                                        si,
-                                                       stip_traversal_context_defense);
+                                                       st->context);
     slice_index const proxy = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
     slice_index const played = alloc_defense_played_slice();
@@ -182,14 +181,13 @@ static void insert_max_threat_length_start(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->activity==stip_traversal_activity_testing
-      && st->context==stip_traversal_context_attack)
+  if (st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_pipe(STMaxThreatLengthStart);
     attack_branch_insert_slices(si,&prototype,1);
   }
-  else
-    stip_traverse_structure_children_pipe(si,st);
+
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -197,7 +195,6 @@ static void insert_max_threat_length_start(slice_index si,
 
 static structure_traversers_visitor maxthreatlength_guards_inserters[] =
 {
-  { STDefenseAdapter,  &insert_maxthreatlength_guard   },
   { STReadyForDefense, &insert_maxthreatlength_guard   },
   { STNotEndOfBranch,  &insert_max_threat_length_start }
 };
@@ -227,7 +224,8 @@ boolean stip_insert_maxthreatlength_guards(slice_index si)
   stip_structure_traversal_override(&st,
                                     maxthreatlength_guards_inserters,
                                     nr_maxthreatlength_guards_inserters);
-  stip_traverse_structure(si,&st);
+  st.activity = stip_traversal_activity_testing;
+  stip_traverse_structure(slices[si].tester,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

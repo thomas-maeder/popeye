@@ -2886,9 +2886,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_post_move_iteration(root_slice);
 
-      if (OptFlag[nontrivial])
-        stip_insert_max_nr_nontrivial_guards(root_slice);
-
       if (dealWithMaxtime())
         stip_insert_maxtime_guards(root_slice);
 
@@ -2944,6 +2941,9 @@ static Token iterate_twins(Token prev_token)
 
       stip_spin_off_testers(root_slice);
 
+      if (OptFlag[nontrivial])
+        stip_insert_max_nr_nontrivial_guards(root_slice);
+
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers(root_slice);
 
@@ -2976,14 +2976,10 @@ static Token iterate_twins(Token prev_token)
       stip_insert_move_counters(root_slice);
 #endif
 
+      stip_impose_starter(root_slice,slices[root_slice].starter);
+
       resolve_proxies(&root_slice);
 
-      /* if root_slice had type STProxy, its value has just changed,
-       * and the new slice may not have a starter yet. So let's use
-       * template_slice_hook's starter.
-       */
-      stip_impose_starter(root_slice,
-                          slices[slices[template_slice_hook].next1].starter);
       TraceStipulation(root_slice);
 
       solve_twin(root_slice,twin_index,prev_token);

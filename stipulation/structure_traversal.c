@@ -155,6 +155,7 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
         assert(st->context==stip_traversal_context_intro);
         st->context = stip_traversal_context_defense;
         st->level = structure_traversal_level_nested;
+        TraceText("STDefenseAdapter -> next1\n");
         stip_traverse_structure(slices[pipe].next1,st);
         st->level = save_level;
         st->context = stip_traversal_context_intro;

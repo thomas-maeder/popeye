@@ -82,7 +82,7 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st);
 void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st);
 
 /* Callback to stip_spin_off_testers
- * Spin a tester slice off a pipe slice
+ * Spin a proxy slice off a pipe slice
  * @param si identifies the pipe slice
  * @param st address of structure representing traversal
  */

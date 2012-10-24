@@ -236,21 +236,15 @@ stip_length_type refutations_collector_solve(slice_index si,
 static void spin_off_testers_refutations_avoider(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  boolean const * const spinning_off = st->param;
+  unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*spinning_off)
-  {
-    unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
-    slices[si].tester = alloc_refutations_collector_slice(max_nr_refutations);
-    stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
-  }
-  else
-    stip_traverse_structure_children_pipe(si,st);
+  slices[si].tester = alloc_refutations_collector_slice(max_nr_refutations);
+  stip_traverse_structure_children_pipe(si,st);
+  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

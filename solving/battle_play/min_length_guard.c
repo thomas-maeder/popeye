@@ -138,28 +138,21 @@ static void remember_defense_adapter_length(slice_index si,
 static void spin_off_testers_min_length_guard(slice_index si,
                                               stip_structure_traversal *st)
 {
-  boolean const * const spinning_off = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*spinning_off)
+  if (st->context==stip_traversal_context_attack)
   {
-    if (st->context==stip_traversal_context_attack)
-    {
-      slice_index const substitute = alloc_proxy_slice();
-      slices[si].tester = copy_slice(si);
-      stip_traverse_structure_children_pipe(si,st);
-      link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
-      slices[substitute].tester = slices[si].tester;
-      pipe_substitute(si,substitute);
-    }
-    else
-      stip_spin_off_testers_pipe(si,st);
+    slice_index const substitute = alloc_proxy_slice();
+    slices[si].tester = copy_slice(si);
+    stip_traverse_structure_children_pipe(si,st);
+    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+    slices[substitute].tester = slices[si].tester;
+    pipe_substitute(si,substitute);
   }
   else
-    stip_traverse_structure_children_pipe(si,st);
+    stip_spin_off_testers_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
