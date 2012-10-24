@@ -196,6 +196,7 @@
 #include "stipulation/end_of_branch_tester.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/move_inverter.h"
+#include "stipulation/boolean/and.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/constraint.h"
@@ -2961,12 +2962,14 @@ static Token iterate_twins(Token prev_token)
           && !stip_insert_maxthreatlength_guards(root_slice))
         Message(ThreatOptionAndExactStipulationIncompatible);
 
+      if (CondFlag[republican])
+        stip_insert_republican_king_placers(root_slice);
+
+      and_enable_shortcut_logic(root_slice);
+
       stip_insert_avoid_unsolvable_forks(root_slice);
 
       stip_insert_move_iterators(root_slice);
-
-      if (CondFlag[republican])
-        stip_insert_republican_king_placers(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

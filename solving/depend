@@ -7,10 +7,10 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h \
  stipulation/fork.h solving/solve.h stipulation/has_solution_type.h \
  stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
- stipulation/boolean/and.h stipulation/boolean/true.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- solving/move_generator.h solving/single_piece_move_generator.h \
+ stipulation/boolean/true.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/help_play/branch.h solving/move_generator.h \
+ solving/single_piece_move_generator.h \
  solving/single_move_generator_with_king_capture.h solving/castling.h \
  solving/single_move_generator.h solving/king_move_generator.h \
  debugging/trace.h
@@ -70,8 +70,6 @@ stipulation/conditional_pipe.h:
 stipulation/branch.h:
 
 stipulation/binary.h:
-
-stipulation/boolean/and.h:
 
 stipulation/boolean/true.h:
 

@@ -60,22 +60,40 @@ stip_length_type and_solve(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a testing pipe slice
- * @param si identifies the testing pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_and(slice_index si, stip_structure_traversal *st)
+static void insert_shortcut_tester(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_spin_off_testers_binary(si,st);
-
   assert(slices[slices[si].next2].tester!=no_slice);
   pipe_append(slices[si].next1,
               alloc_constraint_tester_slice(slices[slices[si].next2].tester));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Enable shortcut logic for all STAnd slices
+ * @param si root slice of the stipulation
+ */
+void and_enable_shortcut_logic(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,STAnd,&insert_shortcut_tester);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

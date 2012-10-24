@@ -24,11 +24,9 @@ slice_index alloc_and_slice(slice_index op1, slice_index op2);
  */
 stip_length_type and_solve(slice_index si, stip_length_type n);
 
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a testing pipe slice
- * @param si identifies the testing pipe slice
- * @param st address of structure representing traversal
+/* Enable shortcut logic for all STAnd slices
+ * @param si root slice of the stipulation
  */
-void stip_spin_off_testers_and(slice_index si, stip_structure_traversal *st);
+void and_enable_shortcut_logic(slice_index si);
 
 #endif

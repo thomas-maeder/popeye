@@ -7,7 +7,6 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/binary.h"
-#include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -128,7 +127,6 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_spin_off_testers_pipe_skip);
 
-  stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
   stip_structure_traversal_override_single(&st,STPlaySuppressor,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STIfThenElse,&stip_spin_off_testers_if_then_else);
 
