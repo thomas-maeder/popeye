@@ -5,6 +5,8 @@
 #include "solving/battle_play/try.h"
 #include "debugging/trace.h"
 
+#include <assert.h>
+
 static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -28,18 +30,85 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
   if (st->level==structure_traversal_level_setplay
       && slices[si].u.branch.length>slack_length)
   {
-    unsigned int const max_nr_refutations = UINT_MAX;
     slice_index const prototypes[] =
     {
-      alloc_refutations_allocator(),
-      alloc_refutations_avoider_slice(max_nr_refutations)
+      alloc_refutations_allocator()
     };
     enum
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
     branch_insert_slices(si,prototypes,nr_prototypes);
+
+    stip_traverse_structure_children_pipe(si,st);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_refutations_solver(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  unsigned int const max_nr_refutations = UINT_MAX;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(st->context==stip_traversal_context_defense);
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_refutations_avoider_slice(max_nr_refutations)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    defense_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_refutations_collector_slice(max_nr_refutations)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,nr_prototypes,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stop_traversal(slice_index si,
+                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void traverse_setplay_only(slice_index si,
+                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(st->level==structure_traversal_level_top);
+
+  st->level = structure_traversal_level_setplay;
+  stip_traverse_structure_next_branch(si,st);
+  st->level = structure_traversal_level_top;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -48,7 +117,10 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
 static structure_traversers_visitor const setplay_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode                     },
-  { STDefenseAdapter,     &insert_setplay_solvers_defense_adapter }
+  { STSetplayFork,        &traverse_setplay_only                  },
+  { STAttackAdapter,      &stop_traversal                         },
+  { STDefenseAdapter,     &insert_setplay_solvers_defense_adapter },
+  { STContinuationSolver, &insert_refutations_solver              }
 };
 
 enum
@@ -69,7 +141,15 @@ void stip_insert_setplay_solvers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&mode);
-  stip_structure_traversal_override(&st,setplay_solver_inserters,nr_setplay_solver_inserters);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override(&st,
+                                    setplay_solver_inserters,
+                                    nr_setplay_solver_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

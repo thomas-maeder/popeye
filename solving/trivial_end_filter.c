@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
+#include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "debugging/trace.h"
@@ -81,14 +82,30 @@ static void trivial_varation_filter_insert_self(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(si,st);
-
   if (*mode==output_mode_tree
       && st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_trivial_end_filter_slice();
     attack_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
   }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void connect_to_tester(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  slices[si].tester = alloc_proxy_slice();
+  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+  slices[si].next2 = slices[si].tester;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -98,6 +115,7 @@ static structure_traversers_visitor trivial_varation_filter_inserters[] =
 {
   { STOutputModeSelector, &remember_output_mode                  },
   { STEndOfBranchGoal,    &trivial_varation_filter_insert_self   },
+  { STTrivialEndFilter ,  &connect_to_tester                     },
   { STRefutationsSolver,  &stip_traverse_structure_children_pipe }
 };
 

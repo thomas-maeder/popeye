@@ -2915,11 +2915,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_continuation_solvers(root_slice);
 
-      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-        stip_insert_try_solvers(root_slice);
-
-      stip_insert_setplay_solvers(root_slice);
-
       stip_insert_find_shortest_solvers(root_slice);
 
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
@@ -2931,14 +2926,17 @@ static Token iterate_twins(Token prev_token)
       if (!OptFlag[solvariantes])
         stip_insert_play_suppressors(root_slice);
 
-      stip_spin_off_refutation_solver_slices(root_slice);
-
-      stip_insert_trivial_variation_filters(root_slice);
-
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_boundaries(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      stip_insert_setplay_solvers(root_slice);
+
+      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+        stip_insert_try_solvers(root_slice);
+
+      stip_insert_trivial_variation_filters(root_slice);
 
       stip_insert_min_length(root_slice);
 

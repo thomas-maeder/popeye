@@ -51,6 +51,12 @@ stip_length_type refutations_allocator_solve(slice_index si, stip_length_type n)
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type refutations_solver_solve(slice_index si, stip_length_type n);
 
+/* Allocate a STRefutationsCollector slice.
+ * @param max_nr_refutations maximum number of refutations to be allowed
+ * @return index of allocated slice
+ */
+slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -89,14 +95,8 @@ stip_length_type refutations_avoider_solve(slice_index si, stip_length_type n);
 stip_length_type refutations_filter_solve(slice_index si, stip_length_type n);
 
 /* Instrument the stipulation structure with slices solving tries
- * @param root_slice root slice of the stipulation
- */
-void stip_insert_try_solvers(slice_index si);
-
-/* Spin a separate branch for solving refutations off the STRefutationsSolver
- * slice
  * @param si identifies entry branch into stipulation
  */
-void stip_spin_off_refutation_solver_slices(slice_index si);
+void stip_insert_try_solvers(slice_index si);
 
 #endif
