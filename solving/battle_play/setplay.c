@@ -86,41 +86,13 @@ static void insert_refutations_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void stop_traversal(slice_index si,
-                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void traverse_setplay_only(slice_index si,
-                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->level==structure_traversal_level_top);
-
-  st->level = structure_traversal_level_setplay;
-  stip_traverse_structure_next_branch(si,st);
-  st->level = structure_traversal_level_top;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitor const setplay_solver_inserters[] =
 {
-  { STOutputModeSelector, &filter_output_mode                     },
-  { STSetplayFork,        &traverse_setplay_only                  },
-  { STAttackAdapter,      &stop_traversal                         },
-  { STDefenseAdapter,     &insert_setplay_solvers_defense_adapter },
-  { STContinuationSolver, &insert_refutations_solver              }
+  { STOutputModeSelector, &filter_output_mode                                    },
+  { STSetplayFork,        &stip_traverse_structure_children_setplay_fork_setplay },
+  { STAttackAdapter,      &stip_structure_visitor_noop                           },
+  { STDefenseAdapter,     &insert_setplay_solvers_defense_adapter                },
+  { STContinuationSolver, &insert_refutations_solver                             }
 };
 
 enum

@@ -238,6 +238,27 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionResultEnd();
 }
 
+/* Traverse the setplay side of a set play fork slice
+ * @param si identifies the slice
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_children_setplay_fork_setplay(slice_index si,
+                                                           stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(st->level==structure_traversal_level_top);
+
+  st->level = structure_traversal_level_setplay;
+  stip_traverse_structure_next_branch(si,st);
+  st->level = structure_traversal_level_top;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stip_traverse_structure_children_setplay_fork(slice_index si,
                                                           stip_structure_traversal *st)
 {
@@ -248,10 +269,7 @@ static void stip_traverse_structure_children_setplay_fork(slice_index si,
   assert(st->level==structure_traversal_level_top);
 
   stip_traverse_structure_children_pipe(si,st);
-
-  st->level = structure_traversal_level_setplay;
-  stip_traverse_structure_next_branch(si,st);
-  st->level = structure_traversal_level_top;
+  stip_traverse_structure_children_setplay_fork_setplay(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

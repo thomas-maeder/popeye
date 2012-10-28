@@ -141,6 +141,13 @@ void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
 void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pipe,
                                                      stip_structure_traversal *st);
 
+/* Traverse the setplay side of a set play fork slice
+ * @param si identifies the slice
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_children_setplay_fork_setplay(slice_index si,
+                                                           stip_structure_traversal *st);
+
 /* Traverse operand 1 of a binary slice
  * @param binary_slice identifies the binary slice
  * @param st address of structure defining traversal
