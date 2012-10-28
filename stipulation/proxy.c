@@ -76,7 +76,10 @@ static void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].tester!=no_slice)
   {
+    stip_traversal_activity_type const save_activity = st->activity;
+    st->activity = stip_traversal_activity_testing;
     stip_traverse_structure(slices[si].tester,st);
+    st->activity = save_activity;
     proxy_slice_resolve(&slices[si].tester,st);
   }
 

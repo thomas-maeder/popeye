@@ -96,7 +96,9 @@ void dealloc_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
+  st.activity = stip_traversal_activity_testing;
   stip_traverse_structure(slices[si].tester,&st);
+  st.activity = stip_traversal_activity_solving;
   stip_traverse_structure(si,&st);
 
   for (i = 0; i!=max_nr_slices; ++i)
