@@ -49,9 +49,9 @@ static slice_index alloc_end_of_branch_goal_tester_slice(slice_index to_goal)
   return result;
 }
 
-static void help_play_instrument_non_immobilising_end_of_branch(slice_index si,
-                                                                stip_structure_traversal *st,
-                                                                slice_index tester)
+static void help_insert_detour_with_tester(slice_index si,
+                                           stip_structure_traversal *st,
+                                           slice_index tester)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,8 +73,8 @@ static void help_play_instrument_non_immobilising_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
-                                                        stip_structure_traversal *st)
+static void insert_detour_with_tester(slice_index si,
+                                      stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -87,15 +87,15 @@ static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
     slice_index const to_next_branch = slices[si].next2;
     slice_index const to_next_branch_tester = slices[to_next_branch].tester;
     slice_index const tester = alloc_end_of_branch_tester_slice(to_next_branch_tester);
-    help_play_instrument_non_immobilising_end_of_branch(si,st,tester);
+    help_insert_detour_with_tester(si,st,tester);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void end_of_branch_tester_inserter_end_of_branch_goal(slice_index si,
-                                                             stip_structure_traversal *st)
+static void insert_detour_with_tester_goal(slice_index si,
+                                           stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -108,7 +108,29 @@ static void end_of_branch_tester_inserter_end_of_branch_goal(slice_index si,
     slice_index const to_next_branch = slices[si].next2;
     slice_index const to_next_branch_tester = slices[to_next_branch].tester;
     slice_index const tester = alloc_end_of_branch_goal_tester_slice(to_next_branch_tester);
-    help_play_instrument_non_immobilising_end_of_branch(si,st,tester);
+    help_insert_detour_with_tester(si,st,tester);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_detour(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_help)
+  {
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
+    pipe_link(slices[si].prev,fork);
+    pipe_append(si,proxy1);
+    pipe_link(proxy2,si);
   }
 
   TraceFunctionExit(__func__);
@@ -117,8 +139,10 @@ static void end_of_branch_tester_inserter_end_of_branch_goal(slice_index si,
 
 static structure_traversers_visitor const end_of_branch_tester_inserters[] =
 {
-  { STEndOfBranchForced, &end_of_branch_tester_inserter_end_of_branch      },
-  { STEndOfBranchGoal,   &end_of_branch_tester_inserter_end_of_branch_goal }
+  { STEndOfBranch,             &insert_detour                  },
+  { STEndOfBranchGoalImmobile, &insert_detour                  },
+  { STEndOfBranchForced,       &insert_detour_with_tester      },
+  { STEndOfBranchGoal,         &insert_detour_with_tester_goal }
 };
 
 enum
@@ -127,13 +151,12 @@ enum
                                        / sizeof end_of_branch_tester_inserters[0])
 };
 
-/* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
- * necessary STEndOfBranchTester slices to
+/* Instrument STEndOfBranch* slices in help play in order to
  * - avoid writing short solutions when looking for longer ones
  * - avoid going on solving if a non-immobilising goal has been reached
  * @param root_slice identifes root slice of stipulation
  */
-void stip_insert_end_of_branch_testers(slice_index root_slice)
+void stip_instrument_help_ends_of_branches(slice_index root_slice)
 {
   stip_structure_traversal st;
 

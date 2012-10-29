@@ -72,65 +72,6 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
   return result;
 }
 
-static void end_of_branch_detour_inserter_end_of_branch(slice_index si,
-                                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (st->context==stip_traversal_context_help)
-  {
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
-    pipe_link(slices[si].prev,fork);
-    pipe_append(si,proxy1);
-    pipe_link(proxy2,si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitor const end_of_branch_detour_inserters[] =
-{
-  { STEndOfBranch,             &end_of_branch_detour_inserter_end_of_branch },
-  { STEndOfBranchGoalImmobile, &end_of_branch_detour_inserter_end_of_branch }
-};
-
-enum
-{
-  nr_end_of_branch_detour_inserters = (sizeof end_of_branch_detour_inserters
-                                       / sizeof end_of_branch_detour_inserters[0])
-};
-
-/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with detours
- * that avoid testing if it would be unnecessary or disturbing
- * @param root_slice identifes root slice of stipulation
- */
-void stip_insert_detours_around_end_of_branch(slice_index root_slice)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root_slice);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(root_slice);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    end_of_branch_detour_inserters,
-                                    nr_end_of_branch_detour_inserters);
-  stip_traverse_structure(root_slice,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

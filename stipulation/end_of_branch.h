@@ -38,12 +38,6 @@ slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal);
  */
 slice_index alloc_end_of_branch_forced(slice_index proxy_to_goal);
 
-/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with detours
- * that avoid testing if it would be unnecessary or disturbing
- * @param root_slice identifes root slice of stipulation
- */
-void stip_insert_detours_around_end_of_branch(slice_index root_slice);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

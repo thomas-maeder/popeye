@@ -491,10 +491,10 @@ zweimal eine Anzuginversion (-)
 
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
 
-              empile:       12426
-           play_move:        8885
-        orig_rbechec:        5743
-        orig_rnechec:        5744
+              empile:       12441
+           play_move:        8900
+        orig_rbechec:        5746
+        orig_rnechec:        5763
 Loesung beendet. 
 
 

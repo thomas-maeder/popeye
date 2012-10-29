@@ -2919,8 +2919,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
 
-      stip_insert_detours_around_end_of_branch(root_slice);
-
       if (!OptFlag[solvariantes])
         stip_insert_play_suppressors(root_slice);
 
@@ -2929,7 +2927,7 @@ static Token iterate_twins(Token prev_token)
 
       stip_spin_off_testers(root_slice);
 
-      stip_insert_end_of_branch_testers(root_slice);
+      stip_instrument_help_ends_of_branches(root_slice);
 
       stip_insert_setplay_solvers(root_slice);
 
