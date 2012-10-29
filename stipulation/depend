@@ -615,8 +615,8 @@ stipulation/end_of_branch_tester$(OBJ_SUFFIX): stipulation/end_of_branch_tester.
  stipulation/goals/goals.h utilities/boolean.h output/mode.h pydata.h \
  pyproc.h py4.h py.h stipulation/goals/goals.h stipulation/proxy.h \
  stipulation/pipe.h solving/solve.h stipulation/branch.h \
- stipulation/conditional_pipe.h solving/solving.h \
- solving/fork_on_remaining.h debugging/trace.h
+ stipulation/conditional_pipe.h solving/fork_on_remaining.h \
+ debugging/trace.h
 
 stipulation/end_of_branch_tester.h:
 
@@ -671,8 +671,6 @@ solving/solve.h:
 stipulation/branch.h:
 
 stipulation/conditional_pipe.h:
-
-solving/solving.h:
 
 solving/fork_on_remaining.h:
 

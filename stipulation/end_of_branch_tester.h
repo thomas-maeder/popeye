@@ -9,7 +9,9 @@
 #include "py.h"
 
 /* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
- * necessary STEndOfBranchTester slices
+ * necessary STEndOfBranchTester slices to
+ * - avoid writing short solutions when looking for longer ones
+ * - avoid going on solving if a non-immobilising goal has been reached
  * @param root_slice identifes root slice of stipulation
  */
 void stip_insert_end_of_branch_testers(slice_index root_slice);

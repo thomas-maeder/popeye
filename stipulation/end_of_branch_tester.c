@@ -4,7 +4,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/conditional_pipe.h"
-#include "solving/solving.h"
 #include "solving/fork_on_remaining.h"
 #include "debugging/trace.h"
 
@@ -50,6 +49,30 @@ static slice_index alloc_end_of_branch_goal_tester_slice(slice_index to_goal)
   return result;
 }
 
+static void help_play_instrument_non_immobilising_end_of_branch(slice_index si,
+                                                                stip_structure_traversal *st,
+                                                                slice_index tester)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const proxy3 = alloc_proxy_slice();
+    /* avoid writing short solutions when looking for longer ones*/
+    pipe_link(slices[si].prev,alloc_fork_on_remaining_slice(proxy1,proxy2,1));
+    pipe_append(si,proxy3);
+    pipe_link(proxy1,tester);
+    pipe_link(proxy2,si);
+    pipe_set_successor(tester,proxy3);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
                                                         stip_structure_traversal *st)
 {
@@ -61,16 +84,10 @@ static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
 
   if (st->context==stip_traversal_context_help)
   {
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const proxy3 = alloc_proxy_slice();
-    slice_index const end_of_branch = alloc_end_of_branch_tester_slice(slices[si].next2);
-    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
-    pipe_link(slices[si].prev,fork);
-    pipe_append(si,proxy3);
-    pipe_link(proxy1,end_of_branch);
-    pipe_link(proxy2,si);
-    pipe_set_successor(end_of_branch,proxy3);
+    slice_index const to_next_branch = slices[si].next2;
+    slice_index const to_next_branch_tester = slices[to_next_branch].tester;
+    slice_index const tester = alloc_end_of_branch_tester_slice(to_next_branch_tester);
+    help_play_instrument_non_immobilising_end_of_branch(si,st,tester);
   }
 
   TraceFunctionExit(__func__);
@@ -88,16 +105,10 @@ static void end_of_branch_tester_inserter_end_of_branch_goal(slice_index si,
 
   if (st->context==stip_traversal_context_help)
   {
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const proxy3 = alloc_proxy_slice();
-    slice_index const end_of_branch = alloc_end_of_branch_goal_tester_slice(slices[si].next2);
-    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
-    pipe_link(slices[si].prev,fork);
-    pipe_append(si,proxy3);
-    pipe_link(proxy1,end_of_branch);
-    pipe_link(proxy2,si);
-    pipe_set_successor(end_of_branch,proxy3);
+    slice_index const to_next_branch = slices[si].next2;
+    slice_index const to_next_branch_tester = slices[to_next_branch].tester;
+    slice_index const tester = alloc_end_of_branch_goal_tester_slice(to_next_branch_tester);
+    help_play_instrument_non_immobilising_end_of_branch(si,st,tester);
   }
 
   TraceFunctionExit(__func__);
@@ -116,31 +127,10 @@ enum
                                        / sizeof end_of_branch_tester_inserters[0])
 };
 
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off an end of a branch tester slice
- * @param si identifies the branch tester slice
- * @param st address of structure representing traversal
- */
-static void stip_spin_off_testers_end_of_branch_tester(slice_index si,
-                                                       stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slices[si].tester = copy_slice(si);
-  stip_traverse_structure_children_pipe(si,st);
-  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
-  slices[slices[si].tester].next2 = slices[slices[si].next2].tester;
-  stip_traverse_structure_next_branch(si,st);
-  slices[si].next2 = slices[slices[si].next2].tester;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
- * necessary STEndOfBranchTester slices
+ * necessary STEndOfBranchTester slices to
+ * - avoid writing short solutions when looking for longer ones
+ * - avoid going on solving if a non-immobilising goal has been reached
  * @param root_slice identifes root slice of stipulation
  */
 void stip_insert_end_of_branch_testers(slice_index root_slice)
@@ -151,14 +141,13 @@ void stip_insert_end_of_branch_testers(slice_index root_slice)
   TraceFunctionParam("%u",root_slice);
   TraceFunctionParamListEnd();
 
+  TraceStipulation(root_slice);
+
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     end_of_branch_tester_inserters,
                                     nr_end_of_branch_tester_inserters);
   stip_traverse_structure(root_slice,&st);
-
-  register_spin_off_testers_visitor(STEndOfBranchTester,&stip_spin_off_testers_end_of_branch_tester);
-  register_spin_off_testers_visitor(STEndOfBranchGoalTester,&stip_spin_off_testers_end_of_branch_tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

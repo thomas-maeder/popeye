@@ -119,6 +119,8 @@ void stip_insert_detours_around_end_of_branch(slice_index root_slice)
   TraceFunctionParam("%u",root_slice);
   TraceFunctionParamListEnd();
 
+  TraceStipulation(root_slice);
+
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     end_of_branch_detour_inserters,
