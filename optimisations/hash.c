@@ -1742,8 +1742,8 @@ void closehash(void)
  * @param base_slice identifies the STAttackHashedTester slice
  * @return id of allocated slice
  */
-static void spin_off_testers_attack_hashed(slice_index si,
-                                           stip_structure_traversal *st)
+static void spin_off_tester_attack(slice_index si,
+                                   stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1762,8 +1762,8 @@ static void spin_off_testers_attack_hashed(slice_index si,
  * @param base_slice identifies the STHelpHashed slice
  * @return id of allocated slice
  */
-static void spin_off_testers_help_hashed(slice_index si,
-                                         stip_structure_traversal *st)
+static void spin_off_tester_help(slice_index si,
+                                 stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1858,7 +1858,9 @@ static structure_traversers_visitor const hash_element_inserters[] =
 {
   { STReadyForAttack,   &insert_hash_element_attack },
   { STReadyForHelpMove, &insert_hash_element_help   },
-  { STMove,             &remember_move              }
+  { STMove,             &remember_move              },
+  { STAttackHashed,     &spin_off_tester_attack     },
+  { STHelpHashed,       &spin_off_tester_help       }
 };
 
 enum
@@ -1891,15 +1893,6 @@ void stip_insert_hash_slices(slice_index si)
   stip_structure_traversal_override(&st,
                                     hash_element_inserters,
                                     nr_hash_element_inserters);
-  stip_traverse_structure(si,&st);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STAttackHashed,
-                                           &spin_off_testers_attack_hashed);
-  stip_structure_traversal_override_single(&st,
-                                           STHelpHashed,
-                                           &spin_off_testers_help_hashed);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
