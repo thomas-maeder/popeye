@@ -10,9 +10,4 @@
  */
 void stip_spin_off_testers(slice_index si);
 
-/* Instrument a stipulation with move generator slices
- * @param si root of branch to be instrumented
- */
-void stip_insert_move_generators(slice_index si);
-
 #endif

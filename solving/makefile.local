@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES =   solving.c move_effect_journal.c \
+SRC_CFILES =   testers.c move_effect_journal.c \
            find_shortest.c find_by_increasing_length.c fork_on_remaining.c \
            play_suppressor.c move_generator.c \
            king_move_generator.c non_king_move_generator.c \
@@ -12,7 +12,7 @@ SRC_CFILES =   solving.c move_effect_journal.c \
            single_move_generator.c trivial_end_filter.c moving_pawn_promotion.c \
            avoid_unsolvable.c selfcheck_guard.c en_passant.c \
            post_move_iteration.c solve.c
-INCLUDES = solving.h move_effect_journal.h \
+INCLUDES = testers.h move_effect_journal.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
            king_move_generator.h non_king_move_generator.h \
