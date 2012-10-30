@@ -8,10 +8,10 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/proxy.h"
 #include "stipulation/binary.h"
+#include "stipulation/boolean/true.h"
 #include "stipulation/boolean/false.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/solve.h"
-#include "solving/solving.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

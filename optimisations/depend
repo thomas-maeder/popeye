@@ -144,9 +144,9 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c py.h utilities/boolean.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/help_play/branch.h solving/solving.h \
- solving/avoid_unsolvable.h solving/castling.h solving/en_passant.h \
- conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
+ stipulation/help_play/branch.h solving/avoid_unsolvable.h \
+ solving/castling.h solving/en_passant.h conditions/bgl.h \
+ conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h options/nontrivial.h stipulation/branch.h \
  stipulation/pipe.h platform/maxtime.h platform/maxmem.h \
  debugging/trace.h
@@ -218,8 +218,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/help_play/branch.h:
-
-solving/solving.h:
 
 solving/avoid_unsolvable.h:
 

@@ -1,10 +1,10 @@
-solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h \
- stipulation/structure_traversal.h stipulation/slice.h py.h \
+solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/slice_type.h stipulation/traversal.h utilities/boolean.h \
  pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- stipulation/fork.h solving/solve.h stipulation/has_solution_type.h \
+ utilities/boolean.h stipulation/fork.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
+ solving/solve.h stipulation/has_solution_type.h \
  stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
@@ -16,10 +16,6 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h \
  debugging/trace.h
 
 solving/solving.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
 
 py.h:
 
@@ -37,12 +33,6 @@ utilities/enumeration.h:
 
 pylang.h:
 
-stipulation/slice_type.h:
-
-stipulation/traversal.h:
-
-utilities/boolean.h:
-
 pydata.h:
 
 pyproc.h:
@@ -53,7 +43,17 @@ py.h:
 
 stipulation/goals/goals.h:
 
+utilities/boolean.h:
+
 stipulation/fork.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
 
 solving/solve.h:
 
@@ -729,8 +729,7 @@ solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_mov
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- stipulation/move_player.h solving/solving.h solving/find_move.h \
- debugging/trace.h
+ stipulation/move_player.h solving/find_move.h debugging/trace.h
 
 solving/for_each_move.h:
 
@@ -789,8 +788,6 @@ output/mode.h:
 stipulation/help_play/branch.h:
 
 stipulation/move_player.h:
-
-solving/solving.h:
 
 solving/find_move.h:
 

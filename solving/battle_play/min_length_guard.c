@@ -5,7 +5,6 @@
 #include "stipulation/branch.h"
 #include "solving/solve.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/solving.h"
 #include "solving/battle_play/min_length_optimiser.h"
 #include "debugging/trace.h"
 

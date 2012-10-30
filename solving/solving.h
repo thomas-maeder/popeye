@@ -1,8 +1,7 @@
 #if !defined(SOLVING_H)
 #define SOLVING_H
 
-#include "stipulation/structure_traversal.h"
-#include "utilities/boolean.h"
+#include "py.h"
 
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation

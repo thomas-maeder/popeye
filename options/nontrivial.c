@@ -6,7 +6,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/solving.h"
 #include "solving/avoid_unsolvable.h"
 #include "debugging/trace.h"
 

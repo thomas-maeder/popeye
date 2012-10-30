@@ -7,7 +7,7 @@ stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
  stipulation/pipe.h stipulation/has_solution_type.h \
  stipulation/constraint.h stipulation/moves_traversal.h \
- stipulation/binary.h solving/solving.h debugging/trace.h
+ stipulation/binary.h debugging/trace.h
 
 stipulation/boolean/and.h:
 
@@ -54,8 +54,6 @@ stipulation/constraint.h:
 stipulation/moves_traversal.h:
 
 stipulation/binary.h:
-
-solving/solving.h:
 
 debugging/trace.h:
 stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
@@ -178,7 +176,7 @@ stipulation/boolean/true$(OBJ_SUFFIX): stipulation/boolean/true.c \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  stipulation/traversal.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- solving/solving.h debugging/trace.h
+ debugging/trace.h
 
 stipulation/boolean/true.h:
 
@@ -213,8 +211,6 @@ stipulation/goals/goals.h:
 utilities/boolean.h:
 
 output/mode.h:
-
-solving/solving.h:
 
 debugging/trace.h:
 stipulation/boolean/false$(OBJ_SUFFIX): stipulation/boolean/false.c \

@@ -7,7 +7,6 @@
 #include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/solving.h"
 #include "solving/avoid_unsolvable.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"

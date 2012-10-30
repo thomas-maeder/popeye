@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
-#include "solving/solving.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

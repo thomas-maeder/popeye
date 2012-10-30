@@ -6,7 +6,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move_player.h"
-#include "solving/solving.h"
 #include "solving/find_move.h"
 #include "debugging/trace.h"
 

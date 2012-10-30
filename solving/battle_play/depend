@@ -67,8 +67,8 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
  stipulation/dummy_move.h stipulation/move_played.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h solving/solving.h \
- solving/avoid_unsolvable.h utilities/table.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h solving/avoid_unsolvable.h \
+ utilities/table.h debugging/trace.h
 
 solving/battle_play/threat.h:
 
@@ -132,8 +132,6 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-solving/solving.h:
-
 solving/avoid_unsolvable.h:
 
 utilities/table.h:
@@ -149,8 +147,9 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  stipulation/fork.h pymsg.h stipulation/branch.h stipulation/constraint.h \
  stipulation/moves_traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/dead_end.h stipulation/proxy.h stipulation/binary.h \
- stipulation/boolean/false.h stipulation/battle_play/branch.h \
- stipulation/stipulation.h solving/solving.h debugging/trace.h
+ stipulation/boolean/true.h stipulation/boolean/false.h \
+ stipulation/battle_play/branch.h stipulation/stipulation.h \
+ debugging/trace.h
 
 solving/battle_play/try.h:
 
@@ -216,13 +215,13 @@ stipulation/proxy.h:
 
 stipulation/binary.h:
 
+stipulation/boolean/true.h:
+
 stipulation/boolean/false.h:
 
 stipulation/battle_play/branch.h:
 
 stipulation/stipulation.h:
-
-solving/solving.h:
 
 debugging/trace.h:
 solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
@@ -342,8 +341,7 @@ solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- solving/solving.h solving/battle_play/min_length_optimiser.h \
- debugging/trace.h
+ solving/battle_play/min_length_optimiser.h debugging/trace.h
 
 solving/battle_play/min_length_guard.h:
 
@@ -390,8 +388,6 @@ stipulation/goals/goals.h:
 utilities/boolean.h:
 
 output/mode.h:
-
-solving/solving.h:
 
 solving/battle_play/min_length_optimiser.h:
 
