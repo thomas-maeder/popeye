@@ -102,7 +102,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/solving.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
@@ -1753,7 +1752,7 @@ static void spin_off_testers_attack_hashed(slice_index si,
   slices[si].tester = alloc_pipe(STAttackHashedTester);
   slices[slices[si].tester].u.derived_pipe.base = si;
   stip_traverse_structure_children_pipe(si,st);
-  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+  pipe_append(slices[slices[si].prev].tester,slices[si].tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1773,7 +1772,7 @@ static void spin_off_testers_help_hashed(slice_index si,
   slices[si].tester = alloc_pipe(STHelpHashedTester);
   slices[slices[si].tester].u.derived_pipe.base = si;
   stip_traverse_structure_children_pipe(si,st);
-  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+  pipe_append(slices[slices[si].prev].tester,slices[si].tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1886,13 +1885,22 @@ void stip_insert_hash_slices(slice_index si)
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     hash_element_inserters,
                                     nr_hash_element_inserters);
   stip_traverse_structure(si,&st);
 
-  register_spin_off_testers_visitor(STAttackHashed,&spin_off_testers_attack_hashed);
-  register_spin_off_testers_visitor(STHelpHashed,&spin_off_testers_help_hashed);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STAttackHashed,
+                                           &spin_off_testers_attack_hashed);
+  stip_structure_traversal_override_single(&st,
+                                           STHelpHashed,
+                                           &spin_off_testers_help_hashed);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

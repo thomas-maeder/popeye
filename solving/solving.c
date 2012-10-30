@@ -20,74 +20,6 @@
 
 #include <assert.h>
 
-enum
-{
-  max_nr_additional_visitors = 10
-};
-
-static structure_traversers_visitor additional_spin_off_visitor[max_nr_additional_visitors];
-
-static unsigned int nr_additional_visitors;
-
-/* Register a call-back for the next run of stip_spin_off_testers()
- * @param type slice type for which to call back visitor
- * @param visitor address to function to invoke for each visited slice of type type
- */
-void register_spin_off_testers_visitor(slice_type type,
-                                       stip_structure_visitor visitor)
-{
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=nr_additional_visitors; ++i)
-    if (type==additional_spin_off_visitor[i].type)
-    {
-      assert(visitor==additional_spin_off_visitor[i].visitor);
-      break;
-    }
-
-  if (i==nr_additional_visitors)
-  {
-    assert(nr_additional_visitors<max_nr_additional_visitors);
-    additional_spin_off_visitor[nr_additional_visitors].type = type;
-    additional_spin_off_visitor[nr_additional_visitors].visitor = visitor;
-    ++nr_additional_visitors;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void forget_spin_off_visitors(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  nr_additional_visitors = 0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_spin_off_traversal(stip_structure_traversal *st)
-{
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=nr_additional_visitors; ++i)
-    stip_structure_traversal_override_single(st,
-                                             additional_spin_off_visitor[i].type,
-                                             additional_spin_off_visitor[i].visitor);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation
  */
@@ -130,11 +62,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STPlaySuppressor,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STIfThenElse,&stip_spin_off_testers_if_then_else);
 
-  instrument_spin_off_traversal(&st);
-
   stip_traverse_structure(si,&st);
-
-  forget_spin_off_visitors();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

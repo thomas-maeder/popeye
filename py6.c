@@ -2905,9 +2905,6 @@ static Token iterate_twins(Token prev_token)
           && !stip_insert_stoponshortsolutions_filters(root_slice))
         Message(NoStopOnShortSolutions);
 
-      if (is_hashtable_allocated())
-        stip_insert_hash_slices(root_slice);
-
       stip_remove_irrelevant_constraints(root_slice);
 
       if (OptFlag[movenbr])
@@ -2926,6 +2923,9 @@ static Token iterate_twins(Token prev_token)
         stip_insert_threat_boundaries(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      if (is_hashtable_allocated())
+        stip_insert_hash_slices(root_slice);
 
       stip_instrument_help_ends_of_branches(root_slice);
 

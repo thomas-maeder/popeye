@@ -1113,9 +1113,10 @@ solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
  py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h
+ stipulation/slice_type.h stipulation/traversal.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ debugging/trace.h
 
 solving/trivial_end_filter.h:
 
@@ -1162,6 +1163,8 @@ stipulation/slice.h:
 stipulation/slice_type.h:
 
 stipulation/traversal.h:
+
+stipulation/proxy.h:
 
 stipulation/branch.h:
 
