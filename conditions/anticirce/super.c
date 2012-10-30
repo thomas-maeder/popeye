@@ -76,7 +76,6 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
                                                                stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
