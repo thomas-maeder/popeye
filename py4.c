@@ -617,7 +617,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
 
       if (!k_cap) {
-        /* We have to avoid captures by the king_square[White] because he
+        /* We have to avoid captures by the white king because he
          * wouldn't be reborn! This might also be placed in
          * the function genrb(), but here, it works for all
          * royal pieces.
