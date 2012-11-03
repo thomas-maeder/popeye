@@ -11,6 +11,17 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
+
+/* the mummer logic is (ab)used to priorise transmuting king moves */
+int len_supertransmuting_kings(square sq_departure,
+                               square sq_arrival,
+                               square sq_capture)
+{
+  return MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
+  /* ctrans[current_move[nbply]] */
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

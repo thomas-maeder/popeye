@@ -672,15 +672,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
      */
     if (!k_cap && flagmummer[traitnbply])
     {
-      int len;
-
-      if (measure_length[traitnbply])
-        len = (*measure_length[traitnbply])(sq_departure,sq_arrival,sq_capture);
-      else
-        len = INT_MIN+1;
-
-      if (traitnbply == White ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])
-        len += MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
+      int const len = (*measure_length[traitnbply])(sq_departure,sq_arrival,sq_capture);
 
       if (mummer_current_mum_lengh[nbply]>len)
         return true;

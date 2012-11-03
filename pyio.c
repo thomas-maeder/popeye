@@ -128,6 +128,7 @@
 #include "conditions/circe/chameleon.h"
 #include "conditions/sentinelles.h"
 #include "conditions/magic_square.h"
+#include "conditions/transmuting_kings/super.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -5032,11 +5033,15 @@ static char *ParseCond(void) {
         calc_reflective_king[Black]= true;
         break;
       case whsupertrans_king:
+        /* the mummer logic is (ab)used to priorise transmuting king moves */
+        measure_length[White]= len_supertransmuting_kings;
         calc_transmuting_king[White]= true;
         calc_reflective_king[White]= true;
         flagmummer[White] = true;
         break;
       case blsupertrans_king:
+        /* the mummer logic is (ab)used to priorise transmuting king moves */
+        measure_length[Black]= len_supertransmuting_kings;
         calc_transmuting_king[Black]= true;
         calc_reflective_king[Black]= true;
         flagmummer[Black] = true;
@@ -5470,9 +5475,9 @@ static char *ParseCond(void) {
         tok = ReadPieces(promotiononly);
         break;
       case football:
-    	football_are_substitutes_limited = false;
-    	tok = ReadPieces(football);
-    	break;
+        football_are_substitutes_limited = false;
+        tok = ReadPieces(football);
+        break;
       case april:
         tok = ReadPieces(april);
         break;
@@ -5512,10 +5517,9 @@ static char *ParseCond(void) {
         }
         tok = ReadNextTokStr();
         SATFlights[Black]= strtol(tok,&ptr,10) + 1;
-        if (tok == ptr) {
+        if (tok == ptr)
           SATFlights[Black]= SATFlights[White];
-          break;
-        }
+        break;
       case BGL:
         BGL_global= false;
         tok = ReadNextTokStr();
@@ -5560,6 +5564,7 @@ static char *ParseCond(void) {
         break;
       default:
         tok = ReadNextTokStr();
+        break;
     }
   }
 

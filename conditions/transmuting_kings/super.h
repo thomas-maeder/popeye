@@ -5,6 +5,11 @@
 
 /* This module implements the condition Super-transmuting kings */
 
+/* the mummer logic is (ab)used to priorise transmuting king moves */
+int len_supertransmuting_kings(square sq_departure,
+                               square sq_arrival,
+                               square sq_capture);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
