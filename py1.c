@@ -282,18 +282,18 @@ void InitCond(void) {
   OscillatingKingsTypeC[White]= false;
   OscillatingKingsTypeC[Black]= false;
 
-  black_length = NULL;
-  white_length = NULL;
+  measure_length[Black] = NULL;
+  measure_length[White] = NULL;
 
   BGL_values[White][1] = BGL_infinity;
   BGL_values[Black][1] = BGL_infinity;
   BGL_global= false;
 
-  calc_trans_king[White] = false;
-  calc_trans_king[White] = false;
+  calc_transmuting_king[White] = false;
+  calc_transmuting_king[White] = false;
 
-  calc_refl_king[White] = false;
-  calc_refl_king[Black] = false;
+  calc_reflective_king[White] = false;
+  calc_reflective_king[Black] = false;
 
   normaltranspieces[White] = true;
   normaltranspieces[Black] = true;

@@ -684,28 +684,20 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         */
         int len, curleng;
 
-        if ( traitnbply == Black ? black_length : white_length)
+        if (measure_length[traitnbply])
         {
           len = traitnbply == Black
-            ?  (*black_length)(sq_departure,sq_arrival,sq_capture)
-            : (*white_length)(sq_departure,sq_arrival,sq_capture);
+            ?  (*measure_length[Black])(sq_departure,sq_arrival,sq_capture)
+            : (*measure_length[White])(sq_departure,sq_arrival,sq_capture);
           curleng =
             (move_generation_mode==move_generation_optimized_by_killer_move
              && current_killer_state.found)
-            ? (traitnbply == Black
-               ? (*black_length)(current_killer_state.move.departure,
-                                 current_killer_state.move.arrival,
-                                 current_killer_state.move.capture)
-               : (*white_length)(current_killer_state.move.departure,
-                                 current_killer_state.move.arrival,
-                                 current_killer_state.move.capture))
-            : (traitnbply == Black
-               ? (*black_length)(move_generation_stack[current_move[nbply]].departure,
-                                 move_generation_stack[current_move[nbply]].arrival,
-                                 move_generation_stack[current_move[nbply]].capture)
-               : (*white_length)(move_generation_stack[current_move[nbply]].departure,
-                                 move_generation_stack[current_move[nbply]].arrival,
-                                 move_generation_stack[current_move[nbply]].capture));
+            ? (*measure_length[traitnbply])(current_killer_state.move.departure,
+                                            current_killer_state.move.arrival,
+                                            current_killer_state.move.capture)
+            : (*measure_length[traitnbply])(move_generation_stack[current_move[nbply]].departure,
+                                            move_generation_stack[current_move[nbply]].arrival,
+                                            move_generation_stack[current_move[nbply]].capture);
         }
         else
         {
@@ -3199,7 +3191,7 @@ void genrb(square sq_departure)
   boolean   flag = false;       /* K im Schach ? */
   numecoup const save_nbcou = current_move[nbply];
 
-  if (calc_refl_king[side] && !calctransmute)
+  if (calc_reflective_king[side] && !calctransmute)
   {
     /* K im Schach zieht auch */
     calctransmute = true;
@@ -3244,7 +3236,7 @@ void genrb(square sq_departure)
 
 
     /* K im Schach zieht nur */
-    if (calc_trans_king[side] && flag)
+    if (calc_transmuting_king[side] && flag)
       return;
   }
 

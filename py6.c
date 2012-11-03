@@ -1018,7 +1018,7 @@ static boolean verify_position(slice_index si)
       CondFlag[whmax] = false;
       ultra_mummer[Black] = CondFlag[ultra];
       bl_exact = CondFlag[exact];
-      black_length = len_max;
+      measure_length[Black] = len_max;
       flagmummer[Black] = true;
       flagmummer[White] = false;
     }
@@ -1028,7 +1028,7 @@ static boolean verify_position(slice_index si)
       CondFlag[whmax] = true;
       ultra_mummer[White] = CondFlag[ultra];
       wh_exact = CondFlag[exact];
-      white_length = len_max;
+      measure_length[White] = len_max;
       flagmummer[White] = true;
       flagmummer[Black] = false;
     }
@@ -1269,10 +1269,10 @@ static boolean verify_position(slice_index si)
   if (anymars||anyantimars) {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    if (calc_trans_king[White]
-        || calc_refl_king[White]
-        || calc_trans_king[Black]
-        || calc_refl_king[Black]
+    if (calc_transmuting_king[White]
+        || calc_reflective_king[White]
+        || calc_transmuting_king[Black]
+        || calc_reflective_king[Black]
         || CondFlag[bicolores]
         || CondFlag[sting]
         || flagsimplehoppers
@@ -1698,17 +1698,17 @@ static boolean verify_position(slice_index si)
   if (normaltranspieces[Black])
     transmpieces[Black][tp] = Empty;
 
-  if (calc_refl_king[White] || calc_refl_king[Black])
+  if (calc_reflective_king[White] || calc_reflective_king[Black])
   {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
   orphanpieces[op] = Empty;
 
-  if ((calc_refl_king[White]
+  if ((calc_reflective_king[White]
        && king_square[White] != initsquare
        && (e[king_square[White]] != roib || CondFlag[sting]))
-      || (calc_refl_king[Black]
+      || (calc_reflective_king[Black]
           && king_square[Black] != initsquare
           && (e[king_square[Black]] != roin || CondFlag[sting])))
   {
@@ -1718,8 +1718,8 @@ static boolean verify_position(slice_index si)
 
   if ((exist[Orphan]
        || exist[Friend]
-       || calc_refl_king[White]
-       || calc_refl_king[Black])
+       || calc_reflective_king[White]
+       || calc_reflective_king[Black])
       && TSTFLAG(PieSpExFlags, Neutral))
   {
     VerifieMsg(TooFairyForNeutral);
@@ -1783,8 +1783,8 @@ static boolean verify_position(slice_index si)
     rechec[Black] = &losingchess_rbnechec;
 
     /* capturing moves are "longer" than non-capturing moves */
-    black_length = &len_losingchess;
-    white_length = &len_losingchess;
+    measure_length[Black] = &len_losingchess;
+    measure_length[White] = &len_losingchess;
     flagmummer[White] = true;
     flagmummer[Black] = true;
   }

@@ -300,7 +300,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   }
 
   if (nbpiece[roib]>0) {
-    if (calc_refl_king[White]) {
+    if (calc_reflective_king[White]) {
       boolean flag = true;
 
       /* attempted bug fix - wrong eval function used to detect
@@ -311,7 +311,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         eval_ad= (evaluate == eval_white) ? eval_black :
             (evaluate == eval_black) ? eval_white : evaluate;
 
-      calc_refl_king[White] = false;
+      calc_reflective_king[White] = false;
 
       if (!normaltranspieces[White] && echecc(White))
       {
@@ -319,7 +319,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         flag= false;
         for (ptrans= transmpieces[White]; *ptrans; ptrans++) {
           if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate)) {
-            calc_refl_king[White] = true;
+            calc_reflective_king[White] = true;
             return true;
           }
         }
@@ -335,16 +335,16 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
           {
             flag= false;
             if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate)) {
-              calc_refl_king[White] = true;
+              calc_reflective_king[White] = true;
               return true;
             }
           }
         }
       }
 
-      calc_refl_king[White] = true;
+      calc_reflective_king[White] = true;
 
-      if (!calc_trans_king[White] || flag) {
+      if (!calc_transmuting_king[White] || flag) {
         for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= king_square[Black]+vec[k];
           if (e[sq_departure]==roib
@@ -564,7 +564,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
 
   if (nbpiece[roin]>0)
   {
-    if (calc_refl_king[Black])
+    if (calc_reflective_king[Black])
     {
       PieNam   *ptrans;
       boolean flag= true;
@@ -577,14 +577,14 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         eval_ad= (evaluate == eval_white) ? eval_black :
             (evaluate == eval_black) ? eval_white : evaluate;
 
-      calc_refl_king[Black] = false;
+      calc_reflective_king[Black] = false;
 
       if (!normaltranspieces[Black] && echecc(Black))
       {
         flag= false;
         for (ptrans= transmpieces[Black]; *ptrans; ptrans++) {
           if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate)) {
-            calc_refl_king[Black] = true;
+            calc_reflective_king[Black] = true;
             return true;
           }
         }
@@ -596,16 +596,16 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
               && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, eval_ad)) {
             flag= false;
             if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate)) {
-              calc_refl_king[Black] = true;
+              calc_reflective_king[Black] = true;
               return true;
             }
           }
         }
       }
 
-      calc_refl_king[Black] = true;
+      calc_reflective_king[Black] = true;
 
-      if (!calc_trans_king[Black] || flag) {
+      if (!calc_transmuting_king[Black] || flag) {
         for (k= vec_queen_end; k>=vec_queen_start; k--) {
           sq_departure= king_square[White]+vec[k];
           if (e[sq_departure]==roin

@@ -150,8 +150,7 @@ EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
 EXTERN  evalfunction_t *eval_black;
 
-EXTERN  int   (* white_length)(square departure, square arrival, square capture),
-		(* black_length)(square departure, square arrival, square capture);
+EXTERN  int   (* measure_length[nr_sides])(square departure, square arrival, square capture);
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 
@@ -254,8 +253,8 @@ EXTERN int         annanvar;
 EXTERN ply      	      tempply;
 EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
-EXTERN boolean          calc_trans_king[nr_sides];
-EXTERN boolean          calc_refl_king[nr_sides];
+EXTERN boolean          calc_transmuting_king[nr_sides];
+EXTERN boolean          calc_reflective_king[nr_sides];
 EXTERN int         gridlines[112][4];
 EXTERN int              numgridlines;
 EXTERN boolean			anyparrain;

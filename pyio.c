@@ -485,7 +485,7 @@ static void WriteConditions(int alignment)
     {
         if (transmpieces[White][0] != EquiHopper || transmpieces[White][1] != Empty)
           WritePieces(transmpieces[White], CondLine);
-        if (calc_trans_king[White])
+        if (calc_transmuting_king[White])
         {
           char LocalBuf[4];
           sprintf(LocalBuf, " -%c",
@@ -498,7 +498,7 @@ static void WriteConditions(int alignment)
     {
         if (transmpieces[Black][0] != EquiHopper || transmpieces[Black][1] != Empty)
           WritePieces(transmpieces[Black], CondLine);
-        if (calc_trans_king[Black])
+        if (calc_transmuting_king[Black])
         {
           char LocalBuf[4];
           sprintf(LocalBuf, " -%c",
@@ -4747,9 +4747,9 @@ static char *ParseVaultingPieces(Flags fl)
       {
         case Transmuting:
           if (TSTFLAG(fl, White))
-            calc_trans_king[White]= true;
+            calc_transmuting_king[White]= true;
           if (TSTFLAG(fl, Black))
-            calc_trans_king[Black]= true;
+            calc_transmuting_king[Black]= true;
           break;
 
         default:
@@ -4946,158 +4946,160 @@ static char *ParseCond(void) {
         ReadSquares(ReadHoles);
         break;
       case blmax:
-        black_length= len_max;
+        measure_length[Black]= len_max;
         flagmummer[Black] = true;
         break;
       case blmin:
-        black_length= len_min;
+        measure_length[Black]= len_min;
         flagmummer[Black] = true;
         break;
       case blcapt:
-        black_length= len_capt;
+        measure_length[Black]= len_capt;
         flagmummer[Black] = true;
         break;
       case blfollow:
-        black_length= len_follow;
+        measure_length[Black]= len_follow;
         flagmummer[Black] = true;
         break;
       case whmax:
-        white_length= len_max;
+        measure_length[White]= len_max;
         flagmummer[White] = true;
         break;
       case whmin:
-        white_length= len_min;
+        measure_length[White]= len_min;
         flagmummer[White] = true;
         break;
       case whcapt:
-        white_length= len_capt;
+        measure_length[White]= len_capt;
         flagmummer[White] = true;
         break;
       case whfollow:
-        white_length= len_follow;
+        measure_length[White]= len_follow;
         flagmummer[White] = true;
         break;
       case duellist:
-        white_length= len_whduell;
-        black_length= len_blduell;
+        measure_length[White]= len_whduell;
+        measure_length[Black]= len_blduell;
         flagmummer[White] = true;
         flagmummer[Black] = true;
         break;
       case whitealphabetic:
-        white_length= len_alphabetic;
+        measure_length[White]= len_alphabetic;
         flagmummer[White] = true;
         break;
       case blackalphabetic:
-        black_length= len_alphabetic;
+        measure_length[Black]= len_alphabetic;
         flagmummer[Black] = true;
         break;
       case alphabetic:
-        white_length= len_alphabetic;
-        black_length= len_alphabetic;
+        measure_length[White]= len_alphabetic;
+        measure_length[Black]= len_alphabetic;
         flagmummer[White] = true;
         flagmummer[Black] = true;
         break;
       case blacksynchron:
-        black_length= len_synchron;
+        measure_length[Black]= len_synchron;
         flagmummer[Black] = true;
         flag_synchron= true;
         break;
       case whitesynchron:
-        white_length= len_synchron;
+        measure_length[White]= len_synchron;
         flagmummer[White] = true;
         flag_synchron= true;
         break;
       case blackantisynchron:
-        black_length= len_antisynchron;
+        measure_length[Black]= len_antisynchron;
         flagmummer[Black] = true;
         flag_synchron= true;
         break;
       case whiteantisynchron:
-        white_length= len_antisynchron;
+        measure_length[White]= len_antisynchron;
         flagmummer[White] = true;
         flag_synchron= true;
         break;
       case trans_king:
-        calc_trans_king[White]= true;
-        calc_trans_king[Black]= true;
-        calc_refl_king[White]= true;
-        calc_refl_king[Black]= true;
-        break;
-      case refl_king:
-        calc_refl_king[White]= true;
-        calc_refl_king[Black]= true;
-        break;
-      case whrefl_king:
-        calc_refl_king[White]= true;
-        break;
-      case blrefl_king:
-        calc_refl_king[Black]= true;
+        calc_transmuting_king[White]= true;
+        calc_transmuting_king[Black]= true;
+        calc_reflective_king[White]= true;
+        calc_reflective_king[Black]= true;
         break;
       case whtrans_king:
-        calc_trans_king[White]= true;
-        calc_refl_king[White]= true;
+        calc_transmuting_king[White]= true;
+        calc_reflective_king[White]= true;
         break;
       case bltrans_king:
-        calc_trans_king[Black]= true;
-        calc_refl_king[Black]= true;
+        calc_transmuting_king[Black]= true;
+        calc_reflective_king[Black]= true;
+        break;
+      case whsupertrans_king:
+        calc_transmuting_king[White]= true;
+        calc_reflective_king[White]= true;
+        flagmummer[White] = true;
+        break;
+      case blsupertrans_king:
+        calc_transmuting_king[Black]= true;
+        calc_reflective_king[Black]= true;
+        flagmummer[Black] = true;
+        break;
+      case refl_king:
+        calc_reflective_king[White]= true;
+        calc_reflective_king[Black]= true;
+        break;
+      case whrefl_king:
+        calc_reflective_king[White]= true;
+        break;
+      case blrefl_king:
+        calc_reflective_king[Black]= true;
+        break;
+      case vault_king:
+        calc_reflective_king[White]= true;
+        calc_reflective_king[Black]= true;
+        normaltranspieces[White] = false;
+        normaltranspieces[Black] = false;
+        transmpieces[White][0]= EquiHopper;
+        transmpieces[Black][0]= EquiHopper;
+        transmpieces[White][1]= Empty;
+        transmpieces[Black][1]= Empty;
         break;
       case whvault_king:
-        calc_refl_king[White]= true;
+        calc_reflective_king[White]= true;
         normaltranspieces[White] = false;
         transmpieces[White][0]= EquiHopper;
         transmpieces[White][1]= Empty;
         break;
       case blvault_king:
-        calc_refl_king[Black]= true;
+        calc_reflective_king[Black]= true;
         normaltranspieces[Black] = false;
         transmpieces[Black][0]= EquiHopper;
         transmpieces[Black][1]= Empty;
-      case vault_king:
-        calc_refl_king[White]= true;
-        calc_refl_king[Black]= true;
-        normaltranspieces[White] = false;
-        normaltranspieces[Black] = false;
-        transmpieces[White][0]= EquiHopper;
-        transmpieces[Black][0]= EquiHopper;
-        transmpieces[White][1]= Empty;
-        transmpieces[Black][1]= Empty;
-        break;
-      case whsupertrans_king:
-        calc_refl_king[White]= true;
-        flagmummer[White] = true;
-        break;
-      case blsupertrans_king:
-        calc_trans_king[Black]= true;
-        calc_refl_king[Black]= true;
-        flagmummer[Black] = true;
         break;
       case whforsqu:
         ReadSquares(WhForcedSq);
-        white_length= len_whforcedsquare;
+        measure_length[White]= len_whforcedsquare;
         flagmummer[White] = true;
         break;
       case blforsqu:
         ReadSquares(BlForcedSq);
-        black_length= len_blforcedsquare;
+        measure_length[Black]= len_blforcedsquare;
         flagmummer[Black] = true;
         break;
       case whconforsqu:
         ReadSquares(WhConsForcedSq);
         ultra_mummer[White]=
             wh_exact= true;
-        white_length= len_whforcedsquare;
+        measure_length[White]= len_whforcedsquare;
         flagmummer[White] = true;
         break;
       case blconforsqu:
         ReadSquares(BlConsForcedSq);
         ultra_mummer[Black]=
             bl_exact= true;
-        black_length= len_blforcedsquare;
+        measure_length[Black]= len_blforcedsquare;
         flagmummer[Black] = true;
         break;
       case schwarzschacher:
         flagmummer[Black] = true;
-        black_length= len_schwarzschacher;
+        measure_length[Black]= len_schwarzschacher;
         break;
 
         /* different types of circe */

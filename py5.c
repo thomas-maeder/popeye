@@ -559,7 +559,7 @@ void genrn(square sq_departure)
   boolean flag = false;  /* K im Schach ? */
   numecoup const save_nbcou = current_move[nbply];
 
-  if (calc_refl_king[side] && !calctransmute)
+  if (calc_reflective_king[side] && !calctransmute)
   {
     /* K im Schach zieht auch */
     calctransmute = true;
@@ -600,7 +600,7 @@ void genrn(square sq_departure)
     }
 
     /* K im Schach zieht nur */
-    if (calc_trans_king[side] && flag)
+    if (calc_transmuting_king[side] && flag)
       return;
   }
 

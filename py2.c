@@ -1353,7 +1353,7 @@ boolean bspawncheck(square  sq_king,
   square sq_departure;
 
   if (p==bspawnn
-      || (calc_refl_king[Black] && p==roin))
+      || (calc_reflective_king[Black] && p==roin))
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,+dir_up,p1,sq_departure);
@@ -1382,7 +1382,7 @@ boolean spawncheck(square   sq_king,
   square sq_departure;
 
   if (p==spawnn
-      || (calc_refl_king[Black] && p==roin))
+      || (calc_reflective_king[Black] && p==roin))
   {
     if (sq_king<=square_h7) {          /* it can move from eigth rank */
       finligne(sq_king,dir_up+dir_left,p1,sq_departure);
@@ -1475,7 +1475,7 @@ boolean dragoncheck(square  sq_king,
     return true;
 
   if (p==dragonn
-      || (calc_refl_king[Black] && p==roin))
+      || (calc_reflective_king[Black] && p==roin))
   {
     if (sq_king<=square_h6
         || anyparrain

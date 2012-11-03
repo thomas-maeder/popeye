@@ -204,7 +204,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             WhKingMoves[sq]= MoveNbr+1;
             GoOn= true;
           }
-          if (calc_trans_king[White]) {
+          if (calc_transmuting_king[White]) {
             sq= *bnp+vec[k];
             while (e[sq]!=obs && WhKingMoves[sq]!=-1)
             {
@@ -217,7 +217,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             }
           }
         }
-        if (calc_trans_king[White])
+        if (calc_transmuting_king[White])
           for (k= vec_knight_end; k>=vec_knight_start; k--)
           {
             sq= *bnp+vec[k];
@@ -250,7 +250,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             BlKingMoves[sq]= MoveNbr+1;
             GoOn= true;
           }
-          if (calc_trans_king[Black])
+          if (calc_transmuting_king[Black])
           {
             sq= *bnp+vec[k];
             while (e[sq]!=obs && BlKingMoves[sq]!=-1)
@@ -264,7 +264,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             }
           }
         }
-        if (calc_trans_king[Black])
+        if (calc_transmuting_king[Black])
           for (k= vec_knight_end; k>=vec_knight_start; k--)
           {
             sq= *bnp+vec[k];
