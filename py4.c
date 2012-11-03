@@ -672,56 +672,20 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
      */
     if (!k_cap && flagmummer[traitnbply])
     {
-      boolean is_new_longest_move;
+      int len;
 
-      if (encore()
-          || (move_generation_mode==move_generation_optimized_by_killer_move
-              && current_killer_state.found)) {
-        /*
-        ** There are moves stored. Check whether the
-        ** length of the new one is shorter or equal
-        ** to the currently longest move.
-        */
-        int len, curleng;
-
-        if (measure_length[traitnbply])
-        {
-          len = traitnbply == Black
-            ?  (*measure_length[Black])(sq_departure,sq_arrival,sq_capture)
-            : (*measure_length[White])(sq_departure,sq_arrival,sq_capture);
-          curleng =
-            (move_generation_mode==move_generation_optimized_by_killer_move
-             && current_killer_state.found)
-            ? (*measure_length[traitnbply])(current_killer_state.move.departure,
-                                            current_killer_state.move.arrival,
-                                            current_killer_state.move.capture)
-            : (*measure_length[traitnbply])(move_generation_stack[current_move[nbply]].departure,
-                                            move_generation_stack[current_move[nbply]].arrival,
-                                            move_generation_stack[current_move[nbply]].capture);
-        }
-        else
-        {
-          len= 0;
-          curleng=0;
-        }
-
-        if (traitnbply == White ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])
-        {
-
-          len+= MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
-          curleng+= MAX_OTHER_LEN * (ctrans[current_move[nbply]]!=vide ? 1 : 0);
-        }
-
-        if (curleng > len) {
-          return true;
-        }
-
-        is_new_longest_move = curleng<len;
-      }
+      if (measure_length[traitnbply])
+        len = (*measure_length[traitnbply])(sq_departure,sq_arrival,sq_capture);
       else
-        is_new_longest_move = true;
+        len = INT_MIN+1;
 
-      if (is_new_longest_move)
+      if (traitnbply == White ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])
+        len += MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
+
+      if (mummer_current_mum_lengh[nbply]>len)
+        return true;
+
+      if (mummer_current_mum_lengh[nbply]<len)
       {
         if (!we_generate_exact)
         {
@@ -763,6 +727,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           if (!is_this_move_legal)
             return true;
         }
+
+        mummer_current_mum_lengh[nbply] = len;
 
         current_move[nbply] = current_move[parent_ply[nbply]]; /* forget shorter moves generated so far */
         current_killer_state.found = false;

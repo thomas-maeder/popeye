@@ -151,6 +151,7 @@ EXTERN  evalfunction_t *eval_2;
 EXTERN  evalfunction_t *eval_black;
 
 EXTERN  int   (* measure_length[nr_sides])(square departure, square arrival, square capture);
+EXTERN int mummer_current_mum_lengh[maxply+1];
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 

@@ -145,6 +145,8 @@ static void initply(ply parent, ply child)
   prev_king_square[White][nbply] = king_square[White];
   prev_king_square[Black][nbply] = king_square[Black];
 
+  mummer_current_mum_lengh[nbply] = INT_MIN;
+
   /*
     start with the castling rights of the parent level
   */
