@@ -45,7 +45,7 @@ stip_length_type attack_played_solve(slice_index si, stip_length_type n)
 
   assert(n>slack_length);
   result = solve(slices[si].next1,n-1)+1;
-  if (result<=slack_length) /* oops - unintentional stalemate! */
+  if (result==slack_length) /* oops - unintentional stalemate! */
     result = n+2;
 
   TraceFunctionExit(__func__);
