@@ -2949,6 +2949,39 @@ static void solve_non_proofgame_twin(slice_index stipulation_root_hook,
   TraceFunctionResultEnd();
 }
 
+static void complete_stipulation(slice_index stipulation_root_hook)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
+  if (OptFlag[quodlibet] && OptFlag[goal_is_end])
+    VerifieMsg(GoalIsEndAndQuodlibetIncompatible);
+  else if (OptFlag[quodlibet])
+  {
+    if (!transform_to_quodlibet(stipulation_root_hook))
+      Message(QuodlibetNotApplicable);
+  }
+  else if (OptFlag[goal_is_end])
+  {
+    if (!stip_insert_goal_is_end_testers(stipulation_root_hook))
+      Message(GoalIsEndNotApplicable);
+  }
+
+  if (OptFlag[whitetoplay] && !apply_whitetoplay(stipulation_root_hook))
+    Message(WhiteToPlayNotApplicable);
+
+  stip_insert_goal_prerequisite_guards(stipulation_root_hook);
+
+  if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(stipulation_root_hook))
+    Message(PostKeyPlayNotApplicable);
+
+  stip_detect_starter(stipulation_root_hook);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Iterate over the twins of a problem
  * @prev_token token that ended the previous twin
  * @return token that ended the current twin
@@ -2987,30 +3020,7 @@ static Token iterate_twins(Token prev_token)
     }
 
     if (slices[stipulation_root_hook].starter==no_side)
-    {
-      if (OptFlag[quodlibet] && OptFlag[goal_is_end])
-        VerifieMsg(GoalIsEndAndQuodlibetIncompatible);
-      else if (OptFlag[quodlibet])
-      {
-        if (!transform_to_quodlibet(stipulation_root_hook))
-          Message(QuodlibetNotApplicable);
-      }
-      else if (OptFlag[goal_is_end])
-      {
-        if (!stip_insert_goal_is_end_testers(stipulation_root_hook))
-          Message(GoalIsEndNotApplicable);
-      }
-
-      if (OptFlag[whitetoplay] && !apply_whitetoplay(stipulation_root_hook))
-        Message(WhiteToPlayNotApplicable);
-
-      stip_insert_goal_prerequisite_guards(stipulation_root_hook);
-
-      if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(stipulation_root_hook))
-        Message(PostKeyPlayNotApplicable);
-
-      stip_detect_starter(stipulation_root_hook);
-    }
+      complete_stipulation(stipulation_root_hook);
 
     TraceStipulation(stipulation_root_hook);
 
