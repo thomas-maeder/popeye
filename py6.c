@@ -2500,6 +2500,427 @@ static void solve_twin(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static slice_index build_solvers(slice_index stipulation_root_hook)
+{
+  slice_index result = stip_deep_copy(stipulation_root_hook);
+  slice_index const stipulation_root = slices[stipulation_root_hook].next1;
+  Side const starter = slices[stipulation_root].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
+  stip_impose_starter(result,starter);
+
+  insert_temporary_hacks(result);
+
+  /* must come before stip_insert_selfcheck_guards() and
+   * stip_insert_move_generators() because flight counting machinery needs
+   * selfcheck guards and move generators */
+  if (OptFlag[solflights])
+    stip_insert_maxflight_guards(result);
+
+  /* must come before stip_insert_selfcheck_guards() because the
+   * instrumentation of the goal filters inserts or slices of
+   * which both branches need selfcheck guards */
+  if (anycirce)
+    stip_insert_circe_goal_filters(result);
+  if (anyanticirce)
+    stip_insert_anticirce_goal_filters(result);
+  if (TSTFLAG(PieSpExFlags,Kamikaze))
+    stip_insert_kamikaze(result);
+
+  /* must come before stip_apply_setplay() */
+  stip_insert_root_slices(result);
+  stip_insert_intro_slices(result);
+
+  /* must come before stip_insert_selfcheck_guards() because the set play
+   * branch needs a selfcheck guard */
+  if (OptFlag[solapparent] && !OptFlag[restart]
+      && !stip_apply_setplay(result))
+    Message(SetPlayNotApplicable);
+
+  /* must come before stip_insert_move_generators() because immobilise_black
+   * needs a move generator */
+  if (!init_intelligent_mode(result))
+    Message(IntelligentRestricted);
+
+  /* must come here because in conditions like Ohneschach, we are going
+   * to tampter with the slices inserted here
+   */
+  stip_insert_selfcheck_guards(result);
+  stip_insert_move_generators(result);
+
+  if (OptFlag[keepmating])
+    stip_insert_keepmating_filters(result);
+
+  if (CondFlag[amu])
+    stip_insert_amu_mate_filters(result);
+
+  if (CondFlag[whiteultraschachzwang]
+      || CondFlag[blackultraschachzwang])
+    stip_insert_ultraschachzwang_goal_filters(result);
+
+  if (CondFlag[ohneschach])
+    ohneschach_replace_immobility_testers(result);
+  else if (CondFlag[exclusive])
+    ; /* use regular move generation to filter out non-unique mating moves */
+  else if (CondFlag[MAFF])
+    maff_replace_immobility_testers(result);
+  else if (CondFlag[OWU])
+    owu_replace_immobility_testers(result);
+  else
+    immobility_testers_substitute_king_first(result);
+
+  if (CondFlag[exclusive])
+    optimise_away_unnecessary_selfcheckguards(result);
+
+  if (CondFlag[extinction])
+    stip_insert_extinction_chess(result);
+
+  if (CondFlag[singlebox])
+    switch (SingleBoxType)
+    {
+      case singlebox_type1:
+        stip_insert_singlebox_type1(result);
+        break;
+
+      case singlebox_type2:
+        stip_insert_singlebox_type2(result);
+        break;
+
+      case singlebox_type3:
+        stip_insert_singlebox_type3(result);
+        break;
+
+      default:
+        break;
+    }
+
+  if (CondFlag[exclusive])
+    stip_insert_exclusive_chess_legality_testers(result);
+
+  if (CondFlag[ohneschach])
+    stip_insert_ohneschach_legality_testers(result);
+
+  stip_insert_king_capture_avoiders(result);
+
+  if (CondFlag[isardam])
+    stip_insert_isardam_legality_testers(result);
+
+  if (CondFlag[patience])
+    stip_insert_patience_chess(result);
+
+  if (TSTFLAG(PieSpExFlags,Paralyse))
+    stip_insert_paralysing_goal_filters(result);
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    stip_insert_neutral_initialisers(result);
+
+  if (CondFlag[SAT] || CondFlag[strictSAT])
+    stip_substitute_sat_king_flight_generators(result);
+
+  if (CondFlag[strictSAT])
+    stip_insert_strict_sat(result);
+
+  if (CondFlag[schwarzschacher])
+    stip_insert_blackchecks(result);
+
+  if (CondFlag[masand])
+    stip_insert_masand(result);
+
+  if (CondFlag[dynasty])
+    stip_insert_dynasty(result);
+
+  if (TSTFLAG(PieSpExFlags,ColourChange))
+    stip_insert_hurdle_colour_changers(result);
+
+  stip_insert_king_oscillators(result);
+
+  if (CondFlag[messigny])
+    stip_insert_messigny(result);
+
+  if (CondFlag[arc])
+    stip_insert_actuated_revolving_centre(result);
+
+  if (CondFlag[actrevolving])
+    stip_insert_actuated_revolving_board(result);
+
+  if (anyparrain)
+    stip_insert_circe_parrain_rebirth_handlers(result);
+  else if (CondFlag[supercirce])
+    stip_insert_supercirce_rebirth_handlers(result);
+  else if (CondFlag[april])
+    stip_insert_april_chess(result);
+  else if (CondFlag[circecage])
+    stip_insert_circe_cage(result);
+  else if (CondFlag[circeassassin])
+    stip_insert_circe_assassin(result);
+  else if (anycirce)
+  {
+    stip_insert_circe(result);
+    if (CondFlag[circedoubleagents])
+      stip_insert_circe_double_agents(result);
+    if (CondFlag[chamcirce])
+      stip_insert_chameleon_circe(result);
+    if (anyclone)
+      stip_insert_circe_clone(result);
+    if (TSTFLAG(PieSpExFlags,Kamikaze))
+    {
+      stip_insert_anticirce_relaxed(result);
+      stip_insert_circe_kamikaze_rebirth_handlers(result);
+      if (CondFlag[couscous])
+        stip_insert_anticirce_couscous(result);
+    }
+    if (CondFlag[couscous])
+      stip_insert_couscous_circe(result);
+  }
+
+  if (CondFlag[contactgrid])
+    stip_insert_contact_grid(result);
+
+  if (anycirce && !rex_circe)
+    stip_insert_circe_king_rebirth_avoiders(result);
+
+  if (anycirce)
+  {
+    if  (TSTFLAG(PieSpExFlags,Volage) || CondFlag[volage])
+      stip_insert_circe_volage_recolorers(result);
+    if  (anycirprom)
+      stip_insert_circe_promoters(result);
+    if (CondFlag[circeturncoats])
+      stip_insert_circe_turncoats_side_changers(result);
+  }
+
+  if (CondFlag[sentinelles])
+    stip_insert_sentinelles_inserters(result);
+
+  if (TSTFLAG(PieSpExFlags,Magic))
+    stip_insert_magic_pieces_recolorers(result);
+
+  if (CondFlag[antisuper])
+  {
+    stip_insert_anticirce_strict(result);
+    if (AntiCirCheylan)
+      stip_insert_anticirce_cheylan(result);
+    stip_insert_antisupercirce(result);
+    stip_insert_anticirce_promotion(result);
+  }
+  else if (anyanticirce)
+  {
+    if (AntiCirCheylan)
+      stip_insert_anticirce_cheylan(result);
+    stip_insert_anticirce_strict(result);
+    if (CondFlag[magicsquare] && magic_square_type==magic_square_type2)
+      stip_insert_magic_square_type2(result);
+    stip_insert_anticirce(result);
+    if (anyanticirprom)
+      stip_insert_anticirce_promotion(result);
+    if (CondFlag[couscous])
+      stip_insert_anticirce_couscous(result);
+  }
+
+  if (CondFlag[duellist])
+    stip_insert_duellists(result);
+
+  if (CondFlag[hauntedchess])
+    stip_insert_haunted_chess(result);
+
+  if (CondFlag[ghostchess])
+    stip_insert_ghost_chess(result);
+
+  if (kobulking[White] || kobulking[Black])
+    stip_insert_kobul_king_substitutors(result);
+
+  if (TSTFLAG(PieSpExFlags,HalfNeutral))
+    stip_insert_half_neutral_recolorers(result);
+
+  if (CondFlag[andernach])
+    stip_insert_andernach(result);
+
+  if (CondFlag[antiandernach])
+    stip_insert_antiandernach(result);
+
+  if (CondFlag[champursue])
+    stip_insert_chameleon_pursuit(result);
+
+  if (CondFlag[norsk])
+    stip_insert_norsk_chess(result);
+
+  if (CondFlag[protean] || TSTFLAG(PieSpExFlags,Protean))
+    stip_insert_protean_chess(result);
+
+  if (castling_supported)
+    stip_insert_castling(result);
+
+  if (CondFlag[einstein])
+    stip_insert_einstein_moving_adjusters(result);
+
+  if (CondFlag[reveinstein])
+    stip_insert_reverse_einstein_moving_adjusters(result);
+
+  if (CondFlag[antieinstein])
+    stip_insert_anti_einstein_moving_adjusters(result);
+
+  if (CondFlag[traitor])
+    stip_insert_traitor_side_changers(result);
+
+  if (CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
+    stip_insert_volage_side_changers(result);
+
+  if (CondFlag[magicsquare])
+    stip_insert_magic_square(result);
+
+  if (CondFlag[dbltibet])
+    stip_insert_double_tibet(result);
+  else if (CondFlag[tibet])
+    stip_insert_tibet(result);
+
+  if (CondFlag[degradierung])
+    stip_insert_degradierung(result);
+
+  if (TSTFLAG(PieSpExFlags,Chameleon))
+    stip_insert_chameleon(result);
+
+  if (CondFlag[frischauf])
+    stip_insert_frischauf_promotee_markers(result);
+
+  if (CondFlag[phantom])
+    stip_insert_phantom_en_passant_adjusters(result);
+  else if (anyantimars)
+    stip_insert_antimars_en_passant_adjusters(result);
+  else
+    stip_insert_en_passant_adjusters(result);
+
+  if (CondFlag[linechamchess])
+    stip_insert_line_chameleon_chess(result);
+
+  stip_insert_moving_pawn_promoters(result);
+
+  if (CondFlag[haanerchess])
+    stip_insert_haan_chess(result);
+
+  if (CondFlag[castlingchess])
+    stip_insert_castling_chess(result);
+
+  if (CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king])
+    stip_insert_supertransmuting_kings(result);
+
+  if (CondFlag[amu])
+    stip_insert_amu_attack_counter(result);
+
+  if (OptFlag[mutuallyexclusivecastling])
+    stip_insert_mutual_castling_rights_adjusters(result);
+
+  if (CondFlag[imitators])
+    stip_insert_imitator(result);
+
+  if (CondFlag[football])
+    stip_insert_football_chess(result);
+
+  if (CondFlag[platzwechselrochade])
+    stip_insert_exchange_castling(result);
+
+  stip_insert_post_move_iteration(result);
+
+  if (dealWithMaxtime())
+    stip_insert_maxtime_guards(result);
+
+  if (CondFlag[BGL])
+    stip_insert_bgl_filters(result);
+
+  if (OptFlag[noshort])
+    stip_insert_no_short_variations_filters(result);
+
+  if (OptFlag[maxsols])
+    stip_insert_maxsolutions_filters(result);
+
+  stip_optimise_dead_end_slices(result);
+
+  if (OptFlag[stoponshort]
+      && !stip_insert_stoponshortsolutions_filters(result))
+    Message(NoStopOnShortSolutions);
+
+  stip_remove_irrelevant_constraints(result);
+
+  if (OptFlag[movenbr])
+    stip_insert_restart_guards(result);
+
+  stip_insert_continuation_solvers(result);
+
+  stip_insert_find_shortest_solvers(result);
+
+  stip_optimise_with_orthodox_mating_move_generators(result);
+
+  if (!OptFlag[solvariantes])
+    stip_insert_play_suppressors(result);
+
+  if (OptFlag[solvariantes] && !OptFlag[nothreat])
+    stip_insert_threat_boundaries(result);
+
+  stip_spin_off_testers(result);
+
+  if (is_hashtable_allocated())
+    stip_insert_hash_slices(result);
+
+  stip_instrument_help_ends_of_branches(result);
+
+  stip_insert_setplay_solvers(result);
+
+  if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+    stip_insert_try_solvers(result);
+
+  stip_insert_trivial_variation_filters(result);
+
+  stip_insert_min_length(result);
+
+  if (OptFlag[nontrivial])
+    stip_insert_max_nr_nontrivial_guards(result);
+
+  if (OptFlag[solvariantes] && !OptFlag[nothreat])
+    stip_insert_threat_handlers(result);
+
+  if (OptFlag[degeneratetree])
+    stip_insert_degenerate_tree_guards(result);
+
+  stip_impose_starter(result,slices[result].starter);
+  stip_optimise_with_countnropponentmoves(result);
+
+  stip_insert_output_slices(result);
+
+  stip_optimise_with_killer_moves(result);
+
+  if (OptFlag[solmenaces]
+      && !stip_insert_maxthreatlength_guards(result))
+    Message(ThreatOptionAndExactStipulationIncompatible);
+
+  if (CondFlag[republican])
+    stip_insert_republican_king_placers(result);
+
+  and_enable_shortcut_logic(result);
+
+  stip_insert_avoid_unsolvable_forks(result);
+
+  stip_insert_move_iterators(result);
+
+#if defined(DOTRACE)
+  stip_insert_move_tracers(result);
+#endif
+
+#if defined(DOMEASURE)
+  stip_insert_move_counters(result);
+#endif
+
+  stip_impose_starter(result,slices[result].starter);
+
+  resolve_proxies(&result);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Iterate over the twins of a problem
  * @prev_token token that ended the previous twin
  * @return token that ended the current twin
@@ -2507,19 +2928,19 @@ static void solve_twin(slice_index si,
 static Token iterate_twins(Token prev_token)
 {
   unsigned int twin_index = 0;
-  slice_index template_slice_hook;
+  slice_index stipulation_root_hook;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",prev_token);
   TraceFunctionParamListEnd();
 
-  template_slice_hook = alloc_proxy_slice();
+  stipulation_root_hook = alloc_proxy_slice();
 
   do
   {
     InitAlways();
 
-    prev_token = ReadTwin(prev_token,template_slice_hook);
+    prev_token = ReadTwin(prev_token,stipulation_root_hook);
 
     if (twin_index==0)
       /* Set the timer for real calculation time */
@@ -2530,467 +2951,61 @@ static Token iterate_twins(Token prev_token)
       if (!OptFlag[noboard])
         WritePosition();
 
-      prev_token = ReadTwin(prev_token,template_slice_hook);
+      prev_token = ReadTwin(prev_token,stipulation_root_hook);
       if (LaTeXout)
         LaTeXBeginDiagram();
 
       ++twin_index;
     }
 
-    if (slices[template_slice_hook].starter==no_side)
+    if (slices[stipulation_root_hook].starter==no_side)
     {
       if (OptFlag[quodlibet] && OptFlag[goal_is_end])
         VerifieMsg(GoalIsEndAndQuodlibetIncompatible);
       else if (OptFlag[quodlibet])
       {
-        if (!transform_to_quodlibet(template_slice_hook))
+        if (!transform_to_quodlibet(stipulation_root_hook))
           Message(QuodlibetNotApplicable);
       }
       else if (OptFlag[goal_is_end])
       {
-        if (!stip_insert_goal_is_end_testers(template_slice_hook))
+        if (!stip_insert_goal_is_end_testers(stipulation_root_hook))
           Message(GoalIsEndNotApplicable);
       }
 
-      if (OptFlag[whitetoplay] && !apply_whitetoplay(template_slice_hook))
+      if (OptFlag[whitetoplay] && !apply_whitetoplay(stipulation_root_hook))
         Message(WhiteToPlayNotApplicable);
 
-      stip_insert_goal_prerequisite_guards(template_slice_hook);
+      stip_insert_goal_prerequisite_guards(stipulation_root_hook);
 
-      if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(template_slice_hook))
+      if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(stipulation_root_hook))
         Message(PostKeyPlayNotApplicable);
 
-      stip_detect_starter(template_slice_hook);
-      stip_impose_starter(template_slice_hook,
-                          slices[template_slice_hook].starter);
+      stip_detect_starter(stipulation_root_hook);
     }
 
-    TraceStipulation(template_slice_hook);
+    TraceStipulation(stipulation_root_hook);
 
-    if (slices[slices[template_slice_hook].next1].starter==no_side)
+    if (slices[slices[stipulation_root_hook].next1].starter==no_side)
       VerifieMsg(CantDecideWhoIsAtTheMove);
-    else if (initialise_verify_twin(slices[template_slice_hook].next1))
+    else
     {
-      slice_index root_slice = stip_deep_copy(template_slice_hook);
+      stip_impose_starter(stipulation_root_hook,
+                          slices[stipulation_root_hook].starter);
 
-      slice_index const template = slices[template_slice_hook].next1;
-      Side const starter = slices[template].starter;
-      stip_impose_starter(root_slice,starter);
-
-      insert_temporary_hacks(root_slice);
-
-      /* must come before stip_insert_selfcheck_guards() and
-       * stip_insert_move_generators() because flight counting machinery needs
-       * selfcheck guards and move generators */
-      if (OptFlag[solflights])
-        stip_insert_maxflight_guards(root_slice);
-
-      /* must come before stip_insert_selfcheck_guards() because the
-       * instrumentation of the goal filters inserts or slices of
-       * which both branches need selfcheck guards */
-      if (anycirce)
-        stip_insert_circe_goal_filters(root_slice);
-      if (anyanticirce)
-        stip_insert_anticirce_goal_filters(root_slice);
-      if (TSTFLAG(PieSpExFlags,Kamikaze))
-        stip_insert_kamikaze(root_slice);
-
-      /* must come before stip_apply_setplay() */
-      stip_insert_root_slices(root_slice);
-      stip_insert_intro_slices(root_slice);
-
-      /* must come before stip_insert_selfcheck_guards() because the set play
-       * branch needs a selfcheck guard */
-      if (OptFlag[solapparent] && !OptFlag[restart]
-          && !stip_apply_setplay(root_slice))
-        Message(SetPlayNotApplicable);
-
-      /* must come before stip_insert_move_generators() because immobilise_black
-       * needs a move generator */
-      if (!init_intelligent_mode(root_slice))
-        Message(IntelligentRestricted);
-
-      /* must come here because in conditions like Ohneschach, we are going
-       * to tampter with the slices inserted here
-       */
-      stip_insert_selfcheck_guards(root_slice);
-      stip_insert_move_generators(root_slice);
-
-      if (OptFlag[keepmating])
-        stip_insert_keepmating_filters(root_slice);
-
-      if (CondFlag[amu])
-        stip_insert_amu_mate_filters(root_slice);
-
-      if (CondFlag[whiteultraschachzwang]
-          || CondFlag[blackultraschachzwang])
-        stip_insert_ultraschachzwang_goal_filters(root_slice);
-
-      if (CondFlag[ohneschach])
-        ohneschach_replace_immobility_testers(root_slice);
-      else if (CondFlag[exclusive])
-        ; /* use regular move generation to filter out non-unique mating moves */
-      else if (CondFlag[MAFF])
-        maff_replace_immobility_testers(root_slice);
-      else if (CondFlag[OWU])
-        owu_replace_immobility_testers(root_slice);
-      else
-        immobility_testers_substitute_king_first(root_slice);
-
-      if (CondFlag[exclusive])
-        optimise_away_unnecessary_selfcheckguards(root_slice);
-
-      if (CondFlag[extinction])
-        stip_insert_extinction_chess(root_slice);
-
-      if (CondFlag[singlebox])
-        switch (SingleBoxType)
-        {
-          case singlebox_type1:
-            stip_insert_singlebox_type1(root_slice);
-            break;
-
-          case singlebox_type2:
-            stip_insert_singlebox_type2(root_slice);
-            break;
-
-          case singlebox_type3:
-            stip_insert_singlebox_type3(root_slice);
-            break;
-
-          default:
-            break;
-        }
-
-      if (CondFlag[exclusive])
-        stip_insert_exclusive_chess_legality_testers(root_slice);
-
-      if (CondFlag[ohneschach])
-        stip_insert_ohneschach_legality_testers(root_slice);
-
-      stip_insert_king_capture_avoiders(root_slice);
-
-      if (CondFlag[isardam])
-        stip_insert_isardam_legality_testers(root_slice);
-
-      if (CondFlag[patience])
-        stip_insert_patience_chess(root_slice);
-
-      if (TSTFLAG(PieSpExFlags,Paralyse))
-        stip_insert_paralysing_goal_filters(root_slice);
-
-      if (TSTFLAG(PieSpExFlags,Neutral))
-        stip_insert_neutral_initialisers(root_slice);
-
-      if (CondFlag[SAT] || CondFlag[strictSAT])
-        stip_substitute_sat_king_flight_generators(root_slice);
-
-      if (CondFlag[strictSAT])
-        stip_insert_strict_sat(root_slice);
-
-      if (CondFlag[schwarzschacher])
-        stip_insert_blackchecks(root_slice);
-
-      if (CondFlag[masand])
-        stip_insert_masand(root_slice);
-
-      if (CondFlag[dynasty])
-        stip_insert_dynasty(root_slice);
-
-      if (TSTFLAG(PieSpExFlags,ColourChange))
-        stip_insert_hurdle_colour_changers(root_slice);
-
-      stip_insert_king_oscillators(root_slice);
-
-      if (CondFlag[messigny])
-        stip_insert_messigny(root_slice);
-
-      if (CondFlag[arc])
-        stip_insert_actuated_revolving_centre(root_slice);
-
-      if (CondFlag[actrevolving])
-        stip_insert_actuated_revolving_board(root_slice);
-
-      if (anyparrain)
-        stip_insert_circe_parrain_rebirth_handlers(root_slice);
-      else if (CondFlag[supercirce])
-        stip_insert_supercirce_rebirth_handlers(root_slice);
-      else if (CondFlag[april])
-        stip_insert_april_chess(root_slice);
-      else if (CondFlag[circecage])
-        stip_insert_circe_cage(root_slice);
-      else if (CondFlag[circeassassin])
-        stip_insert_circe_assassin(root_slice);
-      else if (anycirce)
+      if (initialise_verify_twin(slices[stipulation_root_hook].next1))
       {
-        stip_insert_circe(root_slice);
-        if (CondFlag[circedoubleagents])
-          stip_insert_circe_double_agents(root_slice);
-        if (CondFlag[chamcirce])
-          stip_insert_chameleon_circe(root_slice);
-        if (anyclone)
-          stip_insert_circe_clone(root_slice);
-        if (TSTFLAG(PieSpExFlags,Kamikaze))
-        {
-          stip_insert_anticirce_relaxed(root_slice);
-          stip_insert_circe_kamikaze_rebirth_handlers(root_slice);
-          if (CondFlag[couscous])
-            stip_insert_anticirce_couscous(root_slice);
-        }
-        if (CondFlag[couscous])
-          stip_insert_couscous_circe(root_slice);
+        slice_index const root_slice = build_solvers(stipulation_root_hook);
+        TraceStipulation(root_slice);
+        solve_twin(root_slice,twin_index,prev_token);
+        dealloc_slices(root_slice);
       }
-
-      if (CondFlag[contactgrid])
-        stip_insert_contact_grid(root_slice);
-
-      if (anycirce && !rex_circe)
-        stip_insert_circe_king_rebirth_avoiders(root_slice);
-
-      if (anycirce)
-      {
-        if  (TSTFLAG(PieSpExFlags,Volage) || CondFlag[volage])
-          stip_insert_circe_volage_recolorers(root_slice);
-        if  (anycirprom)
-          stip_insert_circe_promoters(root_slice);
-        if (CondFlag[circeturncoats])
-          stip_insert_circe_turncoats_side_changers(root_slice);
-      }
-
-      if (CondFlag[sentinelles])
-        stip_insert_sentinelles_inserters(root_slice);
-
-      if (TSTFLAG(PieSpExFlags,Magic))
-        stip_insert_magic_pieces_recolorers(root_slice);
-
-      if (CondFlag[antisuper])
-      {
-        stip_insert_anticirce_strict(root_slice);
-        if (AntiCirCheylan)
-          stip_insert_anticirce_cheylan(root_slice);
-        stip_insert_antisupercirce(root_slice);
-        stip_insert_anticirce_promotion(root_slice);
-      }
-      else if (anyanticirce)
-      {
-        if (AntiCirCheylan)
-          stip_insert_anticirce_cheylan(root_slice);
-        stip_insert_anticirce_strict(root_slice);
-        if (CondFlag[magicsquare] && magic_square_type==magic_square_type2)
-          stip_insert_magic_square_type2(root_slice);
-        stip_insert_anticirce(root_slice);
-        if (anyanticirprom)
-          stip_insert_anticirce_promotion(root_slice);
-        if (CondFlag[couscous])
-          stip_insert_anticirce_couscous(root_slice);
-      }
-
-      if (CondFlag[duellist])
-        stip_insert_duellists(root_slice);
-
-      if (CondFlag[hauntedchess])
-        stip_insert_haunted_chess(root_slice);
-
-      if (CondFlag[ghostchess])
-        stip_insert_ghost_chess(root_slice);
-
-      if (kobulking[White] || kobulking[Black])
-        stip_insert_kobul_king_substitutors(root_slice);
-
-      if (TSTFLAG(PieSpExFlags,HalfNeutral))
-        stip_insert_half_neutral_recolorers(root_slice);
-
-      if (CondFlag[andernach])
-        stip_insert_andernach(root_slice);
-
-      if (CondFlag[antiandernach])
-        stip_insert_antiandernach(root_slice);
-
-      if (CondFlag[champursue])
-        stip_insert_chameleon_pursuit(root_slice);
-
-      if (CondFlag[norsk])
-        stip_insert_norsk_chess(root_slice);
-
-      if (CondFlag[protean] || TSTFLAG(PieSpExFlags,Protean))
-        stip_insert_protean_chess(root_slice);
-
-      if (castling_supported)
-        stip_insert_castling(root_slice);
-
-      if (CondFlag[einstein])
-        stip_insert_einstein_moving_adjusters(root_slice);
-
-      if (CondFlag[reveinstein])
-        stip_insert_reverse_einstein_moving_adjusters(root_slice);
-
-      if (CondFlag[antieinstein])
-        stip_insert_anti_einstein_moving_adjusters(root_slice);
-
-      if (CondFlag[traitor])
-        stip_insert_traitor_side_changers(root_slice);
-
-      if (CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
-        stip_insert_volage_side_changers(root_slice);
-
-      if (CondFlag[magicsquare])
-        stip_insert_magic_square(root_slice);
-
-      if (CondFlag[dbltibet])
-        stip_insert_double_tibet(root_slice);
-      else if (CondFlag[tibet])
-        stip_insert_tibet(root_slice);
-
-      if (CondFlag[degradierung])
-        stip_insert_degradierung(root_slice);
-
-      if (TSTFLAG(PieSpExFlags,Chameleon))
-        stip_insert_chameleon(root_slice);
-
-      if (CondFlag[frischauf])
-        stip_insert_frischauf_promotee_markers(root_slice);
-
-      if (CondFlag[phantom])
-        stip_insert_phantom_en_passant_adjusters(root_slice);
-      else if (anyantimars)
-        stip_insert_antimars_en_passant_adjusters(root_slice);
-      else
-        stip_insert_en_passant_adjusters(root_slice);
-
-      if (CondFlag[linechamchess])
-        stip_insert_line_chameleon_chess(root_slice);
-
-      stip_insert_moving_pawn_promoters(root_slice);
-
-      if (CondFlag[haanerchess])
-        stip_insert_haan_chess(root_slice);
-
-      if (CondFlag[castlingchess])
-        stip_insert_castling_chess(root_slice);
-
-      if (CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king])
-        stip_insert_supertransmuting_kings(root_slice);
-
-      if (CondFlag[amu])
-        stip_insert_amu_attack_counter(root_slice);
-
-      if (OptFlag[mutuallyexclusivecastling])
-        stip_insert_mutual_castling_rights_adjusters(root_slice);
-
-      if (CondFlag[imitators])
-        stip_insert_imitator(root_slice);
-
-      if (CondFlag[football])
-        stip_insert_football_chess(root_slice);
-
-      if (CondFlag[platzwechselrochade])
-        stip_insert_exchange_castling(root_slice);
-
-      stip_insert_post_move_iteration(root_slice);
-
-      if (dealWithMaxtime())
-        stip_insert_maxtime_guards(root_slice);
-
-      if (CondFlag[BGL])
-        stip_insert_bgl_filters(root_slice);
-
-      if (OptFlag[noshort])
-        stip_insert_no_short_variations_filters(root_slice);
-
-      if (OptFlag[maxsols])
-        stip_insert_maxsolutions_filters(root_slice);
-
-      stip_optimise_dead_end_slices(root_slice);
-
-      if (OptFlag[stoponshort]
-          && !stip_insert_stoponshortsolutions_filters(root_slice))
-        Message(NoStopOnShortSolutions);
-
-      stip_remove_irrelevant_constraints(root_slice);
-
-      if (OptFlag[movenbr])
-        stip_insert_restart_guards(root_slice);
-
-      stip_insert_continuation_solvers(root_slice);
-
-      stip_insert_find_shortest_solvers(root_slice);
-
-      stip_optimise_with_orthodox_mating_move_generators(root_slice);
-
-      if (!OptFlag[solvariantes])
-        stip_insert_play_suppressors(root_slice);
-
-      if (OptFlag[solvariantes] && !OptFlag[nothreat])
-        stip_insert_threat_boundaries(root_slice);
-
-      stip_spin_off_testers(root_slice);
-
-      if (is_hashtable_allocated())
-        stip_insert_hash_slices(root_slice);
-
-      stip_instrument_help_ends_of_branches(root_slice);
-
-      stip_insert_setplay_solvers(root_slice);
-
-      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-        stip_insert_try_solvers(root_slice);
-
-      stip_insert_trivial_variation_filters(root_slice);
-
-      stip_insert_min_length(root_slice);
-
-      if (OptFlag[nontrivial])
-        stip_insert_max_nr_nontrivial_guards(root_slice);
-
-      if (OptFlag[solvariantes] && !OptFlag[nothreat])
-        stip_insert_threat_handlers(root_slice);
-
-      if (OptFlag[degeneratetree])
-        stip_insert_degenerate_tree_guards(root_slice);
-
-      stip_impose_starter(root_slice,slices[root_slice].starter);
-      stip_optimise_with_countnropponentmoves(root_slice);
-
-      stip_insert_output_slices(root_slice);
-
-      stip_optimise_with_killer_moves(root_slice);
-
-      if (OptFlag[solmenaces]
-          && !stip_insert_maxthreatlength_guards(root_slice))
-        Message(ThreatOptionAndExactStipulationIncompatible);
-
-      if (CondFlag[republican])
-        stip_insert_republican_king_placers(root_slice);
-
-      and_enable_shortcut_logic(root_slice);
-
-      stip_insert_avoid_unsolvable_forks(root_slice);
-
-      stip_insert_move_iterators(root_slice);
-
-#if defined(DOTRACE)
-      stip_insert_move_tracers(root_slice);
-#endif
-
-#if defined(DOMEASURE)
-      stip_insert_move_counters(root_slice);
-#endif
-
-      stip_impose_starter(root_slice,slices[root_slice].starter);
-
-      resolve_proxies(&root_slice);
-
-      TraceStipulation(root_slice);
-
-      solve_twin(root_slice,twin_index,prev_token);
-
-      dealloc_slices(root_slice);
     }
 
     ++twin_index;
   } while (prev_token==TwinProblem);
 
-  dealloc_slices(template_slice_hook);
+  dealloc_slices(stipulation_root_hook);
 
   assert_no_leaked_slices();
 
