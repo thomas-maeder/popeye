@@ -113,7 +113,7 @@ typedef enum
   CheckingLevel1         = 72,
   CheckingLevel2         = 73,
   StipNotSupported       = 74,
-  MultipleGoalsWithProogGameNotAcceptable = 75,
+  MultipleGoalsWithProofGameNotAcceptable = 75,
   ToManyEpKeySquares     = 76,
   Abort                  = 77,
   TransmRoyalPieces      = 78,

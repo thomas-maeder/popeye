@@ -2357,88 +2357,14 @@ static void fini_duplex(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Perform verifications and initialisations before solving a twin
- * (which may be the only twin of the problem)
- * @param si identifies the root slice of the stipulation
- */
-static boolean initialise_verify_twin(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  initPieces();
-
-  if (stip_ends_in(si,goal_proofgame) || stip_ends_in(si,goal_atob))
-  {
-    Goal const unique_goal = find_unique_goal(si);
-    if (unique_goal.type==no_goal)
-      VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
-    else
-    {
-      assert(unique_goal.type==goal_proofgame || unique_goal.type==goal_atob);
-
-      countPieces();
-      if (locateRoyal())
-      {
-        ProofSaveTargetPosition();
-
-        if (stip_ends_in(si,goal_proofgame))
-          ProofInitialiseStartPosition();
-
-        ProofRestoreStartPosition();
-
-        countPieces();
-        if (locateRoyal() && verify_position(si))
-        {
-          ProofSaveStartPosition();
-          ProofRestoreTargetPosition();
-
-          ProofInitialise(si);
-
-          if (!OptFlag[noboard])
-            WritePosition();
-          initialise_piece_flags();
-
-          ProofRestoreStartPosition();
-          if (unique_goal.type==goal_atob && !OptFlag[noboard])
-            ProofWriteStartPosition(si);
-          initialise_piece_flags();
-
-          result = true;
-        }
-      }
-    }
-  }
-  else
-  {
-    countPieces();
-    if (locateRoyal() && verify_position(si))
-    {
-      if (!OptFlag[noboard])
-        WritePosition();
-      initialise_piece_flags();
-
-      result = true;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a twin (maybe the only one of a problem)
  * @param si identifies the root slice of the stipulation
  * @param twin_index 0 for first, 1 for second ...; if the problem has
- *                   a zero position, solve_twin() is invoked with
+ *                   a zero position, solve_the_twin() is invoked with
  *                   1, 2, ... but not with 0
  * @param end_of_twin_token token that ended this twin
  */
-static void solve_twin(slice_index si,
+static void solve_the_twin(slice_index si,
                        unsigned int twin_index, Token end_of_twin_token)
 {
   TraceFunctionEntry(__func__);
@@ -2921,6 +2847,108 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   return result;
 }
 
+static void solve_twin(slice_index stipulation_root_hook,
+                       unsigned int twin_index,
+                       Token prev_token)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",twin_index);
+  TraceFunctionParam("%u",prev_token);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const root_slice = build_solvers(stipulation_root_hook);
+    TraceStipulation(root_slice);
+    solve_the_twin(root_slice,twin_index,prev_token);
+    dealloc_slices(root_slice);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void solve_proofgame_twin(slice_index stipulation_root_hook,
+                                 unsigned int twin_index,
+                                 Token prev_token)
+{
+  slice_index const stipulation_root = slices[stipulation_root_hook].next1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",twin_index);
+  TraceFunctionParam("%u",prev_token);
+  TraceFunctionParamListEnd();
+
+  {
+    Goal const unique_goal = find_unique_goal(stipulation_root);
+    if (unique_goal.type==no_goal)
+      VerifieMsg(MultipleGoalsWithProofGameNotAcceptable);
+    else
+    {
+      assert(unique_goal.type==goal_proofgame || unique_goal.type==goal_atob);
+
+      countPieces();
+      if (locateRoyal())
+      {
+        ProofSaveTargetPosition();
+
+        if (stip_ends_in(stipulation_root,goal_proofgame))
+          ProofInitialiseStartPosition();
+
+        ProofRestoreStartPosition();
+
+        countPieces();
+        if (locateRoyal() && verify_position(stipulation_root))
+        {
+          ProofSaveStartPosition();
+          ProofRestoreTargetPosition();
+
+          ProofInitialise(stipulation_root);
+
+          if (!OptFlag[noboard])
+            WritePosition();
+          initialise_piece_flags();
+
+          ProofRestoreStartPosition();
+          if (unique_goal.type==goal_atob && !OptFlag[noboard])
+            ProofWriteStartPosition(stipulation_root);
+          initialise_piece_flags();
+
+          solve_twin(stipulation_root_hook,twin_index,prev_token);
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void solve_non_proofgame_twin(slice_index stipulation_root_hook,
+                                     unsigned int twin_index,
+                                     Token prev_token)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",twin_index);
+  TraceFunctionParam("%u",prev_token);
+  TraceFunctionParamListEnd();
+
+  countPieces();
+  if (locateRoyal() && verify_position(slices[stipulation_root_hook].next1))
+  {
+    if (!OptFlag[noboard])
+      WritePosition();
+    initialise_piece_flags();
+
+    solve_twin(stipulation_root_hook,twin_index,prev_token);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Iterate over the twins of a problem
  * @prev_token token that ended the previous twin
  * @return token that ended the current twin
@@ -2993,13 +3021,13 @@ static Token iterate_twins(Token prev_token)
       stip_impose_starter(stipulation_root_hook,
                           slices[stipulation_root_hook].starter);
 
-      if (initialise_verify_twin(slices[stipulation_root_hook].next1))
-      {
-        slice_index const root_slice = build_solvers(stipulation_root_hook);
-        TraceStipulation(root_slice);
-        solve_twin(root_slice,twin_index,prev_token);
-        dealloc_slices(root_slice);
-      }
+      initPieces();
+
+      if (stip_ends_in(slices[stipulation_root_hook].next1,goal_proofgame)
+          || stip_ends_in(slices[stipulation_root_hook].next1,goal_atob))
+        solve_proofgame_twin(stipulation_root_hook,twin_index,prev_token);
+      else
+        solve_non_proofgame_twin(stipulation_root_hook,twin_index,prev_token);
     }
 
     ++twin_index;
