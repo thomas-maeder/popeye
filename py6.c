@@ -2975,8 +2975,6 @@ static void solve_stipulation(slice_index stipulation_root_hook,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
-  TraceEnumerator(Side,regular_starter,"");
-  TraceEnumerator(Side,current_starter,"");
   TraceFunctionParam("%u",prev_token);
   TraceFunctionParam("%u",twin_index);
   TraceFunctionParamListEnd();
