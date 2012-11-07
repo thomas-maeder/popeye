@@ -499,6 +499,10 @@ static void swap_color(position *pos, square s)
 void ProofStartSwapColors(void)
 {
   square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (bnp = boardnum; *bnp; bnp++)
     if (!TSTFLAG(start.spec[*bnp],Neutral) && start.board[*bnp]!=vide)
     {
@@ -511,6 +515,9 @@ void ProofStartSwapColors(void)
     for (i = 0; i<ProofNbrAllPieces; ++i)
       ProofPieces[i] = -ProofPieces[i];
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Swap the content of two squares in a position
