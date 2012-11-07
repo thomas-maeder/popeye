@@ -2357,15 +2357,18 @@ static void fini_duplex(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static boolean are_we_solving_duplex;
+
 /* Solve a twin (maybe the only one of a problem)
  * @param si identifies the root slice of the stipulation
  * @param twin_index 0 for first, 1 for second ...; if the problem has
- *                   a zero position, solve_the_twin() is invoked with
+ *                   a zero position, solve_impl() is invoked with
  *                   1, 2, ... but not with 0
  * @param end_of_twin_token token that ended this twin
  */
-static void solve_the_twin(slice_index si,
-                       unsigned int twin_index, Token end_of_twin_token)
+static void solve_impl(slice_index si,
+                       unsigned int twin_index,
+                       Token end_of_twin_token)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2394,33 +2397,15 @@ static void solve_the_twin(slice_index si,
     }
   }
 
-  if (!OptFlag[halfduplex])
-    solveHalfADuplex(si);
-
-  if (OptFlag[halfduplex] || OptFlag[duplex])
+  if (are_we_solving_duplex)
   {
-    /* Set next side to calculate for duplex "twin" */
-    stip_impose_starter(si,advers(slices[si].starter));
-    temporary_hacks_swap_colors();
-    TraceStipulation(si);
-
     init_duplex(si);
-
     if (locateRoyal() && verify_position(si))
       solveHalfADuplex(si);
-
     fini_duplex(si);
-
-    temporary_hacks_swap_colors();
-    stip_impose_starter(si,advers(slices[si].starter));
   }
-
-  Message(NewLine);
-
-  WRITE_COUNTER(empile);
-  WRITE_COUNTER(play_move);
-  WRITE_COUNTER(orig_rbechec);
-  WRITE_COUNTER(orig_rnechec);
+  else
+    solveHalfADuplex(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2428,15 +2413,15 @@ static void solve_the_twin(slice_index si,
 
 static slice_index build_solvers(slice_index stipulation_root_hook)
 {
-  slice_index result = stip_deep_copy(stipulation_root_hook);
-  slice_index const stipulation_root = slices[stipulation_root_hook].next1;
-  Side const starter = slices[stipulation_root].starter;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  stip_impose_starter(result,starter);
+  result = stip_deep_copy(stipulation_root_hook);
+
+  stip_impose_starter(result,slices[stipulation_root_hook].starter);
 
   insert_temporary_hacks(result);
 
@@ -2847,9 +2832,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   return result;
 }
 
-static void solve_twin(slice_index stipulation_root_hook,
-                       unsigned int twin_index,
-                       Token prev_token)
+static void solve_any_stipulation(slice_index stipulation_root_hook,
+                                  unsigned int twin_index,
+                                  Token prev_token)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
@@ -2860,7 +2845,7 @@ static void solve_twin(slice_index stipulation_root_hook,
   {
     slice_index const root_slice = build_solvers(stipulation_root_hook);
     TraceStipulation(root_slice);
-    solve_the_twin(root_slice,twin_index,prev_token);
+    solve_impl(root_slice,twin_index,prev_token);
     dealloc_slices(root_slice);
   }
 
@@ -2868,9 +2853,9 @@ static void solve_twin(slice_index stipulation_root_hook,
   TraceFunctionResultEnd();
 }
 
-static void solve_proofgame_twin(slice_index stipulation_root_hook,
-                                 unsigned int twin_index,
-                                 Token prev_token)
+static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
+                                        unsigned int twin_index,
+                                        Token prev_token)
 {
   slice_index const stipulation_root = slices[stipulation_root_hook].next1;
 
@@ -2906,17 +2891,19 @@ static void solve_proofgame_twin(slice_index stipulation_root_hook,
 
           ProofInitialise(stipulation_root);
 
-          if (!OptFlag[noboard])
+          if (!OptFlag[noboard] && twin_index==0)
             WritePosition();
           initialise_piece_flags();
 
           ProofRestoreStartPosition();
-          if (unique_goal.type==goal_atob && !OptFlag[noboard])
+          if (unique_goal.type==goal_atob && !OptFlag[noboard] && twin_index==0)
             ProofWriteStartPosition(stipulation_root);
           initialise_piece_flags();
 
-          solve_twin(stipulation_root_hook,twin_index,prev_token);
+          solve_any_stipulation(stipulation_root_hook,twin_index,prev_token);
         }
+
+        ProofRestoreTargetPosition();
       }
     }
   }
@@ -2925,9 +2912,9 @@ static void solve_proofgame_twin(slice_index stipulation_root_hook,
   TraceFunctionResultEnd();
 }
 
-static void solve_non_proofgame_twin(slice_index stipulation_root_hook,
-                                     unsigned int twin_index,
-                                     Token prev_token)
+static void solve_non_proofgame_stipulation(slice_index stipulation_root_hook,
+                                            unsigned int twin_index,
+                                            Token prev_token)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
@@ -2938,11 +2925,11 @@ static void solve_non_proofgame_twin(slice_index stipulation_root_hook,
   countPieces();
   if (locateRoyal() && verify_position(slices[stipulation_root_hook].next1))
   {
-    if (!OptFlag[noboard])
+    if (!OptFlag[noboard] && twin_index==0)
       WritePosition();
     initialise_piece_flags();
 
-    solve_twin(stipulation_root_hook,twin_index,prev_token);
+    solve_any_stipulation(stipulation_root_hook,twin_index,prev_token);
   }
 
   TraceFunctionExit(__func__);
@@ -2977,6 +2964,30 @@ static void complete_stipulation(slice_index stipulation_root_hook)
     Message(PostKeyPlayNotApplicable);
 
   stip_detect_starter(stipulation_root_hook);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void solve_stipulation(slice_index stipulation_root_hook,
+                              unsigned int twin_index,
+                              Token prev_token)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceEnumerator(Side,regular_starter,"");
+  TraceEnumerator(Side,current_starter,"");
+  TraceFunctionParam("%u",prev_token);
+  TraceFunctionParam("%u",twin_index);
+  TraceFunctionParamListEnd();
+
+  initPieces();
+
+  if (stip_ends_in(slices[stipulation_root_hook].next1,goal_proofgame)
+      || stip_ends_in(slices[stipulation_root_hook].next1,goal_atob))
+    solve_proofgame_stipulation(stipulation_root_hook,twin_index,prev_token);
+  else
+    solve_non_proofgame_stipulation(stipulation_root_hook,twin_index,prev_token);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3028,16 +3039,32 @@ static Token iterate_twins(Token prev_token)
       VerifieMsg(CantDecideWhoIsAtTheMove);
     else
     {
-      stip_impose_starter(stipulation_root_hook,
-                          slices[stipulation_root_hook].starter);
+      Side const regular_starter = slices[stipulation_root_hook].starter;
 
-      initPieces();
+      if (!OptFlag[halfduplex])
+      {
+        are_we_solving_duplex = false;
+        solve_stipulation(stipulation_root_hook,
+                          twin_index,
+                          prev_token);
+      }
 
-      if (stip_ends_in(slices[stipulation_root_hook].next1,goal_proofgame)
-          || stip_ends_in(slices[stipulation_root_hook].next1,goal_atob))
-        solve_proofgame_twin(stipulation_root_hook,twin_index,prev_token);
-      else
-        solve_non_proofgame_twin(stipulation_root_hook,twin_index,prev_token);
+      if (OptFlag[halfduplex] || OptFlag[duplex])
+      {
+        are_we_solving_duplex = true;
+        stip_impose_starter(stipulation_root_hook,advers(regular_starter));
+        solve_stipulation(stipulation_root_hook,
+                          twin_index+OptFlag[duplex],
+                          prev_token);
+        stip_impose_starter(stipulation_root_hook,regular_starter);
+      }
+
+      Message(NewLine);
+
+      WRITE_COUNTER(empile);
+      WRITE_COUNTER(play_move);
+      WRITE_COUNTER(orig_rbechec);
+      WRITE_COUNTER(orig_rnechec);
     }
 
     ++twin_index;

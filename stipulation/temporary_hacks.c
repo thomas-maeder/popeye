@@ -32,32 +32,6 @@ slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_sat_flights_counter[nr_sides];
 
-static void swap_colors(slice_index (*testers)[nr_sides])
-{
-  slice_index const tmp = (*testers)[White];
-  (*testers)[White] = (*testers)[Black];
-  (*testers)[Black] = tmp;
-}
-
-void temporary_hacks_swap_colors(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  swap_colors(&temporary_hack_mate_tester);
-  swap_colors(&temporary_hack_immobility_tester);
-  swap_colors(&temporary_hack_exclusive_mating_move_counter);
-  swap_colors(&temporary_hack_brunner_check_defense_finder);
-  swap_colors(&temporary_hack_king_capture_legality_tester);
-  swap_colors(&temporary_hack_cagecirce_noncapture_finder);
-  swap_colors(&temporary_hack_castling_intermediate_move_legality_tester);
-  swap_colors(&temporary_hack_maximummer_candidate_move_tester);
-  swap_colors(&temporary_hack_opponent_moves_counter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static slice_index make_mate_tester_fork(Side side)
 {
   Goal const mate_goal = { goal_mate, initsquare };

@@ -41,6 +41,4 @@ extern slice_index temporary_hack_sat_flights_counter[nr_sides];
  */
 void insert_temporary_hacks(slice_index root_slice);
 
-void temporary_hacks_swap_colors(void);
-
 #endif
