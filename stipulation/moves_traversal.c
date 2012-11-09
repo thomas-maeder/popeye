@@ -338,7 +338,7 @@ static void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
   {
     stip_traversal_activity_type const save_activity = st->activity;
     st->activity = stip_traversal_activity_testing;
-    stip_traverse_moves_branch(slices[testing_pipe].next2,st);
+    stip_traverse_moves(slices[testing_pipe].next2,st);
     st->activity = save_activity;
   }
 
