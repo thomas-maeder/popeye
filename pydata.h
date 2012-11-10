@@ -240,7 +240,6 @@ EXTERN boolean		anyantimars;
 EXTERN square           mars_circe_rebirth_square[toppile + 1];
 EXTERN square           supertrans[maxply+1];
 EXTERN piece            current_trans_gen;
-EXTERN piece            ctrans[toppile+1];
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          dont_generate_castling;
 EXTERN square           takemake_takedeparturesquare;

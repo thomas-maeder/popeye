@@ -6,14 +6,6 @@
 
 #include "solving/solve.h"
 
-typedef struct
-{
-    square where;
-    piece what;
-} singlebox_type3_promotion_type;
-
-extern singlebox_type3_promotion_type singlebox_type3_promotions[toppile+1];
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */

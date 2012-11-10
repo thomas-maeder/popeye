@@ -1,4 +1,5 @@
 #include "conditions/mummer.h"
+#include "conditions/singlebox/type3.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -31,17 +32,9 @@ static void invert_move_order(void)
   unsigned int low = hi-nr_moves+1;
   while (low<hi)
   {
-    {
-      move_generation_elmt const temp = move_generation_stack[low];
-      move_generation_stack[low] = move_generation_stack[hi];
-      move_generation_stack[hi] = temp;
-    }
-
-    {
-      piece const temp = ctrans[low];
-      ctrans[low] = ctrans[hi];
-      ctrans[hi] = temp;
-    }
+    move_generation_elmt const temp = move_generation_stack[low];
+    move_generation_stack[low] = move_generation_stack[hi];
+    move_generation_stack[hi] = temp;
 
     ++low;
     --hi;
@@ -61,7 +54,6 @@ static void accept_move(ply ply, numecoup id)
 {
   ++last_candidate[ply];
   move_generation_stack[last_candidate[ply]] = move_generation_stack[id];
-  ctrans[last_candidate[ply]] = ctrans[id];
 }
 
 /* Try to solve in n half-moves.

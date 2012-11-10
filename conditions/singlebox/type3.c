@@ -12,8 +12,6 @@
 
 #include <assert.h>
 
-singlebox_type3_promotion_type singlebox_type3_promotions[toppile+1];
-
 /* Determine whether the move just played is legal according to Singlebox Type 3
  * @return true iff the move is legal
  */
@@ -65,10 +63,10 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (singlebox_type3_promotions[coup_id].what!=vide)
+  if (move_generation_stack[coup_id].singlebox_type3_promotion_what!=vide)
     move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
-                                        singlebox_type3_promotions[coup_id].where,
-                                        singlebox_type3_promotions[coup_id].what);
+                                        move_generation_stack[coup_id].singlebox_type3_promotion_where,
+                                        move_generation_stack[coup_id].singlebox_type3_promotion_what);
 
   result = solve(slices[si].next1,n);
 

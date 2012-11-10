@@ -313,8 +313,8 @@ void add_to_move_generation_stack(square sq_departure,
   move_generation_stack[current_move[nbply]].departure= sq_departure;
   move_generation_stack[current_move[nbply]].arrival= sq_arrival;
   move_generation_stack[current_move[nbply]].capture= sq_capture;
+  move_generation_stack[current_move[nbply]].current_transmutation = current_trans_gen;
   mars_circe_rebirth_square[current_move[nbply]]= mren;
-  ctrans[current_move[nbply]] = current_trans_gen;
   chop[current_move[nbply]] = initsquare;
 
   TraceFunctionExit(__func__);
@@ -3441,8 +3441,8 @@ void singleboxtype3_gen_wh_piece(square z, piece p)
       e[sq] = pb;
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
-        singlebox_type3_promotions[prev_nbcou].where = sq;
-        singlebox_type3_promotions[prev_nbcou].what = pprom;
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = pprom;
       }
     }
   }
@@ -3453,8 +3453,8 @@ void singleboxtype3_gen_wh_piece(square z, piece p)
 
     for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {
-      singlebox_type3_promotions[save_nbcou].where = initsquare;
-      singlebox_type3_promotions[save_nbcou].what = vide;
+      move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
+      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = vide;
     }
   }
 }

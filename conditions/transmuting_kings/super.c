@@ -18,7 +18,7 @@ int len_supertransmuting_kings(square sq_departure,
                                square sq_arrival,
                                square sq_capture)
 {
-  return MAX_OTHER_LEN * (ctrans[current_move[nbply]]!=vide ? 1 : 0);
+  return MAX_OTHER_LEN * (move_generation_stack[current_move[nbply]].current_transmutation!=vide ? 1 : 0);
 }
 
 /* Try to solve in n half-moves.
@@ -40,7 +40,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (ctrans[coup_id]!=vide)
+  if (move_generation_stack[coup_id].current_transmutation!=vide)
   {
     square const sq_arrival = move_generation_stack[coup_id].arrival;
     Flags flags = spec[sq_arrival];
@@ -50,7 +50,8 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
                                         sq_arrival,flags);
 
     move_effect_journal_do_piece_change(move_effect_reason_king_transmutation,
-                                        sq_arrival,ctrans[coup_id]);
+                                        sq_arrival,
+                                        move_generation_stack[coup_id].current_transmutation);
   }
 
   result = solve(slices[si].next1,n);

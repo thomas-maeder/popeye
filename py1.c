@@ -79,6 +79,7 @@
 #include "conditions/circe/april.h"
 #include "conditions/imitator.h"
 #include "conditions/sentinelles.h"
+#include "conditions/singlebox/type3.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -206,9 +207,6 @@ static void do_copyply(ply original, ply copy)
     memcpy(&move_generation_stack[current_move[copy]+1],
            &move_generation_stack[current_move[original-1]+1],
            nr_moves*sizeof move_generation_stack[0]);
-    memcpy(&ctrans[current_move[copy]+1],
-           &ctrans[current_move[original-1]+1],
-           nr_moves*sizeof ctrans[0]);
     current_move[copy] += nr_moves;
   }
 

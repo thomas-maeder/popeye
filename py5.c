@@ -900,8 +900,8 @@ void singleboxtype3_gen_bl_piece(square z, piece p) {
 
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
-        singlebox_type3_promotions[prev_nbcou].where = sq;
-        singlebox_type3_promotions[prev_nbcou].what = -pprom;
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = -pprom;
       }
     }
   }
@@ -911,8 +911,8 @@ void singleboxtype3_gen_bl_piece(square z, piece p) {
     orig_gen_bl_piece(z,p);
     for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {
-      singlebox_type3_promotions[save_nbcou].where = initsquare;
-      singlebox_type3_promotions[save_nbcou].what = vide;
+      move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
+      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = vide;
     }
   }
 }

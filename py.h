@@ -236,6 +236,9 @@ typedef struct {
     square departure;
     square arrival;
     square capture;
+    square singlebox_type3_promotion_where;
+    piece singlebox_type3_promotion_what;
+    piece current_transmutation;
 } move_generation_elmt;
 
 typedef struct {
