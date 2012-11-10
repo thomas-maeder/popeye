@@ -18,8 +18,7 @@ int len_supertransmuting_kings(square sq_departure,
                                square sq_arrival,
                                square sq_capture)
 {
-  return MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
-  /* ctrans[current_move[nbply]] */
+  return MAX_OTHER_LEN * (ctrans[current_move[nbply]]!=vide ? 1 : 0);
 }
 
 /* Try to solve in n half-moves.

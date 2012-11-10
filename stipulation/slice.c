@@ -85,7 +85,8 @@ static slice_type const fork_slice_types[] =
     STBrunnerDefenderFinder,
     STKingCaptureLegalityTester,
     STCageCirceNonCapturingMoveFinder,
-    STMaximummerCandidateMoveTester,
+    STMummerOrchestrator,
+    STUltraMummerMeasurerFork,
     STTrivialEndFilter,
     STNullMovePlayer,
     STCastlingPlayer,
@@ -191,7 +192,8 @@ static slice_type const proxy_slice_types[] =
     STOhneschachSuspender,
     STLandingAfterAnticirceRebirth,
     STLandingAfterCirceRebirthHandler,
-    STLandingAfterMovingPawnPromoter
+    STLandingAfterMovingPawnPromoter,
+    STMummerDeadend
 };
 
 static slice_type const move_generator_slice_types[] =
@@ -239,7 +241,8 @@ static slice_type const testing_pipe_slice_types[] =
     STNoShortVariations,
     STMaxNrNonTrivial,
     STMaxThreatLength,
-    STTrivialEndFilter
+    STTrivialEndFilter,
+    STMummerOrchestrator
 };
 
 static slice_type const conditional_pipe_slice_types[] =
@@ -262,8 +265,8 @@ static slice_type const conditional_pipe_slice_types[] =
     STExclusiveChessMatingMoveCounter,
     STBrunnerDefenderFinder,
     STKingCaptureLegalityTester,
-    STCageCirceNonCapturingMoveFinder,
-    STMaximummerCandidateMoveTester
+    STUltraMummerMeasurerFork,
+    STCageCirceNonCapturingMoveFinder
 };
 
 static slice_type const end_of_branch_slice_types[] =

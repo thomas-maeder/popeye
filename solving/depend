@@ -1560,7 +1560,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/line_chameleon.h conditions/haan.h \
  conditions/castling_chess.h conditions/exchange_castling.h \
  conditions/transmuting_kings/super.h optimisations/hash.h DHT/dhtbcmem.h \
- conditions/imitator.h conditions/football.h optimisations/keepmating.h \
+ conditions/imitator.h conditions/football.h conditions/mummer.h \
+ optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -1865,6 +1866,8 @@ DHT/dhtbcmem.h:
 conditions/imitator.h:
 
 conditions/football.h:
+
+conditions/mummer.h:
 
 optimisations/keepmating.h:
 

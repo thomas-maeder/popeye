@@ -1,0 +1,45 @@
+begin
+
+proto maxi.tst
+
+title White king is not in check on b7 even if nBc8*bKb7 is not the longest
+title white move
+pieces white ka6 black ka8 pb7 neutral bc8
+stip #1
+cond brunner whitemaxi
+
+next
+
+title White king is not in check on d5 even if c6-d5 is shorter than the
+title longest move of wBc6
+pieces white ke6 bc6 black bh1 pf7
+stip zd51
+cond isardam whitemaxi
+option nobk
+
+next
+
+title a8 is no cage for bBb2 even if Ba8-b7 is shorter than knight moves.
+title So the only cage is a1, but that is self-check.
+pieces white ka1 black kc6 bb2 sg8
+stip ~1
+cond cagecirce whitemaxi blackmaxi
+
+next
+
+title White Maximummer doesn't cause the test for the legality of 1.Ke1-f1
+title (necessary precondition for playing 0-0) to fail
+pieces white ke1 rh1 ph4
+stip 001
+cond whitemaxi
+option nobk
+
+next
+
+title don't ignore the longest move just because of self-check if it reaches
+title the goal
+pieces black kb5 rh1h8 bb4 pa6a5c6 white kb2 pb3c5c2d4
+stipulation h##1
+cond whitemaxi
+
+end

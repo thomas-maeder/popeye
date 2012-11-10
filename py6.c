@@ -186,6 +186,7 @@
 #include "conditions/imitator.h"
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
+#include "conditions/mummer.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1436,7 +1437,7 @@ static boolean verify_position(slice_index si)
     else
     {
       eval_2 = eval_white;
-      eval_black = rnultraech;
+      eval_black = eval_ultra_mummer_black_king_check;
     }
   }
 
@@ -1449,7 +1450,7 @@ static boolean verify_position(slice_index si)
     else
     {
       eval_2 = eval_white;
-      eval_white = rbultraech;
+      eval_white = eval_ultra_mummer_white_king_check;
     }
   }
   if (CondFlag[football])
@@ -2770,6 +2771,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_threat_boundaries(result);
 
   stip_spin_off_testers(result);
+
+  stip_insert_mummer(result);
 
   if (is_hashtable_allocated())
     stip_insert_hash_slices(result);

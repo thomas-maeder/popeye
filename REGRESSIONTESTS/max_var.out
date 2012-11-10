@@ -27,9 +27,9 @@
   1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 # 
 
               empile:     1808321
-           play_move:     1092053
+           play_move:      961531
         orig_rbechec:      235878
-        orig_rnechec:      934608
+        orig_rnechec:      804086
 Loesung beendet. 
 
 
@@ -96,9 +96,9 @@ Loesung beendet.
 
 
               empile:       78554
-           play_move:       35217
+           play_move:       34158
         orig_rbechec:        8180
-        orig_rnechec:       28025
+        orig_rnechec:       26966
 Loesung beendet. 
 
 
@@ -131,9 +131,9 @@ Loesung beendet.
   1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 # 
 
               empile:      323133
-           play_move:      258907
+           play_move:      255240
         orig_rbechec:      102163
-        orig_rnechec:      237883
+        orig_rnechec:      234216
 Loesung beendet. 
 
 
@@ -175,9 +175,9 @@ a)
 
 
               empile:      288421
-           play_move:      169372
+           play_move:      144447
         orig_rbechec:       21801
-        orig_rnechec:      162267
+        orig_rnechec:      137342
 b)  -sBh6
 
    1.Lh5-f7 !
@@ -190,9 +190,9 @@ b)  -sBh6
 
 
               empile:      261464
-           play_move:      150897
+           play_move:      127489
         orig_rbechec:       18927
-        orig_rnechec:      144844
+        orig_rnechec:      121436
 Loesung beendet. 
 
 
@@ -232,8 +232,8 @@ Loesung beendet.
 
 
               empile:      139713
-           play_move:       28149
-        orig_rbechec:       18536
+           play_move:       26833
+        orig_rbechec:       17220
         orig_rnechec:       18015
 Loesung beendet. 
 
@@ -278,8 +278,8 @@ Loesung beendet.
 
 
               empile:     1507463
-           play_move:      352647
-        orig_rbechec:      253355
+           play_move:      336746
+        orig_rbechec:      237454
         orig_rnechec:      221130
 Loesung beendet. 
 
@@ -335,9 +335,9 @@ Loesung beendet.
 
 
               empile:    14297407
-           play_move:     5322121
+           play_move:     5054972
         orig_rbechec:     1059445
-        orig_rnechec:     4434696
+        orig_rnechec:     4167547
 Loesung beendet. 
 
 

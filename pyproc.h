@@ -241,6 +241,7 @@ boolean imok(square i, square j);
 
 boolean legalsquare(square departure, square arrival, square capture);
 
+void copyply(void);
 void finply(void);
 void nextply(ply parent);
 
@@ -340,8 +341,6 @@ void    logLngArg(long arg);
 
 boolean rnanticircech(square departure, square arrival, square capture);
 boolean rbanticircech(square departure, square arrival, square capture);
-boolean rnultraech(square departure, square arrival, square capture);
-boolean rbultraech(square departure, square arrival, square capture);
 
 boolean rnsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype1ech(square departure, square arrival, square capture);

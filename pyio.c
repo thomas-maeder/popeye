@@ -4309,6 +4309,7 @@ static char *ReadSquares(SquareListContext context)
               break;
             default:
               Message(ToManyEpKeySquares);
+              break;
           }
           break;
 
@@ -4549,6 +4550,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
           break;
         default:
           IoErrorMsg(WrongPieceName,0);
+          break;
       }
     }
     else if (type==ShiftRank && group==gpGrid)
@@ -4756,6 +4758,7 @@ static char *ParseVaultingPieces(Flags fl)
         default:
           return tok;
       }
+      break;
     }
     if (gotpiece)
     {
@@ -5090,16 +5093,16 @@ static char *ParseCond(void) {
         break;
       case whconforsqu:
         ReadSquares(WhConsForcedSq);
-        ultra_mummer[White]=
-            wh_exact= true;
-        measure_length[White]= len_whforcedsquare;
+        ultra_mummer[White] = true;
+        wh_exact = true;
+        measure_length[White] = len_whforcedsquare;
         flagmummer[White] = true;
         break;
       case blconforsqu:
         ReadSquares(BlConsForcedSq);
-        ultra_mummer[Black]=
-            bl_exact= true;
-        measure_length[Black]= len_blforcedsquare;
+        ultra_mummer[Black] = true;
+        bl_exact = true;
+        measure_length[Black] = len_blforcedsquare;
         flagmummer[Black] = true;
         break;
       case schwarzschacher:
@@ -6826,6 +6829,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
 
           default:
             FtlMsg(InternalError);
+            break;
         }
     } /* while */
   }

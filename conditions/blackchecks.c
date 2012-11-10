@@ -136,7 +136,7 @@ stip_length_type blackchecks_solve(slice_index si, stip_length_type n)
 
   if (move_generation_stack[current_move[nbply]].arrival==nullsquare)
     result = solve(next,n);
-  else if (trait[nbply]==Black && !echecc(White))
+  else if (slices[si].starter==Black && !echecc(White))
     result = slack_length-2;
   else
     result = solve(next,n);
@@ -165,10 +165,7 @@ stip_length_type null_move_player_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (move_generation_stack[current_move[nbply]].arrival==nullsquare)
-  {
     result = solve(slices[si].next2,n);
-    --current_move[nbply];
-  }
   else
     result = solve(slices[si].next1,n);
 

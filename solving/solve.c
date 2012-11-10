@@ -89,6 +89,7 @@
 #include "conditions/imitator.h"
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
+#include "conditions/mummer.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/goals/castling/filter.h"
@@ -931,6 +932,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = non_king_move_generator_solve(si,n);
       break;
 
+    case STUltraMummerMeasurerDeadend:
+      result = ultra_mummer_measurer_deadend_solve(si,n);
+      break;
+
     case STLegalMoveCounter:
     case STAnyMoveCounter:
       result = legal_move_counter_solve(si,n);
@@ -1291,6 +1296,14 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STKillerAttackCollector:
       result = killer_attack_collector_solve(si,n);
+      break;
+
+    case STMummerOrchestrator:
+      result = mummer_orchestrator_solve(si,n);
+      break;
+
+    case STMummerBookkeeper:
+      result = mummer_bookkeeper_solve(si,n);
       break;
 
     case STTrue:

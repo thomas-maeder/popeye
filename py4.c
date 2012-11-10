@@ -91,8 +91,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
-
 int len_max(square sq_departure, square sq_arrival, square sq_capture)
 {
   switch (sq_capture) {
@@ -134,7 +132,7 @@ int len_min(square sq_departure, square sq_arrival, square sq_capture) {
 }
 
 int len_capt(square sq_departure, square sq_arrival, square sq_capture) {
-  return (e[sq_capture] != vide);
+  return pprise[nbply]!=vide;
 }
 
 int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
@@ -142,11 +140,11 @@ int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
 }
 
 int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_departure == duellists[White][nbply - 1]);
+  return (sq_departure == duellists[White][parent_ply[nbply]]);
 }
 
 int len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_departure == duellists[Black][nbply - 1]);
+  return (sq_departure == duellists[Black][parent_ply[nbply]]);
 }
 
 int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
@@ -204,7 +202,7 @@ int len_schwarzschacher(square sq_departure, square sq_arrival, square sq_captur
 
 int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
 {
-  return e[sq_capture]!=vide ? 1 : 0;
+  return pprise[nbply]!=vide ? 1 : 0;
 }
 
 static int count_opponent_moves(void)
@@ -664,67 +662,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
             ? !castlingimok(sq_departure, sq_arrival)
             : !imok(sq_departure, sq_arrival))) {
       return false;
-    }
-
-    /* the following is used for conditions where checktest is
-     *  needed for generation like follow my leader,
-     * maximummer.....
-     */
-    if (!k_cap && flagmummer[traitnbply])
-    {
-      int const len = (*measure_length[traitnbply])(sq_departure,sq_arrival,sq_capture);
-
-      if (mummer_current_mum_lengh[nbply]>len)
-        return true;
-
-      if (mummer_current_mum_lengh[nbply]<len)
-      {
-        if (!we_generate_exact)
-        {
-          /* not exact-maxi -> test for selfcheck */
-          Side const save_neutcoul = neutral_side;
-          boolean is_this_move_legal;
-
-          if (CondFlag[takemake] && takemake_takedeparturesquare!=initsquare)
-          {
-            /* undo the take part - the single move generator is going to redo it */
-            e[takemake_takedeparturesquare]= e[takemake_takearrivalsquare];
-            spec[takemake_takedeparturesquare]= spec[takemake_takearrivalsquare];
-
-            e[takemake_takearrivalsquare]= vide;
-            spec[takemake_takearrivalsquare]= EmptySpec;
-
-            e[takemake_takecapturesquare]= takemake_takenpiece;
-            spec[takemake_takecapturesquare]= takemake_takenspec;
-          }
-
-          init_single_move_generator(sq_departure,sq_arrival,sq_capture,mren);
-          is_this_move_legal = solve(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].next2,length_unspecified)==has_solution;
-           /* TODO what for, if we don't have neutrals? Does it matter? */
-          initialise_neutrals(save_neutcoul);
-
-          if (CondFlag[takemake] && takemake_takedeparturesquare!=initsquare)
-          {
-            /* redo the take part */
-            e[takemake_takecapturesquare] = vide;
-            spec[takemake_takecapturesquare] = EmptySpec;
-
-            e[takemake_takearrivalsquare]= e[takemake_takedeparturesquare];
-            spec[takemake_takearrivalsquare]= spec[takemake_takedeparturesquare];
-
-            e[takemake_takedeparturesquare]= vide;
-            spec[takemake_takedeparturesquare]= EmptySpec;
-          }
-
-          if (!is_this_move_legal)
-            return true;
-        }
-
-        mummer_current_mum_lengh[nbply] = len;
-
-        current_move[nbply] = current_move[parent_ply[nbply]]; /* forget shorter moves generated so far */
-        current_killer_state.found = false;
-      }
     }
   }
 

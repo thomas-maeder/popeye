@@ -128,7 +128,7 @@
     ENUMERATOR(STRefutationsAvoider), /* aovids refutations while solving variations */      \
     ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
     ENUMERATOR(STAnyMoveCounter), /* counts moves whether legal or not */            \
-    ENUMERATOR(STCaptureCounter), /* counts captures */            \
+    ENUMERATOR(STCaptureCounter), /* counts captures */                 \
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STTestingPrerequisites),  /* proxy marking start of prerequisites tests */ \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
@@ -218,9 +218,13 @@
     ENUMERATOR(STCageCirceNonCapturingMoveFinder), \
     ENUMERATOR(STSinglePieceMoveGenerator),                          \
     ENUMERATOR(STSingleMoveGenerator), \
-    ENUMERATOR(STMaximummerCandidateMoveTester), \
-    ENUMERATOR(STBGLFilter), \
-    ENUMERATOR(STMasandRecolorer), \
+    ENUMERATOR(STMummerOrchestrator),                                   \
+    ENUMERATOR(STMummerBookkeeper),                                     \
+    ENUMERATOR(STMummerDeadend),                                        \
+    ENUMERATOR(STUltraMummerMeasurerFork),                              \
+    ENUMERATOR(STUltraMummerMeasurerDeadend),                           \
+    ENUMERATOR(STBGLFilter),                                            \
+    ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
     ENUMERATOR(STActuatedRevolvingBoard),                               \

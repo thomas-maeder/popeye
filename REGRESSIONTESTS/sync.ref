@@ -38,9 +38,9 @@ a)
 
 
               empile:       40661
-           play_move:       26670
+           play_move:       18616
         orig_rbechec:        7197
-        orig_rnechec:       24437
+        orig_rnechec:       16383
 b) Circe
    BlackSynchronMover  =4
 
@@ -54,9 +54,9 @@ b) Circe
 
 
               empile:       10762
-           play_move:        7395
+           play_move:        5120
         orig_rbechec:        2084
-        orig_rnechec:        6777
+        orig_rnechec:        4502
 c) GlasgowChess
    BlackSynchronMover  =3
 
@@ -68,9 +68,9 @@ c) GlasgowChess
 
 
               empile:        3868
-           play_move:        3819
+           play_move:        2682
         orig_rbechec:         962
-        orig_rnechec:        3647
+        orig_rnechec:        2510
 d) AntiAndernachChess
    BlackSynchronMover  =2
 
@@ -80,9 +80,9 @@ d) AntiAndernachChess
 
 
               empile:         212
-           play_move:         202
+           play_move:         137
         orig_rbechec:          59
-        orig_rnechec:         193
+        orig_rnechec:         128
 solution finished. 
 
 

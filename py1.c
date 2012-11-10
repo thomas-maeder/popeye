@@ -145,8 +145,6 @@ static void initply(ply parent, ply child)
   prev_king_square[White][nbply] = king_square[White];
   prev_king_square[Black][nbply] = king_square[Black];
 
-  mummer_current_mum_lengh[nbply] = INT_MIN;
-
   /*
     start with the castling rights of the parent level
   */
@@ -169,6 +167,55 @@ static void initply(ply parent, ply child)
   TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
 }
 
+static void do_copyply(ply original, ply copy)
+{
+  parent_ply[copy] = parent_ply[original];
+
+  trait[copy] = trait[original];
+
+  move_effect_journal_top[copy] = move_effect_journal_top[copy-1];
+
+  ep2[copy] = ep2[parent_ply[original]];
+  ep[copy] = ep[parent_ply[original]];
+
+  pprise[copy] = vide;
+
+  prev_king_square[White][nbply] = prev_king_square[White][parent_ply[original]];
+  prev_king_square[Black][nbply] = prev_king_square[Black][parent_ply[original]];
+
+  /*
+    start with the castling rights of the parent level
+  */
+  castling_flag[copy] = castling_flag[parent_ply[original]];
+
+  /*
+    start with the SAT state of the original level
+  */
+  StrictSAT[Black][copy] = StrictSAT[Black][parent_ply[original]];
+  StrictSAT[White][copy] = StrictSAT[White][parent_ply[original]];
+  BGL_values[White][copy] = BGL_values[White][parent_ply[original]];
+  BGL_values[Black][copy] = BGL_values[Black][parent_ply[original]];
+
+  magicstate[copy] = magicstate[parent_ply[original]];
+
+  platzwechsel_rochade_allowed[White][copy] = platzwechsel_rochade_allowed[White][parent_ply[original]];
+  platzwechsel_rochade_allowed[Black][copy] = platzwechsel_rochade_allowed[Black][parent_ply[original]];
+
+  {
+    unsigned int const nr_moves = current_move[original]-current_move[original-1];
+    memcpy(&move_generation_stack[current_move[copy]+1],
+           &move_generation_stack[current_move[original-1]+1],
+           nr_moves*sizeof move_generation_stack[0]);
+    memcpy(&ctrans[current_move[copy]+1],
+           &ctrans[current_move[original-1]+1],
+           nr_moves*sizeof ctrans[0]);
+    current_move[copy] += nr_moves;
+  }
+
+  ++post_move_iteration_id[copy];
+  TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
+}
+
 static ply ply_watermark;
 
 void nextply(ply parent)
@@ -181,6 +228,22 @@ void nextply(ply parent)
   current_move[nbply] = current_move[ply_watermark];
   ++ply_watermark;
   initply(parent,nbply);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void copyply(void)
+{
+  ply const original = nbply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nbply = ply_watermark+1;
+  current_move[nbply] = current_move[ply_watermark];
+  ++ply_watermark;
+  do_copyply(original,nbply);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -199,22 +262,37 @@ void finply()
   TraceFunctionResultEnd();
 }
 
-void InitCond(void) {
+void InitCond(void)
+{
   square const *bnp;
   square i, j;
 
-  wh_exact= ultra_mummer[White]= bl_exact= ultra_mummer[Black]= false;
-  anyclone= anycirprom= anycirce= anyimmun= anyanticirce= anyanticirprom = false;
-  anymars= anyantimars= anygeneva= false;
+  wh_exact = false;
+  bl_exact = false;
 
+  ultra_mummer[White] = false;
+  ultra_mummer[Black] = false;
+
+  anyclone = false;
+  anycirprom = false;
+  anycirce = false;
+  anyimmun = false;
+  anyanticirce = false;
+  anyanticirprom = false;
+  anymars = false;
+  anyantimars = false;
+  anygeneva = false;
   anyparrain= false;
 
-  immrenroib= immrenroin= cirrenroib= cirrenroin= initsquare;
+  immrenroib = initsquare;
+  immrenroin = initsquare;
+  cirrenroib = initsquare;
+  cirrenroin = initsquare;
 
-  antirenai= rennormal;
-  circerenai= rennormal;
-  immunrenai= rennormal;
-  marsrenai= rennormal;
+  antirenai = rennormal;
+  circerenai = rennormal;
+  immunrenai = rennormal;
+  marsrenai = rennormal;
 
   royal_square[White] = initsquare;
   royal_square[Black] = initsquare;
@@ -224,13 +302,19 @@ void InitCond(void) {
   flagmummer[Black] = false;
   flagmaxi= flagultraschachzwang= false;
   flagparasent= false;
-  rex_mad= rex_circe= rex_immun= rex_phan= rex_geneva=
-    rex_mess_ex= rex_wooz_ex= false;
+  rex_mad = false;
+  rex_circe = false;
+  rex_immun = false;
+  rex_phan = false;
+  rex_geneva =false;
+  rex_mess_ex = false;
+  rex_wooz_ex = false;
   rex_protean_ex = false;
-  calctransmute= false;
+  calctransmute = false;
 
-  sentinelles_max_nr_pawns[Black]= sentinelles_max_nr_pawns[White]= 8;
-  sentinelles_max_nr_pawns_total=16;
+  sentinelles_max_nr_pawns[Black] = 8;
+  sentinelles_max_nr_pawns[White] = 8;
+  sentinelles_max_nr_pawns_total = 16;
   sentinelle[White] = pb;
   sentinelle[Black] = pn;
 
@@ -302,7 +386,8 @@ void InitCond(void) {
 
   obsgenre = false;
 
-  kobulking[White]= kobulking[Black]= false;
+  kobulking[White] = false;
+  kobulking[Black] = false;
 } /* InitCond */
 
 void InitOpt(void)

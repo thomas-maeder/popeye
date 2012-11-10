@@ -17,6 +17,9 @@ extern slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 /* fork slice into branch finding Brunner Chess specific defenses */
 extern slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 
+/* fork slice into branch finding king captures without optimisations */
+extern slice_index temporary_hack_ultra_mummer_length_measurer[nr_sides];
+
 /* fork slice into branch finding Isardam specific defenses */
 extern slice_index temporary_hack_king_capture_legality_tester[nr_sides];
 
@@ -25,9 +28,6 @@ extern slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 
 /* fork slice into branch that tests the legality of intermediate castling moves */
 extern slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
-
-/* fork slice into branch that tests the legality of a candidate move */
-extern slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 
 /* fork slice into branch that tests the legality of a candidate move */
 extern slice_index temporary_hack_opponent_moves_counter[nr_sides];

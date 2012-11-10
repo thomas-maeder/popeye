@@ -277,12 +277,9 @@ boolean orig_rnechec(evalfunction_t *evaluate)
   return result;
 }
 
+/* detect, if black king is checked     */
 static boolean calc_rnechec(evalfunction_t *evaluate)
 {
-  /* detect, if black king is checked     */
-  /* I didn't change this function, because it would be much (20% !)
-     slower. NG
-  */
   numvec k;
   piece p;
 
@@ -539,13 +536,9 @@ boolean orig_rbechec(evalfunction_t *evaluate)
   return result;
 }
 
+/* detect, if white king is checked  */
 static boolean calc_rbechec(evalfunction_t *evaluate)
 {
-  /* detect, if white king is checked  */
-  /* I didn't change this function, because it would be much (20% !)
-     slower. NG
-  */
-
   numvec k;
   piece p;
 
@@ -1114,12 +1107,23 @@ static boolean AntiCirceEch(square sq_departure,
                             square sq_capture,
                             Side    camp)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[antisuper])
   {
     square const *bnp= boardnum;
-    while (!LegalAntiCirceMove(*bnp, sq_capture, sq_departure) && *bnp) bnp++;
+    while (!LegalAntiCirceMove(*bnp, sq_capture, sq_departure) && *bnp)
+      bnp++;
     if (!(*bnp && LegalAntiCirceMove(*bnp, sq_capture, sq_departure)))
-      return false;
+      result = false;
+    else
+      result = eval_2(sq_departure,sq_arrival,sq_capture);
   }
   else
   {
@@ -1145,11 +1149,11 @@ static boolean AntiCirceEch(square sq_departure,
         cren= (*antirenai)(pprom, spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
         pprom= acprompieces[pprom];
       } while (!LegalAntiCirceMove(cren, sq_capture, sq_departure) && pprom != Empty);
-      if (  !LegalAntiCirceMove(cren, sq_capture, sq_departure)
-            && pprom == Empty)
-      {
-        return false;
-      }
+      if (!LegalAntiCirceMove(cren, sq_capture, sq_departure)
+          && pprom == Empty)
+        result = false;
+      else
+        result = eval_2(sq_departure,sq_arrival,sq_capture);
     }
     else
     {
@@ -1158,19 +1162,51 @@ static boolean AntiCirceEch(square sq_departure,
                                 : e[sq_departure],
                                 spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
       if (!LegalAntiCirceMove(cren, sq_capture, sq_departure))
-        return false;
+        result = false;
+      else
+        result = eval_2(sq_departure,sq_arrival,sq_capture);
     }
   }
 
-  return eval_2(sq_departure,sq_arrival,sq_capture);
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 } /* AntiCirceEch */
 
-boolean rnanticircech(square sq_departure, square sq_arrival, square sq_capture) {
-  return AntiCirceEch(sq_departure, sq_arrival, sq_capture, Black);
+boolean rnanticircech(square sq_departure, square sq_arrival, square sq_capture)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = AntiCirceEch(sq_departure, sq_arrival, sq_capture, Black);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture) {
-  return AntiCirceEch(sq_departure, sq_arrival, sq_capture, White);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = AntiCirceEch(sq_departure, sq_arrival, sq_capture, White);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
@@ -1191,90 +1227,6 @@ boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_ca
   else {
     return eval_2(sq_departure,sq_arrival,sq_capture);
   }
-}
-
-
-boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture)
-{
-  boolean result;
-  killer_state const save_killer_state = current_killer_state;
-  move_generation_mode_type const save_move_generation_mode
-      = move_generation_mode;
-  boolean check;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  /* if we_generate_consmoves is set this function is never called.
-     Let's check this for a while.
-  */
-  if (we_generate_exact) {
-    StdString(
-        "rbultra is called while we_generate_exact is set!\n");
-  }
-  nextply(nbply);
-  current_killer_state.move.departure = sq_departure;
-  current_killer_state.move.arrival = sq_arrival;
-  current_killer_state.found = false;
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  trait[nbply]= Black;
-  we_generate_exact = true;
-  gen_bl_ply();
-  finply();
-  check = current_killer_state.found;
-  we_generate_exact = false;
-  move_generation_mode = save_move_generation_mode;
-  TraceValue("->%u\n",move_generation_mode);
-  current_killer_state = save_killer_state;
-
-  result = check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture)
-{
-  boolean result;
-  killer_state const save_killer_state = current_killer_state;
-  move_generation_mode_type const save_move_generation_mode
-      = move_generation_mode;
-  boolean check;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  nextply(nbply);
-  current_killer_state.move.departure = sq_departure;
-  current_killer_state.move.arrival = sq_arrival;
-  current_killer_state.found = false;
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  trait[nbply]= White;
-  we_generate_exact = true;
-  gen_wh_ply();
-  finply();
-  check = current_killer_state.found;
-  we_generate_exact = false;
-  move_generation_mode = save_move_generation_mode;
-  TraceValue("->%u\n",move_generation_mode);
-  current_killer_state = save_killer_state;
-
-  result = check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static boolean skycharcheck(piece  p,

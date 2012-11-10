@@ -1375,10 +1375,10 @@ Loesung beendet.
                               4...Dg1-b6 #
 
 
-              empile:      840864
-           play_move:      314109
-        orig_rbechec:      333090
-        orig_rnechec:      321166
+              empile:      842842
+           play_move:      315593
+        orig_rbechec:      333294
+        orig_rnechec:      322098
 Loesung beendet. 
 
 
@@ -2353,10 +2353,10 @@ Loesung beendet.
 
   1.b2-b1=T c6-c7   2.Tb1-b8 c7-c8=D   3.h2-h1=S a7*b8=L = 
 
-              empile:      135459
-           play_move:       68273
-        orig_rbechec:       67914
-        orig_rnechec:       90610
+              empile:      114421
+           play_move:       59704
+        orig_rbechec:       59245
+        orig_rnechec:       67179
 Loesung beendet. 
 
 
@@ -2389,10 +2389,10 @@ Loesung beendet.
 
   1.Ke7-d6 d7-d8=L   2.a2-a1=S b5-b6   3.c2-c1=T b6-b7   4.Tc1-c8 b7*c8=D = 
 
-              empile:     2183341
-           play_move:      983438
-        orig_rbechec:      917902
-        orig_rnechec:     1201918
+              empile:     1905474
+           play_move:      843276
+        orig_rbechec:      774999
+        orig_rnechec:      949520
 Loesung beendet. 
 
 
@@ -3698,7 +3698,7 @@ Loesung beendet.
 
               empile:      101038
            play_move:       64210
-        orig_rbechec:       76017
+        orig_rbechec:       73210
         orig_rnechec:       84026
 Loesung beendet. 
 
@@ -4524,10 +4524,10 @@ Loesung beendet.
 
   1.BBc2-b1=T Ke3-d4   2.Tb1-b8 c7-c8=D   3.a2-a1=S a7*b8=L = 
 
-              empile:     1302515
-           play_move:      679710
-        orig_rbechec:      616006
-        orig_rnechec:      668992
+              empile:      939974
+           play_move:      451467
+        orig_rbechec:      386887
+        orig_rnechec:      478302
 Loesung beendet. 
 
 

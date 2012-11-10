@@ -25,10 +25,10 @@ slice_index temporary_hack_mate_tester[nr_sides];
 slice_index temporary_hack_immobility_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
+slice_index temporary_hack_ultra_mummer_length_measurer[nr_sides];
 slice_index temporary_hack_king_capture_legality_tester[nr_sides];
 slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
-slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_sat_flights_counter[nr_sides];
 
@@ -103,6 +103,22 @@ static slice_index make_king_capture_legality_tester(Side side)
   return result;
 }
 
+static slice_index make_ultra_mummer_length_measurer(Side side)
+{
+  slice_index result;
+  slice_index const proxy_branch = alloc_proxy_slice();
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
+  slice_index const proxy_goal = alloc_proxy_slice();
+  slice_index const system = alloc_goal_any_reached_tester_system();
+  link_to_branch(proxy_goal,system);
+  help_branch_set_end_goal(help,proxy_goal,1);
+  link_to_branch(proxy_branch,help);
+  result = alloc_conditional_pipe(STUltraMummerMeasurerFork,proxy_branch);
+  stip_impose_starter(result,side);
+  return result;
+}
+
 static slice_index make_cagecirce_noncapture_finder(Side side)
 {
   slice_index result;
@@ -141,23 +157,6 @@ static slice_index make_castling_intermediate_move_legality_tester(Side side)
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
   result = alloc_conditional_pipe(STCastlingIntermediateMoveLegalityTester,proxy_branch);
-  stip_impose_starter(result,side);
-
-  return result;
-}
-
-static slice_index make_maximummer_candidate_move_tester(Side side)
-{
-  slice_index result;
-  slice_index const proxy_branch = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length+1,
-                                             slack_length+1);
-  slice_index const proxy_goal = alloc_proxy_slice();
-  slice_index const system = alloc_goal_any_reached_tester_system();
-  link_to_branch(proxy_goal,system);
-  help_branch_set_end_goal(help,proxy_goal,1);
-  link_to_branch(proxy_branch,help);
-  result = alloc_conditional_pipe(STMaximummerCandidateMoveTester,proxy_branch);
   stip_impose_starter(result,side);
 
   return result;
@@ -223,6 +222,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_brunner_check_defense_finder[Black] = make_brunner_check_defense_finder(Black);
     temporary_hack_brunner_check_defense_finder[White] = make_brunner_check_defense_finder(White);
 
+    temporary_hack_ultra_mummer_length_measurer[Black] = make_ultra_mummer_length_measurer(Black);
+    temporary_hack_ultra_mummer_length_measurer[White] = make_ultra_mummer_length_measurer(White);
+
     temporary_hack_king_capture_legality_tester[Black] = make_king_capture_legality_tester(Black);
     temporary_hack_king_capture_legality_tester[White] = make_king_capture_legality_tester(White);
 
@@ -231,9 +233,6 @@ void insert_temporary_hacks(slice_index root_slice)
 
     temporary_hack_castling_intermediate_move_legality_tester[Black] = make_castling_intermediate_move_legality_tester(Black);
     temporary_hack_castling_intermediate_move_legality_tester[White] = make_castling_intermediate_move_legality_tester(White);
-
-    temporary_hack_maximummer_candidate_move_tester[Black] = make_maximummer_candidate_move_tester(Black);
-    temporary_hack_maximummer_candidate_move_tester[White] = make_maximummer_candidate_move_tester(White);
 
     temporary_hack_opponent_moves_counter[Black] = make_opponent_moves_counter_fork(Black);
     temporary_hack_opponent_moves_counter[White] = make_opponent_moves_counter_fork(White);
@@ -251,14 +250,14 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_exclusive_mating_move_counter[White],
                 temporary_hack_brunner_check_defense_finder[White]);
     pipe_append(temporary_hack_brunner_check_defense_finder[White],
+                temporary_hack_ultra_mummer_length_measurer[White]);
+    pipe_append(temporary_hack_ultra_mummer_length_measurer[White],
                 temporary_hack_king_capture_legality_tester[White]);
     pipe_append(temporary_hack_king_capture_legality_tester[White],
                 temporary_hack_cagecirce_noncapture_finder[White]);
     pipe_append(temporary_hack_cagecirce_noncapture_finder[White],
                 temporary_hack_castling_intermediate_move_legality_tester[White]);
     pipe_append(temporary_hack_castling_intermediate_move_legality_tester[White],
-                temporary_hack_maximummer_candidate_move_tester[White]);
-    pipe_append(temporary_hack_maximummer_candidate_move_tester[White],
                 temporary_hack_opponent_moves_counter[White]);
     pipe_append(temporary_hack_opponent_moves_counter[White],
                 temporary_hack_sat_flights_counter[White]);
@@ -273,14 +272,14 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_exclusive_mating_move_counter[Black],
                 temporary_hack_brunner_check_defense_finder[Black]);
     pipe_append(temporary_hack_brunner_check_defense_finder[Black],
+                temporary_hack_ultra_mummer_length_measurer[Black]);
+    pipe_append(temporary_hack_ultra_mummer_length_measurer[Black],
                 temporary_hack_king_capture_legality_tester[Black]);
     pipe_append(temporary_hack_king_capture_legality_tester[Black],
                 temporary_hack_cagecirce_noncapture_finder[Black]);
     pipe_append(temporary_hack_cagecirce_noncapture_finder[Black],
                 temporary_hack_castling_intermediate_move_legality_tester[Black]);
     pipe_append(temporary_hack_castling_intermediate_move_legality_tester[Black],
-                temporary_hack_maximummer_candidate_move_tester[Black]);
-    pipe_append(temporary_hack_maximummer_candidate_move_tester[Black],
                 temporary_hack_opponent_moves_counter[Black]);
     pipe_append(temporary_hack_opponent_moves_counter[Black],
                 temporary_hack_sat_flights_counter[Black]);
