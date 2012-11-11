@@ -12,7 +12,6 @@
 static square square_departure[maxply+1];
 static square square_arrival[maxply+1];
 static square square_capture[maxply+1];
-static square square_mars_rebirth[maxply+1];
 
 /* Allocate a STSingleMoveGenerator slice.
  * @return index of allocated slice
@@ -36,18 +35,15 @@ slice_index alloc_single_move_generator_slice(void)
  * @param sq_departure departure square of move to be generated
  * @param sq_arrival arrival square of move to be generated
  * @param sq_capture capture square of move to be generated
- * @param sq_mren Mars Circe rebirth square
  */
 void init_single_move_generator(square sq_departure,
                                 square sq_arrival,
-                                square sq_capture,
-                                square sq_mren)
+                                square sq_capture)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
-  TraceSquare(sq_mren);
   TraceFunctionParamListEnd();
 
   /* avoid concurrent generations */
@@ -56,7 +52,6 @@ void init_single_move_generator(square sq_departure,
   square_departure[nbply+1] = sq_departure;
   square_arrival[nbply+1] = sq_arrival;
   square_capture[nbply+1] = sq_capture;
-  square_mars_rebirth[nbply+1] = sq_mren;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -86,8 +81,7 @@ stip_length_type single_move_generator_solve(slice_index si,
   trait[nbply] = side_at_move;
   add_to_move_generation_stack(square_departure[nbply],
                                square_arrival[nbply],
-                               square_capture[nbply],
-                               square_mars_rebirth[nbply]);
+                               square_capture[nbply]);
   result = solve(next,n);
   finply();
 

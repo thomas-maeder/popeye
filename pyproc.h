@@ -313,8 +313,7 @@ boolean marincheck(square a, numvec b, numvec c, piece d, evalfunction_t *evalua
 boolean empile(square departure, square arrival, square capture);
 void add_to_move_generation_stack(square sq_departure,
                                   square sq_arrival,
-                                  square sq_capture,
-                                  square mren);
+                                  square sq_capture);
 
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates

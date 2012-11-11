@@ -16,12 +16,10 @@ slice_index alloc_single_move_generator_slice(void);
  * @param sq_departure departure square of move to be generated
  * @param sq_arrival arrival square of move to be generated
  * @param sq_capture capture square of move to be generated
- * @param sq_mren Mars Circe rebirth square
  */
 void init_single_move_generator(square sq_departure,
                                 square sq_arrival,
-                                square sq_capture,
-                                square sq_mren);
+                                square sq_capture);
 
 /* Try to solve in n half-moves.
  * @param si slice index

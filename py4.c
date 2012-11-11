@@ -216,8 +216,7 @@ static int count_opponent_moves(void)
 
   init_single_move_generator(move_generation_stack[current_move[nbply]].departure,
                              move_generation_stack[current_move[nbply]].arrival,
-                             move_generation_stack[current_move[nbply]].capture,
-                             move_generation_stack[current_move[nbply]].mars_circe_rebirth_square);
+                             move_generation_stack[current_move[nbply]].capture);
 
   solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,length_unspecified);
 
@@ -240,7 +239,6 @@ void init_move_generation_optimizer(void) {
   case move_generation_optimized_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];
     current_killer_state.move.arrival = kpilca[nbply];
-    current_killer_state.mren = move_generation_stack[current_move[nbply]].mars_circe_rebirth_square;
     current_killer_state.found = false;
     break;
   case move_generation_not_optimized:
@@ -296,14 +294,12 @@ void finish_move_generation_optimizer(void) {
 
 void add_to_move_generation_stack(square sq_departure,
                                   square sq_arrival,
-                                  square sq_capture,
-                                  square mren)
+                                  square sq_capture)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
-  TraceSquare(mren);
   TraceFunctionParamListEnd();
 
   current_move[nbply]++;
@@ -313,7 +309,6 @@ void add_to_move_generation_stack(square sq_departure,
   move_generation_stack[current_move[nbply]].capture= sq_capture;
   move_generation_stack[current_move[nbply]].current_transmutation = current_trans_gen;
   move_generation_stack[current_move[nbply]].hopper_hurdle = initsquare;
-  move_generation_stack[current_move[nbply]].mars_circe_rebirth_square = mren;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -321,8 +316,7 @@ void add_to_move_generation_stack(square sq_departure,
 
 static void add_to_empile_optimization_table(square sq_departure,
                                              square sq_arrival,
-                                             square sq_capture,
-                                             square mren)
+                                             square sq_capture)
 {
   empile_optimization_table_elmt * const
     curr_elmt = empile_optimization_table+empile_optimization_table_count;
@@ -335,12 +329,11 @@ static void add_to_empile_optimization_table(square sq_departure,
 
   /* for testempile() - mren shouldn't be relevant if we optimize by
    * number of opponent moves */
-  add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,initsquare);
+  add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
 
   curr_elmt->move.departure = sq_departure;
   curr_elmt->move.arrival = sq_arrival;
   curr_elmt->move.capture = sq_capture;
-  curr_elmt->mren = mren;
   curr_elmt->nr_opponent_moves = count_opponent_moves();
   if (is_killer_move(sq_departure,sq_arrival,sq_capture))
     curr_elmt->nr_opponent_moves -= empile_optimization_priorize_killmove_by;
@@ -350,18 +343,17 @@ static void add_to_empile_optimization_table(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-static void save_as_killer_move(square capture, square mren)
+static void save_as_killer_move(square capture)
 {
-  current_killer_state.found= true;
-  current_killer_state.move.capture= capture;
-  current_killer_state.mren= mren;
+  current_killer_state.found = true;
+  current_killer_state.move.capture = capture;
 }
 
 DEFINE_COUNTER(empile)
 
 boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 {
-  square  hcr, mren= initsquare;
+  square  hcr = initsquare;
   Side traitnbply;
 
   INCREMENT_COUNTER(empile);
@@ -410,10 +402,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if (flagcapture!=anyantimars && e[sq_capture]==vide)
           return true;
         if (flagcapture)
-        {
-          mren = sq_departure;
           sq_departure = marsid;
-        }
       }
     }
 
@@ -728,7 +717,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   switch (move_generation_mode)
   {
     case move_generation_optimized_by_nr_opponent_moves:
-      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture,mren);
+      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
       break;
     case move_generation_optimized_by_killer_move:
       if (!is_killer_move(sq_departure,sq_arrival,sq_capture)
@@ -740,12 +729,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           || CondFlag[exclusive]
           || CondFlag[isardam]
           || CondFlag[ohneschach])
-        add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
       else
-        save_as_killer_move(sq_capture,mren);
+        save_as_killer_move(sq_capture);
       break;
     case move_generation_not_optimized:
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
       break;
   }
 

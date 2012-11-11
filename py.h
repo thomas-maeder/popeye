@@ -246,7 +246,6 @@ typedef struct {
 typedef struct {
     boolean found;
     move_generation_elmt move;
-    square mren;
 } killer_state;
 
 typedef struct {
@@ -255,9 +254,8 @@ typedef struct {
 } change_rec;
 
 typedef struct {
-	move_generation_elmt	move;
-	square			mren;
-	int			nr_opponent_moves;
+	move_generation_elmt move;
+	int nr_opponent_moves;
 } empile_optimization_table_elmt;
 
 enum

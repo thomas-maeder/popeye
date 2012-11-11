@@ -13,7 +13,8 @@
 
 static void adjust(void)
 {
-  piece const pi_arriving = e[move_generation_stack[current_move[nbply]].arrival];
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  piece const pi_arriving = e[sq_arrival];
 
   ep[nbply] = initsquare;
   ep2[nbply] = initsquare;
@@ -21,8 +22,14 @@ static void adjust(void)
   if (is_pawn(abs(pi_arriving)) && pprise[nbply]==vide)
   {
     square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+    square const sq_rebirth = (*marsrenai)(pi_arriving,
+                                           spec[sq_arrival],
+                                           sq_departure,
+                                           initsquare,
+                                           initsquare,
+                                           advers(trait[nbply]));
 
-    adjust_ep_squares(move_generation_stack[current_move[nbply]].mars_circe_rebirth_square);
+    adjust_ep_squares(sq_rebirth);
 
     /* In positions like pieces black pe6 white pd5, we can't tell whether
      * the black pawn's move to e5 is a double step.
