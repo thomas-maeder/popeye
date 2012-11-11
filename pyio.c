@@ -772,7 +772,8 @@ static void WriteConditions(int alignment)
       }
     }
 
-    if (CondFlag[singlebox])    {
+    if (cond==singlebox && CondFlag[singlebox])
+    {
       strcat(CondLine, "    ");
       if (SingleBoxType==singlebox_type1)
         strcat(CondLine, VariantTypeString[UserLanguage][Type1]);

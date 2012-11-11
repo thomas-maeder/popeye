@@ -205,8 +205,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h~1                         8 + 1
-       BlackMaximummer    Type3
-       WhiteMaximummer    Type3
+           BlackMaximummer
+           WhiteMaximummer
           SingleBox    Type3
 
   1.b7*a6 [h8=R]Rh8-h1 
