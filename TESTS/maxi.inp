@@ -42,4 +42,11 @@ pieces black kb5 rh1h8 bb4 pa6a5c6 white kb2 pb3c5c2d4
 stipulation h##1
 cond whitemaxi
 
+next
+
+pieces white qd5 ra6d7 bc6a7 sa5b6 ph8 black pb7
+stip h~1
+cond whitemaxi blackmaxi singlebox type3
+option nowk nobk
+
 end

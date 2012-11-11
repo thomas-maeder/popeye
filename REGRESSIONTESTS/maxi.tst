@@ -183,3 +183,40 @@ don't ignore the longest move just because of self-check if it reaches
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   P   8
+|                                   |
+7   B  -P   .   R   .   .   .   .   7
+|                                   |
+6   R   S   B   .   .   .   .   .   6
+|                                   |
+5   S   .   .   Q   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         8 + 1
+       BlackMaximummer    Type3
+       WhiteMaximummer    Type3
+          SingleBox    Type3
+
+  1.b7*a6 [h8=R]Rh8-h1 
+  1.b7*a6 [h8=R]Rh8-a8 
+  1.b7*c6 [h8=B]Bh8-a1 
+
+              empile:         103
+           play_move:          21
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+

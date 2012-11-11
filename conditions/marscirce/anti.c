@@ -22,7 +22,7 @@ static void adjust(void)
   {
     square const sq_departure = move_generation_stack[current_move[nbply]].departure;
 
-    adjust_ep_squares(mars_circe_rebirth_square[current_move[nbply]]);
+    adjust_ep_squares(move_generation_stack[current_move[nbply]].mars_circe_rebirth_square);
 
     /* In positions like pieces black pe6 white pd5, we can't tell whether
      * the black pawn's move to e5 is a double step.

@@ -5,10 +5,6 @@
 
 /* This module implements the condition Castling Chess */
 
-extern square castling_partner_origin[toppile+1];
-extern piece castling_partner_kind[toppile+1];
-extern Flags castling_partner_spec[toppile+1];
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

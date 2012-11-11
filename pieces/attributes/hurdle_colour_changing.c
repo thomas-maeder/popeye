@@ -12,7 +12,7 @@
 
 static void update_hurdle_colour(void)
 {
-  square const sq_hurdle = chop[current_move[nbply]];
+  square const sq_hurdle = move_generation_stack[current_move[nbply]].hopper_hurdle;
   piece const pi_hurdle = e[sq_hurdle];
 
   if (abs(pi_hurdle)>King)

@@ -43,11 +43,6 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
     pprise[nbply] = vide;
     pprispec[nbply] = 0;
 
-    castling_partner_origin[coup_id] = sq_arrival;
-    castling_partner_kind[coup_id] = e[sq_arrival];
-    castling_partner_spec[coup_id] = spec[sq_arrival];
-    castling_partner_origin[coup_id] = -sq_arrival; /* hack for output */
-
     move_effect_journal_do_piece_exchange(move_effect_reason_exchange_castling_exchange,
                                           sq_departure,sq_arrival);
 
@@ -59,10 +54,7 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
     platzwechsel_rochade_allowed[Black][nbply] = platzwechsel_rochade_allowed[Black][parent_ply[nbply]];
  }
   else
-  {
-    castling_partner_origin[coup_id] = initsquare;
     result = solve(slices[si].next1,n);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

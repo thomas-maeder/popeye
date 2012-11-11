@@ -490,7 +490,6 @@ void InitAlways(void) {
     trait[i] = White;
     current_anticirce_rebirth_square[i] = initsquare;
     pwcprom[i] = false;
-    oscillatedKs[i] = false;
   }
 
   initialise_neutrals(White);

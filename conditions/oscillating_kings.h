@@ -7,7 +7,6 @@
 
 extern boolean OscillatingKingsTypeB[nr_sides];
 extern boolean OscillatingKingsTypeC[nr_sides];
-extern boolean oscillatedKs[toppile+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index

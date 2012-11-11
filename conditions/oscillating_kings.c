@@ -14,7 +14,6 @@
 
 boolean OscillatingKingsTypeB[nr_sides];
 boolean OscillatingKingsTypeC[nr_sides];
-boolean oscillatedKs[toppile+1];
 
 static void perform_oscillation(void)
 {
@@ -48,14 +47,10 @@ stip_length_type king_oscillator_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (OscillatingKingsTypeB[starter] && echecc(starter))
-  {
-    oscillatedKs[nbply] = false;
     result = slack_length-2;
-  }
   else
   {
-    oscillatedKs[nbply] = !OscillatingKingsTypeC[starter] || echecc(advers(starter));
-    if (oscillatedKs[nbply])
+    if (!OscillatingKingsTypeC[starter] || echecc(advers(starter)))
       perform_oscillation();
 
     result = solve(slices[si].next1,n);

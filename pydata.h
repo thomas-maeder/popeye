@@ -231,13 +231,11 @@ EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
 
 EXTERN boolean          checkhopim;
-EXTERN square           chop[toppile + 1];
 
 EXTERN piece            sentinelle[nr_sides];
 EXTERN nocontactfunc_t  koekofunc;
 EXTERN nocontactfunc_t  antikoekofunc;
 EXTERN boolean		anyantimars;
-EXTERN square           mars_circe_rebirth_square[toppile + 1];
 EXTERN square           supertrans[maxply+1];
 EXTERN piece            current_trans_gen;
 EXTERN boolean          complex_castling_through_flag;

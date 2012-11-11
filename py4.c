@@ -217,7 +217,7 @@ static int count_opponent_moves(void)
   init_single_move_generator(move_generation_stack[current_move[nbply]].departure,
                              move_generation_stack[current_move[nbply]].arrival,
                              move_generation_stack[current_move[nbply]].capture,
-                             mars_circe_rebirth_square[current_move[nbply]]);
+                             move_generation_stack[current_move[nbply]].mars_circe_rebirth_square);
 
   solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,length_unspecified);
 
@@ -240,7 +240,7 @@ void init_move_generation_optimizer(void) {
   case move_generation_optimized_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];
     current_killer_state.move.arrival = kpilca[nbply];
-    current_killer_state.mren = mars_circe_rebirth_square[current_move[nbply]];
+    current_killer_state.mren = move_generation_stack[current_move[nbply]].mars_circe_rebirth_square;
     current_killer_state.found = false;
     break;
   case move_generation_not_optimized:
@@ -279,7 +279,6 @@ void finish_move_generation_optimizer(void) {
       current_move[nbply]++;
       --curr_elmt;
       move_generation_stack[current_move[nbply]]= curr_elmt->move;
-      mars_circe_rebirth_square[current_move[nbply]] = curr_elmt->mren;
     }
     break;
   }
@@ -287,7 +286,6 @@ void finish_move_generation_optimizer(void) {
     if (current_killer_state.found) {
       current_move[nbply]++;
       move_generation_stack[current_move[nbply]] = current_killer_state.move;
-      mars_circe_rebirth_square[current_move[nbply]] = current_killer_state.mren;
     }
     break;
   case move_generation_not_optimized:
@@ -314,8 +312,8 @@ void add_to_move_generation_stack(square sq_departure,
   move_generation_stack[current_move[nbply]].arrival= sq_arrival;
   move_generation_stack[current_move[nbply]].capture= sq_capture;
   move_generation_stack[current_move[nbply]].current_transmutation = current_trans_gen;
-  mars_circe_rebirth_square[current_move[nbply]]= mren;
-  chop[current_move[nbply]] = initsquare;
+  move_generation_stack[current_move[nbply]].hopper_hurdle = initsquare;
+  move_generation_stack[current_move[nbply]].mars_circe_rebirth_square = mren;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1047,7 +1045,7 @@ void geriderhopper(square   sq_departure,
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           if (TSTFLAG(spec[sq_departure],ColourChange))
-            chop[current_move[nbply]] = sq_hurdle;
+            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
       else {
@@ -1059,7 +1057,7 @@ void geriderhopper(square   sq_departure,
           {
             empile(sq_departure,sq_arrival,sq_arrival);
             if (TSTFLAG(spec[sq_departure],ColourChange))
-              chop[current_move[nbply]] = sq_hurdle;
+              move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
           }
           sq_arrival+= vec[k];
         }
@@ -1069,7 +1067,7 @@ void geriderhopper(square   sq_departure,
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           if (TSTFLAG(spec[sq_departure],ColourChange))
-            chop[current_move[nbply]] = sq_hurdle;
+            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
     }
@@ -1259,7 +1257,7 @@ static void gmhop(square   sq_departure,
       {
         testempile(sq_departure,sq_arrival,sq_arrival);
         if (TSTFLAG(spec[sq_departure],ColourChange))
-          chop[current_move[nbply]] = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
 
       sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
@@ -1268,7 +1266,7 @@ static void gmhop(square   sq_departure,
       {
         testempile(sq_departure,sq_arrival,sq_arrival);
         if (TSTFLAG(spec[sq_departure],ColourChange))
-          chop[current_move[nbply]] = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
     }
   }
@@ -1367,7 +1365,7 @@ static void gnequi(square sq_departure, Side camp) {
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           if (TSTFLAG(spec[sq_departure],ColourChange))
-            chop[current_move[nbply]] = sq_hurdle;
+            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
     }
@@ -1391,7 +1389,7 @@ static void gorix(square sq_departure, Side camp) {
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         if (TSTFLAG(spec[sq_departure],ColourChange))
-          chop[current_move[nbply]] = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
       else if (abs(end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
                && rightcolor(at_end_of_line,camp)
@@ -1400,7 +1398,7 @@ static void gorix(square sq_departure, Side camp) {
         sq_arrival= end_of_line;
         empile(sq_departure,sq_arrival,sq_arrival);
         if (TSTFLAG(spec[sq_departure],ColourChange))
-          chop[current_move[nbply]] = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
     }
   }
@@ -1442,7 +1440,7 @@ static void gnorix(square sq_departure, Side camp) {
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           if (TSTFLAG(spec[sq_departure],ColourChange))
-            chop[current_move[nbply]] = sq_hurdle;
+            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
     }
@@ -1895,7 +1893,7 @@ static void gequi(square sq_departure, Side camp) {
           {
             empile(sq_departure,sq_arrival,sq_arrival);
             if (TSTFLAG(spec[sq_departure],ColourChange))
-              chop[current_move[nbply]] = sq_hurdle;
+              move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
           }
         }
         else if (dist_hurdle_end==dist_hurdle_dep) {
@@ -1905,7 +1903,7 @@ static void gequi(square sq_departure, Side camp) {
           {
             empile(sq_departure,sq_arrival,sq_arrival);
             if (TSTFLAG(spec[sq_departure],ColourChange))
-              chop[current_move[nbply]] = sq_hurdle;
+              move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
           }
         }
       }
@@ -1921,7 +1919,7 @@ static void gequi(square sq_departure, Side camp) {
     {
       empile(sq_departure,sq_arrival,sq_arrival);
       if (TSTFLAG(spec[sq_departure],ColourChange))
-        chop[current_move[nbply]] = sq_hurdle;
+        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
     }
   }
 }

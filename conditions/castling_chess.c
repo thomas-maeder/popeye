@@ -12,10 +12,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-square castling_partner_origin[toppile+1];
-piece castling_partner_kind[toppile+1];
-Flags castling_partner_spec[toppile+1];
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -49,23 +45,16 @@ stip_length_type castling_chess_move_player_solve(slice_index si,
     pprise[nbply] = vide;
     pprispec[nbply] = 0;
 
-    castling_partner_origin[coup_id] = sq_capture-maxsquare;
-    castling_partner_kind[coup_id] = e[castling_partner_origin[coup_id]];
-    castling_partner_spec[coup_id] = spec[castling_partner_origin[coup_id]];
-
     move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
                                           sq_departure,sq_arrival);
     move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
-                                          castling_partner_origin[coup_id],
+                                          sq_capture-maxsquare,
                                           sq_passed);
 
     result = solve(slices[si].next2,n);
   }
   else
-  {
-    castling_partner_origin[coup_id] = initsquare;
     result = solve(slices[si].next1,n);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

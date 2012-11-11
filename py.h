@@ -239,6 +239,8 @@ typedef struct {
     square singlebox_type3_promotion_where;
     piece singlebox_type3_promotion_what;
     piece current_transmutation;
+    square hopper_hurdle;
+    square mars_circe_rebirth_square;
 } move_generation_elmt;
 
 typedef struct {
