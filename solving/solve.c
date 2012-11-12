@@ -445,8 +445,24 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = fork_on_remaining_solve(si,n);
       break;
 
+    case STHashOpener:
+      result = hash_opener_solve(si,n);
+      break;
+
     case STAttackHashed:
       result = attack_hashed_solve(si,n);
+      break;
+
+    case STAttackHashedTester:
+      result = attack_hashed_tester_solve(si,n);
+      break;
+
+    case STHelpHashed:
+      result = help_hashed_solve(si,n);
+      break;
+
+    case STHelpHashedTester:
+      result = help_hashed_tester_solve(si,n);
       break;
 
     case STEndOfBranch:
@@ -820,10 +836,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = min_length_guard_solve(si,n);
       break;
 
-    case STAttackHashedTester:
-      result = attack_hashed_tester_solve(si,n);
-      break;
-
     case STDegenerateTree:
       result = degenerate_tree_solve(si,n);
       break;
@@ -842,10 +854,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STHelpMovePlayed:
       result = help_move_played_solve(si,n);
-      break;
-
-    case STHelpHashed:
-      result = help_hashed_solve(si,n);
       break;
 
     case STIntelligentMovesLeftInitialiser:
@@ -914,10 +922,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STIfThenElse:
       result = if_then_else_solve(si,n);
-      break;
-
-    case STHelpHashedTester:
-      result = help_hashed_tester_solve(si,n);
       break;
 
     case STFlightsquaresCounter:

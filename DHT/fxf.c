@@ -240,6 +240,15 @@ int fxfInit(size_t Size) {
   return 0;
 }
 
+int fxfInitialised(void)
+{
+#if defined(SEGMENTED)
+  return Arena[0]!=0;
+#else
+  return Arena!=0;
+#endif
+}
+
 void fxfReset(void)
 {
 #if defined(SEGMENTED)
@@ -406,7 +415,7 @@ size_t fxfTotal() {
 void fxfInfo(FILE *f) {
   size_t const one_kilo = 1<<10;
   size_t const sizeCurrentSeg = (TopFreePtr-BotFreePtr);
-  size_t const sizeArenaUsed = 
+  size_t const sizeArenaUsed =
           GlobalSize-sizeCurrentSeg
 #if defined(SEGMENTED)
           - (ArenaSegCnt-CurrentSeg-1)*ARENA_SEG_SIZE

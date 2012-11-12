@@ -2076,21 +2076,6 @@ static void reflectboard(void)
   TraceFunctionResultEnd();
 }
 
-/* Solve "half a duplex" (in non-duplex problems, that's the entire
- * problem/twin)
- * @param si identifies the root slice of the stipulation
- */
-static void solveHalfADuplex(slice_index si)
-{
-  inithash(si);
-  solve(si,length_unspecified);
-  closehash();
-
-#ifdef _SE_DECORATE_SOLUTION_
-  se_end_half_duplex();
-#endif
-}
-
 typedef enum
 {
   whitetoplay_means_shorten,
@@ -2402,11 +2387,23 @@ static void solve_impl(slice_index si,
   {
     init_duplex(si);
     if (locateRoyal() && verify_position(si))
-      solveHalfADuplex(si);
+    {
+      solve(si,length_unspecified);
+
+#ifdef _SE_DECORATE_SOLUTION_
+      se_end_half_duplex();
+#endif
+    }
     fini_duplex(si);
   }
   else
-    solveHalfADuplex(si);
+  {
+    solve(si,length_unspecified);
+
+#ifdef _SE_DECORATE_SOLUTION_
+    se_end_half_duplex();
+#endif
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -45,15 +45,6 @@ unsigned long allochash(unsigned long nr_kilos);
  */
 boolean is_hashtable_allocated(void);
 
-/* Initialise the hashing machinery for the current stipulation
- * @param si identifies the root slice of the stipulation
- */
-void inithash (slice_index si);
-
-/* Uninitialise the hashing machinery
- */
-void closehash (void);
-
 void HashStats(unsigned int level, char *trailer);
 
 void IncHashRateLevel(void);
@@ -66,6 +57,16 @@ byte *CommonEncode(byte *bp,
 byte *SmallEncodePiece(byte *bp,
                        int row, int col,
                        piece p, Flags pspec);
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type hash_opener_solve(slice_index si, stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index

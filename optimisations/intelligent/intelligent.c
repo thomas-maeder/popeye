@@ -18,7 +18,6 @@
 #include "stipulation/fork.h"
 #include "pyproof.h"
 #include "stipulation/pipe.h"
-#include "optimisations/hash.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -334,9 +333,6 @@ void solve_target_position(void)
 #endif
 
   reset_nr_solutions_per_target_position();
-
-  closehash();
-  inithash(current_start_slice);
 
   if (solve(slices[current_start_slice].next1,nr_of_moves)<=nr_of_moves)
     solutions_found = true;

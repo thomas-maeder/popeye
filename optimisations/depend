@@ -141,15 +141,14 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c py.h utilities/boolean.h \
  optimisations/hash.h DHT/dhtbcmem.h solving/solve.h DHT/dhtvalue.h \
  DHT/fxf.h DHT/dht.h pyproof.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/has_solution_type.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/help_play/branch.h solving/avoid_unsolvable.h \
- solving/castling.h solving/en_passant.h conditions/bgl.h \
- conditions/duellists.h conditions/haunted_chess.h \
+ stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
+ solving/avoid_unsolvable.h solving/castling.h solving/en_passant.h \
+ conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h options/nontrivial.h stipulation/branch.h \
- stipulation/pipe.h platform/maxtime.h platform/maxmem.h \
- debugging/trace.h
+ platform/maxtime.h platform/maxmem.h debugging/trace.h
 
 py.h:
 
@@ -203,15 +202,19 @@ stipulation/slice_type.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/battle_play/branch.h:
+stipulation/proxy.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
@@ -236,8 +239,6 @@ solving/move_effect_journal.h:
 options/nontrivial.h:
 
 stipulation/branch.h:
-
-stipulation/pipe.h:
 
 platform/maxtime.h:
 

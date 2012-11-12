@@ -348,6 +348,7 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
 static slice_index const slice_rank_order[] =
 {
   STProxy,
+  STHashOpener,
   STTemporaryHackFork,
   STOutputModeSelector,
   STSetplayFork,

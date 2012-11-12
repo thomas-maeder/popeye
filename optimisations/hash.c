@@ -100,6 +100,7 @@
 #include "DHT/dht.h"
 #include "pyproof.h"
 #include "stipulation/has_solution_type.h"
+#include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/avoid_unsolvable.h"
@@ -1525,15 +1526,7 @@ unsigned long allochash(unsigned long nr_kilos)
 #endif /*FXF*/
 
   hashtable_kilos = nr_kilos;
-
-  pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-  if (pyhash==0)
-  {
-    TraceValue("%s\n",dhtErrorMsg());
-    return 0;
-  }
-  else
-    return nr_kilos;
+  return nr_kilos;
 }
 
 static void proof_goal_found(slice_index si, stip_structure_traversal *st)
@@ -1582,113 +1575,120 @@ static boolean is_proofgame(slice_index si)
  */
 boolean is_hashtable_allocated(void)
 {
-  return pyhash!=0;
+  return fxfInitialised();
 }
 
 /* Initialise the hashing machinery for the current stipulation
  * @param si identifies the root slice of the stipulation
  */
-void inithash(slice_index si)
+static void inithash(slice_index si)
 {
+  int j;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(pyhash==0);
 
   ifTESTHASH(
       sprintf(GlobalStr, "calling inithash\n");
       StdString(GlobalStr)
       );
 
-  if (pyhash!=0)
-  {
-    int j;
-
 #if defined(__unix) && defined(TESTHASH)
-    OldBreak= sbrk(0);
+  OldBreak= sbrk(0);
 #endif /*__unix,TESTHASH*/
 
-    minimalElementValueAfterCompression = 2;
+  minimalElementValueAfterCompression = 2;
 
-    init_slice_properties(si);
+  init_slice_properties(si);
 
-    template_element.d.Data = 0;
-    init_elements(&template_element);
+  template_element.d.Data = 0;
+  init_elements(&template_element);
 
-    dhtRegisterValue(dhtBCMemValue,0,&dhtBCMemoryProcs);
-    dhtRegisterValue(dhtSimpleValue,0,&dhtSimpleProcs);
+  dhtRegisterValue(dhtBCMemValue,0,&dhtBCMemoryProcs);
+  dhtRegisterValue(dhtSimpleValue,0,&dhtSimpleProcs);
 
-    ifHASHRATE(use_pos = use_all = 0);
+  ifHASHRATE(use_pos = use_all = 0);
 
-    /* check whether a piece can be coded in a single byte */
-    j = 0;
+  /* check whether a piece can be coded in a single byte */
+  j = 0;
 
+  {
+    PieNam i;
+    for (i = PieceCount; i>Empty; --i)
+      if (exist[i])
+        piece_nbr[i] = j++;
+  }
+
+  if (CondFlag[haanerchess])
+    piece_nbr[obs]= j++;
+
+  one_byte_hash = j<(1<<(CHAR_BIT/2)) && PieSpExFlags<(1<<(CHAR_BIT/2));
+
+  bytes_per_spec= 1;
+  if ((PieSpExFlags >> CHAR_BIT) != 0)
+    bytes_per_spec++;
+  if ((PieSpExFlags >> 2*CHAR_BIT) != 0)
+    bytes_per_spec++;
+
+  bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
+
+  if (is_proofgame(si))
+  {
+    encode = ProofEncode;
+    if (hashtable_kilos>0 && MaxPositions==0)
+      MaxPositions= hashtable_kilos/(24+sizeof(char *)+1);
+  }
+  else
+  {
+    unsigned int const Small = TellSmallEncodePosLeng();
+    unsigned int const Large = TellLargeEncodePosLeng();
+    if (Small<=Large)
     {
-      PieNam i;
-      for (i = PieceCount; i>Empty; --i)
-        if (exist[i])
-          piece_nbr[i] = j++;
-    }
-
-    if (CondFlag[haanerchess])
-      piece_nbr[obs]= j++;
-
-    one_byte_hash = j<(1<<(CHAR_BIT/2)) && PieSpExFlags<(1<<(CHAR_BIT/2));
-
-    bytes_per_spec= 1;
-    if ((PieSpExFlags >> CHAR_BIT) != 0)
-      bytes_per_spec++;
-    if ((PieSpExFlags >> 2*CHAR_BIT) != 0)
-      bytes_per_spec++;
-
-    bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
-
-    if (is_proofgame(si))
-    {
-      encode = ProofEncode;
+      encode = SmallEncode;
       if (hashtable_kilos>0 && MaxPositions==0)
-        MaxPositions= hashtable_kilos/(24+sizeof(char *)+1);
+        MaxPositions= hashtable_kilos/(Small+sizeof(char *)+1);
     }
     else
     {
-      unsigned int const Small = TellSmallEncodePosLeng();
-      unsigned int const Large = TellLargeEncodePosLeng();
-      if (Small<=Large)
-      {
-        encode = SmallEncode;
-        if (hashtable_kilos>0 && MaxPositions==0)
-          MaxPositions= hashtable_kilos/(Small+sizeof(char *)+1);
-      }
-      else
-      {
-        encode = LargeEncode;
-        if (hashtable_kilos>0 && MaxPositions==0)
-          MaxPositions= hashtable_kilos/(Large+sizeof(char *)+1);
-      }
+      encode = LargeEncode;
+      if (hashtable_kilos>0 && MaxPositions==0)
+        MaxPositions= hashtable_kilos/(Large+sizeof(char *)+1);
     }
+  }
 
 #if defined(FXF)
-    ifTESTHASH(printf("MaxPositions: %lu\n", MaxPositions));
-    assert(hashtable_kilos/1024<UINT_MAX);
-    ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
-                      (unsigned int)(hashtable_kilos/1024)));
+  ifTESTHASH(printf("MaxPositions: %lu\n", MaxPositions));
+  assert(hashtable_kilos/1024<UINT_MAX);
+  ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
+                    (unsigned int)(hashtable_kilos/1024)));
 #else
-    ifTESTHASH(
-        printf("room for up to %lu positions in hash table\n", MaxPositions));
+  ifTESTHASH(
+      printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
 
-    dhtDestroy(pyhash);
-
 #if defined(TESTHASH) && defined(FXF)
-    fxfInfo(stdout);
+  fxfInfo(stdout);
 #endif /*TESTHASH,FXF*/
 
 #if defined(FXF)
-    fxfReset();
+  fxfReset();
 #endif
 
-    pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-    assert(pyhash!=0);
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void openhash(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(pyhash==0);
+  pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
+  assert(pyhash!=0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1696,47 +1696,55 @@ void inithash(slice_index si)
 
 /* Uninitialise the hashing machinery
  */
-void closehash(void)
+static void closehash(void)
 {
-  if (pyhash!=0)
-  {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(pyhash!=0);
+
 #if defined(TESTHASH)
-    sprintf(GlobalStr, "calling closehash\n");
-    StdString(GlobalStr);
+  sprintf(GlobalStr, "calling closehash\n");
+  StdString(GlobalStr);
 
 #if defined(HASHRATE)
-    sprintf(GlobalStr, "%ld enquiries out of %ld successful. ",
-            use_pos, use_all);
+  sprintf(GlobalStr, "%ld enquiries out of %ld successful. ",
+          use_pos, use_all);
+  StdString(GlobalStr);
+  if (use_all) {
+    sprintf(GlobalStr, "Makes %.1f%%\n", (100.0 * use_pos) / use_all);
     StdString(GlobalStr);
-    if (use_all) {
-      sprintf(GlobalStr, "Makes %.1f%%\n", (100.0 * use_pos) / use_all);
-      StdString(GlobalStr);
-    }
+  }
 #endif
 #if defined(__unix)
-    {
+  {
 #if defined(FXF)
-      unsigned long const HashMem = fxfTotal();
+    unsigned long const HashMem = fxfTotal();
 #else
-      unsigned long const HashMem = sbrk(0)-OldBreak;
+    unsigned long const HashMem = sbrk(0)-OldBreak;
 #endif /*FXF*/
-      unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
-      if (HashCount>0)
-      {
-        unsigned long const BytePerPos = (HashMem*100)/HashCount;
-        sprintf(GlobalStr,
-                "Memory for hash-table: %ld, "
-                "gives %ld.%02ld bytes per position\n",
-                HashMem, BytePerPos/100, BytePerPos%100);
-      }
-      else
-        sprintf(GlobalStr, "Nothing in hashtable\n");
-      StdString(GlobalStr);
+    unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
+    if (HashCount>0)
+    {
+      unsigned long const BytePerPos = (HashMem*100)/HashCount;
+      sprintf(GlobalStr,
+              "Memory for hash-table: %ld, "
+              "gives %ld.%02ld bytes per position\n",
+              HashMem, BytePerPos/100, BytePerPos%100);
     }
+    else
+      sprintf(GlobalStr, "Nothing in hashtable\n");
+    StdString(GlobalStr);
+  }
 #endif /*__unix*/
 #endif /*TESTHASH*/
-  }
-} /* closehash */
+
+  dhtDestroy(pyhash);
+  pyhash = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Spin a tester slice off a STAttackHashedTester slice
  * @param base_slice identifies the STAttackHashedTester slice
@@ -1778,6 +1786,12 @@ static void spin_off_tester_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    slice_index previous_move_slice;
+    boolean opener_inserted;
+} insertion_state_type;
+
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -1785,7 +1799,7 @@ static void spin_off_tester_help(slice_index si,
 static void insert_hash_element_attack(slice_index si,
                                        stip_structure_traversal *st)
 {
-  slice_index const * const previous_move_slice = st->param;
+  insertion_state_type const * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -1793,7 +1807,7 @@ static void insert_hash_element_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*previous_move_slice!=no_slice && length>slack_length)
+  if (state->previous_move_slice!=no_slice && length>slack_length)
   {
     slice_index const prototype = alloc_branch(STAttackHashed,length,min_length);
     attack_branch_insert_slices(si,&prototype,1);
@@ -1812,14 +1826,14 @@ static void insert_hash_element_attack(slice_index si,
 static void insert_hash_element_help(slice_index si,
                                      stip_structure_traversal *st)
 {
-  slice_index const * const previous_move_slice = st->param;
+  insertion_state_type const * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*previous_move_slice!=no_slice && length>slack_length)
+  if (state->previous_move_slice!=no_slice && length>slack_length)
   {
     stip_length_type min_length = slices[si].u.branch.min_length;
     if (min_length<slack_length)
@@ -1839,16 +1853,37 @@ static void insert_hash_element_help(slice_index si,
 
 static void remember_move(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const previous_move_slice = st->param;
-  slice_index const save_previous_move_slice = *previous_move_slice;
+  insertion_state_type * const state = st->param;
+  slice_index const save_previous_move_slice = state->previous_move_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *previous_move_slice = si;
+  state->previous_move_slice = si;
   stip_traverse_structure_children_pipe(si,st);
-  *previous_move_slice = save_previous_move_slice;
+  state->previous_move_slice = save_previous_move_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_hash_opener(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STHashOpener);
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  state->opener_inserted = true;
+
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1856,11 +1891,13 @@ static void remember_move(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor const hash_element_inserters[] =
 {
-  { STReadyForAttack,   &insert_hash_element_attack },
-  { STReadyForHelpMove, &insert_hash_element_help   },
-  { STMove,             &remember_move              },
-  { STAttackHashed,     &spin_off_tester_attack     },
-  { STHelpHashed,       &spin_off_tester_help       }
+  { STReadyForAttack,             &insert_hash_element_attack },
+  { STReadyForHelpMove,           &insert_hash_element_help   },
+  { STMove,                       &remember_move              },
+  { STAttackHashed,               &spin_off_tester_attack     },
+  { STHelpHashed,                 &spin_off_tester_help       },
+  { STIntelligentMateFilter,      &insert_hash_opener         },
+  { STIntelligentStalemateFilter, &insert_hash_opener         }
 };
 
 enum
@@ -1875,7 +1912,7 @@ enum
 void stip_insert_hash_slices(slice_index si)
 {
   stip_structure_traversal st;
-  slice_index previous_move_slice = no_slice;
+  insertion_state_type state = { no_slice, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1883,7 +1920,7 @@ void stip_insert_hash_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&previous_move_slice);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_children_pipe);
@@ -1894,6 +1931,16 @@ void stip_insert_hash_slices(slice_index si)
                                     hash_element_inserters,
                                     nr_hash_element_inserters);
   stip_traverse_structure(si,&st);
+
+  if (!state.opener_inserted)
+  {
+    slice_index const opener = alloc_pipe(STHashOpener);
+    pipe_append(si,opener);
+    slices[opener].tester = alloc_proxy_slice();
+    pipe_append(slices[si].tester,slices[opener].tester);
+  }
+
+  inithash(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2274,6 +2321,33 @@ stip_length_type help_hashed_tester_solve(slice_index si, stip_length_type n)
     if (result>n)
       addtohash_help(base,n);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type hash_opener_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  openhash();
+  result = solve(slices[si].next1,n);
+  closehash();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
