@@ -40,7 +40,7 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
 
   assert(SATCheck);
 
-  nextply(nbply);
+  nextply();
 
   current_killer_state= null_killer_state;
   trait[nbply]= starter;

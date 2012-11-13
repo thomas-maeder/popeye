@@ -439,7 +439,7 @@ static boolean eval_ultra_mummer_king_check(Side delivering_check,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
+  nextply();
   mum_length[nbply] = INT_MIN;
   solve(slices[temporary_hack_ultra_mummer_length_measurer[delivering_check]].next2,length_unspecified);
   check = (*measure_length[delivering_check])(sq_departure,sq_arrival,sq_capture)==mum_length[nbply];

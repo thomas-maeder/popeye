@@ -47,7 +47,7 @@ stip_length_type dummy_move_solve(slice_index si, stip_length_type n)
   assert(n>slack_length);
 
   /* insert an empty ply for the dummy defense */
-  nextply(nbply);
+  nextply();
 
   result = solve(slices[si].next1,n);
 

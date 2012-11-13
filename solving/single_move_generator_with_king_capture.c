@@ -75,7 +75,7 @@ stip_length_type single_move_generator_with_king_capture_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
+  nextply();
   trait[nbply] = side_at_move;
   init_move_generation_optimizer();
   k_cap = true;         /* allow K capture */

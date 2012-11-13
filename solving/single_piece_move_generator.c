@@ -60,7 +60,7 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
+  nextply();
 
   TraceValue("%u\n",current_move[nbply]);
 

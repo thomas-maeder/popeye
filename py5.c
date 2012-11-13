@@ -967,7 +967,7 @@ void genmove(Side camp)
   TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
+  nextply();
   trait[nbply]= camp;
   we_generate_exact = false;
   init_move_generation_optimizer();
@@ -992,7 +992,7 @@ void genmove(Side camp)
         */
         we_generate_exact = false;
         finply();
-        nextply(nbply);
+        nextply();
         init_move_generation_optimizer();
         gen_wh_ply();
       }
@@ -1017,7 +1017,7 @@ void genmove(Side camp)
         */
         we_generate_exact = false;
         finply();
-        nextply(nbply);
+        nextply();
         init_move_generation_optimizer();
         gen_bl_ply();
       }

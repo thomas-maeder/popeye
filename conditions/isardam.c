@@ -20,7 +20,7 @@ static boolean pos_legal(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  nextply(nbply); /* for e.p. captures */
+  nextply(); /* for e.p. captures */
 
   for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {

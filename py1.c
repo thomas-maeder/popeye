@@ -216,10 +216,11 @@ static void do_copyply(ply original, ply copy)
 
 static ply ply_watermark;
 
-void nextply(ply parent)
+void nextply(void)
 {
+  ply const parent = nbply;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",parent);
   TraceFunctionParamListEnd();
 
   nbply = ply_watermark+1;
@@ -790,7 +791,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
+  nextply();
 
   pj= e[sq_departure];
   pp= e[sq_capture];

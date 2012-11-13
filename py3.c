@@ -971,7 +971,7 @@ boolean echecc(Side camp)
 {
   boolean result;
 
-  nextply(nbply);
+  nextply();
 
   if ((camp==White) != CondFlag[vogt])
   {

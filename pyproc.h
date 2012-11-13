@@ -243,7 +243,7 @@ boolean legalsquare(square departure, square arrival, square capture);
 
 void copyply(void);
 void finply(void);
-void nextply(ply parent);
+void nextply(void);
 
 boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);

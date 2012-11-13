@@ -513,7 +513,7 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
   TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
+  nextply();
   trait[nbply]= side_at_move;
   init_move_generation_optimizer();
 

@@ -95,7 +95,7 @@ stip_length_type non_king_move_generator_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
+  nextply();
   trait[nbply] = side_at_move;
 
   while (result>n

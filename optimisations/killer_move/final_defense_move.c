@@ -151,7 +151,7 @@ static stip_length_type iterate_killer_first(slice_index si,
   TracePiece(killer);
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
+  nextply();
   trait[nbply] = defender;
 
   if (killer!=vide && killer!=obs)
