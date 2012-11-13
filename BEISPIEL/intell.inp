@@ -10,7 +10,7 @@ quelle          10, harmonie 29, 30.6.1990
 forderung       h#4
 
 steine  weiss   kf3 sc6 bd4f2
-	schwarz kf5 dd6 lc2
+        schwarz kf5 dd6 lc2
 
 option          intelligent
 
@@ -24,7 +24,7 @@ quelle          2679, IMR 29, 7-9/1988
 forderung       h#4
 
 steine  weiss   kh3 lh7 bd3
-	schwarz ke5 tf6 le6 bf5g5
+        schwarz ke5 tf6 le6 bf5g5
 
 option          intelligent
 
@@ -36,7 +36,7 @@ quelle          9486, Die Schwalbe 163, 2/1997
 forderung       h#4
 
 steine  weiss   kc8 lc3 se4
-	schwarz kf4 td4 lb2
+        schwarz kf4 td4 lb2
 
 option          intelligent
 
@@ -50,7 +50,7 @@ quelle          harmonie 23, 31.12.1988 (Neujahrsgru"s)
 forderung       h#6
 
 steine  weiss   kh7 bf2
-	schwarz kc5 dd4 td3 ld5 bc3c4e3f4g5
+        schwarz kc5 dd4 td3 ld5 bc3c4e3f4g5
 
 option          intelligent
 
@@ -62,7 +62,7 @@ quelle          9487, Die Schwalbe 163, 2/1997
 forderung       h#5
 
 steine  weiss   kg7 sa7
-	schwarz ka3 df3 ta4 lb8g8 se3 bd2e5
+        schwarz ka3 df3 ta4 lb8g8 se3 bd2e5
 
 option          intelligent
 
@@ -74,7 +74,7 @@ quelle          9488, Die Schwalbe 163, 2/1997
 forderung       h#6
 
 steine  weiss   ka4 se3
-	schwarz kg8 bc2e2g7h4
+        schwarz kg8 bc2e2g7h4
 
 option          intelligent
 
@@ -86,7 +86,7 @@ autor           Torsten Lin"s,
 quelle          620, Europa-Rochade 6/1988
 
 steine  weiss   kf5 bh2
-	schwarz kh4 te6 sg4 bf7
+        schwarz kh4 te6 sg4 bf7
 
 option          intellig
 
@@ -100,7 +100,7 @@ quelle          10896, Schach 1/1986
 forderung       h#6
 
 steine  weiss   kf2 be2
-	schwarz ke6 te5 ld6 sd5 bc5c6e4f6
+        schwarz ke6 te5 ld6 sd5 bc5c6e4f6
 
 option          intelligent
 
@@ -111,7 +111,7 @@ quelle          2706, Problemkiste 74/75, 5/1991
 
 forderung       h#4
 steine  weiss   kb5 be2f2f3f4
-	schwarz kc3 dd1 la7
+        schwarz kc3 dd1 la7
 
 option intelligent
 
@@ -125,7 +125,7 @@ quelle          1. ehrende Erw?hnung, Sahovski Glasnik 12/1989
 forderung       h#6
 
 steine  weiss   kh1 la8
-	schwarz kb6 tc6d6 lc7 bb5d7f3
+        schwarz kb6 tc6d6 lc7 bb5d7f3
 
 option          intelligent
 
@@ -138,7 +138,7 @@ quelle          3. Lob
 forderung       h#4
 
 steine  weiss   ka6 be2f2f3
-	schwarz kc5 lc3d1 bd6
+        schwarz kc5 lc3d1 bd6
 
 option          intelligent
 
@@ -155,7 +155,7 @@ quelle          2. Preis
 quelle          FIDE-Album 1986-88
 
 steine  weiss   kh1 th4 lh2
-	schwarz kc5 db4 th6h7 lb5d6 sd5 ba3b3d3d4d7e5e7
+        schwarz kc5 db4 th6h7 lb5d6 sd5 ba3b3d3d4d7e5e7
 
 option          weiss intellig
 
@@ -167,7 +167,7 @@ quelle          6409, Thema Danicum 79, 7/1995
 forderung       h#3
 
 steine  weiss   kf5 te6 lf3
-	schwarz kb3 tf1 lc1c8 sf6g4 ba4b2b4b6d6
+        schwarz kb3 tf1 lc1c8 sf6g4 ba4b2b4b6d6
 
 option          intelligent
 
@@ -182,7 +182,7 @@ quelle          Lob, Sonumon Chimedtseren 60 JT 1992/93
 forderung       h#3
 
 steine  weiss   kf3 te1 lc8
-	schwarz kf6 de8 te2g5 ld7f8 se7 bb5d2f5g2h5
+        schwarz kf6 de8 te2g5 ld7f8 se7 bb5d2f5g2h5
 
 option          intelligent
 
@@ -198,7 +198,7 @@ quelle          1. Lob
 forderung       h#3
 
 steine  weiss   kd3 lh5 be2
-	schwarz ke5 ta1g1 lg5 se6 bb3b4c5d5f3g4
+        schwarz ke5 ta1g1 lg5 se6 bb3b4c5d5f3g4
 
 option          intelligent
 
@@ -213,7 +213,7 @@ quelle          7984, Die Schwalbe 139, 2/1993
 forderung       h#3
 
 steine  weiss   ke7 th2 lh8 sg4
-	schwarz kd3 dh6 tg2 lg7 sb3g1 bb4g3h3
+        schwarz kd3 dh6 tg2 lg7 sb3g1 bb4g3h3
 
 option          intelligent
 
@@ -229,7 +229,7 @@ quelle          3. Preis
 forderung       h#3
 
 steine  weiss   kh5 ta1 bd4f2g3
-	schwarz ke4 tb1 sg2h6 ba2b2d3d5e2h2
+        schwarz ke4 tb1 sg2h6 ba2b2d3d5e2h2
 
 option          intelligent
 
@@ -244,7 +244,7 @@ quelle          3. Preis
 forderung       h#3
 
 steine  weiss   kh8 tg8 ld8
-	schwarz kb1 da2 tc2f8 le7 sg5 bb3b6d6e2f7h4
+        schwarz kb1 da2 tc2f8 le7 sg5 bb3b6d6e2f7h4
 
 option          intelligent
 
@@ -260,7 +260,7 @@ quelle          Karlheinz Siehndel zum 50. Geburtstag gewidmet
 forderung       h#3
 
 steine  weiss   ka1 lh1 se1
-	schwarz kc6 db3 tg1 le5 se4 bb6c7d4
+        schwarz kc6 db3 tg1 le5 se4 bb6c7d4
 
 option          intelligent
 
@@ -275,7 +275,7 @@ quelle          1. Preis
 forderung       h#3
 
 steine  weiss   kg8 td5 lb3
-	schwarz kf3 dc6 ta3b1 la2 sf4g4 bd4d7g3g6
+        schwarz kf3 dc6 ta3b1 la2 sf4g4 bd4d7g3g6
 
 option          intelligent
 
@@ -290,7 +290,7 @@ quelle          ehrende Erw?hnung, 1. SAXA-Turnier 1988
 forderung       h#3
 
 steine  weiss   kf7 te5 sg7
-	schwarz kd4 dg1 tb2e4 lf4h3 sa3 bb6d6h4
+        schwarz kd4 dg1 tb2e4 lf4h3 sa3 bb6d6h4
 
 option          intelligent
 
@@ -304,7 +304,7 @@ quelle          1135, LCdE 308, 4/1983
 forderung       h#3
 
 steine  weiss   kc3 lf6 se7 bf4
-	schwarz ke6 ld5 bc6
+        schwarz ke6 ld5 bc6
 
 option          intelligent
 
@@ -316,7 +316,7 @@ quelle          4164, Themes-64 11, 7-9/1983
 forderung       h#3
 
 steine  weiss   kg3 sf2 bc2e3
-	schwarz kd5 te4 be5
+        schwarz kd5 te4 be5
 
 option          intelligent
 
@@ -328,7 +328,7 @@ autor           Torsten Lin"s
 quelle          4238, Sinf. Sc. 77-78, 7-12/1984
 
 steine  weiss   kh4 sg4 bg2
-	schwarz ke4 df4 tf3 be5
+        schwarz ke4 df4 tf3 be5
 
 option          intelligent
 
@@ -340,7 +340,7 @@ quelle          1. Preis, feenschach 1991
 forderung       h#7
 
 steine  weiss   kf2 bd2
-	schwarz kh6 lb3e4 bd3e5e7f6
+        schwarz kh6 lb3e4 bd3e5e7f6
 
 option          intelligent
 
@@ -352,7 +352,7 @@ quelle          3. Preis, feenschach 1991
 forderung       h#4
 
 steine  weiss   kh3 lh7 bd3e3
-	schwarz kd6 df6 tg5 le5 bb4b5h5h6
+        schwarz kd6 df6 tg5 le5 bb4b5h5h6
 
 option          intelligent
 
@@ -367,7 +367,7 @@ quelle          1. Preis, Szachisty 1993
 forderung       h#4
 
 steine  weiss   kf1 th1 sh3
-	schwarz ka8 sb7c8 bf2f3h4
+        schwarz ka8 sb7c8 bf2f3h4
 
 option          satz    intelligent
 
@@ -379,7 +379,7 @@ quelle          H2030, The Problemist 15/12, 11/1996
 forderung       h#3
 
 steine  weiss   ka8 tg2 ld1
-	schwarz ke4 dh1 tb5g5 lb3f6 sc1d6 bd4h4h5h7
+        schwarz ke4 dh1 tb5g5 lb3f6 sc1d6 bd4h4h5h7
 
 option          intelligent
 
@@ -393,7 +393,7 @@ quelle          H2021, The Problemist 15/12, 11/1996
 forderung       h#3
 
 steine  weiss   ka8 lc6 sa5
-	schwarz kc2 ta4 lc3d5 sd2e4 bb2e2e3f5f7
+        schwarz kc2 ta4 lc3d5 sd2e4 bb2e2e3f5f7
 
 option          intelligent
 
@@ -405,7 +405,7 @@ quelle          H2032, The Problemist 15/12, 11/1996
 forderung       h#3
 
 steine  weiss   kc7 lh7 sb1 ba4b5e5f2f3g6
-	schwarz kd3 td4 ld2 sa3 ba5b6c2c3e2e6f4g7
+        schwarz kd3 td4 ld2 sa3 ba5b6c2c3e2e6f4g7
 
 option          satz    intelligent
 
@@ -417,7 +417,7 @@ quelle          H2033, The Problemist 15/12, 11/1996
 forderung       h#3
 
 steine  weiss   kc3 tf5 lh6 bb5e5f4
-	schwarz kg4 dd1 tb4g2 la2a3 bc4c5d3e3f3h3h4h5
+        schwarz kg4 dd1 tb4g2 la2a3 bc4c5d3e3f3h3h4h5
 
 option          intelligent
 
@@ -429,7 +429,7 @@ quelle          H2037, The Problemist 15/12, 11/1996
 forderung       h#6
 
 steine  weiss   kd8 lh1
-	schwarz kf6 le5
+        schwarz kf6 le5
 
 option          intelligent
 
@@ -441,7 +441,7 @@ quelle          H2034, The Problemist 15/12, 11/1996
 forderung       h#4
 
 steine  weiss   kb8 ta4 ld5 bc3c4
-	schwarz kd2 lb1
+        schwarz kd2 lb1
 
 option          weiss   intelligent
 
@@ -455,7 +455,7 @@ quelle          H2035, The Problemist 15/12, 11/1996
 forderung       h#4
 
 steine  weiss   ke5 sb2f6
-	schwarz ke3 ld5h8
+        schwarz ke3 ld5h8
 
 option          intelligent
 
@@ -469,7 +469,7 @@ quelle          H2036, The Problemist 15/12, 11/1996
 forderung       h#5
 
 steine  weiss   kg6 sc8
-	schwarz ke6 td6 sd4 bd7f6
+        schwarz ke6 td6 sd4 bd7f6
 
 option          intelligent
 
@@ -481,7 +481,7 @@ quelle          H2021, The Problemist 15/11, 9/1996
 forderung       h#6
 
 steine  weiss   kh2 bg2
-	schwarz ke6 td2 le1 sd7 bb4d6h3h4h5
+        schwarz ke6 td2 le1 sd7 bb4d6h3h4h5
 
 option          intelligent
 
@@ -493,7 +493,7 @@ quelle          H2020, The Problemist 15/11, 9/1996
 forderung       h#6
 
 steine  weiss   kb7 ld6 bc4f2h2
-	schwarz kc3 bc5c6e4f6h4
+        schwarz kc3 bc5c6e4f6h4
 
 option          weiss   intelligent
 
@@ -507,10 +507,10 @@ quelle          1.Lob (1994/95)
 forderung       h#10
 
 bedingung       schwarzerlaengstzueger
-		weisserlaengstzueger
+                weisserlaengstzueger
 
 steine  weiss   kd5 se7
-	schwarz ka4 sg4
+        schwarz ka4 sg4
 
 option          weiss   satz    intelligent
 
@@ -522,7 +522,7 @@ quelle          960, Probleemblad 3-4/1985
 forderung       h#3
 
 steine  weiss   ke1 ta1 le2f8 bf5g2
-	schwarz ke4 dh4 tg3 lh5h6 ba2b6c4c7e6e7f6h3
+        schwarz ke4 dh4 tg3 lh5h6 ba2b6c4c7e6e7f6h3
 
 option          intelligent
 
@@ -534,7 +534,7 @@ quelle          H1756, The Problemist 11/1993
 forderung       h#3
 
 steine  weiss   ke1 ta1 ld8 sg1 bd4g2
-	schwarz ke4 dh2 tg3 lh4 sa8f1 ba4b4c3d5f3h3
+        schwarz ke4 dh2 tg3 lh4 sa8f1 ba4b4c3d5f3h3
 
 option          intelligent
 
@@ -550,7 +550,7 @@ quelle          11543, Schach 1/1988
 forderung       h#3
 
 steine  weiss   kg2 lf1 se3
-	schwarz ke8 db2 ta8h8 lh6 sa5 ba7f2
+        schwarz ke8 db2 ta8h8 lh6 sa5 ba7f2
 
 option          intelligent
 
@@ -566,7 +566,7 @@ quelle          Karl Hraba gewidmet
 forderung       h#4
 
 steine  weiss   kf6 lh1
-	schwarz kg4 lg2 sf4f7 bf3g3h4
+        schwarz kg4 lg2 sf4f7 bf3g3h4
 
 option          intelligent
 
@@ -579,7 +579,7 @@ quelle          nach H. Ebert, 2741, Problemkiste 74/75, 5/1991
 forderung       h#4
 
 steine  weiss   ka5 lf1
-	schwarz kd4 sd5 bc3c4c5d3e3e4e5
+        schwarz kd4 sd5 bc3c4c5d3e3e4e5
 
 option          intelligent
 
@@ -591,7 +591,7 @@ quelle          66, harmonie 35, 31.12.1991
 forderung       h#4
 
 steine  weiss   kc3 bc4d2e3f4
-	schwarz kf7 lh7
+        schwarz kf7 lh7
 
 option          intelligent
 
@@ -606,7 +606,7 @@ quelle          H1953, The Problemist 15/7, 1/1996
 forderung       h#3
 
 steine  weiss   kb1 tg4 ld3 bc4e2g3g5
-	schwarz kf5 de4 sb5d6 be3e5
+        schwarz kf5 de4 sb5d6 be3e5
 
 option          intelligent
 
@@ -622,7 +622,7 @@ quelle          1. Preis
 forderung       h#3
 
 steine  weiss   ka8 th1 la3 bb4
-	schwarz kd5 lg2 sa7e3 ba6d6e2g4g5
+        schwarz kd5 lg2 sa7e3 ba6d6e2g4g5
 
 option          intelligent
 
@@ -637,7 +637,7 @@ quelle          11397, Schach-Echo 10/1989
 forderung       h#3
 
 steine  weiss   kh8 tg8 se8 bd2e2
-	schwarz kc4 tc7f8 sa5d7 bb7e6f7g3g7
+        schwarz kc4 tc7f8 sa5d7 bb7e6f7g3g7
 
 option          intelligent
 
@@ -654,7 +654,7 @@ quelle          duplex!
 forderung       h#3
 
 steine  weiss   kh4 le5 se3
-	schwarz kb6 te7 lf4 ba6b5c6
+        schwarz kb6 te7 lf4 ba6b5c6
 
 option          intelligent
 
@@ -670,7 +670,7 @@ quelle          2. ehrende Erw?hnung
 forderung       h#3
 
 steine  weiss   kg8 td5 sf7
-	schwarz ke4 tc2e7 la2 bc5c6e5f5
+        schwarz ke4 tc2e7 la2 bc5c6e5f5
 
 option          intelligent
 
@@ -682,7 +682,7 @@ quelle          819, Europa-Rochade 7/1990
 forderung       h#3
 
 steine  weiss   kh1 tb1 se6
-	schwarz ke5 ta1 lc7 bd4
+        schwarz ke5 ta1 lc7 bd4
 
 option          intelligent
 
@@ -696,7 +696,7 @@ quelle          5158, SSM 8-9/1990
 forderung       h#3
 
 steine  weiss   kb5 bc2f2f4
-	schwarz kd4 dd6 lg1h7
+        schwarz kd4 dd6 lg1h7
 
 option          intelligent
 
@@ -708,7 +708,7 @@ quelle          Das Schwalbetreffen in L"uneburg 12/1990
 forderung       h#3
 
 steine  weiss   kh1 la5 sd7
-	schwarz ke3 sd4 bc5d3e4f5
+        schwarz ke3 sd4 bc5d3e4f5
 
 option          intelligent
 
@@ -723,7 +723,7 @@ quelle          1. ehrende Erw?hnung
 forderung       h#3
 
 steine  weiss   kc1 tb3 lb8
-	schwarz ke3 dg7 ta1g3 lb6d3 sb1f1 bb4c2e4f2
+        schwarz ke3 dg7 ta1g3 lb6d3 sb1f1 bb4c2e4f2
 
 option          intelligent
 
@@ -740,7 +740,7 @@ quelle          1. Platz, Andernach 28.-31. 5. 1991
 forderung       h#3
 
 steine  weiss   kc6 lf6 sf4 bc5e4e5h6
-	schwarz kb4 ba3a4a5b3e7
+        schwarz kb4 ba3a4a5b3e7
 
 option          intelligent satz
 
@@ -753,7 +753,7 @@ quelle          3232, Problemkiste 87/88, 7/199
 forderung       h#3
 
 steine  weiss   kf1 tg3 lf6 bg5
-	schwarz kd3 td2e5 lc5f3 sc4g6 bb5b6d5f4
+        schwarz kd3 td2e5 lc5f3 sc4g6 bb5b6d5f4
 
 option          intelligent
 
@@ -767,7 +767,7 @@ quelle          2762, PB 53/3, 5-6/1995
 forderung       h#3
 
 steine  weiss   kc1 tf1 lb2
-	schwarz kf6 da3 th1 se5f5 bb4d5e7h6
+        schwarz kf6 da3 th1 se5f5 bb4d5e7h6
 
 option          intelligent
 
@@ -781,7 +781,7 @@ quelle          9049, Die Schwalbe 156, 12/1995
 forderung       h#3
 
 steine  weiss   kd8 td4 lf6
-	schwarz kf2 td2 lh4 se1g2 bc2e2g3g4
+        schwarz kf2 td2 lh4 se1g2 bc2e2g3g4
 
 option          intelligent
 
@@ -796,7 +796,7 @@ quelle          2. Platz Duplexjahrespreis 1989
 forderung       h#3
 
 steine  weiss   kb5 te6 sc3 be4f5g4
-	schwarz ke3 ld6 se2 ba7d3d5d7f3
+        schwarz ke3 ld6 se2 ba7d3d5d7f3
 
 option          intelligent weiss duplex
 
@@ -808,7 +808,7 @@ quelle          897, IMR 17, 11-12/1984
 forderung       h#3
 
 steine  weiss   kd7 ld6 se4 bd2
-	schwarz kd4 bd5e3
+        schwarz kd4 bd5e3
 
 option          intelligent
 
@@ -820,7 +820,7 @@ quelle          1618, Suomen Shakki 4/1985
 forderung       h#3
 
 steine  weiss   ka4 ld8 sa5 be5
-	schwarz kd5 tc6 bc5d7
+        schwarz kd5 tc6 bc5d7
 
 option          intelligent
 
@@ -834,7 +834,7 @@ quelle          2. Lob, 2. IMR-TT
 forderung       h#3
 
 steine  weiss   kf7 le5 sf5
-	schwarz ke4 dd6 lf4 bd4d5
+        schwarz ke4 dd6 lf4 bd4d5
 
 option          intelligent
 
@@ -846,7 +846,7 @@ quelle          1784, IMR 20, 4-6/1986
 forderung       h#3
 
 steine  weiss   kf3 se4 be2
-	schwarz ke5 lc4d4 sd3 bc5
+        schwarz ke5 lc4d4 sd3 bc5
 
 option          intelligent
 
@@ -859,7 +859,7 @@ quelle          5564, Die Schwalbe 100, 8/1986
 forderung       h#3
 
 steine  weiss   ke3 lf1h4 bh2
-	schwarz kh5 tf4 se7 bd5d6h3
+        schwarz kh5 tf4 se7 bd5d6h3
 
 option          intelligent weiss duplex
 
@@ -871,7 +871,7 @@ quelle          1908, IMR 21, 7-9/1986
 forderung       h#3
 
 steine  weiss   kf5 lg3
-	schwarz kh6 sf6 bg7
+        schwarz kh6 sf6 bg7
 
 option          intelligent duplex
 
@@ -883,7 +883,7 @@ quelle          202, Sin. Sc. 86, 12/1986
 forderung       h#3
 
 steine  weiss   kf7 ld3 se4 bc5f3
-	schwarz kd4 le5
+        schwarz kd4 le5
 
 option          intelligent 
 
@@ -896,7 +896,7 @@ quelle          \v{S}achov\'a Skladba 15, 9/1987
 forderung       h#3
 
 steine  weiss   kc4 le5 sb5 be2h3
-	schwarz kg5 le3 sg3 bb7c6d7e4
+        schwarz kg5 le3 sg3 bb7c6d7e4
 
 option          intelligent weiss duplex
 
@@ -908,7 +908,7 @@ quelle          1914, Suomen Shakki 4/1988
 forderung       h#3
 
 steine  weiss   kh8 sd1 ta1
-	schwarz ke5 tb1 sd4e7 ba3d5f6
+        schwarz ke5 tb1 sd4e7 ba3d5f6
 
 option          intelligent
 
@@ -923,7 +923,7 @@ quelle          2. Lob
 forderung       h#3
 
 steine  weiss   kb2 ld1 th8
-	schwarz kd4 dg8 tf8h6 ba4e4f6f7g7h7
+        schwarz kd4 dg8 tf8h6 ba4e4f6f7g7h7
 
 option          intelligent
 
@@ -938,7 +938,7 @@ quelle          431, Sin. Sc. 91/92, 6/1988
 forderung       h#3
 
 steine  weiss   kh8 tg8 sc1 bf3
-	schwarz kd4 ta3f8 lf1 bf7
+        schwarz kd4 ta3f8 lf1 bf7
 
 option          intelligent
 
@@ -953,7 +953,7 @@ quelle          idee & form 19, 7/1988
 forderung       h#3
 
 steine  weiss   kh8 tg8 ld8
-	schwarz kb1 dg5 tf8 la4e7 sc4 bd6f7h4
+        schwarz kb1 dg5 tf8 la4e7 sc4 bd6f7h4
 
 option          intelligent
 
@@ -967,7 +967,7 @@ quelle          5279, Sakk\'elet, 8/1988
 forderung       h#3
 
 steine  weiss   ka8 ta7 sg7
-	schwarz ke3 ta6 sf4 bd5f3f5
+        schwarz ke3 ta6 sf4 bd5f3f5
 
 option          intelligent
 
@@ -979,7 +979,7 @@ quelle          diagrammes 86, 7-9/1988
 forderung       h#3
 
 steine  weiss   kh1 th2 sa8
-	schwarz kd5 th3 sd6 be7g3
+        schwarz kd5 th3 sd6 be7g3
 
 option          intelligent
 
@@ -996,7 +996,7 @@ quelle          1. Preis
 forderung       h#3
 
 steine  weiss   ka1 la5d5 sf3
-	schwarz kf5 dc4 tb7 lc1d3 bb6c5e5f2f7
+        schwarz kf5 dc4 tb7 lc1d3 bb6c5e5f2f7
 
 option          intelligent
 
@@ -1009,7 +1009,7 @@ quelle          1671, USPB 61, 9-10/1988
 forderung       h#3
 
 steine  weiss   kh2 th5 sc6 ba4c3
-	schwarz kc4 dd8 ta6h6 ld5 sf7 bg6
+        schwarz kc4 dd8 ta6h6 ld5 sf7 bg6
 
 option          intelligent
 
@@ -1022,7 +1022,7 @@ quelle          1423, PB 46/5, 9-10/1988
 forderung       h#3
 
 steine  weiss   kh8 tg8 lb3
-	schwarz kg4 ta7f8 sh2h4 ba2b5b7c7f7g2g6h6
+        schwarz kg4 ta7f8 sh2h4 ba2b5b7c7f7g2g6h6
 
 option          intelligent
 
@@ -1037,7 +1037,7 @@ quelle          4162, ThD 52, 10/1988
 forderung       h#3
 
 steine  weiss   ka8 tb8 sh3
-	schwarz ke4 tc8g2 ld7h4 sf6 bc7d4e5
+        schwarz ke4 tc8g2 ld7h4 sf6 bc7d4e5
 
 option          intelligent
 
@@ -1052,7 +1052,7 @@ quelle          7462, Ceskoslovensk\'y \v{S}ach 10/1988
 forderung       h#3
 
 steine  weiss   kh1 th2 sa5
-	schwarz kc5 th3 sd5 bb5c4d3f6g3g5
+        schwarz kc5 th3 sd5 bb5c4d3f6g3g5
 
 option          intelligent
 
@@ -1067,7 +1067,7 @@ quelle          41, idee & form 20, 10/1988
 forderung       h#3
 
 steine  weiss   kd2 te2 sd5
-	schwarz ka6 de8 tf1g2 lc7h5 sa7g1 bb2b3c4d3d4g3
+        schwarz ka6 de8 tf1g2 lc7h5 sa7g1 bb2b3c4d3d4g3
 
 option          intelligent
 
@@ -1081,7 +1081,7 @@ quelle          5555, RRdS 11, 1988
 forderung       h#3
 
 steine  weiss   kh1 tg1 ld5 ba3e5
-	schwarz kc5 tf1 le1 bb7f2g4
+        schwarz kc5 tf1 le1 bb7f2g4
 
 option          intelligent
 
@@ -1096,7 +1096,7 @@ quelle          3468, Gaz. Cz. 28.12.1988
 forderung       h#3
 
 steine  weiss   kg1 th8 sd5 bb2
-	schwarz kd3 dh6 te8g8 la3 sb6c8 bg7h4h7
+        schwarz kd3 dh6 te8g8 la3 sb6c8 bg7h4h7
 
 option          intelligent
 
@@ -1111,7 +1111,7 @@ quelle          1778, Bul. Prob. 50, 7-12/1988
 forderung       h#3
 
 steine  weiss   kh2 th3 ld7 se4 be2
-	schwarz kc4 dh4 tg6g8 lb1f4 sa3g3 ba5b3b6d5f3g4g5g7
+        schwarz kc4 dh4 tg6g8 lb1f4 sa3g3 ba5b3b6d5f3g4g5g7
 
 option          intelligent
 
@@ -1126,7 +1126,7 @@ quelle          2150, Bol. UBP 61, 9-12/1988
 forderung       h#3
 
 steine  weiss   kd1 ld2 sb7
-	schwarz kd7 dh6 ta2d3 la5e6 se8f8 bb6d5e5f5
+        schwarz kd7 dh6 ta2d3 la5e6 se8f8 bb6d5e5f5
 
 option          intelligent
 
@@ -1141,7 +1141,7 @@ quelle          2150, Bol. UBP 61, 9-12/1988
 forderung       h#3
 
 steine  weiss   kh8 th7 sf7
-	schwarz kc4 th6 sb4c3 bd2d5e4g6h3
+        schwarz kc4 th6 sb4c3 bd2d5e4g6h3
 
 option          intelligent
 
@@ -1156,7 +1156,7 @@ quelle          springaren 35, 12/1988
 forderung       h#3
 
 steine  weiss   kh6 th8 se1
-	schwarz kd5 dg8 tf8 lc6 bc4f7g6
+        schwarz kd5 dg8 tf8 lc6 bc4f7g6
 
 option          intelligent
 
@@ -1172,7 +1172,7 @@ quelle          8.Lob, Israel Ring Tourney 1989
 forderung       h#3
 
 steine  weiss   kh2 tc2 le1
-	schwarz kd4 db2 td5 le5 sh1 ba5b5b6d6f3f4g5
+        schwarz kd4 db2 td5 le5 sh1 ba5b5b6d6f3f4g5
 
 option          intelligent
 
@@ -1187,7 +1187,7 @@ quelle          H1310, The Problemist 13/1, 1/1989
 forderung       h#3
 
 steine  weiss   kg4 la8g1 be2
-	schwarz kd6 lh1 sb6h3 bb5c7h4
+        schwarz kd6 lh1 sb6h3 bb5c7h4
 
 option          intelligent weiss duplex
 
@@ -1201,7 +1201,7 @@ quelle          3. ehrende Erw?hnung
 forderung       h#3
 
 steine  weiss   kc7 th5 lf1
-	schwarz kb4 lc2 sd4 bc6e4f3g4h3h6
+        schwarz kb4 lc2 sd4 bc6e4f3g4h3h6
 
 option          intelligent
 
@@ -1217,7 +1217,7 @@ quelle          Chess Life 2/1989
 forderung       h#3
 
 steine  weiss   ka2 td6 lb3
-	schwarz kf4 te5 lc4 sc6 bb5d2d3e3e7g3h5
+        schwarz kf4 te5 lc4 sc6 bb5d2d3e3e7g3h5
 
 option          intelligent
 
@@ -1233,7 +1233,7 @@ quelle          2. ehrende Erw?hnung, Seletzki-GT 1989
 forderung       h#3
 
 steine  weiss   kg3 le5 sg2 bf3
-	schwarz kd5 ta7e2 lc2 bd6e7g5
+        schwarz kd5 ta7e2 lc2 bd6e7g5
 
 option          intelligent
 
@@ -1247,7 +1247,7 @@ quelle          1. ehrende Erw?hnung
 forderung       h#3
 
 steine  weiss   ka8 tb7 se6
-	schwarz ke4 db2 ta5h7 lc6h6 sd5f4 ba6d4
+        schwarz ke4 db2 ta5h7 lc6h6 sd5f4 ba6d4
 
 option          intelligent
 
@@ -1259,7 +1259,7 @@ quelle          1795, IMR 20, 4-6/1986
 forderung       ser-h#6
 
 steine  weiss   ke6 lg3
-	schwarz kc4 tc3 ld3 se4 bd4
+        schwarz kc4 tc3 ld3 se4 bd4
 
 option          intelligent
 
@@ -1272,7 +1272,7 @@ quelle          Korr.: IMR 60, 11-12/1995
 forderung       ser-h#9
 
 steine  weiss   kd3 bb3
-	schwarz ka6 dc5 ta4c4 lb4c6 sa5b6 bb5
+        schwarz ka6 dc5 ta4c4 lb4c6 sa5b6 bb5
 
 option          intelligent
 
@@ -1285,7 +1285,7 @@ quelle          Hans Gruber gewidmet
 forderung       ser-h#6
 
 steine  weiss   kb6 tb1 ld2 bb5c2f5f6
-	schwarz ke5 ta7 lf8 bb3b7c3c5
+        schwarz ke5 ta7 lf8 bb3b7c3c5
 
 option          intelligent duplex
 
@@ -1296,7 +1296,7 @@ quelle          9366, Die Schwalbe 161, 10/1996
 
 forderung       ser-h#8
 steine  weiss   kh6 sf2
-	schwarz kb6 dc6 tc4d4 ld5 sb5d6 bc5
+        schwarz kb6 dc6 tc4d4 ld5 sb5d6 bc5
 
 option          intell
 
@@ -1309,7 +1309,7 @@ quelle          1.-2. Preis
 forderung       h#3
 
 steine  weiss   Kh8 Td8 Lg8 Bc6d2e2
-	schwarz Kd5 De7 Tc8d6 Le5e6 Sb6c7 Ba7b3d3g7h7
+        schwarz Kd5 De7 Tc8d6 Le5e6 Sb6c7 Ba7b3d3g7h7
 
 option          intell
 
@@ -1321,7 +1321,7 @@ quelle          9647, Schach-Echo, VI/1978
 forderung       h#8
 
 steine  weiss   kc1 lg2
-	schwarz kb3 sf2
+        schwarz kb3 sf2
 
 option          intelligent
 
@@ -1333,7 +1333,7 @@ quelle          7356, Die Schwalbe, VI/1991
 forderung       h#7
 
 steine  weiss   kf1 la8
-	schwarz kc8 dc2 td4h2 lb7 sg1 bc7f2
+        schwarz kc8 dc2 td4h2 lb7 sg1 bc7f2
 
 option          intelligent
 
@@ -1346,7 +1346,7 @@ quelle          3. Thematurnier, 1. Preis
 forderung       h#5
 
 steine  weiss   ke3 sh4 bb2
-	schwarz ka4 be2h2
+        schwarz ka4 be2h2
 
 option          intelligent
 
@@ -1357,7 +1357,7 @@ quelle          Deutsche M"archenschachzeitung, 1932
 
 forderung       h#3
 steine  weiss   kh3 lh6 bf7g7h7
-	schwarz kb5 te8 lf4 sd6d8 bg5
+        schwarz kb5 te8 lf4 sd6d8 bg5
 
 option          intelligent
 
@@ -1369,7 +1369,7 @@ quelle          Western Daily Mercury, 1921
 forderung       h#5
 
 steine  weiss   Kh8 la7 sb5
-	schwarz kh6 dh5 bb6f5
+        schwarz kh6 dh5 bb6f5
 
 option          intelligent
 
@@ -1382,7 +1382,7 @@ quelle          3. ehrende Erw"ahnung
 forderung       h#4
 
 steine  weiss   kc3 sd2
-	schwarz ka1 dc1 ta2d1 ld3e1 sc2g7 ba3a6d5e3e4e7f2
+        schwarz ka1 dc1 ta2d1 ld3e1 sc2g7 ba3a6d5e3e4e7f2
 
 option          intelligent
 
@@ -1394,7 +1394,7 @@ quelle          Problemkiste 1993
 forderung       h#7
 
 steine  weiss   ke4 bc2
-	schwarz kf2 ba2b2c4f3
+        schwarz kf2 ba2b2c4f3
 
 option          intell
 
@@ -1406,7 +1406,7 @@ quelle          Schachmatt 1948
 forderung       h#9
 
 steine  weiss   kh1 bh2
-	schwarz kb8 bg7h3
+        schwarz kb8 bg7h3
 
 option          intell
 
@@ -1418,44 +1418,44 @@ quelle          feenschach, November 1990
 forderung       h#4
 
 steine  weiss   kg1 tf2 lh7 bh2
-	schwarz ke6 tb8 ld4h1 se5 bb5c3g2g4
+        schwarz ke6 tb8 ld4h1 se5 bb5c3g2g4
 
 option          intell
 
 weiteresproblem
 
-autor		Er. Bartel
-quelle		212, Jugendschach 9/1981
+autor           Er. Bartel
+quelle          212, Jugendschach 9/1981
 
-forderung	ser-#6
+forderung       ser-#6
 
-option		duplex intell
+option          duplex intell
 
-steine	weiss	kf1 tb7
-	schwarz	ka8 tb8
+steine  weiss   kf1 tb7
+        schwarz ka8 tb8
 
 weiter
 
-autor		J. Kube\v{c}ka
-quelle		Jugendschach 68, 1988
+autor           J. Kube\v{c}ka
+quelle          Jugendschach 68, 1988
 
-forderung	ser-#7
+forderung       ser-#7
 
-option		duplex intell 2
+option          duplex intell 2
 
-steine	weiss	kh8 tc2
-	schwarz	ka4 tc3
+steine  weiss   kh8 tc2
+        schwarz ka4 tc3
 
 weiteresproblem
 
-autor		Rolf Wiehagen & Torsten Lin"s
-quelle		feenschach 138 p. 394, Lob
-bemerkung	h#8 1.0;1.1;...; 7x8-Brett
+autor           Rolf Wiehagen & Torsten Lin"s
+quelle          feenschach 138 p. 394, Lob
+bemerkung       h#8 1.0;1.1;...; 7x8-Brett
 forderung       h#7
 steine  weiss   kb2 lc7
         schwarz kb4 tc3 le5 bd7
-bedi    	loch    h1h2h3h4h5h6h7h8
-option 		intell
+bedi            loch    h1h2h3h4h5h6h7h8
+option          intell
 nullstell       verse   b4 a4
 zwilling        verse   b4 c4
 zwilling        verse   b4 b5
