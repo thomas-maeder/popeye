@@ -283,6 +283,12 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
     stip_structure_traversal_override_single(&st_nested,
                                              STDeadEndGoal,
                                              &skip_copying);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STGoalReachableGuardFilterMate,
+                                             &skip_copying);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STGoalReachableGuardFilterStalemate,
+                                             &skip_copying);
     if (ultra_mummer[state->current_side])
     {
       stip_structure_traversal_override_single(&st_nested,
