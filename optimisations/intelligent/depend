@@ -9,7 +9,6 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
  stipulation/fork.h pyproof.h stipulation/slice.h stipulation/pipe.h \
- optimisations/hash.h DHT/dhtbcmem.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/moves_left.h \
@@ -83,10 +82,6 @@ pyproof.h:
 stipulation/slice.h:
 
 stipulation/pipe.h:
-
-optimisations/hash.h:
-
-DHT/dhtbcmem.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
