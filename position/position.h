@@ -3,6 +3,7 @@
 
 #include "position/board.h"
 #include "position/piece.h"
+#include "utilities/boolean.h"
 
 /* Declarations of types and functions related to chess positions
  */
@@ -23,6 +24,8 @@ typedef unsigned long Flags;
 /* Enumeration type for the two sides which move, deliver mate etc.
  */
 
+#include "position/board.h"
+
 #define ENUMERATION_TYPENAME Side
 #define ENUMERATORS \
   ENUMERATOR(White), \
@@ -35,6 +38,11 @@ typedef unsigned long Flags;
 
 #include "utilities/enumeration.h"
 
+extern echiquier e;
+extern Flags spec[maxsquare+4];
+extern square king_square[nr_sides];
+extern boolean areColorsSwapped;
+extern boolean isBoardReflected;
 
 enum
 {
@@ -82,5 +90,11 @@ extern position const game_array;
  * @param pos address of position object
  */
 void initialise_game_array(position *pos);
+
+/* Swap the sides of all the pieces */
+void swap_sides(void);
+
+/* Reflect the position at the horizontal central line */
+void reflect_position(void);
 
 #endif

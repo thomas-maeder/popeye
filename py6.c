@@ -2025,57 +2025,6 @@ boolean WriteSpec(Flags sp, piece p, boolean printcolours)
   return ret;
 }
 
-static void swapcolors(void)
-{
-  square const *bnp;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (bnp = boardnum; *bnp; bnp++)
-    if (!TSTFLAG(spec[*bnp],Neutral) && e[*bnp]!=vide)
-    {
-      e[*bnp] = -e[*bnp];
-      spec[*bnp]^= BIT(White)+BIT(Black);
-    }
-
-  ProofStartSwapColors();
-
-  areColorsSwapped = !areColorsSwapped;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void reflectboard(void)
-{
-  square const *bnp;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (bnp = boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
-  {
-    square const sq_reflected = transformSquare(*bnp,mirra1a8);
-
-    piece const p = e[sq_reflected];
-    Flags const sp = spec[sq_reflected];
-
-    e[sq_reflected] = e[*bnp];
-    spec[sq_reflected] = spec[*bnp];
-
-    e[*bnp] = p;
-    spec[*bnp] = sp;
-  }
-
-  ProofStartReflectboard();
-
-  isBoardReflected = !isBoardReflected;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 typedef enum
 {
   whitetoplay_means_shorten,
@@ -2249,102 +2198,6 @@ int parseCommandlineOptions(int argc, char *argv[])
   return idx;
 }
 
-/* Perform initialisations for solving a duplex if we are solving in
- * intelligent mode
- * @param si identifies the slice currently being visited
- * @param st points to the structure holding the state of the traversal
- */
-static void intelligent_init_duplex(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_impose_starter_nested(si,advers(slices[si].starter),st);
-  swapcolors();
-  reflectboard();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Perform initialisations for solving a duplex
- * @param si identifies the root slice of the stipulation
- */
-static void init_duplex(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentMateFilter,
-                                           &intelligent_init_duplex);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentStalemateFilter,
-                                           &intelligent_init_duplex);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentProof,
-                                           &intelligent_init_duplex);
-  stip_traverse_structure(si,&st);
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Un-initialise from solving a duplex
- * @param si identifies the slice currently being visited
- * @param st points to the structure holding the state of the traversal
- */
-static void intelligent_fini_duplex(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (isBoardReflected)
-  {
-    reflectboard();
-    swapcolors();
-    stip_impose_starter_nested(si,advers(slices[si].starter),st);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Un-initialise from solving a duplex
- * @param si identifies the root slice of the stipulation
- */
-static void fini_duplex(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentMateFilter,
-                                           &intelligent_fini_duplex);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentStalemateFilter,
-                                           &intelligent_fini_duplex);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentProof,
-                                           &intelligent_fini_duplex);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static boolean are_we_solving_duplex;
-
 /* Solve a twin (maybe the only one of a problem)
  * @param si identifies the root slice of the stipulation
  * @param twin_index 0 for first, 1 for second ...; if the problem has
@@ -2383,27 +2236,11 @@ static void solve_impl(slice_index si,
     }
   }
 
-  if (are_we_solving_duplex)
-  {
-    init_duplex(si);
-    if (locateRoyal() && verify_position(si))
-    {
-      solve(si,length_unspecified);
-
-#ifdef _SE_DECORATE_SOLUTION_
-      se_end_half_duplex();
-#endif
-    }
-    fini_duplex(si);
-  }
-  else
-  {
-    solve(si,length_unspecified);
+  solve(si,length_unspecified);
 
 #ifdef _SE_DECORATE_SOLUTION_
     se_end_half_duplex();
 #endif
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3040,16 +2877,12 @@ static Token iterate_twins(Token prev_token)
       Side const regular_starter = slices[stipulation_root_hook].starter;
 
       if (!OptFlag[halfduplex])
-      {
-        are_we_solving_duplex = false;
         solve_stipulation(stipulation_root_hook,
                           twin_index,
                           prev_token);
-      }
 
       if (OptFlag[halfduplex] || OptFlag[duplex])
       {
-        are_we_solving_duplex = true;
         stip_impose_starter(stipulation_root_hook,advers(regular_starter));
         solve_stipulation(stipulation_root_hook,
                           twin_index+OptFlag[duplex],

@@ -90,10 +90,9 @@ EXTERN char versionString[100];
 EXTERN  boolean         flagpassive, flagcapture, flagactive;
 EXTERN boolean flagmummer[nr_sides];
 
-EXTERN square king_square[nr_sides];
 EXTERN square royal_square[nr_sides];
 
-EXTERN echiquier e, e_ubi, e_ubi_mad;
+EXTERN echiquier e_ubi, e_ubi_mad;
 
 EXTERN  square          ppridia[maxply + 1];
 
@@ -186,7 +185,6 @@ EXTERN  square          cirrenroib, cirrenroin,
 
 EXTERN  Flags           pprispec[maxply + 1];
 
-EXTERN  Flags           spec[maxsquare+4];
 EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
 
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
@@ -222,9 +220,6 @@ EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
 EXTERN  PieNam          transmpieces[nr_sides][PieceCount];
 EXTERN  boolean         normaltranspieces[nr_sides];
 EXTERN  PieNam          orphanpieces[PieceCount];
-
-EXTERN boolean isBoardReflected;
-EXTERN boolean areColorsSwapped;
 
 EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;

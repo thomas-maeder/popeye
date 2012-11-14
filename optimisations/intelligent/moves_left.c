@@ -3,6 +3,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/moves_traversal.h"
+#include "position/position.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -80,16 +81,7 @@ static void init_moves_left(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type intelligent_moves_left_initialiser_solve(slice_index si,
-                                                           stip_length_type n)
+static stip_length_type delegate(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -104,6 +96,102 @@ stip_length_type intelligent_moves_left_initialiser_solve(slice_index si,
     result = solve(slices[si].next1,n);
   else
     result = n+2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+typedef struct
+{
+    boolean is_mated[nr_sides];
+    goal_type goal;
+} mated_side_state_type;
+
+static void remember_goaled_side(slice_index si, stip_structure_traversal *st)
+{
+  mated_side_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->is_mated[slices[si].starter] = true;
+  state->goal = slices[si].u.goal_handler.goal.type;
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static Side goaled_side(slice_index si)
+{
+  Side result;
+  stip_structure_traversal st;
+  mated_side_state_type state = { { false, false }, no_goal };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTester,
+                                           &remember_goaled_side);
+  stip_traverse_structure(si,&st);
+
+  assert(state.is_mated[White] || state.is_mated[Black]);
+  assert(!(state.is_mated[White] && state.is_mated[Black]));
+
+  if (state.goal==goal_mate || state.goal==goal_stale)
+    result = state.is_mated[White] ? White : Black;
+  else
+    result = no_side;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(Side,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type intelligent_moves_left_initialiser_solve(slice_index si,
+                                                          stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  /* the mate and stalemate machineries rely on Black being (stale)mated */
+  if (goaled_side(si)==White)
+  {
+    stip_impose_starter(si,advers(slices[si].starter));
+    swap_sides();
+    reflect_position();
+    result = delegate(si,n);
+    reflect_position();
+    swap_sides();
+    stip_impose_starter(si,advers(slices[si].starter));
+  }
+  else
+    result = delegate(si,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

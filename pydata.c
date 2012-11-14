@@ -26,9 +26,13 @@ killer_state const null_killer_state = {
   {
     initsquare,
     initsquare,
+    initsquare,
+    initsquare,
+    vide,
+    vide,
+    initsquare,
     initsquare
-  },
-  initsquare
+  }
 };
 
 static int comparePieceNames(void const * param1, void const * param2)

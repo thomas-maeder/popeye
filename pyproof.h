@@ -29,14 +29,6 @@ void ProofInitialiseStartPosition(void);
  */
 void ProofSaveStartPosition(void);
 
-/* a=>b: swap pieces' colors in the starting position
- */
-void ProofStartSwapColors(void);
-
-/* a=>b: reflect starting position at the horizontal center line
- */
-void ProofStartReflectboard(void);
-
 /* Restore the start position
  */
 void ProofRestoreStartPosition(void);
