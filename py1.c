@@ -299,7 +299,6 @@ void InitCond(void)
   CondFlag[circeassassin]= false;
   flagmummer[White] = false;
   flagmummer[Black] = false;
-  flagmaxi= flagultraschachzwang= false;
   flagparasent= false;
   rex_mad = false;
   rex_circe = false;
@@ -352,7 +351,10 @@ void InitCond(void)
   }
 
   for (i= 0; i < CondCount; ++i)
-    CondFlag[i]= false;
+    CondFlag[i] = false;
+
+  for (i= 0; i < ExtraCondCount; ++i)
+    ExtraCondFlag[i] = false;
 
   number_of_imitators = 0;
 

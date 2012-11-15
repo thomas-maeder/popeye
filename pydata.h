@@ -223,7 +223,7 @@ EXTERN  PieNam          orphanpieces[PieceCount];
 
 EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;
-EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
+EXTERN boolean          flagparasent;
 
 EXTERN boolean          checkhopim;
 
@@ -1579,8 +1579,10 @@ void enforce_piecename_uniqueness(void);
 #endif
 
 #if defined(WE_ARE_EXTERN)
+  extern boolean  ExtraCondFlag[ExtraCondCount];
 	extern char *ExtraCondString[LanguageCount][ExtraCondCount];
 #else
+  boolean  ExtraCondFlag[ExtraCondCount];
 	char    *ExtraCondString[LanguageCount][ExtraCondCount] = {
 	{
 	/* French */

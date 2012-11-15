@@ -1005,7 +1005,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (flagmaxi)
+  if (ExtraCondFlag[maxi])
   {
     Side const restricted_side = findRestrictedSide(si);
     if (restricted_side==no_side)
@@ -1035,7 +1035,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (flagultraschachzwang)
+  if (ExtraCondFlag[ultraschachzwang])
   {
     Side const restricted_side = findRestrictedSide(si);
     if (restricted_side==no_side)

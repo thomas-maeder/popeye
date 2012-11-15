@@ -402,15 +402,12 @@ static void WriteConditions(int alignment)
     /* Write DEFAULT Conditions */
     strcpy(CondLine, CondTab[cond]);
 
-    if ((cond == blmax || cond == whmax) && flagmaxi)
+    if ((cond == blmax || cond == whmax) && ExtraCondFlag[maxi])
       strcpy(CondLine, ExtraCondTab[maxi]);
 
-    if (  (cond == blackultraschachzwang
-           || cond == whiteultraschachzwang)
-          && flagultraschachzwang)
-    {
+    if ((cond==blackultraschachzwang || cond==whiteultraschachzwang)
+        && ExtraCondFlag[ultraschachzwang])
       strcpy(CondLine, ExtraCondTab[ultraschachzwang]);
-    }
 
     if (cond == sentinelles && flagparasent) {
       strcpy(CondLine, "Para");
@@ -4861,34 +4858,36 @@ static char *ParseCond(void) {
     Cond const indexx = GetUniqIndex(CondCount,CondTab,tok);
     if (indexx==CondCount)
     {
-      ExtraCond extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
-      if (extra==ExtraCondCount)
+      ExtraCond const extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
+      if (extra>ExtraCondCount)
+      {
+        IoErrorMsg(CondNotUniq,0);
+        tok = ReadNextTokStr();
+        break;
+      }
+      else if (extra==ExtraCondCount)
         break;
       else
       {
+        ExtraCondFlag[extra] = true;
+
         switch (extra)
         {
           case maxi:
-            flagmaxi= true;
             tok = ParseExact(&CondFlag[exact],&CondFlag[ultra]);
-            CondCnt++;
+            ++CondCnt;
             break;
 
           case ultraschachzwang:
-            flagultraschachzwang= true;
             tok = ReadNextTokStr();
-            CondCnt++;
-            break;
-
-          case ExtraCondCount:
-            IoErrorMsg(UnrecCondition,0);
+            ++CondCnt;
             break;
 
           default:
-            IoErrorMsg(CondNotUniq,0);
-            tok = ReadNextTokStr();
+            assert(0);
             break;
         }
+
         continue;
       }
     }
