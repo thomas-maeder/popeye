@@ -2201,11 +2201,11 @@ int parseCommandlineOptions(int argc, char *argv[])
 /* Solve a twin (maybe the only one of a problem)
  * @param si identifies the root slice of the stipulation
  * @param twin_index 0 for first, 1 for second ...; if the problem has
- *                   a zero position, solve_impl() is invoked with
+ *                   a zero position, solve_twin() is invoked with
  *                   1, 2, ... but not with 0
  * @param end_of_twin_token token that ended this twin
  */
-static void solve_impl(slice_index si,
+static void solve_twin(slice_index si,
                        unsigned int twin_index,
                        Token end_of_twin_token)
 {
@@ -2682,7 +2682,7 @@ static void solve_any_stipulation(slice_index stipulation_root_hook,
   {
     slice_index const root_slice = build_solvers(stipulation_root_hook);
     TraceStipulation(root_slice);
-    solve_impl(root_slice,twin_index,prev_token);
+    solve_twin(root_slice,twin_index,prev_token);
     dealloc_slices(root_slice);
   }
 
