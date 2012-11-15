@@ -483,12 +483,8 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
 
   if (complex_castling_through_flag)
   {
-    /* temporarily deactivate maximummer etc. */
-    boolean const save_flagmummer = flagmummer[side];
-    flagmummer[side] = false;
     castling_intermediate_move_generator_init_next(from,to);
     result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==has_solution;
-    flagmummer[side] = save_flagmummer;
   }
   else
   {

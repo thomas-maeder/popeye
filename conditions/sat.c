@@ -31,7 +31,6 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
 {
   stip_length_type result;
   Side const starter = slices[si].starter;
-  boolean const save_mummer = flagmummer[starter];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -45,14 +44,12 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
   current_killer_state= null_killer_state;
   trait[nbply]= starter;
 
-  flagmummer[starter] = false;
   dont_generate_castling= true;
   if (starter==White)
     gen_wh_piece(king_square[starter],abs(e[king_square[starter]]));
   else
     gen_bl_piece(king_square[starter],-abs(e[king_square[starter]]));
   dont_generate_castling = false;
-  flagmummer[starter] = save_mummer;
   SATCheck = false;
 
   result = solve(slices[si].next1,n);
