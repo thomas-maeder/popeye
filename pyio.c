@@ -128,6 +128,7 @@
 #include "conditions/circe/chameleon.h"
 #include "conditions/sentinelles.h"
 #include "conditions/magic_square.h"
+#include "conditions/mummer.h"
 #include "conditions/transmuting_kings/super.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
@@ -841,9 +842,10 @@ static void WriteConditions(int alignment)
     case blmax:
     case blmin:
     case blcapt:
-      if (ultra_mummer[Black] || bl_exact) {
+      if (mummer_strictness[Black]!=mummer_strictness_regular)
+      {
         strcat(CondLine, "  ");
-        if (ultra_mummer[Black])
+        if (mummer_strictness[Black]==mummer_strictness_ultra)
           strcat(CondLine, CondTab[ultra]);
         else
           strcat(CondLine, CondTab[exact]);
@@ -852,9 +854,10 @@ static void WriteConditions(int alignment)
     case whmax:
     case whmin:
     case whcapt:
-      if (ultra_mummer[White] || wh_exact) {
+      if (mummer_strictness[White]!=mummer_strictness_regular)
+      {
         strcat(CondLine, "  ");
-        if (ultra_mummer[White])
+        if (mummer_strictness[White]==mummer_strictness_ultra)
           strcat(CondLine, CondTab[ultra]);
         else
           strcat(CondLine, CondTab[exact]);
@@ -4697,29 +4700,25 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
   return tok;
 }
 
-static char *ParseExact(boolean *ex_flag, boolean *ul_flag)
+static char *ParseMummerStrictness(mummer_strictness_type *strictness)
 {
-  char    *tok;
+  char *tok = ReadNextTokStr();
 
-  tok = ReadNextTokStr();
-  *ul_flag= ultra==GetUniqIndex(CondCount,CondTab,tok);
-  if (*ul_flag)
+  if (ultra==GetUniqIndex(CondCount,CondTab,tok))
   {
-    *ex_flag= true;
-    CondFlag[ultra]= true;
+    *strictness = mummer_strictness_ultra;
+    tok = ReadNextTokStr();
+  }
+  else if (exact==GetUniqIndex(CondCount,CondTab,tok))
+  {
+    *strictness = mummer_strictness_exact;
     tok = ReadNextTokStr();
   }
   else
-  {
-    *ex_flag= exact==GetUniqIndex(CondCount,CondTab,tok);
-    if (*ex_flag)
-    {
-      CondFlag[exact]= true;
-      tok = ReadNextTokStr();
-    }
-  }
+    *strictness = mummer_strictness_regular;
+
   return tok;
-} /* ParseExact */
+}
 
 static char *ParseVaultingPieces(Flags fl)
 {
@@ -4874,7 +4873,7 @@ static char *ParseCond(void) {
         switch (extra)
         {
           case maxi:
-            tok = ParseExact(&CondFlag[exact],&CondFlag[ultra]);
+            tok = ParseMummerStrictness(&mummer_strictness_default_side);
             ++CondCnt;
             break;
 
@@ -5093,15 +5092,13 @@ static char *ParseCond(void) {
         break;
       case whconforsqu:
         ReadSquares(WhConsForcedSq);
-        ultra_mummer[White] = true;
-        wh_exact = true;
+        mummer_strictness[White] = mummer_strictness_ultra;
         measure_length[White] = len_whforcedsquare;
         flagmummer[White] = true;
         break;
       case blconforsqu:
         ReadSquares(BlConsForcedSq);
-        ultra_mummer[Black] = true;
-        bl_exact = true;
+        mummer_strictness[Black] = mummer_strictness_ultra;
         measure_length[Black] = len_blforcedsquare;
         flagmummer[Black] = true;
         break;
@@ -5393,22 +5390,22 @@ static char *ParseCond(void) {
 
         /*****  exact-maxis  *****/
       case blmax:
-        tok = ParseExact(&bl_exact, &ultra_mummer[Black]);
+        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
       case blmin:
-        tok = ParseExact(&bl_exact, &ultra_mummer[Black]);
+        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
       case blcapt:
-        tok = ParseExact(&bl_exact, &ultra_mummer[Black]);
+        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
       case whmax:
-        tok = ParseExact(&wh_exact, &ultra_mummer[White]);
+        tok  = ParseMummerStrictness(&mummer_strictness[White]);
         break;
       case whmin:
-        tok = ParseExact(&wh_exact, &ultra_mummer[White]);
+        tok  = ParseMummerStrictness(&mummer_strictness[White]);
         break;
       case whcapt:
-        tok = ParseExact(&wh_exact, &ultra_mummer[White]);
+        tok  = ParseMummerStrictness(&mummer_strictness[White]);
         break;
 
         /*****  anticirce type    *****/

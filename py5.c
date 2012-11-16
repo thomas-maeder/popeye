@@ -80,6 +80,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/madrasi.h"
+#include "conditions/mummer.h"
 #include "conditions/republican.h"
 #include "conditions/patience.h"
 #include "conditions/sat.h"
@@ -975,7 +976,7 @@ void genmove(Side camp)
   if (camp == White)
   {
     /* let's first generate consequent moves */
-    if (wh_exact)
+    if (mummer_strictness[White]!=mummer_strictness_regular)
     {
       we_generate_exact = true;
       there_are_consmoves = false;
@@ -1000,7 +1001,7 @@ void genmove(Side camp)
   else
   {
     /* let's first generate consequent moves */
-    if (bl_exact)
+    if (mummer_strictness[Black]!=mummer_strictness_regular)
     {
       we_generate_exact = true;
       there_are_consmoves = false;

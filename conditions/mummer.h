@@ -12,6 +12,17 @@ boolean eval_ultra_mummer_white_king_check(square departure,
                                            square arrival,
                                            square capture);
 
+typedef enum
+{
+  mummer_strictness_regular,
+  mummer_strictness_exact,
+  mummer_strictness_ultra
+} mummer_strictness_type;
+
+extern mummer_strictness_type mummer_strictness[nr_sides];
+
+extern mummer_strictness_type mummer_strictness_default_side;
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

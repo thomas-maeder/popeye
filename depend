@@ -50,7 +50,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
  conditions/anticirce/super.h conditions/circe/circe.h \
  conditions/circe/chameleon.h conditions/circe/april.h \
- conditions/imitator.h conditions/sentinelles.h \
+ conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
  conditions/singlebox/type3.h utilities/table.h debugging/trace.h
 
 py.h:
@@ -158,6 +158,8 @@ conditions/circe/april.h:
 conditions/imitator.h:
 
 conditions/sentinelles.h:
+
+conditions/mummer.h:
 
 conditions/singlebox/type3.h:
 
@@ -447,12 +449,13 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  solving/single_piece_move_generator.h \
  conditions/ohneschach/immobility_tester.h conditions/disparate.h \
  conditions/eiffel.h conditions/exclusive.h position/position.h \
- conditions/extinction.h conditions/madrasi.h conditions/republican.h \
- conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
- conditions/circe/cage.h conditions/circe/super.h \
- conditions/anticirce/super.h conditions/haunted_chess.h \
- solving/move_effect_journal.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h conditions/singlebox/type3.h pieces/walks.h \
+ conditions/extinction.h conditions/madrasi.h conditions/mummer.h \
+ conditions/republican.h conditions/patience.h conditions/sat.h \
+ conditions/oscillating_kings.h conditions/circe/cage.h \
+ conditions/circe/super.h conditions/anticirce/super.h \
+ conditions/haunted_chess.h solving/move_effect_journal.h \
+ conditions/singlebox/type1.h conditions/singlebox/type2.h \
+ conditions/singlebox/type3.h pieces/walks.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h
@@ -530,6 +533,8 @@ position/position.h:
 conditions/extinction.h:
 
 conditions/madrasi.h:
+
+conditions/mummer.h:
 
 conditions/republican.h:
 
@@ -1071,7 +1076,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/check_zigzag.h conditions/patience.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/kobul.h \
  conditions/circe/april.h conditions/circe/chameleon.h \
- conditions/sentinelles.h conditions/magic_square.h \
+ conditions/sentinelles.h conditions/magic_square.h conditions/mummer.h \
  conditions/transmuting_kings/super.h options/degenerate_tree.h \
  options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
@@ -1248,6 +1253,8 @@ conditions/circe/chameleon.h:
 conditions/sentinelles.h:
 
 conditions/magic_square.h:
+
+conditions/mummer.h:
 
 conditions/transmuting_kings/super.h:
 

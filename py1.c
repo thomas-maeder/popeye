@@ -79,6 +79,7 @@
 #include "conditions/circe/april.h"
 #include "conditions/imitator.h"
 #include "conditions/sentinelles.h"
+#include "conditions/mummer.h"
 #include "conditions/singlebox/type3.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
@@ -266,11 +267,8 @@ void InitCond(void)
   square const *bnp;
   square i, j;
 
-  wh_exact = false;
-  bl_exact = false;
-
-  ultra_mummer[White] = false;
-  ultra_mummer[Black] = false;
+  mummer_strictness[White] = mummer_strictness_regular;
+  mummer_strictness[Black] = mummer_strictness_regular;
 
   anyclone = false;
   anycirprom = false;

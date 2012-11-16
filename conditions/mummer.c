@@ -22,6 +22,10 @@ static int mum_length[maxply+1];
 /* index of last move with mum length */
 static numecoup last_candidate[maxply+1];
 
+mummer_strictness_type mummer_strictness[nr_sides];
+
+mummer_strictness_type mummer_strictness_default_side;
+
 /* Invert the order of the measured moves; this optimises for maximummer, by far
  * the most frequent mummer type
  */
@@ -289,7 +293,7 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
     stip_structure_traversal_override_single(&st_nested,
                                              STGoalReachableGuardFilterStalemate,
                                              &skip_copying);
-    if (ultra_mummer[state->current_side])
+    if (mummer_strictness[state->current_side]!=mummer_strictness_regular)
     {
       stip_structure_traversal_override_single(&st_nested,
                                                STEndOfBranchGoal,
@@ -318,7 +322,7 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
       branch_insert_slices_contextual(copies[slices[si].next1],st->context,&prototype,1);
     }
 
-    if (ultra_mummer[state->current_side])
+    if (mummer_strictness[state->current_side]!=mummer_strictness_regular)
     {
       slice_index const prototype = alloc_pipe(STUltraMummerMeasurerDeadend);
       branch_insert_slices_contextual(copies[slices[si].next1],st->context,&prototype,1);
@@ -343,7 +347,7 @@ static void instrument_ultra_mummer_measurer_fork(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  state->ultra_capturing_king = ultra_mummer[slices[si].starter];
+  state->ultra_capturing_king = mummer_strictness[slices[si].starter]!=mummer_strictness_regular;
   stip_traverse_structure_conditional_pipe_tester(si,st);
   state->ultra_capturing_king = save_ultra_mummer_capturing_king;
 
