@@ -16,7 +16,9 @@ typedef enum
 {
   mummer_strictness_regular,
   mummer_strictness_exact,
-  mummer_strictness_ultra
+  mummer_strictness_ultra,
+
+  nr_mummer_strictness
 } mummer_strictness_type;
 
 extern mummer_strictness_type mummer_strictness[nr_sides];

@@ -261,6 +261,7 @@ static void WritePieces(PieNam const *p, char* CondLine)
 
 static char **CondTab;  /* set according to language */
 static char    **ExtraCondTab;
+static char **mummer_strictness_tab;
 
 static nocontactfunc_t *nocontactfunc;
 
@@ -364,8 +365,6 @@ static void WriteConditions(int alignment)
       continue;
 
     if (cond == rexexcl)
-      continue;
-    if (cond == exact || cond == ultra)
       continue;
     if (  (cond == woozles
            && (CondFlag[biwoozles]
@@ -846,9 +845,9 @@ static void WriteConditions(int alignment)
       {
         strcat(CondLine, "  ");
         if (mummer_strictness[Black]==mummer_strictness_ultra)
-          strcat(CondLine, CondTab[ultra]);
+          strcat(CondLine, mummer_strictness_tab[mummer_strictness_ultra]);
         else
-          strcat(CondLine, CondTab[exact]);
+          strcat(CondLine, mummer_strictness_tab[mummer_strictness_exact]);
       }
       break;
     case whmax:
@@ -858,9 +857,9 @@ static void WriteConditions(int alignment)
       {
         strcat(CondLine, "  ");
         if (mummer_strictness[White]==mummer_strictness_ultra)
-          strcat(CondLine, CondTab[ultra]);
+          strcat(CondLine, mummer_strictness_tab[mummer_strictness_ultra]);
         else
-          strcat(CondLine, CondTab[exact]);
+          strcat(CondLine, mummer_strictness_tab[mummer_strictness_exact]);
       }
       break;
     default:
@@ -1409,6 +1408,25 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
+static char    *mummer_strictness_string[LanguageCount][nr_mummer_strictness] = {
+{
+  /* French */
+  /* 0*/  "",
+  /* 1*/  "exact",
+  /* 2*/  "ultra"
+  },{
+  /* German */
+    /* 0*/  "",
+    /* 1*/  "exakt",
+    /* 2*/  "Ultra"
+  },{
+  /* English */
+    /* 0*/  "",
+    /* 1*/  "exact",
+    /* 2*/  "ultra"
+  }
+};
+
 static void ReadBeginSpec(void)
 {
   while (true)
@@ -1425,6 +1443,7 @@ static void ReadBeginSpec(void)
         TwinningTab= &(TwinningString[UserLanguage][0]);
         VariantTypeTab= &(VariantTypeString[UserLanguage][0]);
         ExtraCondTab= &(ExtraCondString[UserLanguage][0]);
+        mummer_strictness_tab = &(mummer_strictness_string[UserLanguage][0]);
         PieceTab= PieNamString[UserLanguage];
         PieSpTab= PieSpString[UserLanguage];
         InitMsgTab(UserLanguage);
@@ -4704,12 +4723,12 @@ static char *ParseMummerStrictness(mummer_strictness_type *strictness)
 {
   char *tok = ReadNextTokStr();
 
-  if (ultra==GetUniqIndex(CondCount,CondTab,tok))
+  if (mummer_strictness_ultra==GetUniqIndex(nr_mummer_strictness,mummer_strictness_tab,tok))
   {
     *strictness = mummer_strictness_ultra;
     tok = ReadNextTokStr();
   }
-  else if (exact==GetUniqIndex(CondCount,CondTab,tok))
+  else if (mummer_strictness_exact==GetUniqIndex(nr_mummer_strictness,mummer_strictness_tab,tok))
   {
     *strictness = mummer_strictness_exact;
     tok = ReadNextTokStr();
@@ -4904,10 +4923,6 @@ static char *ParseCond(void) {
 
     switch (indexx)
     {
-      case rexincl:
-        if (CondFlag[exact])
-          IoErrorMsg(NonSenseRexiExact, 0);
-        break;
       case biheffalumps:
         CondFlag[heffalumps]= true;
         CondFlag[biwoozles]= true;
