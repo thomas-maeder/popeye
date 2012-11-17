@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "conditions/mummer.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -588,7 +589,7 @@ void generate_move_reaching_goal(Side side_at_move)
   TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
-  if (flagmummer[side_at_move])
+  if (mummer_measure_length[side_at_move]!=0)
     empile_for_goal.type = no_goal;
 
   switch (goal.type)

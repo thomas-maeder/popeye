@@ -88,7 +88,6 @@ EXTERN boolean flag_regression;
 EXTERN char versionString[100];
 
 EXTERN  boolean         flagpassive, flagcapture, flagactive;
-EXTERN boolean flagmummer[nr_sides];
 
 EXTERN square royal_square[nr_sides];
 
@@ -148,8 +147,6 @@ EXTERN  boolean  is_football_substitute[PieceCount];
 EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
 EXTERN  evalfunction_t *eval_black;
-
-EXTERN  int   (*measure_length[nr_sides])(square departure, square arrival, square capture);
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 
@@ -1219,7 +1216,7 @@ void enforce_piecename_uniqueness(void);
     /*180*/ "PlatzwechselRochade",
 	/*181*/ "WeissesAlphabetischesSchach",
 	/*182*/ "SchwarzesAlphabetischesSchach"
-    
+
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusive",

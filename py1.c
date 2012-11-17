@@ -295,8 +295,6 @@ void InitCond(void)
   royal_square[Black] = initsquare;
 
   CondFlag[circeassassin]= false;
-  flagmummer[White] = false;
-  flagmummer[Black] = false;
   flagparasent= false;
   rex_mad = false;
   rex_circe = false;
@@ -367,8 +365,8 @@ void InitCond(void)
   OscillatingKingsTypeC[White]= false;
   OscillatingKingsTypeC[Black]= false;
 
-  measure_length[Black] = NULL;
-  measure_length[White] = NULL;
+  mummer_measure_length[Black] = NULL;
+  mummer_measure_length[White] = NULL;
 
   BGL_values[White][1] = BGL_infinity;
   BGL_values[Black][1] = BGL_infinity;

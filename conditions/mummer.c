@@ -22,6 +22,8 @@ static int mum_length[maxply+1];
 /* index of last move with mum length */
 static numecoup last_candidate[maxply+1];
 
+int (*mummer_measure_length[nr_sides])(square departure, square arrival, square capture);
+
 mummer_strictness_type mummer_strictness[nr_sides];
 
 mummer_strictness_type mummer_strictness_default_side;
@@ -115,7 +117,7 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_length = (*measure_length[slices[si].starter])(move_generation_stack[current_move[nbply]].departure,
+  current_length = (*mummer_measure_length[slices[si].starter])(move_generation_stack[current_move[nbply]].departure,
                                                          move_generation_stack[current_move[nbply]].arrival,
                                                          move_generation_stack[current_move[nbply]].capture);
   TraceValue("%d",current_length);
@@ -162,7 +164,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (flagmummer[slices[si].starter])
+  if (mummer_measure_length[slices[si].starter])
   {
     if (state->ultra_capturing_king)
     {
@@ -446,7 +448,7 @@ static boolean eval_ultra_mummer_king_check(Side delivering_check,
   nextply();
   mum_length[nbply] = INT_MIN;
   solve(slices[temporary_hack_ultra_mummer_length_measurer[delivering_check]].next2,length_unspecified);
-  check = (*measure_length[delivering_check])(sq_departure,sq_arrival,sq_capture)==mum_length[nbply];
+  check = (*mummer_measure_length[delivering_check])(sq_departure,sq_arrival,sq_capture)==mum_length[nbply];
   finply();
 
   result = check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;

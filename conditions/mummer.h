@@ -21,6 +21,10 @@ typedef enum
   nr_mummer_strictness
 } mummer_strictness_type;
 
+extern int (*mummer_measure_length[nr_sides])(square departure,
+                                              square arrival,
+                                              square capture);
+
 extern mummer_strictness_type mummer_strictness[nr_sides];
 
 extern mummer_strictness_type mummer_strictness_default_side;

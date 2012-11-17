@@ -1018,18 +1018,16 @@ static boolean verify_position(slice_index si)
       CondFlag[blmax] = true;
       CondFlag[whmax] = false;
       mummer_strictness[Black] = mummer_strictness_default_side;
-      measure_length[Black] = len_max;
-      flagmummer[Black] = true;
-      flagmummer[White] = false;
+      mummer_measure_length[White] = 0;
+      mummer_measure_length[Black] = &len_max;
     }
     else
     {
       CondFlag[blmax] = false;
       CondFlag[whmax] = true;
       mummer_strictness[White] = mummer_strictness_default_side;
-      measure_length[White] = len_max;
-      flagmummer[White] = true;
-      flagmummer[Black] = false;
+      mummer_measure_length[White] = &len_max;
+      mummer_measure_length[Black] = 0;
     }
   }
 
@@ -1568,8 +1566,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[noblcapture]
       || TSTFLAG(spec[king_square[White]], Kamikaze)
       || TSTFLAG(spec[king_square[Black]], Kamikaze)
-      || flagmummer[White]
-      || flagmummer[Black]
+      || mummer_measure_length[White]!=0
+      || mummer_measure_length[Black]!=0
       || TSTFLAG(PieSpExFlags, Paralyse)
       || CondFlag[vogt]
       || anyanticirce
@@ -1613,8 +1611,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[koeko]
       || CondFlag[antikoeko]
       || anyparrain
-      || flagmummer[White]
-      || flagmummer[Black]
+      || mummer_measure_length[White]!=0
+      || mummer_measure_length[Black]!=0
       || CondFlag[vogt]
       || (eval_white != eval_ortho
           && eval_white != legalsquare)
@@ -1784,10 +1782,8 @@ static boolean verify_position(slice_index si)
     rechec[Black] = &losingchess_rbnechec;
 
     /* capturing moves are "longer" than non-capturing moves */
-    measure_length[Black] = &len_losingchess;
-    measure_length[White] = &len_losingchess;
-    flagmummer[White] = true;
-    flagmummer[Black] = true;
+    mummer_measure_length[Black] = &len_losingchess;
+    mummer_measure_length[White] = &len_losingchess;
   }
 
   /* check castling possibilities */
@@ -1895,7 +1891,7 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (flagmummer[White] /* counting opponents moves not useful */
+  if (mummer_measure_length[White]!=0 /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
@@ -1917,7 +1913,7 @@ static boolean verify_position(slice_index si)
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(White);
 
-  if (flagmummer[Black] /* counting opponents moves not useful */
+  if (mummer_measure_length[Black]!=0 /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
@@ -1959,7 +1955,7 @@ static boolean verify_position(slice_index si)
     castling_supported = false;
   }
 
-  if (flagmummer[Black]
+  if (mummer_measure_length[Black]!=0
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
       || CondFlag[whsupertrans_king]
@@ -1970,7 +1966,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[ohneschach]
       || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(Black);
-  if (flagmummer[White]
+  if (mummer_measure_length[White]!=0
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
       || CondFlag[whsupertrans_king]
@@ -1982,9 +1978,9 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(White);
 
-  if (flagmummer[Black])
+  if (mummer_measure_length[Black]!=0)
     disable_orthodox_mating_move_optimisation(Black);
-  if (flagmummer[White])
+  if (mummer_measure_length[White]!=0)
     disable_orthodox_mating_move_optimisation(White);
 
   return true;
