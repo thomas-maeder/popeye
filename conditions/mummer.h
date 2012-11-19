@@ -21,13 +21,26 @@ typedef enum
   nr_mummer_strictness
 } mummer_strictness_type;
 
-extern int (*mummer_measure_length[nr_sides])(square departure,
-                                              square arrival,
-                                              square capture);
+typedef int (*mummer_length_measurer_type)(square departure,
+                                           square arrival,
+                                           square capture);
+
+extern mummer_length_measurer_type mummer_measure_length[nr_sides];
 
 extern mummer_strictness_type mummer_strictness[nr_sides];
 
 extern mummer_strictness_type mummer_strictness_default_side;
+
+/* Forget previous mummer activations and definition of length measurers */
+void mummer_reset_length_measurers(void);
+
+/* Activate mummer for a side and define the length measurer to be used.
+ * @param side Side for which to activate mummer
+ * @param measurer length measurer to be used
+ * @return false iff mummer was already activated for side
+ */
+boolean mummer_set_length_measurer(Side side,
+                                   mummer_length_measurer_type measurer);
 
 /* Try to solve in n half-moves.
  * @param si slice index

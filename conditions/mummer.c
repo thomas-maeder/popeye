@@ -22,11 +22,51 @@ static int mum_length[maxply+1];
 /* index of last move with mum length */
 static numecoup last_candidate[maxply+1];
 
-int (*mummer_measure_length[nr_sides])(square departure, square arrival, square capture);
+mummer_length_measurer_type mummer_measure_length[nr_sides];
 
 mummer_strictness_type mummer_strictness[nr_sides];
 
 mummer_strictness_type mummer_strictness_default_side;
+
+/* Forget previous mummer activations and definition of length measurers */
+void mummer_reset_length_measurers(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  mummer_measure_length[White] = 0;
+  mummer_measure_length[Black] = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Activate mummer for a side and define the length measurer to be used.
+ * @param side Side for which to activate mummer
+ * @param measurer length measurer to be used
+ * @return false iff mummer was already activated for side
+ */
+boolean mummer_set_length_measurer(Side side,
+                                   mummer_length_measurer_type measurer)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (mummer_measure_length[side]==0)
+  {
+    mummer_measure_length[side] = measurer;
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Invert the order of the measured moves; this optimises for maximummer, by far
  * the most frequent mummer type

@@ -1005,6 +1005,8 @@ static boolean verify_position(slice_index si)
     }
   }
 
+  mummer_reset_length_measurers();
+
   if (ExtraCondFlag[maxi])
   {
     Side const restricted_side = findRestrictedSide(si);
@@ -1013,23 +1015,166 @@ static boolean verify_position(slice_index si)
       VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
       return false;
     }
-    else if (restricted_side==Black)
-    {
-      CondFlag[blmax] = true;
-      CondFlag[whmax] = false;
-      mummer_strictness[Black] = mummer_strictness_default_side;
-      mummer_measure_length[White] = 0;
-      mummer_measure_length[Black] = &len_max;
-    }
     else
     {
-      CondFlag[blmax] = false;
-      CondFlag[whmax] = true;
-      mummer_strictness[White] = mummer_strictness_default_side;
-      mummer_measure_length[White] = &len_max;
-      mummer_measure_length[Black] = 0;
+      mummer_strictness[restricted_side] = mummer_strictness_default_side;
+      CondFlag[blmax] = restricted_side==Black;
+      CondFlag[whmax] = restricted_side==White;
     }
   }
+
+  if (CondFlag[alphabetic])
+  {
+    CondFlag[blackalphabetic] = true;
+    CondFlag[whitealphabetic] = true;
+  }
+
+  if (CondFlag[blmax] && !mummer_set_length_measurer(Black,&len_max))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whmax] && !mummer_set_length_measurer(White,&len_max))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blmin] && !mummer_set_length_measurer(Black,&len_min))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whmin] && !mummer_set_length_measurer(White,&len_min))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blcapt] && !mummer_set_length_measurer(Black,&len_capt))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whcapt] && !mummer_set_length_measurer(White,&len_capt))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blfollow] && !mummer_set_length_measurer(Black,&len_follow))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whfollow] && !mummer_set_length_measurer(White,&len_follow))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[duellist]
+      && !(mummer_set_length_measurer(Black,&len_blduell)
+           && mummer_set_length_measurer(White,&len_whduell)))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blackalphabetic]
+      && !mummer_set_length_measurer(Black,&len_alphabetic))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whitealphabetic]
+      && !mummer_set_length_measurer(White,&len_alphabetic))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blacksynchron]
+      && !mummer_set_length_measurer(Black,&len_synchron))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whitesynchron]
+      && !mummer_set_length_measurer(White,&len_synchron))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blackantisynchron]
+      && !mummer_set_length_measurer(Black,&len_antisynchron))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whiteantisynchron]
+      && !mummer_set_length_measurer(White,&len_antisynchron))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  /* the mummer logic is (ab)used to priorise transmuting king moves */
+  if (CondFlag[blsupertrans_king]
+      && !mummer_set_length_measurer(Black,&len_supertransmuting_kings))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+  if (CondFlag[whsupertrans_king]
+      && !mummer_set_length_measurer(White,&len_supertransmuting_kings))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blforsqu]
+      && !mummer_set_length_measurer(Black,&len_whforcedsquare))
+  {
+    VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
+    return false;
+  }
+  if (CondFlag[whforsqu]
+      && !mummer_set_length_measurer(White,&len_whforcedsquare))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[blconforsqu])
+  {
+    if (mummer_set_length_measurer(Black,&len_whforcedsquare))
+      mummer_strictness[Black] = mummer_strictness_ultra;
+    else
+    {
+      VerifieMsg(TwoMummerCond);
+      return false;
+    }
+  }
+  if (CondFlag[whconforsqu])
+  {
+    if (mummer_set_length_measurer(White,&len_whforcedsquare))
+      mummer_strictness[White] = mummer_strictness_ultra;
+    else
+    {
+      VerifieMsg(TwoMummerCond);
+      return false;
+    }
+  }
+
+  if (CondFlag[schwarzschacher]
+      && !mummer_set_length_measurer(Black,&len_schwarzschacher))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
 
   if (ExtraCondFlag[ultraschachzwang])
   {
@@ -1457,28 +1602,6 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if ( ( CondFlag[whmin]
-         + CondFlag[whmax]
-         + CondFlag[whcapt]
-         + (CondFlag[whforsqu] || CondFlag[whconforsqu])
-         + CondFlag[whfollow]
-         + CondFlag[duellist]
-         + (CondFlag[alphabetic] || CondFlag[whitealphabetic])
-	 + CondFlag[whitesynchron]
-         + CondFlag[whiteantisynchron]) > 1
-       || (CondFlag[blmin]
-           + CondFlag[blmax]
-           + CondFlag[blcapt]
-           + (CondFlag[blforsqu] || CondFlag[blconforsqu])
-           + CondFlag[blfollow]
-           + CondFlag[duellist]
-           + (CondFlag[alphabetic] || CondFlag[blackalphabetic])
-           + CondFlag[blacksynchron]
-           + CondFlag[blackantisynchron] > 1))
-  {
-    VerifieMsg(TwoMummerCond);
-    return false;
-  }
   if ((CondFlag[whmin]
        || CondFlag[blmin]
        || CondFlag[whmax]

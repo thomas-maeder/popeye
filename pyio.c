@@ -4963,58 +4963,16 @@ static char *ParseCond(void) {
       case holes:
         ReadSquares(ReadHoles);
         break;
-      case blmax:
-        mummer_measure_length[Black] = &len_max;
-        break;
-      case blmin:
-        mummer_measure_length[Black] = &len_min;
-        break;
-      case blcapt:
-        mummer_measure_length[Black] = &len_capt;
-        break;
-      case blfollow:
-        mummer_measure_length[Black] = &len_follow;
-        break;
-      case whmax:
-        mummer_measure_length[White] = &len_max;
-        break;
-      case whmin:
-        mummer_measure_length[White] = &len_min;
-        break;
-      case whcapt:
-        mummer_measure_length[White] = &len_capt;
-        break;
-      case whfollow:
-        mummer_measure_length[White] = &len_follow;
-        break;
-      case duellist:
-        mummer_measure_length[White] = &len_whduell;
-        mummer_measure_length[Black] = &len_blduell;
-        break;
-      case whitealphabetic:
-        mummer_measure_length[White] = &len_alphabetic;
-        break;
-      case blackalphabetic:
-        mummer_measure_length[Black] = &len_alphabetic;
-        break;
-      case alphabetic:
-        mummer_measure_length[White] = &len_alphabetic;
-        mummer_measure_length[Black] = &len_alphabetic;
-        break;
       case blacksynchron:
-        mummer_measure_length[Black] = &len_synchron;
         flag_synchron= true;
         break;
       case whitesynchron:
-        mummer_measure_length[White] = &len_synchron;
         flag_synchron= true;
         break;
       case blackantisynchron:
-        mummer_measure_length[Black] = &len_antisynchron;
         flag_synchron= true;
         break;
       case whiteantisynchron:
-        mummer_measure_length[White] = &len_antisynchron;
         flag_synchron= true;
         break;
       case trans_king:
@@ -5032,14 +4990,10 @@ static char *ParseCond(void) {
         calc_reflective_king[Black]= true;
         break;
       case whsupertrans_king:
-        /* the mummer logic is (ab)used to priorise transmuting king moves */
-        mummer_measure_length[White] = &len_supertransmuting_kings;
         calc_transmuting_king[White]= true;
         calc_reflective_king[White]= true;
         break;
       case blsupertrans_king:
-        /* the mummer logic is (ab)used to priorise transmuting king moves */
-        mummer_measure_length[Black] = &len_supertransmuting_kings;
         calc_transmuting_king[Black]= true;
         calc_reflective_king[Black]= true;
         break;
@@ -5077,24 +5031,15 @@ static char *ParseCond(void) {
         break;
       case whforsqu:
         ReadSquares(WhForcedSq);
-        mummer_measure_length[White] = &len_whforcedsquare;
         break;
       case blforsqu:
         ReadSquares(BlForcedSq);
-        mummer_measure_length[Black] = &len_blforcedsquare;
         break;
       case whconforsqu:
         ReadSquares(WhConsForcedSq);
-        mummer_strictness[White] = mummer_strictness_ultra;
-        mummer_measure_length[White] = &len_whforcedsquare;
         break;
       case blconforsqu:
         ReadSquares(BlConsForcedSq);
-        mummer_strictness[Black] = mummer_strictness_ultra;
-        mummer_measure_length[Black] = &len_blforcedsquare;
-        break;
-      case schwarzschacher:
-        mummer_measure_length[Black] = &len_schwarzschacher;
         break;
 
         /* different types of circe */

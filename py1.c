@@ -365,9 +365,6 @@ void InitCond(void)
   OscillatingKingsTypeC[White]= false;
   OscillatingKingsTypeC[Black]= false;
 
-  mummer_measure_length[Black] = NULL;
-  mummer_measure_length[White] = NULL;
-
   BGL_values[White][1] = BGL_infinity;
   BGL_values[Black][1] = BGL_infinity;
   BGL_global= false;
