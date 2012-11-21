@@ -572,6 +572,41 @@ Apply magic square recoloring to the final arrival square
 solution finished. 
 
 
+
+Until 4.61, we used to output "solutions" that ended in a Messigny
+king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   S   .   K   8
+|                                   |
+7   .   .   .   .   .  -K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-sx2                     2 + 1
+            MessignyChess
+
+  1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x 
+
+              empile:         504
+           play_move:         157
+        orig_rbechec:          74
+        orig_rnechec:          93
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

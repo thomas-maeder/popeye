@@ -138,10 +138,16 @@ option nowk nobk
 
 next
 
+title Until 4.61, we used to output "solutions" that ended in a Messigny
+title king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
+pieces white kh8 sf8 black kf7
+stip ser-sx2
+cond messigny
+
+next
+
 title stipulation token without actual stipulation caused a crash
-Pieces
-White Se5 Rf3 Ke1
-Black Rb8 Kd8 Rf8 Sf6
+Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation
 Option Variation NoBoard
 

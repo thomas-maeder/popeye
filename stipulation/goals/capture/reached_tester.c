@@ -53,10 +53,10 @@ stip_length_type goal_capture_reached_tester_solve(slice_index si, stip_length_t
 
   assert(nbply!=nil_ply);
 
-  if (pprise[nbply]!=vide)
-    result = solve(slices[si].next1,n);
-  else
+  if (pprise[nbply]==vide)
     result = n+2;
+  else
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
