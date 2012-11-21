@@ -83,9 +83,6 @@ void swap_sides(void)
   square const *bnp;
   square const save_white_king_square = king_square[White];
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
   king_square[White] = king_square[Black]==initsquare ? initsquare : king_square[Black];
   king_square[Black] = save_white_king_square==initsquare ? initsquare : save_white_king_square;
 
@@ -97,18 +94,12 @@ void swap_sides(void)
     }
 
   areColorsSwapped = !areColorsSwapped;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Reflect the position at the horizontal central line */
 void reflect_position(void)
 {
   square const *bnp;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
 
   king_square[White] = king_square[White]==initsquare ? initsquare : transformSquare(king_square[White],mirra1a8);
   king_square[Black] = king_square[Black]==initsquare ? initsquare : transformSquare(king_square[Black],mirra1a8);
@@ -128,7 +119,4 @@ void reflect_position(void)
   }
 
   isBoardReflected = !isBoardReflected;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
