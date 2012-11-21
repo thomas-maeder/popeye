@@ -5144,6 +5144,10 @@ static char *ParseCond(void)
       case circeassassin:
         anycirce = true;
         break;
+      case circetakeandmake:
+        anycirce= true;
+        anycirprom= true;
+        break;
 
         /* different types of anticirce */
       case circeturncoats:

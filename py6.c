@@ -149,6 +149,7 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/circe/turncoats.h"
+#include "conditions/circe/takemake.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/anticirce.h"
@@ -2517,6 +2518,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_circe_cage(result);
   else if (CondFlag[circeassassin])
     stip_insert_circe_assassin(result);
+  else if (CondFlag[circetakeandmake])
+    stip_insert_take_make_circe(result);
   else if (anycirce)
   {
     stip_insert_circe(result);

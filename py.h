@@ -781,8 +781,9 @@ typedef enum
   platzwechselrochade,    /* 180 */
   whitealphabetic,	      /* 181 */
   blackalphabetic,	      /* 182 */
-  
-  CondCount               /* 183 */
+  circetakeandmake,       /* 183 */
+
+  CondCount               /* 184 */
 } Cond;
 
 /* Some remarks to the conditions:

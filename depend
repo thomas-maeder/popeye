@@ -50,7 +50,8 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
  conditions/anticirce/super.h conditions/circe/circe.h \
  conditions/circe/chameleon.h conditions/circe/april.h \
- conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
+ conditions/circe/takemake.h conditions/imitator.h \
+ conditions/sentinelles.h conditions/mummer.h \
  conditions/singlebox/type3.h utilities/table.h debugging/trace.h
 
 py.h:
@@ -154,6 +155,8 @@ conditions/circe/circe.h:
 conditions/circe/chameleon.h:
 
 conditions/circe/april.h:
+
+conditions/circe/takemake.h:
 
 conditions/imitator.h:
 
@@ -602,12 +605,13 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/circe/promotion.h conditions/circe/frischauf.h \
  conditions/circe/super.h conditions/circe/april.h \
  conditions/circe/king_rebirth_avoider.h conditions/circe/turncoats.h \
- conditions/anticirce/cheylan.h conditions/anticirce/couscous.h \
- conditions/anticirce/anticirce.h conditions/anticirce/promotion.h \
- conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
- conditions/anticirce/super.h conditions/anticirce/magic_square.h \
- conditions/sentinelles.h conditions/duellists.h conditions/ghost_chess.h \
- conditions/kobul.h conditions/andernach.h conditions/antiandernach.h \
+ conditions/circe/takemake.h conditions/anticirce/cheylan.h \
+ conditions/anticirce/couscous.h conditions/anticirce/anticirce.h \
+ conditions/anticirce/promotion.h conditions/anticirce/strict.h \
+ conditions/anticirce/relaxed.h conditions/anticirce/super.h \
+ conditions/anticirce/magic_square.h conditions/sentinelles.h \
+ conditions/duellists.h conditions/ghost_chess.h conditions/kobul.h \
+ conditions/andernach.h conditions/antiandernach.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
  conditions/einstein/einstein.h conditions/einstein/reverse.h \
  conditions/einstein/anti.h conditions/traitor.h conditions/volage.h \
@@ -811,6 +815,8 @@ conditions/circe/april.h:
 conditions/circe/king_rebirth_avoider.h:
 
 conditions/circe/turncoats.h:
+
+conditions/circe/takemake.h:
 
 conditions/anticirce/cheylan.h:
 

@@ -30,6 +30,7 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/circe/turncoats.h"
+#include "conditions/circe/takemake.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/legality_tester.h"
 #include "conditions/maff/immobility_tester.h"
@@ -605,6 +606,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceDetermineRebirthSquare:
       result = circe_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STTakeMakeCirceDetermineRebirthSquares:
+      result = take_make_circe_determine_rebirth_squares_solve(si,n);
       break;
 
     case STContactGridAvoidCirceRebirth:

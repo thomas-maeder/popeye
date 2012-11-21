@@ -152,6 +152,7 @@ static slice_index const slice_rank_order[] =
   STCirceDetermineRelevantPiece,
   STCirceCouscousDetermineRelevantPiece,
   STCirceDetermineRebirthSquare,
+  STTakeMakeCirceDetermineRebirthSquares,
   STSuperCirceRebirthHandler,
   STContactGridAvoidCirceRebirth,
   STCirceAssassinPlaceReborn,

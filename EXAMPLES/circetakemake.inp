@@ -1,0 +1,102 @@
+begin
+
+prot circetakemake.ref
+
+author Petko A. Petkov
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
+pieces white ke3 qe6 rh6 pd4e4 black kg5 rf6 sd2e2 pa6c4g3g4
+stip hs#3
+condition CirceTake&Make
+option movenum
+twin add black bf6
+
+next
+
+author Vlaicu Crisan & Eric Huber
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
+pieces white ka7 rd8 bc8 sd7 pe5 black ke4 rd1g6 bh3 sc4 pc7
+condition CirceTake&Make
+option movenum
+stip h#2
+
+next
+
+author Ofer Comay & Paz Einat
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
+remark after first move pair
+pieces white kd6 rc5d8 bf5 se2g8 pb4e7g7 black kg5 qe3 rc8h8 be1 pc4c6d4
+stip hs#2
+condition CirceTake&Make
+option movenum
+twin move g8 c2 move f5 d7 move g5 g4 move c5 f5
+
+next
+
+author Kostas Prentos
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
+pieces white kf1 rb6 bd6g8 sd5 black ke4 rb1h8 be1 sg1h7 pa4b4b7c7f3
+stip hs#3
+condition CirceTake&Make
+option movenum
+twin remove g1
+
+next
+
+author Ricardo Mattos de Vieira
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 5th prize
+pieces white ke6 bh4h5 pe2f4 black ka7 qg5 bd1 sb8c1 pb5f5f6
+stip h#2
+condition CirceTake&Make
+option movenum
+twin move a7 c6
+
+next
+
+author Mark Erenburg
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 6th prize
+pieces white kg4 pe2 black  kf6 re6e8 sd4f4
+stip h#3
+condition CirceTake&Make
+option movenum
+twin move e8 e7
+
+next
+
+author Michel Caillaud
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
+pieces white kc3 qc7 rb4 bd4 sc1 pb7 black ka6 qc8 rb1d1 be8 sa8c4 pa5c2e5
+stip hs#2
+condition CirceTake&Make
+option movenum
+
+next
+
+author Jurai L"orinc
+origin WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, Special prize
+pieces white kg1 re3 pd2 black kd5 sc3e4
+stip h#2.5
+condition CirceTake&Make
+option movenum
+
+next
+
+author Mario Parrinello
+origin WCCC Kobe 2012, Tzuica Tourney, 3rd HM
+pieces white kc3 re7 pc2 nad8e8f8 pah8 black kb8 qf4 pa3f6g5g7
+stip hs#2
+condition CirceTake&Make
+
+next
+
+author Diyan Kostadinov
+origin Julia's Fairies 2012
+remark no solution; the author's solution relies on a very dubious
+remark interpretation of the fairy conditions involved
+remark intended solutions:
+remark 1.cBe4=cR Kg6 2.cRe6=cQ+ S:e6(cQg8=cS, Sf7) #
+remark 1.cBc6=cR+ S:c6(cRc5=cQ, Sc8) 2.cQe7=cS S:e7(cSg8=cB, Sg6) #
+pieces white kh6 sd8 black kh8 black cham bb7
+stip h#2
+condition CirceTake&Make Take&Make
+
+end

@@ -77,6 +77,7 @@
 #include "conditions/circe/circe.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/april.h"
+#include "conditions/circe/takemake.h"
 #include "conditions/imitator.h"
 #include "conditions/sentinelles.h"
 #include "conditions/mummer.h"
@@ -164,6 +165,8 @@ static void initply(ply parent, ply child)
 
   platzwechsel_rochade_allowed[White][child] = platzwechsel_rochade_allowed[White][parent];
   platzwechsel_rochade_allowed[Black][child] = platzwechsel_rochade_allowed[Black][parent];
+
+  take_make_circe_current_rebirth_square_index[child] = take_make_circe_current_rebirth_square_index[parent];
 
   ++post_move_iteration_id[child];
   TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
