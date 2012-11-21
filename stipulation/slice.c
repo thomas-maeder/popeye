@@ -85,6 +85,7 @@ static slice_type const fork_slice_types[] =
     STBrunnerDefenderFinder,
     STKingCaptureLegalityTester,
     STCageCirceNonCapturingMoveFinder,
+    STTakeMakeCirceCollectRebirthSquaresFork,
     STMummerOrchestrator,
     STUltraMummerMeasurerFork,
     STTrivialEndFilter,
@@ -266,7 +267,8 @@ static slice_type const conditional_pipe_slice_types[] =
     STBrunnerDefenderFinder,
     STKingCaptureLegalityTester,
     STUltraMummerMeasurerFork,
-    STCageCirceNonCapturingMoveFinder
+    STCageCirceNonCapturingMoveFinder,
+    STTakeMakeCirceCollectRebirthSquaresFork
 };
 
 static slice_type const end_of_branch_slice_types[] =

@@ -242,6 +242,8 @@
     ENUMERATOR(STCirceCouscousDetermineRelevantPiece),                  \
     ENUMERATOR(STCirceDetermineRebirthSquare),                          \
     ENUMERATOR(STTakeMakeCirceDetermineRebirthSquares),                 \
+    ENUMERATOR(STTakeMakeCirceCollectRebirthSquaresFork),               \
+    ENUMERATOR(STTakeMakeCirceCollectRebirthSquares),                   \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
     ENUMERATOR(STCircePlaceReborn),                                     \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \

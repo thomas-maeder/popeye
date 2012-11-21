@@ -612,6 +612,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = take_make_circe_determine_rebirth_squares_solve(si,n);
       break;
 
+    case STTakeMakeCirceCollectRebirthSquares:
+      result = take_make_circe_collect_rebirth_squares_solve(si,n);
+      break;
+
     case STContactGridAvoidCirceRebirth:
       result = contact_grid_avoid_circe_rebirth(si,n);
       break;

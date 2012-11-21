@@ -5,6 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move_player.h"
+#include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 
@@ -17,29 +18,56 @@ numecoup take_make_circe_current_rebirth_square_index[maxply+1];
 static boolean init_rebirth_squares(Side side_reborn)
 {
   boolean result = false;
-  numecoup const coup_id = current_move[nbply];
-  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
-  square const sq_capture = move_gen_top->capture;
-  numecoup i;
+  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+  piece const pi_capturing = e[sq_capture];
+  Flags const flags_capturing = spec[sq_capture];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  take_make_circe_current_rebirth_square_index[nbply] = take_make_circe_current_rebirth_square_index[nbply-1];
+  e[sq_capture] = pprise[nbply];
+  spec[sq_capture] = pprispec[nbply];
 
-  nextply();
-  if (side_reborn==White)
-    gen_wh_piece(sq_capture,pprise[nbply-1]);
-  else
-    gen_bl_piece(sq_capture,pprise[nbply-1]);
-  finply();
+  init_single_piece_move_generator(sq_capture);
 
-  for (i = current_move[nbply+1]; i>current_move[nbply]; --i)
+  result = solve(slices[temporary_hack_circe_take_make_rebirth_squares_finder[side_reborn]].next2,length_unspecified)==has_solution;
+
+  e[sq_capture] = pi_capturing;
+  spec[sq_capture] = flags_capturing;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
+                                                               stip_length_type n)
+{
+  stip_length_type result = slack_length-2;
+  numecoup i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  take_make_circe_current_rebirth_square_index[nbply-1] = take_make_circe_current_rebirth_square_index[nbply-2];
+
+  for (i = current_move[nbply]; i>current_move[nbply-1]; --i)
     if (e[move_generation_stack[i].capture]==vide)
     {
-      ++take_make_circe_current_rebirth_square_index[nbply];
-      rebirth_square[take_make_circe_current_rebirth_square_index[nbply]] = move_generation_stack[i].arrival;
-      result = true;
+      ++take_make_circe_current_rebirth_square_index[nbply-1];
+      rebirth_square[take_make_circe_current_rebirth_square_index[nbply-1]] = move_generation_stack[i].arrival;
+      result = n;
     }
 
   TraceFunctionExit(__func__);

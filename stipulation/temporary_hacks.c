@@ -28,6 +28,7 @@ slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 slice_index temporary_hack_ultra_mummer_length_measurer[nr_sides];
 slice_index temporary_hack_king_capture_legality_tester[nr_sides];
 slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
+slice_index temporary_hack_circe_take_make_rebirth_squares_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_sat_flights_counter[nr_sides];
@@ -145,6 +146,21 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
   return result;
 }
 
+static slice_index make_circe_take_make_rebirth_squares_finder(Side side)
+{
+  slice_index result;
+  slice_index const proxy_branch = alloc_proxy_slice();
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
+  slice_index const prototype = alloc_pipe(STTakeMakeCirceCollectRebirthSquares);
+  link_to_branch(proxy_branch,help);
+  help_branch_insert_slices(help,&prototype,1);
+  result = alloc_conditional_pipe(STTakeMakeCirceCollectRebirthSquaresFork,proxy_branch);
+  stip_impose_starter(result,side);
+
+  return result;
+}
+
 static slice_index make_castling_intermediate_move_legality_tester(Side side)
 {
   slice_index result;
@@ -231,6 +247,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_cagecirce_noncapture_finder[Black] = make_cagecirce_noncapture_finder(Black);
     temporary_hack_cagecirce_noncapture_finder[White] = make_cagecirce_noncapture_finder(White);
 
+    temporary_hack_circe_take_make_rebirth_squares_finder[Black] = make_circe_take_make_rebirth_squares_finder(Black);
+    temporary_hack_circe_take_make_rebirth_squares_finder[White] = make_circe_take_make_rebirth_squares_finder(White);
+
     temporary_hack_castling_intermediate_move_legality_tester[Black] = make_castling_intermediate_move_legality_tester(Black);
     temporary_hack_castling_intermediate_move_legality_tester[White] = make_castling_intermediate_move_legality_tester(White);
 
@@ -256,6 +275,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_king_capture_legality_tester[White],
                 temporary_hack_cagecirce_noncapture_finder[White]);
     pipe_append(temporary_hack_cagecirce_noncapture_finder[White],
+                temporary_hack_circe_take_make_rebirth_squares_finder[White]);
+    pipe_append(temporary_hack_circe_take_make_rebirth_squares_finder[White],
                 temporary_hack_castling_intermediate_move_legality_tester[White]);
     pipe_append(temporary_hack_castling_intermediate_move_legality_tester[White],
                 temporary_hack_opponent_moves_counter[White]);
@@ -278,6 +299,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_king_capture_legality_tester[Black],
                 temporary_hack_cagecirce_noncapture_finder[Black]);
     pipe_append(temporary_hack_cagecirce_noncapture_finder[Black],
+                temporary_hack_circe_take_make_rebirth_squares_finder[Black]);
+    pipe_append(temporary_hack_circe_take_make_rebirth_squares_finder[Black],
                 temporary_hack_castling_intermediate_move_legality_tester[Black]);
     pipe_append(temporary_hack_castling_intermediate_move_legality_tester[Black],
                 temporary_hack_opponent_moves_counter[Black]);

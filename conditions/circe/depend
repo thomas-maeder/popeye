@@ -1425,7 +1425,8 @@ conditions/circe/takemake$(OBJ_SUFFIX): conditions/circe/takemake.c \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- solving/post_move_iteration.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/post_move_iteration.h \
+ debugging/trace.h
 
 conditions/circe/takemake.h:
 
@@ -1480,6 +1481,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move_player.h:
+
+stipulation/temporary_hacks.h:
 
 solving/post_move_iteration.h:
 

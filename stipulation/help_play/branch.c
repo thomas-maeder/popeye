@@ -59,6 +59,7 @@ static slice_index const slice_rank_order[] =
   STCastlingIntermediateMoveGenerator,
   STSingleMoveGenerator,
   STSATFlightMoveGenerator,
+  STTakeMakeCirceCollectRebirthSquares,
   STOhneschachSuspender,
   STExclusiveChessUnsuspender,
   STMummerOrchestrator,

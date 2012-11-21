@@ -160,6 +160,7 @@ static structure_traversers_visitor const solver_inserters[] =
   { STBrunnerDefenderFinder,                  &insert_single_move_generator_with_king_capture },
   { STKingCaptureLegalityTester,              &insert_single_move_generator_with_king_capture },
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator             },
+  { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator             },
   { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator    },
   { STOpponentMovesCounterFork,               &substitute_single_move_generator               }
 };

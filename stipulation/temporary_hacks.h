@@ -26,6 +26,9 @@ extern slice_index temporary_hack_king_capture_legality_tester[nr_sides];
 /* fork slice into branch finding non-capturing moves in Cage Circe */
 extern slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 
+/* fork slice into branch finding CirceTake&Make rebirth squares */
+extern slice_index temporary_hack_circe_take_make_rebirth_squares_finder[nr_sides];
+
 /* fork slice into branch that tests the legality of intermediate castling moves */
 extern slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 
