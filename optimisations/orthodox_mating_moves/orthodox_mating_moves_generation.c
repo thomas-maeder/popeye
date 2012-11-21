@@ -589,7 +589,7 @@ void generate_move_reaching_goal(Side side_at_move)
   TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
-  if (mummer_measure_length[side_at_move]!=0)
+  if (mummer_strictness[side_at_move]!=mummer_strictness_none)
     empile_for_goal.type = no_goal;
 
   switch (goal.type)

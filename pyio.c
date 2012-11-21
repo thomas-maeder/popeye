@@ -841,7 +841,7 @@ static void WriteConditions(int alignment)
     case blmax:
     case blmin:
     case blcapt:
-      if (mummer_strictness[Black]!=mummer_strictness_regular)
+      if (mummer_strictness[Black]>mummer_strictness_regular)
       {
         strcat(CondLine, "  ");
         if (mummer_strictness[Black]==mummer_strictness_ultra)
@@ -853,7 +853,7 @@ static void WriteConditions(int alignment)
     case whmax:
     case whmin:
     case whcapt:
-      if (mummer_strictness[White]!=mummer_strictness_regular)
+      if (mummer_strictness[White]>mummer_strictness_regular)
       {
         strcat(CondLine, "  ");
         if (mummer_strictness[White]==mummer_strictness_ultra)
@@ -1411,19 +1411,22 @@ void WriteBGLNumber(char* buf, long int num)
 static char    *mummer_strictness_string[LanguageCount][nr_mummer_strictness] = {
 {
   /* French */
-  /* 0*/  "",
-  /* 1*/  "exact",
-  /* 2*/  "ultra"
+    "",
+    "",
+    "exact",
+    "ultra"
   },{
   /* German */
-    /* 0*/  "",
-    /* 1*/  "exakt",
-    /* 2*/  "Ultra"
+      "",
+      "",
+      "exakt",
+      "Ultra"
   },{
   /* English */
-    /* 0*/  "",
-    /* 1*/  "exact",
-    /* 2*/  "ultra"
+      "",
+      "",
+      "exact",
+      "ultra"
   }
 };
 
@@ -4866,14 +4869,20 @@ static char *ReadChameleonCirceSequence(void)
   return 0; /* avoid compiler warning */
 }
 
-static char *ParseCond(void) {
+static char *ParseCond(void)
+{
   char    *tok, *ptr;
   unsigned int CondCnt = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   tok = ReadNextTokStr();
   while (true)
   {
     Cond const indexx = GetUniqIndex(CondCount,CondTab,tok);
+    TraceValue("%s",tok);
+    TraceValue("%u\n",indexx);
     if (indexx==CondCount)
     {
       ExtraCond const extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
@@ -5327,20 +5336,57 @@ static char *ParseCond(void) {
       case blmax:
         tok  = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
-      case blmin:
-        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
-        break;
-      case blcapt:
-        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
-        break;
       case whmax:
         tok  = ParseMummerStrictness(&mummer_strictness[White]);
+        break;
+      case blmin:
+        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
       case whmin:
         tok  = ParseMummerStrictness(&mummer_strictness[White]);
         break;
+      case blcapt:
+        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
+        break;
       case whcapt:
         tok  = ParseMummerStrictness(&mummer_strictness[White]);
+        break;
+
+      case blconforsqu:
+        mummer_strictness[Black] = mummer_strictness_ultra;
+        tok = ReadNextTokStr();
+        break;
+      case whconforsqu:
+        mummer_strictness[White] = mummer_strictness_ultra;
+        tok = ReadNextTokStr();
+        break;
+
+      case blfollow:
+      case blackalphabetic:
+      case blacksynchron:
+      case blackantisynchron:
+      case blsupertrans_king:
+      case blforsqu:
+      case schwarzschacher:
+        mummer_strictness[Black] = mummer_strictness_regular;
+        tok = ReadNextTokStr();
+        break;
+
+      case whfollow:
+      case whitealphabetic:
+      case whitesynchron:
+      case whiteantisynchron:
+      case whsupertrans_king:
+      case whforsqu:
+        mummer_strictness[White] = mummer_strictness_regular;
+        tok = ReadNextTokStr();
+        break;
+
+      case duellist:
+      case losingchess:
+        mummer_strictness[Black] = mummer_strictness_regular;
+        mummer_strictness[White] = mummer_strictness_regular;
+        tok = ReadNextTokStr();
         break;
 
         /*****  anticirce type    *****/
@@ -5506,6 +5552,9 @@ static char *ParseCond(void) {
   if (CondCnt==0)
     IoErrorMsg(UnrecCondition,0);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 } /* ParseCond */
 

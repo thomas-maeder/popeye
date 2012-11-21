@@ -22,7 +22,7 @@ static int mum_length[maxply+1];
 /* index of last move with mum length */
 static numecoup last_candidate[maxply+1];
 
-mummer_length_measurer_type mummer_measure_length[nr_sides];
+static mummer_length_measurer_type mummer_measure_length[nr_sides];
 
 mummer_strictness_type mummer_strictness[nr_sides];
 

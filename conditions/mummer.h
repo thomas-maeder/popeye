@@ -14,6 +14,7 @@ boolean eval_ultra_mummer_white_king_check(square departure,
 
 typedef enum
 {
+  mummer_strictness_none,
   mummer_strictness_regular,
   mummer_strictness_exact,
   mummer_strictness_ultra,
@@ -21,15 +22,13 @@ typedef enum
   nr_mummer_strictness
 } mummer_strictness_type;
 
-typedef int (*mummer_length_measurer_type)(square departure,
-                                           square arrival,
-                                           square capture);
-
-extern mummer_length_measurer_type mummer_measure_length[nr_sides];
-
 extern mummer_strictness_type mummer_strictness[nr_sides];
 
 extern mummer_strictness_type mummer_strictness_default_side;
+
+typedef int (*mummer_length_measurer_type)(square departure,
+                                           square arrival,
+                                           square capture);
 
 /* Forget previous mummer activations and definition of length measurers */
 void mummer_reset_length_measurers(void);

@@ -976,7 +976,7 @@ void genmove(Side camp)
   if (camp == White)
   {
     /* let's first generate consequent moves */
-    if (mummer_strictness[White]!=mummer_strictness_regular)
+    if (mummer_strictness[White]>mummer_strictness_regular)
     {
       we_generate_exact = true;
       there_are_consmoves = false;
@@ -1001,7 +1001,7 @@ void genmove(Side camp)
   else
   {
     /* let's first generate consequent moves */
-    if (mummer_strictness[Black]!=mummer_strictness_regular)
+    if (mummer_strictness[Black]>mummer_strictness_regular)
     {
       we_generate_exact = true;
       there_are_consmoves = false;

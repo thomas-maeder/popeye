@@ -267,8 +267,8 @@ void InitCond(void)
   square const *bnp;
   square i, j;
 
-  mummer_strictness[White] = mummer_strictness_regular;
-  mummer_strictness[Black] = mummer_strictness_regular;
+  mummer_strictness[White] = mummer_strictness_none;
+  mummer_strictness[Black] = mummer_strictness_none;
 
   anyclone = false;
   anycirprom = false;

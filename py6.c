@@ -1147,25 +1147,17 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (CondFlag[blconforsqu])
+  if (CondFlag[blconforsqu]
+      && !mummer_set_length_measurer(Black,&len_whforcedsquare))
   {
-    if (mummer_set_length_measurer(Black,&len_whforcedsquare))
-      mummer_strictness[Black] = mummer_strictness_ultra;
-    else
-    {
-      VerifieMsg(TwoMummerCond);
-      return false;
-    }
+    VerifieMsg(TwoMummerCond);
+    return false;
   }
-  if (CondFlag[whconforsqu])
+  if (CondFlag[whconforsqu]
+      && !mummer_set_length_measurer(White,&len_whforcedsquare))
   {
-    if (mummer_set_length_measurer(White,&len_whforcedsquare))
-      mummer_strictness[White] = mummer_strictness_ultra;
-    else
-    {
-      VerifieMsg(TwoMummerCond);
-      return false;
-    }
+    VerifieMsg(TwoMummerCond);
+    return false;
   }
 
   if (CondFlag[schwarzschacher]
@@ -1689,8 +1681,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[noblcapture]
       || TSTFLAG(spec[king_square[White]], Kamikaze)
       || TSTFLAG(spec[king_square[Black]], Kamikaze)
-      || mummer_measure_length[White]!=0
-      || mummer_measure_length[Black]!=0
+      || mummer_strictness[White]!=mummer_strictness_none
+      || mummer_strictness[Black]!=mummer_strictness_none
       || TSTFLAG(PieSpExFlags, Paralyse)
       || CondFlag[vogt]
       || anyanticirce
@@ -1734,8 +1726,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[koeko]
       || CondFlag[antikoeko]
       || anyparrain
-      || mummer_measure_length[White]!=0
-      || mummer_measure_length[Black]!=0
+      || mummer_strictness[White]!=mummer_strictness_none
+      || mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[vogt]
       || (eval_white != eval_ortho
           && eval_white != legalsquare)
@@ -1900,13 +1892,17 @@ static boolean verify_position(slice_index si)
       return false;
     }
 
+    /* capturing moves are "longer" than non-capturing moves */
+    if (!(mummer_set_length_measurer(Black,&len_losingchess)
+          && mummer_set_length_measurer(White,&len_losingchess)))
+    {
+      VerifieMsg(TwoMummerCond);
+      return false;
+    }
+
     /* no king is ever in check */
     rechec[White] = &losingchess_rbnechec;
     rechec[Black] = &losingchess_rbnechec;
-
-    /* capturing moves are "longer" than non-capturing moves */
-    mummer_measure_length[Black] = &len_losingchess;
-    mummer_measure_length[White] = &len_losingchess;
   }
 
   /* check castling possibilities */
@@ -2014,7 +2010,7 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (mummer_measure_length[White]!=0 /* counting opponents moves not useful */
+  if (mummer_strictness[White]!=mummer_strictness_none /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
@@ -2036,7 +2032,7 @@ static boolean verify_position(slice_index si)
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(White);
 
-  if (mummer_measure_length[Black]!=0 /* counting opponents moves not useful */
+  if (mummer_strictness[Black]!=mummer_strictness_none /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
@@ -2078,7 +2074,7 @@ static boolean verify_position(slice_index si)
     castling_supported = false;
   }
 
-  if (mummer_measure_length[Black]!=0
+  if (mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
       || CondFlag[whsupertrans_king]
@@ -2089,7 +2085,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[ohneschach]
       || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(Black);
-  if (mummer_measure_length[White]!=0
+  if (mummer_strictness[White]!=mummer_strictness_none
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
       || CondFlag[whsupertrans_king]
@@ -2101,9 +2097,9 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(White);
 
-  if (mummer_measure_length[Black]!=0)
+  if (mummer_strictness[Black]!=mummer_strictness_none)
     disable_orthodox_mating_move_optimisation(Black);
-  if (mummer_measure_length[White]!=0)
+  if (mummer_strictness[White]!=mummer_strictness_none)
     disable_orthodox_mating_move_optimisation(White);
 
   return true;
