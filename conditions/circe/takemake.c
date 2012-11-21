@@ -20,19 +20,12 @@ static boolean init_rebirth_squares(Side side_reborn)
   numecoup const coup_id = current_move[nbply];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
   square const sq_capture = move_gen_top->capture;
+  numecoup i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  piece const save_p = e[sq_capture];
-  Flags const save_f = spec[sq_capture];
-
-  e[sq_capture] = pprise[nbply];
-  spec[sq_capture] = pprispec[nbply];
-
   take_make_circe_current_rebirth_square_index[nbply] = take_make_circe_current_rebirth_square_index[nbply-1];
-  TraceValue("%u",take_make_circe_current_rebirth_square_index[nbply]);
-  TraceValue("%u\n",take_make_circe_current_rebirth_square_index[nbply-1]);
 
   nextply();
   if (side_reborn==White)
@@ -41,27 +34,13 @@ static boolean init_rebirth_squares(Side side_reborn)
     gen_bl_piece(sq_capture,pprise[nbply-1]);
   finply();
 
-  numecoup i;
   for (i = current_move[nbply+1]; i>current_move[nbply]; --i)
-  {
-    TraceSquare(move_generation_stack[i].departure);
-    TraceSquare(move_generation_stack[i].arrival);
-    TraceSquare(move_generation_stack[i].capture);
-    TracePiece(e[move_generation_stack[i].capture]);
     if (e[move_generation_stack[i].capture]==vide)
     {
-      TraceText("accepting non-capture");
       ++take_make_circe_current_rebirth_square_index[nbply];
-      TraceValue("%u\n",take_make_circe_current_rebirth_square_index[nbply]);
       rebirth_square[take_make_circe_current_rebirth_square_index[nbply]] = move_generation_stack[i].arrival;
       result = true;
     }
-    else
-      TraceText("discarding capture\n");
-  }
-
-  spec[sq_capture] = save_f;
-  e[sq_capture] = save_p;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -93,8 +72,6 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   else
   {
     current_circe_rebirth_square[nbply] = rebirth_square[take_make_circe_current_rebirth_square_index[nbply]];
-    TraceSquare(current_circe_rebirth_square[nbply]);
-    TraceValue("%u\n",take_make_circe_current_rebirth_square_index[nbply]);
 
     result = solve(slices[si].next1,n);
 
@@ -102,8 +79,6 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
     {
       --take_make_circe_current_rebirth_square_index[nbply];
 
-      TraceValue("%u",take_make_circe_current_rebirth_square_index[nbply]);
-      TraceValue("%u\n",take_make_circe_current_rebirth_square_index[nbply-1]);
       if (take_make_circe_current_rebirth_square_index[nbply]>take_make_circe_current_rebirth_square_index[nbply-1])
         lock_post_move_iterations();
     }
