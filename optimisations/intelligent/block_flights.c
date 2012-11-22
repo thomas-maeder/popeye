@@ -24,15 +24,15 @@ static void finalise_blocking(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(!echecc(White));
+  /*assert(!echecc(White));*/
   if (goal_to_be_reached==goal_stale)
   {
-    assert(!echecc(Black));
+    /*assert(!echecc(Black));*/
     intelligent_stalemate_test_target_position();
   }
   else
   {
-    assert(echecc(Black));
+    /*assert(echecc(Black));*/
     intelligent_mate_test_target_position();
   }
 

@@ -18,8 +18,8 @@ void intelligent_stalemate_test_target_position(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(!echecc(Black));
-  assert(!echecc(White));
+  /*assert(!echecc(Black));*/
+  /*assert(!echecc(White));*/
   if (!max_nr_solutions_found_in_phase())
   {
     if (!intelligent_stalemate_immobilise_black())

@@ -171,7 +171,7 @@ void intelligent_mate_test_target_position(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(!echecc(White));
+  /*assert(!echecc(White));*/
 
   {
     square const flight = find_king_flight();
