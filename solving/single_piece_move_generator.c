@@ -70,6 +70,7 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
     if (TSTFLAG(spec[square_departure],Neutral))
       p = -p;
 
+    move_generation_mode = move_generation_not_optimized;
     if (side_at_move==White)
       gen_wh_piece(square_departure,p);
     else

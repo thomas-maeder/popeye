@@ -85,10 +85,10 @@ a)
  56  (Ke3*d2[+bSf1] )
  57  (Ke3*d2[+bSb1] )
 
-              empile:    97153509
-           play_move:    47675673
-        orig_rbechec:    46805510
-        orig_rnechec:    35725257
+              empile:    97664897
+           play_move:    47967631
+        orig_rbechec:    47095237
+        orig_rnechec:    35915221
 b) bBf6 
 
  58  (Rh6-h1 )
@@ -139,10 +139,10 @@ b) bBf6
 102  (Ke3*d2[+bSf1] )
 103  (Ke3*d2[+bSb1] )
 
-              empile:    38214721
-           play_move:    19856956
-        orig_rbechec:    19483725
-        orig_rnechec:    14291627
+              empile:    38558012
+           play_move:    20051911
+        orig_rbechec:    19677476
+        orig_rnechec:    14431675
 solution finished. 
 
 
@@ -346,10 +346,10 @@ a)
  73  (Se2*d4[+bPd3] )
  74  (Se2-c3 )
 
-              empile:     2376512
-           play_move:      837046
-        orig_rbechec:      832565
-        orig_rnechec:      351306
+              empile:     2376936
+           play_move:      837193
+        orig_rbechec:      832712
+        orig_rnechec:      351364
 b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 
  75  (Rd8*c8[+bRd8] )
@@ -477,13 +477,14 @@ b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 196  (Sc2*e3[+bQf2] + )
 197  (Sc2*e3[+bQg1] + )
 198  (Sc2*e3[+bQd2] + )
-199  (Sc2*d4[+bPd3] )
-200  (Sc2-a3 )
+199  (Sc2*e3[+bQc1] + )
+200  (Sc2*d4[+bPd3] )
+201  (Sc2-a3 )
 
-              empile:     5253471
-           play_move:     1772787
-        orig_rbechec:     1763933
-        orig_rnechec:      883891
+              empile:     5252568
+           play_move:     1771893
+        orig_rbechec:     1762968
+        orig_rnechec:      884486
 solution finished. 
 
 
@@ -556,10 +557,10 @@ a)
  38  (Kf1-e2 )
  39  (Kf1-g2 )
 
-              empile:    91317774
-           play_move:    35084473
-        orig_rbechec:    34332623
-        orig_rnechec:    18890469
+              empile:    91343888
+           play_move:    35097770
+        orig_rbechec:    34345864
+        orig_rnechec:    18896917
 b)  -bSg1
 
  40  (Bg8-e6 )
@@ -602,10 +603,10 @@ b)  -bSg1
  76  (Kf1-e2 )
  77  (Kf1-g2 )
 
-              empile:    85863710
-           play_move:    32583853
-        orig_rbechec:    31872663
-        orig_rnechec:    17680562
+              empile:    85889762
+           play_move:    32595984
+        orig_rbechec:    31884740
+        orig_rnechec:    17686611
 solution finished. 
 
 
@@ -960,35 +961,37 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
  79  (Rb4*b1[+bRb4] )
  80  (Rb4*b1[+bRb5] )
  81  (Rb4*b1[+bRb6] )
- 82  (Rb4-b2 )
- 83  (Rb4-b3 )
- 84  (Rb4-a4 )
- 85  (Rb4-b6 + )
- 86  (Rb4-b5 )
- 87  (Rb4*c4[+bSd6] )
- 88  (Rb4*c4[+bSe3] )
- 89  (Rb4*c4[+bSd2] )
- 90  (Rb4*c4[+bSb2] )
- 91  (Rb4*c4[+bSa3] )
- 92  (Kc3-d3 )
- 93  (Kc3*c4[+bSb6] )
- 94  (Kc3*c4[+bSd6] )
- 95  (Kc3*c4[+bSe3] )
- 96  (Kc3*c4[+bSd2] )
- 97  (Kc3*c4[+bSb2] )
- 98  (Kc3*c4[+bSa3] )
- 99  (Kc3-b3 )
-100  (Kc3-d2 )
-101  (Kc3-b2 )
-102  (Sc1-e2 )
-103  (Sc1-d3 )
-104  (Sc1-b3 )
-105  (Sc1-a2 )
+ 82  (Rb4*b1[+bRa1] )
+ 83  (Rb4-b2 )
+ 84  (Rb4-b3 )
+ 85  (Rb4-a4 )
+ 86  (Rb4-b6 + )
+ 87  (Rb4-b5 )
+ 88  (Rb4*c4[+bSb6] )
+ 89  (Rb4*c4[+bSd6] )
+ 90  (Rb4*c4[+bSe3] )
+ 91  (Rb4*c4[+bSd2] )
+ 92  (Rb4*c4[+bSb2] )
+ 93  (Rb4*c4[+bSa3] )
+ 94  (Kc3-d3 )
+ 95  (Kc3*c4[+bSb6] )
+ 96  (Kc3*c4[+bSd6] )
+ 97  (Kc3*c4[+bSe3] )
+ 98  (Kc3*c4[+bSd2] )
+ 99  (Kc3*c4[+bSb2] )
+100  (Kc3*c4[+bSa3] )
+101  (Kc3-b3 )
+102  (Kc3-d2 )
+103  (Kc3-b2 )
+104  (Sc1-e2 )
+105  (Sc1-d3 )
+106  (Sc1-b3 )
+107  (Sc1-a2 )
 
-              empile:     5386952
-           play_move:     2484774
-        orig_rbechec:     2475889
-        orig_rnechec:     1726844
+              empile:     5588484
+           play_move:     2573880
+        orig_rbechec:     2564798
+        orig_rnechec:     1785209
 solution finished. 
 
 
@@ -1090,10 +1093,10 @@ WCCC Kobe 2012, Tzuica Tourney, 3rd HM
   1.NAe8-b2 a3*b2[+wNAd3]   2.NAd8-b4 + Qf4*b4[+wNAd8] # 
   1.NAd8-h6 g7*h6[+wNAb3]   2.NAf8-d4 + Qf4*d4[+wNAf8] # 
 
-              empile:      408760
-           play_move:      166958
-        orig_rbechec:      165627
-        orig_rnechec:       96722
+              empile:      411142
+           play_move:      167218
+        orig_rbechec:      165887
+        orig_rnechec:       96827
 solution finished. 
 
 
