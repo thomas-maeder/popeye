@@ -26,8 +26,8 @@
 
               empile:       34585
            play_move:       35576
-        orig_rbechec:        1673
-        orig_rnechec:       86613
+        orig_rbechec:        1367
+        orig_rnechec:       86460
 solution finished. 
 
 
@@ -59,8 +59,8 @@ solution finished.
 
               empile:         103
            play_move:         103
-        orig_rbechec:           6
-        orig_rnechec:        2667
+        orig_rbechec:           4
+        orig_rnechec:        2666
 solution finished. 
 
 
@@ -92,8 +92,8 @@ double check by en passant capture from above
 
               empile:         278
            play_move:         269
-        orig_rbechec:          21
-        orig_rnechec:        6023
+        orig_rbechec:          13
+        orig_rnechec:        6019
 solution finished. 
 
 
@@ -125,8 +125,8 @@ double check by en passant capture from below
 
               empile:         720
            play_move:         670
-        orig_rbechec:          76
-        orig_rnechec:        8607
+        orig_rbechec:          40
+        orig_rnechec:        8589
 solution finished. 
 
 
@@ -159,7 +159,7 @@ interception of a defending pawn by a piece that doesn't guard
               empile:         110
            play_move:          93
         orig_rbechec:           0
-        orig_rnechec:         277
+        orig_rnechec:         272
 solution finished. 
 
 
@@ -191,8 +191,8 @@ guard with check -> selfpin with check -> selfpin with guard by s
 
               empile:         125
            play_move:         122
-        orig_rbechec:          31
-        orig_rnechec:         523
+        orig_rbechec:          13
+        orig_rnechec:         514
 solution finished. 
 
 
@@ -224,8 +224,8 @@ guard with check -> selfpin with check -> selfpin with guard by b
 
               empile:          25
            play_move:          25
-        orig_rbechec:           5
-        orig_rnechec:         326
+        orig_rbechec:           3
+        orig_rnechec:         325
 solution finished. 
 
 
@@ -259,7 +259,7 @@ in mate stipulations, it makes sense to pin a queen or rook by a
               empile:          24
            play_move:          23
         orig_rbechec:           0
-        orig_rnechec:          88
+        orig_rnechec:          86
 solution finished. 
 
 

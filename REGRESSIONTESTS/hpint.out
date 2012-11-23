@@ -30,8 +30,8 @@
 
               empile:      324866
            play_move:      297308
-        orig_rbechec:       16226
-        orig_rnechec:      283730
+        orig_rbechec:        5105
+        orig_rnechec:      272365
 Loesung beendet. 
 
 
@@ -72,8 +72,8 @@ Loesung beendet.
 
               empile:       58155
            play_move:       57583
-        orig_rbechec:        5189
-        orig_rnechec:       66827
+        orig_rbechec:          88
+        orig_rnechec:       60743
 Loesung beendet. 
 
 
@@ -112,8 +112,8 @@ Loesung beendet.
 
               empile:      919130
            play_move:      671736
-        orig_rbechec:       68717
-        orig_rnechec:      750116
+        orig_rbechec:        5964
+        orig_rnechec:      687303
 Loesung beendet. 
 
 
@@ -153,8 +153,8 @@ Loesung beendet.
 
               empile:       14524
            play_move:       14434
-        orig_rbechec:         439
-        orig_rnechec:       11244
+        orig_rbechec:         133
+        orig_rnechec:       10930
 Loesung beendet. 
 
 
@@ -195,8 +195,8 @@ a)
 
               empile:        5190
            play_move:        4716
-        orig_rbechec:        1332
-        orig_rnechec:        1834
+        orig_rbechec:        1258
+        orig_rnechec:        1742
 b) wKa6-->g2
 
 0 moegliche Stellungen in 1+0
@@ -207,8 +207,8 @@ b) wKa6-->g2
 
               empile:         900
            play_move:         695
-        orig_rbechec:         260
-        orig_rnechec:        1088
+        orig_rbechec:         198
+        orig_rnechec:        1008
 Loesung beendet. 
 
 
@@ -248,8 +248,8 @@ Loesung beendet.
 
               empile:      273393
            play_move:      185050
-        orig_rbechec:       19160
-        orig_rnechec:      217804
+        orig_rbechec:         871
+        orig_rnechec:      199469
 Loesung beendet. 
 
 
@@ -286,8 +286,8 @@ Loesung beendet.
 
               empile:       14439
            play_move:       14624
-        orig_rbechec:         566
-        orig_rnechec:        6681
+        orig_rbechec:         230
+        orig_rnechec:        6331
 Loesung beendet. 
 
 
@@ -323,8 +323,8 @@ Loesung beendet.
 
               empile:     5829651
            play_move:     5821653
-        orig_rbechec:      292859
-        orig_rnechec:     5902834
+        orig_rbechec:        8637
+        orig_rnechec:     5562381
 Loesung beendet. 
 
 
@@ -365,7 +365,7 @@ Es fehlt ein weisser oder schwarzer Koenig
               empile:        9994
            play_move:       12172
         orig_rbechec:           0
-        orig_rnechec:        5015
+        orig_rnechec:        4514
 Loesung beendet. 
 
 
@@ -401,8 +401,8 @@ Loesung beendet.
 
               empile:    11939082
            play_move:    11222793
-        orig_rbechec:      631786
-        orig_rnechec:     9726694
+        orig_rbechec:       81056
+        orig_rnechec:     9140087
 Loesung beendet. 
 
 
@@ -438,8 +438,8 @@ Loesung beendet.
 
               empile:     2454606
            play_move:     2569782
-        orig_rbechec:      103431
-        orig_rnechec:     2188633
+        orig_rbechec:       18775
+        orig_rnechec:     2099063
 Loesung beendet. 
 
 
@@ -475,8 +475,8 @@ Loesung beendet.
 
               empile:    14579604
            play_move:    13394588
-        orig_rbechec:      839054
-        orig_rnechec:    13738342
+        orig_rbechec:       39180
+        orig_rnechec:    12902221
 Loesung beendet. 
 
 
@@ -512,8 +512,8 @@ Loesung beendet.
 
               empile:    13656283
            play_move:     9588116
-        orig_rbechec:      646371
-        orig_rnechec:     9174111
+        orig_rbechec:       20525
+        orig_rnechec:     8534766
 Loesung beendet. 
 
 
@@ -549,8 +549,8 @@ Loesung beendet.
 
               empile:     2233965
            play_move:     2094655
-        orig_rbechec:      113687
-        orig_rnechec:     2243675
+        orig_rbechec:       25576
+        orig_rnechec:     2151061
 Loesung beendet. 
 
 
@@ -586,8 +586,8 @@ Loesung beendet.
 
               empile:     4327925
            play_move:     4392096
-        orig_rbechec:      230671
-        orig_rnechec:     3774384
+        orig_rbechec:       34057
+        orig_rnechec:     3566165
 Loesung beendet. 
 
 
@@ -631,8 +631,8 @@ a)
 
               empile:      637022
            play_move:      642808
-        orig_rbechec:      225433
-        orig_rnechec:      270474
+        orig_rbechec:      225267
+        orig_rnechec:      270391
 b) ser-h=9
 
 0 moegliche Stellungen in 1+1
@@ -648,8 +648,8 @@ b) ser-h=9
 
               empile:      163266
            play_move:      160378
-        orig_rbechec:       48352
-        orig_rnechec:      107645
+        orig_rbechec:       45712
+        orig_rnechec:      104885
 Loesung beendet. 
 
 
@@ -698,8 +698,8 @@ a)
 
               empile:      845709
            play_move:      849575
-        orig_rbechec:      290219
-        orig_rnechec:      390895
+        orig_rbechec:      289105
+        orig_rnechec:      390338
 b) ser-h=14
 
 0 moegliche Stellungen in 1+1
@@ -720,8 +720,8 @@ b) ser-h=14
 
               empile:      353252
            play_move:      335771
-        orig_rbechec:       91663
-        orig_rnechec:      292238
+        orig_rbechec:       79201
+        orig_rnechec:      279362
 Loesung beendet. 
 
 
@@ -765,8 +765,8 @@ a)
 
               empile:       30382
            play_move:       30180
-        orig_rbechec:        7098
-        orig_rnechec:       35564
+        orig_rbechec:        6930
+        orig_rnechec:       35480
 b) ser-h=9
 
 0 moegliche Stellungen in 1+1
@@ -782,8 +782,8 @@ b) ser-h=9
 
               empile:       85547
            play_move:       81149
-        orig_rbechec:       14541
-        orig_rnechec:      115599
+        orig_rbechec:        9693
+        orig_rnechec:      110512
 Loesung beendet. 
 
 
@@ -824,8 +824,8 @@ a)
 
               empile:       22880
            play_move:       21189
-        orig_rbechec:        4809
-        orig_rnechec:       14802
+        orig_rbechec:        4467
+        orig_rnechec:       14460
 b) sBa2-->b3
 
 0 moegliche Stellungen in 1+1
@@ -838,8 +838,8 @@ b) sBa2-->b3
 
               empile:        9453
            play_move:        8413
-        orig_rbechec:        1223
-        orig_rnechec:        8779
+        orig_rbechec:        1004
+        orig_rnechec:        8560
 Loesung beendet. 
 
 
@@ -881,8 +881,8 @@ a)
 
               empile:      955007
            play_move:     1025649
-        orig_rbechec:      237520
-        orig_rnechec:      484453
+        orig_rbechec:      205278
+        orig_rnechec:      463571
 b) ser-=6
 
 0 moegliche Stellungen in 1+0
@@ -895,8 +895,8 @@ b) ser-=6
 
               empile:     1252381
            play_move:     1220366
-        orig_rbechec:      215720
-        orig_rnechec:      430920
+        orig_rbechec:      191806
+        orig_rnechec:      396105
 Loesung beendet. 
 
 
@@ -937,8 +937,8 @@ a)
 
               empile:       39947
            play_move:       53918
-        orig_rbechec:       11038
-        orig_rnechec:       30910
+        orig_rbechec:        9152
+        orig_rnechec:       29823
 b) ser-=4
 
 0 moegliche Stellungen in 1+0
@@ -949,8 +949,8 @@ b) ser-=4
 
               empile:       29537
            play_move:       37718
-        orig_rbechec:        5289
-        orig_rnechec:       17314
+        orig_rbechec:        3533
+        orig_rnechec:       15457
 Loesung beendet. 
 
 
@@ -988,8 +988,8 @@ a)
 
               empile:        2852
            play_move:        2831
-        orig_rbechec:         529
-        orig_rnechec:       20126
+        orig_rbechec:         307
+        orig_rnechec:       20015
 b) ser-=2
 
 0 moegliche Stellungen in 1+0
@@ -998,8 +998,8 @@ b) ser-=2
 
               empile:        7529
            play_move:        9235
-        orig_rbechec:         725
-        orig_rnechec:       35871
+        orig_rbechec:         123
+        orig_rnechec:       35269
 Loesung beendet. 
 
 
@@ -1045,8 +1045,8 @@ Loesung beendet.
 
               empile:      934552
            play_move:      804285
-        orig_rbechec:      102546
-        orig_rnechec:      723755
+        orig_rbechec:       46106
+        orig_rnechec:      666361
 Loesung beendet. 
 
 
@@ -1087,8 +1087,8 @@ Loesung beendet.
 
               empile:    37896560
            play_move:    37580222
-        orig_rbechec:     2015470
-        orig_rnechec:    11980258
+        orig_rbechec:     1719560
+        orig_rnechec:    11661306
 Loesung beendet. 
 
 
@@ -1129,8 +1129,8 @@ Loesung beendet.
 
               empile:     5829074
            play_move:     5823553
-        orig_rbechec:      489585
-        orig_rnechec:     1849255
+        orig_rbechec:      445971
+        orig_rnechec:     1763963
 Loesung beendet. 
 
 
@@ -1166,8 +1166,8 @@ Loesung beendet.
 
               empile:     2759601
            play_move:     2370173
-        orig_rbechec:      180178
-        orig_rnechec:     2325106
+        orig_rbechec:       15703
+        orig_rnechec:     2152085
 Loesung beendet. 
 
 
@@ -1203,8 +1203,8 @@ Loesung beendet.
 
               empile:     3437767
            play_move:     2754804
-        orig_rbechec:      188514
-        orig_rnechec:     2607264
+        orig_rbechec:       13015
+        orig_rnechec:     2391406
 Loesung beendet. 
 
 
@@ -1240,8 +1240,8 @@ Loesung beendet.
 
               empile:    38535660
            play_move:    29023454
-        orig_rbechec:     2161815
-        orig_rnechec:    31926760
+        orig_rbechec:        2759
+        orig_rnechec:    29689288
 Loesung beendet. 
 
 
@@ -1277,8 +1277,8 @@ Loesung beendet.
 
               empile:     7952688
            play_move:     5900663
-        orig_rbechec:      497746
-        orig_rnechec:     6410413
+        orig_rbechec:        7883
+        orig_rnechec:     5874059
 Loesung beendet. 
 
 
@@ -1314,8 +1314,8 @@ Loesung beendet.
 
               empile:     5962086
            play_move:     4570955
-        orig_rbechec:      337350
-        orig_rnechec:     4335463
+        orig_rbechec:       14512
+        orig_rnechec:     3963249
 Loesung beendet. 
 
 
@@ -1353,8 +1353,8 @@ Loesung beendet.
 
               empile:    15747730
            play_move:    15875374
-        orig_rbechec:      790174
-        orig_rnechec:     5535429
+        orig_rbechec:      387624
+        orig_rnechec:     5121544
 Loesung beendet. 
 
 
@@ -1390,8 +1390,8 @@ Loesung beendet.
 
               empile:    25001632
            play_move:    23738308
-        orig_rbechec:     1327066
-        orig_rnechec:    15430466
+        orig_rbechec:      322612
+        orig_rnechec:    14269320
 Loesung beendet. 
 
 
@@ -1428,8 +1428,8 @@ Loesung beendet.
 
               empile:     9330024
            play_move:     8567929
-        orig_rbechec:      338485
-        orig_rnechec:     4329878
+        orig_rbechec:       63905
+        orig_rnechec:     4003356
 Loesung beendet. 
 
 
@@ -1466,8 +1466,8 @@ Loesung beendet.
 
               empile:    10653875
            play_move:     9517306
-        orig_rbechec:      413298
-        orig_rnechec:     5254223
+        orig_rbechec:       72590
+        orig_rnechec:     4852756
 Loesung beendet. 
 
 
@@ -1508,8 +1508,8 @@ a)
 
               empile:        8618
            play_move:        7120
-        orig_rbechec:         735
-        orig_rnechec:        8193
+        orig_rbechec:         220
+        orig_rnechec:        7678
 b) sBc7-->d6
 
 7 moegliche Stellungen in 1+1
@@ -1522,8 +1522,8 @@ b) sBc7-->d6
 
               empile:        7489
            play_move:        6121
-        orig_rbechec:         587
-        orig_rnechec:        7592
+        orig_rbechec:         134
+        orig_rnechec:        7139
 Loesung beendet. 
 
 
@@ -1560,8 +1560,8 @@ a)
 
               empile:         399
            play_move:         389
-        orig_rbechec:          38
-        orig_rnechec:        4718
+        orig_rbechec:          14
+        orig_rnechec:        4706
 b) h=2
 
 0 moegliche Stellungen in 1+1
@@ -1570,8 +1570,8 @@ b) h=2
 
               empile:        8930
            play_move:        8774
-        orig_rbechec:         414
-        orig_rnechec:       13929
+        orig_rbechec:          49
+        orig_rnechec:       13564
 Loesung beendet. 
 
 
@@ -1608,8 +1608,8 @@ a)
 
               empile:        1078
            play_move:        1343
-        orig_rbechec:         138
-        orig_rnechec:        1397
+        orig_rbechec:          56
+        orig_rnechec:        1356
 b) h=2   -sBh4
 
 0 moegliche Stellungen in 1+1
@@ -1618,8 +1618,8 @@ b) h=2   -sBh4
 
               empile:        2796
            play_move:        2678
-        orig_rbechec:         173
-        orig_rnechec:        3093
+        orig_rbechec:          24
+        orig_rnechec:        2944
 Loesung beendet. 
 
 
@@ -1658,8 +1658,8 @@ Loesung beendet.
 
               empile:        7429
            play_move:        6431
-        orig_rbechec:         509
-        orig_rnechec:        8102
+        orig_rbechec:          48
+        orig_rnechec:        7627
 Loesung beendet. 
 
 
@@ -1699,8 +1699,8 @@ Loesung beendet.
 
               empile:       34186
            play_move:       29936
-        orig_rbechec:        2661
-        orig_rnechec:       37370
+        orig_rbechec:        1099
+        orig_rnechec:       35808
 Loesung beendet. 
 
 
@@ -1739,8 +1739,8 @@ a)
 
               empile:       21668
            play_move:       21704
-        orig_rbechec:        1175
-        orig_rnechec:        7155
+        orig_rbechec:        1089
+        orig_rnechec:        7112
 b) h=4
 
 0 moegliche Stellungen in 1+1
@@ -1751,8 +1751,8 @@ b) h=4
 
               empile:       26982
            play_move:       27042
-        orig_rbechec:        2104
-        orig_rnechec:       16345
+        orig_rbechec:        1748
+        orig_rnechec:       15989
 Loesung beendet. 
 
 
@@ -1791,8 +1791,8 @@ a)
 
               empile:        1922
            play_move:        1946
-        orig_rbechec:         222
-        orig_rnechec:        5666
+        orig_rbechec:         176
+        orig_rnechec:        5643
 b) h=4  sBg6-->e6
 
 0 moegliche Stellungen in 1+1
@@ -1803,8 +1803,8 @@ b) h=4  sBg6-->e6
 
               empile:        1786
            play_move:        1849
-        orig_rbechec:         154
-        orig_rnechec:       12410
+        orig_rbechec:         122
+        orig_rnechec:       12378
 Loesung beendet. 
 
 
@@ -1841,8 +1841,8 @@ a)
 
               empile:          42
            play_move:          40
-        orig_rbechec:           9
-        orig_rnechec:         399
+        orig_rbechec:           7
+        orig_rnechec:         398
 b) h=2
 
 0 moegliche Stellungen in 1+1
@@ -1851,8 +1851,8 @@ b) h=2
 
               empile:         413
            play_move:         413
-        orig_rbechec:          75
-        orig_rnechec:        2714
+        orig_rbechec:          22
+        orig_rnechec:        2661
 Loesung beendet. 
 
 
@@ -1890,8 +1890,8 @@ Loesung beendet.
 
               empile:        7858
            play_move:        7858
-        orig_rbechec:         424
-        orig_rnechec:       39203
+        orig_rbechec:         352
+        orig_rnechec:       39131
 Loesung beendet. 
 
 
@@ -1929,8 +1929,8 @@ Loesung beendet.
 
               empile:     8622438
            play_move:     6866775
-        orig_rbechec:      448421
-        orig_rnechec:     7472624
+        orig_rbechec:        4722
+        orig_rnechec:     6948730
 Loesung beendet. 
 
 
@@ -1971,8 +1971,8 @@ a)
 
               empile:         177
            play_move:         186
-        orig_rbechec:          22
-        orig_rnechec:        3207
+        orig_rbechec:          20
+        orig_rnechec:        3206
 b) h=6  sKa1-->h1
 
 0 moegliche Stellungen in 1+1
@@ -1985,8 +1985,8 @@ b) h=6  sKa1-->h1
 
               empile:        6901
            play_move:        6520
-        orig_rbechec:         431
-        orig_rnechec:       13390
+        orig_rbechec:         318
+        orig_rnechec:       13277
 Loesung beendet. 
 
 
@@ -2027,8 +2027,8 @@ a)
 
               empile:         168
            play_move:         171
-        orig_rbechec:          20
-        orig_rnechec:        1197
+        orig_rbechec:          18
+        orig_rnechec:        1196
 b) h=6
 
 0 moegliche Stellungen in 1+1
@@ -2041,8 +2041,8 @@ b) h=6
 
               empile:         219
            play_move:         222
-        orig_rbechec:          20
-        orig_rnechec:        4291
+        orig_rbechec:          18
+        orig_rnechec:        4289
 Loesung beendet. 
 
 
@@ -2083,8 +2083,8 @@ a)
 
               empile:         168
            play_move:         171
-        orig_rbechec:          20
-        orig_rnechec:        1197
+        orig_rbechec:          18
+        orig_rnechec:        1196
 b) h=6
 
 0 moegliche Stellungen in 1+1
@@ -2097,8 +2097,8 @@ b) h=6
 
               empile:         219
            play_move:         222
-        orig_rbechec:          20
-        orig_rnechec:        4291
+        orig_rbechec:          18
+        orig_rnechec:        4289
 Loesung beendet. 
 
 
@@ -2139,8 +2139,8 @@ a)
 
               empile:          94
            play_move:          97
-        orig_rbechec:          16
-        orig_rnechec:        1299
+        orig_rbechec:          14
+        orig_rnechec:        1298
 b) h=6
 
 0 moegliche Stellungen in 1+1
@@ -2153,8 +2153,8 @@ b) h=6
 
               empile:         132
            play_move:         135
-        orig_rbechec:          16
-        orig_rnechec:        3951
+        orig_rbechec:          14
+        orig_rnechec:        3949
 Loesung beendet. 
 
 
@@ -2201,8 +2201,8 @@ Loesung beendet.
 
               empile:     3784444
            play_move:     3953380
-        orig_rbechec:      383043
-        orig_rnechec:      778826
+        orig_rbechec:      373630
+        orig_rnechec:      754427
 Loesung beendet. 
 
 
@@ -2244,8 +2244,8 @@ a)
 
               empile:      112813
            play_move:      112957
-        orig_rbechec:        3592
-        orig_rnechec:       82385
+        orig_rbechec:        3116
+        orig_rnechec:       82141
 b) h=7
 
 0 moegliche Stellungen in 1+1
@@ -2259,8 +2259,8 @@ b) h=7
 
               empile:      185505
            play_move:      170746
-        orig_rbechec:        5479
-        orig_rnechec:      254536
+        orig_rbechec:        2691
+        orig_rnechec:      247968
 Loesung beendet. 
 
 
@@ -2298,8 +2298,8 @@ a)
 
               empile:        6015
            play_move:        6334
-        orig_rbechec:         240
-        orig_rnechec:        6372
+        orig_rbechec:         214
+        orig_rnechec:        6357
 b) h=3
 
 0 moegliche Stellungen in 1+1
@@ -2309,8 +2309,8 @@ b) h=3
 
               empile:       50976
            play_move:       42354
-        orig_rbechec:        3400
-        orig_rnechec:       53530
+        orig_rbechec:          63
+        orig_rnechec:       50149
 Loesung beendet. 
 
 
@@ -2355,8 +2355,8 @@ Loesung beendet.
 
               empile:    51443973
            play_move:    48191083
-        orig_rbechec:     4167041
-        orig_rnechec:    50339125
+        orig_rbechec:      390458
+        orig_rnechec:    46233649
 Loesung beendet. 
 
 
@@ -2394,8 +2394,8 @@ Loesung beendet.
 
               empile:    10077271
            play_move:     9792951
-        orig_rbechec:      360669
-        orig_rnechec:     3286406
+        orig_rbechec:      230430
+        orig_rnechec:     3151765
 Loesung beendet. 
 
 
@@ -2437,8 +2437,8 @@ Loesung beendet.
 
               empile:     6948665
            play_move:     6385931
-        orig_rbechec:      295589
-        orig_rnechec:     5535733
+        orig_rbechec:       76545
+        orig_rnechec:     5119191
 Loesung beendet. 
 
 
@@ -2475,8 +2475,8 @@ bug
 
               empile:     3446365
            play_move:     2902134
-        orig_rbechec:      235511
-        orig_rnechec:     3001763
+        orig_rbechec:        6346
+        orig_rnechec:     2742293
 Loesung beendet. 
 
 
@@ -2515,8 +2515,8 @@ a)
 
               empile:       31399
            play_move:       31399
-        orig_rbechec:        2398
-        orig_rnechec:       81559
+        orig_rbechec:        2036
+        orig_rnechec:       81173
 b) sSf6-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2527,8 +2527,8 @@ b) sSf6-->h1
 
               empile:       21916
            play_move:       21916
-        orig_rbechec:        1697
-        orig_rnechec:       79944
+        orig_rbechec:        1509
+        orig_rnechec:       79752
 Loesung beendet. 
 
 
@@ -2565,8 +2565,8 @@ Loesung beendet.
 
               empile:       28758
            play_move:       27852
-        orig_rbechec:        4895
-        orig_rnechec:       70899
+        orig_rbechec:          58
+        orig_rnechec:       65506
 Loesung beendet. 
 
 
@@ -2602,8 +2602,8 @@ Loesung beendet.
 
               empile:        1680
            play_move:        1792
-        orig_rbechec:         110
-        orig_rnechec:        5309
+        orig_rbechec:          54
+        orig_rnechec:        5253
 Loesung beendet. 
 
 
@@ -2640,8 +2640,8 @@ Loesung beendet.
 
               empile:         192
            play_move:         192
-        orig_rbechec:          38
-        orig_rnechec:        2352
+        orig_rbechec:          22
+        orig_rnechec:        2336
 Loesung beendet. 
 
 
@@ -2681,8 +2681,8 @@ Loesung beendet.
 
               empile:    52170838
            play_move:    56143416
-        orig_rbechec:     1848387
-        orig_rnechec:    13109706
+        orig_rbechec:     1739494
+        orig_rnechec:    12992499
 Loesung beendet. 
 
 
@@ -2719,8 +2719,8 @@ Loesung beendet.
 
               empile:      491686
            play_move:      469057
-        orig_rbechec:       29171
-        orig_rnechec:      714654
+        orig_rbechec:         844
+        orig_rnechec:      684477
 Loesung beendet. 
 
 
@@ -2756,8 +2756,8 @@ Loesung beendet.
 
               empile:        2183
            play_move:        2264
-        orig_rbechec:         245
-        orig_rnechec:       25573
+        orig_rbechec:         121
+        orig_rnechec:       25439
 Loesung beendet. 
 
 
@@ -2802,8 +2802,8 @@ Loesung beendet.
 
               empile:    18828204
            play_move:    16895388
-        orig_rbechec:     1794969
-        orig_rnechec:    15098927
+        orig_rbechec:      854739
+        orig_rnechec:    14019907
 Loesung beendet. 
 
 
@@ -2842,8 +2842,8 @@ Loesung beendet.
 
               empile:     2307857
            play_move:     2400515
-        orig_rbechec:       99377
-        orig_rnechec:      991338
+        orig_rbechec:       64394
+        orig_rnechec:      955229
 Loesung beendet. 
 
 
@@ -2886,8 +2886,8 @@ a)
 
               empile:       15148
            play_move:       15539
-        orig_rbechec:        1202
-        orig_rnechec:       24545
+        orig_rbechec:        1075
+        orig_rnechec:       24418
 b) sKh2-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2900,8 +2900,8 @@ b) sKh2-->h1
 
               empile:       16059
            play_move:       16520
-        orig_rbechec:        1220
-        orig_rnechec:       22260
+        orig_rbechec:        1080
+        orig_rnechec:       22120
 c) wKg4-->f1  wBf2-->a2
 
 0 moegliche Stellungen in 1+1
@@ -2914,8 +2914,8 @@ c) wKg4-->f1  wBf2-->a2
 
               empile:       35481
            play_move:       36775
-        orig_rbechec:        2888
-        orig_rnechec:       19499
+        orig_rbechec:        2787
+        orig_rnechec:       19398
 Loesung beendet. 
 
 
@@ -2953,8 +2953,8 @@ Loesung beendet.
 
               empile:      311891
            play_move:      281967
-        orig_rbechec:       12902
-        orig_rnechec:      322768
+        orig_rbechec:        5437
+        orig_rnechec:      314273
 Loesung beendet. 
 
 
@@ -2992,8 +2992,8 @@ Loesung beendet.
 
               empile:     4121513
            play_move:     3479973
-        orig_rbechec:      264567
-        orig_rnechec:     2259596
+        orig_rbechec:      135597
+        orig_rnechec:     2107188
 Loesung beendet. 
 
 
@@ -3031,8 +3031,8 @@ Loesung beendet.
 
               empile:      270914
            play_move:      227453
-        orig_rbechec:       17829
-        orig_rnechec:      241378
+        orig_rbechec:        9984
+        orig_rnechec:      231397
 Loesung beendet. 
 
 
@@ -3070,8 +3070,8 @@ Loesung beendet.
 
               empile:      146349
            play_move:      126772
-        orig_rbechec:        6815
-        orig_rnechec:      236245
+        orig_rbechec:        2382
+        orig_rnechec:      231676
 Loesung beendet. 
 
 
@@ -3110,8 +3110,8 @@ Loesung beendet.
 
               empile:     8579615
            play_move:     8581308
-        orig_rbechec:      292615
-        orig_rnechec:     1224310
+        orig_rbechec:      269833
+        orig_rnechec:     1201416
 Loesung beendet. 
 
 
@@ -3149,8 +3149,8 @@ Loesung beendet.
 
               empile:    18771350
            play_move:    18222368
-        orig_rbechec:      719360
-        orig_rnechec:     4523413
+        orig_rbechec:      501029
+        orig_rnechec:     4298038
 Loesung beendet. 
 
 
@@ -3188,8 +3188,8 @@ Loesung beendet.
 
               empile:     5181173
            play_move:     5137445
-        orig_rbechec:      169702
-        orig_rnechec:     1005419
+        orig_rbechec:      134993
+        orig_rnechec:      970076
 Loesung beendet. 
 
 
@@ -3227,8 +3227,8 @@ Loesung beendet.
 
               empile:     8015606
            play_move:     7675206
-        orig_rbechec:      283498
-        orig_rnechec:     4527621
+        orig_rbechec:      157500
+        orig_rnechec:     4359972
 Loesung beendet. 
 
 
@@ -3266,8 +3266,8 @@ Loesung beendet.
 
               empile:     3911046
            play_move:     3808409
-        orig_rbechec:      137619
-        orig_rnechec:     1141755
+        orig_rbechec:       94691
+        orig_rnechec:     1098258
 Loesung beendet. 
 
 
@@ -3305,8 +3305,8 @@ Loesung beendet.
 
               empile:    10047961
            play_move:     9903052
-        orig_rbechec:      421310
-        orig_rnechec:     2374439
+        orig_rbechec:      335819
+        orig_rnechec:     2286512
 Loesung beendet. 
 
 
@@ -3344,8 +3344,8 @@ Loesung beendet.
 
               empile:     2925430
            play_move:     2838563
-        orig_rbechec:      193188
-        orig_rnechec:     1116648
+        orig_rbechec:      138576
+        orig_rnechec:     1057824
 Loesung beendet. 
 
 
@@ -3383,8 +3383,8 @@ Loesung beendet.
 
               empile:     1439439
            play_move:     1397542
-        orig_rbechec:       68197
-        orig_rnechec:      501999
+        orig_rbechec:       52741
+        orig_rnechec:      486529
 Loesung beendet. 
 
 
@@ -3423,8 +3423,8 @@ Loesung beendet.
 
               empile:     5184353
            play_move:     5014847
-        orig_rbechec:      309258
-        orig_rnechec:     1921352
+        orig_rbechec:      234901
+        orig_rnechec:     1843106
 Loesung beendet. 
 
 
@@ -3462,8 +3462,8 @@ Loesung beendet.
 
               empile:     1624774
            play_move:     1617504
-        orig_rbechec:       53351
-        orig_rnechec:      409896
+        orig_rbechec:       49305
+        orig_rnechec:      405838
 Loesung beendet. 
 
 
@@ -3502,8 +3502,8 @@ Loesung beendet.
 
               empile:      232328
            play_move:      239673
-        orig_rbechec:        9055
-        orig_rnechec:      111784
+        orig_rbechec:        7803
+        orig_rnechec:      110054
 Loesung beendet. 
 
 
@@ -3542,8 +3542,8 @@ Loesung beendet.
 
               empile:     1233283
            play_move:     1145418
-        orig_rbechec:       48971
-        orig_rnechec:      869850
+        orig_rbechec:       19397
+        orig_rnechec:      839944
 Loesung beendet. 
 
 
@@ -3585,8 +3585,8 @@ Loesung beendet.
 
               empile:      825591
            play_move:      822000
-        orig_rbechec:       38464
-        orig_rnechec:      973786
+        orig_rbechec:        5582
+        orig_rnechec:      939522
 Loesung beendet. 
 
 
@@ -3624,8 +3624,8 @@ Loesung beendet.
 
               empile:       16195
            play_move:       16219
-        orig_rbechec:        2387
-        orig_rnechec:       31192
+        orig_rbechec:        1475
+        orig_rnechec:       30194
 Loesung beendet. 
 
 
@@ -3664,8 +3664,8 @@ Loesung beendet.
 
               empile:      211397
            play_move:      199858
-        orig_rbechec:       12494
-        orig_rnechec:      121700
+        orig_rbechec:        7675
+        orig_rnechec:      116853
 Loesung beendet. 
 
 
@@ -3705,8 +3705,8 @@ a)
 
               empile:      946374
            play_move:      937452
-        orig_rbechec:       31736
-        orig_rnechec:     1009346
+        orig_rbechec:       20096
+        orig_rnechec:      979739
 b) sBc2-->b2
 
 0 moegliche Stellungen in 1+1
@@ -3716,8 +3716,8 @@ b) sBc2-->b2
 
               empile:      993665
            play_move:      992380
-        orig_rbechec:       31798
-        orig_rnechec:     1013427
+        orig_rbechec:       20990
+        orig_rnechec:      984604
 Loesung beendet. 
 
 
@@ -3757,8 +3757,8 @@ Loesung beendet.
 
               empile:        4029
            play_move:        4029
-        orig_rbechec:         206
-        orig_rnechec:        7772
+        orig_rbechec:          24
+        orig_rnechec:        7590
 Loesung beendet. 
 
 
@@ -3797,8 +3797,8 @@ a)
 
               empile:       15717
            play_move:       15189
-        orig_rbechec:        2409
-        orig_rnechec:       38632
+        orig_rbechec:          29
+        orig_rnechec:       35805
 b) wTe1 
 
 0 moegliche Stellungen in 1+1
@@ -3808,8 +3808,8 @@ b) wTe1
 
               empile:       27015
            play_move:       24712
-        orig_rbechec:        3508
-        orig_rnechec:       56682
+        orig_rbechec:          29
+        orig_rnechec:       52579
 Loesung beendet. 
 
 
@@ -3850,8 +3850,8 @@ a)
 
               empile:       11160
            play_move:       10072
-        orig_rbechec:        1215
-        orig_rnechec:       13322
+        orig_rbechec:         770
+        orig_rnechec:       12865
 b) wKe5-->b3
 
 0 moegliche Stellungen in 1+1
@@ -3864,8 +3864,8 @@ b) wKe5-->b3
 
               empile:       14005
            play_move:       13086
-        orig_rbechec:        1466
-        orig_rnechec:       14732
+        orig_rbechec:         984
+        orig_rnechec:       14238
 Loesung beendet. 
 
 
@@ -3901,8 +3901,8 @@ Loesung beendet.
 
               empile:      378031
            play_move:      375995
-        orig_rbechec:       28130
-        orig_rnechec:      360397
+        orig_rbechec:        2149
+        orig_rnechec:      332140
 Loesung beendet. 
 
 
@@ -3942,8 +3942,8 @@ Loesung beendet.
 
               empile:       10818
            play_move:        9573
-        orig_rbechec:         415
-        orig_rnechec:        7260
+        orig_rbechec:         109
+        orig_rnechec:        6954
 Loesung beendet. 
 
 
@@ -3982,8 +3982,8 @@ Loesung beendet.
 
               empile:     3059527
            play_move:     3281190
-        orig_rbechec:      131864
-        orig_rnechec:      848622
+        orig_rbechec:      108740
+        orig_rnechec:      809790
 Loesung beendet. 
 
 
@@ -4023,8 +4023,8 @@ Loesung beendet.
 
               empile:   138028342
            play_move:   151272315
-        orig_rbechec:     9181917
-        orig_rnechec:    29929121
+        orig_rbechec:     9042406
+        orig_rnechec:    29760813
 Loesung beendet. 
 
 
@@ -4065,8 +4065,8 @@ Loesung beendet.
 
               empile:    11591439
            play_move:    11645975
-        orig_rbechec:      893893
-        orig_rnechec:     3839080
+        orig_rbechec:      763965
+        orig_rnechec:     3678458
 Loesung beendet. 
 
 
@@ -4099,8 +4099,8 @@ Loesung beendet.
 
               empile:      559649
            play_move:      648690
-        orig_rbechec:       89578
-        orig_rnechec:      202786
+        orig_rbechec:       87530
+        orig_rnechec:      200678
 Loesung beendet. 
 
 
@@ -4139,8 +4139,8 @@ Loesung beendet.
 
               empile:        7349
            play_move:        6408
-        orig_rbechec:         360
-        orig_rnechec:        5743
+        orig_rbechec:          49
+        orig_rnechec:        5432
 Loesung beendet. 
 
 
@@ -4179,8 +4179,8 @@ Loesung beendet.
 
               empile:       17451
            play_move:       14824
-        orig_rbechec:         809
-        orig_rnechec:        9140
+        orig_rbechec:         159
+        orig_rnechec:        8490
 Loesung beendet. 
 
 
@@ -4219,8 +4219,8 @@ Loesung beendet.
 
               empile:       24014
            play_move:       24319
-        orig_rbechec:        1241
-        orig_rnechec:       17985
+        orig_rbechec:         896
+        orig_rnechec:       17571
 Loesung beendet. 
 
 
@@ -4256,8 +4256,8 @@ Loesung beendet.
 
               empile:     2843640
            play_move:     2584591
-        orig_rbechec:      188376
-        orig_rnechec:     2339228
+        orig_rbechec:       17096
+        orig_rnechec:     2131117
 Loesung beendet. 
 
 
@@ -4296,8 +4296,8 @@ Loesung beendet.
 
               empile:       13420
            play_move:       12659
-        orig_rbechec:         441
-        orig_rnechec:       13704
+        orig_rbechec:          86
+        orig_rnechec:       13334
 Loesung beendet. 
 
 
@@ -4339,8 +4339,8 @@ Loesung beendet.
 
               empile:         150
            play_move:         150
-        orig_rbechec:          20
-        orig_rnechec:        2569
+        orig_rbechec:          16
+        orig_rnechec:        2565
 Loesung beendet. 
 
 
@@ -4376,8 +4376,8 @@ Loesung beendet.
 
               empile:         107
            play_move:         107
-        orig_rbechec:          15
-        orig_rnechec:        1258
+        orig_rbechec:          13
+        orig_rnechec:        1256
 Loesung beendet. 
 
 
@@ -4428,8 +4428,8 @@ Loesung beendet.
 
               empile:      222200
            play_move:      222200
-        orig_rbechec:      114951
-        orig_rnechec:      169532
+        orig_rbechec:      113900
+        orig_rnechec:      168423
 Loesung beendet. 
 
 
@@ -4477,8 +4477,8 @@ Loesung beendet.
 
               empile:      212826
            play_move:      212826
-        orig_rbechec:      146684
-        orig_rnechec:      134627
+        orig_rbechec:      146660
+        orig_rnechec:      134603
 Loesung beendet. 
 
 
@@ -4520,8 +4520,8 @@ a)
 
               empile:        1987
            play_move:        2078
-        orig_rbechec:         371
-        orig_rnechec:         612
+        orig_rbechec:         345
+        orig_rnechec:         582
 b) sKa8-->b8
 
 0 moegliche Stellungen in 1+0
@@ -4535,8 +4535,8 @@ b) sKa8-->b8
 
               empile:         596
            play_move:         610
-        orig_rbechec:          78
-        orig_rnechec:         447
+        orig_rbechec:          68
+        orig_rnechec:         437
 Loesung beendet. 
 
 
@@ -4578,8 +4578,8 @@ Loesung beendet.
 
               empile:        4641
            play_move:        4641
-        orig_rbechec:         365
-        orig_rnechec:       24157
+        orig_rbechec:         178
+        orig_rnechec:       23970
 Loesung beendet. 
 
 
@@ -4618,8 +4618,8 @@ Loesung beendet.
 
               empile:     8839772
            play_move:     8446680
-        orig_rbechec:      385883
-        orig_rnechec:     2594458
+        orig_rbechec:      248194
+        orig_rnechec:     2451004
 Loesung beendet. 
 
 
@@ -4657,8 +4657,8 @@ Loesung beendet.
 
               empile:    33479904
            play_move:    29626035
-        orig_rbechec:     1543523
-        orig_rnechec:    16926647
+        orig_rbechec:      352640
+        orig_rnechec:    15707249
 Loesung beendet. 
 
 
@@ -4696,8 +4696,8 @@ Loesung beendet.
 
               empile:    30542571
            play_move:    27723537
-        orig_rbechec:     1422420
-        orig_rnechec:    26437477
+        orig_rbechec:       63960
+        orig_rnechec:    24611057
 Loesung beendet. 
 
 
@@ -4736,8 +4736,8 @@ Loesung beendet.
 
               empile:      357367
            play_move:      336130
-        orig_rbechec:       22278
-        orig_rnechec:      259507
+        orig_rbechec:        5097
+        orig_rnechec:      241475
 Loesung beendet. 
 
 
@@ -4784,8 +4784,8 @@ Fassung: Theodor Steudel, Problemkiste 128, 4/2000
 
               empile:     4558487
            play_move:     3625752
-        orig_rbechec:      365332
-        orig_rnechec:     4026816
+        orig_rbechec:        3453
+        orig_rnechec:     3655315
 Loesung beendet. 
 
 
@@ -4823,8 +4823,8 @@ Loesung beendet.
 
               empile:        1242
            play_move:        1242
-        orig_rbechec:         104
-        orig_rnechec:        9355
+        orig_rbechec:          27
+        orig_rnechec:        9268
 Loesung beendet. 
 
 
@@ -4862,8 +4862,8 @@ Loesung beendet.
 
               empile:       18153
            play_move:       18349
-        orig_rbechec:         846
-        orig_rnechec:       65446
+        orig_rbechec:         676
+        orig_rnechec:       65276
 Loesung beendet. 
 
 
@@ -4906,8 +4906,8 @@ Loesung beendet.
 
               empile:      554900
            play_move:      483684
-        orig_rbechec:      148918
-        orig_rnechec:      346230
+        orig_rbechec:      139193
+        orig_rnechec:      336266
 Loesung beendet. 
 
 
@@ -4946,8 +4946,8 @@ Loesung beendet.
 
               empile:     4160606
            play_move:     4107161
-        orig_rbechec:      345578
-        orig_rnechec:     1322196
+        orig_rbechec:      278623
+        orig_rnechec:     1254011
 Loesung beendet. 
 
 
@@ -4985,8 +4985,8 @@ a)
 
               empile:     1476593
            play_move:     1472733
-        orig_rbechec:       11418
-        orig_rnechec:     1691999
+        orig_rbechec:       11394
+        orig_rnechec:     1593399
 b) wBd6-->g6
 
 0 moegliche Stellungen in 1+1
@@ -4996,8 +4996,8 @@ b) wBd6-->g6
 
               empile:     1523119
            play_move:     1518828
-        orig_rbechec:       13198
-        orig_rnechec:     1666495
+        orig_rbechec:       13174
+        orig_rnechec:     1568584
 Loesung beendet. 
 
 
@@ -5035,8 +5035,8 @@ a)
 
               empile:        1823
            play_move:        1979
-        orig_rbechec:         277
-        orig_rnechec:        3115
+        orig_rbechec:           5
+        orig_rnechec:        2843
 b) sSa2 
 
   1.c4-c3 Ke2-d1 = 
@@ -5044,8 +5044,8 @@ b) sSa2
 
               empile:        1526
            play_move:        1564
-        orig_rbechec:         218
-        orig_rnechec:        2749
+        orig_rbechec:           5
+        orig_rnechec:        2536
 c) sLa2 
 
   1.c4-c3 Ke2-d1 = 
@@ -5053,8 +5053,8 @@ c) sLa2
 
               empile:        1979
            play_move:        2045
-        orig_rbechec:         243
-        orig_rnechec:        3175
+        orig_rbechec:           5
+        orig_rnechec:        2937
 d) sTa2 
 
   1.c4-c3 Ke2-d1 = 
@@ -5062,8 +5062,8 @@ d) sTa2
 
               empile:        1820
            play_move:        1889
-        orig_rbechec:         267
-        orig_rnechec:        3015
+        orig_rbechec:           5
+        orig_rnechec:        2753
 e) sDa2 
 
   1.c4-c3 Ke2-d1 = 
@@ -5071,8 +5071,8 @@ e) sDa2
 
               empile:        1960
            play_move:        2015
-        orig_rbechec:         240
-        orig_rnechec:        3142
+        orig_rbechec:           5
+        orig_rnechec:        2907
 Loesung beendet. 
 
 
@@ -5108,8 +5108,8 @@ dies ist ein Testfall fuer intelligent und loch
 
               empile:    21632191
            play_move:    21488525
-        orig_rbechec:      571342
-        orig_rnechec:    22815701
+        orig_rbechec:       70196
+        orig_rnechec:    21316605
 Loesung beendet. 
 
 

@@ -265,8 +265,8 @@ Loesung beendet.
 
               empile:          74
            play_move:          74
-        orig_rbechec:           9
-        orig_rnechec:         216
+        orig_rbechec:           5
+        orig_rnechec:         214
 Loesung beendet. 
 
 
@@ -1417,8 +1417,8 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
               empile:      414343
            play_move:      413863
-        orig_rbechec:       29503
-        orig_rnechec:       52022
+        orig_rbechec:       29487
+        orig_rnechec:       52014
 Loesung beendet. 
 
 
@@ -1452,8 +1452,8 @@ h#8 1.0;1.1;...
 
               empile:     2792746
            play_move:     2792746
-        orig_rbechec:      154088
-        orig_rnechec:      287206
+        orig_rbechec:      154076
+        orig_rnechec:      287200
 Loesung beendet. 
 
 

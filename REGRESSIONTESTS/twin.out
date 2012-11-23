@@ -193,24 +193,24 @@ a)
 
               empile:        1705
            play_move:        1655
-        orig_rbechec:          41
-        orig_rnechec:        3418
+        orig_rbechec:          37
+        orig_rnechec:        3416
 b) sKh7-->a6
 
   1.Te6-b6 Ld5-c6   2.Ld2-f4 Td4-a4 # 
 
               empile:        3105
            play_move:        3034
-        orig_rbechec:          90
-        orig_rnechec:        6018
+        orig_rbechec:          82
+        orig_rnechec:        6014
 c) sKh7-->f1
 
   1.f3-f2 Ld5-f3   2.Ld2-e3 Td4-d1 # 
 
               empile:        2492
            play_move:        2392
-        orig_rbechec:          59
-        orig_rnechec:        5865
+        orig_rbechec:          43
+        orig_rnechec:        5857
 Loesung beendet. 
 
 
@@ -246,16 +246,16 @@ a)
 
               empile:        1930
            play_move:        1889
-        orig_rbechec:          42
-        orig_rnechec:       13987
+        orig_rbechec:          34
+        orig_rnechec:       13983
 b) sSd6<-->sKe5
 
   1.Se3-g4 Lf2-b6   2.Tc4-c6 Tb4-d4 # 
 
               empile:        1731
            play_move:        1692
-        orig_rbechec:          40
-        orig_rnechec:       13119
+        orig_rbechec:          30
+        orig_rnechec:       13114
 Loesung beendet. 
 
 
@@ -290,80 +290,80 @@ a)
 
               empile:       15556
            play_move:       15308
-        orig_rbechec:         429
-        orig_rnechec:        8417
+        orig_rbechec:         357
+        orig_rnechec:        8378
 b)  -sTc8
 
   1.La2-d5 Tb4-c4 +   2.Kc7-d6 Sg7*e8 # 
 
               empile:        8227
            play_move:        8076
-        orig_rbechec:         259
-        orig_rnechec:        7669
+        orig_rbechec:         212
+        orig_rnechec:        7643
 +c)  -sLa2
 
   1.Kc7-d8 Tb4-d4   2.Dc3-c8 Sg7-e6 # 
 
               empile:        6265
            play_move:        6030
-        orig_rbechec:         217
-        orig_rnechec:        7501
+        orig_rbechec:         174
+        orig_rnechec:        7477
 +d)  -sSe8
 
   1.Kc7-d8 Tb4-h4   2.Dc3-c7 Th4*h8 # 
 
               empile:        4994
            play_move:        4789
-        orig_rbechec:         175
-        orig_rnechec:        7110
+        orig_rbechec:         141
+        orig_rnechec:        7093
 +e)  -sDc3
 
   1.Kc7-d6 Sg7-e6   2.Lh8-d4 Tb4*d4 # 
 
               empile:         722
            play_move:         681
-        orig_rbechec:          55
-        orig_rnechec:        5950
+        orig_rbechec:          37
+        orig_rnechec:        5941
 +f)  -sLh8
 
   1.Kc7-d6 Sg7-e6   2.Kd6-d5 Tb4-d4 # 
 
               empile:         531
            play_move:         515
-        orig_rbechec:          47
-        orig_rnechec:        4918
+        orig_rbechec:          29
+        orig_rnechec:        4909
 +g)  -wBb5
 
   1.Kc7-c8 Sg7-e8   2.Kc8-d8 Tb4-b8 # 
 
               empile:         238
            play_move:         238
-        orig_rbechec:          23
-        orig_rnechec:        3059
+        orig_rbechec:          15
+        orig_rnechec:        3055
 +h)  -wSg7
 
   1.Kc7-d8 Kf5-g6   2.Kd8-e8 Tb4-b8 # 
 
               empile:         135
            play_move:         135
-        orig_rbechec:          16
-        orig_rnechec:        1583
+        orig_rbechec:          10
+        orig_rnechec:        1580
 +i)  -sBe7
 
   1.Kc7-d8 Kf5-f6   2.Kd8-e8 Tb4-b8 # 
 
               empile:          88
            play_move:          88
-        orig_rbechec:          12
-        orig_rnechec:        1177
+        orig_rbechec:           8
+        orig_rnechec:        1175
 +j)  -sBd7
 
   1.Kc7-d8 Kf5-e6   2.Kd8-e8 Tb4-b8 # 
 
               empile:          76
            play_move:          76
-        orig_rbechec:          10
-        orig_rnechec:         618
+        orig_rbechec:           8
+        orig_rnechec:         617
 Loesung beendet. 
 
 
@@ -398,32 +398,32 @@ a)
 
               empile:        3167
            play_move:        3131
-        orig_rbechec:         209
-        orig_rnechec:       18925
+        orig_rbechec:         187
+        orig_rnechec:       18899
 b)  -sTa2
 
   1.Kd4-d5   2.Kd5-c6   3.Kc6-b7   4.Kb7-a8 Da3*a6 # 
 
               empile:         780
            play_move:         763
-        orig_rbechec:          65
-        orig_rnechec:       18309
+        orig_rbechec:          59
+        orig_rnechec:       18298
 +c)  -sBa6
 
   1.Kd4-e4   2.Ke4-f3   3.Kf3-g2   4.Kg2-h1 Da3-a8 # 
 
               empile:         703
            play_move:         686
-        orig_rbechec:          62
-        orig_rnechec:       16965
+        orig_rbechec:          56
+        orig_rnechec:       16954
 +d)  -wLg3
 
   1.Kd4-e5   2.Ke5-f6   3.Kf6-g7   4.Kg7-h8 Da3-f8 # 
 
               empile:         113
            play_move:         116
-        orig_rbechec:          14
-        orig_rnechec:        8395
+        orig_rbechec:          12
+        orig_rnechec:        8393
 Loesung beendet. 
 
 
@@ -1575,40 +1575,40 @@ a)
 
               empile:         251
            play_move:         248
-        orig_rbechec:          11
-        orig_rnechec:        2421
+        orig_rbechec:           9
+        orig_rnechec:        2420
 b) sTa6 
 
   1.Ta6-b6 Tb4-b1   2.Tb6-b3 Tb1-a1 # 
 
               empile:         610
            play_move:         599
-        orig_rbechec:          37
-        orig_rnechec:        2471
+        orig_rbechec:          23
+        orig_rnechec:        2464
 c) sLa6 
 
   1.La6-c4 Sd3-e1   2.Lc4-a2 Se1-c2 # 
 
               empile:          82
            play_move:          76
-        orig_rbechec:          11
-        orig_rnechec:        2411
+        orig_rbechec:           7
+        orig_rnechec:        2409
 d) sSa6 
 
   1.Sa6-c5 Sd3-c1   2.Sc5-a4 Tb4-b3 # 
 
               empile:         102
            play_move:          90
-        orig_rbechec:          17
-        orig_rnechec:        2422
+        orig_rbechec:           9
+        orig_rnechec:        2418
 e) sBa6 
 
   1.a6-a5 Tb4-b3 +   2.Ka3-a4 Sd3-c5 # 
 
               empile:          61
            play_move:          55
-        orig_rbechec:          11
-        orig_rnechec:        2405
+        orig_rbechec:           7
+        orig_rnechec:        2403
 Loesung beendet. 
 
 
@@ -1888,8 +1888,8 @@ a)
 
               empile:       90531
            play_move:       92712
-        orig_rbechec:        2974
-        orig_rnechec:       62515
+        orig_rbechec:        2258
+        orig_rnechec:       62155
 b) Drehung 180
 
   1.Ke4-f3 d2-d3   2.Le5-g3 De8-e4 # 
@@ -1899,8 +1899,8 @@ b) Drehung 180
 
               empile:       11403
            play_move:       11694
-        orig_rbechec:         522
-        orig_rnechec:       19802
+        orig_rbechec:         400
+        orig_rnechec:       19735
 Loesung beendet. 
 
 
@@ -1936,40 +1936,40 @@ a)
 
               empile:        1691
            play_move:        1750
-        orig_rbechec:          78
-        orig_rnechec:       14036
+        orig_rbechec:          38
+        orig_rnechec:       14016
 b)  -wBe7  +wSe8 
 
   1.Kf5-g5 d7-d8=D +   2.Kg5-h6 Dd8-h4 # 
 
               empile:         182
            play_move:         184
-        orig_rbechec:           9
-        orig_rnechec:        8364
+        orig_rbechec:           7
+        orig_rnechec:        8363
 c)  -wBe7  +wLe8 
 
   1.Tb6-f6 d7-d8=D   2.Kf5-e6 Dd8-d7 # 
 
               empile:        1047
            play_move:        1061
-        orig_rbechec:          45
-        orig_rnechec:       10728
+        orig_rbechec:          25
+        orig_rnechec:       10718
 d)  -wBe7  +wTe8 
 
   1.Kf5-f6 d7-d8=D +   2.Kf6-f7 Dd8-e7 # 
 
               empile:        1537
            play_move:        1526
-        orig_rbechec:          66
-        orig_rnechec:       16017
+        orig_rbechec:          32
+        orig_rnechec:       16000
 e)  -wBe7  +wDe8 
 
   1.Kf5-f6 De8-g8   2.Kf6-e7 d7-d8=D # 
 
               empile:       30695
            play_move:       31619
-        orig_rbechec:         866
-        orig_rnechec:       29749
+        orig_rbechec:         516
+        orig_rnechec:       29572
 Loesung beendet. 
 
 
@@ -2004,24 +2004,24 @@ a)
 
               empile:         189
            play_move:         188
-        orig_rbechec:          11
-        orig_rnechec:        5979
+        orig_rbechec:           9
+        orig_rnechec:        5978
 b) T ==> L
 
   1.Lc3-d4 Lf5-d3   2.Ld4-f2 Lc5-b4 # 
 
               empile:         116
            play_move:         114
-        orig_rbechec:           9
-        orig_rnechec:        3570
+        orig_rbechec:           7
+        orig_rnechec:        3569
 c) T ==> S
 
   1.Sc3-b1 Sf5-g3   2.Sb1-d2 Sc5-d3 # 
 
               empile:          88
            play_move:          86
-        orig_rbechec:           9
-        orig_rnechec:        1038
+        orig_rbechec:           7
+        orig_rnechec:        1037
 Loesung beendet. 
 
 
@@ -2056,40 +2056,40 @@ a)
 
               empile:         251
            play_move:         248
-        orig_rbechec:          11
-        orig_rnechec:        2421
+        orig_rbechec:           9
+        orig_rnechec:        2420
 b) sTa6 
 
   1.Ta6-b6 Tb4-b1   2.Tb6-b3 Tb1-a1 # 
 
               empile:         610
            play_move:         599
-        orig_rbechec:          37
-        orig_rnechec:        2471
+        orig_rbechec:          23
+        orig_rnechec:        2464
 c) sLa6 
 
   1.La6-c4 Sd3-e1   2.Lc4-a2 Se1-c2 # 
 
               empile:          82
            play_move:          76
-        orig_rbechec:          11
-        orig_rnechec:        2411
+        orig_rbechec:           7
+        orig_rnechec:        2409
 d) sSa6 
 
   1.Sa6-c5 Sd3-c1   2.Sc5-a4 Tb4-b3 # 
 
               empile:         102
            play_move:          90
-        orig_rbechec:          17
-        orig_rnechec:        2422
+        orig_rbechec:           9
+        orig_rnechec:        2418
 e) sBa6 
 
   1.a6-a5 Tb4-b3 +   2.Ka3-a4 Sd3-c5 # 
 
               empile:          61
            play_move:          55
-        orig_rbechec:          11
-        orig_rnechec:        2405
+        orig_rbechec:           7
+        orig_rnechec:        2403
 Loesung beendet. 
 
 
@@ -2124,48 +2124,48 @@ a)
 
               empile:       89503
            play_move:       87155
-        orig_rbechec:        2707
-        orig_rnechec:       95166
+        orig_rbechec:        2178
+        orig_rnechec:       94873
 b)  -sSc7
 
   1.Da8-a6 g2-g4   2.Da6-d3 Ld7*c6 # 
 
               empile:       65041
            play_move:       62855
-        orig_rbechec:        2306
-        orig_rnechec:       93339
+        orig_rbechec:        1806
+        orig_rnechec:       93063
 +c)  -sDa8
 
   1.Th8-e8 Sh3-f4   2.Te8-e5 d4-d5 # 
 
               empile:       37325
            play_move:       35502
-        orig_rbechec:        1746
-        orig_rnechec:       88351
+        orig_rbechec:        1326
+        orig_rnechec:       88123
 +d)  -sTh8
 
   1.f7-f5 Ld7-e6   2.f5-f4 Sh3-f2 # 
 
               empile:       15378
            play_move:       13768
-        orig_rbechec:        1210
-        orig_rnechec:       80637
+        orig_rbechec:         832
+        orig_rnechec:       80431
 +e)  -sBf7
 
   1.Lg6-f7 Ld7-e8   2.Lf7-d5 Le8-g6 # 
 
               empile:        9985
            play_move:        8908
-        orig_rbechec:         733
-        orig_rnechec:       66810
+        orig_rbechec:         515
+        orig_rnechec:       66694
 +f)  -sLg6
 
   1.c6-c5 Ta4-a5   2.c5*d4 Ld7-f5 # 
 
               empile:        2536
            play_move:        1917
-        orig_rbechec:         333
-        orig_rnechec:       50341
+        orig_rbechec:         207
+        orig_rnechec:       50277
 Loesung beendet. 
 
 
@@ -2200,48 +2200,48 @@ a)
 
               empile:         182
            play_move:         196
-        orig_rbechec:          14
-        orig_rnechec:        4952
+        orig_rbechec:          10
+        orig_rnechec:        4950
 b) sKh4<-->wLc6
 
   1.Kc6-d7 Kb8-b7   2.Ta6-e6 Tf8-d8 # 
 
               empile:         276
            play_move:         299
-        orig_rbechec:          27
-        orig_rnechec:        5710
+        orig_rbechec:          11
+        orig_rnechec:        5702
 +c) wLh4<-->wTf8
 
   1.Kc6-b5 Kb8-b7   2.Ta6-a5 Th4-b4 # 
 
               empile:         194
            play_move:         209
-        orig_rbechec:          17
-        orig_rnechec:        7820
+        orig_rbechec:           9
+        orig_rnechec:        7816
 +d) wTh4<-->sKc6
 
   1.Ta6-a3 Tc6-g6   2.Ta3-h3 Lf8-e7 # 
 
               empile:         509
            play_move:         513
-        orig_rbechec:          25
-        orig_rnechec:        3039
+        orig_rbechec:          19
+        orig_rnechec:        3036
 +e) sKh4<-->wLf8
 
   1.Ta6-a7 Lh4-f6   2.Ta7-f7 Tc6-c8 # 
 
               empile:         103
            play_move:         114
-        orig_rbechec:           9
-        orig_rnechec:        5080
+        orig_rbechec:           7
+        orig_rnechec:        5079
 +f) wLh4<-->wTc6
 
   1.Kf8-e7 Th4-e4 +   2.Ke7-d8 Te4-e8 # 
 
               empile:          83
            play_move:          88
-        orig_rbechec:           8
-        orig_rnechec:        3695
+        orig_rbechec:           6
+        orig_rnechec:        3694
 Loesung beendet. 
 
 
@@ -2276,64 +2276,64 @@ a)
 
               empile:         900
            play_move:         947
-        orig_rbechec:          34
-        orig_rnechec:       32793
+        orig_rbechec:          22
+        orig_rnechec:       32787
 b) sBa6-->b6
 
   1.Ke5-d6 Th8-d8 +   2.Kd6-c6 Da2-c4 # 
 
               empile:        1159
            play_move:        1214
-        orig_rbechec:          40
-        orig_rnechec:       32855
+        orig_rbechec:          26
+        orig_rnechec:       32848
 c) sBa6-->c6
 
   1.Ke5-d6 Da2*a8   2.Kd6-c7 Da8-d8 # 
 
               empile:        1317
            play_move:        1390
-        orig_rbechec:          44
-        orig_rnechec:       32891
+        orig_rbechec:          30
+        orig_rnechec:       32884
 d) sBa6-->d6
 
   1.Sg5-f7 Da2*f7   2.La1-d4 Th8-h5 # 
 
               empile:       20607
            play_move:       22762
-        orig_rbechec:         604
-        orig_rnechec:       35035
+        orig_rbechec:         520
+        orig_rnechec:       34993
 e) sBa6-->e6
 
   1.Ke5-f5 Th8-h5   2.e6-e5 Da2-f7 # 
 
               empile:        1385
            play_move:        1438
-        orig_rbechec:          52
-        orig_rnechec:       32999
+        orig_rbechec:          33
+        orig_rnechec:       32989
 f) sBa6-->f6
 
   1.Ta8-a4 Th8-d8   2.Ta4-f4 Da2-d5 # 
 
               empile:        4873
            play_move:        5190
-        orig_rbechec:         223
-        orig_rnechec:       33596
+        orig_rbechec:         139
+        orig_rnechec:       33553
 g) sBa6-->g6
 
   1.Ke5-f6 Da2*a8   2.Kf6-g7 Da8-f8 # 
 
               empile:        2123
            play_move:        2293
-        orig_rbechec:          68
-        orig_rnechec:       32917
+        orig_rbechec:          50
+        orig_rnechec:       32908
 h) sBa6-->h6
 
   1.Ke5-f6 Th8-f8 +   2.Kf6-g7 Da2-g8 # 
 
               empile:        1341
            play_move:        1414
-        orig_rbechec:          48
-        orig_rnechec:       32881
+        orig_rbechec:          30
+        orig_rnechec:       32872
 Loesung beendet. 
 
 

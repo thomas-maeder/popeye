@@ -32,8 +32,8 @@ a white piece that prevents a guarding piece from giving check
 
               empile:     1375055
            play_move:     1407809
-        orig_rbechec:       46811
-        orig_rnechec:      418368
+        orig_rbechec:       37992
+        orig_rnechec:      413642
 solution finished. 
 
 
@@ -71,8 +71,8 @@ the one that would give check without it
 
               empile:     1372630
            play_move:     1405639
-        orig_rbechec:       46620
-        orig_rnechec:      418298
+        orig_rbechec:       37801
+        orig_rnechec:      413572
 solution finished. 
 
 
@@ -105,7 +105,7 @@ don't miss double checks with promoted front piece ...
               empile:       10119
            play_move:       10463
         orig_rbechec:           0
-        orig_rnechec:       33151
+        orig_rnechec:       33050
 solution finished. 
 
 
@@ -138,7 +138,7 @@ solution finished.
               empile:       42224
            play_move:       42154
         orig_rbechec:           0
-        orig_rnechec:       41595
+        orig_rnechec:       41542
 solution finished. 
 
 

@@ -431,8 +431,8 @@ solution finished.
 
               empile:         510
            play_move:         543
-        orig_rbechec:          63
-        orig_rnechec:         692
+        orig_rbechec:          11
+        orig_rnechec:         640
 solution finished. 
 
 
@@ -465,8 +465,8 @@ intelligent mode bug: did not find mates ...
 
               empile:          74
            play_move:          74
-        orig_rbechec:           9
-        orig_rnechec:         216
+        orig_rbechec:           5
+        orig_rnechec:         214
 solution finished. 
 
 
@@ -499,8 +499,8 @@ option start in intelligent mode
 
               empile:       68145
            play_move:       68145
-        orig_rbechec:        4129
-        orig_rnechec:        4707
+        orig_rbechec:        4099
+        orig_rnechec:        4692
 solution finished. 
 
 
