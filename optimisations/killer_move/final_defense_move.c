@@ -55,43 +55,20 @@ void killer_move_optimise_final_defense_move(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try the defenses generated in the current ply
- * @param si slice index
- * @return true iff a refutation was found
- */
-static stip_length_type try_last_defenses(slice_index si)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = solve(next,slack_length+1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try defenses by pieces other than the killer piece
  * @param si slice index
- * @param defender defending side
  * @param killer_pos square occupied by killer piece
  * @return true iff a refutation was found
  */
-static stip_length_type iterate_non_killer(slice_index si,
-                                           Side defender,
-                                           square killer_pos)
+static stip_length_type defend_with_non_killer_pieces(slice_index si,
+                                                      square killer_pos)
 {
+  Side const defender = slices[si].starter;
   square const *selfbnp;
   stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,defender,"");
   TraceSquare(killer_pos);
   TraceFunctionParamListEnd();
 
@@ -120,9 +97,9 @@ static stip_length_type iterate_non_killer(slice_index si,
         }
 
         {
-          stip_length_type const result2 = try_last_defenses(si);
-          if (result2>result)
-            result = result2;
+          stip_length_type const result_next_non_killer = solve(slices[si].next1,slack_length+1);
+          if (result_next_non_killer>result)
+            result = result_next_non_killer;
         }
       }
     }
@@ -138,9 +115,9 @@ static stip_length_type iterate_non_killer(slice_index si,
  * @param killer_pos square occupied by killer piece
  * @return true iff a refutation was found
  */
-static stip_length_type iterate_killer_first(slice_index si,
-                                             square killer_pos,
-                                             piece killer)
+static stip_length_type defend_with_killer_piece(slice_index si,
+                                                 square killer_pos,
+                                                 piece killer)
 {
   Side const defender = slices[si].starter;
   stip_length_type result = slack_length-1;
@@ -150,9 +127,6 @@ static stip_length_type iterate_killer_first(slice_index si,
   TraceSquare(killer_pos);
   TracePiece(killer);
   TraceFunctionParamListEnd();
-
-  nextply();
-  trait[nbply] = defender;
 
   if (killer!=vide && killer!=obs)
   {
@@ -177,17 +151,8 @@ static stip_length_type iterate_killer_first(slice_index si,
 
     finish_move_generation_optimizer();
 
-    result = try_last_defenses(si);
+    result = solve(slices[si].next1,slack_length+1);
   }
-
-  if (result<=slack_length+1)
-  {
-    stip_length_type const result2 = iterate_non_killer(si,defender,killer_pos);
-    if (result2>result)
-      result = result2;
-  }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -206,9 +171,10 @@ static stip_length_type iterate_killer_first(slice_index si,
 stip_length_type killer_move_final_defense_move_solve(slice_index si,
                                                        stip_length_type n)
 {
+  Side const defender = slices[si].starter;
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];
-  stip_length_type result;
+  stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -221,7 +187,19 @@ stip_length_type killer_move_final_defense_move_solve(slice_index si,
   TracePiece(killer);
   TraceText("\n");
 
-  result = iterate_killer_first(si,killer_pos,killer);
+  nextply();
+  trait[nbply] = defender;
+
+  result = defend_with_killer_piece(si,killer_pos,killer);
+
+  if (result<=slack_length+1)
+  {
+    stip_length_type const result_non_killers = defend_with_non_killer_pieces(si,killer_pos);
+    if (result_non_killers>result)
+      result = result_non_killers;
+  }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
