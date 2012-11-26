@@ -149,6 +149,7 @@
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerAttackCollector), /* remember killer defenses */ \
     ENUMERATOR(STKillerDefenseCollector), /* remember killer moves */   \
+    ENUMERATOR(STKillerMovePrioriser), /* priorise killer move */ \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \

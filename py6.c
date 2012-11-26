@@ -2476,9 +2476,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (TSTFLAG(PieSpExFlags,Paralyse))
     stip_insert_paralysing_goal_filters(result);
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    stip_insert_neutral_initialisers(result);
-
   if (CondFlag[SAT] || CondFlag[strictSAT])
     stip_substitute_sat_king_flight_generators(result);
 
@@ -2755,6 +2752,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_insert_output_slices(result);
 
   stip_optimise_with_killer_moves(result);
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    stip_insert_neutral_initialisers(result);
 
   if (OptFlag[solmenaces]
       && !stip_insert_maxthreatlength_guards(result))

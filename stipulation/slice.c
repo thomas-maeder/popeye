@@ -101,7 +101,8 @@ static slice_type const fork_slice_types[] =
     STAprilAprilFork,
     STCirceCageNoCageFork,
     STSuperCirceNoRebirthFork,
-    STMovingPawnToImitatorPromoter
+    STMovingPawnToImitatorPromoter,
+    STKillerMoveFinalDefenseMove
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -204,7 +205,6 @@ static slice_type const move_generator_slice_types[] =
     STNonKingMoveGenerator,
     STCastlingIntermediateMoveGenerator,
     STOrthodoxMatingMoveGenerator,
-    STKillerMoveFinalDefenseMove,
     STSingleMoveGeneratorWithKingCapture,
     STSingleMoveGenerator
 };
@@ -232,7 +232,8 @@ static slice_type const binary_slice_types[] =
     STAprilAprilFork,
     STCirceCageNoCageFork,
     STSuperCirceNoRebirthFork,
-    STMovingPawnToImitatorPromoter
+    STMovingPawnToImitatorPromoter,
+    STKillerMoveFinalDefenseMove
 };
 
 static slice_type const testing_pipe_slice_types[] =

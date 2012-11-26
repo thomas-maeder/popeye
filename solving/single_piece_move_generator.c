@@ -61,6 +61,7 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   nextply();
+  trait[nbply] = side_at_move;
 
   TraceValue("%u\n",current_move[nbply]);
 
@@ -77,13 +78,13 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
       gen_bl_piece(square_departure,p);
   }
 
+  square_departure = initsquare;
+
   TraceValue("%u\n",current_move[nbply]);
 
   result = solve(next,n);
 
   finply();
-
-  square_departure = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

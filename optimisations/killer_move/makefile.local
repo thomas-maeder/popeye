@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 #
 
-SRC_CFILES = killer_move.c collector.c final_defense_move.c
+SRC_CFILES = killer_move.c collector.c final_defense_move.c prioriser.c
 
-INCLUDES = killer_move.h collector.h final_defense_move.h
+INCLUDES = killer_move.h collector.h final_defense_move.h prioriser.h
 
 include makefile.rules $(CURRPWD)depend
