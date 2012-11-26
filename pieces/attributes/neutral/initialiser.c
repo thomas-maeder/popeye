@@ -302,7 +302,7 @@ stip_length_type neutral_replaying_recolorer_solve(slice_index si,
   return result;
 }
 
-static void insert_initialser(slice_index si, stip_structure_traversal *st)
+static void insert_initialiser(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -335,7 +335,7 @@ void stip_insert_neutral_initialisers(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
                                            STGeneratingMoves,
-                                           &insert_initialser);
+                                           &insert_initialiser);
   stip_traverse_structure(si,&st);
 
   stip_instrument_moves(si,STPiecesNeutralRetractingRecolorer);
