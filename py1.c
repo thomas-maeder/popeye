@@ -468,7 +468,7 @@ void InitAlways(void) {
 
   memset((char *) exist, 0, sizeof(exist));
 
-  move_generation_mode= move_generation_optimized_by_killer_move;
+  move_generation_mode= move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
 
   nbply = nil_ply;
