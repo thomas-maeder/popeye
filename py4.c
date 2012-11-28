@@ -315,10 +315,6 @@ static void add_to_empile_optimization_table(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  /* for testempile() - mren shouldn't be relevant if we optimize by
-   * number of opponent moves */
-  add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
-
   curr_elmt->move.departure = sq_departure;
   curr_elmt->move.arrival = sq_arrival;
   curr_elmt->move.capture = sq_capture;
@@ -693,19 +689,11 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       break;
   }
 
+  add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
+
   TraceValue("%u\n",move_generation_mode);
-  switch (move_generation_mode)
-  {
-    case move_generation_optimised_by_nr_opponent_moves:
-      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
-      break;
-    case move_generation_not_optimised:
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
-      break;
-    default:
-      assert(0);
-      break;
-  }
+  if (move_generation_mode==move_generation_optimised_by_nr_opponent_moves)
+    add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
 
   return true;
 } /* empile */
