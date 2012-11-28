@@ -231,28 +231,18 @@ static int count_opponent_moves(void)
 }
 
 void init_move_generation_optimizer(void) {
-  switch (move_generation_mode) {
-  case move_generation_optimised_by_nr_opponent_moves:
-    empile_optimization_table_count= 0;
-    current_killer_state = null_killer_state;
-    break;
-  case move_generation_optimised_by_killer_move:
-    current_killer_state.move.departure = kpilcd[nbply];
-    current_killer_state.move.arrival = kpilca[nbply];
-    current_killer_state.found = false;
-    break;
-  case move_generation_not_optimised:
-    /* nothing */
-    break;
+  switch (move_generation_mode)
+  {
+    case move_generation_optimised_by_nr_opponent_moves:
+      empile_optimization_table_count= 0;
+      break;
+    case move_generation_not_optimised:
+      /* nothing */
+      break;
+    default:
+      assert(0);
+      break;
   }
-}
-
-static boolean is_killer_move(square sq_departure,
-                              square sq_arrival,
-                              square sq_capture)
-{
-  return current_killer_state.move.departure==sq_departure
-    && current_killer_state.move.arrival==sq_arrival;
 }
 
 static int compare_nr_opponent_moves(const void *a, const void *b) {
@@ -261,34 +251,32 @@ static int compare_nr_opponent_moves(const void *a, const void *b) {
 }
 
 void finish_move_generation_optimizer(void) {
-  switch (move_generation_mode) {
-  case move_generation_optimised_by_nr_opponent_moves:
+  switch (move_generation_mode)
   {
-    empile_optimization_table_elmt *
-      curr_elmt = empile_optimization_table+empile_optimization_table_count;
-    qsort(empile_optimization_table,
-          empile_optimization_table_count,
-          sizeof(empile_optimization_table_elmt),
-          &compare_nr_opponent_moves);
-    /* undo the offect of calling add_to_move_generation_stack() in
-     * add_to_empile_optimization_table() */
-    current_move[nbply] = current_move[parent_ply[nbply]];
-    while (curr_elmt!=empile_optimization_table) {
-      current_move[nbply]++;
-      --curr_elmt;
-      move_generation_stack[current_move[nbply]]= curr_elmt->move;
+    case move_generation_optimised_by_nr_opponent_moves:
+    {
+      empile_optimization_table_elmt *
+        curr_elmt = empile_optimization_table+empile_optimization_table_count;
+      qsort(empile_optimization_table,
+            empile_optimization_table_count,
+            sizeof(empile_optimization_table_elmt),
+            &compare_nr_opponent_moves);
+      /* undo the offect of calling add_to_move_generation_stack() in
+       * add_to_empile_optimization_table() */
+      current_move[nbply] = current_move[parent_ply[nbply]];
+      while (curr_elmt!=empile_optimization_table) {
+        current_move[nbply]++;
+        --curr_elmt;
+        move_generation_stack[current_move[nbply]]= curr_elmt->move;
+      }
+      break;
     }
-    break;
-  }
-  case move_generation_optimised_by_killer_move:
-    if (current_killer_state.found) {
-      current_move[nbply]++;
-      move_generation_stack[current_move[nbply]] = current_killer_state.move;
-    }
-    break;
-  case move_generation_not_optimised:
-    /* nothing */
-    break;
+    case move_generation_not_optimised:
+      /* nothing */
+      break;
+    default:
+      assert(0);
+      break;
   }
 }
 
@@ -335,18 +323,10 @@ static void add_to_empile_optimization_table(square sq_departure,
   curr_elmt->move.arrival = sq_arrival;
   curr_elmt->move.capture = sq_capture;
   curr_elmt->nr_opponent_moves = count_opponent_moves();
-  if (is_killer_move(sq_departure,sq_arrival,sq_capture))
-    curr_elmt->nr_opponent_moves -= empile_optimization_priorize_killmove_by;
   ++empile_optimization_table_count;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static void save_as_killer_move(square capture)
-{
-  current_killer_state.found = true;
-  current_killer_state.move.capture = capture;
 }
 
 DEFINE_COUNTER(empile)
@@ -719,22 +699,11 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     case move_generation_optimised_by_nr_opponent_moves:
       add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
       break;
-    case move_generation_optimised_by_killer_move:
-      if (!is_killer_move(sq_departure,sq_arrival,sq_capture)
-          || CondFlag[messigny]
-          || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
-          || CondFlag[whsupertrans_king]
-          || CondFlag[blsupertrans_king]
-          || CondFlag[takemake]
-          || CondFlag[exclusive]
-          || CondFlag[isardam]
-          || CondFlag[ohneschach])
-        add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
-      else
-        save_as_killer_move(sq_capture);
-      break;
     case move_generation_not_optimised:
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
+      break;
+    default:
+      assert(0);
       break;
   }
 

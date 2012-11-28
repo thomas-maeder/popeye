@@ -21,20 +21,6 @@
 #define EXTERN
 #include "pydata.h"
 
-killer_state const null_killer_state = {
-  false,
-  {
-    initsquare,
-    initsquare,
-    initsquare,
-    initsquare,
-    vide,
-    vide,
-    initsquare,
-    initsquare
-  }
-};
-
 static int comparePieceNames(void const * param1, void const * param2)
 {
   PieceChar const *name1 = (PieceChar const *)param1;

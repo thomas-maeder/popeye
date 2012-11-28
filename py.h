@@ -244,11 +244,6 @@ typedef struct {
 } move_generation_elmt;
 
 typedef struct {
-    boolean found;
-    move_generation_elmt move;
-} killer_state;
-
-typedef struct {
   square square;
   piece pc;
 } change_rec;
@@ -258,14 +253,8 @@ typedef struct {
 	int nr_opponent_moves;
 } empile_optimization_table_elmt;
 
-enum
-{
-  empile_optimization_priorize_killmove_by = 5
-};
-
 typedef enum {
   move_generation_optimised_by_nr_opponent_moves,
-  move_generation_optimised_by_killer_move,
   move_generation_not_optimised
 } move_generation_mode_type;
 

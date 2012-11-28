@@ -102,12 +102,6 @@ EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 EXTERN  ply             nbply;
 
-EXTERN  killer_state current_killer_state;
-
-#if defined(WE_ARE_EXTERN)
-EXTERN  killer_state const null_killer_state;
-#endif
-
 EXTERN  pilecase        kpilcd;
 EXTERN  pilecase        kpilca;
 
