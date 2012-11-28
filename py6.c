@@ -2749,9 +2749,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_impose_starter(result,slices[result].starter);
   stip_optimise_with_countnropponentmoves(result);
 
-  stip_insert_output_slices(result);
-
   stip_optimise_with_killer_moves(result);
+
+  stip_insert_output_slices(result);
 
   if (TSTFLAG(PieSpExFlags,Neutral))
     stip_insert_neutral_initialisers(result);
