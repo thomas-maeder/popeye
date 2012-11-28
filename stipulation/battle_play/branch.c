@@ -65,6 +65,7 @@ static slice_index const slice_rank_order[] =
   STPiecesNeutralInitialiser,
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
+  STDoneGeneratingMoves,
   STMummerOrchestrator,
   STMove,
   STForEachAttack,
@@ -245,6 +246,7 @@ static slice_index const slice_rank_order[] =
   STMoveGenerator,
   STSinglePieceMoveGenerator,
   STKillerMovePrioriser,
+  STDoneGeneratingMoves,
   STMummerOrchestrator,
   STMove,
   STForEachDefense,
@@ -590,6 +592,7 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const generating = alloc_pipe(STGeneratingMoves);
+    slice_index const done_generating = alloc_pipe(STDoneGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const played = alloc_defense_played_slice();
     slice_index const notgoal = alloc_pipe(STNotEndOfBranchGoal);
@@ -599,7 +602,8 @@ slice_index alloc_defense_branch(slice_index next,
     pipe_link(ready,testpre);
     pipe_link(testpre,deadend);
     pipe_link(deadend,generating);
-    pipe_link(generating,defense);
+    pipe_link(generating,done_generating);
+    pipe_link(done_generating,defense);
     pipe_link(defense,played);
     pipe_link(played,notgoal);
     pipe_link(notgoal,notend);
@@ -638,6 +642,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
+    slice_index const done_agenerating = alloc_pipe(STDoneGeneratingMoves);
     slice_index const attack = alloc_pipe(STMove);
     slice_index const aplayed = alloc_attack_played_slice();
     slice_index const anotgoal = alloc_pipe(STNotEndOfBranchGoal);
@@ -647,6 +652,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const ddeadend = alloc_dead_end_slice();
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
+    slice_index const done_dgenerating = alloc_pipe(STDoneGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const dplayed = alloc_defense_played_slice();
     slice_index const dnotgoal = alloc_pipe(STNotEndOfBranchGoal);
@@ -656,7 +662,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(aready,atestpre);
     pipe_link(atestpre,adeadend);
     pipe_link(adeadend,agenerating);
-    pipe_link(agenerating,attack);
+    pipe_link(agenerating,done_agenerating);
+    pipe_link(done_agenerating,attack);
     pipe_link(attack,aplayed);
     pipe_link(aplayed,anotgoal);
     pipe_link(anotgoal,anotend);
@@ -664,7 +671,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dready,dtestpre);
     pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
-    pipe_link(dgenerating,defense);
+    pipe_link(dgenerating,done_dgenerating);
+    pipe_link(done_dgenerating,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dnotgoal);
     pipe_link(dnotgoal,dnotend);

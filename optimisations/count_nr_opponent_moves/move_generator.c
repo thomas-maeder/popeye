@@ -82,16 +82,16 @@ static void optimise_defense_move_generator(slice_index si,
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const copy = copy_slice(si);
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,3);
-    slice_index const proxy3 = alloc_proxy_slice();
+
+    assert(slices[slices[si].next1].type==STDoneGeneratingMoves);
 
     pipe_link(slices[si].prev,fork);
 
     pipe_link(proxy1,si);
-    slices[si].u.move_generator.mode = move_generation_optimized_by_nr_opponent_moves;
-    pipe_append(si,proxy3);
+    slices[si].u.move_generator.mode = move_generation_optimised_by_nr_opponent_moves;
 
     pipe_link(proxy2,copy);
-    pipe_set_successor(copy,proxy3);
+    pipe_set_successor(copy,slices[si].next1);
   }
 
   TraceFunctionExit(__func__);

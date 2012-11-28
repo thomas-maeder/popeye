@@ -222,7 +222,7 @@ static int count_opponent_moves(void)
 
   result = fini_opponent_moves_counter();
 
-  move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
+  move_generation_mode = move_generation_optimised_by_nr_opponent_moves;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -232,16 +232,16 @@ static int count_opponent_moves(void)
 
 void init_move_generation_optimizer(void) {
   switch (move_generation_mode) {
-  case move_generation_optimized_by_nr_opponent_moves:
+  case move_generation_optimised_by_nr_opponent_moves:
     empile_optimization_table_count= 0;
     current_killer_state = null_killer_state;
     break;
-  case move_generation_optimized_by_killer_move:
+  case move_generation_optimised_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];
     current_killer_state.move.arrival = kpilca[nbply];
     current_killer_state.found = false;
     break;
-  case move_generation_not_optimized:
+  case move_generation_not_optimised:
     /* nothing */
     break;
   }
@@ -262,7 +262,7 @@ static int compare_nr_opponent_moves(const void *a, const void *b) {
 
 void finish_move_generation_optimizer(void) {
   switch (move_generation_mode) {
-  case move_generation_optimized_by_nr_opponent_moves:
+  case move_generation_optimised_by_nr_opponent_moves:
   {
     empile_optimization_table_elmt *
       curr_elmt = empile_optimization_table+empile_optimization_table_count;
@@ -280,13 +280,13 @@ void finish_move_generation_optimizer(void) {
     }
     break;
   }
-  case move_generation_optimized_by_killer_move:
+  case move_generation_optimised_by_killer_move:
     if (current_killer_state.found) {
       current_move[nbply]++;
       move_generation_stack[current_move[nbply]] = current_killer_state.move;
     }
     break;
-  case move_generation_not_optimized:
+  case move_generation_not_optimised:
     /* nothing */
     break;
   }
@@ -716,10 +716,10 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   TraceValue("%u\n",move_generation_mode);
   switch (move_generation_mode)
   {
-    case move_generation_optimized_by_nr_opponent_moves:
+    case move_generation_optimised_by_nr_opponent_moves:
       add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
       break;
-    case move_generation_optimized_by_killer_move:
+    case move_generation_optimised_by_killer_move:
       if (!is_killer_move(sq_departure,sq_arrival,sq_capture)
           || CondFlag[messigny]
           || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
@@ -733,7 +733,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       else
         save_as_killer_move(sq_capture);
       break;
-    case move_generation_not_optimized:
+    case move_generation_not_optimised:
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
       break;
   }
@@ -2073,10 +2073,10 @@ static void filter(square i, numecoup prevnbcou, UPDOWN u)
 {
   numecoup s = prevnbcou+1;
 
-  /* to support move_generation_optimized_by_nr_opponent_moves, we'd
+  /* to support move_generation_optimised_by_nr_opponent_moves, we'd
    * have to filter in empile_optimization_table
    */
-  assert(move_generation_mode!=move_generation_optimized_by_nr_opponent_moves);
+  assert(move_generation_mode!=move_generation_optimised_by_nr_opponent_moves);
 
   while (s<=current_move[nbply])
     if ((u==DOWN && move_generation_stack[s].arrival-i>-8)

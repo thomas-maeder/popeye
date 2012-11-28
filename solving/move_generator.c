@@ -25,7 +25,7 @@ slice_index alloc_move_generator_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STMoveGenerator);
-  slices[result].u.move_generator.mode = move_generation_not_optimized;
+  slices[result].u.move_generator.mode = move_generation_not_optimised;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

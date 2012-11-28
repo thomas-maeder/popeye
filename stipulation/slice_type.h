@@ -113,6 +113,7 @@
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
     ENUMERATOR(STGeneratingMoves),  /* proxy marking start of move generation */ \
+    ENUMERATOR(STDoneGeneratingMoves),  /* proxy marking end of move generation */ \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \

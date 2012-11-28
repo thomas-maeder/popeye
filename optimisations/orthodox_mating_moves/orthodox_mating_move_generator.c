@@ -166,7 +166,7 @@ static void optimise_final_moves_move_generator(slice_index si,
       && !state->notNecessarilyFinalMove
       && enabled[starter])
   {
-    move_generation_mode_type mode = st->context==stip_traversal_context_attack ? move_generation_optimized_by_killer_move : move_generation_not_optimized;
+    move_generation_mode_type mode = st->context==stip_traversal_context_attack ? move_generation_optimised_by_killer_move : move_generation_not_optimised;
     slice_index const generator
       = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached,mode);
     if (st->full_length<=2)

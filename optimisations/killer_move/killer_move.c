@@ -163,19 +163,22 @@ static void substitute_killermove_machinery(slice_index si,
 
   if (enabled[slices[si].starter]
       && st->activity==stip_traversal_activity_testing
-      && slices[si].u.move_generator.mode==move_generation_not_optimized)
+      && slices[si].u.move_generator.mode==move_generation_not_optimised)
   {
     if (context==stip_traversal_context_attack)
     {
       slice_index const prototype = alloc_killer_attack_collector_slice();
       attack_branch_insert_slices(si,&prototype,1);
-      slices[si].u.move_generator.mode = move_generation_optimized_by_killer_move;
+      slices[si].u.move_generator.mode = move_generation_optimised_by_killer_move;
     }
     else if (context==stip_traversal_context_defense)
     {
-      slice_index const prototype = alloc_killer_defense_collector_slice();
-      defense_branch_insert_slices(si,&prototype,1);
-      slices[si].u.move_generator.mode = move_generation_optimized_by_killer_move;
+      slice_index const prototypes[] =
+      {
+          alloc_pipe(STKillerMovePrioriser),
+          alloc_killer_defense_collector_slice()
+      };
+      defense_branch_insert_slices(si,prototypes,2);
     }
   }
 

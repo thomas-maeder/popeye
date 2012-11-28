@@ -264,9 +264,9 @@ enum
 };
 
 typedef enum {
-  move_generation_optimized_by_nr_opponent_moves,
-  move_generation_optimized_by_killer_move,
-  move_generation_not_optimized
+  move_generation_optimised_by_nr_opponent_moves,
+  move_generation_optimised_by_killer_move,
+  move_generation_not_optimised
 } move_generation_mode_type;
 
 

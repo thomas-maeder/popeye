@@ -29,7 +29,7 @@ boolean suffocated_by_paralysis(Side side)
  TraceEnumerator(Side,side,"");
  TraceFunctionParamListEnd();
 
- move_generation_mode = move_generation_not_optimized;
+ move_generation_mode = move_generation_not_optimised;
 
  paralysis_suspended = true;
  genmove(side);

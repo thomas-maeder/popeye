@@ -184,6 +184,7 @@ static slice_type const proxy_slice_types[] =
     STGoalDoubleStalemateReachedTester,
     STGoalAutoStalemateReachedTester,
     STGeneratingMoves,
+    STDoneGeneratingMoves,
     STEndOfRefutationSolvingBranch,
     STSolvingContinuation,
     STThreatStart,
