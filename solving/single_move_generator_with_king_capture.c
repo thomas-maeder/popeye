@@ -77,11 +77,9 @@ stip_length_type single_move_generator_with_king_capture_solve(slice_index si,
 
   nextply();
   trait[nbply] = side_at_move;
-  init_move_generation_optimizer();
   k_cap = true;         /* allow K capture */
   empile(square_departure[nbply],square_arrival[nbply],square_capture[nbply]);
   k_cap = false;
-  finish_move_generation_optimizer();
   result = solve(next,n);
   finply();
 
