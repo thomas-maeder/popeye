@@ -2,11 +2,30 @@
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Allocate a STKillerMovePrioriser slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_killer_move_prioriser_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STKillerMovePrioriser);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static boolean is_killer_move(numecoup i)
 {

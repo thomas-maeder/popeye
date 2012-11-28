@@ -2,6 +2,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"
+#include "optimisations/killer_move/prioriser.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "debugging/trace.h"
@@ -175,7 +176,7 @@ static void substitute_killermove_machinery(slice_index si,
     {
       slice_index const prototypes[] =
       {
-          alloc_pipe(STKillerMovePrioriser),
+          alloc_killer_move_prioriser_slice(),
           alloc_killer_defense_collector_slice()
       };
       defense_branch_insert_slices(si,prototypes,2);

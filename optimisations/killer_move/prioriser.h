@@ -3,6 +3,11 @@
 
 #include "solving/solve.h"
 
+/* Allocate a STKillerMovePrioriser slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_killer_move_prioriser_slice(void);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

@@ -7,6 +7,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/single_piece_move_generator.h"
+#include "optimisations/killer_move/prioriser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -28,7 +29,7 @@ void killer_move_optimise_final_defense_move(slice_index si)
     slice_index const proxy3 = alloc_proxy_slice();
     slice_index const proxy4 = alloc_proxy_slice();
     slice_index const proxy5 = alloc_proxy_slice();
-    slice_index const prioriser = alloc_pipe(STKillerMovePrioriser);
+    slice_index const prioriser = alloc_killer_move_prioriser_slice();
     slice_index const generator1 = alloc_single_piece_move_generator_slice();
     slice_index const generator2 = alloc_single_piece_move_generator_slice();
     slice_index const last_defense = alloc_binary_slice(STKillerMoveFinalDefenseMove,proxy3,proxy4);

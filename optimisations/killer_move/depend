@@ -7,7 +7,8 @@ optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h solving/solve.h stipulation/battle_play/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- solving/fork_on_remaining.h optimisations/killer_move/collector.h \
+ solving/fork_on_remaining.h optimisations/killer_move/prioriser.h \
+ optimisations/killer_move/collector.h \
  optimisations/killer_move/final_defense_move.h debugging/trace.h
 
 optimisations/killer_move/killer_move.h:
@@ -53,6 +54,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 solving/fork_on_remaining.h:
+
+optimisations/killer_move/prioriser.h:
 
 optimisations/killer_move/collector.h:
 
@@ -139,7 +142,8 @@ optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h solving/fork_on_remaining.h \
- solving/single_piece_move_generator.h debugging/trace.h
+ solving/single_piece_move_generator.h \
+ optimisations/killer_move/prioriser.h debugging/trace.h
 
 optimisations/killer_move/final_defense_move.h:
 
@@ -201,6 +205,8 @@ solving/fork_on_remaining.h:
 
 solving/single_piece_move_generator.h:
 
+optimisations/killer_move/prioriser.h:
+
 debugging/trace.h:
 optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  optimisations/killer_move/prioriser.c \
@@ -211,7 +217,7 @@ optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/pipe.h debugging/trace.h
 
 optimisations/killer_move/prioriser.h:
 
@@ -260,5 +266,7 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/has_solution_type.h:
+
+stipulation/pipe.h:
 
 debugging/trace.h:
