@@ -1,59 +1,59 @@
 anfangproblem
 
-protokoll	threat.out
+protokoll       threat.out
 
-autor 		Torsten Lin"s
-quelle		??
+autor           Torsten Lin"s
+quelle          ??
 
-forderung 	#4
-bedingung 	gitterschach
+forderung       #4
+bedingung       gitterschach
 
-option	 	varianten
-		drohung	1
+option          varianten
+                drohung 1
 
-steine 		weiss 	kg5 tf3 sa3c4
-		schw 	bd7c3g3a2e2 th5 kb3
-
-weiteresproblem
-
-autor 		Hans Peter Rehm & Klaus Wenda
-quelle 		2. Preis, Vissermann-Memo 1978
-
-forderung 	#8
-bedingung 	circe
-
-option 		varianten
- 		drohung 1
-
-steine 	weiss 	sb1d3 ke1 be2b3g4 lg2
-	schwarz lc8f8 th6g6 bd5h5c3e3 kd4
+steine          weiss   kg5 tf3 sa3c4
+                schw    bd7c3g3a2e2 th5 kb3
 
 weiteresproblem
 
-autor 		Kjell Widlert
-quelle 		4. ehr. Erw., feenschach 1979
+autor           Hans Peter Rehm & Klaus Wenda
+quelle          2. Preis, Vissermann-Memo 1978
 
-forderung 	#5
-option 		varianten
-		drohung 1
+forderung       #8
+bedingung       circe
 
-steine 		weiss 	kd7 bb3 sd3 lg1h1
-		schwarz ba6e5g5d4f4e3 kd5
-		neutral te4
+option          varianten
+                drohung 1
+
+steine  weiss   sb1d3 ke1 be2b3g4 lg2
+        schwarz lc8f8 th6g6 bd5h5c3e3 kd4
 
 weiteresproblem
 
-autor 		Kjell Widlert
-quelle 		1. Preis ea, Andernach 1987
-bemerkung	nebenloesig - eigentlich #6
+autor           Kjell Widlert
+quelle          4. ehr. Erw., feenschach 1979
 
-forderung 	#5
-bedingung	platzwechselcirce
+forderung       #5
+option          varianten
+                drohung 1
 
-option 		varianten
- 		drohung 1
+steine          weiss   kd7 bb3 sd3 lg1h1
+                schwarz ba6e5g5d4f4e3 kd5
+                neutral te4
 
-steine 		weiss 	bb5a2 sc2 rod1 kf1
-		schwarz tb8 ba7a5c5e5g5d4c3f3 sb2e6 ka4 lb6
+weiteresproblem
+
+autor           Kjell Widlert
+quelle          1. Preis ea, Andernach 1987
+bemerkung       nebenloesig - eigentlich #6
+
+forderung       #5
+bedingung       platzwechselcirce
+
+option          varianten
+                drohung 1
+
+steine          weiss   bb5a2 sc2 rod1 kf1
+                schwarz tb8 ba7a5c5e5g5d4c3f3 sb2e6 ka4 lb6
 
 endeproblem
