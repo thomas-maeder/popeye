@@ -516,7 +516,6 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
 
   nextply();
   trait[nbply]= side_at_move;
-  init_move_generation_optimizer();
 
   /* Don't try to "optimize" by hand. The double-loop is tested as
    * the fastest way to compute (due to compiler-optimizations!) */
@@ -570,8 +569,6 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
       }
     }
   }
-
-  finish_move_generation_optimizer();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
