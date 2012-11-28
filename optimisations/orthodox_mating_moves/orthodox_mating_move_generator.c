@@ -4,6 +4,7 @@
 #include "pyproc.h"
 #include "stipulation/pipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "optimisations/killer_move/prioriser.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"
@@ -166,22 +167,30 @@ static void optimise_final_moves_move_generator(slice_index si,
       && !state->notNecessarilyFinalMove
       && enabled[starter])
   {
-    move_generation_mode_type mode = st->context==stip_traversal_context_attack ? move_generation_optimised_by_killer_move : move_generation_not_optimised;
     slice_index const generator
-      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached,mode);
+      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached,
+                                                   move_generation_not_optimised);
     if (st->full_length<=2)
+    {
       pipe_substitute(si,generator);
+      if (st->context==stip_traversal_context_attack)
+        pipe_append(si,alloc_killer_move_prioriser_slice());
+    }
     else
     {
       slice_index const proxy1 = alloc_proxy_slice();
       slice_index const proxy2 = alloc_proxy_slice();
       slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
       slice_index const proxy3 = alloc_proxy_slice();
+      slice_index const proxy4 = alloc_proxy_slice();
       pipe_link(slices[si].prev,fork);
       pipe_link(proxy1,si);
       pipe_append(si,proxy3);
       pipe_link(proxy2,generator);
-      pipe_set_successor(generator,proxy3);
+      pipe_link(generator,proxy4);
+      if (st->context==stip_traversal_context_attack)
+        pipe_append(generator,alloc_killer_move_prioriser_slice());
+      pipe_set_successor(proxy4,proxy3);
     }
   }
 
