@@ -73,7 +73,8 @@ optimisations/killer_move/collector$(OBJ_SUFFIX): \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h \
+ optimisations/killer_move/killer_move.h debugging/trace.h
 
 optimisations/killer_move/collector.h:
 
@@ -129,6 +130,8 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
+optimisations/killer_move/killer_move.h:
+
 debugging/trace.h:
 optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.c \
@@ -143,7 +146,8 @@ optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h solving/fork_on_remaining.h \
  solving/single_piece_move_generator.h \
- optimisations/killer_move/prioriser.h debugging/trace.h
+ optimisations/killer_move/prioriser.h \
+ optimisations/killer_move/killer_move.h debugging/trace.h
 
 optimisations/killer_move/final_defense_move.h:
 
@@ -207,6 +211,8 @@ solving/single_piece_move_generator.h:
 
 optimisations/killer_move/prioriser.h:
 
+optimisations/killer_move/killer_move.h:
+
 debugging/trace.h:
 optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  optimisations/killer_move/prioriser.c \
@@ -217,7 +223,8 @@ optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/pipe.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/pipe.h \
+ optimisations/killer_move/killer_move.h debugging/trace.h
 
 optimisations/killer_move/prioriser.h:
 
@@ -268,5 +275,7 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
+
+optimisations/killer_move/killer_move.h:
 
 debugging/trace.h:

@@ -38,9 +38,10 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  stipulation/goals/goals.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
- options/nontrivial.h options/maxthreatlength.h options/movenumbers.h \
- options/maxflightsquares.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
+ optimisations/killer_move/killer_move.h stipulation/slice.h \
+ stipulation/slice_type.h options/nontrivial.h options/maxthreatlength.h \
+ options/movenumbers.h options/maxflightsquares.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h output/mode.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/magic.h \
  platform/maxtime.h solving/move_effect_journal.h \
@@ -98,6 +99,12 @@ stipulation/goals/goals.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
+optimisations/killer_move/killer_move.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
 options/nontrivial.h:
 
 options/maxthreatlength.h:
@@ -107,10 +114,6 @@ options/movenumbers.h:
 options/maxflightsquares.h:
 
 stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/structure_traversal.h:
 

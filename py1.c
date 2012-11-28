@@ -54,6 +54,7 @@
 #include "pydata.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "optimisations/killer_move/killer_move.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
 #include "options/movenumbers.h"
@@ -483,8 +484,8 @@ void InitAlways(void) {
   {
     duellists[White][i] = initsquare;
     duellists[Black][i] = initsquare;
-    kpilcd[i] = initsquare;
-    kpilca[i] = initsquare;
+    killer_moves[i].departure = initsquare;
+    killer_moves[i].arrival = initsquare;
     current_circe_rebirth_square[i] = initsquare;
     trait[i] = White;
     current_anticirce_rebirth_square[i] = initsquare;

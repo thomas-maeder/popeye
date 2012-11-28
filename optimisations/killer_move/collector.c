@@ -4,6 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -13,12 +14,12 @@ static void remember_killer_move()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  kpilcd[nbply] = move_generation_stack[current_move[nbply]].departure;
-  kpilca[nbply] = move_generation_stack[current_move[nbply]].arrival;
+  killer_moves[nbply] = move_generation_stack[current_move[nbply]];
 
   TraceValue("%u",nbply);
-  TraceSquare(kpilcd[nbply]);
-  TraceSquare(kpilca[nbply]);
+  TraceSquare(killer_moves[nbply].departure);
+  TraceSquare(killer_moves[nbply].arrival);
+  TraceSquare(killer_moves[nbply].capture);
   TraceText("\n");
 
   TraceFunctionExit(__func__);

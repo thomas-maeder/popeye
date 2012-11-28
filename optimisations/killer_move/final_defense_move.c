@@ -8,6 +8,7 @@
 #include "solving/fork_on_remaining.h"
 #include "solving/single_piece_move_generator.h"
 #include "optimisations/killer_move/prioriser.h"
+#include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -58,7 +59,7 @@ void killer_move_optimise_final_defense_move(slice_index si)
 static stip_length_type defend_with_non_killer_pieces(slice_index si)
 {
   Side const defender = slices[si].starter;
-  square const killer_pos = kpilcd[nbply+1];
+  square const killer_pos = killer_moves[nbply+1].departure;
   square const *bnp;
   stip_length_type result = slack_length-1;
 
@@ -93,7 +94,7 @@ static stip_length_type defend_with_non_killer_pieces(slice_index si)
 static stip_length_type defend_with_killer_piece(slice_index si)
 {
   Side const defender = slices[si].starter;
-  square const killer_pos = kpilcd[nbply+1];
+  square const killer_pos = killer_moves[nbply+1].departure;
   stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);

@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
+#include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -35,8 +36,8 @@ static boolean is_killer_move(numecoup i)
   TraceFunctionParam("%u",i);
   TraceFunctionParamListEnd();
 
-  result = kpilcd[nbply]==move_generation_stack[i].departure
-           && kpilca[nbply]==move_generation_stack[i].arrival;
+  result = killer_moves[nbply].departure==move_generation_stack[i].departure
+           && killer_moves[nbply].arrival==move_generation_stack[i].arrival;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

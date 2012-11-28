@@ -102,10 +102,6 @@ EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 EXTERN  ply             nbply;
 
-EXTERN  pilecase        kpilcd;
-EXTERN  pilecase        kpilca;
-
-
 /* Optimierung direkte Aufgaben */
 EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
 EXTERN  int             empile_optimization_table_count;

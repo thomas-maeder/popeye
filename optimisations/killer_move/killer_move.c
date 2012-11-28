@@ -9,6 +9,7 @@
 
 #include <assert.h>
 
+move_generation_elmt killer_moves[maxply+1];
 
 /* for which Side(s) is the optimisation currently enabled? */
 static boolean enabled[nr_sides] = { false };

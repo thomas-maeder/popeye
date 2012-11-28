@@ -3,6 +3,8 @@
 
 #include "stipulation/slice.h"
 
+extern move_generation_elmt killer_moves[maxply+1];
+
 /* Reset the enabled state of the optimisation
  */
 void reset_killer_move_optimisation(void);
