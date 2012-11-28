@@ -168,9 +168,13 @@ static void substitute_killermove_machinery(slice_index si,
   {
     if (context==stip_traversal_context_attack)
     {
-      slice_index const prototype = alloc_killer_attack_collector_slice();
-      attack_branch_insert_slices(si,&prototype,1);
-      slices[si].u.move_generator.mode = move_generation_optimised_by_killer_move;
+      slice_index const prototypes[] =
+      {
+          alloc_killer_move_prioriser_slice(),
+          alloc_killer_attack_collector_slice()
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      attack_branch_insert_slices(si,prototypes,nr_prototypes);
     }
     else if (context==stip_traversal_context_defense)
     {
@@ -179,7 +183,8 @@ static void substitute_killermove_machinery(slice_index si,
           alloc_killer_move_prioriser_slice(),
           alloc_killer_defense_collector_slice()
       };
-      defense_branch_insert_slices(si,prototypes,2);
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      defense_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
 
