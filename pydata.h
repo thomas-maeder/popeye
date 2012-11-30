@@ -103,8 +103,6 @@ EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 EXTERN  ply             nbply;
 
 /* Optimierung direkte Aufgaben */
-EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
-EXTERN  int             empile_optimization_table_count;
 EXTERN  move_generation_mode_type  move_generation_mode;
 
 extern numvec const * const * const CheckDir;

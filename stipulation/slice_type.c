@@ -199,9 +199,10 @@
     ENUMERATOR(STPiecesNeutralRetractingRecolorer),                   \
     ENUMERATOR(STPiecesNeutralReplayingRecolorer),                    \
     ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
-    ENUMERATOR(STImmobilityTester), \
-    ENUMERATOR(STOpponentMovesCounterFork), \
-    ENUMERATOR(STOpponentMovesCounter), \
+    ENUMERATOR(STImmobilityTester),                                   \
+    ENUMERATOR(STOpponentMovesCounterFork),                           \
+    ENUMERATOR(STOpponentMovesCounter),                               \
+    ENUMERATOR(STOpponentMovesFewMovesPrioriser),                     \
     ENUMERATOR(STSATFlightsCounterFork), \
     ENUMERATOR(STSATFlightMoveGenerator), \
     ENUMERATOR(STStrictSATUpdater), \

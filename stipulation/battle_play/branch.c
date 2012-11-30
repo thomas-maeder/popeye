@@ -247,6 +247,7 @@ static slice_index const slice_rank_order[] =
   STMoveGenerator,
   STSinglePieceMoveGenerator,
   STKillerMovePrioriser,
+  STOpponentMovesFewMovesPrioriser,
   STDoneGeneratingMoves,
   STMummerOrchestrator,
   STMove,

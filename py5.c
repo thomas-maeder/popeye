@@ -967,7 +967,6 @@ void genmove(Side camp)
   nextply();
   trait[nbply]= camp;
   we_generate_exact = false;
-  init_move_generation_optimizer();
 
   if (CondFlag[exclusive])
     exclusive_init_genmove(camp);
@@ -990,7 +989,6 @@ void genmove(Side camp)
         we_generate_exact = false;
         finply();
         nextply();
-        init_move_generation_optimizer();
         gen_wh_ply();
       }
       we_generate_exact = false;
@@ -1015,7 +1013,6 @@ void genmove(Side camp)
         we_generate_exact = false;
         finply();
         nextply();
-        init_move_generation_optimizer();
         gen_bl_ply();
       }
       we_generate_exact = false;
@@ -1023,7 +1020,6 @@ void genmove(Side camp)
     else
       gen_bl_ply();
   }
-  finish_move_generation_optimizer();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -66,13 +66,10 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/temporary_hacks.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
-#include "solving/single_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
 #include "conditions/madrasi.h"
@@ -205,81 +202,6 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
   return pprise[nbply]!=vide ? 1 : 0;
 }
 
-static int count_opponent_moves(void)
-{
-  int result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  init_opponent_moves_counter();
-
-  init_single_move_generator(move_generation_stack[current_move[nbply]].departure,
-                             move_generation_stack[current_move[nbply]].arrival,
-                             move_generation_stack[current_move[nbply]].capture);
-
-  solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,length_unspecified);
-
-  result = fini_opponent_moves_counter();
-
-  move_generation_mode = move_generation_optimised_by_nr_opponent_moves;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-void init_move_generation_optimizer(void) {
-  switch (move_generation_mode)
-  {
-    case move_generation_optimised_by_nr_opponent_moves:
-      empile_optimization_table_count= 0;
-      break;
-    case move_generation_not_optimised:
-      /* nothing */
-      break;
-    default:
-      assert(0);
-      break;
-  }
-}
-
-static int compare_nr_opponent_moves(const void *a, const void *b) {
-  return  (((empile_optimization_table_elmt *)a)->nr_opponent_moves
-           - ((empile_optimization_table_elmt *)b)->nr_opponent_moves);
-}
-
-void finish_move_generation_optimizer(void) {
-  switch (move_generation_mode)
-  {
-    case move_generation_optimised_by_nr_opponent_moves:
-    {
-      empile_optimization_table_elmt *
-        curr_elmt = empile_optimization_table+empile_optimization_table_count;
-      qsort(empile_optimization_table,
-            empile_optimization_table_count,
-            sizeof(empile_optimization_table_elmt),
-            &compare_nr_opponent_moves);
-      /* undo the offect of calling add_to_move_generation_stack() in
-       * add_to_empile_optimization_table() */
-      current_move[nbply] = current_move[parent_ply[nbply]];
-      while (curr_elmt!=empile_optimization_table) {
-        current_move[nbply]++;
-        --curr_elmt;
-        move_generation_stack[current_move[nbply]]= curr_elmt->move;
-      }
-      break;
-    }
-    case move_generation_not_optimised:
-      /* nothing */
-      break;
-    default:
-      assert(0);
-      break;
-  }
-}
-
 void add_to_move_generation_stack(square sq_departure,
                                   square sq_arrival,
                                   square sq_capture)
@@ -297,29 +219,6 @@ void add_to_move_generation_stack(square sq_departure,
   move_generation_stack[current_move[nbply]].capture= sq_capture;
   move_generation_stack[current_move[nbply]].current_transmutation = current_trans_gen;
   move_generation_stack[current_move[nbply]].hopper_hurdle = initsquare;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void add_to_empile_optimization_table(square sq_departure,
-                                             square sq_arrival,
-                                             square sq_capture)
-{
-  empile_optimization_table_elmt * const
-    curr_elmt = empile_optimization_table+empile_optimization_table_count;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  curr_elmt->move.departure = sq_departure;
-  curr_elmt->move.arrival = sq_arrival;
-  curr_elmt->move.capture = sq_capture;
-  curr_elmt->nr_opponent_moves = count_opponent_moves();
-  ++empile_optimization_table_count;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -690,10 +589,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   }
 
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
-
-  TraceValue("%u\n",move_generation_mode);
-  if (move_generation_mode==move_generation_optimised_by_nr_opponent_moves)
-    add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
 
   return true;
 } /* empile */
@@ -2029,11 +1924,6 @@ typedef enum
 static void filter(square i, numecoup prevnbcou, UPDOWN u)
 {
   numecoup s = prevnbcou+1;
-
-  /* to support move_generation_optimised_by_nr_opponent_moves, we'd
-   * have to filter in empile_optimization_table
-   */
-  assert(move_generation_mode!=move_generation_optimised_by_nr_opponent_moves);
 
   while (s<=current_move[nbply])
     if ((u==DOWN && move_generation_stack[s].arrival-i>-8)

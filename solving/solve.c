@@ -93,6 +93,7 @@
 #include "conditions/mummer.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
+#include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
@@ -989,6 +990,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STOpponentMovesCounter:
       result = opponent_moves_counter_solve(si,n);
+      break;
+
+    case STOpponentMovesFewMovesPrioriser:
+      result = opponent_moves_few_moves_prioriser_solve(si,n);
       break;
 
     case STIntelligentImmobilisationCounter:

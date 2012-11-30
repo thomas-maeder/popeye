@@ -248,11 +248,6 @@ typedef struct {
   piece pc;
 } change_rec;
 
-typedef struct {
-	move_generation_elmt move;
-	int nr_opponent_moves;
-} empile_optimization_table_elmt;
-
 typedef enum {
   move_generation_optimised_by_nr_opponent_moves,
   move_generation_not_optimised

@@ -461,8 +461,6 @@ boolean detect_roselocustcheck_on_line(square sq_king,
                                        numvec k, numvec k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
-void    init_move_generation_optimizer(void);
-void    finish_move_generation_optimizer(void);
 
 /* analogon to finligne() for circle  lines */
 square fin_circle_line(square sq_departure,

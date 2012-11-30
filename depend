@@ -337,11 +337,9 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h py1.h \
  pyproc.h py4.h stipulation/goals/goals.h pydata.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
- pymsg.h stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- solving/solve.h solving/castling.h solving/en_passant.h \
- solving/single_move_generator.h \
+ pymsg.h stipulation/has_solution_type.h solving/solve.h \
+ solving/castling.h solving/en_passant.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
  conditions/sat.h conditions/duellists.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -403,19 +401,13 @@ pymsg.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/temporary_hacks.h:
-
 solving/solve.h:
 
 solving/castling.h:
 
 solving/en_passant.h:
 
-solving/single_move_generator.h:
-
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
-
-optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 conditions/disparate.h:
 

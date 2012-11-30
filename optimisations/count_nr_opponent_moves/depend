@@ -9,7 +9,8 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/pipe.h solving/solve.h \
- solving/fork_on_remaining.h debugging/trace.h
+ solving/fork_on_remaining.h \
+ optimisations/count_nr_opponent_moves/prioriser.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
@@ -64,6 +65,8 @@ stipulation/pipe.h:
 solving/solve.h:
 
 solving/fork_on_remaining.h:
+
+optimisations/count_nr_opponent_moves/prioriser.h:
 
 debugging/trace.h:
 optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
@@ -130,5 +133,76 @@ stipulation/goals/goals.h:
 solving/legal_move_counter.h:
 
 stipulation/has_solution_type.h:
+
+debugging/trace.h:
+optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
+ optimisations/count_nr_opponent_moves/prioriser.c \
+ optimisations/count_nr_opponent_moves/prioriser.h solving/solve.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/has_solution_type.h stipulation/pipe.h \
+ stipulation/temporary_hacks.h solving/single_move_generator.h \
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
+ debugging/trace.h
+
+optimisations/count_nr_opponent_moves/prioriser.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/pipe.h:
+
+stipulation/temporary_hacks.h:
+
+solving/single_move_generator.h:
+
+optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 debugging/trace.h:

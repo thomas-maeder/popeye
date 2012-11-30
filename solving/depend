@@ -1558,6 +1558,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/imitator.h conditions/football.h conditions/mummer.h \
  optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
+ optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/intelligent/duplicate_avoider.h \
@@ -1870,6 +1871,8 @@ conditions/mummer.h:
 optimisations/keepmating.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
+
+optimisations/count_nr_opponent_moves/prioriser.h:
 
 optimisations/goals/castling/filter.h:
 

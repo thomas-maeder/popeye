@@ -4,6 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "solving/fork_on_remaining.h"
+#include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -88,10 +89,12 @@ static void optimise_defense_move_generator(slice_index si,
     pipe_link(slices[si].prev,fork);
 
     pipe_link(proxy1,si);
-    slices[si].u.move_generator.mode = move_generation_optimised_by_nr_opponent_moves;
 
     pipe_link(proxy2,copy);
     pipe_set_successor(copy,slices[si].next1);
+
+    slices[si].u.move_generator.mode = move_generation_optimised_by_nr_opponent_moves;
+    pipe_append(si,alloc_opponent_moves_few_moves_prioriser_slice());
   }
 
   TraceFunctionExit(__func__);
