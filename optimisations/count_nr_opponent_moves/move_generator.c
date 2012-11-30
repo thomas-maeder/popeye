@@ -93,7 +93,6 @@ static void optimise_defense_move_generator(slice_index si,
     pipe_link(proxy2,copy);
     pipe_set_successor(copy,slices[si].next1);
 
-    slices[si].u.move_generator.mode = move_generation_optimised_by_nr_opponent_moves;
     pipe_append(si,alloc_opponent_moves_few_moves_prioriser_slice());
   }
 

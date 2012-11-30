@@ -52,23 +52,18 @@ void disable_orthodox_mating_move_optimisation(Side side)
  * @param goal goal to be reached
  * @return index of allocated slice
  */
-static
-slice_index
-alloc_orthodox_mating_move_generator_slice(Goal goal,
-                                           move_generation_mode_type mode)
+static slice_index alloc_orthodox_mating_move_generator_slice(Goal goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",goal.type);
-  TraceFunctionParam("%u",mode);
   TraceFunctionParamListEnd();
 
   assert(goal.type!=no_goal);
 
   result = alloc_pipe(STOrthodoxMatingMoveGenerator);
-  slices[result].u.move_generator.goal = goal;
-  slices[result].u.move_generator.mode = mode;
+  slices[result].u.goal_handler.goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -168,8 +163,7 @@ static void optimise_final_moves_move_generator(slice_index si,
       && enabled[starter])
   {
     slice_index const generator
-      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached,
-                                                   move_generation_not_optimised);
+      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached);
     if (st->full_length<=2)
     {
       pipe_substitute(si,generator);
@@ -357,7 +351,7 @@ orthodox_mating_move_generator_solve(slice_index si, stip_length_type n)
 
   assert(n==slack_length+1);
 
-  empile_for_goal = slices[si].u.move_generator.goal;
+  empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
   result = solve(slices[si].next1,n);

@@ -248,12 +248,6 @@ typedef struct {
   piece pc;
 } change_rec;
 
-typedef enum {
-  move_generation_optimised_by_nr_opponent_moves,
-  move_generation_not_optimised
-} move_generation_mode_type;
-
-
 /* These are definitions to implement arrays with lower index != 0
 ** as they are common in PASCAL. The arrays zzza? are defined in
 ** pydata.h                                                     ElB

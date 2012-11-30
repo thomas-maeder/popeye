@@ -36,12 +36,6 @@ typedef struct
             stip_length_type min_length; /* half moves */
         } branch;
 
-        struct
-        {
-            move_generation_mode_type mode;
-            Goal goal;
-        } move_generator;
-
         struct /* for goal filter types * */
         {
             goal_applies_to_starter_or_adversary applies_to_who;

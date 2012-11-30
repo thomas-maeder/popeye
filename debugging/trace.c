@@ -454,14 +454,6 @@ static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *s
   stip_traverse_structure_children(si,st);
 }
 
-static void trace_move_generator(slice_index si, stip_structure_traversal *st)
-{
-  trace_common(si,st);
-  fprintf(stdout,"mode:%u\n",slices[si].u.move_generator.mode);
-
-  stip_traverse_structure_children(si,st);
-}
-
 static void trace_output_mode_selector(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
@@ -513,7 +505,6 @@ static structure_traversers_visitor tracers[] =
   { STPiecesParalysingStalemateSpecial, &trace_goal_filter                  },
   { STGoalCheckReachedTester,           &trace_goal_filter                  },
   { STOutputModeSelector,               &trace_output_mode_selector         },
-  { STMoveGenerator,                    &trace_move_generator               },
   { STKeepMatingFilter,                 &trace_keep_mating_filter           },
   { STForkOnRemaining,                  &trace_fork_on_remaining            },
   { STIfThenElse,                       &trace_if_then_else                 }
