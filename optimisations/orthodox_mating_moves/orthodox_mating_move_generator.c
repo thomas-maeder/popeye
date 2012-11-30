@@ -357,8 +357,6 @@ orthodox_mating_move_generator_solve(slice_index si, stip_length_type n)
 
   assert(n==slack_length+1);
 
-  move_generation_mode = slices[si].u.move_generator.mode;
-  TraceValue("->%u\n",move_generation_mode);
   empile_for_goal = slices[si].u.move_generator.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;

@@ -59,7 +59,6 @@ stip_length_type king_move_generator_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimised;
   nextply();
   trait[nbply] = attacker;
   generate_king_moves(attacker);

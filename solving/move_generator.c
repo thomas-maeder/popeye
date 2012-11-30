@@ -50,7 +50,6 @@ stip_length_type move_generator_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = slices[si].u.move_generator.mode;
   genmove(slices[si].starter);
   result = solve(slices[si].next1,n);
   finply();

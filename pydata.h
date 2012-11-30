@@ -102,9 +102,6 @@ EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 EXTERN  ply             nbply;
 
-/* Optimierung direkte Aufgaben */
-EXTERN  move_generation_mode_type  move_generation_mode;
-
 extern numvec const * const * const CheckDir;
 
 /* should a mating move be considered refuted if it is executed by a
