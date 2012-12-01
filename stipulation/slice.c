@@ -217,6 +217,11 @@ static slice_type const move_reordering_optimiser_slice_types[] =
     STKillerMovePrioriser
 };
 
+static slice_type const move_removing_optimiser_slice_types[] =
+{
+    STEnPassantRemoveNonReachers
+};
+
 static slice_type const binary_slice_types[] =
 {
     STEndOfBranchGoal,
@@ -326,6 +331,7 @@ static void init_functional_type(void)
   init_one_type(proxy);
   init_one_type(move_generator);
   init_one_type(move_reordering_optimiser);
+  init_one_type(move_removing_optimiser);
   init_one_type(binary);
   init_one_type(testing_pipe);
   init_one_type(conditional_pipe);

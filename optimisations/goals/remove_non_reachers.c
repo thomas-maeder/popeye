@@ -1,126 +1,18 @@
-#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
-#include "stipulation/stipulation.h"
+#include "optimisations/goals/remove_non_reachers.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "optimisations/killer_move/prioriser.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
-#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/moves_traversal.h"
 #include "solving/fork_on_remaining.h"
+#include "optimisations/goals/enpassant/remove_non_reachers.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-
-/* for which Side(s) is the optimisation currently enabled? */
-static boolean enabled[nr_sides] = { false };
-
-/* Reset the enabled state of the optimisation of final defense moves
- */
-void reset_orthodox_mating_move_optimisation(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  enabled[White] = true;
-  enabled[Black] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Disable the optimisation of final defense moves for defense by a side
- * @param side side for which to disable the optimisation
- */
-void disable_orthodox_mating_move_optimisation(Side side)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  enabled[side] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Allocate a STOrthodoxMatingMoveGenerator slice.
- * @param goal goal to be reached
- * @return index of allocated slice
- */
-static slice_index alloc_orthodox_mating_move_generator_slice(Goal goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal.type);
-  TraceFunctionParamListEnd();
-
-  assert(goal.type!=no_goal);
-
-  result = alloc_pipe(STOrthodoxMatingMoveGenerator);
-  slices[result].u.goal_handler.goal = goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Is a goal eligible for this optimisation?
- * @param goal type of goal
- * @return true iff the goal is eligible
- */
-static boolean is_goal_eligible(goal_type goal)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_mate:
-    case goal_check:
-    case goal_doublemate:
-      result = true;
-      break;
-
-    case goal_target:
-    case goal_chess81:
-      result = true;
-      break;
-
-    case goal_capture:
-    case goal_steingewinn:
-      result = true;
-      break;
-
-    case goal_castling:
-      result = true;
-      /* TODO only generate king moves? */
-      break;
-
-    case goal_countermate:
-      /* TODO only generate king and ortho moves if there are no
-       * obstacles?
-       */
-      break;
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 typedef struct
 {
@@ -140,7 +32,6 @@ static void optimise_final_moves_move_generator(slice_index si,
 {
   final_move_optimisation_state * const state = st->param;
   final_move_optimisation_state const save_state = *state;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -153,18 +44,12 @@ static void optimise_final_moves_move_generator(slice_index si,
   if (st->context!=stip_traversal_context_defense
       && st->remaining==1
       && state->nr_goals_to_be_reached==1
-      && is_goal_eligible(state->goal_to_be_reached.type)
-      && !state->notNecessarilyFinalMove
-      && enabled[starter])
+      && state->goal_to_be_reached.type==goal_ep
+      && !state->notNecessarilyFinalMove)
   {
-    slice_index const generator
-      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached);
+    slice_index const prototype = alloc_enpassant_remove_non_reachers_slice();
     if (st->full_length<=2)
-    {
-      pipe_substitute(si,generator);
-      if (st->context==stip_traversal_context_attack)
-        pipe_append(si,alloc_killer_move_prioriser_slice());
-    }
+      branch_insert_slices_contextual(si,st->context,&prototype,1);
     else
     {
       slice_index const proxy1 = alloc_proxy_slice();
@@ -172,14 +57,14 @@ static void optimise_final_moves_move_generator(slice_index si,
       slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
       slice_index const proxy3 = alloc_proxy_slice();
       slice_index const proxy4 = alloc_proxy_slice();
+      slice_index const copy = copy_slice(si);
       pipe_link(slices[si].prev,fork);
       pipe_link(proxy1,si);
       pipe_append(si,proxy3);
-      pipe_link(proxy2,generator);
-      pipe_link(generator,proxy4);
-      if (st->context==stip_traversal_context_attack)
-        pipe_append(generator,alloc_killer_move_prioriser_slice());
+      pipe_link(proxy2,copy);
+      pipe_link(copy,proxy4);
       pipe_set_successor(proxy4,proxy3);
+      branch_insert_slices_contextual(copy,st->context,&prototype,1);
     }
   }
 
@@ -299,7 +184,7 @@ enum
 /* Optimise move generation by inserting orthodox mating move generators
  * @param si identifies the root slice of the stipulation
  */
-void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
+void stip_optimise_with_goal_non_reacher_removers(slice_index si)
 {
   stip_moves_traversal st;
   final_move_optimisation_state state = { { no_goal, initsquare }, 2, false };
@@ -324,36 +209,4 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-orthodox_mating_move_generator_solve(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n==slack_length+1);
-
-  empile_for_goal = slices[si].u.goal_handler.goal;
-  generate_move_reaching_goal(slices[si].starter);
-  empile_for_goal.type = no_goal;
-  result = solve(slices[si].next1,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }

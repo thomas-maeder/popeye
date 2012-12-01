@@ -2,18 +2,15 @@ optimisations/goals/optimisation_guards$(OBJ_SUFFIX): \
  optimisations/goals/optimisation_guards.c \
  optimisations/goals/optimisation_guards.h stipulation/moves_traversal.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- stipulation/stipulation.h stipulation/pipe.h \
- solving/battle_play/attack_play.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/goals/prerequisite_guards.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/stipulation.h stipulation/pipe.h solving/solve.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
  optimisations/goals/enpassant/filter.h \
- solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h optimisations/goals/castling/filter.h \
- debugging/trace.h
+ optimisations/goals/castling/filter.h debugging/trace.h
 
 optimisations/goals/optimisation_guards.h:
 
@@ -31,6 +28,8 @@ utilities/bitmask.h:
 
 position/piece.h:
 
+utilities/boolean.h:
+
 utilities/enumeration.h:
 
 pylang.h:
@@ -45,15 +44,13 @@ stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
-utilities/boolean.h:
-
 output/mode.h:
 
 stipulation/stipulation.h:
 
 stipulation/pipe.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 stipulation/branch.h:
 
@@ -65,7 +62,44 @@ stipulation/goals/prerequisite_guards.h:
 
 optimisations/goals/enpassant/filter.h:
 
-solving/battle_play/defense_play.h:
+optimisations/goals/castling/filter.h:
+
+debugging/trace.h:
+optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
+ optimisations/goals/remove_non_reachers.c \
+ optimisations/goals/remove_non_reachers.h solving/solve.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h pyproc.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
+ stipulation/moves_traversal.h solving/fork_on_remaining.h \
+ optimisations/goals/enpassant/remove_non_reachers.h debugging/trace.h
+
+optimisations/goals/remove_non_reachers.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
 
 pydata.h:
 
@@ -77,6 +111,34 @@ py.h:
 
 stipulation/goals/goals.h:
 
-optimisations/goals/castling/filter.h:
+pyproc.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/pipe.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/proxy.h:
+
+stipulation/branch.h:
+
+stipulation/moves_traversal.h:
+
+solving/fork_on_remaining.h:
+
+optimisations/goals/enpassant/remove_non_reachers.h:
 
 debugging/trace.h:

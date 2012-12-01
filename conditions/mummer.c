@@ -158,8 +158,8 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   current_length = (*mummer_measure_length[slices[si].starter])(move_generation_stack[current_move[nbply]].departure,
-                                                         move_generation_stack[current_move[nbply]].arrival,
-                                                         move_generation_stack[current_move[nbply]].capture);
+                                                                move_generation_stack[current_move[nbply]].arrival,
+                                                                move_generation_stack[current_move[nbply]].capture);
   TraceValue("%d",current_length);
   TraceValue("%d\n",mum_length[nbply-1]);
 
@@ -335,6 +335,9 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
     stip_structure_traversal_override_single(&st_nested,
                                              STGoalReachableGuardFilterStalemate,
                                              &skip_copying);
+    stip_structure_traversal_override_by_function(&st_nested,
+                                                  slice_function_move_removing_optimiser,
+                                                  &skip_copying);
     if (mummer_strictness[state->current_side]!=mummer_strictness_regular)
     {
       stip_structure_traversal_override_single(&st_nested,
@@ -361,7 +364,24 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
 
     {
       slice_index const prototype = alloc_pipe(STMummerBookkeeper);
-      branch_insert_slices_contextual(copies[slices[si].next1],st->context,&prototype,1);
+      switch (st->context)
+      {
+        case stip_traversal_context_attack:
+          attack_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+          break;
+
+        case stip_traversal_context_defense:
+          defense_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+          break;
+
+        case stip_traversal_context_help:
+          help_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
     }
 
     if (mummer_strictness[state->current_side]!=mummer_strictness_regular)

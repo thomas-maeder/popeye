@@ -161,6 +161,7 @@
     ENUMERATOR(STKillerMovePrioriser), /* priorise killer move */ \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
+    ENUMERATOR(STEnPassantRemoveNonReachers),                           \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STHashOpener),                                           \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \

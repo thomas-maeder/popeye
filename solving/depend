@@ -1561,6 +1561,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
+ optimisations/goals/enpassant/remove_non_reachers.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/mate/filter.h \
@@ -1877,6 +1878,8 @@ optimisations/count_nr_opponent_moves/prioriser.h:
 optimisations/goals/castling/filter.h:
 
 optimisations/goals/enpassant/filter.h:
+
+optimisations/goals/enpassant/remove_non_reachers.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 

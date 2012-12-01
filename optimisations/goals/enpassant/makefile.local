@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = filter.c
+SRC_CFILES = filter.c remove_non_reachers.c
 
-INCLUDES = filter.h
+INCLUDES = filter.h remove_non_reachers.h
 
 include makefile.rules $(CURRPWD)depend

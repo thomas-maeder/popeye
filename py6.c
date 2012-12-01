@@ -259,6 +259,7 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "optimisations/goals/remove_non_reachers.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #ifdef _SE_
@@ -2712,6 +2713,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_insert_find_shortest_solvers(result);
 
   stip_optimise_with_orthodox_mating_move_generators(result);
+
+  stip_optimise_with_goal_non_reacher_removers(result);
 
   if (!OptFlag[solvariantes])
     stip_insert_play_suppressors(result);

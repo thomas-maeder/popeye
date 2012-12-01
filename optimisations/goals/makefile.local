@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = optimisation_guards.c
-INCLUDES = optimisation_guards.h
+SRC_CFILES = optimisation_guards.c remove_non_reachers.c
+INCLUDES = optimisation_guards.h remove_non_reachers.h
 
 include makefile.rules $(CURRPWD)depend
