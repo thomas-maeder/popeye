@@ -41,19 +41,25 @@ void disable_countnropponentmoves_defense_move_optimisation(Side side)
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    slice_index found_optimiser;
+    stip_length_type length;
+} instrumentation_state_type;
+
 static void remember_length(slice_index si,
                                             stip_structure_traversal *st)
 {
-  stip_length_type * const length = st->param;
-  stip_length_type const save_length = *length;
+  instrumentation_state_type * const state = st->param;
+  stip_length_type const save_length = state->length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *length = slices[si].u.branch.length;
+  state->length = slices[si].u.branch.length;
   stip_traverse_structure_children_pipe(si,st);
-  *length = save_length;
+  state->length = save_length;
 
 
   TraceFunctionExit(__func__);
@@ -63,7 +69,7 @@ static void remember_length(slice_index si,
 static void optimise_defense_move_generator(slice_index si,
                                             stip_structure_traversal *st)
 {
-  stip_length_type const * const length = st->param;
+  instrumentation_state_type const * const state = st->param;
   Side const defender = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -76,8 +82,9 @@ static void optimise_defense_move_generator(slice_index si,
 
   if (st->context==stip_traversal_context_defense
       && enabled[defender]
-      && *length>slack_length+2
-      && st->activity==stip_traversal_activity_testing)
+      && state->length>slack_length+2
+      && st->activity==stip_traversal_activity_testing
+      && state->found_optimiser==no_slice)
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
@@ -95,6 +102,38 @@ static void optimise_defense_move_generator(slice_index si,
 
     pipe_append(si,alloc_opponent_moves_few_moves_prioriser_slice());
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_optimiser(slice_index si, stip_structure_traversal *st)
+{
+  instrumentation_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  state->found_optimiser = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forget_optimiser(slice_index si, stip_structure_traversal *st)
+{
+  instrumentation_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  state->found_optimiser = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -122,7 +161,7 @@ enum
 void stip_optimise_with_countnropponentmoves(slice_index si)
 {
   stip_structure_traversal st;
-  stip_length_type length;
+  instrumentation_state_type state = { no_slice, 0 };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -130,7 +169,15 @@ void stip_optimise_with_countnropponentmoves(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&length);
+  stip_structure_traversal_init(&st,&state);
+  /* avoid optimising move generators that are already optimised ... */
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_move_reordering_optimiser,
+                                                &remember_optimiser);
+  /* ... but don't allow an optimiser to influence an unrelated generator */
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_move_generator,
+                                                &forget_optimiser);
   stip_structure_traversal_override(&st,
                                     countnropponentmoves_optimisers,
                                     nr_countnropponentmoves_optimisers);
