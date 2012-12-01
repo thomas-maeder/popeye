@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
-#include "conditions/mummer.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -580,16 +579,11 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
  */
 void generate_move_reaching_goal(Side side_at_move)
 {
-  Goal const goal = empile_for_goal;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
-  if (mummer_strictness[side_at_move]!=mummer_strictness_none)
-    empile_for_goal.type = no_goal;
-
-  switch (goal.type)
+  switch (empile_for_goal.type)
   {
     case goal_mate:
     case goal_check:
