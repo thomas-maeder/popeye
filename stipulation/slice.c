@@ -207,7 +207,14 @@ static slice_type const move_generator_slice_types[] =
     STCastlingIntermediateMoveGenerator,
     STOrthodoxMatingMoveGenerator,
     STSingleMoveGeneratorWithKingCapture,
-    STSingleMoveGenerator
+    STSingleMoveGenerator,
+    STSinglePieceMoveGenerator
+};
+
+static slice_type const move_reordering_optimiser_slice_types[] =
+{
+    STOpponentMovesFewMovesPrioriser,
+    STKillerMovePrioriser
 };
 
 static slice_type const binary_slice_types[] =
@@ -318,6 +325,7 @@ static void init_functional_type(void)
                                                      slice_function_##type)
   init_one_type(proxy);
   init_one_type(move_generator);
+  init_one_type(move_reordering_optimiser);
   init_one_type(binary);
   init_one_type(testing_pipe);
   init_one_type(conditional_pipe);

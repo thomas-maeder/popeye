@@ -154,8 +154,7 @@ static void substitute_killermove_machinery(slice_index si,
                                             stip_structure_traversal *st)
 {
   stip_traversal_context_type context = st->context;
-  boolean * const already_optimised = st->param;
-  boolean const save_already_optimised = *already_optimised;
+  slice_index * const found_optimiser = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -163,13 +162,13 @@ static void substitute_killermove_machinery(slice_index si,
 
   assert(slices[si].starter!=no_side);
 
-  *already_optimised = false;
+  *found_optimiser = no_slice;
 
   stip_traverse_structure_children(si,st);
 
   if (enabled[slices[si].starter]
       && st->activity==stip_traversal_activity_testing
-      && !*already_optimised)
+      && *found_optimiser==no_slice)
   {
     if (context==stip_traversal_context_attack)
     {
@@ -193,15 +192,15 @@ static void substitute_killermove_machinery(slice_index si,
     }
   }
 
-  *already_optimised = save_already_optimised;
+  *found_optimiser = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void remember_optimised(slice_index si, stip_structure_traversal *st)
+static void remember_optimiser(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const already_optimised = st->param;
+  slice_index * const found_optimiser = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -209,7 +208,23 @@ static void remember_optimised(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  *already_optimised = true;
+  *found_optimiser = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forget_optimiser(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const found_optimiser = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  *found_optimiser = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -218,8 +233,7 @@ static void remember_optimised(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitor killer_move_collector_inserters[] =
 {
   { STRefutationsSolver, &stip_traverse_structure_children_pipe },
-  { STMoveGenerator,     &substitute_killermove_machinery       },
-  { STOpponentMovesFewMovesPrioriser, &remember_optimised }
+  { STMoveGenerator,     &substitute_killermove_machinery       }
 };
 
 enum
@@ -232,7 +246,7 @@ enum
 static void optimise_move_generators(slice_index si)
 {
   stip_structure_traversal st;
-  boolean already_optimised = false;
+  slice_index found_optimiser = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -240,7 +254,15 @@ static void optimise_move_generators(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&already_optimised);
+  stip_structure_traversal_init(&st,&found_optimiser);
+  /* avoid optimising move generators that are already optimised ... */
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_move_reordering_optimiser,
+                                                &remember_optimiser);
+  /* ... but don't allow an optimiser to influence an unrelated generator */
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_move_generator,
+                                                &forget_optimiser);
   stip_structure_traversal_override(&st,
                                     killer_move_collector_inserters,
                                     nr_killer_move_collector_inserters);

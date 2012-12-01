@@ -22,6 +22,7 @@
   ENUMERATOR(slice_function_unspecified),                        \
   ENUMERATOR(slice_function_proxy),                              \
   ENUMERATOR(slice_function_move_generator),                     \
+  ENUMERATOR(slice_function_move_reordering_optimiser),          \
   ENUMERATOR(slice_function_binary),                             \
   ENUMERATOR(slice_function_testing_pipe),                       \
   ENUMERATOR(slice_function_conditional_pipe),                   \
