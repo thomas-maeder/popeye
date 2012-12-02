@@ -95,12 +95,6 @@ static boolean is_goal_eligible(goal_type goal)
       result = true;
       break;
 
-    case goal_countermate:
-      /* TODO only generate king and ortho moves if there are no
-       * obstacles?
-       */
-      break;
-
     default:
       break;
   }

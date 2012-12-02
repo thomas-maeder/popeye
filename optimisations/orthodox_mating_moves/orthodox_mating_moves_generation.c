@@ -587,14 +587,8 @@ void generate_move_reaching_goal(Side side_at_move)
   {
     case goal_mate:
     case goal_check:
-      TraceValue("%u\n",nr_ortho_mating_moves_generation_obstacles);
-      if (nr_ortho_mating_moves_generation_obstacles==0)
-        generate_ortho_moves_reaching_goal(empile_for_goal.type,side_at_move);
-      else
-        genmove(side_at_move);
-      break;
-
     case goal_doublemate:
+      TraceValue("%u\n",nr_ortho_mating_moves_generation_obstacles);
       if (nr_ortho_mating_moves_generation_obstacles==0)
         generate_ortho_moves_reaching_goal(empile_for_goal.type,side_at_move);
       else
@@ -606,14 +600,8 @@ void generate_move_reaching_goal(Side side_at_move)
     case goal_chess81:
     case goal_capture:
     case goal_steingewinn:
-      assert(0);
-      break;
-
     case goal_countermate:
-      /* TODO only generate king and ortho moves if there are no
-       * obstacles?
-       */
-      genmove(side_at_move);
+      assert(0);
       break;
 
     default:
