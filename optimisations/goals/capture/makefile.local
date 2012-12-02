@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = remove_non_reachers.c
+
+INCLUDES = remove_non_reachers.h
+
+include makefile.rules $(CURRPWD)depend

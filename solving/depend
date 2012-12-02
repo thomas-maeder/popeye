@@ -1564,6 +1564,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  optimisations/goals/enpassant/remove_non_reachers.h \
  optimisations/goals/castling/remove_non_reachers.h \
  optimisations/goals/chess81/remove_non_reachers.h \
+ optimisations/goals/capture/remove_non_reachers.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/mate/filter.h \
@@ -1886,6 +1887,8 @@ optimisations/goals/enpassant/remove_non_reachers.h:
 optimisations/goals/castling/remove_non_reachers.h:
 
 optimisations/goals/chess81/remove_non_reachers.h:
+
+optimisations/goals/capture/remove_non_reachers.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 

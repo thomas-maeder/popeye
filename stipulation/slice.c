@@ -221,7 +221,8 @@ static slice_type const move_removing_optimiser_slice_types[] =
 {
     STEnPassantRemoveNonReachers,
     STCastlingRemoveNonReachers,
-    STChess81RemoveNonReachers
+    STChess81RemoveNonReachers,
+    STCaptureRemoveNonReachers
 };
 
 static slice_type const binary_slice_types[] =

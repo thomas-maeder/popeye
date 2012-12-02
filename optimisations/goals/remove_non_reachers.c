@@ -12,6 +12,7 @@
 #include "optimisations/goals/enpassant/remove_non_reachers.h"
 #include "optimisations/goals/castling/remove_non_reachers.h"
 #include "optimisations/goals/chess81/remove_non_reachers.h"
+#include "optimisations/goals/capture/remove_non_reachers.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -37,6 +38,10 @@ static slice_index make_remover(goal_type goal)
 
     case goal_chess81:
       return alloc_chess81_remove_non_reachers_slice();
+
+    case goal_capture:
+    case goal_steingewinn:
+      return alloc_capture_remove_non_reachers_slice();
 
     default:
       return no_slice;

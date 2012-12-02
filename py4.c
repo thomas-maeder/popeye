@@ -535,13 +535,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       else
         break;
 
-    case goal_capture:
-    case goal_steingewinn:
-      if (e[sq_capture]==vide)
-        return true;
-      else
-        break;
-
     case goal_mate:
     case goal_doublemate:
       if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))
