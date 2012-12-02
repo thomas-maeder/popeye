@@ -548,12 +548,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       else
         break;
 
-    case goal_castling:
-      if (sq_capture!=kingside_castling && sq_capture!=queenside_castling)
-        return true;
-      else
-        break;
-
     case goal_mate:
     case goal_doublemate:
       if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))

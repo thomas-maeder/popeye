@@ -97,6 +97,7 @@
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/enpassant/remove_non_reachers.h"
+#include "optimisations/goals/castling/remove_non_reachers.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/mate/filter.h"
@@ -537,6 +538,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCastlingFilter:
       result = castling_filter_solve(si,n);
+      break;
+
+    case STCastlingRemoveNonReachers:
+      result = castling_remove_non_reachers_solve(si,n);
       break;
 
     case STPrerequisiteOptimiser:

@@ -10,6 +10,7 @@
 #include "stipulation/moves_traversal.h"
 #include "solving/fork_on_remaining.h"
 #include "optimisations/goals/enpassant/remove_non_reachers.h"
+#include "optimisations/goals/castling/remove_non_reachers.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -22,6 +23,21 @@ typedef struct
 } final_move_optimisation_state;
 
 static final_move_optimisation_state const init_state = { { no_goal, initsquare }, 0, false };
+
+static slice_index make_remover(goal_type goal)
+{
+  switch (goal)
+  {
+    case goal_ep:
+      return alloc_enpassant_remove_non_reachers_slice();
+
+    case goal_castling:
+      return alloc_castling_remove_non_reachers_slice();
+
+    default:
+      return no_slice;
+  }
+}
 
 /* Remember the goal imminent after a defense or solve move
  * @param si identifies root of subtree
@@ -44,27 +60,27 @@ static void optimise_final_moves_move_generator(slice_index si,
   if (st->context!=stip_traversal_context_defense
       && st->remaining==1
       && state->nr_goals_to_be_reached==1
-      && state->goal_to_be_reached.type==goal_ep
       && !state->notNecessarilyFinalMove)
   {
-    slice_index const prototype = alloc_enpassant_remove_non_reachers_slice();
-    if (st->full_length<=2)
-      branch_insert_slices_contextual(si,st->context,&prototype,1);
-    else
+    slice_index const remover = make_remover(state->goal_to_be_reached.type);
+    if (remover!=no_slice)
     {
-      slice_index const proxy1 = alloc_proxy_slice();
-      slice_index const proxy2 = alloc_proxy_slice();
-      slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
-      slice_index const proxy3 = alloc_proxy_slice();
-      slice_index const proxy4 = alloc_proxy_slice();
-      slice_index const copy = copy_slice(si);
-      pipe_link(slices[si].prev,fork);
-      pipe_link(proxy1,si);
-      pipe_append(si,proxy3);
-      pipe_link(proxy2,copy);
-      pipe_link(copy,proxy4);
-      pipe_set_successor(proxy4,proxy3);
-      branch_insert_slices_contextual(copy,st->context,&prototype,1);
+      assert(slices[slices[si].next1].type==STDoneGeneratingMoves);
+
+      if (st->full_length<=2)
+        pipe_append(si,remover);
+      else
+      {
+        slice_index const proxy1 = alloc_proxy_slice();
+        slice_index const proxy2 = alloc_proxy_slice();
+        slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
+        slice_index const copy = copy_slice(si);
+        pipe_link(slices[si].prev,fork);
+        pipe_link(proxy1,si);
+        pipe_link(proxy2,copy);
+        pipe_link(copy,remover);
+        pipe_set_successor(remover,slices[si].next1);
+      }
     }
   }
 
@@ -170,9 +186,9 @@ static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STMoveGenerator,     &optimise_final_moves_move_generator         },
-  { STGoalReachedTester, &optimise_final_moves_goal                   },
-  { STNot,               &optimise_final_moves_suppress               }
+  { STMoveGenerator,     &optimise_final_moves_move_generator },
+  { STGoalReachedTester, &optimise_final_moves_goal           },
+  { STNot,               &optimise_final_moves_suppress       }
 };
 
 enum

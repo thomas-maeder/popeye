@@ -602,13 +602,8 @@ void generate_move_reaching_goal(Side side_at_move)
       break;
 
     case goal_ep:
-      /* TODO only generate pawn moves? */
-      genmove(side_at_move);
-      break;
-
     case goal_castling:
-      /* TODO only generate king moves? */
-      genmove(side_at_move);
+      assert(0);
       break;
 
     case goal_countermate:

@@ -622,7 +622,7 @@ a)
   1.Kh2-h3 Ta7*d7-g4[+sLc8]   2.Kh3*g4-g6[+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5[+wTh1] 0-0 
 
               empile:       65350
-           play_move:       43944
+           play_move:       42686
         orig_rbechec:       18988
         orig_rnechec:       26164
 b) sKh2-->b2
@@ -630,7 +630,7 @@ b) sKh2-->b2
   1.Kb2-b3 Ta7*d7-h3[+sLc8] +   2.Lc8*h3-h4[+wTh1] + Th1*h4-d8[+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2[+wTa1] 0-0-0 
 
               empile:       83176
-           play_move:       57001
+           play_move:       56146
         orig_rbechec:       21033
         orig_rnechec:       36992
 Loesung beendet. 
@@ -753,7 +753,7 @@ Loesung beendet.
   5  (La3-f8 )
 
               empile:       70650
-           play_move:       39199
+           play_move:       38042
         orig_rbechec:       19636
         orig_rnechec:       20233
 Loesung beendet. 

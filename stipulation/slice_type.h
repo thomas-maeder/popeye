@@ -163,6 +163,7 @@
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STEnPassantRemoveNonReachers),                           \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
+    ENUMERATOR(STCastlingRemoveNonReachers),                            \
     ENUMERATOR(STHashOpener),                                           \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STAttackHashedTester),  /* attack play with hash table */      \
