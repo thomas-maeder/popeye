@@ -233,6 +233,7 @@ static void forget_optimiser(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitor killer_move_collector_inserters[] =
 {
   { STRefutationsSolver, &stip_traverse_structure_children_pipe },
+  { STNot,               &stip_structure_visitor_noop           },
   { STMoveGenerator,     &substitute_killermove_machinery       }
 };
 
