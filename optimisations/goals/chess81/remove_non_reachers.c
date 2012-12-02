@@ -3,7 +3,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
-#include "solving/en_passant.h"
 #include "debugging/trace.h"
 
 /* Allocate a STChess81RemoveNonReachers slice.
