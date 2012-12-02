@@ -603,6 +603,7 @@ void generate_move_reaching_goal(Side side_at_move)
 
     case goal_ep:
     case goal_castling:
+    case goal_chess81:
       assert(0);
       break;
 

@@ -98,6 +98,7 @@
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/enpassant/remove_non_reachers.h"
 #include "optimisations/goals/castling/remove_non_reachers.h"
+#include "optimisations/goals/chess81/remove_non_reachers.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/mate/filter.h"
@@ -546,6 +547,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STPrerequisiteOptimiser:
       result = goal_prerequisite_optimiser_solve(si,n);
+      break;
+
+    case STChess81RemoveNonReachers:
+      result = chess81_remove_non_reachers_solve(si,n);
       break;
 
     case STOutputPlaintextTreeGoalWriter:

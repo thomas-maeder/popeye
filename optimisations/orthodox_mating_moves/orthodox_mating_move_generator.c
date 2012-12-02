@@ -92,7 +92,6 @@ static boolean is_goal_eligible(goal_type goal)
       break;
 
     case goal_target:
-    case goal_chess81:
       result = true;
       break;
 

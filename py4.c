@@ -529,12 +529,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
   switch (empile_for_goal.type)
   {
-    case goal_chess81:
-      if (sq_arrival > square_h1 && sq_arrival < square_a8)
-        return true;
-      else
-        break;
-
     case goal_target:
       if (sq_arrival!=empile_for_goal.target)
         return true;
