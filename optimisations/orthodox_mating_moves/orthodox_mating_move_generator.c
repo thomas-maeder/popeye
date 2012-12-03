@@ -91,10 +91,6 @@ static boolean is_goal_eligible(goal_type goal)
       result = true;
       break;
 
-    case goal_target:
-      result = true;
-      break;
-
     default:
       break;
   }

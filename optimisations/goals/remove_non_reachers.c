@@ -13,6 +13,7 @@
 #include "optimisations/goals/castling/remove_non_reachers.h"
 #include "optimisations/goals/chess81/remove_non_reachers.h"
 #include "optimisations/goals/capture/remove_non_reachers.h"
+#include "optimisations/goals/target/remove_non_reachers.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -26,9 +27,9 @@ typedef struct
 
 static final_move_optimisation_state const init_state = { { no_goal, initsquare }, 0, false };
 
-static slice_index make_remover(goal_type goal)
+static slice_index make_remover(Goal goal)
 {
-  switch (goal)
+  switch (goal.type)
   {
     case goal_ep:
       return alloc_enpassant_remove_non_reachers_slice();
@@ -42,6 +43,9 @@ static slice_index make_remover(goal_type goal)
     case goal_capture:
     case goal_steingewinn:
       return alloc_capture_remove_non_reachers_slice();
+
+    case goal_target:
+      return alloc_target_remove_non_reachers_slice(goal.target);
 
     default:
       return no_slice;
@@ -71,7 +75,7 @@ static void optimise_final_moves_move_generator(slice_index si,
       && state->nr_goals_to_be_reached==1
       && !state->notNecessarilyFinalMove)
   {
-    slice_index const remover = make_remover(state->goal_to_be_reached.type);
+    slice_index const remover = make_remover(state->goal_to_be_reached);
     if (remover!=no_slice)
     {
       assert(slices[slices[si].next1].type==STDoneGeneratingMoves);

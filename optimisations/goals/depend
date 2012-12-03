@@ -80,7 +80,8 @@ optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/remove_non_reachers.h \
  optimisations/goals/castling/remove_non_reachers.h \
  optimisations/goals/chess81/remove_non_reachers.h \
- optimisations/goals/capture/remove_non_reachers.h debugging/trace.h
+ optimisations/goals/capture/remove_non_reachers.h \
+ optimisations/goals/target/remove_non_reachers.h debugging/trace.h
 
 optimisations/goals/remove_non_reachers.h:
 
@@ -149,5 +150,7 @@ optimisations/goals/castling/remove_non_reachers.h:
 optimisations/goals/chess81/remove_non_reachers.h:
 
 optimisations/goals/capture/remove_non_reachers.h:
+
+optimisations/goals/target/remove_non_reachers.h:
 
 debugging/trace.h:

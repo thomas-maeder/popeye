@@ -601,6 +601,7 @@ void generate_move_reaching_goal(Side side_at_move)
     case goal_capture:
     case goal_steingewinn:
     case goal_countermate:
+    case goal_target:
       assert(0);
       break;
 

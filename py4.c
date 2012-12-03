@@ -529,12 +529,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
   switch (empile_for_goal.type)
   {
-    case goal_target:
-      if (sq_arrival!=empile_for_goal.target)
-        return true;
-      else
-        break;
-
     case goal_mate:
     case goal_doublemate:
       if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))

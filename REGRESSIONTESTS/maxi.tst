@@ -66,7 +66,7 @@ White king is not in check on d5 even if c6-d5 is shorter than the
 
 
               empile:          26
-           play_move:          23
+           play_move:          20
         orig_rbechec:           7
         orig_rnechec:           0
 solution finished. 

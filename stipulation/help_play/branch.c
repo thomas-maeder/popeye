@@ -64,6 +64,7 @@ static slice_index const slice_rank_order[] =
   STCastlingRemoveNonReachers,
   STChess81RemoveNonReachers,
   STCaptureRemoveNonReachers,
+  STTargetRemoveNonReachers,
   STDoneGeneratingMoves,
   STTakeMakeCirceCollectRebirthSquares,
   STOhneschachSuspender,
