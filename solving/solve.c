@@ -115,6 +115,7 @@
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/prioriser.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
+#include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxtime.h"
@@ -439,6 +440,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STOrthodoxMatingMoveGenerator:
       result = orthodox_mating_move_generator_solve(si,n);
+      break;
+
+    case STOrthodoxMatingKingContactGenerator:
+      result = orthodox_mating_king_contact_generator_solve(si,n);
       break;
 
     case STDeadEnd:

@@ -11,24 +11,17 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static Goal empile_for_goal = { no_goal, initsquare };
-
 /* Allocate a STOrthodoxMatingMoveGenerator slice.
- * @param goal goal to be reached
  * @return index of allocated slice
  */
-slice_index alloc_orthodox_mating_move_generator_slice(Goal goal)
+slice_index alloc_orthodox_mating_move_generator_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  assert(goal.type!=no_goal);
-
   result = alloc_pipe(STOrthodoxMatingMoveGenerator);
-  slices[result].u.goal_handler.goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -231,8 +224,7 @@ static void GenMatingPawn(square sq_departure,
   }
 } /* GenMatingPawn */
 
-static void GenMatingKing(goal_type goal,
-                          square sq_departure,
+static void GenMatingKing(square sq_departure,
                           square sq_king,
                           ColourSpec ColourMovingPiece)
 {
@@ -280,20 +272,6 @@ static void GenMatingKing(goal_type goal,
               && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
             empile(sq_departure,sq_arrival,sq_arrival);
         }
-      }
-    }
-
-    if (CondFlag[ColourCapturedPiece==White ? whiteedge : blackedge]
-        || goal==goal_doublemate)
-    {
-      numvec k2;
-      for (k2 = vec_queen_start; k2<=vec_queen_end; k2++)
-      {
-        square const sq_arrival = sq_departure+vec[k2];
-        if ((e[sq_arrival]==vide
-             || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-            && move_diff_code[abs(sq_king-sq_arrival)]<=1+1)
-          empile(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }
@@ -511,19 +489,15 @@ static void GenMatingBishop(square sq_departure,
   }
 } /* GenMatingBishop */
 
-static void generate_move_reaching_goal(Side side_at_move)
+static void generate_move_reaching_goal()
 {
   square square_a = square_a1;
+  Side const side_at_move = trait[nbply];
   square const OpponentsKing = side_at_move==White ? king_square[Black] : king_square[White];
   int i;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
-  TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
-
-  nextply();
-  trait[nbply]= side_at_move;
 
   /* Don't try to "optimize" by hand. The double-loop is tested as
    * the fastest way to compute (due to compiler-optimizations!) */
@@ -546,10 +520,10 @@ static void generate_move_reaching_goal(Side side_at_move)
         }
         else
         {
-          switch(abs(p))
+          switch (abs(p))
           {
             case King:
-              GenMatingKing(empile_for_goal.type,sq_departure,OpponentsKing,side_at_move);
+              GenMatingKing(sq_departure,OpponentsKing,side_at_move);
               break;
 
             case Pawn:
@@ -590,8 +564,8 @@ static void generate_move_reaching_goal(Side side_at_move)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-orthodox_mating_move_generator_solve(slice_index si, stip_length_type n)
+stip_length_type orthodox_mating_move_generator_solve(slice_index si,
+                                                      stip_length_type n)
 {
   stip_length_type result;
 
@@ -602,9 +576,9 @@ orthodox_mating_move_generator_solve(slice_index si, stip_length_type n)
 
   assert(n==slack_length+1);
 
-  empile_for_goal = slices[si].u.goal_handler.goal;
-  generate_move_reaching_goal(slices[si].starter);
-  empile_for_goal.type = no_goal;
+  nextply();
+  trait[nbply]= slices[si].starter;
+  generate_move_reaching_goal();
   result = solve(slices[si].next1,n);
   finply();
 

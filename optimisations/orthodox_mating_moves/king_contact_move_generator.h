@@ -1,5 +1,5 @@
-#if !defined(OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATOR_H)
-#define OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATOR_H
+#if !defined(OPTIMISATIONS_ORTHODOX_MATING_MOVES_KING_CONTACT_GENERATOR_H)
+#define OPTIMISATIONS_ORTHODOX_MATING_MOVES_KING_CONTACT_GENERATOR_H
 
 #include "solving/solve.h"
 
@@ -7,10 +7,10 @@
  * The generator is optimised for mostly orthodox problems.
  */
 
-/* Allocate a STOrthodoxMatingMoveGenerator slice.
+/* Allocate a STOrthodoxMatingKingContactGenerator slice.
  * @return index of allocated slice
  */
-slice_index alloc_orthodox_mating_move_generator_slice(void);
+slice_index alloc_orthodox_mating_king_contact_generator_generator_slice(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -20,7 +20,7 @@ slice_index alloc_orthodox_mating_move_generator_slice(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type orthodox_mating_move_generator_solve(slice_index si,
-                                                      stip_length_type n);
+stip_length_type orthodox_mating_king_contact_generator_solve(slice_index si,
+                                                              stip_length_type n);
 
 #endif

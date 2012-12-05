@@ -159,6 +159,7 @@
     ENUMERATOR(STEndOfBranchGoalImmobile), /* end of branch leading to "immobile goal" (#, =, ...) */ \
     ENUMERATOR(STDeadEndGoal), /* like STDeadEnd, but all ends are goals */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
+    ENUMERATOR(STOrthodoxMatingKingContactGenerator),                   \
     ENUMERATOR(STKillerAttackCollector), /* remember killer defenses */ \
     ENUMERATOR(STKillerDefenseCollector), /* remember killer moves */   \
     ENUMERATOR(STKillerMovePrioriser), /* priorise killer move */ \

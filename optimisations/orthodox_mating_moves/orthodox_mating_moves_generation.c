@@ -7,6 +7,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "solving/fork_on_remaining.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
+#include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -114,10 +115,14 @@ static void optimise_final_moves_move_generator(slice_index si,
       && !state->notNecessarilyFinalMove
       && enabled[starter])
   {
-    slice_index const generator
-      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached);
+    slice_index const generator = alloc_orthodox_mating_move_generator_slice();
     if (st->full_length<=2)
+    {
       pipe_substitute(si,generator);
+      if (CondFlag[slices[si].starter==Black ? whiteedge : blackedge]
+          || state->goal_to_be_reached.type==goal_doublemate)
+        pipe_append(si,alloc_orthodox_mating_king_contact_generator_generator_slice());
+    }
     else
     {
       slice_index const proxy1 = alloc_proxy_slice();
@@ -127,6 +132,9 @@ static void optimise_final_moves_move_generator(slice_index si,
       pipe_link(proxy1,si);
       pipe_link(proxy2,generator);
       pipe_link(generator,slices[si].next1);
+      if (CondFlag[slices[si].starter==Black ? whiteedge : blackedge]
+          || state->goal_to_be_reached.type==goal_doublemate)
+        pipe_append(generator,alloc_orthodox_mating_king_contact_generator_generator_slice());
     }
   }
 
