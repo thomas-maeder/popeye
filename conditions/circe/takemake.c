@@ -7,6 +7,7 @@
 #include "stipulation/move_player.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
+#include "solving/single_piece_move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
