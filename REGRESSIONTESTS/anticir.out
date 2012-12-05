@@ -1151,10 +1151,10 @@ Loesung beendet.
               2...e2*d1=S[sSd1->g8] #
 
 
-              empile:       55913
-           play_move:       49098
-        orig_rbechec:       45756
-        orig_rnechec:        5958
+              empile:       55935
+           play_move:       48365
+        orig_rbechec:       45023
+        orig_rnechec:        5915
 Loesung beendet. 
 
 
@@ -1521,10 +1521,10 @@ Loesung beendet.
               2...Ld4-e5 #
 
 
-              empile:      227528
-           play_move:      198806
-        orig_rbechec:      188591
-        orig_rnechec:       18156
+              empile:      226526
+           play_move:      197483
+        orig_rbechec:      187239
+        orig_rnechec:       18108
 Loesung beendet. 
 
 
@@ -1731,10 +1731,10 @@ Loesung beendet.
                       3...f2-f1=S #
 
 
-              empile:      109547
-           play_move:       97380
-        orig_rbechec:       85608
-        orig_rnechec:       20547
+              empile:      108195
+           play_move:       96417
+        orig_rbechec:       84708
+        orig_rnechec:       20286
 Loesung beendet. 
 
 
@@ -1983,10 +1983,10 @@ Loesung beendet.
                       3...Dd1-b3 #
 
 
-              empile:      146965
-           play_move:       96162
-        orig_rbechec:       85473
-        orig_rnechec:       23715
+              empile:      146855
+           play_move:       96042
+        orig_rbechec:       85353
+        orig_rnechec:       23693
 Loesung beendet. 
 
 

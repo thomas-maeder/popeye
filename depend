@@ -35,14 +35,13 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pymsg.h py1.h \
  pyproc.h py4.h stipulation/goals/goals.h py.h pydata.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/goals/goals.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/killer_move/killer_move.h stipulation/slice.h \
  stipulation/slice_type.h options/nontrivial.h options/maxthreatlength.h \
  options/movenumbers.h options/maxflightsquares.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h output/mode.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/magic.h \
  platform/maxtime.h solving/move_effect_journal.h \
  solving/battle_play/try.h utilities/table.h solving/castling.h \
@@ -93,9 +92,7 @@ solving/solve.h:
 
 solving/move_effect_journal.h:
 
-optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
-
-stipulation/goals/goals.h:
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
@@ -118,6 +115,8 @@ stipulation/stipulation.h:
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
+
+stipulation/goals/goals.h:
 
 output/mode.h:
 
@@ -338,10 +337,9 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  pyproc.h py4.h stipulation/goals/goals.h pydata.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
  pymsg.h stipulation/has_solution_type.h solving/solve.h \
- solving/castling.h solving/en_passant.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
- conditions/sat.h conditions/duellists.h conditions/singlebox/type1.h \
+ solving/castling.h solving/en_passant.h conditions/disparate.h \
+ conditions/eiffel.h conditions/madrasi.h conditions/sat.h \
+ conditions/duellists.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h debugging/trace.h \
@@ -406,8 +404,6 @@ solving/solve.h:
 solving/castling.h:
 
 solving/en_passant.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 conditions/disparate.h:
 
@@ -653,7 +649,6 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/goals/remove_non_reachers.h \
  optimisations/goals/mate/neutralretractable.h debugging/trace.h \
@@ -1026,8 +1021,6 @@ options/maxsolutions/maxsolutions.h:
 options/stoponshortsolutions/stoponshortsolutions.h:
 
 optimisations/count_nr_opponent_moves/move_generator.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 

@@ -475,34 +475,11 @@ static void GenMatingBishop(square sq_departure,
   }
 } /* GenMatingBishop */
 
-
-static unsigned int nr_ortho_mating_moves_generation_obstacles;
-
-/* Reset the number of obstacles that might prevent
- * generate_move_reaching_goal() from optimising by only generating
- * orthodox moves
+/* Generate moves for side side_at_move; optimise for moves reaching a
+ * specific goal.
+ * @param side_at_move side for which to generate moves
  */
-void reset_ortho_mating_moves_generation_obstacles(void)
-{
-  nr_ortho_mating_moves_generation_obstacles = 0;
-}
-
-/* Add an obstacle.
- */
-void add_ortho_mating_moves_generation_obstacle(void)
-{
-  ++nr_ortho_mating_moves_generation_obstacles;
-}
-
-/* Remove an obstacle.
- */
-void remove_ortho_mating_moves_generation_obstacle(void)
-{
-  assert(nr_ortho_mating_moves_generation_obstacles>0);
-  --nr_ortho_mating_moves_generation_obstacles;
-}
-
-static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move)
+void generate_move_reaching_goal(Side side_at_move)
 {
   square square_a = square_a1;
   square const OpponentsKing = side_at_move==White ? king_square[Black] : king_square[White];
@@ -540,7 +517,7 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
           switch(abs(p))
           {
             case King:
-              GenMatingKing(goal,sq_departure,OpponentsKing,side_at_move);
+              GenMatingKing(empile_for_goal.type,sq_departure,OpponentsKing,side_at_move);
               break;
 
             case Pawn:
@@ -572,44 +549,3 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Generate moves for side side_at_move; optimise for moves reaching a
- * specific goal.
- * @param side_at_move side for which to generate moves
- */
-void generate_move_reaching_goal(Side side_at_move)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_at_move,"");
-  TraceFunctionParamListEnd();
-
-  switch (empile_for_goal.type)
-  {
-    case goal_mate:
-    case goal_check:
-    case goal_doublemate:
-      TraceValue("%u\n",nr_ortho_mating_moves_generation_obstacles);
-      if (nr_ortho_mating_moves_generation_obstacles==0)
-        generate_ortho_moves_reaching_goal(empile_for_goal.type,side_at_move);
-      else
-        genmove(side_at_move);
-      break;
-
-    case goal_ep:
-    case goal_castling:
-    case goal_chess81:
-    case goal_capture:
-    case goal_steingewinn:
-    case goal_countermate:
-    case goal_target:
-      assert(0);
-      break;
-
-    default:
-      genmove(side_at_move);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-} /* generate_move_reaching_goal */

@@ -52,7 +52,7 @@
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "options/nontrivial.h"

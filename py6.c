@@ -257,7 +257,6 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/goals/remove_non_reachers.h"
 #include "optimisations/goals/mate/neutralretractable.h"
@@ -827,7 +826,6 @@ static boolean verify_position(slice_index si)
   boolean flagsimplehoppers = false;
 
   supergenre = false;
-  reset_ortho_mating_moves_generation_obstacles();
   reset_killer_move_optimisation();
   reset_orthodox_mating_move_optimisation();
 
@@ -946,7 +944,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[sting])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     flagfee = true;
     flagsimplehoppers = true;
   }
@@ -974,7 +972,7 @@ static boolean verify_position(slice_index si)
       return false;
     }
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[leofamily])
@@ -1004,7 +1002,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
     {
       optim_neutralretractable = false;
-      add_ortho_mating_moves_generation_obstacle();
+      disable_orthodox_mating_move_optimisation(nr_sides);
     }
   }
 
@@ -1185,7 +1183,7 @@ static boolean verify_position(slice_index si)
       CondFlag[whiteultraschachzwang] = restricted_side==White;
 
       optim_neutralretractable = false;
-      add_ortho_mating_moves_generation_obstacle();
+      disable_orthodox_mating_move_optimisation(nr_sides);
     }
   }
 
@@ -1252,10 +1250,10 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[bicolores])
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[bichro] || CondFlag[monochro])
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
 
   eval_2 = eval_white = eval_ortho;
   rechec[White] = &orig_rbechec;
@@ -1296,7 +1294,7 @@ static boolean verify_position(slice_index si)
   if (TSTFLAG(PieSpExFlags, Kamikaze))
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     if (CondFlag[haanerchess])
     {
       VerifieMsg(KamikazeAndHaaner);
@@ -1370,7 +1368,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[disparate])
   {
     eval_white = eval_black = eval_disparate;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[nowhcapture] && CondFlag[noblcapture])
@@ -1396,7 +1394,7 @@ static boolean verify_position(slice_index si)
     else
     {
       optim_neutralretractable = false;
-      add_ortho_mating_moves_generation_obstacle();
+      disable_orthodox_mating_move_optimisation(nr_sides);
     }
   }
   if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[White]
@@ -1405,7 +1403,7 @@ static boolean verify_position(slice_index si)
 
   if (anymars||anyantimars) {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     if (calc_transmuting_king[White]
         || calc_reflective_king[White]
         || calc_transmuting_king[Black]
@@ -1424,7 +1422,7 @@ static boolean verify_position(slice_index si)
   {
     eval_white = eval_BGL;
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam])
@@ -1458,7 +1456,7 @@ static boolean verify_position(slice_index si)
       return false;
     }
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     eval_2 = eval_white;
     eval_white = eval_wooheff;
   }
@@ -1528,7 +1526,7 @@ static boolean verify_position(slice_index si)
       return false;
     }
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     eval_2 = eval_white;
     eval_white = rbanticircech;
     eval_black = rnanticircech;
@@ -1541,7 +1539,7 @@ static boolean verify_position(slice_index si)
       return false;
     }
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     eval_2 = eval_white;
     eval_white = rbsingleboxtype1ech;
     eval_black = rnsingleboxtype1ech;
@@ -1549,7 +1547,7 @@ static boolean verify_position(slice_index si)
 
   if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type3)) {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     rechec[Black] = &singleboxtype3_rnechec;
     rechec[White] = &singleboxtype3_rbechec;
     gen_wh_piece = &singleboxtype3_gen_wh_piece;
@@ -1594,7 +1592,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[football])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if ((CondFlag[whmin]
@@ -1752,7 +1750,7 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(PieSpExFlags,Magic))
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   init_promotion_pieces();
@@ -1778,7 +1776,7 @@ static boolean verify_position(slice_index si)
         if (p>Bishop && p!=Dummy) {
           /* only fairy pieces until now ! */
           optim_neutralretractable = false;
-          add_ortho_mating_moves_generation_obstacle();
+          disable_orthodox_mating_move_optimisation(nr_sides);
           if (p!=Hamster)
           {
             checkpieces[check_piece_index] = p;
@@ -1818,7 +1816,7 @@ static boolean verify_position(slice_index si)
   if (calc_reflective_king[White] || calc_reflective_king[Black])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
   orphanpieces[op] = Empty;
 
@@ -1866,7 +1864,7 @@ static boolean verify_position(slice_index si)
   {
     checkhopim = true;
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
   checkhopim |= CondFlag[imitators];
 
@@ -1874,13 +1872,13 @@ static boolean verify_position(slice_index si)
   {
     /* a nasty drawback */
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[annan])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     rechec[White] = &annan_rbechec;
     rechec[Black] = &annan_rnechec;
   }
@@ -1957,7 +1955,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[ohneschach])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   supergenre = supergenre
@@ -1969,25 +1967,25 @@ static boolean verify_position(slice_index si)
   if (CondFlag[extinction] || CondFlag[circeassassin])
   {
     optim_neutralretractable = false; /* TODO why for extinction */
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[actrevolving] || CondFlag[arc])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[circeturncoats] || CondFlag[circedoubleagents])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[kobulkings])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[chamcirce])
@@ -1999,7 +1997,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[SAT] || CondFlag[strictSAT])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     SATCheck = false;
     StrictSAT[White][1] = echecc(White);
     StrictSAT[Black][1] = echecc(Black);
@@ -2010,7 +2008,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[schwarzschacher])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (mummer_strictness[White]!=mummer_strictness_none /* counting opponents moves not useful */
@@ -2060,20 +2058,20 @@ static boolean verify_position(slice_index si)
   if (CondFlag[takemake])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[protean])
   {
     flagfee = true;
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[castlingchess] || CondFlag[platzwechselrochade])
   {
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    disable_orthodox_mating_move_optimisation(nr_sides);
     castling_supported = false;
   }
 

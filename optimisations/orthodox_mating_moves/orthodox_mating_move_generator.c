@@ -10,6 +10,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/moves_traversal.h"
+#include "stipulation/temporary_hacks.h"
 #include "solving/fork_on_remaining.h"
 #include "debugging/trace.h"
 
@@ -41,7 +42,13 @@ void disable_orthodox_mating_move_optimisation(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  enabled[side] = false;
+  if (side==nr_sides)
+  {
+    enabled[White] = false;
+    enabled[Black] = false;
+  }
+  else
+    enabled[side] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -253,9 +260,9 @@ static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STMoveGenerator,     &optimise_final_moves_move_generator         },
-  { STGoalReachedTester, &optimise_final_moves_goal                   },
-  { STNot,               &optimise_final_moves_suppress               }
+  { STMoveGenerator,     &optimise_final_moves_move_generator },
+  { STGoalReachedTester, &optimise_final_moves_goal           },
+  { STNot,               &optimise_final_moves_suppress       }
 };
 
 enum
@@ -264,10 +271,7 @@ enum
   = (sizeof final_move_optimisers / sizeof final_move_optimisers[0])
 };
 
-/* Optimise move generation by inserting orthodox mating move generators
- * @param si identifies the root slice of the stipulation
- */
-void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
+static void optimise_slices(slice_index si)
 {
   stip_moves_traversal st;
   final_move_optimisation_state state = { { no_goal, initsquare }, 2, false };
@@ -289,6 +293,29 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
                                 final_move_optimisers,
                                 nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Optimise move generation by inserting orthodox mating move generators
+ * @param si identifies the root slice of the stipulation
+ */
+void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  if (CondFlag[exclusive])
+  {
+    optimise_slices(slices[temporary_hack_exclusive_mating_move_counter[White]].next2);
+    optimise_slices(slices[temporary_hack_exclusive_mating_move_counter[Black]].next2);
+  }
+  else
+    optimise_slices(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

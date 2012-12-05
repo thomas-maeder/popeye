@@ -69,7 +69,6 @@
 #include "solving/solve.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
 #include "conditions/madrasi.h"

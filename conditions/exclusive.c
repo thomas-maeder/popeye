@@ -1,6 +1,5 @@
 #include "conditions/exclusive.h"
 #include "stipulation/stipulation.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/goals/mate/neutralretractable.h"
 #include "pymsg.h"
 #include "pydata.h"
@@ -44,7 +43,6 @@ boolean exclusive_verifie_position(slice_index si)
   {
     exclusive_goal = goal;
     optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
     result = true;
   }
 
@@ -92,7 +90,6 @@ void exclusive_init_genmove(Side side)
   assert(exclusive_goal.type==goal_mate);
 
   CondFlag[exclusive] = false;
-  remove_ortho_mating_moves_generation_obstacle();
 
   /* avoid concurrent counts */
   assert(legal_move_counter_count[nbply]==0);
@@ -109,7 +106,6 @@ void exclusive_init_genmove(Side side)
   /* clean up after ourselves */
   legal_move_counter_count[nbply] = 0;
 
-  add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
 
   TraceFunctionExit(__func__);
@@ -134,13 +130,11 @@ stip_length_type exclusive_chess_unsuspender_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
   is_reaching_goal_allowed[nbply] = true;
   result = solve(slices[si].next1,n);
   is_reaching_goal_allowed[nbply] = false;
   CondFlag[exclusive] = false;
-  remove_ortho_mating_moves_generation_obstacle();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -5,7 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "pymsg.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/mate/neutralretractable.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -137,7 +137,7 @@ boolean republican_verifie_position(slice_index si)
       OptFlag[sansrn] = true;
       OptFlag[sansrb] = true;
       optim_neutralretractable = false;
-      add_ortho_mating_moves_generation_obstacle();
+      disable_orthodox_mating_move_optimisation(nr_sides);
       supergenre = true;
       result = true;
     }
