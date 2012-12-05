@@ -257,6 +257,7 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/goals/remove_non_reachers.h"
 #include "optimisations/goals/mate/neutralretractable.h"

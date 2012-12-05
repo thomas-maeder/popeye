@@ -2,24 +2,17 @@
 #define OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATOR_H
 
 #include "solving/solve.h"
+#include "stipulation/goals/goals.h"
 
 /* This module provides a generator for moves that are supposed to reach a goal.
  * The generator is optimised for mostly orthodox problems.
  */
 
-/* Reset the enabled state of the optimisation of final defense moves
+/* Allocate a STOrthodoxMatingMoveGenerator slice.
+ * @param goal goal to be reached
+ * @return index of allocated slice
  */
-void reset_orthodox_mating_move_optimisation(void);
-
-/* Disable the optimisation of final defense moves for defense by a side
- * @param side side for which to disable the optimisation
- */
-void disable_orthodox_mating_move_optimisation(Side side);
-
-/* Optimise move generation by inserting orthodox mating move generators
- * @param si identifies the root slice of the stipulation
- */
-void stip_optimise_with_orthodox_mating_move_generators(slice_index si);
+slice_index alloc_orthodox_mating_move_generator_slice(Goal goal);
 
 /* Try to solve in n half-moves.
  * @param si slice index

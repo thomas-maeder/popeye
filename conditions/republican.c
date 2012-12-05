@@ -5,7 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "pymsg.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/goals/mate/neutralretractable.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

@@ -1,550 +1,293 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pydata.h"
-#include "solving/castling.h"
-#include "solving/en_passant.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
+#include "stipulation/proxy.h"
+#include "stipulation/moves_traversal.h"
+#include "stipulation/temporary_hacks.h"
+#include "solving/fork_on_remaining.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
-Goal empile_for_goal = { no_goal, initsquare };
+/* for which Side(s) is the optimisation currently enabled? */
+static boolean enabled[nr_sides] = { false };
 
-typedef Flags ColourSpec;
-
-static boolean IsABattery(square KingSquare,
-                          square FrontSquare,
-                          numvec Direction,
-                          ColourSpec ColourMovingPiece,
-                          piece BackPiece1,
-                          piece BackPiece2)
+/* Reset the enabled state of the optimisation of final defense moves
+ */
+void reset_orthodox_mating_move_optimisation(void)
 {
-  square sq;
-  piece p;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-  /* is the line between king and front piece empty? */
-  EndOfLine(FrontSquare, Direction, sq);
-  if (sq == KingSquare) {
-    /* the line is empty, but is there really an appropriate back
-    ** battery piece? */
-    EndOfLine(FrontSquare, -Direction, sq);
-    p= e[sq];
-    if (p < vide)
-      p= -p;
-    if ((p == BackPiece1 || p == BackPiece2)
-        && TSTFLAG(spec[sq], ColourMovingPiece))
-    {
-      /* So, it is a battery. */
-      return true;
-    }
-  }
-  return false;
-} /* IsABattery */
+  enabled[White] = true;
+  enabled[Black] = true;
 
-static void GenMatingPawn(square sq_departure,
-                          square sq_king,
-                          ColourSpec ColourMovingPiece)
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Disable the optimisation of final defense moves for defense by a side
+ * @param side side for which to disable the optimisation
+ */
+void disable_orthodox_mating_move_optimisation(Side side)
 {
-  boolean Battery = false;
-  numvec k;
-  square sq_arrival;
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
 
-  k= CheckDir[Bishop][sq_king-sq_departure];
-  if (k!=0)
-    Battery=
-      IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-  else {
-    k= CheckDir[Rook][sq_king-sq_departure];
-    if (k!=0)
-      Battery=
-        IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
-  }
-
-  /* if the pawn is not the front piece of a battery reset k,
-     otherwise normalise it to be positiv. This is necessary to
-     avoid moves along the battery line subsequently.
-  */
-  if (Battery) {
-    if (k<0)
-      k= -k;
+  if (side==nr_sides)
+  {
+    enabled[White] = false;
+    enabled[Black] = false;
   }
   else
-    k= 0;
+    enabled[side] = false;
 
-  if (ColourMovingPiece==White) {
-    if (sq_departure<=square_h1)
-      return;
-    else {
-      /* not first rank */
-      /* ep captures */
-      if (ep[parent_ply[nbply]]!=initsquare
-          && trait[parent_ply[nbply]]!=trait[nbply]
-          && (sq_departure+dir_up+dir_right==ep[parent_ply[nbply]]
-              || sq_departure+dir_up+dir_left==ep[parent_ply[nbply]]))
-      {
-        if (nbply==2)    /* ep.-key  standard pawn */
-          move_generation_stack[current_move[1]].arrival= ep[parent_ply[nbply]]+dir_down;
-        empile(sq_departure,
-               ep[parent_ply[nbply]],
-               move_generation_stack[current_move[parent_ply[nbply]]].arrival);
-      }
-
-      /* single step */
-      if (k!=dir_up) {
-        /* suppress moves along a battery line */
-        sq_arrival= sq_departure+dir_up;
-        if (e[sq_arrival]==vide) {
-          if (Battery
-              || sq_arrival+dir_up+dir_left == sq_king
-              || sq_arrival+dir_up+dir_right == sq_king
-              || (PromSq(White,sq_arrival)
-                  && (CheckDir[Queen][sq_king-sq_arrival]
-                      || CheckDir[Knight][sq_king-sq_arrival])))
-            empile(sq_departure,sq_arrival,sq_arrival);
-
-          /* double step */
-          if (sq_departure<=square_h2) {
-            sq_arrival+= onerow;
-            if (e[sq_arrival]==vide
-                && (Battery
-                    || sq_arrival+dir_up+dir_left==sq_king
-                    || sq_arrival+dir_up+dir_right==sq_king))
-              empile(sq_departure,sq_arrival,sq_arrival);
-          }
-        }
-      }
-
-      /* capture+dir_up+dir_left */
-      sq_arrival= sq_departure+dir_up+dir_left;
-      if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],Black))
-        if (Battery
-            || sq_arrival+dir_up+dir_left == sq_king
-            || sq_arrival+dir_up+dir_right == sq_king
-            || (PromSq(White,sq_arrival)
-                && (CheckDir[Queen][sq_king-sq_arrival]
-                    || CheckDir[Knight][sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-
-      /* capture+dir_up+dir_right */
-      sq_arrival= sq_departure+dir_up+dir_right;
-      if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],Black))
-        if (Battery
-            || sq_arrival+dir_up+dir_left==sq_king
-            || sq_arrival+dir_up+dir_right==sq_king
-            || (PromSq(White,sq_arrival)
-                && (CheckDir[Queen][sq_king-sq_arrival]
-                    || CheckDir[Knight][sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else {
-    if (sq_departure>=square_a8)
-      return;
-
-    /* not last rank */
-    /* ep captures */
-    if (ep[parent_ply[nbply]]!=initsquare
-        && trait[parent_ply[nbply]] != trait[nbply]
-        && (sq_departure+dir_down+dir_left==ep[parent_ply[nbply]]
-            || sq_departure+dir_down+dir_right==ep[parent_ply[nbply]]))
-    {
-      if (nbply==2)    /* ep.-key  standard pawn */
-        move_generation_stack[current_move[1]].arrival= ep[parent_ply[nbply]]+dir_up;
-      empile(sq_departure,
-             ep[parent_ply[nbply]],
-             move_generation_stack[current_move[parent_ply[nbply]]].arrival);
-    }
-
-    /* single step */
-    if (k!=dir_up) {    /* suppress moves along a battery line */
-      sq_arrival= sq_departure+dir_down;
-      if (e[sq_arrival]==vide) {
-        if (Battery
-            || sq_arrival+dir_down+dir_right==sq_king
-            || sq_arrival+dir_down+dir_left==sq_king
-            || (PromSq(Black,sq_arrival)
-                && (CheckDir[Queen][sq_king-sq_arrival]
-                    || CheckDir[Knight][sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-
-        /* double step */
-        if (sq_departure>=square_a7) {
-          sq_arrival-= onerow;
-          if (e[sq_arrival] == vide
-              && (Battery
-                  || sq_arrival+dir_down+dir_right==sq_king
-                  || sq_arrival+dir_down+dir_left==sq_king))
-            empile(sq_departure,sq_arrival,sq_arrival);
-        }
-      }
-    }
-
-    /* capture+dir_up+dir_left */
-    sq_arrival= sq_departure+dir_down+dir_right;
-    if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],White)) {
-      if (Battery
-          || sq_arrival+dir_down+dir_right==sq_king
-          || sq_arrival+dir_down+dir_left==sq_king
-          || (PromSq(Black,sq_arrival)
-              && (CheckDir[Queen][sq_king-sq_arrival]
-                  || CheckDir[Knight][sq_king-sq_arrival])))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-
-    /* capture+dir_up+dir_right */
-    sq_arrival= sq_departure+dir_down+dir_left;
-    if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],White)) {
-      if (Battery
-          || sq_arrival+dir_down+dir_right==sq_king
-          || sq_arrival+dir_down+dir_left==sq_king
-          || (PromSq(Black,sq_arrival)
-              && (CheckDir[Queen][sq_king-sq_arrival]
-                  || CheckDir[Knight][sq_king-sq_arrival])))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-} /* GenMatingPawn */
-
-static void GenMatingKing(goal_type goal,
-                          square sq_departure,
-                          square sq_king,
-                          ColourSpec ColourMovingPiece)
-{
-  numvec    k, k2;
-  boolean   Generate = false;
-  ColourSpec    ColourCapturedPiece = advers(ColourMovingPiece);
-
-  square sq_arrival;
-
-  if (king_square[White]==king_square[Black]) {
-    /* neutral kings */
-    for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
-      sq_arrival= sq_departure+vec[k2];
-      /* they must capture to mate the opponent */
-      if (e[sq_arrival]!=vide
-          && TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else {
-    /* check if the king is the front piece of a battery
-       that can fire */
-    k= CheckDir[Bishop][sq_king-sq_departure];
-    if (k!=0)
-      Generate=
-        IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-    else {
-      k= CheckDir[Rook][sq_king-sq_departure];
-      if (k!=0)
-        Generate= IsABattery(sq_king,sq_departure,k,ColourMovingPiece,
-                             Rook,Queen);
-    }
-
-    if (Generate)
-      for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
-        /* prevent the king from moving along the battery line*/
-        if (k2==k || k2==-k)
-          continue;
-        sq_arrival= sq_departure+vec[k2];
-        if ((e[sq_arrival]==vide
-             || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-            && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-
-    if (CondFlag[ColourCapturedPiece==White ? whiteedge : blackedge]
-        || goal==goal_doublemate)
-      for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
-        sq_arrival= sq_departure + vec[k2];
-        if ((e[sq_arrival]==vide
-             || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-            && move_diff_code[abs(sq_king-sq_arrival)]<=1+1)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-  }
-
-  /* castling */
-  if (castling_supported)
-    generate_castling(ColourMovingPiece);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-static void GenMatingKnight(square sq_departure,
-                            square sq_king,
-                            ColourSpec ColourMovingPiece)
-{
-  numvec    k;
-  boolean   Generate = false;
-  ColourSpec    ColourCapturedPiece = advers(ColourMovingPiece);
-
-  square sq_arrival;
-
-  /* check if the knight is the front piece of a battery that can
-     fire
-  */
-  if ((k = CheckDir[Bishop][sq_king-sq_departure])!=0)
-    Generate=
-      IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-  else if ((k = CheckDir[Rook][sq_king-sq_departure])!=0)
-    Generate= IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
-
-  k= abs(sq_king-sq_departure);
-  if (Generate
-      || (SquareCol(sq_departure) == SquareCol(sq_king)
-          && move_diff_code[k]<=move_diff_code[square_a3-square_e1]
-          && move_diff_code[k]!=move_diff_code[square_a3-square_c1]))
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      sq_arrival= sq_departure+vec[k];
-      if (e[sq_arrival]==vide
-          || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        if (Generate || CheckDir[Knight][sq_arrival-sq_king]!=0)
-          empile(sq_departure,sq_arrival,sq_arrival);
-    }
-}
-
-static void GenMatingRook(square sq_departure,
-                          square sq_king,
-                          ColourSpec ColourMovingPiece)
-{
-  square    sq2;
-  numvec    k, k2;
-  ColourSpec    ColourCapturedPiece = advers(ColourMovingPiece);
-
-  square sq_arrival;
-
-  /* check if the rook is the front piece of a battery that can fire
-   */
-  k= CheckDir[Bishop][sq_king-sq_departure];
-  if (k != 0
-      && IsABattery(sq_king, sq_departure, k, ColourMovingPiece, Bishop, Queen))
-  {
-    for (k= vec_rook_start; k<=vec_rook_end; k++) {
-      sq_arrival= sq_departure+vec[k];
-      while (e[sq_arrival]==vide) {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        sq_arrival+= vec[k];
-      }
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else {
-    int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
-
-    k2= CheckDir[Rook][sq_king-sq_departure];
-    if (k2!=0) {
-      /* the rook is already on a line with the king */
-      EndOfLine(sq_departure,k2,sq_arrival);
-      /* We are at the end of the line */
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-    }
-    else {
-      for (k= vec_rook_start; k<=vec_rook_end; k++) {
-        sq_arrival= sq_departure+vec[k];
-        if (e[sq_arrival]==obs)
-          continue;
-        if (move_diff_code[abs(sq_arrival-sq_king)]<OriginalDistance) {
-          /* The rook must move closer to the king! */
-          k2= CheckDir[Rook][sq_king-sq_arrival];
-          while (k2==0 && e[sq_arrival]==vide) {
-            sq_arrival+= vec[k];
-            k2= CheckDir[Rook][sq_king-sq_arrival];
-          }
-
-          /* We are at the end of the line or in checking
-             distance
-          */
-          if (k2==0)
-            continue;
-          if (e[sq_arrival]==vide
-              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-          {
-            EndOfLine(sq_arrival,k2,sq2);
-            if (sq2==sq_king)
-              empile(sq_departure,sq_arrival,sq_arrival);
-          }
-        }
-      }
-    }
-  }
-}
-
-static void GenMatingQueen(square sq_departure,
-                           square sq_king,
-                           ColourSpec ColourMovingPiece)
-{
-  square sq2;
-  numvec  k, k2;
-  ColourSpec ColourCapturedPiece = advers(ColourMovingPiece);
-
-  square sq_arrival;
-
-  for (k= vec_queen_start; k<=vec_queen_end; k++) {
-    sq_arrival= sq_departure+vec[k];
-    while (e[sq_arrival]==vide) {
-      k2= CheckDir[Queen][sq_king-sq_arrival];
-      if (k2) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-      sq_arrival+= vec[k];
-    }
-    if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
-      k2= CheckDir[Queen][sq_king-sq_arrival];
-      if (k2) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-    }
-  }
-}
-
-static void GenMatingBishop(square sq_departure,
-                            square sq_king,
-                            ColourSpec ColourMovingPiece)
-{
-  square    sq2;
-  numvec    k, k2;
-  ColourSpec    ColourCapturedPiece = advers(ColourMovingPiece);
-
-  square sq_arrival;
-
-  /* check if the bishop is the front piece of a battery that can
-     fire
-  */
-  k = CheckDir[Rook][sq_king-sq_departure];
-  if (k!=0
-      && IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen))
-  {
-    for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-      sq_arrival= sq_departure+vec[k];
-      while (e[sq_arrival]==vide) {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        sq_arrival+= vec[k];
-      }
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else if (SquareCol(sq_departure)==SquareCol(sq_king)) {
-    int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
-
-    k2= CheckDir[Bishop][sq_king-sq_departure];
-    if (k2) {
-      /* the bishop is already on a line with the king */
-      EndOfLine(sq_departure,k2,sq_arrival);
-      /* We are at the end of the line */
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
-        EndOfLine(sq_arrival,k2,sq2);
-        if (sq2==sq_king)
-          empile(sq_departure,sq_arrival,sq_arrival);
-      }
-    }
-    else {
-      for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-        sq_arrival= sq_departure+vec[k];
-        if (e[sq_arrival]==obs)
-          continue;
-        if (move_diff_code[abs(sq_arrival-sq_king)]
-            <OriginalDistance) {
-          /* The bishop must move closer to the king! */
-          k2= CheckDir[Bishop][sq_king-sq_arrival];
-          while (k2==0 && e[sq_arrival]==vide) {
-            sq_arrival+= vec[k];
-            k2= CheckDir[Bishop][sq_king-sq_arrival];
-          }
-
-          /* We are at the end of the line or in checking
-             distance */
-          if (k2==0)
-            continue;
-          if (e[sq_arrival]==vide
-              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-          {
-            EndOfLine(sq_arrival,k2,sq2);
-            if (sq2==sq_king)
-              empile(sq_departure,sq_arrival,sq_arrival);
-          }
-        }
-      }
-    }
-  }
-} /* GenMatingBishop */
-
-/* Generate moves for side side_at_move; optimise for moves reaching a
- * specific goal.
- * @param side_at_move side for which to generate moves
+/* Is a goal eligible for this optimisation?
+ * @param goal type of goal
+ * @return true iff the goal is eligible
  */
-void generate_move_reaching_goal(Side side_at_move)
+static boolean is_goal_eligible(goal_type goal)
 {
-  square square_a = square_a1;
-  square const OpponentsKing = side_at_move==White ? king_square[Black] : king_square[White];
-  int i;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",goal);
-  TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
-  nextply();
-  trait[nbply]= side_at_move;
-
-  /* Don't try to "optimize" by hand. The double-loop is tested as
-   * the fastest way to compute (due to compiler-optimizations!) */
-  for (i = nr_rows_on_board; i>0; i--, square_a += onerow)
+  switch (goal)
   {
-    square sq_departure = square_a;
-    int j;
-    for (j = nr_files_on_board; j>0; j--, sq_departure += dir_right)
+    case goal_mate:
+    case goal_check:
+    case goal_doublemate:
+      result = true;
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+typedef struct
+{
+    Goal goal_to_be_reached;
+    unsigned int nr_goals_to_be_reached;
+    boolean notNecessarilyFinalMove;
+} final_move_optimisation_state;
+
+static final_move_optimisation_state const init_state = { { no_goal, initsquare }, 0, false };
+
+/* Remember the goal imminent after a defense or solve move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void optimise_final_moves_move_generator(slice_index si,
+                                                stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+  final_move_optimisation_state const save_state = *state;
+  Side const starter = slices[si].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *state = init_state;
+
+  stip_traverse_moves_children(si,st);
+
+  if (st->context!=stip_traversal_context_defense
+      && st->remaining==1
+      && state->nr_goals_to_be_reached==1
+      && is_goal_eligible(state->goal_to_be_reached.type)
+      && !state->notNecessarilyFinalMove
+      && enabled[starter])
+  {
+    slice_index const generator
+      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached);
+    if (st->full_length<=2)
+      pipe_substitute(si,generator);
+    else
     {
-      piece const p = e[sq_departure];
-      if (p!=vide && TSTFLAG(spec[sq_departure],side_at_move))
-      {
-        if (CondFlag[gridchess]
-            && !GridLegal(sq_departure,OpponentsKing))
-        {
-          if (side_at_move==White)
-            gen_wh_piece(sq_departure,p);
-          else
-            gen_bl_piece(sq_departure,p);
-        }
-        else
-        {
-          switch(abs(p))
-          {
-            case King:
-              GenMatingKing(empile_for_goal.type,sq_departure,OpponentsKing,side_at_move);
-              break;
-
-            case Pawn:
-              GenMatingPawn(sq_departure,OpponentsKing,side_at_move);
-              break;
-
-            case Knight:
-              TraceText("Knight\n");
-              GenMatingKnight(sq_departure,OpponentsKing,side_at_move);
-              break;
-
-            case Rook:
-              GenMatingRook(sq_departure,OpponentsKing,side_at_move);
-              break;
-
-            case Queen:
-              GenMatingQueen(sq_departure,OpponentsKing,side_at_move);
-              break;
-
-            case Bishop:
-              GenMatingBishop(sq_departure,OpponentsKing,side_at_move);
-              break;
-          }
-        }
-      }
+      slice_index const proxy1 = alloc_proxy_slice();
+      slice_index const proxy2 = alloc_proxy_slice();
+      slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
+      pipe_link(slices[si].prev,fork);
+      pipe_link(proxy1,si);
+      pipe_link(proxy2,generator);
+      pipe_link(generator,slices[si].next1);
     }
   }
+
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether there are more moves after this branch
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void optimise_final_moves_end_of_branch_non_goal(slice_index si,
+                                                 stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+  unsigned int const save_nr_imminent_goals = state->nr_goals_to_be_reached;
+  Goal const save_imminent_goal = state->goal_to_be_reached;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->nr_goals_to_be_reached = 0;
+  state->goal_to_be_reached.type = no_goal;
+
+  stip_traverse_moves_children(si,st);
+
+  if (state->nr_goals_to_be_reached==0)
+    state->notNecessarilyFinalMove = true;
+
+  state->nr_goals_to_be_reached = save_nr_imminent_goals;
+  state->goal_to_be_reached = save_imminent_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Forget a remembered goal because it is to be reached by a move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void generator_swallow_goal(slice_index si, stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+  unsigned int const save_nr_imminent_goals = state->nr_goals_to_be_reached;
+  Goal const save_imminent_goal = state->goal_to_be_reached;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+
+  state->nr_goals_to_be_reached = save_nr_imminent_goals;
+  state->goal_to_be_reached = save_imminent_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal to be reached
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+
+  if (!are_goals_equal(state->goal_to_be_reached,
+                       slices[si].u.goal_handler.goal))
+  {
+    state->goal_to_be_reached = slices[si].u.goal_handler.goal;
+    ++state->nr_goals_to_be_reached;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+  state->nr_goals_to_be_reached = 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static moves_traversers_visitors const final_move_optimisers[] =
+{
+  { STMoveGenerator,     &optimise_final_moves_move_generator },
+  { STGoalReachedTester, &optimise_final_moves_goal           },
+  { STNot,               &optimise_final_moves_suppress       }
+};
+
+enum
+{
+  nr_final_move_optimisers
+  = (sizeof final_move_optimisers / sizeof final_move_optimisers[0])
+};
+
+static void optimise_slices(slice_index si)
+{
+  stip_moves_traversal st;
+  final_move_optimisation_state state = { { no_goal, initsquare }, 2, false };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_moves_traversal_init(&st,&state);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_move_generator,
+                                            &generator_swallow_goal);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_end_of_branch,
+                                            &optimise_final_moves_end_of_branch_non_goal);
+  stip_moves_traversal_override(&st,
+                                final_move_optimisers,
+                                nr_final_move_optimisers);
+  stip_traverse_moves(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Optimise move generation by inserting orthodox mating move generators
+ * @param si identifies the root slice of the stipulation
+ */
+void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  if (CondFlag[exclusive])
+  {
+    optimise_slices(slices[temporary_hack_exclusive_mating_move_counter[White]].next2);
+    optimise_slices(slices[temporary_hack_exclusive_mating_move_counter[Black]].next2);
+  }
+  else
+    optimise_slices(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

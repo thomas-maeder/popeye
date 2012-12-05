@@ -649,6 +649,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/goals/remove_non_reachers.h \
  optimisations/goals/mate/neutralretractable.h debugging/trace.h \
@@ -1021,6 +1022,8 @@ options/maxsolutions/maxsolutions.h:
 options/stoponshortsolutions/stoponshortsolutions.h:
 
 optimisations/count_nr_opponent_moves/move_generator.h:
+
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 

@@ -85,7 +85,7 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h pylang.h stipulation/has_solution_type.h \
  pymsg.h \
- optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/goals/mate/neutralretractable.h stipulation/pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/temporary_hacks.h \
@@ -144,7 +144,7 @@ stipulation/has_solution_type.h:
 
 pymsg.h:
 
-optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 optimisations/goals/mate/neutralretractable.h:
 
