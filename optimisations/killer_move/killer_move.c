@@ -59,7 +59,9 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
 
 typedef struct
 {
-    boolean root;
+    boolean are_we_at_root_level;
+    boolean are_we_generating;
+    stip_length_type lower_limit;
 } final_defense_moves_iteration_state;
 
 static
@@ -78,7 +80,8 @@ void optimise_final_defense_moves_move_generator(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (st->activity==stip_traversal_activity_testing
-      && !state->root
+      && !state->are_we_at_root_level
+      && state->lower_limit==0
       && st->context==stip_traversal_context_defense
       && enabled[defender])
   {
@@ -102,16 +105,73 @@ void optimise_final_defense_moves_move_generator(slice_index si,
 static void remember_end_of_root(slice_index si, stip_structure_traversal *st)
 {
   final_defense_moves_iteration_state * const state = st->param;
-  boolean const save_root = state->root;
+  boolean const save_root = state->are_we_at_root_level;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  state->root = false;
+  state->are_we_at_root_level = false;
   stip_traverse_structure_children_pipe(si,st);
-  state->root = save_root;
+  state->are_we_at_root_level = save_root;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_generating(slice_index si, stip_structure_traversal *st)
+{
+  final_defense_moves_iteration_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  state->are_we_generating = true;
+  state->lower_limit = 0;
+  stip_traverse_structure_children_pipe(si,st);
+  state->are_we_generating = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_not_generating(slice_index si, stip_structure_traversal *st)
+{
+  final_defense_moves_iteration_state * const state = st->param;
+  stip_length_type const save_lower_limit = state->lower_limit;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  state->are_we_generating = false;
+  stip_traverse_structure_children_pipe(si,st);
+  state->are_we_generating = true;
+  state->lower_limit = save_lower_limit;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_lower_move_limit(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(slices[si].next2,st);
+
+  {
+    final_defense_moves_iteration_state * const state = st->param;
+    stip_length_type const save_lower_limit = state->lower_limit;
+    state->lower_limit = slices[si].u.fork_on_remaining.threshold;
+    stip_traverse_structure_children_pipe(slices[si].next1,st);
+    state->lower_limit = save_lower_limit;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -119,8 +179,11 @@ static void remember_end_of_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor const final_defense_move_optimisers[] =
 {
-  { STEndOfRoot,     &remember_end_of_root                        },
-  { STMoveGenerator, &optimise_final_defense_moves_move_generator }
+  { STEndOfRoot,           &remember_end_of_root                        },
+  { STGeneratingMoves,     &remember_generating                         },
+  { STDonePriorisingMoves, &remember_not_generating                     },
+  { STForkOnRemaining,     &remember_lower_move_limit                   },
+  { STMoveGenerator,       &optimise_final_defense_moves_move_generator }
 };
 
 enum
@@ -135,7 +198,7 @@ enum
 static void optimise_final_defense_move_with_killer_moves(slice_index si)
 {
   stip_structure_traversal st;
-  final_defense_moves_iteration_state state = { true };
+  final_defense_moves_iteration_state state = { true, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
