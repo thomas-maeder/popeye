@@ -60,8 +60,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h pyproc.h stipulation/pipe.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- optimisations/killer_move/prioriser.h stipulation/has_solution_type.h \
- stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/moves_traversal.h solving/fork_on_remaining.h \
  debugging/trace.h
 
@@ -116,8 +116,6 @@ pyproc.h:
 stipulation/pipe.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
-
-optimisations/killer_move/prioriser.h:
 
 stipulation/has_solution_type.h:
 

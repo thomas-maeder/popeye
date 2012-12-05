@@ -65,14 +65,18 @@ static slice_index const slice_rank_order[] =
   STPiecesNeutralInitialiser,
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
-  STKillerMovePrioriser,
+  STDoneGeneratingMoves,
   STMummerOrchestrator,
+  STDoneRemovingIllegalMoves,
   STEnPassantRemoveNonReachers,
   STCastlingRemoveNonReachers,
   STChess81RemoveNonReachers,
   STCaptureRemoveNonReachers,
   STTargetRemoveNonReachers,
-  STDoneGeneratingMoves,
+  STMateRemoveRetractable,
+  STDoneRemovingFutileMoves,
+  STKillerMovePrioriser,
+  STDonePriorisingMoves,
   STMove,
   STForEachAttack,
   STFindAttack,
@@ -251,10 +255,13 @@ static slice_index const slice_rank_order[] =
   STPiecesNeutralInitialiser,
   STMoveGenerator,
   STSinglePieceMoveGenerator,
-  STKillerMovePrioriser,
-  STOpponentMovesFewMovesPrioriser,
   STDoneGeneratingMoves,
   STMummerOrchestrator,
+  STDoneRemovingIllegalMoves,
+  STDoneRemovingFutileMoves,
+  STKillerMovePrioriser,
+  STOpponentMovesFewMovesPrioriser,
+  STDonePriorisingMoves,
   STMove,
   STForEachDefense,
   STFindDefense,
@@ -600,6 +607,9 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const done_generating = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_removing_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_removing_futile = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_priorising = alloc_pipe(STDonePriorisingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const played = alloc_defense_played_slice();
     slice_index const notgoal = alloc_pipe(STNotEndOfBranchGoal);
@@ -610,7 +620,10 @@ slice_index alloc_defense_branch(slice_index next,
     pipe_link(testpre,deadend);
     pipe_link(deadend,generating);
     pipe_link(generating,done_generating);
-    pipe_link(done_generating,defense);
+    pipe_link(done_generating,done_removing_illegal);
+    pipe_link(done_removing_illegal,done_removing_futile);
+    pipe_link(done_removing_futile,done_priorising);
+    pipe_link(done_priorising,defense);
     pipe_link(defense,played);
     pipe_link(played,notgoal);
     pipe_link(notgoal,notend);
@@ -650,6 +663,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const done_agenerating = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_aremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_aremoving_futile = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_apriorising = alloc_pipe(STDonePriorisingMoves);
     slice_index const attack = alloc_pipe(STMove);
     slice_index const aplayed = alloc_attack_played_slice();
     slice_index const anotgoal = alloc_pipe(STNotEndOfBranchGoal);
@@ -660,6 +676,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const ddeadend = alloc_dead_end_slice();
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const done_dgenerating = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_dremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_dremoving_futile = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_dpriorising = alloc_pipe(STDonePriorisingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const dplayed = alloc_defense_played_slice();
     slice_index const dnotgoal = alloc_pipe(STNotEndOfBranchGoal);
@@ -670,7 +689,10 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(atestpre,adeadend);
     pipe_link(adeadend,agenerating);
     pipe_link(agenerating,done_agenerating);
-    pipe_link(done_agenerating,attack);
+    pipe_link(done_agenerating,done_aremoving_illegal);
+    pipe_link(done_aremoving_illegal,done_aremoving_futile);
+    pipe_link(done_aremoving_futile,done_apriorising);
+    pipe_link(done_apriorising,attack);
     pipe_link(attack,aplayed);
     pipe_link(aplayed,anotgoal);
     pipe_link(anotgoal,anotend);
@@ -679,7 +701,10 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
     pipe_link(dgenerating,done_dgenerating);
-    pipe_link(done_dgenerating,defense);
+    pipe_link(done_dgenerating,done_dremoving_illegal);
+    pipe_link(done_dremoving_illegal,done_dremoving_futile);
+    pipe_link(done_dremoving_futile,done_dpriorising);
+    pipe_link(done_dpriorising,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dnotgoal);
     pipe_link(dnotgoal,dnotend);

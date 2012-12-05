@@ -114,6 +114,9 @@
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
     ENUMERATOR(STGeneratingMoves),  /* proxy marking start of move generation */ \
     ENUMERATOR(STDoneGeneratingMoves),  /* proxy marking end of move generation */ \
+    ENUMERATOR(STDoneRemovingIllegalMoves),                             \
+    ENUMERATOR(STDoneRemovingFutileMoves),                              \
+    ENUMERATOR(STDonePriorisingMoves),                                  \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
@@ -166,7 +169,8 @@
     ENUMERATOR(STCastlingRemoveNonReachers),                            \
     ENUMERATOR(STChess81RemoveNonReachers),                             \
     ENUMERATOR(STCaptureRemoveNonReachers),                             \
-    ENUMERATOR(STTargetRemoveNonReachers),                             \
+    ENUMERATOR(STTargetRemoveNonReachers),                              \
+    ENUMERATOR(STMateRemoveRetractable),                                \
     ENUMERATOR(STHashOpener),                                           \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STAttackHashedTester),  /* attack play with hash table */      \

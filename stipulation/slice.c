@@ -185,6 +185,9 @@ static slice_type const proxy_slice_types[] =
     STGoalAutoStalemateReachedTester,
     STGeneratingMoves,
     STDoneGeneratingMoves,
+    STDoneRemovingIllegalMoves,
+    STDoneRemovingFutileMoves,
+    STDonePriorisingMoves,
     STEndOfRefutationSolvingBranch,
     STSolvingContinuation,
     STThreatStart,
@@ -223,7 +226,8 @@ static slice_type const move_removing_optimiser_slice_types[] =
     STCastlingRemoveNonReachers,
     STChess81RemoveNonReachers,
     STCaptureRemoveNonReachers,
-    STTargetRemoveNonReachers
+    STTargetRemoveNonReachers,
+    STMateRemoveRetractable
 };
 
 static slice_type const binary_slice_types[] =

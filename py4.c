@@ -527,36 +527,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     }
   }
 
-  switch (empile_for_goal.type)
-  {
-    case goal_mate:
-    case goal_doublemate:
-      if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))
-      {
-        /* Check if a mating move by a neutral piece can be
-         * retracted by the opponent.
-         * TODO can we optimise like this when we are not generating
-         * goal reaching moves?
-         */
-        if (king_square[White]==king_square[Black])
-        {
-          if (king_square[White]==sq_departure)
-          {
-            if (e[sq_capture]==vide)
-              return true;
-          }
-          else if (abs(e[sq_departure])!=Pawn || e[sq_capture]==vide)
-            return true;
-        }
-        else if (e[sq_capture]==vide && abs(e[sq_departure])!=Pawn)
-          return true;
-      }
-      break;
-
-    default:
-      break;
-  }
-
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
 
   return true;

@@ -260,6 +260,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/goals/remove_non_reachers.h"
+#include "optimisations/goals/mate/neutralretractable.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #ifdef _SE_
@@ -2711,6 +2712,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_insert_continuation_solvers(result);
 
   stip_insert_find_shortest_solvers(result);
+
+  if (TSTFLAG(PieSpExFlags,Neutral) && optim_neutralretractable)
+    stip_optimise_by_omitting_retractable_neutral_moves(result);
 
   stip_optimise_with_orthodox_mating_move_generators(result);
 

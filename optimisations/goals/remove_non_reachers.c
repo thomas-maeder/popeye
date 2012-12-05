@@ -52,6 +52,20 @@ static slice_index make_remover(Goal goal)
   }
 }
 
+static void stop_copying(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*copies)[si] = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Remember the goal imminent after a defense or solve move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -81,18 +95,26 @@ static void optimise_final_moves_move_generator(slice_index si,
       assert(slices[slices[si].next1].type==STDoneGeneratingMoves);
 
       if (st->full_length<=2)
-        pipe_append(si,remover);
+        branch_insert_slices_contextual(si,st->context,&remover,1);
       else
       {
         slice_index const proxy1 = alloc_proxy_slice();
         slice_index const proxy2 = alloc_proxy_slice();
         slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
-        slice_index const copy = copy_slice(si);
+        stip_structure_traversal st_nested;
+        stip_deep_copies_type copies;
+
+        init_deep_copy(&st_nested,0,&copies);
+        stip_structure_traversal_override_single(&st_nested,
+                                                 STDoneRemovingFutileMoves,
+                                                 &stop_copying);
+        stip_traverse_structure(si,&st_nested);
+
         pipe_link(slices[si].prev,fork);
         pipe_link(proxy1,si);
-        pipe_link(proxy2,copy);
-        pipe_link(copy,remover);
-        pipe_set_successor(remover,slices[si].next1);
+        pipe_link(proxy2,copies[si]);
+
+        branch_insert_slices_contextual(copies[si],st->context,&remover,1);
       }
     }
   }

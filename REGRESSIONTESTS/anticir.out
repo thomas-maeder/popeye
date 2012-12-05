@@ -348,8 +348,8 @@ Loesung beendet.
           2.Tg1-e1 #
           2.Tg1-g2 #
       1...Sa2-c1
-          2.Tg1-g2 #
           2.Tg1-e1 #
+          2.Tg1-g2 #
       1...Td2-d1
           2.Tg1-e1 #
       1...Td2*c2[sTc2->a8]
@@ -422,8 +422,8 @@ Loesung beendet.
           2.Sg8-e7 #
 
    1.Da7-e7 ? Drohung:
-          2.Te1-e5 #
           2.De7*d6[wDd6->d1] #
+          2.Te1-e5 #
       1...Te8-d8
           2.Te1-e5 #
       1...Te8*g8[sTg8->a8]
@@ -434,10 +434,10 @@ Loesung beendet.
       1...Te8*e7[sTe7->h8] !
 
    1.Da7-d7 ? Drohung:
-          2.Tc4-d4 #
           2.Dd7*c6[wDc6->d1] #
           2.Dd7*c8[wDc8->d1] #
           2.Dd7*d6[wDd6->d1] #
+          2.Tc4-d4 #
           2.Te1-e5 #
       1...Dc6-b5
           2.Dd7*b5[wDb5->d1] #
@@ -495,8 +495,8 @@ Loesung beendet.
           2.Tc4-d4 #
           2.Te1-e5 #
       1...Te8-e7
-          2.Te1-e5 #
           2.Tc4-d4 #
+          2.Te1-e5 #
       1...Te8-d8
           2.Sg8-e7 #
           2.Tc4-d4 #
@@ -1732,9 +1732,9 @@ Loesung beendet.
 
 
               empile:      109547
-           play_move:       97400
-        orig_rbechec:       85610
-        orig_rnechec:       20565
+           play_move:       97380
+        orig_rbechec:       85608
+        orig_rnechec:       20547
 Loesung beendet. 
 
 

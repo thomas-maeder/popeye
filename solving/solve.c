@@ -101,6 +101,7 @@
 #include "optimisations/goals/chess81/remove_non_reachers.h"
 #include "optimisations/goals/capture/remove_non_reachers.h"
 #include "optimisations/goals/target/remove_non_reachers.h"
+#include "optimisations/goals/mate/neutralretractable.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/mate/filter.h"
@@ -561,6 +562,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STTargetRemoveNonReachers:
       result = target_remove_non_reachers_solve(si,n);
+      break;
+
+    case STMateRemoveRetractable:
+      result = mate_remove_retractable_solve(si,n);
       break;
 
     case STOutputPlaintextTreeGoalWriter:

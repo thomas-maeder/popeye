@@ -59,13 +59,17 @@ static slice_index const slice_rank_order[] =
   STCastlingIntermediateMoveGenerator,
   STSingleMoveGenerator,
   STSATFlightMoveGenerator,
+  STDoneGeneratingMoves,
   STMummerOrchestrator,
+  STDoneRemovingIllegalMoves,
   STEnPassantRemoveNonReachers,
   STCastlingRemoveNonReachers,
   STChess81RemoveNonReachers,
   STCaptureRemoveNonReachers,
   STTargetRemoveNonReachers,
-  STDoneGeneratingMoves,
+  STMateRemoveRetractable,
+  STDoneRemovingFutileMoves,
+  STDonePriorisingMoves,
   STTakeMakeCirceCollectRebirthSquares,
   STOhneschachSuspender,
   STExclusiveChessUnsuspender,
@@ -762,6 +766,9 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const testpre1 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating1 = alloc_pipe(STGeneratingMoves);
     slice_index const done_generating1 = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_removing_illegal1 = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_removing_futile1 = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_priorising1 = alloc_pipe(STDonePriorisingMoves);
     slice_index const move1 = alloc_pipe(STMove);
     slice_index const played1 = alloc_help_move_played_slice();
     slice_index const not_end_goal1 = alloc_pipe(STNotEndOfBranchGoal);
@@ -770,6 +777,9 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const testpre2 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating2 = alloc_pipe(STGeneratingMoves);
     slice_index const done_generating2 = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_removing_illegal2 = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_removing_futile2 = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_priorising2 = alloc_pipe(STDonePriorisingMoves);
     slice_index const move2 = alloc_pipe(STMove);
     slice_index const played2 = alloc_help_move_played_slice();
     slice_index const not_end_goal2 = alloc_pipe(STNotEndOfBranchGoal);
@@ -780,14 +790,20 @@ slice_index alloc_help_branch(stip_length_type length,
     pipe_link(ready1,testpre1);
     pipe_link(testpre1,generating1);
     pipe_link(generating1,done_generating1);
-    pipe_link(done_generating1,move1);
+    pipe_link(done_generating1,done_removing_illegal1);
+    pipe_link(done_removing_illegal1,done_removing_futile1);
+    pipe_link(done_removing_futile1,done_priorising1);
+    pipe_link(done_priorising1,move1);
     pipe_link(move1,played1);
     pipe_link(played1,not_end_goal1);
     pipe_link(not_end_goal1,ready2);
     pipe_link(ready2,testpre2);
     pipe_link(testpre2,generating2);
     pipe_link(generating2,done_generating2);
-    pipe_link(done_generating2,move2);
+    pipe_link(done_generating2,done_removing_illegal2);
+    pipe_link(done_removing_illegal2,done_removing_futile2);
+    pipe_link(done_removing_futile2,done_priorising2);
+    pipe_link(done_priorising2,move2);
     pipe_link(move2,played2);
     pipe_link(played2,not_end_goal2);
     pipe_link(not_end_goal2,adapter);
@@ -1041,6 +1057,9 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const done_generating = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_removing_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_removing_futile = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_priorising = alloc_pipe(STDonePriorisingMoves);
     slice_index const move = alloc_pipe(STMove);
     slice_index const played1 = alloc_help_move_played_slice();
     slice_index const not_end_goal1 = alloc_pipe(STNotEndOfBranchGoal);
@@ -1054,7 +1073,10 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(ready,testpre);
     pipe_link(testpre,generating);
     pipe_link(generating,done_generating);
-    pipe_link(done_generating,move);
+    pipe_link(done_generating,done_removing_illegal);
+    pipe_link(done_removing_illegal,done_removing_futile);
+    pipe_link(done_removing_futile,done_priorising);
+    pipe_link(done_priorising,move);
     pipe_link(move,played1);
     pipe_link(played1,not_end_goal1);
     pipe_link(not_end_goal1,deadend);

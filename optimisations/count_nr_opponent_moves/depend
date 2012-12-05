@@ -9,7 +9,7 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
  stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/pipe.h solving/solve.h \
- solving/fork_on_remaining.h \
+ stipulation/battle_play/branch.h solving/fork_on_remaining.h \
  optimisations/count_nr_opponent_moves/prioriser.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
@@ -63,6 +63,8 @@ stipulation/proxy.h:
 stipulation/pipe.h:
 
 solving/solve.h:
+
+stipulation/battle_play/branch.h:
 
 solving/fork_on_remaining.h:
 

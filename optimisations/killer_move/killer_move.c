@@ -77,7 +77,8 @@ void optimise_final_defense_moves_move_generator(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (st->activity==stip_traversal_activity_testing && !state->root
+  if (st->activity==stip_traversal_activity_testing
+      && !state->root
       && st->context==stip_traversal_context_defense
       && enabled[defender])
   {
@@ -91,7 +92,7 @@ void optimise_final_defense_moves_move_generator(slice_index si,
     stip_traverse_structure(si,&st_nested);
 
     if (goal.type!=no_goal)
-      killer_move_optimise_final_defense_move(si);
+      killer_move_optimise_final_defense_move(si,st);
   }
 
   TraceFunctionExit(__func__);

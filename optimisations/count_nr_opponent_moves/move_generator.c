@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
+#include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "debugging/trace.h"
@@ -66,6 +67,20 @@ static void remember_length(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void stop_copying(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*copies)[si] = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void optimise_defense_move_generator(slice_index si,
                                             stip_structure_traversal *st)
 {
@@ -88,19 +103,22 @@ static void optimise_defense_move_generator(slice_index si,
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const copy = copy_slice(si);
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,3);
+    slice_index const prototype = alloc_opponent_moves_few_moves_prioriser_slice();
+    stip_structure_traversal st_nested;
+    stip_deep_copies_type copies;
 
-    assert(slices[slices[si].next1].type==STDoneGeneratingMoves);
+    init_deep_copy(&st_nested,st,&copies);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STDonePriorisingMoves,
+                                             &stop_copying);
+    stip_traverse_structure(si,&st_nested);
 
     pipe_link(slices[si].prev,fork);
-
     pipe_link(proxy1,si);
+    pipe_link(proxy2,copies[si]);
 
-    pipe_link(proxy2,copy);
-    pipe_set_successor(copy,slices[si].next1);
-
-    pipe_append(si,alloc_opponent_moves_few_moves_prioriser_slice());
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

@@ -14,14 +14,47 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Optimise a STMoveGenerator slice for defending against a goal
- * @param si identifies slice to be optimised
- */
-void killer_move_optimise_final_defense_move(slice_index si)
+static void stop_copying(slice_index si, stip_structure_traversal *st)
 {
+  stip_deep_copies_type * const copies = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  (*copies)[si] = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Optimise a STMoveGenerator slice for defending against a goal
+ * @param si identifies slice to be optimised
+ * @param st structure holding traversal that led to the generator to be
+ *        optimised
+ */
+void killer_move_optimise_final_defense_move(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  stip_structure_traversal st_nested;
+  stip_deep_copies_type copies1;
+  stip_deep_copies_type copies2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  init_deep_copy(&st_nested,st,&copies1);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STDonePriorisingMoves,
+                                           &stop_copying);
+  stip_traverse_structure(slices[si].next1,&st_nested);
+
+  init_deep_copy(&st_nested,st,&copies2);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STDonePriorisingMoves,
+                                           &stop_copying);
+  stip_traverse_structure(slices[si].next1,&st_nested);
 
   {
     slice_index const proxy1 = alloc_proxy_slice();
@@ -29,20 +62,21 @@ void killer_move_optimise_final_defense_move(slice_index si)
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
     slice_index const proxy3 = alloc_proxy_slice();
     slice_index const proxy4 = alloc_proxy_slice();
-    slice_index const proxy5 = alloc_proxy_slice();
-    slice_index const prioriser = alloc_killer_move_prioriser_slice();
-    slice_index const generator1 = alloc_single_piece_move_generator_slice();
-    slice_index const generator2 = alloc_single_piece_move_generator_slice();
     slice_index const last_defense = alloc_binary_slice(STKillerMoveFinalDefenseMove,proxy3,proxy4);
+    slice_index const prototype1 = alloc_single_piece_move_generator_slice();
+    slice_index const prototypes2[] =
+    {
+        alloc_single_piece_move_generator_slice(),
+        alloc_killer_move_prioriser_slice()
+    };
+
     pipe_link(slices[si].prev,fork);
-    pipe_link(proxy3,generator1);
-    pipe_link(generator1,proxy5);
-    pipe_link(proxy5,slices[si].next1);
     pipe_link(proxy1,si);
     pipe_link(proxy2,last_defense);
-    pipe_link(proxy4,generator2);
-    pipe_link(generator2,prioriser);
-    pipe_link(prioriser,proxy5);
+    pipe_link(proxy3,copies1[slices[si].next1]);
+    pipe_link(proxy4,copies2[slices[si].next1]);
+    defense_branch_insert_slices_behind_proxy(proxy3,&prototype1,1,last_defense);
+    defense_branch_insert_slices_behind_proxy(proxy4,prototypes2,2,last_defense);
   }
 
   TraceFunctionExit(__func__);

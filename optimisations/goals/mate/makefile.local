@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = neutralretractable.c
+INCLUDES = neutralretractable.h
+
+include makefile.rules $(CURRPWD)depend

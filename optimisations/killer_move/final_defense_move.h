@@ -2,6 +2,7 @@
 #define OPTIMISATION_KILLER_MOVE_FINAL_DEFENSE_MOVE_H
 
 #include "solving/solve.h"
+#include "stipulation/structure_traversal.h"
 
 /* This module provides functionality dealing with the defending side
  * in STKillerMoveFinalDefenseMove stipulation slices.
@@ -13,8 +14,11 @@
 
 /* Optimise a STMoveGenerator slice for defending against a goal
  * @param si identifies slice to be optimised
+ * @param st structure holding traversal that led to the generator to be
+ *        optimised
  */
-void killer_move_optimise_final_defense_move(slice_index si);
+void killer_move_optimise_final_defense_move(slice_index si,
+                                             stip_structure_traversal *st);
 
 /* Try to solve in n half-moves.
  * @param si slice index

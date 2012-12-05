@@ -137,9 +137,9 @@ Loesung beendet.
  13  (Lc1-b2 )
 
               empile:     6657549
-           play_move:     5345130
-        orig_rbechec:     3552389
-        orig_rnechec:     1909198
+           play_move:     5345156
+        orig_rbechec:     3552385
+        orig_rnechec:     1909228
 Loesung beendet. 
 
 
@@ -294,8 +294,8 @@ Loesung beendet.
                   3.Dc3-g3 #
                   3.ROh1-h5 #
               2...ROg1-f3
-                  3.Dc3*f3 #
                   3.ROd8-e6 #
+                  3.Dc3*f3 #
                   3.ROh1-h5 #
               2...ROg1*g7
                   3.Dc3-f3 #
@@ -305,8 +305,8 @@ Loesung beendet.
                   3.Dc3-d2 #
                   3.Dc3-e3 #
               2...Sc2-e3
-                  3.f2*e3 #
                   3.Dc3*e3 #
+                  3.f2*e3 #
               2...ROa7-b5
                   3.ROh1-h5 #
       1...ROe8*e4 +
