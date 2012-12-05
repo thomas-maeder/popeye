@@ -104,10 +104,6 @@ EXTERN  ply             nbply;
 
 extern numvec const * const * const CheckDir;
 
-/* should a mating move be considered refuted if it is executed by a
- * neutral piece and the side to be mated can simply undo it?*/
-EXTERN  boolean         optim_neutralretractable;
-
 EXTERN  unsigned int    zzzaa[derbla-dernoi-1];     /* nbpiece */
 
 EXTERN piece pjoue[maxply+1];

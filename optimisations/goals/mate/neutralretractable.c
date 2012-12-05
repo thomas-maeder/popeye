@@ -14,6 +14,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
+boolean optim_neutralretractable;
+
 typedef struct
 {
     Goal goal_to_be_reached;

@@ -2713,7 +2713,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   stip_insert_find_shortest_solvers(result);
 
-  if (TSTFLAG(PieSpExFlags,Neutral) && optim_neutralretractable)
+  if (optim_neutralretractable)
     stip_optimise_by_omitting_retractable_neutral_moves(result);
 
   stip_optimise_with_orthodox_mating_move_generators(result);

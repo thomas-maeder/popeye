@@ -1,6 +1,7 @@
 #include "conditions/exclusive.h"
 #include "stipulation/stipulation.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "optimisations/goals/mate/neutralretractable.h"
 #include "pymsg.h"
 #include "pydata.h"
 #include "stipulation/pipe.h"

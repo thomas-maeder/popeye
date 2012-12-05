@@ -8,6 +8,9 @@
  * can simply take them back.
  */
 
+/* is optimisation possible with the current fairy elements? */
+extern boolean optim_neutralretractable;
+
 /* Optimise move generation by inserting orthodox mating move generators
  * @param si identifies the root slice of the stipulation
  */
