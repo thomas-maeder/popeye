@@ -1516,6 +1516,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/relaxed.h conditions/anticirce/strict.h \
  solving/move_effect_journal.h conditions/anticirce/promotion.h \
+ conditions/anticirce/illegal_captures_remover.h \
  conditions/anticirce/magic_square.h conditions/bgl.h \
  conditions/blackchecks.h conditions/contact_grid.h \
  conditions/extinction.h conditions/circe/chameleon.h \
@@ -1579,7 +1580,6 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/prioriser.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- stipulation/goals/goals.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
  options/maxsolutions/guard.h options/maxsolutions/initialiser.h \
  options/maxtime.h options/movenumbers.h options/degenerate_tree.h \
@@ -1593,7 +1593,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  output/plaintext/tree/end_of_solution_writer.h \
- output/plaintext/line/line_writer.h \
+ output/plaintext/line/line_writer.h stipulation/goals/goals.h \
  output/plaintext/move_inversion_counter.h \
  output/plaintext/tree/check_writer.h output/plaintext/tree/goal_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/move_writer.h \
@@ -1717,6 +1717,8 @@ conditions/anticirce/strict.h:
 solving/move_effect_journal.h:
 
 conditions/anticirce/promotion.h:
+
+conditions/anticirce/illegal_captures_remover.h:
 
 conditions/anticirce/magic_square.h:
 
@@ -1924,8 +1926,6 @@ optimisations/killer_move/prioriser.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
-stipulation/goals/goals.h:
-
 optimisations/orthodox_mating_moves/king_contact_move_generator.h:
 
 options/maxsolutions/guard.h:
@@ -1961,6 +1961,8 @@ output/plaintext/line/end_of_intro_series_marker.h:
 output/plaintext/tree/end_of_solution_writer.h:
 
 output/plaintext/line/line_writer.h:
+
+stipulation/goals/goals.h:
 
 output/plaintext/move_inversion_counter.h:
 

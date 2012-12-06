@@ -1276,8 +1276,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_assassin_place_reborn_solve(si,n);
       break;
 
-    case STKingCaptureAvoider:
-      result = king_capture_avoider_solve(si,n);
+    case STOwnKingCaptureAvoider:
+      result = own_king_capture_avoider_solve(si,n);
+      break;
+
+    case STOpponentKingCaptureAvoider:
+      result = opponent_king_capture_avoider_solve(si,n);
       break;
 
     case STPatienceChessLegalityTester:

@@ -475,47 +475,14 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         }
       }
 
-      if (!k_cap) {
-        /* We have to avoid captures by the white king because he
-         * wouldn't be reborn! This might also be placed in
-         * the function genrb(), but here, it works for all
-         * royal pieces.
-         * wegen neuer Funktionen genweiss/schwarz aus
-         * gennoir/White hierher verschoben
-         */
-        /* capturing kamikaze pieces without circe condition are possible now */
-        if (TSTFLAG(spec[sq_departure], Kamikaze)
-            &&  ((traitnbply == White)
-                 ? ((sq_departure == king_square[White]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
-                 : ((sq_departure == king_square[Black]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
-        {
-          return true;
-        }
-
-        if ((CondFlag[vogt]
-             || CondFlag[antikings])
-            && ((traitnbply == Black)
-                ? ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide))
-                : ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
-        {
-          return true;
-        }
-
+      if (!k_cap)
+      {
         if (SATCheck &&
             ((traitnbply == Black) ?
              ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
              ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
           return true;
-
-        if (anyanticirce
-            && (traitnbply==White
-                ? !rnanticircech(sq_departure,sq_arrival,sq_capture)
-                : !rbanticircech(sq_departure,sq_arrival,sq_capture)))
-        {
-          return true;
-        }
-      } /* k_cap */
-
+      }
     } /* e[sq_capture] != vide */
 
     if (CondFlag[imitators]
