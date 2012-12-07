@@ -81,6 +81,12 @@ void stip_insert_king_capture_avoiders(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STGoalDoubleMateReachedTester,
                                            &remember_goal_with_potential_king_capture);
+  stip_structure_traversal_override_single(&st,
+                                           STBrunnerDefenderFinder,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STKingCaptureLegalityTester,
+                                           &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
