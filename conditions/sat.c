@@ -37,8 +37,6 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(SATCheck);
-
   nextply();
 
   trait[nbply]= starter;
@@ -49,11 +47,9 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
   else
     gen_bl_piece(king_square[starter],-abs(e[king_square[starter]]));
   dont_generate_castling = false;
-  SATCheck = false;
 
   result = solve(slices[si].next1,n);
 
-  SATCheck = true;
   finply();
 
   TraceFunctionExit(__func__);
@@ -72,6 +68,11 @@ static void substitute_generator(slice_index si, stip_structure_traversal *st)
     slice_index const generator = branch_find_slice(STMoveGenerator,slices[si].next2,st->context);
     assert(generator!=no_slice);
     pipe_substitute(generator,alloc_pipe(STSATFlightMoveGenerator));
+
+    {
+      slice_index const prototype = alloc_pipe(STOpponentKingCaptureAvoider);
+      help_branch_insert_slices(generator,&prototype,1);
+    }
   }
 
   stip_traverse_structure_children(si,st);
@@ -114,12 +115,12 @@ boolean echecc_SAT(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
+  SATCheck = false;
+
   if (satXY || (CondFlag[strictSAT] && StrictSAT[side][parent_ply[nbply]]))
   {
-    SATCheck = false;
     if (!echecc(side))
       --nr_flights;
-    SATCheck = true;
   }
 
   if (nr_flights==0)
@@ -144,6 +145,8 @@ boolean echecc_SAT(Side side)
     /* clean up after ourselves */
     legal_move_counter_count[nbply] = 0;
   }
+
+  SATCheck = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

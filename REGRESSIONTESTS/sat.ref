@@ -201,7 +201,7 @@
 
 
               empile:    22526712
-           play_move:    18917041
+           play_move:    18917092
         orig_rbechec:    16164345
         orig_rnechec:     5360716
 solution finished. 
@@ -274,7 +274,7 @@ solution finished.
   1.Bd5-h1   2.Kc6-d5   3.Kd5-e4   4.Ke4-f3   5.Kf3-g2   6.Kg2*g1   7.Bh1*b7 # 
 
               empile:      192416
-           play_move:      167297
+           play_move:      168852
         orig_rbechec:      145647
         orig_rnechec:       31917
 solution finished. 
@@ -409,7 +409,7 @@ solution finished.
 
 
               empile:       12409
-           play_move:        7146
+           play_move:        8916
         orig_rbechec:         329
         orig_rnechec:        6926
 solution finished. 
@@ -490,7 +490,7 @@ a)
 
 
               empile:       22429
-           play_move:       14808
+           play_move:       18451
         orig_rbechec:       13143
         orig_rnechec:        3265
 b) wSh4 
@@ -507,7 +507,7 @@ b) wSh4
 
 
               empile:        3952
-           play_move:        2513
+           play_move:        3065
         orig_rbechec:        2307
         orig_rnechec:         407
 solution finished. 
