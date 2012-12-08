@@ -68,11 +68,6 @@ static void substitute_generator(slice_index si, stip_structure_traversal *st)
     slice_index const generator = branch_find_slice(STMoveGenerator,slices[si].next2,st->context);
     assert(generator!=no_slice);
     pipe_substitute(generator,alloc_pipe(STSATFlightMoveGenerator));
-
-    {
-      slice_index const prototype = alloc_pipe(STOpponentKingCaptureAvoider);
-      help_branch_insert_slices(generator,&prototype,1);
-    }
   }
 
   stip_traverse_structure_children(si,st);

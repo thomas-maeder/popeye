@@ -201,7 +201,7 @@
 
 
               empile:    22526712
-           play_move:    18917092
+           play_move:    18959156
         orig_rbechec:    16164345
         orig_rnechec:     5360716
 solution finished. 
@@ -239,7 +239,7 @@ solution finished.
   1.d6-d5 Rh6-h7   2.Qh2*b8=w Rh7-c7 # 
 
               empile:       17567
-           play_move:       17407
+           play_move:       17441
         orig_rbechec:         838
         orig_rnechec:       16889
 solution finished. 
@@ -274,7 +274,7 @@ solution finished.
   1.Bd5-h1   2.Kc6-d5   3.Kd5-e4   4.Ke4-f3   5.Kf3-g2   6.Kg2*g1   7.Bh1*b7 # 
 
               empile:      192416
-           play_move:      168852
+           play_move:      168854
         orig_rbechec:      145647
         orig_rnechec:       31917
 solution finished. 
@@ -335,7 +335,7 @@ solution finished.
 
 
               empile:       97640
-           play_move:       60523
+           play_move:       60558
         orig_rbechec:       11019
         orig_rnechec:       51680
 solution finished. 
@@ -409,7 +409,7 @@ solution finished.
 
 
               empile:       12409
-           play_move:        8916
+           play_move:        9023
         orig_rbechec:         329
         orig_rnechec:        6926
 solution finished. 
@@ -447,7 +447,7 @@ solution finished.
 
 
               empile:         342
-           play_move:         274
+           play_move:         279
         orig_rbechec:          42
         orig_rnechec:         254
 solution finished. 
@@ -490,7 +490,7 @@ a)
 
 
               empile:       22429
-           play_move:       18451
+           play_move:       18674
         orig_rbechec:       13143
         orig_rnechec:        3265
 b) wSh4 
@@ -507,7 +507,7 @@ b) wSh4
 
 
               empile:        3952
-           play_move:        3065
+           play_move:        3134
         orig_rbechec:        2307
         orig_rnechec:         407
 solution finished. 
@@ -545,7 +545,7 @@ solution finished.
   1.e6-e5 Rg8-b8   2.e4-e3 Rb8*b2 # 
 
               empile:        4361
-           play_move:        3017
+           play_move:        3029
         orig_rbechec:         228
         orig_rnechec:        2893
 solution finished. 
@@ -670,7 +670,7 @@ solution finished.
 
 
               empile:       55848
-           play_move:       40239
+           play_move:       40627
         orig_rbechec:       28986
         orig_rnechec:       15508
 solution finished. 
@@ -794,7 +794,7 @@ solution finished.
   1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-b8 # 
 
               empile:       36274
-           play_move:       35218
+           play_move:       35455
         orig_rbechec:        2845
         orig_rnechec:       63315
 solution finished. 

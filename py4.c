@@ -439,7 +439,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     TraceSquare(sq_capture);
     TracePiece(e[sq_capture]);
     TraceText("\n");
-    if (e[sq_capture] != vide) {
+    if (e[sq_capture] != vide)
+    {
       if (CondFlag[woozles]
           && !woohefflibre(sq_arrival, sq_departure))
       {
@@ -474,16 +475,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           return true;
         }
       }
-
-      if (!k_cap)
-      {
-        if (SATCheck &&
-            ((traitnbply == Black) ?
-             ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
-             ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
-          return true;
-      }
-    } /* e[sq_capture] != vide */
+    }
 
     if (CondFlag[imitators]
         && ((sq_capture==kingside_castling || sq_capture==queenside_castling)

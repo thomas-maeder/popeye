@@ -64,7 +64,11 @@ static void remember_goal_with_potential_king_capture(slice_index si,
  */
 void stip_insert_king_capture_avoiders(slice_index si)
 {
-  insertion_state state = { TSTFLAG(PieSpExFlags,Kamikaze), CondFlag[vogt] || CondFlag[antikings] };
+  insertion_state state =
+  {
+      TSTFLAG(PieSpExFlags,Kamikaze),
+      CondFlag[vogt] || CondFlag[antikings] || CondFlag[SAT] || CondFlag[strictSAT]
+  };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
