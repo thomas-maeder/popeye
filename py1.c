@@ -474,7 +474,6 @@ void InitAlways(void) {
   ply_watermark = nil_ply;
 
   CondFlag[circeassassin] = false;
-  k_cap = false;
   flagfee = false;
 
   for (i= maxply; i > 0; i--)

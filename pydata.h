@@ -183,8 +183,7 @@ EXTERN  boolean         obsenemygenre,
 
 EXTERN  boolean         calctransmute;
 
-EXTERN  boolean         k_cap,
-			anymars;
+EXTERN  boolean         anymars;
 EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
 
