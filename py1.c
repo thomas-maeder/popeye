@@ -69,6 +69,7 @@
 #include "solving/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
+#include "solving/king_capture_avoider.h"
 #include "conditions/bgl.h"
 #include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
@@ -83,7 +84,6 @@
 #include "conditions/sentinelles.h"
 #include "conditions/mummer.h"
 #include "conditions/singlebox/type3.h"
-#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 

@@ -1,14 +1,14 @@
 #include "stipulation/goals/countermate/reached_tester.h"
-#include "stipulation/pipe.h"
 #include "pydata.h"
+#include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
-#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/and.h"
+#include "solving/king_capture_avoider.h"
 #include "debugging/trace.h"
 
 /* This module provides functionality dealing with slices that detect

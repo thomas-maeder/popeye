@@ -46,15 +46,13 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  platform/maxtime.h solving/move_effect_journal.h \
  solving/battle_play/try.h utilities/table.h solving/castling.h \
  solving/en_passant.h solving/moving_pawn_promotion.h \
- solving/post_move_iteration.h conditions/bgl.h conditions/sat.h \
- conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
- conditions/anticirce/super.h conditions/circe/circe.h \
- conditions/circe/chameleon.h conditions/circe/april.h \
- conditions/circe/takemake.h conditions/imitator.h \
- conditions/sentinelles.h conditions/mummer.h \
- conditions/singlebox/type3.h \
- stipulation/goals/doublemate/king_capture_avoider.h utilities/table.h \
- debugging/trace.h
+ solving/post_move_iteration.h solving/king_capture_avoider.h \
+ conditions/bgl.h conditions/sat.h conditions/oscillating_kings.h \
+ conditions/duellists.h conditions/kobul.h conditions/anticirce/super.h \
+ conditions/circe/circe.h conditions/circe/chameleon.h \
+ conditions/circe/april.h conditions/circe/takemake.h \
+ conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
+ conditions/singlebox/type3.h utilities/table.h debugging/trace.h
 
 py.h:
 
@@ -142,6 +140,8 @@ solving/moving_pawn_promotion.h:
 
 solving/post_move_iteration.h:
 
+solving/king_capture_avoider.h:
+
 conditions/bgl.h:
 
 conditions/sat.h:
@@ -169,8 +169,6 @@ conditions/sentinelles.h:
 conditions/mummer.h:
 
 conditions/singlebox/type3.h:
-
-stipulation/goals/doublemate/king_capture_avoider.h:
 
 utilities/table.h:
 
@@ -616,9 +614,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/castling_chess.h conditions/exchange_castling.h \
  conditions/transmuting_kings/super.h conditions/amu/attack_counter.h \
  conditions/imitator.h conditions/football.h conditions/mummer.h \
- stipulation/goals/doublemate/king_capture_avoider.h platform/maxmem.h \
- platform/maxtime.h platform/pytime.h platform/priority.h \
- stipulation/has_solution_type.h stipulation/branch.h \
+ platform/maxmem.h platform/maxtime.h platform/pytime.h \
+ platform/priority.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
  stipulation/dead_end.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/or.h \
@@ -626,15 +623,15 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/goals/goals.h stipulation/constraint.h \
  stipulation/moves_traversal.h stipulation/help_play/branch.h \
  stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
- stipulation/goals/immobile/reached_tester.h solving/testers.h \
- solving/find_shortest.h solving/for_each_move.h \
- solving/battle_play/try.h utilities/table.h solving/battle_play/threat.h \
- solving/battle_play/continuation.h solving/battle_play/setplay.h \
- solving/battle_play/min_length_guard.h solving/trivial_end_filter.h \
- solving/avoid_unsolvable.h solving/play_suppressor.h solving/castling.h \
- solving/en_passant.h solving/move_generator.h \
- solving/post_move_iteration.h pieces/walks.h pieces/attributes/magic.h \
- pieces/attributes/paralysing/paralysing.h \
+ stipulation/goals/immobile/reached_tester.h \
+ solving/king_capture_avoider.h solving/testers.h solving/find_shortest.h \
+ solving/for_each_move.h solving/battle_play/try.h utilities/table.h \
+ solving/battle_play/threat.h solving/battle_play/continuation.h \
+ solving/battle_play/setplay.h solving/battle_play/min_length_guard.h \
+ solving/trivial_end_filter.h solving/avoid_unsolvable.h \
+ solving/play_suppressor.h solving/castling.h solving/en_passant.h \
+ solving/move_generator.h solving/post_move_iteration.h pieces/walks.h \
+ pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
@@ -887,8 +884,6 @@ conditions/football.h:
 
 conditions/mummer.h:
 
-stipulation/goals/doublemate/king_capture_avoider.h:
-
 platform/maxmem.h:
 
 platform/maxtime.h:
@@ -930,6 +925,8 @@ stipulation/goals/prerequisite_guards.h:
 stipulation/temporary_hacks.h:
 
 stipulation/goals/immobile/reached_tester.h:
+
+solving/king_capture_avoider.h:
 
 solving/testers.h:
 

@@ -1,4 +1,4 @@
-#include "stipulation/goals/doublemate/king_capture_avoider.h"
+#include "solving/king_capture_avoider.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"

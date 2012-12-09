@@ -1552,8 +1552,9 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  solving/single_move_generator.h solving/single_piece_move_generator.h \
  solving/trivial_end_filter.h solving/en_passant.h \
  solving/moving_pawn_promotion.h solving/selfcheck_guard.h \
- solving/post_move_iteration.h stipulation/has_solution_type.h \
- stipulation/move_inverter.h stipulation/battle_play/attack_adapter.h \
+ solving/post_move_iteration.h solving/king_capture_avoider.h \
+ stipulation/has_solution_type.h stipulation/move_inverter.h \
+ stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
@@ -1582,7 +1583,6 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  stipulation/goals/reached_tester.h \
  stipulation/goals/steingewinn/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
- stipulation/goals/doublemate/king_capture_avoider.h \
  stipulation/help_play/adapter.h stipulation/move_player.h \
  stipulation/move_played.h stipulation/setplay_fork.h stipulation/pipe.h \
  debugging/trace.h debugging/measure.h pyproc.h py4.h \
@@ -1986,6 +1986,8 @@ solving/selfcheck_guard.h:
 
 solving/post_move_iteration.h:
 
+solving/king_capture_avoider.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/move_inverter.h:
@@ -2062,8 +2064,6 @@ stipulation/goals/steingewinn/reached_tester.h:
 
 stipulation/goals/target/reached_tester.h:
 
-stipulation/goals/doublemate/king_capture_avoider.h:
-
 stipulation/help_play/adapter.h:
 
 stipulation/move_player.h:
@@ -2083,3 +2083,72 @@ pyproc.h:
 py4.h:
 
 stipulation/goals/goals.h:
+solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
+ solving/king_capture_avoider.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h stipulation/pipe.h \
+ stipulation/proxy.h stipulation/help_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ debugging/trace.h
+
+solving/king_capture_avoider.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/branch.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+stipulation/proxy.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+debugging/trace.h:
