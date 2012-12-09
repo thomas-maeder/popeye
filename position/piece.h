@@ -160,6 +160,10 @@ typedef enum
   greatertreehopperb,     /* 142 */
   greaterleafhopperb,     /* 143 */
   kanglionb,     /* 144 */
+  kaob,          /* 145 */
+  knighthopperb, /* 146 */
+  shipb,         /* 147 */
+  gryphonb,      /* 148 */
   hunter0b,
   derbla =        hunter0b+maxnrhuntertypes,
 
@@ -306,6 +310,10 @@ typedef enum
   greatertreehoppern    = -greatertreehopperb,
   greaterleafhoppern    = -greaterleafhopperb,
   kanglionn      = -kanglionb,
+  kaon           = -kaob,
+  knighthoppern  = -knighthopperb,
+  shipn          = -shipb,
+  gryphonn       = -gryphonb,
   hunter0n       = -hunter0b,
   dernoi         = -derbla
 

@@ -61,6 +61,8 @@ typedef boolean (evalfunction_t)(square departure, square arrival, square captur
 typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
 typedef void (attackfunction_t)(square, square);
 
+checkfunction_t pawnedpiececheck;
+
 checkfunction_t alfilcheck;
 checkfunction_t amazcheck;
 checkfunction_t antilcheck;
@@ -115,12 +117,14 @@ checkfunction_t gnuridcheck;
 checkfunction_t gralcheck;
 checkfunction_t grasshop2check;
 checkfunction_t grasshop3check;
+checkfunction_t gryphoncheck;
 checkfunction_t gscoutcheck;
 checkfunction_t huntercheck;
 checkfunction_t impcheck;
 checkfunction_t kangoucheck;
 checkfunction_t kanglioncheck;
 checkfunction_t kinghopcheck;
+checkfunction_t knighthoppercheck;
 checkfunction_t leap15check;
 checkfunction_t leap16check;
 checkfunction_t leap24check;
@@ -184,6 +188,7 @@ checkfunction_t roselocustcheck;
 checkfunction_t scheck;
 checkfunction_t scorpioncheck;
 checkfunction_t scorpioncheck;
+checkfunction_t shipcheck;
 checkfunction_t skyllacheck;
 checkfunction_t sparrcheck;
 checkfunction_t spawncheck;

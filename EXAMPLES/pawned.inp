@@ -1,0 +1,30 @@
+beg
+
+auth Fernand Joseph
+orig Horizon, Oct. 2009
+title Gryphon = B+P
+stip h=3
+pie wh kf5 bg1 pc5d7
+  blac kd5 gyd8 pa7a5c6g2
+
+next
+
+auth T.R. Dawson
+orig Deutsche Schachzeitung 1911
+title Ship = R+P
+stip #2
+opt var
+pie wh ke2 shf3 pb4g3
+  blac kd4 rd6 pb5d5e6
+
+next
+
+auth T.R. Dawson
+orig Reading Observer 1912
+title Dragon = S+P
+stip #2
+opt var
+pie wh kg7 drf2 sg2 pg3
+  blac kg5 rh2 bh5 pf5h4
+
+end

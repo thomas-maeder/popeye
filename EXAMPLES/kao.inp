@@ -1,0 +1,21 @@
+beg
+
+auth S. Emmerson
+orig Unpublished
+title KnightHopper = short NH
+stip ser-=8
+pie wh kf5 kph8 
+  blac qh6d4 rg6 sf4 pf6
+
+next
+
+auth S. Emmerson
+orig Unpublished
+title Kao = 'Chinese Knight' ( = short Nao)
+title  or, S-move / KP(KnightHopper)-capture
+stip #2
+opt var set
+pie wh kb3 bc2 kog2 pc4
+  blac ka1 pb4c5d4
+
+end

@@ -349,6 +349,7 @@ static boolean is_simplehopper(PieNam p)
     case Sparrow:
     case RookSparrow:
     case BishopSparrow:
+    case KnightHopper:
       return true;
 
     default:

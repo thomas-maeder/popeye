@@ -835,6 +835,13 @@ boolean kinghopcheck(square    i,
   return shopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
+boolean knighthoppercheck(square    i,
+                          piece p,
+                          evalfunction_t *evaluate)
+{
+    return shopcheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+}
+
 static boolean doublehoppercheck(square  sq_king,
                                  piece   p,
                                  numvec vec_start, numvec vec_end,
@@ -1469,13 +1476,41 @@ boolean dragoncheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  square sq_departure;
-
   if (leapcheck(sq_king,vec_knight_start,vec_knight_end,p,evaluate))
     return true;
 
-  if (p==dragonn
+  return pawnedpiececheck(sq_king, p, evaluate);
+}
+
+boolean gryphoncheck(square  sq_king,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  if (ridcheck(sq_king,vec_bishop_start,vec_bishop_end,p,evaluate))
+    return true;
+
+  return pawnedpiececheck(sq_king, p, evaluate);
+}
+
+boolean shipcheck(square  sq_king,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  if (ridcheck(sq_king,vec_rook_start,vec_rook_end,p,evaluate))
+    return true;
+
+  return pawnedpiececheck(sq_king, p, evaluate);
+}
+
+boolean pawnedpiececheck(square  sq_king,
+                    piece   p,
+                    evalfunction_t *evaluate)
+{
+  square sq_departure;
+
+  if (p==dragonn || p==gryphonn || p==shipn
       || (calc_reflective_king[Black] && p==roin))
+
   {
     if (sq_king<=square_h6
         || anyparrain
@@ -1494,7 +1529,7 @@ boolean dragoncheck(square  sq_king,
       }
     }
   }
-  else {/* hopefully ((p == dragonb)
+  else {/* hopefully ((p == dragonb || p==gryphonb || p==shipb)
            || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a3
         || anyparrain

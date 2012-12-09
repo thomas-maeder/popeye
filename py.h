@@ -431,7 +431,11 @@ typedef enum
   GreaterTreehopper,     /* 142 */
   GreaterLeafhopper,     /* 143 */
   KangarooLion,          /* 144 */
-  Hunter0,               /* 145 */
+  Kao,                   /* 145 */
+  KnightHopper,          /* 146 */
+  Ship,                  /* 147 */
+  Gryphon,               /* 148 */
+  Hunter0,               /* 149 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;

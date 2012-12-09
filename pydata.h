@@ -375,7 +375,11 @@ EXTERN boolean			anyparrain;
     /*141*/ {'s','e'},   /* leafhopper */
     /*142*/ {'s','m'},   /* greater treehopper */
     /*143*/ {'s','u'},   /* greater leafhopper */
-    /*144*/ {'k','l'}   /* kangarou lion */
+    /*144*/ {'k','l'},   /* kangarou lion */
+    /*145*/ {'k','o'},   /* kao */
+    /*146*/ {'k','p'},   /* knighthopper */
+    /*147*/ {'s','h'},   /* bateau */
+    /*148*/ {'g','y'}    /* gryphon */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -521,7 +525,11 @@ EXTERN boolean			anyparrain;
     /*141*/ {'b','h'},   /* leafhopper */
     /*142*/ {'g','u'},   /* greater treehopper */
     /*143*/ {'g','b'},  /* greater leafhopper */
-    /*144*/ {'l','k'}   /* kangarou lion */
+    /*144*/ {'l','k'},   /* kangarou lion */
+    /*145*/ {'k','o'},   /* kao */
+    /*146*/ {'k','p'},   /* knighthopper */
+    /*147*/ {'s','h'},   /* schiff */
+    /*148*/ {'g','y'}    /* gryphon */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -667,7 +675,11 @@ EXTERN boolean			anyparrain;
     /*141*/ {'l','h'},   /* leafhopper */
     /*142*/ {'g','e'},   /* greater treehopper */
     /*143*/ {'g','f'},   /* greater leafhopper */
-    /*144*/ {'k','l'}   /* kangarou lion */
+    /*144*/ {'k','l'},   /* kangarou lion */
+    /*145*/ {'k','o'},   /* kao */
+    /*146*/ {'k','p'},   /* knighthopper */
+    /*147*/ {'s','h'},   /* ship */
+    /*148*/ {'g','y'}    /* gryphon */
   }
 	};
 #endif
@@ -1903,16 +1915,20 @@ enum {
 /*142 */  greatertreehoppercheck,
 /*143 */  greaterleafhoppercheck,
 /*144 */  kanglioncheck,
-/*145 */  huntercheck,
-/*146 */  huntercheck,
-/*147 */  huntercheck,
-/*148 */  huntercheck,
+/*145 */  knighthoppercheck,
+/*146 */  knighthoppercheck,
+/*147 */  shipcheck,
+/*148 */  gryphoncheck,
 /*149 */  huntercheck,
 /*150 */  huntercheck,
 /*151 */  huntercheck,
 /*152 */  huntercheck,
 /*153 */  huntercheck,
-/*154 */  huntercheck
+/*154 */  huntercheck,
+/*155 */  huntercheck,
+/*156 */  huntercheck,
+/*157 */  huntercheck,
+/*158 */  huntercheck
     };
 #endif
 

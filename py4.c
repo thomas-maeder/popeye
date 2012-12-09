@@ -1073,6 +1073,31 @@ static void gchin(square   sq_departure,
   }
 }
 
+static void gchinleap(square   sq_departure,
+           numvec   kbeg, numvec    kend,
+           Side  camp)
+{
+  /* generate chinese-leaper moves from vec[kbeg] to vec[kend] */
+
+  piece   hurdle;
+  numvec  k;
+
+  square sq_arrival;
+
+  for (k= kbeg; k<=kend; k++) {
+    sq_arrival= sq_departure + vec[k];
+
+    if (abs(e[sq_arrival])>=roib) {
+      sq_arrival += vec[k];
+      if (rightcolor(e[sq_arrival],camp))
+        empile(sq_departure,sq_arrival,sq_arrival);
+    }
+    else if (e[sq_arrival] == vide) {
+        empile(sq_departure,sq_arrival,sq_arrival);
+    }
+  }
+}
+
 static void gnequi(square sq_departure, Side camp) {
   /* Non-Stop-Equihopper */
   square sq_hurdle;
@@ -1936,6 +1961,14 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gkanglion(sq_departure, camp);
     return;
 
+  case kaob:
+    gchinleap(sq_departure, vec_knight_start, vec_knight_end, camp);
+    return;
+
+  case knighthopperb:
+    geshop(sq_departure, vec_knight_start, vec_knight_end, camp);
+    return;
+
   case csb:
     for (k= vec_knight_start; k<=vec_knight_end; k++)
       gcs(sq_departure, vec[k], vec[25 - k], camp);
@@ -2517,6 +2550,44 @@ void gfeerblanc(square i, piece p) {
     gebleap(i, vec_knight_start,vec_knight_end);
     return;
 
+  case gryphonb:
+      if (i<=square_h1)
+      {
+        /* pawn on first rank */
+        if (anyparrain
+            || CondFlag[einstein]
+            || CondFlag[normalp]
+            || CondFlag[circecage]
+            || abs(e[i]) == orphanb)
+        {
+          /* triple or single step? */
+          gen_p_nocaptures(i,+dir_up, CondFlag[einstein] ? 3 : 1);
+        }
+      }
+      else
+      {
+        {
+          /* double or single step? */
+          gen_p_nocaptures(i,+dir_up, i<=square_h2 ? 2 : 1);
+        }
+      }
+    gebrid(i, vec_bishop_start,vec_bishop_end);
+    return;
+
+  case shipb:
+    if (i >= square_a2
+      || anyparrain
+      || CondFlag[einstein]
+      || CondFlag[normalp]
+      || CondFlag[circecage]
+      || abs(e[i]) == orphanb)
+    {
+      gen_p_captures(i, i+dir_up+dir_left, White);
+      gen_p_captures(i, i+dir_up+dir_right, White);
+    }
+    gebrid(i, vec_rook_start,vec_rook_end);
+    return;
+
   case camridb:
     gebrid(i, vec_chameau_start,vec_chameau_end);
     return;
@@ -2707,6 +2778,44 @@ void gfeernoir(square i, piece p) {
   case dragonn:
     genpn(i);
     genleap(i, vec_knight_start,vec_knight_end);
+    return;
+
+  case gryphonn:
+      if (i>=square_a8)
+      {
+        /* pawn on first rank */
+        if (anyparrain
+            || CondFlag[einstein]
+            || CondFlag[normalp]
+            || CondFlag[circecage]
+            || abs(e[i]) == orphanb)
+        {
+          /* triple or single step? */
+            gen_p_nocaptures(i,dir_down, CondFlag[einstein] ? 3 : 1);
+        }
+      }
+      else
+      {
+        {
+          /* double or single step? */
+            gen_p_nocaptures(i,dir_down, CondFlag[einstein] ? 3 : 1);
+        }
+      }
+    genrid(i, vec_bishop_start,vec_bishop_end);
+    return;
+
+  case shipn:
+    if (i<=square_h7
+        || anyparrain
+        || CondFlag[normalp]
+        || CondFlag[einstein]
+        || CondFlag[circecage]
+        || abs(e[i])==orphanb)
+    {
+      gen_p_captures(i, i+dir_down+dir_right, Black);
+      gen_p_captures(i, i+dir_down+dir_left, Black);
+    }
+    genrid(i, vec_rook_start,vec_rook_end);
     return;
 
   case camridn:
