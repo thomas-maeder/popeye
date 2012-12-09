@@ -9,6 +9,20 @@
  * mated is neutral.
  */
 
+/* Reset king capture avoiders
+ */
+void king_capture_avoiders_reset(void);
+
+/* Make stip_insert_king_capture_avoiders() insert slices that prevent moves
+ * that leave the moving side without king
+ */
+void king_capture_avoiders_avoid_own(void);
+
+/* Make stip_insert_king_capture_avoiders() insert slices that prevent moves
+ * that leave the moving side's opponent without king
+ */
+void king_capture_avoiders_avoid_opponent(void);
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */

@@ -15,6 +15,32 @@ typedef struct
     boolean opponent_king_capture_possible;
 } insertion_state;
 
+static insertion_state root_state;
+
+/* Reset king capture avoiders
+ */
+void king_capture_avoiders_reset(void)
+{
+  root_state.own_king_capture_possible = false;
+  root_state.opponent_king_capture_possible = false;
+}
+
+/* Make stip_insert_king_capture_avoiders() insert slices that prevent moves
+ * that leave the moving side without king
+ */
+void king_capture_avoiders_avoid_own(void)
+{
+  root_state.own_king_capture_possible = true;
+}
+
+/* Make stip_insert_king_capture_avoiders() insert slices that prevent moves
+ * that leave the moving side's opponent without king
+ */
+void king_capture_avoiders_avoid_opponent(void)
+{
+  root_state.opponent_king_capture_possible = true;
+}
+
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   insertion_state const * const state = st->param;
@@ -58,17 +84,12 @@ static void remember_goal_with_potential_king_capture(slice_index si,
   TraceFunctionResultEnd();
 }
 
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_king_capture_avoiders(slice_index si)
 {
-  insertion_state state =
-  {
-      TSTFLAG(PieSpExFlags,Kamikaze),
-      CondFlag[vogt] || CondFlag[antikings] || CondFlag[SAT] || CondFlag[strictSAT]
-  };
+  insertion_state state = root_state;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);

@@ -188,6 +188,7 @@
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
 #include "conditions/mummer.h"
+#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1310,6 +1311,7 @@ static boolean verify_position(slice_index si)
         return false;
       }
     }
+    king_capture_avoiders_avoid_own();
   }
 
   if ((CondFlag[supercirce] || CondFlag[april] || CondFlag[circecage])
@@ -1705,6 +1707,12 @@ static boolean verify_position(slice_index si)
       || CondFlag[ghostchess]
       || CondFlag[hauntedchess]
       || TSTFLAG(PieSpExFlags,Uncapturable);
+
+  if (CondFlag[vogt]
+      || CondFlag[antikings]
+      || CondFlag[SAT]
+      || CondFlag[strictSAT])
+    king_capture_avoiders_avoid_opponent();
 
   if (CondFlag[dynasty])
   {

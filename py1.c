@@ -83,6 +83,7 @@
 #include "conditions/sentinelles.h"
 #include "conditions/mummer.h"
 #include "conditions/singlebox/type3.h"
+#include "stipulation/goals/doublemate/king_capture_avoider.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -496,6 +497,8 @@ void InitAlways(void) {
   takemake_takecapturesquare= initsquare;
 
   reset_max_nr_solutions_per_target_position();
+
+  king_capture_avoiders_reset();
 }
 
 square coinequis(square i)
