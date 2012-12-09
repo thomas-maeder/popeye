@@ -71,7 +71,7 @@ solution finished.
                                       5...a2-a1=B c81
 
 
-              empile:          79
+              empile:          90
            play_move:         102
         orig_rbechec:           0
         orig_rnechec:           0

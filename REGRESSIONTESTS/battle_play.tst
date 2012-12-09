@@ -545,7 +545,7 @@ solution finished.
           2.Se6-c7 #
 
 
-              empile:        3480
+              empile:        3605
            play_move:        2482
         orig_rbechec:        1420
         orig_rnechec:        1174
@@ -1549,7 +1549,7 @@ solution finished.
  15  (Ka1-a2 + )
  16  (Ka1-b2 + )
 
-              empile:        9345
+              empile:        9415
            play_move:        6012
         orig_rbechec:        5347
         orig_rnechec:        1272
@@ -1614,7 +1614,7 @@ a r#2 solution does not solve an exact r#3
   exact-r#3                   2 + 1
 
 
-              empile:        1100
+              empile:        1104
            play_move:         482
         orig_rbechec:         465
         orig_rnechec:           0
@@ -1854,7 +1854,7 @@ solution finished.
               2...Ke8-f7
                   3.Rh8-f8 #
 
-              empile:       19965
+              empile:       20197
            play_move:       16944
         orig_rbechec:        8689
         orig_rnechec:        9655

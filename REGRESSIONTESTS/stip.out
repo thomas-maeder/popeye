@@ -251,7 +251,7 @@ Loesung beendet.
                               4...0-0
 
 
-              empile:     1950086
+              empile:     1958365
            play_move:      397255
         orig_rbechec:      387360
         orig_rnechec:       96987
@@ -990,7 +990,7 @@ c) exact-#3
                   3.Lc1*f4[+sBf7] #
 
 
-              empile:        3745
+              empile:        3813
            play_move:        1778
         orig_rbechec:         781
         orig_rnechec:        1224
@@ -1017,7 +1017,7 @@ d) exact-#4
                           4.Sd2-e4 #
 
 
-              empile:       40265
+              empile:       41799
            play_move:       24210
         orig_rbechec:       16341
         orig_rnechec:        9372
@@ -1079,7 +1079,7 @@ c) exact-#3
                   3.Tc6-e6 #
 
 
-              empile:       22205
+              empile:       22478
            play_move:        7879
         orig_rbechec:        3559
         orig_rnechec:        5923
@@ -1094,7 +1094,7 @@ d) exact-#4
                           4.La8-e4 #
 
 
-              empile:      433783
+              empile:      440180
            play_move:      186523
         orig_rbechec:      111951
         orig_rnechec:       99208
@@ -1157,7 +1157,7 @@ c) exact-#3
                   3.Ld8-c7 #
 
 
-              empile:        6456
+              empile:        6580
            play_move:        3446
         orig_rbechec:        1533
         orig_rnechec:        2375
@@ -1178,7 +1178,7 @@ d) exact-#4
                           4.d5-d6 #
 
 
-              empile:       77606
+              empile:       79597
            play_move:       42205
         orig_rbechec:       23208
         orig_rnechec:       23550
@@ -1264,7 +1264,7 @@ Loesung beendet.
                                   5.Sg5-h3 z
 
 
-              empile:     5671672
+              empile:     5821658
            play_move:     2771901
         orig_rbechec:     2475114
         orig_rnechec:      296839
@@ -1554,7 +1554,7 @@ Loesung beendet.
                   3.Sc8-d6 z
 
 
-              empile:       10179
+              empile:       10336
            play_move:        3607
         orig_rbechec:        2437
         orig_rnechec:        1181

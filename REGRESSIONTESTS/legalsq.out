@@ -54,7 +54,7 @@
                           4.Tf8-h8 #
 
 
-              empile:       12946
+              empile:       13367
            play_move:        7864
         orig_rbechec:        4977
         orig_rnechec:        3421
@@ -141,7 +141,7 @@ Loesung beendet.
                                                   7.Kd4-e5 #
 
 
-              empile:       85582
+              empile:       86962
            play_move:       23420
         orig_rbechec:       19020
         orig_rnechec:        4465
@@ -186,7 +186,7 @@ Loesung beendet.
                                   5.Kd4-e5 #
 
 
-              empile:       15613
+              empile:       15874
            play_move:        4975
         orig_rbechec:        2627
         orig_rnechec:        2490
@@ -231,7 +231,7 @@ Loesung beendet.
                                   5.Ta8-a1 #
 
 
-              empile:     1143230
+              empile:     1168125
            play_move:      571798
         orig_rbechec:      450679
         orig_rnechec:      148948
@@ -301,7 +301,7 @@ Loesung beendet.
                                   5.Ta8-h8 #
 
 
-              empile:     1233542
+              empile:     1261317
            play_move:      579907
         orig_rbechec:      464281
         orig_rnechec:      136191
@@ -542,7 +542,7 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-              empile:     2188565
+              empile:     2194112
            play_move:      439423
         orig_rbechec:      453468
         orig_rnechec:      236408

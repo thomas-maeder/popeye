@@ -1568,7 +1568,7 @@ Loesung beendet.
                       3...Td7-d1 #
 
 
-              empile:      570387
+              empile:      571039
            play_move:      214220
         orig_rbechec:      213697
         orig_rnechec:      129606
@@ -1627,7 +1627,7 @@ Loesung beendet.
                   3.Lc8-b7 #
 
 
-              empile:      162179
+              empile:      163343
            play_move:      102415
         orig_rbechec:       29518
         orig_rnechec:       76837
@@ -1684,7 +1684,7 @@ Loesung beendet.
                   3.c7-c8=D #
 
 
-              empile:       19812
+              empile:       19988
            play_move:       15190
         orig_rbechec:        3323
         orig_rnechec:       12165
@@ -1731,7 +1731,7 @@ Loesung beendet.
                       3...f2-f1=S #
 
 
-              empile:      108195
+              empile:      108423
            play_move:       96417
         orig_rbechec:       84708
         orig_rnechec:       20286
@@ -1808,7 +1808,7 @@ Loesung beendet.
                   3.h7*g8=L[wLg8->f1] #
 
 
-              empile:       92414
+              empile:       92903
            play_move:       67433
         orig_rbechec:       15319
         orig_rnechec:       56277
@@ -1983,7 +1983,7 @@ Loesung beendet.
                       3...Dd1-b3 #
 
 
-              empile:      146855
+              empile:      147389
            play_move:       96042
         orig_rbechec:       85353
         orig_rnechec:       23693
@@ -2229,7 +2229,7 @@ Loesung beendet.
                   3.Th1-g1 #
 
 
-              empile:       38592
+              empile:       38733
            play_move:       29673
         orig_rbechec:        5208
         orig_rnechec:       25902
@@ -3191,7 +3191,7 @@ Platzwechsel mit Repuls des schlagenden Steins auf sein Ursprungsfeld
                           4.Kd2*e1[wKe1->e1]
 
 
-              empile:       14764
+              empile:       14938
            play_move:       14661
         orig_rbechec:        4684
         orig_rnechec:           0

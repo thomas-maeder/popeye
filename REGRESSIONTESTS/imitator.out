@@ -226,7 +226,7 @@ Loesung beendet.
                           4.Td7-d6[Ib1] #
 
 
-              empile:       52677
+              empile:       53263
            play_move:       30320
         orig_rbechec:        9505
         orig_rnechec:       22158
@@ -325,7 +325,7 @@ Loesung beendet.
    1.Tf1*g1[Ib8] + !
 
 
-              empile:        7152
+              empile:        7206
            play_move:        2475
         orig_rbechec:        1138
         orig_rnechec:        1955
@@ -403,7 +403,7 @@ Loesung beendet.
           2.Da8-c6[Id1] #
 
 
-              empile:      258344
+              empile:      261148
            play_move:      125282
         orig_rbechec:       48886
         orig_rnechec:       83699
@@ -463,7 +463,7 @@ Loesung beendet.
                       3...Ke1-f2[Ib5] #
 
 
-              empile:       17192
+              empile:       17416
            play_move:        8533
         orig_rbechec:        8318
         orig_rnechec:        2332
@@ -590,7 +590,7 @@ Loesung beendet.
               2...b3-b2[Ib6] #
 
 
-              empile:      451810
+              empile:      453220
            play_move:      313581
         orig_rbechec:      286397
         orig_rnechec:       32140

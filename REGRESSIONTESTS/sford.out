@@ -82,7 +82,7 @@ Loesung beendet.
               2...Ke8-f7
                   3.Th8-f8 #
 
-              empile:       19965
+              empile:       20197
            play_move:       16944
         orig_rbechec:        8689
         orig_rnechec:        9655
@@ -1256,7 +1256,7 @@ c) weiss 5:5a[#]d
                   3.Lc1*f4[+sBf7] #
 
 
-              empile:        3973
+              empile:        4041
            play_move:        1900
         orig_rbechec:         814
         orig_rnechec:        1335
@@ -1284,7 +1284,7 @@ d) weiss 7:7a[#]d
                           4.Sd2-e4 #
 
 
-              empile:       44060
+              empile:       45746
            play_move:       26527
         orig_rbechec:       17727
         orig_rnechec:       10430

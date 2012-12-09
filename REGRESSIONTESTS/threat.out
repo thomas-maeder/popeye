@@ -40,7 +40,7 @@
                           4.Tf5-f3 #
 
 
-              empile:       35056
+              empile:       35608
            play_move:       19044
         orig_rbechec:        9255
         orig_rnechec:       12607
@@ -124,7 +124,7 @@ Loesung beendet.
                                                           8.Se5-c6 #
 
 
-              empile:       77724
+              empile:       84808
            play_move:       63909
         orig_rbechec:       40469
         orig_rnechec:       28781
@@ -228,7 +228,7 @@ nebenloesig - eigentlich #6
                           4.ROe6*c5[+sBe6] #
 
 
-              empile:      133586
+              empile:      137510
            play_move:      117170
         orig_rbechec:       50325
         orig_rnechec:       71316

@@ -82,7 +82,7 @@ solution finished.
                   3.kRb2*b3[-wkRb3][+wkRh1][+bPb7]
 
 
-              empile:        7156
+              empile:        7178
            play_move:        7129
         orig_rbechec:           0
         orig_rnechec:           0
@@ -131,7 +131,7 @@ originally occupied by the other exchanger
                           4.kSh3*g1[-wkSg1][+wkSg1][+bkBf8]
 
 
-              empile:       47971
+              empile:       48341
            play_move:       47397
         orig_rbechec:       11794
         orig_rnechec:           0

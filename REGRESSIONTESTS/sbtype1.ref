@@ -220,7 +220,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.d4*e5 #
 
 
-              empile:     1621295
+              empile:     1643873
            play_move:     1033125
         orig_rbechec:      527021
         orig_rnechec:      565967
@@ -328,7 +328,7 @@ Example 1
                                           6.Qe5-g5 #
 
 
-              empile:     7508810
+              empile:     7713494
            play_move:     6569962
         orig_rbechec:     4946997
         orig_rnechec:     1669169
@@ -388,7 +388,7 @@ solution finished.
       1...c6*d5 !
 
 
-              empile:      760262
+              empile:      761640
            play_move:      486025
         orig_rbechec:       79269
         orig_rnechec:      435501

@@ -151,7 +151,7 @@
  49  (Tc1*e1 )
  50  (Tc1-d1 )
 
-              empile:    29799925
+              empile:    32589763
            play_move:    21623003
         orig_rbechec:    18451561
         orig_rnechec:    15863819
@@ -283,7 +283,7 @@ Loesung beendet.
  46  (Ng1*c3 )
  47  (Ng1-e2 )
 
-              empile:   147640358
+              empile:   158464857
            play_move:   120523581
         orig_rbechec:   107825594
         orig_rnechec:    78646641
@@ -407,7 +407,7 @@ Loesung beendet.
  43  (Tc1-e1 )
  44  (Tc1-d1 )
 
-              empile:     1279594
+              empile:     1437257
            play_move:     1091400
         orig_rbechec:      921563
         orig_rnechec:      745801
@@ -516,7 +516,7 @@ Loesung beendet.
  31  (EQf4-b8 )
  32  (EQf4-h6 )
 
-              empile:    14996743
+              empile:    17205468
            play_move:    11117118
         orig_rbechec:     8908413
         orig_rnechec:     8259074
@@ -643,7 +643,7 @@ Loesung beendet.
  46  (Lc1-a3 )
  47  (Lc1-b2 )
 
-              empile:    11108773
+              empile:    12833266
            play_move:     9877688
         orig_rbechec:     8108201
         orig_rnechec:     7199770
@@ -763,7 +763,7 @@ Loesung beendet.
  43  (La2-c4 + )
  44  (La2-b3 )
 
-              empile:     3815374
+              empile:     4160385
            play_move:     2713118
         orig_rbechec:     2368127
         orig_rnechec:     1845888
@@ -868,7 +868,7 @@ Loesung beendet.
  27  (b2-b4 )
  28  (b2-b3 )
 
-              empile:     4364875
+              empile:     4545978
            play_move:     3059082
         orig_rbechec:     1053339
         orig_rnechec:     2449320
