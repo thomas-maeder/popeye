@@ -227,7 +227,6 @@
     ENUMERATOR(STExclusiveChessUnsuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \
-    ENUMERATOR(STSingleMoveGeneratorWithKingCapture),                          \
     ENUMERATOR(STBrunnerDefenderFinder), \
     ENUMERATOR(STKingCaptureLegalityTester), \
     ENUMERATOR(STCageCirceNonCapturingMoveFinder), \

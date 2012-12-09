@@ -79,9 +79,7 @@ stip_length_type single_move_generator_solve(slice_index si,
 
   nextply();
   trait[nbply] = side_at_move;
-  add_to_move_generation_stack(square_departure[nbply],
-                               square_arrival[nbply],
-                               square_capture[nbply]);
+  empile(square_departure[nbply],square_arrival[nbply],square_capture[nbply]);
   result = solve(next,n);
   finply();
 

@@ -171,7 +171,6 @@
 #include "solving/non_king_move_generator.h"
 #include "solving/play_suppressor.h"
 #include "solving/single_move_generator.h"
-#include "solving/single_move_generator_with_king_capture.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/trivial_end_filter.h"
 #include "solving/en_passant.h"
@@ -1001,10 +1000,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STExclusiveChessUnsuspender:
       result = exclusive_chess_unsuspender_solve(si,n);
-      break;
-
-    case STSingleMoveGeneratorWithKingCapture:
-      result = single_move_generator_with_king_capture_solve(si,n);
       break;
 
     case STSinglePieceMoveGenerator:

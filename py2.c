@@ -64,7 +64,7 @@
 #include "conditions/madrasi.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
-#include "solving/single_move_generator_with_king_capture.h"
+#include "solving/single_move_generator.h"
 #include "solving/en_passant.h"
 #include "stipulation/temporary_hacks.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -2463,9 +2463,7 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
 
   side = guess_side_at_move(sq_departure,sq_capture);
 
-  single_move_generator_with_king_capture_init_next(sq_departure,
-                                                    sq_arrival,
-                                                    sq_capture);
+  init_single_move_generator(sq_departure,sq_arrival,sq_capture);
   result = solve(slices[temporary_hack_king_capture_legality_tester[side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
@@ -2487,9 +2485,7 @@ boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture)
 
   side = guess_side_at_move(sq_departure,sq_capture);
 
-  single_move_generator_with_king_capture_init_next(sq_departure,
-                                                    sq_arrival,
-                                                    sq_capture);
+  init_single_move_generator(sq_departure,sq_arrival,sq_capture);
   result = solve(slices[temporary_hack_brunner_check_defense_finder[side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);

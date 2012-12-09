@@ -180,7 +180,7 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  py4.h stipulation/goals/goals.h pydata.h pymsg.h conditions/exclusive.h \
  position/position.h solving/solve.h conditions/madrasi.h \
  stipulation/has_solution_type.h solving/solve.h \
- solving/single_move_generator_with_king_capture.h solving/en_passant.h \
+ solving/single_move_generator.h solving/en_passant.h \
  stipulation/temporary_hacks.h pieces/attributes/neutral/initialiser.h \
  debugging/trace.h
 
@@ -240,7 +240,7 @@ stipulation/has_solution_type.h:
 
 solving/solve.h:
 
-solving/single_move_generator_with_king_capture.h:
+solving/single_move_generator.h:
 
 solving/en_passant.h:
 

@@ -6,7 +6,6 @@
 #include "stipulation/pipe.h"
 #include "solving/move_generator.h"
 #include "solving/single_piece_move_generator.h"
-#include "solving/single_move_generator_with_king_capture.h"
 #include "solving/castling.h"
 #include "solving/single_move_generator.h"
 #include "solving/king_move_generator.h"
@@ -76,9 +75,8 @@ static void insert_move_generator(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static
-void insert_single_move_generator_with_king_capture(slice_index si,
-                                                    stip_structure_traversal *st)
+static void insert_single_move_generator(slice_index si,
+                                         stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -87,7 +85,7 @@ void insert_single_move_generator_with_king_capture(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    slice_index const proto = alloc_single_move_generator_with_king_capture_slice();
+    slice_index const proto = alloc_single_move_generator_slice();
     branch_insert_slices(slices[si].next2,&proto,1);
   }
 
@@ -154,13 +152,13 @@ static void substitute_single_move_generator(slice_index si,
 
 static structure_traversers_visitor const solver_inserters[] =
 {
-  { STGeneratingMoves,                        &insert_move_generator                          },
-  { STBrunnerDefenderFinder,                  &insert_single_move_generator_with_king_capture },
-  { STKingCaptureLegalityTester,              &insert_single_move_generator_with_king_capture },
-  { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator             },
-  { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator             },
-  { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator    },
-  { STOpponentMovesCounterFork,               &substitute_single_move_generator               }
+  { STGeneratingMoves,                        &insert_move_generator                       },
+  { STBrunnerDefenderFinder,                  &insert_single_move_generator                },
+  { STKingCaptureLegalityTester,              &insert_single_move_generator                },
+  { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator          },
+  { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator          },
+  { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator },
+  { STOpponentMovesCounterFork,               &substitute_single_move_generator            }
 };
 
 enum

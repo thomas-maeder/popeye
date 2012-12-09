@@ -5,7 +5,6 @@ SRC_CFILES =   testers.c move_effect_journal.c \
            play_suppressor.c move_generator.c \
            king_move_generator.c non_king_move_generator.c \
            single_piece_move_generator.c \
-           single_move_generator_with_king_capture.c \
            for_each_move.c find_move.c \
            legal_move_counter.c capture_counter.c \
            castling.c \
@@ -17,7 +16,6 @@ INCLUDES = testers.h move_effect_journal.h \
            play_suppressor.h move_generator.h \
            king_move_generator.h non_king_move_generator.h \
            single_piece_move_generator.h \
-           single_move_generator_with_king_capture.h \
            for_each_move.h find_move.h \
            legal_move_counter.h capture_counter.h \
            castling.h \
