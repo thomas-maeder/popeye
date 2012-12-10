@@ -1352,7 +1352,6 @@ static boolean verify_position(slice_index si)
                      CondFlag[lortap];
     obsenemygenre =  CondFlag[beamten] ||
                      CondFlag[provacateurs];
-    obsenemyantigenre = false;
     obsfriendantigenre = CondFlag[lortap];
     obsenemyultragenre = CondFlag[beamten];
     obsfriendultragenre = CondFlag[ultrapatrouille] || CondFlag[central];

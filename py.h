@@ -903,13 +903,4 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
   (numgridlines && CrossesGridLines((sq1), (sq2))))
 
-#define ENEMYOBS(sq) \
-  (TSTFLAG(spec[sq], Beamtet))
-#define ENEMYANTI(sq) \
-  (false)
-#define FRIENDOBS(sq) \
-  (TSTFLAG(spec[sq], Patrol))
-#define FRIENDANTI(sq) \
-  (false)
-
 #endif  /* PY_H */

@@ -173,7 +173,6 @@ EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 
 EXTERN  boolean         obsenemygenre,
                         obsfriendgenre,
-                        obsenemyantigenre,
                         obsfriendantigenre,
                         obsenemyultragenre,
                         obsfriendultragenre,

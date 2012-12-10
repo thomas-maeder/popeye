@@ -2141,7 +2141,6 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
           friendobserveok=true,
           testenemyobs=false,
           testfriendobs=false,
-          testenemyanti,
           testfriendanti;
   evalfunction_t *evaluate;
 
@@ -2192,17 +2191,13 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
    * two other conditions (central, shielded kings) also use this code */
 
   if (obspieces) {
-    testenemyobs= ENEMYOBS(sq_departure);
-    if (testenemyobs)
-      testenemyanti = ENEMYANTI(sq_departure);
-
-    testfriendobs= FRIENDOBS(sq_departure);
+    testenemyobs= TSTFLAG(spec[sq_departure], Beamtet);
+    testfriendobs= TSTFLAG(spec[sq_departure], Patrol);
     if (testfriendobs)
-      testfriendanti = FRIENDANTI(sq_departure);
+      testfriendanti = false;
   }
   if (!testenemyobs && !testfriendobs) {
     testenemyobs= obsenemygenre;
-    testenemyanti= obsenemyantigenre;
     testfriendobs= obsfriendgenre;
     testfriendanti= obsfriendantigenre;
   }
@@ -2212,7 +2207,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     Side const side = e[sq_departure]<=roin ? Black : White;
     sq_arrival = king_square[side];
     king_square[side] = sq_departure;
-    enemyobserveok = testenemyanti ^ rechec[side](evaluate);
+    enemyobserveok = rechec[side](evaluate);
     king_square[side] = sq_arrival;
   }
 
