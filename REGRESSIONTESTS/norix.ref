@@ -1,0 +1,35 @@
+
+           Stephen Emmerson
+             Unpublished
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   K   .   .   .   .   .   5
+|                                   |
+4  NO   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       3 + 2
+
+  1...Kc5-c6   2.Ka6-a5 b2-b4 +   3.Ka5-a6 NOa4-a8 # 
+  1...NOa4-a8 +   2.Ka6-a5 b2-b3   3.a7-a6 b3-b4 # 
+
+              empile:        9588
+           play_move:        8945
+        orig_rbechec:        1119
+        orig_rnechec:        8680
+solution finished. 
+
+

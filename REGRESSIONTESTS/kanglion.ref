@@ -1,0 +1,34 @@
+
+              S.Emmerson
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   P   5
+|                                   |
+4   .   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   . -KL   .   .   P   K   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 3
+
+  1.KLb2-h2 h5-h6   2.KLh2-h8 h6-h7   3.KLh8-h3 h7-h8=KL # 
+
+              empile:       14460
+           play_move:       14458
+        orig_rbechec:        2327
+        orig_rnechec:       13568
+solution finished. 
+
+
