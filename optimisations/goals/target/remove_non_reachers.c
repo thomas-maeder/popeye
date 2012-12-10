@@ -3,7 +3,10 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
+
+#include <assert.h>
 
 /* Allocate a STTargetRemoveNonReachers slice.
  * @param target target square to be reached
@@ -18,6 +21,28 @@ slice_index alloc_target_remove_non_reachers_slice(square target)
 
   result = alloc_pipe(STTargetRemoveNonReachers);
   slices[result].u.goal_handler.goal.target = target;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square target_square = initsquare;
+
+static boolean reaches_targetsquare(square sq_departure,
+                                    square sq_arrival,
+                                    square sq_capture)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = sq_arrival==target_square;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,18 +71,12 @@ stip_length_type target_remove_non_reachers_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply-1]+1; i<=current_move[nbply]; ++i)
-  {
-    square const sq_arrival = move_generation_stack[i].arrival;
+  assert(target_square==initsquare);
 
-    if (sq_arrival==slices[si].u.goal_handler.goal.target)
-    {
-      ++new_top;
-      move_generation_stack[new_top] = move_generation_stack[i];
-    }
-  }
+  target_square = slices[si].u.goal_handler.goal.target;
+  move_generator_filter_moves(&reaches_targetsquare);
 
-  current_move[nbply] = new_top;
+  target_square = initsquare;
 
   result = solve(next,n);
 

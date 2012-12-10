@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/en_passant.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
 
 /* Allocate a STEnPassantRemoveNonReachers slice.
@@ -24,6 +25,26 @@ slice_index alloc_enpassant_remove_non_reachers_slice(void)
   return result;
 }
 
+static boolean is_enpassant_capture(square sq_departure,
+                                    square sq_arrival,
+                                    square sq_capture)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = sq_arrival==ep[parent_ply[nbply]] || sq_arrival==ep2[parent_ply[nbply]];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -37,26 +58,13 @@ stip_length_type enpassant_remove_non_reachers_solve(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
-  numecoup i;
-  numecoup new_top = current_move[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply-1]+1; i<=current_move[nbply]; ++i)
-  {
-    square const sq_arrival = move_generation_stack[i].arrival;
-
-    if (sq_arrival==ep[parent_ply[nbply]] || sq_arrival==ep2[parent_ply[nbply]])
-    {
-      ++new_top;
-      move_generation_stack[new_top] = move_generation_stack[i];
-    }
-  }
-
-  current_move[nbply] = new_top;
+  move_generator_filter_moves(&is_enpassant_capture);
 
   result = solve(next,n);
 

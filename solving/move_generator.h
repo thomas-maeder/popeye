@@ -27,4 +27,13 @@ stip_length_type move_generator_solve(slice_index si, stip_length_type n);
  */
 void stip_insert_move_generators(slice_index si);
 
+/* From the moves just generated, remove all those that don't meet a certain
+ * criterion
+ * @param criterion criterion to be met by moves to not be removed
+ */
+typedef boolean (*move_filter_criterion_type)(square sq_departure,
+                                              square sq_arrival,
+                                              square sq_capture);
+void move_generator_filter_moves(move_filter_criterion_type criterion);
+
 #endif

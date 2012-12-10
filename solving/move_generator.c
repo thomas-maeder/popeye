@@ -184,3 +184,30 @@ void stip_insert_move_generators(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+void move_generator_filter_moves(move_filter_criterion_type criterion)
+{
+  numecoup i;
+  numecoup new_top = current_move[nbply-1];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = current_move[nbply-1]+1; i<=current_move[nbply]; ++i)
+  {
+    square const sq_departure = move_generation_stack[i].departure;
+    square const sq_arrival = move_generation_stack[i].arrival;
+    square const sq_capture = move_generation_stack[i].capture;
+
+    if ((*criterion)(sq_departure,sq_arrival,sq_capture))
+    {
+      ++new_top;
+      move_generation_stack[new_top] = move_generation_stack[i];
+    }
+  }
+
+  current_move[nbply] = new_top;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
