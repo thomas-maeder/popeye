@@ -146,6 +146,14 @@ cond messigny
 
 next
 
+title Until 4.61, we didn't find this
+pieces white Ke1 Qd1e2 Ra1h1c4 Bc1 Sb1 Pa2b2c2d2e3f2g2h2
+       black Ke8 Qd8 Rh8 Bc8f8a7 Sb8g8 Pa6b7c7d7e7f7g7h7
+stip dia2.5
+cond anticirce norsk
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation
