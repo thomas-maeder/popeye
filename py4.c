@@ -1079,7 +1079,6 @@ static void gchinleap(square   sq_departure,
 {
   /* generate chinese-leaper moves from vec[kbeg] to vec[kend] */
 
-  piece   hurdle;
   numvec  k;
 
   square sq_arrival;
@@ -2459,6 +2458,9 @@ static void gencpb(square i) {
     gebleap(i, 3, 3);
   }
 }
+
+static void gen_p_captures(square sq_departure, square sq_arrival, Side camp);
+static void gen_p_nocaptures(square sq_departure, numvec dir, int steps);
 
 void gfeerblanc(square i, piece p) {
   testdebut[nbply]= current_move[nbply];

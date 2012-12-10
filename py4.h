@@ -1,13 +1,13 @@
 /******************** MODIFICATIONS to py4.h **************************
 **
 ** Date       Who  What
-** 
-** 1995       TLi  Original
-** 
-** 2006/07/30 SE   New condition: Schwarzschacher  
 **
-**************************** End of List ******************************/ 
- 
+** 1995       TLi  Original
+**
+** 2006/07/30 SE   New condition: Schwarzschacher
+**
+**************************** End of List ******************************/
+
 #if !defined(PY4_H)
 #define	PY4_H
 
@@ -60,8 +60,6 @@ void genleafhopper(square sq_departure, Side camp);
 void gengreatertreehopper(square sq_departure, Side camp);
 void gengreaterleafhopper(square sq_departure, Side camp);
 
-static void gen_p_captures(square sq_departure, square sq_arrival, Side camp);
-static void gen_p_nocaptures(square sq_departure, numvec dir, int steps);
 void	genpb(square sq_departure);
 	/* generating function for white pawn */
 void	genpn(square sq_departure);
