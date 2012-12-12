@@ -188,6 +188,7 @@
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
 #include "conditions/mummer.h"
+#include "conditions/provocateurs.h"
 #include "conditions/lortap.h"
 #include "conditions/patrol.h"
 #include "platform/maxmem.h"
@@ -2725,6 +2726,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[lortap])
     stip_insert_lortap(result);
+
+  if (CondFlag[provacateurs])
+    stip_insert_provocateurs(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

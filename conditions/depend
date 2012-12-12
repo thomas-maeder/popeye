@@ -2954,7 +2954,11 @@ conditions/provocateurs$(OBJ_SUFFIX): conditions/provocateurs.c \
  conditions/provocateurs.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h debugging/trace.h
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/branch.h solving/move_generator.h debugging/trace.h
 
 conditions/provocateurs.h:
 
@@ -2987,6 +2991,26 @@ py4.h:
 py.h:
 
 stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/pipe.h:
+
+stipulation/branch.h:
+
+solving/move_generator.h:
 
 debugging/trace.h:
 conditions/central$(OBJ_SUFFIX): conditions/central.c conditions/central.h \
