@@ -10,7 +10,7 @@ SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c \
              magic_square.c tibet.c degradierung.c phantom.c line_chameleon.c \
              haan.c castling_chess.c imitator.c football.c exchange_castling.c \
              contact_grid.c mummer.c \
-             patrol.c lortap.c beamten.c provocateurs.c central.c
+             patrol.c lortap.c beamten.c provocateurs.c central.c immune.c
 INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            extinction.h patience.h madrasi.h isardam.h disparate.h eiffel.h \
            sat.h masand.h dynasty.h oscillating_kings.h messigny.h \
@@ -21,6 +21,6 @@ INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            magic_square.h tibet.h degradierung.h phantom.h line_chameleon.h \
            haan.h castling_chess.h imitator.h football.h exchange_castling.h \
            contact_grid.h mummer.h \
-           patrol.h lortap.h beamten.h provocateurs.h central.h
+           patrol.h lortap.h beamten.h provocateurs.h central.h immune.h
 
 include makefile.rules $(CURRPWD)depend

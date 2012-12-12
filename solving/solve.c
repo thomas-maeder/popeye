@@ -36,6 +36,7 @@
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
+#include "conditions/immune.h"
 #include "conditions/provocateurs.h"
 #include "conditions/lortap.h"
 #include "conditions/patrol.h"
@@ -1364,6 +1365,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMummerBookkeeper:
       result = mummer_bookkeeper_solve(si,n);
+      break;
+
+    case STImmuneRemoveCapturesOfImmune:
+      result = immune_remove_captures_of_immune_solve(si,n);
       break;
 
     case STProvocateursRemoveUnobservedCaptures:

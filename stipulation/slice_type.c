@@ -165,6 +165,7 @@
     ENUMERATOR(STCaptureRemoveNonReachers),                             \
     ENUMERATOR(STTargetRemoveNonReachers),                              \
     ENUMERATOR(STMateRemoveRetractable),                                \
+    ENUMERATOR(STImmuneRemoveCapturesOfImmune),                         \
     ENUMERATOR(STProvocateursRemoveUnobservedCaptures),                 \
     ENUMERATOR(STLortapRemoveSupportedCaptures),                        \
     ENUMERATOR(STPatrolRemoveUnsupportedCaptures),                      \

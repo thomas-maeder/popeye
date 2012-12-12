@@ -230,7 +230,6 @@ DEFINE_COUNTER(empile)
 
 boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 {
-  square  hcr = initsquare;
   Side traitnbply;
 
   INCREMENT_COUNTER(empile);
@@ -443,24 +442,13 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
       if (CondFlag[norsk]
           && (sq_departure==king_square[White] || sq_departure==king_square[Black] || abs(e[sq_capture])!=abs(e[sq_departure])))
-      {
         return  true;
-      }
 
       if (CondFlag[nocapture]
           || (CondFlag[nowhcapture] && traitnbply==White)
           || (CondFlag[noblcapture] && traitnbply==Black)
           || TSTFLAG(spec[sq_departure],Paralyse))
-      {
         return true;
-      }
-
-      if (anyimmun) {
-        hcr= (*immunrenai)(e[sq_capture], spec[sq_capture], sq_capture, sq_departure, sq_arrival, traitnbply);
-        if (hcr != sq_departure && e[hcr] != vide) {
-          return true;
-        }
-      }
     }
 
     if (CondFlag[imitators]
