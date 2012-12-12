@@ -469,10 +469,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
       if (CondFlag[lortap] && lortap_is_supported(sq_departure))
         return true;
-
-      if (TSTFLAG(spec[sq_departure],Patrol)
-          && !patrol_is_supported(sq_departure))
-        return true;
     }
 
     if (CondFlag[imitators]

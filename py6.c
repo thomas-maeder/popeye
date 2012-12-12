@@ -188,6 +188,7 @@
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
 #include "conditions/mummer.h"
+#include "conditions/patrol.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2717,6 +2718,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[BGL])
     stip_insert_bgl_filters(result);
+
+  if (TSTFLAG(PieSpExFlags,Patrol))
+    stip_insert_patrol(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

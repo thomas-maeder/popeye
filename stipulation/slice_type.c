@@ -165,6 +165,7 @@
     ENUMERATOR(STCaptureRemoveNonReachers),                             \
     ENUMERATOR(STTargetRemoveNonReachers),                              \
     ENUMERATOR(STMateRemoveRetractable),                                \
+    ENUMERATOR(STPatrolRemoveUnsupportedCaptures),                      \
     ENUMERATOR(STHashOpener),                                           \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STAttackHashedTester),  /* attack play with hash table */      \
