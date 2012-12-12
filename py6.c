@@ -583,7 +583,7 @@ static boolean locateRoyal(void)
 /* initialize elmt at index NullPieceId with initsquare */
 square PiecePositionsInDiagram[MaxPieceId+1] = { initsquare };
 
-static void initialise_piece_flags(void)
+static boolean initialise_piece_flags(void)
 {
   square const *bnp;
   PieceIdType id = MinPieceId;
@@ -591,13 +591,28 @@ static void initialise_piece_flags(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  if (CondFlag[volage])
+    SETFLAG(PieSpExFlags,Volage);
+
+  if (CondFlag[patrouille])
+    SETFLAG(PieSpExFlags,Patrol);
+
+  if (CondFlag[beamten])
+    SETFLAG(PieSpExFlags,Beamtet);
+
   for (bnp = boardnum; *bnp; bnp++)
   {
     piece const p = e[*bnp];
     if (p!=vide)
     {
       if (CondFlag[volage] && king_square[White]!=*bnp && king_square[Black]!=*bnp)
-        SETFLAG(spec[*bnp], Volage);
+        SETFLAG(spec[*bnp],Volage);
+
+      if (CondFlag[patrouille])
+        SETFLAG(spec[*bnp],Patrol);
+
+      if (CondFlag[beamten])
+        SETFLAG(spec[*bnp],Beamtet);
 
       assert(id<=MaxPieceId);
       SetPieceId(spec[*bnp], id);
@@ -622,6 +637,7 @@ static void initialise_piece_flags(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+  return true;
 }
 
 typedef boolean is_restricted_type[nr_sides];
@@ -1335,15 +1351,17 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[patrouille]
-      || CondFlag[beamten]
-      || CondFlag[provacateurs]
+  if (CondFlag[provacateurs]
       || CondFlag[central]
-      || TSTFLAG(PieSpExFlags, Beamtet)
+      || TSTFLAG(PieSpExFlags,Beamtet)
       || CondFlag[ultrapatrouille]
       || CondFlag[lortap]
-      || TSTFLAG(PieSpExFlags, Patrol))
+      || TSTFLAG(PieSpExFlags,Patrol))
   {
+    /* TODO: currently, we can't consistently use
+     * TSTFLAG(PieSpExFlags,Beamtet/Patrol) instead of
+     * CondFlag[beamten/patrouille]- but why not?
+     */
     eval_2 = eval_white;
     eval_white = soutenu;
     obsfriendgenre = CondFlag[patrouille] ||
@@ -1355,8 +1373,8 @@ static boolean verify_position(slice_index si)
     obsfriendantigenre = CondFlag[lortap];
     obsenemyultragenre = CondFlag[beamten];
     obsfriendultragenre = CondFlag[ultrapatrouille] || CondFlag[central];
-    obspieces = TSTFLAG(PieSpExFlags, Beamtet) || TSTFLAG(PieSpExFlags, Patrol);
-    obsultra = obsenemyultragenre || obsfriendultragenre || TSTFLAG(PieSpExFlags, Beamtet);
+    obspieces = TSTFLAG(PieSpExFlags,Beamtet) || TSTFLAG(PieSpExFlags,Patrol);
+    obsultra = obsenemyultragenre || obsfriendultragenre || TSTFLAG(PieSpExFlags,Beamtet);
     obsgenre = true;
   }
 
@@ -2138,7 +2156,9 @@ boolean WriteSpec(Flags sp, piece p, boolean printcolours)
   }
 
   for (spname = Neutral; spname < PieSpCount; spname++) {
-    if ((spname != Volage || !CondFlag[volage])
+    if ((spname!=Volage || !CondFlag[volage])
+        && (spname!=Patrol || !CondFlag[patrouille])
+        && (spname!=Beamtet || !CondFlag[beamten])
         && (spname!=Royal || abs(p)!=King)
         && TSTFLAG(sp, spname))
     {
@@ -2553,7 +2573,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (anycirce)
   {
-    if  (TSTFLAG(PieSpExFlags,Volage) || CondFlag[volage])
+    if  (TSTFLAG(PieSpExFlags,Volage))
       stip_insert_circe_volage_recolorers(result);
     if  (anycirprom)
       stip_insert_circe_promoters(result);
@@ -2634,7 +2654,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[traitor])
     stip_insert_traitor_side_changers(result);
 
-  if (CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
+  if (TSTFLAG(PieSpExFlags,Volage))
     stip_insert_volage_side_changers(result);
 
   if (CondFlag[magicsquare])
@@ -2842,7 +2862,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
       assert(unique_goal.type==goal_proofgame || unique_goal.type==goal_atob);
 
       countPieces();
-      if (locateRoyal())
+      if (locateRoyal() && initialise_piece_flags())
       {
         ProofSaveTargetPosition();
 
@@ -2852,7 +2872,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
         ProofRestoreStartPosition();
 
         countPieces();
-        if (locateRoyal() && verify_position(stipulation_root))
+        if (locateRoyal() && initialise_piece_flags() && verify_position(stipulation_root))
         {
           ProofSaveStartPosition();
           ProofRestoreTargetPosition();
@@ -2861,12 +2881,10 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
 
           if (!OptFlag[noboard] && twin_index==0)
             WritePosition();
-          initialise_piece_flags();
 
           ProofRestoreStartPosition();
           if (unique_goal.type==goal_atob && !OptFlag[noboard] && twin_index==0)
             ProofWriteStartPosition(stipulation_root);
-          initialise_piece_flags();
 
           solve_any_stipulation(stipulation_root_hook,twin_index,prev_token);
         }
@@ -2891,11 +2909,12 @@ static void solve_non_proofgame_stipulation(slice_index stipulation_root_hook,
   TraceFunctionParamListEnd();
 
   countPieces();
-  if (locateRoyal() && verify_position(slices[stipulation_root_hook].next1))
+  if (locateRoyal()
+      && initialise_piece_flags()
+      && verify_position(slices[stipulation_root_hook].next1))
   {
     if (!OptFlag[noboard] && twin_index==0)
       WritePosition();
-    initialise_piece_flags();
 
     solve_any_stipulation(stipulation_root_hook,twin_index,prev_token);
   }

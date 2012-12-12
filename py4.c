@@ -77,6 +77,11 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/beamten.h"
+#include "conditions/provocateurs.h"
+#include "conditions/lortap.h"
+#include "conditions/patrol.h"
+#include "conditions/central.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -427,15 +432,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       return true;
     }
 
-    /* might be better to do this in gen_*_piece and avoid move
-     * generation altogether for unobserved pieces
-     * (soutenu only depends on sq_departure) */
-    if (obsgenre && obsultra)
-    {
-      if (!soutenu(sq_departure,sq_arrival,sq_capture))
-        return true;
-    }
-
     TraceSquare(sq_capture);
     TracePiece(e[sq_capture]);
     TraceText("\n");
@@ -448,17 +444,15 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
 
       if (CondFlag[norsk]
-          && (sq_departure == king_square[White] || sq_departure == king_square[Black] || abs(e[sq_capture]) != abs(e[sq_departure])))
+          && (sq_departure==king_square[White] || sq_departure==king_square[Black] || abs(e[sq_capture])!=abs(e[sq_departure])))
       {
         return  true;
       }
 
       if (CondFlag[nocapture]
-          || (CondFlag[nowhcapture]
-              && traitnbply==White)
-          || (CondFlag[noblcapture]
-              && traitnbply==Black)
-          || TSTFLAG(spec[sq_departure], Paralyse))
+          || (CondFlag[nowhcapture] && traitnbply==White)
+          || (CondFlag[noblcapture] && traitnbply==Black)
+          || TSTFLAG(spec[sq_departure],Paralyse))
       {
         return true;
       }
@@ -469,12 +463,16 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           return true;
         }
       }
-      if (obsgenre && !obsultra)
-      {
-        if (!soutenu(sq_departure,sq_arrival,sq_capture)) {
-          return true;
-        }
-      }
+
+      if (CondFlag[provacateurs] && !provocateurs_is_observed(sq_departure))
+        return true;
+
+      if (CondFlag[lortap] && lortap_is_supported(sq_departure))
+        return true;
+
+      if (TSTFLAG(spec[sq_departure],Patrol)
+          && !patrol_is_supported(sq_departure))
+        return true;
     }
 
     if (CondFlag[imitators]
@@ -3122,13 +3120,15 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
     TraceFunctionResultEnd();
     return;
   }
-  else if (CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
+
+  if (CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResultEnd();
     return;
   }
-  else if (CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
+
+  if (CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResultEnd();
@@ -3136,6 +3136,27 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
   }
 
   if (TSTFLAG(PieSpExFlags,Paralyse) && paralysiert(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+
+  if (CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+
+  if (CondFlag[central] && !central_is_supported(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+
+  if (TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResultEnd();

@@ -2134,7 +2134,8 @@ boolean reversepcheck(square sq_king,
   return false;
 }
 
-boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
+boolean soutenu(square sq_departure, square sq_arrival, square sq_capture)
+{
   piece p= 0;       /* avoid compiler warning */
   boolean Result,
           enemyobserveok=true,

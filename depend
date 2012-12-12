@@ -343,6 +343,8 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/eiffel.h conditions/madrasi.h conditions/sat.h \
  conditions/duellists.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
+ conditions/beamten.h conditions/provocateurs.h conditions/lortap.h \
+ conditions/patrol.h conditions/central.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h debugging/trace.h \
  debugging/measure.h pyproc.h
@@ -423,6 +425,16 @@ conditions/singlebox/type2.h:
 
 conditions/singlebox/type3.h:
 
+conditions/beamten.h:
+
+conditions/provocateurs.h:
+
+conditions/lortap.h:
+
+conditions/patrol.h:
+
+conditions/central.h:
+
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
@@ -451,7 +463,8 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/circe/super.h conditions/anticirce/super.h \
  conditions/haunted_chess.h solving/move_effect_journal.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
- conditions/singlebox/type3.h pieces/walks.h \
+ conditions/singlebox/type3.h conditions/beamten.h conditions/patrol.h \
+ conditions/central.h pieces/walks.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h
@@ -555,6 +568,12 @@ conditions/singlebox/type1.h:
 conditions/singlebox/type2.h:
 
 conditions/singlebox/type3.h:
+
+conditions/beamten.h:
+
+conditions/patrol.h:
+
+conditions/central.h:
 
 pieces/walks.h:
 

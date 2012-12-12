@@ -6922,7 +6922,7 @@ void WritePosition()
       }
 
       for (sp= Neutral + 1; sp < PieSpCount; sp++)
-        if (TSTFLAG(spec[square], sp)
+        if (TSTFLAG(spec[square],sp)
             && !(sp==Royal && abs(e[square])==King))
         {
           AddSquare(ListSpec[sp], square);
@@ -7013,7 +7013,10 @@ void WritePosition()
 
   for (sp = Royal+1; sp<PieSpCount; sp++)
     if (TSTFLAG(PieSpExFlags,sp))
-      CenterLine(ListSpec[sp]);
+      if (!(sp==Patrol && CondFlag[patrouille])
+          && !(sp==Volage && CondFlag[volage])
+          && !(sp==Beamtet && CondFlag[beamten]))
+        CenterLine(ListSpec[sp]);
 
   WriteConditions(WCcentered);
 
@@ -7432,7 +7435,10 @@ void LaTeXBeginDiagram(void)
   }
 
   for (sp= Neutral + 1; sp < PieSpCount; sp++)
-    if (SpecCount[sp]>0)
+    if (SpecCount[sp]>0
+        && !(sp==Patrol && CondFlag[patrouille])
+        && !(sp==Volage && CondFlag[volage])
+        && !(sp==Beamtet && CondFlag[beamten]))
       modifiedpieces =true;     /* to be used below */
 
   /* stipulation */
@@ -7582,9 +7588,11 @@ void LaTeXBeginDiagram(void)
       firstline= false;
     }
 
-    if (modifiedpieces) {
+    if (modifiedpieces)
+    {
       for (sp= Neutral + 1; sp < PieSpCount; sp++)
-        if (SpecCount[sp]>0) {
+        if (SpecCount[sp]>0)
+        {
           if (!firstline)
             fprintf(LaTeXFile, "{\\newline}\n    ");
           fprintf(LaTeXFile, "%s\n", ListSpec[sp]);

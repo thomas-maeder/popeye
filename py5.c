@@ -92,6 +92,9 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/beamten.h"
+#include "conditions/patrol.h"
+#include "conditions/central.h"
 #include "pieces/walks.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -731,27 +734,45 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
     TraceFunctionResultEnd();
     return;
   }
-  else if (CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
+  if (CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResultEnd();
     return;
   }
-  else if (CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
+  if (CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
   {
     TraceFunctionExit(__func__);
     TraceFunctionResultEnd();
     return;
   }
 
-  if (TSTFLAG(PieSpExFlags,Paralyse))
+  if (TSTFLAG(PieSpExFlags,Paralyse) && paralysiert(sq_departure))
   {
-    if (paralysiert(sq_departure))
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResultEnd();
-      return;
-    }
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+
+  if (CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+
+  if (CondFlag[central] && !central_is_supported(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
+  }
+
+  if (TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
   }
 
   if (anymars||anyantimars) {
