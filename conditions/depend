@@ -1692,9 +1692,10 @@ conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h solving/sol
  stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/move_player.h \
  solving/moving_pawn_promotion.h solving/move_effect_journal.h \
- pieces/walks.h debugging/trace.h
+ solving/move_generator.h pieces/walks.h debugging/trace.h
 
 conditions/norsk.h:
 
@@ -1744,11 +1745,17 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
+stipulation/pipe.h:
+
+stipulation/branch.h:
+
 stipulation/move_player.h:
 
 solving/moving_pawn_promotion.h:
 
 solving/move_effect_journal.h:
+
+solving/move_generator.h:
 
 pieces/walks.h:
 

@@ -440,10 +440,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         return  true;
       }
 
-      if (CondFlag[norsk]
-          && (sq_departure==king_square[White] || sq_departure==king_square[Black] || abs(e[sq_capture])!=abs(e[sq_departure])))
-        return  true;
-
       if (CondFlag[nocapture]
           || (CondFlag[nowhcapture] && traitnbply==White)
           || (CondFlag[noblcapture] && traitnbply==Black)
