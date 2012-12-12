@@ -1465,8 +1465,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/ohneschach/legality_tester.h \
  conditions/maff/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/patrol.h \
- conditions/ultraschachzwang/goal_filter.h \
+ conditions/owu/immobility_tester.h conditions/lortap.h \
+ conditions/patrol.h conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
@@ -1697,6 +1697,8 @@ conditions/maff/immobility_tester.h:
 conditions/ohneschach/immobility_tester.h:
 
 conditions/owu/immobility_tester.h:
+
+conditions/lortap.h:
 
 conditions/patrol.h:
 

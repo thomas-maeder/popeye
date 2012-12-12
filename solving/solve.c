@@ -36,6 +36,7 @@
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
+#include "conditions/lortap.h"
 #include "conditions/patrol.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
@@ -1362,6 +1363,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMummerBookkeeper:
       result = mummer_bookkeeper_solve(si,n);
+      break;
+
+    case STLortapRemoveSupportedCaptures:
+      result = lortap_remove_supported_captures_solve(si,n);
       break;
 
     case STPatrolRemoveUnsupportedCaptures:

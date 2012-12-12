@@ -79,7 +79,6 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/beamten.h"
 #include "conditions/provocateurs.h"
-#include "conditions/lortap.h"
 #include "conditions/patrol.h"
 #include "conditions/central.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -465,9 +464,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
 
       if (CondFlag[provacateurs] && !provocateurs_is_observed(sq_departure))
-        return true;
-
-      if (CondFlag[lortap] && lortap_is_supported(sq_departure))
         return true;
     }
 

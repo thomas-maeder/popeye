@@ -188,6 +188,7 @@
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
 #include "conditions/mummer.h"
+#include "conditions/lortap.h"
 #include "conditions/patrol.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
@@ -2721,6 +2722,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (TSTFLAG(PieSpExFlags,Patrol))
     stip_insert_patrol(result);
+
+  if (CondFlag[lortap])
+    stip_insert_lortap(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);
