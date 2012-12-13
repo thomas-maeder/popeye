@@ -1,7 +1,6 @@
 #if !defined(CONDITIONS_NOCAPTURE_H)
 #define CONDITIONS_NOCAPTURE_H
 
-#include "utilities/boolean.h"
 #include "py.h"
 
 /* This module implements the condition Nocapture */
