@@ -95,6 +95,7 @@
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
 #include "conditions/mummer.h"
+#include "conditions/woozles.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
@@ -1369,6 +1370,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMummerBookkeeper:
       result = mummer_bookkeeper_solve(si,n);
+      break;
+
+    case STWoozlesRemoveIllegalCaptures:
+      result = woozles_remove_illegal_captures_solve(si,n);
       break;
 
     case STImmuneRemoveCapturesOfImmune:

@@ -188,6 +188,7 @@
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
 #include "conditions/mummer.h"
+#include "conditions/woozles.h"
 #include "conditions/immune.h"
 #include "conditions/provocateurs.h"
 #include "conditions/lortap.h"
@@ -2733,6 +2734,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (anyimmun)
     stip_insert_immune(result);
+
+  if (CondFlag[woozles])
+    stip_insert_woozles(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

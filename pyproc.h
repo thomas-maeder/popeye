@@ -405,9 +405,6 @@ void transformPosition(SquareTransformation transformation);
 void generate_castling(Side side);
 boolean castling_is_intermediate_king_move_legal(Side side, square from, square to);
 
-boolean woohefflibre(square a, square b);
-boolean eval_wooheff(square departure, square arrival, square capture);
-
 boolean eval_shielded(square departure, square arrival, square capture);
 
 void    grabbitb(square sq);

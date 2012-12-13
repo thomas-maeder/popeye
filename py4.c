@@ -434,12 +434,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     TraceText("\n");
     if (e[sq_capture] != vide)
     {
-      if (CondFlag[woozles]
-          && !woohefflibre(sq_arrival, sq_departure))
-      {
-        return  true;
-      }
-
       if (CondFlag[nocapture]
           || (CondFlag[nowhcapture] && traitnbply==White)
           || (CondFlag[noblcapture] && traitnbply==Black)
