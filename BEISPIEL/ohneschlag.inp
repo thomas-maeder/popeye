@@ -1,0 +1,13 @@
+anfang
+
+protokoll ohneschlag.out
+
+autor Juraj L\"orinc
+quelle 1. TT Quartz 1997, 1. Preis
+steine weiss Patrouille kg1 de1 se8 ba6d7 ga7b7c7e7h2
+       schwarz kd8 db8 tc3f2 lf8 bg2h3 gb5d1f1
+forderung #4
+bedingung SchwarzerOhneSchlag
+option vari
+
+ende

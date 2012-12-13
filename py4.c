@@ -434,9 +434,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     TraceText("\n");
     if (e[sq_capture] != vide)
     {
-      if ((CondFlag[nowhcapture] && traitnbply==White)
-          || (CondFlag[noblcapture] && traitnbply==Black)
-          || TSTFLAG(spec[sq_departure],Paralyse))
+      if (TSTFLAG(spec[sq_departure],Paralyse))
         return true;
     }
 

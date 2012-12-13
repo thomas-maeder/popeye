@@ -56,12 +56,15 @@ stip_length_type nocapture_remove_captures_solve(slice_index si,
 
 static void insert_remover(slice_index si, stip_structure_traversal *st)
 {
+  boolean const (* const enabled)[nr_sides] = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
+  if ((*enabled)[slices[si].starter])
   {
     slice_index const prototype = alloc_pipe(STNocatpureRemoveCaptures);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -77,6 +80,11 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 void stip_insert_nocapture(slice_index si)
 {
   stip_structure_traversal st;
+  boolean enabled[nr_sides] =
+  {
+      CondFlag[nocapture] || CondFlag[nowhcapture],
+      CondFlag[nocapture] || CondFlag[noblcapture]
+  };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -84,7 +92,9 @@ void stip_insert_nocapture(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_impose_starter(si,slices[si].starter);
+
+  stip_structure_traversal_init(&st,&enabled);
   stip_structure_traversal_override_single(&st,
                                            STDoneGeneratingMoves,
                                            &insert_remover);

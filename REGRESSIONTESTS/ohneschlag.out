@@ -1,0 +1,80 @@
+
+            Juraj L\"orinc
+     1. TT Quartz 1997, 1. Preis
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -D   .  -K   S  -L   .   .   8
+|                                   |
+7   G   G   G   B   G   .   .   .   7
+|                                   |
+6   B   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -G   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -T   .   .   .   .  -B   3
+|                                   |
+2   .   .   .   .   .  -T  -B   G   2
+|                                   |
+1   .   .   .  -G   D  -G   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                        10 + 10
+Patrouille e8 a7 b7 c7 d7 e7 a6 h2 e1 g1
+         SchwarzerOhneSchlag
+
+   1.pSe8-g7 ! Drohung:
+          2.pSg7-e6 +
+              2...Tf2-e2
+                  3.pGh2-h4 +
+                      3...Tc3-g3
+                          4.pGa7-a5 #
+              2...Tc3-e3
+                  3.pGa7-a5 +
+                      3...Tf2-d2
+                          4.pGh2-h4 #
+      1...Tf2-e2
+          2.pGh2-h4 +
+              2...Te2-f2
+                  3.pSg7-e6 +
+                      3...Tc3-e3
+                          4.pGa7-a5 #
+              2...Tc3-g3
+                  3.pGa7-a5 +
+                      3...Te2-d2
+                          4.pSg7-e6 #
+      1...Tc3-e3
+          2.pGa7-a5 +
+              2...Tf2-d2
+                  3.pGh2-h4 +
+                      3...Te3-g3
+                          4.pSg7-e6 #
+              2...Te3-c3
+                  3.pSg7-e6 +
+                      3...Tf2-e2
+                          4.pGh2-h4 #
+      1...Tc3-d3
+          2.pGa7-a5 +
+              2...Tf2-d2
+                  3.pGh2-h4 +
+                      3...Td3-g3
+                          4.pSg7-e6 #
+              2...Td3-d2
+                  3.pSg7-e6 +
+                      3...Tf2-e2
+                          4.pGh2-h4 #
+              2...Td3-c3
+                  3.pSg7-e6 +
+                      3...Tf2-e2
+                          4.pGh2-h4 #
+
+
+              empile:      293557
+           play_move:      180789
+        orig_rbechec:      104268
+        orig_rnechec:      194175
+Loesung beendet. 
+
+

@@ -2739,7 +2739,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[woozles])
     stip_insert_woozles(result);
 
-  if (CondFlag[nocapture])
+  if (CondFlag[nocapture] || CondFlag[nowhcapture] || CondFlag[noblcapture])
     stip_insert_nocapture(result);
 
   if (OptFlag[noshort])
