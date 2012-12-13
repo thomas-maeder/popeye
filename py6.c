@@ -193,6 +193,7 @@
 #include "conditions/provocateurs.h"
 #include "conditions/lortap.h"
 #include "conditions/patrol.h"
+#include "conditions/nocapture.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2737,6 +2738,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[woozles])
     stip_insert_woozles(result);
+
+  if (CondFlag[nocapture])
+    stip_insert_nocapture(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

@@ -434,8 +434,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     TraceText("\n");
     if (e[sq_capture] != vide)
     {
-      if (CondFlag[nocapture]
-          || (CondFlag[nowhcapture] && traitnbply==White)
+      if ((CondFlag[nowhcapture] && traitnbply==White)
           || (CondFlag[noblcapture] && traitnbply==Black)
           || TSTFLAG(spec[sq_departure],Paralyse))
         return true;
@@ -452,7 +451,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
 
   return true;
-} /* empile */
+}
 
 static void gemaooarider(square sq_departure,
                          numvec tomiddle,

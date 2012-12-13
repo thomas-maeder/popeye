@@ -96,6 +96,7 @@
 #include "conditions/castling_chess.h"
 #include "conditions/mummer.h"
 #include "conditions/woozles.h"
+#include "conditions/nocapture.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
@@ -1370,6 +1371,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMummerBookkeeper:
       result = mummer_bookkeeper_solve(si,n);
+      break;
+
+    case STNocatpureRemoveCaptures:
+      result = nocapture_remove_captures_solve(si,n);
       break;
 
     case STWoozlesRemoveIllegalCaptures:
