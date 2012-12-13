@@ -401,30 +401,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
     }
 
-    if (((CondFlag[nowhiteprom]
-          && traitnbply==White
-          && PromSq(White,sq_arrival)
-           )
-         || (CondFlag[noblackprom]
-             && traitnbply==Black
-             && PromSq(Black,sq_arrival)
-           )
-          )
-        && is_forwardpawn(abs(e[sq_departure])))
-      return true;
-
-    if (((CondFlag[nowhiteprom]
-          && traitnbply==White
-          && ReversePromSq(White,sq_arrival)
-           )
-         || (CondFlag[noblackprom]
-             && traitnbply==Black
-             && ReversePromSq(Black,sq_arrival)
-           )
-          )
-        && is_reversepawn(abs(e[sq_departure])))
-      return true;
-
     if (CondFlag[imitators]
         && ((sq_capture==kingside_castling || sq_capture==queenside_castling)
             ? !castlingimok(sq_departure, sq_arrival)
