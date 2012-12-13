@@ -131,7 +131,7 @@ EXTERN  evalfunction_t *eval_black;
 
 typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 
-EXTERN  renaifunc immunrenai, circerenai, antirenai, marsrenai;
+EXTERN  renaifunc circerenai, antirenai, marsrenai;
 
 EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyanticirprom, anyimmun, anyclone, anygeneva;
 

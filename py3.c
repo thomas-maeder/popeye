@@ -43,6 +43,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/magic_square.h"
+#include "conditions/immune.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "debugging/trace.h"

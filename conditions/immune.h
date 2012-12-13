@@ -1,10 +1,18 @@
 #if !defined(CONDITIONS_IMMUNE_H)
 #define CONDITIONS_IMMUNE_H
 
+/* This module implements the condition Immune Chess */
+
 #include "utilities/boolean.h"
+#include "position/piece.h"
+#include "position/board.h"
+#include "position/position.h"
 #include "py.h"
 
-/* This module implements the condition Immune Chess */
+/* Address of function used to determine the relevant square for finding out
+ * whether a piece is immune
+ */
+extern square (*immunrenai)(piece, Flags, square, square, square, Side);
 
 /* Try to solve in n half-moves.
  * @param si slice index

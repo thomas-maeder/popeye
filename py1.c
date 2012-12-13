@@ -84,6 +84,7 @@
 #include "conditions/sentinelles.h"
 #include "conditions/mummer.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/immune.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 

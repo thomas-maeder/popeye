@@ -130,6 +130,7 @@
 #include "conditions/magic_square.h"
 #include "conditions/mummer.h"
 #include "conditions/transmuting_kings/super.h"
+#include "conditions/immune.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
