@@ -1538,6 +1538,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  output/plaintext/tree/zugzwang_writer.h \
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
  output/mode.h pieces/attributes/paralysing/stalemate_special.h \
+ pieces/attributes/paralysing/remove_captures.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/magic.h \
  pieces/attributes/chameleon.h pieces/attributes/kamikaze/kamikaze.h \
@@ -1934,6 +1935,8 @@ stipulation/stipulation.h:
 output/mode.h:
 
 pieces/attributes/paralysing/stalemate_special.h:
+
+pieces/attributes/paralysing/remove_captures.h:
 
 pieces/attributes/neutral/initialiser.h:
 

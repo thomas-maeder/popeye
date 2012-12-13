@@ -213,6 +213,24 @@ static void instrument_doublemate(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_captures_remover(slice_index si,
+                                    stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STPiecesParalysingRemoveCaptures);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor goal_filter_inserters[] =
 {
   { STGoalMateReachedTester,            &instrument_mate            },
@@ -220,7 +238,8 @@ static structure_traversers_visitor goal_filter_inserters[] =
   { STGoalAutoStalemateReachedTester,   &instrument_autostalemate   },
   { STGoalDoubleStalemateReachedTester, &instrument_doublestalemate },
   { STGoalDoubleMateReachedTester,      &instrument_doublemate      },
-  { STGoalCounterMateReachedTester,     &instrument_doublemate      }
+  { STGoalCounterMateReachedTester,     &instrument_doublemate      },
+  { STDoneGeneratingMoves,              &insert_captures_remover    }
 };
 
 enum

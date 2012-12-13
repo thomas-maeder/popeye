@@ -211,6 +211,7 @@
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingMateFilterTester), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
+    ENUMERATOR(STPiecesParalysingRemoveCaptures),                     \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STPiecesNeutralInitialiser),                           \
     ENUMERATOR(STPiecesNeutralRetractingRecolorer),                   \

@@ -151,6 +151,7 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
+#include "pieces/attributes/paralysing/remove_captures.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/hurdle_colour_changing.h"
@@ -1106,6 +1107,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_solve(si,n);
+      break;
+
+    case STPiecesParalysingRemoveCaptures:
+      result = paralysing_remove_captures_solve(si,n);
       break;
 
     case STAmuMateFilter:

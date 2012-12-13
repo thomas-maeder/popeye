@@ -411,9 +411,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
            )
           )
         && is_forwardpawn(abs(e[sq_departure])))
-    {
       return true;
-    }
 
     if (((CondFlag[nowhiteprom]
           && traitnbply==White
@@ -425,18 +423,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
            )
           )
         && is_reversepawn(abs(e[sq_departure])))
-    {
       return true;
-    }
-
-    TraceSquare(sq_capture);
-    TracePiece(e[sq_capture]);
-    TraceText("\n");
-    if (e[sq_capture] != vide)
-    {
-      if (TSTFLAG(spec[sq_departure],Paralyse))
-        return true;
-    }
 
     if (CondFlag[imitators]
         && ((sq_capture==kingside_castling || sq_capture==queenside_castling)

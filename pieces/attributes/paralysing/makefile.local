@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = paralysing.c mate_filter.c stalemate_special.c
-INCLUDES = paralysing.h mate_filter.h stalemate_special.h
+SRC_CFILES = paralysing.c mate_filter.c stalemate_special.c remove_captures.c
+INCLUDES = paralysing.h mate_filter.h stalemate_special.h remove_captures.h
 
 include makefile.rules $(CURRPWD)depend
