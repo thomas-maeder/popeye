@@ -1379,8 +1379,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = mummer_bookkeeper_solve(si,n);
       break;
 
-    case STNoPromotionsRemovePromotions:
-      result = nopromotion_remove_promotions_solve(si,n);
+    case STNoPromotionsRemovePromotionMoving:
+      result = nopromotion_avoid_promotion_moving_solve(si,n);
+      break;
+
+    case STNoPromotionsRemovePromotionReborn:
+      result = nopromotion_avoid_promotion_reborn_solve(si,n);
       break;
 
     case STNocatpureRemoveCaptures:

@@ -13,8 +13,8 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type nopromotion_remove_promotions_solve(slice_index si,
-                                                     stip_length_type n);
+stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
+                                                          stip_length_type n);
 
 /* Instrument the solvers with NoPromotions
  * @param si identifies the root slice of the stipulation

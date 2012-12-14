@@ -107,7 +107,7 @@ static slice_index const slice_rank_order[] =
   STHaanChessHoleInserter,
   STKamikazeCapturingPieceRemover, /* here to avoid useless promotions of a vanishing pawn */
   STChameleonArrivingAdjuster,
-  STNoPromotionsRemovePromotions,
+  STNoPromotionsRemovePromotionMoving,
   STMovingPawnToImitatorPromoter,
   STMovingPawnPromoter,
   STPromoteMovingIntoChameleon,
@@ -175,6 +175,7 @@ static slice_index const slice_rank_order[] =
   STContactGridAvoidCirceRebirth,
   STCirceAssassinPlaceReborn,
   STCircePlaceReborn,
+  STNoPromotionsRemovePromotionReborn,
   STCirceRebirthPromoter,
   STPromoteCirceRebornIntoChameleon,
   STCirceTraitorSideChanger,

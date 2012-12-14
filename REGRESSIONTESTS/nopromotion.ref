@@ -1,0 +1,77 @@
+both sides need a kingboth sides need a king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -S   .   .   .   .   .   .   .   7
+|                                   |
+6   .   P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           NoWhitePromotion
+            Take&MakeChess
+
+   1.b6-b7 !
+
+   1.b6*a7-b5 !
+
+   1.b6*a7-c6 !
+
+
+              empile:           5
+           play_move:           3
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
+
+             Kevin Begley
+            Mat Plus 2009
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .  =P  =P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                    1 + 1 + 2n
+             ParrainCirce
+           NoWhitePromotion
+           NoBlackPromotion
+
+  1.Ke6-f5 nPe5-e6   2.Kf5-f6 nPd5*e6   3.Kf6-g7[+nPf7] nPe6*f7   4.Kg7-h8[+nPg8] Ke8-e7   5.nPg8*f7 Ke7-f6[+nPg6]   6.nPf7*g6 Kf6-f7[+nPg7] # 
+  1.Ke6*d5 Ke8-e7[+nPd4]   2.nPe5*d4 Ke7-d8[+nPc5]   3.Kd5-c6 nPd4*c5   4.Kc6-b7[+nPb6] nPc5*b6   5.Kb7-a8[+nPa7] Kd8-c7   6.nPa7*b6 Kc7-c8[+nPb7] # 
+
+              empile:    27314489
+           play_move:    52017818
+        orig_rbechec:     4671494
+        orig_rnechec:    22106511
+solution finished. 
+
+

@@ -1,0 +1,17 @@
+begin
+
+protocol nopromotion.ref
+
+pieces white pb6 black sa7
+stip ~1
+cond take NoWhitePromotion
+
+next
+
+author Kevin Begley
+origin Mat Plus 2009
+pieces white ke8 black ke6 neutral pd5e5
+stipulation h#6
+condition parraincirce nowhiteprom noblackprom
+
+end

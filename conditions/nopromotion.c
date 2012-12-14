@@ -5,6 +5,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/moving_pawn_promotion.h"
+#include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
 /* Try to solve in n half-moves.
@@ -15,8 +16,8 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type nopromotion_remove_promotions_solve(slice_index si,
-                                                     stip_length_type n)
+stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
+                                                          stip_length_type n)
 {
   stip_length_type result;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
@@ -37,7 +38,40 @@ stip_length_type nopromotion_remove_promotions_solve(slice_index si,
   return result;
 }
 
-static void insert_remover(slice_index si, stip_structure_traversal *st)
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type nopromotion_avoid_promotion_reborn_solve(slice_index si,
+                                                          stip_length_type n)
+{
+  stip_length_type result;
+  square const sq_rebirth = current_circe_rebirth_square[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  /* check for both sides - this has to work for Circe Parrain and neutrals as well! */
+  if ((CondFlag[nowhiteprom] && TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
+      || (CondFlag[noblackprom] && TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)))
+    result = slack_length-2;
+  else
+    result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void substitute_avoid_promotion_moving(slice_index si,
+                                              stip_structure_traversal *st)
 {
   boolean const (* const enabled)[nr_sides] = st->param;
 
@@ -48,10 +82,25 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   if ((*enabled)[slices[si].starter])
-  {
-    slice_index const prototype = alloc_pipe(STNoPromotionsRemovePromotions);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
+    pipe_substitute(si,alloc_pipe(STNoPromotionsRemovePromotionMoving));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void substitute_avoid_promotion_reborn(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  boolean const (* const enabled)[nr_sides] = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if ((*enabled)[slices[si].starter])
+    pipe_substitute(si,alloc_pipe(STNoPromotionsRemovePromotionMoving));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -78,7 +127,8 @@ void stip_insert_nopromotions(slice_index si)
   stip_impose_starter(si,slices[si].starter);
 
   stip_structure_traversal_init(&st,&enabled);
-  stip_structure_traversal_override_single(&st,STMove,&insert_remover);
+  stip_structure_traversal_override_single(&st,STMovingPawnPromoter,&substitute_avoid_promotion_moving);
+  stip_structure_traversal_override_single(&st,STCirceRebirthPromoter,&substitute_avoid_promotion_reborn);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

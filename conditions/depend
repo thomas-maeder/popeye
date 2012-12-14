@@ -3258,7 +3258,8 @@ conditions/nopromotion$(OBJ_SUFFIX): conditions/nopromotion.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h solving/solve.h stipulation/branch.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ solving/moving_pawn_promotion.h conditions/circe/circe.h \
+ debugging/trace.h
 
 conditions/nopromotion.h:
 
@@ -3313,5 +3314,7 @@ solving/solve.h:
 stipulation/branch.h:
 
 solving/moving_pawn_promotion.h:
+
+conditions/circe/circe.h:
 
 debugging/trace.h:

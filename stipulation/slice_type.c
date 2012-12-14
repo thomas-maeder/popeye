@@ -171,7 +171,8 @@
     ENUMERATOR(STProvocateursRemoveUnobservedCaptures),                 \
     ENUMERATOR(STLortapRemoveSupportedCaptures),                        \
     ENUMERATOR(STPatrolRemoveUnsupportedCaptures),                      \
-    ENUMERATOR(STNoPromotionsRemovePromotions),                         \
+    ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
+    ENUMERATOR(STNoPromotionsRemovePromotionReborn),                    \
     ENUMERATOR(STHashOpener),                                           \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STAttackHashedTester),  /* attack play with hash table */      \
