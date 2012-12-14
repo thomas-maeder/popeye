@@ -90,7 +90,6 @@
 #include "conditions/castling_chess.h"
 #include "conditions/exchange_castling.h"
 #include "conditions/transmuting_kings/super.h"
-#include "optimisations/hash.h"
 #include "conditions/imitator.h"
 #include "conditions/football.h"
 #include "conditions/castling_chess.h"
@@ -99,6 +98,8 @@
 #include "conditions/nocapture.h"
 #include "conditions/nopromotion.h"
 #include "conditions/geneva.h"
+#include "conditions/koeko.h"
+#include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
@@ -1414,6 +1415,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STPatrolRemoveUnsupportedCaptures:
       result = patrol_remove_unsupported_captures_solve(si,n);
+      break;
+
+    case STKoekoRemoveIllegalMoves:
+      result = koeko_remove_illegal_moves_solve(si,n);
       break;
 
     case STTrue:

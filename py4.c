@@ -80,6 +80,7 @@
 #include "conditions/beamten.h"
 #include "conditions/patrol.h"
 #include "conditions/central.h"
+#include "conditions/koeko.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -284,11 +285,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
     if (flaglegalsquare)
     {
-      if (CondFlag[koeko])
-      {
-        if (nocontact(sq_departure,sq_arrival,sq_capture, koekofunc))
-          return true;
-      }
       if (CondFlag[antikoeko])
       {
         if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoekofunc))

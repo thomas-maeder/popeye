@@ -77,6 +77,7 @@ static slice_index const slice_rank_order[] =
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
   /* Make part of Take & Make goes here*/
+  STKoekoRemoveIllegalMoves,
   STMummerOrchestrator,
   STDoneRemovingIllegalMoves,
   STEnPassantRemoveNonReachers,
@@ -280,6 +281,7 @@ static slice_index const slice_rank_order[] =
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
   /* Make part of Take & Make goes here*/
+  STKoekoRemoveIllegalMoves,
   STMummerOrchestrator,
   STDoneRemovingIllegalMoves,
   STDoneRemovingFutileMoves,

@@ -202,7 +202,6 @@ EXTERN boolean          flagparasent;
 EXTERN boolean          checkhopim;
 
 EXTERN piece            sentinelle[nr_sides];
-EXTERN nocontactfunc_t  koekofunc;
 EXTERN nocontactfunc_t  antikoekofunc;
 EXTERN boolean		anyantimars;
 EXTERN square           supertrans[maxply+1];

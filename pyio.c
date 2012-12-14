@@ -132,6 +132,7 @@
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/immune.h"
 #include "conditions/geneva.h"
+#include "conditions/koeko.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
