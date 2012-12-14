@@ -62,6 +62,7 @@
 #include "pymsg.h"
 #include "conditions/exclusive.h"
 #include "conditions/madrasi.h"
+#include "conditions/geneva.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/single_move_generator.h"

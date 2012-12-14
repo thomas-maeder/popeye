@@ -6,6 +6,8 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
+boolean rex_geneva;
+
 static boolean is_not_illegal_capture(square sq_departure,
                                       square sq_arrival,
                                       square sq_capture)

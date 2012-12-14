@@ -1,9 +1,12 @@
 #if !defined(CONDITIONS_GENEVA_H)
 #define CONDITIONS_GENEVA_H
 
+#include "utilities/boolean.h"
 #include "py.h"
 
 /* This module implements the condition Geneva Chess */
+
+extern boolean rex_geneva;
 
 /* Try to solve in n half-moves.
  * @param si slice index
