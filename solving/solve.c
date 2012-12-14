@@ -98,6 +98,7 @@
 #include "conditions/woozles.h"
 #include "conditions/nocapture.h"
 #include "conditions/nopromotion.h"
+#include "conditions/geneva.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
@@ -1385,6 +1386,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STNoPromotionsRemovePromotionReborn:
       result = nopromotion_avoid_promotion_reborn_solve(si,n);
+      break;
+
+    case STGenevaRemoveIllegalCaptures:
+      result = geneva_remove_illegal_captures_solve(si,n);
       break;
 
     case STNocatpureRemoveCaptures:

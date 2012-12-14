@@ -195,6 +195,7 @@
 #include "conditions/patrol.h"
 #include "conditions/nocapture.h"
 #include "conditions/nopromotion.h"
+#include "conditions/geneva.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2745,6 +2746,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[nowhiteprom] || CondFlag[noblackprom])
     stip_insert_nopromotions(result);
+
+  if (anygeneva)
+    stip_insert_geneva(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

@@ -67,6 +67,7 @@ static slice_index const slice_rank_order[] =
   STOrthodoxMatingMoveGenerator,
   STOrthodoxMatingKingContactGenerator,
   STDoneGeneratingMoves,
+  STGenevaRemoveIllegalCaptures,
   STPiecesParalysingRemoveCaptures,
   STNocatpureRemoveCaptures,
   STWoozlesRemoveIllegalCaptures,
@@ -75,6 +76,7 @@ static slice_index const slice_rank_order[] =
   STProvocateursRemoveUnobservedCaptures,
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
+  /* Make part of Take & Make goes here*/
   STMummerOrchestrator,
   STDoneRemovingIllegalMoves,
   STEnPassantRemoveNonReachers,
@@ -268,6 +270,7 @@ static slice_index const slice_rank_order[] =
   STMoveGenerator,
   STSinglePieceMoveGenerator,
   STDoneGeneratingMoves,
+  STGenevaRemoveIllegalCaptures,
   STPiecesParalysingRemoveCaptures,
   STNocatpureRemoveCaptures,
   STWoozlesRemoveIllegalCaptures,
@@ -276,6 +279,7 @@ static slice_index const slice_rank_order[] =
   STProvocateursRemoveUnobservedCaptures,
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
+  /* Make part of Take & Make goes here*/
   STMummerOrchestrator,
   STDoneRemovingIllegalMoves,
   STDoneRemovingFutileMoves,

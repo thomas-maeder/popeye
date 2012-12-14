@@ -282,10 +282,58 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
     }
 
-    if (flaglegalsquare
-        && !legalsquare(sq_departure,sq_arrival,sq_capture))
+    if (flaglegalsquare)
     {
-      return true;
+      if (CondFlag[koeko])
+      {
+        if (nocontact(sq_departure,sq_arrival,sq_capture, koekofunc))
+          return true;
+      }
+      if (CondFlag[antikoeko])
+      {
+        if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoekofunc))
+          return true;
+      }
+      if (CondFlag[gridchess])
+      {
+        if (!GridLegal(sq_departure, sq_arrival))
+          return true;
+      }
+      if (CondFlag[blackedge])
+      {
+        if (e[sq_departure] <= roin)
+          if (NoEdge(sq_arrival))
+            return true;
+      }
+      if (CondFlag[whiteedge])
+      {
+        if (e[sq_departure] >= roib)
+          if (NoEdge(sq_arrival))
+            return true;
+      }
+      if (CondFlag[bichro])
+      {
+        if (SquareCol(sq_departure) == SquareCol(sq_arrival))
+          return true;
+      }
+      if (CondFlag[monochro])
+      {
+        if (SquareCol(sq_departure) != SquareCol(sq_arrival))
+          return true;
+      }
+      if (TSTFLAG(spec[sq_departure], Jigger))
+      {
+        if (nocontact(sq_departure,sq_arrival,sq_capture,&nokingcontact))
+          return true;
+      }
+      if (CondFlag[newkoeko])
+      {
+        if (nocontact(sq_departure,sq_arrival,sq_capture,&nokingcontact)
+            != nocontact(initsquare,sq_departure,initsquare,&nokingcontact))
+        {
+          return true;
+        }
+      }
     }
 
     traitnbply= trait[nbply];

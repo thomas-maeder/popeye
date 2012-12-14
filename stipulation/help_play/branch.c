@@ -60,6 +60,7 @@ static slice_index const slice_rank_order[] =
   STSingleMoveGenerator,
   STSATFlightMoveGenerator,
   STDoneGeneratingMoves,
+  STGenevaRemoveIllegalCaptures,
   STPiecesParalysingRemoveCaptures,
   STNocatpureRemoveCaptures,
   STWoozlesRemoveIllegalCaptures,
@@ -68,6 +69,7 @@ static slice_index const slice_rank_order[] =
   STProvocateursRemoveUnobservedCaptures,
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
+  /* Make part of Take & Make goes here*/
   STMummerOrchestrator,
   STDoneRemovingIllegalMoves,
   STEnPassantRemoveNonReachers,
