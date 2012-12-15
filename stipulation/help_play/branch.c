@@ -88,6 +88,7 @@ static slice_index const slice_rank_order[] =
   STFindAttack,
   STExtinctionRememberThreatened,
   STMoveEffectJournalUndoer,
+  STNewKoekoRememberContact,
   STPiecesNeutralRetractingRecolorer,
   STSingleBoxType3PawnPromoter,
   STAMUAttackCounter,
@@ -196,6 +197,7 @@ static slice_index const slice_rank_order[] =
   STKoekoLegalityTester,
   STGridContactLegalityTester,
   STAntiKoekoLegalityTester,
+  STNewKoekoLegalityTester,
   STOwnKingCaptureAvoider,
   STOpponentKingCaptureAvoider,
   STCastlingRightsAdjuster, /* these must come before STExclusiveChessLegalityTester */

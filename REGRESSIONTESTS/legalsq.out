@@ -409,7 +409,7 @@ Loesung beendet.
   1.Ke4-f3 Sf4-d5   2.Kf3-f4 Ke6-f5 # 
 
               empile:        4195
-           play_move:        2662
+           play_move:        4019
         orig_rbechec:         100
         orig_rnechec:        2612
 Loesung beendet. 
@@ -448,7 +448,7 @@ Loesung beendet.
 
 
               empile:         450
-           play_move:         157
+           play_move:         329
         orig_rbechec:          22
         orig_rnechec:         160
 Loesung beendet. 
@@ -843,6 +843,41 @@ b) sBf3-->e4
            play_move:      394543
         orig_rbechec:       74608
         orig_rnechec:      239540
+Loesung beendet. 
+
+
+
+            Jaroslav Stun
+            Ph\'enix 2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   G   .   .   .   .   .   .   8
+|                                   |
+7   G  -G   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=10                    4 + 2
+               NeuKoeko
+
+  1.Ka8*b8   2.Kb8-c8   3.Kc8-d7   4.Kd7-e6   5.Ke6-d5   6.Kd5-c5   7.Kc5-b6   8.Gb7-b5   9.Kb6-b7  10.Kb7-a8 Kd6-c7 = 
+
+              empile:        9364
+           play_move:        4518
+        orig_rbechec:        1584
+        orig_rnechec:        3066
 Loesung beendet. 
 
 

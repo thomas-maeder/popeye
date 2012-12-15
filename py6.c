@@ -111,6 +111,7 @@
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
+#include "conditions/koeko/new.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/blackchecks.h"
@@ -2755,6 +2756,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_koeko(result);
   else if (CondFlag[antikoeko])
     stip_insert_antikoeko(result);
+  else if (CondFlag[newkoeko])
+    stip_insert_newkoeko(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

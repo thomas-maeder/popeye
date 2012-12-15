@@ -317,12 +317,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if (nocontact(sq_departure,sq_arrival,sq_capture,&nokingcontact))
           return true;
       }
-      if (CondFlag[newkoeko])
-      {
-        if (nocontact(sq_departure,sq_arrival,sq_capture,&nokingcontact)
-            != nocontact(initsquare,sq_departure,initsquare,&nokingcontact))
-          return true;
-      }
     }
 
     traitnbply= trait[nbply];

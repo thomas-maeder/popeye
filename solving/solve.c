@@ -19,6 +19,7 @@
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
+#include "conditions/koeko/new.h"
 #include "conditions/extinction.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
@@ -1428,6 +1429,14 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STAntiKoekoLegalityTester:
       result = antikoeko_legality_tester_solve(si,n);
+      break;
+
+    case STNewKoekoRememberContact:
+      result = newkoeko_remember_contact_solve(si,n);
+      break;
+
+    case STNewKoekoLegalityTester:
+      result = newkoeko_legality_tester_solve(si,n);
       break;
 
     case STTrue:

@@ -617,10 +617,10 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/solve.h output/output.h output/mode.h conditions/bgl.h \
  conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
- conditions/koeko/anti.h conditions/exclusive.h position/position.h \
- conditions/republican.h conditions/blackchecks.h conditions/extinction.h \
- conditions/madrasi.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h \
+ conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
+ position/position.h conditions/republican.h conditions/blackchecks.h \
+ conditions/extinction.h conditions/madrasi.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -774,6 +774,8 @@ conditions/koeko/contact_grid.h:
 conditions/koeko/koeko.h:
 
 conditions/koeko/anti.h:
+
+conditions/koeko/new.h:
 
 conditions/exclusive.h:
 
