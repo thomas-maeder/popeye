@@ -283,25 +283,10 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
     }
 
-    if (flaglegalsquare)
+    if (CondFlag[gridchess])
     {
-      if (CondFlag[gridchess])
-      {
-        if (!GridLegal(sq_departure, sq_arrival))
-          return true;
-      }
-      if (CondFlag[blackedge])
-      {
-        if (e[sq_departure] <= roin)
-          if (NoEdge(sq_arrival))
-            return true;
-      }
-      if (CondFlag[whiteedge])
-      {
-        if (e[sq_departure] >= roib)
-          if (NoEdge(sq_arrival))
-            return true;
-      }
+      if (!GridLegal(sq_departure, sq_arrival))
+        return true;
     }
 
     traitnbply= trait[nbply];

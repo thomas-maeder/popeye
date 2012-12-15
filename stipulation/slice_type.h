@@ -184,6 +184,7 @@
     ENUMERATOR(STNoPromotionsRemovePromotionReborn),                    \
     ENUMERATOR(STMonochromeRemoveBichromeMoves),                        \
     ENUMERATOR(STBichromeRemoveMonochromeMoves),                        \
+    ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
     ENUMERATOR(STAntiKoekoLegalityTester),                              \

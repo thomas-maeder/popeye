@@ -72,6 +72,7 @@ static slice_index const slice_rank_order[] =
   /* Make part of Take & Make goes here*/
   STMonochromeRemoveBichromeMoves,
   STBichromeRemoveMonochromeMoves,
+  STEdgeMoverRemoveIllegalMoves,
   STMummerOrchestrator,
   STDoneRemovingIllegalMoves,
   STEnPassantRemoveNonReachers,

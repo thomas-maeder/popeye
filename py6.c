@@ -201,6 +201,7 @@
 #include "conditions/geneva.h"
 #include "conditions/monochrome.h"
 #include "conditions/bichrome.h"
+#include "conditions/edgemover.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2762,13 +2763,16 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   else if (CondFlag[newkoeko])
     stip_insert_newkoeko(result);
 
+  if (TSTFLAG(PieSpExFlags,Jigger))
+    stip_insert_jigger(result);
+
   if (CondFlag[monochro])
       stip_insert_monochrome(result);
   if (CondFlag[bichro])
       stip_insert_bichrome(result);
 
-  if (TSTFLAG(PieSpExFlags,Jigger))
-    stip_insert_jigger(result);
+  if (CondFlag[whiteedge] || CondFlag[blackedge])
+    stip_insert_edgemover(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);
