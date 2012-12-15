@@ -1,7 +1,6 @@
 #if !defined(CONDITIONS_KOEKO_H)
 #define CONDITIONS_KOEKO_H
 
-#include "utilities/boolean.h"
 #include "py.h"
 
 /* This module implements the condition Koeko */
