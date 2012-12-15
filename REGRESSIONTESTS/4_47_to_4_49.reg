@@ -253,7 +253,7 @@ solution finished.
   1.d7*e6 Ke5*e4[+wPe5] z 
 
               empile:          60
-           play_move:           7
+           play_move:          14
         orig_rbechec:           4
         orig_rnechec:           6
 solution finished. 
@@ -287,7 +287,7 @@ solution finished.
   1.Gh4*d4 Kg3-f3[+bPc4] # 
 
               empile:         125
-           play_move:          49
+           play_move:          66
         orig_rbechec:          49
         orig_rnechec:          16
 solution finished. 

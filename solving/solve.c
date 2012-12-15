@@ -1417,8 +1417,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = patrol_remove_unsupported_captures_solve(si,n);
       break;
 
-    case STKoekoRemoveIllegalMoves:
-      result = koeko_remove_illegal_moves_solve(si,n);
+    case STKoekoLegalityTester:
+      result = koeko_legality_tester_solve(si,n);
       break;
 
     case STTrue:

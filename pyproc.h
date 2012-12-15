@@ -250,6 +250,7 @@ void copyply(void);
 void finply(void);
 void nextply(void);
 
+boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);
 boolean rbcircech(square departure, square arrival, square capture);
 

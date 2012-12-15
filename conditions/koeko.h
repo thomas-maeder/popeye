@@ -4,11 +4,9 @@
 #include "utilities/boolean.h"
 #include "py.h"
 
-/* This module implements the condition Patrol Chess */
+/* This module implements the condition Koeko */
 
-extern nocontactfunc_t  koekofunc;
-
-boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
+extern nocontactfunc_t koeko_nocontact;
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -18,10 +16,9 @@ boolean nocontact(square departure, square arrival, square capture, nocontactfun
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type koeko_remove_illegal_moves_solve(slice_index si,
-                                                  stip_length_type n);
+stip_length_type koeko_legality_tester_solve(slice_index si, stip_length_type n);
 
-/* Instrument the solvers with Patrol Chess
+/* Instrument the solvers with Koeko
  * @param si identifies the root slice of the stipulation
  */
 void stip_insert_koeko(slice_index si);

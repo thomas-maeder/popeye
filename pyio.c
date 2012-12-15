@@ -420,7 +420,7 @@ static void WriteConditions(int alignment)
     if (cond == koeko || cond == antikoeko) {
       piece koekop = roib;
       char LocalBuf[4];
-      nocontactfunc = cond==koeko ? &koekofunc : &antikoekofunc;
+      nocontactfunc = cond==koeko ? &koeko_nocontact : &antikoekofunc;
       if (*nocontactfunc == noknightcontact)
         koekop= cb;
       if (*nocontactfunc == nowazircontact)
@@ -5470,8 +5470,8 @@ static char *ParseCond(void)
         tok = ReadPieces(april);
         break;
       case koeko:
-        koekofunc= nokingcontact;
-        nocontactfunc= &koekofunc;
+        koeko_nocontact= &nokingcontact;
+        nocontactfunc= &koeko_nocontact;
         tok = ParseVariant(NULL, gpKoeko);
         break;
       case antikoeko:

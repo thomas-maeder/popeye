@@ -82,7 +82,7 @@ boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
 
 boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
   if (CondFlag[koeko]) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture, koekofunc))
+    if (nocontact(sq_departure,sq_arrival,sq_capture, koeko_nocontact))
       return(false);
   }
   if (CondFlag[antikoeko]) {
