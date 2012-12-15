@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = koeko.c contact_grid.c
-INCLUDES = koeko.h contact_grid.h
+SRC_CFILES = koeko.c contact_grid.c anti.c
+INCLUDES = koeko.h contact_grid.h anti.h
 
 include makefile.rules $(CURRPWD)depend

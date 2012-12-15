@@ -133,6 +133,7 @@
 #include "conditions/immune.h"
 #include "conditions/geneva.h"
 #include "conditions/koeko/koeko.h"
+#include "conditions/koeko/anti.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -420,7 +421,7 @@ static void WriteConditions(int alignment)
     if (cond == koeko || cond == antikoeko) {
       piece koekop = roib;
       char LocalBuf[4];
-      nocontactfunc = cond==koeko ? &koeko_nocontact : &antikoekofunc;
+      nocontactfunc = cond==koeko ? &koeko_nocontact : &antikoeko_nocontact;
       if (*nocontactfunc == noknightcontact)
         koekop= cb;
       if (*nocontactfunc == nowazircontact)
@@ -5475,8 +5476,8 @@ static char *ParseCond(void)
         tok = ParseVariant(NULL, gpKoeko);
         break;
       case antikoeko:
-        antikoekofunc= nokingcontact;
-        nocontactfunc= &antikoekofunc;
+        antikoeko_nocontact= nokingcontact;
+        nocontactfunc= &antikoeko_nocontact;
         tok = ParseVariant(NULL, gpKoeko);
         break;
       case white_oscillatingKs:

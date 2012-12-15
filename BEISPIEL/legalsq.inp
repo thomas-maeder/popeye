@@ -223,4 +223,14 @@ bedingung 	gitterschach
 steine 		weiss 	lb5 te5 sb3 kg1
 		schwarz db8 bf7g4h4c2 tc4 le4 ke2
 
+weiteresproblem
+
+autor Anatolij V. Stjopovski
+quelle Mat Plus 2009
+steine weiss ka6 lc6 schwarz kg8 dh1 bf3h7
+forderung s#7
+bedingung laengstzueger antikoeko
+option vari ohnedroh
+zwilling versetze f3 e4
+
 endeproblem

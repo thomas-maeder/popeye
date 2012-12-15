@@ -199,6 +199,7 @@ static slice_index const slice_rank_order[] =
   STMoveCounter,
   STKoekoLegalityTester,
   STGridContactLegalityTester,
+  STAntiKoekoLegalityTester,
   STOwnKingCaptureAvoider,
   STOpponentKingCaptureAvoider,
   STBlackChecks,
@@ -400,6 +401,7 @@ static slice_index const slice_rank_order[] =
   STMoveCounter,
   STKoekoLegalityTester,
   STGridContactLegalityTester,
+  STAntiKoekoLegalityTester,
   STOwnKingCaptureAvoider,
   STOpponentKingCaptureAvoider,
   STCastlingRightsAdjuster, /* these must come before STExclusiveChessLegalityTester */

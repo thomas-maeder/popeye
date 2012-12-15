@@ -64,6 +64,7 @@
 #include "conditions/madrasi.h"
 #include "conditions/geneva.h"
 #include "conditions/koeko/koeko.h"
+#include "conditions/koeko/anti.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/single_move_generator.h"
@@ -86,7 +87,7 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
       return(false);
   }
   if (CondFlag[antikoeko]) {
-    if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoekofunc))
+    if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoeko_nocontact))
       return(false);
   }
   if (CondFlag[gridchess]) {

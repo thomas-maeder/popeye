@@ -772,3 +772,77 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+        Anatolij V. Stjopovski
+            Mat Plus 2009
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -B   7
+|                                   |
+6   K   .   L   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -B   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -D   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#7                         2 + 4
+            Laengstzueger
+              AntiKoeko
+
+a) 
+
+   1.Lc6-d5 !
+      1...Dh1-a1 +
+          2.Ka6-b7
+              2...Da1-f6
+                  3.Ld5-a2
+                      3...Df6-c3
+                          4.Kb7-a7
+                              4...Dc3-c8
+                                  5.La2-e6
+                                      5...Dc8-c1
+                                          6.Le6-d7
+                                              6...Dc1-g5
+                                                  7.Ld7-c8
+                                                      7...Dg5-a5 #
+
+
+              empile:      902849
+           play_move:      409466
+        orig_rbechec:       77284
+        orig_rnechec:      245771
+b) sBf3-->e4
+
+   1.Ka6-a5 !
+      1...Dh1-a1 +
+          2.Ka5-b4
+              2...Da1-f6
+                  3.Kb4-b3
+                      3...Df6-a1
+                          4.Lc6-b5
+                              4...Da1-f6
+                                  5.Kb3-a2
+                                      5...Df6-f1
+                                          6.Lb5-c4
+                                              6...Df1-f6
+                                                  7.Ka2-a3
+                                                      7...Df6-a1 #
+
+
+              empile:      884137
+           play_move:      394543
+        orig_rbechec:       74608
+        orig_rnechec:      239540
+Loesung beendet. 
+
+

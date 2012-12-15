@@ -285,11 +285,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
     if (flaglegalsquare)
     {
-      if (CondFlag[antikoeko])
-      {
-        if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoekofunc))
-          return true;
-      }
       if (CondFlag[gridchess])
       {
         if (!GridLegal(sq_departure, sq_arrival))
@@ -326,9 +321,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       {
         if (nocontact(sq_departure,sq_arrival,sq_capture,&nokingcontact)
             != nocontact(initsquare,sq_departure,initsquare,&nokingcontact))
-        {
           return true;
-        }
       }
     }
 

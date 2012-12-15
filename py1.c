@@ -87,6 +87,7 @@
 #include "conditions/immune.h"
 #include "conditions/geneva.h"
 #include "conditions/koeko/koeko.h"
+#include "conditions/koeko/anti.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -367,7 +368,7 @@ void InitCond(void)
   memset((char *) is_april_kind,0,sizeof(is_april_kind));
   checkhopim = false;
   koeko_nocontact= nokingcontact;
-  antikoekofunc= nokingcontact;
+  antikoeko_nocontact= nokingcontact;
   OscillatingKingsTypeB[White]= false;
   OscillatingKingsTypeB[Black]= false;
   OscillatingKingsTypeC[White]= false;
