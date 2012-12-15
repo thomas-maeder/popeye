@@ -39,7 +39,7 @@ stip_length_type koeko_legality_tester_solve(slice_index si,
   return result;
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Instrument the solvers with Koeko
  * @param si identifies the root slice of the stipulation
  */
 void stip_insert_koeko(slice_index si)
