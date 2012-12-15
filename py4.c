@@ -242,9 +242,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   TraceValue("%u\n",empilegenre);
   if (empilegenre)
   {
-    if (TSTFLAG(spec[sq_arrival],Uncapturable))
-      return false;
-
     if (CondFlag[messigny]
         && sq_capture == messigny_exchange
         /* a swapping move */

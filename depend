@@ -679,8 +679,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  pieces/attributes/kamikaze/kamikaze.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
- pieces/attributes/jigger.h conditions/amu/mate_filter.h \
- conditions/circe/goal_filters.h conditions/anticirce/goal_filters.h \
+ pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
+ conditions/amu/mate_filter.h conditions/circe/goal_filters.h \
+ conditions/anticirce/goal_filters.h \
  conditions/ultraschachzwang/goal_filter.h \
  options/no_short_variations/no_short_variations.h optimisations/hash.h \
  DHT/dhtbcmem.h optimisations/intelligent/intelligent.h \
@@ -1051,6 +1052,8 @@ pieces/attributes/hurdle_colour_changing.h:
 pieces/attributes/chameleon.h:
 
 pieces/attributes/jigger.h:
+
+pieces/attributes/uncapturable.h:
 
 conditions/amu/mate_filter.h:
 

@@ -249,6 +249,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
+#include "pieces/attributes/uncapturable.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
 #include "conditions/anticirce/goal_filters.h"
@@ -2777,6 +2778,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[gridchess])
     stip_insert_grid(result);
+
+  if (TSTFLAG(PieSpExFlags,Uncapturable))
+    stip_insert_uncapturable(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

@@ -167,6 +167,7 @@
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
+#include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/continuation.h"
@@ -1462,6 +1463,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STGridRemoveIllegalMoves:
       result = grid_remove_illegal_moves_solve(si,n);
+      break;
+
+    case STUncapturableRemoveCaptures:
+      result = uncapturable_remove_captures_solve(si,n);
       break;
 
     case STTrue:

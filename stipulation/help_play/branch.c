@@ -60,6 +60,7 @@ static slice_index const slice_rank_order[] =
   STSingleMoveGenerator,
   STSATFlightMoveGenerator,
   STDoneGeneratingMoves,
+  STUncapturableRemoveCaptures,
   STGenevaRemoveIllegalCaptures,
   STPiecesParalysingRemoveCaptures,
   STNocatpureRemoveCaptures,
