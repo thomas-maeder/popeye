@@ -80,7 +80,7 @@
 #include "conditions/beamten.h"
 #include "conditions/patrol.h"
 #include "conditions/central.h"
-#include "conditions/koeko.h"
+#include "conditions/koeko/koeko.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"

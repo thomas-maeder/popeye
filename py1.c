@@ -86,7 +86,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/immune.h"
 #include "conditions/geneva.h"
-#include "conditions/koeko.h"
+#include "conditions/koeko/koeko.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 

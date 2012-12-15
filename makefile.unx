@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.178 2012/12/05 06:34:04 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.179 2012/12/15 07:45:02 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -200,7 +200,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     conditions conditions/amu conditions/ultraschachzwang conditions/marscirce \
     conditions/circe conditions/anticirce conditions/ohneschach \
     conditions/owu conditions/maff conditions/singlebox conditions/einstein \
-    conditions/transmuting_kings \
+    conditions/transmuting_kings conditions/koeko \
     optimisations DHT \
     stipulation stipulation/boolean \
     stipulation/battle_play stipulation/help_play \
@@ -242,7 +242,7 @@ NESTEDLIBDIRS = . \
     conditions conditions/amu conditions/ultraschachzwang conditions/marscirce \
     conditions/circe conditions/anticirce conditions/ohneschach \
     conditions/owu conditions/maff conditions/singlebox conditions/einstein \
-    conditions/transmuting_kings \
+    conditions/transmuting_kings conditions/koeko \
     optimisations DHT \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze pieces \

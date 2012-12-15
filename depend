@@ -53,7 +53,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/circe/april.h conditions/circe/takemake.h \
  conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
  conditions/singlebox/type3.h conditions/immune.h position/position.h \
- conditions/geneva.h conditions/koeko.h utilities/table.h \
+ conditions/geneva.h conditions/koeko/koeko.h utilities/table.h \
  debugging/trace.h
 
 py.h:
@@ -178,7 +178,7 @@ position/position.h:
 
 conditions/geneva.h:
 
-conditions/koeko.h:
+conditions/koeko/koeko.h:
 
 utilities/table.h:
 
@@ -191,8 +191,9 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h pyproc.h \
  py4.h stipulation/goals/goals.h pydata.h pymsg.h conditions/exclusive.h \
  position/position.h solving/solve.h conditions/madrasi.h \
- conditions/geneva.h conditions/koeko.h stipulation/has_solution_type.h \
- solving/solve.h solving/single_move_generator.h solving/en_passant.h \
+ conditions/geneva.h conditions/koeko/koeko.h \
+ stipulation/has_solution_type.h solving/solve.h \
+ solving/single_move_generator.h solving/en_passant.h \
  stipulation/temporary_hacks.h pieces/attributes/neutral/initialiser.h \
  debugging/trace.h
 
@@ -250,7 +251,7 @@ conditions/madrasi.h:
 
 conditions/geneva.h:
 
-conditions/koeko.h:
+conditions/koeko/koeko.h:
 
 stipulation/has_solution_type.h:
 
@@ -362,7 +363,7 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/duellists.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  conditions/beamten.h conditions/patrol.h conditions/central.h \
- conditions/koeko.h pieces/attributes/paralysing/paralysing.h \
+ conditions/koeko/koeko.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h debugging/trace.h \
  debugging/measure.h pyproc.h
 
@@ -448,7 +449,7 @@ conditions/patrol.h:
 
 conditions/central.h:
 
-conditions/koeko.h:
+conditions/koeko/koeko.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -611,10 +612,10 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/solve.h output/output.h output/mode.h conditions/bgl.h \
- conditions/contact_grid.h conditions/exclusive.h position/position.h \
- conditions/republican.h conditions/blackchecks.h conditions/extinction.h \
- conditions/madrasi.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h \
+ conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
+ conditions/exclusive.h position/position.h conditions/republican.h \
+ conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -650,9 +651,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/imitator.h conditions/football.h conditions/mummer.h \
  conditions/woozles.h conditions/immune.h conditions/provocateurs.h \
  conditions/lortap.h conditions/patrol.h conditions/nocapture.h \
- conditions/nopromotion.h conditions/geneva.h conditions/koeko.h \
- platform/maxmem.h platform/maxtime.h platform/pytime.h \
- platform/priority.h stipulation/has_solution_type.h stipulation/branch.h \
+ conditions/nopromotion.h conditions/geneva.h platform/maxmem.h \
+ platform/maxtime.h platform/pytime.h platform/priority.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
  stipulation/dead_end.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/or.h \
@@ -763,7 +764,9 @@ output/mode.h:
 
 conditions/bgl.h:
 
-conditions/contact_grid.h:
+conditions/koeko/contact_grid.h:
+
+conditions/koeko/koeko.h:
 
 conditions/exclusive.h:
 
@@ -936,8 +939,6 @@ conditions/nocapture.h:
 conditions/nopromotion.h:
 
 conditions/geneva.h:
-
-conditions/koeko.h:
 
 platform/maxmem.h:
 
@@ -1137,7 +1138,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/circe/april.h conditions/circe/chameleon.h \
  conditions/sentinelles.h conditions/magic_square.h conditions/mummer.h \
  conditions/transmuting_kings/super.h conditions/immune.h \
- position/position.h conditions/geneva.h conditions/koeko.h \
+ position/position.h conditions/geneva.h conditions/koeko/koeko.h \
  options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
  options/maxsolutions/maxsolutions.h \
@@ -1324,7 +1325,7 @@ position/position.h:
 
 conditions/geneva.h:
 
-conditions/koeko.h:
+conditions/koeko/koeko.h:
 
 options/degenerate_tree.h:
 

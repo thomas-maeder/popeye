@@ -108,7 +108,8 @@
 #include "solving/solve.h"
 #include "output/output.h"
 #include "conditions/bgl.h"
-#include "conditions/contact_grid.h"
+#include "conditions/koeko/contact_grid.h"
+#include "conditions/koeko/koeko.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/blackchecks.h"
@@ -196,7 +197,6 @@
 #include "conditions/nocapture.h"
 #include "conditions/nopromotion.h"
 #include "conditions/geneva.h"
-#include "conditions/koeko.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2574,9 +2574,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
       stip_insert_couscous_circe(result);
   }
 
-  if (CondFlag[contactgrid])
-    stip_insert_contact_grid(result);
-
   if (anycirce && !rex_circe)
     stip_insert_circe_king_rebirth_avoiders(result);
 
@@ -2751,7 +2748,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (anygeneva)
     stip_insert_geneva(result);
 
-  if (CondFlag[koeko])
+  if (CondFlag[contactgrid])
+    stip_insert_contact_grid(result);
+  else if (CondFlag[koeko])
     stip_insert_koeko(result);
 
   if (OptFlag[noshort])

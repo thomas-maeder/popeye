@@ -1,4 +1,4 @@
-#include "conditions/koeko.h"
+#include "conditions/koeko/koeko.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -28,13 +28,10 @@ stip_length_type koeko_legality_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    boolean const makes_no_contact = CondFlag[contactgrid] ? nogridcontact(sq_arrival) : (*koeko_nocontact)(sq_arrival);
-    if (makes_no_contact)
-      result = slack_length-2;
-    else
-      result = solve(slices[si].next1,n);
-  }
+  if ((*koeko_nocontact)(sq_arrival))
+    result = slack_length-2;
+  else
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

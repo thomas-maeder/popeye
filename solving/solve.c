@@ -16,7 +16,8 @@
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
-#include "conditions/contact_grid.h"
+#include "conditions/koeko/koeko.h"
+#include "conditions/koeko/contact_grid.h"
 #include "conditions/extinction.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
@@ -98,7 +99,6 @@
 #include "conditions/nocapture.h"
 #include "conditions/nopromotion.h"
 #include "conditions/geneva.h"
-#include "conditions/koeko.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -1419,6 +1419,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STKoekoLegalityTester:
       result = koeko_legality_tester_solve(si,n);
+      break;
+
+    case STGridContactLegalityTester:
+      result = contact_grid_legality_tester_solve(si,n);
       break;
 
     case STTrue:
