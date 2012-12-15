@@ -307,11 +307,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if (SquareCol(sq_departure) == SquareCol(sq_arrival))
           return true;
       }
-      if (CondFlag[monochro])
-      {
-        if (SquareCol(sq_departure) != SquareCol(sq_arrival))
-          return true;
-      }
     }
 
     traitnbply= trait[nbply];

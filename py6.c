@@ -199,6 +199,7 @@
 #include "conditions/nocapture.h"
 #include "conditions/nopromotion.h"
 #include "conditions/geneva.h"
+#include "conditions/monochrome.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2759,6 +2760,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_antikoeko(result);
   else if (CondFlag[newkoeko])
     stip_insert_newkoeko(result);
+
+  if (CondFlag[monochro])
+      stip_insert_monochrome(result);
 
   if (TSTFLAG(PieSpExFlags,Jigger))
     stip_insert_jigger(result);

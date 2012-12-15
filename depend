@@ -656,9 +656,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/imitator.h conditions/football.h conditions/mummer.h \
  conditions/woozles.h conditions/immune.h conditions/provocateurs.h \
  conditions/lortap.h conditions/patrol.h conditions/nocapture.h \
- conditions/nopromotion.h conditions/geneva.h platform/maxmem.h \
- platform/maxtime.h platform/pytime.h platform/priority.h \
- stipulation/has_solution_type.h stipulation/branch.h \
+ conditions/nopromotion.h conditions/geneva.h conditions/monochrome.h \
+ platform/maxmem.h platform/maxtime.h platform/pytime.h \
+ platform/priority.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
  stipulation/dead_end.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/or.h \
@@ -948,6 +948,8 @@ conditions/nocapture.h:
 conditions/nopromotion.h:
 
 conditions/geneva.h:
+
+conditions/monochrome.h:
 
 platform/maxmem.h:
 

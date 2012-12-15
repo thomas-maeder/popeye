@@ -1469,7 +1469,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/ohneschach/immobility_tester.h \
  conditions/owu/immobility_tester.h conditions/immune.h \
  conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/ultraschachzwang/goal_filter.h \
+ conditions/monochrome.h conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
@@ -1717,6 +1717,8 @@ conditions/provocateurs.h:
 conditions/lortap.h:
 
 conditions/patrol.h:
+
+conditions/monochrome.h:
 
 conditions/ultraschachzwang/goal_filter.h:
 

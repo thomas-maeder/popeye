@@ -182,6 +182,7 @@
     ENUMERATOR(STGenevaRemoveIllegalCaptures),                          \
     ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
     ENUMERATOR(STNoPromotionsRemovePromotionReborn),                    \
+    ENUMERATOR(STMonochromeRemoveBichromeMoves),                        \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
     ENUMERATOR(STAntiKoekoLegalityTester),                              \

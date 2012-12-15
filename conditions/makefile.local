@@ -9,7 +9,7 @@ SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c \
              chameleon_pursuit.c norsk.c protean.c traitor.c volage.c \
              magic_square.c tibet.c degradierung.c phantom.c line_chameleon.c \
              haan.c castling_chess.c imitator.c football.c exchange_castling.c \
-             mummer.c \
+             mummer.c monochrome.c \
              patrol.c lortap.c beamten.c provocateurs.c central.c immune.c  \
              woozles.c nocapture.c nopromotion.c geneva.c
 INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
@@ -21,7 +21,7 @@ INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            chameleon_pursuit.h norsk.h protean.h traitor.h volage.h \
            magic_square.h tibet.h degradierung.h phantom.h line_chameleon.h \
            haan.h castling_chess.h imitator.h football.h exchange_castling.h \
-           mummer.h \
+           mummer.h monochrome.h \
            patrol.h lortap.h beamten.h provocateurs.h central.h immune.h \
            woozles.h nocapture.h nopromotion.h geneva.h
 
