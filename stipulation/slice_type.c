@@ -174,6 +174,7 @@
     ENUMERATOR(STGenevaRemoveIllegalCaptures),                          \
     ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
     ENUMERATOR(STNoPromotionsRemovePromotionReborn),                    \
+    ENUMERATOR(STGridRemoveIllegalMoves),                               \
     ENUMERATOR(STMonochromeRemoveBichromeMoves),                        \
     ENUMERATOR(STBichromeRemoveMonochromeMoves),                        \
     ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \

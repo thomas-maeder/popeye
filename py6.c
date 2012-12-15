@@ -202,6 +202,7 @@
 #include "conditions/monochrome.h"
 #include "conditions/bichrome.h"
 #include "conditions/edgemover.h"
+#include "conditions/grid.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2773,6 +2774,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
     stip_insert_edgemover(result);
+
+  if (CondFlag[gridchess])
+    stip_insert_grid(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

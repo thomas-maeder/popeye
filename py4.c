@@ -283,12 +283,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
     }
 
-    if (CondFlag[gridchess])
-    {
-      if (!GridLegal(sq_departure, sq_arrival))
-        return true;
-    }
-
     traitnbply= trait[nbply];
     TraceEnumerator(Side,traitnbply,"\n");
 
