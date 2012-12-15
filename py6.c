@@ -244,6 +244,7 @@
 #include "pieces/attributes/hurdle_colour_changing.h"
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/chameleon.h"
+#include "pieces/attributes/jigger.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
 #include "conditions/anticirce/goal_filters.h"
@@ -2758,6 +2759,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_antikoeko(result);
   else if (CondFlag[newkoeko])
     stip_insert_newkoeko(result);
+
+  if (TSTFLAG(PieSpExFlags,Jigger))
+    stip_insert_jigger(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

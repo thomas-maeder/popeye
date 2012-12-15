@@ -162,6 +162,7 @@
 #include "pieces/attributes/hurdle_colour_changing.h"
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/chameleon.h"
+#include "pieces/attributes/jigger.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/continuation.h"
@@ -1437,6 +1438,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STNewKoekoLegalityTester:
       result = newkoeko_legality_tester_solve(si,n);
+      break;
+
+    case STJiggerLegalityTester:
+      result = jigger_legality_tester_solve(si,n);
       break;
 
     case STTrue:

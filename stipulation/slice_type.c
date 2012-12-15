@@ -179,6 +179,7 @@
     ENUMERATOR(STAntiKoekoLegalityTester),                              \
     ENUMERATOR(STNewKoekoRememberContact),                              \
     ENUMERATOR(STNewKoekoLegalityTester),                               \
+    ENUMERATOR(STJiggerLegalityTester),                                 \
     ENUMERATOR(STHashOpener),                                           \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STAttackHashedTester),  /* attack play with hash table */      \

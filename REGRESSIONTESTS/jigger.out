@@ -31,7 +31,7 @@ a)
   1.kOAd2-a8 jLd4-a7   2.kOAa8-c7 jLd7-c8   3.kOAc7-a8 jLc8-b7 # 
 
               empile:       85774
-           play_move:       21156
+           play_move:       75231
         orig_rbechec:           0
         orig_rnechec:       20359
 b) skOAd2-->e1
@@ -40,7 +40,7 @@ b) skOAd2-->e1
   1.kOAe1-c2 jLd4-b2   2.kOAc2-g4 jLd7-f5   3.kOAg4-a1 jLf5-b1 # 
 
               empile:       72047
-           play_move:       17072
+           play_move:       63199
         orig_rbechec:           0
         orig_rnechec:       16528
 Loesung beendet. 

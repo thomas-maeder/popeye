@@ -1544,8 +1544,9 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  pieces/attributes/paralysing/remove_captures.h \
  pieces/attributes/neutral/initialiser.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/magic.h \
- pieces/attributes/chameleon.h pieces/attributes/kamikaze/kamikaze.h \
- solving/avoid_unsolvable.h solving/battle_play/continuation.h \
+ pieces/attributes/chameleon.h pieces/attributes/jigger.h \
+ pieces/attributes/kamikaze/kamikaze.h solving/avoid_unsolvable.h \
+ solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
  solving/battle_play/try.h utilities/table.h solving/castling.h \
@@ -1960,6 +1961,8 @@ pieces/attributes/hurdle_colour_changing.h:
 pieces/attributes/magic.h:
 
 pieces/attributes/chameleon.h:
+
+pieces/attributes/jigger.h:
 
 pieces/attributes/kamikaze/kamikaze.h:
 

@@ -312,11 +312,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if (SquareCol(sq_departure) != SquareCol(sq_arrival))
           return true;
       }
-      if (TSTFLAG(spec[sq_departure], Jigger))
-      {
-        if (nocontact(sq_departure,sq_arrival,sq_capture,&nokingcontact))
-          return true;
-      }
     }
 
     traitnbply= trait[nbply];
