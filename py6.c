@@ -200,6 +200,7 @@
 #include "conditions/nopromotion.h"
 #include "conditions/geneva.h"
 #include "conditions/monochrome.h"
+#include "conditions/bichrome.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2763,6 +2764,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[monochro])
       stip_insert_monochrome(result);
+  if (CondFlag[bichro])
+      stip_insert_bichrome(result);
 
   if (TSTFLAG(PieSpExFlags,Jigger))
     stip_insert_jigger(result);

@@ -175,6 +175,7 @@
     ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
     ENUMERATOR(STNoPromotionsRemovePromotionReborn),                    \
     ENUMERATOR(STMonochromeRemoveBichromeMoves),                        \
+    ENUMERATOR(STBichromeRemoveMonochromeMoves),                        \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
     ENUMERATOR(STAntiKoekoLegalityTester),                              \

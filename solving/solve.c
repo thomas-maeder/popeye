@@ -44,6 +44,7 @@
 #include "conditions/lortap.h"
 #include "conditions/patrol.h"
 #include "conditions/monochrome.h"
+#include "conditions/bichrome.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
@@ -1447,6 +1448,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMonochromeRemoveBichromeMoves:
       result = monochrome_remove_bichrome_moves_solve(si,n);
+      break;
+
+    case STBichromeRemoveMonochromeMoves:
+      result = bichrome_remove_monochrome_moves_solve(si,n);
       break;
 
     case STTrue:
