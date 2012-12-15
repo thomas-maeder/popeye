@@ -242,22 +242,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   TraceValue("%u\n",empilegenre);
   if (empilegenre)
   {
-    if (CondFlag[messigny]
-        && sq_capture == messigny_exchange
-        /* a swapping move */
-        && (move_generation_stack[current_move[parent_ply[nbply]]].capture==messigny_exchange)
-        /* last move was a swapping one too */
-        && (sq_departure == move_generation_stack[current_move[parent_ply[nbply]]].arrival
-            || sq_departure == move_generation_stack[current_move[parent_ply[nbply]]].departure
-            || sq_arrival == move_generation_stack[current_move[parent_ply[nbply]]].arrival
-            || sq_arrival == move_generation_stack[current_move[parent_ply[nbply]]].departure))
-      /* No single piece must be involved in
-       * two consecutive swappings, so reject move.
-       */
-    {
-      return false;
-    }
-
     if (anymars || anyantimars)
     {
       if (CondFlag[phantom])

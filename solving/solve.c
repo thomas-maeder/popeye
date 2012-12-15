@@ -1469,6 +1469,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = uncapturable_remove_captures_solve(si,n);
       break;
 
+    case STMessignyRemoveIllegalSwapRepetitions:
+      result = messigny_remove_illegal_swap_repetitions_solve(si,n);
+      break;
+
     case STTrue:
       result = slack_length;
       break;
