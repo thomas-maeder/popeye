@@ -191,7 +191,7 @@ b) ExchangeCastling
 
   1.Ba4-d1 + Kg4-f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 # 
 
-              empile:     9122576
+              empile:     8579212
            play_move:     7397319
         orig_rbechec:      450454
         orig_rnechec:     7317944
@@ -240,7 +240,7 @@ b) ExchangeCastling
 
   1.Ba4-d1 + Kg4*f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 # 
 
-              empile:    20519859
+              empile:    19263856
            play_move:    16321210
         orig_rbechec:      779558
         orig_rnechec:    16188273

@@ -1313,3 +1313,83 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+Leonardo G. Perrone & Gaspar J. Perrone
+         Problemkiste TT 2000
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  PA   .   8
+|                                   |
+7   .  HA   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -H  -H  -H  -H  -H  -H   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #9                          2 + 6
+           Koeniglich g8 h6
+                Circe
+
+a) 
+
+   1.kPAg8-c8 !
+      1...Hc6*b7-a8[+wHAb8]
+          2.kPAc8-c1
+              2...Ha8*b8-c8[+wHAb8]
+                  3.kPAc1-h1
+                      3...Hc8*b8-a8[+wHAb8]
+                          4.HAb8-c7
+                              4...Hd6*c7-b8[+wHAc8]
+                                  5.HAc8-d7
+                                      5...He6*d7-c8[+wHAd8]
+                                          6.HAd8-e7
+                                              6...Hf6*e7-d8[+wHAe8]
+                                                  7.HAe8-f7
+                                                      7...Hg6*f7-e8[+wHAf8]
+                                                          8.HAf8-g7
+                                                              8...kHh6*g7-f8[+wHAg8]
+                                                                  9.kPAh1-h8 #
+
+
+              empile:       39705
+           play_move:       39467
+        orig_rbechec:       29403
+        orig_rnechec:       10129
+b) sHc6-->a6
+
+   1.kPAg8-a8 !
+      1...Ha6*b7-c8[+wHAb8]
+          2.kPAa8-a1
+              2...Hc8*b8-a8[+wHAb8]
+                  3.HAb8-c7
+                      3...Hd6*c7-b8[+wHAc8]
+                          4.HAc8-d7
+                              4...He6*d7-c8[+wHAd8]
+                                  5.HAd8-e7
+                                      5...Hf6*e7-d8[+wHAe8]
+                                          6.HAe8-f7
+                                              6...Hg6*f7-e8[+wHAf8]
+                                                  7.HAf8-g7
+                                                      7...kHh6*g7-f8[+wHAg8]
+                                                          8.kPAa1-f1
+                                                              8...kHf8*g8-h8[+wHAg8]
+                                                                  9.kPAf1-f8 #
+
+
+              empile:       51609
+           play_move:       51237
+        orig_rbechec:       37899
+        orig_rnechec:       13429
+Loesung beendet. 
+
+

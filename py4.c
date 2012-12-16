@@ -231,13 +231,7 @@ DEFINE_COUNTER(empile)
 
 boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 {
-  Side traitnbply;
-
   INCREMENT_COUNTER(empile);
-
-  if (sq_departure==sq_arrival
-      && (!CondFlag[schwarzschacher] || sq_arrival != nullsquare))
-    return true;
 
   TraceValue("%u\n",empilegenre);
   if (empilegenre)
@@ -263,9 +257,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           sq_departure = marsid;
       }
     }
-
-    traitnbply= trait[nbply];
-    TraceEnumerator(Side,traitnbply,"\n");
 
     if (CondFlag[takemake])
     {
@@ -330,7 +321,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           e[sq_departure]= vide;    /* for sentinelles, need to calculate... */
           spec[sq_departure]= EmptySpec;
 
-          if (traitnbply == White)
+          if (trait[nbply] == White)
             gen_bl_piece_aux(sq_arrival, takemake_takenpiece);
           else
             gen_wh_piece_aux(sq_arrival, takemake_takenpiece);
@@ -364,8 +355,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           /* Extra rule: pawns must not 'make' to their base line */
           if (is_pawn(abs(e[sq_departure]))
               && !CondFlag[normalp]
-              && ((traitnbply == White && sq_arrival<=square_h1)
-                  || (traitnbply == Black && sq_arrival>=square_a8)))
+              && ((trait[nbply] == White && sq_arrival<=square_h1)
+                  || (trait[nbply] == Black && sq_arrival>=square_a8)))
             return true;
 
           sq_capture = takemake_takecapturesquare;
@@ -850,7 +841,8 @@ static void ghamst(square sq_departure)
     finligne(sq_departure,vec[k],hurdle,sq_arrival);
     if (hurdle!=obs) {
       sq_arrival-= vec[k];
-      empile(sq_departure,sq_arrival,sq_arrival);
+      if (sq_arrival!=sq_departure)
+        empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
 }
@@ -2919,17 +2911,17 @@ void genrb(square sq_departure)
 
   if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[White][nbply])
   {
-    int i,j;
-    piece p;
-    square z= square_a1;
-    for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z++) {
-      if ((p = e[z]) != vide) {
-      if (TSTFLAG(spec[z], Neutral))
-        p = -p;
-      if (p > obs && !is_pawn(abs(p))) /* not sure if "castling" with Ps forbidden */
-        empile(sq_departure,z,platzwechsel_rochade);
-      }
+    int i;
+    square square_a = square_a1;
+    for (i = nr_rows_on_board; i>0; --i, square_a += onerow)
+    {
+      int j;
+      square pos_partner = square_a;
+      for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
+        if (pos_partner!=sq_departure
+            && TSTFLAG(spec[pos_partner],White)
+            && !is_pawn(abs(e[pos_partner]))) /* not sure if "castling" with Ps forbidden */
+          empile(sq_departure,pos_partner,platzwechsel_rochade);
     }
   }
 }

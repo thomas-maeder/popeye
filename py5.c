@@ -643,17 +643,17 @@ void genrn(square sq_departure)
 
   if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[Black][nbply])
   {
-    int i,j;
-    piece p;
-    square z= square_a1;
-    for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z++) {
-      if ((p = e[z]) != vide) {
-      if (TSTFLAG(spec[z], Neutral))
-        p = -p;
-      if (p < vide && !is_pawn(abs(p)))  /* not sure if "castling" with Ps forbidden */
-        empile(sq_departure,z,platzwechsel_rochade);
-      }
+    int i;
+    square square_a = square_a1;
+    for (i = nr_rows_on_board; i>0; --i, square_a += onerow)
+    {
+      int j;
+      square pos_partner = square_a;
+      for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
+        if (pos_partner!=sq_departure
+            && TSTFLAG(spec[pos_partner],Black)
+            && !is_pawn(abs(e[pos_partner]))) /* not sure if "castling" with Ps forbidden */
+          empile(sq_departure,pos_partner,platzwechsel_rochade);
     }
   }
 }
