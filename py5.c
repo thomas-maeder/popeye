@@ -775,112 +775,106 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
     return;
   }
 
-  if (anymars||anyantimars) {
+  if (CondFlag[phantom]) {
     square sq_rebirth;
     Flags spec_departing;
 
-    if (CondFlag[phantom]) {
-      numecoup const anf1 = current_move[nbply];
-      /* generate standard moves first */
-      flagactive= false;
-      flagpassive= false;
-      flagcapture= false;
+    numecoup const anf1 = current_move[nbply];
 
-      gen_bl_piece_aux(sq_departure,p);
+    marscirce_generating_from_rebirth_square = false;
 
-      /* Kings normally don't move from their rebirth-square */
-      if (p == e[king_square[Black]] && !rex_phan)
-      {
-        TraceFunctionExit(__func__);
-        TraceFunctionResultEnd();
-        return;
-      }
-      /* generate moves from rebirth square */
-      flagactive= true;
-      spec_departing=spec[sq_departure];
-      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
-      /* if rebirth square is where the piece stands,
-         we've already generated all the relevant moves.
+    gen_bl_piece_aux(sq_departure,p);
+
+    /* Kings normally don't move from their rebirth-square */
+    if (p == e[king_square[Black]] && !rex_phan)
+    {
+      TraceFunctionExit(__func__);
+      TraceFunctionResultEnd();
+      return;
+    }
+
+    marscirce_generating_from_rebirth_square = true;
+    spec_departing=spec[sq_departure];
+    sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
+    /* if rebirth square is where the piece stands,
+       we've already generated all the relevant moves.
+    */
+    if (sq_rebirth==sq_departure)
+    {
+      TraceFunctionExit(__func__);
+      TraceFunctionResultEnd();
+      return;
+    }
+    if (e[sq_rebirth] == vide)
+    {
+      numecoup const anf2 = current_move[nbply];
+      numecoup l1;
+      pi_departing=e[sq_departure];   /* Mars/Neutral bug */
+      e[sq_departure]= vide;
+      spec[sq_departure]= EmptySpec;
+      spec[sq_rebirth]= spec_departing;
+      e[sq_rebirth]= p;
+      marsid= sq_departure;
+
+      gen_bl_piece_aux(sq_rebirth, p);
+
+      e[sq_rebirth]= vide;
+      spec[sq_departure]= spec_departing;
+      e[sq_departure]= pi_departing;
+
+      /* Unfortunately we have to check for
+         duplicate generated moves now.
+         there's only ONE duplicate per arrival square
+         possible !
       */
-      if (sq_rebirth==sq_departure)
+      for (l1 = anf1+1; l1<=anf2; l1++)
       {
-        TraceFunctionExit(__func__);
-        TraceFunctionResultEnd();
-        return;
+        numecoup l2 = anf2+1;
+        while (l2 <= current_move[nbply])
+          if (move_generation_stack[l1].arrival
+              ==move_generation_stack[l2].arrival)
+          {
+            move_generation_stack[l2] = move_generation_stack[current_move[nbply]];
+            --current_move[nbply];
+            break;  /* remember: ONE duplicate ! */
+          }
+          else
+            l2++;
       }
-      if (e[sq_rebirth] == vide)
-      {
-        numecoup const anf2 = current_move[nbply];
-        numecoup l1;
-        pi_departing=e[sq_departure];   /* Mars/Neutral bug */
+    }
+  }
+  else if (anymars||anyantimars) {
+    square sq_rebirth;
+    Flags spec_departing;
+
+    marscirce_generating_from_rebirth_square = false;
+
+    gen_bl_piece_aux(sq_departure, p);
+
+    marscirce_generating_from_rebirth_square = true;
+    mars_circe_rebirth_state = 0;
+    do {   /* Echecs Plus */
+      spec_departing= spec[sq_departure];
+      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
+      if (sq_rebirth==sq_departure || e[sq_rebirth]==vide) {
+        pi_departing= e[sq_departure]; /* Mars/Neutral bug */
+
         e[sq_departure]= vide;
         spec[sq_departure]= EmptySpec;
+
         spec[sq_rebirth]= spec_departing;
         e[sq_rebirth]= p;
+
         marsid= sq_departure;
 
-        gen_bl_piece_aux(sq_rebirth, p);
+        gen_bl_piece_aux(sq_rebirth,p);
 
         e[sq_rebirth]= vide;
+
         spec[sq_departure]= spec_departing;
         e[sq_departure]= pi_departing;
-        flagactive= false;
-        /* Unfortunately we have to check for
-           duplicate generated moves now.
-           there's only ONE duplicate per arrival square
-           possible !
-        */
-        for (l1 = anf1+1; l1<=anf2; l1++)
-        {
-          numecoup l2 = anf2+1;
-          while (l2 <= current_move[nbply])
-            if (move_generation_stack[l1].arrival
-                ==move_generation_stack[l2].arrival)
-            {
-              move_generation_stack[l2] = move_generation_stack[current_move[nbply]];
-              --current_move[nbply];
-              break;  /* remember: ONE duplicate ! */
-            }
-            else
-              l2++;
-        }
       }
-    }
-    else {
-      /* generate noncapturing moves first */
-      flagpassive= true;
-      flagcapture= false;
-
-      gen_bl_piece_aux(sq_departure, p);
-
-      /* generate capturing moves now */
-      flagpassive= false;
-      flagcapture= true;
-      mars_circe_rebirth_state = 0;
-      do {   /* Echecs Plus */
-        spec_departing= spec[sq_departure];
-        sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
-        if (sq_rebirth==sq_departure || e[sq_rebirth]==vide) {
-          pi_departing= e[sq_departure]; /* Mars/Neutral bug */
-
-          e[sq_departure]= vide;
-          spec[sq_departure]= EmptySpec;
-
-          spec[sq_rebirth]= spec_departing;
-          e[sq_rebirth]= p;
-
-          marsid= sq_departure;
-
-          gen_bl_piece_aux(sq_rebirth,p);
-
-          e[sq_rebirth]= vide;
-
-          spec[sq_departure]= spec_departing;
-          e[sq_departure]= pi_departing;
-        }
-      } while (mars_circe_rebirth_state);
-      flagcapture= false;
-    }
+    } while (mars_circe_rebirth_state);
   }
   else
     gen_bl_piece_aux(sq_departure,p);

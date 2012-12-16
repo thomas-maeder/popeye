@@ -87,7 +87,7 @@ EXTERN boolean flag_regression;
 
 EXTERN char versionString[100];
 
-EXTERN  boolean         flagpassive, flagcapture, flagactive;
+EXTERN  boolean marscirce_generating_from_rebirth_square ;
 
 EXTERN square royal_square[nr_sides];
 
