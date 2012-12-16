@@ -203,6 +203,7 @@
 #include "conditions/bichrome.h"
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
+#include "conditions/take_and_make.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2781,6 +2782,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (TSTFLAG(PieSpExFlags,Uncapturable))
     stip_insert_uncapturable(result);
+
+  if (CondFlag[takemake])
+    stip_insert_take_and_make(result);
 
   if (OptFlag[noshort])
     stip_insert_no_short_variations_filters(result);

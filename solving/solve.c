@@ -105,6 +105,7 @@
 #include "conditions/geneva.h"
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
+#include "conditions/take_and_make.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -1471,6 +1472,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMessignyRemoveIllegalSwapRepetitions:
       result = messigny_remove_illegal_swap_repetitions_solve(si,n);
+      break;
+
+    case STTakeAndMakeGenerateMake:
+      result = take_and_make_generate_make_solve(si,n);
       break;
 
     case STTrue:

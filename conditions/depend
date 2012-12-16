@@ -967,12 +967,13 @@ debugging/trace.h:
 conditions/messigny$(OBJ_SUFFIX): conditions/messigny.c conditions/messigny.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
- utilities/boolean.h utilities/enumeration.h pylang.h solving/castling.h \
- stipulation/slice_type.h solving/move_effect_journal.h pydata.h pyproc.h \
- py4.h py.h stipulation/goals/goals.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- debugging/trace.h
+ utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h solving/castling.h \
+ stipulation/slice_type.h solving/move_effect_journal.h \
+ solving/move_generator.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/branch.h debugging/trace.h
 
 conditions/messigny.h:
 
@@ -996,12 +997,6 @@ utilities/enumeration.h:
 
 pylang.h:
 
-solving/castling.h:
-
-stipulation/slice_type.h:
-
-solving/move_effect_journal.h:
-
 pydata.h:
 
 pyproc.h:
@@ -1011,6 +1006,14 @@ py4.h:
 py.h:
 
 stipulation/goals/goals.h:
+
+solving/castling.h:
+
+stipulation/slice_type.h:
+
+solving/move_effect_journal.h:
+
+solving/move_generator.h:
 
 stipulation/stipulation.h:
 
@@ -1023,6 +1026,10 @@ stipulation/traversal.h:
 stipulation/goals/goals.h:
 
 output/mode.h:
+
+stipulation/pipe.h:
+
+stipulation/branch.h:
 
 debugging/trace.h:
 conditions/actuated_revolving_centre$(OBJ_SUFFIX): \
@@ -3527,6 +3534,70 @@ position/board.h:
 utilities/bitmask.h:
 
 position/piece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/pipe.h:
+
+solving/solve.h:
+
+stipulation/branch.h:
+
+solving/move_generator.h:
+
+debugging/trace.h:
+conditions/take_and_make$(OBJ_SUFFIX): conditions/take_and_make.c \
+ conditions/take_and_make.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h \
+ utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ py4.h py.h stipulation/goals/goals.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ solving/solve.h stipulation/branch.h solving/move_generator.h \
+ debugging/trace.h
+
+conditions/take_and_make.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
 
 utilities/enumeration.h:
 

@@ -71,7 +71,7 @@ static slice_index const slice_rank_order[] =
   STProvocateursRemoveUnobservedCaptures,
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
-  /* Make part of Take & Make goes here*/
+  STTakeAndMakeGenerateMake,
   STGridRemoveIllegalMoves,
   STMonochromeRemoveBichromeMoves,
   STBichromeRemoveMonochromeMoves,
