@@ -9,6 +9,56 @@
 #include <stdlib.h>
 #include <string.h>
 
+static boolean is_not_pawn_make_to_base_line(square sq_departure,
+                                             square sq_arrival,
+                                             square sq_capture)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = !(is_pawn(abs(e[sq_departure]))
+             && ((trait[nbply]==White && sq_arrival<=square_h1)
+                 || (trait[nbply]==Black && sq_arrival>=square_a8)));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type take_and_make_avoid_pawn_make_to_base_line_solve(slice_index si,
+                                                                  stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  move_generator_filter_moves(&is_not_pawn_make_to_base_line);
+
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -66,21 +116,11 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       for (++make_current; make_current<=current_move[nbply]; ++make_current)
         if (e[move_generation_stack[make_current].capture]==vide)
         {
+          /* save the arrival square before possibly overwriting it */
           square const make_arrival = move_generation_stack[make_current].arrival;
-
-          /* Extra rule: pawns must not 'make' to their base line */
-          if (taking_is_pawn
-              && !CondFlag[normalp]
-              && ((moving==White && make_arrival<=square_h1)
-                  || (moving==Black && make_arrival>=square_a8)))
-          {
-          }
-          else
-          {
-            ++make_filtered_top;
-            move_generation_stack[make_filtered_top] = move_generation_stack[take_current];
-            move_generation_stack[make_filtered_top].arrival = make_arrival;
-          }
+          ++make_filtered_top;
+          move_generation_stack[make_filtered_top] = move_generation_stack[take_current];
+          move_generation_stack[make_filtered_top].arrival = make_arrival;
         }
 
       current_move[nbply] = make_filtered_top;
@@ -107,6 +147,28 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void insert_make_generator_avoid_pawn_to_baseline(slice_index si,
+                                                         stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STTakeAndMakeGenerateMake),
+        alloc_pipe(STTakeAndMakeAvoidPawnMakeToBaseLine),
+    };
+    branch_insert_slices_contextual(si,st->context,prototypes,2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void insert_make_generator(slice_index si, stip_structure_traversal *st)
@@ -140,9 +202,17 @@ void stip_insert_take_and_make(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STDoneGeneratingMoves,
-                                           &insert_make_generator);
+
+  if (CondFlag[normalp])
+    stip_structure_traversal_override_single(&st,
+                                             STDoneGeneratingMoves,
+                                             &insert_make_generator);
+  else
+    /* Extra rule: pawns must not 'make' to their base line */
+    stip_structure_traversal_override_single(&st,
+                                             STDoneGeneratingMoves,
+                                             &insert_make_generator_avoid_pawn_to_baseline);
+
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
