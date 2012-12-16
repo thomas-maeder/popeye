@@ -1288,13 +1288,15 @@ boolean pbcheck(square  sq_king,
                 piece   p,
                 evalfunction_t *evaluate)
 {
-  if (anymars) {
-    boolean anymarscheck=
-        (p==e[king_square[White]] && e[sq_king+dir_down]==p)
-        || (p==e[king_square[Black]] && e[sq_king+dir_up]==p);
-    if (!CondFlag[phantom] || anymarscheck)
-      return anymarscheck;
+  if (CondFlag[phantom])
+  {
+    if ((p==e[king_square[White]] && e[sq_king+dir_down]==p)
+        || (p==e[king_square[Black]] && e[sq_king+dir_up]==p))
+      return true;
   }
+  else if (anymars)
+    return ((p==e[king_square[White]] && e[sq_king+dir_down]==p)
+            || (p==e[king_square[Black]] && e[sq_king+dir_up]==p));
 
   if (p<=roin) {
     if (sq_king<=square_h6
@@ -2079,7 +2081,7 @@ boolean reversepcheck(square sq_king,
                       piece p,
                       evalfunction_t *evaluate)
 {
-  if (anymars) {
+  if (anymars || CondFlag[phantom]) {
     boolean anymarscheck=
         (p==e[king_square[White]]
          && (e[sq_king+dir_down+dir_right]==p

@@ -5256,7 +5256,6 @@ static char *ParseCond(void)
         break;
       case phantom:
         marsrenai= rennormal;
-        anymars= true;
         break;
       case plus:
         marsrenai= renplus;

@@ -245,7 +245,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           sq_departure = mars_circe_real_departure_square ;
       }
     }
-    else if (anymars)
+    if (anymars)
     {
       if (mars_circe_real_departure_square==initsquare)
       {
@@ -260,7 +260,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           sq_departure = mars_circe_real_departure_square ;
       }
     }
-    else if (anyantimars)
+    if (anyantimars)
     {
       if (mars_circe_real_departure_square==initsquare)
       {

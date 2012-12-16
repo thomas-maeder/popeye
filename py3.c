@@ -290,12 +290,13 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   if (SATCheck)
     return echecc_SAT(Black);
 
-  if (anymars)
+  if (CondFlag[phantom])
   {
-    boolean anymarscheck = marsechecc(Black,evaluate);
-    if ( !CondFlag[phantom] || anymarscheck)
-      return anymarscheck;
+    if (marsechecc(Black,evaluate))
+      return true;
   }
+  else if (anymars)
+    return marsechecc(Black,evaluate);
 
   if (nbpiece[roib]>0) {
     if (calc_reflective_king[White]) {
@@ -549,12 +550,13 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   if (SATCheck)
     return echecc_SAT(White);
 
-  if (anymars) {
-    boolean anymarscheck= marsechecc(White,evaluate);
-    if ( !CondFlag[phantom] || anymarscheck) {
-      return anymarscheck;
-    }
+  if (CondFlag[phantom])
+  {
+    if (marsechecc(White,evaluate))
+      return true;
   }
+  else if (anymars)
+    return marsechecc(White,evaluate);
 
   if (nbpiece[roin]>0)
   {

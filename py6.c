@@ -1439,7 +1439,7 @@ static boolean verify_position(slice_index si)
       && CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[White])
     CondFlag[swappingkings] = true;
 
-  if (anymars||anyantimars) {
+  if (anymars || anyantimars || CondFlag[phantom]) {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
     if (calc_transmuting_king[White]
@@ -1725,7 +1725,7 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(PieSpExFlags, Paralyse)
       || CondFlag[vogt]
       || anyanticirce
-      || anymars
+      || anymars || CondFlag[phantom]
       || anyantimars
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
       || CondFlag[messigny]
@@ -2060,7 +2060,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || anymars
+      || anymars || CondFlag[phantom]
       || anyantimars
       || CondFlag[brunner]
       || CondFlag[blsupertrans_king]
@@ -2082,7 +2082,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || anymars
+      || anymars || CondFlag[phantom]
       || anyantimars
       || CondFlag[brunner]
       || CondFlag[blsupertrans_king]
