@@ -1,8 +1,11 @@
 #include "conditions/messigny.h"
+#include "pydata.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
