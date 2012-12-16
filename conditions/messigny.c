@@ -26,7 +26,7 @@ static boolean is_not_illegal_repetition(square sq_departure,
              && move_generation_stack[parent_coup_id].capture==messigny_exchange
              && (sq_departure==sq_parent_arrival
                  || sq_departure==sq_parent_departure
-                 || sq_arrival==sq_parent_arrivall
+                 || sq_arrival==sq_parent_arrival
                  || sq_arrival==sq_parent_departure));
 
   TraceFunctionExit(__func__);
