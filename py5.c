@@ -781,7 +781,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
 
     numecoup const anf1 = current_move[nbply];
 
-    marscirce_generating_from_rebirth_square = false;
+    mars_circe_real_departure_square = initsquare;
 
     gen_bl_piece_aux(sq_departure,p);
 
@@ -793,7 +793,6 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
       return;
     }
 
-    marscirce_generating_from_rebirth_square = true;
     spec_departing=spec[sq_departure];
     sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
     /* if rebirth square is where the piece stands,
@@ -814,7 +813,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
       spec[sq_departure]= EmptySpec;
       spec[sq_rebirth]= spec_departing;
       e[sq_rebirth]= p;
-      marsid= sq_departure;
+      mars_circe_real_departure_square = sq_departure;
 
       gen_bl_piece_aux(sq_rebirth, p);
 
@@ -847,11 +846,10 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
     square sq_rebirth;
     Flags spec_departing;
 
-    marscirce_generating_from_rebirth_square = false;
+    mars_circe_real_departure_square = initsquare;
 
     gen_bl_piece_aux(sq_departure, p);
 
-    marscirce_generating_from_rebirth_square = true;
     mars_circe_rebirth_state = 0;
     do {   /* Echecs Plus */
       spec_departing= spec[sq_departure];
@@ -865,7 +863,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
         spec[sq_rebirth]= spec_departing;
         e[sq_rebirth]= p;
 
-        marsid= sq_departure;
+        mars_circe_real_departure_square = sq_departure;
 
         gen_bl_piece_aux(sq_rebirth,p);
 
