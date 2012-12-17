@@ -235,14 +235,11 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 {
   INCREMENT_COUNTER(empile);
 
-  if (empilegenre)
-  {
-    if (CondFlag[imitators]
-        && ((sq_capture==kingside_castling || sq_capture==queenside_castling)
-            ? !castlingimok(sq_departure, sq_arrival)
-            : !imok(sq_departure, sq_arrival)))
-      return false;
-  }
+  if (CondFlag[imitators]
+      && ((sq_capture==kingside_castling || sq_capture==queenside_castling)
+          ? !castlingimok(sq_departure, sq_arrival)
+          : !imok(sq_departure, sq_arrival)))
+    return false;
 
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
 

@@ -1710,61 +1710,11 @@ static boolean verify_position(slice_index si)
       || CondFlag[protean]
       || CondFlag[champursue];
 
-  empilegenre=
-      flaglegalsquare
-      || obsgenre
-      || CondFlag[imitators]
-      || anyimmun
-      || CondFlag[nocapture]
-      || CondFlag[nowhcapture]
-      || CondFlag[noblcapture]
-      || TSTFLAG(spec[king_square[White]], Kamikaze)
-      || TSTFLAG(spec[king_square[Black]], Kamikaze)
-      || mummer_strictness[White]!=mummer_strictness_none
-      || mummer_strictness[Black]!=mummer_strictness_none
-      || TSTFLAG(PieSpExFlags, Paralyse)
-      || CondFlag[vogt]
-      || anyanticirce
-      || anymars || CondFlag[phantom]
-      || anyantimars
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
-      || CondFlag[messigny]
-      || CondFlag[woozles]
-      || CondFlag[nowhiteprom]
-      || CondFlag[noblackprom]
-      || CondFlag[antikings]
-      || CondFlag[norsk]
-      || CondFlag[SAT]
-      || CondFlag[strictSAT]
-      || CondFlag[takemake]
-      || CondFlag[losingchess]
-      || CondFlag[disparate]
-      || CondFlag[ghostchess]
-      || CondFlag[hauntedchess]
-      || TSTFLAG(PieSpExFlags,Uncapturable);
-
   if (CondFlag[vogt]
       || CondFlag[antikings]
       || CondFlag[SAT]
       || CondFlag[strictSAT])
     king_capture_avoiders_avoid_opponent();
-
-  if (CondFlag[dynasty])
-  {
-    /* checking for TSTFLAG(spec[king_square[White]],Kamikaze) may not be sufficient
-     * in dynasty */
-    square s;
-
-    for (bnp = boardnum; *bnp; bnp++)
-    {
-      s = *bnp;
-      if (abs(e[s])==roib && TSTFLAG(spec[s],Kamikaze))
-      {
-        empilegenre = true;
-        break;
-      }
-    }
-  }
 
   if (TSTFLAG(PieSpExFlags, Jigger)
       || CondFlag[newkoeko]

@@ -150,7 +150,6 @@ EXTERN  enum
 
 EXTERN  pileside     trait;
 EXTERN  boolean         flagfee,
-			empilegenre,
 			flaglegalsquare,
             change_moving_piece,
             supergenre ;
