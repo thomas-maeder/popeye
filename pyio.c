@@ -134,6 +134,7 @@
 #include "conditions/geneva.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
+#include "conditions/phantom.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -665,7 +666,7 @@ static void WriteConditions(int alignment)
     }
 
     if ((cond == madras && rex_mad)
-        || (cond == phantom && rex_phan)
+        || (cond == phantom && phantom_chess_rex_inclusive)
         || (cond == geneva && rex_geneva)
         || (rex_immun
             && (cond == immun
@@ -5316,7 +5317,7 @@ static char *ParseCond(void)
         tok = ParseRex(&rex_protean_ex, rexexcl);
         break;
       case phantom:
-        tok = ParseRex(&rex_phan, rexincl);
+        tok = ParseRex(&phantom_chess_rex_inclusive,rexincl);
         break;
       case madras:
         tok = ParseRex(&rex_mad, rexincl);

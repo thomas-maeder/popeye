@@ -108,7 +108,7 @@ EXTERN piece pjoue[maxply+1];
 EXTERN piece pprise[maxply+1];
 EXTERN PieNam current_promotion_of_capturee[maxply+1];
 
-EXTERN  boolean			rex_mad,rex_circe,rex_immun,rex_phan,
+EXTERN  boolean			rex_mad,rex_circe,rex_immun,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];
 

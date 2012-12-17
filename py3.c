@@ -44,6 +44,7 @@
 #include "conditions/singlebox/type2.h"
 #include "conditions/magic_square.h"
 #include "conditions/immune.h"
+#include "conditions/phantom.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "debugging/trace.h"
@@ -221,7 +222,7 @@ static boolean marsechecc(Side camp, evalfunction_t *evaluate)
          inclusif they are */
       if ((!CondFlag[phantom]
            || (e[z]!=e[king_square[White]] && e[z]!=e[king_square[Black]])
-           || rex_phan)
+           || phantom_chess_rex_inclusive)
           && ((e[z]!=e[king_square[White]] || e[king_square[White]]!=e[king_square[Black]]))   /* exclude nK */
           && rightcolor(e[z],camp))
       {

@@ -28,9 +28,9 @@
   1.c2-c1=L f7-f8=T +   2.Lc1-a3 Tf8-b8 = 
 
               empile:       43200
-           play_move:       18498
+           play_move:       18499
         orig_rbechec:        9656
-        orig_rnechec:       15224
+        orig_rnechec:       15225
 Loesung beendet. 
 
 
@@ -81,12 +81,12 @@ Loesung beendet.
     Aber
       1...Ka8-a7 !
 
+   1.Tc1-a4 ! Drohung:
+          2.a5-a3 #
+
    1.Tc1-a3 ? Zugzwang.
     Aber
       1...Ka8-a7 !
-
-   1.Tc1-a4 ! Drohung:
-          2.a5-a3 #
 
    1.Tc1-a2 ? Zugzwang.
     Aber

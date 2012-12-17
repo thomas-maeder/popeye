@@ -11,6 +11,114 @@
 #include <assert.h>
 #include <stdlib.h>
 
+boolean phantom_chess_rex_inclusive;
+
+static boolean is_regular_arrival(square sq_arrival,
+                                  numecoup start_regular_moves,
+                                  numecoup start_moves_from_rebirth_square)
+{
+  boolean result = false;
+  numecoup curr_regular_move;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceFunctionParam("%u",start_regular_moves);
+  TraceFunctionParam("%u",start_moves_from_rebirth_square);
+  TraceFunctionParamListEnd();
+
+  for (curr_regular_move = start_regular_moves+1;
+       curr_regular_move<=start_moves_from_rebirth_square;
+       ++curr_regular_move)
+    if (move_generation_stack[curr_regular_move].arrival==sq_arrival)
+    {
+      result = true;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @param side side for which to generate moves for
+ * @param p indicates the walk according to which to generate moves
+ * @param sq_departure departure square of moves to be generated
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
+{
+  numecoup const start_regular_moves = current_move[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TracePiece(p);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  if (side==White)
+    gen_wh_piece_aux(sq_departure,p);
+  else
+    gen_bl_piece_aux(sq_departure,p);
+
+  if (p!=e[king_square[side]] && !phantom_chess_rex_inclusive)
+  {
+    square const sq_rebirth = (*marsrenai)(p,
+                                           spec[sq_departure],
+                                           sq_departure,initsquare,initsquare,
+                                           advers(side));
+
+    if (sq_rebirth!=sq_departure && e[sq_rebirth] == vide)
+    {
+      numecoup const start_moves_from_rebirth_square = current_move[nbply];
+
+      spec[sq_rebirth] = spec[sq_departure];
+      e[sq_rebirth] = e[sq_departure];
+
+      e[sq_departure] = vide;
+      spec[sq_departure] = EmptySpec;
+
+      if (side==White)
+        gen_wh_piece_aux(sq_rebirth,p);
+      else
+        gen_bl_piece_aux(sq_rebirth,p);
+
+      spec[sq_departure] = spec[sq_rebirth];
+      e[sq_departure] = e[sq_rebirth];
+
+      e[sq_rebirth] = vide;
+      spec[sq_rebirth] = EmptySpec;
+
+      {
+        numecoup top_filtered = start_moves_from_rebirth_square;
+        numecoup curr_from_sq_rebirth;
+        for (curr_from_sq_rebirth = start_moves_from_rebirth_square+1;
+             curr_from_sq_rebirth<=current_move[nbply];
+             ++curr_from_sq_rebirth)
+        {
+          square const sq_arrival = move_generation_stack[curr_from_sq_rebirth].arrival;
+          if (sq_arrival!=sq_departure
+              && !is_regular_arrival(sq_arrival,
+                                     start_regular_moves,
+                                     start_moves_from_rebirth_square))
+          {
+            ++top_filtered;
+            move_generation_stack[top_filtered] = move_generation_stack[curr_from_sq_rebirth];
+            move_generation_stack[top_filtered].departure = sq_departure ;
+          }
+        }
+
+        current_move[nbply] = top_filtered;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void adjust(Side trait_ply)
 {
   numecoup const coup_id = current_move[nbply];

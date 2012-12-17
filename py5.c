@@ -95,6 +95,7 @@
 #include "conditions/beamten.h"
 #include "conditions/patrol.h"
 #include "conditions/central.h"
+#include "conditions/phantom.h"
 #include "pieces/walks.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -775,73 +776,8 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
     return;
   }
 
-  if (CondFlag[phantom]) {
-    square sq_rebirth;
-    Flags spec_departing;
-
-    numecoup const anf1 = current_move[nbply];
-
-    mars_circe_real_departure_square = initsquare;
-
-    gen_bl_piece_aux(sq_departure,p);
-
-    /* Kings normally don't move from their rebirth-square */
-    if (p == e[king_square[Black]] && !rex_phan)
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResultEnd();
-      return;
-    }
-
-    spec_departing=spec[sq_departure];
-    sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
-    /* if rebirth square is where the piece stands,
-       we've already generated all the relevant moves.
-    */
-    if (sq_rebirth==sq_departure)
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResultEnd();
-      return;
-    }
-    if (e[sq_rebirth] == vide)
-    {
-      numecoup const anf2 = current_move[nbply];
-      numecoup l1;
-      pi_departing=e[sq_departure];   /* Mars/Neutral bug */
-      e[sq_departure]= vide;
-      spec[sq_departure]= EmptySpec;
-      spec[sq_rebirth]= spec_departing;
-      e[sq_rebirth]= p;
-      mars_circe_real_departure_square = sq_departure;
-
-      gen_bl_piece_aux(sq_rebirth, p);
-
-      e[sq_rebirth]= vide;
-      spec[sq_departure]= spec_departing;
-      e[sq_departure]= pi_departing;
-
-      /* Unfortunately we have to check for
-         duplicate generated moves now.
-         there's only ONE duplicate per arrival square
-         possible !
-      */
-      for (l1 = anf1+1; l1<=anf2; l1++)
-      {
-        numecoup l2 = anf2+1;
-        while (l2 <= current_move[nbply])
-          if (move_generation_stack[l1].arrival
-              ==move_generation_stack[l2].arrival)
-          {
-            move_generation_stack[l2] = move_generation_stack[current_move[nbply]];
-            --current_move[nbply];
-            break;  /* remember: ONE duplicate ! */
-          }
-          else
-            l2++;
-      }
-    }
-  }
+  if (CondFlag[phantom])
+    phantom_chess_generate_moves(Black,p,sq_departure);
   else if (anymars||anyantimars) {
     square sq_rebirth;
     Flags spec_departing;

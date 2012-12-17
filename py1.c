@@ -88,6 +88,7 @@
 #include "conditions/geneva.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
+#include "conditions/phantom.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -308,7 +309,7 @@ void InitCond(void)
   rex_mad = false;
   rex_circe = false;
   rex_immun = false;
-  rex_phan = false;
+  phantom_chess_rex_inclusive = false;
   rex_geneva =false;
   rex_mess_ex = false;
   rex_wooz_ex = false;
