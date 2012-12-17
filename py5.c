@@ -96,6 +96,7 @@
 #include "conditions/patrol.h"
 #include "conditions/central.h"
 #include "conditions/phantom.h"
+#include "conditions/marscirce/anti.h"
 #include "pieces/walks.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -722,8 +723,6 @@ void gen_bl_piece_aux(square z, piece p)
 
 static void orig_gen_bl_piece(square sq_departure, piece p)
 {
-  piece pi_departing;
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TracePiece(p);
@@ -778,38 +777,10 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
 
   if (CondFlag[phantom])
     phantom_chess_generate_moves(Black,p,sq_departure);
-  else if (anymars||anyantimars) {
-    square sq_rebirth;
-    Flags spec_departing;
-
-    mars_circe_real_departure_square = initsquare;
-
-    gen_bl_piece_aux(sq_departure, p);
-
-    mars_circe_rebirth_state = 0;
-    do {   /* Echecs Plus */
-      spec_departing= spec[sq_departure];
-      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,White);
-      if (sq_rebirth==sq_departure || e[sq_rebirth]==vide) {
-        pi_departing= e[sq_departure]; /* Mars/Neutral bug */
-
-        e[sq_departure]= vide;
-        spec[sq_departure]= EmptySpec;
-
-        spec[sq_rebirth]= spec_departing;
-        e[sq_rebirth]= p;
-
-        mars_circe_real_departure_square = sq_departure;
-
-        gen_bl_piece_aux(sq_rebirth,p);
-
-        e[sq_rebirth]= vide;
-
-        spec[sq_departure]= spec_departing;
-        e[sq_departure]= pi_departing;
-      }
-    } while (mars_circe_rebirth_state);
-  }
+  else if (anymars)
+    marscirce_generate_moves(Black,p,sq_departure);
+  else if (anyantimars)
+    antimars_generate_moves(Black,p,sq_departure);
   else
     gen_bl_piece_aux(sq_departure,p);
 

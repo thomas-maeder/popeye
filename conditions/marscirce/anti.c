@@ -6,10 +6,56 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move_player.h"
 #include "solving/en_passant.h"
+#include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @param side side for which to generate moves for
+ * @param p indicates the walk according to which to generate moves
+ * @param sq_departure departure square of moves to be generated
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void antimars_generate_moves(Side side, piece p, square sq_departure)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TracePiece(p);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  marscirce_generate_captures(side,p,sq_departure,sq_departure);
+
+  mars_circe_rebirth_state = 0;
+  do
+  {
+    square const sq_rebirth = (*marsrenai)(p,spec[sq_departure],sq_departure,initsquare,initsquare,advers(side));
+    if (sq_rebirth==sq_departure)
+      marscirce_generate_non_captures(side,p,sq_rebirth,sq_departure);
+    else if (e[sq_rebirth]==vide)
+    {
+      spec[sq_rebirth] = spec[sq_departure];
+      e[sq_rebirth] = e[sq_departure];
+
+      e[sq_departure] = vide;
+      spec[sq_departure] = EmptySpec;
+
+      marscirce_generate_non_captures(side,p,sq_rebirth,sq_departure);
+
+      spec[sq_departure] = spec[sq_rebirth];
+      e[sq_departure] = e[sq_rebirth];
+
+      e[sq_rebirth] = vide;
+      spec[sq_rebirth]= EmptySpec;
+    }
+  } while (mars_circe_rebirth_state);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void adjust(void)
 {
@@ -70,7 +116,7 @@ stip_length_type antimars_en_passant_adjuster_solve(slice_index si,
   return result;
 }
 
-/* Instrument slices with promotee markers
+/* Instrument slices with Anti-Mars-Circe
  */
 void stip_insert_antimars_en_passant_adjusters(slice_index si)
 {

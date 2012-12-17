@@ -82,6 +82,7 @@
 #include "conditions/central.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/phantom.h"
+#include "conditions/marscirce/anti.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -236,43 +237,11 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 
   if (empilegenre)
   {
-    if (anymars)
-    {
-      if (mars_circe_real_departure_square==initsquare)
-      {
-        if (e[sq_capture]!=vide)
-          return true;
-      }
-      else
-      {
-        if (e[sq_capture]==vide)
-          return true;
-        else
-          sq_departure = mars_circe_real_departure_square ;
-      }
-    }
-    if (anyantimars)
-    {
-      if (mars_circe_real_departure_square==initsquare)
-      {
-        if (e[sq_capture]==vide)
-          return true;
-      }
-      else
-      {
-        if (e[sq_capture]==vide)
-          sq_departure = mars_circe_real_departure_square ;
-        else
-          return true;
-      }
-    }
-
     if (CondFlag[imitators]
         && ((sq_capture==kingside_castling || sq_capture==queenside_castling)
             ? !castlingimok(sq_departure, sq_arrival)
-            : !imok(sq_departure, sq_arrival))) {
+            : !imok(sq_departure, sq_arrival)))
       return false;
-    }
   }
 
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
@@ -2901,8 +2870,6 @@ void gen_wh_piece_aux(square z, piece p) {
 
 static void orig_gen_wh_piece(square sq_departure, piece p)
 {
-  piece pp;
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TracePiece(p);
@@ -2959,35 +2926,10 @@ static void orig_gen_wh_piece(square sq_departure, piece p)
 
   if (CondFlag[phantom])
     phantom_chess_generate_moves(White,p,sq_departure);
-  else if (anymars||anyantimars)
-  {
-    square sq_rebirth;
-    Flags spec_departing;
-
-    mars_circe_real_departure_square = initsquare;
-
-    gen_wh_piece_aux(sq_departure, p);
-
-    mars_circe_rebirth_state = 0;
-    do {    /* Echecs Plus */
-      spec_departing=spec[sq_departure];
-      sq_rebirth= (*marsrenai)(p,spec_departing,sq_departure,initsquare,initsquare,Black);
-      if (sq_rebirth==sq_departure || e[sq_rebirth]==vide) {
-        pp= e[sq_departure];      /* Mars/Neutral bug */
-        e[sq_departure]= vide;
-        spec[sq_departure]= EmptySpec;
-        spec[sq_rebirth]= spec_departing;
-        e[sq_rebirth]= p;
-        mars_circe_real_departure_square = sq_departure;
-
-        gen_wh_piece_aux(sq_rebirth,p);
-
-        e[sq_rebirth]= vide;
-        spec[sq_departure]= spec_departing;
-        e[sq_departure]= pp;
-      }
-    } while (mars_circe_rebirth_state);
-  }
+  else if (anymars)
+    marscirce_generate_moves(White,p,sq_departure);
+  else if (anyantimars)
+    antimars_generate_moves(White,p,sq_departure);
   else
     gen_wh_piece_aux(sq_departure,p);
 

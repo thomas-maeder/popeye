@@ -1,3 +1,43 @@
+conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
+ conditions/marscirce/marscirce.h solving/solve.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h debugging/trace.h
+
+conditions/marscirce/marscirce.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+debugging/trace.h:
 conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  conditions/marscirce/anti.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -7,7 +47,7 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move_player.h \
- solving/en_passant.h debugging/trace.h
+ solving/en_passant.h conditions/marscirce/marscirce.h debugging/trace.h
 
 conditions/marscirce/anti.h:
 
@@ -62,5 +102,7 @@ stipulation/has_solution_type.h:
 stipulation/move_player.h:
 
 solving/en_passant.h:
+
+conditions/marscirce/marscirce.h:
 
 debugging/trace.h:

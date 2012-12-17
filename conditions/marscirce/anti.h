@@ -6,6 +6,15 @@
 /* This module provides implements the condition Anti-Mars-Circe
  */
 
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @param side side for which to generate moves for
+ * @param p indicates the walk according to which to generate moves
+ * @param sq_departure departure square of moves to be generated
+ * @note the piece on the departure square need not have that walk
+ */
+void antimars_generate_moves(Side side, piece p, square sq_departure);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -17,7 +26,7 @@
 stip_length_type antimars_en_passant_adjuster_solve(slice_index si,
                                                      stip_length_type n);
 
-/* Instrument slices with promotee markers
+/* Instrument slices with Anti-Mars-Circe
  */
 void stip_insert_antimars_en_passant_adjusters(slice_index si);
 

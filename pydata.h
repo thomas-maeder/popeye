@@ -182,7 +182,6 @@ EXTERN  boolean         calctransmute;
 
 EXTERN  boolean         anymars;
 EXTERN  boolean         is_phantomchess;
-EXTERN  square          mars_circe_real_departure_square ;
 
 EXTERN  PieNam          next_football_substitute[PieceCount];       /* it's a inittable ! */
 
