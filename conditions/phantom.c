@@ -58,10 +58,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (side==White)
-    gen_wh_piece_aux(sq_departure,p);
-  else
-    gen_bl_piece_aux(sq_departure,p);
+  gen_piece_aux(side,sq_departure,p);
 
   if (p!=e[king_square[side]] && !phantom_chess_rex_inclusive)
   {
