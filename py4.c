@@ -82,6 +82,7 @@
 #include "conditions/central.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/phantom.h"
+#include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -2872,70 +2873,30 @@ static void orig_gen_wh_piece(square sq_departure, piece p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
+  if (!(CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
+      && !(CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
+      && !(CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
+      && !(TSTFLAG(PieSpExFlags,Paralyse) && paralysiert(sq_departure))
+      && !(CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
+      && !(CondFlag[central] && !central_is_supported(sq_departure))
+      && !(TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure)))
   {
-    TraceFunctionExit(__func__);
-    TraceFunctionResultEnd();
-    return;
-  }
+    if (CondFlag[phantom])
+      phantom_chess_generate_moves(White,p,sq_departure);
+    else if (anymars)
+      marscirce_generate_moves(White,p,sq_departure);
+    else if (anyantimars)
+      antimars_generate_moves(White,p,sq_departure);
+    else
+      gen_wh_piece_aux(sq_departure,p);
 
-  if (CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResultEnd();
-    return;
-  }
-
-  if (CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResultEnd();
-    return;
-  }
-
-  if (TSTFLAG(PieSpExFlags,Paralyse) && paralysiert(sq_departure))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResultEnd();
-    return;
-  }
-
-  if (CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResultEnd();
-    return;
-  }
-
-  if (CondFlag[central] && !central_is_supported(sq_departure))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResultEnd();
-    return;
-  }
-
-  if (TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure))
-  {
-    TraceFunctionExit(__func__);
-    TraceFunctionResultEnd();
-    return;
-  }
-
-  if (CondFlag[phantom])
-    phantom_chess_generate_moves(White,p,sq_departure);
-  else if (anymars)
-    marscirce_generate_moves(White,p,sq_departure);
-  else if (anyantimars)
-    antimars_generate_moves(White,p,sq_departure);
-  else
-    gen_wh_piece_aux(sq_departure,p);
-
-  if (CondFlag[messigny] && !(king_square[White]==sq_departure && rex_mess_ex))
-  {
-    square const *bnp;
-    for (bnp= boardnum; *bnp; bnp++)
-      if (e[*bnp]==-p)
-        empile(sq_departure,*bnp,messigny_exchange);
+    if (CondFlag[messigny] && !(king_square[White]==sq_departure && rex_mess_ex))
+    {
+      square const *bnp;
+      for (bnp = boardnum; *bnp; ++bnp)
+        if (e[*bnp]==-p)
+          empile(sq_departure,*bnp,messigny_exchange);
+    }
   }
 
   TraceFunctionExit(__func__);

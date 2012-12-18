@@ -373,7 +373,8 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  conditions/beamten.h conditions/patrol.h conditions/central.h \
  conditions/koeko/koeko.h conditions/phantom.h \
- conditions/marscirce/anti.h pieces/attributes/paralysing/paralysing.h \
+ conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
+ pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h debugging/trace.h \
  debugging/measure.h pyproc.h
 
@@ -463,6 +464,8 @@ conditions/koeko/koeko.h:
 
 conditions/phantom.h:
 
+conditions/marscirce/marscirce.h:
+
 conditions/marscirce/anti.h:
 
 pieces/attributes/paralysing/paralysing.h:
@@ -494,7 +497,8 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/haunted_chess.h solving/move_effect_journal.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h conditions/beamten.h conditions/patrol.h \
- conditions/central.h conditions/phantom.h conditions/marscirce/anti.h \
+ conditions/central.h conditions/phantom.h \
+ conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  pieces/walks.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h
@@ -606,6 +610,8 @@ conditions/patrol.h:
 conditions/central.h:
 
 conditions/phantom.h:
+
+conditions/marscirce/marscirce.h:
 
 conditions/marscirce/anti.h:
 
