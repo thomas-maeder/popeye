@@ -27,31 +27,36 @@ void antimars_generate_moves(Side side, piece p, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  marscirce_generate_captures(side,p,sq_departure,sq_departure);
-
-  mars_circe_rebirth_state = 0;
-  do
   {
-    square const sq_rebirth = (*marsrenai)(p,spec[sq_departure],sq_departure,initsquare,initsquare,advers(side));
+    square const sq_rebirth = (*marsrenai)(p,
+                                           spec[sq_departure],
+                                           sq_departure,initsquare,initsquare,
+                                           advers(side));
+
     if (sq_rebirth==sq_departure)
-      marscirce_generate_non_captures(side,p,sq_rebirth,sq_departure);
-    else if (e[sq_rebirth]==vide)
+      gen_piece_aux(side,sq_departure,p);
+    else
     {
-      spec[sq_rebirth] = spec[sq_departure];
-      e[sq_rebirth] = e[sq_departure];
+      marscirce_generate_captures(side,p,sq_departure,sq_departure);
 
-      e[sq_departure] = vide;
-      spec[sq_departure] = EmptySpec;
+      if (e[sq_rebirth]==vide)
+      {
+        spec[sq_rebirth] = spec[sq_departure];
+        e[sq_rebirth] = e[sq_departure];
 
-      marscirce_generate_non_captures(side,p,sq_rebirth,sq_departure);
+        e[sq_departure] = vide;
+        spec[sq_departure] = EmptySpec;
 
-      spec[sq_departure] = spec[sq_rebirth];
-      e[sq_departure] = e[sq_rebirth];
+        marscirce_generate_non_captures(side,p,sq_rebirth,sq_departure);
 
-      e[sq_rebirth] = vide;
-      spec[sq_rebirth]= EmptySpec;
+        spec[sq_departure] = spec[sq_rebirth];
+        e[sq_departure] = e[sq_rebirth];
+
+        e[sq_rebirth] = vide;
+        spec[sq_rebirth]= EmptySpec;
+      }
     }
-  } while (mars_circe_rebirth_state);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

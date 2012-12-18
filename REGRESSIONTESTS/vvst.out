@@ -177,7 +177,7 @@ S. 100, Lsg. zu Nr. 100, Das Vielvaeterproblem, 1989
   6  (b6-b7 )
   1.b6-b7   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D # 
 
-              empile:        8320
+              empile:        7900
            play_move:        3776
         orig_rbechec:        3780
         orig_rnechec:        1451
@@ -255,9 +255,9 @@ Loesung beendet.
               MarsCirce
                 Duplex
 
-  1  (a7*b6 )
-  2  (a7-a5 )
-  3  (a7-a6 )
+  1  (a7-a5 )
+  2  (a7-a6 )
+  3  (a7*b6 )
   4  (Ka8-b8 )
   1.Ka8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 b6-b7 == 
   5  (Ka8-b7 )
@@ -275,7 +275,7 @@ Loesung beendet.
  11  (b6-b7 )
   1.b6-b7   2.b7-b8=L   3.Lb8-c7   4.Lc7-d6   5.Ld6-b4   6.Lb4-a5 a7-a6 == 
 
-              empile:     1284020
+              empile:     1186134
            play_move:      335322
         orig_rbechec:       84472
         orig_rnechec:      259964
@@ -314,7 +314,7 @@ Loesung beendet.
   1.b6-b7   2.b7-b8=D   3.Db8-b6 a7*b6 x 
   1.b6-b7   2.b7-b8=S   3.Sb8-d7 Ka8*d7 x 
 
-              empile:        1008
+              empile:         887
            play_move:          90
         orig_rbechec:          87
         orig_rnechec:          26

@@ -425,6 +425,7 @@ boolean noantelopecontact(square ia);
 
 boolean castlingimok(square i, square j);
 boolean maooaimok(square i, square j, square pass);
+void gen_piece_aux(Side side, square z, piece p);
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
 void WriteBGLNumber(char* a, long int b);

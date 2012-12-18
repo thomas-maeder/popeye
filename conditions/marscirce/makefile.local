@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = marscirce.c anti.c
-INCLUDES = marscirce.h anti.h
+SRC_CFILES = marscirce.c anti.c plus.c
+INCLUDES = marscirce.h anti.h plus.h
 
 include makefile.rules $(CURRPWD)depend

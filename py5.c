@@ -98,6 +98,7 @@
 #include "conditions/phantom.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
+#include "conditions/marscirce/plus.h"
 #include "pieces/walks.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -739,6 +740,8 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
   {
     if (CondFlag[phantom])
       phantom_chess_generate_moves(Black,p,sq_departure);
+    else if (CondFlag[plus])
+      plus_generate_moves(Black,p,sq_departure);
     else if (anymars)
       marscirce_generate_moves(Black,p,sq_departure);
     else if (anyantimars)

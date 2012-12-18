@@ -84,6 +84,7 @@
 #include "conditions/phantom.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
+#include "conditions/marscirce/plus.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -2819,6 +2820,23 @@ void gen_wh_ply(void)
   TraceFunctionResultEnd();
 }
 
+void gen_piece_aux(Side side, square z, piece p)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(z);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (side==White)
+    gen_wh_piece_aux(z,p);
+  else
+    gen_bl_piece_aux(z,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void gen_wh_piece_aux(square z, piece p) {
 
   TraceFunctionEntry(__func__);
@@ -2883,6 +2901,8 @@ static void orig_gen_wh_piece(square sq_departure, piece p)
   {
     if (CondFlag[phantom])
       phantom_chess_generate_moves(White,p,sq_departure);
+    else if (CondFlag[plus])
+      plus_generate_moves(White,p,sq_departure);
     else if (anymars)
       marscirce_generate_moves(White,p,sq_departure);
     else if (anyantimars)
