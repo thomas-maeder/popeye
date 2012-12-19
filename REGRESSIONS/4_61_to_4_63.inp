@@ -178,6 +178,21 @@ condition take
 
 next
 
+title Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 # 
+pieces white kh1 black pe2f2h3 black royal duf1
+condition whitesupertransmutingking nowhitecapture
+stipulation h#2
+
+next
+
+title Until 4.61, Popeye crashed (Bug #3585629)
+pieces white pa2b4 black ka5 pa3
+stip h=1
+condition anticirce whitemaxi ultra
+option nowk
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

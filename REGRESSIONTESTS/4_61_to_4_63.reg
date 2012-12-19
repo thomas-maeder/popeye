@@ -747,6 +747,43 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
 solution finished. 
 
 
+
+Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 # 
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .  -P  -P   .   .   2
+|                                   |
+1   .   .   .   .   . -DU   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 4
+               Royal f1
+            NoWhiteCapture
+      WhiteSuperTransmutingKing
+
+  1.e2-e1=Q Kh1-h2   2.Qe1-e5 + Kh2-h1=Q # 
+  1.h3-h2 Kh1-g2 +   2.e2-e1=S + Kg2-e3=S # 
+
+              empile:         279
+           play_move:         300
+        orig_rbechec:         107
+        orig_rnechec:         201
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known
