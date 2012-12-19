@@ -170,6 +170,14 @@ condition take isardam
 
 next
 
+title Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
+title shown twice (Bug #3390612)
+pieces white ke3 pc5 black ke5 ba2 se6 pb7c7f6f5h4 neutral rof8 zh8 cah7
+stipulation h#2
+condition take
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

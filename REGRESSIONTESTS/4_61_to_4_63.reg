@@ -710,6 +710,43 @@ Until 4.61, 1.a7 was given as a solution (Bug #3515750)
 solution finished. 
 
 
+
+Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
+      shown twice (Bug #3390612)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   . =RO   .  =Z   8
+|                                   |
+7   .  -P  -P   .   .   .   . =CA   7
+|                                   |
+6   .   .   .   .  -S  -P   .   .   6
+|                                   |
+5   .   .   P   .  -K  -P   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   K   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    2 + 8 + 3n
+            Take&MakeChess
+
+  1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 # 
+  1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 # 
+  1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 # 
+
+              empile:      922305
+           play_move:      619520
+        orig_rbechec:       85494
+        orig_rnechec:      618611
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known
