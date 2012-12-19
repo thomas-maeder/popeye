@@ -642,6 +642,74 @@ solution finished.
 solution finished. 
 
 
+
+Until 4.61, 1.Sg6 was given as a solution (Bug #3515750)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -B  -K   8
+|                                   |
+7   .   .   .   .   .   .  -B  -R   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =1                          1 + 4
+               Isardam
+            Take&MakeChess
+
+
+              empile:          65
+           play_move:          16
+        orig_rbechec:           0
+        orig_rnechec:          16
+solution finished. 
+
+
+
+Until 4.61, 1.a7 was given as a solution (Bug #3515750)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B  -K  -R  -B   .   .   .   .   8
+|                                   |
+7   .  -Q  -B  -S  -P   .   .   .   7
+|                                   |
+6   P  -P   .  -P   .   .   .   .   6
+|                                   |
+5   .   P   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                         4 + 10
+               Isardam
+            Take&MakeChess
+
+
+              empile:          15
+           play_move:          15
+        orig_rbechec:           1
+        orig_rnechec:          11
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

@@ -154,6 +154,22 @@ cond anticirce norsk
 
 next
 
+title Until 4.61, 1.Sg6 was given as a solution (Bug #3515750)
+pieces White Sf4 Black Bg8 Kh8 Bg7 Rh7
+stip =1
+condition take isardam
+option nowk
+
+next
+
+title Until 4.61, 1.a7 was given as a solution (Bug #3515750)
+pieces White Pa6 Pb5 Pd5 Kg1
+Black Ba8 Kb8 Rc8 Bd8 Qb7 Bc7 Sd7 Pe7 Pb6 Pd6
+stip #1
+condition take isardam
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

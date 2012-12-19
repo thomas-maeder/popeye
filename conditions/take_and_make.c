@@ -95,7 +95,6 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       Flags const taken_spec = spec[take_capture];
       square const take_departure = move_generation_stack[take_current].departure;
       square const take_arrival = move_generation_stack[take_current].arrival;
-      boolean const taking_is_pawn = is_pawn(abs(e[take_departure]));
       numecoup make_current = current_move[nbply];
       numecoup make_filtered_top = make_current;
 
@@ -199,6 +198,13 @@ void stip_insert_take_and_make(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
+
+  stip_structure_traversal_override_single(&st,
+                                           STBrunnerDefenderFinder,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STKingCaptureLegalityTester,
+                                           &stip_traverse_structure_children_pipe);
 
   if (CondFlag[normalp])
     stip_structure_traversal_override_single(&st,
