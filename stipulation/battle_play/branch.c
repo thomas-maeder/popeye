@@ -221,7 +221,6 @@ static slice_index const slice_rank_order[] =
   STSingleBoxType2LegalityTester,
   STSingleBoxType3LegalityTester,
   STExclusiveChessLegalityTester,
-  STOhneschachLegalityTester,
   STUltraschachzwangLegalityTester,
   STIsardamLegalityTester,
   STPatienceChessLegalityTester,
@@ -240,6 +239,7 @@ static slice_index const slice_rank_order[] =
   STNotEndOfBranchGoal,
   STDeadEndGoal,
   STSelfCheckGuard,
+  STOhneschachCheckGuard,
   STMummerDeadend,
 
   STDefenseAdapter,

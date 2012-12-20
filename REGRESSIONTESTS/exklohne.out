@@ -1029,10 +1029,10 @@ Loesung beendet.
           2.Tc6-c4 #
 
 
-              empile:      112718
-           play_move:       80411
-        orig_rbechec:       37174
-        orig_rnechec:       57114
+              empile:       81080
+           play_move:       51010
+        orig_rbechec:       20791
+        orig_rnechec:       34449
 Loesung beendet. 
 
 
@@ -1079,10 +1079,10 @@ Loesung beendet.
           2.Dc8*c7 #
 
 
-              empile:      136110
-           play_move:      101468
-        orig_rbechec:       16806
-        orig_rnechec:       96973
+              empile:      114991
+           play_move:       80843
+        orig_rbechec:        9595
+        orig_rnechec:       75731
 Loesung beendet. 
 
 
@@ -1212,7 +1212,7 @@ Loesung beendet.
 
               empile:       16457
            play_move:        4068
-        orig_rbechec:        4861
+        orig_rbechec:        4469
         orig_rnechec:        5852
 Loesung beendet. 
 
@@ -1375,10 +1375,10 @@ Loesung beendet.
                               4...Dg1-b6 #
 
 
-              empile:      842842
-           play_move:      315593
-        orig_rbechec:      333294
-        orig_rnechec:      322098
+              empile:      829254
+           play_move:      305053
+        orig_rbechec:      316891
+        orig_rnechec:      311720
 Loesung beendet. 
 
 
@@ -1655,7 +1655,7 @@ Loesung beendet.
 
               empile:      123819
            play_move:       38196
-        orig_rbechec:       46624
+        orig_rbechec:       42397
         orig_rnechec:       59345
 Loesung beendet. 
 
@@ -1831,7 +1831,7 @@ Loesung beendet.
 
               empile:         359
            play_move:         216
-        orig_rbechec:         226
+        orig_rbechec:         222
         orig_rnechec:         161
 Loesung beendet. 
 
@@ -1873,7 +1873,7 @@ Loesung beendet.
 
               empile:         974
            play_move:         458
-        orig_rbechec:         507
+        orig_rbechec:         485
         orig_rnechec:         482
 Loesung beendet. 
 
@@ -1931,7 +1931,7 @@ Loesung beendet.
 
               empile:       38770
            play_move:       13639
-        orig_rbechec:       15148
+        orig_rbechec:       14258
         orig_rnechec:       18556
 Loesung beendet. 
 
@@ -2007,7 +2007,7 @@ Loesung beendet.
 
               empile:      285976
            play_move:       99024
-        orig_rbechec:      111712
+        orig_rbechec:      105353
         orig_rnechec:      134676
 Loesung beendet. 
 
@@ -2065,7 +2065,7 @@ Loesung beendet.
 
               empile:        8284
            play_move:        4340
-        orig_rbechec:        5225
+        orig_rbechec:        4735
         orig_rnechec:        4365
 Loesung beendet. 
 
@@ -2109,7 +2109,7 @@ Loesung beendet.
 
               empile:       18042
            play_move:        7266
-        orig_rbechec:        8174
+        orig_rbechec:        7710
         orig_rnechec:        8826
 Loesung beendet. 
 
@@ -2185,7 +2185,7 @@ Loesung beendet.
 
               empile:      747485
            play_move:      185884
-        orig_rbechec:      261304
+        orig_rbechec:      222156
         orig_rnechec:      277710
 Loesung beendet. 
 
@@ -2236,10 +2236,10 @@ Loesung beendet.
                                   5.Tb6-b7 =
 
 
-              empile:      391352
-           play_move:      133118
-        orig_rbechec:      143063
-        orig_rnechec:      172500
+              empile:      345697
+           play_move:      119981
+        orig_rbechec:       94393
+        orig_rnechec:      122451
 Loesung beendet. 
 
 
@@ -2317,10 +2317,10 @@ Loesung beendet.
                           4.Dc8-g8 =
 
 
-              empile:      180130
-           play_move:       61940
-        orig_rbechec:       68572
-        orig_rnechec:       81209
+              empile:      155842
+           play_move:       53807
+        orig_rbechec:       44927
+        orig_rnechec:       54448
 Loesung beendet. 
 
 
@@ -2477,10 +2477,10 @@ Loesung beendet.
                                       5...Te1-e8 #
 
 
-              empile:        5390
-           play_move:        2522
-        orig_rbechec:        2825
-        orig_rnechec:        3504
+              empile:        5334
+           play_move:        2493
+        orig_rbechec:        2603
+        orig_rnechec:        3466
 Loesung beendet. 
 
 
@@ -2524,10 +2524,10 @@ Loesung beendet.
       1...Tb7-b1 + !
 
 
-              empile:       33867
-           play_move:       14592
-        orig_rbechec:        5431
-        orig_rnechec:       14580
+              empile:       29577
+           play_move:       10478
+        orig_rbechec:        3356
+        orig_rnechec:        8761
 Loesung beendet. 
 
 
@@ -2653,10 +2653,10 @@ Loesung beendet.
       1...Dd1-g4 !
 
 
-              empile:       33227
-           play_move:       27750
-        orig_rbechec:        6565
-        orig_rnechec:       31278
+              empile:       22167
+           play_move:       17892
+        orig_rbechec:        1761
+        orig_rnechec:       17360
 Loesung beendet. 
 
 
@@ -2697,10 +2697,10 @@ a)
       1...Gb3-f3 !
 
 
-              empile:        7453
-           play_move:        3004
-        orig_rbechec:        1853
-        orig_rnechec:        3526
+              empile:        4923
+           play_move:        2263
+        orig_rbechec:         944
+        orig_rnechec:        2298
 b) sGb3-->d1
 
    1.Se6-d4 ? Drohung:
@@ -2712,10 +2712,10 @@ b) sGb3-->d1
           2.Se6-g5 #
 
 
-              empile:        6994
-           play_move:        2785
-        orig_rbechec:        1772
-        orig_rnechec:        3305
+              empile:        4559
+           play_move:        2091
+        orig_rbechec:         891
+        orig_rnechec:        2133
 c) sGb3-->g8
 
    1.Se6-d4 ! Drohung:
@@ -2727,10 +2727,10 @@ c) sGb3-->g8
       1...Gg8-d5 !
 
 
-              empile:        7817
-           play_move:        3046
-        orig_rbechec:        1919
-        orig_rnechec:        3587
+              empile:        5157
+           play_move:        2278
+        orig_rbechec:         978
+        orig_rnechec:        2313
 d) sGb3-->h5
 
    1.Se6-d4 ? Drohung:
@@ -2742,10 +2742,10 @@ d) sGb3-->h5
           2.Se6-g5 #
 
 
-              empile:        7285
-           play_move:        2888
-        orig_rbechec:        1827
-        orig_rnechec:        3411
+              empile:        4843
+           play_move:        2174
+        orig_rbechec:         932
+        orig_rnechec:        2207
 Loesung beendet. 
 
 
@@ -2897,10 +2897,10 @@ Loesung beendet.
       1...Sb1-a3 !
 
 
-              empile:       12331
-           play_move:        9770
-        orig_rbechec:        1805
-        orig_rnechec:       10524
+              empile:        7891
+           play_move:        5730
+        orig_rbechec:         599
+        orig_rnechec:        5655
 Loesung beendet. 
 
 
@@ -3049,10 +3049,10 @@ Loesung beendet.
       1...Dh2-h7 !
 
 
-              empile:     1088577
-           play_move:      936421
-        orig_rbechec:      374468
-        orig_rnechec:      615007
+              empile:      586622
+           play_move:      483451
+        orig_rbechec:      190069
+        orig_rnechec:      315152
 Loesung beendet. 
 
 
@@ -3123,7 +3123,7 @@ Loesung beendet.
 
               empile:        5938
            play_move:        1067
-        orig_rbechec:        1310
+        orig_rbechec:        1074
         orig_rnechec:           0
 Loesung beendet. 
 
@@ -3660,10 +3660,10 @@ Loesung beendet.
       1...Tb4-b1 + !
 
 
-              empile:       46329
-           play_move:       13826
-        orig_rbechec:       16240
-        orig_rnechec:        3437
+              empile:       46194
+           play_move:       13692
+        orig_rbechec:       15692
+        orig_rnechec:        2795
 Loesung beendet. 
 
 
@@ -3993,7 +3993,8 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1  (Kh8-h7 )
+  1  (Kh8-g8 )
+  2  (Kh8-h7 )
    1.Kh8-h7 !
       1...Tg1-g8
           2.Kh7-h6
@@ -4021,11 +4022,12 @@ Loesung beendet.
                                                                                                  13.Kb1-a1
                                                                                                      13...Th8-h1 #
 
+  3  (Kh8-g7 )
 
               empile:       41031
            play_move:       15044
-        orig_rbechec:       17718
-        orig_rnechec:       23544
+        orig_rbechec:       16394
+        orig_rnechec:       23546
 Loesung beendet. 
 
 

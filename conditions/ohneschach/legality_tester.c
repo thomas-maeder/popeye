@@ -1,5 +1,6 @@
 #include "conditions/ohneschach/legality_tester.h"
 #include "pydata.h"
+/*#include "pymsg.h"*/
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
@@ -21,6 +22,11 @@ static boolean immobile(Side side)
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
+
+  /* ohneschach_check_guard_solve() may invoke itself recursively. Protect
+   * ourselves from infinite recursion.
+  if (nbply>250)
+    FtlMsg(ChecklessUndecidable); */
 
   result = solve(slices[temporary_hack_immobility_tester[side]].next2,length_unspecified)==has_solution;
 
@@ -55,7 +61,7 @@ static boolean is_position_legal(Side just_moved)
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
+static void instrument_complex(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -63,9 +69,52 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
+  switch (st->context)
   {
-    slice_index const prototype = alloc_pipe(STOhneschachLegalityTester);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    case stip_traversal_context_attack:
+      break;
+
+    case stip_traversal_context_defense:
+    case stip_traversal_context_help:
+    {
+      slice_index const prototype = alloc_pipe(STOhneschachLegalityTester);
+      branch_insert_slices_contextual(si,st->context,&prototype,1);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_simple(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  switch (st->context)
+  {
+    case stip_traversal_context_defense:
+    {
+      slice_index const prototype = alloc_pipe(STOhneschachCheckGuard);
+      branch_insert_slices_contextual(si,st->context,&prototype,1);
+      break;
+    }
+
+    case stip_traversal_context_attack:
+    case stip_traversal_context_help:
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -84,7 +133,8 @@ void stip_insert_ohneschach_legality_testers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_structure_traversal_override_single(&st,STMove,&instrument_complex);
+  stip_structure_traversal_override_single(&st,STNotEndOfBranchGoal,&instrument_simple);
   stip_structure_traversal_override_single(&st,STOhneschachSuspender,&stip_structure_visitor_noop);
   stip_traverse_structure(si,&st);
 
