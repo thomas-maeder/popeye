@@ -1032,7 +1032,7 @@ Loesung beendet.
               empile:       81080
            play_move:       51010
         orig_rbechec:       20791
-        orig_rnechec:       34449
+        orig_rnechec:       34194
 Loesung beendet. 
 
 
@@ -1082,7 +1082,7 @@ Loesung beendet.
               empile:      114991
            play_move:       80843
         orig_rbechec:        9595
-        orig_rnechec:       75731
+        orig_rnechec:       75544
 Loesung beendet. 
 
 
@@ -1210,10 +1210,10 @@ Loesung beendet.
                                       5...Tg2-b2 #
 
 
-              empile:       16457
-           play_move:        4068
-        orig_rbechec:        4469
-        orig_rnechec:        5852
+              empile:       16439
+           play_move:        4050
+        orig_rbechec:        4448
+        orig_rnechec:        3414
 Loesung beendet. 
 
 
@@ -1375,10 +1375,10 @@ Loesung beendet.
                               4...Dg1-b6 #
 
 
-              empile:      829254
-           play_move:      305053
-        orig_rbechec:      316891
-        orig_rnechec:      311720
+              empile:      829153
+           play_move:      304799
+        orig_rbechec:      316690
+        orig_rnechec:      197134
 Loesung beendet. 
 
 
@@ -1655,8 +1655,8 @@ Loesung beendet.
 
               empile:      123819
            play_move:       38196
-        orig_rbechec:       42397
-        orig_rnechec:       59345
+        orig_rbechec:       42412
+        orig_rnechec:       37767
 Loesung beendet. 
 
 
@@ -1829,10 +1829,10 @@ Loesung beendet.
               2...Df1-a6 #
 
 
-              empile:         359
-           play_move:         216
-        orig_rbechec:         222
-        orig_rnechec:         161
+              empile:         329
+           play_move:         186
+        orig_rbechec:         187
+        orig_rnechec:         100
 Loesung beendet. 
 
 
@@ -1871,10 +1871,10 @@ Loesung beendet.
                       3...Da1-h8 #
 
 
-              empile:         974
-           play_move:         458
-        orig_rbechec:         485
-        orig_rnechec:         482
+              empile:         954
+           play_move:         436
+        orig_rbechec:         462
+        orig_rnechec:         283
 Loesung beendet. 
 
 
@@ -1929,10 +1929,10 @@ Loesung beendet.
                                                                              10...Dg8-a2 #
 
 
-              empile:       38770
-           play_move:       13639
-        orig_rbechec:       14258
-        orig_rnechec:       18556
+              empile:       38740
+           play_move:       13609
+        orig_rbechec:       14223
+        orig_rnechec:       11709
 Loesung beendet. 
 
 
@@ -2005,10 +2005,10 @@ Loesung beendet.
                                                                              10...Db1-h7 #
 
 
-              empile:      285976
-           play_move:       99024
-        orig_rbechec:      105353
-        orig_rnechec:      134676
+              empile:      286004
+           play_move:       99020
+        orig_rbechec:      105357
+        orig_rnechec:       86737
 Loesung beendet. 
 
 
@@ -2063,10 +2063,10 @@ Loesung beendet.
                                                                              10...Te1-a1 #
 
 
-              empile:        8284
-           play_move:        4340
-        orig_rbechec:        4735
-        orig_rnechec:        4365
+              empile:        8415
+           play_move:        4359
+        orig_rbechec:        4842
+        orig_rnechec:        2807
 Loesung beendet. 
 
 
@@ -2107,10 +2107,10 @@ Loesung beendet.
                               4...Db1-g6 #
 
 
-              empile:       18042
-           play_move:        7266
-        orig_rbechec:        7710
-        orig_rnechec:        8826
+              empile:       18060
+           play_move:        7257
+        orig_rbechec:        7718
+        orig_rnechec:        5721
 Loesung beendet. 
 
 
@@ -2183,10 +2183,10 @@ Loesung beendet.
                                                                                                                                                      19...Tc1-c8 #
 
 
-              empile:      747485
-           play_move:      185884
-        orig_rbechec:      222156
-        orig_rnechec:      277710
+              empile:      773843
+           play_move:      190522
+        orig_rbechec:      230456
+        orig_rnechec:      175408
 Loesung beendet. 
 
 
@@ -2239,7 +2239,7 @@ Loesung beendet.
               empile:      345697
            play_move:      119981
         orig_rbechec:       94393
-        orig_rnechec:      122451
+        orig_rnechec:      116736
 Loesung beendet. 
 
 
@@ -2320,7 +2320,7 @@ Loesung beendet.
               empile:      155842
            play_move:       53807
         orig_rbechec:       44927
-        orig_rnechec:       54448
+        orig_rnechec:       52757
 Loesung beendet. 
 
 
@@ -2353,10 +2353,10 @@ Loesung beendet.
 
   1.b2-b1=T c6-c7   2.Tb1-b8 c7-c8=D   3.h2-h1=S a7*b8=L = 
 
-              empile:      114421
-           play_move:       59704
-        orig_rbechec:       59245
-        orig_rnechec:       67179
+              empile:      108756
+           play_move:       30936
+        orig_rbechec:       34585
+        orig_rnechec:       40237
 Loesung beendet. 
 
 
@@ -2389,10 +2389,10 @@ Loesung beendet.
 
   1.Ke7-d6 d7-d8=L   2.a2-a1=S b5-b6   3.c2-c1=T b6-b7   4.Tc1-c8 b7*c8=D = 
 
-              empile:     1905474
-           play_move:      843276
-        orig_rbechec:      774999
-        orig_rnechec:      949520
+              empile:     1825573
+           play_move:      549739
+        orig_rbechec:      514507
+        orig_rnechec:      677913
 Loesung beendet. 
 
 
@@ -2477,10 +2477,10 @@ Loesung beendet.
                                       5...Te1-e8 #
 
 
-              empile:        5334
-           play_move:        2493
-        orig_rbechec:        2603
-        orig_rnechec:        3466
+              empile:        5283
+           play_move:        2442
+        orig_rbechec:        2544
+        orig_rnechec:        1981
 Loesung beendet. 
 
 
@@ -2524,10 +2524,10 @@ Loesung beendet.
       1...Tb7-b1 + !
 
 
-              empile:       29577
-           play_move:       10478
-        orig_rbechec:        3356
-        orig_rnechec:        8761
+              empile:       28431
+           play_move:       10005
+        orig_rbechec:        2835
+        orig_rnechec:        8572
 Loesung beendet. 
 
 
@@ -2653,10 +2653,10 @@ Loesung beendet.
       1...Dd1-g4 !
 
 
-              empile:       22167
-           play_move:       17892
-        orig_rbechec:        1761
-        orig_rnechec:       17360
+              empile:       21588
+           play_move:       17646
+        orig_rbechec:        1435
+        orig_rnechec:       17045
 Loesung beendet. 
 
 
@@ -2697,10 +2697,10 @@ a)
       1...Gb3-f3 !
 
 
-              empile:        4923
-           play_move:        2263
-        orig_rbechec:         944
-        orig_rnechec:        2298
+              empile:        4874
+           play_move:        2260
+        orig_rbechec:         933
+        orig_rnechec:        2238
 b) sGb3-->d1
 
    1.Se6-d4 ? Drohung:
@@ -2712,10 +2712,10 @@ b) sGb3-->d1
           2.Se6-g5 #
 
 
-              empile:        4559
-           play_move:        2091
-        orig_rbechec:         891
-        orig_rnechec:        2133
+              empile:        4516
+           play_move:        2088
+        orig_rbechec:         880
+        orig_rnechec:        2074
 c) sGb3-->g8
 
    1.Se6-d4 ! Drohung:
@@ -2727,10 +2727,10 @@ c) sGb3-->g8
       1...Gg8-d5 !
 
 
-              empile:        5157
-           play_move:        2278
-        orig_rbechec:         978
-        orig_rnechec:        2313
+              empile:        5108
+           play_move:        2275
+        orig_rbechec:         968
+        orig_rnechec:        2253
 d) sGb3-->h5
 
    1.Se6-d4 ? Drohung:
@@ -2742,10 +2742,10 @@ d) sGb3-->h5
           2.Se6-g5 #
 
 
-              empile:        4843
-           play_move:        2174
-        orig_rbechec:         932
-        orig_rnechec:        2207
+              empile:        4800
+           play_move:        2171
+        orig_rbechec:         922
+        orig_rnechec:        2149
 Loesung beendet. 
 
 
@@ -2897,10 +2897,10 @@ Loesung beendet.
       1...Sb1-a3 !
 
 
-              empile:        7891
-           play_move:        5730
-        orig_rbechec:         599
-        orig_rnechec:        5655
+              empile:        7801
+           play_move:        5713
+        orig_rbechec:         552
+        orig_rnechec:        5503
 Loesung beendet. 
 
 
@@ -3049,10 +3049,10 @@ Loesung beendet.
       1...Dh2-h7 !
 
 
-              empile:      586622
-           play_move:      483451
-        orig_rbechec:      190069
-        orig_rnechec:      315152
+              empile:      585705
+           play_move:      482647
+        orig_rbechec:      188835
+        orig_rnechec:      313597
 Loesung beendet. 
 
 
@@ -3121,9 +3121,9 @@ Loesung beendet.
       1...Dg1-c1 !
 
 
-              empile:        5938
-           play_move:        1067
-        orig_rbechec:        1074
+              empile:        5454
+           play_move:         960
+        orig_rbechec:         835
         orig_rnechec:           0
 Loesung beendet. 
 
@@ -3660,10 +3660,10 @@ Loesung beendet.
       1...Tb4-b1 + !
 
 
-              empile:       46194
-           play_move:       13692
-        orig_rbechec:       15692
-        orig_rnechec:        2795
+              empile:       39825
+           play_move:       10492
+        orig_rbechec:       11986
+        orig_rnechec:        1733
 Loesung beendet. 
 
 
@@ -3697,9 +3697,9 @@ Loesung beendet.
   1.f2-f1=L Kc2-d1   2.a2-a1=S c7-c8=D   3.g2-g1=T Dc8-h3 # 
 
               empile:      101038
-           play_move:       64210
-        orig_rbechec:       73210
-        orig_rnechec:       84026
+           play_move:       69954
+        orig_rbechec:       78954
+        orig_rnechec:       81219
 Loesung beendet. 
 
 
@@ -4024,10 +4024,10 @@ Loesung beendet.
 
   3  (Kh8-g7 )
 
-              empile:       41031
-           play_move:       15044
-        orig_rbechec:       16394
-        orig_rnechec:       23546
+              empile:       41753
+           play_move:       15335
+        orig_rbechec:       16831
+        orig_rnechec:       14211
 Loesung beendet. 
 
 
@@ -4526,10 +4526,10 @@ Loesung beendet.
 
   1.BBc2-b1=T Ke3-d4   2.Tb1-b8 c7-c8=D   3.a2-a1=S a7*b8=L = 
 
-              empile:      939974
-           play_move:      451467
-        orig_rbechec:      386887
-        orig_rnechec:      478302
+              empile:      913249
+           play_move:      246453
+        orig_rbechec:      183559
+        orig_rnechec:      282796
 Loesung beendet. 
 
 

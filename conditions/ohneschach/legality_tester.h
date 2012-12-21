@@ -11,6 +11,11 @@
  */
 void stip_insert_ohneschach_legality_testers(slice_index si);
 
+/* Determine whether a side is immobile in Ohneschach
+ * @return true iff side is immobile
+ */
+boolean immobile(Side side);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pymsg.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -106,13 +105,37 @@ stip_length_type ohneschach_check_guard_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* ohneschach_check_guard_solve() may invoke itself recursively. Protect
-   * ourselves from infinite recursion. */
-  if (nbply>500)
-    FtlMsg(ChecklessUndecidable);
-
   if (echecc(slices[si].starter))
-    result = n+2;
+    result = slack_length-2;
+  else
+    result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type ohneschach_check_guard_defense_solve(slice_index si,
+                                                      stip_length_type n)
+{
+  has_solution_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (echecc(slices[si].starter) && !immobile(slices[si].starter))
+    result = slack_length-2;
   else
     result = solve(slices[si].next1,n);
 

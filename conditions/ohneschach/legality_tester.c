@@ -1,6 +1,6 @@
 #include "conditions/ohneschach/legality_tester.h"
 #include "pydata.h"
-/*#include "pymsg.h"*/
+#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
@@ -15,7 +15,7 @@
 /* Determine whether a side is immobile in Ohneschach
  * @return true iff side is immobile
  */
-static boolean immobile(Side side)
+boolean immobile(Side side)
 {
   boolean result = true;
 
@@ -24,9 +24,9 @@ static boolean immobile(Side side)
   TraceFunctionParamListEnd();
 
   /* ohneschach_check_guard_solve() may invoke itself recursively. Protect
-   * ourselves from infinite recursion.
+   * ourselves from infinite recursion. */
   if (nbply>250)
-    FtlMsg(ChecklessUndecidable); */
+    FtlMsg(ChecklessUndecidable);
 
   result = solve(slices[temporary_hack_immobility_tester[side]].next2,length_unspecified)==has_solution;
 
@@ -72,9 +72,9 @@ static void instrument_complex(slice_index si, stip_structure_traversal *st)
   switch (st->context)
   {
     case stip_traversal_context_attack:
+    case stip_traversal_context_defense:
       break;
 
-    case stip_traversal_context_defense:
     case stip_traversal_context_help:
     {
       slice_index const prototype = alloc_pipe(STOhneschachLegalityTester);
@@ -101,6 +101,13 @@ static void instrument_simple(slice_index si, stip_structure_traversal *st)
 
   switch (st->context)
   {
+    case stip_traversal_context_attack:
+    {
+      slice_index const prototype = alloc_pipe(STOhneschachCheckGuardDefense);
+      branch_insert_slices_contextual(si,st->context,&prototype,1);
+      break;
+    }
+
     case stip_traversal_context_defense:
     {
       slice_index const prototype = alloc_pipe(STOhneschachCheckGuard);
@@ -108,7 +115,6 @@ static void instrument_simple(slice_index si, stip_structure_traversal *st)
       break;
     }
 
-    case stip_traversal_context_attack:
     case stip_traversal_context_help:
       break;
 

@@ -784,6 +784,40 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
 solution finished. 
 
 
+
+Until 4.61, Popeye crashed (Bug #3585629)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3  -P   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=1                         2 + 2
+        WhiteMaximummer  ultra
+              AntiCirce
+
+
+              empile:          29
+           play_move:          11
+        orig_rbechec:           0
+        orig_rnechec:          11
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known
