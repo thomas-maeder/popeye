@@ -30,18 +30,18 @@ a)
 
   1.a3-a2=T b2-b4=D # 
 
-              empile:          87
-           play_move:          83
-        orig_rbechec:          47
-        orig_rnechec:          79
+              empile:          62
+           play_move:          65
+        orig_rbechec:          31
+        orig_rnechec:          65
 b) h=2
 
   1.a3-a2=S b2-b4=L   2.Sa2-c3 Kc4*c3 = 
 
-              empile:         449
-           play_move:         301
-        orig_rbechec:         252
-        orig_rnechec:         290
+              empile:         302
+           play_move:         202
+        orig_rbechec:         175
+        orig_rnechec:         149
 Loesung beendet. 
 
 

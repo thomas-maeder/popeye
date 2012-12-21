@@ -253,17 +253,14 @@ static void copy_end_of_branch_goal_if_necessary(slice_index si, stip_structure_
   {
     slice_index const tester = branch_find_slice(STGoalReachedTester,slices[si].next2,st->context);
     if (tester==no_slice
-        || branch_find_slice(STSelfCheckGuard,slices[tester].next2,st->context)==no_slice)
-      /* Goal doesn't test for self-check (e.g. ## and ##!)
-       * Copy the whole machinery to also consider moves that are legal because
-       * they reach the goal even if they expose their own king to self-check
-       */
+        /* avoid considering moves that lead to self-check illegal if they reach the goal: */
+        || branch_find_slice(STSelfCheckGuard,slices[tester].next2,st->context)==no_slice
+        /* avoid considering moves delivering checks illegal if they reach the goal: */
+        || (st->context==stip_traversal_context_help && CondFlag[ohneschach]))
       regular_deep_copy_end_of_branch_goal(si,st);
     else
     {
-      /* Goal tests for self-check
-       * We can rely on the test for self-check behind slices[si].next1
-       */
+      /* Rely on the tests in the goal reached tester: */
       (*copies)[si] = alloc_proxy_slice();
       stip_traverse_structure_children_pipe(si,st);
       pipe_link((*copies)[si],(*copies)[slices[si].next1]);

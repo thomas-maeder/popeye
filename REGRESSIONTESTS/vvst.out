@@ -27,10 +27,10 @@
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-c7 Kc8*c7 = 
 
-              empile:       15987
-           play_move:        6093
-        orig_rbechec:        4893
-        orig_rnechec:        7392
+              empile:       12954
+           play_move:        3852
+        orig_rbechec:        3764
+        orig_rnechec:        3618
 Loesung beendet. 
 
 
@@ -63,10 +63,10 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-a7 b6-b7 # 
 
-              empile:        1813
-           play_move:        1727
-        orig_rbechec:         982
-        orig_rnechec:        2155
+              empile:        1746
+           play_move:        1687
+        orig_rbechec:         639
+        orig_rnechec:        1793
 Loesung beendet. 
 
 
@@ -99,10 +99,10 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7 Kc8-c7 = 
 
-              empile:       15496
-           play_move:        7916
-        orig_rbechec:        6127
-        orig_rnechec:        9380
+              empile:       10009
+           play_move:        4554
+        orig_rbechec:        4494
+        orig_rnechec:        4748
 Loesung beendet. 
 
 
@@ -135,10 +135,10 @@ Loesung beendet.
 
   1.a7-a6 Kc8-d7   2.Ka8-b7 Kd7-d6   3.Kb7*b6[+wBb2] b2-b3   4.Kb6-a5 Kd6-c5 = 
 
-              empile:      107604
-           play_move:       36456
-        orig_rbechec:       48442
-        orig_rnechec:       51228
+              empile:      104706
+           play_move:       35363
+        orig_rbechec:       33544
+        orig_rnechec:       33458
 Loesung beendet. 
 
 
