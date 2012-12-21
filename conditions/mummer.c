@@ -457,6 +457,10 @@ void stip_insert_mummer(slice_index si)
   stip_structure_traversal_override_single(&st,STMummerOrchestrator,&spin_off_measuring_branch);
   stip_structure_traversal_override_single(&st,STMummerDeadend,&connect_solver_to_tester);
 
+  if (mummer_strictness[White]!=mummer_strictness_ultra
+      && mummer_strictness[Black]!=mummer_strictness_ultra)
+    stip_structure_traversal_override_single(&st,STImmobilityTester,&stip_structure_visitor_noop);
+
   /* additional instrumentation for ultra mummer */
   stip_structure_traversal_override_single(&st,STUltraMummerMeasurerFork,&instrument_ultra_mummer_measurer_fork);
 
