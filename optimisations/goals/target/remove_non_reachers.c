@@ -63,8 +63,6 @@ stip_length_type target_remove_non_reachers_solve(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
-  numecoup i;
-  numecoup new_top = current_move[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
