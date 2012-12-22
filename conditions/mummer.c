@@ -218,7 +218,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
       assert(st->activity==stip_traversal_activity_testing);
       assert(st->context==stip_traversal_context_help);
 
-      help_branch_insert_slices(si,prototypes,nr_prototypes);
+      branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
     }
     else
     {
@@ -478,7 +478,7 @@ void stip_insert_mummer(slice_index si)
 stip_length_type ultra_mummer_measurer_deadend_solve(slice_index si,
                                                      stip_length_type n)
 {
-  stip_length_type const result = n;
+  stip_length_type const result = slack_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
