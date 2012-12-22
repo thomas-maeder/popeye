@@ -78,7 +78,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
-#include "stipulation/dead_end.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/if_then_else.h"
 #include "stipulation/boolean/or.h"
@@ -2552,16 +2551,8 @@ slice_index MakeEndOfSelfPlay(slice_index proxy_to_goal)
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const aready = alloc_branch(STReadyForAttack,
-                                            slack_length,
-                                            slack_length);
-    slice_index const deadend = alloc_dead_end_slice();
-    result = alloc_defense_branch(aready,
-                                  slack_length+1,slack_length+1);
-    pipe_link(aready,deadend);
-    battle_branch_insert_self_end_of_branch_goal(result,proxy_to_goal);
-  }
+  result = alloc_defense_branch(slack_length+1,slack_length+1);
+  battle_branch_insert_self_end_of_branch_goal(result,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

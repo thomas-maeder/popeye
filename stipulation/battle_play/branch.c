@@ -636,51 +636,72 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
 }
 
 /* Allocate a branch consisting mainly of an defense move
- * @param next1 identifies the slice that the defense branch lead sto
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of entry slice to allocated branch
  */
-slice_index alloc_defense_branch(slice_index next,
-                                 stip_length_type length,
+slice_index alloc_defense_branch(stip_length_type length,
                                  stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   {
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
-    slice_index const ready = alloc_branch(STReadyForDefense,length,min_length);
-    slice_index const testpre = alloc_pipe(STTestingPrerequisites);
-    slice_index const deadend = alloc_dead_end_slice();
-    slice_index const generating = alloc_pipe(STGeneratingMoves);
-    slice_index const done_generating = alloc_pipe(STDoneGeneratingMoves);
-    slice_index const done_removing_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
-    slice_index const done_removing_futile = alloc_pipe(STDoneRemovingFutileMoves);
-    slice_index const done_priorising = alloc_pipe(STDonePriorisingMoves);
+    slice_index const dready = alloc_branch(STReadyForDefense,length,min_length);
+    slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
+    slice_index const ddeadend = alloc_dead_end_slice();
+    slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
+    slice_index const done_dgenerating = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_dremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_dremoving_futile = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_dpriorising = alloc_pipe(STDonePriorisingMoves);
     slice_index const defense = alloc_pipe(STMove);
-    slice_index const played = alloc_defense_played_slice();
-    slice_index const notgoal = alloc_pipe(STNotEndOfBranchGoal);
-    slice_index const notend = alloc_pipe(STNotEndOfBranch);
+    slice_index const dplayed = alloc_defense_played_slice();
+    slice_index const dnotgoal = alloc_pipe(STNotEndOfBranchGoal);
+    slice_index const dnotend = alloc_pipe(STNotEndOfBranch);
+    slice_index const aready = alloc_branch(STReadyForAttack,length-1,min_length-1);
+    slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
+    slice_index const adeadend = alloc_dead_end_slice();
+    slice_index const agenerating = alloc_pipe(STGeneratingMoves);
+    slice_index const done_agenerating = alloc_pipe(STDoneGeneratingMoves);
+    slice_index const done_aremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
+    slice_index const done_aremoving_futile = alloc_pipe(STDoneRemovingFutileMoves);
+    slice_index const done_apriorising = alloc_pipe(STDonePriorisingMoves);
+    slice_index const attack = alloc_pipe(STMove);
+    slice_index const aplayed = alloc_attack_played_slice();
+    slice_index const anotgoal = alloc_pipe(STNotEndOfBranchGoal);
+    slice_index const anotend = alloc_pipe(STNotEndOfBranch);
 
-    pipe_link(adapter,ready);
-    pipe_link(ready,testpre);
-    pipe_link(testpre,deadend);
-    pipe_link(deadend,generating);
-    pipe_link(generating,done_generating);
-    pipe_link(done_generating,done_removing_illegal);
-    pipe_link(done_removing_illegal,done_removing_futile);
-    pipe_link(done_removing_futile,done_priorising);
-    pipe_link(done_priorising,defense);
-    pipe_link(defense,played);
-    pipe_link(played,notgoal);
-    pipe_link(notgoal,notend);
-    pipe_link(notend,next);
+    pipe_link(adapter,dready);
+    pipe_link(dready,dtestpre);
+    pipe_link(dtestpre,ddeadend);
+    pipe_link(ddeadend,dgenerating);
+    pipe_link(dgenerating,done_dgenerating);
+    pipe_link(done_dgenerating,done_dremoving_illegal);
+    pipe_link(done_dremoving_illegal,done_dremoving_futile);
+    pipe_link(done_dremoving_futile,done_dpriorising);
+    pipe_link(done_dpriorising,defense);
+    pipe_link(defense,dplayed);
+    pipe_link(dplayed,dnotgoal);
+    pipe_link(dnotgoal,dnotend);
+    pipe_link(dnotend,aready);
+    pipe_link(aready,atestpre);
+    pipe_link(atestpre,adeadend);
+    pipe_link(adeadend,agenerating);
+    pipe_link(agenerating,done_agenerating);
+    pipe_link(done_agenerating,done_aremoving_illegal);
+    pipe_link(done_aremoving_illegal,done_aremoving_futile);
+    pipe_link(done_aremoving_futile,done_apriorising);
+    pipe_link(done_apriorising,attack);
+    pipe_link(attack,aplayed);
+    pipe_link(aplayed,anotgoal);
+    pipe_link(anotgoal,anotend);
+    pipe_link(anotend,adapter);
 
     result = adapter;
   }

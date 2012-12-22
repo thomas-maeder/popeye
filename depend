@@ -1152,12 +1152,11 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  stipulation/slice.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h output/output.h \
  output/mode.h stipulation/has_solution_type.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/branch.h stipulation/dead_end.h \
- stipulation/move_inverter.h stipulation/if_then_else.h \
- stipulation/boolean/or.h stipulation/boolean/and.h \
- stipulation/boolean/not.h stipulation/boolean/true.h \
- stipulation/goals/reached_tester.h stipulation/goals/goals.h \
- stipulation/goals/mate/reached_tester.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/move_inverter.h \
+ stipulation/if_then_else.h stipulation/boolean/or.h \
+ stipulation/boolean/and.h stipulation/boolean/not.h \
+ stipulation/boolean/true.h stipulation/goals/reached_tester.h \
+ stipulation/goals/goals.h stipulation/goals/mate/reached_tester.h \
  stipulation/goals/stalemate/reached_tester.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
@@ -1260,8 +1259,6 @@ stipulation/proxy.h:
 stipulation/pipe.h:
 
 stipulation/branch.h:
-
-stipulation/dead_end.h:
 
 stipulation/move_inverter.h:
 
