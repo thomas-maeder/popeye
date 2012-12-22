@@ -61,9 +61,15 @@ static boolean is_position_legal(Side just_moved)
   return result;
 }
 
+typedef struct
+{
+    boolean inside_immobility_tester;
+    boolean instrumenting_goal_immobile;
+} instrumentation_state_type;
+
 static void instrument_complex(slice_index si, stip_structure_traversal *st)
 {
-  boolean const * const inside_immobility_tester = st->param;
+  instrumentation_state_type const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -78,7 +84,7 @@ static void instrument_complex(slice_index si, stip_structure_traversal *st)
       break;
 
     case stip_traversal_context_help:
-      if (*inside_immobility_tester)
+      if (state->inside_immobility_tester)
       {
         slice_index const prototype = alloc_pipe(STOhneschachLegalityTester);
         branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -96,32 +102,34 @@ static void instrument_complex(slice_index si, stip_structure_traversal *st)
 
 static void instrument_simple(slice_index si, stip_structure_traversal *st)
 {
-  boolean const * const inside_immobility_tester = st->param;
+  instrumentation_state_type * const state = st->param;
+  boolean const save_instrumenting_goal_immobile = state->instrumenting_goal_immobile;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  state->instrumenting_goal_immobile = false;
+
   stip_traverse_structure_children(si,st);
 
+  state->instrumenting_goal_immobile = save_instrumenting_goal_immobile;
+
+  TraceValue("%u\n",state->instrumenting_goal_immobile);
   switch (st->context)
   {
     case stip_traversal_context_attack:
-    {
-      slice_index const prototype = alloc_pipe(STOhneschachCheckGuardDefense);
-      branch_insert_slices_contextual(si,st->context,&prototype,1);
-      break;
-    }
-
     case stip_traversal_context_defense:
-    {
-      slice_index const prototype = alloc_pipe(STOhneschachCheckGuard);
-      branch_insert_slices_contextual(si,st->context,&prototype,1);
+      {
+        slice_index const prototype = alloc_pipe(state->instrumenting_goal_immobile
+                                                 ? STOhneschachCheckGuard
+                                                 : STOhneschachCheckGuardDefense);
+        branch_insert_slices_contextual(si,st->context,&prototype,1);
+      }
       break;
-    }
 
     case stip_traversal_context_help:
-      if (!*inside_immobility_tester)
+      if (!state->inside_immobility_tester)
       {
         slice_index const prototype = alloc_pipe(STOhneschachCheckGuard);
         branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -139,21 +147,48 @@ static void instrument_simple(slice_index si, stip_structure_traversal *st)
 
 static void remember_immobility_tester(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const inside_immobility_tester = st->param;
-  boolean const save_inside_immobility_tester = *inside_immobility_tester;
+  instrumentation_state_type * const state = st->param;
+  boolean const save_inside_immobility_tester = state->inside_immobility_tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *inside_immobility_tester = true;
+  state->inside_immobility_tester = true;
   stip_traverse_structure_children(si,st);
-  *inside_immobility_tester = save_inside_immobility_tester;
+  state->inside_immobility_tester = save_inside_immobility_tester;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
+static void remember_goal_immobile(slice_index si, stip_structure_traversal *st)
+{
+  instrumentation_state_type * const state = st->param;
+  boolean const save_instrumenting_goal_immobile = state->instrumenting_goal_immobile;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const tester = branch_find_slice(STGoalReachedTester,
+                                                 slices[si].next2,
+                                                 st->context);
+    goal_type const goal = slices[tester].u.goal_handler.goal.type;
+    assert(tester!=no_slice);
+    state->instrumenting_goal_immobile = (goal==goal_mate
+                                          || goal==goal_stale
+                                          || goal==goal_mate_or_stale);
+    stip_traverse_structure_binary_operand1(si,st);
+    state->instrumenting_goal_immobile = save_instrumenting_goal_immobile;
+  }
+
+  stip_traverse_structure_binary_operand2(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -161,15 +196,17 @@ static void remember_immobility_tester(slice_index si, stip_structure_traversal 
 void stip_insert_ohneschach_legality_testers(slice_index si)
 {
   stip_structure_traversal st;
-  boolean inside_immobility_tester = false;
+  instrumentation_state_type state = { false, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&inside_immobility_tester);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_single(&st,STMove,&instrument_complex);
   stip_structure_traversal_override_single(&st,STImmobilityTester,&remember_immobility_tester);
+  stip_structure_traversal_override_single(&st,STEndOfBranchGoalImmobile,&remember_goal_immobile);
+  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&remember_goal_immobile);
   stip_structure_traversal_override_single(&st,STNotEndOfBranchGoal,&instrument_simple);
   stip_structure_traversal_override_single(&st,STOhneschachSuspender,&stip_structure_visitor_noop);
   stip_traverse_structure(si,&st);

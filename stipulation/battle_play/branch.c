@@ -240,6 +240,7 @@ static slice_index const slice_rank_order[] =
   STDeadEndGoal,
   STSelfCheckGuard,
   STOhneschachCheckGuard,
+  STOhneschachCheckGuardDefense,
   STMummerDeadend,
 
   STDefenseAdapter,
@@ -451,6 +452,7 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoal,
   STNotEndOfBranchGoal,
   STSelfCheckGuard,
+  STOhneschachCheckGuard,
   STOhneschachCheckGuardDefense,
   STCheckZigzagLanding,
   STNoShortVariations,

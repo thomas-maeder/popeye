@@ -245,6 +245,7 @@ static slice_index const slice_rank_order[] =
   STDeadEndGoal,
   STSelfCheckGuard,
   STOhneschachCheckGuard,
+  STOhneschachCheckGuardDefense,
   STMummerDeadend,
   STIntelligentSolutionsPerTargetPosCounter,
   STIntelligentDuplicateAvoider,

@@ -854,7 +854,6 @@ static stip_length_type get_max_nr_moves(slice_index si)
  */
 static boolean verify_position(slice_index si)
 {
-  square const *bnp;
   int      tp, op;
   boolean flagleofamilyonly;
   boolean flagveryfairy = false;
@@ -2458,9 +2457,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[exclusive])
     stip_insert_exclusive_chess_legality_testers(result);
 
-  if (CondFlag[ohneschach])
-    stip_insert_ohneschach_legality_testers(result);
-
   stip_insert_king_capture_avoiders(result);
 
   if (CondFlag[isardam])
@@ -2773,6 +2769,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_spin_off_testers(result);
 
   stip_insert_mummer(result);
+
+  if (CondFlag[ohneschach])
+    stip_insert_ohneschach_legality_testers(result);
 
   if (is_hashtable_allocated())
     stip_insert_hash_slices(result);
