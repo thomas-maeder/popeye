@@ -254,9 +254,7 @@ static void copy_end_of_branch_goal_if_necessary(slice_index si, stip_structure_
     slice_index const tester = branch_find_slice(STGoalReachedTester,slices[si].next2,st->context);
     if (tester==no_slice
         /* avoid considering moves that lead to self-check illegal if they reach the goal: */
-        || branch_find_slice(STSelfCheckGuard,slices[tester].next2,st->context)==no_slice
-        /* avoid considering moves delivering checks illegal if they reach the goal: */
-        || (st->context==stip_traversal_context_help && CondFlag[ohneschach]))
+        || branch_find_slice(STSelfCheckGuard,slices[tester].next2,st->context)==no_slice)
       regular_deep_copy_end_of_branch_goal(si,st);
     else
     {
