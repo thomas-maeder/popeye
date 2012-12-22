@@ -1169,8 +1169,7 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
     stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
     stip_traverse_structure(next,&st);
 
-    if (slices[adapter].prev!=no_slice)
-      pipe_link(slices[adapter].prev,next);
+    pipe_link(slices[adapter].prev,next);
     link_to_branch(adapter,state->spun_off[next]);
     state->spun_off[adapter] = state->spun_off[next];
     slices[adapter].prev = no_slice;
