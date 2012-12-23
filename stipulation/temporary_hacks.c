@@ -52,15 +52,14 @@ static slice_index make_exclusive_mating_move_counter_fork(Side side)
   Goal const goal = { goal_mate, initsquare };
   slice_index const tester_system = alloc_goal_mate_reached_tester_system();
   slice_index const tester_slice = alloc_goal_reached_tester_slice(goal,tester_system);
-  slice_index const help = alloc_help_branch(slack_length+1,
-                                             slack_length+1);
+  slice_index const attack = alloc_battle_branch(slack_length+1,slack_length+1);
   slice_index const counter_proto = alloc_legal_move_counter_slice();
   slice_index const unsuspender_proto = alloc_pipe(STExclusiveChessUnsuspender);
-  help_branch_insert_slices(tester_slice,&counter_proto,1);
+  attack_branch_insert_slices(tester_slice,&counter_proto,1);
   link_to_branch(proxy_to_goal,tester_slice);
-  link_to_branch(proxy_branch,help);
-  help_branch_set_end_goal(help,proxy_to_goal,1);
-  help_branch_insert_slices(help,&unsuspender_proto,1);
+  link_to_branch(proxy_branch,attack);
+  battle_branch_insert_direct_end_of_branch_goal(attack,proxy_to_goal);
+  branch_insert_slices(attack,&unsuspender_proto,1);
   result = alloc_conditional_pipe(STExclusiveChessMatingMoveCounter,proxy_branch);
   stip_impose_starter(result,side);
   return result;

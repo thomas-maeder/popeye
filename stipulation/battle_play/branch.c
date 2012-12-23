@@ -95,6 +95,7 @@ static slice_index const slice_rank_order[] =
   STDoneRemovingFutileMoves,
   STKillerMovePrioriser,
   STDonePriorisingMoves,
+  STExclusiveChessUnsuspender,
   STMove,
   STForEachAttack,
   STFindAttack,
@@ -241,6 +242,7 @@ static slice_index const slice_rank_order[] =
   STSelfCheckGuard,
   STOhneschachCheckGuard,
   STOhneschachCheckGuardDefense,
+  STLegalMoveCounter,
   STMummerDeadend,
 
   STDefenseAdapter,
