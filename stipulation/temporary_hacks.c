@@ -13,6 +13,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
 #include "conditions/sat.h"
@@ -204,10 +205,10 @@ static slice_index make_sat_flights_counter(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STSATFlightsCounterFork,proxy);
-  slice_index const legal_moves_counter = alloc_legal_move_counter_slice();
-  slice_index const help = alloc_help_branch(slack_length+1,slack_length+1);
-  help_branch_insert_slices(help,&legal_moves_counter,1);
-  link_to_branch(proxy,help);
+  slice_index const legal_moves_counter = alloc_legal_defense_counter_slice();
+  slice_index const defense = alloc_defense_branch(slack_length+1,slack_length+1);
+  branch_insert_slices(defense,&legal_moves_counter,1);
+  link_to_branch(proxy,defense);
   stip_impose_starter(result,side);
   return result;
 }

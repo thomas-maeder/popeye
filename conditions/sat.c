@@ -128,10 +128,9 @@ boolean echecc_SAT(Side side)
     /* stop counting once we have >=nr_flights legal king moves */
     legal_move_counter_interesting[nbply] = nr_flights-1;
 
-    /* count flights */
     result = (solve(slices[temporary_hack_sat_flights_counter[side]].next2,
-                     length_unspecified+1)
-              == length_unspecified+1);
+                     length_unspecified)
+              == has_no_solution);
 
     assert(result
            ==(legal_move_counter_count[nbply]
