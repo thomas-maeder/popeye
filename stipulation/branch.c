@@ -363,6 +363,7 @@ static slice_index const slice_rank_order[] =
   STStopOnShortSolutionsInitialiser,
   STMagicViewsInitialiser,
   STEndOfPhaseWriter,
+  STMaffImmobilityTesterKing,
   STImmobilityTester,
   STMaxSolutionsCounter,
   STAttackAdapter,

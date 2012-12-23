@@ -29,6 +29,24 @@ slice_index alloc_legal_move_counter_slice(void)
   return result;
 }
 
+/* Allocate a STLegalDefenseCounter slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_legal_defense_counter_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STLegalDefenseCounter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a STAnyMoveCounter slice.
  * @return index of allocated slice
  */
@@ -72,6 +90,38 @@ stip_length_type legal_move_counter_solve(slice_index si, stip_length_type n)
   else
     /* stop the iteration */
     result = n;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move just played or being played is illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type legal_defense_counter_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  ++legal_move_counter_count[parent_ply[nbply]];
+
+  if (legal_move_counter_count[parent_ply[nbply]]
+      <=legal_move_counter_interesting[parent_ply[nbply]])
+    result = n;
+  else
+    /* stop the iteration */
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

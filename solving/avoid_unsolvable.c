@@ -117,6 +117,7 @@ static void insert_avoid_unsolvable(slice_index si, stip_structure_traversal *st
 static structure_traversers_visitor const avoid_unusable_inserters[] =
 {
   { STAttackAdapter,         &insert_reset_unsolvable_attack  },
+  { STDefenseAdapter,        &insert_reset_unsolvable_attack  },
   { STHelpAdapter,           &insert_reset_unsolvable_help    },
   { STAttackPlayed,          &insert_reset_unsolvable_defense },
   { STDefensePlayed,         &insert_reset_unsolvable_defense },

@@ -103,8 +103,8 @@ stip_length_type end_of_branch_solve(slice_index si, stip_length_type n)
       result = solve(next,n);
       break;
 
-    case opponent_self_check:
-      result = slack_length-2;
+    case opponent_self_check: /* TODO alias is_immobile */
+      result = n+2;
       break;
 
     default:

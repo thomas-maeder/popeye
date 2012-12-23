@@ -534,8 +534,9 @@ solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c 
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h pyproc.h stipulation/pipe.h \
- pieces/attributes/neutral/initialiser.h debugging/trace.h
+ stipulation/goals/goals.h pyproc.h stipulation/has_solution_type.h \
+ stipulation/pipe.h pieces/attributes/neutral/initialiser.h \
+ debugging/trace.h
 
 solving/non_king_move_generator.h:
 
@@ -584,6 +585,8 @@ py.h:
 stipulation/goals/goals.h:
 
 pyproc.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 

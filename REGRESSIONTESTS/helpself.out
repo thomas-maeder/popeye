@@ -28,10 +28,10 @@
   1.a7-a8=S c2-c1=T   2.Sa8*b6 Tc1-c2   3.Sb6-c4 + Tc2*c4 # 
   1.a7-a8=T g2-g1=D   2.Ta8*a5 Dg1-g8   3.Ta5-d5 + e6*d5 # 
 
-              empile:     8811314
-           play_move:     3586387
+              empile:     8811288
+           play_move:     3586343
         orig_rbechec:     3458997
-        orig_rnechec:     1889458
+        orig_rnechec:     1889414
 Loesung beendet. 
 
 

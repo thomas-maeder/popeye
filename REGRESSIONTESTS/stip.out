@@ -1404,9 +1404,9 @@ Loesung beendet.
 
   1.Ke8-d7   2.Kd7-e6   3.Ke6-d5   4.Kd5-e4   5.Ge5-e3   6.Ke4-d3   7.Kd3-e2   8.Ke2-d1 Gh6-d2 # 
 
-              empile:       30464
-           play_move:       21477
-        orig_rbechec:       21477
+              empile:       26091
+           play_move:       18263
+        orig_rbechec:       18263
         orig_rnechec:           0
 Loesung beendet. 
 
@@ -1476,10 +1476,10 @@ Loesung beendet.
 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a5   5.Ka5-a6   6.b6-b7 + Ka8-b8 == 
 
-              empile:      127432
-           play_move:       77204
-        orig_rbechec:       24182
-        orig_rnechec:       81518
+              empile:      127418
+           play_move:       77196
+        orig_rbechec:       24178
+        orig_rnechec:       81479
 Loesung beendet. 
 
 
@@ -2976,8 +2976,8 @@ b) ser-s#6
 
               empile:    12401776
            play_move:     3867500
-        orig_rbechec:     3341672
-        orig_rnechec:     3061894
+        orig_rbechec:     3340189
+        orig_rnechec:     3061657
 Loesung beendet. 
 
 

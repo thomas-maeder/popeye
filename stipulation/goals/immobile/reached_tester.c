@@ -7,7 +7,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/legal_move_counter.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -55,13 +54,8 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
     result = alloc_conditional_pipe(STGoalImmobileReachedTester,proxy);
     pipe_link(proxy,tester);
     link_to_branch(tester,
-                   alloc_help_branch(slack_length+1,slack_length+1));
+                   alloc_defense_branch(slack_length+1,slack_length+1));
     slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
-
-    {
-      slice_index const prototype = alloc_legal_move_counter_slice();
-      branch_insert_slices(tester,&prototype,1);
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -119,18 +113,7 @@ stip_length_type immobility_tester_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply]==0);
-
-  /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting[nbply] = 0;
-
-  solve(slices[si].next1,n);
-
-  result = legal_move_counter_count[nbply]==0 ? n : n+2;
-
-  /* clean up after ourselves */
-  legal_move_counter_count[nbply] = 0;
+  result = solve(slices[si].next1,n)<slack_length ? n : n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

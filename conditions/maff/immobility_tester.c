@@ -43,6 +43,11 @@ static void substitute_maff_specific_testers(slice_index si,
     link_to_branch(non_king_tester,non_king_branch);
 
     {
+      slice_index const prototype = alloc_legal_defense_counter_slice();
+      branch_insert_slices(king_branch,&prototype,1);
+    }
+
+    {
       slice_index const generator = branch_find_slice(STMoveGenerator,
                                                       king_branch,
                                                       stip_traversal_context_intro);

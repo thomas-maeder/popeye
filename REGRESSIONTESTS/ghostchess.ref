@@ -284,7 +284,7 @@ a)
               empile:    37128459
            play_move:    12557501
         orig_rbechec:    12557501
-        orig_rnechec:     7925836
+        orig_rnechec:     7924026
 b)  -bPg7
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 # 
@@ -292,7 +292,7 @@ b)  -bPg7
               empile:    40297953
            play_move:    12596335
         orig_rbechec:    12596335
-        orig_rnechec:     8124283
+        orig_rnechec:     8122384
 solution finished. 
 
 

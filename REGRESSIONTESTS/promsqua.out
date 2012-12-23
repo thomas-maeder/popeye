@@ -108,10 +108,10 @@ Loesung beendet.
 
   1...a7-a5   2.Kc8-c7 a5-a4=D   3.Kc7-c8 Da4-a7   4.b6-b7 + Da7*b7 # 
 
-              empile:        2296
-           play_move:        1659
+              empile:        2291
+           play_move:        1654
         orig_rbechec:        1405
-        orig_rnechec:        1042
+        orig_rnechec:        1037
 Loesung beendet. 
 
 

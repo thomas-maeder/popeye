@@ -85,10 +85,10 @@ a)
  56  (Ke3*d2[+bSf1] )
  57  (Ke3*d2[+bSb1] )
 
-              empile:    97664897
-           play_move:    47967631
+              empile:    97647690
+           play_move:    47952137
         orig_rbechec:    47095237
-        orig_rnechec:    35915221
+        orig_rnechec:    35899727
 b) bBf6 
 
  58  (Rh6-h1 )
@@ -139,10 +139,10 @@ b) bBf6
 102  (Ke3*d2[+bSf1] )
 103  (Ke3*d2[+bSb1] )
 
-              empile:    38558012
-           play_move:    20051911
+              empile:    38539025
+           play_move:    20035189
         orig_rbechec:    19677476
-        orig_rnechec:    14431675
+        orig_rnechec:    14414953
 solution finished. 
 
 
@@ -557,10 +557,10 @@ a)
  38  (Kf1-e2 )
  39  (Kf1-g2 )
 
-              empile:    91343888
-           play_move:    35097770
+              empile:    91343668
+           play_move:    35097578
         orig_rbechec:    34345864
-        orig_rnechec:    18896917
+        orig_rnechec:    18896725
 b)  -bSg1
 
  40  (Bg8-e6 )
@@ -603,10 +603,10 @@ b)  -bSg1
  76  (Kf1-e2 )
  77  (Kf1-g2 )
 
-              empile:    85889762
-           play_move:    32595984
+              empile:    85889547
+           play_move:    32595797
         orig_rbechec:    31884740
-        orig_rnechec:    17686611
+        orig_rnechec:    17686424
 solution finished. 
 
 

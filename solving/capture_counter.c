@@ -57,7 +57,7 @@ stip_length_type capture_counter_solve(slice_index si, stip_length_type n)
     result = solve(slices[si].next1,n);
   else
     /* stop the iteration */
-    result = n;
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

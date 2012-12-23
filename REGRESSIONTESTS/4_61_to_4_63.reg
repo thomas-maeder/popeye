@@ -600,10 +600,10 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
 
   1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x 
 
-              empile:         504
-           play_move:         157
-        orig_rbechec:          74
-        orig_rnechec:          93
+              empile:         456
+           play_move:         135
+        orig_rbechec:          63
+        orig_rnechec:          81
 solution finished. 
 
 

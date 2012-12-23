@@ -2,6 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -83,9 +84,9 @@ static boolean advance_departure_square(Side side,
  *            n+2 no solution found
  */
 stip_length_type non_king_move_generator_solve(slice_index si,
-                                                stip_length_type n)
+                                               stip_length_type n)
 {
-  stip_length_type result = n+1;
+  stip_length_type result = slack_length-2;
   Side const side_at_move = slices[si].starter;
   square const *next_square_to_try = boardnum;
 
@@ -97,7 +98,7 @@ stip_length_type non_king_move_generator_solve(slice_index si,
   nextply();
   trait[nbply] = side_at_move;
 
-  while (result>n
+  while (result<slack_length
          && advance_departure_square(side_at_move,&next_square_to_try))
     result = solve(slices[si].next1,n);
 

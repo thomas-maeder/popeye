@@ -250,6 +250,7 @@ static slice_index const slice_rank_order[] =
   STIntelligentSolutionsPerTargetPosCounter,
   STIntelligentDuplicateAvoider,
   STLegalMoveCounter,
+  STLegalDefenseCounter,
   STMaxSolutionsCounter,
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextLineLineWriter,

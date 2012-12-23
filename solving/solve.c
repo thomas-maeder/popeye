@@ -1013,6 +1013,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = legal_move_counter_solve(si,n);
       break;
 
+    case STLegalDefenseCounter:
+      result = legal_defense_counter_solve(si,n);
+      break;
+
     case STCaptureCounter:
       result = capture_counter_solve(si,n);
       break;

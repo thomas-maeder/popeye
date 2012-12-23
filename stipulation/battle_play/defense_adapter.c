@@ -96,7 +96,12 @@ stip_length_type defense_adapter_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   defense_result = solve(next,length);
-  result = slack_length<=defense_result && defense_result<=length ? n : n+2;
+  if (defense_result<slack_length)
+    result = opponent_self_check; /* TODO alias is_immobile */
+  else if (defense_result<=length)
+    result = n;
+  else
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
