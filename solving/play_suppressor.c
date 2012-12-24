@@ -100,6 +100,12 @@ void stip_insert_play_suppressors(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
                                                 slice_function_binary,
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
