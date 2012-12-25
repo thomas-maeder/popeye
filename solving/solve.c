@@ -1008,9 +1008,9 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = ultra_mummer_measurer_deadend_solve(si,n);
       break;
 
-    case STLegalMoveCounter:
+    case STLegalAttackCounter:
     case STAnyMoveCounter:
-      result = legal_move_counter_solve(si,n);
+      result = legal_attack_counter_solve(si,n);
       break;
 
     case STLegalDefenseCounter:

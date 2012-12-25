@@ -7,14 +7,10 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <limits.h>
 
 /* current value of the count */
-int opponent_moves_counter_count;
-
-enum
-{
-  count_for_selfcheck = INT_MAX
-};
+static int opponent_moves_counter_count;
 
 /* Allocate a STOpponentMovesCounter slice.
  * @return index of allocated slice
@@ -43,9 +39,6 @@ void init_opponent_moves_counter()
   assert(legal_move_counter_count[nbply+1]==0);
   legal_move_counter_interesting[nbply+1] = UINT_MAX;
 
-  /* moves leading to self check get maximum count */
-  opponent_moves_counter_count = count_for_selfcheck;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -68,7 +61,6 @@ int fini_opponent_moves_counter()
   return result;
 }
 
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -78,7 +70,7 @@ int fini_opponent_moves_counter()
  *            n+2 no solution found
  */
 stip_length_type opponent_moves_counter_solve(slice_index si,
-                                               stip_length_type n)
+                                              stip_length_type n)
 {
   stip_length_type result;
 
@@ -87,15 +79,18 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* make sure that the iteration stops when there is no self check */
-  assert(opponent_moves_counter_count==count_for_selfcheck);
-
   result = solve(slices[si].next1,n);
-  if (slack_length<=result)
-  {
+
+  if (result==opponent_self_check)
+    /* Defenses leading to self check get a big count.
+     * But still make sure that we can correctly compute the difference of two
+     * counts.
+     */
+    opponent_moves_counter_count = INT_MAX/2;
+  else
     opponent_moves_counter_count = legal_move_counter_count[nbply];
-    result = n;
-  }
+
+  TraceValue("%d\n",opponent_moves_counter_count);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -249,7 +249,7 @@ static slice_index const slice_rank_order[] =
   STMummerDeadend,
   STIntelligentSolutionsPerTargetPosCounter,
   STIntelligentDuplicateAvoider,
-  STLegalMoveCounter,
+  STLegalAttackCounter,
   STLegalDefenseCounter,
   STMaxSolutionsCounter,
   STOutputPlaintextTreeGoalWriter,

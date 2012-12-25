@@ -4,7 +4,7 @@
 #include "solving/solve.h"
 
 /* This module provides functionality dealing with the attacking side
- * in STLegalMoveCounter stipulation slices.
+ * in STLegalAttackCounter stipulation slices.
  */
 
 /* current value of the count */
@@ -13,10 +13,10 @@ extern unsigned int legal_move_counter_count[maxply];
 /* stop the move iteration once legal_move_counter_count exceeds this number */
 extern unsigned int legal_move_counter_interesting[maxply];
 
-/* Allocate a STLegalMoveCounter slice.
+/* Allocate a STLegalAttackCounter slice.
  * @return index of allocated slice
  */
-slice_index alloc_legal_move_counter_slice(void);
+slice_index alloc_legal_attack_counter_slice(void);
 
 /* Allocate a STLegalDefenseCounter slice.
  * @return index of allocated slice
@@ -36,7 +36,7 @@ slice_index alloc_any_move_counter_slice(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type legal_move_counter_solve(slice_index si, stip_length_type n);
+stip_length_type legal_attack_counter_solve(slice_index si, stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index

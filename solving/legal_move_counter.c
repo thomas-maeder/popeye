@@ -11,17 +11,17 @@ unsigned int legal_move_counter_count[maxply];
 /* stop the move iteration once legal_move_counter_count exceeds this number */
 unsigned int legal_move_counter_interesting[maxply];
 
-/* Allocate a STLegalMoveCounter slice.
+/* Allocate a STLegalAttackCounter slice.
  * @return index of allocated slice
  */
-slice_index alloc_legal_move_counter_slice(void)
+slice_index alloc_legal_attack_counter_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STLegalMoveCounter);
+  result = alloc_pipe(STLegalAttackCounter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -73,7 +73,7 @@ slice_index alloc_any_move_counter_slice(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type legal_move_counter_solve(slice_index si, stip_length_type n)
+stip_length_type legal_attack_counter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 

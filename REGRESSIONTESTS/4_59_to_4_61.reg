@@ -279,7 +279,7 @@ Initial (White ->):
   1.Ka8-b7   2.Kb7-c6   3.Kc6-d5   4.Kd5-e4   5.Ke4-f5   6.Kf5-g6   7.Kg6-h7   8.Kh7-h8 + Ke7-f6   9.Kh8-g8  10.Kg8-f8  11.Kf8-e8  12.Ke8-d7  13.Kd7-c6  14.Kc6-c5 + d6-d5  15.Kc5-c4 + d5-d4  16.Kc4-b3  17.Kb3-a2  18.Ka2*a1  19.Ka1-b2  20.Kb2-c3 + d4-d3  21.Kc3-d2  22.Kd2-e2 + d3-d2  23.Ke2-f3  24.Kf3-g4  25.Kg4-h5  26.Kh5-h6  27.Kh6-h7  28.Kh7-h8 a=>b 
 
               empile:     1257172
-           play_move:     1042611
+           play_move:     1042620
         orig_rbechec:      618223
         orig_rnechec:      575567
 solution finished. 

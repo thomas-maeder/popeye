@@ -198,7 +198,7 @@ enum
 static void optimise_final_defense_move_with_killer_moves(slice_index si)
 {
   stip_structure_traversal st;
-  final_defense_moves_iteration_state state = { true, false };
+  final_defense_moves_iteration_state state = { true, false, 0 };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -296,9 +296,10 @@ static void forget_optimiser(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor killer_move_collector_inserters[] =
 {
-  { STRefutationsSolver, &stip_traverse_structure_children_pipe },
-  { STNot,               &stip_structure_visitor_noop           },
-  { STMoveGenerator,     &substitute_killermove_machinery       }
+  { STRefutationsSolver,        &stip_traverse_structure_children_pipe },
+  { STOpponentMovesCounterFork, &stip_traverse_structure_children_pipe },
+  { STNot,                      &stip_structure_visitor_noop           },
+  { STMoveGenerator,            &substitute_killermove_machinery       }
 };
 
 enum

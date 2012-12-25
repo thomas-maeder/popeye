@@ -7,9 +7,6 @@
  * in STOpponentMovesCounter stipulation slices.
  */
 
-/* current value of the count */
-extern int opponent_moves_counter_count;
-
 /* Allocate a STOpponentMovesCounter slice.
  * @return index of allocated slice
  */
@@ -32,6 +29,6 @@ int fini_opponent_moves_counter();
  *            n+2 no solution found
  */
 stip_length_type opponent_moves_counter_solve(slice_index si,
-                                               stip_length_type n);
+                                              stip_length_type n);
 
 #endif

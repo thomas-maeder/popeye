@@ -132,8 +132,8 @@
     ENUMERATOR(STThreatDefeatedTester), /* detect whether threats have been defeated  */ \
     ENUMERATOR(STRefutationsCollector), /* collects refutations */      \
     ENUMERATOR(STRefutationsAvoider), /* aovids refutations while solving variations */      \
-    ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
-    ENUMERATOR(STLegalDefenseCounter), /* counts legal moves */            \
+    ENUMERATOR(STLegalAttackCounter), /* counts legal moves */          \
+    ENUMERATOR(STLegalDefenseCounter), /* counts legal moves */         \
     ENUMERATOR(STAnyMoveCounter), /* counts moves whether legal or not */            \
     ENUMERATOR(STCaptureCounter), /* counts captures */                 \
     /* slices enforcing prerequisites of some stipulations */           \
