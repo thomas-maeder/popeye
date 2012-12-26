@@ -1,6 +1,7 @@
 #include "conditions/ohneschach/immobility_tester.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pymsg.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
@@ -100,6 +101,27 @@ stip_length_type ohneschach_check_guard_solve(slice_index si,
     result = slack_length-2;
   else
     result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean immobile(Side side)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  /* ohneschach_check_guard_solve() may invoke itself recursively. Protect
+   * ourselves from infinite recursion. */
+  if (nbply>250)
+    FtlMsg(ChecklessUndecidable);
+
+  result = solve(slices[temporary_hack_immobility_tester[side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

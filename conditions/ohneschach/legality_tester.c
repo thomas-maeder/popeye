@@ -1,40 +1,13 @@
 #include "conditions/ohneschach/legality_tester.h"
 #include "pydata.h"
-#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/temporary_hacks.h"
-#include "conditions/ohneschach/immobility_tester.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-
-/* Determine whether a side is immobile in Ohneschach
- * @return true iff side is immobile
- */
-boolean immobile(Side side)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  /* ohneschach_check_guard_solve() may invoke itself recursively. Protect
-   * ourselves from infinite recursion. */
-  if (nbply>250)
-    FtlMsg(ChecklessUndecidable);
-
-  result = solve(slices[temporary_hack_immobility_tester[side]].next2,length_unspecified)==has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 typedef struct
 {
