@@ -60,7 +60,6 @@
     ENUMERATOR(STSingleBoxType3PawnPromoter),                          \
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STExclusiveChessLegalityTester),                        \
-    ENUMERATOR(STOhneschachLegalityTester),                            \
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinPlaceReborn),                            \
     ENUMERATOR(STOwnKingCaptureAvoider),                               \

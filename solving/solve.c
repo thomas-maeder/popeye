@@ -1290,10 +1290,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = exclusive_chess_legality_tester_solve(si,n);
       break;
 
-    case STOhneschachLegalityTester:
-      result = ohneschach_legality_tester_solve(si,n);
-      break;
-
     case STUltraschachzwangLegalityTester:
       result = ultraschachzwang_legality_tester_solve(si,n);
       break;

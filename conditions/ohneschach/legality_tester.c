@@ -36,31 +36,6 @@ boolean immobile(Side side)
   return result;
 }
 
-/* Determine whether the move just played has led to a legal position according
- * to condition Ohneschach
- * @param just_moved identifies the side that has just moved
- * @return true iff the position reached is legal according to Ohneschach
- */
-static boolean is_position_legal(Side just_moved)
-{
-  boolean result = true;
-  Side const ad = advers(just_moved);
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,just_moved,"");
-  TraceFunctionParamListEnd();
-
-  if (echecc(just_moved))
-    result = false;
-  else if (echecc(ad) && !immobile(ad))
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 typedef struct
 {
     boolean instrumenting_goal_immobile;
@@ -190,7 +165,7 @@ static void remember_move_to_leaf(slice_index si, stip_structure_traversal *st)
 void stip_insert_ohneschach_legality_testers(slice_index si)
 {
   stip_structure_traversal st;
-  instrumentation_state_type state = { false, false, false, slack_length };
+  instrumentation_state_type state = { false, false, slack_length };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -207,34 +182,4 @@ void stip_insert_ohneschach_legality_testers(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type ohneschach_legality_tester_solve(slice_index si,
-                                                   stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (is_position_legal(trait[nbply]))
-    result = solve(next,n);
-  else
-    result = slack_length-2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
