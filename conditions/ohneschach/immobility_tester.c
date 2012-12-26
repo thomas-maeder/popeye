@@ -1,13 +1,14 @@
 #include "conditions/ohneschach/immobility_tester.h"
-#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/solve.h"
+#include "conditions/ohneschach/legality_tester.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

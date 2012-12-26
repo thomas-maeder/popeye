@@ -6,6 +6,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 

@@ -69,7 +69,8 @@ conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h stipulation/move_player.h \
+ debugging/trace.h
 
 conditions/koeko/contact_grid.h:
 
@@ -128,6 +129,8 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
+
+stipulation/move_player.h:
 
 debugging/trace.h:
 conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/anti.h \
