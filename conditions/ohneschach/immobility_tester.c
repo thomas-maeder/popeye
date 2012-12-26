@@ -42,13 +42,13 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
     pipe_link(tester_any,stip_deep_copy(next));
 
     {
-      slice_index const prototypes[] =
-      {
-          alloc_pipe(STOhneschachSuspender),
-          alloc_pipe(STOhneschachCheckGuard)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      branch_insert_slices(tester_nonchecking,prototypes,nr_prototypes);
+      slice_index const prototype = alloc_pipe(STOhneschachCheckGuard);
+      branch_insert_slices(tester_nonchecking,&prototype,1);
+    }
+
+    {
+      slice_index const prototype = alloc_pipe(STOhneschachCheckGuardDefense);
+      branch_insert_slices(tester_any,&prototype,1);
     }
 
     pipe_remove(si);

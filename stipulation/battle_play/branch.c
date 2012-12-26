@@ -310,7 +310,6 @@ static slice_index const slice_rank_order[] =
   STKillerMovePrioriser,
   STOpponentMovesFewMovesPrioriser,
   STDonePriorisingMoves,
-  STOhneschachSuspender,
   STMove,
   STForEachDefense,
   STFindDefense,

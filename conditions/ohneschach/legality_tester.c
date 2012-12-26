@@ -46,6 +46,8 @@ static void instrument_simple(slice_index si, stip_structure_traversal *st)
       break;
 
     case stip_traversal_context_help:
+      TraceValue("%u",state->move_to_leaf);
+      TraceValue("%u\n",state->length-slack_length);
       if (state->move_to_leaf                     /* branch ends with this move */
           && (state->length-slack_length)%2==1    /* move might reach goal */
           && !state->instrumenting_goal_immobile) /* goal does not immobilise */
@@ -150,7 +152,7 @@ void stip_insert_ohneschach_legality_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&remember_goal_immobile);
   stip_structure_traversal_override_single(&st,STNotEndOfBranchGoal,&instrument_simple);
   stip_structure_traversal_override_single(&st,STTrue,&remember_move_to_leaf);
-  stip_structure_traversal_override_single(&st,STOhneschachSuspender,&stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,STGoalReachedTester,&stip_structure_visitor_noop);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

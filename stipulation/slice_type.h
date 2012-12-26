@@ -255,7 +255,6 @@
     ENUMERATOR(STKingOscillator), \
     ENUMERATOR(STMovingPawnToImitatorPromoter),                        \
     /* other slices related to fairy chess */ \
-    ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \
     ENUMERATOR(STExclusiveChessUnsuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
