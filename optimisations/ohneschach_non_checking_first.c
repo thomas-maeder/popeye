@@ -18,7 +18,7 @@ static void optimise_guard(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  (*copies)[si] = alloc_pipe(STOhneschachCheckGuard);
+  (*copies)[si] = alloc_pipe(STOhneschachStopIfCheck);
 
   stip_traverse_structure_children_pipe(si,st);
 
@@ -44,7 +44,7 @@ static void insert_optimiser(slice_index si, stip_structure_traversal *st)
     stip_deep_copies_type copies;
     init_deep_copy(&st_nested,st,&copies);
     stip_structure_traversal_override_single(&st_nested,
-                                             STOhneschachCheckGuardDefense,
+                                             STOhneschachStopIfCheckAndNotMate,
                                              &optimise_guard);
     stip_traverse_structure(si,&st_nested);
 

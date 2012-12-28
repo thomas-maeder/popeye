@@ -1021,12 +1021,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = capture_counter_solve(si,n);
       break;
 
-    case STOhneschachCheckGuard:
-      result = ohneschach_check_guard_solve(si,n);
+    case STOhneschachStopIfCheck:
+      result = ohneschach_stop_if_check_solve(si,n);
       break;
 
-    case STOhneschachCheckGuardDefense:
-      result = ohneschach_check_guard_defense_solve(si,n);
+    case STOhneschachStopIfCheckAndNotMate:
+      result = ohneschach_stop_if_check_and_not_mate_solve(si,n);
       break;
 
     case STExclusiveChessUnsuspender:

@@ -14,8 +14,8 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type ohneschach_check_guard_solve(slice_index si,
-                                               stip_length_type n);
+stip_length_type ohneschach_stop_if_check_solve(slice_index si,
+                                                stip_length_type n);
 
 
 /* Try to solve in n half-moves.
@@ -26,8 +26,8 @@ stip_length_type ohneschach_check_guard_solve(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type ohneschach_check_guard_defense_solve(slice_index si,
-                                                      stip_length_type n);
+stip_length_type ohneschach_stop_if_check_and_not_mate_solve(slice_index si,
+                                                             stip_length_type n);
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

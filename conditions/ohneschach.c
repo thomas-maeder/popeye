@@ -41,8 +41,8 @@ static void instrument_simple(slice_index si, stip_structure_traversal *st)
     case stip_traversal_context_defense:
       {
         slice_index const prototype = alloc_pipe(state->instrumenting_goal_immobile
-                                                 ? STOhneschachCheckGuard
-                                                 : STOhneschachCheckGuardDefense);
+                                                 ? STOhneschachStopIfCheck
+                                                 : STOhneschachStopIfCheckAndNotMate);
         branch_insert_slices_contextual(si,st->context,&prototype,1);
       }
       break;
@@ -55,12 +55,12 @@ static void instrument_simple(slice_index si, stip_structure_traversal *st)
           && !state->instrumenting_goal_immobile) /* goal does not immobilise */
       {
         /* check is not illegal if it is mate - but we have to make sure to notice */
-        slice_index const prototype = alloc_pipe(STOhneschachCheckGuardDefense);
+        slice_index const prototype = alloc_pipe(STOhneschachStopIfCheckAndNotMate);
         branch_insert_slices_contextual(si,st->context,&prototype,1);
       }
       else
       {
-        slice_index const prototype = alloc_pipe(STOhneschachCheckGuard);
+        slice_index const prototype = alloc_pipe(STOhneschachStopIfCheck);
         branch_insert_slices_contextual(si,st->context,&prototype,1);
       }
       break;
@@ -168,8 +168,8 @@ void ohneschach_insert_check_guards(slice_index si)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type ohneschach_check_guard_solve(slice_index si,
-                                               stip_length_type n)
+stip_length_type ohneschach_stop_if_check_solve(slice_index si,
+                                                stip_length_type n)
 {
   has_solution_type result;
 
@@ -197,7 +197,7 @@ static boolean immobile(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  /* ohneschach_check_guard_solve() may invoke itself recursively. Protect
+  /* ohneschach_stop_if_check_solve() may invoke itself recursively. Protect
    * ourselves from infinite recursion. */
   if (nbply>250)
     FtlMsg(ChecklessUndecidable);
@@ -218,8 +218,8 @@ static boolean immobile(Side side)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type ohneschach_check_guard_defense_solve(slice_index si,
-                                                      stip_length_type n)
+stip_length_type ohneschach_stop_if_check_and_not_mate_solve(slice_index si,
+                                                             stip_length_type n)
 {
   has_solution_type result;
 
