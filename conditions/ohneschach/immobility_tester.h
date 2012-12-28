@@ -9,11 +9,6 @@
 
 extern boolean is_ohneschach_suspended;
 
-/* Instrument immobility tester slices to cope with condition Ohneschach
- * @param si where to start (entry slice into stipulation)
- */
-void ohneschach_instrument_immobility_testers(slice_index si);
-
 /* Optimise Ohneschach immobility tester slices
  * @param si where to start (entry slice into stipulation)
  */

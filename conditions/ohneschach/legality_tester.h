@@ -9,6 +9,6 @@
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_ohneschach_legality_testers(slice_index si);
+void ohneschach_insert_check_guards(slice_index si);
 
 #endif

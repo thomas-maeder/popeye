@@ -2772,8 +2772,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[ohneschach])
   {
-    ohneschach_instrument_immobility_testers(result);
-    stip_insert_ohneschach_legality_testers(result);
+    ohneschach_insert_check_guards(result);
     ohneschach_optimise_immobility_testers(result);
   }
 
