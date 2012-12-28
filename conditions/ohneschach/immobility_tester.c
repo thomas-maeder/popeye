@@ -24,22 +24,19 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(si,st);
-
   {
     slice_index const proxy_nonchecking = alloc_proxy_slice();
     slice_index const proxy_any = alloc_proxy_slice();
     slice_index const next = slices[si].next1;
-    slice_index const tester_nonchecking = alloc_pipe(STImmobilityTester);
-    slice_index const tester_any = alloc_pipe(STImmobilityTester);
+    slice_index const tester_nonchecking = copy_slice(si);
+    slice_index const and = alloc_and_slice(proxy_nonchecking,proxy_any);
 
-    pipe_link(si,alloc_and_slice(proxy_nonchecking,proxy_any));
+    pipe_link(slices[si].prev,and);
 
     pipe_link(proxy_nonchecking,tester_nonchecking);
-    pipe_link(tester_nonchecking,next);
+    pipe_link(tester_nonchecking,stip_deep_copy(next));
 
-    pipe_link(proxy_any,tester_any);
-    pipe_link(tester_any,stip_deep_copy(next));
+    pipe_link(proxy_any,si);
 
     {
       slice_index const prototype = alloc_pipe(STOhneschachCheckGuard);
@@ -48,10 +45,11 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
 
     {
       slice_index const prototype = alloc_pipe(STOhneschachCheckGuardDefense);
-      branch_insert_slices(tester_any,&prototype,1);
+      branch_insert_slices(si,&prototype,1);
     }
 
-    pipe_remove(si);
+    stip_traverse_structure_children_pipe(tester_nonchecking,st);
+    stip_traverse_structure_children_pipe(si,st);
   }
 
   TraceFunctionExit(__func__);
