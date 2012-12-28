@@ -9,10 +9,15 @@
 
 extern boolean is_ohneschach_suspended;
 
-/* Replace immobility tester slices to cope with condition Ohneschach
+/* Instrument immobility tester slices to cope with condition Ohneschach
  * @param si where to start (entry slice into stipulation)
  */
-void ohneschach_replace_immobility_testers(slice_index si);
+void ohneschach_instrument_immobility_testers(slice_index si);
+
+/* Optimise Ohneschach immobility tester slices
+ * @param si where to start (entry slice into stipulation)
+ */
+void ohneschach_optimise_immobility_testers(slice_index si);
 
 /* Try to solve in n half-moves.
  * @param si slice index

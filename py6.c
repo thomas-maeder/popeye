@@ -2419,7 +2419,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_ultraschachzwang_goal_filters(result);
 
   if (CondFlag[ohneschach])
-    ohneschach_replace_immobility_testers(result);
+    ; /* prevent king first optimisation - the Ohneschach specific optimisation is more effective */
   else if (CondFlag[exclusive])
     ; /* use regular move generation to filter out non-unique mating moves */
   else if (CondFlag[MAFF])
@@ -2771,7 +2771,11 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_insert_mummer(result);
 
   if (CondFlag[ohneschach])
+  {
+    ohneschach_instrument_immobility_testers(result);
     stip_insert_ohneschach_legality_testers(result);
+    ohneschach_optimise_immobility_testers(result);
+  }
 
   if (is_hashtable_allocated())
     stip_insert_hash_slices(result);
