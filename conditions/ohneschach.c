@@ -1,4 +1,4 @@
-#include "conditions/ohneschach/legality_tester.h"
+#include "conditions/ohneschach.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/pipe.h"

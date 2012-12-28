@@ -1,18 +1,10 @@
-#if !defined(STIPULATION_CONDITION_OHNESCHACH_IMMOBILE_TESTER_H)
-#define STIPULATION_CONDITION_OHNESCHACH_IMMOBILE_TESTER_H
+#if !defined(CONDITIONS_OHNESCHACH_H)
+#define CONDITIONS_OHNESCHACH_H
+
+/* This module implements the condition Ohneschach
+ */
 
 #include "solving/solve.h"
-
-/* This module provides functionality dealing with slices that detect
- * whether a side is immobile
- */
-
-extern boolean is_ohneschach_suspended;
-
-/* Optimise Ohneschach immobility tester slices
- * @param si where to start (entry slice into stipulation)
- */
-void ohneschach_optimise_immobility_testers(slice_index si);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -36,5 +28,10 @@ stip_length_type ohneschach_check_guard_solve(slice_index si,
  */
 stip_length_type ohneschach_check_guard_defense_solve(slice_index si,
                                                       stip_length_type n);
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void ohneschach_insert_check_guards(slice_index si);
 
 #endif

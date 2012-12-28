@@ -1466,13 +1466,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/circe/frischauf.h conditions/circe/super.h \
  conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
  conditions/circe/turncoats.h conditions/circe/takemake.h \
- conditions/exclusive.h position/position.h \
- conditions/ohneschach/legality_tester.h \
- conditions/maff/immobility_tester.h \
- conditions/ohneschach/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/immune.h \
- conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/monochrome.h conditions/bichrome.h \
+ conditions/exclusive.h position/position.h conditions/ohneschach.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
+ conditions/patrol.h conditions/monochrome.h conditions/bichrome.h \
  conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
@@ -1524,6 +1521,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  optimisations/killer_move/prioriser.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
+ optimisations/ohneschach_non_checking_first.h \
  options/maxsolutions/guard.h options/maxsolutions/initialiser.h \
  options/maxtime.h options/movenumbers.h options/degenerate_tree.h \
  options/nontrivial.h options/maxthreatlength.h \
@@ -1707,11 +1705,9 @@ conditions/exclusive.h:
 
 position/position.h:
 
-conditions/ohneschach/legality_tester.h:
+conditions/ohneschach.h:
 
 conditions/maff/immobility_tester.h:
-
-conditions/ohneschach/immobility_tester.h:
 
 conditions/owu/immobility_tester.h:
 
@@ -1900,6 +1896,8 @@ optimisations/killer_move/prioriser.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 optimisations/orthodox_mating_moves/king_contact_move_generator.h:
+
+optimisations/ohneschach_non_checking_first.h:
 
 options/maxsolutions/guard.h:
 

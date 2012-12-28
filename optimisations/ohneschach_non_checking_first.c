@@ -1,4 +1,4 @@
-#include "conditions/ohneschach/immobility_tester.h"
+#include "optimisations/ohneschach_non_checking_first.h"
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"

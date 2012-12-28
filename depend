@@ -489,8 +489,7 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  stipulation/has_solution_type.h solving/solve.h solving/castling.h \
  solving/solve.h stipulation/goals/doublemate/reached_tester.h \
  stipulation/temporary_hacks.h stipulation/move_player.h \
- solving/single_piece_move_generator.h \
- conditions/ohneschach/immobility_tester.h conditions/disparate.h \
+ solving/single_piece_move_generator.h conditions/disparate.h \
  conditions/eiffel.h conditions/exclusive.h position/position.h \
  conditions/extinction.h conditions/madrasi.h conditions/mummer.h \
  conditions/republican.h conditions/patience.h conditions/sat.h \
@@ -565,8 +564,6 @@ stipulation/temporary_hacks.h:
 stipulation/move_player.h:
 
 solving/single_piece_move_generator.h:
-
-conditions/ohneschach/immobility_tester.h:
 
 conditions/disparate.h:
 
@@ -646,8 +643,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  position/position.h conditions/republican.h conditions/blackchecks.h \
  conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
- conditions/ohneschach/immobility_tester.h \
- conditions/ohneschach/legality_tester.h conditions/singlebox/type1.h \
+ conditions/ohneschach.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
  conditions/patience.h conditions/isardam.h conditions/masand.h \
  conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
@@ -714,7 +710,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  optimisations/keepmating.h optimisations/goals/optimisation_guards.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/killer_move/killer_move.h \
- optimisations/killer_move/final_defense_move.h options/quodlibet.h \
+ optimisations/killer_move/final_defense_move.h \
+ optimisations/ohneschach_non_checking_first.h options/quodlibet.h \
  options/goal_is_end.h options/maxtime.h options/degenerate_tree.h \
  options/maxthreatlength.h options/maxflightsquares.h \
  options/nontrivial.h options/movenumbers.h \
@@ -821,9 +818,7 @@ conditions/maff/immobility_tester.h:
 
 conditions/owu/immobility_tester.h:
 
-conditions/ohneschach/immobility_tester.h:
-
-conditions/ohneschach/legality_tester.h:
+conditions/ohneschach.h:
 
 conditions/singlebox/type1.h:
 
@@ -1108,6 +1103,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 optimisations/killer_move/killer_move.h:
 
 optimisations/killer_move/final_defense_move.h:
+
+optimisations/ohneschach_non_checking_first.h:
 
 options/quodlibet.h:
 
