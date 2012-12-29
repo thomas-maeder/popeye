@@ -23,7 +23,7 @@ static void optimise_stop(slice_index si, stip_structure_traversal *st)
 
   *instrumenting_goal_immobile = save_instrumenting_goal_immobile;
 
-  TraceValue("%u\n",state->instrumenting_goal_immobile);
+  TraceValue("%u\n",*instrumenting_goal_immobile);
   if (*instrumenting_goal_immobile)
     pipe_substitute(si,alloc_pipe(STOhneschachStopIfCheck));
 
