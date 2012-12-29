@@ -711,7 +711,9 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/killer_move/killer_move.h \
  optimisations/killer_move/final_defense_move.h \
- optimisations/ohneschach_non_checking_first.h options/quodlibet.h \
+ optimisations/ohneschach/non_checking_first.h \
+ optimisations/ohneschach/redundant_immobility_tests.h \
+ optimisations/ohneschach/immobility_tests_help.h options/quodlibet.h \
  options/goal_is_end.h options/maxtime.h options/degenerate_tree.h \
  options/maxthreatlength.h options/maxflightsquares.h \
  options/nontrivial.h options/movenumbers.h \
@@ -1104,7 +1106,11 @@ optimisations/killer_move/killer_move.h:
 
 optimisations/killer_move/final_defense_move.h:
 
-optimisations/ohneschach_non_checking_first.h:
+optimisations/ohneschach/non_checking_first.h:
+
+optimisations/ohneschach/redundant_immobility_tests.h:
+
+optimisations/ohneschach/immobility_tests_help.h:
 
 options/quodlibet.h:
 

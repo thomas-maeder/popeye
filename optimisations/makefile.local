@@ -1,9 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = immobility_tester_king_first.c keepmating.c hash.c \
-           ohneschach_non_checking_first.c
+SRC_CFILES = immobility_tester_king_first.c keepmating.c hash.c
 
-INCLUDES = immobility_tester_king_first.h keepmating.h hash.h \
-           ohneschach_non_checking_first.h
+INCLUDES = immobility_tester_king_first.h keepmating.h hash.h
 
 include makefile.rules $(CURRPWD)depend

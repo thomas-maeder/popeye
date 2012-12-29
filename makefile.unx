@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.180 2012/12/28 20:28:07 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.181 2012/12/29 08:46:54 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -229,6 +229,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     optimisations/goals/chess81 optimisations/goals/capture \
     optimisations/goals/target optimisations/goals/mate \
     optimisations/killer_move optimisations/count_nr_opponent_moves \
+    optimisations/ohneschach \
     options options/no_short_variations \
     options/maxsolutions \
     options/stoponshortsolutions \
@@ -256,6 +257,7 @@ NESTEDLIBDIRS = . \
     optimisations/intelligent \
     optimisations/intelligent/mate optimisations/intelligent/stalemate \
     optimisations/intelligent \
+    optimisations/ohneschach \
     stipulation/battle_play stipulation/help_play \
     stipulation/goals \
     stipulation/goals/mate \

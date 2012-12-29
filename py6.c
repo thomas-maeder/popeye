@@ -263,7 +263,9 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "optimisations/killer_move/final_defense_move.h"
-#include "optimisations/ohneschach_non_checking_first.h"
+#include "optimisations/ohneschach/non_checking_first.h"
+#include "optimisations/ohneschach/redundant_immobility_tests.h"
+#include "optimisations/ohneschach/immobility_tests_help.h"
 #include "options/quodlibet.h"
 #include "options/goal_is_end.h"
 #include "options/maxtime.h"
@@ -2402,8 +2404,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (!init_intelligent_mode(result))
     Message(IntelligentRestricted);
 
-  /* must come here because in conditions like Ohneschach, we are going
-   * to tampter with the slices inserted here
+  /* must come here because in conditions like MAFF, we are going to tamper with
+   * the slices inserted here
    */
   stip_insert_selfcheck_guards(result);
   stip_insert_move_generators(result);
@@ -2419,7 +2421,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_ultraschachzwang_goal_filters(result);
 
   if (CondFlag[ohneschach])
-    ; /* prevent king first optimisation - the Ohneschach specific optimisation is more effective */
+    ; /* prevent king first optimisation - the Ohneschach specific optimisation
+       * is more effective */
   else if (CondFlag[exclusive])
     ; /* use regular move generation to filter out non-unique mating moves */
   else if (CondFlag[MAFF])
@@ -2773,6 +2776,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[ohneschach])
   {
     ohneschach_insert_check_guards(result);
+    ohneschach_optimise_away_redundant_immobility_tests(result);
+    ohneschach_optimise_away_immobility_tests_help(result);
     ohneschach_optimise_immobility_testers(result);
   }
 
