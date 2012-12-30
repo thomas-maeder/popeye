@@ -100,6 +100,10 @@ static stip_traversal_context_type context_after_move(stip_traversal_context_typ
 {
   stip_traversal_context_type result;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",context);
+  TraceFunctionParamListEnd();
+
   switch (context)
   {
     case stip_traversal_context_attack:
@@ -119,6 +123,9 @@ static stip_traversal_context_type context_after_move(stip_traversal_context_typ
       break;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
