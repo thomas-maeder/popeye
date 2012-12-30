@@ -102,7 +102,8 @@ static slice_type const fork_slice_types[] =
     STCirceCageNoCageFork,
     STSuperCirceNoRebirthFork,
     STMovingPawnToImitatorPromoter,
-    STKillerMoveFinalDefenseMove
+    STKillerMoveFinalDefenseMove,
+    STOhneschachStopIfCheckAndNotMate
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -198,7 +199,8 @@ static slice_type const proxy_slice_types[] =
     STLandingAfterAnticirceRebirth,
     STLandingAfterCirceRebirthHandler,
     STLandingAfterMovingPawnPromoter,
-    STMummerDeadend
+    STMummerDeadend,
+    STRecursionStopper
 };
 
 static slice_type const move_generator_slice_types[] =
@@ -289,7 +291,8 @@ static slice_type const conditional_pipe_slice_types[] =
     STKingCaptureLegalityTester,
     STUltraMummerMeasurerFork,
     STCageCirceNonCapturingMoveFinder,
-    STTakeMakeCirceCollectRebirthSquaresFork
+    STTakeMakeCirceCollectRebirthSquaresFork,
+    STOhneschachStopIfCheckAndNotMate
 };
 
 static slice_type const end_of_branch_slice_types[] =

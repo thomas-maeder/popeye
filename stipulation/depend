@@ -812,10 +812,11 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/temporary_hacks.h stipulation/slice.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/slice_type.h \
- stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/traversal.h solving/solve.h stipulation/has_solution_type.h \
- stipulation/branch.h stipulation/proxy.h stipulation/end_of_branch.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ solving/solve.h stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/end_of_branch.h \
  stipulation/conditional_pipe.h stipulation/move_inverter.h \
  stipulation/boolean/true.h stipulation/boolean/not.h \
  stipulation/goals/reached_tester.h stipulation/goals/goals.h \
@@ -826,7 +827,7 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/legal_move_counter.h conditions/sat.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- debugging/trace.h
+ optimisations/count_nr_opponent_moves/move_generator.h debugging/trace.h
 
 stipulation/temporary_hacks.h:
 
@@ -851,6 +852,16 @@ utilities/enumeration.h:
 pylang.h:
 
 stipulation/slice_type.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
 
 stipulation/pipe.h:
 
@@ -901,6 +912,8 @@ solving/legal_move_counter.h:
 conditions/sat.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
+
+optimisations/count_nr_opponent_moves/move_generator.h:
 
 debugging/trace.h:
 stipulation/testing_pipe$(OBJ_SUFFIX): stipulation/testing_pipe.c \

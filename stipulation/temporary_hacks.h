@@ -8,9 +8,6 @@
 /* fork slice into mate tester */
 extern slice_index temporary_hack_mate_tester[nr_sides];
 
-/* fork slice into Ohneschach immobility tester */
-extern slice_index temporary_hack_immobility_tester[nr_sides];
-
 /* fork slice into mating move counter */
 extern slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 

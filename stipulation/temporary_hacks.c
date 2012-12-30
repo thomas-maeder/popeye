@@ -1,4 +1,5 @@
 #include "stipulation/temporary_hacks.h"
+#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
@@ -18,12 +19,12 @@
 #include "solving/legal_move_counter.h"
 #include "conditions/sat.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
+#include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
 slice_index temporary_hack_mate_tester[nr_sides];
-slice_index temporary_hack_immobility_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 slice_index temporary_hack_ultra_mummer_length_measurer[nr_sides];
@@ -36,11 +37,19 @@ slice_index temporary_hack_sat_flights_counter[nr_sides];
 
 static slice_index make_mate_tester_fork(Side side)
 {
-  Goal const mate_goal = { goal_mate, initsquare };
-  slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
-  slice_index const result = alloc_goal_reached_tester_slice(mate_goal,mate_tester);
-  dealloc_slice(slices[result].next1);
-  stip_impose_starter(result,side);
+  slice_index result;
+
+  if (CondFlag[exclusive] || CondFlag[republican])
+  {
+    Goal const mate_goal = { goal_mate, initsquare };
+    slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
+    result = alloc_goal_reached_tester_slice(mate_goal,mate_tester);
+    dealloc_slice(slices[result].next1);
+    stip_impose_starter(result,side);
+  }
+  else
+    result = alloc_proxy_slice();
+
   return result;
 }
 
@@ -61,13 +70,6 @@ static slice_index make_exclusive_mating_move_counter_fork(Side side)
   battle_branch_insert_direct_end_of_branch_goal(attack,proxy_to_goal);
   branch_insert_slices(attack,&unsuspender_proto,1);
   result = alloc_conditional_pipe(STExclusiveChessMatingMoveCounter,proxy_branch);
-  stip_impose_starter(result,side);
-  return result;
-}
-
-static slice_index make_immobility_tester_fork(Side side)
-{
-  slice_index const result = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
   stip_impose_starter(result,side);
   return result;
 }
@@ -120,24 +122,30 @@ static slice_index make_ultra_mummer_length_measurer(Side side)
 static slice_index make_cagecirce_noncapture_finder(Side side)
 {
   slice_index result;
-  slice_index const proxy_branch = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length+1,slack_length+1);
-  slice_index const proxy_goal = alloc_proxy_slice();
-  slice_index const system = alloc_goal_capture_reached_tester_system();
-  link_to_branch(proxy_goal,system);
 
+  if (CondFlag[circecage])
   {
-    slice_index const tester = branch_find_slice(STGoalReachedTester,
-                                                 proxy_goal,
-                                                 stip_traversal_context_intro);
-    assert(tester!=no_slice);
-    pipe_append(slices[tester].next2,alloc_not_slice());
-    slices[tester].u.goal_handler.goal.type = goal_negated;
-    help_branch_set_end_goal(help,proxy_goal,1);
-    link_to_branch(proxy_branch,help);
-    result = alloc_conditional_pipe(STCageCirceNonCapturingMoveFinder,proxy_branch);
-    stip_impose_starter(result,side);
+    slice_index const proxy_branch = alloc_proxy_slice();
+    slice_index const help = alloc_help_branch(slack_length+1,slack_length+1);
+    slice_index const proxy_goal = alloc_proxy_slice();
+    slice_index const system = alloc_goal_capture_reached_tester_system();
+    link_to_branch(proxy_goal,system);
+
+    {
+      slice_index const tester = branch_find_slice(STGoalReachedTester,
+                                                   proxy_goal,
+                                                   stip_traversal_context_intro);
+      assert(tester!=no_slice);
+      pipe_append(slices[tester].next2,alloc_not_slice());
+      slices[tester].u.goal_handler.goal.type = goal_negated;
+      help_branch_set_end_goal(help,proxy_goal,1);
+      link_to_branch(proxy_branch,help);
+      result = alloc_conditional_pipe(STCageCirceNonCapturingMoveFinder,proxy_branch);
+      stip_impose_starter(result,side);
+    }
   }
+  else
+    result = alloc_proxy_slice();
 
   return result;
 }
@@ -180,6 +188,7 @@ static slice_index make_opponent_moves_counter_fork(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
+  if (is_countnropponentmoves_defense_move_optimisation_enabled(side))
   {
     slice_index const proxy = alloc_proxy_slice();
     slice_index const prototypes[] =
@@ -194,6 +203,8 @@ static slice_index make_opponent_moves_counter_fork(Side side)
     result = alloc_conditional_pipe(STOpponentMovesCounterFork,proxy);
     stip_impose_starter(result,side);
   }
+  else
+    result = alloc_proxy_slice();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -230,9 +241,6 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_mate_tester[Black] = make_mate_tester_fork(Black);
     temporary_hack_mate_tester[White] = make_mate_tester_fork(White);
 
-    temporary_hack_immobility_tester[Black] = make_immobility_tester_fork(Black);
-    temporary_hack_immobility_tester[White] = make_immobility_tester_fork(White);
-
     temporary_hack_exclusive_mating_move_counter[Black] = make_exclusive_mating_move_counter_fork(Black);
     temporary_hack_exclusive_mating_move_counter[White] = make_exclusive_mating_move_counter_fork(White);
 
@@ -264,8 +272,6 @@ void insert_temporary_hacks(slice_index root_slice)
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
     pipe_append(temporary_hack_mate_tester[White],
-                temporary_hack_immobility_tester[White]);
-    pipe_append(temporary_hack_immobility_tester[White],
                 temporary_hack_exclusive_mating_move_counter[White]);
     pipe_append(temporary_hack_exclusive_mating_move_counter[White],
                 temporary_hack_brunner_check_defense_finder[White]);
@@ -288,8 +294,6 @@ void insert_temporary_hacks(slice_index root_slice)
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
     pipe_append(temporary_hack_mate_tester[Black],
-                temporary_hack_immobility_tester[Black]);
-    pipe_append(temporary_hack_immobility_tester[Black],
                 temporary_hack_exclusive_mating_move_counter[Black]);
     pipe_append(temporary_hack_exclusive_mating_move_counter[Black],
                 temporary_hack_brunner_check_defense_finder[Black]);

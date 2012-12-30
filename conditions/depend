@@ -3643,9 +3643,10 @@ conditions/ohneschach$(OBJ_SUFFIX): conditions/ohneschach.c conditions/ohneschac
  py4.h py.h stipulation/goals/goals.h pymsg.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/has_solution_type.h \
- stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/has_solution_type.h stipulation/temporary_hacks.h \
+ stipulation/battle_play/branch.h debugging/trace.h
 
 conditions/ohneschach.h:
 
@@ -3695,12 +3696,18 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
+stipulation/proxy.h:
+
 stipulation/pipe.h:
+
+stipulation/conditional_pipe.h:
 
 stipulation/branch.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/temporary_hacks.h:
+
+stipulation/battle_play/branch.h:
 
 debugging/trace.h:
