@@ -17,6 +17,12 @@ void reset_countnropponentmoves_defense_move_optimisation(void);
  */
 void disable_countnropponentmoves_defense_move_optimisation(Side side);
 
+/* Determine whether the optimisation is enabled for a side
+ * @param side
+ * @return true iff the optimisation is enabled for side
+ */
+boolean is_countnropponentmoves_defense_move_optimisation_enabled(Side side);
+
 /* Instrument stipulation with optimised move generation based on the number of
  * opponent moves
  * @param si identifies slice where to start

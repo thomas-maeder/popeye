@@ -42,6 +42,15 @@ void disable_countnropponentmoves_defense_move_optimisation(Side side)
   TraceFunctionResultEnd();
 }
 
+/* Determine whether the optimisation is enabled for a side
+ * @param side
+ * @return true iff the optimisation is enabled for side
+ */
+boolean is_countnropponentmoves_defense_move_optimisation_enabled(Side side)
+{
+  return enabled[side];
+}
+
 typedef struct
 {
     slice_index found_optimiser;
