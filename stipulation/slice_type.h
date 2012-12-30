@@ -107,6 +107,7 @@
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side has exposed its king */ \
     ENUMERATOR(STOhneschachStopIfCheck),  /* stop when a side has attacked the opponent's king */ \
     ENUMERATOR(STOhneschachStopIfCheckAndNotMate),  /* stop when a side has attacked the opponent's king */ \
+    ENUMERATOR(STRecursionStopper), /* avoid infinite recursions */     \
     ENUMERATOR(STMoveInverter),    /* inverts side to move */           \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \

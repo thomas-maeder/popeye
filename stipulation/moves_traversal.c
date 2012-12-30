@@ -396,6 +396,20 @@ static void stip_traverse_moves_conditional_pipe(slice_index conditional_pipe,
   TraceFunctionResultEnd();
 }
 
+static void stop_recursion(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  st->remaining_watermark[si] = st->remaining+1;
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static moves_traversers_visitors const special_moves_children_traversers[] =
 {
    { STAttackAdapter,    &stip_traverse_moves_attack_adapter    },
@@ -409,7 +423,8 @@ static moves_traversers_visitors const special_moves_children_traversers[] =
    { STHelpMovePlayed,   &stip_traverse_moves_move_played       },
    { STForkOnRemaining,  &stip_traverse_moves_fork_on_remaining },
    { STDeadEnd,          &stip_traverse_moves_dead_end          },
-   { STDeadEndGoal,      &stip_traverse_moves_dead_end          }
+   { STDeadEndGoal,      &stip_traverse_moves_dead_end          },
+   { STRecursionStopper, &stop_recursion                        }
 };
 
 enum { nr_special_moves_children_traversers = sizeof special_moves_children_traversers
