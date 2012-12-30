@@ -57,6 +57,7 @@ static void optimise_deadend_ready(slice_index si, stip_moves_traversal *st)
 static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
 {
   optimisation_state * const state = st->param;
+  slice_index const save_optimisable_deadend = state->optimisable_deadend;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -64,6 +65,9 @@ static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
 
   stip_traverse_moves_children(si,st);
 
+  TraceValue("%u",state->optimisable_deadend);
+  TraceValue("%u",state->end_of_branch_goal);
+  TraceValue("%u\n",st->context);
   if (state->optimisable_deadend!=no_slice
       && state->end_of_branch_goal!=no_slice
       && st->context!=stip_traversal_context_attack)
@@ -73,7 +77,7 @@ static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
     pipe_remove(state->optimisable_deadend);
   }
 
-  state->optimisable_deadend = no_slice;
+  state->optimisable_deadend = save_optimisable_deadend;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -116,13 +120,17 @@ static void remember_deadend(slice_index si, stip_moves_traversal *st)
 static void forget_deadend(slice_index si, stip_moves_traversal *st)
 {
   optimisation_state * const state = st->param;
+  slice_index const save_optimisable_deadend = state->optimisable_deadend;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",state->optimisable_deadend);
   stip_traverse_moves_children(si,st);
-  state->optimisable_deadend = no_slice;
+  TraceValue("%u\n",state->optimisable_deadend);
+  state->optimisable_deadend = save_optimisable_deadend;
+  TraceValue("->%u\n",state->optimisable_deadend);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -135,7 +143,8 @@ static moves_traversers_visitors const dead_end_optimisers[] =
   { STEndOfBranchGoal,         &remember_end_of_branch  },
   { STEndOfBranchGoalImmobile, &remember_end_of_branch  },
   { STNotEndOfBranchGoal,      &substitute_deadend_goal },
-  { STDeadEnd,                 &remember_deadend        }
+  { STDeadEnd,                 &remember_deadend        },
+  { STDefenseAdapter,          &forget_deadend          }
 };
 
 enum
