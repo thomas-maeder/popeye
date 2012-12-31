@@ -22,8 +22,11 @@ static slice_index alloc_immobility_test_branch(void)
 
   result = alloc_pipe(STImmobilityTester);
   link_to_branch(result,alloc_defense_branch(slack_length+1,slack_length+1));
-  slice_index const prototype = alloc_pipe(STRecursionStopper);
-  branch_insert_slices(result,&prototype,1);
+
+  {
+    slice_index const prototype = alloc_pipe(STRecursionStopper);
+    branch_insert_slices(result,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,6 +67,23 @@ static void insert_stop(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+
+static structure_traversers_visitor avoid_temporary_hacks[] =
+{
+  { STBrunnerDefenderFinder,                  &stip_traverse_structure_children_pipe },
+  { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe },
+  { STTakeMakeCirceCollectRebirthSquaresFork, &stip_traverse_structure_children_pipe },
+  { STCastlingIntermediateMoveLegalityTester, &stip_traverse_structure_children_pipe },
+  { STSATFlightsCounterFork,                  &stip_traverse_structure_children_pipe },
+  { STUltraMummerMeasurerFork,                &stip_traverse_structure_children_pipe }
+};
+
+enum
+{
+  nr_avoid_temporary_hacks = (sizeof avoid_temporary_hacks
+                              / sizeof avoid_temporary_hacks[0])
+};
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
@@ -79,12 +99,9 @@ void ohneschach_insert_check_guards(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STNotEndOfBranchGoal,&insert_stop);
-  stip_structure_traversal_override_single(&st,STBrunnerDefenderFinder,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STKingCaptureLegalityTester,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STTakeMakeCirceCollectRebirthSquaresFork,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STCastlingIntermediateMoveLegalityTester,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STSATFlightsCounterFork,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STUltraMummerMeasurerFork,&stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override(&st,
+                                    avoid_temporary_hacks,
+                                    nr_avoid_temporary_hacks);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
