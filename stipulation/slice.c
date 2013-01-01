@@ -199,8 +199,7 @@ static slice_type const proxy_slice_types[] =
     STLandingAfterAnticirceRebirth,
     STLandingAfterCirceRebirthHandler,
     STLandingAfterMovingPawnPromoter,
-    STMummerDeadend,
-    STRecursionStopper
+    STMummerDeadend
 };
 
 static slice_type const move_generator_slice_types[] =

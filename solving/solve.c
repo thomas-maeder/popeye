@@ -200,6 +200,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/king_capture_avoider.h"
 #include "stipulation/has_solution_type.h"
+#include "solving/recursion_stopper.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/branch.h"
@@ -1028,6 +1029,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STOhneschachStopIfCheckAndNotMate:
       result = ohneschach_stop_if_check_and_not_mate_solve(si,n);
+      break;
+
+    case STRecursionStopper:
+      result = recursion_stopper_solve(si,n);
       break;
 
     case STExclusiveChessUnsuspender:

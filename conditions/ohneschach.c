@@ -1,14 +1,12 @@
 #include "conditions/ohneschach.h"
 #include "pydata.h"
-#include "pymsg.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
-#include "stipulation/pipe.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/temporary_hacks.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/recursion_stopper.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -24,7 +22,7 @@ static slice_index alloc_immobility_test_branch(void)
   link_to_branch(result,alloc_defense_branch(slack_length+1,slack_length+1));
 
   {
-    slice_index const prototype = alloc_pipe(STRecursionStopper);
+    slice_index const prototype = alloc_recursion_stopper_slice();
     branch_insert_slices(result,&prototype,1);
   }
 
@@ -108,27 +106,6 @@ void ohneschach_insert_check_guards(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean immobile(slice_index si)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* ohneschach_stop_if_check_solve() may invoke itself recursively. Protect
-   * ourselves from infinite recursion. */
-  if (nbply>250)
-    FtlMsg(ChecklessUndecidable);
-
-  result = solve(slices[si].next2,length_unspecified)==has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -140,14 +117,15 @@ static boolean immobile(slice_index si)
 stip_length_type ohneschach_stop_if_check_and_not_mate_solve(slice_index si,
                                                              stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(slices[si].starter) && !immobile(si))
+  if (echecc(slices[si].starter)
+      && solve(slices[si].next2,length_unspecified)!=has_solution)
     result = slack_length-2;
   else
     result = solve(slices[si].next1,n);
