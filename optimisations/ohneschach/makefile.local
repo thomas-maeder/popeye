@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = non_checking_first.c redundant_immobility_tests.c immobility_tests_help.c
+SRC_CFILES = non_checking_first.c redundant_immobility_tests.c immobility_tests_help.c stop_if_check.c
 
-INCLUDES = non_checking_first.h redundant_immobility_tests.h immobility_tests_help.h
+INCLUDES = non_checking_first.h redundant_immobility_tests.h immobility_tests_help.h stop_if_check.h
 
 include makefile.rules $(CURRPWD)depend

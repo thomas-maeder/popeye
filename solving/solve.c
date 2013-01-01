@@ -132,7 +132,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
 #include "optimisations/ohneschach/non_checking_first.h"
-#include "optimisations/ohneschach/redundant_immobility_tests.h"
+#include "optimisations/ohneschach/stop_if_check.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxtime.h"

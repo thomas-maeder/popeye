@@ -1522,11 +1522,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
  optimisations/ohneschach/non_checking_first.h \
- optimisations/ohneschach/redundant_immobility_tests.h \
- options/maxsolutions/guard.h options/maxsolutions/initialiser.h \
- options/maxtime.h options/movenumbers.h options/degenerate_tree.h \
- options/nontrivial.h options/maxthreatlength.h \
- options/maxflightsquares.h \
+ optimisations/ohneschach/stop_if_check.h options/maxsolutions/guard.h \
+ options/maxsolutions/initialiser.h options/maxtime.h \
+ options/movenumbers.h options/degenerate_tree.h options/nontrivial.h \
+ options/maxthreatlength.h options/maxflightsquares.h \
  options/movenumbers/restart_guard_intelligent.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/stoponshortsolutions/filter.h \
@@ -1900,7 +1899,7 @@ optimisations/orthodox_mating_moves/king_contact_move_generator.h:
 
 optimisations/ohneschach/non_checking_first.h:
 
-optimisations/ohneschach/redundant_immobility_tests.h:
+optimisations/ohneschach/stop_if_check.h:
 
 options/maxsolutions/guard.h:
 
