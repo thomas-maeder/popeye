@@ -44,7 +44,7 @@ stip_length_type setplay_fork_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next2,length_unspecified);
+  solve(slices[si].next2,n);
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
