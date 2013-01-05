@@ -41,7 +41,7 @@ stip_length_type illegal_selfcheck_writer_solve(slice_index si, stip_length_type
   TraceFunctionParamListEnd();
 
   result = solve(slices[si].next1,n);
-  if (result<slack_length)
+  if (result==opponent_self_check)
     ErrorMsg(KingCapture);
 
   TraceFunctionExit(__func__);
