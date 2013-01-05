@@ -1176,7 +1176,7 @@ stip_length_type solve(slice_index si, stip_length_type n)
       break;
 
     case STTemporaryHackFork:
-      result = solve(slices[si].next1,length_unspecified);
+      result = solve(slices[si].next1,n);
       break;
 
     case STGoalTargetReachedTester:
