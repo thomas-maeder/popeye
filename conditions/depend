@@ -236,8 +236,8 @@ conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \
  stipulation/move_played.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- stipulation/boolean/true.h stipulation/goals/check/reached_tester.h \
- debugging/trace.h
+ stipulation/boolean/true.h stipulation/has_solution_type.h \
+ stipulation/goals/check/reached_tester.h debugging/trace.h
 
 conditions/check_zigzag.h:
 
@@ -292,6 +292,8 @@ output/mode.h:
 stipulation/help_play/branch.h:
 
 stipulation/boolean/true.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/goals/check/reached_tester.h:
 

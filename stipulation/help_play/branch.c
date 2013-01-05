@@ -569,37 +569,31 @@ static boolean does_goal_imply_immobility(slice_index si)
   return result;
 }
 
-/* Find a STReadyMove slice with a specific parity
+/* Find a STHelpMovePlayed slice with a specific parity
  * @param si identifies the entry slice of a help branch
  * @param parity indicates after which help move of the branch to insert
- * @return identifier of found STReadyMove slice; no_slice if no such slice was found
+ * @return identifier of found STHelpMovePlayed slice; no_slice if no such slice was found
  */
-slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
+static slice_index help_branch_locate_played(slice_index si, unsigned int parity)
 {
-  slice_index result = si;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  result = branch_find_slice(STReadyForHelpMove,result,stip_traversal_context_help);
-  assert(result!=no_slice);
+  slice_index const ready = branch_find_slice(STReadyForHelpMove,si,stip_traversal_context_help);
+  slice_index const played1 = branch_find_slice(STHelpMovePlayed,ready,stip_traversal_context_help);
+  slice_index const played2 = branch_find_slice(STHelpMovePlayed,played1,stip_traversal_context_help);
+  assert(ready!=no_slice);
+  assert(played1!=no_slice);
+  assert(played2!=no_slice);
 
-  while ((slices[result].u.branch.length-slack_length)%2!=parity%2)
-  {
-    slice_index const next = branch_find_slice(STReadyForHelpMove,
-                                               result,
-                                               stip_traversal_context_help);
-    assert(next!=no_slice);
-    if (result==next)
-    {
-      result = no_slice;
-      break;
-    }
-    else
-      result = next;
-  }
+  if ((slices[ready].u.branch.length-slack_length)%2==parity%2)
+    result = played1;
+  else
+    result = played2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -626,7 +620,7 @@ static boolean help_branch_insert_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const pos = help_branch_locate_ready(si,parity);
+    slice_index const pos = help_branch_locate_played(si,parity);
     if (pos==no_slice)
       result = false;
     else
@@ -1089,9 +1083,10 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const move = alloc_pipe(STMove);
     slice_index const played1 = alloc_help_move_played_slice();
     slice_index const not_end_goal1 = alloc_pipe(STNotEndOfBranchGoal);
-    slice_index const deadend = alloc_dead_end_slice();
     slice_index const played2 = alloc_help_move_played_slice();
     slice_index const not_end_goal2 = alloc_pipe(STNotEndOfBranchGoal);
+
+    slice_index const deadend = alloc_dead_end_slice();
 
     result = adapter;
 
@@ -1105,10 +1100,16 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(done_priorising,move);
     pipe_link(move,played1);
     pipe_link(played1,not_end_goal1);
-    pipe_link(not_end_goal1,deadend);
-    pipe_link(deadend,played2);
+    pipe_link(not_end_goal1,played2);
     pipe_link(played2,not_end_goal2);
     pipe_link(not_end_goal2,adapter);
+
+    if ((length-slack_length)%2==0)
+      /* branch ends after the pseudo move */
+      pipe_append(not_end_goal2,deadend);
+    else
+      /* branch ends after the real move */
+      pipe_append(not_end_goal1,deadend);
   }
 
   TraceFunctionExit(__func__);

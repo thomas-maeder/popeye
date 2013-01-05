@@ -93,8 +93,8 @@ solution finished.
 
               empile:     9362848
            play_move:     9364144
-        orig_rbechec:     1621675
-        orig_rnechec:     2066597
+        orig_rbechec:     1613589
+        orig_rnechec:     2062383
 solution finished. 
 
 
@@ -127,8 +127,8 @@ solution finished.
 
               empile:      279798
            play_move:      325359
-        orig_rbechec:       53810
-        orig_rnechec:       91164
+        orig_rbechec:       48458
+        orig_rnechec:       87668
 solution finished. 
 
 
@@ -163,16 +163,16 @@ a)
 
               empile:       46395
            play_move:       49827
-        orig_rbechec:       14257
-        orig_rnechec:      114074
+        orig_rbechec:       12953
+        orig_rnechec:      113403
 b) wBd1 
 
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 # 
 
               empile:      160272
            play_move:      165982
-        orig_rbechec:       44522
-        orig_rnechec:      200389
+        orig_rbechec:       42638
+        orig_rnechec:      199398
 solution finished. 
 
 
@@ -205,8 +205,8 @@ solution finished.
 
               empile:   186742793
            play_move:   186485453
-        orig_rbechec:    39658842
-        orig_rnechec:   114570482
+        orig_rbechec:    39129926
+        orig_rnechec:   114293936
 solution finished. 
 
 
@@ -239,7 +239,7 @@ solution finished.
   1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 # 
   1.Qe1-g3 + Ke5-d4   2.Qg3-e1   3.Qe1-a1 # 
 
-              empile:       13009
+              empile:       13057
            play_move:        5941
         orig_rbechec:        2666
         orig_rnechec:        5605
@@ -274,7 +274,7 @@ solution finished.
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 # 
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 # 
 
-              empile:     4621106
+              empile:     4888985
            play_move:     2575476
         orig_rbechec:     1573079
         orig_rnechec:     1591318
@@ -309,10 +309,10 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
   1.Qe8-e5 + Be1-c3   2.Kd6-e7   3.Ke7-f6   4.Kf6-g5   5.Kg5*h4   6.Kh4-g3   7.Qe5-e1 + Bc3*e1 # 
   1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 # 
 
-              empile:  1829086101
-           play_move:   807141439
+              empile:  1852162812
+           play_move:   807141395
         orig_rbechec:   759629632
-        orig_rnechec:   478172863
+        orig_rnechec:   478172818
 solution finished. 
 
 
@@ -389,7 +389,7 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
  11  (Kc2-d1 )
  12  (Kc2-b1 + )
 
-              empile:    13196506
+              empile:    13309486
            play_move:     4783528
         orig_rbechec:     4220909
         orig_rnechec:     2819852
@@ -442,7 +442,7 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
  18  (Bd5-e6 )
  19  (Bd5-c6 )
 
-              empile:   433983385
+              empile:   435261895
            play_move:   173292905
         orig_rbechec:   167747569
         orig_rnechec:   106457038

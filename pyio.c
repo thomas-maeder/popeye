@@ -2653,14 +2653,11 @@ static char *ParsePlay(char *tok,
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
       if (result!=0)
       {
-        slice_index const mi = alloc_move_inverter_slice();
-        slice_index const branch = alloc_series_branch(length-2,min_length);
-        pipe_link(mi,slices[proxy_next].next1);
-        pipe_link(proxy_next,mi);
+        slice_index const branch = alloc_series_branch(length-1,min_length+1);
         help_branch_set_end(branch,proxy_next,1);
         link_to_branch(proxy,branch);
 
-        stip_impose_starter(proxy_next,White);
+        stip_impose_starter(proxy_next,Black);
         select_output_mode(proxy,output_mode_line);
       }
     }
@@ -2850,9 +2847,9 @@ static char *ParsePlay(char *tok,
       slice_index const to_goal = slices[proxy_to_goal].next1;
       slice_index const nested = alloc_help_branch(slack_length+1,
                                                    slack_length+1);
-      help_branch_insert_check_zigzag(proxy);
       help_branch_set_end_goal(nested,proxy_to_goal,1);
       help_branch_set_end(proxy,nested,1);
+      help_branch_insert_check_zigzag(proxy);
       if (slices[to_goal].type==STGoalReachedTester
           && slices[to_goal].u.goal_handler.goal.type==goal_proofgame)
         stip_impose_starter(proxy_to_goal,White);

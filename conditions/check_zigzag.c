@@ -7,6 +7,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "debugging/trace.h"
 
@@ -63,6 +64,39 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
   TraceFunctionResultEnd();
 }
 
+static slice_index help_branch_locate_ready(slice_index si)
+{
+  slice_index result = si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",parity);
+  TraceFunctionParamListEnd();
+
+  result = branch_find_slice(STReadyForHelpMove,result,stip_traversal_context_help);
+  assert(result!=no_slice);
+
+  while ((slices[result].u.branch.length-slack_length)%2!=0)
+  {
+    slice_index const next = branch_find_slice(STReadyForHelpMove,
+                                               result,
+                                               stip_traversal_context_help);
+    assert(next!=no_slice);
+    if (result==next)
+    {
+      result = no_slice;
+      break;
+    }
+    else
+      result = next;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Instrument a help branch with a STIfThenElse slice
  * @param adapter identifies adapter slice into the help branch
  */
@@ -73,8 +107,7 @@ void help_branch_insert_check_zigzag(slice_index adapter)
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const parity = 0;
-    slice_index const ready = help_branch_locate_ready(adapter,parity);
+    slice_index const ready = help_branch_locate_ready(adapter);
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const played = alloc_help_move_played_slice();
