@@ -108,9 +108,9 @@ stip_length_type paralysing_mate_filter_solve(slice_index si, stip_length_type n
   TraceFunctionParamListEnd();
 
   if (suffocated_by_paralysis(mated))
-    result = has_no_solution;
+    result = n+2;
   else
-    result = solve(next,length_unspecified);
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
