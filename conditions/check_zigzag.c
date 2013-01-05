@@ -70,7 +70,6 @@ static slice_index help_branch_locate_ready(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
   result = branch_find_slice(STReadyForHelpMove,result,stip_traversal_context_help);
