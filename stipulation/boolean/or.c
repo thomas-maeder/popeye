@@ -53,7 +53,7 @@ stip_length_type or_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   result = solve(op1,n);
-  if (result<=previous_move_is_illegal || result>n)
+  if (result>n+1)
     result = solve(op2,n);
 
   TraceFunctionExit(__func__);
