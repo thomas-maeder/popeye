@@ -31,7 +31,7 @@ static boolean init_rebirth_squares(Side side_reborn)
 
   init_single_piece_move_generator(sq_capture);
 
-  result = solve(slices[temporary_hack_circe_take_make_rebirth_squares_finder[side_reborn]].next2,length_unspecified)==has_solution;
+  result = solve(slices[temporary_hack_circe_take_make_rebirth_squares_finder[side_reborn]].next2,length_unspecified)==next_move_has_solution;
 
   e[sq_capture] = pi_capturing;
   spec[sq_capture] = flags_capturing;
@@ -46,14 +46,19 @@ static boolean init_rebirth_squares(Side side_reborn)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
                                                                stip_length_type n)
 {
-  stip_length_type result = slack_length-2;
+  stip_length_type result = previous_move_is_illegal;
   numecoup i;
 
   TraceFunctionEntry(__func__);
@@ -81,9 +86,14 @@ stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
                                                                  stip_length_type n)
@@ -97,7 +107,7 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply]
       && !init_rebirth_squares(advers(slices[si].starter)))
-    result = slack_length-2;
+    result = previous_move_is_illegal;
   else
   {
     current_circe_rebirth_square[nbply] = rebirth_square[take_make_circe_current_rebirth_square_index[nbply]];

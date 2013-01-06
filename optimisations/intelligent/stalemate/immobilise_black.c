@@ -120,7 +120,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   TraceFunctionParamListEnd();
 
   current_state = &immobilisation_state;
-  solve(slices[current_start_slice].next2,length_unspecified);
+  solve(slices[current_start_slice].next2,slack_length);
   next_trouble_maker();
   current_state = 0;
 
@@ -225,9 +225,14 @@ static void update_pawn_requirement(void)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
                                                            stip_length_type n)

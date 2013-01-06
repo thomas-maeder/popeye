@@ -72,7 +72,7 @@ static boolean are_there_too_many_flights(slice_index si)
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
   save_rbn = king_square[fleeing];
-  result = solve(slices[si].next2,length_unspecified)==has_solution;
+  result = solve(slices[si].next2,length_unspecified)==next_move_has_solution;
   save_rbn = initsquare;
 
   TraceFunctionExit(__func__);
@@ -116,9 +116,14 @@ static slice_index alloc_maxflight_guard_slice(void)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type maxflight_guard_solve(slice_index si, stip_length_type n)
 {
@@ -145,9 +150,14 @@ stip_length_type maxflight_guard_solve(slice_index si, stip_length_type n)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type flightsquares_counter_solve(slice_index si,
                                               stip_length_type n)

@@ -1029,7 +1029,7 @@ stipulation/move_inverter$(OBJ_SUFFIX): stipulation/move_inverter.c \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/slice_type.h stipulation/traversal.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/pipe.h debugging/trace.h
 
 stipulation/move_inverter.h:
 
@@ -1066,6 +1066,8 @@ stipulation/stipulation.h:
 stipulation/goals/goals.h:
 
 output/mode.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 

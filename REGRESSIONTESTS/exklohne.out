@@ -30,8 +30,8 @@
 
               empile:     1012924
            play_move:      992629
-        orig_rbechec:      506802
-        orig_rnechec:      799701
+        orig_rbechec:      506800
+        orig_rnechec:      799699
 Loesung beendet. 
 
 
@@ -82,8 +82,8 @@ Loesung beendet.
 
               empile:       47432
            play_move:       39323
-        orig_rbechec:        2117
-        orig_rnechec:       39498
+        orig_rbechec:        2064
+        orig_rnechec:       39448
 Loesung beendet. 
 
 
@@ -120,8 +120,8 @@ Hans Burbach zum 75. Geburtstag gewidmet
 
               empile:      610957
            play_move:      404853
-        orig_rbechec:       59973
-        orig_rnechec:      404190
+        orig_rbechec:       59972
+        orig_rnechec:      404189
 Loesung beendet. 
 
 
@@ -166,8 +166,8 @@ Loesung beendet.
 
               empile:        8226
            play_move:        5917
-        orig_rbechec:        1718
-        orig_rnechec:        5583
+        orig_rbechec:        1685
+        orig_rnechec:        5550
 Loesung beendet. 
 
 
@@ -204,7 +204,7 @@ a)
               empile:     3398706
            play_move:     2026684
         orig_rbechec:      752042
-        orig_rnechec:     1693111
+        orig_rnechec:     1693085
 b) sLh1-->g8
 
   1.Df5-f2 + e2-e3   2.Tf7-f3 Sg6-f4 # 
@@ -212,7 +212,7 @@ b) sLh1-->g8
               empile:     2440716
            play_move:     1407935
         orig_rbechec:      579379
-        orig_rnechec:     1147394
+        orig_rnechec:     1147356
 Loesung beendet. 
 
 
@@ -294,7 +294,7 @@ Loesung beendet.
               empile:     1435393
            play_move:      951914
         orig_rbechec:      394097
-        orig_rnechec:      740231
+        orig_rnechec:      740171
 Loesung beendet. 
 
 
@@ -369,7 +369,7 @@ a)
               empile:     2290659
            play_move:     1643085
         orig_rbechec:      504080
-        orig_rnechec:     1496735
+        orig_rnechec:     1496677
 b)  -wLe1
 
   1.a2-a1=D Lh5-e2   2.Da1-h1 Sf5-h6 # 
@@ -377,7 +377,7 @@ b)  -wLe1
               empile:     1760065
            play_move:     1277219
         orig_rbechec:      389235
-        orig_rnechec:     1175524
+        orig_rnechec:     1175474
 Loesung beendet. 
 
 
@@ -413,7 +413,7 @@ Loesung beendet.
               empile:     1668532
            play_move:     1473777
         orig_rbechec:      778017
-        orig_rnechec:     1105058
+        orig_rnechec:     1104794
 Loesung beendet. 
 
 
@@ -449,7 +449,7 @@ Loesung beendet.
               empile:       72061
            play_move:       36788
         orig_rbechec:       16051
-        orig_rnechec:       30718
+        orig_rnechec:       30710
 Loesung beendet. 
 
 
@@ -495,8 +495,8 @@ a)
 
               empile:        9503
            play_move:        8368
-        orig_rbechec:        1935
-        orig_rnechec:        8702
+        orig_rbechec:        1921
+        orig_rnechec:        8690
 b) wKa5-->c3
 
    1.Kc3-d2 !
@@ -512,8 +512,8 @@ b) wKa5-->c3
 
               empile:       14083
            play_move:       12101
-        orig_rbechec:        2859
-        orig_rnechec:       12618
+        orig_rbechec:        2857
+        orig_rnechec:       12616
 Loesung beendet. 
 
 
@@ -563,8 +563,8 @@ Loesung beendet.
 
               empile:       19303
            play_move:       15231
-        orig_rbechec:        1973
-        orig_rnechec:       15280
+        orig_rbechec:        1920
+        orig_rnechec:       15232
 Loesung beendet. 
 
 
@@ -615,8 +615,8 @@ Loesung beendet.
 
               empile:      212779
            play_move:      119968
-        orig_rbechec:       30461
-        orig_rnechec:      112274
+        orig_rbechec:       30062
+        orig_rnechec:      111897
 Loesung beendet. 
 
 
@@ -670,7 +670,7 @@ Loesung beendet.
               empile:     1514225
            play_move:     1081880
         orig_rbechec:      231478
-        orig_rnechec:      972180
+        orig_rnechec:      972172
 Loesung beendet. 
 
 
@@ -711,8 +711,8 @@ Loesung beendet.
 
               empile:       25862
            play_move:       17797
-        orig_rbechec:        5285
-        orig_rnechec:       15656
+        orig_rbechec:        5282
+        orig_rnechec:       15613
 Loesung beendet. 
 
 
@@ -755,8 +755,8 @@ Loesung beendet.
 
               empile:       34699
            play_move:       26908
-        orig_rbechec:        9456
-        orig_rnechec:       22727
+        orig_rbechec:        9450
+        orig_rnechec:       22637
 Loesung beendet. 
 
 
@@ -797,8 +797,8 @@ Loesung beendet.
 
               empile:       20049
            play_move:       16079
-        orig_rbechec:        5993
-        orig_rnechec:       12739
+        orig_rbechec:        5950
+        orig_rnechec:       12656
 Loesung beendet. 
 
 
@@ -901,7 +901,7 @@ Loesung beendet.
               empile:       43509
            play_move:       41198
         orig_rbechec:       25821
-        orig_rnechec:       24183
+        orig_rnechec:       23976
 Loesung beendet. 
 
 
@@ -947,7 +947,7 @@ Loesung beendet.
               empile:       54624
            play_move:       40527
         orig_rbechec:       27447
-        orig_rnechec:       21549
+        orig_rnechec:       21452
 Loesung beendet. 
 
 
@@ -982,8 +982,8 @@ Loesung beendet.
 
               empile:     2628159
            play_move:     2030707
-        orig_rbechec:      572155
-        orig_rnechec:     1841824
+        orig_rbechec:      571519
+        orig_rnechec:     1839815
 Loesung beendet. 
 
 

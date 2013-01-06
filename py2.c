@@ -2500,7 +2500,7 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
   side = guess_side_at_move(sq_departure,sq_capture);
 
   init_single_move_generator(sq_departure,sq_arrival,sq_capture);
-  result = solve(slices[temporary_hack_king_capture_legality_tester[side]].next2,length_unspecified)==has_solution;
+  result = solve(slices[temporary_hack_king_capture_legality_tester[side]].next2,length_unspecified)==next_move_has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2522,7 +2522,7 @@ boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture)
   side = guess_side_at_move(sq_departure,sq_capture);
 
   init_single_move_generator(sq_departure,sq_arrival,sq_capture);
-  result = solve(slices[temporary_hack_brunner_check_defense_finder[side]].next2,length_unspecified)==has_solution;
+  result = solve(slices[temporary_hack_brunner_check_defense_finder[side]].next2,length_unspecified)==next_move_has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -86,7 +86,7 @@ void killer_move_optimise_final_defense_move(slice_index si,
 /* Try defenses by pieces other than the killer piece
  * @param si slice index
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
+ *            previous_move_is_illegal the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -95,14 +95,14 @@ static stip_length_type defend_with_non_killer_pieces(slice_index si)
   Side const defender = slices[si].starter;
   square const killer_pos = killer_moves[nbply+1].departure;
   square const *bnp;
-  stip_length_type result = slack_length-1;
+  stip_length_type result = immobility_on_next_move;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceSquare(killer_pos);
   TraceFunctionParamListEnd();
 
-  for (bnp = boardnum; result<=slack_length+1 && *bnp!=initsquare; ++bnp)
+  for (bnp = boardnum; result<=next_move_has_solution && *bnp!=initsquare; ++bnp)
     if (*bnp!=killer_pos && TSTFLAG(spec[*bnp],defender))
     {
       stip_length_type result_next_non_killer;
@@ -121,7 +121,7 @@ static stip_length_type defend_with_non_killer_pieces(slice_index si)
 /* Try defenses first by the killer piece, then by the other pieces
  * @param si slice index
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
+ *            previous_move_is_illegal the move just played or being played is illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -129,7 +129,7 @@ static stip_length_type defend_with_killer_piece(slice_index si)
 {
   Side const defender = slices[si].starter;
   square const killer_pos = killer_moves[nbply+1].departure;
-  stip_length_type result = slack_length-1;
+  stip_length_type result = immobility_on_next_move;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -152,14 +152,19 @@ static stip_length_type defend_with_killer_piece(slice_index si)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type killer_move_final_defense_move_solve(slice_index si,
                                                        stip_length_type n)
 {
-  stip_length_type result = slack_length-1;
+  stip_length_type result = immobility_on_next_move;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -170,7 +175,7 @@ stip_length_type killer_move_final_defense_move_solve(slice_index si,
 
   result = defend_with_killer_piece(si);
 
-  if (result<=slack_length+1)
+  if (result<=next_move_has_solution)
   {
     stip_length_type const result_non_killers = defend_with_non_killer_pieces(si);
     if (result_non_killers>result)

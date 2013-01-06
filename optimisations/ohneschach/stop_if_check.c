@@ -121,9 +121,14 @@ void ohneschach_stop_if_check_execute_optimisations(slice_index root)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type ohneschach_stop_if_check_solve(slice_index si,
                                                 stip_length_type n)
@@ -136,7 +141,7 @@ stip_length_type ohneschach_stop_if_check_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(slices[si].starter))
-    result = slack_length-2;
+    result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);
 

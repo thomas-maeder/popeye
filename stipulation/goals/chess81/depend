@@ -2,13 +2,14 @@ stipulation/goals/chess81/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/chess81/reached_tester.c \
  stipulation/goals/chess81/reached_tester.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h stipulation/goals/reached_tester.h \
- stipulation/boolean/true.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h \
+ stipulation/goals/reached_tester.h stipulation/boolean/true.h \
+ debugging/trace.h
 
 stipulation/goals/chess81/reached_tester.h:
 
@@ -26,6 +27,8 @@ utilities/bitmask.h:
 
 position/piece.h:
 
+utilities/boolean.h:
+
 utilities/enumeration.h:
 
 pylang.h:
@@ -41,8 +44,6 @@ stipulation/structure_traversal.h:
 stipulation/traversal.h:
 
 stipulation/goals/goals.h:
-
-utilities/boolean.h:
 
 output/mode.h:
 

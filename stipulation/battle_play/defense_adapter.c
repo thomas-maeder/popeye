@@ -79,9 +79,14 @@ void defense_adapter_make_intro(slice_index adapter,
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type defense_adapter_solve(slice_index si, stip_length_type n)
 {
@@ -97,7 +102,7 @@ stip_length_type defense_adapter_solve(slice_index si, stip_length_type n)
 
   defense_result = solve(next,length);
   if (defense_result<slack_length)
-    result = opponent_self_check; /* TODO alias is_immobile */
+    result = immobility_on_next_move;
   else if (defense_result<=length)
     result = n;
   else

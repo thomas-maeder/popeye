@@ -75,7 +75,7 @@ static boolean exists_redundant_white_piece(void)
         e[sq] = vide;
         spec[sq] = EmptySpec;
 
-        result = solve(slices[current_start_slice].next2,length_unspecified)==has_solution;
+        result = solve(slices[current_start_slice].next2,slack_length)==slack_length;
 
         /* restore piece */
         e[sq] = p;

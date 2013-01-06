@@ -1,13 +1,12 @@
 conditions/amu/mate_filter$(OBJ_SUFFIX): conditions/amu/mate_filter.c \
  conditions/amu/mate_filter.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/enumeration.h pylang.h \
+ position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
  conditions/amu/attack_counter.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h utilities/boolean.h output/mode.h \
- stipulation/pipe.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h debugging/trace.h
 
 conditions/amu/mate_filter.h:
 
@@ -24,6 +23,8 @@ position/board.h:
 utilities/bitmask.h:
 
 position/piece.h:
+
+utilities/boolean.h:
 
 utilities/enumeration.h:
 
@@ -43,8 +44,6 @@ stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
-utilities/boolean.h:
-
 output/mode.h:
 
 stipulation/pipe.h:
@@ -63,8 +62,8 @@ debugging/trace.h:
 conditions/amu/attack_counter$(OBJ_SUFFIX): conditions/amu/attack_counter.c \
  conditions/amu/attack_counter.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
- py4.h py.h stipulation/goals/goals.h utilities/boolean.h \
+ position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
@@ -87,6 +86,8 @@ utilities/bitmask.h:
 
 position/piece.h:
 
+utilities/boolean.h:
+
 utilities/enumeration.h:
 
 pylang.h:
@@ -100,8 +101,6 @@ py4.h:
 py.h:
 
 stipulation/goals/goals.h:
-
-utilities/boolean.h:
 
 stipulation/pipe.h:
 

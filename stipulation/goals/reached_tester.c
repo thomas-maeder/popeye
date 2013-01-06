@@ -38,9 +38,14 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type goal_reached_tester_solve(slice_index si, stip_length_type n)
 {
@@ -51,23 +56,23 @@ stip_length_type goal_reached_tester_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (solve(slices[si].next2,length_unspecified))
+  switch (solve(slices[si].next2,slack_length))
   {
-    case opponent_self_check:
-      result = slack_length-2;
+    case previous_move_is_illegal:
+      result = previous_move_is_illegal;
       break;
 
-    case has_no_solution:
+    case slack_length+2:
       result = n+2;
       break;
 
-    case has_solution:
+    case slack_length:
       result = solve(slices[si].next1,n);
       break;
 
     default:
       assert(0);
-      result = opponent_self_check;
+      result = previous_move_is_illegal;
       break;
   }
 

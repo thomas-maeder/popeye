@@ -214,9 +214,14 @@ void attack_adapter_apply_setplay(slice_index adapter,
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type attack_adapter_solve(slice_index si, stip_length_type n)
 {
@@ -232,7 +237,7 @@ stip_length_type attack_adapter_solve(slice_index si, stip_length_type n)
 
   nr_moves_needed = solve(next,length);
   if (nr_moves_needed<slack_length)
-    result = slack_length-2;
+    result = immobility_on_next_move;
   else if (nr_moves_needed<=length)
     result = n;
   else

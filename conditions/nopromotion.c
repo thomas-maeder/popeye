@@ -12,9 +12,14 @@
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
                                                           stip_length_type n)
@@ -28,7 +33,7 @@ stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (has_pawn_reached_promotion_square(slices[si].starter,sq_arrival))
-    result = slack_length-2;
+    result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);
 
@@ -42,9 +47,14 @@ stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type nopromotion_avoid_promotion_reborn_solve(slice_index si,
                                                           stip_length_type n)
@@ -60,7 +70,7 @@ stip_length_type nopromotion_avoid_promotion_reborn_solve(slice_index si,
   /* check for both sides - this has to work for Circe Parrain and neutrals as well! */
   if ((CondFlag[nowhiteprom] && TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
       || (CondFlag[noblackprom] && TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)))
-    result = slack_length-2;
+    result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);
 

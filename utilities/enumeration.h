@@ -65,7 +65,7 @@ typedef enum
 
 #undef ASSIGNED_ENUMERATOR
 #undef ENUMERATOR
-#undef ENUMERATION_DECLARE 
+#undef ENUMERATION_DECLARE
 
 /* Declare the associated character string array
  * (definition of the array see below)

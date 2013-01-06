@@ -69,7 +69,7 @@ static boolean pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,length_unspecified)!=has_solution);
+            || solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)==slack_length+2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -116,9 +116,14 @@ void exclusive_init_genmove(Side side)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type exclusive_chess_unsuspender_solve(slice_index si,
                                                     stip_length_type n)
@@ -205,9 +210,14 @@ void stip_insert_exclusive_chess_legality_testers(slice_index si)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
                                                         stip_length_type n)
@@ -223,7 +233,7 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
   if (!CondFlag[exclusive] || pos_legal())
     result = solve(next,n);
   else
-    result = slack_length-2;
+    result = previous_move_is_illegal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

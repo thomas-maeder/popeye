@@ -23,9 +23,14 @@ static boolean no_cage_for_current_capture[maxply+1];
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
                                                 stip_length_type n)
@@ -79,7 +84,7 @@ static boolean find_non_capturing_move(square sq_departure, Side moving_side)
   TraceFunctionParamListEnd();
 
   init_single_piece_move_generator(sq_departure);
-  result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==has_solution;
+  result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==next_move_has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -91,9 +96,14 @@ static boolean find_non_capturing_move(square sq_departure, Side moving_side)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type circe_cage_cage_tester_solve(slice_index si,
                                                stip_length_type n)
@@ -107,7 +117,7 @@ stip_length_type circe_cage_cage_tester_solve(slice_index si,
 
   if (find_non_capturing_move(current_circe_rebirth_square[nbply],
                               advers(slices[si].starter)))
-    result = slack_length-2;
+    result = previous_move_is_illegal;
   else
   {
     cage_found_for_current_capture[nbply] = true;

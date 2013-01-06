@@ -131,9 +131,14 @@ void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type constraint_solve(slice_index si, stip_length_type n)
 {
@@ -148,15 +153,13 @@ stip_length_type constraint_solve(slice_index si, stip_length_type n)
 
   switch (solve(condition,length_unspecified))
   {
-    case opponent_self_check:
-      result = slack_length-2;
-      break;
-
-    case has_solution:
+    case previous_move_has_solved:
+    case next_move_has_solution:
       result = solve(next,n);
       break;
 
-    case has_no_solution:
+    case immobility_on_next_move:
+    case next_move_has_no_solution:
       result = n+2;
       break;
 

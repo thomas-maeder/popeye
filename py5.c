@@ -491,7 +491,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
   if (complex_castling_through_flag)
   {
     castling_intermediate_move_generator_init_next(from,to);
-    result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==has_solution;
+    result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==next_move_has_solution;
   }
   else
   {

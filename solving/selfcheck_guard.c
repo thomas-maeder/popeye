@@ -38,9 +38,14 @@ slice_index alloc_selfcheck_guard_slice(void)
  * @param si slice index
  * @param n maximum number of half moves
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move just played or being played is illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
 stip_length_type selfcheck_guard_solve(slice_index si, stip_length_type n)
 {
@@ -52,7 +57,7 @@ stip_length_type selfcheck_guard_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(advers(slices[si].starter)))
-    result = slack_length-2;
+    result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);
 
@@ -188,8 +193,8 @@ static void instrument_negated_tester(slice_index si,
 
   if (state->in_goal_tester!=no_goal)
   {
-    /* make sure that not_slice doesn't convert has_no_solution into
-     * has_solution if the last move caused a self-check
+    /* make sure that not_slice doesn't convert previous_move_has_not_solved into
+     * previous_move_has_solved if the last move caused a self-check
      */
     slice_index const proxy_not = alloc_proxy_slice();
     slice_index const proxy_selfcheck = alloc_proxy_slice();
