@@ -1,18 +1,17 @@
-#if !defined(SOLVING_RECURSION_STOPPER_H)
-#define SOLVING_RECURSION_STOPPER_H
+#if !defined(OUTPUT_PLAINTEXT_PLAINTEXT_OHNESCHACH_DETECT_UNDECIDABLE_GOAL_H)
+#define OUTPUT_PLAINTEXT_PLAINTEXT_OHNESCHACH_DETECT_UNDECIDABLE_GOAL_H
 
-/* This module implements the slice type STRecursionStopper which can be used
- * to avoid infinite recursion in chess forms that allow for it
+/* This module makes sure that undecidable goals are properly signaled in
+ * Ohneschach
  */
 
 #include "solving/solve.h"
+#include "stipulation/goals/goals.h"
 
-extern boolean recursion_stopped;
-
-/* Allocate a STRecursionStopper slice
- * @return newly allocated slice
+/* Allocate a STOhneschachDetectUndecidableGoal slice.
+ * @return index of allocated slice
  */
-slice_index alloc_recursion_stopper_slice(void);
+slice_index alloc_ohneschach_detect_undecidable_goal_slice(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -27,6 +26,7 @@ slice_index alloc_recursion_stopper_slice(void);
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type recursion_stopper_solve(slice_index si, stip_length_type n);
+stip_length_type ohneschach_detect_undecidable_goal_solve(slice_index si,
+                                                          stip_length_type n);
 
 #endif

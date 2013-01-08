@@ -2,17 +2,19 @@ output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  output/plaintext/line/line.h stipulation/slice.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/slice_type.h \
- stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/traversal.h solving/solve.h stipulation/fork.h \
- output/output.h output/mode.h stipulation/has_solution_type.h \
- stipulation/branch.h stipulation/help_play/branch.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- output/plaintext/end_of_phase_writer.h solving/trivial_end_filter.h \
- output/plaintext/move_inversion_counter.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ solving/solve.h stipulation/fork.h output/output.h output/mode.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/help_play/branch.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/plaintext/end_of_phase_writer.h \
+ solving/trivial_end_filter.h output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
+ output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/line/line_writer.h \
- output/plaintext/line/end_of_intro_series_marker.h debugging/trace.h
+ output/plaintext/line/end_of_intro_series_marker.h \
+ output/plaintext/tree/goal_writer.h debugging/trace.h
 
 output/plaintext/line/line.h:
 
@@ -37,6 +39,16 @@ utilities/enumeration.h:
 pylang.h:
 
 stipulation/slice_type.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
 
 stipulation/pipe.h:
 
@@ -70,9 +82,13 @@ output/plaintext/move_inversion_counter.h:
 
 output/plaintext/illegal_selfcheck_writer.h:
 
+output/plaintext/ohneschach_detect_undecidable_goal.h:
+
 output/plaintext/line/line_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
+
+output/plaintext/tree/goal_writer.h:
 
 debugging/trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \

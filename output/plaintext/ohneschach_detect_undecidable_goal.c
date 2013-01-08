@@ -1,25 +1,24 @@
-#include "solving/recursion_stopper.h"
+#include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "pydata.h"
+#include "pymsg.h"
+#include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/pipe.h"
+#include "conditions/ohneschach.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
-
-boolean recursion_stopped;
-
-/* Allocate a STRecursionStopper slice
- * @return newly allocated slice
+/* Allocate a STOhneschachDetectUndecidableGoal slice.
+ * @return index of allocated slice
  */
-slice_index alloc_recursion_stopper_slice(void)
+slice_index alloc_ohneschach_detect_undecidable_goal_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRecursionStopper);
+  result = alloc_pipe(STOhneschachDetectUndecidableGoal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -40,26 +39,24 @@ slice_index alloc_recursion_stopper_slice(void)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type recursion_stopper_solve(slice_index si, stip_length_type n)
+stip_length_type ohneschach_detect_undecidable_goal_solve(slice_index si,
+                                                          stip_length_type n)
 {
   stip_length_type result;
-
-#if defined(DOTRACE)
-  /* empirically determined one 1 workstation */
-  ply const stop_at_ply = 250;
-#else
-  ply const stop_at_ply = maxply;
-#endif
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nbply>stop_at_ply)
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",ohneschach_undecidable_goal_detected[nbply+1]);
+  if (ohneschach_undecidable_goal_detected[nbply+1])
   {
-    recursion_stopped = true;
+    ohneschach_undecidable_goal_detected[nbply+1] = false;
     result = previous_move_is_illegal;
+    StdChar(blank);
+    Message(ChecklessUndecidable);
   }
   else
     result = solve(slices[si].next1,n);

@@ -146,6 +146,7 @@
 #include "options/stoponshortsolutions/filter.h"
 #include "options/stoponshortsolutions/initialiser.h"
 #include "output/plaintext/end_of_phase_writer.h"
+#include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
@@ -1034,6 +1035,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STOhneschachStopIfCheckAndNotMate:
       result = ohneschach_stop_if_check_and_not_mate_solve(si,n);
+      break;
+
+    case STOhneschachDetectUndecidableGoal:
+      result = ohneschach_detect_undecidable_goal_solve(si,n);
       break;
 
     case STRecursionStopper:

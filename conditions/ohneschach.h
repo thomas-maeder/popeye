@@ -6,6 +6,8 @@
 
 #include "solving/solve.h"
 
+extern boolean ohneschach_undecidable_goal_detected[maxply+1];
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

@@ -1,8 +1,10 @@
 # -*- Makefile -*-
 #
 
-SRC_CFILES = plaintext.c end_of_phase_writer.c illegal_selfcheck_writer.c move_inversion_counter.c
+SRC_CFILES = plaintext.c end_of_phase_writer.c illegal_selfcheck_writer.c \
+             move_inversion_counter.c ohneschach_detect_undecidable_goal.c
 
-INCLUDES = plaintext.h end_of_phase_writer.h illegal_selfcheck_writer.h move_inversion_counter.h
+INCLUDES = plaintext.h end_of_phase_writer.h illegal_selfcheck_writer.h \
+           move_inversion_counter.h ohneschach_detect_undecidable_goal.h
 
 include makefile.rules $(CURRPWD)depend

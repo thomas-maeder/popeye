@@ -1531,6 +1531,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  options/stoponshortsolutions/filter.h \
  options/stoponshortsolutions/initialiser.h \
  output/plaintext/end_of_phase_writer.h \
+ output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  output/plaintext/tree/end_of_solution_writer.h \
@@ -1927,6 +1928,8 @@ options/stoponshortsolutions/initialiser.h:
 
 output/plaintext/end_of_phase_writer.h:
 
+output/plaintext/ohneschach_detect_undecidable_goal.h:
+
 output/plaintext/illegal_selfcheck_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
@@ -2207,11 +2210,11 @@ solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
  solving/recursion_stopper.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h pymsg.h \
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/pipe.h debugging/trace.h
 
 solving/recursion_stopper.h:
 
@@ -2245,8 +2248,6 @@ py.h:
 
 stipulation/goals/goals.h:
 
-pymsg.h:
-
 stipulation/stipulation.h:
 
 stipulation/slice.h:
@@ -2260,6 +2261,8 @@ stipulation/traversal.h:
 stipulation/goals/goals.h:
 
 output/mode.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 

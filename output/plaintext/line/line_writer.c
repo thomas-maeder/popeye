@@ -148,36 +148,21 @@ static void write_ply_history(unsigned int *next_move_number,
   TraceFunctionResultEnd();
 }
 
-static void write_line(slice_index si)
+static void write_line(goal_type goal)
 {
-  goal_type const type = slices[si].u.goal_handler.goal.type;
   unsigned int next_movenumber = 0;
   Side numbered_side = no_side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
-
-#ifdef _SE_DECORATE_SOLUTION_
-  se_start_pos();
-#endif
 
   write_ply_history(&next_movenumber,&numbered_side);
 
   write_move_number_if_necessary(&next_movenumber,&numbered_side);
   output_plaintext_write_move();
-  if (!output_plaintext_goal_writer_replaces_check_writer(type))
+  if (!output_plaintext_goal_writer_replaces_check_writer(goal))
     write_potential_check();
-  if (type!=no_goal)
-    StdString(goal_end_marker[type]);
-  StdChar(blank);
-
-#ifdef _SE_DECORATE_SOLUTION_
-  se_end_pos();
-#endif
-#ifdef _SE_FORSYTH_
-  se_forsyth();
-#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -226,10 +211,19 @@ stip_length_type output_plaintext_line_line_writer_solve(slice_index si, stip_le
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+#ifdef _SE_DECORATE_SOLUTION_
+  se_start_pos();
+#endif
+
+  write_line(slices[si].u.goal_handler.goal.type);
   result = solve(slices[si].next1,n);
 
-  if (slack_length<=result && result<=n)
-    write_line(si);
+#ifdef _SE_DECORATE_SOLUTION_
+  se_end_pos();
+#endif
+#ifdef _SE_FORSYTH_
+  se_forsyth();
+#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,4 +1,5 @@
 #include "output/plaintext/line/line.h"
+#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "output/output.h"
@@ -9,8 +10,10 @@
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
+#include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
+#include "output/plaintext/tree/goal_writer.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -44,6 +47,17 @@ static void instrument_goal_reached_tester(slice_index si,
   {
     Goal const goal = slices[si].u.goal_handler.goal;
     slice_index const prototype = alloc_line_writer_slice(goal);
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  {
+    slice_index const prototype = alloc_goal_writer_slice(slices[si].u.goal_handler.goal);
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  if (CondFlag[ohneschach])
+  {
+    slice_index const prototype = alloc_ohneschach_detect_undecidable_goal_slice();
     help_branch_insert_slices(si,&prototype,1);
   }
 

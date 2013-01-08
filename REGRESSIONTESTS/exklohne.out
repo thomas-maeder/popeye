@@ -25,8 +25,8 @@
               OhneSchach
             ExklusivSchach
 
-  1...a2-a4   2.g7-g5 a4-a5   3.g5-g4 a5-a6   4.g4-g3 a6-a7   5.g3-g2 a7-a8=D   6.g2-g1=D Da8-a6 # 
-  1...a2-a4   2.g7-g5 a4-a5   3.g5-g4 a5-a6   4.g4-g3 a6-a7   5.g3-g2 a7-a8=T   6.g2-g1=T Ta8-f8 # 
+  1...a2-a4   2.g7-g5 a4-a5   3.g5-g4 a5-a6   4.g4-g3 a6-a7   5.g3-g2 a7-a8=D   6.g2-g1=D Da8-a6 #
+  1...a2-a4   2.g7-g5 a4-a5   3.g5-g4 a5-a6   4.g4-g3 a6-a7   5.g3-g2 a7-a8=T   6.g2-g1=T Ta8-f8 #
 
               empile:     1012924
            play_move:      992629
@@ -115,8 +115,8 @@ Hans Burbach zum 75. Geburtstag gewidmet
            ChamaeleonCirce
             ExklusivSchach
 
-  1.Tb1-b7 Ka8*b7[+sDd8]   2.Lf2-g1 f7-f8=T # 
-  1.Lf2-a7 Ka8*a7[+sTh8]   2.Tb1-d1 f7-f8=D # 
+  1.Tb1-b7 Ka8*b7[+sDd8]   2.Lf2-g1 f7-f8=T #
+  1.Lf2-a7 Ka8*a7[+sTh8]   2.Tb1-d1 f7-f8=D #
 
               empile:      610957
            play_move:      404853
@@ -199,7 +199,7 @@ Loesung beendet.
 
 a) 
 
-  1.Df5-f1 Kd4-c4   2.Tf7-f2 Sg6-f4 # 
+  1.Df5-f1 Kd4-c4   2.Tf7-f2 Sg6-f4 #
 
               empile:     3398706
            play_move:     2026684
@@ -207,7 +207,7 @@ a)
         orig_rnechec:     1693085
 b) sLh1-->g8
 
-  1.Df5-f2 + e2-e3   2.Tf7-f3 Sg6-f4 # 
+  1.Df5-f2 + e2-e3   2.Tf7-f3 Sg6-f4 #
 
               empile:     2440716
            play_move:     1407935
@@ -245,7 +245,7 @@ Loesung beendet.
 
 a) 
 
-  1.h2-h1=L e6*f7   2.Lh1-d5 f7-f8=S # 
+  1.h2-h1=L e6*f7   2.Lh1-d5 f7-f8=S #
 
               empile:       51950
            play_move:       43362
@@ -253,7 +253,7 @@ a)
         orig_rnechec:       41025
 b) wKf1-->g2
 
-  1.h2-h1=T e6*f7   2.Th1-f1 f7*g8=D # 
+  1.h2-h1=T e6*f7   2.Th1-f1 f7*g8=D #
 
               empile:       57506
            play_move:       49437
@@ -289,7 +289,7 @@ Loesung beendet.
   h#2                         4 + 7
             ExklusivSchach
 
-  1.Tg1-g5 Tc1-c4   2.Lf1*c4 0-0-0 # 
+  1.Tg1-g5 Tc1-c4   2.Lf1*c4 0-0-0 #
 
               empile:     1435393
            play_move:      951914
@@ -325,8 +325,8 @@ Loesung beendet.
   h#2                         5 + 3
             ExklusivSchach
 
-  1.c2-c1=T h7-h8=S   2.Tc1*c6 d7-d8=D # 
-  1.c2-c1=L d7-d8=S   2.Lc1*h6 h7-h8=D # 
+  1.c2-c1=T h7-h8=S   2.Tc1*c6 d7-d8=D #
+  1.c2-c1=L d7-d8=S   2.Lc1*h6 h7-h8=D #
 
               empile:      117036
            play_move:      108180
@@ -364,7 +364,7 @@ Loesung beendet.
 
 a) 
 
-  1.a2-a1=T Le1-d2   2.Ta1-a7 Sf5-e7 # 
+  1.a2-a1=T Le1-d2   2.Ta1-a7 Sf5-e7 #
 
               empile:     2290659
            play_move:     1643085
@@ -372,7 +372,7 @@ a)
         orig_rnechec:     1496677
 b)  -wLe1
 
-  1.a2-a1=D Lh5-e2   2.Da1-h1 Sf5-h6 # 
+  1.a2-a1=D Lh5-e2   2.Da1-h1 Sf5-h6 #
 
               empile:     1760065
            play_move:     1277219
@@ -408,7 +408,7 @@ Loesung beendet.
   h#2                         4 + 8
             ExklusivSchach
 
-  1.b2-b1=L b7-b8=S   2.a2-a1=T g7*f8=D # 
+  1.b2-b1=L b7-b8=S   2.a2-a1=T g7*f8=D #
 
               empile:     1668532
            play_move:     1473777
@@ -444,7 +444,7 @@ Loesung beendet.
   h#2                         6 + 6
             ExklusivSchach
 
-  1.d4*e3 ep. Kd1-e1   2.Dd6-h2 Tc2-d2 # 
+  1.d4*e3 ep. Kd1-e1   2.Dd6-h2 Tc2-d2 #
 
               empile:       72061
            play_move:       36788
@@ -977,8 +977,8 @@ Loesung beendet.
   h#2                         4 + 9
             ExklusivSchach
 
-  1.e5-e4 f4*g5   2.Dd4*h8 + e7-e8=T # 
-  1.Sg5-f7 f4*e5   2.Sf7*h8 e7-e8=D # 
+  1.e5-e4 f4*g5   2.Dd4*h8 + e7-e8=T #
+  1.Sg5-f7 f4*e5   2.Sf7*h8 e7-e8=D #
 
               empile:     2628159
            play_move:     2030707
@@ -1116,7 +1116,7 @@ Loesung beendet.
 
 a) 
 
-  1.d2-d1=T a7-a8=D   2.Td1-f1 Da8-g2 # 
+  1.d2-d1=T a7-a8=D   2.Td1-f1 Da8-g2 #
 
               empile:       23673
            play_move:       20211
@@ -1124,7 +1124,7 @@ a)
         orig_rnechec:       20212
 b) sKf2-->d5
 
-  1.d2-d1=L a7-a8=S   2.Ld1-b3 Sa8-b6 # 
+  1.d2-d1=L a7-a8=S   2.Ld1-b3 Sa8-b6 #
 
               empile:       32505
            play_move:       25576
@@ -1160,8 +1160,8 @@ Loesung beendet.
   ser-h#4                     2 + 2
               OhneSchach
 
-  1.Kc7-d7   2.Kd7-e6   3.Nc5-d7   4.Nd7-f8 Nc8-a4 # 
-  1.Kc7-c6   2.Kc6-b5   3.Kb5-b4   4.Nc5-a6 Nc8-f2 # 
+  1.Kc7-d7   2.Kd7-e6   3.Nc5-d7   4.Nd7-f8 Nc8-a4 #
+  1.Kc7-c6   2.Kc6-b5   3.Kb5-b4   4.Nc5-a6 Nc8-f2 #
 
               empile:       33941
            play_move:       27219
@@ -1244,7 +1244,7 @@ Loesung beendet.
   ser-h=10                    1 + 3
               OhneSchach
 
-  1.e7-e5   2.e5-e4   3.e4-e3   4.e3-e2   5.e2-e1=S   6.Se1-f3   7.Sf3-d2   8.Sd2-b1   9.a2-a1=T  10.a3-a2 Kc1-d1 = 
+  1.e7-e5   2.e5-e4   3.e4-e3   4.e3-e2   5.e2-e1=S   6.Se1-f3   7.Sf3-d2   8.Sd2-b1   9.a2-a1=T  10.a3-a2 Kc1-d1 =
 
               empile:     1155066
            play_move:      383106
@@ -1279,7 +1279,7 @@ Loesung beendet.
   ser-h=10                    1 + 2
               OhneSchach
 
-  1.b7-b5   2.b5-b4   3.b4-b3   4.b3-b2   5.b2-b1=L   6.a2-a1=T   7.Ta1-a7   8.Lb1-e4   9.Le4-a8  10.Ta7-b7 Kf1-g2 = 
+  1.b7-b5   2.b5-b4   3.b4-b3   4.b3-b2   5.b2-b1=L   6.a2-a1=T   7.Ta1-a7   8.Lb1-e4   9.Le4-a8  10.Ta7-b7 Kf1-g2 =
 
               empile:      610595
            play_move:      152681
@@ -1315,7 +1315,7 @@ Loesung beendet.
   ser-h=16                    2 + 2
               OhneSchach
 
-  1.Kh7-g6   2.Kg6-f5   3.Kf5-e4   4.Ke4-d4   5.Kd4-c3   6.Kc3-b4   7.Kb4*b5   8.Kb5-a6   9.b6-b5  10.b5-b4  11.b4-b3  12.b3-b2  13.b2-b1=L  14.Lb1-e4  15.Le4-a8  16.Ka6-b7 Kd6-d5 = 
+  1.Kh7-g6   2.Kg6-f5   3.Kf5-e4   4.Ke4-d4   5.Kd4-c3   6.Kc3-b4   7.Kb4*b5   8.Kb5-a6   9.b6-b5  10.b5-b4  11.b4-b3  12.b3-b2  13.b2-b1=L  14.Lb1-e4  15.Le4-a8  16.Ka6-b7 Kd6-d5 =
 
               empile:      329349
            play_move:       71887
@@ -1409,7 +1409,7 @@ Loesung beendet.
   ser-=9                      2 + 2
               OhneSchach
 
-  1.Kb3-c4   2.Kc4-d4   3.c3-c4   4.c4-c5   5.c5-c6   6.c6-c7   7.c7-c8=D   8.Dc8-c3   9.Dc3-d2 = 
+  1.Kb3-c4   2.Kc4-d4   3.c3-c4   4.c4-c5   5.c5-c6   6.c6-c7   7.c7-c8=D   8.Dc8-c3   9.Dc3-d2 =
 
               empile:      117379
            play_move:       47814
@@ -1445,7 +1445,7 @@ A134 (Version), Problemkiste 102, 12/1995
             CavalierMajeur
               OhneSchach
 
-  1.g7-g5 b2-b4   2.g5-g4 b4-b5   3.g4-g3 b5-b6   4.g3-g2 b6-b7   5.g2-g1=N b7-b8=N # 
+  1.g7-g5 b2-b4   2.g5-g4 b4-b5   3.g4-g3 b5-b6   4.g3-g2 b6-b7   5.g2-g1=N b7-b8=N #
 
               empile:      478918
            play_move:      473526
@@ -1481,7 +1481,7 @@ Loesung beendet.
   ser-h=7                     2 + 2
               OhneSchach
 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-c7 Kc8*c7 = 
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-c7 Kc8*c7 =
 
               empile:       12954
            play_move:        3852
@@ -1517,7 +1517,7 @@ Loesung beendet.
   ser-h#6                     2 + 2
               OhneSchach
 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-a7 b6-b7 # 
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-a7 b6-b7 #
 
               empile:        1746
            play_move:        1687
@@ -1553,7 +1553,7 @@ Loesung beendet.
               Ohneschlag
               OhneSchach
 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7 Kc8-c7 = 
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7 Kc8-c7 =
 
               empile:       10009
            play_move:        4554
@@ -1589,7 +1589,7 @@ Loesung beendet.
                 Circe
               OhneSchach
 
-  1.a7-a6 Kc8-d7   2.Ka8-b7 Kd7-d6   3.Kb7*b6[+wBb2] b2-b3   4.Kb6-a5 Kd6-c5 = 
+  1.a7-a6 Kc8-d7   2.Ka8-b7 Kd7-d6   3.Kb7*b6[+wBb2] b2-b3   4.Kb6-a5 Kd6-c5 =
 
               empile:      104706
            play_move:       35363
@@ -1691,7 +1691,7 @@ Loesung beendet.
 
 a) 
 
-  1.Kf2-g1 f7-f8=D   2.d2-d1=L Df8-f3 = 
+  1.Kf2-g1 f7-f8=D   2.d2-d1=L Df8-f3 =
 
               empile:      190413
            play_move:       29121
@@ -1699,7 +1699,7 @@ a)
         orig_rnechec:       27906
 b) wBc2-->c3
 
-  1.Kf2-e1 f7-f8=T   2.d2-d1=S Tf8-f2 = 
+  1.Kf2-e1 f7-f8=T   2.d2-d1=S Tf8-f2 =
 
               empile:      147616
            play_move:       23242
@@ -1737,8 +1737,8 @@ Loesung beendet.
 
 a) 
 
-  1.e2-e1=S Tb1*e1[+sSb8]   2.c2-c1=D Te1*c1[+sDd8] # 
-  1.Kc7-c6 Tb1-d1   2.Lb6-c7 Td1-d6 # 
+  1.e2-e1=S Tb1*e1[+sSb8]   2.c2-c1=D Te1*c1[+sDd8] #
+  1.Kc7-c6 Tb1-d1   2.Lb6-c7 Td1-d6 #
 
               empile:      156156
            play_move:      136439
@@ -1746,8 +1746,8 @@ a)
         orig_rnechec:      136391
 b) Verschiebung b1 ==> a1
 
-  1.d2-d1=T Ta1*d1[+sTa8]   2.b2-b1=L Td1*b1[+sLc8] # 
-  1.Kb7-b6 Ta1-c1   2.La6-b7 Tc1-c6 # 
+  1.d2-d1=T Ta1*d1[+sTa8]   2.b2-b1=L Td1*b1[+sLc8] #
+  1.Kb7-b6 Ta1-c1   2.La6-b7 Tc1-c6 #
 
               empile:       80996
            play_move:       72755
@@ -1783,9 +1783,9 @@ Loesung beendet.
   h#2                         2 + 2
               OhneSchach
 
-  1.Ta4-a5 Kb1-b2   2.Ta5-b5 Ta1-a4 # 
-  1.Kb4-b3 Ta1-a2   2.Ta4-b4 Ta2-a3 # 
-  1.Kb4-c3 Kb1-c1   2.Ta4-c4 Ta1-a3 # 
+  1.Ta4-a5 Kb1-b2   2.Ta5-b5 Ta1-a4 #
+  1.Kb4-b3 Ta1-a2   2.Ta4-b4 Ta2-a3 #
+  1.Kb4-c3 Kb1-c1   2.Ta4-c4 Ta1-a3 #
 
               empile:       28789
            play_move:       14688
@@ -2270,8 +2270,8 @@ Loesung beendet.
               Ohneschlag
               OhneSchach
 
-  1.h3-h2 g7-g8=D   2.h2-h1=S Dg8-g3 = 
-  1.h3-h2 g7-g8=T   2.h2-h1=L Tg8-g2 = 
+  1.h3-h2 g7-g8=D   2.h2-h1=S Dg8-g3 =
+  1.h3-h2 g7-g8=T   2.h2-h1=L Tg8-g2 =
 
               empile:       12021
            play_move:        3343
@@ -2351,7 +2351,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1.b2-b1=T c6-c7   2.Tb1-b8 c7-c8=D   3.h2-h1=S a7*b8=L = 
+  1.b2-b1=T c6-c7   2.Tb1-b8 c7-c8=D   3.h2-h1=S a7*b8=L =
 
               empile:      100274
            play_move:       24162
@@ -2387,7 +2387,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1.Ke7-d6 d7-d8=L   2.a2-a1=S b5-b6   3.c2-c1=T b6-b7   4.Tc1-c8 b7*c8=D = 
+  1.Ke7-d6 d7-d8=L   2.a2-a1=S b5-b6   3.c2-c1=T b6-b7   4.Tc1-c8 b7*c8=D =
 
               empile:     1586190
            play_move:      355009
@@ -2423,9 +2423,9 @@ Loesung beendet.
               OhneSchach
                 Duplex
 
-  1.f2-f1=D f7-f8=S   2.Df1-b5 Sf8-e6 # 
+  1.f2-f1=D f7-f8=S   2.Df1-b5 Sf8-e6 #
 
-  1.f7-f8=T f2-f1=D   2.Tf8-f5 Df1-a1 # 
+  1.f7-f8=T f2-f1=D   2.Tf8-f5 Df1-a1 #
 
               empile:       36758
            play_move:       31343
@@ -2559,7 +2559,7 @@ Loesung beendet.
 
 a) 
 
-  1.h3-h2 Ka6-b5   2.h2-h1=L Kb5-c5   3.Lh1-d5 Kc5*d5 x 
+  1.h3-h2 Ka6-b5   2.h2-h1=L Kb5-c5   3.Lh1-d5 Kc5*d5 x
 
               empile:       10276
            play_move:        3671
@@ -2567,7 +2567,7 @@ a)
         orig_rnechec:        3540
 b) wKa6-->a7
 
-  1.h3-h2 Ka7-a6   2.h2-h1=L Ka6-a7   3.Lh1-a8 Ka7*a8 x 
+  1.h3-h2 Ka7-a6   2.h2-h1=L Ka6-a7   3.Lh1-a8 Ka7*a8 x
 
               empile:        6466
            play_move:        2484
@@ -2775,10 +2775,10 @@ Loesung beendet.
   h#2                         2 + 2
               OhneSchach
 
-  1.Sf4-h3 g2*h3   2.Kh5-h4 Dg8-g4 # 
-  1.Sf4-g6 Dg8-g7   2.Sg6-h4 g2-g4 # 
-  1.Kh5-h6 g2-g4   2.Sf4-h5 g4-g5 # 
-  1.Kh5-h4 Dg8-g6   2.Sf4-h3 g2-g3 # 
+  1.Sf4-h3 g2*h3   2.Kh5-h4 Dg8-g4 #
+  1.Sf4-g6 Dg8-g7   2.Sg6-h4 g2-g4 #
+  1.Kh5-h6 g2-g4   2.Sf4-h5 g4-g5 #
+  1.Kh5-h4 Dg8-g6   2.Sf4-h3 g2-g3 #
 
               empile:       70777
            play_move:       41496
@@ -3156,7 +3156,7 @@ Loesung beendet.
 
   1  (e2-e1=D )
   2  (e2-e1=S )
-  1.e2-e1=S h7-h8=D   2.Se1-g2 Dh8-d8   3.h2-h1=L g7-g8=T = 
+  1.e2-e1=S h7-h8=D   2.Se1-g2 Dh8-d8   3.h2-h1=L g7-g8=T =
   3  (e2-e1=T )
   4  (e2-e1=L )
   5  (h2-h1=D + )
@@ -3699,7 +3699,7 @@ Loesung beendet.
          WeisserLaengstzueger
               OhneSchach
 
-  1.f2-f1=L Kc2-d1   2.a2-a1=S c7-c8=D   3.g2-g1=T Dc8-h3 # 
+  1.f2-f1=L Kc2-d1   2.a2-a1=S c7-c8=D   3.g2-g1=T Dc8-h3 #
 
               empile:       77744
            play_move:       53858
@@ -3734,7 +3734,7 @@ Loesung beendet.
   ser-=4                      1 + 2
               OhneSchach
 
-  1.Kh1-g2   2.Kg2-f3   3.Kf3-e4   4.Ke4-d5 = 
+  1.Kh1-g2   2.Kg2-f3   3.Kf3-e4   4.Ke4-d5 =
 
               empile:         974
            play_move:         418
@@ -3769,7 +3769,7 @@ Loesung beendet.
   ser-=10                     1 + 3
               OhneSchach
 
-  1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4-c3   6.Kc3-b2   7.Kb2*a2   8.Ka2-b3   9.Kb3-c4  10.Kc4-d5 = 
+  1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4-c3   6.Kc3-b2   7.Kb2*a2   8.Ka2-b3   9.Kb3-c4  10.Kc4-d5 =
 
               empile:        5983
            play_move:        2187
@@ -3805,7 +3805,7 @@ Loesung beendet.
                 Circe
               OhneSchach
 
-  1.Kg8-h7   2.Kh7-g6   3.Kg6-f5   4.Kf5-e4   5.Ke4-d3   6.Kd3*c3[+sLf8]   7.Kc3-b4   8.c2-c4   9.c4-c5  10.c5-c6  11.c6-c7  12.c7-c8=S # 
+  1.Kg8-h7   2.Kh7-g6   3.Kg6-f5   4.Kf5-e4   5.Ke4-d3   6.Kd3*c3[+sLf8]   7.Kc3-b4   8.c2-c4   9.c4-c5  10.c5-c6  11.c6-c7  12.c7-c8=S #
 
               empile:        6272
            play_move:        6198
@@ -3840,11 +3840,11 @@ Loesung beendet.
   ser-#14                     2 + 2
               OhneSchach
 
-  1.Kf8-g8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=T   7.Th8-h7   8.Th7-g7   9.Kg8-h7  10.Kh7-h6  11.Kh6-h5  12.Kh5-g4  13.Kg4-f4  14.Tg7-g6 # 
-  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-d6  11.Kd6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-d5 # 
-  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-d6  11.Kd6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-g8 # 
-  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-c6  11.Kc6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-d5 # 
-  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-c6  11.Kc6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-g8 # 
+  1.Kf8-g8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=T   7.Th8-h7   8.Th7-g7   9.Kg8-h7  10.Kh7-h6  11.Kh6-h5  12.Kh5-g4  13.Kg4-f4  14.Tg7-g6 #
+  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-d6  11.Kd6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-d5 #
+  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-d6  11.Kd6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-g8 #
+  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-c6  11.Kc6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-d5 #
+  1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-c6  11.Kc6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-g8 #
 
               empile:      112599
            play_move:       87696
@@ -3880,7 +3880,7 @@ Loesung beendet.
              SpiegelCirce
               OhneSchach
 
-  1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4*c3[+sTa1]   6.Kc3-c4   7.Kc4-b5   8.Kb5*a5[+sBa2]   9.Ka5-b4  10.Kb4-c3  11.Kc3-d2  12.Kd2-d1 = 
+  1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4*c3[+sTa1]   6.Kc3-c4   7.Kc4-b5   8.Kb5*a5[+sBa2]   9.Ka5-b4  10.Kb4-c3  11.Kc3-d2  12.Kd2-d1 =
 
               empile:        9382
            play_move:        3962
@@ -3923,7 +3923,7 @@ Loesung beendet.
   6  (Kc8-b8 )
   7  (Kc8-c7 )
   8  (Kc8-d7 )
-  1.Kc8-d7 Kh3-g4   2.f2-f1=L f5-f6   3.Lf1-a6 f6-f7   4.La6-c8 f7-f8=S # 
+  1.Kc8-d7 Kh3-g4   2.f2-f1=L f5-f6   3.Lf1-a6 f6-f7   4.La6-c8 f7-f8=S #
   9  (Kc8-b7 )
 
               empile:      745725
@@ -3963,7 +3963,7 @@ Loesung beendet.
               OhneSchach
             ExklusivSchach
 
-  1...f2-f4   2.a7-a5 f4-f5   3.a5-a4 f5-f6   4.a4-a3 f6-f7   5.a3-a2 f7-f8=D   6.a2-a1=D Df8-b4 # 
+  1...f2-f4   2.a7-a5 f4-f5   3.a5-a4 f5-f6   4.a4-a3 f6-f7   5.a3-a2 f7-f8=D   6.a2-a1=D Df8-b4 #
 
               empile:     2089404
            play_move:     2050941
@@ -4066,7 +4066,7 @@ Loesung beendet.
 
 a) 
 
-  1.Kh4-g5 h7-h8=D   2.h2-h1=S Dh8*h3 = 
+  1.Kh4-g5 h7-h8=D   2.h2-h1=S Dh8*h3 =
 
               empile:       80046
            play_move:       14524
@@ -4074,7 +4074,7 @@ a)
         orig_rnechec:       13572
 b) sKh4-->g3
 
-  1.Kg3-g2 h7-h8=T   2.h2-h1=L Th8*h3 = 
+  1.Kg3-g2 h7-h8=T   2.h2-h1=L Th8*h3 =
 
               empile:      105064
            play_move:       17863
@@ -4111,7 +4111,7 @@ Loesung beendet.
 
 a) 
 
-  1.Kc4-b5 Kc2-b3   2.Th6-b6 a2-a4 # 
+  1.Kc4-b5 Kc2-b3   2.Th6-b6 a2-a4 #
 
               empile:       16774
            play_move:       13051
@@ -4119,7 +4119,7 @@ a)
         orig_rnechec:       12999
 b) wBa2-->b2
 
-  1.Kc4-c5 Kc2-c3   2.Th6-c6 b2-b4 # 
+  1.Kc4-c5 Kc2-c3   2.Th6-c6 b2-b4 #
 
               empile:       16313
            play_move:       10802
@@ -4127,7 +4127,7 @@ b) wBa2-->b2
         orig_rnechec:       10752
 c) sTh6-->h5
 
-  1.Kc4-b4 Kc2-b2   2.Th5-b5 a2-a3 # 
+  1.Kc4-b4 Kc2-b2   2.Th5-b5 a2-a3 #
 
               empile:       15940
            play_move:       12541
@@ -4164,7 +4164,7 @@ Loesung beendet.
 
 a) 
 
-  1.Tb8-a8 Ke6-d7   2.Ta8-a7 c5-c6 # 
+  1.Tb8-a8 Ke6-d7   2.Ta8-a7 c5-c6 #
 
               empile:       16387
            play_move:       13237
@@ -4172,7 +4172,7 @@ a)
         orig_rnechec:       13222
 b) Drehung 270
 
-  1.Kg7-f6 e6-e7   2.Th7-f7 e7-e8=S # 
+  1.Kg7-f6 e6-e7   2.Th7-f7 e7-e8=S #
 
               empile:       14933
            play_move:       13695
@@ -4207,8 +4207,8 @@ Loesung beendet.
   h#2                         2 + 2
               OhneSchach
 
-  1.Kc4-d4 Kf5-f4   2.Tc6-c4 e2-e3 # 
-  1.Kc4-d5 e2-e3   2.Tc6-c5 e3-e4 # 
+  1.Kc4-d4 Kf5-f4   2.Tc6-c4 e2-e3 #
+  1.Kc4-d5 e2-e3   2.Tc6-c5 e3-e4 #
 
               empile:       14378
            play_move:       12564
@@ -4243,7 +4243,7 @@ Loesung beendet.
   ser-=7                      2 + 2
               OhneSchach
 
-  1.Ke4-d5   2.e2-e4   3.e4-e5   4.e5-e6   5.e6-e7   6.e7-e8=D   7.De8-b5 = 
+  1.Ke4-d5   2.e2-e4   3.e4-e5   4.e5-e6   5.e6-e7   6.e7-e8=D   7.De8-b5 =
 
               empile:       27467
            play_move:       12125
@@ -4279,7 +4279,7 @@ Loesung beendet.
               Ohneschlag
               OhneSchach
 
-  1.nBd2-d1=nT e7-e8=S   2.nTd1-d2 h7-h8=D   3.nBc2-c1=nL Dh8-b2 = 
+  1.nBd2-d1=nT e7-e8=S   2.nTd1-d2 h7-h8=D   3.nBc2-c1=nL Dh8-b2 =
 
               empile:    43405761
            play_move:     5355181
@@ -4315,9 +4315,9 @@ Loesung beendet.
               OhneSchach
                 Duplex
 
-  1.Lf3-a8 Ng2-e1   2.Ka6-b7 Kc5-d5 # 
+  1.Lf3-a8 Ng2-e1   2.Ka6-b7 Kc5-d5 #
 
-  1.Kc5-c4 Ka6-a5   2.Ng2-e3 Lf3-e2 # 
+  1.Kc5-c4 Ka6-a5   2.Ng2-e3 Lf3-e2 #
 
               empile:       56036
            play_move:       44551
@@ -4353,9 +4353,9 @@ Loesung beendet.
               OhneSchach
                 Duplex
 
-  1.Nh4-b1 g7-g8=N   2.Ke2-d2 Ke4-f3 # 
+  1.Nh4-b1 g7-g8=N   2.Ke2-d2 Ke4-f3 #
 
-  1.g7-g8=N Ke2-d2   2.Ng8-f6 Nh4-d6 # 
+  1.g7-g8=N Ke2-d2   2.Ng8-f6 Nh4-d6 #
 
               empile:       71161
            play_move:       51907
@@ -4394,18 +4394,18 @@ Loesung beendet.
 
 a) 
 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 # 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 # 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 # 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 # 
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
 
               empile:     1160831
            play_move:      638549
@@ -4413,19 +4413,19 @@ a)
         orig_rnechec:      638232
 b) wKa8-->h8
 
-  1.Kd3-d4 Kh8-g7   2.RLc4-g8 f7*g8=RL   3.Kd4-e5 b7-b8=RL # 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 # 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 # 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 # 
-  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 # 
-  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 # 
-  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 # 
+  1.Kd3-d4 Kh8-g7   2.RLc4-g8 f7*g8=RL   3.Kd4-e5 b7-b8=RL #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-b3 b7-b8=RL   2.RLb3-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-c2 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
+  1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
 
               empile:     1412530
            play_move:      772954
@@ -4460,7 +4460,7 @@ Loesung beendet.
   h=3                         3 + 3
               OhneSchach
 
-  1.BBc2-b1=T f7-f8=S   2.Tb1-b2 b7-b8=D   3.a2-a1=L Db8-g3 = 
+  1.BBc2-b1=T f7-f8=S   2.Tb1-b2 b7-b8=D   3.a2-a1=L Db8-g3 =
 
               empile:    22046925
            play_move:     2894549
@@ -4495,7 +4495,7 @@ Loesung beendet.
   h=3                         3 + 3
               OhneSchach
 
-  1.BBc2-b1=T g7-g8=D   2.Tb1-b2 Dg8-g3   3.a2-a1=L BBh7-g8=S = 
+  1.BBc2-b1=T g7-g8=D   2.Tb1-b2 Dg8-g3   3.a2-a1=L BBh7-g8=S =
 
               empile:    42186786
            play_move:     5175274
@@ -4531,7 +4531,7 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1.BBc2-b1=T Ke3-d4   2.Tb1-b8 c7-c8=D   3.a2-a1=S a7*b8=L = 
+  1.BBc2-b1=T Ke3-d4   2.Tb1-b8 c7-c8=D   3.a2-a1=S a7*b8=L =
 
               empile:      743389
            play_move:      118088
@@ -4566,7 +4566,7 @@ Loesung beendet.
   h=3                         3 + 3
               OhneSchach
 
-  1.f2-f1=T f7-f8=D   2.Tf1-f5 Df8*f5   3.h2-h1=S BBg7-h8=L = 
+  1.f2-f1=T f7-f8=D   2.Tf1-f5 Df8*f5   3.h2-h1=S BBg7-h8=L =
 
               empile:    33941119
            play_move:     4394164
@@ -4602,14 +4602,14 @@ Loesung beendet.
             Koeniglich d3
               OhneSchach
 
-  1.Kd5-e5 kDd3-g3 # 
-  1.Kd5-c5 kDd3-a3 # 
-  1.Kd5-c6 kDd3-a6 # 
-  1.Kd5-e6 kDd3-g6 # 
-  1.Dd6-c5 kDd3-f5 # 
-  1.Dd6-e5 kDd3-b5 # 
-  1.Dd6-c6 kDd3-f3 # 
-  1.Dd6-e6 kDd3-b3 # 
+  1.Kd5-e5 kDd3-g3 #
+  1.Kd5-c5 kDd3-a3 #
+  1.Kd5-c6 kDd3-a6 #
+  1.Kd5-e6 kDd3-g6 #
+  1.Dd6-c5 kDd3-f5 #
+  1.Dd6-e5 kDd3-b5 #
+  1.Dd6-c6 kDd3-f3 #
+  1.Dd6-e6 kDd3-b3 #
 
               empile:        3052
            play_move:        1308
@@ -4651,7 +4651,7 @@ Loesung beendet.
   3  (c2-c1=L )
   4  (c2-c1=N )
   5  (a7-a5 )
-  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=N f7-f8=N = 
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=N f7-f8=N =
   6  (a7-a6 )
 
               empile:      101177
@@ -4698,7 +4698,7 @@ Loesung beendet.
   8  (Kd2-c1 )
   9  (d4-d3 )
  10  (c7-c5 )
-  1.c7-c5 a2-a4   2.c5-c4 a4-a5   3.c4-c3 a5-a6   4.c3-c2 a6-a7   5.c2-c1=L a7-a8=N # 
+  1.c7-c5 a2-a4   2.c5-c4 a4-a5   3.c4-c3 a5-a6   4.c3-c2 a6-a7   5.c2-c1=L a7-a8=N #
  11  (c7-c6 )
 
               empile:     1825830
@@ -4745,7 +4745,7 @@ Loesung beendet.
   8  (Gf3-d1 )
   9  (Gf3-h5 )
  10  (d7-d5 )
-  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=G h7-h8=N # 
+  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=G h7-h8=N #
  11  (d7-d6 )
 
               empile:     5559190
@@ -4791,7 +4791,7 @@ Loesung beendet.
   7  (Ke2-f1 )
   8  (Ke2-d1 )
   9  (d7-d5 )
-  1.d7-d5 b2-b4   2.d5-d4 b4-b5   3.d4-d3 b5-b6   4.d3-d2 b6-b7   5.d2-d1=G2 b7-b8=N # 
+  1.d7-d5 b2-b4   2.d5-d4 b4-b5   3.d4-d3 b5-b6   4.d3-d2 b6-b7   5.d2-d1=G2 b7-b8=N #
  10  (d7-d6 )
 
               empile:     2101226
@@ -4834,7 +4834,7 @@ Loesung beendet.
   3  (nBg2-g1=nT )
   4  (nBg2-g1=nL )
   5  (vBh2-h1=vD=w )
-  1.vBh2-h1=vD=w Dh1*h5[+nBh1=nT]   2.nBg2*h1=nL[+nTg2] c7-c8=S = 
+  1.vBh2-h1=vD=w Dh1*h5[+nBh1=nT]   2.nBg2*h1=nL[+nTg2] c7-c8=S =
   6  (vBh2-h1=vS=w )
   7  (vBh2-h1=vT=w )
   8  (vBh2-h1=vL=w )
@@ -4878,7 +4878,16 @@ Ohneschach-Anomalie !
 +---a---b---c---d---e---f---g---h---+
   #1                          5 + 3
               OhneSchach
-Fataler Fehler:
 
-Ohneschach oder ExklusivSchach: kann nicht entscheiden, ob ein Zug legal ist.
+   1.Th8-e8 Ohneschach oder ExklusivSchach: kann nicht entscheiden, ob ein Zug legal ist.
+
+   1.Td8-e8 # !
+
+
+              empile:      152854
+           play_move:      110010
+        orig_rbechec:       47112
+        orig_rnechec:       77434
+Loesung beendet. 
+
 

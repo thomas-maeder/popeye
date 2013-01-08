@@ -214,3 +214,70 @@ output/mode.h:
 stipulation/pipe.h:
 
 debugging/trace.h:
+output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
+ output/plaintext/ohneschach_detect_undecidable_goal.c \
+ output/plaintext/ohneschach_detect_undecidable_goal.h solving/solve.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/goals/goals.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h pymsg.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
+ stipulation/stipulation.h output/mode.h stipulation/has_solution_type.h \
+ conditions/ohneschach.h debugging/trace.h
+
+output/plaintext/ohneschach_detect_undecidable_goal.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/goals/goals.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+pymsg.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
+
+stipulation/stipulation.h:
+
+output/mode.h:
+
+stipulation/has_solution_type.h:
+
+conditions/ohneschach.h:
+
+debugging/trace.h:

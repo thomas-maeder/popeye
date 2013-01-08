@@ -11,6 +11,8 @@
 
 #include <assert.h>
 
+boolean ohneschach_undecidable_goal_detected[maxply+1];
+
 static slice_index alloc_immobility_test_branch(void)
 {
   slice_index result;
@@ -32,7 +34,7 @@ static slice_index alloc_immobility_test_branch(void)
   return result;
 }
 
-static void insert_stop(slice_index si, stip_structure_traversal *st)
+static void insert_stop_on_check(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -65,7 +67,6 @@ static void insert_stop(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-
 static structure_traversers_visitor avoid_temporary_hacks[] =
 {
   { STBrunnerDefenderFinder,                  &stip_traverse_structure_children_pipe },
@@ -96,7 +97,7 @@ void ohneschach_insert_check_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STNotEndOfBranchGoal,&insert_stop);
+  stip_structure_traversal_override_single(&st,STNotEndOfBranchGoal,&insert_stop_on_check);
   stip_structure_traversal_override(&st,
                                     avoid_temporary_hacks,
                                     nr_avoid_temporary_hacks);
@@ -129,9 +130,40 @@ stip_length_type ohneschach_stop_if_check_and_not_mate_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(slices[si].starter)
-      && solve(slices[si].next2,length_unspecified)==next_move_has_no_solution)
-    result = previous_move_is_illegal;
+  if (echecc(slices[si].starter))
+  {
+    ohneschach_undecidable_goal_detected[nbply+1] = false;
+
+    switch (solve(slices[si].next2,length_unspecified))
+    {
+      case previous_move_is_illegal:
+        ohneschach_undecidable_goal_detected[nbply] = recursion_stopped;
+        TraceValue("%u",nbply);
+        TraceValue("%u\n",ohneschach_undecidable_goal_detected[nbply]);
+        recursion_stopped = false;
+        result = n;
+        break;
+
+      case next_move_has_no_solution:
+        result = previous_move_is_illegal;
+        break;
+
+      case next_move_has_solution:
+        ohneschach_undecidable_goal_detected[nbply] = ohneschach_undecidable_goal_detected[nbply+1];
+        TraceValue("%u",nbply);
+        TraceValue("%u\n",ohneschach_undecidable_goal_detected[nbply]);
+        result = n;
+        break;
+
+      case immobility_on_next_move:
+        result = solve(slices[si].next1,n);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
   else
     result = solve(slices[si].next1,n);
 

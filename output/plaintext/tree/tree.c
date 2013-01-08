@@ -11,6 +11,7 @@
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "solving/trivial_end_filter.h"
+#include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/threat_writer.h"
@@ -114,6 +115,12 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
   if (slices[si].u.goal_handler.goal.type!=no_goal)
   {
     slice_index const prototype = alloc_goal_writer_slice(slices[si].u.goal_handler.goal);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  if (CondFlag[ohneschach])
+  {
+    slice_index const prototype = alloc_ohneschach_detect_undecidable_goal_slice();
     branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
