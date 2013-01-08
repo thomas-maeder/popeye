@@ -5,7 +5,7 @@
 
 #include <assert.h>
 
-/* This module provides the STOutputPlaintextTreeGoalWriter slice type.
+/* This module provides the STOutputPlaintextGoalWriter slice type.
  * Slices of this type write the goal at the end of a variation
  */
 

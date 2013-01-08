@@ -317,7 +317,7 @@ static slice_type const writer_slice_types[] =
     STRefutationWriter,
     STOutputPlaintextTreeCheckWriter,
     STOutputPlaintextLineLineWriter,
-    STOutputPlaintextTreeGoalWriter
+    STOutputPlaintextGoalWriter
 };
 
 static void init_one_functional_type(slice_type const slice_types[],

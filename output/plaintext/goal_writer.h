@@ -1,14 +1,14 @@
-#if !defined(OUTPUT_PLAINTEXT_TREE_GOAL_WRITER_H)
-#define OUTPUT_PLAINTEXT_TREE_GOAL_WRITER_H
+#if !defined(OUTPUT_PLAINTEXT_GOAL_WRITER_H)
+#define OUTPUT_PLAINTEXT_GOAL_WRITER_H
 
 #include "stipulation/goals/goals.h"
 #include "solving/solve.h"
 
-/* This module provides the STOutputPlaintextTreeGoalWriter slice type.
+/* This module provides the STOutputPlaintextGoalWriter slice type.
  * Slices of this type write the goal at the end of a variation
  */
 
-/* Allocate a STOutputPlaintextTreeGoalWriter slice.
+/* Allocate a STOutputPlaintextGoalWriter slice.
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
@@ -27,7 +27,7 @@ slice_index alloc_goal_writer_slice(Goal goal);
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type
-output_plaintext_tree_goal_writer_solve(slice_index si, stip_length_type n);
+stip_length_type output_plaintext_goal_writer_solve(slice_index si,
+                                                    stip_length_type n);
 
 #endif

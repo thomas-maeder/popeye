@@ -148,12 +148,12 @@
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
+#include "output/plaintext/goal_writer.h"
+#include "output/plaintext/move_inversion_counter.h"
+#include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
-#include "output/plaintext/line/line_writer.h"
-#include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/tree/check_writer.h"
-#include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
@@ -599,8 +599,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = mate_remove_retractable_solve(si,n);
       break;
 
-    case STOutputPlaintextTreeGoalWriter:
-      result = output_plaintext_tree_goal_writer_solve(si,n);
+    case STOutputPlaintextGoalWriter:
+      result = output_plaintext_goal_writer_solve(si,n);
       break;
 
     case STOutputPlaintextLineLineWriter:

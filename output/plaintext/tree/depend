@@ -8,9 +8,10 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  solving/solve.h stipulation/fork.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- output/plaintext/plaintext.h output/plaintext/end_of_phase_writer.h \
+ solving/trivial_end_filter.h output/plaintext/plaintext.h \
+ output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h \
- output/plaintext/move_inversion_counter.h solving/trivial_end_filter.h \
+ output/plaintext/move_inversion_counter.h output/plaintext/goal_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/check_writer.h \
@@ -19,8 +20,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
- output/plaintext/tree/refutation_writer.h \
- output/plaintext/tree/goal_writer.h debugging/trace.h
+ output/plaintext/tree/refutation_writer.h debugging/trace.h
 
 output/plaintext/tree/tree.h:
 
@@ -80,6 +80,8 @@ output/mode.h:
 
 stipulation/help_play/branch.h:
 
+solving/trivial_end_filter.h:
+
 output/plaintext/plaintext.h:
 
 output/plaintext/end_of_phase_writer.h:
@@ -88,7 +90,7 @@ output/plaintext/illegal_selfcheck_writer.h:
 
 output/plaintext/move_inversion_counter.h:
 
-solving/trivial_end_filter.h:
+output/plaintext/goal_writer.h:
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
@@ -109,8 +111,6 @@ output/plaintext/tree/try_writer.h:
 output/plaintext/tree/refuting_variation_writer.h:
 
 output/plaintext/tree/refutation_writer.h:
-
-output/plaintext/tree/goal_writer.h:
 
 debugging/trace.h:
 output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX): \
@@ -625,65 +625,6 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 output/plaintext/tree/check_writer.h:
-
-debugging/trace.h:
-output/plaintext/tree/goal_writer$(OBJ_SUFFIX): output/plaintext/tree/goal_writer.c \
- output/plaintext/tree/goal_writer.h stipulation/goals/goals.h \
- utilities/boolean.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h \
- utilities/enumeration.h pylang.h solving/solve.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
- pyproc.h py4.h py.h stipulation/goals/goals.h stipulation/pipe.h \
- output/plaintext/tree/tree.h debugging/trace.h
-
-output/plaintext/tree/goal_writer.h:
-
-stipulation/goals/goals.h:
-
-utilities/boolean.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-position/piece.h:
-
-utilities/enumeration.h:
-
-pylang.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-output/mode.h:
-
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-stipulation/goals/goals.h:
-
-stipulation/pipe.h:
-
-output/plaintext/tree/tree.h:
 
 debugging/trace.h:
 output/plaintext/tree/check_writer$(OBJ_SUFFIX): \

@@ -12,9 +12,8 @@ output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  solving/trivial_end_filter.h output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
- output/plaintext/line/line_writer.h \
- output/plaintext/line/end_of_intro_series_marker.h \
- output/plaintext/tree/goal_writer.h debugging/trace.h
+ output/plaintext/goal_writer.h output/plaintext/line/line_writer.h \
+ output/plaintext/line/end_of_intro_series_marker.h debugging/trace.h
 
 output/plaintext/line/line.h:
 
@@ -84,11 +83,11 @@ output/plaintext/illegal_selfcheck_writer.h:
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
+output/plaintext/goal_writer.h:
+
 output/plaintext/line/line_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
-
-output/plaintext/tree/goal_writer.h:
 
 debugging/trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \

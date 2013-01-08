@@ -1532,13 +1532,13 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  options/stoponshortsolutions/initialiser.h \
  output/plaintext/end_of_phase_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
- output/plaintext/illegal_selfcheck_writer.h \
+ stipulation/goals/goals.h output/plaintext/illegal_selfcheck_writer.h \
+ output/plaintext/goal_writer.h output/plaintext/move_inversion_counter.h \
+ output/plaintext/line/line_writer.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  output/plaintext/tree/end_of_solution_writer.h \
- output/plaintext/line/line_writer.h stipulation/goals/goals.h \
- output/plaintext/move_inversion_counter.h \
- output/plaintext/tree/check_writer.h output/plaintext/tree/goal_writer.h \
- output/plaintext/tree/key_writer.h output/plaintext/tree/move_writer.h \
+ output/plaintext/tree/check_writer.h output/plaintext/tree/key_writer.h \
+ output/plaintext/tree/move_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/threat_writer.h output/plaintext/tree/try_writer.h \
@@ -1930,21 +1930,21 @@ output/plaintext/end_of_phase_writer.h:
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
+stipulation/goals/goals.h:
+
 output/plaintext/illegal_selfcheck_writer.h:
+
+output/plaintext/goal_writer.h:
+
+output/plaintext/move_inversion_counter.h:
+
+output/plaintext/line/line_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
 
 output/plaintext/tree/end_of_solution_writer.h:
 
-output/plaintext/line/line_writer.h:
-
-stipulation/goals/goals.h:
-
-output/plaintext/move_inversion_counter.h:
-
 output/plaintext/tree/check_writer.h:
-
-output/plaintext/tree/goal_writer.h:
 
 output/plaintext/tree/key_writer.h:
 

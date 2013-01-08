@@ -6,11 +6,12 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/trivial_end_filter.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
-#include "solving/trivial_end_filter.h"
+#include "output/plaintext/goal_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
@@ -21,7 +22,6 @@
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
-#include "output/plaintext/tree/goal_writer.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

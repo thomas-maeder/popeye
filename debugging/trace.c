@@ -498,7 +498,7 @@ static structure_traversers_visitor tracers[] =
   { STHelpHashedTester,                 &trace_hashed_tester                },
   { STGoalReachedTester,                &trace_goal_reached_tester          },
   { STOutputPlaintextLineLineWriter,    &trace_end_of_solution_line_writer  },
-  { STOutputPlaintextTreeGoalWriter,    &trace_end_of_solution_line_writer  },
+  { STOutputPlaintextGoalWriter,    &trace_end_of_solution_line_writer  },
   { STGoalImmobileReachedTester,        &trace_goal_immobile_reached_tester },
   { STPiecesParalysingMateFilter,       &trace_goal_filter                  },
   { STPiecesParalysingMateFilterTester, &trace_goal_filter                  },

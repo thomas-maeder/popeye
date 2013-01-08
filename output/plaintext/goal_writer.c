@@ -1,4 +1,4 @@
-#include "output/plaintext/tree/goal_writer.h"
+#include "output/plaintext/goal_writer.h"
 #include "stipulation/stipulation.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"
@@ -7,12 +7,12 @@
 
 #include <assert.h>
 
-/* This module provides the STOutputPlaintextTreeGoalWriter slice type.
+/* This module provides the STOutputPlaintextGoalWriter slice type.
  * Slices of this type write the goal at the end of a variation
  */
 
 
-/* Allocate a STOutputPlaintextTreeGoalWriter slice.
+/* Allocate a STOutputPlaintextGoalWriter slice.
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
@@ -24,7 +24,7 @@ slice_index alloc_goal_writer_slice(Goal goal)
   TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STOutputPlaintextTreeGoalWriter);
+  result = alloc_pipe(STOutputPlaintextGoalWriter);
   slices[result].u.goal_handler.goal = goal;
 
   TraceFunctionExit(__func__);
@@ -46,8 +46,8 @@ slice_index alloc_goal_writer_slice(Goal goal)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type
-output_plaintext_tree_goal_writer_solve(slice_index si, stip_length_type n)
+stip_length_type output_plaintext_goal_writer_solve(slice_index si,
+                                                    stip_length_type n)
 {
   stip_length_type result;
   Goal const goal = slices[si].u.goal_handler.goal;

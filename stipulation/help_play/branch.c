@@ -252,7 +252,7 @@ static slice_index const slice_rank_order[] =
   STMaxSolutionsCounter,
   STOutputPlaintextLineLineWriter,
   STOhneschachDetectUndecidableGoal,
-  STOutputPlaintextTreeGoalWriter,
+  STOutputPlaintextGoalWriter,
   STTrue,
   STIntelligentImmobilisationCounter,
   STFlightsquaresCounter,
