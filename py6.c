@@ -1370,7 +1370,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[provacateurs]
+  if (CondFlag[provocateurs]
       || CondFlag[central]
       || TSTFLAG(PieSpExFlags,Beamtet)
       || CondFlag[ultrapatrouille]
@@ -1383,22 +1383,8 @@ static boolean verify_position(slice_index si)
      */
     eval_2 = eval_white;
     eval_white = soutenu;
-    obsfriendgenre = CondFlag[patrouille] ||
-                     CondFlag[central] ||
-                     CondFlag[ultrapatrouille] ||
-                     CondFlag[lortap];
-    obsenemygenre =  CondFlag[beamten] ||
-                     CondFlag[provacateurs];
-    obsfriendantigenre = CondFlag[lortap];
-    obsenemyultragenre = CondFlag[beamten];
-    obsfriendultragenre = CondFlag[ultrapatrouille] || CondFlag[central];
-    obspieces = TSTFLAG(PieSpExFlags,Beamtet) || TSTFLAG(PieSpExFlags,Patrol);
-    obsultra = obsenemyultragenre || obsfriendultragenre || TSTFLAG(PieSpExFlags,Beamtet);
-    obsgenre = true;
   }
-
-  if (TSTFLAG(PieSpExFlags,Paralyse)
-      && !obsgenre)
+  else if (TSTFLAG(PieSpExFlags,Paralyse))
   {
     eval_2 = eval_white;
     eval_white = paraechecc;
@@ -1472,7 +1458,12 @@ static boolean verify_position(slice_index si)
       VerifieMsg(MadrasiParaAndOthers);
       return false;
     }
-    if (!obsgenre)
+    if (!(CondFlag[provocateurs]
+          || CondFlag[central]
+          || TSTFLAG(PieSpExFlags,Beamtet)
+          || CondFlag[ultrapatrouille]
+          || CondFlag[lortap]
+          || TSTFLAG(PieSpExFlags,Patrol)))
     {
       eval_2 = eval_white;
       if (CondFlag[madras])
@@ -1510,10 +1501,7 @@ static boolean verify_position(slice_index si)
     eval_white=eval_ortho;
 
   if (CondFlag[shieldedkings])
-  {
     eval_white=eval_shielded;
-    obsfriendgenre=true;
-  }
 
   if (CondFlag[circeassassin]) {
     if (TSTFLAG(PieSpExFlags,Neutral) /* Neutrals not implemented */
@@ -2696,7 +2684,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[lortap])
     stip_insert_lortap(result);
 
-  if (CondFlag[provacateurs])
+  if (CondFlag[provocateurs])
     stip_insert_provocateurs(result);
 
   if (anyimmun)

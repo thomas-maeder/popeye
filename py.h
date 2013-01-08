@@ -753,7 +753,7 @@ typedef enum
   disparate,              /* 171 */
   ghostchess,             /* 172 */
   hauntedchess,           /* 173 */
-  provacateurs,           /* 174 */
+  provocateurs,           /* 174 */
   circecage,              /* 175 */
   immuncage,              /* 176 */
   football,               /* 177 */

@@ -168,15 +168,6 @@ EXTERN  unsigned int   number_of_imitators;       /* aktuelle Anzahl Imitatoren 
 
 EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 
-EXTERN  boolean         obsenemygenre,
-                        obsfriendgenre,
-                        obsfriendantigenre,
-                        obsenemyultragenre,
-                        obsfriendultragenre,
-                        obspieces,
-                        obsgenre,
-                        obsultra;
-
 EXTERN  boolean         calctransmute;
 
 EXTERN  boolean         anymars;

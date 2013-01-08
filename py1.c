@@ -388,8 +388,6 @@ void InitCond(void)
   normaltranspieces[White] = true;
   normaltranspieces[Black] = true;
 
-  obsgenre = false;
-
   kobulking[White] = false;
   kobulking[Black] = false;
 } /* InitCond */

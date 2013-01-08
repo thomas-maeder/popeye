@@ -2196,16 +2196,17 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture)
    *   ultra (see py4.c) true if observation applies also to non-capture moves
    * two other conditions (central, shielded kings) also use this code */
 
-  if (obspieces) {
+  if (TSTFLAG(PieSpExFlags,Beamtet) || TSTFLAG(PieSpExFlags,Patrol))
+  {
     testenemyobs= TSTFLAG(spec[sq_departure], Beamtet);
     testfriendobs= TSTFLAG(spec[sq_departure], Patrol);
     if (testfriendobs)
       testfriendanti = false;
   }
   if (!testenemyobs && !testfriendobs) {
-    testenemyobs= obsenemygenre;
-    testfriendobs= obsfriendgenre;
-    testfriendanti= obsfriendantigenre;
+    testenemyobs= CondFlag[beamten] || CondFlag[provocateurs];
+    testfriendobs= CondFlag[patrouille] || CondFlag[central] || CondFlag[ultrapatrouille] || CondFlag[lortap] || CondFlag[shieldedkings];
+    testfriendanti= CondFlag[lortap];
   }
 
   if (testenemyobs)
