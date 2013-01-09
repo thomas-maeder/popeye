@@ -15,7 +15,6 @@ slice_index alloc_ohneschach_detect_undecidable_goal_slice(void)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOhneschachDetectUndecidableGoal);
