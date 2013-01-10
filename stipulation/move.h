@@ -4,7 +4,7 @@
 #include "stipulation/slice_type.h"
 #include "stipulation/structure_traversal.h"
 
-/* This module plays the orthodox part of a move.
+/* This module plays deals with moves
  */
 
 /* Start inserting according to the slice type order for move execution
