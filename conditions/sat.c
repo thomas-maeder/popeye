@@ -4,7 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/legal_move_counter.h"

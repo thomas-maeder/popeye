@@ -1,50 +1,12 @@
-#include "stipulation/move_player.h"
-#include "pyproc.h"
+#include "stipulation/move.h"
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
-
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_type const * const type = st->param;
-    slice_index const prototype = alloc_pipe(*type);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void stip_instrument_moves(slice_index si, slice_type type)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&type);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Allocate a STMovePlayer slice.
  * @return index of allocated slice

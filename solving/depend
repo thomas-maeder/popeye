@@ -908,8 +908,7 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/fork.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/help_play/branch.h stipulation/move_player.h \
- debugging/trace.h
+ stipulation/help_play/branch.h stipulation/move.h debugging/trace.h
 
 solving/castling.h:
 
@@ -973,7 +972,7 @@ output/mode.h:
 
 stipulation/help_play/branch.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 solving/single_move_generator$(OBJ_SUFFIX): solving/single_move_generator.c \
@@ -1115,7 +1114,7 @@ solving/moving_pawn_promotion$(OBJ_SUFFIX): solving/moving_pawn_promotion.c \
  stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h py4.h \
  py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h solving/post_move_iteration.h \
+ stipulation/move.h solving/post_move_iteration.h \
  solving/move_effect_journal.h debugging/trace.h
 
 solving/moving_pawn_promotion.h:
@@ -1168,7 +1167,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/post_move_iteration.h:
 
@@ -1326,7 +1325,7 @@ solving/en_passant$(OBJ_SUFFIX): solving/en_passant.c solving/en_passant.h \
  stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h py4.h \
  py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h debugging/trace.h
+ stipulation/move.h debugging/trace.h
 
 solving/en_passant.h:
 
@@ -1378,7 +1377,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
@@ -1388,7 +1387,7 @@ solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  debugging/trace.h
 
 solving/post_move_iteration.h:
@@ -1437,7 +1436,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boolean.h \

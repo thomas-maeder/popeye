@@ -14,7 +14,7 @@
 #if defined(DOTRACE)
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 
 static trace_level level;
 

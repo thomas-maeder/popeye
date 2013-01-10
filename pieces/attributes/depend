@@ -7,7 +7,7 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 pieces/attributes/hurdle_colour_changing.h:
@@ -58,7 +58,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -71,8 +71,8 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move_player.h \
- solving/move_effect_journal.h debugging/trace.h
+ stipulation/branch.h stipulation/move.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 pieces/attributes/magic.h:
 
@@ -126,7 +126,7 @@ stipulation/pipe.h:
 
 stipulation/branch.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -140,9 +140,9 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move_player.h \
- solving/post_move_iteration.h solving/moving_pawn_promotion.h \
- solving/move_effect_journal.h debugging/trace.h
+ stipulation/branch.h stipulation/move.h solving/post_move_iteration.h \
+ solving/moving_pawn_promotion.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 pieces/attributes/chameleon.h:
 
@@ -198,7 +198,7 @@ stipulation/pipe.h:
 
 stipulation/branch.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/post_move_iteration.h:
 
@@ -214,8 +214,8 @@ pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  py4.h py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
- solving/solve.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
+ debugging/trace.h
 
 pieces/attributes/jigger.h:
 
@@ -263,9 +263,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
-
-solving/solve.h:
+stipulation/move.h:
 
 debugging/trace.h:
 pieces/attributes/uncapturable$(OBJ_SUFFIX): pieces/attributes/uncapturable.c \

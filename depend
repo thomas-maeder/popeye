@@ -488,7 +488,7 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  py4.h stipulation/goals/goals.h pydata.h pymsg.h \
  stipulation/has_solution_type.h solving/solve.h solving/castling.h \
  solving/solve.h stipulation/goals/doublemate/reached_tester.h \
- stipulation/temporary_hacks.h stipulation/move_player.h \
+ stipulation/temporary_hacks.h stipulation/move.h \
  solving/single_piece_move_generator.h conditions/disparate.h \
  conditions/eiffel.h conditions/exclusive.h position/position.h \
  conditions/extinction.h conditions/madrasi.h conditions/mummer.h \
@@ -561,7 +561,7 @@ stipulation/goals/doublemate/reached_tester.h:
 
 stipulation/temporary_hacks.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/single_piece_move_generator.h:
 

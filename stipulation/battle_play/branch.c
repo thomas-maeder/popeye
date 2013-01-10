@@ -9,6 +9,7 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/binary.h"
 #include "stipulation/boolean/true.h"
@@ -98,135 +99,6 @@ static slice_index const slice_rank_order[] =
   STDonePriorisingMoves,
   STExclusiveChessUnsuspender,
   STMove,
-  STForEachAttack,
-  STFindAttack,
-  STExtinctionRememberThreatened,
-  STMoveEffectJournalUndoer,
-  STNewKoekoRememberContact,
-  STPiecesNeutralRetractingRecolorer,
-  STSingleBoxType3PawnPromoter,
-  STAMUAttackCounter,
-  STNullMovePlayer,
-  STPostMoveIterationInitialiser,
-  STCastlingPlayer,
-  STMessignyMovePlayer,
-  STCastlingChessMovePlayer,
-  STExchangeCastlingMovePlayer,
-  STMovePlayer,
-  STLandingAfterMovingPieceMovement,
-  STMummerBookkeeper,
-  STMutualCastlingRightsAdjuster,
-  STSuperTransmutingKingTransmuter,
-  STGhostChessGhostRememberer,
-  STHauntedChessGhostRememberer,
-  STHauntedChessGhostSummoner,
-  STHaanChessHoleInserter,
-  STKamikazeCapturingPieceRemover, /* here to avoid useless promotions of a vanishing pawn */
-  STChameleonArrivingAdjuster,
-  STNoPromotionsRemovePromotionMoving,
-  STMovingPawnToImitatorPromoter,
-  STMovingPawnPromoter,
-  STPromoteMovingIntoChameleon,
-  STLandingAfterMovingPawnPromoter,
-  STFootballChessSubsitutor,
-  STLineChameleonArrivingAdjuster,
-  STNorskArrivingAdjuster,
-  STProteanPawnAdjuster,
-  STEnPassantAdjuster,
-  STPhantomChessEnPassantAdjuster,
-  STAntiMarsCirceEnPassantAdjuster,
-  STFrischaufPromoteeMarker,
-  STDegradierungDegrader,
-  STEinsteinArrivingAdjuster,
-  STReverseEinsteinArrivingAdjuster,
-  STAntiEinsteinArrivingAdjuster,
-  STPiecesHalfNeutralRecolorer,
-  STImitatorMover,
-  STKobulKingSubstitutor,
-  STDuellistsRememberDuellist,
-  STSingleboxType2LatentPawnSelector,
-  STSingleboxType2LatentPawnPromoter,
-  STMagicSquareType2SideChanger,
-  STAnticirceCaptureFork,
-  STCirceKamikazeCaptureFork,
-  STAnticirceDetermineRebornPiece,
-  STAnticirceDetermineRevelantPiece,
-  STAnticirceCouscousDetermineRevelantPiece,
-  STMagicSquareType2AnticirceRelevantSideAdapter,
-  STAnticirceDetermineRebirthSquare,
-  STAntisupercirceDetermineRebirthSquare,
-  STAnticirceCheylanFilter,
-  STAnticircePlaceRebornStrict,
-  STAnticircePlaceRebornRelaxed,
-  STAnticirceRebornPromoter,
-  STPromoteAnticirceRebornIntoChameleon,
-  STLandingAfterAnticirceRebirth,
-  STTibetSideChanger,
-  STDoubleTibetSideChanger,
-  STAndernachSideChanger,
-  STAntiAndernachSideChanger,
-  STChameleonPursuitSideChanger,
-  STTraitorSideChanger,
-  STVolageSideChanger,
-  STMagicSquareSideChanger,
-  STMagicPiecesRecolorer,
-  STKingOscillator,
-  STHurdleColourChanger,
-  STCirceKingRebirthAvoider,
-  STCirceCaptureFork,
-  STAprilAprilFork,
-  STSuperCirceNoRebirthFork,
-  STCirceCageNoCageFork,
-  STCirceParrainDetermineRebirth,
-  STCirceDetermineRebornPiece,
-  STCirceCloneDetermineRebornPiece,
-  STCirceDoubleAgentsAdaptRebornPiece,
-  STChameleonCirceAdaptRebornPiece,
-  STAntiEinsteinDetermineRebornPiece,
-  STCirceDetermineRelevantPiece,
-  STCirceCouscousDetermineRelevantPiece,
-  STCirceDetermineRebirthSquare,
-  STTakeMakeCirceDetermineRebirthSquares,
-  STSuperCirceRebirthHandler,
-  STContactGridAvoidCirceRebirth,
-  STCirceAssassinPlaceReborn,
-  STCircePlaceReborn,
-  STNoPromotionsRemovePromotionReborn,
-  STCirceRebirthPromoter,
-  STPromoteCirceRebornIntoChameleon,
-  STCirceTraitorSideChanger,
-  STCirceVolageRecolorer,
-  STCirceCageCageTester,
-  STLandingAfterCirceRebirthHandler,
-  STSentinellesInserter,
-  STRepublicanKingPlacer,
-  STActuatedRevolvingBoard,
-  STActuatedRevolvingCentre,
-  STDynastyKingSquareUpdater,
-  STMasandRecolorer,
-  STPiecesNeutralReplayingRecolorer,
-  STLandingAfterMovePlay,
-  STMoveCounter,
-  STKoekoLegalityTester,
-  STGridContactLegalityTester,
-  STAntiKoekoLegalityTester,
-  STNewKoekoLegalityTester,
-  STJiggerLegalityTester,
-  STOwnKingCaptureAvoider,
-  STOpponentKingCaptureAvoider,
-  STBlackChecks,
-  STCastlingRightsAdjuster, /* these must come before STExclusiveChessLegalityTester */
-  STStrictSATUpdater,
-  STBGLFilter,
-  STExtinctionTester,
-  STSingleBoxType1LegalityTester,
-  STSingleBoxType2LegalityTester,
-  STSingleBoxType3LegalityTester,
-  STExclusiveChessLegalityTester,
-  STUltraschachzwangLegalityTester,
-  STIsardamLegalityTester,
-  STPatienceChessLegalityTester,
-  STMoveTracer,
   STAttackPlayed,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
@@ -313,136 +185,6 @@ static slice_index const slice_rank_order[] =
   STOpponentMovesFewMovesPrioriser,
   STDonePriorisingMoves,
   STMove,
-  STForEachDefense,
-  STFindDefense,
-  STExtinctionRememberThreatened,
-  STMoveEffectJournalUndoer,
-  STNewKoekoRememberContact,
-  STPiecesNeutralRetractingRecolorer,
-  STSingleBoxType3PawnPromoter,
-  STAMUAttackCounter,
-  STNullMovePlayer,
-  STPostMoveIterationInitialiser,
-  STCastlingPlayer,
-  STMessignyMovePlayer,
-  STCastlingChessMovePlayer,
-  STExchangeCastlingMovePlayer,
-  STMovePlayer,
-  STLandingAfterMovingPieceMovement,
-  STMummerBookkeeper,
-  STUltraMummerMeasurerDeadend,
-  STMutualCastlingRightsAdjuster,
-  STSuperTransmutingKingTransmuter,
-  STGhostChessGhostRememberer,
-  STHauntedChessGhostRememberer,
-  STHauntedChessGhostSummoner,
-  STHaanChessHoleInserter,
-  STKamikazeCapturingPieceRemover, /* here to avoid useless promotions of a vanishing pawn */
-  STChameleonArrivingAdjuster,
-  STNoPromotionsRemovePromotionMoving,
-  STMovingPawnToImitatorPromoter,
-  STMovingPawnPromoter,
-  STPromoteMovingIntoChameleon,
-  STLandingAfterMovingPawnPromoter,
-  STFootballChessSubsitutor,
-  STLineChameleonArrivingAdjuster,
-  STNorskArrivingAdjuster,
-  STProteanPawnAdjuster,
-  STEnPassantAdjuster,
-  STPhantomChessEnPassantAdjuster,
-  STAntiMarsCirceEnPassantAdjuster,
-  STFrischaufPromoteeMarker,
-  STDegradierungDegrader,
-  STEinsteinArrivingAdjuster,
-  STReverseEinsteinArrivingAdjuster,
-  STAntiEinsteinArrivingAdjuster,
-  STPiecesHalfNeutralRecolorer,
-  STImitatorMover,
-  STKobulKingSubstitutor,
-  STDuellistsRememberDuellist,
-  STSingleboxType2LatentPawnSelector,
-  STSingleboxType2LatentPawnPromoter,
-  STMagicSquareType2SideChanger,
-  STAnticirceCaptureFork,
-  STCirceKamikazeCaptureFork,
-  STAnticirceDetermineRebornPiece,
-  STAnticirceDetermineRevelantPiece,
-  STAnticirceCouscousDetermineRevelantPiece,
-  STMagicSquareType2AnticirceRelevantSideAdapter,
-  STAnticirceDetermineRebirthSquare,
-  STAntisupercirceDetermineRebirthSquare,
-  STAnticirceCheylanFilter,
-  STAnticircePlaceRebornStrict,
-  STAnticircePlaceRebornRelaxed,
-  STAnticirceRebornPromoter,
-  STPromoteAnticirceRebornIntoChameleon,
-  STLandingAfterAnticirceRebirth,
-  STTibetSideChanger,
-  STDoubleTibetSideChanger,
-  STAndernachSideChanger,
-  STAntiAndernachSideChanger,
-  STChameleonPursuitSideChanger,
-  STTraitorSideChanger,
-  STVolageSideChanger,
-  STMagicSquareSideChanger,
-  STMagicPiecesRecolorer,
-  STKingOscillator,
-  STHurdleColourChanger,
-  STCirceKingRebirthAvoider,
-  STCirceCaptureFork,
-  STAprilAprilFork,
-  STSuperCirceNoRebirthFork,
-  STCirceCageNoCageFork,
-  STCirceParrainDetermineRebirth,
-  STCirceDetermineRebornPiece,
-  STCirceCloneDetermineRebornPiece,
-  STCirceDoubleAgentsAdaptRebornPiece,
-  STChameleonCirceAdaptRebornPiece,
-  STAntiEinsteinDetermineRebornPiece,
-  STCirceDetermineRelevantPiece,
-  STCirceCouscousDetermineRelevantPiece,
-  STCirceDetermineRebirthSquare,
-  STTakeMakeCirceDetermineRebirthSquares,
-  STSuperCirceRebirthHandler,
-  STContactGridAvoidCirceRebirth,
-  STCirceAssassinPlaceReborn,
-  STCircePlaceReborn,
-  STNoPromotionsRemovePromotionReborn,
-  STCirceRebirthPromoter,
-  STPromoteCirceRebornIntoChameleon,
-  STCirceTraitorSideChanger,
-  STCirceVolageRecolorer,
-  STCirceCageCageTester,
-  STLandingAfterCirceRebirthHandler,
-  STSentinellesInserter,
-  STRepublicanKingPlacer,
-  STActuatedRevolvingBoard,
-  STActuatedRevolvingCentre,
-  STDynastyKingSquareUpdater,
-  STMasandRecolorer,
-  STPiecesNeutralReplayingRecolorer,
-  STLandingAfterMovePlay,
-  STMoveCounter,
-  STKoekoLegalityTester,
-  STGridContactLegalityTester,
-  STAntiKoekoLegalityTester,
-  STNewKoekoLegalityTester,
-  STJiggerLegalityTester,
-  STOwnKingCaptureAvoider,
-  STOpponentKingCaptureAvoider,
-  STCastlingRightsAdjuster, /* these must come before STExclusiveChessLegalityTester */
-  STStrictSATUpdater,
-  STBGLFilter,
-  STBlackChecks,
-  STExtinctionTester,
-  STSingleBoxType1LegalityTester,
-  STSingleBoxType2LegalityTester,
-  STSingleBoxType3LegalityTester,
-  STExclusiveChessLegalityTester,
-  STUltraschachzwangLegalityTester,
-  STIsardamLegalityTester,
-  STPatienceChessLegalityTester,
-  STMoveTracer,
   STDummyMove,
   STDefensePlayed,
   STOpponentMovesCounter,
@@ -491,8 +233,10 @@ void battle_branch_insert_slices_nested(slice_index adapter,
   {
     prototypes, nr_prototypes,
     slice_rank_order, nr_slice_rank_order_elmts,
+    branch_slice_rank_order_recursive,
     0,
-    adapter
+    adapter,
+    0
   };
 
   TraceFunctionEntry(__func__);
@@ -549,8 +293,10 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   {
     prototypes, nr_prototypes,
     slice_rank_order, nr_slice_rank_order_elmts,
+    branch_slice_rank_order_recursive,
     0,
-    proxy
+    proxy,
+    0
   };
 
   TraceFunctionEntry(__func__);
@@ -568,12 +314,16 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
-  state.base_rank = get_slice_rank(slices[base].type,&state);
-  assert(state.base_rank!=no_slice_rank);
-  ++state.base_rank;
-
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
-  stip_traverse_structure_children_pipe(proxy,&st);
+
+  state.base_rank = get_slice_rank(slices[base].type,&state);
+  if (state.base_rank==no_slice_rank || slices[base].type==STMove)
+    start_insertion_according_to_move_order(proxy,&st,STAttackPlayed);
+  else
+  {
+    ++state.base_rank;
+    stip_traverse_structure_children_pipe(proxy,&st);
+  }
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
@@ -618,8 +368,10 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   {
     prototypes, nr_prototypes,
     slice_rank_order, nr_slice_rank_order_elmts,
+    branch_slice_rank_order_recursive,
     0,
-    proxy
+    proxy,
+    0
   };
 
   TraceFunctionEntry(__func__);
@@ -632,12 +384,16 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
-  state.base_rank = get_slice_rank(slices[base].type,&state);
-  assert(state.base_rank!=no_slice_rank);
-  ++state.base_rank;
-
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
-  stip_traverse_structure_children_pipe(proxy,&st);
+
+  state.base_rank = get_slice_rank(slices[base].type,&state);
+  if (state.base_rank==no_slice_rank || slices[base].type==STMove)
+    start_insertion_according_to_move_order(proxy,&st,STDefensePlayed);
+  else
+  {
+    ++state.base_rank;
+    stip_traverse_structure_children_pipe(proxy,&st);
+  }
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 

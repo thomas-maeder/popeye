@@ -13,7 +13,7 @@
 
 #if defined(DOMEASURE)
 
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 
 DEFINE_COUNTER(play_move)
 

@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "pieces/side_change.h"
 #include "conditions/circe/circe.h"
 #include "debugging/trace.h"

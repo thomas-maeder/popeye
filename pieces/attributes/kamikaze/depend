@@ -8,8 +8,8 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
- stipulation/boolean/or.h stipulation/boolean/true.h \
- stipulation/move_player.h conditions/anticirce/target_square_filter.h \
+ stipulation/boolean/or.h stipulation/boolean/true.h stipulation/move.h \
+ conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h solving/move_effect_journal.h \
  debugging/trace.h
@@ -70,7 +70,7 @@ stipulation/boolean/or.h:
 
 stipulation/boolean/true.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 conditions/anticirce/target_square_filter.h:
 

@@ -4,7 +4,7 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/single_piece_move_generator.h"

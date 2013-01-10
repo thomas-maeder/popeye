@@ -4,7 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/madrasi.h"
 #include "debugging/trace.h"

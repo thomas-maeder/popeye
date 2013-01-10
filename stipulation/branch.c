@@ -3,6 +3,7 @@
 #include "stipulation/if_then_else.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/move.h"
 #include "solving/fork_on_remaining.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
@@ -25,19 +26,11 @@ void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
   TraceFunctionResultEnd();
 }
 
-/* Determine the rank of a slice type
- * @param type slice type
- * @return rank of type; no_slice_rank if the rank can't be determined
- */
-unsigned int get_slice_rank(slice_type type,
-                            branch_slice_insertion_state_type const *state)
+static unsigned int get_slice_rank_recursive(slice_type type,
+                                             branch_slice_insertion_state_type const *state)
 {
   unsigned int result = no_slice_rank;
   unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
-  TraceFunctionParamListEnd();
 
   for (i = 0; i!=state->nr_slice_rank_order_elmts; ++i)
     if (state->slice_rank_order[(i+state->base_rank)%state->nr_slice_rank_order_elmts]==type)
@@ -45,6 +38,43 @@ unsigned int get_slice_rank(slice_type type,
       result = i+state->base_rank;
       break;
     }
+
+  return result;
+}
+
+static unsigned int get_slice_rank_nonrecursive(slice_type type,
+                                                branch_slice_insertion_state_type const *state)
+{
+  unsigned int result = no_slice_rank;
+  unsigned int i;
+
+  for (i = state->base_rank; i!=state->nr_slice_rank_order_elmts; ++i)
+    if (state->slice_rank_order[i]==type)
+    {
+      result = i;
+      break;
+    }
+
+  return result;
+}
+
+/* Determine the rank of a slice type
+ * @param type slice type
+ * @return rank of type; no_slice_rank if the rank can't be determined
+ */
+unsigned int get_slice_rank(slice_type type,
+                            branch_slice_insertion_state_type const *state)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  if (state->type==branch_slice_rank_order_recursive)
+    result = get_slice_rank_recursive(type,state);
+  else
+    result = get_slice_rank_nonrecursive(type,state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -86,9 +116,10 @@ static void next_insertion(slice_index si,
     branch_slice_insertion_state_type nested_state =
     {
         state->prototypes+1, state->nr_prototypes-1,
-        state->slice_rank_order, state->nr_slice_rank_order_elmts,
+        state->slice_rank_order, state->nr_slice_rank_order_elmts, state->type,
         prototype_rank+1,
-        si
+        si,
+        state->parent
     };
     start_nested_insertion_traversal(si,&nested_state,st);
   }
@@ -308,6 +339,121 @@ static void insert_visit_help_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_visit_move(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  switch (st->context)
+  {
+    case stip_traversal_context_attack:
+    {
+      branch_slice_insertion_state_type const * const state = st->param;
+      unsigned int const rank = get_slice_rank(slices[si].type,state);
+      if (!insert_before(si,rank,st))
+        start_insertion_according_to_move_order(si,st,STAttackPlayed);
+      break;
+    }
+
+    case stip_traversal_context_defense:
+    {
+      branch_slice_insertion_state_type const * const state = st->param;
+      unsigned int const rank = get_slice_rank(slices[si].type,state);
+      if (!insert_before(si,rank,st))
+        start_insertion_according_to_move_order(si,st,STDefensePlayed);
+      break;
+    }
+
+    case stip_traversal_context_help:
+    {
+      branch_slice_insertion_state_type const * const state = st->param;
+      unsigned int const rank = get_slice_rank(slices[si].type,state);
+      if (!insert_before(si,rank,st))
+        start_insertion_according_to_move_order(si,st,STHelpMovePlayed);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_return_from_factored_order(slice_index si, stip_structure_traversal *st)
+{
+  branch_slice_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->parent==0)
+    /* dummy move in series play */
+    insert_visit_pipe(si,st);
+  else
+  {
+    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    slice_index const prototype = state->prototypes[0];
+    slice_type const prototype_type = slices[prototype].type;
+    unsigned int const prototype_rank = get_slice_rank(prototype_type,state);
+
+    if (rank>prototype_rank)
+    {
+      slice_index const copy = copy_slice(prototype);
+      pipe_append(state->prev,copy);
+      next_insertion(copy,prototype_rank,st);
+    }
+    else
+    {
+      branch_slice_insertion_state_type * const state_parent = state->parent->param;
+      state_parent->prototypes = state->prototypes;
+      state_parent->nr_prototypes = state->nr_prototypes;
+      state_parent->prev = si;
+      stip_traverse_structure_children_pipe(si,state->parent);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void branch_insert_slices_factored_order(slice_index si,
+                                         stip_structure_traversal *st,
+                                         slice_index const order[],
+                                         unsigned int nr_order,
+                                         slice_type end_of_factored_order)
+{
+  stip_structure_traversal st_nested;
+  branch_slice_insertion_state_type * const state = st->param;
+
+  branch_slice_insertion_state_type state_nested = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state_nested.parent = st;
+  state_nested.slice_rank_order = order;
+  state_nested.nr_slice_rank_order_elmts = nr_order;
+  state_nested.type = branch_slice_rank_order_nonrecursive;
+  state_nested.base_rank = 0;
+  state_nested.prev = si;
+
+  state_nested.base_rank = get_slice_rank(slices[si].type,&state_nested);
+  assert(state_nested.base_rank!=no_slice_rank);
+
+  init_slice_insertion_traversal(&st_nested,&state_nested,st->context);
+  stip_structure_traversal_override_single(&st_nested,end_of_factored_order,&insert_return_from_factored_order);
+  stip_traverse_structure_children_pipe(si,&st_nested);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Initialise a structure traversal for inserting slices into a branch
  * @param st address of structure representing the traversal
  * @param state address of structure representing the insertion
@@ -338,6 +484,7 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
                                                 slice_function_binary,
                                                 &insert_visit_binary);
   stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
+  stip_structure_traversal_override_single(st,STMove,&insert_visit_move);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -406,8 +553,10 @@ void branch_insert_slices_nested(slice_index si,
   branch_slice_insertion_state_type state = {
       prototypes, nr_prototypes,
       slice_rank_order, nr_slice_rank_order_elmts,
+      branch_slice_rank_order_nonrecursive,
       0,
-      si
+      si,
+      0
   };
 
   TraceFunctionEntry(__func__);

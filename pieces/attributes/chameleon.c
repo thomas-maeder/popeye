@@ -5,7 +5,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"

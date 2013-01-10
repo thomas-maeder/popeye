@@ -67,7 +67,7 @@ conditions/amu/attack_counter$(OBJ_SUFFIX): conditions/amu/attack_counter.c \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  debugging/trace.h
 
 conditions/amu/attack_counter.h:
@@ -120,6 +120,6 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:

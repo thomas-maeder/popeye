@@ -6,7 +6,7 @@ debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h pyproc.h
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  optimisations/hash.h DHT/dhtbcmem.h solving/solve.h \
- output/plaintext/plaintext.h stipulation/move_player.h
+ output/plaintext/plaintext.h stipulation/move.h
 
 debugging/measure.h:
 
@@ -62,7 +62,7 @@ solving/solve.h:
 
 output/plaintext/plaintext.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pyproc.h py4.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \

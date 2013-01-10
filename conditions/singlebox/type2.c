@@ -4,7 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "conditions/singlebox/type1.h"

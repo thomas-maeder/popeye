@@ -6,7 +6,7 @@ conditions/einstein/einstein$(OBJ_SUFFIX): conditions/einstein/einstein.c \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/einstein/einstein.h:
@@ -59,7 +59,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -73,7 +73,7 @@ conditions/einstein/reverse$(OBJ_SUFFIX): conditions/einstein/reverse.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/einstein/reverse.h:
@@ -128,7 +128,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -143,8 +143,7 @@ conditions/einstein/anti$(OBJ_SUFFIX): conditions/einstein/anti.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move_player.h solving/move_effect_journal.h \
- debugging/trace.h
+ stipulation/move.h solving/move_effect_journal.h debugging/trace.h
 
 conditions/einstein/anti.h:
 
@@ -200,7 +199,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 

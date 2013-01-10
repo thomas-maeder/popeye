@@ -46,14 +46,22 @@ enum
   no_slice_rank = INT_MAX
 };
 
-typedef struct
+typedef enum
+{
+  branch_slice_rank_order_recursive,
+  branch_slice_rank_order_nonrecursive
+} branch_slice_rank_order_type;
+
+typedef struct branch_slice_insertion_state_type
 {
     slice_index const *prototypes;
     unsigned int nr_prototypes;
     slice_index const *slice_rank_order;
     unsigned int nr_slice_rank_order_elmts;
+    branch_slice_rank_order_type type;
     unsigned int base_rank;
     slice_index prev;
+    stip_structure_traversal *parent;
 } branch_slice_insertion_state_type;
 
 /* Determine the rank of a slice type
@@ -117,6 +125,21 @@ void branch_insert_slices_contextual(slice_index si,
                                      stip_traversal_context_type context,
                                      slice_index const prototypes[],
                                      unsigned int nr_prototypes);
+
+/* Temporarily use a slice type order factored out from different contexts for
+ * insertion.
+ * @param si identifies starting point of insertion
+ * @param st insertion traversal where we come from and will return to
+ * @param order factored slice type order
+ * @param nr_order number of elements of order
+ * @param end_of_factored_order slice type where to return to insertion defined
+ *                              by st
+ */
+void branch_insert_slices_factored_order(slice_index si,
+                                         stip_structure_traversal *st,
+                                         slice_index const order[],
+                                         unsigned int nr_order,
+                                         slice_type end_of_factored_order);
 
 /* Instrument a traversal for traversing the "normal path" through a branch.
  * In particular, the traversal won't enter nested branches.

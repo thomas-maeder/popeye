@@ -4,7 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "solving/en_passant.h"
 #include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"

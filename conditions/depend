@@ -8,8 +8,8 @@ conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h
  optimisations/goals/mate/neutralretractable.h pymsg.h pydata.h pyproc.h \
  py4.h py.h stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- stipulation/branch.h stipulation/move_player.h \
- solving/legal_move_counter.h debugging/trace.h
+ stipulation/branch.h stipulation/move.h solving/legal_move_counter.h \
+ debugging/trace.h
 
 conditions/exclusive.h:
 
@@ -71,7 +71,7 @@ stipulation/temporary_hacks.h:
 
 stipulation/branch.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/legal_move_counter.h:
 
@@ -170,8 +170,8 @@ conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h solving/solve.h p
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/has_solution_type.h \
- stipulation/move_player.h debugging/trace.h
+ stipulation/pipe.h stipulation/has_solution_type.h stipulation/move.h \
+ debugging/trace.h
 
 conditions/bgl.h:
 
@@ -223,7 +223,7 @@ stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \
@@ -379,7 +379,7 @@ conditions/extinction$(OBJ_SUFFIX): conditions/extinction.c conditions/extinctio
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/move_player.h debugging/trace.h
+ stipulation/pipe.h stipulation/move.h debugging/trace.h
 
 conditions/extinction.h:
 
@@ -431,7 +431,7 @@ stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 conditions/patience$(OBJ_SUFFIX): conditions/patience.c conditions/patience.h \
@@ -442,7 +442,7 @@ conditions/patience$(OBJ_SUFFIX): conditions/patience.c conditions/patience.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/move_player.h debugging/trace.h
+ stipulation/pipe.h stipulation/move.h debugging/trace.h
 
 conditions/patience.h:
 
@@ -494,7 +494,7 @@ stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h py.h \
@@ -549,7 +549,7 @@ conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/move_player.h \
+ stipulation/pipe.h stipulation/move.h \
  pieces/attributes/neutral/initialiser.h conditions/madrasi.h \
  debugging/trace.h
 
@@ -603,7 +603,7 @@ stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 pieces/attributes/neutral/initialiser.h:
 
@@ -702,9 +702,8 @@ conditions/sat$(OBJ_SUFFIX): conditions/sat.c conditions/sat.h solving/solve.h p
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move_player.h \
- stipulation/temporary_hacks.h solving/legal_move_counter.h \
- debugging/trace.h
+ stipulation/branch.h stipulation/move.h stipulation/temporary_hacks.h \
+ solving/legal_move_counter.h debugging/trace.h
 
 conditions/sat.h:
 
@@ -758,7 +757,7 @@ stipulation/pipe.h:
 
 stipulation/branch.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 stipulation/temporary_hacks.h:
 
@@ -773,8 +772,7 @@ conditions/masand$(OBJ_SUFFIX): conditions/masand.c conditions/masand.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move_player.h solving/move_effect_journal.h \
- debugging/trace.h
+ stipulation/move.h solving/move_effect_journal.h debugging/trace.h
 
 conditions/masand.h:
 
@@ -824,7 +822,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -836,7 +834,7 @@ conditions/dynasty$(OBJ_SUFFIX): conditions/dynasty.c conditions/dynasty.h \
  py4.h py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/castling.h solving/move_effect_journal.h debugging/trace.h
 
 conditions/dynasty.h:
@@ -887,7 +885,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/castling.h:
 
@@ -1044,7 +1042,7 @@ conditions/actuated_revolving_centre$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move_player.h debugging/trace.h
+ stipulation/move.h debugging/trace.h
 
 conditions/actuated_revolving_centre.h:
 
@@ -1096,7 +1094,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 conditions/actuated_revolving_board$(OBJ_SUFFIX): \
@@ -1108,7 +1106,7 @@ conditions/actuated_revolving_board$(OBJ_SUFFIX): \
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/actuated_revolving_board.h:
@@ -1159,7 +1157,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -1171,7 +1169,7 @@ conditions/sentinelles$(OBJ_SUFFIX): conditions/sentinelles.c \
  pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  stipulation/has_solution_type.h pieces/attributes/neutral/initialiser.h \
  solving/move_effect_journal.h debugging/trace.h
 
@@ -1221,7 +1219,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 stipulation/has_solution_type.h:
 
@@ -1237,7 +1235,7 @@ conditions/duellists$(OBJ_SUFFIX): conditions/duellists.c conditions/duellists.h
  py4.h py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  debugging/trace.h
 
 conditions/duellists.h:
@@ -1288,7 +1286,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
@@ -1299,9 +1297,8 @@ conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/has_solution_type.h \
- stipulation/move_player.h pieces/attributes/neutral/initialiser.h \
- debugging/trace.h
+ stipulation/pipe.h stipulation/has_solution_type.h stipulation/move.h \
+ pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 conditions/haunted_chess.h:
 
@@ -1355,7 +1352,7 @@ stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 pieces/attributes/neutral/initialiser.h:
 
@@ -1368,7 +1365,7 @@ conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  conditions/haunted_chess.h solving/move_effect_journal.h \
  debugging/trace.h
 
@@ -1422,7 +1419,7 @@ stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 conditions/haunted_chess.h:
 
@@ -1436,7 +1433,7 @@ conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h solving/sol
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  pieces/attributes/neutral/initialiser.h solving/move_effect_journal.h \
  debugging/trace.h
 
@@ -1488,7 +1485,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 pieces/attributes/neutral/initialiser.h:
 
@@ -1503,7 +1500,7 @@ conditions/andernach$(OBJ_SUFFIX): conditions/andernach.c conditions/andernach.h
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/andernach.h:
@@ -1556,7 +1553,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -1569,7 +1566,7 @@ conditions/antiandernach$(OBJ_SUFFIX): conditions/antiandernach.c \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  conditions/andernach.h debugging/trace.h
 
 conditions/antiandernach.h:
@@ -1622,7 +1619,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 conditions/andernach.h:
 
@@ -1636,7 +1633,7 @@ conditions/chameleon_pursuit$(OBJ_SUFFIX): conditions/chameleon_pursuit.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  debugging/trace.h
 
 conditions/chameleon_pursuit.h:
@@ -1691,7 +1688,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 debugging/trace.h:
 conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h solving/solve.h \
@@ -1702,9 +1699,9 @@ conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h solving/sol
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move_player.h \
- solving/moving_pawn_promotion.h solving/move_effect_journal.h \
- solving/move_generator.h pieces/walks.h debugging/trace.h
+ stipulation/branch.h stipulation/move.h solving/moving_pawn_promotion.h \
+ solving/move_effect_journal.h solving/move_generator.h pieces/walks.h \
+ debugging/trace.h
 
 conditions/norsk.h:
 
@@ -1758,7 +1755,7 @@ stipulation/pipe.h:
 
 stipulation/branch.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/moving_pawn_promotion.h:
 
@@ -1777,7 +1774,7 @@ conditions/protean$(OBJ_SUFFIX): conditions/protean.c conditions/protean.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/protean.h:
@@ -1830,7 +1827,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -1843,7 +1840,7 @@ conditions/traitor$(OBJ_SUFFIX): conditions/traitor.c conditions/traitor.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/traitor.h:
@@ -1896,7 +1893,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -1909,7 +1906,7 @@ conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/volage.h:
@@ -1962,7 +1959,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -1975,7 +1972,7 @@ conditions/magic_square$(OBJ_SUFFIX): conditions/magic_square.c \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/magic_square.h:
@@ -2026,7 +2023,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -2038,7 +2035,7 @@ conditions/tibet$(OBJ_SUFFIX): conditions/tibet.c conditions/tibet.h solving/sol
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  conditions/andernach.h debugging/trace.h
 
 conditions/tibet.h:
@@ -2089,7 +2086,7 @@ output/mode.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 conditions/andernach.h:
 
@@ -2102,8 +2099,8 @@ conditions/degradierung$(OBJ_SUFFIX): conditions/degradierung.c \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/branch.h stipulation/move_player.h \
- solving/move_effect_journal.h debugging/trace.h
+ stipulation/branch.h stipulation/move.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/degradierung.h:
 
@@ -2155,7 +2152,7 @@ stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -2168,8 +2165,8 @@ conditions/phantom$(OBJ_SUFFIX): conditions/phantom.c conditions/phantom.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h stipulation/move_player.h \
- solving/en_passant.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/move.h solving/en_passant.h \
+ debugging/trace.h
 
 conditions/phantom.h:
 
@@ -2221,7 +2218,7 @@ stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/en_passant.h:
 
@@ -2234,7 +2231,7 @@ conditions/line_chameleon$(OBJ_SUFFIX): conditions/line_chameleon.c \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h pieces/walks.h debugging/trace.h
 
 conditions/line_chameleon.h:
@@ -2287,7 +2284,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -2301,7 +2298,7 @@ conditions/haan$(OBJ_SUFFIX): conditions/haan.c conditions/haan.h solving/solve.
  stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h debugging/trace.h
 
 conditions/haan.h:
@@ -2352,7 +2349,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -2365,7 +2362,7 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move_player.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/castling.h solving/moving_pawn_promotion.h \
  solving/post_move_iteration.h solving/move_effect_journal.h \
  debugging/trace.h
@@ -2418,7 +2415,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/castling.h:
 
@@ -2439,7 +2436,7 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  stipulation/slice_type.h stipulation/traversal.h stipulation/proxy.h \
  stipulation/fork.h stipulation/branch.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h stipulation/battle_play/branch.h \
+ stipulation/move.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/moving_pawn_promotion.h \
  solving/post_move_iteration.h conditions/castling_chess.h \
  debugging/trace.h
@@ -2504,7 +2501,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 stipulation/battle_play/branch.h:
 
@@ -2525,7 +2522,7 @@ conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
  stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h py4.h \
  py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move_player.h solving/moving_pawn_promotion.h \
+ stipulation/move.h solving/moving_pawn_promotion.h \
  solving/post_move_iteration.h solving/move_effect_journal.h \
  debugging/trace.h
 
@@ -2579,7 +2576,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-stipulation/move_player.h:
+stipulation/move.h:
 
 solving/moving_pawn_promotion.h:
 

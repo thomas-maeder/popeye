@@ -72,7 +72,7 @@
 #include "solving/castling.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/temporary_hacks.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "solving/single_piece_move_generator.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"

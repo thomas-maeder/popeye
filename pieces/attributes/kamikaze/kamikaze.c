@@ -7,7 +7,7 @@
 #include "stipulation/boolean/or.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/exchange_filter.h"

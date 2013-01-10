@@ -2,11 +2,11 @@
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/capture_fork.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

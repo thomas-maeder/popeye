@@ -10,7 +10,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

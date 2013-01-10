@@ -3,7 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/move_player.h"
+#include "stipulation/move.h"
 #include "conditions/haunted_chess.h"
 #include "debugging/trace.h"
 
