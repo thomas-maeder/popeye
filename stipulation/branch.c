@@ -391,10 +391,8 @@ static void insert_return_from_factored_order(slice_index si, stip_structure_tra
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->parent==0)
-    /* dummy move in series play */
-    insert_visit_pipe(si,st);
-  else
+  assert(state->parent!=0);
+
   {
     unsigned int const rank = get_slice_rank(slices[si].type,state);
     slice_index const prototype = state->prototypes[0];
