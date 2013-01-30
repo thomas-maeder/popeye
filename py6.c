@@ -2454,7 +2454,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     }
 
   if (CondFlag[exclusive])
-    stip_insert_exclusive_chess_legality_testers(result);
+    stip_insert_exclusive_chess(result);
 
   stip_insert_king_capture_avoiders(result);
 

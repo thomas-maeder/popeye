@@ -1298,6 +1298,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = singlebox_type3_pawn_promoter_solve(si,n);
       break;
 
+    case STExclusiveChessExclusivityDetector:
+      result = exclusive_chess_exclusivity_detector_solve(si,n);
+      break;
+
     case STExclusiveChessLegalityTester:
       result = exclusive_chess_legality_tester_solve(si,n);
       break;

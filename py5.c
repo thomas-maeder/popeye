@@ -76,7 +76,6 @@
 #include "solving/single_piece_move_generator.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
-#include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/madrasi.h"
 #include "conditions/mummer.h"
@@ -849,12 +848,8 @@ void genmove(Side camp)
   TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
-  nextply();
   trait[nbply]= camp;
   we_generate_exact = false;
-
-  if (CondFlag[exclusive])
-    exclusive_init_genmove(camp);
 
   /* exact and consequent maximummers */
   if (camp == White)

@@ -490,10 +490,9 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  solving/solve.h stipulation/goals/doublemate/reached_tester.h \
  stipulation/temporary_hacks.h stipulation/move.h \
  solving/single_piece_move_generator.h conditions/disparate.h \
- conditions/eiffel.h conditions/exclusive.h position/position.h \
- conditions/extinction.h conditions/madrasi.h conditions/mummer.h \
- conditions/republican.h conditions/patience.h conditions/sat.h \
- conditions/oscillating_kings.h conditions/circe/cage.h \
+ conditions/eiffel.h conditions/extinction.h conditions/madrasi.h \
+ conditions/mummer.h conditions/republican.h conditions/patience.h \
+ conditions/sat.h conditions/oscillating_kings.h conditions/circe/cage.h \
  conditions/circe/super.h conditions/anticirce/super.h \
  conditions/haunted_chess.h solving/move_effect_journal.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
@@ -568,10 +567,6 @@ solving/single_piece_move_generator.h:
 conditions/disparate.h:
 
 conditions/eiffel.h:
-
-conditions/exclusive.h:
-
-position/position.h:
 
 conditions/extinction.h:
 

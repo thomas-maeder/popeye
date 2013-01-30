@@ -77,41 +77,6 @@ static boolean pos_legal(void)
   return result;
 }
 
-/* Do preparations before generating moves for a side in an Exclusive
- * Chess problem
- * @param side side for which to generate moves
- */
-void exclusive_init_genmove(Side side)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  assert(exclusive_goal.type==goal_mate);
-
-  CondFlag[exclusive] = false;
-
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply]==0);
-
-  /* stop counting once we have found >1 mating moves */
-  legal_move_counter_interesting[nbply] = 1;
-
-  solve(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
-
-  is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply]<2;
-  TraceValue("%u",legal_move_counter_count[nbply+1]);
-  TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
-
-  /* clean up after ourselves */
-  legal_move_counter_count[nbply] = 0;
-
-  CondFlag[exclusive] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -191,14 +156,38 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void stip_insert_exclusive_chess_legality_testers(slice_index si)
+static void insert_exclusivity_detector(slice_index si,
+                                        stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STExclusiveChessExclusivityDetector);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void stip_insert_exclusive_chess(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STGeneratingMoves,&insert_exclusivity_detector);
+  stip_traverse_structure(si,&st);
 
   stip_instrument_moves(si,STExclusiveChessLegalityTester);
 
@@ -234,6 +223,72 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
     result = solve(next,n);
   else
     result = previous_move_is_illegal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void detect_exclusivity(Side side)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  assert(exclusive_goal.type==goal_mate);
+
+  CondFlag[exclusive] = false;
+
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count[nbply]==0);
+
+  /* stop counting once we have found >1 mating moves */
+  legal_move_counter_interesting[nbply] = 1;
+
+  solve(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
+
+  is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply]<2;
+  TraceValue("%u",legal_move_counter_count[nbply+1]);
+  TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
+
+  /* clean up after ourselves */
+  legal_move_counter_count[nbply] = 0;
+
+  CondFlag[exclusive] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
+                                                            stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].next1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[exclusive])
+    detect_exclusivity(slices[si].starter);
+
+  result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

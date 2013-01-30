@@ -30,11 +30,13 @@ boolean suffocated_by_paralysis(Side side)
  TraceFunctionParamListEnd();
 
  paralysis_suspended = true;
+ nextply();
  genmove(side);
  encore_without_paralysis = encore();
  finply();
  paralysis_suspended = false;
 
+ nextply();
  genmove(side);
  encore_with_paralysis = encore();
  finply();
