@@ -8,8 +8,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h solving/solve.h stipulation/proxy.h \
- stipulation/moves_traversal.h stipulation/temporary_hacks.h \
- solving/fork_on_remaining.h \
+ stipulation/moves_traversal.h solving/fork_on_remaining.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
  debugging/trace.h
@@ -65,8 +64,6 @@ solving/solve.h:
 stipulation/proxy.h:
 
 stipulation/moves_traversal.h:
-
-stipulation/temporary_hacks.h:
 
 solving/fork_on_remaining.h:
 

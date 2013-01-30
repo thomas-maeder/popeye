@@ -80,10 +80,10 @@ Loesung beendet.
                   3.La8*c6 #
 
 
-              empile:       47432
-           play_move:       39323
-        orig_rbechec:        2064
-        orig_rnechec:       39448
+              empile:       42831
+           play_move:       37830
+        orig_rbechec:        1953
+        orig_rnechec:       37598
 Loesung beendet. 
 
 
@@ -118,10 +118,10 @@ Hans Burbach zum 75. Geburtstag gewidmet
   1.Tb1-b7 Ka8*b7[+sDd8]   2.Lf2-g1 f7-f8=T #
   1.Lf2-a7 Ka8*a7[+sTh8]   2.Tb1-d1 f7-f8=D #
 
-              empile:      610957
-           play_move:      404853
+              empile:      569385
+           play_move:      362465
         orig_rbechec:       59972
-        orig_rnechec:      404189
+        orig_rnechec:      359874
 Loesung beendet. 
 
 
@@ -164,10 +164,10 @@ Loesung beendet.
           2.Sf1-g3 #
 
 
-              empile:        8226
-           play_move:        5917
-        orig_rbechec:        1685
-        orig_rnechec:        5550
+              empile:        6691
+           play_move:        4374
+        orig_rbechec:        1552
+        orig_rnechec:        3751
 Loesung beendet. 
 
 
@@ -201,18 +201,18 @@ a)
 
   1.Df5-f1 Kd4-c4   2.Tf7-f2 Sg6-f4 #
 
-              empile:     3398706
-           play_move:     2026684
-        orig_rbechec:      752042
-        orig_rnechec:     1693085
+              empile:     2818727
+           play_move:     1446705
+        orig_rbechec:      752038
+        orig_rnechec:     1113106
 b) sLh1-->g8
 
   1.Df5-f2 + e2-e3   2.Tf7-f3 Sg6-f4 #
 
-              empile:     2440716
-           play_move:     1407935
-        orig_rbechec:      579379
-        orig_rnechec:     1147356
+              empile:     2017188
+           play_move:      984407
+        orig_rbechec:      579378
+        orig_rnechec:      723828
 Loesung beendet. 
 
 
@@ -247,18 +247,18 @@ a)
 
   1.h2-h1=L e6*f7   2.Lh1-d5 f7-f8=S #
 
-              empile:       51950
-           play_move:       43362
+              empile:       40466
+           play_move:       31674
         orig_rbechec:        9383
-        orig_rnechec:       41025
+        orig_rnechec:       29237
 b) wKf1-->g2
 
   1.h2-h1=T e6*f7   2.Th1-f1 f7*g8=D #
 
-              empile:       57506
-           play_move:       49437
-        orig_rbechec:       10574
-        orig_rnechec:       46497
+              empile:       44654
+           play_move:       36366
+        orig_rbechec:       10556
+        orig_rnechec:       33228
 Loesung beendet. 
 
 
@@ -291,10 +291,10 @@ Loesung beendet.
 
   1.Tg1-g5 Tc1-c4   2.Lf1*c4 0-0-0 #
 
-              empile:     1435393
-           play_move:      951914
-        orig_rbechec:      394097
-        orig_rnechec:      740171
+              empile:      921681
+           play_move:      438202
+        orig_rbechec:      391759
+        orig_rnechec:      226459
 Loesung beendet. 
 
 
@@ -328,10 +328,10 @@ Loesung beendet.
   1.c2-c1=T h7-h8=S   2.Tc1*c6 d7-d8=D #
   1.c2-c1=L d7-d8=S   2.Lc1*h6 h7-h8=D #
 
-              empile:      117036
-           play_move:      108180
+              empile:      105504
+           play_move:       96564
         orig_rbechec:       22987
-        orig_rnechec:      106141
+        orig_rnechec:       93441
 Loesung beendet. 
 
 
@@ -366,18 +366,18 @@ a)
 
   1.a2-a1=T Le1-d2   2.Ta1-a7 Sf5-e7 #
 
-              empile:     2290659
-           play_move:     1643085
+              empile:     2008968
+           play_move:     1361394
         orig_rbechec:      504080
-        orig_rnechec:     1496677
+        orig_rnechec:     1214836
 b)  -wLe1
 
   1.a2-a1=D Lh5-e2   2.Da1-h1 Sf5-h6 #
 
-              empile:     1760065
-           play_move:     1277219
+              empile:     1560386
+           play_move:     1077540
         orig_rbechec:      389235
-        orig_rnechec:     1175474
+        orig_rnechec:      975795
 Loesung beendet. 
 
 
@@ -410,10 +410,10 @@ Loesung beendet.
 
   1.b2-b1=L b7-b8=S   2.a2-a1=T g7*f8=D #
 
-              empile:     1668532
-           play_move:     1473777
-        orig_rbechec:      778017
-        orig_rnechec:     1104794
+              empile:     1603989
+           play_move:     1400822
+        orig_rbechec:      777979
+        orig_rnechec:     1031839
 Loesung beendet. 
 
 
@@ -446,10 +446,10 @@ Loesung beendet.
 
   1.d4*e3 ep. Kd1-e1   2.Dd6-h2 Tc2-d2 #
 
-              empile:       72061
-           play_move:       36788
-        orig_rbechec:       16051
-        orig_rnechec:       30710
+              empile:       65863
+           play_move:       30590
+        orig_rbechec:       16049
+        orig_rnechec:       24512
 Loesung beendet. 
 
 
@@ -493,10 +493,10 @@ a)
                                   5.Kd8-d7 #
 
 
-              empile:        9503
-           play_move:        8368
-        orig_rbechec:        1921
-        orig_rnechec:        8690
+              empile:        8825
+           play_move:        7700
+        orig_rbechec:        1900
+        orig_rnechec:        7461
 b) wKa5-->c3
 
    1.Kc3-d2 !
@@ -510,10 +510,10 @@ b) wKa5-->c3
                                   5.Lb8*h2 #
 
 
-              empile:       14083
-           play_move:       12101
-        orig_rbechec:        2857
-        orig_rnechec:       12616
+              empile:       13333
+           play_move:       11355
+        orig_rbechec:        2855
+        orig_rnechec:       11137
 Loesung beendet. 
 
 
@@ -561,10 +561,10 @@ Loesung beendet.
                   3.Lc8-e6 #
 
 
-              empile:       19303
-           play_move:       15231
-        orig_rbechec:        1920
-        orig_rnechec:       15232
+              empile:       16171
+           play_move:       12513
+        orig_rbechec:        1703
+        orig_rnechec:       12119
 Loesung beendet. 
 
 
@@ -613,10 +613,10 @@ Loesung beendet.
                   3.Tf7-a7 #
 
 
-              empile:      212779
-           play_move:      119968
-        orig_rbechec:       30062
-        orig_rnechec:      111897
+              empile:      175236
+           play_move:       87495
+        orig_rbechec:       27989
+        orig_rnechec:       74382
 Loesung beendet. 
 
 
@@ -667,10 +667,10 @@ Loesung beendet.
                           4.Sh7*f6 #
 
 
-              empile:     1514225
-           play_move:     1081880
+              empile:     1407725
+           play_move:     1003781
         orig_rbechec:      231478
-        orig_rnechec:      972172
+        orig_rnechec:      880846
 Loesung beendet. 
 
 
@@ -709,10 +709,10 @@ Loesung beendet.
           2.0-0-0 #
 
 
-              empile:       25862
-           play_move:       17797
+              empile:       24111
+           play_move:       16849
         orig_rbechec:        5282
-        orig_rnechec:       15613
+        orig_rnechec:       14294
 Loesung beendet. 
 
 
@@ -753,10 +753,10 @@ Loesung beendet.
           2.c4-c5 #
 
 
-              empile:       34699
-           play_move:       26908
-        orig_rbechec:        9450
-        orig_rnechec:       22637
+              empile:       32507
+           play_move:       26092
+        orig_rbechec:        9308
+        orig_rnechec:       21735
 Loesung beendet. 
 
 
@@ -795,10 +795,10 @@ Loesung beendet.
           2.c2*d3 #
 
 
-              empile:       20049
-           play_move:       16079
-        orig_rbechec:        5950
-        orig_rnechec:       12656
+              empile:       18074
+           play_move:       14931
+        orig_rbechec:        5885
+        orig_rnechec:       10923
 Loesung beendet. 
 
 
@@ -856,10 +856,10 @@ Loesung beendet.
       1...Sg8-f6 !
 
 
-              empile:        8842
-           play_move:        6235
+              empile:        4806
+           play_move:        3055
         orig_rbechec:         541
-        orig_rnechec:        7562
+        orig_rnechec:        3064
 Loesung beendet. 
 
 
@@ -898,10 +898,10 @@ Loesung beendet.
           2.Se4-c3 #
 
 
-              empile:       43509
-           play_move:       41198
-        orig_rbechec:       25821
-        orig_rnechec:       23976
+              empile:       41385
+           play_move:       39905
+        orig_rbechec:       25820
+        orig_rnechec:       22351
 Loesung beendet. 
 
 
@@ -944,10 +944,10 @@ Loesung beendet.
           2.Tg5*g6 #
 
 
-              empile:       54624
-           play_move:       40527
+              empile:       50172
+           play_move:       37571
         orig_rbechec:       27447
-        orig_rnechec:       21452
+        orig_rnechec:       18233
 Loesung beendet. 
 
 
@@ -980,10 +980,10 @@ Loesung beendet.
   1.e5-e4 f4*g5   2.Dd4*h8 + e7-e8=T #
   1.Sg5-f7 f4*e5   2.Sf7*h8 e7-e8=D #
 
-              empile:     2628159
-           play_move:     2030707
-        orig_rbechec:      571519
-        orig_rnechec:     1839815
+              empile:     2567129
+           play_move:     1969554
+        orig_rbechec:      565881
+        orig_rnechec:     1774230
 Loesung beendet. 
 
 
