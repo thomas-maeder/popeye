@@ -90,7 +90,6 @@ static slice_index const slice_rank_order[] =
   STDoneRemovingFutileMoves,
   STDonePriorisingMoves,
   STTakeMakeCirceCollectRebirthSquares,
-  STExclusiveChessUnsuspender,
   STMove,
   STHelpMovePlayed,
   STCaptureCounter,

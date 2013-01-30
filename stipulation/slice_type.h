@@ -67,8 +67,6 @@
     ENUMERATOR(STSingleBoxType2LegalityTester),                        \
     ENUMERATOR(STSingleBoxType3PawnPromoter),                          \
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
-    ENUMERATOR(STExclusiveChessExclusivityDetector),                   \
-    ENUMERATOR(STExclusiveChessLegalityTester),                        \
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinPlaceReborn),                            \
     ENUMERATOR(STOwnKingCaptureAvoider),                               \
@@ -256,10 +254,11 @@
     ENUMERATOR(STDynastyKingSquareUpdater), \
     ENUMERATOR(STHurdleColourChanger), \
     ENUMERATOR(STKingOscillator), \
-    ENUMERATOR(STMovingPawnToImitatorPromoter),                        \
-    /* other slices related to fairy chess */ \
+    ENUMERATOR(STMovingPawnToImitatorPromoter),                       \
+    /* other slices related to fairy chess */                         \
+    ENUMERATOR(STExclusiveChessExclusivityDetector),                  \
+    ENUMERATOR(STExclusiveChessLegalityTester),                       \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \
-    ENUMERATOR(STExclusiveChessUnsuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \
     ENUMERATOR(STBrunnerDefenderFinder), \

@@ -98,7 +98,6 @@ static slice_index const slice_rank_order[] =
   STDoneRemovingFutileMoves,
   STKillerMovePrioriser,
   STDonePriorisingMoves,
-  STExclusiveChessUnsuspender,
   STMove,
   STAttackPlayed,
   STMaxTimeGuard,

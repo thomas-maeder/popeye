@@ -63,12 +63,10 @@ static slice_index make_exclusive_mating_move_counter_fork(Side side)
   slice_index const tester_slice = alloc_goal_reached_tester_slice(goal,tester_system);
   slice_index const attack = alloc_battle_branch(slack_length+1,slack_length+1);
   slice_index const counter_proto = alloc_legal_attack_counter_slice();
-  slice_index const unsuspender_proto = alloc_pipe(STExclusiveChessUnsuspender);
   attack_branch_insert_slices(tester_slice,&counter_proto,1);
   link_to_branch(proxy_to_goal,tester_slice);
   link_to_branch(proxy_branch,attack);
   battle_branch_insert_direct_end_of_branch_goal(attack,proxy_to_goal);
-  branch_insert_slices(attack,&unsuspender_proto,1);
   result = alloc_conditional_pipe(STExclusiveChessMatingMoveCounter,proxy_branch);
   stip_impose_starter(result,side);
   return result;

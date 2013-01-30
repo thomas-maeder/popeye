@@ -1045,10 +1045,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = recursion_stopper_solve(si,n);
       break;
 
-    case STExclusiveChessUnsuspender:
-      result = exclusive_chess_unsuspender_solve(si,n);
-      break;
-
     case STSinglePieceMoveGenerator:
       result = single_piece_move_generator_solve(si,n);
       break;

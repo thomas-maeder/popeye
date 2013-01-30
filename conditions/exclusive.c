@@ -7,7 +7,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/branch.h"
-#include "stipulation/move.h"
 #include "solving/legal_move_counter.h"
 #include "debugging/trace.h"
 
@@ -52,64 +51,6 @@ boolean exclusive_verifie_position(slice_index si)
   return result;
 }
 
-/* Determine whether the current position is illegal because of
- * Exclusive Chess rules
- * @return true iff the position is legal
- */
-static boolean pos_legal(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(exclusive_goal.type==goal_mate);
-
-  if (nbply>maxply-1)
-    FtlMsg(ChecklessUndecidable);
-
-  result = (is_reaching_goal_allowed[nbply]
-            || solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)==slack_length+2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played (or being played)
- *                                     is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type exclusive_chess_unsuspender_solve(slice_index si,
-                                                    stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  is_reaching_goal_allowed[nbply] = true;
-  result = solve(slices[si].next1,n);
-  is_reaching_goal_allowed[nbply] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void remove_guard(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -138,13 +79,12 @@ static void remove_guard(slice_index si, stip_structure_traversal *st)
 void optimise_away_unnecessary_selfcheckguards(slice_index si)
 {
   stip_structure_traversal st;
-  boolean in_constraint = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&in_constraint);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
                                            STExclusiveChessMatingMoveCounter,
                                            &remove_guard);
@@ -157,8 +97,8 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si)
 static void avoid_instrumenting_exclusivity_detection_branch(slice_index si,
                                                              stip_structure_traversal *st)
 {
-  boolean * const are_we_in_exclusivity_detection_branch = st->param;
-  boolean const save_are_we_in_exclusivity_detection_branch = *are_we_in_exclusivity_detection_branch;
+  boolean * const is_this_mating_move_played_for_testing_exclusivity = st->param;
+  boolean const save_is_this_mating_move_played_for_testing_exclusivity = *is_this_mating_move_played_for_testing_exclusivity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -166,9 +106,9 @@ static void avoid_instrumenting_exclusivity_detection_branch(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  *are_we_in_exclusivity_detection_branch = true;
+  *is_this_mating_move_played_for_testing_exclusivity = true;
   stip_traverse_structure_conditional_pipe_tester(si,st);
-  *are_we_in_exclusivity_detection_branch = save_are_we_in_exclusivity_detection_branch;
+  *is_this_mating_move_played_for_testing_exclusivity = save_is_this_mating_move_played_for_testing_exclusivity;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -177,20 +117,41 @@ static void avoid_instrumenting_exclusivity_detection_branch(slice_index si,
 static void insert_exclusivity_detector(slice_index si,
                                         stip_structure_traversal *st)
 {
-  boolean * const are_we_in_exclusivity_detection_branch = st->param;
-  boolean const save_are_we_in_exclusivity_detection_branch = *are_we_in_exclusivity_detection_branch;
+  boolean const * const is_this_mating_move_played_for_testing_exclusivity = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *are_we_in_exclusivity_detection_branch = false;
   stip_traverse_structure_children_pipe(si,st);
-  *are_we_in_exclusivity_detection_branch = save_are_we_in_exclusivity_detection_branch;
 
-  if (!*are_we_in_exclusivity_detection_branch)
+  if (!*is_this_mating_move_played_for_testing_exclusivity)
   {
     slice_index const prototype = alloc_pipe(STExclusiveChessExclusivityDetector);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_legality_tester(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  boolean * const is_this_mating_move_played_for_testing_exclusivity = st->param;
+  boolean const save_is_this_mating_move_played_for_testing_exclusivity = *is_this_mating_move_played_for_testing_exclusivity;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *is_this_mating_move_played_for_testing_exclusivity = false;
+  stip_traverse_structure_children_pipe(si,st);
+  *is_this_mating_move_played_for_testing_exclusivity = save_is_this_mating_move_played_for_testing_exclusivity;
+
+  if (!*is_this_mating_move_played_for_testing_exclusivity)
+  {
+    slice_index const prototype = alloc_pipe(STExclusiveChessLegalityTester);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
@@ -204,25 +165,45 @@ static void insert_exclusivity_detector(slice_index si,
 void stip_insert_exclusive_chess(slice_index si)
 {
   stip_structure_traversal st;
-  boolean are_we_in_exclusivity_detection_branch = false;
+  boolean is_this_mating_move_played_for_testing_exclusivity = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&are_we_in_exclusivity_detection_branch);
+  stip_structure_traversal_init(&st,&is_this_mating_move_played_for_testing_exclusivity);
   stip_structure_traversal_override_single(&st,
                                            STExclusiveChessMatingMoveCounter,
                                            &avoid_instrumenting_exclusivity_detection_branch);
   stip_structure_traversal_override_single(&st,
                                            STGeneratingMoves,
                                            &insert_exclusivity_detector);
+  stip_structure_traversal_override_single(&st,STMove,&insert_legality_tester);
   stip_traverse_structure(si,&st);
-
-  stip_instrument_moves(si,STExclusiveChessLegalityTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static boolean is_exclusivity_violated(void)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(exclusive_goal.type==goal_mate);
+
+  if (nbply>maxply-1)
+    FtlMsg(ChecklessUndecidable);
+
+  result = (!is_reaching_goal_allowed[nbply]
+            && solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)!=slack_length+2);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to solve in n half-moves.
@@ -249,10 +230,10 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!CondFlag[exclusive] || pos_legal())
-    result = solve(next,n);
-  else
+  if (is_exclusivity_violated())
     result = previous_move_is_illegal;
+  else
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -304,7 +285,6 @@ stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
                                                             stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -313,7 +293,7 @@ stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
 
   detect_exclusivity(slices[si].starter);
 
-  result = solve(next,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

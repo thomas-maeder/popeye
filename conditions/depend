@@ -8,8 +8,7 @@ conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h
  optimisations/goals/mate/neutralretractable.h pymsg.h pydata.h pyproc.h \
  py4.h py.h stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- stipulation/branch.h stipulation/move.h solving/legal_move_counter.h \
- debugging/trace.h
+ stipulation/branch.h solving/legal_move_counter.h debugging/trace.h
 
 conditions/exclusive.h:
 
@@ -70,8 +69,6 @@ stipulation/has_solution_type.h:
 stipulation/temporary_hacks.h:
 
 stipulation/branch.h:
-
-stipulation/move.h:
 
 solving/legal_move_counter.h:
 
