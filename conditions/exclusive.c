@@ -94,8 +94,8 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void avoid_instrumenting_exclusivity_detection_branch(slice_index si,
-                                                             stip_structure_traversal *st)
+static void avoid_instrumenting_exclusivity_detecting_move(slice_index si,
+                                                           stip_structure_traversal *st)
 {
   boolean * const is_this_mating_move_played_for_testing_exclusivity = st->param;
   boolean const save_is_this_mating_move_played_for_testing_exclusivity = *is_this_mating_move_played_for_testing_exclusivity;
@@ -174,7 +174,7 @@ void stip_insert_exclusive_chess(slice_index si)
   stip_structure_traversal_init(&st,&is_this_mating_move_played_for_testing_exclusivity);
   stip_structure_traversal_override_single(&st,
                                            STExclusiveChessMatingMoveCounter,
-                                           &avoid_instrumenting_exclusivity_detection_branch);
+                                           &avoid_instrumenting_exclusivity_detecting_move);
   stip_structure_traversal_override_single(&st,
                                            STGeneratingMoves,
                                            &insert_exclusivity_detector);
