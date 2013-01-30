@@ -100,11 +100,9 @@ stip_length_type exclusive_chess_unsuspender_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  CondFlag[exclusive] = true;
   is_reaching_goal_allowed[nbply] = true;
   result = solve(slices[si].next1,n);
   is_reaching_goal_allowed[nbply] = false;
-  CondFlag[exclusive] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -156,15 +154,41 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_exclusivity_detector(slice_index si,
-                                        stip_structure_traversal *st)
+static void avoid_instrumenting_exclusivity_detection_branch(slice_index si,
+                                                             stip_structure_traversal *st)
 {
+  boolean * const are_we_in_exclusivity_detection_branch = st->param;
+  boolean const save_are_we_in_exclusivity_detection_branch = *are_we_in_exclusivity_detection_branch;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
 
+  *are_we_in_exclusivity_detection_branch = true;
+  stip_traverse_structure_conditional_pipe_tester(si,st);
+  *are_we_in_exclusivity_detection_branch = save_are_we_in_exclusivity_detection_branch;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_exclusivity_detector(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  boolean * const are_we_in_exclusivity_detection_branch = st->param;
+  boolean const save_are_we_in_exclusivity_detection_branch = *are_we_in_exclusivity_detection_branch;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *are_we_in_exclusivity_detection_branch = false;
+  stip_traverse_structure_children_pipe(si,st);
+  *are_we_in_exclusivity_detection_branch = save_are_we_in_exclusivity_detection_branch;
+
+  if (!*are_we_in_exclusivity_detection_branch)
   {
     slice_index const prototype = alloc_pipe(STExclusiveChessExclusivityDetector);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -180,13 +204,19 @@ static void insert_exclusivity_detector(slice_index si,
 void stip_insert_exclusive_chess(slice_index si)
 {
   stip_structure_traversal st;
+  boolean are_we_in_exclusivity_detection_branch = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STGeneratingMoves,&insert_exclusivity_detector);
+  stip_structure_traversal_init(&st,&are_we_in_exclusivity_detection_branch);
+  stip_structure_traversal_override_single(&st,
+                                           STExclusiveChessMatingMoveCounter,
+                                           &avoid_instrumenting_exclusivity_detection_branch);
+  stip_structure_traversal_override_single(&st,
+                                           STGeneratingMoves,
+                                           &insert_exclusivity_detector);
   stip_traverse_structure(si,&st);
 
   stip_instrument_moves(si,STExclusiveChessLegalityTester);
@@ -238,8 +268,6 @@ static void detect_exclusivity(Side side)
 
   assert(exclusive_goal.type==goal_mate);
 
-  CondFlag[exclusive] = false;
-
   /* avoid concurrent counts */
   assert(legal_move_counter_count[nbply]==0);
 
@@ -254,8 +282,6 @@ static void detect_exclusivity(Side side)
 
   /* clean up after ourselves */
   legal_move_counter_count[nbply] = 0;
-
-  CondFlag[exclusive] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -285,8 +311,7 @@ stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[exclusive])
-    detect_exclusivity(slices[si].starter);
+  detect_exclusivity(slices[si].starter);
 
   result = solve(next,n);
 
