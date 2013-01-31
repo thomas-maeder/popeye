@@ -45,7 +45,7 @@ stip_length_type recursion_stopper_solve(slice_index si, stip_length_type n)
   stip_length_type result;
 
 #if defined(DOTRACE)
-  /* empirically determined one 1 workstation */
+  /* empirically determined at 1 workstation */
   ply const stop_at_ply = 250;
 #else
   ply const stop_at_ply = maxply;
