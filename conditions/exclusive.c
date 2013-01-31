@@ -194,9 +194,6 @@ static boolean is_exclusivity_violated(void)
 
   assert(exclusive_goal.type==goal_mate);
 
-  if (nbply>maxply-1)
-    FtlMsg(ChecklessUndecidable);
-
   result = (!is_reaching_goal_allowed[nbply]
             && solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)!=slack_length+2);
 
@@ -243,11 +240,21 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
 
 static void detect_exclusivity(Side side)
 {
+#if defined(DOTRACE)
+  /* empirically determined at 1 workstation */
+  ply const stop_at_ply = 250;
+#else
+  ply const stop_at_ply = maxply;
+#endif
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
   assert(exclusive_goal.type==goal_mate);
+
+  if (nbply>stop_at_ply)
+    FtlMsg(ChecklessUndecidable);
 
   /* avoid concurrent counts */
   assert(legal_move_counter_count[nbply]==0);
