@@ -80,9 +80,9 @@ Loesung beendet.
                   3.La8*c6 #
 
 
-              empile:       42831
-           play_move:       37830
-        orig_rbechec:        1953
+              empile:       42840
+           play_move:       37839
+        orig_rbechec:        1962
         orig_rnechec:       37598
 Loesung beendet. 
 
@@ -118,9 +118,9 @@ Hans Burbach zum 75. Geburtstag gewidmet
   1.Tb1-b7 Ka8*b7[+sDd8]   2.Lf2-g1 f7-f8=T #
   1.Lf2-a7 Ka8*a7[+sTh8]   2.Tb1-d1 f7-f8=D #
 
-              empile:      569385
-           play_move:      362465
-        orig_rbechec:       59972
+              empile:      569425
+           play_move:      362505
+        orig_rbechec:       60012
         orig_rnechec:      359874
 Loesung beendet. 
 
@@ -446,9 +446,9 @@ Loesung beendet.
 
   1.d4*e3 ep. Kd1-e1   2.Dd6-h2 Tc2-d2 #
 
-              empile:       65863
-           play_move:       30590
-        orig_rbechec:       16049
+              empile:       65865
+           play_move:       30592
+        orig_rbechec:       16051
         orig_rnechec:       24512
 Loesung beendet. 
 
@@ -613,7 +613,7 @@ Loesung beendet.
                   3.Tf7-a7 #
 
 
-              empile:      175236
+              empile:      175237
            play_move:       87495
         orig_rbechec:       27989
         orig_rnechec:       74382
@@ -795,9 +795,9 @@ Loesung beendet.
           2.c2*d3 #
 
 
-              empile:       18074
-           play_move:       14931
-        orig_rbechec:        5885
+              empile:       18075
+           play_move:       14932
+        orig_rbechec:        5886
         orig_rnechec:       10923
 Loesung beendet. 
 
@@ -856,10 +856,10 @@ Loesung beendet.
       1...Sg8-f6 !
 
 
-              empile:        4806
-           play_move:        3055
+              empile:        4807
+           play_move:        3056
         orig_rbechec:         541
-        orig_rnechec:        3064
+        orig_rnechec:        3065
 Loesung beendet. 
 
 

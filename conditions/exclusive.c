@@ -194,7 +194,7 @@ static boolean is_exclusivity_violated(void)
 
   assert(exclusive_goal.type==goal_mate);
 
-  result = (!is_reaching_goal_allowed[nbply]
+  result = (!is_reaching_goal_allowed[parent_ply[nbply]]
             && solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)!=slack_length+2);
 
   TraceFunctionExit(__func__);
@@ -265,7 +265,7 @@ static void detect_exclusivity(Side side)
   solve(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
 
   is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply]<2;
-  TraceValue("%u",legal_move_counter_count[nbply+1]);
+  TraceValue("%u",legal_move_counter_count[nbply]);
   TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
 
   /* clean up after ourselves */
