@@ -39,6 +39,7 @@
 #include "conditions/haunted_chess.h"
 #include "position/position.h"
 #include "pieces/walks.h"
+#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 
