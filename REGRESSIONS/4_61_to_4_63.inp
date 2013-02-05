@@ -193,6 +193,15 @@ option nowk
 
 next
 
+title Until 4.61, a=>b stipulations weren't correctly solved
+title if there were neutral pieces
+pieces neutral sa1 sa8 
+stipulation a=>b2     
+condition alphabet
+pieces neutral sc1 sc8
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

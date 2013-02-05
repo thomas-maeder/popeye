@@ -559,6 +559,10 @@ static boolean compareProofPieces(void)
 
   TraceValue("%u\n",ProofNbrAllPieces);
 
+  /* make sure that neutral pieces belong to the same side they belonged to
+   * when we saved the target position */
+  initialise_neutrals(White);
+
   for (i = 0; i<ProofNbrAllPieces; ++i)
   {
     TracePiece(ProofPieces[i]);

@@ -23,7 +23,7 @@ versions <= 4.61 didn't support castling in Circe Parrain
   h002                        3 + 1
              ParrainCirce
 
-  1.Bc1*b2 Be5-d4[+wRa1]   2.Bb2*d4 0-0-0[+wBe4] 
+  1.Bc1*b2 Be5-d4[+wRa1]   2.Bb2*d4 0-0-0[+wBe4]
 
               empile:        1387
            play_move:        1298
@@ -57,10 +57,10 @@ versions <= 4.61 didn't properly disable castling when a king was added
   exact-ser-002               3 + 0
              RoyalDynasty
 
-  1.a7-a8=Q   2.0-0 
-  1.a7-a8=S   2.0-0 
-  1.a7-a8=R   2.0-0 
-  1.a7-a8=B   2.0-0 
+  1.a7-a8=Q   2.0-0
+  1.a7-a8=S   2.0-0
+  1.a7-a8=R   2.0-0
+  1.a7-a8=B   2.0-0
 
               empile:         118
            play_move:          24
@@ -93,7 +93,7 @@ recent Popeye versions didn't find this any more
 +---a---b---c---d---e---f---g---h---+
   h=0.5                      2 + 11
 
-  1...Kc5-b6 = 
+  1...Kc5-b6 =
 
               empile:         161
            play_move:         176
@@ -190,16 +190,16 @@ strange "cages" were selected for neutral pieces
   pser-h~1               1 + 1 + 1n
               CageCirce
 
-  1.nPg5-g4 + nPg4-g5 
-  1.nPg5-g4 + Kf3-g3 
-  1.nPg5-g4 + Kf3-f4 
-  1.nPg5-g4 + Kf3-e3 
-  1.nPg5-g4 + Kf3-f2 
-  1.nPg5-g4 + Kf3-e4 
-  1.nPg5-g4 + Kf3*g4[+nPg5] 
-  1.nPg5-g4 + Kf3-g2 
-  1.nPg5-g4 + Kf3-e2 
-  1.Ke7-f7 nPg5-g6 + 
+  1.nPg5-g4 + nPg4-g5
+  1.nPg5-g4 + Kf3-g3
+  1.nPg5-g4 + Kf3-f4
+  1.nPg5-g4 + Kf3-e3
+  1.nPg5-g4 + Kf3-f2
+  1.nPg5-g4 + Kf3-e4
+  1.nPg5-g4 + Kf3*g4[+nPg5]
+  1.nPg5-g4 + Kf3-g2
+  1.nPg5-g4 + Kf3-e2
+  1.Ke7-f7 nPg5-g6 +
 
               empile:         749
            play_move:         144
@@ -274,7 +274,7 @@ checks were indicated after Black's 3rd moves
 
 a) 
 
-  1.nRg8-f8 nRf8-f5   2.Be8-f7 nRf5-h5 +   3.Qg6-g5 Ke7*f7 # 
+  1.nRg8-f8 nRf8-f5   2.Be8-f7 nRf5-h5 +   3.Qg6-g5 Ke7*f7 #
 
               empile:     2393145
            play_move:     2150259
@@ -282,8 +282,8 @@ a)
         orig_rnechec:     2125212
 b) bBe8-->h8
 
-  1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 # 
-  1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 # 
+  1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
+  1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
 
               empile:     4065413
            play_move:     3693946
@@ -411,7 +411,7 @@ a)
         orig_rnechec:           3
 b) +wSa8 
 
-  1...Rh3-a3 # 
+  1...Rh3-a3 #
 
               empile:          53
            play_move:          45
@@ -447,7 +447,7 @@ Sentinelle insertion would occur before rebirth, which caused
           EquipollentsCirce
      Sentinelles  PionAdvers 2/2
 
-  1.nKd5*c6[+wPb7] b7-b8=R   2.nKc6-c7[+wPc6] nKc7-c8[+bPc7] # 
+  1.nKd5*c6[+wPb7] b7-b8=R   2.nKc6-c7[+wPc6] nKc7-c8[+bPc7] #
 
               empile:        3274
            play_move:        2296
@@ -598,7 +598,7 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
   ser-sx2                     2 + 1
             MessignyChess
 
-  1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x 
+  1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x
 
               empile:         456
            play_move:         135
@@ -633,7 +633,7 @@ solution finished.
               AntiCirce
               NorskSjakk
 
-  1.e2-e3 a7-a6   2.Bf1-c4=R Ra8-a7=B   3.Sg1-e2=Q dia 
+  1.e2-e3 a7-a6   2.Bf1-c4=R Ra8-a7=B   3.Sg1-e2=Q dia
 
               empile:        6399
            play_move:        6254
@@ -736,9 +736,9 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   h#2                    2 + 8 + 3n
             Take&MakeChess
 
-  1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 # 
-  1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 # 
-  1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 # 
+  1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 #
+  1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
+  1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
               empile:      922305
            play_move:      619520
@@ -774,8 +774,8 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
             NoWhiteCapture
       WhiteSuperTransmutingKing
 
-  1.e2-e1=Q Kh1-h2   2.Qe1-e5 + Kh2-h1=Q # 
-  1.h3-h2 Kh1-g2 +   2.e2-e1=S + Kg2-e3=S # 
+  1.e2-e1=Q Kh1-h2   2.Qe1-e5 + Kh2-h1=Q #
+  1.h3-h2 Kh1-g2 +   2.e2-e1=S + Kg2-e3=S #
 
               empile:         279
            play_move:         300
@@ -815,6 +815,72 @@ Until 4.61, Popeye crashed (Bug #3585629)
            play_move:          11
         orig_rbechec:           0
         orig_rnechec:          11
+solution finished. 
+
+
+both sides need a kingboth sides need a king
+Until 4.61, a=>b stipulations weren't correctly solved
+     if there were neutral pieces
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  =S   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  =S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b2                  0 + 0 + 2n
+           AlphabeticChess
+         WhiteAlphabeticChess
+         BlackAlphabeticChess
+
+Initial (Black ->):
+
+Until 4.61, a=>b stipulations weren't correctly solved
+     if there were neutral pieces
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  =S   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  =S   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b2                  0 + 0 + 2n
+           AlphabeticChess
+         WhiteAlphabeticChess
+         BlackAlphabeticChess
+
+  1.nSa1-b3 nSa8-b6   2.nSb3-c1 nSb6-c8 a=>b
+
+              empile:         330
+           play_move:         146
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
