@@ -420,4 +420,12 @@ steine weiss kh1 ta2 schwarz kh7 gh8 bg4
 sforderung weiss 2ad[1a[+]d{+}]
 option vari
 
+weiter
+
+titel Beispel fuer "Direkt-Selbst"
+autor Nicolas Dupont
+steine weiss Ka6 Te4 Le8 Sb5 Bc2c3c6
+       schwarz Kc8 Lb6d3 Ba4d6
+sford weiss 9s [- 1d[x]a]
+
 ende
