@@ -152,6 +152,7 @@
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
+#include "output/plaintext/line/exclusive.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/key_writer.h"
@@ -161,6 +162,7 @@
 #include "output/plaintext/tree/threat_writer.h"
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
+#include "output/plaintext/tree/exclusive.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "pieces/attributes/paralysing/remove_captures.h"
@@ -1298,8 +1300,24 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = exclusive_chess_exclusivity_detector_solve(si,n);
       break;
 
+    case STExclusiveChessNestedExclusivityDetector:
+      result = exclusive_chess_nested_exclusivity_detector_solve(si,n);
+      break;
+
     case STExclusiveChessLegalityTester:
       result = exclusive_chess_legality_tester_solve(si,n);
+      break;
+
+    case STExclusiveChessGoalReachingMoveCounter:
+      result = exclusive_chess_goal_reaching_move_counter_solve(si,n);
+      break;
+
+    case STExclusiveChessUndecidableWriterTree:
+      result = exclusive_chess_undecidable_writer_tree_solve(si,n);
+      break;
+
+    case STExclusiveChessUndecidableWriterLine:
+      result = exclusive_chess_undecidable_writer_line_solve(si,n);
       break;
 
     case STUltraschachzwangLegalityTester:

@@ -1,24 +1,25 @@
-#include "output/plaintext/tree/threat_writer.h"
-#include "pymsg.h"
-#include "pydata.h"
-#include "pyproc.h"
+#include "output/plaintext/line/exclusive.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/battle_play/threat.h"
-#include "utilities/table.h"
+#include "conditions/exclusive.h"
+#include "output/plaintext/line/line_writer.h"
+#include "pymsg.h"
+#include "pydata.h"
 #include "debugging/trace.h"
 
-/* Allocate a STThreatWriter defender slice.
- * @return index of allocated slice
+#include <assert.h>
+
+/* Allocate a STExclusiveChessUndecidableWriterLine slice
+ * @return identifier of the allocated slice
  */
-slice_index alloc_threat_writer_slice(void)
+slice_index alloc_exclusive_chess_undecidable_writer_line_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STThreatWriter);
+  result = alloc_pipe(STExclusiveChessUndecidableWriterLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -39,23 +40,25 @@ slice_index alloc_threat_writer_slice(void)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type threat_writer_solve(slice_index si, stip_length_type n)
+stip_length_type exclusive_chess_undecidable_writer_line_solve(slice_index si,
+                                                               stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (table_length(threats[nbply])==0)
+  if (is_current_move_in_table(undefined_moves_after_current_move[parent_ply[nbply]]))
   {
+    result = output_plaintext_line_line_writer_solve(si,n);
+    assert(result==n+2);
     StdChar(blank);
-    Message(Threat);
+    Message(ChecklessUndecidable);
   }
-
-  result = solve(next,n);
+  else
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

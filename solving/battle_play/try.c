@@ -120,8 +120,7 @@ stip_length_type refutations_allocator_solve(slice_index si, stip_length_type n)
   assert(refutations==table_nil);
   refutations = allocate_table();
   result = solve(next,n);
-  assert(refutations==get_top_table());
-  free_table();
+  free_table(refutations);
   refutations = table_nil;
 
   TraceFunctionExit(__func__);
@@ -231,9 +230,8 @@ stip_length_type refutations_collector_solve(slice_index si,
 
   if (result>n)
   {
-    assert(get_top_table()==refutations);
-    append_to_top_table();
-    if (table_length(get_top_table())<=max_nr_refutations)
+    append_to_table(refutations);
+    if (table_length(refutations)<=max_nr_refutations)
       result = n;
   }
 

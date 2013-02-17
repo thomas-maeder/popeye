@@ -4879,7 +4879,7 @@ Ohneschach-Anomalie !
   #1                          5 + 3
               OhneSchach
 
-   1.Th8-e8 Ohneschach oder ExklusivSchach: kann nicht entscheiden, ob ein Zug legal ist.
+   1.Th8-e8 kann nicht entscheiden, ob dieser Zug legal ist.
 
    1.Td8-e8 # !
 

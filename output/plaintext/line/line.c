@@ -6,12 +6,13 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "output/plaintext/end_of_phase_writer.h"
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/goal_writer.h"
+#include "output/plaintext/end_of_phase_writer.h"
+#include "output/plaintext/line/exclusive.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "debugging/trace.h"
@@ -179,6 +180,24 @@ static void instrument_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void instrument_move(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[exclusive])
+  {
+    slice_index const prototype = alloc_exclusive_chess_undecidable_writer_line_slice();
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_move_inversion_counter(slice_index si,
                                           stip_structure_traversal *st)
 {
@@ -199,7 +218,8 @@ static structure_traversers_visitor regular_inserters[] =
 {
   { STMoveInverter,      &insert_move_inversion_counter  },
   { STPlaySuppressor,    &instrument_suppressor          },
-  { STGoalReachedTester, &instrument_goal_reached_tester }
+  { STGoalReachedTester, &instrument_goal_reached_tester },
+  { STMove,              &instrument_move                }
 };
 
 enum

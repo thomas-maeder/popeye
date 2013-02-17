@@ -83,7 +83,7 @@
  82= FrischAufCirce: piece is not a promoted piece. Enter the pieces first.\n
  83= Some fairy conditions in proof games not allowed.\n
  84= Isardam and Madrasi/Eiffel not allowed
- 85= ChecklessChess or ExclusiveChess: cannot decide if a certain move is legal or not.\n
+ 85= cannot decide if this move is legal or not.\n
  86= already occupied - old piece will be deleted.\n
  87= MarsCirce, PlusChess or PhantomChess is incompatible with several fairy conditions and fairy pieces.\n
  88= potential positions in

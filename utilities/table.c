@@ -5,6 +5,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <string.h>
 
 enum
 {
@@ -233,23 +234,26 @@ table allocate_table(void)
 }
 
 /* Deallocate the table that was last allocated.
+ * @param expected_top_table table expected to be freed by caller
  */
-void free_table(void)
+void free_table(table expected_top_table)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",number_of_tables);
   assert(number_of_tables>0);
+  assert(number_of_tables==expected_top_table);
   --number_of_tables;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Append the move just played in ply nbply to the top table.
+/* Append the move just played in ply nbply to a table.
+ * @param t identifies the table
  */
-void append_to_top_table(void)
+void append_to_table(table t)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -260,28 +264,17 @@ void append_to_top_table(void)
     ErrorMsg(TooManySol);
   else
   {
-    ++current_position[number_of_tables];
-    make_move_snapshot(&tables_stack[current_position[number_of_tables]]);
+    unsigned int i;
+    for (i = t; i<=number_of_tables; ++i)
+      ++current_position[i];
+    memmove(&tables_stack[current_position[t]+1],
+            &tables_stack[current_position[t]],
+            (current_position[number_of_tables]-current_position[t])*sizeof tables_stack[0]);
+    make_move_snapshot(&tables_stack[current_position[t]]);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Retrieve the identifier of the top table
- * @return identifier of the top table
- */
-table get_top_table(void)
-{
-  return number_of_tables;
-}
-
-/* Remove all elements from the top table
- */
-void clear_top_table(void)
-{
-  assert(number_of_tables>0);
-  current_position[number_of_tables] = current_position[number_of_tables-1];
 }
 
 /* Retrieve the length (number of elements) of a table.

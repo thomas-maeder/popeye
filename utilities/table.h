@@ -2,12 +2,11 @@
 #define UTILITIES_TABLE_H
 
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* This module implements a stack of tables of moves.  "Stack" because
  * a table can only be allocated and deallocated from the end of the
- * available tables, and only the the top table can be modified.
- * Every allocated table can be queried, however.
+ * available tables.
+ * Every allocated table can be queried and appended to, however.
  * Tables are add-only, i.e. moves can be added but not removed
  */
 
@@ -30,8 +29,9 @@ void reset_tables(void);
 table allocate_table(void);
 
 /* Deallocate the table that was last allocated.
+ * @param expected_top_table table expected to be freed by caller
  */
-void free_table(void);
+void free_table(table expected_top_table);
 
 /* Retrieve the length (number of elements) of a table.
  * @param t table identifier (obtained using allocate_table())
@@ -39,18 +39,10 @@ void free_table(void);
  */
 unsigned int table_length(table t);
 
-/* Retrieve the identifier of the top table
- * @return identifier of the top table
+/* Append the move just played in ply nbply to a table.
+ * @param t identifies table where to append to
  */
-table get_top_table(void);
-
-/* Append the move just played in ply nbply to the top table.
- */
-void append_to_top_table(void);
-
-/* Remove all elements from the top table
- */
-void clear_top_table(void);
+void append_to_table(table t);
 
 /* Determine whether the move just played in ply nbply is in a table
  * @param t table identifier

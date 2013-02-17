@@ -8,14 +8,13 @@
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/avoid_unsolvable.h"
-#include "utilities/table.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
 /* Table where threats of the various move levels are collected
  */
-static table threats[maxply+1];
+table threats[maxply+1];
 
 /* Lengths of threats of the various move levels
  */
@@ -113,7 +112,7 @@ stip_length_type threat_collector_solve(slice_index si, stip_length_type n)
   result = solve(next,n);
 
   if (slack_length<=result && result<=n)
-    append_to_top_table();
+    append_to_table(threats[nbply]);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -153,8 +152,7 @@ stip_length_type threat_solver_solve(slice_index si, stip_length_type n)
 
   result = solve(next,n);
 
-  assert(get_top_table()==threats[threats_ply]);
-  free_table();
+  free_table(threats[threats_ply]);
   threat_lengths[threats_ply] = no_threats_found;
   threats[threats_ply] = table_nil;
 

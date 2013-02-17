@@ -7,14 +7,18 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/branch.h"
-#include "solving/legal_move_counter.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
+table undefined_moves_after_current_move[maxply+1];
+
 static Goal exclusive_goal;
 
-static boolean is_reaching_goal_allowed[maxply+1];
+static unsigned int nr_moves_reaching_goal_after_current_move[maxply+1];
+static unsigned int nr_defined_continuations[maxply+1];
+static boolean detecting_exclusivity[maxply+1];
+static ply ply_horizon = maxply;
 
 /* Perform the necessary verification steps for solving an Exclusive
  * Chess problem
@@ -86,7 +90,7 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STExclusiveChessMatingMoveCounter,
+                                           STExclusiveChessMatingMoveCounterFork,
                                            &remove_guard);
   stip_traverse_structure(si,&st);
 
@@ -94,11 +98,17 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si)
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    boolean is_this_mating_move_played_for_testing_exclusivity;
+    boolean are_we_testing_exclusivity;
+} insertion_state_type;
+
 static void avoid_instrumenting_exclusivity_detecting_move(slice_index si,
                                                            stip_structure_traversal *st)
 {
-  boolean * const is_this_mating_move_played_for_testing_exclusivity = st->param;
-  boolean const save_is_this_mating_move_played_for_testing_exclusivity = *is_this_mating_move_played_for_testing_exclusivity;
+  insertion_state_type * const state = st->param;
+  insertion_state_type const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -106,9 +116,10 @@ static void avoid_instrumenting_exclusivity_detecting_move(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  *is_this_mating_move_played_for_testing_exclusivity = true;
+  state->is_this_mating_move_played_for_testing_exclusivity = true;
+  state->are_we_testing_exclusivity = true;
   stip_traverse_structure_conditional_pipe_tester(si,st);
-  *is_this_mating_move_played_for_testing_exclusivity = save_is_this_mating_move_played_for_testing_exclusivity;
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -117,7 +128,7 @@ static void avoid_instrumenting_exclusivity_detecting_move(slice_index si,
 static void insert_exclusivity_detector(slice_index si,
                                         stip_structure_traversal *st)
 {
-  boolean const * const is_this_mating_move_played_for_testing_exclusivity = st->param;
+  insertion_state_type const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -125,9 +136,12 @@ static void insert_exclusivity_detector(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (!*is_this_mating_move_played_for_testing_exclusivity)
+  if (!state->is_this_mating_move_played_for_testing_exclusivity)
   {
-    slice_index const prototype = alloc_pipe(STExclusiveChessExclusivityDetector);
+    slice_type const type = (state->are_we_testing_exclusivity
+                             ? STExclusiveChessNestedExclusivityDetector
+                             : STExclusiveChessExclusivityDetector);
+    slice_index const prototype = alloc_pipe(type);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
@@ -138,18 +152,18 @@ static void insert_exclusivity_detector(slice_index si,
 static void insert_legality_tester(slice_index si,
                                    stip_structure_traversal *st)
 {
-  boolean * const is_this_mating_move_played_for_testing_exclusivity = st->param;
-  boolean const save_is_this_mating_move_played_for_testing_exclusivity = *is_this_mating_move_played_for_testing_exclusivity;
+  insertion_state_type * const state = st->param;
+  boolean const save_is_this_mating_move_played_for_testing_exclusivity = state->is_this_mating_move_played_for_testing_exclusivity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *is_this_mating_move_played_for_testing_exclusivity = false;
+  state->is_this_mating_move_played_for_testing_exclusivity = false;
   stip_traverse_structure_children_pipe(si,st);
-  *is_this_mating_move_played_for_testing_exclusivity = save_is_this_mating_move_played_for_testing_exclusivity;
+  state->is_this_mating_move_played_for_testing_exclusivity = save_is_this_mating_move_played_for_testing_exclusivity;
 
-  if (!*is_this_mating_move_played_for_testing_exclusivity)
+  if (!state->is_this_mating_move_played_for_testing_exclusivity)
   {
     slice_index const prototype = alloc_pipe(STExclusiveChessLegalityTester);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -165,15 +179,15 @@ static void insert_legality_tester(slice_index si,
 void stip_insert_exclusive_chess(slice_index si)
 {
   stip_structure_traversal st;
-  boolean is_this_mating_move_played_for_testing_exclusivity = false;
+  insertion_state_type state = { false, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&is_this_mating_move_played_for_testing_exclusivity);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_single(&st,
-                                           STExclusiveChessMatingMoveCounter,
+                                           STExclusiveChessMatingMoveCounterFork,
                                            &avoid_instrumenting_exclusivity_detecting_move);
   stip_structure_traversal_override_single(&st,
                                            STGeneratingMoves,
@@ -194,8 +208,10 @@ static boolean is_exclusivity_violated(void)
 
   assert(exclusive_goal.type==goal_mate);
 
-  result = (!is_reaching_goal_allowed[parent_ply[nbply]]
-            && solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)!=slack_length+2);
+  if (nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]>=2)
+    result = solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)!=slack_length+2;
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -217,7 +233,7 @@ static boolean is_exclusivity_violated(void)
  *            n+3 no solution found in next branch
  */
 stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
-                                                        stip_length_type n)
+                                                       stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -227,52 +243,28 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_exclusivity_violated())
+  if (is_current_move_in_table(undefined_moves_after_current_move[parent_ply[nbply]]))
+    result = n+2;
+  else if (is_exclusivity_violated())
     result = previous_move_is_illegal;
   else
+  {
     result = solve(next,n);
+
+    if (result==n+2)
+    {
+      ++nr_defined_continuations[parent_ply[nbply]];
+      TraceText("remembering defined refutation");
+      TraceValue("%u",nbply);
+      TraceValue("%u",parent_ply[nbply]);
+      TraceValue("%u\n",nr_defined_continuations[parent_ply[nbply]]);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void detect_exclusivity(Side side)
-{
-#if defined(DOTRACE)
-  /* empirically determined at 1 workstation */
-  ply const stop_at_ply = 250;
-#else
-  ply const stop_at_ply = maxply;
-#endif
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  assert(exclusive_goal.type==goal_mate);
-
-  if (nbply>stop_at_ply)
-    FtlMsg(ChecklessUndecidable);
-
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply]==0);
-
-  /* stop counting once we have found >1 mating moves */
-  legal_move_counter_interesting[nbply] = 1;
-
-  solve(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
-
-  is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply]<2;
-  TraceValue("%u",legal_move_counter_count[nbply]);
-  TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
-
-  /* clean up after ourselves */
-  legal_move_counter_count[nbply] = 0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves.
@@ -298,9 +290,159 @@ stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  detect_exclusivity(slices[si].starter);
+  assert(nbply<=ply_horizon);
+
+  {
+    ply const save_ply_horizon = ply_horizon;
+    nr_moves_reaching_goal_after_current_move[nbply] = 0;
+    undefined_moves_after_current_move[nbply] = allocate_table();
+    nr_defined_continuations[nbply] = 0;
+
+    detecting_exclusivity[nbply] = true;
+//    assert(ply_horizon==maxply);
+    if (ply_horizon==maxply)
+      ply_horizon = nbply+6;
+    solve(slices[temporary_hack_exclusive_mating_move_counter[slices[si].starter]].next2,length_unspecified);
+    ply_horizon = save_ply_horizon;
+    detecting_exclusivity[nbply] = false;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",nr_defined_continuations[nbply]);
+    TraceValue("%u",nr_moves_reaching_goal_after_current_move[nbply]);
+    TraceValue("%u\n",table_length(undefined_moves_after_current_move[nbply]));
+
+    result = solve(slices[si].next1,n);
+
+    if (nr_defined_continuations[nbply]==0
+        && table_length(undefined_moves_after_current_move[nbply])>0
+        && detecting_exclusivity[parent_ply[nbply]])
+    {
+      append_to_table(undefined_moves_after_current_move[parent_ply[nbply]]);
+      TraceValue("%u",nbply);
+      TraceValue("%u",parent_ply[nbply]);
+      TraceValue("%u\n",table_length(undefined_moves_after_current_move[parent_ply[nbply]]));
+    }
+
+    free_table(undefined_moves_after_current_move[nbply]);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index si,
+                                                                   stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(ply_horizon<maxply);
+
+  if (nbply>ply_horizon)
+  {
+    if (detecting_exclusivity[parent_ply[nbply]])
+      append_to_table(undefined_moves_after_current_move[parent_ply[nbply]]);
+
+    TraceText("stopping recursion");
+    TraceValue("%u",nbply);
+    TraceValue("%u",parent_ply[nbply]);
+    TraceValue("%u",nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]);
+    TraceValue("%u\n",table_length(undefined_moves_after_current_move[parent_ply[nbply]]));
+    result = n+2;
+  }
+  else
+  {
+    nr_moves_reaching_goal_after_current_move[nbply] = 0;
+    undefined_moves_after_current_move[nbply] = allocate_table();
+    nr_defined_continuations[nbply] = 0;
+
+    detecting_exclusivity[nbply] = true;
+    solve(slices[temporary_hack_exclusive_mating_move_counter[slices[si].starter]].next2,length_unspecified);
+    detecting_exclusivity[nbply] = false;
+
+    TraceValue("%u",nbply);
+    TraceValue("%u",nr_defined_continuations[nbply]);
+    TraceValue("%u",nr_moves_reaching_goal_after_current_move[nbply]);
+    TraceValue("%u\n",table_length(undefined_moves_after_current_move[nbply]));
+
+    result = solve(slices[si].next1,n);
+
+    if (nr_defined_continuations[nbply]==0
+        && table_length(undefined_moves_after_current_move[nbply])>0
+        && detecting_exclusivity[parent_ply[nbply]])
+    {
+      append_to_table(undefined_moves_after_current_move[parent_ply[nbply]]);
+      TraceValue("%u",nbply);
+      TraceValue("%u",parent_ply[nbply]);
+      TraceValue("%u\n",table_length(undefined_moves_after_current_move[parent_ply[nbply]]));
+    }
+
+    free_table(undefined_moves_after_current_move[nbply]);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     uninted immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si,
+                                                                  stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(!detecting_exclusivity[nbply]);
+  assert(detecting_exclusivity[parent_ply[nbply]]);
 
   result = solve(slices[si].next1,n);
+
+  if (result==n)
+  {
+    ++nr_moves_reaching_goal_after_current_move[parent_ply[nbply]];
+
+    TraceValue("%u",nbply);
+    TraceValue("%u\n",nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]);
+
+    if (nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]==1)
+      result = n+2;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

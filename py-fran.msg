@@ -83,7 +83,7 @@
  82= FrischAufCirce: piece n'est pas une piece promue.\n
  83= certaines conditions feeriques et plus courte jeux justificative interdit.\n
  84= Isardam et Madrasi/Eiffel interdit
- 85= SansEchec ou EchecsExclusif: on ne peut pas decide, si le coup et legal.\n
+ 85= on ne peut pas determiner si ce coup est legal.\n
  86= deja occupee - piece ancienne est eliminee.\n
  87= MarsCirce, EchecsPlus ou EchecsPhantom incompatible avec certains genres feeriques et avec des pieces feeriques.\n
  88= positions possibles dans

@@ -249,8 +249,12 @@
     ENUMERATOR(STMovingPawnToImitatorPromoter),                        \
     /* other slices related to fairy chess */                         \
     ENUMERATOR(STExclusiveChessExclusivityDetector),                  \
+    ENUMERATOR(STExclusiveChessNestedExclusivityDetector),            \
     ENUMERATOR(STExclusiveChessLegalityTester),                       \
-    ENUMERATOR(STExclusiveChessMatingMoveCounter), \
+    ENUMERATOR(STExclusiveChessMatingMoveCounterFork),                \
+    ENUMERATOR(STExclusiveChessGoalReachingMoveCounter),              \
+    ENUMERATOR(STExclusiveChessUndecidableWriterTree),                \
+    ENUMERATOR(STExclusiveChessUndecidableWriterLine),                \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \
     ENUMERATOR(STBrunnerDefenderFinder), \

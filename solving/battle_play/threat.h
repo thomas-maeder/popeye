@@ -3,9 +3,14 @@
 
 #include "stipulation/structure_traversal.h"
 #include "solving/solve.h"
+#include "utilities/table.h"
 
 /* This module provides functionality dealing with threats
  */
+
+/* Table where threats of the various move levels are collected
+ */
+extern table threats[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index

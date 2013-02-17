@@ -22,6 +22,7 @@
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
+#include "output/plaintext/tree/exclusive.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -79,7 +80,8 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==stip_traversal_context_defense)
+  if (st->context==stip_traversal_context_defense
+      || st->context==stip_traversal_context_attack)
   {
     slice_index const prototypes[] =
     {
@@ -87,17 +89,13 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    defense_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-  else if (st->context==stip_traversal_context_attack)
-  {
-    slice_index const prototypes[] =
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+
+    if (CondFlag[exclusive])
     {
-      alloc_move_writer_slice(),
-      alloc_output_plaintext_tree_check_writer_slice()
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    attack_branch_insert_slices(si,prototypes,nr_prototypes);
+      slice_index const prototype = alloc_exclusive_chess_undecidable_writer_tree_slice();
+      branch_insert_slices_contextual(si,st->context,&prototype,1);
+    }
   }
 
   stip_traverse_structure_children_pipe(si,st);

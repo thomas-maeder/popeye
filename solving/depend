@@ -1465,10 +1465,11 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/circe/frischauf.h conditions/circe/super.h \
  conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
  conditions/circe/turncoats.h conditions/circe/takemake.h \
- conditions/exclusive.h position/position.h conditions/ohneschach.h \
- conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
- conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
- conditions/patrol.h conditions/monochrome.h conditions/bichrome.h \
+ conditions/exclusive.h utilities/table.h position/position.h \
+ conditions/ohneschach.h conditions/maff/immobility_tester.h \
+ conditions/owu/immobility_tester.h conditions/immune.h \
+ conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
+ conditions/monochrome.h conditions/bichrome.h \
  conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
@@ -1535,6 +1536,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  output/plaintext/goal_writer.h output/plaintext/move_inversion_counter.h \
  output/plaintext/line/line_writer.h \
  output/plaintext/line/end_of_intro_series_marker.h \
+ output/plaintext/line/exclusive.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/check_writer.h output/plaintext/tree/key_writer.h \
  output/plaintext/tree/move_writer.h \
@@ -1542,6 +1544,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/threat_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
+ output/plaintext/tree/exclusive.h \
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
  output/mode.h pieces/attributes/paralysing/stalemate_special.h \
  pieces/attributes/paralysing/remove_captures.h \
@@ -1552,9 +1555,9 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  solving/avoid_unsolvable.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
- solving/battle_play/try.h utilities/table.h solving/castling.h \
- solving/capture_counter.h solving/find_by_increasing_length.h \
- solving/find_move.h solving/find_shortest.h solving/for_each_move.h \
+ solving/battle_play/try.h solving/castling.h solving/capture_counter.h \
+ solving/find_by_increasing_length.h solving/find_move.h \
+ solving/find_shortest.h solving/for_each_move.h \
  solving/fork_on_remaining.h solving/king_move_generator.h \
  solving/legal_move_counter.h solving/move_generator.h \
  solving/non_king_move_generator.h solving/play_suppressor.h \
@@ -1702,6 +1705,8 @@ conditions/circe/turncoats.h:
 conditions/circe/takemake.h:
 
 conditions/exclusive.h:
+
+utilities/table.h:
 
 position/position.h:
 
@@ -1941,6 +1946,8 @@ output/plaintext/line/line_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
 
+output/plaintext/line/exclusive.h:
+
 output/plaintext/tree/end_of_solution_writer.h:
 
 output/plaintext/tree/check_writer.h:
@@ -1958,6 +1965,8 @@ output/plaintext/tree/threat_writer.h:
 output/plaintext/tree/try_writer.h:
 
 output/plaintext/tree/zugzwang_writer.h:
+
+output/plaintext/tree/exclusive.h:
 
 pieces/attributes/paralysing/mate_filter.h:
 
@@ -1996,8 +2005,6 @@ solving/battle_play/min_length_optimiser.h:
 solving/battle_play/threat.h:
 
 solving/battle_play/try.h:
-
-utilities/table.h:
 
 solving/castling.h:
 

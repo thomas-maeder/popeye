@@ -114,7 +114,7 @@
  82= FrischAufCirce: Stein ist keine Umwandlungsfigur, gg. Steine zuerst eingeben.\n
  83= Manche Maerchenbedingungen in Beweispartien nicht erlaubt.\n
  84= Isardam und Madrasi/Eiffelschach nicht erlaubt
- 85= Ohneschach oder ExklusivSchach: kann nicht entscheiden, ob ein Zug legal ist.\n
+ 85= kann nicht entscheiden, ob dieser Zug legal ist.\n
  86= ist bereits besetzt - alter Stein wird geloescht.\n
  87= MarsCirce, PlusSchach oder PhantomSchach unvereinbar mit verschiedenen Maerchenbedingungen und -steinen.\n
  88= moegliche Stellungen in

@@ -63,13 +63,13 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/slice_type.h stipulation/traversal.h solving/solve.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
+ utilities/table.h pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
  stipulation/dummy_move.h stipulation/move_played.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h solving/avoid_unsolvable.h \
- utilities/table.h debugging/trace.h
+ debugging/trace.h
 
 solving/battle_play/threat.h:
 
@@ -100,6 +100,8 @@ stipulation/slice_type.h:
 stipulation/traversal.h:
 
 solving/solve.h:
+
+utilities/table.h:
 
 pydata.h:
 
@@ -135,13 +137,11 @@ output/mode.h:
 
 solving/avoid_unsolvable.h:
 
-utilities/table.h:
-
 debugging/trace.h:
 solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
- solving/battle_play/try.h utilities/table.h utilities/boolean.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
+ solving/battle_play/try.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h \
+ utilities/boolean.h utilities/enumeration.h pylang.h utilities/table.h \
  pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h solving/solve.h \
@@ -153,10 +153,6 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  debugging/trace.h
 
 solving/battle_play/try.h:
-
-utilities/table.h:
-
-utilities/boolean.h:
 
 py.h:
 
@@ -170,9 +166,13 @@ utilities/bitmask.h:
 
 position/piece.h:
 
+utilities/boolean.h:
+
 utilities/enumeration.h:
 
 pylang.h:
+
+utilities/table.h:
 
 pydata.h:
 
