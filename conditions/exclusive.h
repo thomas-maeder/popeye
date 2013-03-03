@@ -9,7 +9,7 @@
 #include "position/position.h"
 #include "solving/solve.h"
 
-table undefined_moves_after_current_move[maxply+1];
+table exclusive_chess_undecidable_continuations[maxply+1];
 
 /* Perform the necessary verification steps for solving an Exclusive
  * Chess problem

@@ -51,7 +51,7 @@ stip_length_type exclusive_chess_undecidable_writer_tree_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_current_move_in_table(undefined_moves_after_current_move[parent_ply[nbply]]))
+  if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
   {
     result = move_writer_solve(si,n);
     assert(result==n+2);

@@ -11,13 +11,12 @@
 
 #include <assert.h>
 
-table undefined_moves_after_current_move[maxply+1];
+table exclusive_chess_undecidable_continuations[maxply+1];
 
 static Goal exclusive_goal;
 
 static unsigned int nr_moves_reaching_goal_after_current_move[maxply+1];
-static unsigned int nr_defined_continuations[maxply+1];
-static boolean detecting_exclusivity[maxply+1];
+static unsigned int nr_decidable_continuations[maxply+1];
 static ply ply_horizon = maxply;
 
 /* Perform the necessary verification steps for solving an Exclusive
@@ -134,8 +133,6 @@ static void insert_exclusivity_detector(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(si,st);
-
   if (!state->is_this_mating_move_played_for_testing_exclusivity)
   {
     slice_type const type = (state->are_we_testing_exclusivity
@@ -144,6 +141,8 @@ static void insert_exclusivity_detector(slice_index si,
     slice_index const prototype = alloc_pipe(type);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
+
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -173,6 +172,23 @@ static void insert_legality_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void leave_exclusivity_testing(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->are_we_testing_exclusivity = false;
+  stip_traverse_structure_children(si,st);
+  state->are_we_testing_exclusivity = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
@@ -189,6 +205,9 @@ void stip_insert_exclusive_chess(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STExclusiveChessMatingMoveCounterFork,
                                            &avoid_instrumenting_exclusivity_detecting_move);
+  stip_structure_traversal_override_single(&st,
+                                           STExclusiveChessNestedExclusivityDetector,
+                                           &leave_exclusivity_testing);
   stip_structure_traversal_override_single(&st,
                                            STGeneratingMoves,
                                            &insert_exclusivity_detector);
@@ -243,7 +262,7 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_current_move_in_table(undefined_moves_after_current_move[parent_ply[nbply]]))
+  if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
     result = n+2;
   else if (is_exclusivity_violated())
     result = previous_move_is_illegal;
@@ -253,13 +272,52 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
 
     if (result==n+2)
     {
-      ++nr_defined_continuations[parent_ply[nbply]];
-      TraceText("remembering defined refutation");
+      ++nr_decidable_continuations[parent_ply[nbply]];
+      TraceText("remembering defined continuation");
       TraceValue("%u",nbply);
       TraceValue("%u",parent_ply[nbply]);
-      TraceValue("%u\n",nr_defined_continuations[parent_ply[nbply]]);
+      TraceValue("%u\n",nr_decidable_continuations[parent_ply[nbply]]);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Detect exclusivity and solve accordingly
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return see exclusive_chess_exclusivity_detector_solve
+ * @note The caller must have initialized ply_horizon for recursive testing for
+ *       exclusivity and is responsible of allocating
+ *       exclusive_chess_undecidable_continuations[nbply] before and deallocating it
+ *       after the invokation.
+ */
+static stip_length_type detect_exclusivity_and_solve_accordingly(slice_index si,
+                                                                 stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  nr_moves_reaching_goal_after_current_move[nbply] = 0;
+  nr_decidable_continuations[nbply] = 0;
+
+  solve(slices[temporary_hack_exclusive_mating_move_counter[slices[si].starter]].next2,length_unspecified);
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",nr_decidable_continuations[nbply]);
+  TraceValue("%u",nr_moves_reaching_goal_after_current_move[nbply]);
+  TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[nbply]));
+
+  ply_horizon = maxply;
+
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -290,46 +348,27 @@ stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(nbply<=ply_horizon);
+  assert(ply_horizon==maxply);
+  ply_horizon = nbply+6;
 
-  {
-    ply const save_ply_horizon = ply_horizon;
-    nr_moves_reaching_goal_after_current_move[nbply] = 0;
-    undefined_moves_after_current_move[nbply] = allocate_table();
-    nr_defined_continuations[nbply] = 0;
+  exclusive_chess_undecidable_continuations[nbply] = allocate_table();
 
-    detecting_exclusivity[nbply] = true;
-//    assert(ply_horizon==maxply);
-    if (ply_horizon==maxply)
-      ply_horizon = nbply+6;
-    solve(slices[temporary_hack_exclusive_mating_move_counter[slices[si].starter]].next2,length_unspecified);
-    ply_horizon = save_ply_horizon;
-    detecting_exclusivity[nbply] = false;
+  result = detect_exclusivity_and_solve_accordingly(si,n);
 
-    TraceValue("%u",nbply);
-    TraceValue("%u",nr_defined_continuations[nbply]);
-    TraceValue("%u",nr_moves_reaching_goal_after_current_move[nbply]);
-    TraceValue("%u\n",table_length(undefined_moves_after_current_move[nbply]));
-
-    result = solve(slices[si].next1,n);
-
-    if (nr_defined_continuations[nbply]==0
-        && table_length(undefined_moves_after_current_move[nbply])>0
-        && detecting_exclusivity[parent_ply[nbply]])
-    {
-      append_to_table(undefined_moves_after_current_move[parent_ply[nbply]]);
-      TraceValue("%u",nbply);
-      TraceValue("%u",parent_ply[nbply]);
-      TraceValue("%u\n",table_length(undefined_moves_after_current_move[parent_ply[nbply]]));
-    }
-
-    free_table(undefined_moves_after_current_move[nbply]);
-  }
+  free_table(exclusive_chess_undecidable_continuations[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void remember_previous_move_as_undecidable(void)
+{
+  append_to_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]);
+  TraceValue("%u",nbply);
+  TraceValue("%u",parent_ply[nbply]);
+  TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]]));
 }
 
 /* Try to solve in n half-moves.
@@ -359,44 +398,25 @@ stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index s
 
   if (nbply>ply_horizon)
   {
-    if (detecting_exclusivity[parent_ply[nbply]])
-      append_to_table(undefined_moves_after_current_move[parent_ply[nbply]]);
-
     TraceText("stopping recursion");
-    TraceValue("%u",nbply);
-    TraceValue("%u",parent_ply[nbply]);
-    TraceValue("%u",nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]);
-    TraceValue("%u\n",table_length(undefined_moves_after_current_move[parent_ply[nbply]]));
+    remember_previous_move_as_undecidable();
     result = n+2;
   }
   else
   {
-    nr_moves_reaching_goal_after_current_move[nbply] = 0;
-    undefined_moves_after_current_move[nbply] = allocate_table();
-    nr_defined_continuations[nbply] = 0;
+    ply const save_ply_horizon = ply_horizon;
 
-    detecting_exclusivity[nbply] = true;
-    solve(slices[temporary_hack_exclusive_mating_move_counter[slices[si].starter]].next2,length_unspecified);
-    detecting_exclusivity[nbply] = false;
+    exclusive_chess_undecidable_continuations[nbply] = allocate_table();
 
-    TraceValue("%u",nbply);
-    TraceValue("%u",nr_defined_continuations[nbply]);
-    TraceValue("%u",nr_moves_reaching_goal_after_current_move[nbply]);
-    TraceValue("%u\n",table_length(undefined_moves_after_current_move[nbply]));
+    result = detect_exclusivity_and_solve_accordingly(si,n);
 
-    result = solve(slices[si].next1,n);
+    if (nr_decidable_continuations[nbply]==0
+        && table_length(exclusive_chess_undecidable_continuations[nbply])>0)
+      remember_previous_move_as_undecidable();
 
-    if (nr_defined_continuations[nbply]==0
-        && table_length(undefined_moves_after_current_move[nbply])>0
-        && detecting_exclusivity[parent_ply[nbply]])
-    {
-      append_to_table(undefined_moves_after_current_move[parent_ply[nbply]]);
-      TraceValue("%u",nbply);
-      TraceValue("%u",parent_ply[nbply]);
-      TraceValue("%u\n",table_length(undefined_moves_after_current_move[parent_ply[nbply]]));
-    }
+    free_table(exclusive_chess_undecidable_continuations[nbply]);
 
-    free_table(undefined_moves_after_current_move[nbply]);
+    ply_horizon = save_ply_horizon;
   }
 
   TraceFunctionExit(__func__);
@@ -428,9 +448,6 @@ stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(!detecting_exclusivity[nbply]);
-  assert(detecting_exclusivity[parent_ply[nbply]]);
-
   result = solve(slices[si].next1,n);
 
   if (result==n)
@@ -438,9 +455,11 @@ stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si
     ++nr_moves_reaching_goal_after_current_move[parent_ply[nbply]];
 
     TraceValue("%u",nbply);
+    TraceValue("%u",parent_ply[nbply]);
     TraceValue("%u\n",nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]);
 
     if (nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]==1)
+      /* look for one more */
       result = n+2;
   }
 

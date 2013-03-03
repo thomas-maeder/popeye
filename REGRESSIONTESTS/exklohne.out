@@ -4891,3 +4891,42 @@ Ohneschach-Anomalie !
 Loesung beendet. 
 
 
+Exklusivschach-Anomalie !
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -D   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .  -B   .   .  -T   .   .   6
+|                                   |
+5   .   .   .   .   K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -K   .   .   .   3
+|                                   |
+2   .   .   B   .   .   T   .   .   2
+|                                   |
+1   D   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          4 + 5
+                Circe
+       Immunschach RexInklusive
+            ExklusivSchach
+
+   1.Da1-d4 kann nicht entscheiden, ob dieser Zug legal ist.
+
+   1.Da1-e1 # !
+
+
+              empile:        3316
+           play_move:        2661
+        orig_rbechec:        1562
+        orig_rnechec:        1445
+Loesung beendet. 
+
+

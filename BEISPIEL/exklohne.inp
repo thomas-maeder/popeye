@@ -931,7 +931,9 @@ weis kd5 bc7
 schw kf8 
 schw volage bh2
 neut bg2h5
+
 weiter
+
 auto Gerd Rinder
 quel Seite 9, Die Schwalbe, X/1969
 beme Ohneschach-Anomalie !
@@ -940,4 +942,13 @@ bedi ohneschach
 stei
 weis kd7 td8h8 la1h1
 schw ke5 nc3f3
+
+weiter
+
+beme Exklusivschach-Anomalie !
+steine weiss ke5 da1 tf2 bc2
+       schwarz ke3 da7 tf6 bc6g7
+forderung #1
+bedingung circe immun rexinkl Exklusivschach
+
 endeproblem
