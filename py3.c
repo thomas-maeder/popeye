@@ -48,6 +48,7 @@
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "conditions/einstein/en_passant.h"
+#include "conditions/annan.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -499,7 +500,7 @@ boolean annan_rnechec(evalfunction_t *evaluate)
   for (i= nr_rows_on_board-1; i > 0; i--, z-= onerow-nr_files_on_board)
     for (j= nr_files_on_board; j > 0; j--, z--) {
       z1= z-onerow;
-      if (e[z] > obs && whannan(z1,z))
+      if (e[z] > obs && annanises(White,z1,z))
       {
         annan_sq[annan_cnt]= z;
         annan_p[annan_cnt]= e[z];
@@ -730,7 +731,7 @@ boolean annan_rbechec(evalfunction_t *evaluate)
   for (i= nr_rows_on_board-1; i > 0; i--, z+= onerow-nr_files_on_board)
     for (j= nr_files_on_board; j > 0; j--, z++) {
       z1= z+onerow;
-      if (e[z] < vide && blannan(z1,z))
+      if (e[z] < vide && annanises(Black,z1,z))
       {
         annan_sq[annan_cnt]= z;
         annan_p[annan_cnt]= e[z];

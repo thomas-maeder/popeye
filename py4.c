@@ -86,6 +86,7 @@
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
 #include "conditions/marscirce/plus.h"
+#include "conditions/annan.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -2829,10 +2830,39 @@ void gen_piece_aux(Side side, square z, piece p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (side==White)
-    gen_wh_piece_aux(z,p);
+  if (CondFlag[annan])
+  {
+    int const annaniser_dir = side==White ? -onerow : +onerow;
+    square const annaniser_pos = z+annaniser_dir;
+    piece const annaniser_walk = e[annaniser_pos];
+    if (annanises(side,annaniser_pos,z))
+    {
+      boolean const save_castling_supported = castling_supported;
+
+      castling_supported = false;
+
+      if (side==White)
+        gen_wh_piece_aux(z,annaniser_walk);
+      else
+        gen_bl_piece_aux(z,annaniser_walk);
+
+      castling_supported = save_castling_supported;
+    }
+    else
+    {
+      if (side==White)
+        gen_wh_piece_aux(z,p);
+      else
+        gen_bl_piece_aux(z,p);
+    }
+  }
   else
-    gen_bl_piece_aux(z,p);
+  {
+    if (side==White)
+      gen_wh_piece_aux(z,p);
+    else
+      gen_bl_piece_aux(z,p);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2845,40 +2875,35 @@ void gen_wh_piece_aux(square z, piece p) {
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[annan]) {
-    piece annan_p= e[z-onerow];
-    if (whannan(z-onerow, z))
-      p= annan_p;
-  }
+  switch(p)
+  {
+    case roib:
+      genrb(z);
+      break;
 
-  switch(p) {
-  case roib:
-    genrb(z);
-    break;
+    case pb:
+      genpb(z);
+      break;
 
-  case pb:
-    genpb(z);
-    break;
+    case cb:
+      gebleap(z, vec_knight_start,vec_knight_end);
+      break;
 
-  case cb:
-    gebleap(z, vec_knight_start,vec_knight_end);
-    break;
+    case tb:
+      gebrid(z, vec_rook_start,vec_rook_end);
+      break;
 
-  case tb:
-    gebrid(z, vec_rook_start,vec_rook_end);
-    break;
+    case db:
+      gebrid(z, vec_queen_start,vec_queen_end);
+      break;
 
-  case db:
-    gebrid(z, vec_queen_start,vec_queen_end);
-    break;
+    case fb:
+      gebrid(z, vec_bishop_start,vec_bishop_end);
+      break;
 
-  case fb:
-    gebrid(z, vec_bishop_start,vec_bishop_end);
-    break;
-
-  default:
-    gfeerblanc(z, p);
-    break;
+    default:
+      gfeerblanc(z, p);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -2909,7 +2934,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p)
     else if (anyantimars)
       antimars_generate_moves(White,p,sq_departure);
     else
-      gen_wh_piece_aux(sq_departure,p);
+      gen_piece_aux(White ,sq_departure,p);
 
     if (CondFlag[messigny] && !(king_square[White]==sq_departure && rex_mess_ex))
     {

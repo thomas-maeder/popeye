@@ -3708,3 +3708,29 @@ stipulation/battle_play/branch.h:
 solving/recursion_stopper.h:
 
 debugging/trace.h:
+conditions/annan$(OBJ_SUFFIX): conditions/annan.c conditions/annan.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h position/position.h
+
+conditions/annan.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+position/position.h:

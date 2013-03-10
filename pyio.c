@@ -135,6 +135,7 @@
 #include "conditions/koeko/anti.h"
 #include "conditions/phantom.h"
 #include "conditions/einstein/en_passant.h"
+#include "conditions/annan.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -712,17 +713,19 @@ static void WriteConditions(int alignment)
 
     if (cond == annan) {
       strcat(CondLine, "    ");
-      switch (annanvar)
+      switch (annan_type)
       {
-      case 1:
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-        break;
-      case 2:
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
-        break;
-      case 3:
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeD]);
-        break;
+        case annan_type_A:
+          break;
+        case annan_type_B:
+          strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+          break;
+        case annan_type_C:
+          strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
+          break;
+        case annan_type_D:
+          strcat(CondLine, VariantTypeString[UserLanguage][TypeD]);
+          break;
       }
     }
 
@@ -4477,11 +4480,11 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     else if (type==TypeC && group==gpOsc)
       OscillatingKingsTypeC[OscillatingKingsSide]= true;
     else if (type==TypeB && group==gpAnnan)
-      annanvar= 1;
+      annan_type= annan_type_B;
     else if (type==TypeC && group==gpAnnan)
-      annanvar= 2;
+      annan_type= annan_type_C;
     else if (type==TypeD && group==gpAnnan)
-      annanvar= 3;
+      annan_type= annan_type_D;
     else if (type==Type1 && group==gpType)
       SingleBoxType = singlebox_type1;
     else if (type==Type2 && group==gpType)
@@ -5315,7 +5318,7 @@ static char *ParseCond(void)
         tok = ParseVariant(&IsardamB, gpType);
         break;
       case annan:
-        annanvar = 0;
+        annan_type = annan_type_A;
         tok = ParseVariant(NULL, gpAnnan);
         break;
       case kobulkings:

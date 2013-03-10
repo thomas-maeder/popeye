@@ -219,6 +219,15 @@ option nowk nobk
 
 next
 
+title Until 4.61, Popeye would generate the castling move twice
+Pieces
+White Ke1 Ra1 pe2
+Stipulation 001
+Condition AnnanChess
+Option Variation nobk
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

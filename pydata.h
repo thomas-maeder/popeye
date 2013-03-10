@@ -200,7 +200,6 @@ EXTERN square           takemake_takearrivalsquare;
 EXTERN Flags            takemake_takenspec;
 EXTERN piece            takemake_takenpiece;
 EXTERN boolean          flag_synchron;
-EXTERN int         annanvar;
 EXTERN ply      	      tempply;
 EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;

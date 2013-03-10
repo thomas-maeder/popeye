@@ -90,6 +90,7 @@
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
 #include "conditions/phantom.h"
+#include "conditions/annan.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -1164,42 +1165,6 @@ boolean friendcheck(square    i,
   }
   return false;
 } /* friendcheck */
-
-boolean whannan(square rear, square front)
-{
-  if (e[rear] <= obs)
-    return false;
-  switch(annanvar)
-  {
-  case 0:
-    return true;
-  case 1:
-    return rear != king_square[White];
-  case 2:
-    return front != king_square[White];
-  case 3:
-    return rear != king_square[White] && front != king_square[White];
-  }
-  return true;
-}
-
-boolean blannan(square rear, square front)
-{
-  if (e[rear] >= vide)
-    return false;
-  switch(annanvar)
-  {
-  case 0:
-    return true;
-  case 1:
-    return rear != king_square[Black];
-  case 2:
-    return front != king_square[Black];
-  case 3:
-    return rear != king_square[Black] && front != king_square[Black];
-  }
-  return true;
-}
 
 boolean CrossesGridLines(square dep, square arr)
 {

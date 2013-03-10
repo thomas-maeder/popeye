@@ -955,6 +955,41 @@ Until 4.61, Popeye would produce spurious en passant captures
 solution finished. 
 
 
+
+Until 4.61, Popeye would generate the castling move twice
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  001                         3 + 0
+            AnnanChess    
+
+   1.0-0-0 !
+
+
+              empile:          22
+           play_move:           1
+        orig_rbechec:           3
+        orig_rnechec:           0
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

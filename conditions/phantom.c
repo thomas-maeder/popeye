@@ -77,10 +77,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
       e[sq_departure] = vide;
       spec[sq_departure] = EmptySpec;
 
-      if (side==White)
-        gen_wh_piece_aux(sq_rebirth,p);
-      else
-        gen_bl_piece_aux(sq_rebirth,p);
+      gen_piece_aux(side,sq_rebirth,p);
 
       spec[sq_departure] = spec[sq_rebirth];
       e[sq_departure] = e[sq_rebirth];

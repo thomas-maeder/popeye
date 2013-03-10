@@ -97,6 +97,7 @@
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
 #include "conditions/marscirce/plus.h"
+#include "conditions/annan.h"
 #include "pieces/walks.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -694,27 +695,21 @@ void gen_bl_piece_aux(square z, piece p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[annan]) {
-    piece annan_p= e[z+onerow];
-    if (blannan(z+onerow, z))
-      p= annan_p;
-  }
-
   switch(p) {
-  case roin: genrn(z);
-    break;
-  case pn: genpn(z);
-    break;
-  case cn: genleap(z, vec_knight_start,vec_knight_end);
-    break;
-  case tn: genrid(z, vec_rook_start,vec_rook_end);
-    break;
-  case dn: genrid(z, vec_queen_start,vec_queen_end);
-    break;
-  case fn: genrid(z, vec_bishop_start,vec_bishop_end);
-    break;
-  default: gfeernoir(z, p);
-    break;
+    case roin: genrn(z);
+      break;
+    case pn: genpn(z);
+      break;
+    case cn: genleap(z, vec_knight_start,vec_knight_end);
+      break;
+    case tn: genrid(z, vec_rook_start,vec_rook_end);
+      break;
+    case dn: genrid(z, vec_queen_start,vec_queen_end);
+      break;
+    case fn: genrid(z, vec_bishop_start,vec_bishop_end);
+      break;
+    default: gfeernoir(z, p);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -745,7 +740,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
     else if (anyantimars)
       antimars_generate_moves(Black,p,sq_departure);
     else
-      gen_bl_piece_aux(sq_departure,p);
+      gen_piece_aux(Black,sq_departure,p);
 
     if (CondFlag[messigny] && !(king_square[Black]==sq_departure && rex_mess_ex))
     {

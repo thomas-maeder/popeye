@@ -429,8 +429,6 @@ void gen_piece_aux(Side side, square z, piece p);
 void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
 void WriteBGLNumber(char* a, long int b);
-boolean whannan(square rear, square front);
-boolean blannan(square rear, square front);
 boolean CrossesGridLines(square i, square j);
 
 boolean leapleapcheck(square	 sq_king,
