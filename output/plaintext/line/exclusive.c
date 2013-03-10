@@ -1,4 +1,5 @@
 #include "output/plaintext/line/exclusive.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "conditions/exclusive.h"
@@ -52,13 +53,22 @@ stip_length_type exclusive_chess_undecidable_writer_line_solve(slice_index si,
 
   if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
   {
-    result = output_plaintext_line_line_writer_solve(si,n);
-    assert(result==n+2);
+    output_plaintext_line_write_line(goal_mate);
     StdChar(blank);
-    Message(ChecklessUndecidable);
+    Message(ExclusiveRefutedUndecidable);
+    result = previous_move_is_illegal;
   }
   else
+  {
     result = solve(slices[si].next1,n);
+    if (result==previous_move_has_solved
+        && exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]<2
+        && table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])+exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]>1)
+    {
+      StdChar(blank);
+      Message(ChecklessUndecidable);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

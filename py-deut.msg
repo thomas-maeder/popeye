@@ -148,3 +148,4 @@
 116= ZielIstEnde und Quodlibet nicht kompatibel\n
 117= Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt\n
 118= KaefigImmunSchach nur mit KaefigCirce\n
+119= Kann nicht entscheiden, ob dieser Zug widerlegt wird\n

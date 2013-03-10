@@ -10,6 +10,7 @@
 #include "solving/solve.h"
 
 table exclusive_chess_undecidable_continuations[maxply+1];
+unsigned int exclusive_chess_nr_continuations_reaching_goal[maxply+1];
 
 /* Perform the necessary verification steps for solving an Exclusive
  * Chess problem

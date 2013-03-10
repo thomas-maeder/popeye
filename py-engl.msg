@@ -117,3 +117,4 @@
 116= GoalIsEnd and Quodlibet are incompatible\n
 117= Can't decide whether condition applies to White or Black\n
 118= CageImmunChess only with CageCirce\n
+119= Can't decide whether this move is refuted\n

@@ -30,8 +30,8 @@
 
               empile:     1012924
            play_move:      992629
-        orig_rbechec:      506800
-        orig_rnechec:      799699
+        orig_rbechec:      765578
+        orig_rnechec:      951111
 Loesung beendet. 
 
 
@@ -82,8 +82,8 @@ Loesung beendet.
 
               empile:       42840
            play_move:       37839
-        orig_rbechec:        1962
-        orig_rnechec:       37598
+        orig_rbechec:        2052
+        orig_rnechec:       37503
 Loesung beendet. 
 
 
@@ -120,8 +120,8 @@ Hans Burbach zum 75. Geburtstag gewidmet
 
               empile:      569425
            play_move:      362505
-        orig_rbechec:       60012
-        orig_rnechec:      359874
+        orig_rbechec:       32556
+        orig_rnechec:      356302
 Loesung beendet. 
 
 
@@ -166,8 +166,8 @@ Loesung beendet.
 
               empile:        6691
            play_move:        4374
-        orig_rbechec:        1552
-        orig_rnechec:        3751
+        orig_rbechec:         931
+        orig_rnechec:        3984
 Loesung beendet. 
 
 
@@ -203,16 +203,16 @@ a)
 
               empile:     2818727
            play_move:     1446705
-        orig_rbechec:      752038
-        orig_rnechec:     1113106
+        orig_rbechec:      435568
+        orig_rnechec:     1092991
 b) sLh1-->g8
 
   1.Df5-f2 + e2-e3   2.Tf7-f3 Sg6-f4 #
 
               empile:     2017188
            play_move:      984407
-        orig_rbechec:      579378
-        orig_rnechec:      723828
+        orig_rbechec:      342279
+        orig_rnechec:      707419
 Loesung beendet. 
 
 
@@ -249,16 +249,16 @@ a)
 
               empile:       40466
            play_move:       31674
-        orig_rbechec:        9383
-        orig_rnechec:       29237
+        orig_rbechec:        4181
+        orig_rnechec:       30261
 b) wKf1-->g2
 
   1.h2-h1=T e6*f7   2.Th1-f1 f7*g8=D #
 
               empile:       44654
            play_move:       36366
-        orig_rbechec:       10556
-        orig_rnechec:       33228
+        orig_rbechec:        5026
+        orig_rnechec:       34298
 Loesung beendet. 
 
 
@@ -293,8 +293,8 @@ Loesung beendet.
 
               empile:      921681
            play_move:      438202
-        orig_rbechec:      391759
-        orig_rnechec:      226459
+        orig_rbechec:      311319
+        orig_rnechec:      222762
 Loesung beendet. 
 
 
@@ -330,8 +330,8 @@ Loesung beendet.
 
               empile:      105504
            play_move:       96564
-        orig_rbechec:       22987
-        orig_rnechec:       93441
+        orig_rbechec:       12491
+        orig_rnechec:       91771
 Loesung beendet. 
 
 
@@ -368,16 +368,16 @@ a)
 
               empile:     2008968
            play_move:     1361394
-        orig_rbechec:      504080
-        orig_rnechec:     1214836
+        orig_rbechec:      236749
+        orig_rnechec:     1185881
 b)  -wLe1
 
   1.a2-a1=D Lh5-e2   2.Da1-h1 Sf5-h6 #
 
               empile:     1560386
            play_move:     1077540
-        orig_rbechec:      389235
-        orig_rnechec:      975795
+        orig_rbechec:      173378
+        orig_rnechec:      952998
 Loesung beendet. 
 
 
@@ -412,8 +412,8 @@ Loesung beendet.
 
               empile:     1603989
            play_move:     1400822
-        orig_rbechec:      777979
-        orig_rnechec:     1031839
+        orig_rbechec:      416842
+        orig_rnechec:     1043496
 Loesung beendet. 
 
 
@@ -448,8 +448,8 @@ Loesung beendet.
 
               empile:       65865
            play_move:       30592
-        orig_rbechec:       16051
-        orig_rnechec:       24512
+        orig_rbechec:       10850
+        orig_rnechec:       22755
 Loesung beendet. 
 
 
@@ -495,8 +495,8 @@ a)
 
               empile:        8825
            play_move:        7700
-        orig_rbechec:        1900
-        orig_rnechec:        7461
+        orig_rbechec:        1638
+        orig_rnechec:        7657
 b) wKa5-->c3
 
    1.Kc3-d2 !
@@ -512,8 +512,8 @@ b) wKa5-->c3
 
               empile:       13333
            play_move:       11355
-        orig_rbechec:        2855
-        orig_rnechec:       11137
+        orig_rbechec:        2501
+        orig_rnechec:       11340
 Loesung beendet. 
 
 
@@ -563,8 +563,8 @@ Loesung beendet.
 
               empile:       16171
            play_move:       12513
-        orig_rbechec:        1703
-        orig_rnechec:       12119
+        orig_rbechec:        1724
+        orig_rnechec:       11973
 Loesung beendet. 
 
 
@@ -615,8 +615,8 @@ Loesung beendet.
 
               empile:      175237
            play_move:       87495
-        orig_rbechec:       27989
-        orig_rnechec:       74382
+        orig_rbechec:       26141
+        orig_rnechec:       71063
 Loesung beendet. 
 
 
@@ -669,8 +669,8 @@ Loesung beendet.
 
               empile:     1407725
            play_move:     1003781
-        orig_rbechec:      231478
-        orig_rnechec:      880846
+        orig_rbechec:      192218
+        orig_rnechec:      855531
 Loesung beendet. 
 
 
@@ -711,8 +711,8 @@ Loesung beendet.
 
               empile:       24111
            play_move:       16849
-        orig_rbechec:        5282
-        orig_rnechec:       14294
+        orig_rbechec:        4286
+        orig_rnechec:       14073
 Loesung beendet. 
 
 
@@ -755,8 +755,8 @@ Loesung beendet.
 
               empile:       32507
            play_move:       26092
-        orig_rbechec:        9308
-        orig_rnechec:       21735
+        orig_rbechec:        6435
+        orig_rnechec:       20967
 Loesung beendet. 
 
 
@@ -797,8 +797,8 @@ Loesung beendet.
 
               empile:       18075
            play_move:       14932
-        orig_rbechec:        5886
-        orig_rnechec:       10923
+        orig_rbechec:        5850
+        orig_rnechec:       10222
 Loesung beendet. 
 
 
@@ -858,8 +858,8 @@ Loesung beendet.
 
               empile:        4807
            play_move:        3056
-        orig_rbechec:         541
-        orig_rnechec:        3065
+        orig_rbechec:         518
+        orig_rnechec:        3059
 Loesung beendet. 
 
 
@@ -900,8 +900,8 @@ Loesung beendet.
 
               empile:       41385
            play_move:       39905
-        orig_rbechec:       25820
-        orig_rnechec:       22351
+        orig_rbechec:       22185
+        orig_rnechec:       20935
 Loesung beendet. 
 
 
@@ -946,8 +946,8 @@ Loesung beendet.
 
               empile:       50172
            play_move:       37571
-        orig_rbechec:       27447
-        orig_rnechec:       18233
+        orig_rbechec:       25522
+        orig_rnechec:       15658
 Loesung beendet. 
 
 
@@ -982,8 +982,8 @@ Loesung beendet.
 
               empile:     2567129
            play_move:     1969554
-        orig_rbechec:      565881
-        orig_rnechec:     1774230
+        orig_rbechec:      398277
+        orig_rnechec:     1672766
 Loesung beendet. 
 
 
@@ -3967,8 +3967,8 @@ Loesung beendet.
 
               empile:     2089404
            play_move:     2050941
-        orig_rbechec:     1090985
-        orig_rnechec:     1633641
+        orig_rbechec:     1642177
+        orig_rnechec:     1998254
 Loesung beendet. 
 
 
@@ -4888,45 +4888,6 @@ Ohneschach-Anomalie !
            play_move:      110010
         orig_rbechec:       47112
         orig_rnechec:       77434
-Loesung beendet. 
-
-
-Exklusivschach-Anomalie !
-
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7  -D   .   .   .   .   .  -B   .   7
-|                                   |
-6   .   .  -B   .   .  -T   .   .   6
-|                                   |
-5   .   .   .   .   K   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .  -K   .   .   .   3
-|                                   |
-2   .   .   B   .   .   T   .   .   2
-|                                   |
-1   D   .   .   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  #1                          4 + 5
-                Circe
-       Immunschach RexInklusive
-            ExklusivSchach
-
-   1.Da1-d4 kann nicht entscheiden, ob dieser Zug legal ist.
-
-   1.Da1-e1 # !
-
-
-              empile:        3316
-           play_move:        2661
-        orig_rbechec:        1562
-        orig_rnechec:        1445
 Loesung beendet. 
 
 

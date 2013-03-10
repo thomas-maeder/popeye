@@ -702,12 +702,12 @@ output/plaintext/tree/exclusive$(OBJ_SUFFIX): output/plaintext/tree/exclusive.c 
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h pylang.h conditions/exclusive.h \
- utilities/table.h position/position.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
+ utilities/table.h position/position.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- output/plaintext/tree/move_writer.h pymsg.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h debugging/trace.h
+ output/plaintext/tree/move_writer.h output/plaintext/tree/tree.h pymsg.h \
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h debugging/trace.h
 
 output/plaintext/tree/exclusive.h:
 
@@ -737,6 +737,8 @@ utilities/table.h:
 
 position/position.h:
 
+stipulation/has_solution_type.h:
+
 stipulation/stipulation.h:
 
 stipulation/slice.h:
@@ -754,6 +756,8 @@ output/mode.h:
 stipulation/pipe.h:
 
 output/plaintext/tree/move_writer.h:
+
+output/plaintext/tree/tree.h:
 
 pymsg.h:
 

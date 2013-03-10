@@ -62,6 +62,7 @@ char const *goal_end_marker[nr_goals] =
  */
 static slice_index const goal_slice_rank_order[] =
 {
+  STExclusiveChessGoalReachingMoveCounterSelfCheckGuard,
   STNot,
   STAmuMateFilter,
   STUltraschachzwangGoalFilter,

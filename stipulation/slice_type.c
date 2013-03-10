@@ -255,6 +255,7 @@
     ENUMERATOR(STExclusiveChessGoalReachingMoveCounter),              \
     ENUMERATOR(STExclusiveChessUndecidableWriterTree),                \
     ENUMERATOR(STExclusiveChessUndecidableWriterLine),                \
+    ENUMERATOR(STExclusiveChessGoalReachingMoveCounterSelfCheckGuard),\
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \
     ENUMERATOR(STBrunnerDefenderFinder), \

@@ -12,11 +12,11 @@
 #include <assert.h>
 
 table exclusive_chess_undecidable_continuations[maxply+1];
+unsigned int exclusive_chess_nr_continuations_reaching_goal[maxply+1];
 
 static Goal exclusive_goal;
 
-static unsigned int nr_moves_reaching_goal_after_current_move[maxply+1];
-static unsigned int nr_decidable_continuations[maxply+1];
+static unsigned int nr_decidable_continuations_not_reaching_goal[maxply+1];
 static ply ply_horizon = maxply;
 
 /* Perform the necessary verification steps for solving an Exclusive
@@ -101,6 +101,7 @@ typedef struct
 {
     boolean is_this_mating_move_played_for_testing_exclusivity;
     boolean are_we_testing_exclusivity;
+    boolean are_we_counting_goal_reaching_moves;
 } insertion_state_type;
 
 static void avoid_instrumenting_exclusivity_detecting_move(slice_index si,
@@ -189,13 +190,61 @@ static void leave_exclusivity_testing(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void remember_counting(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->are_we_counting_goal_reaching_moves = true;
+  stip_traverse_structure_children(si,st);
+  state->are_we_counting_goal_reaching_moves = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void substitute_self_check_guard(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->are_we_counting_goal_reaching_moves)
+  {
+    state->are_we_counting_goal_reaching_moves = false;
+    stip_traverse_structure_children(si,st);
+    state->are_we_counting_goal_reaching_moves = true;
+
+    {
+      slice_index const guard = branch_find_slice(STSelfCheckGuard,slices[si].next2,st->context);
+      if (guard!=no_slice)
+      {
+        slice_index const prototype = alloc_pipe(STExclusiveChessGoalReachingMoveCounterSelfCheckGuard);
+        goal_branch_insert_slices(slices[si].next2,&prototype,1);
+        st->traversed[guard] = slice_not_traversed;
+        pipe_remove(guard);
+      }
+    }
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
 void stip_insert_exclusive_chess(slice_index si)
 {
   stip_structure_traversal st;
-  insertion_state_type state = { false, false };
+  insertion_state_type state = { false, false, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -209,6 +258,12 @@ void stip_insert_exclusive_chess(slice_index si)
                                            STExclusiveChessNestedExclusivityDetector,
                                            &leave_exclusivity_testing);
   stip_structure_traversal_override_single(&st,
+                                           STExclusiveChessGoalReachingMoveCounter,
+                                           &remember_counting);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTester,
+                                           &substitute_self_check_guard);
+  stip_structure_traversal_override_single(&st,
                                            STGeneratingMoves,
                                            &insert_exclusivity_detector);
   stip_structure_traversal_override_single(&st,STMove,&insert_legality_tester);
@@ -216,26 +271,6 @@ void stip_insert_exclusive_chess(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static boolean is_exclusivity_violated(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(exclusive_goal.type==goal_mate);
-
-  if (nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]>=2)
-    result = solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length)!=slack_length+2;
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to solve in n half-moves.
@@ -262,23 +297,25 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
-    result = n+2;
-  else if (is_exclusivity_violated())
-    result = previous_move_is_illegal;
-  else
+  if ((table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])
+       +exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]])
+      >1)
   {
-    result = solve(next,n);
-
-    if (result==n+2)
+    if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
+      result = previous_move_is_illegal;
+    else
     {
-      ++nr_decidable_continuations[parent_ply[nbply]];
-      TraceText("remembering defined continuation");
-      TraceValue("%u",nbply);
-      TraceValue("%u",parent_ply[nbply]);
-      TraceValue("%u\n",nr_decidable_continuations[parent_ply[nbply]]);
+      stip_length_type const test_result = solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length);
+      if (test_result==previous_move_is_illegal)
+        result = test_result;
+      else if (test_result!=slack_length+2)
+        result = previous_move_has_solved;
+      else
+        result = solve(next,n);
     }
   }
+  else
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -305,14 +342,14 @@ static stip_length_type detect_exclusivity_and_solve_accordingly(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nr_moves_reaching_goal_after_current_move[nbply] = 0;
-  nr_decidable_continuations[nbply] = 0;
+  exclusive_chess_nr_continuations_reaching_goal[nbply] = 0;
+  nr_decidable_continuations_not_reaching_goal[nbply] = 0;
 
   solve(slices[temporary_hack_exclusive_mating_move_counter[slices[si].starter]].next2,length_unspecified);
 
   TraceValue("%u",nbply);
-  TraceValue("%u",nr_decidable_continuations[nbply]);
-  TraceValue("%u",nr_moves_reaching_goal_after_current_move[nbply]);
+  TraceValue("%u",nr_decidable_continuations_not_reaching_goal[nbply]);
+  TraceValue("%u",exclusive_chess_nr_continuations_reaching_goal[nbply]);
   TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[nbply]));
 
   ply_horizon = maxply;
@@ -400,7 +437,7 @@ stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index s
   {
     TraceText("stopping recursion");
     remember_previous_move_as_undecidable();
-    result = n+2;
+    result = previous_move_is_illegal;
   }
   else
   {
@@ -410,8 +447,14 @@ stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index s
 
     result = detect_exclusivity_and_solve_accordingly(si,n);
 
-    if (nr_decidable_continuations[nbply]==0
-        && table_length(exclusive_chess_undecidable_continuations[nbply])>0)
+    TraceValue("%u",nbply);
+    TraceValue("%u",exclusive_chess_nr_continuations_reaching_goal[nbply]);
+    TraceValue("%u",nr_decidable_continuations_not_reaching_goal[nbply]);
+    TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[nbply]));
+
+    if (nr_decidable_continuations_not_reaching_goal[nbply]==0
+        && exclusive_chess_nr_continuations_reaching_goal[nbply]<=1
+        && table_length(exclusive_chess_undecidable_continuations[nbply])+exclusive_chess_nr_continuations_reaching_goal[nbply]>1)
       remember_previous_move_as_undecidable();
 
     free_table(exclusive_chess_undecidable_continuations[nbply]);
@@ -442,6 +485,7 @@ stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si
                                                                   stip_length_type n)
 {
   stip_length_type result;
+  unsigned int const nr_undecidable_before = table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -450,18 +494,31 @@ stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si
 
   result = solve(slices[si].next1,n);
 
-  if (result==n)
+  if (table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])==nr_undecidable_before)
   {
-    ++nr_moves_reaching_goal_after_current_move[parent_ply[nbply]];
+    if (result==n)
+    {
+      ++exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]];
 
-    TraceValue("%u",nbply);
-    TraceValue("%u",parent_ply[nbply]);
-    TraceValue("%u\n",nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]);
+      TraceValue("%u",nbply);
+      TraceValue("%u",parent_ply[nbply]);
+      TraceValue("%u\n",exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]);
 
-    if (nr_moves_reaching_goal_after_current_move[parent_ply[nbply]]==1)
-      /* look for one more */
-      result = n+2;
+      if (exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]==1)
+        /* look for one more */
+        result = n+2;
+    }
+    else if (result==n+2)
+    {
+      ++nr_decidable_continuations_not_reaching_goal[parent_ply[nbply]];
+      TraceText("remembering defined continuation");
+      TraceValue("%u",nbply);
+      TraceValue("%u",parent_ply[nbply]);
+      TraceValue("%u\n",nr_decidable_continuations_not_reaching_goal[parent_ply[nbply]]);
+    }
   }
+  else if (result==n)
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

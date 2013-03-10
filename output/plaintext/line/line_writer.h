@@ -8,6 +8,11 @@
  * Slices of this type write solutions in line mode.
  */
 
+/* Write a move
+ * @param goal goal reached by that line
+ */
+void output_plaintext_line_write_line(goal_type goal);
+
 /* Allocate a STOutputPlaintextLineLineWriter slice.
  * @param goal goal to be reached at end of line
  * @return index of allocated slice

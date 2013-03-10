@@ -194,9 +194,9 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h pyproc.h \
  py4.h stipulation/goals/goals.h pydata.h pymsg.h conditions/exclusive.h \
- position/position.h solving/solve.h conditions/madrasi.h \
- conditions/geneva.h conditions/koeko/koeko.h conditions/koeko/anti.h \
- stipulation/has_solution_type.h solving/solve.h \
+ utilities/table.h position/position.h solving/solve.h \
+ conditions/madrasi.h conditions/geneva.h conditions/koeko/koeko.h \
+ conditions/koeko/anti.h stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h solving/en_passant.h \
  stipulation/temporary_hacks.h pieces/attributes/neutral/initialiser.h \
  debugging/trace.h
@@ -246,6 +246,8 @@ pydata.h:
 pymsg.h:
 
 conditions/exclusive.h:
+
+utilities/table.h:
 
 position/position.h:
 
@@ -635,8 +637,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  solving/solve.h output/output.h output/mode.h conditions/bgl.h \
  conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
  conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
- position/position.h conditions/republican.h conditions/blackchecks.h \
- conditions/extinction.h conditions/madrasi.h \
+ utilities/table.h position/position.h conditions/republican.h \
+ conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -686,7 +688,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h \
  solving/king_capture_avoider.h solving/testers.h solving/find_shortest.h \
- solving/for_each_move.h solving/battle_play/try.h utilities/table.h \
+ solving/for_each_move.h solving/battle_play/try.h \
  solving/battle_play/threat.h solving/battle_play/continuation.h \
  solving/battle_play/setplay.h solving/battle_play/min_length_guard.h \
  solving/trivial_end_filter.h solving/avoid_unsolvable.h \
@@ -800,6 +802,8 @@ conditions/koeko/anti.h:
 conditions/koeko/new.h:
 
 conditions/exclusive.h:
+
+utilities/table.h:
 
 position/position.h:
 
@@ -1030,8 +1034,6 @@ solving/find_shortest.h:
 solving/for_each_move.h:
 
 solving/battle_play/try.h:
-
-utilities/table.h:
 
 solving/battle_play/threat.h:
 

@@ -148,7 +148,10 @@ static void write_ply_history(unsigned int *next_move_number,
   TraceFunctionResultEnd();
 }
 
-static void write_line(goal_type goal)
+/* Write a move
+ * @param goal goal reached by that line
+ */
+void output_plaintext_line_write_line(goal_type goal)
 {
   unsigned int next_movenumber = 0;
   Side numbered_side = no_side;
@@ -215,7 +218,7 @@ stip_length_type output_plaintext_line_line_writer_solve(slice_index si, stip_le
   se_start_pos();
 #endif
 
-  write_line(slices[si].u.goal_handler.goal.type);
+  output_plaintext_line_write_line(slices[si].u.goal_handler.goal.type);
   result = solve(slices[si].next1,n);
 
 #ifdef _SE_DECORATE_SOLUTION_

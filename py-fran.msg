@@ -117,3 +117,4 @@
 116= ButEstFin et Quodlibet incompatibles\n
 117= Il ne peut pas etre decide si une condition s'applique aux Blancs ou aux Noirs\n
 118= ImmunCage seulement avec CirceCage\n
+119= On ne peut pas decider si ce coup est refute\n
