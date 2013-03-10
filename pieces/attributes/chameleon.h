@@ -15,7 +15,7 @@ extern boolean promotion_of_circe_reborn_into_chameleon[maxply+1];
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
@@ -31,7 +31,7 @@ stip_length_type chameleon_promote_moving_into_solve(slice_index si,
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
@@ -47,7 +47,7 @@ stip_length_type chameleon_promote_circe_reborn_into_solve(slice_index si,
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
@@ -63,7 +63,7 @@ stip_length_type chameleon_promote_anticirce_reborn_into_solve(slice_index si,
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch

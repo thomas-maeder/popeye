@@ -101,7 +101,7 @@ slice_index alloc_refutations_allocator(void)
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
@@ -154,7 +154,7 @@ static slice_index alloc_refutations_solver(void)
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
@@ -208,7 +208,7 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
@@ -268,7 +268,7 @@ slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
@@ -319,7 +319,7 @@ static slice_index alloc_refutations_filter_slice(void)
  *            previous_move_is_illegal the move just played (or being played)
  *                                     is illegal
  *            immobility_on_next_move  the moves just played led to an
- *                                     uninted immobility on the next move
+ *                                     unintended immobility on the next move
  *            <=n+1 length of shortest solution found (n+1 only if in next
  *                                     branch)
  *            n+2 no solution found in this branch
