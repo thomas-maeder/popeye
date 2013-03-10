@@ -67,6 +67,7 @@
 #include "solving/battle_play/try.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/king_capture_avoider.h"
@@ -147,7 +148,7 @@ static void initply(ply parent, ply child)
   /* child -1 is correct and parent would be wrong! */
   move_effect_journal_top[child] = move_effect_journal_top[child-1];
 
-  ep2[child] = initsquare;
+  einstein_ep[child] = initsquare;
   ep[child] = initsquare;
 
   pprise[child] = vide;
@@ -187,7 +188,7 @@ static void do_copyply(ply original, ply copy)
 
   move_effect_journal_top[copy] = move_effect_journal_top[copy-1];
 
-  ep2[copy] = ep2[parent_ply[original]];
+  einstein_ep[copy] = einstein_ep[parent_ply[original]];
   ep[copy] = ep[parent_ply[original]];
 
   pprise[copy] = vide;
@@ -405,7 +406,7 @@ void InitOpt(void)
   castling_flag[castlings_flags_no_castling] = bl_castlings|wh_castlings;
 
   ep[nbply] = initsquare;
-  ep2[nbply] = initsquare;
+  einstein_ep[nbply] = initsquare;
 
   resetOptionMaxtime();
 

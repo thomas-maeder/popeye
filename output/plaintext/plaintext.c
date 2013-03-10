@@ -8,6 +8,7 @@
 #include "conditions/kobul.h"
 #include "conditions/imitator.h"
 #include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -241,7 +242,7 @@ void output_plaintext_write_move(void)
                   if (is_pawn(abs(move_effect_journal[capture].u.piece_removal.removed))
                       && is_pawn(abs(move_effect_journal[curr].u.piece_movement.moving))
                       && (move_effect_journal[curr].u.piece_movement.to==ep[parent_ply[nbply]]
-                          || move_effect_journal[curr].u.piece_movement.to==ep2[parent_ply[nbply]]))
+                          || move_effect_journal[curr].u.piece_movement.to==einstein_ep[parent_ply[nbply]]))
                   {
                     WriteSquare(move_effect_journal[curr].u.piece_movement.to);
                     StdString(" ep.");

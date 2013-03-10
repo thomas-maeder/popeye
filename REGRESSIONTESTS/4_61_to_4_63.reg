@@ -884,6 +884,77 @@ Until 4.61, a=>b stipulations weren't correctly solved
 solution finished. 
 
 
+
+Until 4.61, Popeye would eternally repeat
+f*g7[S->h5] S*g7[P->f6] f*g7[S->h5] ...
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -P  -K   8
+|                                   |
+7   .   .   .   .   .   .  -S   .   7
+|                                   |
+6   .   .   .   .   .   P   .   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -R   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 4
+              SuperCirce
+            ExclusiveChess
+
+
+              empile:      100854
+           play_move:      253654
+        orig_rbechec:      215944
+        orig_rnechec:       74701
+solution finished. 
+
+
+
+Until 4.61, Popeye would produce spurious en passant captures
+      on a6 and a5 after 1.a7-a4
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -Q   .   .   .   .   .   .   .   8
+|                                   |
+7  -P -BP   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   P   .   .   .   .   .   .   5
+|                                   |
+4   .   P   P   .   .   .   .   .   4
+|                                   |
+3   .   P   .   P   .   .   .   .   3
+|                                   |
+2   .   P   .   .   P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        7 + 3
+            AnnanChess    
+
+  1.a7-a5 b5*a6 ep.
+  1.BPb7-d5 b5*c6 ep.
+
+              empile:          37
+           play_move:          31
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

@@ -330,6 +330,7 @@
     ENUMERATOR(STEinsteinArrivingAdjuster),                             \
     ENUMERATOR(STReverseEinsteinArrivingAdjuster),                      \
     ENUMERATOR(STAntiEinsteinArrivingAdjuster),                         \
+    ENUMERATOR(STEinsteinEnPassantAdjuster),                            \
     ENUMERATOR(STTraitorSideChanger),                                   \
     ENUMERATOR(STVolageSideChanger),                                    \
     ENUMERATOR(STMagicSquareSideChanger),                               \

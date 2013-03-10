@@ -202,6 +202,23 @@ pieces neutral sc1 sc8
 
 next
 
+title Until 4.61, Popeye would eternally repeat
+title f*g7[S->h5] S*g7[P->f6] f*g7[S->h5] ...
+pieces white pf6 kh6 black pg8 kh8 sg7 rh4
+stipulation #1
+condition superCirce exclusiv
+
+next
+
+title Until 4.61, Popeye would produce spurious en passant captures
+title on a6 and a5 after 1.a7-a4
+pieces black qa8 pa7 bpb7 white pb2b3b4b5c4d3e2
+stip hep1
+cond annan
+option nowk nobk
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

@@ -47,6 +47,7 @@
 #include "conditions/phantom.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -408,7 +409,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
             return true;
       }
 
-      sq_arrival= ep2[nbply]; /* Einstein triple step */
+      sq_arrival= einstein_ep[nbply]; /* Einstein triple step */
       if (sq_arrival!=initsquare && king_square[Black]==sq_arrival+dir_down) {
         sq_departure= sq_arrival+dir_down+dir_right;
         if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,king_square[Black]))
@@ -669,7 +670,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
             return true;
       }
 
-      sq_arrival= ep2[nbply]; /* Einstein triple step */
+      sq_arrival= einstein_ep[nbply]; /* Einstein triple step */
       if (sq_arrival!=initsquare && king_square[White]==sq_arrival+dir_up) {
         sq_departure= sq_arrival+dir_up+dir_left;
         if (e[sq_departure]==pn && evaluate(sq_departure,sq_arrival,king_square[White]))

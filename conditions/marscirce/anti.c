@@ -68,7 +68,6 @@ static void adjust(void)
   piece const pi_arriving = e[sq_arrival];
 
   ep[nbply] = initsquare;
-  ep2[nbply] = initsquare;
 
   if (is_pawn(abs(pi_arriving)) && pprise[nbply]==vide)
   {
@@ -89,8 +88,6 @@ static void adjust(void)
      */
     if (ep[nbply]==sq_departure)
       ep[nbply] = initsquare;
-    if (ep2[nbply]==sq_departure)
-      ep2[nbply] = initsquare;
   }
 }
 

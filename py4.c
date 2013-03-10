@@ -69,6 +69,7 @@
 #include "solving/solve.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
 #include "conditions/madrasi.h"
@@ -3087,7 +3088,7 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
   else {
     /* ep capture */
     if ((abs(e[sq_departure])!=Orphan)   /* orphans cannot capture ep */
-        && (sq_arrival==ep[parent_ply[nbply]] || sq_arrival==ep2[nbply - 1])
+        && (sq_arrival==ep[parent_ply[nbply]] || sq_arrival==einstein_ep[nbply - 1])
         /* a pawn has just done a critical move */
         && trait[parent_ply[nbply]]!=camp)     /* the opp. moved before */
     {

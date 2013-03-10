@@ -67,7 +67,6 @@ unsigned int MaxPiece[nr_sides];
 PIECE white[nr_squares_on_board];
 PIECE black[nr_squares_on_board];
 static square save_ep_1;
-static square save_ep2_1;
 unsigned int moves_to_white_prom[nr_squares_on_board];
 
 PIECE target_position[MaxPieceId+1];
@@ -325,7 +324,6 @@ void solve_target_position(void)
   castling_supported = true;
 
   ep[1] = save_ep_1;
-  ep2[1] = save_ep2_1;
 
 #if defined(DETAILS)
   TraceText("target position:\n");
@@ -370,7 +368,6 @@ void solve_target_position(void)
   king_square[Black] = save_king_square[Black];
 
   ep[1] = initsquare;
-  ep2[1] = initsquare;
 
   castling_supported = false;
 
@@ -453,7 +450,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
     castling_supported = false;
 
     save_ep_1 = ep[1];
-    save_ep2_1 = ep2[1];
 
     MaxPiece[Black] = 0;
     MaxPiece[White] = 0;
@@ -508,7 +504,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
     StorePosition(&initial_position);
 
     ep[1] = initsquare;
-    ep2[1] = initsquare;
 
     /* clear board */
     {
@@ -537,7 +532,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
 
     castling_supported = true;
     ep[1] = save_ep_1;
-    ep2[1] = save_ep2_1;
   }
 
   TraceFunctionExit(__func__);

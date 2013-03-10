@@ -204,3 +204,69 @@ stipulation/move.h:
 solving/move_effect_journal.h:
 
 debugging/trace.h:
+conditions/einstein/en_passant$(OBJ_SUFFIX): conditions/einstein/en_passant.c \
+ conditions/einstein/en_passant.h solving/solve.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h py4.h \
+ py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move.h solving/en_passant.h debugging/trace.h
+
+conditions/einstein/en_passant.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/move.h:
+
+solving/en_passant.h:
+
+debugging/trace.h:

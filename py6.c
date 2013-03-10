@@ -173,6 +173,7 @@
 #include "conditions/einstein/einstein.h"
 #include "conditions/einstein/reverse.h"
 #include "conditions/einstein/anti.h"
+#include "conditions/einstein/en_passant.h"
 #include "conditions/traitor.h"
 #include "conditions/volage.h"
 #include "conditions/magic_square.h"
@@ -2610,6 +2611,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[antieinstein])
     stip_insert_anti_einstein_moving_adjusters(result);
+
+  if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
+    stip_insert_einstein_en_passant_adjusters(result);
 
   if (CondFlag[traitor])
     stip_insert_traitor_side_changers(result);

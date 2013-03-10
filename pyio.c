@@ -134,6 +134,7 @@
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
 #include "conditions/phantom.h"
+#include "conditions/einstein/en_passant.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -4321,7 +4322,7 @@ static char *ReadSquares(SquareListContext context)
               ep[1]= sq;
               break;
             case 1:
-              ep2[1]= sq;
+              einstein_ep[1]= sq;
               break;
             default:
               Message(ToManyEpKeySquares);

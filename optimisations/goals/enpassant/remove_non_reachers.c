@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
@@ -37,7 +38,7 @@ static boolean is_enpassant_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = sq_arrival==ep[parent_ply[nbply]] || sq_arrival==ep2[parent_ply[nbply]];
+  result = sq_arrival==ep[parent_ply[nbply]] || sq_arrival==einstein_ep[parent_ply[nbply]];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

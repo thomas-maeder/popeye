@@ -5,6 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -50,7 +51,7 @@ stip_length_type enpassant_filter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (ep[nbply]!=initsquare || ep2[nbply]!=initsquare)
+  if (ep[nbply]!=initsquare || einstein_ep[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
   result = solve(next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);

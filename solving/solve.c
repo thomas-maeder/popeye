@@ -82,6 +82,7 @@
 #include "conditions/einstein/einstein.h"
 #include "conditions/einstein/reverse.h"
 #include "conditions/einstein/anti.h"
+#include "conditions/einstein/en_passant.h"
 #include "conditions/traitor.h"
 #include "conditions/volage.h"
 #include "conditions/magic_square.h"
@@ -400,6 +401,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STEnPassantAdjuster:
       result = en_passant_adjuster_solve(si,n);
+      break;
+
+    case STEinsteinEnPassantAdjuster:
+      result = einstein_en_passant_adjuster_solve(si,n);
       break;
 
     case STMovingPawnPromoter:

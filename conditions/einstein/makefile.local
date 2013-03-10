@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = einstein.c reverse.c anti.c
-INCLUDES = einstein.h reverse.h anti.h
+SRC_CFILES = einstein.c reverse.c anti.c en_passant.c
+INCLUDES = einstein.h reverse.h anti.h en_passant.h
 
 include makefile.rules $(CURRPWD)depend

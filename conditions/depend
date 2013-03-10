@@ -500,7 +500,7 @@ conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h py.h 
  utilities/bitmask.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pieces/attributes/neutral/initialiser.h \
  solving/solve.h pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- solving/en_passant.h debugging/trace.h
+ solving/en_passant.h conditions/einstein/en_passant.h debugging/trace.h
 
 conditions/madrasi.h:
 
@@ -537,6 +537,8 @@ py.h:
 stipulation/goals/goals.h:
 
 solving/en_passant.h:
+
+conditions/einstein/en_passant.h:
 
 debugging/trace.h:
 conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \

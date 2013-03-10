@@ -1,18 +1,13 @@
-#if !defined(SOLVING_EN_PASSANT_H)
-#define SOLVING_EN_PASSANT_H
+#if !defined(CONDITIONS_EINSTEIN_EN_PASSANT_H)
+#define CONDITIONS_EINSTEIN_EN_PASSANT_H
 
 #include "solving/solve.h"
 
-/* This module provides implements en passant captures
+/* This module provides implements en passant captures after Einstein triple
+ * pawn steps
  */
 
-extern square ep[maxply+1];
-
-/* Adjust en passant possibilities of the following move after a non-capturing
- * move
- * @param sq_multistep_departure departure square of pawn move
- */
-void adjust_ep_squares(square sq_multistep_departure);
+extern square einstein_ep[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -27,10 +22,10 @@ void adjust_ep_squares(square sq_multistep_departure);
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n);
+stip_length_type einstein_en_passant_adjuster_solve(slice_index si, stip_length_type n);
 
 /* Instrument slices with promotee markers
  */
-void stip_insert_en_passant_adjusters(slice_index si);
+void stip_insert_einstein_en_passant_adjusters(slice_index si);
 
 #endif

@@ -122,7 +122,6 @@ static void adjust(Side trait_ply)
   square const sq_arrival = move_generation_stack[coup_id].arrival;
 
   ep[nbply] = initsquare;
-  ep2[nbply] = initsquare;
 
   if (is_pawn(abs(e[sq_arrival])) && pprise[nbply]==vide)
   {
@@ -142,8 +141,6 @@ static void adjust(Side trait_ply)
      */
     if (ep[nbply]==sq_departure)
       ep[nbply] = initsquare;
-    if (ep2[nbply]==sq_departure)
-      ep2[nbply] = initsquare;
   }
 }
 

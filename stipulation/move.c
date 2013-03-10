@@ -52,6 +52,7 @@ static slice_index const move_slice_rank_order[] =
     STNorskArrivingAdjuster,
     STProteanPawnAdjuster,
     STEnPassantAdjuster,
+    STEinsteinEnPassantAdjuster,
     STPhantomChessEnPassantAdjuster,
     STAntiMarsCirceEnPassantAdjuster,
     STFrischaufPromoteeMarker,

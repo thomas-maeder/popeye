@@ -2,6 +2,7 @@
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pydata.h"
 #include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 
 #include "debugging/trace.h"
 
@@ -31,7 +32,7 @@ static boolean is_ep_paralysed_on(piece p,
 
   ply const ply_dblstp = parent_ply[nbply];
 
-  return (ep[ply_dblstp]==sq || ep2[ply_dblstp]==sq)
+  return (ep[ply_dblstp]==sq || einstein_ep[ply_dblstp]==sq)
           && nbpiece[p]>0
           && (*checkfunc)(sq,
                           p,
