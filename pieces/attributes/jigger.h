@@ -1,7 +1,7 @@
 #if !defined(PIECES_ATTRIBUTES_HURDLE_JIGGER_H)
 #define PIECES_ATTRIBUTES_HURDLE_JIGGER_H
 
-#include "py.h"
+#include "solving/solve.h"
 
 /* This module implements Jigger pieces */
 

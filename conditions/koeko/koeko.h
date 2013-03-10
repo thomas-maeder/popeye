@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_KOEKO_H)
 #define CONDITIONS_KOEKO_H
 
-#include "py.h"
+#include "solving/solve.h"
 
 /* This module implements the condition Koeko */
 

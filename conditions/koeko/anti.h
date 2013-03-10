@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_KOEKO_ANTI_H)
 #define CONDITIONS_KOEKO_ANTI_H
 
-#include "py.h"
+#include "solving/solve.h"
 
 /* This module implements the condition Anti-Koeko */
 
