@@ -931,25 +931,25 @@ Until 4.61, Popeye would produce spurious en passant captures
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
-5   .   P   .   .   .   .   .   .   5
+5   .   P   .   .   .   .   .  -R   5
 |                                   |
-4   .   P   P   .   .   .   .   .   4
+4   .   P   P   .   .   .   .  -P   4
 |                                   |
 3   .   P   .   P   .   .   .   .   3
 |                                   |
-2   .   P   .   .   P   .   .   .   2
+2   .   P   .   .   P   .   P   .   2
 |                                   |
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  hep1                        7 + 3
+  hep1                        8 + 5
             AnnanChess    
 
   1.a7-a5 b5*a6 ep.
   1.BPb7-d5 b5*c6 ep.
 
-              empile:          37
-           play_move:          31
+              empile:          58
+           play_move:          51
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 

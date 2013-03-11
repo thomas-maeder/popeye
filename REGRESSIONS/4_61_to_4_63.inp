@@ -212,7 +212,7 @@ next
 
 title Until 4.61, Popeye would produce spurious en passant captures
 title on a6 and a5 after 1.a7-a4
-pieces black qa8 pa7 bpb7 white pb2b3b4b5c4d3e2
+pieces black qa8 rh5 pa7h4 bpb7 white pb2b3b4b5c4d3e2g2
 stip hep1
 cond annan
 option nowk nobk

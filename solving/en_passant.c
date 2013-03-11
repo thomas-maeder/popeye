@@ -23,35 +23,27 @@ void adjust_ep_squares(square sq_multistep_departure)
   {
     case pb:
     case reversepn:
-      switch (sq_arrival-sq_multistep_departure)
-      {
-        case 2*dir_up: /* ordinary or Einstein double step */
-          ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
-          break;
-        default:
-          break;
-      }
+      if (sq_arrival-sq_multistep_departure==2*dir_up
+          && sq_multistep_departure<=square_h2)
+        ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
       break;
 
     case pn:
     case reversepb:
-      switch (sq_arrival-sq_multistep_departure)
-      {
-        case 2*dir_down: /* ordinary or Einstein double step */
-          ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
-          break;
-        default:
-          break;
-      }
+      if (sq_arrival-sq_multistep_departure==2*dir_down
+          && sq_multistep_departure>=square_a7)
+        ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
       break;
 
     case pbb:
-      if (sq_arrival-sq_multistep_departure>=2*dir_up-2)
+      if (sq_arrival-sq_multistep_departure>=2*dir_up-2
+          && sq_multistep_departure<=square_h2)
         ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
       break;
 
     case pbn:
-      if (sq_arrival-sq_multistep_departure<=2*dir_down+2)
+      if (sq_arrival-sq_multistep_departure<=2*dir_down+2
+          && sq_multistep_departure>=square_a7)
         ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
       break;
 
