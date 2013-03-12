@@ -228,6 +228,15 @@ Option Variation nobk
 
 next
 
+title Popeye 4.61 didn't support option maxsolutions in helpself stipulations
+title (big 129)
+Pieces White Bb8 Sh8 Pg7 Ra5 Pf4 Rd3 Kh3 Sb2 Pg2 Ph2
+       Black Rh7 Pf5 Pg5 Ke4 Bh4 Pg3
+Stipulation hs#2
+Option MaxSolutions 3
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

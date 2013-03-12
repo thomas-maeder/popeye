@@ -596,9 +596,11 @@ void help_branch_set_end_forced(slice_index si,
   TraceStipulation(forced);
 
   {
-    slice_index const fork = alloc_end_of_branch_forced(forced);
+    slice_index const proxy = alloc_proxy_slice();
+    slice_index const fork = alloc_end_of_branch_forced(proxy);
     boolean const inserted = help_branch_insert_end_of_branch(si,fork,parity);
     assert(inserted);
+    pipe_link(proxy,forced);
   }
 
   TraceFunctionExit(__func__);

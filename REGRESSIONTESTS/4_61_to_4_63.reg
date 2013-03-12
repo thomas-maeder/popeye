@@ -990,6 +990,42 @@ Until 4.61, Popeye would generate the castling move twice
 solution finished. 
 
 
+
+Popeye 4.61 didn't support option maxsolutions in helpself stipulations
+              (big 129)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   B   .   .   .   .   .   S   8
+|                                   |
+7   .   .   .   .   .   .   P  -R   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   R   .   .   .   .  -P  -P   .   5
+|                                   |
+4   .   .   .   .  -K   P   .  -B   4
+|                                   |
+3   .   .   .   R   .   .  -P   K   3
+|                                   |
+2   .   S   .   .   .   .   P   P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#2                       10 + 6
+
+  1.Sh8-f7 g5*f4   2.Sf7-g5 + Bh4*g5 #
+  1.g7-g8=S g5*f4   2.Sg8-f6 + Bh4*f6 #
+  1.Ra5-a1 g3*h2   2.Ra1-e1 + Bh4*e1 #
+
+              empile:       34592
+           play_move:       28505
+        orig_rbechec:       28295
+        orig_rnechec:        9211
+solving interrupted. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

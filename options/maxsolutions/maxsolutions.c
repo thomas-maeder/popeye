@@ -208,6 +208,27 @@ static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_counter_in_forced_branch(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const inserted = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_help && !*inserted)
+  {
+    slice_index const prototype = alloc_maxsolutions_counter_slice();
+    branch_insert_slices(slices[si].next2,&prototype,1);
+    *inserted = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor maxsolutions_filter_inserters[] =
 {
   { STMaxSolutionsGuard,       &stip_structure_visitor_noop     },
@@ -216,7 +237,8 @@ static structure_traversers_visitor maxsolutions_filter_inserters[] =
   { STDefenseAdapter,          &stip_structure_visitor_noop     },
   { STEndOfBranch,             &insert_counter                  },
   { STEndOfBranchGoal,         &insert_counter_at_goal          },
-  { STEndOfBranchGoalImmobile, &insert_counter_at_goal          }
+  { STEndOfBranchGoalImmobile, &insert_counter_at_goal          },
+  { STEndOfBranchForced,       &insert_counter_in_forced_branch }
 };
 
 enum
