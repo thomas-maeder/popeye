@@ -1623,12 +1623,7 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
-  if ((CondFlag[whmin]
-       || CondFlag[blmin]
-       || CondFlag[whmax]
-       || CondFlag[blmax]
-       || CondFlag[heffalumps]
-       )
+  if (CondFlag[heffalumps]
       && (exist[Rose]
           || exist[SpiralSpringer]
           || exist[UbiUbi]
@@ -1658,7 +1653,7 @@ static boolean verify_position(slice_index si)
           || exist[DoubleRookHopper]
           || exist[DoubleBishopper]))
   {
-    VerifieMsg(SomePiecesAndMaxiHeffa);
+    VerifieMsg(SomePiecesAndHeffa);
     return false;
   }
 

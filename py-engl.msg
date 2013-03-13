@@ -26,7 +26,7 @@
  25= circe and immunschach and rex inclusiv not allowed
  26= black
  27= white
- 28= some fairy-pieces not compatible with maximummer, minimummer or heffalumps
+ 28= some fairy-pieces not compatible with heffalumps
  29= stipulation with too many moves
  30= no royal pieces with PWC or rex inclusive
  31= undefined Message %s

@@ -57,7 +57,7 @@
  25= Circe und Immunschach und RexInklusive nicht erlaubt
  26= schwarz
  27= weiss
- 28= Manche Maerchenfiguren mit Laengst-/Kuerzestzueger, Heffalumps unvereinbar
+ 28= Manche Maerchenfiguren mit Heffalumps unvereinbar
  29= Zuviele Zuege in der Forderung
  30= Keine koeniglichen Figuren im PlatzwechselCirce oder RexInklusive\n
  31= Undefinierter Fehler %s

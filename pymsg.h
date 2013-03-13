@@ -66,7 +66,7 @@ typedef enum
   RexCirceImmun                                     = 25,
   BlackColor                                        = 26,
   WhiteColor                                        = 27,
-  SomePiecesAndMaxiHeffa                            = 28,
+  SomePiecesAndHeffa                                = 28,
   BigNumMoves                                       = 29,
   RoyalPWCRexCirce                                  = 30,
   ErrUndef                                          = 31,

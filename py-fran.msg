@@ -26,7 +26,7 @@
  25= en rexinclusive, on ne peut pas melanger circe et immunschach
  26= noir
  27= blanc
- 28= certaines pieces feeriques incompatibles avec maximum, minimum ou heffalumps
+ 28= certaines pieces feeriques incompatibles avec heffalumps
  29= enonce avec trops des coups
  30= pas des pieces royales en circe echange ou rex inclusiv.
  31= message inconnue %s
