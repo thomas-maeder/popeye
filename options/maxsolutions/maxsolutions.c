@@ -216,7 +216,7 @@ static void insert_counter_in_forced_branch(slice_index si, stip_structure_trave
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (st->context==stip_traversal_context_help && !*inserted)
   {

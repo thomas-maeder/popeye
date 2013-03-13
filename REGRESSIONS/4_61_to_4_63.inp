@@ -237,6 +237,13 @@ Option MaxSolutions 3
 
 next
 
+title just to make sure ...
+Pieces White kh1 ph2 sb8 Black pf2
+Stipulation hr#1
+option MaxSolutions 2 nobk
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation
