@@ -1060,6 +1060,118 @@ solving interrupted.
 solving interrupted. 
 
 
+
+Until 4.61, pieces' neutrality wasn't preserved in
+        ActuatedRevolvingBoard
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  =P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hza51                  0 + 0 + 1n
+        ActuatedRevolvingBoard
+
+  1.nPh2-h1=nQ nQa1-a5 z
+  1.nPh2-h1=nR nRa1-a5 z
+
+              empile:          45
+           play_move:           6
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
+
+Until 4.61, Circe rebirths weren't considered in Koeko
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -K   .   .   .   .   7
+|                                   |
+6  CA   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+          Circe RexInclusive
+                KoeKo
+
+   1.CAa6*d7[+bKe8] !
+
+
+              empile:           3
+           play_move:           3
+        orig_rbechec:           0
+        orig_rnechec:           1
+solution finished. 
+
+
+
+Until 4.61, pieces reborn on magic squares did not change
+           color (bug #31).
+1.Rh1*h3[bRh3->a8=w] Kg1-f2 doesn't solve because of self check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K  -R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hzf21                       2 + 2
+           MagicSquares a8
+              AntiCirce
+
+  1.Rh1-h2 Kg1-f2 z
+  1.Kh8-g8 + Kg1-f2 z
+  1.Kh8-h7 + Kg1-f2 z
+  1.Kh8-g7 + Kg1-f2 z
+
+              empile:          30
+           play_move:           9
+        orig_rbechec:           9
+        orig_rnechec:           9
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

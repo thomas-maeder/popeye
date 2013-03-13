@@ -244,6 +244,33 @@ option MaxSolutions 2 nobk
 
 next
 
+title Until 4.61, pieces' neutrality wasn't preserved in
+title ActuatedRevolvingBoard
+pieces neutral ph2
+stip hza51
+option nowk nobk
+cond actuatedrevolvingboard
+
+next
+
+title Until 4.61, Circe rebirths weren't considered in Koeko
+pieces white caa6 black kd7
+stipulation ~1
+option nowk
+condition circe rexincl koeko
+
+next
+
+title Until 4.61, pieces reborn on magic squares did not change
+title color (bug #31).
+title 1.Rh1*h3[bRh3->a8=w] Kg1-f2 doesn't solve because of self check
+pieces white kg1 ph3
+black rh1 kh8
+stipulation hzf21
+condition anticirce calvet magicsquare a8
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation
