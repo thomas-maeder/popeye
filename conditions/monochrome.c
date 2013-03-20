@@ -76,7 +76,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Instrument the solvers with Monochrome Chess
  * @param si identifies the root slice of the stipulation
  */
 void stip_insert_monochrome(slice_index si)
