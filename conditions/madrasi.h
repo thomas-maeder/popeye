@@ -2,6 +2,7 @@
 #define CONDITIONS_MADRASI_H
 
 #include "py.h"
+#include "pyproc.h"
 
 /* Implementation of condition Madrasi
  */
@@ -19,6 +20,8 @@ boolean madrasi_can_piece_move(square sq);
  * @param sq_arrival arrival square of the capture to be threatened
  * @param sq_capture typically the position of the opposite king
  */
-boolean eval_madrasi(square departure, square arrival, square capture);
+boolean madrasi_validate_observation(square sq_observer,
+                                     square sq_landing,
+                                     square sq_observee);
 
 #endif

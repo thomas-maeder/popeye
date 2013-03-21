@@ -5,11 +5,15 @@
 
 /* This module implements the condition Provocation Chess */
 
-/* Determine whether a piece is observed
- * @param sq_departure position of the piece
- * @return true iff the piece is observed
+/* Validate an observation according to Provocation Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
  */
-boolean provocateurs_is_observed(square sq_departure);
+boolean provocateurs_validate_observation(square sq_observer,
+                                          square sq_landing,
+                                          square sq_observee);
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -510,7 +510,6 @@ static boolean eval_ultra_mummer_king_check(Side delivering_check,
                                             square sq_capture)
 {
   boolean result;
-  boolean check;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,delivering_check,"");
@@ -522,51 +521,38 @@ static boolean eval_ultra_mummer_king_check(Side delivering_check,
   nextply();
   mum_length[nbply] = INT_MIN;
   solve(slices[temporary_hack_ultra_mummer_length_measurer[delivering_check]].next2,length_unspecified);
-  check = (*mummer_measure_length[delivering_check])(sq_departure,sq_arrival,sq_capture)==mum_length[nbply];
+  result = (*mummer_measure_length[delivering_check])(sq_departure,sq_arrival,sq_capture)==mum_length[nbply];
   finply();
 
-  result = check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-
-boolean eval_ultra_mummer_white_king_check(square sq_departure,
-                                           square sq_arrival,
-                                           square sq_capture)
+/* Validate an observation according to Ultra-mummer
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean ultra_mummer_validate_observation(square sq_observer,
+                                          square sq_landing,
+                                          square sq_observee)
 {
   boolean result;
+  Side const moving = e[sq_observer]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = eval_ultra_mummer_king_check(Black,sq_departure,sq_arrival,sq_capture);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean eval_ultra_mummer_black_king_check(square sq_departure,
-                                           square sq_arrival,
-                                           square sq_capture)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  result = eval_ultra_mummer_king_check(White,sq_departure,sq_arrival,sq_capture);
+  if (mummer_strictness[moving]==mummer_strictness_ultra)
+    result = eval_ultra_mummer_king_check(moving,sq_observer,sq_landing,sq_observee);
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

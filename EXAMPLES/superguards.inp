@@ -1,0 +1,54 @@
+begin
+
+protocol superguards.ref
+
+author K. Seetharaman
+origin The Problemist I/2013
+pieces white kf5 bf8 sd8 pc6c7g7 black ke8 rd7 be7 pd5
+stip #2
+condition superguards
+option variations
+
+next
+
+author C.G.S. Narayanan
+origin The Problemist I/2013
+pieces white ka1 qg8 ph2 black kh5 qg6 rg7 sh1h6 pf3
+stip h#2
+condition superguards
+
+next
+
+author C.G.S. Narayanan
+origin juliasfairies.com XI/2012
+pieces white kc5 pb4c4 black ka5 pa6b6
+stip h#3
+condition superguards
+option duplex
+
+next
+
+author Petko A. Petkov
+origin juliasfairies.com XI/2012
+pieces white kf6 re8 ba6e7 se5 pf2 black ke1 re2 bh1 sd1 pa5c2
+stip h#2
+condition superguards
+
+next
+
+author C.G.S. Narayanan
+origin juliasfairies.com XI/2012
+pieces white kg5 qd5 ba8g3 sa6c1 pc3f6g2 black ke3 rb7 pd6e2g7
+stip #2
+condition superguards
+option variations
+
+next
+
+author S.K. Balasubramanian & K. Seetharaman
+origin Matplus.net XI/2012
+pieces white ke4 ra2 black kd1 sg4 pd2
+stip h#2
+condition superguards
+
+end

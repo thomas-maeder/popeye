@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "conditions/anticirce/capture_fork.h"
+#include "conditions/magic_square.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -14,6 +15,76 @@ Flags anticirce_current_reborn_spec[maxply+1];
 piece anticirce_current_relevant_piece[maxply+1];
 Flags anticirce_current_relevant_spec[maxply+1];
 Side anticirce_current_relevant_side[maxply+1];
+
+/* Validate an observation according to Anti-Circe
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean anticirce_validate_observation(square sq_observer,
+                                       square sq_landing,
+                                       square sq_observee)
+{
+  boolean result;
+  Side const side_observing = e[sq_observer]>vide ? White : Black;
+  Side side_observed = advers(side_observing);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[antisuper])
+  {
+    square const *bnp= boardnum;
+    while (!LegalAntiCirceMove(*bnp, sq_observee, sq_observer) && *bnp)
+      bnp++;
+    result = *bnp && LegalAntiCirceMove(*bnp,sq_observee,sq_observer);
+  }
+  else
+  {
+    PieNam* acprompieces;
+
+    if (!TSTFLAG(spec[sq_observer],Royal)
+        && TSTFLAG(sq_spec[sq_observee],MagicSq)
+        && magic_square_type==magic_square_type2)
+      side_observed = advers(side_observed);
+
+    acprompieces= GetPromotingPieces(sq_observer,
+                                     e[sq_observer],
+                                     advers(side_observed),
+                                     spec[sq_observer],
+                                     sq_landing,
+                                     e[sq_observee]);
+    if (acprompieces)
+    {
+      /* Pawn checking on last rank or football check on a/h file */
+      PieNam pprom= acprompieces[vide];
+      square    cren;
+      do {
+        cren= (*antirenai)(pprom, spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
+        pprom= acprompieces[pprom];
+      } while (!LegalAntiCirceMove(cren, sq_observee, sq_observer) && pprom != Empty);
+
+      result = LegalAntiCirceMove(cren,sq_observee,sq_observer) || pprom!=Empty;
+    }
+    else
+    {
+      square cren= (*antirenai)(TSTFLAG(spec[sq_observer], Chameleon)
+                                ? champiece(e[sq_observer])
+                                : e[sq_observer],
+                                spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
+      result = LegalAntiCirceMove(cren,sq_observee,sq_observer);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index

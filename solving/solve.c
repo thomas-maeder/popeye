@@ -106,6 +106,7 @@
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
 #include "conditions/take_and_make.h"
+#include "conditions/superguards.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -1500,6 +1501,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STEdgeMoverRemoveIllegalMoves:
       result = edgemover_remove_illegal_moves_solve(si,n);
+      break;
+
+    case STSuperguardsRemoveIllegalCaptures:
+      result = superguards_remove_illegal_captures_solve(si,n);
       break;
 
     case STGridRemoveIllegalMoves:

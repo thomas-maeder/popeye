@@ -23,12 +23,12 @@ a white piece that prevents a guarding piece from giving check
 +---a---b---c---d---e---f---g---h---+
   h#2                         9 + 9
 
-  1.Bc2-e4 Qb3*d1   2.Ke6*d5 Qd1-b3 # 
-  1.Ra7-d7 Ra6*a8   2.Ke6*d6 Ra8-a6 # 
-  1.Qd1-h1 Qb3*c2   2.Qh1*d5 Qc2-f5 # 
-  1.Ra8-d8 Ra6*a7   2.Rd8*d6 Ra7-e7 # 
-  1.Ra7-f7 g6*f7   2.Ra8-e8 f7*e8=Q # 
-  1.Ra7-g7 h6*g7   2.Ra8-f8 g7*f8=S # 
+  1.Bc2-e4 Qb3*d1   2.Ke6*d5 Qd1-b3 #
+  1.Ra7-d7 Ra6*a8   2.Ke6*d6 Ra8-a6 #
+  1.Qd1-h1 Qb3*c2   2.Qh1*d5 Qc2-f5 #
+  1.Ra8-d8 Ra6*a7   2.Rd8*d6 Ra7-e7 #
+  1.Ra7-f7 g6*f7   2.Ra8-e8 f7*e8=Q #
+  1.Ra7-g7 h6*g7   2.Ra8-f8 g7*f8=S #
 
               empile:     1375055
            play_move:     1407809
@@ -62,12 +62,12 @@ the one that would give check without it
 +---a---b---c---d---e---f---g---h---+
   h#2                         9 + 9
 
-  1.Bf2-d4 Qg3*e1   2.Kd6*e5 Qe1-g3 # 
-  1.Qe1-a1 Qg3*f2   2.Qa1*e5 Qf2-c5 # 
-  1.Rh7-b7 a6*b7   2.Rh8-c8 b7*c8=S # 
-  1.Rh7-c7 b6*c7   2.Rh8-d8 c7*d8=Q # 
-  1.Rh8-e8 Rh6*h7   2.Re8*e6 Rh7-d7 # 
-  1.Rh7-e7 Rh6*h8   2.Kd6*e6 Rh8-h6 # 
+  1.Bf2-d4 Qg3*e1   2.Kd6*e5 Qe1-g3 #
+  1.Qe1-a1 Qg3*f2   2.Qa1*e5 Qf2-c5 #
+  1.Rh7-b7 a6*b7   2.Rh8-c8 b7*c8=S #
+  1.Rh7-c7 b6*c7   2.Rh8-d8 c7*d8=Q #
+  1.Rh8-e8 Rh6*h7   2.Re8*e6 Rh7-d7 #
+  1.Rh7-e7 Rh6*h8   2.Kd6*e6 Rh8-h6 #
 
               empile:     1372630
            play_move:     1405639
@@ -100,7 +100,7 @@ don't miss double checks with promoted front piece ...
 +---a---b---c---d---e---f---g---h---+
   h#2.5                       2 + 4
 
-  1...b7-b8=S   2.Kb4-a4 Sb8-d7   3.b5-b4 Sd7-c5 # 
+  1...b7-b8=S   2.Kb4-a4 Sb8-d7   3.b5-b4 Sd7-c5 #
 
               empile:       10119
            play_move:       10463
@@ -133,7 +133,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#2.5                       2 + 6
 
-  1...d7-d8=R   2.Kb3-a3 Rd8-d6   3.Qb4-b3 Rd6-a6 # 
+  1...d7-d8=R   2.Kb3-a3 Rd8-d6   3.Qb4-b3 Rd6-a6 #
 
               empile:       42224
            play_move:       42154
@@ -174,7 +174,7 @@ solution finished.
 
 a) 
 
-  1.Qh2*c7[+bPg1=R][+bPh2] Rg1-g8   2.Qc7*h2[+bPg3][+bPc7] Qc4-h4[+wPc4] # 
+  1.Qh2*c7[+bPg1=R][+bPh2] Rg1-g8   2.Qc7*h2[+bPg3][+bPc7] Qc4-h4[+wPc4] #
 
               empile:      393210
            play_move:       13974
@@ -182,7 +182,7 @@ a)
         orig_rnechec:           0
 b) bQc4-->g5
 
-  1.Qh2*c7[+bPe1=S][+bPh2] Qg5-a5[+wPg5]   2.Qc7*h2[+bPe5][+bPc7] Qa5-d2[+wPa5] # 
+  1.Qh2*c7[+bPe1=S][+bPh2] Qg5-a5[+wPg5]   2.Qc7*h2[+bPe5][+bPc7] Qa5-d2[+wPa5] #
 
               empile:      537511
            play_move:       15213
@@ -276,7 +276,7 @@ Initial (White ->):
   pser-a=>b28                 1 + 3
            VogtlaenderChess
 
-  1.Ka8-b7   2.Kb7-c6   3.Kc6-d5   4.Kd5-e4   5.Ke4-f5   6.Kf5-g6   7.Kg6-h7   8.Kh7-h8 + Ke7-f6   9.Kh8-g8  10.Kg8-f8  11.Kf8-e8  12.Ke8-d7  13.Kd7-c6  14.Kc6-c5 + d6-d5  15.Kc5-c4 + d5-d4  16.Kc4-b3  17.Kb3-a2  18.Ka2*a1  19.Ka1-b2  20.Kb2-c3 + d4-d3  21.Kc3-d2  22.Kd2-e2 + d3-d2  23.Ke2-f3  24.Kf3-g4  25.Kg4-h5  26.Kh5-h6  27.Kh6-h7  28.Kh7-h8 a=>b 
+  1.Ka8-b7   2.Kb7-c6   3.Kc6-d5   4.Kd5-e4   5.Ke4-f5   6.Kf5-g6   7.Kg6-h7   8.Kh7-h8 + Ke7-f6   9.Kh8-g8  10.Kg8-f8  11.Kf8-e8  12.Ke8-d7  13.Kd7-c6  14.Kc6-c5 + d6-d5  15.Kc5-c4 + d5-d4  16.Kc4-b3  17.Kb3-a2  18.Ka2*a1  19.Ka1-b2  20.Kb2-c3 + d4-d3  21.Kc3-d2  22.Kd2-e2 + d3-d2  23.Ke2-f3  24.Kf3-g4  25.Kg4-h5  26.Kh5-h6  27.Kh6-h7  28.Kh7-h8 a=>b
 
               empile:     1257172
            play_move:     1042620

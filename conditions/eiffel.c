@@ -1,5 +1,6 @@
 #include "conditions/eiffel.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "solving/observation.h"
 #include "pydata.h"
 
 #include "debugging/trace.h"
@@ -66,38 +67,6 @@ static piece get_paralyser(piece p)
   return result;
 }
 
-static boolean can_piece_check(square sq)
-{
-  piece const p = e[sq];
-  boolean result = true;
-  piece eiffel_piece;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq);
-  TraceFunctionParamListEnd();
-
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initialise_neutrals(advers(neutral_side));
-
-  eiffel_piece = get_paralyser(p);
-
-  if (eiffel_piece!=vide)
-    result = (nbpiece[eiffel_piece]==0
-              || !(*checkfunctions[abs(eiffel_piece)])(sq,
-                                                       eiffel_piece,
-                                                       (flaglegalsquare
-                                                        ? legalsquare
-                                                        : eval_ortho)));
-
-  if (TSTFLAG(spec[sq],Neutral))
-    initialise_neutrals(advers(neutral_side));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Can a piece on a particular square can move according to Eiffel chess?
  * @param sq position of piece
  * @return true iff the piece can move according to Disparate chess
@@ -121,9 +90,7 @@ boolean eiffel_can_piece_move(square sq)
     result = (nbpiece[eiffel_piece]==0
               || !(*checkfunctions[abs(eiffel_piece)])(sq,
                                                        eiffel_piece,
-                                                       (flaglegalsquare
-                                                        ? legalsquare
-                                                        : eval_ortho)));
+                                                       observation_geometry_validator));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -132,18 +99,41 @@ boolean eiffel_can_piece_move(square sq)
 }
 
 /* Can a piece deliver check according to Eiffel chess
- * @param sq_departure position of the piece
- * @param sq_arrival arrival square of the capture to be threatened
- * @param sq_capture typically the position of the opposite king
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
  */
-boolean eval_eiffel(square sq_departure, square sq_arrival, square sq_capture)
+boolean eiffel_validate_observation(square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee)
 {
-  if (flaglegalsquare
-      && !legalsquare(sq_departure,sq_arrival,sq_capture))
-    return false;
-  else
-    return (can_piece_check(sq_departure)
-            && (!CondFlag[BGL] || eval_2(sq_departure,sq_arrival,sq_capture)));
-    /* is this just appropriate for BGL? in verifieposition eval_2 is set when madrasi is true,
-       but never seems to be used here or in libre */
+  piece const p = e[sq_observer];
+  boolean result = true;
+  piece eiffel_piece;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initialise_neutrals(advers(neutral_side));
+
+  eiffel_piece = get_paralyser(p);
+
+  if (eiffel_piece!=vide)
+    result = (nbpiece[eiffel_piece]==0
+              || !(*checkfunctions[abs(eiffel_piece)])(sq_observer,
+                                                       eiffel_piece,
+                                                       observation_geometry_validator));
+
+  if (TSTFLAG(spec[sq_observer],Neutral))
+    initialise_neutrals(advers(neutral_side));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

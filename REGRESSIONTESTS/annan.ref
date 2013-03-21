@@ -100,7 +100,7 @@ solution finished.
   h#4                         2 + 2
             AnnanChess    
 
-  1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 # 
+  1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 #
 
               empile:     7230355
            play_move:     6007461
@@ -218,10 +218,10 @@ ddlkl
   h#3                         2 + 3
             AnnanChess    
 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-d4 Re3-a3 # 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-b5 Re3-a3 # 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-h5 Re3-a3 # 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-g5 Re3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-d4 Re3-a3 #
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-b5 Re3-a3 #
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-h5 Re3-a3 #
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-g5 Re3-a3 #
 
               empile:      136142
            play_move:      100665
@@ -296,7 +296,7 @@ Chessics #4 1977 / The Problemist, may 2007
 
 a) 
 
-  1.Bg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Bh2-b8 Ba1-d4 # 
+  1.Bg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Bh2-b8 Ba1-d4 #
 
               empile:      376629
            play_move:      338692
@@ -304,7 +304,7 @@ a)
         orig_rnechec:      329815
 b) PolishType
 
-  1.Kb1-a2 Kh1-g2   2.Ba1-b1 Kg2-d5   3.Ka2-a1 Bg1-d4 # 
+  1.Kb1-a2 Kh1-g2   2.Ba1-b1 Kg2-d5   3.Ka2-a1 Bg1-d4 #
 
               empile:      334970
            play_move:      296474
@@ -339,7 +339,7 @@ solution finished.
   h#3                         2 + 2
             AnnanChess    
 
-  1.Kh8-g7 Bb8-a7   2.Kg7-a1 Ka8-e4   3.Bg8-a2 Ba7-d4 # 
+  1.Kh8-g7 Bb8-a7   2.Kg7-a1 Ka8-e4   3.Bg8-a2 Ba7-d4 #
 
               empile:      252499
            play_move:      213271
@@ -375,7 +375,7 @@ solution finished.
   ser-h#13                    4 + 2
             AnnanChess    
 
-  1.Ka8-b7   2.Kb7-d5   3.Bb8-e5   4.Be5-d4   5.Bd4-e4   6.Kd5-e5   7.Ke5-f4   8.Be4*f3   9.Bf3-g3  10.Kf4-e4  11.Bg3-e5  12.Ke4-a8  13.Be5-b8 Bg4-f3 # 
+  1.Ka8-b7   2.Kb7-d5   3.Bb8-e5   4.Be5-d4   5.Bd4-e4   6.Kd5-e5   7.Ke5-f4   8.Be4*f3   9.Bf3-g3  10.Kf4-e4  11.Bg3-e5  12.Ke4-a8  13.Be5-b8 Bg4-f3 #
 
               empile:      870337
            play_move:      841123

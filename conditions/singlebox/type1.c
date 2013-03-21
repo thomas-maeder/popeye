@@ -10,6 +10,37 @@
 
 #include <assert.h>
 
+/* Validate an observation according to Singlebox Type 1
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean singlebox_type1_validate_observation(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee)
+{
+  boolean result;
+  Side const moving = e[sq_observer]>vide ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (is_forwardpawn(abs(e[sq_observer])) && PromSq(moving,sq_observee))
+    /* Pawn checking on promotion rank */
+    result = next_singlebox_prom(Empty,moving)!=Empty;
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 PieNam next_singlebox_prom(PieNam p, Side c)
 {
   PieNam pprom;

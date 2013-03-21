@@ -81,6 +81,7 @@
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/takemake.h"
+#include "conditions/circe/rex_inclusive.h"
 #include "conditions/imitator.h"
 #include "conditions/sentinelles.h"
 #include "conditions/mummer.h"
@@ -292,11 +293,6 @@ void InitCond(void)
   anyantimars = false;
   anygeneva = false;
   anyparrain= false;
-
-  immrenroib = initsquare;
-  immrenroin = initsquare;
-  cirrenroib = initsquare;
-  cirrenroin = initsquare;
 
   antirenai = rennormal;
   circerenai = rennormal;

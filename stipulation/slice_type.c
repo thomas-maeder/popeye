@@ -182,6 +182,7 @@
     ENUMERATOR(STMonochromeRemoveBichromeMoves),                        \
     ENUMERATOR(STBichromeRemoveMonochromeMoves),                        \
     ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \
+    ENUMERATOR(STSuperguardsRemoveIllegalCaptures),                     \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
     ENUMERATOR(STAntiKoekoLegalityTester),                              \

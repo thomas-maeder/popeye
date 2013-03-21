@@ -252,7 +252,6 @@ void nextply(void);
 
 boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);
-boolean rbcircech(square departure, square arrival, square capture);
 
 extern boolean(*rechec[nr_sides])(evalfunction_t *evaluate);
 
@@ -261,7 +260,6 @@ boolean annan_rbechec(evalfunction_t *evaluate);
 boolean losingchess_rbnechec(evalfunction_t *evaluate);
 boolean orig_rbechec(evalfunction_t *evaluate);
 
-boolean rbimmunech(square departure, square arrival, square capture);
 boolean rcardech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
 boolean rcsech(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean rcspech(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
@@ -275,17 +273,14 @@ typedef enum {
 } angle_t;
 
 boolean rmhopech(square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
-boolean rncircech(square departure, square arrival, square capture);
 
 boolean singleboxtype3_rnechec(evalfunction_t *evaluate);
 boolean annan_rnechec(evalfunction_t *evaluate);
 boolean orig_rnechec(evalfunction_t *evaluate);
 
-boolean rnimmunech(square departure, square arrival, square capture);
 boolean rrefcech(square a, square b, int c, piece d, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
 boolean rubiech(square sq, square sqtest, piece p,  echiquier e_ub, evalfunction_t *evaluate );
-boolean soutenu(square departure, square arrival, square capture);
 
 extern void   (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);
@@ -293,9 +288,6 @@ extern void   (*gen_wh_piece)(square a, piece b);
 void    singleboxtype3_gen_wh_piece(square a, piece b);
 
 piece   champiece(piece p);
-
-boolean testparalyse(square departure, square arrival, square capture);
-boolean paraechecc(square departure, square arrival, square capture);
 
 void    PrintTime();
 boolean leapcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
@@ -343,11 +335,6 @@ void    logStrArg(char *arg);
 void    logIntArg(int arg);
 void    logLngArg(long arg);
 
-boolean rnanticircech(square departure, square arrival, square capture);
-boolean rbanticircech(square departure, square arrival, square capture);
-
-boolean rnsingleboxtype1ech(square departure, square arrival, square capture);
-boolean rbsingleboxtype1ech(square departure, square arrival, square capture);
 boolean rnsingleboxtype3ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
 
@@ -390,8 +377,6 @@ char	*MakeTimeString(void);
 char *ReadPieces(int cond);
 
 
-boolean eval_isardam(square departure, square arrival, square capture);
-boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture);
 square rendiametral(piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void LaTeXOpen(void);
@@ -404,8 +389,6 @@ square renplus(piece p, Flags pspec, square j, square i, square ia, Side camp);
 void transformPosition(SquareTransformation transformation);
 void generate_castling(Side side);
 boolean castling_is_intermediate_king_move_legal(Side side, square from, square to);
-
-boolean eval_shielded(square departure, square arrival, square capture);
 
 void    grabbitb(square sq);
 void    grabbitn(square sq);

@@ -3,14 +3,18 @@
 
 /* This module implements "mummer" conditions (maximummer, minimiummer etc.) */
 
+#include "pyproc.h"
 #include "solving/solve.h"
 
-boolean eval_ultra_mummer_black_king_check(square departure,
-                                           square arrival,
-                                           square capture);
-boolean eval_ultra_mummer_white_king_check(square departure,
-                                           square arrival,
-                                           square capture);
+/* Validate an observation according to Ultra-mummer
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean ultra_mummer_validate_observation(square sq_observer,
+                                          square sq_landing,
+                                          square sq_observee);
 
 typedef enum
 {

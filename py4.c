@@ -69,6 +69,7 @@
 #include "solving/solve.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "solving/observation.h"
 #include "conditions/einstein/en_passant.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
@@ -2711,7 +2712,7 @@ void genrb(square sq_departure)
       {
         piece const ptrans_black = -*ptrans;
         if (nbpiece[ptrans_black]
-            && (*checkfunctions[*ptrans])(sq_departure,ptrans_black,eval_white))
+            && (*checkfunctions[*ptrans])(sq_departure,ptrans_black,&validate_observation))
         {
           flag = true;
           current_trans_gen = *ptrans;
@@ -2920,9 +2921,9 @@ static void orig_gen_wh_piece(square sq_departure, piece p)
   if (!(CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
       && !(CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
       && !(CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
-      && !(TSTFLAG(PieSpExFlags,Paralyse) && paralysiert(sq_departure))
+      && !(TSTFLAG(PieSpExFlags,Paralysing) && is_piece_paralysed_on(sq_departure))
       && !(CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
-      && !(CondFlag[central] && !central_is_supported(sq_departure))
+      && !(CondFlag[central] && !central_can_piece_move_from(sq_departure))
       && !(TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure)))
   {
     if (CondFlag[phantom])
@@ -3002,12 +3003,12 @@ void gorph(square i, Side camp)
     {
       if (camp == White)
       {
-        if (ooorphancheck(i,-*porph,orphann,eval_white))
+        if (ooorphancheck(i,-*porph,orphann,&validate_observation))
           gen_wh_piece(i,*porph);
       }
       else
       {
-        if (ooorphancheck(i,*porph,orphanb,eval_black))
+        if (ooorphancheck(i,*porph,orphanb,&validate_observation))
           gen_bl_piece(i,-*porph);
       }
     }
@@ -3025,12 +3026,12 @@ void gfriend(square i, Side camp)
     {
       if (camp==White)
       {
-        if (fffriendcheck(i,*pfr,friendb,eval_white))
+        if (fffriendcheck(i,*pfr,friendb,&validate_observation))
           gen_wh_piece(i, *pfr);
       }
       else
       {
-        if (fffriendcheck(i,-*pfr,friendn,eval_black))
+        if (fffriendcheck(i,-*pfr,friendn,&validate_observation))
           gen_bl_piece(i, -*pfr);
       }
     }

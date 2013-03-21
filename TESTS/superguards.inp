@@ -1,0 +1,12 @@
+begin
+
+protocol superguards.tst
+
+title a) capturing the rook is illegal and capturing the bishop is not check
+cond superg
+piece white ra1 black ra3 kc3 bc1
+stip +1
+option nowk movenum
+twin add black sc1
+
+end

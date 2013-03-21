@@ -174,7 +174,7 @@ don't ignore the longest move just because of self-check if it reaches
   h##1                        5 + 7
            WhiteMaximummer
 
-  1.Rh8-h2 c2-c4 ## 
+  1.Rh8-h2 c2-c4 ##
 
               empile:        1053
            play_move:         585
@@ -209,9 +209,9 @@ solution finished.
            WhiteMaximummer
           SingleBox    Type3
 
-  1.b7*a6 [h8=R]Rh8-h1 
-  1.b7*a6 [h8=R]Rh8-a8 
-  1.b7*c6 [h8=B]Bh8-a1 
+  1.b7*a6 [h8=R]Rh8-h1
+  1.b7*a6 [h8=R]Rh8-a8
+  1.b7*c6 [h8=B]Bh8-a1
 
               empile:         103
            play_move:          21

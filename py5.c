@@ -74,6 +74,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/move.h"
 #include "solving/single_piece_move_generator.h"
+#include "solving/observation.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
 #include "conditions/extinction.h"
@@ -582,7 +583,7 @@ void genrn(square sq_departure)
       PieNam const *ptrans;
       for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
         if (nbpiece[*ptrans]>0
-            && (*checkfunctions[*ptrans])(sq_departure,*ptrans,eval_black))
+            && (*checkfunctions[*ptrans])(sq_departure,*ptrans,&validate_observation))
         {
           flag = true;
           current_trans_gen = -*ptrans;
@@ -726,9 +727,9 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
   if (!(CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
       && !(CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
       && !(CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
-      && !(TSTFLAG(PieSpExFlags,Paralyse) && paralysiert(sq_departure))
+      && !(TSTFLAG(PieSpExFlags,Paralysing) && is_piece_paralysed_on(sq_departure))
       && !(CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
-      && !(CondFlag[central] && !central_is_supported(sq_departure))
+      && !(CondFlag[central] && !central_can_piece_move_from(sq_departure))
       && !(TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure)))
   {
     if (CondFlag[phantom])
@@ -755,7 +756,8 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
   TraceFunctionResultEnd();
 } /* orig_gen_bl_piece */
 
-void singleboxtype3_gen_bl_piece(square z, piece p) {
+void singleboxtype3_gen_bl_piece(square z, piece p)
+{
   numecoup save_nbcou = current_move[nbply];
   unsigned int latent_prom = 0;
   square sq;

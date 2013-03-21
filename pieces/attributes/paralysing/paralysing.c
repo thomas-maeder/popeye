@@ -5,6 +5,7 @@
 #include "stipulation/boolean/or.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -49,11 +50,79 @@ boolean suffocated_by_paralysis(Side side)
  return result;
 }
 
+/* Validate an observer according to paralysing pieces
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean paralysing_validate_observer(square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (TSTFLAG(spec[sq_observer],Paralysing))
+    result = false;
+  else if (!(*observation_geometry_validator)(sq_observer,sq_landing,sq_observee))
+    result = false;
+  else
+    result = !is_piece_paralysed_on(sq_observer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Validate an observation according to paralysing pieces
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean paralysing_validate_observation(square sq_observer,
+                                        square sq_landing,
+                                        square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (TSTFLAG(spec[sq_observer],Paralysing))
+    result = false;
+  else
+    result = !is_piece_paralysed_on(sq_observer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean validate_paralyser(square sq_paralyser,
+                                  square sq_landing,
+                                  square sq_paralysee)
+{
+  return (TSTFLAG(spec[sq_paralyser],Paralysing)
+          && (*observation_geometry_validator)(sq_paralyser,sq_landing,sq_paralysee));
+}
+
 /* Determine whether a piece is paralysed
  * @param s position of piece
  * @return true iff the piece on square s is paralysed
  */
-boolean paralysiert(square s)
+boolean is_piece_paralysed_on(square s)
 {
   boolean result;
 
@@ -65,10 +134,11 @@ boolean paralysiert(square s)
     result = false;
   else
   {
-    Side const paralysed_side = e[s]>obs ? White : Black;
+    Side const paralysed_side = e[s]>vide ? White : Black;
     square const save_king_square = king_square[paralysed_side];
+
     king_square[paralysed_side] = s;
-    result = rechec[paralysed_side](testparalyse);
+    result = rechec[paralysed_side](&validate_paralyser);
     king_square[paralysed_side] = save_king_square;
   }
 

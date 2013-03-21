@@ -1,0 +1,246 @@
+
+            K. Seetharaman
+        The Problemist I/2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   S  -K   B   .   .   8
+|                                   |
+7   .   .   P  -R  -B   .   P   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 4
+             SuperGuards
+
+   1.Kf5-e6 ! threat:
+          2.Ke6-f7 #
+      1...Rd7-d6
+          2.Ke6-d7 #
+      1...Rd7*c7
+          2.Ke6-d7 #
+      1...Be7-a3
+          2.Ke6-e7 #
+      1...Be7-b4
+          2.Ke6-e7 #
+      1...Be7-c5
+          2.Ke6-e7 #
+      1...Be7-d6
+          2.Ke6-e7 #
+      1...Be7-h4
+          2.Ke6-e7 #
+      1...Be7-g5
+          2.Ke6-e7 #
+      1...Be7-f6
+          2.Ke6-e7 #
+
+
+              empile:        1683
+           play_move:         950
+        orig_rbechec:         652
+        orig_rnechec:        1405
+solution finished. 
+
+
+
+           C.G.S. Narayanan
+        The Problemist I/2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   Q   .   8
+|                                   |
+7   .   .   .   .   .   .  -R   .   7
+|                                   |
+6   .   .   .   .   .   .  -Q  -S   6
+|                                   |
+5   .   .   .   .   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -P   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   K   .   .   .   .   .   .  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 6
+             SuperGuards
+
+  1.Qg6-g2 h2-h3   2.Rg7-g3 Qg8-g4 #
+  1.Qg6-g3 h2-h4   2.Rg7-g4 Qg8-g5 #
+
+              empile:      350670
+           play_move:      296272
+        orig_rbechec:       94476
+        orig_rnechec:      306487
+solution finished. 
+
+
+
+           C.G.S. Narayanan
+      juliasfairies.com XI/2012
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -P  -P   .   .   .   .   .   .   6
+|                                   |
+5  -K   .   K   .   .   .   .   .   5
+|                                   |
+4   .   P   P   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 3
+             SuperGuards
+                Duplex
+
+  1.Ka5-a4 Kc5*b6   2.Ka4*b4 Kb6-c6   3.Kb4-a5 Kc6-b5 #
+
+  1.Kc5-c6 Ka5*b4   2.Kc6*b6 Kb4*c4   3.Kb6-a5 Kc4-b5 #
+
+              empile:       25931
+           play_move:       23558
+        orig_rbechec:       17188
+        orig_rnechec:       14793
+solution finished. 
+
+
+
+           Petko A. Petkov
+      juliasfairies.com XI/2012
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   R   .   .   .   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6   B   .   .   .   .   K   .   .   6
+|                                   |
+5  -P   .   .   .   S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -P   .  -R   P   .   .   2
+|                                   |
+1   .   .   .  -S  -K   .   .  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 6
+             SuperGuards
+
+  1.Re2-e4 Se5-g4   2.Re4-a4 Be7-b4 #
+  1.Re2-e3 Be7-c5   2.Re3-h3 Se5-f3 #
+
+              empile:      490967
+           play_move:      463051
+        orig_rbechec:      102497
+        orig_rnechec:      473847
+solution finished. 
+
+
+
+           C.G.S. Narayanan
+      juliasfairies.com XI/2012
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -R   .   .   .   .  -P   .   7
+|                                   |
+6   S   .   .  -P   .   P   .   .   6
+|                                   |
+5   .   .   .   Q   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   P   .  -K   .   B   .   3
+|                                   |
+2   .   .   .   .  -P   .   P   .   2
+|                                   |
+1   .   .   S   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          9 + 5
+             SuperGuards
+
+   1.Bg3-e1 ! threat:
+          2.Qd5-e6 #
+      1...Rb7-b2
+          2.Qd5-d2 #
+      1...Rb7-b4
+          2.Qd5-d4 #
+      1...Rb7-b5
+          2.Qd5-c5 #
+      1...Rb7-e7
+          2.Qd5-e4 #
+
+
+              empile:        5822
+           play_move:        3424
+        orig_rbechec:        2468
+        orig_rnechec:        3701
+solution finished. 
+
+
+
+S.K. Balasubramanian & K. Seetharaman
+         Matplus.net XI/2012
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .  -S   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   R   .   .  -P   .   .   .   .   2
+|                                   |
+1   .   .   .  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+             SuperGuards
+
+  1.Kd1-e1 Ke4-f3   2.d2-d1=S Kf3-f2 #
+  1.Kd1-c1 Ke4-d3   2.d2-d1=B Kd3-c2 #
+
+              empile:       20603
+           play_move:       18299
+        orig_rbechec:        4465
+        orig_rnechec:       18771
+solution finished. 
+
+

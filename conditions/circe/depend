@@ -474,7 +474,7 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/move_effect_journal.h conditions/anticirce/anticirce.h \
+ solving/move_effect_journal.h conditions/anticirce/anticirce.h pyproc.h \
  conditions/anticirce/capture_fork.h debugging/trace.h
 
 conditions/circe/kamikaze.h:
@@ -530,6 +530,8 @@ stipulation/move.h:
 solving/move_effect_journal.h:
 
 conditions/anticirce/anticirce.h:
+
+pyproc.h:
 
 conditions/anticirce/capture_fork.h:
 
@@ -1486,5 +1488,44 @@ stipulation/temporary_hacks.h:
 solving/post_move_iteration.h:
 
 solving/single_piece_move_generator.h:
+
+debugging/trace.h:
+conditions/circe/rex_inclusive$(OBJ_SUFFIX): conditions/circe/rex_inclusive.c \
+ conditions/circe/rex_inclusive.h pyproc.h py4.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ stipulation/goals/goals.h py.h pydata.h pyproc.h debugging/trace.h
+
+conditions/circe/rex_inclusive.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+pydata.h:
+
+pyproc.h:
 
 debugging/trace.h:

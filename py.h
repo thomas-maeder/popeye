@@ -763,8 +763,9 @@ typedef enum
   whitealphabetic,	      /* 181 */
   blackalphabetic,	      /* 182 */
   circetakeandmake,       /* 183 */
+  superguards,            /* 184 */
 
-  CondCount               /* 184 */
+  CondCount               /* 185 */
 } Cond;
 
 /* Some remarks to the conditions:
@@ -786,7 +787,7 @@ typedef enum
   Neutral = nr_sides,
   Royal,
   Kamikaze,
-  Paralyse,
+  Paralysing,
   Chameleon,
   Jigger,
   Volage,

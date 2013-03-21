@@ -9,7 +9,8 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/traversal.h solving/solve.h stipulation/branch.h \
  stipulation/boolean/or.h pieces/attributes/paralysing/mate_filter.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- pieces/attributes/paralysing/stalemate_special.h debugging/trace.h
+ pieces/attributes/paralysing/stalemate_special.h solving/observation.h \
+ pyproc.h debugging/trace.h
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -68,6 +69,10 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 pieces/attributes/paralysing/stalemate_special.h:
+
+solving/observation.h:
+
+pyproc.h:
 
 debugging/trace.h:
 pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \

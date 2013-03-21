@@ -58,7 +58,7 @@ solution finished.
   h#1                         4 + 6
               GridChess
 
-  1.Kd2-c3 Bd4-e3 # 
+  1.Kd2-c3 Bd4-e3 #
 
               empile:         474
            play_move:         193
@@ -130,10 +130,10 @@ solution finished.
            BlackMinimummer
              ParrainCirce
 
-  1.Sb8*a6 Ka7-b7[+wPb6] 
-  1.Sb8*a6 Ka7-a8[+wPa7] 
-  1.Sb8*a6 Ka7*a6[+wPa5] 
-  1.Sb8*a6 Ka7-b6[+wPb5] 
+  1.Sb8*a6 Ka7-b7[+wPb6]
+  1.Sb8*a6 Ka7-a8[+wPa7]
+  1.Sb8*a6 Ka7*a6[+wPa5]
+  1.Sb8*a6 Ka7-b6[+wPb5]
 
               empile:           8
            play_move:           9

@@ -26,9 +26,9 @@ piece is of the same colour as the king to be mated
   h#2                         2 + 6
               Bicolores
 
-  1.Rg8-b8 Se6-d8   2.Ke7-f8 Sd8-c6 # 
-  1.Bh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 # 
-  1.Bh8-d4 Se6-g7   2.Rg8-d8 Sg7*f5 # 
+  1.Rg8-b8 Se6-d8   2.Ke7-f8 Sd8-c6 #
+  1.Bh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 #
+  1.Bh8-d4 Se6-g7   2.Rg8-d8 Sg7*f5 #
 
               empile:       76524
            play_move:       64326
@@ -64,7 +64,7 @@ caused all kinds of trouble, including this shortie not being solved.
   dia1                      16 + 16
            ExtinctionChess
 
-  1.f2-f4 e7-e5 dia 
+  1.f2-f4 e7-e5 dia
 
               empile:          40
            play_move:          40
@@ -144,7 +144,7 @@ solution finished.
 
 
  20  (Sb1-a3=b )
-  1.Sb1-a3=b Sa3-b1=w dia 
+  1.Sb1-a3=b Sa3-b1=w dia
 
               empile:          44
            play_move:          44
@@ -178,7 +178,7 @@ solution finished.
              Hypervolage
 
  20  (Sb1-a3=b )
-  1.Sb1-a3=b Sa3-b1=w dia 
+  1.Sb1-a3=b Sa3-b1=w dia
 
               empile:          44
            play_move:          44
@@ -235,7 +235,7 @@ solution finished.
 
 fairy pieces only allowed in proof games since releases >4.51
 
-  1.Ka1-a2 Ga8-a1 a=>b 
+  1.Ka1-a2 Ga8-a1 a=>b
 
               empile:           4
            play_move:           4
@@ -269,7 +269,7 @@ White's first move
 +---a---b---c---d---e---f---g---h---+
   hr#2                        3 + 3
 
-  1.Kh5-h6 Ba1*b2   2.Bf7-h5 Bb2-c1 # 
+  1.Kh5-h6 Ba1*b2   2.Bf7-h5 Bb2-c1 #
 
               empile:       12003
            play_move:        6649
@@ -1374,10 +1374,10 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 +---a---b---c---d---e---f---g---h---+
   h+1.5                       2 + 1
 
-  1...Ka3-b3   2.Ka7-a6 b4-b5 + 
-  1...Ka3-a4   2.Ka7-a6 b4-b5 + 
-  1...Ka3-a2   2.Ka7-a6 b4-b5 + 
-  1...Ka3-b2   2.Ka7-a6 b4-b5 + 
+  1...Ka3-b3   2.Ka7-a6 b4-b5 +
+  1...Ka3-a4   2.Ka7-a6 b4-b5 +
+  1...Ka3-a2   2.Ka7-a6 b4-b5 +
+  1...Ka3-b2   2.Ka7-a6 b4-b5 +
 
               empile:          34
            play_move:          34
@@ -1676,8 +1676,8 @@ solution finished.
   h#2                         4 + 4
               CageCirce
 
-  1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] # 
-  1.Ke4*f3[+wRh1] g1*h2   2.g5-g4 0-0 # 
+  1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] #
+  1.Ke4*f3[+wRh1] g1*h2   2.g5-g4 0-0 #
 
               empile:     8137277
            play_move:     1210884
@@ -1741,8 +1741,8 @@ never generates the same solution twice (but some solutions
   a=>b1.5                   16 + 16
               CageCirce
 
-  1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b 
-  1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b 
+  1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b
+  1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b
 
               empile:       28339
            play_move:       17067
@@ -1804,7 +1804,7 @@ promote to bishop (no cage for queen) even if there was a cage
   a=>b0.5                   16 + 16
               CageCirce
 
-  1.e2*d1=B a=>b 
+  1.e2*d1=B a=>b
 
               empile:        1829
            play_move:        1076
@@ -1980,8 +1980,8 @@ solving interrupted.
 +---a---b---c---d---e---f---g---h---+
   hr#3                        4 + 4
 
-  1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 # 
-  1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 # 
+  1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 #
+  1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 #
 
               empile:       66707
            play_move:       39531
@@ -2015,7 +2015,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   hr#2.5                      3 + 3
 
-  1...e4-e3   2.Kd1-c1 e3*d2 +   3.Kc1-b1 d2-d1=Q # 
+  1...e4-e3   2.Kd1-c1 e3*d2 +   3.Kc1-b1 d2-d1=Q #
 
               empile:       52700
            play_move:       27711
@@ -2085,16 +2085,16 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
                 Circe
               ImmunChess
 
-  1.Bc2-b1 Bg6-c2 = 
-  1.Bc2-f5   2.Bf5-b1 Bg6-c2 = 
-  1.Bc2-e4   2.Be4-b1 Bg6-c2 = 
-  1.Bc2-d3   2.Bd3-b1 Bg6-c2 = 
-  1.Kc1-d1   2.Kd1-c1   3.Bc2-b1 Bg6-c2 = 
-  1.Kc1-d1   2.Bc2-b1   3.Kd1-c1 Bg6-c2 = 
-  1.Kc1-b1   2.Kb1-c1   3.Bc2-b1 Bg6-c2 = 
-  1.Kc1-b1   2.Kb1-a1   3.Bc2-b1 Bg6-c2 = 
-  1.Bc2-b1   2.Bb1-f5   3.Bf5-b1 Bg6-c2 = 
-  1.Bc2-b1   2.Bb1-e4   3.Be4-b1 Bg6-c2 = 
+  1.Bc2-b1 Bg6-c2 =
+  1.Bc2-f5   2.Bf5-b1 Bg6-c2 =
+  1.Bc2-e4   2.Be4-b1 Bg6-c2 =
+  1.Bc2-d3   2.Bd3-b1 Bg6-c2 =
+  1.Kc1-d1   2.Kd1-c1   3.Bc2-b1 Bg6-c2 =
+  1.Kc1-d1   2.Bc2-b1   3.Kd1-c1 Bg6-c2 =
+  1.Kc1-b1   2.Kb1-c1   3.Bc2-b1 Bg6-c2 =
+  1.Kc1-b1   2.Kb1-a1   3.Bc2-b1 Bg6-c2 =
+  1.Bc2-b1   2.Bb1-f5   3.Bf5-b1 Bg6-c2 =
+  1.Bc2-b1   2.Bb1-e4   3.Be4-b1 Bg6-c2 =
 
               empile:       11793
            play_move:        4804
@@ -2238,7 +2238,7 @@ issue 2886962: 4.51 didn't allow a reborn rook
   a=>b1.0                     2 + 2
                 Circe
 
-  1.Rb8*c8[+wRh1] 0-0 a=>b 
+  1.Rb8*c8[+wRh1] 0-0 a=>b
 
               empile:          25
            play_move:          25
@@ -2272,7 +2272,7 @@ feature request 2813613: proof games and Cavalier Majeur
   dia2.5                    16 + 16
             CavalierMajeur
 
-  1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia 
+  1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia
 
               empile:     6993553
            play_move:     6993553
@@ -2306,7 +2306,7 @@ feature request 2813613: proof games and Leofamily
   dia1.5                    16 + 15
               Leofamily
 
-  1.a2-a3 h7-h6   2.VAc1*h6 dia 
+  1.a2-a3 h7-h6   2.VAc1*h6 dia
 
               empile:        8532
            play_move:        8532
@@ -2401,7 +2401,7 @@ ghostchess bug; 4.51 didn't find a solution here
              Uncapturable
               GhostChess
 
-  1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] # 
+  1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] #
 
               empile:        4060
            play_move:        2104

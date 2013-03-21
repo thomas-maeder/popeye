@@ -5,6 +5,17 @@
  */
 
 #include "solving/solve.h"
+#include "pyproc.h"
+
+/* Validate an observation according to Singlebox Type 1
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean singlebox_type1_validate_observation(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee);
 
 /* Determine the next legal single box promotee type
  * @param p type of previous promotee (vide if the first promotee type is to be

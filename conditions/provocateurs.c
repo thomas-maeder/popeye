@@ -4,13 +4,44 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
+
+/* Validate an observation according to Provocation Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean provocateurs_validate_observation(square sq_observer,
+                                          square sq_landing,
+                                          square sq_observee)
+{
+  boolean result;
+  Side const moving_side = e[sq_observer]>vide ? White : Black;
+  square const save_king_square = king_square[moving_side];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  king_square[moving_side] = sq_observer;
+  result = rechec[moving_side](observer_validator);
+  king_square[moving_side] = save_king_square;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Determine whether a piece is observed
  * @param sq_departure position of the piece
  * @return true iff the piece is observed
  */
-boolean provocateurs_is_observed(square sq_departure)
+static boolean provocateurs_is_observed(square sq_departure)
 {
   Side const side = e[sq_departure]<=roin ? Black : White;
   square const save_king_square = king_square[side];
@@ -21,7 +52,7 @@ boolean provocateurs_is_observed(square sq_departure)
   TraceFunctionParamListEnd();
 
   king_square[side] = sq_departure;
-  result = rechec[side](eval_2);
+  result = rechec[side](observer_validator);
   king_square[side] = save_king_square;
 
   TraceFunctionExit(__func__);

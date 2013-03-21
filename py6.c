@@ -106,6 +106,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "solving/solve.h"
+#include "solving/observation.h"
 #include "output/output.h"
 #include "conditions/bgl.h"
 #include "conditions/koeko/contact_grid.h"
@@ -152,6 +153,7 @@
 #include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/circe/turncoats.h"
 #include "conditions/circe/takemake.h"
+#include "conditions/circe/rex_inclusive.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/anticirce.h"
@@ -204,10 +206,17 @@
 #include "conditions/edgemover.h"
 #include "conditions/grid.h"
 #include "conditions/take_and_make.h"
+#include "conditions/superguards.h"
+#include "conditions/central.h"
+#include "conditions/beamten.h"
+#include "conditions/eiffel.h"
+#include "conditions/madrasi.h"
+#include "conditions/brunner.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
+#include "conditions/shielded_kings.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/end_of_branch.h"
@@ -1290,27 +1299,21 @@ static boolean verify_position(slice_index si)
   if (CondFlag[bicolores])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
+  if (CondFlag[monochro] && CondFlag[bichro])
+  {
+    VerifieMsg(MonoAndBiChrom);
+    return false;
+  }
+
   if (CondFlag[bichro] || CondFlag[monochro])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  eval_2 = eval_white = eval_ortho;
   rechec[White] = &orig_rbechec;
   rechec[Black] = &orig_rnechec;
 
   flaglegalsquare = flaglegalsquare
       || CondFlag[bichro]
       || CondFlag[monochro];
-
-  if (flaglegalsquare)
-  {
-    eval_white = legalsquare;
-    eval_2 = eval_ortho;
-    if (CondFlag[monochro] && CondFlag[bichro])
-    {
-      VerifieMsg(MonoAndBiChrom);
-      return false;
-    }
-  }
 
   if ((CondFlag[koeko]
        || CondFlag[newkoeko]
@@ -1371,31 +1374,88 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[provocateurs]
-      || CondFlag[central]
-      || TSTFLAG(PieSpExFlags,Beamtet)
-      || CondFlag[ultrapatrouille]
-      || CondFlag[lortap]
-      || TSTFLAG(PieSpExFlags,Patrol))
+  observer_validator = &eval_ortho;
+  observation_geometry_validator = &eval_ortho;
+
+  if (flaglegalsquare)
   {
-    /* TODO: currently, we can't consistently use
-     * TSTFLAG(PieSpExFlags,Beamtet/Patrol) instead of
-     * CondFlag[beamten/patrouille]- but why not?
-     */
-    eval_2 = eval_white;
-    eval_white = soutenu;
+    observer_validator = &legalsquare;
+    observation_geometry_validator = &legalsquare;
   }
-  else if (TSTFLAG(PieSpExFlags,Paralyse))
-  {
-    eval_2 = eval_white;
-    eval_white = paraechecc;
-  }
+  else if (CondFlag[madras] || CondFlag[eiffel])
+    observer_validator = &madrasi_validate_observation;
+  else if (TSTFLAG(PieSpExFlags,Paralysing))
+    observer_validator = &paralysing_validate_observer;
+
+  reset_observation_validators();
+
+  if (flaglegalsquare)
+    register_observation_validator(&legalsquare);
+
+  if (CondFlag[central])
+    register_observation_validator(&central_validate_observation);
+
+  if (TSTFLAG(PieSpExFlags,Beamtet))
+    register_observation_validator(&beamten_validate_observation);
+
+  if (TSTFLAG(PieSpExFlags,Patrol))
+    register_observation_validator(&patrol_validate_observation);
+
+  if (CondFlag[provocateurs])
+    register_observation_validator(&provocateurs_validate_observation);
+
+  if (CondFlag[ultrapatrouille])
+    register_observation_validator(&ultrapatrouille_validate_observation);
+
+  if (CondFlag[shieldedkings])
+    register_observation_validator(&shielded_kings_validate_observation);
+
+  if (TSTFLAG(PieSpExFlags,Paralysing))
+    register_observation_validator(&paralysing_validate_observation);
 
   if (CondFlag[disparate])
-  {
-    eval_white = eval_black = eval_disparate;
-    disable_orthodox_mating_move_optimisation(nr_sides);
-  }
+    register_observation_validator(&disparate_validate_observation);
+
+  if (CondFlag[BGL])
+    register_observation_validator(&BGL_validate_observation);
+
+  if (CondFlag[madras])
+    register_observation_validator(&madrasi_validate_observation);
+
+  if (CondFlag[eiffel])
+    register_observation_validator(&eiffel_validate_observation);
+
+  if (CondFlag[isardam] && !IsardamB)
+    register_observation_validator(&isardam_validate_observation);
+
+  if (CondFlag[woozles])
+    register_observation_validator(&woozles_heffalumps_validate_observation);
+
+  if (CondFlag[brunner])
+    register_observation_validator(&brunner_validate_observation);
+
+  if (rex_circe)
+    register_observation_validator(&circe_rex_inclusive_validate_observation);
+
+  if (rex_immun)
+    register_observation_validator(&immune_validate_observation);
+
+  if (anyanticirce)
+    register_observation_validator(&anticirce_validate_observation);
+
+  if (CondFlag[lortap])
+    /* more efficient after Anticirce (sample size: 1 :-) ) */
+    register_observation_validator(&lortap_validate_observation);
+
+  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1))
+    register_observation_validator(&singlebox_type1_validate_observation);
+
+  if ((mummer_strictness[White]==mummer_strictness_ultra && !CondFlag[whcapt])
+      || (mummer_strictness[Black]==mummer_strictness_ultra && !CondFlag[blcapt]))
+    register_observation_validator(&ultra_mummer_validate_observation);
+
+  if (CondFlag[superguards])
+    register_observation_validator(&superguards_validate_observation);
 
   if (CondFlag[nowhcapture] && CondFlag[noblcapture])
   {
@@ -1416,7 +1476,10 @@ static boolean verify_position(slice_index si)
   if (CondFlag[black_oscillatingKs] || CondFlag[white_oscillatingKs])
   {
     if (king_square[White]==initsquare || king_square[Black]==initsquare)
-      CondFlag[black_oscillatingKs] = CondFlag[white_oscillatingKs] = false;
+    {
+      CondFlag[black_oscillatingKs] = false;
+      CondFlag[white_oscillatingKs] = false;
+    }
     else
     {
       optim_neutralretractable = false;
@@ -1444,65 +1507,14 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[BGL])
-  {
-    eval_white = eval_BGL;
-    optim_neutralretractable = false;
-    disable_orthodox_mating_move_optimisation(nr_sides);
-  }
-
   if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam])
   {
-    if ( CondFlag[imitators]
-         || TSTFLAG(PieSpExFlags,Paralyse))
+    if ( CondFlag[imitators]|| TSTFLAG(PieSpExFlags,Paralysing))
     {
       VerifieMsg(MadrasiParaAndOthers);
       return false;
     }
-    if (!(CondFlag[provocateurs]
-          || CondFlag[central]
-          || TSTFLAG(PieSpExFlags,Beamtet)
-          || CondFlag[ultrapatrouille]
-          || CondFlag[lortap]
-          || TSTFLAG(PieSpExFlags,Patrol)))
-    {
-      eval_2 = eval_white;
-      if (CondFlag[madras])
-        eval_white = eval_madrasi;
-      else if (CondFlag[eiffel])
-        eval_white = eval_eiffel;
-      else
-        eval_white = eval_isardam;
-    }
   }
-
-  if (CondFlag[woozles]) {
-    if (CondFlag[madras]
-        || CondFlag[eiffel]
-        || CondFlag[isardam]
-        || CondFlag[imitators]
-        || TSTFLAG(PieSpExFlags,Paralyse))
-    {
-      VerifieMsg(MadrasiParaAndOthers);
-      return false;
-    }
-    optim_neutralretractable = false;
-    disable_orthodox_mating_move_optimisation(nr_sides);
-    eval_2 = eval_white;
-    eval_white = eval_wooheff;
-  }
-
-  if (CondFlag[brunner])
-    /* Isardam + Brunner may be possible!
-     * in which case eval_brunner is the correct evaluation function to use!
-    */
-    eval_white = eval_brunner;
-
-  if (CondFlag[isardam] && IsardamB)
-    eval_white=eval_ortho;
-
-  if (CondFlag[shieldedkings])
-    eval_white=eval_shielded;
 
   if (CondFlag[circeassassin]) {
     if (TSTFLAG(PieSpExFlags,Neutral) /* Neutrals not implemented */
@@ -1512,7 +1524,7 @@ static boolean verify_position(slice_index si)
       return false;
     }
   }
-  eval_black = eval_white;
+
   if (rex_circe || rex_immun) {
     if (rex_circe && rex_immun)
     {
@@ -1525,19 +1537,6 @@ static boolean verify_position(slice_index si)
          required  TLi */
       VerifieMsg(SomeCondAndAntiCirce);
       return false;
-    }
-    eval_2 = eval_white;
-    if (rex_circe) {
-      eval_white = rbcircech;
-      eval_black = rncircech;
-      cirrenroib = (*circerenai)(roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
-      cirrenroin = (*circerenai)(roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
-    }
-    else {
-      eval_white = rbimmunech;
-      eval_black = rnimmunech;
-      immrenroib = (*immunrenai)(roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
-      immrenroin = (*immunrenai)(roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
     }
   }
 
@@ -1553,29 +1552,19 @@ static boolean verify_position(slice_index si)
       VerifieMsg(SomeCondAndAntiCirce);
       return false;
     }
-    optim_neutralretractable = false;
-    disable_orthodox_mating_move_optimisation(nr_sides);
-    eval_2 = eval_white;
-    eval_white = rbanticircech;
-    eval_black = rnanticircech;
   }
 
-  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1)) {
+  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1))
+  {
     if (flagfee)
     {
       VerifieMsg(SingleBoxAndFairyPieces);
       return false;
     }
-    optim_neutralretractable = false;
-    disable_orthodox_mating_move_optimisation(nr_sides);
-    eval_2 = eval_white;
-    eval_white = rbsingleboxtype1ech;
-    eval_black = rnsingleboxtype1ech;
   }
 
-  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type3)) {
-    optim_neutralretractable = false;
-    disable_orthodox_mating_move_optimisation(nr_sides);
+  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type3))
+  {
     rechec[Black] = &singleboxtype3_rnechec;
     rechec[White] = &singleboxtype3_rbechec;
     gen_wh_piece = &singleboxtype3_gen_wh_piece;
@@ -1589,18 +1578,12 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-
   if (mummer_strictness[White]==mummer_strictness_ultra && !CondFlag[whcapt])
   {
     if (TSTFLAG(PieSpExFlags, Neutral))
     {
       VerifieMsg(TooFairyForNeutral);
       return false;
-    }
-    else
-    {
-      eval_2 = eval_white;
-      eval_black = eval_ultra_mummer_black_king_check;
     }
   }
 
@@ -1611,16 +1594,6 @@ static boolean verify_position(slice_index si)
       VerifieMsg(TooFairyForNeutral);
       return false;
     }
-    else
-    {
-      eval_2 = eval_white;
-      eval_white = eval_ultra_mummer_white_king_check;
-    }
-  }
-  if (CondFlag[football])
-  {
-    optim_neutralretractable = false;
-    disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
   if (CondFlag[heffalumps]
@@ -1706,11 +1679,20 @@ static boolean verify_position(slice_index si)
       || CondFlag[koeko]
       || CondFlag[antikoeko]
       || anyparrain
+      || anyanticirce
       || mummer_strictness[White]!=mummer_strictness_none
       || mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[vogt]
-      || (eval_white != eval_ortho
-          && eval_white != legalsquare)
+      || CondFlag[central]
+      || TSTFLAG(PieSpExFlags,Beamtet)
+      || TSTFLAG(PieSpExFlags,Patrol)
+      || CondFlag[provocateurs]
+      || CondFlag[ultrapatrouille]
+      || CondFlag[lortap]
+      || CondFlag[shieldedkings]
+      || TSTFLAG(PieSpExFlags,Paralysing)
+      || CondFlag[madras] || CondFlag[eiffel]
+      || CondFlag[brunner]
       || (king_square[White] != initsquare && abs(e[king_square[White]]) != King)
       || (king_square[Black] != initsquare && abs(e[king_square[Black]]) != King)
       || TSTFLAG(PieSpExFlags, Chameleon)
@@ -1725,12 +1707,21 @@ static boolean verify_position(slice_index si)
       || CondFlag[antikings]
       || TSTFLAG(PieSpExFlags, HalfNeutral)
       || CondFlag[geneva]
+      || CondFlag[disparate]
+      || CondFlag[BGL]
       || CondFlag[dynasty] /* TODO why? */
-      || TSTFLAG(PieSpExFlags,Magic))
+      || TSTFLAG(PieSpExFlags,Magic)
+      || CondFlag[woozles]
+      || (CondFlag[singlebox]
+          && (SingleBoxType==singlebox_type1 || SingleBoxType==singlebox_type3))
+      || CondFlag[football])
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
+
+  if (CondFlag[superguards])
+    disable_orthodox_mating_move_optimisation(nr_sides);
 
   init_promotion_pieces();
 
@@ -1820,7 +1811,8 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if ((eval_white==eval_isardam || eval_white==eval_brunner) && CondFlag[vogt])
+  if (((CondFlag[isardam] && !IsardamB) || CondFlag[brunner])
+      && CondFlag[vogt])
   {
     VerifieMsg(VogtlanderandIsardam);
     return false;
@@ -2460,7 +2452,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[patience])
     stip_insert_patience_chess(result);
 
-  if (TSTFLAG(PieSpExFlags,Paralyse))
+  if (TSTFLAG(PieSpExFlags,Paralysing))
     stip_insert_paralysing_goal_filters(result);
 
   if (CondFlag[SAT] || CondFlag[strictSAT])
@@ -2717,6 +2709,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
       stip_insert_monochrome(result);
   if (CondFlag[bichro])
       stip_insert_bichrome(result);
+
+  if (CondFlag[superguards])
+    stip_insert_superguards(result);
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
     stip_insert_edgemover(result);

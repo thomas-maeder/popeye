@@ -97,8 +97,16 @@ void stip_insert_bgl_filters(slice_index si)
   TraceFunctionResultEnd();
 }
 
-boolean eval_BGL(square sq_departure, square sq_arrival, square sq_capture)
+/* Validate an observation according to BGL
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean BGL_validate_observation(square sq_observer,
+                                 square sq_landing,
+                                 square sq_observee)
 {
-  return BGL_move_diff_code[abs(sq_departure-sq_arrival)]
-         <= (e[sq_capture]<vide ? BGL_values[White][nbply] : BGL_values[Black][nbply]);
+  return BGL_move_diff_code[abs(sq_observer-sq_landing)]
+         <= (e[sq_observee]<vide ? BGL_values[White][nbply] : BGL_values[Black][nbply]);
 }

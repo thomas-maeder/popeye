@@ -27,10 +27,10 @@
    1.Qa1-e1 # !
 
 
-              empile:        5486
-           play_move:        4884
-        orig_rbechec:        2476
-        orig_rnechec:        3163
+              empile:        3298
+           play_move:        2734
+        orig_rbechec:        1566
+        orig_rnechec:        1875
 solution finished. 
 
 
@@ -63,10 +63,10 @@ solution finished.
   1...Qa1-d4 Can't decide whether this move is refuted
 
 
-              empile:        5070
-           play_move:        4334
-        orig_rbechec:        2574
-        orig_rnechec:        2371
+              empile:        3052
+           play_move:        2356
+        orig_rbechec:        1537
+        orig_rnechec:        1371
 solution finished. 
 
 
@@ -97,10 +97,10 @@ solution finished.
             ExclusiveChess
 
 
-              empile:        5188
-           play_move:        4630
-        orig_rbechec:        1859
-        orig_rnechec:        3443
+              empile:        3136
+           play_move:        2609
+        orig_rbechec:        1228
+        orig_rnechec:        1993
 solution finished. 
 
 
@@ -131,10 +131,10 @@ solution finished.
             ExclusiveChess
 
 
-              empile:        3432
-           play_move:        2930
-        orig_rbechec:        1252
-        orig_rnechec:        2116
+              empile:        2060
+           play_move:        1576
+        orig_rbechec:         807
+        orig_rnechec:        1162
 solution finished. 
 
 
@@ -168,10 +168,10 @@ solution finished.
 
 
 
-              empile:        5158
-           play_move:        4378
-        orig_rbechec:        2692
-        orig_rnechec:        2293
+              empile:        3104
+           play_move:        2362
+        orig_rbechec:        1609
+        orig_rnechec:        1303
 solution finished. 
 
 

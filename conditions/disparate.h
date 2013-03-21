@@ -12,11 +12,13 @@
  */
 boolean disparate_can_piece_move(square sq);
 
-/* Can a piece deliver check according to Disparate chess
+/* Validate an observation according to Disparate chess
  * @param sq_departure position of the piece
  * @param sq_arrival arrival square of the capture to be threatened
  * @param sq_capture typically the position of the opposite king
  */
-boolean eval_disparate(square sq_departure, square sq_arrival, square sq_capture);
+boolean disparate_validate_observation(square sq_observer,
+                                       square sq_landing,
+                                       square sq_observee);
 
 #endif

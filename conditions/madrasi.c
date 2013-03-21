@@ -2,6 +2,7 @@
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pydata.h"
 #include "solving/en_passant.h"
+#include "solving/observation.h"
 #include "conditions/einstein/en_passant.h"
 
 #include "debugging/trace.h"
@@ -34,9 +35,7 @@ static boolean is_ep_paralysed_on(piece p,
 
   return (ep[ply_dblstp]==sq || einstein_ep[ply_dblstp]==sq)
           && nbpiece[p]>0
-          && (*checkfunc)(sq,
-                          p,
-                          flaglegalsquare ? legalsquare : eval_ortho);
+          && (*checkfunc)(sq,p,observation_geometry_validator);
 }
 
 static boolean is_ep_paralysed(piece p, square sq)
@@ -100,9 +99,7 @@ boolean madrasi_is_observed(square sq)
     else if (nbpiece[-p]==0)
       result = false;
     else
-      result = (*checkfunctions[abs(p)])(sq,
-                                         -p,
-                                         (flaglegalsquare ? legalsquare : eval_ortho));
+      result = (*checkfunctions[abs(p)])(sq,-p,observation_geometry_validator);
 
     if (TSTFLAG(spec[sq],Neutral))
       initialise_neutrals(advers(neutral_side));
@@ -139,9 +136,7 @@ boolean madrasi_can_piece_move(square sq)
     else if (nbpiece[-p]==0)
       result = true;
     else
-      result = !(*checkfunctions[abs(p)])(sq,
-                                          -p,
-                                          (flaglegalsquare ? legalsquare : eval_ortho));
+      result = !(*checkfunctions[abs(p)])(sq,-p,observation_geometry_validator);
   }
 
   TraceFunctionExit(__func__);
@@ -155,16 +150,9 @@ boolean madrasi_can_piece_move(square sq)
  * @param sq_arrival arrival square of the capture to be threatened
  * @param sq_capture typically the position of the opposite king
  */
-boolean eval_madrasi(square sq_departure, square sq_arrival, square sq_capture)
+boolean madrasi_validate_observation(square sq_observer,
+                                     square sq_landing,
+                                     square sq_observee)
 {
-  if (flaglegalsquare
-      && !legalsquare(sq_departure,sq_arrival,sq_capture)) {
-    return false;
-  }
-  else {
-    return (!madrasi_is_observed(sq_departure)
-            &&  (!CondFlag[BGL] || eval_2(sq_departure,sq_arrival,sq_capture)));
-    /* is this just appropriate for BGL? in verifieposition eval_2 is set when madrasi is true,
-       but never seems to be used here or in libre */
-  }
+  return !madrasi_is_observed(sq_observer);
 }

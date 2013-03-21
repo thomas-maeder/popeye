@@ -3,8 +3,29 @@
 
 #include "utilities/boolean.h"
 #include "py.h"
+#include "pyproc.h"
 
 /* This module implements the condition Patrol Chess */
+
+/* Validate an observation according to Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean patrol_validate_observation(square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee);
+
+/* Validate an observation according to Ultra-Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean ultrapatrouille_validate_observation(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee);
 
 /* Determine whether a pice is supported, enabling it to capture
  * @param sq_departure position of the piece

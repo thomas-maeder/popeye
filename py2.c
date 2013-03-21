@@ -69,6 +69,7 @@
 #include "solving/solve.h"
 #include "solving/single_move_generator.h"
 #include "solving/en_passant.h"
+#include "solving/observation.h"
 #include "stipulation/temporary_hacks.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -1671,13 +1672,15 @@ boolean ubicheck(square    i,
 {
   square const *bnp;
 
-  if (evaluate == eval_madrasi) {
+  if (CondFlag[madras])
+  {
     for (bnp= boardnum; *bnp; bnp++) {
       e_ubi_mad[*bnp]= e[*bnp];
     }
     return rubiech(i, i, p, e_ubi_mad, evaluate);
   }
-  else {
+  else
+  {
     for (bnp= boardnum; *bnp; bnp++) {
       e_ubi[*bnp]= e[*bnp];
     }
@@ -2139,112 +2142,6 @@ boolean reversepcheck(square sq_king,
   return false;
 }
 
-boolean soutenu(square sq_departure, square sq_arrival, square sq_capture)
-{
-  piece p= 0;       /* avoid compiler warning */
-  boolean Result,
-          enemyobserveok=true,
-          friendobserveok=true,
-          testenemyobs=false,
-          testfriendobs=false,
-          testfriendanti;
-  evalfunction_t *evaluate;
-
-  if (CondFlag[central]) {
-    if ( sq_departure == king_square[White] || sq_departure == king_square[Black]) {
-      return true;
-    }
-    nbpiece[p= e[sq_departure]]--;
-    e[sq_departure]= (p > vide) ? dummyb : dummyn;
-    evaluate= soutenu;
-  }
-  else if (flaglegalsquare) {
-    if (!legalsquare(sq_departure,sq_arrival,sq_capture)) {
-      return false;
-    }
-    evaluate= legalsquare;
-  }
-  else if (CondFlag[madras] || CondFlag[eiffel]) {
-    if (!eval_madrasi(sq_departure,sq_arrival,sq_capture)) {
-      return false;
-    }
-    evaluate= eval_madrasi;
-  }
-  else if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (!paraechecc(sq_departure,sq_arrival,sq_capture)) {
-      return false;
-    }
-    evaluate= paraechecc;
-  }
-  else {
-    evaluate= eval_ortho;
-  }
-
-  /* logic rewritten to simplify new conditions and allow combinations
-   * interpretation here is:
-   * A piece with a special observation variant piece type will obey
-   * the types and not any conditions in force; all other pieces obey
-   * global conditions in force
-   * If there are both enemy-observation and friend-observation rules
-   * for a piece, it has to satisfy both
-   * This interpretation can be changed by altering logic here
-   * New variants e.g. Anti-Provacateurs and piece types not implemented
-   * yet but can be set up by setting up obs* flags in verifieposition
-   * and amending the macros below (in py.h)
-   *   enemy/friend determines if rule concerns observation by other/own side
-   *   anti true if should NOT be observed as in Lortap
-   *   ultra (see py4.c) true if observation applies also to non-capture moves
-   * two other conditions (central, shielded kings) also use this code */
-
-  if (TSTFLAG(PieSpExFlags,Beamtet) || TSTFLAG(PieSpExFlags,Patrol))
-  {
-    testenemyobs= TSTFLAG(spec[sq_departure], Beamtet);
-    testfriendobs= TSTFLAG(spec[sq_departure], Patrol);
-    if (testfriendobs)
-      testfriendanti = false;
-  }
-  if (!testenemyobs && !testfriendobs) {
-    testenemyobs= CondFlag[beamten] || CondFlag[provocateurs];
-    testfriendobs= CondFlag[patrouille] || CondFlag[central] || CondFlag[ultrapatrouille] || CondFlag[lortap] || CondFlag[shieldedkings];
-    testfriendanti= CondFlag[lortap];
-  }
-
-  if (testenemyobs)
-  {
-    Side const side = e[sq_departure]<=roin ? Black : White;
-    sq_arrival = king_square[side];
-    king_square[side] = sq_departure;
-    enemyobserveok = rechec[side](evaluate);
-    king_square[side] = sq_arrival;
-  }
-
-  if (testfriendobs)
-  {
-    Side const side = e[sq_departure]>=roib ? Black : White;
-    sq_arrival = king_square[side];
-    king_square[side] = sq_departure;
-    friendobserveok = testfriendanti ^ rechec[side](evaluate);
-    king_square[side] = sq_arrival;
-  }
-
-  Result = enemyobserveok && friendobserveok;
-
-  if (CondFlag[central])
-    nbpiece[e[sq_departure]= p]++;
-
-  return(Result);
-} /* soutenu */
-
-boolean eval_shielded(square sq_departure, square sq_arrival, square sq_capture) {
-  if ((sq_departure==king_square[Black] && sq_capture==king_square[White])
-      || (sq_departure==king_square[White] && sq_capture==king_square[Black])) {
-    return !soutenu(sq_capture,sq_departure,sq_departure);  /* won't work for locust Ks etc.*/
-  }
-  else {
-    return true;
-  }
-} /* eval_shielded */
-
 boolean edgehcheck(square   sq_king,
                    piece    p,
                    evalfunction_t *evaluate)
@@ -2463,74 +2360,6 @@ boolean b_hopcheck(square    i,
   return rhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-static Side guess_side_at_move(square sq_departure, square sq_capture)
-{
-  Side result;
-
-  /* the following does not suffice if we have neutral kings,
-     but we have no chance to recover the information who is to
-     move from sq_departure, sq_arrival and sq_capture.
-     TLi
-  */
-  if (TSTFLAG(PieSpExFlags,Neutral)
-      && king_square[White]!=initsquare
-      && TSTFLAG(spec[king_square[White]],Neutral))
-    /* will this do for neutral Ks? */
-    result = neutral_side;
-  else if (sq_capture==king_square[Black])
-    result = White;
-  else if (sq_capture==king_square[White])
-    result = Black;
-  else
-    result = e[sq_departure]<0 ? Black : White;
-
-  return result;
-}
-
-boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
-{
-  boolean result;
-  Side side;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  side = guess_side_at_move(sq_departure,sq_capture);
-
-  init_single_move_generator(sq_departure,sq_arrival,sq_capture);
-  result = solve(slices[temporary_hack_king_capture_legality_tester[side]].next2,length_unspecified)==next_move_has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture)
-{
-  boolean result;
-  Side side;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  side = guess_side_at_move(sq_departure,sq_capture);
-
-  init_single_move_generator(sq_departure,sq_arrival,sq_capture);
-  result = solve(slices[temporary_hack_brunner_check_defense_finder[side]].next2,length_unspecified)==next_move_has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean orixcheck(square sq_king,
                   piece p,
                   evalfunction_t *evaluate)
@@ -2732,10 +2561,10 @@ boolean pchincheck(square sq_king,
 
 square fromspecificsquare;
 
-boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture) {
-  return
-      sq_departure==fromspecificsquare
-      && (e[sq_departure]>vide ? eval_white : eval_black)(sq_departure,sq_arrival,sq_capture);
+boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture)
+{
+  return    sq_departure==fromspecificsquare
+         && validate_observation(sq_departure,sq_arrival,sq_capture);
 }
 
 boolean qlinesradialcheck(square    sq_king,

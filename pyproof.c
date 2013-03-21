@@ -32,6 +32,7 @@
 #include "solving/solve.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "solving/observation.h"
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
@@ -145,7 +146,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
     {
       WhKingMoves[sq]= -1;
       BlKingMoves[sq]= -1;    /* blocked */
-      if (eval_white == eval_ortho)
+      if (get_nr_observation_validators()==0)
       {
         BlKingMoves[sq+dir_up+dir_left]= -2;
         BlKingMoves[sq+dir_up+dir_right]= -2; /* guarded */
@@ -158,7 +159,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
     {
       BlKingMoves[sq]= -1;
       WhKingMoves[sq]= -1;    /* blocked */
-      if (eval_black == eval_ortho)
+      if (get_nr_observation_validators()==0)
       {
         WhKingMoves[sq+dir_down+dir_right]= -2;
         WhKingMoves[sq+dir_down+dir_left]= -2;    /* guarded */

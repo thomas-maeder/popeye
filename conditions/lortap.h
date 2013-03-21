@@ -6,11 +6,15 @@
 
 /* This module implements the condition Lortap */
 
-/* Determine whether a pice is supported, disabling it from capturing
- * @param sq_departure position of the piece
- * @return true iff the piece is supported
+/* Validate an observation according to Lortap
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
  */
-boolean lortap_is_supported(square sq_departure);
+boolean lortap_validate_observation(square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee);
 
 /* Try to solve in n half-moves.
  * @param si slice index

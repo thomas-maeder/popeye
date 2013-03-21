@@ -47,6 +47,7 @@
 #include "conditions/phantom.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
+#include "solving/observation.h"
 #include "conditions/einstein/en_passant.h"
 #include "conditions/annan.h"
 #include "debugging/trace.h"
@@ -266,6 +267,9 @@ boolean orig_rnechec(evalfunction_t *evaluate)
 {
   boolean result;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   INCREMENT_COUNTER(orig_rnechec);
 
   if (TSTFLAG(PieSpExFlags,Neutral))
@@ -278,6 +282,9 @@ boolean orig_rnechec(evalfunction_t *evaluate)
   else
     result = calc_rnechec(evaluate);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -305,14 +312,6 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     if (calc_reflective_king[White]) {
       boolean flag = true;
 
-      /* attempted bug fix - wrong eval function used to detect
-         if wK is checked; this code is a bit hacky but best attempt to
-         guess correct eval function to use, though only one is passed in*/
-      evalfunction_t *eval_ad = evaluate;
-      if (eval_white != eval_black)
-        eval_ad= (evaluate == eval_white) ? eval_black :
-            (evaluate == eval_black) ? eval_white : evaluate;
-
       calc_reflective_king[White] = false;
 
       if (!normaltranspieces[White] && echecc(White))
@@ -333,7 +332,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         {
           piece const ptrans_black = -*ptrans;
           if (nbpiece[ptrans_black]>0
-              && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,eval_ad))
+              && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate))
           {
             flag= false;
             if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate)) {
@@ -526,6 +525,9 @@ boolean orig_rbechec(evalfunction_t *evaluate)
 {
   boolean result;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   INCREMENT_COUNTER(orig_rbechec);
 
   if (TSTFLAG(PieSpExFlags,Neutral))
@@ -538,6 +540,9 @@ boolean orig_rbechec(evalfunction_t *evaluate)
   else
     result = calc_rbechec(evaluate);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -568,14 +573,6 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
       PieNam   *ptrans;
       boolean flag= true;
 
-      /* attempted bug fix - wrong eval function used to detect
-         if bK is checked; this code is a bit hacky but best attempt to
-         guess correct eval function to use, though only one is passed in */
-      evalfunction_t *eval_ad = evaluate;
-      if (eval_white != eval_black)
-        eval_ad= (evaluate == eval_white) ? eval_black :
-            (evaluate == eval_black) ? eval_white : evaluate;
-
       calc_reflective_king[Black] = false;
 
       if (!normaltranspieces[Black] && echecc(Black))
@@ -592,7 +589,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
       {
         for (ptrans= transmpieces[Black]; *ptrans; ptrans++) {
           if (nbpiece[*ptrans]>0
-              && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, eval_ad)) {
+              && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, evaluate)) {
             flag= false;
             if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate)) {
               calc_reflective_king[Black] = true;
@@ -782,46 +779,6 @@ boolean singleboxtype3_rbechec(evalfunction_t *evaluate)
   return promotionstried==0 && orig_rbechec(evaluate);
 }
 
-
-boolean rncircech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (sq_departure == (*circerenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)) {
-    return false;
-  }
-  else
-    return eval_2(sq_departure,sq_arrival,sq_capture);
-}
-
-boolean rbcircech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (sq_departure == (*circerenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)) {
-    return false;
-  }
-  else {
-    return eval_2(sq_departure,sq_arrival,sq_capture);
-  }
-}
-
-boolean rnimmunech(square sq_departure, square sq_arrival, square sq_capture) {
-  immrenroin= (*immunrenai)(e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White);
-
-  if ((e[immrenroin] != vide && sq_departure != immrenroin)) {
-    return false;
-  }
-  else {
-    return eval_2(sq_departure,sq_arrival,sq_capture);
-  }
-}
-
-boolean rbimmunech(square sq_departure, square sq_arrival, square sq_capture) {
-  immrenroib= (*immunrenai)(e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black);
-
-  if ((e[immrenroib] != vide && sq_departure != immrenroib)) {
-    return false;
-  }
-  else {
-    return eval_2(sq_departure,sq_arrival,sq_capture);
-  }
-}
-
 static boolean echecc_wh_extinction(void)
 {
   boolean result = false;
@@ -838,7 +795,7 @@ static boolean echecc_wh_extinction(void)
         break;
 
     king_square[White] = *bnp;
-    if (rechec[White](eval_white))
+    if (rechec[White](&validate_observation))
     {
       result = true;
       break;
@@ -867,7 +824,7 @@ static boolean echecc_bl_extinction(void)
         break;
 
     king_square[Black] = *bnp;
-    if (rechec[Black](eval_black))
+    if (rechec[Black](&validate_observation))
     {
       result = true;
       break;
@@ -883,7 +840,7 @@ static boolean echecc_wh_assassin(void)
 {
   square const *bnp;
 
-  if (rechec[White](eval_white))
+  if (rechec[White](&validate_observation))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -898,7 +855,7 @@ static boolean echecc_wh_assassin(void)
       square const rb_sic = king_square[White];
       king_square[White] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = rechec[White](eval_white);
+      flag = rechec[White](&validate_observation);
       CondFlag[circeassassin] = true;
       king_square[White] = rb_sic;
       if (flag)
@@ -913,7 +870,7 @@ static boolean echecc_bl_assassin(void)
 {
   square const *bnp;
 
-  if (rechec[Black](eval_black))
+  if (rechec[Black](&validate_observation))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -928,7 +885,7 @@ static boolean echecc_bl_assassin(void)
       square rn_sic = king_square[Black];
       king_square[Black] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = rechec[Black](eval_black);
+      flag = rechec[Black](&validate_observation);
       CondFlag[circeassassin] = true;
       king_square[Black] = rn_sic;
       if (flag)
@@ -941,7 +898,7 @@ static boolean echecc_bl_assassin(void)
 
 static boolean echecc_wh_bicolores(void)
 {
-  if (rechec[White](eval_white))
+  if (rechec[White](&validate_observation))
     return true;
   else
   {
@@ -949,7 +906,7 @@ static boolean echecc_wh_bicolores(void)
     square rn_sic = king_square[Black];
     king_square[Black] = king_square[White];
     CondFlag[bicolores] = false;
-    result = rechec[Black](eval_black);
+    result = rechec[Black](&validate_observation);
     CondFlag[bicolores] = true;
     king_square[Black] = rn_sic;
     return result;
@@ -958,7 +915,7 @@ static boolean echecc_wh_bicolores(void)
 
 static boolean echecc_bl_bicolores(void)
 {
-  if (rechec[Black](eval_black))
+  if (rechec[Black](&validate_observation))
     return true;
   else
   {
@@ -966,7 +923,7 @@ static boolean echecc_bl_bicolores(void)
     square rb_sic = king_square[White];
     king_square[White] = king_square[Black];
     CondFlag[bicolores] = false;
-    result = rechec[White](eval_white);
+    result = rechec[White](&validate_observation);
     CondFlag[bicolores] = true;
     king_square[White] = rb_sic;
     return result;
@@ -1004,7 +961,7 @@ boolean echecc(Side camp)
       else if (CondFlag[bicolores])
         result = echecc_wh_bicolores();
       else
-        result = CondFlag[antikings]!=rechec[White](eval_white);
+        result = CondFlag[antikings]!=rechec[White](&validate_observation);
     }
   }
   else /* camp==Black */
@@ -1032,7 +989,7 @@ boolean echecc(Side camp)
       else if (CondFlag[bicolores])
         result = echecc_bl_bicolores();
       else
-        result = CondFlag[antikings]!=rechec[Black](eval_black);
+        result = CondFlag[antikings]!=rechec[Black](&validate_observation);
     }
   }
 
@@ -1040,24 +997,6 @@ boolean echecc(Side camp)
 
   return result;
 } /* end of echecc */
-
-boolean testparalyse(square sq_departure, square sq_arrival, square sq_capture) {
-  if (flaglegalsquare && !legalsquare(sq_departure,sq_arrival,sq_capture))
-    return false;
-  else
-    return TSTFLAG(spec[sq_departure], Paralyse);
-}
-
-boolean paraechecc(square sq_departure, square sq_arrival, square sq_capture) {
-  if (TSTFLAG(spec[sq_departure], Paralyse)
-      || (flaglegalsquare && !legalsquare(sq_departure,sq_arrival,sq_capture)))
-  {
-    return false;
-  }
-  else {
-    return (!paralysiert(sq_departure));
-  }
-}
 
 static evalfunction_t *next_evaluate;
 
@@ -1106,133 +1045,6 @@ boolean bhuntcheck(square    i,
   /* always moves up (bishop), down (rook) !! */
   return ridcheck(i, 2, 2, p, evaluate)
       || ridcheck(i, 7, 8, p, evaluate);
-}
-
-static boolean AntiCirceEch(square sq_departure,
-                            square sq_arrival,
-                            square sq_capture,
-                            Side    camp)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  if (CondFlag[antisuper])
-  {
-    square const *bnp= boardnum;
-    while (!LegalAntiCirceMove(*bnp, sq_capture, sq_departure) && *bnp)
-      bnp++;
-    if (!(*bnp && LegalAntiCirceMove(*bnp, sq_capture, sq_departure)))
-      result = false;
-    else
-      result = eval_2(sq_departure,sq_arrival,sq_capture);
-  }
-  else
-  {
-    PieNam* acprompieces;
-
-    if (!TSTFLAG(spec[sq_departure],Royal)
-        && TSTFLAG(sq_spec[sq_capture],MagicSq)
-        && magic_square_type==magic_square_type2)
-      camp = advers(camp);
-
-    acprompieces= GetPromotingPieces(sq_departure,
-                                     e[sq_departure],
-                                     advers(camp),
-                                     spec[sq_departure],
-                                     sq_arrival,
-                                     e[sq_capture]);
-    if (acprompieces)
-    {
-      /* Pawn checking on last rank or football check on a/h file */
-      PieNam pprom= acprompieces[vide];
-      square    cren;
-      do {
-        cren= (*antirenai)(pprom, spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
-        pprom= acprompieces[pprom];
-      } while (!LegalAntiCirceMove(cren, sq_capture, sq_departure) && pprom != Empty);
-      if (!LegalAntiCirceMove(cren, sq_capture, sq_departure)
-          && pprom == Empty)
-        result = false;
-      else
-        result = eval_2(sq_departure,sq_arrival,sq_capture);
-    }
-    else
-    {
-      square cren= (*antirenai)(TSTFLAG(spec[sq_departure], Chameleon)
-                                ? champiece(e[sq_departure])
-                                : e[sq_departure],
-                                spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
-      if (!LegalAntiCirceMove(cren, sq_capture, sq_departure))
-        result = false;
-      else
-        result = eval_2(sq_departure,sq_arrival,sq_capture);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-} /* AntiCirceEch */
-
-boolean rnanticircech(square sq_departure, square sq_arrival, square sq_capture)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  result = AntiCirceEch(sq_departure, sq_arrival, sq_capture, Black);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean rbanticircech(square sq_departure, square sq_arrival, square sq_capture) {
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  result = AntiCirceEch(sq_departure, sq_arrival, sq_capture, White);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean rnsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (is_forwardpawn(abs(e[sq_departure])) && PromSq(White, sq_capture)) {
-    /* Pawn checking on last rank */
-    return next_singlebox_prom(Empty,White)!=Empty;
-  }
-  else {
-    return eval_2(sq_departure,sq_arrival,sq_capture);
-  }
-}
-
-boolean rbsingleboxtype1ech(square sq_departure, square sq_arrival, square sq_capture) {
-  if (is_forwardpawn(abs(e[sq_departure])) && PromSq(Black, sq_capture)) {
-    /* Pawn checking on last rank */
-    return next_singlebox_prom(Empty,Black)!=Empty;
-  }
-  else {
-    return eval_2(sq_departure,sq_arrival,sq_capture);
-  }
 }
 
 static boolean skycharcheck(piece  p,

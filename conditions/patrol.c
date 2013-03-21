@@ -4,7 +4,63 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
+
+/* Validate an observation according to Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean patrol_validate_observation(square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[patrouille] || TSTFLAG(spec[sq_observer],Patrol))
+    result = patrol_is_supported(sq_observer);
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Validate an observation according to Ultra-Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean ultrapatrouille_validate_observation(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  result = patrol_is_supported(sq_observer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Determine whether a pice is supported, enabling it to capture
  * @param sq_departure position of the piece
@@ -21,7 +77,7 @@ boolean patrol_is_supported(square sq_departure)
   TraceFunctionParamListEnd();
 
   king_square[opponent] = sq_departure;
-  result = rechec[opponent](eval_2);
+  result = rechec[opponent](observer_validator);
   king_square[opponent] = save_king_square;
 
   TraceFunctionExit(__func__);

@@ -22,7 +22,7 @@
 +---a---b---c---d---e---f---g---h---+
   h#2.5                       3 + 4
 
-  1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
+  1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 #
 
               empile:       34585
            play_move:       35576
@@ -55,7 +55,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1.5                       3 + 6
 
-  1...e3*d4   2.Sf7-e5 d4*e5 # 
+  1...e3*d4   2.Sf7-e5 d4*e5 #
 
               empile:         103
            play_move:         103
@@ -88,7 +88,7 @@ double check by en passant capture from above
 +---a---b---c---d---e---f---g---h---+
   h#1.5                       4 + 4
 
-  1...Bh6-g7 +   2.e7-e5 d5*e6 ep. # 
+  1...Bh6-g7 +   2.e7-e5 d5*e6 ep. #
 
               empile:         278
            play_move:         269
@@ -121,7 +121,7 @@ double check by en passant capture from below
 +---a---b---c---d---e---f---g---h---+
   h#1.5                       4 + 4
 
-  1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
+  1...Bb2-a3 +   2.c7-c5 d5*c6 ep. #
 
               empile:         720
            play_move:         670
@@ -154,7 +154,7 @@ interception of a defending pawn by a piece that doesn't guard
 +---a---b---c---d---e---f---g---h---+
   ser-#2                      3 + 4
 
-  1.Sc8-b6   2.Bh3-f1 # 
+  1.Sc8-b6   2.Bh3-f1 #
 
               empile:         110
            play_move:          93
@@ -187,7 +187,7 @@ guard with check -> selfpin with check -> selfpin with guard by s
 +---a---b---c---d---e---f---g---h---+
   h#0.5                       4 + 3
 
-  1...Rh1-h3 # 
+  1...Rh1-h3 #
 
               empile:         125
            play_move:         122
@@ -220,7 +220,7 @@ guard with check -> selfpin with check -> selfpin with guard by b
 +---a---b---c---d---e---f---g---h---+
   h#0.5                       4 + 3
 
-  1...Sh6-g4 # 
+  1...Sh6-g4 #
 
               empile:          25
            play_move:          25
@@ -254,7 +254,7 @@ in mate stipulations, it makes sense to pin a queen or rook by a
 +---a---b---c---d---e---f---g---h---+
   h#0.5                       2 + 4
 
-  1...Sc5-d3 # 
+  1...Sc5-d3 #
 
               empile:          24
            play_move:          23

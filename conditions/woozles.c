@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <stdlib.h>
@@ -56,14 +57,14 @@ static boolean aux_whx(square sq_departure,
     }
   }
 
-  return (flaglegalsquare ? legalsquare : eval_ortho)(sq_departure,sq_arrival,sq_capture);
+  return (*observation_geometry_validator)(sq_departure,sq_arrival,sq_capture);
 } /* aux_whx */
 
 static boolean aux_wh(square sq_departure,
                       square sq_arrival,
                       square sq_capture)
 {
-  if ((flaglegalsquare ? legalsquare : eval_ortho)(sq_departure,sq_arrival,sq_capture)) {
+  if ((*observation_geometry_validator)(sq_departure,sq_arrival,sq_capture)) {
     piece const p= e[sq_woo_from];
     return nbpiece[p]>0
         && (*checkfunctions[abs(p)])(sq_departure, e[sq_woo_from], aux_whx);
@@ -105,13 +106,17 @@ static boolean woohefflibre(square to, square from)
   return true;
 }
 
-boolean eval_wooheff(square sq_departure, square sq_arrival, square sq_capture) {
-  if (flaglegalsquare && !legalsquare(sq_departure,sq_arrival,sq_capture)) {
-    return false;
-  }
-  else {
-    return woohefflibre(sq_arrival, sq_departure);
-  }
+/* Validate an observation according to Woozles
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean woozles_heffalumps_validate_observation(square sq_observer,
+                                                square sq_landing,
+                                                square sq_observee)
+{
+  return woohefflibre(sq_landing,sq_observer);
 }
 
 static boolean is_not_illegal_capture(square sq_departure,

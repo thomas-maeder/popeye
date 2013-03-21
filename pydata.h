@@ -123,10 +123,6 @@ EXTERN  boolean  exist[PieceCount];
 EXTERN  boolean  promonly[PieceCount];
 EXTERN  boolean  is_football_substitute[PieceCount];
 
-EXTERN  evalfunction_t *eval_white;
-EXTERN  evalfunction_t *eval_2;
-EXTERN  evalfunction_t *eval_black;
-
 typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
 
 EXTERN  renaifunc circerenai, antirenai, marsrenai;
@@ -153,10 +149,6 @@ EXTERN  boolean         flagfee,
 			flaglegalsquare,
             change_moving_piece,
             supergenre ;
-
-
-EXTERN  square          cirrenroib, cirrenroin,
-			immrenroib, immrenroin;
 
 EXTERN  Flags           pprispec[maxply + 1];
 
@@ -1006,7 +998,8 @@ void enforce_piecename_uniqueness(void);
     /*180*/ "EchangeRoque",
     /*181*/ "BlancEchecsAlphabetiques",
     /*182*/ "NoirEchecsAlphabetiques",
-    /*183*/ "CirceTake&Make"
+    /*183*/ "CirceTake&Make",
+    /*184*/ "Supergardes"
   },{
     /* German Condition Names */
     /* 0*/  "RexInklusive",
@@ -1192,7 +1185,8 @@ void enforce_piecename_uniqueness(void);
     /*180*/ "PlatzwechselRochade",
     /*181*/ "WeissesAlphabetischesSchach",
     /*182*/ "SchwarzesAlphabetischesSchach",
-    /*183*/ "CirceTake&Make"
+    /*183*/ "CirceTake&Make",
+    /*184*/ "SuperDeckungen"
   },{
     /* English Condition Names */
     /* 0*/  "RexInclusive",
@@ -1378,7 +1372,8 @@ void enforce_piecename_uniqueness(void);
     /*180*/ "ExchangeCastling",
     /*181*/ "WhiteAlphabeticChess",
     /*182*/ "BlackAlphabeticChess",
-    /*183*/ "CirceTake&Make"
+    /*183*/ "CirceTake&Make",
+    /*184*/ "SuperGuards"
   }
 };
 #endif

@@ -21,10 +21,10 @@
 +---a---b---c---d---e---f---g---h---+
   hc815                       1 + 1
 
-  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=Q c81 
-  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=S c81 
-  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=R c81 
-  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=B c81 
+  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=Q c81
+  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=S c81
+  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=R c81
+  1.a7-a6 h2-h4   2.a6-a5 h4-h5   3.a5-a4 h5-h6   4.a4-a3 h6-h7   5.a3-a2 h7-h8=B c81
 
               empile:          99
            play_move:          94
@@ -102,10 +102,10 @@ both sides need a kingboth sides need a king
 +---a---b---c---d---e---f---g---h---+
   ser-hc812                   1 + 2
 
-  1.Sh5-f6   2.Sf6-g8 h7*g8=Q c81 
-  1.Sh5-f6   2.Sf6-g8 h7*g8=S c81 
-  1.Sh5-f6   2.Sf6-g8 h7*g8=R c81 
-  1.Sh5-f6   2.Sf6-g8 h7*g8=B c81 
+  1.Sh5-f6   2.Sf6-g8 h7*g8=Q c81
+  1.Sh5-f6   2.Sf6-g8 h7*g8=S c81
+  1.Sh5-f6   2.Sf6-g8 h7*g8=R c81
+  1.Sh5-f6   2.Sf6-g8 h7*g8=B c81
 
               empile:          40
            play_move:          61

@@ -1467,9 +1467,9 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/circe/turncoats.h conditions/circe/takemake.h \
  conditions/exclusive.h utilities/table.h position/position.h \
  conditions/ohneschach.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/immune.h \
- conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/monochrome.h conditions/bichrome.h \
+ conditions/owu/immobility_tester.h conditions/immune.h pyproc.h py4.h \
+ stipulation/goals/goals.h conditions/provocateurs.h conditions/lortap.h \
+ conditions/patrol.h conditions/monochrome.h conditions/bichrome.h \
  conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
@@ -1497,8 +1497,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/imitator.h conditions/football.h conditions/mummer.h \
  conditions/woozles.h conditions/nocapture.h conditions/nopromotion.h \
  conditions/geneva.h conditions/edgemover.h conditions/grid.h \
- conditions/take_and_make.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/take_and_make.h conditions/superguards.h optimisations/hash.h \
+ DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -1598,8 +1598,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  stipulation/goals/target/reached_tester.h \
  stipulation/help_play/adapter.h stipulation/move_player.h \
  stipulation/move_played.h stipulation/setplay_fork.h stipulation/pipe.h \
- debugging/trace.h debugging/measure.h pyproc.h py4.h \
- stipulation/goals/goals.h
+ debugging/trace.h debugging/measure.h
 
 solving/solve.h:
 
@@ -1718,6 +1717,12 @@ conditions/maff/immobility_tester.h:
 conditions/owu/immobility_tester.h:
 
 conditions/immune.h:
+
+pyproc.h:
+
+py4.h:
+
+stipulation/goals/goals.h:
 
 conditions/provocateurs.h:
 
@@ -1850,6 +1855,8 @@ conditions/edgemover.h:
 conditions/grid.h:
 
 conditions/take_and_make.h:
+
+conditions/superguards.h:
 
 optimisations/hash.h:
 
@@ -2140,12 +2147,6 @@ stipulation/pipe.h:
 debugging/trace.h:
 
 debugging/measure.h:
-
-pyproc.h:
-
-py4.h:
-
-stipulation/goals/goals.h:
 solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  solving/king_capture_avoider.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -2274,5 +2275,40 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
+
+debugging/trace.h:
+solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
+ pyproc.h py4.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h \
+ utilities/boolean.h utilities/enumeration.h pylang.h \
+ stipulation/goals/goals.h py.h debugging/trace.h
+
+solving/observation.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/goals/goals.h:
+
+py.h:
 
 debugging/trace.h:
