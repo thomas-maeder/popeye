@@ -1326,12 +1326,6 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (flaglegalsquare && CondFlag[volage])
-  {
-    VerifieMsg(SomeCondAndVolage);
-    return false;
-  }
-
   if (TSTFLAG(PieSpExFlags, Kamikaze))
   {
     optim_neutralretractable = false;

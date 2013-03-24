@@ -13,7 +13,7 @@
  12= renaicirce hors echiquier ?
  13= jeu apparent avec roi en echec ?
  14= pieces kamikazees + neutres ou pieces kamikazees + circe + pieces feeriques interdites.
- 15= echecs chromatiques ou echecs grille ou echecs koeko ou bordcoups ou neutre et volage incompatibles
+ 15= 
  16= on ne peut pas melanger minimum/maximum/duelliste/alphabetique et priseforce pour le meme camp
  17= \nle camp au trait peut prendre le roi
  18= on ne peut pas melanger monochromatique et bichromatique
