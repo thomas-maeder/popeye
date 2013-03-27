@@ -28,18 +28,8 @@ enum
  */
 stip_length_type bgl_filter_solve(slice_index si, stip_length_type n);
 
-/* Instrument slices with move tracers
+/* Initialise solving with BGL
  */
-void stip_insert_bgl_filters(slice_index si);
-
-/* Validate an observation according to BGL
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean BGL_validate_observation(square sq_observer,
-                                 square sq_landing,
-                                 square sq_observee);
+void bgl_initialise_solving(slice_index si);
 
 #endif

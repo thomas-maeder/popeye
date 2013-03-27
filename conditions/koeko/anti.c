@@ -3,11 +3,39 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <stdlib.h>
 
 nocontactfunc_t antikoeko_nocontact;
+
+
+/* Validate an observation according to Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+static boolean avoid_contact_while_observing(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  result = nocontact(sq_observer,sq_landing,sq_observee,antikoeko_nocontact);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -44,10 +72,10 @@ stip_length_type antikoeko_legality_tester_solve(slice_index si,
   return result;
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Inialise solving in Anti-Koeko
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_antikoeko(slice_index si)
+void antikoeko_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -56,6 +84,10 @@ void stip_insert_antikoeko(slice_index si)
   TraceStipulation(si);
 
   stip_instrument_moves(si,STAntiKoekoLegalityTester);
+
+  register_observer_validator(&avoid_contact_while_observing);
+  register_observation_geometry_validator(&avoid_contact_while_observing);
+  register_observation_validator(&avoid_contact_while_observing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

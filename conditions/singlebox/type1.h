@@ -7,16 +7,6 @@
 #include "solving/solve.h"
 #include "pyproc.h"
 
-/* Validate an observation according to Singlebox Type 1
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean singlebox_type1_validate_observation(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee);
-
 /* Determine the next legal single box promotee type
  * @param p type of previous promotee (vide if the first promotee type is to be
  *          found)
@@ -30,10 +20,10 @@ PieNam next_singlebox_prom(PieNam p, Side c);
  */
 boolean singlebox_type1_illegal(void);
 
-/* Instrument a stipulation
+/* Initialise solving in Singlebox Type 1
  * @param si identifies root slice of stipulation
  */
-void stip_insert_singlebox_type1(slice_index si);
+void singlebox_type1_initialise_solving(slice_index si);
 
 /* Try to solve in n half-moves.
  * @param si slice index

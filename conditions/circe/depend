@@ -1491,12 +1491,15 @@ solving/single_piece_move_generator.h:
 
 debugging/trace.h:
 conditions/circe/rex_inclusive$(OBJ_SUFFIX): conditions/circe/rex_inclusive.c \
- conditions/circe/rex_inclusive.h pyproc.h py4.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
- stipulation/goals/goals.h py.h pydata.h pyproc.h debugging/trace.h
+ conditions/circe/rex_inclusive.h pydata.h pyproc.h py4.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/goals/goals.h py.h \
+ debugging/trace.h
 
 conditions/circe/rex_inclusive.h:
+
+pydata.h:
 
 pyproc.h:
 
@@ -1523,9 +1526,5 @@ pylang.h:
 stipulation/goals/goals.h:
 
 py.h:
-
-pydata.h:
-
-pyproc.h:
 
 debugging/trace.h:

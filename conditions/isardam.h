@@ -24,14 +24,4 @@ void stip_insert_isardam_legality_testers(slice_index si);
 stip_length_type isardam_legality_tester_solve(slice_index si,
                                                 stip_length_type n);
 
-/* Validate an observation according to Isardam
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean isardam_validate_observation(square sq_observer,
-                                     square sq_landing,
-                                     square sq_observee);
-
 #endif

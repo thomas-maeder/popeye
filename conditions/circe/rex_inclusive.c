@@ -8,16 +8,13 @@
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean circe_rex_inclusive_validate_observation(square sq_observer,
-                                                 square sq_landing,
-                                                 square sq_observee)
+static boolean avoid_observation_of_rebirthable_king(square sq_observer,
+                                                     square sq_landing,
+                                                     square sq_observee)
 {
   boolean result;
   Side const moving = e[sq_observer]>vide ? White : Black;
   Side const opponent = advers(moving);
-  square const sq_rebirth = (*circerenai)(e[king_square[opponent]],spec[king_square[opponent]],
-                                          sq_observee,sq_observer,sq_landing,
-                                          moving);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -25,10 +22,31 @@ boolean circe_rex_inclusive_validate_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = sq_observer!=sq_rebirth;
+  if (sq_observee==king_square[opponent])
+  {
+    square const sq_rebirth = (*circerenai)(e[sq_observee],spec[sq_observee],
+                                            sq_observee,sq_observer,sq_landing,
+                                            moving);
+    result = e[sq_rebirth]!=vide && sq_observer!=sq_rebirth;
+  }
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Inialise solving in Circe rex inclusive
+ */
+void circe_rex_inclusive_initialise_solving(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  register_observation_validator(&avoid_observation_of_rebirthable_king);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

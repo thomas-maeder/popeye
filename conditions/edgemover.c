@@ -4,7 +4,12 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
+
+#include <assert.h>
+
+static Cond const side2cond[nr_sides] = { whiteedge, blackedge };
 
 static boolean does_not_go_to_the_edge(square sq_departure,
                                        square sq_arrival,
@@ -19,6 +24,30 @@ static boolean does_not_go_to_the_edge(square sq_departure,
   TraceFunctionParamListEnd();
 
   result = !NoEdge(sq_arrival);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean avoid_observation_not_to_edge(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee)
+{
+  boolean result;
+  Side const side_observing = e[sq_observer]>vide ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[side2cond[side_observing]])
+    result = !NoEdge(sq_landing);
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -100,6 +129,10 @@ void stip_insert_edgemover(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observer_validator(&avoid_observation_not_to_edge);
+  register_observation_geometry_validator(&avoid_observation_not_to_edge);
+  register_observation_validator(&avoid_observation_not_to_edge);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

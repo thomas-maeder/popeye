@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 static boolean is_not_in_same_cell(square sq_departure,
@@ -19,6 +20,32 @@ static boolean is_not_in_same_cell(square sq_departure,
   TraceFunctionParamListEnd();
 
   result = GridLegal(sq_departure,sq_arrival);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Validate an observation according to Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+static boolean enforce_grid_while_observing(square sq_observer,
+                                            square sq_landing,
+                                            square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  result = GridLegal(sq_observer,sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,10 +103,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Inialise solving in Grid Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_grid(slice_index si)
+void grid_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -94,6 +121,10 @@ void stip_insert_grid(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observer_validator(&enforce_grid_while_observing);
+  register_observation_geometry_validator(&enforce_grid_while_observing);
+  register_observation_validator(&enforce_grid_while_observing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

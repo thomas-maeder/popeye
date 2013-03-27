@@ -90,7 +90,7 @@ boolean eiffel_can_piece_move(square sq)
     result = (nbpiece[eiffel_piece]==0
               || !(*checkfunctions[abs(eiffel_piece)])(sq,
                                                        eiffel_piece,
-                                                       observation_geometry_validator));
+                                                       &validate_observation_geometry));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,15 +98,9 @@ boolean eiffel_can_piece_move(square sq)
   return result;
 }
 
-/* Can a piece deliver check according to Eiffel chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean eiffel_validate_observation(square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee)
+static boolean avoid_observation_by_paralysed(square sq_observer,
+                                              square sq_landing,
+                                              square sq_observee)
 {
   piece const p = e[sq_observer];
   boolean result = true;
@@ -127,7 +121,7 @@ boolean eiffel_validate_observation(square sq_observer,
     result = (nbpiece[eiffel_piece]==0
               || !(*checkfunctions[abs(eiffel_piece)])(sq_observer,
                                                        eiffel_piece,
-                                                       observation_geometry_validator));
+                                                       &validate_observation_geometry));
 
   if (TSTFLAG(spec[sq_observer],Neutral))
     initialise_neutrals(advers(neutral_side));
@@ -136,4 +130,18 @@ boolean eiffel_validate_observation(square sq_observer,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Inialise solving in Eiffel Chess
+ */
+void eiffel_initialise_solving(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  register_observer_validator(&avoid_observation_by_paralysed);
+  register_observation_validator(&avoid_observation_by_paralysed);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

@@ -35,7 +35,7 @@ static boolean is_ep_paralysed_on(piece p,
 
   return (ep[ply_dblstp]==sq || einstein_ep[ply_dblstp]==sq)
           && nbpiece[p]>0
-          && (*checkfunc)(sq,p,observation_geometry_validator);
+          && (*checkfunc)(sq,p,&validate_observation_geometry);
 }
 
 static boolean is_ep_paralysed(piece p, square sq)
@@ -99,7 +99,7 @@ boolean madrasi_is_observed(square sq)
     else if (nbpiece[-p]==0)
       result = false;
     else
-      result = (*checkfunctions[abs(p)])(sq,-p,observation_geometry_validator);
+      result = (*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
 
     if (TSTFLAG(spec[sq],Neutral))
       initialise_neutrals(advers(neutral_side));
@@ -136,7 +136,7 @@ boolean madrasi_can_piece_move(square sq)
     else if (nbpiece[-p]==0)
       result = true;
     else
-      result = !(*checkfunctions[abs(p)])(sq,-p,observation_geometry_validator);
+      result = !(*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
   }
 
   TraceFunctionExit(__func__);
@@ -150,9 +150,23 @@ boolean madrasi_can_piece_move(square sq)
  * @param sq_arrival arrival square of the capture to be threatened
  * @param sq_capture typically the position of the opposite king
  */
-boolean madrasi_validate_observation(square sq_observer,
-                                     square sq_landing,
-                                     square sq_observee)
+static boolean avoid_observation_by_paralysed(square sq_observer,
+                                              square sq_landing,
+                                              square sq_observee)
 {
   return !madrasi_is_observed(sq_observer);
+}
+
+/* Inialise solving in Madrasi
+ */
+void madrasi_initialise_solving(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  register_observer_validator(&avoid_observation_by_paralysed);
+  register_observation_validator(&avoid_observation_by_paralysed);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

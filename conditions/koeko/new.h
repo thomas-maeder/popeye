@@ -36,9 +36,9 @@ stip_length_type newkoeko_remember_contact_solve(slice_index si,
  */
 stip_length_type newkoeko_legality_tester_solve(slice_index si, stip_length_type n);
 
-/* Instrument the solvers with New-Koeko
+/* Initialise solving in New-Koeko
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_newkoeko(slice_index si);
+void newkoeko_initialise_solving(slice_index si);
 
 #endif

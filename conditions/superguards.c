@@ -7,15 +7,9 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-/* Validate an observation according to Superguards
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean superguards_validate_observation(square sq_observer,
-                                         square sq_landing,
-                                         square sq_observee)
+static boolean avoid_observing_guarded(square sq_observer,
+                                       square sq_landing,
+                                       square sq_observee)
 {
   boolean result;
   Side const side_moving = e[sq_observer]>vide ? White : Black;
@@ -28,7 +22,7 @@ boolean superguards_validate_observation(square sq_observer,
   TraceFunctionParamListEnd();
 
   king_square[side_moving] = sq_observee;
-  result = !rechec[side_moving](observer_validator);
+  result = !rechec[side_moving](&validate_observer);
   king_square[side_moving] = save_king_square;
 
   TraceFunctionExit(__func__);
@@ -52,7 +46,7 @@ static boolean move_is_legal(square sq_observer,
   if (e[sq_observee]==vide)
     result = true;
   else
-    result = superguards_validate_observation(sq_observer,sq_landing,sq_observee);
+    result = avoid_observing_guarded(sq_observer,sq_landing,sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -110,10 +104,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Superguards
+/* Initialise solving in Superguards
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_superguards(slice_index si)
+void superguards_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -128,6 +122,8 @@ void stip_insert_superguards(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observation_validator(&avoid_observing_guarded);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -5,6 +5,7 @@
 
 /* This module implements the condition Bichrome Chess */
 
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -21,9 +22,9 @@
 stip_length_type bichrome_remove_monochrome_moves_solve(slice_index si,
                                                         stip_length_type n);
 
-/* Instrument the solvers with Bichrome Chess
+/* Initialise solving in Bichrome Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_bichrome(slice_index si);
+void bichrome_initialise_solving(slice_index si);
 
 #endif

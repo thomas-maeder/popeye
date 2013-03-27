@@ -9,9 +9,36 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
+
+/* Validate an observation according to Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+static boolean enforce_contact_while_observing(square sq_observer,
+                                               square sq_landing,
+                                               square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  result = !nocontact(sq_observer,sq_landing,sq_observee,&nogridcontact);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -99,10 +126,10 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
+/* Initialise solving in Contact Grid Chess
  * @param si identifies root slice of stipulation
  */
-void stip_insert_contact_grid(slice_index si)
+void contact_grid_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -120,6 +147,10 @@ void stip_insert_contact_grid(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_moves(si,STGridContactLegalityTester);
+
+  register_observer_validator(&enforce_contact_while_observing);
+  register_observation_geometry_validator(&enforce_contact_while_observing);
+  register_observation_validator(&enforce_contact_while_observing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

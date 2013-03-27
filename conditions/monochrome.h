@@ -21,9 +21,9 @@
 stip_length_type monochrome_remove_bichrome_moves_solve(slice_index si,
                                                         stip_length_type n);
 
-/* Instrument the solvers with Monochrome Chess
+/* Initialise solving in Monochrome Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_monochrome(slice_index si);
+void monochrome_initialise_solving(slice_index si);
 
 #endif

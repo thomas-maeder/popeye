@@ -216,7 +216,7 @@ pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- debugging/trace.h
+ solving/observation.h pyproc.h debugging/trace.h
 
 pieces/attributes/jigger.h:
 
@@ -267,6 +267,10 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move.h:
+
+solving/observation.h:
+
+pyproc.h:
 
 debugging/trace.h:
 pieces/attributes/uncapturable$(OBJ_SUFFIX): pieces/attributes/uncapturable.c \

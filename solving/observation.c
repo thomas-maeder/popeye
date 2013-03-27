@@ -3,17 +3,136 @@
 
 #include <assert.h>
 
-evalfunction_t *observation_geometry_validator;
-
-evalfunction_t *observer_validator;
 
 enum
 {
   observation_validators_capacity = 10
 };
 
-static evalfunction_t *observation_validators[observation_validators_capacity];
+static evalfunction_t *observation_geometry_validators[observation_validators_capacity];
+static unsigned int nr_observation_geometry_validators;
 
+/* Forget about the observation validators registered in a previous round of
+ * solving.
+ */
+void reset_observation_geometry_validators(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nr_observation_geometry_validators = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Register an observation validator for the next round of solving
+ * @param validator validator to be registered
+ */
+void register_observation_geometry_validator(evalfunction_t *validator)
+{
+  assert(nr_observation_geometry_validators<observation_validators_capacity);
+  observation_geometry_validators[nr_observation_geometry_validators] = validator;
+  ++nr_observation_geometry_validators;
+}
+
+/* Validate an observation
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean validate_observation_geometry(square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee)
+{
+  boolean result = true;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nr_observation_geometry_validators);
+
+  for (i = 0; i!=nr_observation_geometry_validators; ++i)
+    if (!(*observation_geometry_validators[i])(sq_observer,sq_landing,sq_observee))
+    {
+      result = false;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static evalfunction_t *observer_validators[observation_validators_capacity];
+static unsigned int nr_observer_validators;
+
+/* Forget about the observer validators registered in a previous round of
+ * solving.
+ */
+void reset_observer_validators(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nr_observer_validators = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Register an observer validator for the next round of solving
+ * @param validator validator to be registered
+ */
+void register_observer_validator(evalfunction_t *validator)
+{
+  assert(nr_observer_validators<observation_validators_capacity);
+  observer_validators[nr_observer_validators] = validator;
+  ++nr_observer_validators;
+}
+
+/* Validate an observation
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean validate_observer(square sq_observer,
+                          square sq_landing,
+                          square sq_observee)
+{
+  boolean result = true;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nr_observer_validators);
+
+  for (i = 0; i!=nr_observer_validators; ++i)
+    if (!(*observer_validators[i])(sq_observer,sq_landing,sq_observee))
+    {
+      result = false;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+static evalfunction_t *observation_validators[observation_validators_capacity];
 static unsigned int nr_observation_validators;
 
 /* Forget about the observation validators registered in a previous round of

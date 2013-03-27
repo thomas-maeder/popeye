@@ -24,9 +24,9 @@ extern boolean rex_geneva;
 stip_length_type geneva_remove_illegal_captures_solve(slice_index si,
                                                       stip_length_type n);
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Geneva Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_geneva(slice_index si);
+void geneva_initialise_solving(slice_index si);
 
 #endif

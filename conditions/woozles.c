@@ -11,7 +11,6 @@
 
 static square  sq_woo_from;
 static square  sq_woo_to;
-static Side col_woo;
 
 static boolean aux_whx(square sq_departure,
                        square sq_arrival,
@@ -57,17 +56,18 @@ static boolean aux_whx(square sq_departure,
     }
   }
 
-  return (*observation_geometry_validator)(sq_departure,sq_arrival,sq_capture);
+  return validate_observation_geometry(sq_departure,sq_arrival,sq_capture);
 } /* aux_whx */
 
 static boolean aux_wh(square sq_departure,
                       square sq_arrival,
                       square sq_capture)
 {
-  if ((*observation_geometry_validator)(sq_departure,sq_arrival,sq_capture)) {
-    piece const p= e[sq_woo_from];
+  if (validate_observation_geometry(sq_departure,sq_arrival,sq_capture))
+  {
+    piece const p = e[sq_woo_from];
     return nbpiece[p]>0
-        && (*checkfunctions[abs(p)])(sq_departure, e[sq_woo_from], aux_whx);
+        && (*checkfunctions[abs(p)])(sq_departure,e[sq_woo_from],&aux_whx);
   }
   else
     return false;
@@ -76,31 +76,26 @@ static boolean aux_wh(square sq_departure,
 static boolean woohefflibre(square to, square from)
 {
   PieNam *pcheck;
-  piece p;
+  Side const col_woo = e[from]>vide ? White : Black;
 
-  if (rex_wooz_ex && (from == king_square[White] || from == king_square[Black])) {
+  if (rex_wooz_ex && from==king_square[col_woo])
     return true;
-  }
 
-  sq_woo_from= from;
-  sq_woo_to= to;
-  col_woo= e[from] > vide ? White : Black;
+  sq_woo_from = from;
+  sq_woo_to = to;
 
   pcheck = transmpieces[White];
   if (rex_wooz_ex)
-    pcheck++;
+    ++pcheck;
 
-  while (*pcheck) {
-    if (CondFlag[biwoozles] != (col_woo==Black)) {
-      p= -*pcheck;
-    }
-    else {
-      p= *pcheck;
-    }
-    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(from, p, aux_wh)) {
+  while (*pcheck)
+  {
+    piece const p = CondFlag[biwoozles]!=(col_woo==Black) ? -*pcheck : *pcheck;
+
+    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(from,p,&aux_wh))
       return false;
-    }
-    pcheck++;
+    else
+      ++pcheck;
   }
 
   return true;
@@ -112,7 +107,7 @@ static boolean woohefflibre(square to, square from)
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean woozles_heffalumps_validate_observation(square sq_observer,
+static boolean woozles_heffalumps_validate_observation(square sq_observer,
                                                 square sq_landing,
                                                 square sq_observee)
 {
@@ -190,10 +185,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Instrument solving in Woozles
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_woozles(slice_index si)
+void woozles_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -208,6 +203,8 @@ void stip_insert_woozles(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observation_validator(&woozles_heffalumps_validate_observation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -244,8 +244,6 @@ void    gubin(square a, square b);
 void    hardinit(void);
 boolean imok(square i, square j);
 
-boolean legalsquare(square departure, square arrival, square capture);
-
 void copyply(void);
 void finply(void);
 void nextply(void);

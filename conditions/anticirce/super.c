@@ -8,6 +8,7 @@
 #include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
+#include "solving/observation.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
@@ -18,13 +19,13 @@ static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
 static boolean is_rebirth_square_dirty[maxply+1];
 
-static square next_rebirth_square(void)
+static square next_rebirth_square(square beyond_prev_rebirth_square)
 {
   square const sq_capture = move_generation_stack[current_move[nbply]].capture;
   piece const pi_captured = e[sq_capture];
-  square result = current_anticirce_rebirth_square[nbply]+1;
+  square result = beyond_prev_rebirth_square;
 
-  /* TODO simplify relation to Chelan type */
+  /* TODO simplify relation to Cheylan type */
   e[sq_capture] = vide;
 
   while (e[result]!=vide && result<=square_h8)
@@ -43,7 +44,7 @@ static boolean advance_rebirth_square()
   TraceFunctionParamListEnd();
 
   {
-    square const next = next_rebirth_square();
+    square const next = next_rebirth_square(current_anticirce_rebirth_square[nbply]+1);
     if (next>square_h8)
     {
       current_anticirce_rebirth_square[nbply] = square_a1;
@@ -117,10 +118,10 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
   return result;
 }
 
-/* Instrument a stipulation
+/* Initialise solving in Antisupercirce
  * @param si identifies root slice of stipulation
  */
-void stip_insert_antisupercirce(slice_index si)
+void antisupercirce_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

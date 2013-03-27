@@ -108,7 +108,7 @@ EXTERN piece pjoue[maxply+1];
 EXTERN piece pprise[maxply+1];
 EXTERN PieNam current_promotion_of_capturee[maxply+1];
 
-EXTERN  boolean			rex_mad,rex_circe,rex_immun,
+EXTERN  boolean			rex_mad,rex_circe,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];
 
@@ -146,7 +146,6 @@ EXTERN  enum
 
 EXTERN  pileside     trait;
 EXTERN  boolean         flagfee,
-			flaglegalsquare,
             change_moving_piece,
             supergenre ;
 

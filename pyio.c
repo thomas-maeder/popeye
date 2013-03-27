@@ -669,7 +669,7 @@ static void WriteConditions(int alignment)
     if ((cond == madras && rex_mad)
         || (cond == phantom && phantom_chess_rex_inclusive)
         || (cond == geneva && rex_geneva)
-        || (rex_immun
+        || (immune_is_rex_inclusive
             && (cond == immun
                 || cond == immunmalefique
                 || cond == immundiagramm))
@@ -5285,7 +5285,7 @@ static char *ParseCond(void)
       case immun:
       case immunmalefique:
       case immundiagramm:
-        tok = ParseRex(&rex_immun, rexincl);
+        tok = ParseRex(&immune_is_rex_inclusive, rexincl);
         break;
       case chamcirce:
         ReadChameleonCirceSequence();

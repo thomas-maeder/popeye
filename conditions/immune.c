@@ -4,9 +4,40 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 square (*immunrenai)(piece, Flags, square, square, square, Side);
+
+boolean immune_is_rex_inclusive;
+
+static boolean is_capturee_immune(Side side_capturing,
+                                  square sq_departure,
+                                  square sq_arrival,
+                                  square sq_capture)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  {
+    square const sq_rebirth = (*immunrenai)(e[sq_capture],spec[sq_capture],
+                                            sq_capture,
+                                            sq_departure,
+                                            sq_arrival,
+                                            side_capturing);
+    result = sq_rebirth!=sq_departure && e[sq_rebirth]!=vide;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Validate an observation according to Immune Chess
  * @param sq_observer position of the observer
@@ -14,16 +45,12 @@ square (*immunrenai)(piece, Flags, square, square, square, Side);
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean immune_validate_observation(square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee)
+static boolean avoid_observing_immune(square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee)
 {
   boolean result;
-  Side const moving = e[sq_observer]>vide ? White : Black;
-  Side const opponent = advers(moving);
-  square const sq_rebirth = (*immunrenai)(e[king_square[opponent]],spec[king_square[opponent]],
-                                          sq_observee,sq_observer,sq_landing,
-                                          moving);
+  Side const side_observing = e[sq_observer]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -31,7 +58,7 @@ boolean immune_validate_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = e[sq_rebirth]==vide || sq_observer==sq_rebirth;
+  result = !is_capturee_immune(side_observing,sq_observer,sq_landing,sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -54,14 +81,7 @@ static boolean is_not_capture_of_immune(square sq_departure,
   if (e[sq_capture]==vide)
     result = true;
   else
-  {
-    square const sq_rebirth = (*immunrenai)(e[sq_capture],spec[sq_capture],
-                                            sq_capture,
-                                            sq_departure,
-                                            sq_arrival,
-                                            trait[nbply]);
-    result = sq_rebirth==sq_departure || e[sq_rebirth]==vide;
-  }
+    result = !is_capturee_immune(trait[nbply],sq_departure,sq_arrival,sq_capture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -119,10 +139,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Immune Chess
+/* Initialise solving in Immune Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_immune(slice_index si)
+void immune_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -137,6 +157,10 @@ void stip_insert_immune(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+
+  if (immune_is_rex_inclusive)
+    register_observation_validator(&avoid_observing_immune);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

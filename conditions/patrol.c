@@ -13,9 +13,9 @@
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean patrol_validate_observation(square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee)
+static boolean is_not_patrol_or_supported_capture(square sq_observer,
+                                                  square sq_landing,
+                                                  square sq_observee)
 {
   boolean result;
 
@@ -29,32 +29,6 @@ boolean patrol_validate_observation(square sq_observer,
     result = patrol_is_supported(sq_observer);
   else
     result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Validate an observation according to Ultra-Patrol Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean ultrapatrouille_validate_observation(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  result = patrol_is_supported(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -77,7 +51,7 @@ boolean patrol_is_supported(square sq_departure)
   TraceFunctionParamListEnd();
 
   king_square[opponent] = sq_departure;
-  result = rechec[opponent](observer_validator);
+  result = rechec[opponent](&validate_observer);
   king_square[opponent] = save_king_square;
 
   TraceFunctionExit(__func__);
@@ -86,9 +60,9 @@ boolean patrol_is_supported(square sq_departure)
   return result;
 }
 
-static boolean is_not_unsupported_capture(square sq_departure,
-                                          square sq_arrival,
-                                          square sq_capture)
+static boolean is_not_unsupported_patrol_capture(square sq_departure,
+                                                 square sq_arrival,
+                                                 square sq_capture)
 {
   boolean result;
 
@@ -98,9 +72,10 @@ static boolean is_not_unsupported_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(e[sq_capture]!=vide
-             && TSTFLAG(spec[sq_departure],Patrol)
-             && !patrol_is_supported(sq_departure));
+  if (e[sq_capture]==vide)
+    result = true;
+  else
+    result = is_not_patrol_or_supported_capture(sq_departure,sq_arrival,sq_capture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -131,7 +106,7 @@ stip_length_type patrol_remove_unsupported_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_unsupported_capture);
+  move_generator_filter_moves(&is_not_unsupported_patrol_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -158,10 +133,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_patrol(slice_index si)
+void patrol_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -177,6 +152,41 @@ void stip_insert_patrol(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
+  register_observation_validator(&is_not_patrol_or_supported_capture);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Validate an observation according to Ultra-Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+static boolean avoid_unsupported_observation(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  result = patrol_is_supported(sq_observer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise solving in Ultra-Patrol Chess
+ */
+void ultrapatrol_initialise_solving(void)
+{
+  register_observation_validator(&avoid_unsupported_observation);
 }

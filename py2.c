@@ -82,59 +82,6 @@ boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
   return true;
 }
 
-boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
-  if (CondFlag[koeko]) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture, koeko_nocontact))
-      return(false);
-  }
-  if (CondFlag[antikoeko]) {
-    if (!nocontact(sq_departure,sq_arrival,sq_capture, antikoeko_nocontact))
-      return(false);
-  }
-  if (CondFlag[gridchess]) {
-    if (!GridLegal(sq_departure, sq_arrival))
-      return(false);
-  }
-  if (CondFlag[blackedge]) {
-    if (e[sq_departure] <= roin)
-      if (NoEdge(sq_arrival))
-        return(false);
-  }
-  if (CondFlag[whiteedge]) {
-    if (e[sq_departure] >= roib)
-      if (NoEdge(sq_arrival))
-        return(false);
-  }
-  if (CondFlag[bichro]) {
-    if (SquareCol(sq_departure) == SquareCol(sq_arrival))
-      return(false);
-  }
-  if (CondFlag[monochro]) {
-    if (SquareCol(sq_departure) != SquareCol(sq_arrival))
-      return(false);
-  }
-  if (TSTFLAG(spec[sq_departure], Jigger)) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact))
-      return(false);
-  }
-  if (CondFlag[newkoeko]) {
-    if (nocontact(sq_departure,sq_arrival,sq_capture,nokingcontact)
-        != nocontact(initsquare,sq_departure,initsquare,nokingcontact))
-    {
-      return false;
-    }
-  }
-  if (anygeneva) {
-    if ((e[sq_capture] <= roin) && (rex_geneva || (sq_departure != king_square[White])))
-      if (e[rennormal(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,Black)] != vide)
-        return(false);
-    if ((e[sq_capture] >= roib) && (rex_geneva || (sq_departure != king_square[Black])))
-      if (e[rennormal(e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,White)] != vide)
-        return(false);
-  }
-  return(true);
-} /* end of legalsquare */
-
 boolean imok(square i, square j)
 {
   /* move i->j ok? */

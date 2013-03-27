@@ -5,16 +5,6 @@
 
 /* This module implements the condition Woozles */
 
-/* Validate an observation according to Woozles
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean woozles_heffalumps_validate_observation(square sq_observer,
-                                                square sq_landing,
-                                                square sq_observee);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -31,9 +21,9 @@ boolean woozles_heffalumps_validate_observation(square sq_observer,
 stip_length_type woozles_remove_illegal_captures_solve(slice_index si,
                                                        stip_length_type n);
 
-/* Instrument the solvers with Patrol Chess
+/* Instrument solving in Woozles
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_woozles(slice_index si);
+void woozles_initialise_solving(slice_index si);
 
 #endif

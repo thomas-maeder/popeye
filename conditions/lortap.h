@@ -6,16 +6,6 @@
 
 /* This module implements the condition Lortap */
 
-/* Validate an observation according to Lortap
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean lortap_validate_observation(square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -32,9 +22,9 @@ boolean lortap_validate_observation(square sq_observer,
 stip_length_type lortap_remove_supported_captures_solve(slice_index si,
                                                         stip_length_type n);
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Lortap
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_lortap(slice_index si);
+void lortap_initialise_solving(slice_index si);
 
 #endif

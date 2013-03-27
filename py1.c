@@ -306,7 +306,7 @@ void InitCond(void)
   flagparasent= false;
   rex_mad = false;
   rex_circe = false;
-  rex_immun = false;
+  immune_is_rex_inclusive = false;
   phantom_chess_rex_inclusive = false;
   rex_geneva =false;
   rex_mess_ex = false;

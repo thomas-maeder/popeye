@@ -37,9 +37,9 @@ stip_length_type contact_grid_legality_tester_solve(slice_index si,
 stip_length_type contact_grid_avoid_circe_rebirth(slice_index si,
                                                   stip_length_type n);
 
-/* Instrument a stipulation
+/* Initialise solving in Contact Grid Chess
  * @param si identifies root slice of stipulation
  */
-void stip_insert_contact_grid(slice_index si);
+void contact_grid_initialise_solving(slice_index si);
 
 #endif

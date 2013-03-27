@@ -3,29 +3,8 @@
 
 #include "utilities/boolean.h"
 #include "py.h"
-#include "pyproc.h"
 
-/* This module implements the condition Patrol Chess */
-
-/* Validate an observation according to Patrol Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean patrol_validate_observation(square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee);
-
-/* Validate an observation according to Ultra-Patrol Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean ultrapatrouille_validate_observation(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee);
+/* This module implements the conditions Patrol Chess and Ultra-Patro Chess */
 
 /* Determine whether a pice is supported, enabling it to capture
  * @param sq_departure position of the piece
@@ -49,9 +28,13 @@ boolean patrol_is_supported(square sq_departure);
 stip_length_type patrol_remove_unsupported_captures_solve(slice_index si,
                                                           stip_length_type n);
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_patrol(slice_index si);
+void patrol_initialise_solving(slice_index si);
+
+/* Initialise solving in Ultra-Patrol Chess
+ */
+void ultrapatrol_initialise_solving(void);
 
 #endif

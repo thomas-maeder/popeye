@@ -12,6 +12,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -440,41 +441,6 @@ static void connect_solver_to_tester(slice_index si, stip_structure_traversal *s
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void stip_insert_mummer(slice_index si)
-{
-  instrumentation_state_type state = { false, no_side };
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_impose_starter(si,slices[si].starter);
-
-  stip_structure_traversal_init(&st,&state);
-
-  /* instrumentation for regular mummer */
-  stip_structure_traversal_override_single(&st,STMoveGenerator,&instrument_move_generator);
-  stip_structure_traversal_override_single(&st,STMummerOrchestrator,&spin_off_measuring_branch);
-  stip_structure_traversal_override_single(&st,STMummerDeadend,&connect_solver_to_tester);
-
-  if (mummer_strictness[White]!=mummer_strictness_ultra
-      && mummer_strictness[Black]!=mummer_strictness_ultra)
-    stip_structure_traversal_override_single(&st,STImmobilityTester,&stip_structure_visitor_noop);
-
-  /* additional instrumentation for ultra mummer */
-  stip_structure_traversal_override_single(&st,STUltraMummerMeasurerFork,&instrument_ultra_mummer_measurer_fork);
-
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -530,13 +496,7 @@ static boolean eval_ultra_mummer_king_check(Side delivering_check,
   return result;
 }
 
-/* Validate an observation according to Ultra-mummer
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean ultra_mummer_validate_observation(square sq_observer,
+static boolean avoid_non_mum_observations(square sq_observer,
                                           square sq_landing,
                                           square sq_observee)
 {
@@ -558,4 +518,43 @@ boolean ultra_mummer_validate_observation(square sq_observer,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Instrument a stipulation
+ * @param si identifies root slice of stipulation
+ */
+void mummer_initialise_solving(slice_index si)
+{
+  instrumentation_state_type state = { false, no_side };
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_impose_starter(si,slices[si].starter);
+
+  stip_structure_traversal_init(&st,&state);
+
+  /* instrumentation for regular mummer */
+  stip_structure_traversal_override_single(&st,STMoveGenerator,&instrument_move_generator);
+  stip_structure_traversal_override_single(&st,STMummerOrchestrator,&spin_off_measuring_branch);
+  stip_structure_traversal_override_single(&st,STMummerDeadend,&connect_solver_to_tester);
+
+  if (mummer_strictness[White]!=mummer_strictness_ultra
+      && mummer_strictness[Black]!=mummer_strictness_ultra)
+    stip_structure_traversal_override_single(&st,STImmobilityTester,&stip_structure_visitor_noop);
+
+  /* additional instrumentation for ultra mummer */
+  stip_structure_traversal_override_single(&st,STUltraMummerMeasurerFork,&instrument_ultra_mummer_measurer_fork);
+
+  stip_traverse_structure(si,&st);
+
+  if (mummer_strictness[White]==mummer_strictness_ultra
+      || mummer_strictness[Black]==mummer_strictness_ultra)
+    register_observation_validator(&avoid_non_mum_observations);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

@@ -7,7 +7,7 @@ conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move.h solving/moving_pawn_promotion.h \
- debugging/trace.h
+ solving/observation.h debugging/trace.h
 
 conditions/singlebox/type1.h:
 
@@ -64,6 +64,8 @@ stipulation/pipe.h:
 stipulation/move.h:
 
 solving/moving_pawn_promotion.h:
+
+solving/observation.h:
 
 debugging/trace.h:
 conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \

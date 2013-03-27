@@ -23,9 +23,9 @@ square antisupercirce_next_rebirth_square(void);
 stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
                                                                stip_length_type n);
 
-/* Instrument a stipulation for Antisupercirce
+/* Initialise solving in Antisupercirce
  * @param si identifies root slice of stipulation
  */
-void stip_insert_antisupercirce(slice_index si);
+void antisupercirce_initialise_solving(slice_index si);
 
 #endif

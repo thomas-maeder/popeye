@@ -6,19 +6,14 @@
 #include "stipulation/pipe.h"
 #include "stipulation/move.h"
 #include "solving/moving_pawn_promotion.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
-/* Validate an observation according to Singlebox Type 1
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean singlebox_type1_validate_observation(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee)
+static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
+                                                      square sq_landing,
+                                                      square sq_observee)
 {
   boolean result;
   Side const moving = e[sq_observer]>vide ? White : Black;
@@ -111,16 +106,18 @@ boolean singlebox_type1_illegal(void)
   return singlebox_officer_out_of_box() || singlebox_pawn_out_of_box();
 }
 
-/* Instrument a stipulation
+/* Initialise solving in Singlebox Type 1
  * @param si identifies root slice of stipulation
  */
-void stip_insert_singlebox_type1(slice_index si)
+void singlebox_type1_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STSingleBoxType1LegalityTester);
+
+  register_observation_validator(&avoid_observation_by_unpromotable_pawn);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

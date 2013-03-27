@@ -5,6 +5,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "solving/single_move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -33,15 +34,9 @@ static Side guess_side_at_move(square sq_departure, square sq_capture)
   return result;
 }
 
-/* Validate an observation according to Brunner Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean brunner_validate_observation(square sq_observer,
-                                     square sq_landing,
-                                     square sq_observee)
+static boolean avoid_undoable_observation(square sq_observer,
+                                          square sq_landing,
+                                          square sq_observee)
 {
   boolean result;
   Side side;
@@ -61,4 +56,17 @@ boolean brunner_validate_observation(square sq_observer,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Inialise solving in Brunner Chess
+ */
+void brunner_initialise_solving(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  register_observation_validator(&avoid_undoable_observation);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

@@ -21,7 +21,7 @@ static boolean shielded_kings_test_support(square sq_observer,
   TraceFunctionParamListEnd();
 
   king_square[opponent] = sq_observer;
-  result = rechec[opponent](observer_validator);
+  result = rechec[opponent](&validate_observer);
   king_square[opponent] = save_king_square;
 
   TraceFunctionExit(__func__);
@@ -30,15 +30,9 @@ static boolean shielded_kings_test_support(square sq_observer,
   return result;
 }
 
-/* Can a piece deliver check according to Shielded kings
- * @param sq_departure position of the piece
- * @param sq_arrival arrival square of the capture to be threatened
- * @param sq_capture typically the position of the opposite king
- */
-
-boolean shielded_kings_validate_observation(square sq_observer,
-                                            square sq_landing,
-                                            square sq_observee)
+static boolean avoid_observation_of_shielded(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee)
 {
   boolean result;
 
@@ -59,4 +53,17 @@ boolean shielded_kings_validate_observation(square sq_observer,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Inialise solving in Shielded kings
+ */
+void shielded_kings_initialise_solving(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  register_observation_validator(&avoid_observation_of_shielded);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

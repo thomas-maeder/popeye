@@ -921,7 +921,7 @@ static boolean verify_position(slice_index si)
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
        || rex_circe
-       || rex_immun)
+       || immune_is_rex_inclusive)
       && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
   {
     VerifieMsg(IncompatibleRoyalSettings);
@@ -996,18 +996,15 @@ static boolean verify_position(slice_index si)
     flagsimplehoppers = true;
   }
 
-  flaglegalsquare=
-      TSTFLAG(PieSpExFlags, Jigger)
-      || CondFlag[newkoeko]
-      || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
-      || CondFlag[blackedge] || CondFlag[whiteedge]
-      || CondFlag[geneva];
-
   if (CondFlag[imitators])
   {
     if (flagveryfairy
         || flagsymmetricfairy
-        || flaglegalsquare
+        || TSTFLAG(PieSpExFlags, Jigger)
+        || CondFlag[newkoeko]
+        || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
+        || CondFlag[blackedge] || CondFlag[whiteedge]
+        || CondFlag[geneva]
         || CondFlag[chinoises]
         || anyimmun
         || CondFlag[haanerchess]
@@ -1250,27 +1247,21 @@ static boolean verify_position(slice_index si)
   if (OptFlag[sansrn] && king_square[Black]!=initsquare)
     OptFlag[sansrn] = false;
 
-  if (king_square[White]==initsquare && nbpiece[roib]==0
-      && !OptFlag[sansrb])
+  if (king_square[White]==initsquare && nbpiece[roib]==0 && !OptFlag[sansrb])
     ErrorMsg(MissingKing);
 
-  if (king_square[Black]==initsquare && nbpiece[roin]==0
-      && !OptFlag[sansrn])
+  if (king_square[Black]==initsquare && nbpiece[roin]==0 && !OptFlag[sansrn])
     ErrorMsg(MissingKing);
 
-  if (rex_circe) {
-    /* why not royal pieces in PWC ??? TLi */
-    /* Because we loose track of the royal attribute somewhere and
-       I didn't find where ... NG
-    */
+  if (rex_circe)
+  {
     if (CondFlag[circeequipollents]
         || CondFlag[circeclone]
         || CondFlag[couscous]
         || CondFlag[circeclonemalefique])
     {
-      /* disallowed because of the call to (*circerenai)
-         in echecc */
-      /* would require knowledge of id. Other forms now allowed
+      /* disallowed because of the call to (*circerenai) in echecc would require
+       * knowledge of the departure square. Other forms now allowed
        */
       if (((! OptFlag[sansrb]) && king_square[White]!=initsquare && (e[king_square[White]] != roib))
           || ((! OptFlag[sansrn]) && king_square[Black]!=initsquare && (e[king_square[Black]] != roin)))
@@ -1296,7 +1287,8 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[bicolores])
+  if (rex_circe
+      || CondFlag[bicolores])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[monochro] && CondFlag[bichro])
@@ -1310,10 +1302,6 @@ static boolean verify_position(slice_index si)
 
   rechec[White] = &orig_rbechec;
   rechec[Black] = &orig_rnechec;
-
-  flaglegalsquare = flaglegalsquare
-      || CondFlag[bichro]
-      || CondFlag[monochro];
 
   if ((CondFlag[koeko]
        || CondFlag[newkoeko]
@@ -1367,89 +1355,6 @@ static boolean verify_position(slice_index si)
       return false;
     }
   }
-
-  observer_validator = &eval_ortho;
-  observation_geometry_validator = &eval_ortho;
-
-  if (flaglegalsquare)
-  {
-    observer_validator = &legalsquare;
-    observation_geometry_validator = &legalsquare;
-  }
-  else if (CondFlag[madras] || CondFlag[eiffel])
-    observer_validator = &madrasi_validate_observation;
-  else if (TSTFLAG(PieSpExFlags,Paralysing))
-    observer_validator = &paralysing_validate_observer;
-
-  reset_observation_validators();
-
-  if (flaglegalsquare)
-    register_observation_validator(&legalsquare);
-
-  if (CondFlag[central])
-    register_observation_validator(&central_validate_observation);
-
-  if (TSTFLAG(PieSpExFlags,Beamtet))
-    register_observation_validator(&beamten_validate_observation);
-
-  if (TSTFLAG(PieSpExFlags,Patrol))
-    register_observation_validator(&patrol_validate_observation);
-
-  if (CondFlag[provocateurs])
-    register_observation_validator(&provocateurs_validate_observation);
-
-  if (CondFlag[ultrapatrouille])
-    register_observation_validator(&ultrapatrouille_validate_observation);
-
-  if (CondFlag[shieldedkings])
-    register_observation_validator(&shielded_kings_validate_observation);
-
-  if (TSTFLAG(PieSpExFlags,Paralysing))
-    register_observation_validator(&paralysing_validate_observation);
-
-  if (CondFlag[disparate])
-    register_observation_validator(&disparate_validate_observation);
-
-  if (CondFlag[BGL])
-    register_observation_validator(&BGL_validate_observation);
-
-  if (CondFlag[madras])
-    register_observation_validator(&madrasi_validate_observation);
-
-  if (CondFlag[eiffel])
-    register_observation_validator(&eiffel_validate_observation);
-
-  if (CondFlag[isardam] && !IsardamB)
-    register_observation_validator(&isardam_validate_observation);
-
-  if (CondFlag[woozles])
-    register_observation_validator(&woozles_heffalumps_validate_observation);
-
-  if (CondFlag[brunner])
-    register_observation_validator(&brunner_validate_observation);
-
-  if (rex_circe)
-    register_observation_validator(&circe_rex_inclusive_validate_observation);
-
-  if (rex_immun)
-    register_observation_validator(&immune_validate_observation);
-
-  if (anyanticirce)
-    register_observation_validator(&anticirce_validate_observation);
-
-  if (CondFlag[lortap])
-    /* more efficient after Anticirce (sample size: 1 :-) ) */
-    register_observation_validator(&lortap_validate_observation);
-
-  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1))
-    register_observation_validator(&singlebox_type1_validate_observation);
-
-  if ((mummer_strictness[White]==mummer_strictness_ultra && !CondFlag[whcapt])
-      || (mummer_strictness[Black]==mummer_strictness_ultra && !CondFlag[blcapt]))
-    register_observation_validator(&ultra_mummer_validate_observation);
-
-  if (CondFlag[superguards])
-    register_observation_validator(&superguards_validate_observation);
 
   if (CondFlag[nowhcapture] && CondFlag[noblcapture])
   {
@@ -1519,8 +1424,8 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (rex_circe || rex_immun) {
-    if (rex_circe && rex_immun)
+  if (rex_circe || immune_is_rex_inclusive) {
+    if (rex_circe && immune_is_rex_inclusive)
     {
       VerifieMsg(RexCirceImmun);
       return false;
@@ -2337,6 +2242,10 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
+  reset_observation_validators();
+  reset_observer_validators();
+  reset_observation_geometry_validators();
+
   result = stip_deep_copy(stipulation_root_hook);
 
   stip_impose_starter(result,slices[stipulation_root_hook].starter);
@@ -2420,7 +2329,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     switch (SingleBoxType)
     {
       case singlebox_type1:
-        stip_insert_singlebox_type1(result);
+        singlebox_type1_initialise_solving(result);
         break;
 
       case singlebox_type2:
@@ -2447,7 +2356,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_patience_chess(result);
 
   if (TSTFLAG(PieSpExFlags,Paralysing))
-    stip_insert_paralysing_goal_filters(result);
+    paralysing_initialise_solving(result);
 
   if (CondFlag[SAT] || CondFlag[strictSAT])
     stip_substitute_sat_king_flight_generators(result);
@@ -2534,7 +2443,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_anticirce_strict(result);
     if (AntiCirCheylan)
       stip_insert_anticirce_cheylan(result);
-    stip_insert_antisupercirce(result);
+    antisupercirce_initialise_solving(result);
     stip_insert_anticirce_promotion(result);
   }
   else if (anyanticirce)
@@ -2544,7 +2453,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_anticirce_strict(result);
     if (CondFlag[magicsquare] && magic_square_type==magic_square_type2)
       stip_insert_magic_square_type2(result);
-    stip_insert_anticirce(result);
+    anticirce_initialise_solving(result);
     if (anyanticirprom)
       stip_insert_anticirce_promotion(result);
     if (CondFlag[couscous])
@@ -2661,22 +2570,24 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_maxtime_guards(result);
 
   if (CondFlag[BGL])
-    stip_insert_bgl_filters(result);
+    bgl_initialise_solving(result);
 
   if (TSTFLAG(PieSpExFlags,Patrol))
-    stip_insert_patrol(result);
+    patrol_initialise_solving(result);
+  if (CondFlag[ultrapatrouille])
+    ultrapatrol_initialise_solving();
 
   if (CondFlag[lortap])
-    stip_insert_lortap(result);
+    lortap_initialise_solving(result);
 
   if (CondFlag[provocateurs])
-    stip_insert_provocateurs(result);
+    provocateurs_initialise_solving(result);
 
   if (anyimmun)
-    stip_insert_immune(result);
+    immune_initialise_solving(result);
 
   if (CondFlag[woozles])
-    stip_insert_woozles(result);
+    woozles_initialise_solving(result);
 
   if (CondFlag[nocapture] || CondFlag[nowhcapture] || CondFlag[noblcapture])
     stip_insert_nocapture(result);
@@ -2685,33 +2596,33 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_nopromotions(result);
 
   if (anygeneva)
-    stip_insert_geneva(result);
+    geneva_initialise_solving(result);
 
   if (CondFlag[contactgrid])
-    stip_insert_contact_grid(result);
+    contact_grid_initialise_solving(result);
   else if (CondFlag[koeko])
-    stip_insert_koeko(result);
+    koeko_initialise_solving(result);
   else if (CondFlag[antikoeko])
-    stip_insert_antikoeko(result);
+    antikoeko_initialise_solving(result);
   else if (CondFlag[newkoeko])
-    stip_insert_newkoeko(result);
+    newkoeko_initialise_solving(result);
 
   if (TSTFLAG(PieSpExFlags,Jigger))
-    stip_insert_jigger(result);
+    jigger_initialise_solving(result);
 
   if (CondFlag[monochro])
-      stip_insert_monochrome(result);
+      monochrome_initialise_solving(result);
   if (CondFlag[bichro])
-      stip_insert_bichrome(result);
+      bichrome_initialise_solving(result);
 
   if (CondFlag[superguards])
-    stip_insert_superguards(result);
+    superguards_initialise_solving(result);
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
     stip_insert_edgemover(result);
 
   if (CondFlag[gridchess])
-    stip_insert_grid(result);
+    grid_initialise_solving(result);
 
   if (TSTFLAG(PieSpExFlags,Uncapturable))
     stip_insert_uncapturable(result);
@@ -2755,7 +2666,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   stip_spin_off_testers(result);
 
-  stip_insert_mummer(result);
+  mummer_initialise_solving(result);
 
   if (CondFlag[ohneschach])
   {
@@ -2821,6 +2732,30 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_impose_starter(result,slices[result].starter);
 
   resolve_proxies(&result);
+
+  if (CondFlag[central])
+    central_initialise_solving();
+
+  if (TSTFLAG(PieSpExFlags,Beamtet))
+    beamten_initialise_solving();
+
+  if (CondFlag[shieldedkings])
+    shielded_kings_initialise_solving();
+
+  if (CondFlag[disparate])
+    disparate_initialise_solving();
+
+  if (CondFlag[madras])
+    madrasi_initialise_solving();
+
+  if (CondFlag[eiffel])
+    eiffel_initialise_solving();
+
+  if (CondFlag[brunner])
+    brunner_initialise_solving();
+
+  if (rex_circe)
+    circe_rex_inclusive_initialise_solving();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

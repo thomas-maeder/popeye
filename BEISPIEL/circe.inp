@@ -101,6 +101,15 @@ steine  weiss     kd2
 
 weiter
 
+autor Erich Bartel
+quelle Jugendschach 3/1989
+steine weiss kc3 tb8e5 schwarz ka3
+forderung #2
+bedingung circe rexinkl
+option vari
+
+weiter
+
 steine weiss lc1 bg6 schwarz bg7
 forderung sctr1
 bedingung circe

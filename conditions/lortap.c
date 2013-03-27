@@ -7,40 +7,18 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-/* Determine whether a piece is supported, disabling it from capturing
- * @param sq_departure position of the piece
- * @return true iff the piece is supported
- */
-static boolean lortap_is_supported(square sq_departure)
-{
-  Side const opponent = e[sq_departure]>=roib ? Black : White;
-  square const save_king_square = king_square[opponent];
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  king_square[opponent] = sq_departure;
-  result = rechec[opponent](observer_validator);
-  king_square[opponent] = save_king_square;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Validate an observation according to Lortap
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean lortap_validate_observation(square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee)
+static boolean is_capture_not_supported(square sq_observer,
+                                        square sq_landing,
+                                        square sq_observee)
 {
+  Side const opponent = e[sq_observer]>=roib ? Black : White;
+  square const save_king_square = king_square[opponent];
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -49,7 +27,9 @@ boolean lortap_validate_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = !lortap_is_supported(sq_observer);
+  king_square[opponent] = sq_observer;
+  result = !rechec[opponent](&validate_observer);
+  king_square[opponent] = save_king_square;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -69,7 +49,10 @@ static boolean is_not_supported_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(e[sq_capture]!=vide && lortap_is_supported(sq_departure));
+  if (e[sq_capture]==vide)
+    result = true;
+  else
+    result = is_capture_not_supported(sq_departure,sq_arrival,sq_capture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -127,10 +110,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Lortap
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_lortap(slice_index si)
+void lortap_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -145,6 +128,8 @@ void stip_insert_lortap(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observation_validator(&is_capture_not_supported);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -12,14 +12,8 @@
  */
 boolean beamten_is_observed(square sq_departure);
 
-/* Validate an observation according to Beamten Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
+/* Inialise solving in Beamten Chess
  */
-boolean beamten_validate_observation(square sq_observer,
-                                     square sq_landing,
-                                     square sq_observee);
+void beamten_initialise_solving(void);
 
 #endif

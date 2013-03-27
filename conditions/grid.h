@@ -21,9 +21,9 @@
 stip_length_type grid_remove_illegal_moves_solve(slice_index si,
                                                  stip_length_type n);
 
-/* Instrument the solvers with Grid Chess
+/* Inialise solving in Grid Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_grid(slice_index si);
+void grid_initialise_solving(slice_index si);
 
 #endif

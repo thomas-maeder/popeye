@@ -22,9 +22,9 @@ extern nocontactfunc_t antikoeko_nocontact;
  */
 stip_length_type antikoeko_legality_tester_solve(slice_index si, stip_length_type n);
 
-/* Instrument the solvers with Anti-Koeko
+/* Inialise solving in Anti-Koeko
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_antikoeko(slice_index si);
+void antikoeko_initialise_solving(slice_index si);
 
 #endif

@@ -22,32 +22,32 @@ static boolean paralysis_suspended = false;
  */
 boolean suffocated_by_paralysis(Side side)
 {
- boolean result;
- boolean encore_with_paralysis;
- boolean encore_without_paralysis;
+  boolean result;
+  boolean encore_with_paralysis;
+  boolean encore_without_paralysis;
 
- TraceFunctionEntry(__func__);
- TraceEnumerator(Side,side,"");
- TraceFunctionParamListEnd();
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
 
- paralysis_suspended = true;
- nextply();
- genmove(side);
- encore_without_paralysis = encore();
- finply();
- paralysis_suspended = false;
+  paralysis_suspended = true;
+  nextply();
+  genmove(side);
+  encore_without_paralysis = encore();
+  finply();
+  paralysis_suspended = false;
 
- nextply();
- genmove(side);
- encore_with_paralysis = encore();
- finply();
+  nextply();
+  genmove(side);
+  encore_with_paralysis = encore();
+  finply();
 
- result = !encore_with_paralysis && encore_without_paralysis;
+  result = !encore_with_paralysis && encore_without_paralysis;
 
- TraceFunctionExit(__func__);
- TraceFunctionResult("%u",result);
- TraceFunctionResultEnd();
- return result;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Validate an observer according to paralysing pieces
@@ -56,9 +56,9 @@ boolean suffocated_by_paralysis(Side side)
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean paralysing_validate_observer(square sq_observer,
-                                      square sq_landing,
-                                      square sq_observee)
+static boolean paralysing_validate_observer(square sq_observer,
+                                            square sq_landing,
+                                            square sq_observee)
 {
   boolean result;
 
@@ -70,10 +70,8 @@ boolean paralysing_validate_observer(square sq_observer,
 
   if (TSTFLAG(spec[sq_observer],Paralysing))
     result = false;
-  else if (!(*observation_geometry_validator)(sq_observer,sq_landing,sq_observee))
-    result = false;
   else
-    result = !is_piece_paralysed_on(sq_observer);
+    result = validate_observation_geometry(sq_observer,sq_landing,sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -87,9 +85,9 @@ boolean paralysing_validate_observer(square sq_observer,
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean paralysing_validate_observation(square sq_observer,
-                                        square sq_landing,
-                                        square sq_observee)
+static boolean paralysing_validate_observation(square sq_observer,
+                                               square sq_landing,
+                                               square sq_observee)
 {
   boolean result;
 
@@ -115,7 +113,7 @@ static boolean validate_paralyser(square sq_paralyser,
                                   square sq_paralysee)
 {
   return (TSTFLAG(spec[sq_paralyser],Paralysing)
-          && (*observation_geometry_validator)(sq_paralyser,sq_landing,sq_paralysee));
+          && validate_observation_geometry(sq_paralyser,sq_landing,sq_paralysee));
 }
 
 /* Determine whether a piece is paralysed
@@ -320,10 +318,10 @@ enum
                               / sizeof goal_filter_inserters[0])
 };
 
-/* Instrument a stipulation with goal filter slices
+/* Initialise solving with paralysing pieces
  * @param si root of branch to be instrumented
  */
-void stip_insert_paralysing_goal_filters(slice_index si)
+void paralysing_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -340,6 +338,9 @@ void stip_insert_paralysing_goal_filters(slice_index si)
   stip_traverse_structure(si,&st);
 
   TraceStipulation(si);
+
+  register_observer_validator(&paralysing_validate_observer);
+  register_observation_validator(&paralysing_validate_observation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -4,9 +4,40 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 boolean rex_geneva;
+
+static boolean is_capture_legal(Side side_capturing,
+                                square sq_departure,
+                                square sq_arrival,
+                                square sq_capture)
+{
+  boolean result;
+  Side const side_capturee = advers(side_capturing);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  if (rex_geneva || sq_departure!=king_square[side_capturing])
+  {
+    square const sq_rebirth = rennormal(e[sq_departure],spec[sq_departure],
+                                        sq_departure,sq_departure,sq_arrival,
+                                        side_capturee);
+    result = e[sq_rebirth]==vide;
+  }
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static boolean is_not_illegal_capture(square sq_departure,
                                       square sq_arrival,
@@ -20,14 +51,31 @@ static boolean is_not_illegal_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(e[sq_capture]!=vide
-             && (rex_geneva || sq_departure!=king_square[trait[nbply]])
-             && e[rennormal(e[sq_departure],spec[sq_departure],
-                            sq_departure,
-                            sq_departure,
-                            sq_arrival,
-                            advers(trait[nbply]))]
-                !=vide);
+  if (e[sq_capture]==vide)
+    result = true;
+  else
+    result = is_capture_legal(trait[nbply],sq_departure,sq_arrival,sq_capture);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean avoid_illegal_observation(square sq_observer,
+                                         square sq_landing,
+                                         square sq_observee)
+{
+  boolean result;
+  Side const side_observing = e[sq_observer]>vide ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  result = is_capture_legal(side_observing,sq_observer,sq_landing,sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -85,10 +133,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Geneva Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_geneva(slice_index si)
+void geneva_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -103,6 +151,10 @@ void stip_insert_geneva(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observer_validator(&avoid_illegal_observation);
+  register_observation_geometry_validator(&avoid_illegal_observation);
+  register_observation_validator(&avoid_illegal_observation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

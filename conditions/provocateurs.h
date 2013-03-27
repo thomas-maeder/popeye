@@ -5,16 +5,6 @@
 
 /* This module implements the condition Provocation Chess */
 
-/* Validate an observation according to Provocation Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean provocateurs_validate_observation(square sq_observer,
-                                          square sq_landing,
-                                          square sq_observee);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -31,9 +21,9 @@ boolean provocateurs_validate_observation(square sq_observer,
 stip_length_type provocateurs_remove_unobserved_captures_solve(slice_index si,
                                                                stip_length_type n);
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Provokation Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_provocateurs(slice_index si);
+void provocateurs_initialise_solving(slice_index si);
 
 #endif

@@ -18,14 +18,47 @@
  *   * ...
  */
 
-/* Apply geometrical considerations (Monochrome Chess etc.) to observation
- * (3rd degree)
- */
-extern evalfunction_t *observation_geometry_validator;
 
-/* Apply observation to an observer (2nd degree)
+/* Forget about the observation validators registered in a previous round of
+ * solving.
  */
-extern evalfunction_t *observer_validator;
+void reset_observation_geometry_validators(void);
+
+/* Register an observation validator for the next round of solving
+ * @param validator validator to be registered
+ */
+void register_observation_geometry_validator(evalfunction_t *validator);
+
+/* Validate an observation
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean validate_observation_geometry(square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee);
+
+
+/* Forget about the observation validators registered in a previous round of
+ * solving.
+ */
+void reset_observer_validators(void);
+
+/* Register an observer validator for the next round of solving
+ * @param validator validator to be registered
+ */
+void register_observer_validator(evalfunction_t *validator);
+
+/* Validate an observation
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean validate_observer(square sq_observer,
+                          square sq_landing,
+                          square sq_observee);
 
 
 /* Forget about the observation validators registered in a previous round of

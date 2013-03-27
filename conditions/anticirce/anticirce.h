@@ -3,7 +3,6 @@
 
 #include "solving/solve.h"
 #include "stipulation/slice_type.h"
-#include "pyproc.h"
 
 extern piece anticirce_current_reborn_piece[maxply+1];
 extern Flags anticirce_current_reborn_spec[maxply+1];
@@ -11,16 +10,6 @@ extern Flags anticirce_current_reborn_spec[maxply+1];
 extern piece anticirce_current_relevant_piece[maxply+1];
 extern Flags anticirce_current_relevant_spec[maxply+1];
 extern Side anticirce_current_relevant_side[maxply+1];
-
-/* Validate an observation according to Anti-Circe
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean anticirce_validate_observation(square sq_observer,
-                                       square sq_landing,
-                                       square sq_observee);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -79,9 +68,9 @@ stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
 void stip_replace_anticirce_determine_relevant_piece(slice_index si,
                                                      slice_type substitute);
 
-/* Instrument a stipulation for Anticirce
+/* Initialise solving in Anticirce
  * @param si identifies root slice of stipulation
  */
-void stip_insert_anticirce(slice_index si);
+void anticirce_initialise_solving(slice_index si);
 
 #endif

@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -84,29 +85,39 @@ stip_length_type bgl_filter_solve(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Instrument slices with move tracers
+static boolean is_observation_valid(square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee)
+{
+  boolean result;
+  Side const side_observing = e[sq_observer]>vide ? White : Black;
+  unsigned int const diff = abs(sq_observer-sq_landing);
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,sq_observer,"");
+  TraceEnumerator(Side,sq_landing,"");
+  TraceEnumerator(Side,sq_observee,"");
+  TraceFunctionParamListEnd();
+
+  result = BGL_move_diff_code[diff]<=BGL_values[side_observing][nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise solving with BGL
  */
-void stip_insert_bgl_filters(slice_index si)
+void bgl_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STBGLFilter);
 
+  register_observation_validator(&is_observation_valid);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Validate an observation according to BGL
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean BGL_validate_observation(square sq_observer,
-                                 square sq_landing,
-                                 square sq_observee)
-{
-  return BGL_move_diff_code[abs(sq_observer-sq_landing)]
-         <= (e[sq_observee]<vide ? BGL_values[White][nbply] : BGL_values[Black][nbply]);
 }

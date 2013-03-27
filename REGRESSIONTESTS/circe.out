@@ -124,7 +124,7 @@ Loesung beendet.
 Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
           Circe RexInklusive
 
-  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3][+wkTh1] # 
+  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3][+wkTh1] #
 
               empile:       70274
            play_move:       63021
@@ -364,7 +364,7 @@ Loesung beendet.
   h=2                    2 + 1 + 4n
                 Circe
 
-  1.nBe2-e1=nLI nBe7-e8=nLI   2.nBf2*e1=nLI nBf7*e8=nLI = 
+  1.nBe2-e1=nLI nBe7-e8=nLI   2.nBf2*e1=nLI nBf7*e8=nLI =
 
               empile:      605961
            play_move:      370990
@@ -399,13 +399,55 @@ Loesung beendet.
   h#2                    1 + 1 + 5n
                 Circe
 
-  1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI[+nCAd1] # 
-  1...nBc7-c8=nCA   2.Kc4*b4[+nGIb8] nBd7*c8=nGI[+nCAc1] # 
+  1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI[+nCAd1] #
+  1...nBc7-c8=nCA   2.Kc4*b4[+nGIb8] nBd7*c8=nGI[+nCAc1] #
 
               empile:       57032
            play_move:       39255
         orig_rbechec:        5413
         orig_rnechec:       39214
+Loesung beendet. 
+
+
+
+             Erich Bartel
+         Jugendschach 3/1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   T   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   T   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -K   .   K   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 1
+          Circe RexInklusive
+
+   1.Te5-e8 ! Drohung:
+          2.Tb8-a8 #
+          2.Kc3-b3 #
+      1...Ka3-a4
+          2.Kc3-b4 #
+      1...Ka3-a2
+          2.Kc3-b2 #
+
+
+              empile:        2133
+           play_move:        1683
+        orig_rbechec:           1
+        orig_rnechec:         377
 Loesung beendet. 
 
 

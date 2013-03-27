@@ -8,22 +8,13 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "py.h"
-#include "pyproc.h"
-
-/* Validate an observation according to Immune Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean immune_validate_observation(square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee);
 
 /* Address of function used to determine the relevant square for finding out
  * whether a piece is immune
  */
 extern square (*immunrenai)(piece, Flags, square, square, square, Side);
+
+extern boolean immune_is_rex_inclusive;
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -41,9 +32,9 @@ extern square (*immunrenai)(piece, Flags, square, square, square, Side);
 stip_length_type immune_remove_captures_of_immune_solve(slice_index si,
                                                         stip_length_type n);
 
-/* Instrument the solvers with Immune Chess
+/* Initialise solving in Immune Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_immune(slice_index si);
+void immune_initialise_solving(slice_index si);
 
 #endif

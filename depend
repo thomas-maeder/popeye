@@ -51,7 +51,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
  conditions/anticirce/super.h conditions/circe/circe.h \
  conditions/circe/chameleon.h conditions/circe/april.h \
- conditions/circe/takemake.h conditions/circe/rex_inclusive.h pyproc.h \
+ conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
  conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
  conditions/singlebox/type3.h conditions/immune.h position/position.h \
  conditions/geneva.h conditions/koeko/koeko.h conditions/koeko/anti.h \
@@ -170,8 +170,6 @@ conditions/circe/takemake.h:
 
 conditions/circe/rex_inclusive.h:
 
-pyproc.h:
-
 conditions/imitator.h:
 
 conditions/sentinelles.h:
@@ -205,11 +203,10 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h pyproc.h \
  py4.h stipulation/goals/goals.h pydata.h pymsg.h conditions/exclusive.h \
  utilities/table.h position/position.h solving/solve.h \
- conditions/madrasi.h pyproc.h conditions/geneva.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h \
- stipulation/has_solution_type.h solving/solve.h \
+ conditions/madrasi.h conditions/geneva.h conditions/koeko/koeko.h \
+ conditions/koeko/anti.h stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h solving/en_passant.h \
- solving/observation.h stipulation/temporary_hacks.h \
+ solving/observation.h pyproc.h stipulation/temporary_hacks.h \
  pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 py.h:
@@ -266,8 +263,6 @@ solving/solve.h:
 
 conditions/madrasi.h:
 
-pyproc.h:
-
 conditions/geneva.h:
 
 conditions/koeko/koeko.h:
@@ -283,6 +278,8 @@ solving/single_move_generator.h:
 solving/en_passant.h:
 
 solving/observation.h:
+
+pyproc.h:
 
 stipulation/temporary_hacks.h:
 
@@ -1242,7 +1239,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/oscillating_kings.h conditions/kobul.h \
  conditions/circe/april.h conditions/circe/chameleon.h \
  conditions/sentinelles.h conditions/magic_square.h conditions/mummer.h \
- pyproc.h conditions/transmuting_kings/super.h conditions/immune.h \
+ conditions/transmuting_kings/super.h conditions/immune.h \
  position/position.h conditions/geneva.h conditions/koeko/koeko.h \
  conditions/koeko/anti.h conditions/phantom.h \
  conditions/einstein/en_passant.h conditions/annan.h \
@@ -1421,8 +1418,6 @@ conditions/sentinelles.h:
 conditions/magic_square.h:
 
 conditions/mummer.h:
-
-pyproc.h:
 
 conditions/transmuting_kings/super.h:
 

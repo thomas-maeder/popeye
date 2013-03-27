@@ -22,9 +22,9 @@ extern nocontactfunc_t koeko_nocontact;
  */
 stip_length_type jigger_legality_tester_solve(slice_index si, stip_length_type n);
 
-/* Instrument the solvers with support for Jigger pieces
+/* Initialise solving with Jigger pieces
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_jigger(slice_index si);
+void jigger_initialise_solving(slice_index si);
 
 #endif

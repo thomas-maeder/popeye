@@ -3,18 +3,7 @@
 
 /* This module implements "mummer" conditions (maximummer, minimiummer etc.) */
 
-#include "pyproc.h"
 #include "solving/solve.h"
-
-/* Validate an observation according to Ultra-mummer
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean ultra_mummer_validate_observation(square sq_observer,
-                                          square sq_landing,
-                                          square sq_observee);
 
 typedef enum
 {
@@ -91,9 +80,9 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n);
  */
 stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n);
 
-/* Instrument a stipulation
+/* Initialise solving in mummer
  * @param si identifies root slice of stipulation
  */
-void stip_insert_mummer(slice_index si);
+void mummer_initialise_solving(slice_index si);
 
 #endif

@@ -18,7 +18,7 @@ boolean beamten_is_observed(square sq_departure)
   TraceFunctionParamListEnd();
 
   king_square[side] = sq_departure;
-  result = rechec[side](observer_validator);
+  result = rechec[side](&validate_observer);
   king_square[side] = save_king_square;
 
   TraceFunctionExit(__func__);
@@ -27,15 +27,9 @@ boolean beamten_is_observed(square sq_departure)
   return result;
 }
 
-/* Validate an observation according to Beamten Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-boolean beamten_validate_observation(square sq_observer,
-                                     square sq_landing,
-                                     square sq_observee)
+static boolean avoid_unobserved_observation(square sq_observer,
+                                            square sq_landing,
+                                            square sq_observee)
 {
   boolean result;
 
@@ -54,4 +48,17 @@ boolean beamten_validate_observation(square sq_observer,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Inialise solving in Beamten Chess
+ */
+void beamten_initialise_solving(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  register_observation_validator(&avoid_unobserved_observation);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

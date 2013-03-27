@@ -4,11 +4,12 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
-static boolean is_bichrome(square sq_departure,
-                           square sq_arrival,
-                           square sq_capture)
+static boolean is_move_bichrome(square sq_departure,
+                                square sq_arrival,
+                                square sq_capture)
 {
   boolean result;
 
@@ -49,7 +50,7 @@ stip_length_type bichrome_remove_monochrome_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_bichrome);
+  move_generator_filter_moves(&is_move_bichrome);
 
   result = solve(slices[si].next1,n);
 
@@ -76,10 +77,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Bichrome Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_bichrome(slice_index si)
+void bichrome_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -94,6 +95,10 @@ void stip_insert_bichrome(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observer_validator(&is_move_bichrome);
+  register_observation_geometry_validator(&is_move_bichrome);
+  register_observation_validator(&is_move_bichrome);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

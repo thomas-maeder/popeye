@@ -3,9 +3,30 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <stdlib.h>
+
+static boolean maintain_contact_while_observing(square sq_observer,
+                                                square sq_landing,
+                                                square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  result = !nocontact(sq_observer,sq_landing,sq_observee,&nokingcontact);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -42,10 +63,10 @@ stip_length_type jigger_legality_tester_solve(slice_index si,
   return result;
 }
 
-/* Instrument the solvers with Koeko
+/* Initialise solving with Jigger pieces
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_jigger(slice_index si)
+void jigger_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -54,6 +75,10 @@ void stip_insert_jigger(slice_index si)
   TraceStipulation(si);
 
   stip_instrument_moves(si,STJiggerLegalityTester);
+
+  register_observer_validator(&maintain_contact_while_observing);
+  register_observation_geometry_validator(&maintain_contact_while_observing);
+  register_observation_validator(&maintain_contact_while_observing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

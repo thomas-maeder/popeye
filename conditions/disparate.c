@@ -1,7 +1,7 @@
 #include "conditions/disparate.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "solving/observation.h"
 #include "pydata.h"
-
 #include "debugging/trace.h"
 
 #include <stdlib.h>
@@ -29,14 +29,9 @@ boolean disparate_can_piece_move(square sq)
   return result;
 }
 
-/* Validate an observation according to Disparate chess
- * @param sq_departure position of the piece
- * @param sq_arrival arrival square of the capture to be threatened
- * @param sq_capture typically the position of the opposite king
- */
-boolean disparate_validate_observation(square sq_observer,
-                                       square sq_landing,
-                                       square sq_observee)
+static boolean avoid_undisparate_observation(square sq_observer,
+                                             square sq_landing,
+                                             square sq_observee)
 {
   boolean result = false;
   Side const save_trait = trait[nbply];
@@ -69,4 +64,17 @@ boolean disparate_validate_observation(square sq_observer,
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   return result;
+}
+
+/* Inialise solving in Disparate chess
+ */
+void disparate_initialise_solving(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  register_observation_validator(&avoid_undisparate_observation);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

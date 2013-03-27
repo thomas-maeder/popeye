@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_DISPARATE_H)
 #define CONDITIONS_DISPARATE_H
 
+#include "utilities/boolean.h"
 #include "py.h"
 
 /* Implementation of condition Disparate chess
@@ -12,13 +13,8 @@
  */
 boolean disparate_can_piece_move(square sq);
 
-/* Validate an observation according to Disparate chess
- * @param sq_departure position of the piece
- * @param sq_arrival arrival square of the capture to be threatened
- * @param sq_capture typically the position of the opposite king
+/* Inialise solving in Disparate chess
  */
-boolean disparate_validate_observation(square sq_observer,
-                                       square sq_landing,
-                                       square sq_observee);
+void disparate_initialise_solving(void);
 
 #endif

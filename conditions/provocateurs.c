@@ -7,19 +7,35 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-/* Validate an observation according to Provocation Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
+/* Determine whether a capturer is provoked
+ * @param sq_departure position of the capturer
+ * @return true iff the capturer is provoked
  */
-boolean provocateurs_validate_observation(square sq_observer,
-                                          square sq_landing,
-                                          square sq_observee)
+static boolean is_piece_provoked_on(square sq_departure)
+{
+  Side const side_provoked = e[sq_departure]>vide ? White : Black;
+  square const save_king_square = king_square[side_provoked];
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  king_square[side_provoked] = sq_departure;
+  result = rechec[side_provoked](&validate_observer);
+  king_square[side_provoked] = save_king_square;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean avoid_unprovoked_observation(square sq_observer,
+                                            square sq_landing,
+                                            square sq_observee)
 {
   boolean result;
-  Side const moving_side = e[sq_observer]>vide ? White : Black;
-  square const save_king_square = king_square[moving_side];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -27,9 +43,7 @@ boolean provocateurs_validate_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  king_square[moving_side] = sq_observer;
-  result = rechec[moving_side](observer_validator);
-  king_square[moving_side] = save_king_square;
+  result = is_piece_provoked_on(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -37,31 +51,7 @@ boolean provocateurs_validate_observation(square sq_observer,
   return result;
 }
 
-/* Determine whether a piece is observed
- * @param sq_departure position of the piece
- * @return true iff the piece is observed
- */
-static boolean provocateurs_is_observed(square sq_departure)
-{
-  Side const side = e[sq_departure]<=roin ? Black : White;
-  square const save_king_square = king_square[side];
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  king_square[side] = sq_departure;
-  result = rechec[side](observer_validator);
-  king_square[side] = save_king_square;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_not_unobserved_capture(square sq_departure,
+static boolean is_not_unprovoked_capture(square sq_departure,
                                          square sq_arrival,
                                          square sq_capture)
 {
@@ -73,8 +63,7 @@ static boolean is_not_unobserved_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(e[sq_capture]!=vide
-             && !provocateurs_is_observed(sq_departure));
+  result = e[sq_capture]==vide || is_piece_provoked_on(sq_departure);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -105,7 +94,7 @@ stip_length_type provocateurs_remove_unobserved_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_unobserved_capture);
+  move_generator_filter_moves(&is_not_unprovoked_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -132,10 +121,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solvers with Patrol Chess
+/* Initialise solving in Provokation Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_provocateurs(slice_index si)
+void provocateurs_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -150,6 +139,8 @@ void stip_insert_provocateurs(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  register_observation_validator(&avoid_unprovoked_observation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
