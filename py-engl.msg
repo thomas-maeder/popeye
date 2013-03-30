@@ -13,7 +13,7 @@
  12= circe rebirth outside the board ?
  13= set play with checked king ?
  14= kamikaze pieces + neutral pieces or kamikaze pieces + circe + fairy pieces not allowed
- 15= 
+ 15= En passant key not supported with Wormholes
  16= maxi-/minimummer/mustcapture/duellistchess/alphabeticchess at the same time for the same side not allowed
  17= \nthe side to play can capture the king
  18= monochrom + bichrom chess gives no sense

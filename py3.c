@@ -227,7 +227,7 @@ static boolean marsechecc(Side camp, evalfunction_t *evaluate)
            || (e[z]!=e[king_square[White]] && e[z]!=e[king_square[Black]])
            || phantom_chess_rex_inclusive)
           && ((e[z]!=e[king_square[White]] || e[king_square[White]]!=e[king_square[Black]]))   /* exclude nK */
-          && rightcolor(e[z],camp))
+          && piece_belongs_to_opponent(e[z],camp))
       {
         mars_circe_rebirth_state = 0;
         do

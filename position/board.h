@@ -162,16 +162,17 @@ typedef int square;
 
 typedef enum
 {
-  MagicSq,         /* 0 */
-  WhForcedSq,      /* 1 */
-  BlForcedSq,      /* 2 */
-  WhConsForcedSq,  /* 3 */
-  BlConsForcedSq,  /* 4 */
-  NoEdgeSq,        /* 5 */
-  SqColor,         /* 6 */
-  WhPromSq,        /* 7 */
-  BlPromSq,        /* 8 */
-  Grid,            /* 9 */
+  MagicSq,         /*  0 */
+  WhForcedSq,      /*  1 */
+  BlForcedSq,      /*  2 */
+  WhConsForcedSq,  /*  3 */
+  BlConsForcedSq,  /*  4 */
+  NoEdgeSq,        /*  5 */
+  SqColor,         /*  6 */
+  WhPromSq,        /*  7 */
+  BlPromSq,        /*  8 */
+  Wormhole,        /*  9 */
+  Grid,            /* 10 */
 
   nrSquareFlags
 } SquareFlags;

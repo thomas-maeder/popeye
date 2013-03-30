@@ -281,6 +281,8 @@ simples:
 	NoirEchecsAlphabetique
 	RoisKobul
 	CirceTake&Make (aussi connu comme Anti-Take&Make)
+	Supergardes
+	TrousDeVer
 
 	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 

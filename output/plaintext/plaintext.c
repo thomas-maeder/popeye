@@ -333,6 +333,7 @@ void output_plaintext_write_move(void)
 
           case move_effect_reason_anticirce_rebirth:
           case move_effect_reason_antisupercirce_rebirth:
+          case move_effect_reason_wormhole_transfer:
           {
             StdString("->");
             WriteSquare(move_effect_journal[curr].u.piece_addition.on);
@@ -364,6 +365,7 @@ void output_plaintext_write_move(void)
 
           case move_effect_reason_anticirce_rebirth:
           case move_effect_reason_antisupercirce_rebirth:
+          case move_effect_reason_wormhole_transfer:
           {
             context_close(&context);
 

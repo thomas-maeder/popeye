@@ -666,6 +666,14 @@ static void WriteConditions(int alignment)
       AddSquare(CondLine, royal_square[White]);
     }
 
+    if (cond==wormholes)
+    {
+      square i;
+      for (i = square_a1; i<=square_h8; ++i)
+        if (TSTFLAG(sq_spec[i],Wormhole))
+          AddSquare(CondLine,i);
+    }
+
     if ((cond == madras && rex_mad)
         || (cond == phantom && phantom_chess_rex_inclusive)
         || (cond == geneva && rex_geneva)
@@ -4962,6 +4970,9 @@ static char *ParseCond(void)
       case magicsquare:
         magic_square_type = magic_square_type1;
         ReadSquares(MagicSq);
+        break;
+      case wormholes:
+        ReadSquares(Wormhole);
         break;
       case dbltibet:
         CondFlag[tibet]= true;

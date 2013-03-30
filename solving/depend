@@ -1467,16 +1467,16 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/circe/turncoats.h conditions/circe/takemake.h \
  conditions/exclusive.h utilities/table.h position/position.h \
  conditions/ohneschach.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/immune.h pyproc.h py4.h \
- stipulation/goals/goals.h conditions/provocateurs.h conditions/lortap.h \
- conditions/patrol.h conditions/monochrome.h conditions/bichrome.h \
+ conditions/owu/immobility_tester.h conditions/immune.h \
+ conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
+ conditions/monochrome.h conditions/bichrome.h \
  conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
- conditions/singlebox/type1.h conditions/singlebox/type2.h \
- conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
- conditions/sat.h conditions/dynasty.h conditions/masand.h \
- conditions/oscillating_kings.h conditions/messigny.h \
- conditions/actuated_revolving_centre.h \
+ conditions/singlebox/type1.h pyproc.h py4.h stipulation/goals/goals.h \
+ conditions/singlebox/type2.h conditions/singlebox/type3.h \
+ conditions/patience.h conditions/isardam.h conditions/sat.h \
+ conditions/dynasty.h conditions/masand.h conditions/oscillating_kings.h \
+ conditions/messigny.h conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/circe.h \
  conditions/circe/cage.h conditions/circe/double_agents.h \
@@ -1497,8 +1497,9 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/imitator.h conditions/football.h conditions/mummer.h \
  conditions/woozles.h conditions/nocapture.h conditions/nopromotion.h \
  conditions/geneva.h conditions/edgemover.h conditions/grid.h \
- conditions/take_and_make.h conditions/superguards.h optimisations/hash.h \
- DHT/dhtbcmem.h optimisations/keepmating.h \
+ conditions/take_and_make.h conditions/superguards.h \
+ conditions/wormhole.h optimisations/hash.h DHT/dhtbcmem.h \
+ optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -1718,12 +1719,6 @@ conditions/owu/immobility_tester.h:
 
 conditions/immune.h:
 
-pyproc.h:
-
-py4.h:
-
-stipulation/goals/goals.h:
-
 conditions/provocateurs.h:
 
 conditions/lortap.h:
@@ -1739,6 +1734,12 @@ conditions/ultraschachzwang/goal_filter.h:
 conditions/ultraschachzwang/legality_tester.h:
 
 conditions/singlebox/type1.h:
+
+pyproc.h:
+
+py4.h:
+
+stipulation/goals/goals.h:
 
 conditions/singlebox/type2.h:
 
@@ -1857,6 +1858,8 @@ conditions/grid.h:
 conditions/take_and_make.h:
 
 conditions/superguards.h:
+
+conditions/wormhole.h:
 
 optimisations/hash.h:
 

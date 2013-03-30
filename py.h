@@ -764,8 +764,9 @@ typedef enum
   blackalphabetic,	      /* 182 */
   circetakeandmake,       /* 183 */
   superguards,            /* 184 */
+  wormholes,              /* 185 */
 
-  CondCount               /* 185 */
+  CondCount               /* 186 */
 } Cond;
 
 /* Some remarks to the conditions:
@@ -870,7 +871,7 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 
 #define finligne(i,k,p,sq)      do {register int kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
 
-#define rightcolor(ej, camp)    ((camp)==White ? (ej)<=roin : (ej)>=roib)
+#define piece_belongs_to_opponent(ej, camp)    ((camp)==White ? (ej)<=roin : (ej)>=roib)
 
 #define lrhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 0, ev)
 #define rhopcheck(sq, ka, ke, p, ev)    riderhoppercheck(sq, ka, ke, p, 0, 1, ev)

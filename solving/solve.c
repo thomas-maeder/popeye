@@ -107,6 +107,7 @@
 #include "conditions/grid.h"
 #include "conditions/take_and_make.h"
 #include "conditions/superguards.h"
+#include "conditions/wormhole.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -1525,6 +1526,14 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STTakeAndMakeAvoidPawnMakeToBaseLine:
       result = take_and_make_avoid_pawn_make_to_base_line_solve(si,n);
+      break;
+
+    case STWormholeTransferer:
+      result = wormhole_transferer_solve(si,n);
+      break;
+
+    case STWormholeTransferedPromoter:
+      result = wormhole_transfered_promoter_solve(si,n);
       break;
 
     case STTrue:

@@ -51,6 +51,8 @@ static slice_index const move_slice_rank_order[] =
     STLineChameleonArrivingAdjuster,
     STNorskArrivingAdjuster,
     STProteanPawnAdjuster,
+    STWormholeTransferer,
+    STWormholeTransferedPromoter,
     STEnPassantAdjuster,
     STEinsteinEnPassantAdjuster,
     STPhantomChessEnPassantAdjuster,

@@ -44,7 +44,7 @@
  12= Circe-Wiedergeburt ausserhalb des Brettes ?
  13= Satzspiel mit Koenig im Schach ?
  14= Kamikaze + Neutrale Steine oder Kamikaze + Circe + Maerchenfiguren nicht gleichzeitig erlaubt
- 15= 
+ 15= En-Passant-Schluessel mit Wurmloechern nicht unterstuetzt
  16= Laengst-/Kuerzestzueger/Schlagzwang/Duellantenschach/AlphabetischesSchach gleichzeitig fuer die gleiche Partei ?
  17= \nDie am Zug befindliche Partei kann den Koenig schlagen
  18= Monochromes und Bichromes Schach gleichzeitig ergibt keinen Sinn

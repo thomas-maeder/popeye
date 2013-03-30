@@ -212,6 +212,7 @@
 #include "conditions/eiffel.h"
 #include "conditions/madrasi.h"
 #include "conditions/brunner.h"
+#include "conditions/wormhole.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1495,6 +1496,12 @@ static boolean verify_position(slice_index si)
     }
   }
 
+  if (CondFlag[wormholes] && (ep[1]!=initsquare || einstein_ep[1]!=initsquare))
+  {
+    VerifieMsg(WormholesEPKey);
+    return false;
+  }
+
   if (CondFlag[heffalumps]
       && (exist[Rose]
           || exist[SpiralSpringer]
@@ -1613,7 +1620,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[woozles]
       || (CondFlag[singlebox]
           && (SingleBoxType==singlebox_type1 || SingleBoxType==singlebox_type3))
-      || CondFlag[football])
+      || CondFlag[football]
+      || CondFlag[wormholes])
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
@@ -2513,6 +2521,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[magicsquare])
     stip_insert_magic_square(result);
+
+  if (CondFlag[wormholes])
+    wormhole_initialse_solving(result);
 
   if (CondFlag[dbltibet])
     stip_insert_double_tibet(result);

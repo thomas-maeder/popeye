@@ -287,6 +287,8 @@ Kommandos:
 	SchwarzesAlphabetischesSchach
 	KobulKoenige
 	CirceTake&Make (auch bekannt als Anti-Take&Make)
+	SuperDeckungen
+	Wurmloecher
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines

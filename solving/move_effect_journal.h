@@ -84,6 +84,7 @@ typedef enum
   move_effect_reason_actuate_revolving_centre,
   move_effect_reason_singlebox_promotion,
   move_effect_reason_neutral_recoloring,
+  move_effect_reason_wormhole_transfer
 
 } move_effect_reason_type;
 

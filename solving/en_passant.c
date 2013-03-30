@@ -19,6 +19,11 @@ void adjust_ep_squares(square sq_multistep_departure)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   piece const pi_moving = trait[nbply]==White ? abs(pjoue[nbply]) : -abs(pjoue[nbply]);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_multistep_departure);
+  TraceFunctionParamListEnd();
+
   switch (pi_moving)
   {
     case pb:
@@ -50,6 +55,11 @@ void adjust_ep_squares(square sq_multistep_departure)
     default:
       break;
   }
+
+  TraceSquare(ep[nbply]);TraceText("\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves.
