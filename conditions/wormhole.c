@@ -13,9 +13,9 @@
 #include <stdlib.h>
 
 square wormhole_positions[wormholes_capacity];
-static int nr_wormholes;
+static unsigned int nr_wormholes;
 
-int wormhole_current_transfer[maxply+1];
+unsigned int wormhole_next_transfer[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id_transfer[maxply+1];
 static post_move_iteration_id_type prev_post_move_iteration_id_promotion[maxply+1];
@@ -37,7 +37,7 @@ static PieNam current_promotion_of_transfered[maxply+1];
  */
 stip_length_type wormhole_transfered_promoter_solve(slice_index si, stip_length_type n)
 {
-  square const sq_transfer = wormhole_positions[wormhole_current_transfer[nbply]];
+  square const sq_transfer = wormhole_positions[wormhole_next_transfer[nbply]-1];
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -90,18 +90,18 @@ static void advance_wormhole(square sq_arrival)
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  ++wormhole_current_transfer[nbply];
-  TraceValue("%u",wormhole_current_transfer[nbply]);
-  TraceSquare(wormhole_positions[wormhole_current_transfer[nbply]]);
+  ++wormhole_next_transfer[nbply];
+  TraceValue("%u",wormhole_next_transfer[nbply]);
+  TraceSquare(wormhole_positions[wormhole_next_transfer[nbply]]);
   TraceText("\n");
 
-  while (wormhole_current_transfer[nbply]<nr_wormholes
-         && (wormhole_positions[wormhole_current_transfer[nbply]]==sq_arrival
-             || e[wormhole_positions[wormhole_current_transfer[nbply]]]!=vide))
+  while (wormhole_next_transfer[nbply]<=nr_wormholes
+         && (wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_arrival
+             || e[wormhole_positions[wormhole_next_transfer[nbply]-1]]!=vide))
   {
-    ++wormhole_current_transfer[nbply];
-    TraceValue("%u",wormhole_current_transfer[nbply]);
-    TraceSquare(wormhole_positions[wormhole_current_transfer[nbply]]);
+    ++wormhole_next_transfer[nbply];
+    TraceValue("%u",wormhole_next_transfer[nbply]);
+    TraceSquare(wormhole_positions[wormhole_next_transfer[nbply]]);
     TraceText("\n");
   }
 
@@ -139,18 +139,18 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
   {
     if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
     {
-      wormhole_current_transfer[nbply] = -1;
+      wormhole_next_transfer[nbply] = 0;
       advance_wormhole(sq_arrival);
-      if (wormhole_current_transfer[nbply]==nr_wormholes)
-        wormhole_current_transfer[nbply] = nr_wormholes+1;
+      if (wormhole_next_transfer[nbply]==nr_wormholes+1)
+        wormhole_next_transfer[nbply] = nr_wormholes+2;
     }
     else
-      wormhole_current_transfer[nbply] = nr_wormholes;
+      wormhole_next_transfer[nbply] = nr_wormholes+1;
   }
 
-  if (wormhole_current_transfer[nbply]>nr_wormholes)
+  if (wormhole_next_transfer[nbply]>nr_wormholes+1)
     result = previous_move_is_illegal;
-  else if (wormhole_current_transfer[nbply]==nr_wormholes)
+  else if (wormhole_next_transfer[nbply]==nr_wormholes+1)
     result = solve(slices[si].next1,n);
   else
   {
@@ -159,7 +159,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     move_effect_journal_do_piece_removal(move_effect_reason_wormhole_transfer,
                                          sq_arrival);
     move_effect_journal_do_piece_addition(move_effect_reason_wormhole_transfer,
-                                          wormhole_positions[wormhole_current_transfer[nbply]],
+                                          wormhole_positions[wormhole_next_transfer[nbply]-1],
                                           added,addedspec);
 
     result = solve(slices[si].next1,n);
@@ -167,7 +167,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     if (!post_move_iteration_locked[nbply])
     {
       advance_wormhole(sq_arrival);
-      if (wormhole_current_transfer[nbply]<nr_wormholes)
+      if (wormhole_next_transfer[nbply]<=nr_wormholes)
         lock_post_move_iterations();
     }
   }
@@ -201,7 +201,7 @@ static boolean avoid_observation_if_no_wormhole_empty(square sq_observer,
     result = true;
   else if (TSTFLAG(sq_spec[sq_landing],Wormhole))
   {
-    int i;
+    unsigned int i;
     for (i = 0; i!=nr_wormholes; ++i)
     {
       square const pos = wormhole_positions[i];

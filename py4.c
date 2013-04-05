@@ -3132,7 +3132,7 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp)
     prev_arrival = move_generation_stack[current_move[parent_ply[nbply]]].arrival;
 
     if (TSTFLAG(sq_spec[prev_arrival],Wormhole))
-      prev_arrival = wormhole_positions[wormhole_current_transfer[parent_ply[nbply]]];
+      prev_arrival = wormhole_positions[wormhole_next_transfer[parent_ply[nbply]]-1];
 
     if (piece_belongs_to_opponent(e[prev_arrival],camp))
       empile(sq_departure,sq_arrival,prev_arrival);

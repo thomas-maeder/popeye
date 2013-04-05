@@ -13,7 +13,7 @@ enum
 extern square wormhole_positions[wormholes_capacity];
 
 /* index into wormhole_positions */
-extern int wormhole_current_transfer[maxply+1];
+extern unsigned int wormhole_next_transfer[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
