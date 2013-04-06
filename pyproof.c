@@ -1869,7 +1869,7 @@ void ProofInitialise(slice_index si)
                 || CondFlag[singlebox]
                 || CondFlag[blroyalsq]
                 || CondFlag[whroyalsq]
-                || TSTFLAG(PieSpExFlags, ColourChange)
+                || TSTFLAG(some_pieces_flags, ColourChange)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
                 || CondFlag[annan]
@@ -1898,7 +1898,7 @@ slice_type proof_make_goal_reachable_type(void)
    */
   TraceValue("%u\n",flagfee);
   if (flagfee
-      || (PieSpExFlags&(~(BIT(White)+BIT(Black)+BIT(Royal))))
+      || (some_pieces_flags&(~(BIT(White)+BIT(Black)+BIT(Royal))))
       || CondFlag[masand])
     result  = no_slice_type;
   else if (ProofFairy)

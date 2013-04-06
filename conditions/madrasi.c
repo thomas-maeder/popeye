@@ -91,7 +91,7 @@ boolean madrasi_is_observed(square sq)
   {
     piece p = e[sq];
 
-    if (TSTFLAG(PieSpExFlags,Neutral))
+    if (TSTFLAG(some_pieces_flags,Neutral))
       initialise_neutrals(advers(neutral_side));
 
     if (is_ep_paralysed(p,sq))

@@ -48,7 +48,7 @@ static boolean avoid_undisparate_observation(square sq_observer,
      TLi
   */
   /* will this do for neutral Ks? */
-  if ((TSTFLAG(PieSpExFlags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral))
+  if ((TSTFLAG(some_pieces_flags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral))
     trait[nbply] = neutral_side;
   else if (sq_observee==king_square[Black])
     trait[nbply] = White;

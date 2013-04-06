@@ -112,7 +112,7 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
+  if (TSTFLAG(some_pieces_flags,Neutral))
     initialise_neutrals(advers(neutral_side));
 
   eiffel_piece = get_paralyser(p);

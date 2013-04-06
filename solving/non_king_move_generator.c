@@ -31,7 +31,7 @@ slice_index alloc_non_king_move_generator_slice(void)
 static boolean advance_departure_square(Side side,
                                         square const **next_square_to_try)
 {
-  if (TSTFLAG(PieSpExFlags,Neutral))
+  if (TSTFLAG(some_pieces_flags,Neutral))
     initialise_neutrals(advers(side));
 
   while (true)

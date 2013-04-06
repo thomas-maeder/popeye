@@ -1383,9 +1383,13 @@ void enforce_piecename_uniqueness(void);
 #if defined(WE_ARE_EXTERN)
 	extern  char    *PieSpString[LanguageCount][PieSpCount];
 	extern  char    **PieSpTab;
-	extern  Flags   PieSpExFlags;
+	extern  Flags   some_pieces_flags;
+  extern  Flags   all_pieces_flags;
+  extern  Flags   all_royals_flags;
 #else
-	Flags   PieSpExFlags;   /* used for problem-wide piecespecification */
+	Flags   some_pieces_flags;   /* used for problem-wide piecespecification */
+  Flags   all_pieces_flags;
+  Flags   all_royals_flags;
 	char    **PieSpTab;
 	char    *PieSpString[LanguageCount][PieSpCount] = {
 	{

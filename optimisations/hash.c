@@ -1625,12 +1625,12 @@ static void inithash(slice_index si)
   if (CondFlag[haanerchess])
     piece_nbr[obs]= j++;
 
-  one_byte_hash = j<(1<<(CHAR_BIT/2)) && PieSpExFlags<(1<<(CHAR_BIT/2));
+  one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
 
   bytes_per_spec= 1;
-  if ((PieSpExFlags >> CHAR_BIT) != 0)
+  if ((some_pieces_flags >> CHAR_BIT) != 0)
     bytes_per_spec++;
-  if ((PieSpExFlags >> 2*CHAR_BIT) != 0)
+  if ((some_pieces_flags >> 2*CHAR_BIT) != 0)
     bytes_per_spec++;
 
   bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;

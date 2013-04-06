@@ -508,64 +508,41 @@ static boolean locateRoyal(void)
   king_square[White] = initsquare;
   king_square[Black] = initsquare;
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
+  if (TSTFLAG(some_pieces_flags,Neutral))
     /* neutral king has to be white for initialisation of r[bn] */
     initialise_neutrals(White);
 
   if (CondFlag[dynasty])
   {
     square const *bnp;
-    square s;
-
-    OptFlag[sansrn] = true;
-    OptFlag[sansrb] = true;
-
-    if (nbpiece[roib]==1)
-      for (bnp = boardnum; *bnp; bnp++)
+    for (bnp = boardnum; *bnp; bnp++)
+    {
+      square const s = *bnp;
+      piece const p = e[s];
+      if (abs(p)==King)
       {
-        s = *bnp;
-        if (e[s]==roib)
+        Side const king_side = p==roib ? White : Black;
+        CLRFLAGMASK(spec[s],all_pieces_flags);
+        SETFLAGMASK(spec[s],all_royals_flags);
+        if (nbpiece[p]==1)
         {
-          if (!SetKing(&king_square[White],s))
-          {
-            VerifieMsg(OneKing);
-            return false;
-          }
-          break;
+          king_square[king_side] = s;
+          SETFLAG(spec[s],Royal);
         }
       }
-    else
-      king_square[White] = initsquare;
-
-    if (nbpiece[roin]==1)
-      for (bnp = boardnum; *bnp; bnp++)
-      {
-        s = *bnp;
-        if (e[s]==roin)
-        {
-          if (!SetKing(&king_square[Black],s))
-          {
-            VerifieMsg(OneKing);
-            return false;
-          }
-          break;
-        }
-      }
-    else
-      king_square[Black] = initsquare;
+    }
   }
   else if (CondFlag[losingchess] || CondFlag[extinction])
   {
-    OptFlag[sansrn] = true;
-    OptFlag[sansrb] = true;
+    /* no royals */
   }
   else
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
     {
-      square s = *bnp;
-      piece p = e[s];
+      square const s = *bnp;
+      piece const p = e[s];
       if (p==roib
           || (p>roib && TSTFLAG(spec[s],Royal)))
       {
@@ -575,7 +552,9 @@ static boolean locateRoyal(void)
           return false;
         }
         if (TSTFLAG(spec[s],Neutral))
-          SetKing(&king_square[Black],s);
+          king_square[Black] = s;
+        CLRFLAGMASK(spec[s],all_pieces_flags);
+        SETFLAGMASK(spec[s],all_royals_flags|BIT(Royal));
       }
 
       if (s==royal_square[White])
@@ -595,6 +574,8 @@ static boolean locateRoyal(void)
           VerifieMsg(OneKing);
           return false;
         }
+        CLRFLAGMASK(spec[s],all_pieces_flags);
+        SETFLAGMASK(spec[s],all_royals_flags|BIT(Royal));
       }
 
       if (s==royal_square[Black])
@@ -623,46 +604,44 @@ static boolean initialise_piece_flags(void)
   TraceFunctionParamListEnd();
 
   if (CondFlag[volage])
-    SETFLAG(PieSpExFlags,Volage);
+  {
+    SETFLAG(some_pieces_flags,Volage);
+    SETFLAG(all_pieces_flags,Volage);
+  }
 
   if (CondFlag[patrouille])
-    SETFLAG(PieSpExFlags,Patrol);
+  {
+    SETFLAG(some_pieces_flags,Patrol);
+    SETFLAG(all_pieces_flags,Patrol);
+    SETFLAG(all_royals_flags,Patrol);
+  }
 
   if (CondFlag[beamten])
-    SETFLAG(PieSpExFlags,Beamtet);
+  {
+    SETFLAG(some_pieces_flags,Beamtet);
+    SETFLAG(all_pieces_flags,Beamtet);
+    SETFLAG(all_royals_flags,Beamtet);
+  }
 
   for (bnp = boardnum; *bnp; bnp++)
   {
     piece const p = e[*bnp];
     if (p!=vide)
     {
-      if (CondFlag[volage] && king_square[White]!=*bnp && king_square[Black]!=*bnp)
-        SETFLAG(spec[*bnp],Volage);
-
-      if (CondFlag[patrouille])
-        SETFLAG(spec[*bnp],Patrol);
-
-      if (CondFlag[beamten])
-        SETFLAG(spec[*bnp],Beamtet);
+      SETFLAGMASK(spec[*bnp],all_pieces_flags);
 
       assert(id<=MaxPieceId);
-      SetPieceId(spec[*bnp], id);
+      SetPieceId(spec[*bnp],id);
       ++id;
-      SavePositionInDiagram(spec[*bnp], *bnp);
+      SavePositionInDiagram(spec[*bnp],*bnp);
 
       if (TSTFLAG(spec[*bnp],ColourChange)
-          && !is_simplehopper(abs(e[*bnp])))
+          && !is_simplehopper(abs(p)))
       {
         /* relies on imitators already having been implemented */
         CLRFLAG(spec[*bnp],ColourChange);
         ErrorMsg(ColourChangeRestricted);
       }
-
-      if (abs(e[*bnp])==King
-          && !CondFlag[losingchess]
-          && !CondFlag[extinction]
-          && (!CondFlag[dynasty] || nbpiece[e[*bnp]]==1))
-        SETFLAG(spec[*bnp],Royal);
     }
   }
 
@@ -913,8 +892,8 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (TSTFLAG(PieSpExFlags, HalfNeutral))
-    SETFLAG(PieSpExFlags, Neutral);
+  if (TSTFLAG(some_pieces_flags, HalfNeutral))
+    SETFLAG(some_pieces_flags, Neutral);
 
   if (CondFlag[republican] && !republican_verifie_position(si))
     return false;
@@ -971,7 +950,7 @@ static boolean verify_position(slice_index si)
             flagleofamilyonly = false;
           flagveryfairy = true;
         }
-        if (TSTFLAG(PieSpExFlags,Magic) && !magic_is_piece_supported(p))
+        if (TSTFLAG(some_pieces_flags,Magic) && !magic_is_piece_supported(p))
         {
           VerifieMsg(MagicAndFairyPieces);
           return false;
@@ -987,7 +966,7 @@ static boolean verify_position(slice_index si)
 
   /* otherwise, the optimisation would be correct, too, but we
    * wouldn't care */
-  optim_neutralretractable = TSTFLAG(PieSpExFlags,Neutral);
+  optim_neutralretractable = TSTFLAG(some_pieces_flags,Neutral);
 
   if (CondFlag[sting])
   {
@@ -1001,7 +980,7 @@ static boolean verify_position(slice_index si)
   {
     if (flagveryfairy
         || flagsymmetricfairy
-        || TSTFLAG(PieSpExFlags, Jigger)
+        || TSTFLAG(some_pieces_flags, Jigger)
         || CondFlag[newkoeko]
         || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
         || CondFlag[blackedge] || CondFlag[whiteedge]
@@ -1043,8 +1022,8 @@ static boolean verify_position(slice_index si)
       VerifieMsg(CirceAndDummy);
       return false;
     }
-    if (TSTFLAG(PieSpExFlags, Neutral)
-        || CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
+    if (TSTFLAG(some_pieces_flags, Neutral)
+        || CondFlag[volage] || TSTFLAG(some_pieces_flags,Volage))
     {
       optim_neutralretractable = false;
       disable_orthodox_mating_move_optimisation(nr_sides);
@@ -1279,9 +1258,9 @@ static boolean verify_position(slice_index si)
       || CondFlag[magicsquare]
       || CondFlag[volage]
       || CondFlag[masand]
-      || TSTFLAG(PieSpExFlags,Magic))
+      || TSTFLAG(some_pieces_flags,Magic))
   {
-    if (TSTFLAG(PieSpExFlags, Neutral))
+    if (TSTFLAG(some_pieces_flags, Neutral))
     {
       VerifieMsg(TooFairyForNeutral);
       return false;
@@ -1307,15 +1286,15 @@ static boolean verify_position(slice_index si)
   if ((CondFlag[koeko]
        || CondFlag[newkoeko]
        || CondFlag[antikoeko]
-       || TSTFLAG(PieSpExFlags, Jigger))
+       || TSTFLAG(some_pieces_flags, Jigger))
       && anycirce
-      && TSTFLAG(PieSpExFlags, Neutral))
+      && TSTFLAG(some_pieces_flags, Neutral))
   {
     VerifieMsg(TooFairyForNeutral);
     return false;
   }
 
-  if (TSTFLAG(PieSpExFlags, Kamikaze))
+  if (TSTFLAG(some_pieces_flags, Kamikaze))
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
@@ -1409,7 +1388,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam])
   {
-    if ( CondFlag[imitators]|| TSTFLAG(PieSpExFlags,Paralysing))
+    if ( CondFlag[imitators]|| TSTFLAG(some_pieces_flags,Paralysing))
     {
       VerifieMsg(MadrasiParaAndOthers);
       return false;
@@ -1417,7 +1396,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[circeassassin]) {
-    if (TSTFLAG(PieSpExFlags,Neutral) /* Neutrals not implemented */
+    if (TSTFLAG(some_pieces_flags,Neutral) /* Neutrals not implemented */
         || CondFlag[bicolores])             /* others? */
     {
       VerifieMsg(AssassinandOthers);
@@ -1447,7 +1426,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[antikoeko]
         || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
         || CondFlag[geneva]
-        || TSTFLAG(PieSpExFlags, Kamikaze))
+        || TSTFLAG(some_pieces_flags, Kamikaze))
     {
       VerifieMsg(SomeCondAndAntiCirce);
       return false;
@@ -1480,7 +1459,7 @@ static boolean verify_position(slice_index si)
 
   if (mummer_strictness[White]==mummer_strictness_ultra && !CondFlag[whcapt])
   {
-    if (TSTFLAG(PieSpExFlags, Neutral))
+    if (TSTFLAG(some_pieces_flags, Neutral))
     {
       VerifieMsg(TooFairyForNeutral);
       return false;
@@ -1489,7 +1468,7 @@ static boolean verify_position(slice_index si)
 
   if (mummer_strictness[Black]==mummer_strictness_ultra && !CondFlag[blcapt])
   {
-    if (TSTFLAG(PieSpExFlags, Neutral))
+    if (TSTFLAG(some_pieces_flags, Neutral))
     {
       VerifieMsg(TooFairyForNeutral);
       return false;
@@ -1540,7 +1519,7 @@ static boolean verify_position(slice_index si)
   {
     if (anycirce || anyanticirce
         || CondFlag[haanerchess]
-        || TSTFLAG(PieSpExFlags,Kamikaze)
+        || TSTFLAG(some_pieces_flags,Kamikaze)
         || (CondFlag[ghostchess] && CondFlag[hauntedchess]))
     {
       VerifieMsg(GhostHauntedChessAndCirceKamikazeHaanIncompatible);
@@ -1548,24 +1527,24 @@ static boolean verify_position(slice_index si)
     }
     else
     {
-      SETFLAG(PieSpExFlags,Uncapturable);
+      SETFLAG(some_pieces_flags,Uncapturable);
       optim_neutralretractable = false;
     }
   }
 
   change_moving_piece=
-      TSTFLAG(PieSpExFlags, Kamikaze)
-      || TSTFLAG(PieSpExFlags, Protean)
+      TSTFLAG(some_pieces_flags, Kamikaze)
+      || TSTFLAG(some_pieces_flags, Protean)
       || CondFlag[tibet]
       || CondFlag[andernach]
       || CondFlag[antiandernach]
       || CondFlag[magicsquare]
-      || TSTFLAG(PieSpExFlags, Chameleon)
+      || TSTFLAG(some_pieces_flags, Chameleon)
       || CondFlag[einstein]
       || CondFlag[reveinstein]
       || CondFlag[antieinstein]
       || CondFlag[volage]
-      || TSTFLAG(PieSpExFlags, Volage)
+      || TSTFLAG(some_pieces_flags, Volage)
       || CondFlag[degradierung]
       || CondFlag[norsk]
       || CondFlag[traitor]
@@ -1580,7 +1559,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[strictSAT])
     king_capture_avoiders_avoid_opponent();
 
-  if (TSTFLAG(PieSpExFlags, Jigger)
+  if (TSTFLAG(some_pieces_flags, Jigger)
       || CondFlag[newkoeko]
       || CondFlag[koeko]
       || CondFlag[antikoeko]
@@ -1590,18 +1569,18 @@ static boolean verify_position(slice_index si)
       || mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[vogt]
       || CondFlag[central]
-      || TSTFLAG(PieSpExFlags,Beamtet)
-      || TSTFLAG(PieSpExFlags,Patrol)
+      || TSTFLAG(some_pieces_flags,Beamtet)
+      || TSTFLAG(some_pieces_flags,Patrol)
       || CondFlag[provocateurs]
       || CondFlag[ultrapatrouille]
       || CondFlag[lortap]
       || CondFlag[shieldedkings]
-      || TSTFLAG(PieSpExFlags,Paralysing)
+      || TSTFLAG(some_pieces_flags,Paralysing)
       || CondFlag[madras] || CondFlag[eiffel]
       || CondFlag[brunner]
       || (king_square[White] != initsquare && abs(e[king_square[White]]) != King)
       || (king_square[Black] != initsquare && abs(e[king_square[Black]]) != King)
-      || TSTFLAG(PieSpExFlags, Chameleon)
+      || TSTFLAG(some_pieces_flags, Chameleon)
       || CondFlag[einstein]
       || CondFlag[reveinstein]
       || CondFlag[antieinstein]
@@ -1611,12 +1590,12 @@ static boolean verify_position(slice_index si)
       || CondFlag[linechamchess]
       || CondFlag[chamchess]
       || CondFlag[antikings]
-      || TSTFLAG(PieSpExFlags, HalfNeutral)
+      || TSTFLAG(some_pieces_flags, HalfNeutral)
       || CondFlag[geneva]
       || CondFlag[disparate]
       || CondFlag[BGL]
       || CondFlag[dynasty] /* TODO why? */
-      || TSTFLAG(PieSpExFlags,Magic)
+      || TSTFLAG(some_pieces_flags,Magic)
       || CondFlag[woozles]
       || (CondFlag[singlebox]
           && (SingleBoxType==singlebox_type1 || SingleBoxType==singlebox_type3))
@@ -1712,7 +1691,7 @@ static boolean verify_position(slice_index si)
        || exist[Friend]
        || calc_reflective_king[White]
        || calc_reflective_king[Black])
-      && TSTFLAG(PieSpExFlags, Neutral))
+      && TSTFLAG(some_pieces_flags, Neutral))
   {
     VerifieMsg(TooFairyForNeutral);
     return false;
@@ -1726,7 +1705,7 @@ static boolean verify_position(slice_index si)
   }
 
   if ((CondFlag[chamchess] || CondFlag[linechamchess])
-      && TSTFLAG(PieSpExFlags, Chameleon))
+      && TSTFLAG(some_pieces_flags, Chameleon))
   {
     VerifieMsg(ChameleonPiecesAndChess);
     return false;
@@ -1738,7 +1717,7 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (TSTFLAG(PieSpExFlags, ColourChange))
+  if (TSTFLAG(some_pieces_flags, ColourChange))
   {
     checkhopim = true;
     optim_neutralretractable = false;
@@ -1890,7 +1869,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (mummer_strictness[White]!=mummer_strictness_none /* counting opponents moves not useful */
-      || TSTFLAG(PieSpExFlags, Neutral)
+      || TSTFLAG(some_pieces_flags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
@@ -1912,7 +1891,7 @@ static boolean verify_position(slice_index si)
     disable_countnropponentmoves_defense_move_optimisation(White);
 
   if (mummer_strictness[Black]!=mummer_strictness_none /* counting opponents moves not useful */
-      || TSTFLAG(PieSpExFlags, Neutral)
+      || TSTFLAG(some_pieces_flags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
@@ -1962,7 +1941,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(Black);
   if (mummer_strictness[White]!=mummer_strictness_none
       || CondFlag[messigny]
@@ -1973,7 +1952,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || TSTFLAG(PieSpExFlags,ColourChange) /* killer machinery doesn't store hurdle */)
+      || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(White);
 
   if (mummer_strictness[Black]!=mummer_strictness_none)
@@ -2273,7 +2252,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_circe_goal_filters(result);
   if (anyanticirce)
     stip_insert_anticirce_goal_filters(result);
-  if (TSTFLAG(PieSpExFlags,Kamikaze))
+  if (TSTFLAG(some_pieces_flags,Kamikaze))
     stip_insert_kamikaze(result);
 
   /* must come before stip_apply_setplay() */
@@ -2363,7 +2342,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[patience])
     stip_insert_patience_chess(result);
 
-  if (TSTFLAG(PieSpExFlags,Paralysing))
+  if (TSTFLAG(some_pieces_flags,Paralysing))
     paralysing_initialise_solving(result);
 
   if (CondFlag[SAT] || CondFlag[strictSAT])
@@ -2381,7 +2360,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[dynasty])
     stip_insert_dynasty(result);
 
-  if (TSTFLAG(PieSpExFlags,ColourChange))
+  if (TSTFLAG(some_pieces_flags,ColourChange))
     stip_insert_hurdle_colour_changers(result);
 
   stip_insert_king_oscillators(result);
@@ -2416,7 +2395,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
       stip_insert_chameleon_circe(result);
     if (anyclone)
       stip_insert_circe_clone(result);
-    if (TSTFLAG(PieSpExFlags,Kamikaze))
+    if (TSTFLAG(some_pieces_flags,Kamikaze))
     {
       stip_insert_anticirce_relaxed(result);
       stip_insert_circe_kamikaze_rebirth_handlers(result);
@@ -2432,7 +2411,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (anycirce)
   {
-    if  (TSTFLAG(PieSpExFlags,Volage))
+    if  (TSTFLAG(some_pieces_flags,Volage))
       stip_insert_circe_volage_recolorers(result);
     if  (anycirprom)
       stip_insert_circe_promoters(result);
@@ -2443,7 +2422,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[sentinelles])
     stip_insert_sentinelles_inserters(result);
 
-  if (TSTFLAG(PieSpExFlags,Magic))
+  if (TSTFLAG(some_pieces_flags,Magic))
     stip_insert_magic_pieces_recolorers(result);
 
   if (CondFlag[antisuper])
@@ -2480,7 +2459,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (kobulking[White] || kobulking[Black])
     stip_insert_kobul_king_substitutors(result);
 
-  if (TSTFLAG(PieSpExFlags,HalfNeutral))
+  if (TSTFLAG(some_pieces_flags,HalfNeutral))
     stip_insert_half_neutral_recolorers(result);
 
   if (CondFlag[andernach])
@@ -2495,7 +2474,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[norsk])
     stip_insert_norsk_chess(result);
 
-  if (CondFlag[protean] || TSTFLAG(PieSpExFlags,Protean))
+  if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
     stip_insert_protean_chess(result);
 
   if (castling_supported)
@@ -2516,7 +2495,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[traitor])
     stip_insert_traitor_side_changers(result);
 
-  if (TSTFLAG(PieSpExFlags,Volage))
+  if (TSTFLAG(some_pieces_flags,Volage))
     stip_insert_volage_side_changers(result);
 
   if (CondFlag[magicsquare])
@@ -2533,7 +2512,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[degradierung])
     stip_insert_degradierung(result);
 
-  if (TSTFLAG(PieSpExFlags,Chameleon))
+  if (TSTFLAG(some_pieces_flags,Chameleon))
     stip_insert_chameleon(result);
 
   if (CondFlag[frischauf])
@@ -2583,7 +2562,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[BGL])
     bgl_initialise_solving(result);
 
-  if (TSTFLAG(PieSpExFlags,Patrol))
+  if (TSTFLAG(some_pieces_flags,Patrol))
     patrol_initialise_solving(result);
   if (CondFlag[ultrapatrouille])
     ultrapatrol_initialise_solving();
@@ -2618,7 +2597,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   else if (CondFlag[newkoeko])
     newkoeko_initialise_solving(result);
 
-  if (TSTFLAG(PieSpExFlags,Jigger))
+  if (TSTFLAG(some_pieces_flags,Jigger))
     jigger_initialise_solving(result);
 
   if (CondFlag[monochro])
@@ -2635,7 +2614,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[gridchess])
     grid_initialise_solving(result);
 
-  if (TSTFLAG(PieSpExFlags,Uncapturable))
+  if (TSTFLAG(some_pieces_flags,Uncapturable))
     stip_insert_uncapturable(result);
 
   if (CondFlag[takemake])
@@ -2716,7 +2695,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   stip_insert_output_slices(result);
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
+  if (TSTFLAG(some_pieces_flags,Neutral))
     stip_insert_neutral_initialisers(result);
 
   if (OptFlag[solmenaces]
@@ -2747,7 +2726,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[central])
     central_initialise_solving();
 
-  if (TSTFLAG(PieSpExFlags,Beamtet))
+  if (TSTFLAG(some_pieces_flags,Beamtet))
     beamten_initialise_solving();
 
   if (CondFlag[shieldedkings])
@@ -2816,7 +2795,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
       assert(unique_goal.type==goal_proofgame || unique_goal.type==goal_atob);
 
       countPieces();
-      if (locateRoyal() && initialise_piece_flags())
+      if (initialise_piece_flags() && locateRoyal())
       {
         ProofSaveTargetPosition();
 
@@ -2826,7 +2805,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
         ProofRestoreStartPosition();
 
         countPieces();
-        if (locateRoyal() && initialise_piece_flags() && verify_position(stipulation_root))
+        if (initialise_piece_flags() && locateRoyal() && verify_position(stipulation_root))
         {
           ProofSaveStartPosition();
           ProofRestoreTargetPosition();
@@ -2863,8 +2842,8 @@ static void solve_non_proofgame_stipulation(slice_index stipulation_root_hook,
   TraceFunctionParamListEnd();
 
   countPieces();
-  if (locateRoyal()
-      && initialise_piece_flags()
+  if (initialise_piece_flags()
+      && locateRoyal()
       && verify_position(slices[stipulation_root_hook].next1))
   {
     if (!OptFlag[noboard] && twin_index==0)

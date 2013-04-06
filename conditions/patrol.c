@@ -25,10 +25,7 @@ static boolean is_not_patrol_or_supported_capture(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[patrouille] || TSTFLAG(spec[sq_observer],Patrol))
-    result = patrol_is_supported(sq_observer);
-  else
-    result = true;
+  result = !TSTFLAG(spec[sq_observer],Patrol) || patrol_is_supported(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

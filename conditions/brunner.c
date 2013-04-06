@@ -19,7 +19,7 @@ static Side guess_side_at_move(square sq_departure, square sq_capture)
      move from sq_departure, sq_arrival and sq_capture.
      TLi
   */
-  if (TSTFLAG(PieSpExFlags,Neutral)
+  if (TSTFLAG(some_pieces_flags,Neutral)
       && king_square[White]!=initsquare
       && TSTFLAG(spec[king_square[White]],Neutral))
     /* will this do for neutral Ks? */

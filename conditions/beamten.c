@@ -39,10 +39,7 @@ static boolean avoid_unobserved_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[beamten] || TSTFLAG(spec[sq_observer],Beamtet))
-    result = beamten_is_observed(sq_observer);
-  else
-    result = true;
+  result = !TSTFLAG(spec[sq_observer],Beamtet) || beamten_is_observed(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

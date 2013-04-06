@@ -458,10 +458,13 @@ void InitBoard(void)
   king_square[White] = initsquare;
   king_square[Black] = initsquare;
 
-  CLEARFL(PieSpExFlags);
-  SETFLAG(PieSpExFlags,White);
-  SETFLAG(PieSpExFlags,Black);
-  SETFLAG(PieSpExFlags,Royal);
+  CLEARFL(all_pieces_flags);
+  CLEARFL(all_royals_flags);
+
+  CLEARFL(some_pieces_flags);
+  SETFLAG(some_pieces_flags,White);
+  SETFLAG(some_pieces_flags,Black);
+  SETFLAG(some_pieces_flags,Royal);
 
   nrhuntertypes = 0;
 } /* InitBoard */

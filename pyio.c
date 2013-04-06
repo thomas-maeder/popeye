@@ -1758,7 +1758,7 @@ static square SetSquare(square sq, piece p, boolean bw, boolean *neut)
   if (*neut) {
     spec[sq]= BIT(Black) | BIT(White) | BIT(Neutral);
     e[sq] = p;  /* must be 'white' for neutral */
-    SETFLAG(PieSpExFlags, Neutral);
+    SETFLAG(some_pieces_flags, Neutral);
   }
   *neut= false;
   return NextSquare(sq);
@@ -1806,7 +1806,7 @@ static char *ParseForsyth(boolean output)
                       islower((int)InputLine[(tok++)-TokenLine]),
                       &NeutralFlag);
         if (NeutralFlag)
-          SETFLAG(PieSpExFlags,Neutral);
+          SETFLAG(some_pieces_flags,Neutral);
       }
       else
         tok++;           /* error */
@@ -1827,7 +1827,7 @@ static char *ParseForsyth(boolean output)
                         islower((int)InputLine[(tok+1-TokenLine)]),
                         &NeutralFlag);
           if (NeutralFlag)
-            SETFLAG(PieSpExFlags,Neutral);
+            SETFLAG(some_pieces_flags,Neutral);
         }
         tok += 3;
       }
@@ -1879,7 +1879,7 @@ static char *ParsePieSpec(char echo)
         else
         {
           SETFLAG(PieSpFlags,ps);
-          SETFLAG(PieSpExFlags,ps);
+          SETFLAG(some_pieces_flags,ps);
         }
       }
 
@@ -2199,22 +2199,22 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_circuit:
         pipe_link(proxy,alloc_goal_circuit_reached_tester_system());
-        SETFLAGMASK(PieSpExFlags,PieceIdMask);
+        SETFLAGMASK(some_pieces_flags,PieceIdMask);
         break;
 
       case goal_exchange:
         pipe_link(proxy,alloc_goal_exchange_reached_tester_system());
-        SETFLAGMASK(PieSpExFlags,PieceIdMask);
+        SETFLAGMASK(some_pieces_flags,PieceIdMask);
         break;
 
       case goal_circuit_by_rebirth:
         pipe_link(proxy,alloc_goal_circuit_by_rebirth_reached_tester_system());
-        SETFLAGMASK(PieSpExFlags,PieceIdMask);
+        SETFLAGMASK(some_pieces_flags,PieceIdMask);
         break;
 
       case goal_exchange_by_rebirth:
         pipe_link(proxy,alloc_goal_exchange_by_rebirth_reached_tester_system());
-        SETFLAGMASK(PieSpExFlags,PieceIdMask);
+        SETFLAGMASK(some_pieces_flags,PieceIdMask);
         break;
 
       case goal_any:
@@ -3095,7 +3095,7 @@ static char *ParseStip(slice_index root_slice_hook)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  CLRFLAGMASK(PieSpExFlags,PieceIdMask);
+  CLRFLAGMASK(some_pieces_flags,PieceIdMask);
 
   strcpy(AlphaStip,tok);
   if (ParsePlay(tok,root_slice_hook,root_slice_hook,play_length_minimum))
@@ -4237,7 +4237,7 @@ static char *ParseStructuredStip(slice_index root_slice_hook)
   TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
 
-  CLRFLAGMASK(PieSpExFlags,PieceIdMask);
+  CLRFLAGMASK(some_pieces_flags,PieceIdMask);
 
   AlphaStip[0] = 0;
 
@@ -4414,7 +4414,7 @@ static char *ReadFrischAufSquares(void)
         else
         {
           SETFLAG(spec[sq],FrischAuf);
-          SETFLAG(PieSpExFlags,FrischAuf);
+          SETFLAG(some_pieces_flags,FrischAuf);
         }
 
         tok += 2;
@@ -5394,9 +5394,23 @@ static char *ParseCond(void)
         break;
 
       case duellist:
+        mummer_strictness[Black] = mummer_strictness_regular;
+        mummer_strictness[White] = mummer_strictness_regular;
+        tok = ReadNextTokStr();
+        break;
+
       case losingchess:
         mummer_strictness[Black] = mummer_strictness_regular;
         mummer_strictness[White] = mummer_strictness_regular;
+        OptFlag[sansrn] = true;
+        OptFlag[sansrb] = true;
+        tok = ReadNextTokStr();
+        break;
+
+      case dynasty:
+      case extinction:
+        OptFlag[sansrn] = true;
+        OptFlag[sansrb] = true;
         tok = ReadNextTokStr();
         break;
 
@@ -7019,7 +7033,7 @@ void WritePosition()
     CenterLine(ListSpec[Royal]);
 
   for (sp = Royal+1; sp<PieSpCount; sp++)
-    if (TSTFLAG(PieSpExFlags,sp))
+    if (TSTFLAG(some_pieces_flags,sp))
       if (!(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
           && !(sp==Beamtet && CondFlag[beamten]))

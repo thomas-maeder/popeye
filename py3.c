@@ -272,7 +272,7 @@ boolean orig_rnechec(evalfunction_t *evaluate)
 
   INCREMENT_COUNTER(orig_rnechec);
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
+  if (TSTFLAG(some_pieces_flags,Neutral))
   {
     Side const neutcoul_save = neutral_side;
     initialise_neutrals(White);
@@ -530,7 +530,7 @@ boolean orig_rbechec(evalfunction_t *evaluate)
 
   INCREMENT_COUNTER(orig_rbechec);
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
+  if (TSTFLAG(some_pieces_flags,Neutral))
   {
     Side const neutcoul_save = neutral_side;
     initialise_neutrals(Black);
@@ -954,7 +954,7 @@ boolean echecc(Side camp)
       result = false;
     else
     {
-      if (TSTFLAG(PieSpExFlags,Neutral))
+      if (TSTFLAG(some_pieces_flags,Neutral))
         initialise_neutrals(Black);
       if (CondFlag[circeassassin] && echecc_wh_assassin())
         result = true;
@@ -982,7 +982,7 @@ boolean echecc(Side camp)
       result = false;
     else
     {
-      if (TSTFLAG(PieSpExFlags,Neutral))
+      if (TSTFLAG(some_pieces_flags,Neutral))
         initialise_neutrals(White);
       if (CondFlag[circeassassin] && echecc_bl_assassin())
         result = true;

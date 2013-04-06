@@ -169,7 +169,7 @@ static void place_king(Side moving)
 {
   Side const other_side = advers(moving);
   piece const king_type = other_side==White ? roib : roin;
-  Flags const king_flags = BIT(Royal)|BIT(other_side);
+  Flags const king_flags = all_royals_flags|BIT(Royal)|BIT(other_side);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,moving,"");
