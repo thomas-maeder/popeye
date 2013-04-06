@@ -1,0 +1,11 @@
+begin
+
+protocol paralysing.tst
+
+title monochrome paralysis in Bichrome Chess
+pieces white pa2 black kb4 black paral gf8
+stip +1
+condition bichrom
+option nowk
+
+end

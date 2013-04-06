@@ -1172,6 +1172,42 @@ Until 4.61, pieces reborn on magic squares did not change
 solution finished. 
 
 
+
+Until 4.61, Patrouille and paralysing pieces didn't go well together
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   .   .   .   .   .  -R   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          2 + 2
+            Paralysing h2
+              Patrouille
+
+   1.a2-a3 + !
+
+
+              empile:           2
+           play_move:           2
+        orig_rbechec:           3
+        orig_rnechec:           4
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known
