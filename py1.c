@@ -464,7 +464,6 @@ void InitBoard(void)
   CLEARFL(some_pieces_flags);
   SETFLAG(some_pieces_flags,White);
   SETFLAG(some_pieces_flags,Black);
-  SETFLAG(some_pieces_flags,Royal);
 
   nrhuntertypes = 0;
 } /* InitBoard */

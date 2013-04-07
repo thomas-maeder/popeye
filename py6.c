@@ -419,18 +419,6 @@ static boolean is_symmetricfairy(PieNam p)
   }
 }
 
-
-static boolean SetKing(int *kingsquare, int square)
-{
-  if (*kingsquare==initsquare)
-  {
-    *kingsquare = square;
-    return true;
-  }
-  else
-    return false;
-}
-
 static void initPieces(void)
 {
   PieNam p;
@@ -503,93 +491,113 @@ static void countPieces(void)
   TraceFunctionResultEnd();
 }
 
-static boolean locateRoyal(void)
+static boolean locate_unique_royal(Side side)
 {
+  unsigned int nr_royals = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  if (royal_square[side]!=initsquare)
+  {
+    king_square[side] = royal_square[side];
+    ++nr_royals;
+  }
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+    {
+      square const s = *bnp;
+      if (abs(e[s])==King)
+      {
+        if (TSTFLAG(spec[s],side))
+        {
+          king_square[side] = s;
+          ++nr_royals;
+        }
+        CLRFLAGMASK(spec[s],all_pieces_flags);
+        SETFLAGMASK(spec[s],all_royals_flags|BIT(Royal));
+      }
+      else if (TSTFLAG(spec[s],Royal))
+      {
+        if (TSTFLAG(spec[s],side))
+        {
+          king_square[side] = s;
+          ++nr_royals;
+        }
+        CLRFLAGMASK(spec[s],all_pieces_flags);
+        SETFLAGMASK(spec[s],all_royals_flags);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",nr_royals<=1);
+  TraceFunctionResultEnd();
+  return nr_royals<=1;
+}
+
+static boolean locate_royals(void)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   king_square[White] = initsquare;
   king_square[Black] = initsquare;
 
-  if (TSTFLAG(some_pieces_flags,Neutral))
-    /* neutral king has to be white for initialisation of r[bn] */
-    initialise_neutrals(White);
-
   if (CondFlag[dynasty])
   {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
+    assert(royal_square[White]==initsquare);
+    assert(royal_square[Black]==initsquare);
+
     {
-      square const s = *bnp;
-      piece const p = e[s];
-      if (abs(p)==King)
+      square const *bnp;
+      for (bnp = boardnum; *bnp; ++bnp)
       {
-        Side const king_side = p==roib ? White : Black;
-        CLRFLAGMASK(spec[s],all_pieces_flags);
-        SETFLAGMASK(spec[s],all_royals_flags);
-        if (nbpiece[p]==1)
+        square const s = *bnp;
+        piece const p = e[s];
+        assert(!TSTFLAG(spec[s],Royal));
+        if (abs(p)==King)
         {
-          king_square[king_side] = s;
-          SETFLAG(spec[s],Royal);
+          Side const king_side = p==roib ? White : Black;
+          CLRFLAGMASK(spec[s],all_pieces_flags);
+          SETFLAGMASK(spec[s],all_royals_flags);
+          if (nbpiece[p]==1)
+          {
+            king_square[king_side] = s;
+            SETFLAG(spec[s],Royal);
+          }
         }
       }
     }
   }
   else if (CondFlag[losingchess] || CondFlag[extinction])
   {
-    /* no royals */
-  }
-  else
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
+    assert(royal_square[White]==initsquare);
+    assert(royal_square[Black]==initsquare);
+
     {
-      square const s = *bnp;
-      piece const p = e[s];
-      if (p==roib
-          || (p>roib && TSTFLAG(spec[s],Royal)))
+      square const *bnp;
+      for (bnp = boardnum; *bnp; ++bnp)
       {
-        if (!SetKing(&king_square[White],s))
-        {
-          VerifieMsg(OneKing);
-          return false;
-        }
-        if (TSTFLAG(spec[s],Neutral))
-          king_square[Black] = s;
-        CLRFLAGMASK(spec[s],all_pieces_flags);
-        SETFLAGMASK(spec[s],all_royals_flags|BIT(Royal));
-      }
-
-      if (s==royal_square[White])
-      {
-        if (!SetKing(&king_square[White],s))
-        {
-          VerifieMsg(OneKing);
-          return false;
-        }
-      }
-
-      if (p==roin
-          || (p<roin && TSTFLAG(spec[s],Royal)))
-      {
-        if (!SetKing(&king_square[Black],s))
-        {
-          VerifieMsg(OneKing);
-          return false;
-        }
-        CLRFLAGMASK(spec[s],all_pieces_flags);
-        SETFLAGMASK(spec[s],all_royals_flags|BIT(Royal));
-      }
-
-      if (s==royal_square[Black])
-      {
-        if (!SetKing(&king_square[Black],s))
-        {
-          VerifieMsg(OneKing);
-          return false;
-        }
+        assert(!TSTFLAG(spec[*bnp],Royal));
       }
     }
   }
+  else if (!locate_unique_royal(White) || !locate_unique_royal(Black))
+  {
+    VerifieMsg(OneKing);
+    result = false;
+  }
 
-  return true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* initialize elmt at index NullPieceId with initsquare */
@@ -597,7 +605,6 @@ square PiecePositionsInDiagram[MaxPieceId+1] = { initsquare };
 
 static boolean initialise_piece_flags(void)
 {
-  square const *bnp;
   PieceIdType id = MinPieceId;
 
   TraceFunctionEntry(__func__);
@@ -623,24 +630,27 @@ static boolean initialise_piece_flags(void)
     SETFLAG(all_royals_flags,Beamtet);
   }
 
-  for (bnp = boardnum; *bnp; bnp++)
   {
-    piece const p = e[*bnp];
-    if (p!=vide)
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
     {
-      SETFLAGMASK(spec[*bnp],all_pieces_flags);
-
-      assert(id<=MaxPieceId);
-      SetPieceId(spec[*bnp],id);
-      ++id;
-      SavePositionInDiagram(spec[*bnp],*bnp);
-
-      if (TSTFLAG(spec[*bnp],ColourChange)
-          && !is_simplehopper(abs(p)))
+      piece const p = e[*bnp];
+      if (p!=vide)
       {
-        /* relies on imitators already having been implemented */
-        CLRFLAG(spec[*bnp],ColourChange);
-        ErrorMsg(ColourChangeRestricted);
+        SETFLAGMASK(spec[*bnp],all_pieces_flags);
+
+        assert(id<=MaxPieceId);
+        SetPieceId(spec[*bnp],id);
+        ++id;
+        SavePositionInDiagram(spec[*bnp],*bnp);
+
+        if (TSTFLAG(spec[*bnp],ColourChange)
+            && !is_simplehopper(abs(p)))
+        {
+          /* relies on imitators already having been implemented */
+          CLRFLAG(spec[*bnp],ColourChange);
+          ErrorMsg(ColourChangeRestricted);
+        }
       }
     }
   }
@@ -901,7 +911,8 @@ static boolean verify_position(slice_index si)
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
        || rex_circe
-       || immune_is_rex_inclusive)
+       || immune_is_rex_inclusive
+       || TSTFLAG(some_pieces_flags,Royal))
       && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
   {
     VerifieMsg(IncompatibleRoyalSettings);
@@ -2795,7 +2806,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
       assert(unique_goal.type==goal_proofgame || unique_goal.type==goal_atob);
 
       countPieces();
-      if (initialise_piece_flags() && locateRoyal())
+      if (initialise_piece_flags() && locate_royals())
       {
         ProofSaveTargetPosition();
 
@@ -2805,7 +2816,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
         ProofRestoreStartPosition();
 
         countPieces();
-        if (initialise_piece_flags() && locateRoyal() && verify_position(stipulation_root))
+        if (initialise_piece_flags() && locate_royals() && verify_position(stipulation_root))
         {
           ProofSaveStartPosition();
           ProofRestoreTargetPosition();
@@ -2843,7 +2854,7 @@ static void solve_non_proofgame_stipulation(slice_index stipulation_root_hook,
 
   countPieces();
   if (initialise_piece_flags()
-      && locateRoyal()
+      && locate_royals()
       && verify_position(slices[stipulation_root_hook].next1))
   {
     if (!OptFlag[noboard] && twin_index==0)

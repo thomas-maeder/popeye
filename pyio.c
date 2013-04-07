@@ -1697,10 +1697,12 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
   PieNam  Name;
   size_t  l;
 
-  while (true) {
+  while (true)
+  {
     char const * const hunterseppos = strchr(tok,hunterseparator);
     btok = tok; /* Save it, if we want to return it */
-    if (hunterseppos!=0 && hunterseppos-tok<=2) {
+    if (hunterseppos!=0 && hunterseppos-tok<=2)
+    {
       PieNam away, home;
       tok = PrsPieShortcut((hunterseppos-tok)%2==1,tok,&away);
       ++tok; /* skip slash */
@@ -1708,11 +1710,14 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
       tok = PrsPieShortcut(l%2==1,tok,&home);
       Name = MakeHunterType(away,home);
     }
-    else {
-      l= strlen(tok);
+    else
+    {
+      l = strlen(tok);
       tok = PrsPieShortcut(l%2==1,tok,&Name);
     }
-    if (Name >= King) {
+
+    if (Name>=King)
+    {
       if (l >= 3 && !strchr("12345678",tok[1]))
         break;
       /* We return here not the next1 tokenstring
@@ -1724,18 +1729,20 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
       if (!*tok)
         tok = ReadNextTokStr();
       tok = ParseSquareList(tok, Name, Spec, echo);
-      CLRFLAG(Spec, Royal);
+      /* undocumented feature: "royal" only applies to the immediately next
+       * piece indication because there can be at most 1 royal piece per side
+       */
+      CLRFLAG(Spec,Royal);
     }
     else if (hunterseppos!=0)
       tok = ReadNextTokStr();
+    else if (NameCnt>0)
+      return btok;
     else
-      if (NameCnt>0)
-        return btok;
-      else
-      {
-        IoErrorMsg(WrongPieceName,0);
-        tok = ReadNextTokStr();
-      }
+    {
+      IoErrorMsg(WrongPieceName,0);
+      tok = ReadNextTokStr();
+    }
   }
 
   return btok;
@@ -1856,7 +1863,7 @@ static char *ParsePieSpec(char echo)
   Flags   PieSpFlags;
   int     SpecCnt= 0;
   char    *tok;
-  Flags   ColorFlag= (BIT(White) | BIT(Black) | BIT(Neutral));
+  Flags const ColorBits = (BIT(White) | BIT(Black) | BIT(Neutral));
 
   tok = ReadNextTokStr();
   while (true)
@@ -1871,7 +1878,7 @@ static char *ParsePieSpec(char echo)
         IoErrorMsg(PieSpecNotUniq,0);
       else
       {
-        Flags TmpFlg= PieSpFlags&ColorFlag;
+        Flags const TmpFlg = PieSpFlags&ColorBits;
         if (TmpFlg
             && (TmpFlg & BIT(ps))
             && (TmpFlg != (Flags)BIT(ps)))
@@ -1886,9 +1893,9 @@ static char *ParsePieSpec(char echo)
       tok = ReadNextTokStr();
     }
 
-    if (PieSpFlags & ColorFlag)
+    if (PieSpFlags & ColorBits)
     {
-      tok = PrsPieNam(tok, PieSpFlags, echo);
+      tok = PrsPieNam(tok,PieSpFlags,echo);
       SpecCnt++;
     }
     else
