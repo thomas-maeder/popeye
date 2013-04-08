@@ -152,8 +152,6 @@ void geneva_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observer_validator(&avoid_illegal_observation);
-  register_observation_geometry_validator(&avoid_illegal_observation);
   register_observation_validator(&avoid_illegal_observation);
 
   TraceFunctionExit(__func__);

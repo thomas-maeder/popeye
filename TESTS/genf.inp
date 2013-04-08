@@ -1,0 +1,19 @@
+begin
+
+protocol genf.tst
+
+title Madrasi paralysis even if rebirth square is occupied
+pieces white pb6 black pa7
+condition geneva madrasi
+stipulation ~1
+option movenum nowk nobk
+
+next
+
+title Patrol support even if rebirth square is occupied
+pieces white pa2b3 black pc4
+condition geneva patrouille
+stip x1
+option nowk nobk
+
+end
