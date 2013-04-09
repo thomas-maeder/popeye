@@ -85,10 +85,10 @@ a)
  56  (Ke3*d2[+bSf1] )
  57  (Ke3*d2[+bSb1] )
 
-              empile:    97647690
-           play_move:    47952137
-        orig_rbechec:    47095237
-        orig_rnechec:    35899727
+                        empile:    97647690
+                     play_move:    47952137
+ is_white_king_square_attacked:    47095237
+ is_black_king_square_attacked:    35899727
 b) bBf6 
 
  58  (Rh6-h1 )
@@ -139,10 +139,10 @@ b) bBf6
 102  (Ke3*d2[+bSf1] )
 103  (Ke3*d2[+bSb1] )
 
-              empile:    38539025
-           play_move:    20035189
-        orig_rbechec:    19677476
-        orig_rnechec:    14414953
+                        empile:    38539025
+                     play_move:    20035189
+ is_white_king_square_attacked:    19677476
+ is_black_king_square_attacked:    14414953
 solution finished. 
 
 
@@ -234,10 +234,10 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
  58  (c7-c5 )
  59  (c7-c6 )
 
-              empile:      962033
-           play_move:      331822
-        orig_rbechec:      101914
-        orig_rnechec:      330598
+                        empile:      962033
+                     play_move:      331822
+ is_white_king_square_attacked:      101914
+ is_black_king_square_attacked:      330598
 solution finished. 
 
 
@@ -346,10 +346,10 @@ a)
  73  (Se2*d4[+bPd3] )
  74  (Se2-c3 )
 
-              empile:     2376936
-           play_move:      837193
-        orig_rbechec:      832712
-        orig_rnechec:      351364
+                        empile:     2376936
+                     play_move:      837193
+ is_white_king_square_attacked:      832712
+ is_black_king_square_attacked:      351364
 b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 
  75  (Rd8*c8[+bRd8] )
@@ -481,10 +481,10 @@ b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 200  (Sc2*d4[+bPd3] )
 201  (Sc2-a3 )
 
-              empile:     5252568
-           play_move:     1771893
-        orig_rbechec:     1762968
-        orig_rnechec:      884486
+                        empile:     5252568
+                     play_move:     1771893
+ is_white_king_square_attacked:     1762968
+ is_black_king_square_attacked:      884486
 solution finished. 
 
 
@@ -557,10 +557,10 @@ a)
  38  (Kf1-e2 )
  39  (Kf1-g2 )
 
-              empile:    91343668
-           play_move:    35097578
-        orig_rbechec:    34345864
-        orig_rnechec:    18896725
+                        empile:    91343668
+                     play_move:    35097578
+ is_white_king_square_attacked:    34345864
+ is_black_king_square_attacked:    18896725
 b)  -bSg1
 
  40  (Bg8-e6 )
@@ -603,10 +603,10 @@ b)  -bSg1
  76  (Kf1-e2 )
  77  (Kf1-g2 )
 
-              empile:    85889547
-           play_move:    32595797
-        orig_rbechec:    31884740
-        orig_rnechec:    17686424
+                        empile:    85889547
+                     play_move:    32595797
+ is_white_king_square_attacked:    31884740
+ is_black_king_square_attacked:    17686424
 solution finished. 
 
 
@@ -675,10 +675,10 @@ a)
  34  (Sb8-c6 )
  35  (Sb8-d7 )
 
-              empile:       86137
-           play_move:       50953
-        orig_rbechec:       11459
-        orig_rnechec:       49909
+                        empile:       86137
+                     play_move:       50953
+ is_white_king_square_attacked:       11459
+ is_black_king_square_attacked:       49909
 b) bKa7-->c6
 
  36  (Sc1*e2[+wPe3] )
@@ -720,10 +720,10 @@ b) bKa7-->c6
  71  (Sb8-a6 )
  72  (Sb8-d7 )
 
-              empile:      148437
-           play_move:       71623
-        orig_rbechec:       17418
-        orig_rnechec:       70641
+                        empile:      148437
+                     play_move:       71623
+ is_white_king_square_attacked:       17418
+ is_black_king_square_attacked:       70641
 solution finished. 
 
 
@@ -798,10 +798,10 @@ a)
  40  (Re8-g8 + )
  41  (Re8-f8 )
 
-              empile:     2183568
-           play_move:     1316423
-        orig_rbechec:      239961
-        orig_rnechec:     1243942
+                        empile:     2183568
+                     play_move:     1316423
+ is_white_king_square_attacked:      239961
+ is_black_king_square_attacked:     1243942
 b) bRe8-->e7
 
  42  (Sd4-b3 )
@@ -845,10 +845,10 @@ b) bRe8-->e7
  79  (Re7-g7 + )
  80  (Re7-f7 )
 
-              empile:     1978226
-           play_move:     1191043
-        orig_rbechec:      224650
-        orig_rnechec:     1124756
+                        empile:     1978226
+                     play_move:     1191043
+ is_white_king_square_attacked:      224650
+ is_black_king_square_attacked:     1124756
 solution finished. 
 
 
@@ -988,10 +988,10 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
 106  (Sc1-b3 )
 107  (Sc1-a2 )
 
-              empile:     5588484
-           play_move:     2573880
-        orig_rbechec:     2564798
-        orig_rnechec:     1785209
+                        empile:     5588484
+                     play_move:     2573880
+ is_white_king_square_attacked:     2564798
+ is_black_king_square_attacked:     1785209
 solution finished. 
 
 
@@ -1056,10 +1056,10 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, Special prize
  30  (Kg1-f2 )
  31  (Kg1-h2 )
 
-              empile:     2411258
-           play_move:     1109229
-        orig_rbechec:      235622
-        orig_rnechec:     1093816
+                        empile:     2411258
+                     play_move:     1109229
+ is_white_king_square_attacked:      235622
+ is_black_king_square_attacked:     1093816
 solution finished. 
 
 
@@ -1093,10 +1093,10 @@ WCCC Kobe 2012, Tzuica Tourney, 3rd HM
   1.NAe8-b2 a3*b2[+wNAd3]   2.NAd8-b4 + Qf4*b4[+wNAd8] # 
   1.NAd8-h6 g7*h6[+wNAb3]   2.NAf8-d4 + Qf4*d4[+wNAf8] # 
 
-              empile:      411142
-           play_move:      167218
-        orig_rbechec:      165887
-        orig_rnechec:       96827
+                        empile:      411142
+                     play_move:      167218
+ is_white_king_square_attacked:      165887
+ is_black_king_square_attacked:       96827
 solution finished. 
 
 
@@ -1134,10 +1134,10 @@ intended solutions:
             CirceTake&Make
 
 
-              empile:      168265
-           play_move:      109459
-        orig_rbechec:        9520
-        orig_rnechec:      109176
+                        empile:      168265
+                     play_move:      109459
+ is_white_king_square_attacked:        9520
+ is_black_king_square_attacked:      109176
 solution finished. 
 
 

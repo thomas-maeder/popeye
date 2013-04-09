@@ -108,6 +108,7 @@
 #include "solving/solve.h"
 #include "solving/observation.h"
 #include "output/output.h"
+#include "conditions/annan.h"
 #include "conditions/bgl.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
@@ -1291,8 +1292,8 @@ static boolean verify_position(slice_index si)
   if (CondFlag[bichro] || CondFlag[monochro])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  rechec[White] = &orig_rbechec;
-  rechec[Black] = &orig_rnechec;
+  is_king_square_attacked[White] = &is_white_king_square_attacked;
+  is_king_square_attacked[Black] = &is_black_king_square_attacked;
 
   if ((CondFlag[koeko]
        || CondFlag[newkoeko]
@@ -1455,8 +1456,8 @@ static boolean verify_position(slice_index si)
 
   if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type3))
   {
-    rechec[Black] = &singleboxtype3_rnechec;
-    rechec[White] = &singleboxtype3_rbechec;
+    is_king_square_attacked[Black] = &singleboxtype3_is_black_king_square_attacked;
+    is_king_square_attacked[White] = &singleboxtype3_is_white_king_square_attacked;
     gen_wh_piece = &singleboxtype3_gen_wh_piece;
     gen_bl_piece = &singleboxtype3_gen_bl_piece;
   }
@@ -1747,8 +1748,8 @@ static boolean verify_position(slice_index si)
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
-    rechec[White] = &annan_rbechec;
-    rechec[Black] = &annan_rnechec;
+    is_king_square_attacked[White] = &annan_is_white_king_square_attacked;
+    is_king_square_attacked[Black] = &annan_is_black_king_square_attacked;
   }
 
   if (CondFlag[losingchess])
@@ -1770,8 +1771,8 @@ static boolean verify_position(slice_index si)
     }
 
     /* no king is ever in check */
-    rechec[White] = &losingchess_rbnechec;
-    rechec[Black] = &losingchess_rbnechec;
+    is_king_square_attacked[White] = &losingchess_is_king_square_attacked;
+    is_king_square_attacked[Black] = &losingchess_is_king_square_attacked;
   }
 
   /* check castling possibilities */
@@ -2988,8 +2989,8 @@ static Token iterate_twins(Token prev_token)
 
       WRITE_COUNTER(empile);
       WRITE_COUNTER(play_move);
-      WRITE_COUNTER(orig_rbechec);
-      WRITE_COUNTER(orig_rnechec);
+      WRITE_COUNTER(is_white_king_square_attacked);
+      WRITE_COUNTER(is_black_king_square_attacked);
     }
 
     ++twin_index;

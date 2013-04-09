@@ -28,10 +28,10 @@
                Isardam
 
 
-              empile:          98
-           play_move:          82
-        orig_rbechec:           9
-        orig_rnechec:          53
+                        empile:          98
+                     play_move:          82
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          53
 solution finished. 
 
 
@@ -67,10 +67,10 @@ solution finished.
    1.MAa8-b6 !
 
 
-              empile:           2
-           play_move:           2
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -104,10 +104,10 @@ reported P.Raican (orig. M.Caillaud??)
 
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3[+wPa2]   3.b2-b4 Sg8-e7 dia
 
-              empile:      137715
-           play_move:      137715
-        orig_rbechec:       13022
-        orig_rnechec:       15852
+                        empile:      137715
+                     play_move:      137715
+ is_white_king_square_attacked:       13022
+ is_black_king_square_attacked:       15852
 solution finished. 
 
 
@@ -141,10 +141,10 @@ reported P.Raican (orig. M.Caillaud??)
 
   1.Sg1-h3 d7-d5   2.Sh3-f4 Qd8-d6   3.Sf4*d5 Qd6-d8[+bPd7]   4.Sd5-b6 dia
 
-              empile:     7471932
-           play_move:     7472940
-        orig_rbechec:      435270
-        orig_rnechec:      384870
+                        empile:     7471932
+                     play_move:     7472940
+ is_white_king_square_attacked:      435270
+ is_black_king_square_attacked:      384870
 solution finished. 
 
 
@@ -178,10 +178,10 @@ solution finished.
 
   1...Bg7-a1 #
 
-              empile:          34
-           play_move:           2
-        orig_rbechec:           0
-        orig_rnechec:           3
+                        empile:          34
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           3
 solution finished. 
 
 
@@ -238,10 +238,10 @@ moves in Maximummer+Imitator problems
                                               6...Rc8-c5[If1] #
 
 
-              empile:      132175
-           play_move:       53760
-        orig_rbechec:       23027
-        orig_rnechec:       42369
+                        empile:      132175
+                     play_move:       53760
+ is_white_king_square_attacked:       23027
+ is_black_king_square_attacked:       42369
 solution finished. 
 
 

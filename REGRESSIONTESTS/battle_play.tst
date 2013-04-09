@@ -23,10 +23,10 @@
   #1                          2 + 1
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           0
-        orig_rnechec:           1
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
 solution finished. 
 
 
@@ -57,10 +57,10 @@ solution finished.
    1.Se8-c7 # !
 
 
-              empile:           4
-           play_move:           4
-        orig_rbechec:           1
-        orig_rnechec:           5
+                        empile:           4
+                     play_move:           4
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           5
 solution finished. 
 
 
@@ -91,10 +91,10 @@ solution finished.
    1.Ba6-c8 z !
 
 
-              empile:           7
-           play_move:           1
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           7
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -132,10 +132,10 @@ solution finished.
       1...Se8-g7
           2.Sd5-c7 #
 
-              empile:          51
-           play_move:          48
-        orig_rbechec:          10
-        orig_rnechec:          50
+                        empile:          51
+                     play_move:          48
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          50
 solution finished. 
 
 
@@ -175,10 +175,10 @@ solution finished.
       1...Se8-g7
           2.Sd5-c7 #
 
-              empile:          64
-           play_move:          58
-        orig_rbechec:          12
-        orig_rnechec:          60
+                        empile:          64
+                     play_move:          58
+ is_white_king_square_attacked:          12
+ is_black_king_square_attacked:          60
 solution finished. 
 
 
@@ -212,10 +212,10 @@ solution finished.
           2.Se8-c7 #
 
 
-              empile:          63
-           play_move:          46
-        orig_rbechec:          13
-        orig_rnechec:          49
+                        empile:          63
+                     play_move:          46
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          49
 solution finished. 
 
 
@@ -249,10 +249,10 @@ solution finished.
           2.Ra8*a4 ##!
 
 
-              empile:         751
-           play_move:         514
-        orig_rbechec:         437
-        orig_rnechec:         106
+                        empile:         751
+                     play_move:         514
+ is_white_king_square_attacked:         437
+ is_black_king_square_attacked:         106
 solution finished. 
 
 
@@ -283,10 +283,10 @@ solution finished.
    1.Kc8-b7 ##! !
 
 
-              empile:         246
-           play_move:         237
-        orig_rbechec:         212
-        orig_rnechec:          45
+                        empile:         246
+                     play_move:         237
+ is_white_king_square_attacked:         212
+ is_black_king_square_attacked:          45
 solution finished. 
 
 
@@ -319,10 +319,10 @@ solution finished.
    1.Rc3-b3 #= !
 
 
-              empile:        1561
-           play_move:         728
-        orig_rbechec:         295
-        orig_rnechec:         448
+                        empile:        1561
+                     play_move:         728
+ is_white_king_square_attacked:         295
+ is_black_king_square_attacked:         448
 solution finished. 
 
 
@@ -357,10 +357,10 @@ solution finished.
           2.Sa4-b6 #
 
 
-              empile:          67
-           play_move:          53
-        orig_rbechec:          17
-        orig_rnechec:          56
+                        empile:          67
+                     play_move:          53
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          56
 solution finished. 
 
 
@@ -396,10 +396,10 @@ solution finished.
           2.Rc5-c8 #
 
 
-              empile:         268
-           play_move:         131
-        orig_rbechec:          46
-        orig_rnechec:         133
+                        empile:         268
+                     play_move:         131
+ is_white_king_square_attacked:          46
+ is_black_king_square_attacked:         133
 solution finished. 
 
 
@@ -433,10 +433,10 @@ the side to play can capture the king
           2.Rc5-c8 #
 
 
-              empile:         108
-           play_move:          48
-        orig_rbechec:          25
-        orig_rnechec:          51
+                        empile:         108
+                     play_move:          48
+ is_white_king_square_attacked:          25
+ is_black_king_square_attacked:          51
 solution finished. 
 
 
@@ -484,10 +484,10 @@ solution finished.
       1...Se8-g7
           2.Se6-c7 #
 
-              empile:         408
-           play_move:         242
-        orig_rbechec:          59
-        orig_rnechec:         220
+                        empile:         408
+                     play_move:         242
+ is_white_king_square_attacked:          59
+ is_black_king_square_attacked:         220
 solution finished. 
 
 
@@ -545,10 +545,10 @@ solution finished.
           2.Se6-c7 #
 
 
-              empile:        3605
-           play_move:        2482
-        orig_rbechec:        1420
-        orig_rnechec:        1174
+                        empile:        3605
+                     play_move:        2482
+ is_white_king_square_attacked:        1420
+ is_black_king_square_attacked:        1174
 solution finished. 
 
 
@@ -578,10 +578,10 @@ solution finished.
 
       1...b3-b2 #
 
-              empile:          21
-           play_move:          21
-        orig_rbechec:          22
-        orig_rnechec:           5
+                        empile:          21
+                     play_move:          21
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:           5
 solution finished. 
 
 
@@ -613,10 +613,10 @@ solution finished.
       1...b3-b2 #
 
 
-              empile:         106
-           play_move:          70
-        orig_rbechec:          70
-        orig_rnechec:          22
+                        empile:         106
+                     play_move:          70
+ is_white_king_square_attacked:          70
+ is_black_king_square_attacked:          22
 solution finished. 
 
 
@@ -649,10 +649,10 @@ s#1 with incomplete set play (not given)
       1...b3-b2 #
 
 
-              empile:         104
-           play_move:          68
-        orig_rbechec:          66
-        orig_rnechec:          26
+                        empile:         104
+                     play_move:          68
+ is_white_king_square_attacked:          66
+ is_black_king_square_attacked:          26
 solution finished. 
 
 
@@ -686,10 +686,10 @@ solution finished.
       1...b3-b2 #
 
 
-              empile:         160
-           play_move:         119
-        orig_rbechec:         120
-        orig_rnechec:          34
+                        empile:         160
+                     play_move:         119
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:          34
 solution finished. 
 
 
@@ -745,10 +745,10 @@ solution finished.
       1...b3-b2 !
 
 
-              empile:         233
-           play_move:         190
-        orig_rbechec:         166
-        orig_rnechec:         118
+                        empile:         233
+                     play_move:         190
+ is_white_king_square_attacked:         166
+ is_black_king_square_attacked:         118
 solution finished. 
 
 
@@ -780,10 +780,10 @@ solution finished.
       1...Kc8-b7 ##!
 
 
-              empile:         561
-           play_move:         542
-        orig_rbechec:         105
-        orig_rnechec:         505
+                        empile:         561
+                     play_move:         542
+ is_white_king_square_attacked:         105
+ is_black_king_square_attacked:         505
 solution finished. 
 
 
@@ -815,10 +815,10 @@ solution finished.
       1...e4*f3 ep.
 
 
-              empile:          18
-           play_move:          18
-        orig_rbechec:          11
-        orig_rnechec:          10
+                        empile:          18
+                     play_move:          18
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          10
 solution finished. 
 
 
@@ -851,10 +851,10 @@ solution finished.
           2.Qd1-g4
               2...b3-b2 #
 
-              empile:         255
-           play_move:         165
-        orig_rbechec:         167
-        orig_rnechec:          68
+                        empile:         255
+                     play_move:         165
+ is_white_king_square_attacked:         167
+ is_black_king_square_attacked:          68
 solution finished. 
 
 
@@ -888,10 +888,10 @@ solution finished.
               2...b3-b2 #
 
 
-              empile:        3013
-           play_move:        1440
-        orig_rbechec:        1441
-        orig_rnechec:         770
+                        empile:        3013
+                     play_move:        1440
+ is_white_king_square_attacked:        1441
+ is_black_king_square_attacked:         770
 solution finished. 
 
 
@@ -923,10 +923,10 @@ solution finished.
       1...b3-b2 #
 
 
-              empile:         753
-           play_move:         340
-        orig_rbechec:         340
-        orig_rnechec:         160
+                        empile:         753
+                     play_move:         340
+ is_white_king_square_attacked:         340
+ is_black_king_square_attacked:         160
 solution finished. 
 
 
@@ -959,10 +959,10 @@ solution finished.
       1...c3*b2 #=
 
 
-              empile:        2835
-           play_move:        1193
-        orig_rbechec:         788
-        orig_rnechec:         697
+                        empile:        2835
+                     play_move:        1193
+ is_white_king_square_attacked:         788
+ is_black_king_square_attacked:         697
 solution finished. 
 
 
@@ -1002,10 +1002,10 @@ solution finished.
               2...b3-b2 #
 
 
-              empile:        3275
-           play_move:        1577
-        orig_rbechec:        1580
-        orig_rnechec:         780
+                        empile:        3275
+                     play_move:        1577
+ is_white_king_square_attacked:        1580
+ is_black_king_square_attacked:         780
 solution finished. 
 
 
@@ -1041,10 +1041,10 @@ solution finished.
               2...b3-b2 #
 
 
-              empile:         672
-           play_move:         419
-        orig_rbechec:         421
-        orig_rnechec:         146
+                        empile:         672
+                     play_move:         419
+ is_white_king_square_attacked:         421
+ is_black_king_square_attacked:         146
 solution finished. 
 
 
@@ -1105,10 +1105,10 @@ solution finished.
               2...a3*b2 #
 
 
-              empile:        3901
-           play_move:        2085
-        orig_rbechec:        2072
-        orig_rnechec:         985
+                        empile:        3901
+                     play_move:        2085
+ is_white_king_square_attacked:        2072
+ is_black_king_square_attacked:         985
 solution finished. 
 
 
@@ -1138,10 +1138,10 @@ solution finished.
 
       1...Se1-c2 #
 
-              empile:           4
-           play_move:           4
-        orig_rbechec:           5
-        orig_rnechec:           2
+                        empile:           4
+                     play_move:           4
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           2
 solution finished. 
 
 
@@ -1173,10 +1173,10 @@ solution finished.
       1...Se1-c2 #
 
 
-              empile:          30
-           play_move:          29
-        orig_rbechec:          29
-        orig_rnechec:           7
+                        empile:          30
+                     play_move:          29
+ is_white_king_square_attacked:          29
+ is_black_king_square_attacked:           7
 solution finished. 
 
 
@@ -1210,10 +1210,10 @@ solution finished.
       1...Se1-c2 #
 
 
-              empile:          19
-           play_move:          19
-        orig_rbechec:          20
-        orig_rnechec:           5
+                        empile:          19
+                     play_move:          19
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:           5
 solution finished. 
 
 
@@ -1243,10 +1243,10 @@ solution finished.
 
    1.Bg7-f8 #
 
-              empile:           7
-           play_move:           6
-        orig_rbechec:           2
-        orig_rnechec:           7
+                        empile:           7
+                     play_move:           6
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           7
 solution finished. 
 
 
@@ -1279,10 +1279,10 @@ solution finished.
           2.Sc1-e2
               2...b3-b2 #
 
-              empile:          52
-           play_move:          44
-        orig_rbechec:          43
-        orig_rnechec:          10
+                        empile:          52
+                     play_move:          44
+ is_white_king_square_attacked:          43
+ is_black_king_square_attacked:          10
 solution finished. 
 
 
@@ -1312,10 +1312,10 @@ solution finished.
 
       1...b3-b2 #
 
-              empile:           5
-           play_move:           5
-        orig_rbechec:           6
-        orig_rnechec:           2
+                        empile:           5
+                     play_move:           5
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:           2
 solution finished. 
 
 
@@ -1349,10 +1349,10 @@ solution finished.
               2...b3-b2 #
 
 
-              empile:         307
-           play_move:         201
-        orig_rbechec:         174
-        orig_rnechec:          56
+                        empile:         307
+                     play_move:         201
+ is_white_king_square_attacked:         174
+ is_black_king_square_attacked:          56
 solution finished. 
 
 
@@ -1386,10 +1386,10 @@ r#2 with short set play and short solution
       1...b3-b2 #
 
 
-              empile:          24
-           play_move:          24
-        orig_rbechec:          25
-        orig_rnechec:           6
+                        empile:          24
+                     play_move:          24
+ is_white_king_square_attacked:          25
+ is_black_king_square_attacked:           6
 solution finished. 
 
 
@@ -1423,10 +1423,10 @@ exact r#2 that would have a solution in 1
               2...c2-c1=Q #
 
 
-              empile:         849
-           play_move:         610
-        orig_rbechec:         564
-        orig_rnechec:         175
+                        empile:         849
+                     play_move:         610
+ is_white_king_square_attacked:         564
+ is_black_king_square_attacked:         175
 solution finished. 
 
 
@@ -1456,10 +1456,10 @@ r#2, but White must deliver mate immediately
 
    1.Bg7-f8 #
 
-              empile:           7
-           play_move:           6
-        orig_rbechec:           2
-        orig_rnechec:           7
+                        empile:           7
+                     play_move:           6
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           7
 solution finished. 
 
 
@@ -1494,10 +1494,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:        1038
-           play_move:         680
-        orig_rbechec:         601
-        orig_rnechec:         182
+                        empile:        1038
+                     play_move:         680
+ is_white_king_square_attacked:         601
+ is_black_king_square_attacked:         182
 solution finished. 
 
 
@@ -1549,10 +1549,10 @@ solution finished.
  15  (Ka1-a2 + )
  16  (Ka1-b2 + )
 
-              empile:        9415
-           play_move:        6012
-        orig_rbechec:        5347
-        orig_rnechec:        1272
+                        empile:        9415
+                     play_move:        6012
+ is_white_king_square_attacked:        5347
+ is_black_king_square_attacked:        1272
 solution finished. 
 
 
@@ -1582,10 +1582,10 @@ r#3, but White must deliver mate immediately
 
    1.Bg7-f8 #
 
-              empile:           7
-           play_move:           6
-        orig_rbechec:           2
-        orig_rnechec:           7
+                        empile:           7
+                     play_move:           6
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           7
 solution finished. 
 
 
@@ -1614,10 +1614,10 @@ a r#2 solution does not solve an exact r#3
   exact-r#3                   2 + 1
 
 
-              empile:        1104
-           play_move:         482
-        orig_rbechec:         465
-        orig_rnechec:           0
+                        empile:        1104
+                     play_move:         482
+ is_white_king_square_attacked:         465
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1661,10 +1661,10 @@ would have to deliver mate (issue 2843251)
               2...d2*e1=R #
 
 
-              empile:         484
-           play_move:         343
-        orig_rbechec:         307
-        orig_rnechec:          94
+                        empile:         484
+                     play_move:         343
+ is_white_king_square_attacked:         307
+ is_black_king_square_attacked:          94
 solution finished. 
 
 
@@ -1694,10 +1694,10 @@ solution finished.
 
       1...b3-b2 #
 
-              empile:           4
-           play_move:           4
-        orig_rbechec:           5
-        orig_rnechec:           2
+                        empile:           4
+                     play_move:           4
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           2
 solution finished. 
 
 
@@ -1729,10 +1729,10 @@ solution finished.
       1...b3-b2 #
 
 
-              empile:         104
-           play_move:          59
-        orig_rbechec:          59
-        orig_rnechec:          10
+                        empile:         104
+                     play_move:          59
+ is_white_king_square_attacked:          59
+ is_black_king_square_attacked:          10
 solution finished. 
 
 
@@ -1763,10 +1763,10 @@ solution finished.
       1...Ka3-b2 ##!
 
 the side to play can capture the king
-              empile:         191
-           play_move:         182
-        orig_rbechec:          47
-        orig_rnechec:         147
+                        empile:         191
+                     play_move:         182
+ is_white_king_square_attacked:          47
+ is_black_king_square_attacked:         147
 solution finished. 
 
 
@@ -1798,10 +1798,10 @@ semi-r#2 with short solution; White needn't deliver mate immediately
       1...b3-b2 #
 
 
-              empile:         225
-           play_move:         165
-        orig_rbechec:         154
-        orig_rnechec:          29
+                        empile:         225
+                     play_move:         165
+ is_white_king_square_attacked:         154
+ is_black_king_square_attacked:          29
 solution finished. 
 
 
@@ -1854,10 +1854,10 @@ solution finished.
               2...Ke8-f7
                   3.Rh8-f8 #
 
-              empile:       20197
-           play_move:       16944
-        orig_rbechec:        8689
-        orig_rnechec:        9655
+                        empile:       20197
+                     play_move:       16944
+ is_white_king_square_attacked:        8689
+ is_black_king_square_attacked:        9655
 solution finished. 
 
 
@@ -1901,10 +1901,10 @@ solution finished.
    1.Kd1*c2 !
 
 
-              empile:       55042
-           play_move:       32181
-        orig_rbechec:       28761
-        orig_rnechec:       10228
+                        empile:       55042
+                     play_move:       32181
+ is_white_king_square_attacked:       28761
+ is_black_king_square_attacked:       10228
 solution finished. 
 
 

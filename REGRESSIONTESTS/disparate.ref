@@ -31,10 +31,10 @@ a)
                   3.Kf5-g4 #
 
 
-              empile:         499
-           play_move:         476
-        orig_rbechec:         130
-        orig_rnechec:         363
+                        empile:         499
+                     play_move:         476
+ is_white_king_square_attacked:         130
+ is_black_king_square_attacked:         363
 b) =3
 
    1.Kd7-c6 ! threat:
@@ -51,10 +51,10 @@ b) =3
                   3.Kb5*a4 =
 
 
-              empile:         844
-           play_move:         831
-        orig_rbechec:         452
-        orig_rnechec:         704
+                        empile:         844
+                     play_move:         831
+ is_white_king_square_attacked:         452
+ is_black_king_square_attacked:         704
 solution finished. 
 
 
@@ -86,10 +86,10 @@ solution finished.
 
   1...Kc8-c7   2.a7*b6 Kc7*b6 = 
 
-              empile:         162
-           play_move:         158
-        orig_rbechec:          80
-        orig_rnechec:         149
+                        empile:         162
+                     play_move:         158
+ is_white_king_square_attacked:          80
+ is_black_king_square_attacked:         149
 solution finished. 
 
 
@@ -122,10 +122,10 @@ solution finished.
   1.Re2-b2 e7*d8=R   2.Bh7-b1 Rd8*d6   3.h2-h1=R Rd6-d1 = 
   1.Bh7-b1 e7*f8=B   2.Re2-b2 Bf8*d6   3.h2-h1=B Bd6-e5 = 
 
-              empile:   164155180
-           play_move:    78776314
-        orig_rbechec:    40404464
-        orig_rnechec:    70399359
+                        empile:   164155180
+                     play_move:    78776314
+ is_white_king_square_attacked:    40404464
+ is_black_king_square_attacked:    70399359
 solution finished. 
 
 
@@ -159,10 +159,10 @@ solution finished.
   1.nRg6-g8 nBa5-c7 +   2.nRg8-a8 g5*h4 +   3.nBc7-b8 nRa8*b8 # 
   1.nBa5-c3 nRg6-b6 +   2.nBc3-a1 g5*f4 +   3.nRb6-b2 nBa1*b2 # 
 
-              empile:    18576102
-           play_move:     7258748
-        orig_rbechec:     7083065
-        orig_rnechec:     4266051
+                        empile:    18576102
+                     play_move:     7258748
+ is_white_king_square_attacked:     7083065
+ is_black_king_square_attacked:     4266051
 solution finished. 
 
 

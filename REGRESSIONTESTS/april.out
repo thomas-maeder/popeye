@@ -25,10 +25,10 @@
    1.c6*b7[+sLa7] # !
 
 
-              empile:         177
-           play_move:         182
-        orig_rbechec:          62
-        orig_rnechec:         183
+                        empile:         177
+                     play_move:         182
+ is_white_king_square_attacked:          62
+ is_black_king_square_attacked:         183
 Loesung beendet. 
 
 
@@ -57,10 +57,10 @@ Loesung beendet.
             Aprilschach L
 
 
-              empile:           4
-           play_move:           3
-        orig_rbechec:           1
-        orig_rnechec:           4
+                        empile:           4
+                     play_move:           3
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           4
 Loesung beendet. 
 
 
@@ -90,10 +90,10 @@ Loesung beendet.
             Aprilschach L
 
 
-              empile:         409
-           play_move:         454
-        orig_rbechec:         123
-        orig_rnechec:         455
+                        empile:         409
+                     play_move:         454
+ is_white_king_square_attacked:         123
+ is_black_king_square_attacked:         455
 Loesung beendet. 
 
 
@@ -124,10 +124,10 @@ Loesung beendet.
    1.c7*b8=D[+sLa6] # !
 
 
-              empile:         514
-           play_move:         511
-        orig_rbechec:         124
-        orig_rnechec:         512
+                        empile:         514
+                     play_move:         511
+ is_white_king_square_attacked:         124
+ is_black_king_square_attacked:         512
 Loesung beendet. 
 
 
@@ -157,10 +157,10 @@ Aprilsteine sind schwierig zu decken!
             Aprilschach L
 
 
-              empile:          32
-           play_move:          25
-        orig_rbechec:           8
-        orig_rnechec:          26
+                        empile:          32
+                     play_move:          25
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          26
 Loesung beendet. 
 
 

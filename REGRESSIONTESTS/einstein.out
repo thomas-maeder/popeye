@@ -27,10 +27,10 @@
   1.Ta8-a4=L Kf2-f1   2.La4-c2=S Dg6-d3=T # 
   1.Ta8-a6=L Dg6-d6=T +   2.La6-d3=S + Td6*d3=D # 
 
-              empile:       58302
-           play_move:       49277
-        orig_rbechec:        6268
-        orig_rnechec:       48814
+                        empile:       58302
+                     play_move:       49277
+ is_white_king_square_attacked:        6268
+ is_black_king_square_attacked:       48814
 Loesung beendet. 
 
 
@@ -70,10 +70,10 @@ Loesung beendet.
           2.Se2*g3=L #
 
 
-              empile:        5577
-           play_move:        3014
-        orig_rbechec:         322
-        orig_rnechec:        3017
+                        empile:        5577
+                     play_move:        3014
+ is_white_king_square_attacked:         322
+ is_black_king_square_attacked:        3017
 Loesung beendet. 
 
 
@@ -106,10 +106,10 @@ Loesung beendet.
 
   1.Df3-b3=T c2*b3=S[+sTa8]   2.Ta8-a1=L Sb3*a1=L[+sLf8]   3.Lf8-g7=S La1*g7=T[+sSb8]   4.Sb8-d7=B Tg7*d7=D # 
 
-              empile:      128034
-           play_move:      119417
-        orig_rbechec:           0
-        orig_rnechec:      113575
+                        empile:      128034
+                     play_move:      119417
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:      113575
 Loesung beendet. 
 
 
@@ -144,10 +144,10 @@ Loesung beendet.
 
   1.Th1-g1=L Kh3-g2   2.Lg1-f2=S Ta2*f2=D # 
 
-              empile:       91296
-           play_move:       68977
-        orig_rbechec:       40944
-        orig_rnechec:       38329
+                        empile:       91296
+                     play_move:       68977
+ is_white_king_square_attacked:       40944
+ is_black_king_square_attacked:       38329
 Loesung beendet. 
 
 
@@ -184,10 +184,10 @@ Loesung beendet.
                   3.Le1-b4=S #
 
 
-              empile:        8645
-           play_move:        7668
-        orig_rbechec:        1453
-        orig_rnechec:        6354
+                        empile:        8645
+                     play_move:        7668
+ is_white_king_square_attacked:        1453
+ is_black_king_square_attacked:        6354
 Loesung beendet. 
 
 
@@ -219,10 +219,10 @@ Loesung beendet.
 
   1.b6-b7=S   2.Sb7-d6=L   3.Ld6-b8=T # 
 
-              empile:         256
-           play_move:         256
-        orig_rbechec:          73
-        orig_rnechec:         250
+                        empile:         256
+                     play_move:         256
+ is_white_king_square_attacked:          73
+ is_black_king_square_attacked:         250
 Loesung beendet. 
 
 
@@ -260,10 +260,10 @@ Loesung beendet.
           2.c2*d3=S #
 
 
-              empile:        1717
-           play_move:        1039
-        orig_rbechec:         132
-        orig_rnechec:        1042
+                        empile:        1717
+                     play_move:        1039
+ is_white_king_square_attacked:         132
+ is_black_king_square_attacked:        1042
 Loesung beendet. 
 
 
@@ -297,10 +297,10 @@ Beispiel fuer Rochade in Einstein-Schach
           2.Lf1-a6=S z
 
 
-              empile:         214
-           play_move:          32
-        orig_rbechec:          21
-        orig_rnechec:           0
+                        empile:         214
+                     play_move:          32
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 

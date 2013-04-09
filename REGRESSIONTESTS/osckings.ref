@@ -44,10 +44,10 @@ a)
           2.Sf2*d3 #
 
 
-              empile:        2218
-           play_move:        1174
-        orig_rbechec:         199
-        orig_rnechec:        1760
+                        empile:        2218
+                     play_move:        1174
+ is_white_king_square_attacked:         199
+ is_black_king_square_attacked:        1760
 b) WhiteOscillatingKings    TypeB
 
    1.Sf2-d1[Kf5<->Kc5] ! zugzwang.
@@ -55,18 +55,18 @@ b) WhiteOscillatingKings    TypeB
           2.Sd1-e3[Kd5<->Kf5] #
 
 
-              empile:        3221
-           play_move:        1610
-        orig_rbechec:        1382
-        orig_rnechec:        1613
+                        empile:        3221
+                     play_move:        1610
+ is_white_king_square_attacked:        1382
+ is_black_king_square_attacked:        1613
 c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
 
 
-              empile:        4789
-           play_move:        2081
-        orig_rbechec:        1574
-        orig_rnechec:        2082
+                        empile:        4789
+                     play_move:        2081
+ is_white_king_square_attacked:        1574
+ is_black_king_square_attacked:        2082
 solution finished. 
 
 
@@ -102,10 +102,10 @@ solution finished.
               2...Bf3*d5[Kh8<->Ka8] #
 
 
-              empile:        4429
-           play_move:        1792
-        orig_rbechec:        1793
-        orig_rnechec:        3159
+                        empile:        4429
+                     play_move:        1792
+ is_white_king_square_attacked:        1793
+ is_black_king_square_attacked:        3159
 solution finished. 
 
 
@@ -148,10 +148,10 @@ solution finished.
           2.Qc1-c6 #
 
 
-              empile:        2014
-           play_move:        1286
-        orig_rbechec:         182
-        orig_rnechec:        1289
+                        empile:        2014
+                     play_move:        1286
+ is_white_king_square_attacked:         182
+ is_black_king_square_attacked:        1289
 solution finished. 
 
 

@@ -27,19 +27,19 @@ a)
 
   1.Rg2-h2 Be6-d5[+bKh1] # 
 
-              empile:       62109
-           play_move:       16691
-        orig_rbechec:        2276
-        orig_rnechec:       44277
+                        empile:       62109
+                     play_move:       16691
+ is_white_king_square_attacked:        2276
+ is_black_king_square_attacked:       44277
 b) #1
 
    1.Ra1-h1[+bKh3] # !
 
 
-              empile:        3135
-           play_move:         866
-        orig_rbechec:           0
-        orig_rnechec:        2341
+                        empile:        3135
+                     play_move:         866
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        2341
 solution finished. 
 
 
@@ -72,18 +72,18 @@ a)
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
 
-              empile:       82373
-           play_move:       24156
-        orig_rbechec:        2883
-        orig_rnechec:       54416
+                        empile:       82373
+                     play_move:       24156
+ is_white_king_square_attacked:        2883
+ is_black_king_square_attacked:       54416
 b) RepublicanChess    Type2
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
 
-              empile:       82373
-           play_move:       24156
-        orig_rbechec:        2883
-        orig_rnechec:       54416
+                        empile:       82373
+                     play_move:       24156
+ is_white_king_square_attacked:        2883
+ is_black_king_square_attacked:       54416
 solution finished. 
 
 
@@ -148,10 +148,10 @@ solution finished.
       1...b7*a6 !
 
 
-              empile:       17070
-           play_move:        6547
-        orig_rbechec:        3860
-        orig_rnechec:       16518
+                        empile:       17070
+                     play_move:        6547
+ is_white_king_square_attacked:        3860
+ is_black_king_square_attacked:       16518
 solution finished. 
 
 
@@ -198,10 +198,10 @@ solution finished.
           2.Sc4-e3[+bKe6] #
 
 
-              empile:       49027
-           play_move:       13443
-        orig_rbechec:        8945
-        orig_rnechec:       34758
+                        empile:       49027
+                     play_move:       13443
+ is_white_king_square_attacked:        8945
+ is_black_king_square_attacked:       34758
 solution finished. 
 
 
@@ -248,10 +248,10 @@ solution finished.
           2.Rf8-a8[+bKb8] #
 
 
-              empile:       42940
-           play_move:       10558
-        orig_rbechec:        1780
-        orig_rnechec:       33744
+                        empile:       42940
+                     play_move:       10558
+ is_white_king_square_attacked:        1780
+ is_black_king_square_attacked:       33744
 solution finished. 
 
 
@@ -286,10 +286,10 @@ solution finished.
   1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] # 
   1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] # 
 
-              empile:     4180266
-           play_move:     1137415
-        orig_rbechec:     3309137
-        orig_rnechec:     2523542
+                        empile:     4180266
+                     play_move:     1137415
+ is_white_king_square_attacked:     3309137
+ is_black_king_square_attacked:     2523542
 solution finished. 
 
 
@@ -332,10 +332,10 @@ solution finished.
           2.Sd8*b7[+bKa5] #
 
 
-              empile:       35574
-           play_move:        7883
-        orig_rbechec:        4467
-        orig_rnechec:       26210
+                        empile:       35574
+                     play_move:        7883
+ is_white_king_square_attacked:        4467
+ is_black_king_square_attacked:       26210
 solution finished. 
 
 
@@ -537,10 +537,10 @@ solution finished.
       1...cBd1-e2=cR !
 
 
-              empile:     7754782
-           play_move:     2347433
-        orig_rbechec:     9470386
-        orig_rnechec:     3094423
+                        empile:     7754782
+                     play_move:     2347433
+ is_white_king_square_attacked:     9470386
+ is_black_king_square_attacked:     3094423
 solution finished. 
 
 

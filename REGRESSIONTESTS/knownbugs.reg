@@ -28,10 +28,10 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
    1.mRa7-d7 + !
 
 
-              empile:          47
-           play_move:          47
-        orig_rbechec:           1
-        orig_rnechec:          48
+                        empile:          47
+                     play_move:          47
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:          48
 solution finished. 
 
 
@@ -68,10 +68,10 @@ a)
    1.Sa3-c4 !
 
 
-              empile:          23
-           play_move:          23
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:          23
+                     play_move:          23
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 b) SingleBox    Type2
 
    1.b7-b8=B[h1=b] !
@@ -79,10 +79,10 @@ b) SingleBox    Type2
    1.Sa3-c2 !
 
 
-              empile:          24
-           play_move:          28
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:          24
+                     play_move:          28
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 c) wBa8 
 
    1.b7-b8 !
@@ -90,10 +90,10 @@ c) wBa8
    1.Sa3-c2 !
 
 
-              empile:          24
-           play_move:          28
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:          24
+                     play_move:          28
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solving interrupted. 
 
 
@@ -142,10 +142,10 @@ if combined with Anticirce - 1.Ra8*a7[wRa7->a1] is illegal!
    1.Ra8-b8 !
 
 
-              empile:           8
-           play_move:           8
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 

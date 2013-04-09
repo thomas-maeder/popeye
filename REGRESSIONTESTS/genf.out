@@ -35,10 +35,10 @@
    1.Kc1-d2 + !
 
 
-              empile:          16
-           play_move:          15
-        orig_rbechec:           5
-        orig_rnechec:          16
+                        empile:          16
+                     play_move:          15
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          16
 Loesung beendet. 
 
 
@@ -71,10 +71,10 @@ Loesung beendet.
    1.Dc5-e7 # !
 
 
-              empile:          65
-           play_move:          41
-        orig_rbechec:           0
-        orig_rnechec:          42
+                        empile:          65
+                     play_move:          41
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          42
 Loesung beendet. 
 
 
@@ -107,10 +107,10 @@ Loesung beendet.
    1.Tb2-b1 = !
 
 
-              empile:          84
-           play_move:          42
-        orig_rbechec:          21
-        orig_rnechec:          43
+                        empile:          84
+                     play_move:          42
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:          43
 Loesung beendet. 
 
 

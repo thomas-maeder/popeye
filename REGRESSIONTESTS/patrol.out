@@ -36,10 +36,10 @@
           2.Db6-c5 #
 
 
-              empile:       20191
-           play_move:        9317
-        orig_rbechec:        4644
-        orig_rnechec:       19684
+                        empile:       20191
+                     play_move:        9317
+ is_white_king_square_attacked:        4644
+ is_black_king_square_attacked:       19684
 Loesung beendet. 
 
 
@@ -166,10 +166,10 @@ F1291, The Problemist 14/1-2, 1-3/1992
           2.Sc4-e3 #
 
 
-              empile:       38565
-           play_move:       25267
-        orig_rbechec:       12086
-        orig_rnechec:       64316
+                        empile:       38565
+                     play_move:       25267
+ is_white_king_square_attacked:       12086
+ is_black_king_square_attacked:       64316
 Loesung beendet. 
 
 
@@ -210,10 +210,10 @@ Loesung beendet.
           2.La8-e4 #
 
 
-              empile:        4939
-           play_move:        2537
-        orig_rbechec:        1278
-        orig_rnechec:        5121
+                        empile:        4939
+                     play_move:        2537
+ is_white_king_square_attacked:        1278
+ is_black_king_square_attacked:        5121
 Loesung beendet. 
 
 

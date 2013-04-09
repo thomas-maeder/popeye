@@ -28,10 +28,10 @@
               2...d5*c4[+wLf1]
 
 
-              empile:         252
-           play_move:         251
-        orig_rbechec:         204
-        orig_rnechec:           0
+                        empile:         252
+                     play_move:         251
+ is_white_king_square_attacked:         204
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -64,10 +64,10 @@ Frischauf-Circe mit Angabe von Retro-Information
 
   1.Lb7-g2 La8-f3   2.Lg2*f3[+wLf8] Lf8-h6 # 
 
-              empile:       54868
-           play_move:       24451
-        orig_rbechec:        7085
-        orig_rnechec:       24167
+                        empile:       54868
+                     play_move:       24451
+ is_white_king_square_attacked:        7085
+ is_black_king_square_attacked:       24167
 Loesung beendet. 
 
 

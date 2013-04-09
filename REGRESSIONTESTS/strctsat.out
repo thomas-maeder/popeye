@@ -49,10 +49,10 @@
           2.0-0 #
 
 
-              empile:       72395
-           play_move:       56028
-        orig_rbechec:        5094
-        orig_rnechec:       54450
+                        empile:       72395
+                     play_move:       56028
+ is_white_king_square_attacked:        5094
+ is_black_king_square_attacked:       54450
 Loesung beendet. 
 
 
@@ -126,10 +126,10 @@ Loesung beendet.
       1...Tg7-f7 !
 
 
-              empile:       32628
-           play_move:       20848
-        orig_rbechec:        9147
-        orig_rnechec:       27319
+                        empile:       32628
+                     play_move:       20848
+ is_white_king_square_attacked:        9147
+ is_black_king_square_attacked:       27319
 Loesung beendet. 
 
 

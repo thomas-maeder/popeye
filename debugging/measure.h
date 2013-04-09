@@ -36,7 +36,7 @@
     extern COUNTER_TYPE counter##name;            \
     enum { bufsize = 50 };                        \
     char buf[bufsize];                                          \
-    snprintf(buf,bufsize,"%20s:%12lu\n",#name,counter##name);   \
+    snprintf(buf,bufsize,"%30s:%12lu\n",#name,counter##name);   \
     StdString(buf);                                             \
     counter##name = 0;                                          \
   }

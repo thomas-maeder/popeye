@@ -22,7 +22,7 @@ static boolean avoid_observing_guarded(square sq_observer,
   TraceFunctionParamListEnd();
 
   king_square[side_moving] = sq_observee;
-  result = !rechec[side_moving](&validate_observer);
+  result = !is_king_square_attacked[side_moving](&validate_observer);
   king_square[side_moving] = save_king_square;
 
   TraceFunctionExit(__func__);

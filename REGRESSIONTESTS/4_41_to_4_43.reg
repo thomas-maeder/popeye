@@ -25,10 +25,10 @@
             AnnanChess    
 
 
-              empile:          14
-           play_move:          14
-        orig_rbechec:           3
-        orig_rnechec:          14
+                        empile:          14
+                     play_move:          14
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          14
 solution finished. 
 
 
@@ -60,10 +60,10 @@ solution finished.
 
   1.Kd2-c3 Bd4-e3 #
 
-              empile:         474
-           play_move:         193
-        orig_rbechec:          66
-        orig_rnechec:         193
+                        empile:         474
+                     play_move:         193
+ is_white_king_square_attacked:          66
+ is_black_king_square_attacked:         193
 solution finished. 
 
 
@@ -95,10 +95,10 @@ solution finished.
              ParrainCirce
 
 
-              empile:          18
-           play_move:           8
-        orig_rbechec:           4
-        orig_rnechec:           0
+                        empile:          18
+                     play_move:           8
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -135,10 +135,10 @@ solution finished.
   1.Sb8*a6 Ka7*a6[+wPa5]
   1.Sb8*a6 Ka7-b6[+wPb5]
 
-              empile:           8
-           play_move:           9
-        orig_rbechec:          10
-        orig_rnechec:           0
+                        empile:           8
+                     play_move:           9
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -172,10 +172,10 @@ solution finished.
    1.Ba3*b4 x !
 
 
-              empile:           3
-           play_move:           2
-        orig_rbechec:           0
-        orig_rnechec:           2
+                        empile:           3
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
 solution finished. 
 
 
@@ -201,10 +201,10 @@ solution finished.
       1...Bd1*f3[bBf3->c8] #
 
 
-              empile:        1314
-           play_move:         914
-        orig_rbechec:         838
-        orig_rnechec:         396
+                        empile:        1314
+                     play_move:         914
+ is_white_king_square_attacked:         838
+ is_black_king_square_attacked:         396
 solution finished. 
 
 

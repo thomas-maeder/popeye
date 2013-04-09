@@ -261,16 +261,16 @@ static boolean marsechecc(Side camp, evalfunction_t *evaluate)
 
 static boolean calc_rnechec(evalfunction_t *evaluate);
 
-DEFINE_COUNTER(orig_rnechec)
+DEFINE_COUNTER(is_black_king_square_attacked)
 
-boolean orig_rnechec(evalfunction_t *evaluate)
+boolean is_black_king_square_attacked(evalfunction_t *evaluate)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  INCREMENT_COUNTER(orig_rnechec);
+  INCREMENT_COUNTER(is_black_king_square_attacked);
 
   if (TSTFLAG(some_pieces_flags,Neutral))
   {
@@ -458,77 +458,20 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     return false;
 }
 
-boolean singleboxtype3_rnechec(evalfunction_t *evaluate)
-{
-  unsigned int promotionstried = 0;
-  square sq;
-  for (sq = next_latent_pawn(initsquare,White);
-       sq!=vide;
-       sq = next_latent_pawn(sq,White))
-  {
-    PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,White);
-         pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,White))
-    {
-      boolean result;
-      ++promotionstried;
-      e[sq] = pprom;
-      ++nbpiece[pprom];
-      result = orig_rnechec(evaluate);
-      --nbpiece[pprom];
-      e[sq] = pb;
-      if (result) {
-        return true;
-      }
-    }
-  }
-
-  return promotionstried==0 && orig_rnechec(evaluate);
-}
-
-boolean annan_rnechec(evalfunction_t *evaluate)
-{
-  square annan_sq[nr_squares_on_board];
-  piece annan_p[nr_squares_on_board];
-  int annan_cnt= 0;
-  boolean ret;
-
-  square i,j,z,z1;
-  z= square_h8;
-  for (i= nr_rows_on_board-1; i > 0; i--, z-= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z--) {
-      z1= z-onerow;
-      if (e[z] > obs && annanises(White,z1,z))
-      {
-        annan_sq[annan_cnt]= z;
-        annan_p[annan_cnt]= e[z];
-        ++annan_cnt;
-        e[z]=e[z1];
-      }
-    }
-  ret= orig_rnechec(evaluate);
-
-  while (annan_cnt--)
-    e[annan_sq[annan_cnt]]= annan_p[annan_cnt];
-
-  return ret;
-}
-
-boolean(*rechec[nr_sides])(evalfunction_t *evaluate);
+boolean(*is_king_square_attacked[nr_sides])(evalfunction_t *evaluate);
 
 static boolean calc_rbechec(evalfunction_t *evaluate);
 
-DEFINE_COUNTER(orig_rbechec)
+DEFINE_COUNTER(is_white_king_square_attacked)
 
-boolean orig_rbechec(evalfunction_t *evaluate)
+boolean is_white_king_square_attacked(evalfunction_t *evaluate)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  INCREMENT_COUNTER(orig_rbechec);
+  INCREMENT_COUNTER(is_white_king_square_attacked);
 
   if (TSTFLAG(some_pieces_flags,Neutral))
   {
@@ -716,67 +659,9 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     return false;
 }
 
-boolean annan_rbechec(evalfunction_t *evaluate)
-{
-  square annan_sq[nr_squares_on_board];
-  piece annan_p[nr_squares_on_board];
-  int annan_cnt= 0;
-  boolean ret;
-
-  square i,j,z,z1;
-  z= square_a1;
-  for (i= nr_rows_on_board-1; i > 0; i--, z+= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z++) {
-      z1= z+onerow;
-      if (e[z] < vide && annanises(Black,z1,z))
-      {
-        annan_sq[annan_cnt]= z;
-        annan_p[annan_cnt]= e[z];
-        ++annan_cnt;
-        e[z]=e[z1];
-      }
-    }
-  ret= orig_rbechec(evaluate);
-
-  while (annan_cnt--)
-    e[annan_sq[annan_cnt]]= annan_p[annan_cnt];
-
-  return ret;
-}
-
-boolean losingchess_rbnechec(evalfunction_t *evaluate)
+boolean losingchess_is_king_square_attacked(evalfunction_t *evaluate)
 {
   return false;
-}
-
-boolean singleboxtype3_rbechec(evalfunction_t *evaluate)
-{
-  unsigned int promotionstried = 0;
-  square sq;
-
-  for (sq = next_latent_pawn(initsquare,Black);
-       sq!=vide;
-       sq = next_latent_pawn(sq,Black))
-  {
-    PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,Black);
-         pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,Black))
-    {
-      boolean result;
-      ++promotionstried;
-      e[sq] = -pprom;
-      ++nbpiece[-(piece)pprom];
-      result = orig_rbechec(evaluate);
-      --nbpiece[-(piece)pprom];
-      e[sq] = pn;
-      if (result) {
-        return true;
-      }
-    }
-  }
-
-  return promotionstried==0 && orig_rbechec(evaluate);
 }
 
 static boolean echecc_wh_extinction(void)
@@ -795,7 +680,7 @@ static boolean echecc_wh_extinction(void)
         break;
 
     king_square[White] = *bnp;
-    if (rechec[White](&validate_observation))
+    if (is_king_square_attacked[White](&validate_observation))
     {
       result = true;
       break;
@@ -824,7 +709,7 @@ static boolean echecc_bl_extinction(void)
         break;
 
     king_square[Black] = *bnp;
-    if (rechec[Black](&validate_observation))
+    if (is_king_square_attacked[Black](&validate_observation))
     {
       result = true;
       break;
@@ -840,7 +725,7 @@ static boolean echecc_wh_assassin(void)
 {
   square const *bnp;
 
-  if (rechec[White](&validate_observation))
+  if (is_king_square_attacked[White](&validate_observation))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -855,7 +740,7 @@ static boolean echecc_wh_assassin(void)
       square const rb_sic = king_square[White];
       king_square[White] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = rechec[White](&validate_observation);
+      flag = is_king_square_attacked[White](&validate_observation);
       CondFlag[circeassassin] = true;
       king_square[White] = rb_sic;
       if (flag)
@@ -870,7 +755,7 @@ static boolean echecc_bl_assassin(void)
 {
   square const *bnp;
 
-  if (rechec[Black](&validate_observation))
+  if (is_king_square_attacked[Black](&validate_observation))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -885,7 +770,7 @@ static boolean echecc_bl_assassin(void)
       square rn_sic = king_square[Black];
       king_square[Black] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = rechec[Black](&validate_observation);
+      flag = is_king_square_attacked[Black](&validate_observation);
       CondFlag[circeassassin] = true;
       king_square[Black] = rn_sic;
       if (flag)
@@ -898,7 +783,7 @@ static boolean echecc_bl_assassin(void)
 
 static boolean echecc_wh_bicolores(void)
 {
-  if (rechec[White](&validate_observation))
+  if (is_king_square_attacked[White](&validate_observation))
     return true;
   else
   {
@@ -906,7 +791,7 @@ static boolean echecc_wh_bicolores(void)
     square rn_sic = king_square[Black];
     king_square[Black] = king_square[White];
     CondFlag[bicolores] = false;
-    result = rechec[Black](&validate_observation);
+    result = is_king_square_attacked[Black](&validate_observation);
     CondFlag[bicolores] = true;
     king_square[Black] = rn_sic;
     return result;
@@ -915,7 +800,7 @@ static boolean echecc_wh_bicolores(void)
 
 static boolean echecc_bl_bicolores(void)
 {
-  if (rechec[Black](&validate_observation))
+  if (is_king_square_attacked[Black](&validate_observation))
     return true;
   else
   {
@@ -923,7 +808,7 @@ static boolean echecc_bl_bicolores(void)
     square rb_sic = king_square[White];
     king_square[White] = king_square[Black];
     CondFlag[bicolores] = false;
-    result = rechec[White](&validate_observation);
+    result = is_king_square_attacked[White](&validate_observation);
     CondFlag[bicolores] = true;
     king_square[White] = rb_sic;
     return result;
@@ -961,7 +846,7 @@ boolean echecc(Side camp)
       else if (CondFlag[bicolores])
         result = echecc_wh_bicolores();
       else
-        result = CondFlag[antikings]!=rechec[White](&validate_observation);
+        result = CondFlag[antikings]!=is_king_square_attacked[White](&validate_observation);
     }
   }
   else /* camp==Black */
@@ -989,7 +874,7 @@ boolean echecc(Side camp)
       else if (CondFlag[bicolores])
         result = echecc_bl_bicolores();
       else
-        result = CondFlag[antikings]!=rechec[Black](&validate_observation);
+        result = CondFlag[antikings]!=is_king_square_attacked[Black](&validate_observation);
     }
   }
 

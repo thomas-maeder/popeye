@@ -29,10 +29,10 @@
 
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 # 
 
-              empile:      278625
-           play_move:      215966
-        orig_rbechec:       69204
-        orig_rnechec:       81124
+                        empile:      278625
+                     play_move:      215966
+ is_white_king_square_attacked:       69204
+ is_black_king_square_attacked:       81124
 Loesung beendet. 
 
 
@@ -78,10 +78,10 @@ Loesung beendet.
           2.Da7-d7 #
 
 
-              empile:       14413
-           play_move:       10277
-        orig_rbechec:         407
-        orig_rnechec:        4037
+                        empile:       14413
+                     play_move:       10277
+ is_white_king_square_attacked:         407
+ is_black_king_square_attacked:        4037
 Loesung beendet. 
 
 
@@ -133,10 +133,10 @@ Ausschreibungsoriginal, Kingston 1997
           2.Kc6-d5 #
 
 
-              empile:        2913
-           play_move:        2378
-        orig_rbechec:         108
-        orig_rnechec:        1074
+                        empile:        2913
+                     play_move:        2378
+ is_white_king_square_attacked:         108
+ is_black_king_square_attacked:        1074
 Loesung beendet. 
 
 
@@ -171,19 +171,19 @@ a)
 
   1.Ke8-d8 Da7-d7 +   2.De4-a4 Ka3*a4 # 
 
-              empile:       94051
-           play_move:       68168
-        orig_rbechec:        8431
-        orig_rnechec:       67651
+                        empile:       94051
+                     play_move:       68168
+ is_white_king_square_attacked:        8431
+ is_black_king_square_attacked:       67651
 b) Circe
    Isardam
 
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 # 
 
-              empile:      113801
-           play_move:       90756
-        orig_rbechec:        6525
-        orig_rnechec:       53624
+                        empile:      113801
+                     play_move:       90756
+ is_white_king_square_attacked:        6525
+ is_black_king_square_attacked:       53624
 Loesung beendet. 
 
 
@@ -217,18 +217,18 @@ a)
 
   1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 # 
 
-              empile:      202951
-           play_move:      193199
-        orig_rbechec:        5696
-        orig_rnechec:       90290
+                        empile:      202951
+                     play_move:      193199
+ is_white_king_square_attacked:        5696
+ is_black_king_square_attacked:       90290
 b) sKc6-->b7
 
   1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 # 
 
-              empile:       59377
-           play_move:       59067
-        orig_rbechec:        1335
-        orig_rnechec:       28135
+                        empile:       59377
+                     play_move:       59067
+ is_white_king_square_attacked:        1335
+ is_black_king_square_attacked:       28135
 Loesung beendet. 
 
 
@@ -267,10 +267,10 @@ Loesung beendet.
           2.h7-h8=D #
 
 
-              empile:        1589
-           play_move:        1267
-        orig_rbechec:          80
-        orig_rnechec:         749
+                        empile:        1589
+                     play_move:        1267
+ is_white_king_square_attacked:          80
+ is_black_king_square_attacked:         749
 Loesung beendet. 
 
 
@@ -319,10 +319,10 @@ Loesung beendet.
           2.Kh5-g6 #
 
 
-              empile:        2734
-           play_move:        2296
-        orig_rbechec:         154
-        orig_rnechec:        1570
+                        empile:        2734
+                     play_move:        2296
+ is_white_king_square_attacked:         154
+ is_black_king_square_attacked:        1570
 Loesung beendet. 
 
 
@@ -360,10 +360,10 @@ Loesung beendet.
           2.Ke4-f5 #
 
 
-              empile:       11766
-           play_move:        9116
-        orig_rbechec:         321
-        orig_rnechec:        4153
+                        empile:       11766
+                     play_move:        9116
+ is_white_king_square_attacked:         321
+ is_black_king_square_attacked:        4153
 Loesung beendet. 
 
 
@@ -400,10 +400,10 @@ Loesung beendet.
           2.Db3-a3 #
 
 
-              empile:        3927
-           play_move:        3431
-        orig_rbechec:         188
-        orig_rnechec:        1740
+                        empile:        3927
+                     play_move:        3431
+ is_white_king_square_attacked:         188
+ is_black_king_square_attacked:        1740
 Loesung beendet. 
 
 
@@ -454,10 +454,10 @@ Loesung beendet.
               2...Td8*d3 #
 
 
-              empile:      115839
-           play_move:      109085
-        orig_rbechec:       32648
-        orig_rnechec:        4567
+                        empile:      115839
+                     play_move:      109085
+ is_white_king_square_attacked:       32648
+ is_black_king_square_attacked:        4567
 Loesung beendet. 
 
 
@@ -505,10 +505,10 @@ Loesung beendet.
           2.Sd7-f6 #
 
 
-              empile:       44985
-           play_move:       37505
-        orig_rbechec:        1281
-        orig_rnechec:       19951
+                        empile:       44985
+                     play_move:       37505
+ is_white_king_square_attacked:        1281
+ is_black_king_square_attacked:       19951
 Loesung beendet. 
 
 
@@ -548,10 +548,10 @@ Loesung beendet.
           2.Dg4-g5 #
 
 
-              empile:       26239
-           play_move:       20861
-        orig_rbechec:         703
-        orig_rnechec:        9170
+                        empile:       26239
+                     play_move:       20861
+ is_white_king_square_attacked:         703
+ is_black_king_square_attacked:        9170
 Loesung beendet. 
 
 
@@ -592,10 +592,10 @@ The Problemist ix/1997 (early version)
           2.Se8*f6 #
 
 
-              empile:       54816
-           play_move:       44083
-        orig_rbechec:        1041
-        orig_rnechec:       18019
+                        empile:       54816
+                     play_move:       44083
+ is_white_king_square_attacked:        1041
+ is_black_king_square_attacked:       18019
 Loesung beendet. 
 
 
@@ -652,10 +652,10 @@ The Problemist i/1998 (Position Reflected)
           2.Db7*c8 #
 
 
-              empile:       10153
-           play_move:       10992
-        orig_rbechec:         201
-        orig_rnechec:        3859
+                        empile:       10153
+                     play_move:       10992
+ is_white_king_square_attacked:         201
+ is_black_king_square_attacked:        3859
 Loesung beendet. 
 
 
@@ -694,10 +694,10 @@ Loesung beendet.
           2.b7-b8=T #
 
 
-              empile:       16132
-           play_move:       14025
-        orig_rbechec:         156
-        orig_rnechec:        4309
+                        empile:       16132
+                     play_move:       14025
+ is_white_king_square_attacked:         156
+ is_black_king_square_attacked:        4309
 Loesung beendet. 
 
 
@@ -728,10 +728,10 @@ Loesung beendet.
 
   1...h7-h8=T ##! 
 
-              empile:         306
-           play_move:         279
-        orig_rbechec:         111
-        orig_rnechec:          37
+                        empile:         306
+                     play_move:         279
+ is_white_king_square_attacked:         111
+ is_black_king_square_attacked:          37
 Loesung beendet. 
 
 

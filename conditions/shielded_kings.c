@@ -21,7 +21,7 @@ static boolean shielded_kings_test_support(square sq_observer,
   TraceFunctionParamListEnd();
 
   king_square[opponent] = sq_observer;
-  result = rechec[opponent](&validate_observer);
+  result = is_king_square_attacked[opponent](&validate_observer);
   king_square[opponent] = save_king_square;
 
   TraceFunctionExit(__func__);

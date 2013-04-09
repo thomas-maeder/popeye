@@ -70,10 +70,10 @@
                   3.Sd4-c2 #
 
 
-              empile:      312227
-           play_move:      169690
-        orig_rbechec:       18105
-        orig_rnechec:      166276
+                        empile:      312227
+                     play_move:      169690
+ is_white_king_square_attacked:       18105
+ is_black_king_square_attacked:      166276
 solution finished. 
 
 
@@ -136,10 +136,10 @@ solution finished.
       1...g3*f2 !
 
 
-              empile:      237094
-           play_move:      131328
-        orig_rbechec:       17646
-        orig_rnechec:      128440
+                        empile:      237094
+                     play_move:      131328
+ is_white_king_square_attacked:       17646
+ is_black_king_square_attacked:      128440
 solution finished. 
 
 

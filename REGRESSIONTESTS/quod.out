@@ -40,10 +40,10 @@
           2.Lf1*e2 #=
 
 
-              empile:        9474
-           play_move:        3936
-        orig_rbechec:        2720
-        orig_rnechec:        2149
+                        empile:        9474
+                     play_move:        3936
+ is_white_king_square_attacked:        2720
+ is_black_king_square_attacked:        2149
 Loesung beendet. 
 
 
@@ -93,10 +93,10 @@ Loesung beendet.
               2...Kb8*c7 #=
 
 
-              empile:        5816
-           play_move:        2815
-        orig_rbechec:        1427
-        orig_rnechec:        1884
+                        empile:        5816
+                     play_move:        2815
+ is_white_king_square_attacked:        1427
+ is_black_king_square_attacked:        1884
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
           2.Dh6-d2 #
 
 
-              empile:        7981
-           play_move:        4438
-        orig_rbechec:        3967
-        orig_rnechec:        3012
+                        empile:        7981
+                     play_move:        4438
+ is_white_king_square_attacked:        3967
+ is_black_king_square_attacked:        3012
 Loesung beendet. 
 
 
@@ -252,10 +252,10 @@ Loesung beendet.
           2.Lf7-h5 #
 
 
-              empile:       31059
-           play_move:       22908
-        orig_rbechec:       22373
-        orig_rnechec:        6038
+                        empile:       31059
+                     play_move:       22908
+ is_white_king_square_attacked:       22373
+ is_black_king_square_attacked:        6038
 Loesung beendet. 
 
 
@@ -293,10 +293,10 @@ Loesung beendet.
               2...Sg6-f4 #
 
 
-              empile:        2281
-           play_move:        1507
-        orig_rbechec:        1252
-        orig_rnechec:        1226
+                        empile:        2281
+                     play_move:        1507
+ is_white_king_square_attacked:        1252
+ is_black_king_square_attacked:        1226
 Loesung beendet. 
 
 

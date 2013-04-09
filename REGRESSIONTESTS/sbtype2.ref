@@ -46,10 +46,10 @@
    1.Se3*g2[h1=B] + !
 
 
-              empile:           4
-           play_move:          14
-        orig_rbechec:          14
-        orig_rnechec:          15
+                        empile:           4
+                     play_move:          14
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:          15
 solution finished. 
 
 
@@ -80,10 +80,10 @@ solution finished.
 
   1.g5*f4[a8=S] Rg6*g1 + 
 
-              empile:          14
-           play_move:          14
-        orig_rbechec:           3
-        orig_rnechec:          14
+                        empile:          14
+                     play_move:          14
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          14
 solution finished. 
 
 
@@ -116,10 +116,10 @@ capturing side selects which pawn to promote -> Ra1 can capture
   1.Ra1*b1[h8=R] Bc8-d7 # 
   1.a4-a3 Bc8-d7 # 
 
-              empile:          68
-           play_move:          64
-        orig_rbechec:          10
-        orig_rnechec:          64
+                        empile:          68
+                     play_move:          64
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          64
 solution finished. 
 
 
@@ -153,10 +153,10 @@ don't get confused with >1 latent pawn
           2.Se8*c7 #
 
 
-              empile:        7243
-           play_move:        5390
-        orig_rbechec:         362
-        orig_rnechec:        5028
+                        empile:        7243
+                     play_move:        5390
+ is_white_king_square_attacked:         362
+ is_black_king_square_attacked:        5028
 solution finished. 
 
 
@@ -210,10 +210,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 #
 
 
-              empile:        6569
-           play_move:        4449
-        orig_rbechec:         694
-        orig_rnechec:        4432
+                        empile:        6569
+                     play_move:        4449
+ is_white_king_square_attacked:         694
+ is_black_king_square_attacked:        4432
 solution finished. 
 
 
@@ -284,10 +284,10 @@ solution finished.
       1...d5*e4 !
 
 
-              empile:      214095
-           play_move:      142593
-        orig_rbechec:       33449
-        orig_rnechec:      112097
+                        empile:      214095
+                     play_move:      142593
+ is_white_king_square_attacked:       33449
+ is_black_king_square_attacked:      112097
 solution finished. 
 
 
@@ -325,10 +325,10 @@ solution finished.
           2.Qe8-e5 #
 
 
-              empile:        4805
-           play_move:        3340
-        orig_rbechec:         376
-        orig_rnechec:        2889
+                        empile:        4805
+                     play_move:        3340
+ is_white_king_square_attacked:         376
+ is_black_king_square_attacked:        2889
 solution finished. 
 
 

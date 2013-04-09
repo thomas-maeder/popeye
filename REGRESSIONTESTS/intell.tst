@@ -24,10 +24,10 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 #
 
-              empile:       34585
-           play_move:       35576
-        orig_rbechec:        1367
-        orig_rnechec:       86460
+                        empile:       34585
+                     play_move:       35576
+ is_white_king_square_attacked:        1367
+ is_black_king_square_attacked:       86460
 solution finished. 
 
 
@@ -57,10 +57,10 @@ solution finished.
 
   1...e3*d4   2.Sf7-e5 d4*e5 #
 
-              empile:         103
-           play_move:         103
-        orig_rbechec:           4
-        orig_rnechec:        2666
+                        empile:         103
+                     play_move:         103
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:        2666
 solution finished. 
 
 
@@ -90,10 +90,10 @@ double check by en passant capture from above
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. #
 
-              empile:         278
-           play_move:         269
-        orig_rbechec:          13
-        orig_rnechec:        6019
+                        empile:         278
+                     play_move:         269
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:        6019
 solution finished. 
 
 
@@ -123,10 +123,10 @@ double check by en passant capture from below
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. #
 
-              empile:         720
-           play_move:         670
-        orig_rbechec:          40
-        orig_rnechec:        8589
+                        empile:         720
+                     play_move:         670
+ is_white_king_square_attacked:          40
+ is_black_king_square_attacked:        8589
 solution finished. 
 
 
@@ -156,10 +156,10 @@ interception of a defending pawn by a piece that doesn't guard
 
   1.Sc8-b6   2.Bh3-f1 #
 
-              empile:         110
-           play_move:          93
-        orig_rbechec:           0
-        orig_rnechec:         272
+                        empile:         110
+                     play_move:          93
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:         272
 solution finished. 
 
 
@@ -189,10 +189,10 @@ guard with check -> selfpin with check -> selfpin with guard by s
 
   1...Rh1-h3 #
 
-              empile:         125
-           play_move:         122
-        orig_rbechec:          13
-        orig_rnechec:         514
+                        empile:         125
+                     play_move:         122
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:         514
 solution finished. 
 
 
@@ -222,10 +222,10 @@ guard with check -> selfpin with check -> selfpin with guard by b
 
   1...Sh6-g4 #
 
-              empile:          25
-           play_move:          25
-        orig_rbechec:           3
-        orig_rnechec:         325
+                        empile:          25
+                     play_move:          25
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:         325
 solution finished. 
 
 
@@ -256,10 +256,10 @@ in mate stipulations, it makes sense to pin a queen or rook by a
 
   1...Sc5-d3 #
 
-              empile:          24
-           play_move:          23
-        orig_rbechec:           0
-        orig_rnechec:          86
+                        empile:          24
+                     play_move:          23
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          86
 solution finished. 
 
 

@@ -25,10 +25,10 @@
 
   1.Lh1-d5   2.Ld5-a2   3.Kb4-a3   4.Ka3-b2   5.La2-b1   6.Kb2*c1   7.Kc1-b2   8.Lb1-a2   9.Kb2-a3 0-0-0 
 
-              empile:      164359
-           play_move:      111132
-        orig_rbechec:       66101
-        orig_rnechec:      111109
+                        empile:      164359
+                     play_move:      111132
+ is_white_king_square_attacked:       66101
+ is_black_king_square_attacked:      111109
 Loesung beendet. 
 
 
@@ -59,10 +59,10 @@ Loesung beendet.
 
   1.Kb2-c2   2.Kc2*d3 0-0-0 + 
 
-              empile:         102
-           play_move:          29
-        orig_rbechec:          13
-        orig_rnechec:          28
+                        empile:         102
+                     play_move:          29
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          28
 Loesung beendet. 
 
 
@@ -96,18 +96,18 @@ a)
 
   1.Kh7-g6   2.Kg6-f5   3.Kf5-e4   4.Ke4-d3   5.Kd3-c2   6.Kc2*b1[+wTh1] 0-0 + 
 
-              empile:         746
-           play_move:         732
-        orig_rbechec:         459
-        orig_rnechec:         732
+                        empile:         746
+                     play_move:         732
+ is_white_king_square_attacked:         459
+ is_black_king_square_attacked:         732
 b) wTb1-->g1
 
   1.Kh7-h6   2.Kh6-h5   3.Kh5-h4   4.Kh4-h3   5.Kh3-h2   6.Kh2*g1[+wTa1] 0-0-0 + 
 
-              empile:         136
-           play_move:         121
-        orig_rbechec:          44
-        orig_rnechec:         121
+                        empile:         136
+                     play_move:         121
+ is_white_king_square_attacked:          44
+ is_black_king_square_attacked:         121
 Loesung beendet. 
 
 
@@ -138,10 +138,10 @@ Loesung beendet.
 
   1.Ka3-b3   2.Sa2-b4 0-0-0 
 
-              empile:         280
-           play_move:          64
-        orig_rbechec:          54
-        orig_rnechec:          53
+                        empile:         280
+                     play_move:          64
+ is_white_king_square_attacked:          54
+ is_black_king_square_attacked:          53
 Loesung beendet. 
 
 
@@ -176,10 +176,10 @@ Loesung beendet.
   1...Tb5-b7   2.Ka6*b7[+wTh1] 0-0 
   1...Tb5-b6 +   2.Ka6*b6[+wTa1] 0-0-0 
 
-              empile:         165
-           play_move:         122
-        orig_rbechec:          32
-        orig_rnechec:         106
+                        empile:         165
+                     play_move:         122
+ is_white_king_square_attacked:          32
+ is_black_king_square_attacked:         106
 Loesung beendet. 
 
 
@@ -211,10 +211,10 @@ Loesung beendet.
   1.g2-g1=S   2.Sg1-h3   3.Sh3-f2 0-0 
   1.g2-g1=S   2.Sg1-e2   3.Se2-d4 0-0 
 
-              empile:        4452
-           play_move:        1529
-        orig_rbechec:         670
-        orig_rnechec:           0
+                        empile:        4452
+                     play_move:        1529
+ is_white_king_square_attacked:         670
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -251,10 +251,10 @@ Loesung beendet.
                               4...0-0
 
 
-              empile:     1958365
-           play_move:      397255
-        orig_rbechec:      387360
-        orig_rnechec:       96987
+                        empile:     1958365
+                     play_move:      397255
+ is_white_king_square_attacked:      387360
+ is_black_king_square_attacked:       96987
 Loesung beendet. 
 
 
@@ -285,10 +285,10 @@ Loesung beendet.
 
   1.Kc1-b2   2.Ld1-a4   3.Kb2-b3 0-0-0 
 
-              empile:        1618
-           play_move:         345
-        orig_rbechec:         214
-        orig_rnechec:         322
+                        empile:        1618
+                     play_move:         345
+ is_white_king_square_attacked:         214
+ is_black_king_square_attacked:         322
 Loesung beendet. 
 
 
@@ -320,10 +320,10 @@ Loesung beendet.
   1.Ld7-a4   2.La4-d1   3.Kc1-b2   4.Db1*f5   5.Ld1-a4   6.Kb2-b3 0-0-0 
   1.Ld7-a4   2.La4-d1   3.Kc1-b2   4.Db1-a2   5.Ld1-a4   6.Kb2-b3 0-0-0 
 
-              empile:      254010
-           play_move:      225563
-        orig_rbechec:       50842
-        orig_rnechec:      225523
+                        empile:      254010
+                     play_move:      225563
+ is_white_king_square_attacked:       50842
+ is_black_king_square_attacked:      225523
 Loesung beendet. 
 
 
@@ -354,10 +354,10 @@ Loesung beendet.
 
   1.c2-c1=L   2.Lc1-h6   3.Tc5-g5 0-0-0 
 
-              empile:        8136
-           play_move:        1890
-        orig_rbechec:        1041
-        orig_rnechec:           0
+                        empile:        8136
+                     play_move:        1890
+ is_white_king_square_attacked:        1041
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -390,18 +390,18 @@ a)
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2 0-0 
 
-              empile:      144769
-           play_move:       67496
-        orig_rbechec:       16491
-        orig_rnechec:       67481
+                        empile:      144769
+                     play_move:       67496
+ is_white_king_square_attacked:       16491
+ is_black_king_square_attacked:       67481
 b) sBd4-->h3
 
   1.Lg1-b6   2.g2-g1=L   3.Lg1-c5   4.Tf4-d4 0-0 
 
-              empile:      209216
-           play_move:      108545
-        orig_rbechec:       30480
-        orig_rnechec:      108452
+                        empile:      209216
+                     play_move:      108545
+ is_white_king_square_attacked:       30480
+ is_black_king_square_attacked:      108452
 Loesung beendet. 
 
 
@@ -433,10 +433,10 @@ Loesung beendet.
 
   1.Kh8-h7   2.Kh7-h6   3.Kh6-h5   4.Kh5-h4   5.Kh4-h3   6.Kh3-h2   7.Kh2*h1[+wSb1]   8.Kh1-h2   9.Kh2-h3  10.Kh3-h4  11.Kh4-h5  12.Kh5-h6  13.Kh6-h7  14.Kh7*g8[+wTh1] 0-0 
 
-              empile:        4298
-           play_move:        4281
-        orig_rbechec:        3235
-        orig_rnechec:        4281
+                        empile:        4298
+                     play_move:        4281
+ is_white_king_square_attacked:        3235
+ is_black_king_square_attacked:        4281
 Loesung beendet. 
 
 
@@ -473,18 +473,18 @@ a) wTh4-->g1
 
   1.c2*d1=S[+wSb1]   2.Sd1-c3   3.Sc3*b1   4.Sb1-c3   5.Sc3-e2   6.Se2*g1[+wTa1] 0-0-0 
 
-              empile:       10543
-           play_move:        9333
-        orig_rbechec:        5985
-        orig_rnechec:           0
+                        empile:       10543
+                     play_move:        9333
+ is_white_king_square_attacked:        5985
+ is_black_king_square_attacked:           0
 b)  -wSd1  +wDb1 
 
   1.c2*b1=S[+wDd1]   2.Sb1-c3   3.Sc3*d1   4.Sd1-e3   5.Se3-f5   6.Sf5*h4[+wTa1] 0-0-0 
 
-              empile:       11597
-           play_move:        9664
-        orig_rbechec:        5931
-        orig_rnechec:           0
+                        empile:       11597
+                     play_move:        9664
+ is_white_king_square_attacked:        5931
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -516,10 +516,10 @@ Loesung beendet.
 
   1.Ka3-b4   2.h7-h5   3.h5-h4   4.h4-h3   5.h3-h2   6.h2-h1=L   7.Lh1-d5   8.Ld5-a2   9.Kb4*a5[+wTa1] 0-0-0 
 
-              empile:        8042
-           play_move:        8121
-        orig_rbechec:        2953
-        orig_rnechec:        8121
+                        empile:        8042
+                     play_move:        8121
+ is_white_king_square_attacked:        2953
+ is_black_king_square_attacked:        8121
 Loesung beendet. 
 
 
@@ -551,10 +551,10 @@ Loesung beendet.
 
   1.Kg1-g2   2.Kg2-f3   3.Kf3-e3   4.Ke3-d3   5.Kd3-c2   6.Kc2-b1   7.Kb1*a1[+wLc1]   8.Ka1-b1   9.Kb1*c1  10.Kc1-c2  11.Kc2-d3  12.Kd3-e3  13.Ke3-f3  14.Kf3-g3  15.Kg3*h4[+wTa1] 0-0-0 
 
-              empile:        4466
-           play_move:        4451
-        orig_rbechec:        2638
-        orig_rnechec:        4451
+                        empile:        4466
+                     play_move:        4451
+ is_white_king_square_attacked:        2638
+ is_black_king_square_attacked:        4451
 Loesung beendet. 
 
 
@@ -646,10 +646,10 @@ Loesung beendet.
       1...Sb1*c3 !
 
 
-              empile:        9953
-           play_move:         853
-        orig_rbechec:         538
-        orig_rnechec:         557
+                        empile:        9953
+                     play_move:         853
+ is_white_king_square_attacked:         538
+ is_black_king_square_attacked:         557
 Loesung beendet. 
 
 
@@ -683,18 +683,18 @@ a)
 
   1.Kh1*h2[+wSg1]   2.Kh2*g1   3.Kg1-g2   4.Kg2-f3   5.Kf3*e4[+wTh1] 0-0 
 
-              empile:         266
-           play_move:         252
-        orig_rbechec:         107
-        orig_rnechec:         252
+                        empile:         266
+                     play_move:         252
+ is_white_king_square_attacked:         107
+ is_black_king_square_attacked:         252
 b) wTe4-->h6
 
   1.Kh1-g2   2.Kg2-g3   3.Kg3-f4   4.Kf4-g5   5.Kg5*h6[+wTa1] 0-0-0 
 
-              empile:         166
-           play_move:         148
-        orig_rbechec:          42
-        orig_rnechec:         148
+                        empile:         166
+                     play_move:         148
+ is_white_king_square_attacked:          42
+ is_black_king_square_attacked:         148
 Loesung beendet. 
 
 
@@ -728,10 +728,10 @@ Loesung beendet.
   1.h7-h8=T   2.Th8*h5   3.Th5-d5   4.0-0-0 
   1.h7-h8=L   2.Lh8*f6   3.Lf6-d4   4.0-0-0 
 
-              empile:        7209
-           play_move:        4368
-        orig_rbechec:        4659
-        orig_rnechec:        4045
+                        empile:        7209
+                     play_move:        4368
+ is_white_king_square_attacked:        4659
+ is_black_king_square_attacked:        4045
 Loesung beendet. 
 
 
@@ -763,10 +763,10 @@ Loesung beendet.
 
   1.Ld5-e4   2.Lc4-d5   3.Lb5-c4   4.La6-b5   5.Lb7-a6   6.Lc8-b7   7.Ld7-c8   8.Le8-d7   9.Lf7-e8  10.Lg6-f7  11.Lh5-g6  12.Lg4-h5  13.Lh3-g4  14.Lg2-h3  15.Lf1-g2  16.Le2-f1  17.Ld1-e2  18.Lc2-d1  19.Lb1-c2  20.La2-b1  21.kWEa3-a2  22.kWEa2-a1  23.Lb1-a2  24.kWEa1-b1  25.kWEb1-c1  26.Lc2-b1  27.Ld1-c2  28.kWEc1-d1  29.kWEd1-e1  30.Le2-d1  31.Lf1-e2  32.kWEe1-f1  33.kWEf1-g1  34.Lg2-f1  35.kWEg1-g2  36.kWEg2-h2  37.Lh3-g2  38.kWEh2-h3  39.kWEh3-h4  40.Lg4-h3  41.Lh5-g4  42.kWEh4-h5  43.kWEh5-h6  44.Lg6-h5  45.Lh7-g6  46.kWEh6-h7  47.kWEh7-h8  48.Lg8-h7  49.kWEh8-g8  50.kWEg8-f8  51.Lf7-g8  52.Le8-f7  53.kWEf8-e8  54.kWEe8-d8  55.Ld7-e8  56.Lc8-d7  57.kWEd8-c8  58.kWEc8-b8  59.Lb7-c8  60.kWEb8-b7  61.kWEb7-a7  62.La6-b7  63.kWEa7-a6  64.kWEa6*a5 x 
 
-              empile:       14935
-           play_move:       14251
-        orig_rbechec:       14251
-        orig_rnechec:           0
+                        empile:       14935
+                     play_move:       14251
+ is_white_king_square_attacked:       14251
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -799,10 +799,10 @@ Loesung beendet.
 
   1.Kh5-h4   2.Kh4-g3   3.Kg3-f2   4.Kf2-e2   5.Ke2-d2   6.Kd2-c2   7.Kc2-b3   8.Kb3-b4   9.Kb4-b5  10.Kb5-b6  11.Kb6-b7  12.Kb7-c8  13.Kc8-d8  14.Kd8-e8  15.Ke8-f8  16.Kf8-g7 kBe5-e4 + 
 
-              empile:        9286
-           play_move:        7092
-        orig_rbechec:        2311
-        orig_rnechec:        6453
+                        empile:        9286
+                     play_move:        7092
+ is_white_king_square_attacked:        2311
+ is_black_king_square_attacked:        6453
 Loesung beendet. 
 
 
@@ -836,10 +836,10 @@ Loesung beendet.
   1.c3-c2   2.c2-c1=T   3.Tc1-f1   4.Tf1*f3   5.Tf3-f7   6.e7-e5 d5*e6 ep. + 
   1.c3-c2   2.c2-c1=L   3.Lc1-f4   4.Lf4-e5   5.Le5-g7   6.e7-e5 d5*e6 ep. + 
 
-              empile:       18514
-           play_move:       18694
-        orig_rbechec:        3167
-        orig_rnechec:       18693
+                        empile:       18514
+                     play_move:       18694
+ is_white_king_square_attacked:        3167
+ is_black_king_square_attacked:       18693
 Loesung beendet. 
 
 
@@ -874,10 +874,10 @@ Loesung beendet.
 
   1.Te1-e5=L   1.a6*b5=S   2.Sb5*d4=L   3.Ld4*e5=T   4.Te5*h5=D # 
 
-              empile:      428148
-           play_move:      348363
-        orig_rbechec:      215894
-        orig_rnechec:      225374
+                        empile:      428148
+                     play_move:      348363
+ is_white_king_square_attacked:      215894
+ is_black_king_square_attacked:      225374
 Loesung beendet. 
 
 
@@ -912,26 +912,26 @@ a)
 
   1.Sc8*a7=w[+wBa2]   2.Ta8*a7=w[+wSg1]   1.Ta7-c7   2.Tc7-c1   3.Sg1-f3 # 
 
-              empile:       27984
-           play_move:       23613
-        orig_rbechec:       19654
-        orig_rnechec:       18483
+                        empile:       27984
+                     play_move:       23613
+ is_white_king_square_attacked:       19654
+ is_black_king_square_attacked:       18483
 b) sKd2-->c2
 
   1.Ta8*a7=w[+wBa2]   2.Lb8*a7=w[+wTa1]   1.La7-d4   2.Ld4-c3   3.Ta1-c1 # 
 
-              empile:       38224
-           play_move:       29053
-        orig_rbechec:       23524
-        orig_rnechec:       22643
+                        empile:       38224
+                     play_move:       29053
+ is_white_king_square_attacked:       23524
+ is_black_king_square_attacked:       22643
 c) sKd2-->a1
 
   1.Lb8*a7=w[+wBa2]   2.Sc8*a7=w[+wLc1]   1.Sa7-b5   2.Sb5-c3   3.Lc1-b2 # 
 
-              empile:       21780
-           play_move:       21494
-        orig_rbechec:       18032
-        orig_rnechec:       16762
+                        empile:       21780
+                     play_move:       21494
+ is_white_king_square_attacked:       18032
+ is_black_king_square_attacked:       16762
 Loesung beendet. 
 
 
@@ -966,10 +966,10 @@ a)
    1.d7-d8=D # !
 
 
-              empile:          13
-           play_move:          16
-        orig_rbechec:           2
-        orig_rnechec:          17
+                        empile:          13
+                     play_move:          16
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:          17
 b) exact-#2
 
    1.d7-d8=T + !
@@ -977,10 +977,10 @@ b) exact-#2
           2.Ta1-d1 #
 
 
-              empile:         140
-           play_move:          84
-        orig_rbechec:          22
-        orig_rnechec:          72
+                        empile:         140
+                     play_move:          84
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:          72
 c) exact-#3
 
    1.d7-d8=L !
@@ -990,10 +990,10 @@ c) exact-#3
                   3.Lc1*f4[+sBf7] #
 
 
-              empile:        3813
-           play_move:        1778
-        orig_rbechec:         781
-        orig_rnechec:        1224
+                        empile:        3813
+                     play_move:        1778
+ is_white_king_square_attacked:         781
+ is_black_king_square_attacked:        1224
 d) exact-#4
 
    1.d7-d8=S !
@@ -1017,10 +1017,10 @@ d) exact-#4
                           4.Sd2-e4 #
 
 
-              empile:       41799
-           play_move:       24210
-        orig_rbechec:       16341
-        orig_rnechec:        9372
+                        empile:       41799
+                     play_move:       24210
+ is_white_king_square_attacked:       16341
+ is_black_king_square_attacked:        9372
 Loesung beendet. 
 
 
@@ -1055,10 +1055,10 @@ a)
    1.Tg6-e6 # !
 
 
-              empile:          36
-           play_move:          19
-        orig_rbechec:           4
-        orig_rnechec:          20
+                        empile:          36
+                     play_move:          19
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          20
 b) exact-#2
 
    1.Sd4-f3 + !
@@ -1066,10 +1066,10 @@ b) exact-#2
           2.La8-e4 #
 
 
-              empile:        1130
-           play_move:         457
-        orig_rbechec:         127
-        orig_rnechec:         423
+                        empile:        1130
+                     play_move:         457
+ is_white_king_square_attacked:         127
+ is_black_king_square_attacked:         423
 c) exact-#3
 
    1.Tg6-c6 !
@@ -1079,10 +1079,10 @@ c) exact-#3
                   3.Tc6-e6 #
 
 
-              empile:       22478
-           play_move:        7879
-        orig_rbechec:        3559
-        orig_rnechec:        5923
+                        empile:       22478
+                     play_move:        7879
+ is_white_king_square_attacked:        3559
+ is_black_king_square_attacked:        5923
 d) exact-#4
 
    1.Sd4-e2 !
@@ -1094,10 +1094,10 @@ d) exact-#4
                           4.La8-e4 #
 
 
-              empile:      440180
-           play_move:      186523
-        orig_rbechec:      111951
-        orig_rnechec:       99208
+                        empile:      440180
+                     play_move:      186523
+ is_white_king_square_attacked:      111951
+ is_black_king_square_attacked:       99208
 Loesung beendet. 
 
 
@@ -1131,10 +1131,10 @@ a)
    1.d7-d8=D # !
 
 
-              empile:          24
-           play_move:          18
-        orig_rbechec:           3
-        orig_rnechec:          19
+                        empile:          24
+                     play_move:          18
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          19
 b) exact-#2
 
    1.d7-d8=T + !
@@ -1142,10 +1142,10 @@ b) exact-#2
           2.Td8-d7 #
 
 
-              empile:         730
-           play_move:         319
-        orig_rbechec:          88
-        orig_rnechec:         304
+                        empile:         730
+                     play_move:         319
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         304
 c) exact-#3
 
    1.d7-d8=L !
@@ -1157,10 +1157,10 @@ c) exact-#3
                   3.Ld8-c7 #
 
 
-              empile:        6580
-           play_move:        3446
-        orig_rbechec:        1533
-        orig_rnechec:        2375
+                        empile:        6580
+                     play_move:        3446
+ is_white_king_square_attacked:        1533
+ is_black_king_square_attacked:        2375
 d) exact-#4
 
    1.d7-d8=S !
@@ -1178,10 +1178,10 @@ d) exact-#4
                           4.d5-d6 #
 
 
-              empile:       79597
-           play_move:       42205
-        orig_rbechec:       23208
-        orig_rnechec:       23550
+                        empile:       79597
+                     play_move:       42205
+ is_white_king_square_attacked:       23208
+ is_black_king_square_attacked:       23550
 Loesung beendet. 
 
 
@@ -1264,10 +1264,10 @@ Loesung beendet.
                                   5.Sg5-h3 z
 
 
-              empile:     5821658
-           play_move:     2771901
-        orig_rbechec:     2475114
-        orig_rnechec:      296839
+                        empile:     5821658
+                     play_move:     2771901
+ is_white_king_square_attacked:     2475114
+ is_black_king_square_attacked:      296839
 Loesung beendet. 
 
 
@@ -1299,10 +1299,10 @@ Loesung beendet.
 
   1.g2-g1=CA   2.CAg1-d2   3.g3-g2   4.g2-g1=CA CAf5-e2 = 
 
-              empile:       25924
-           play_move:       18081
-        orig_rbechec:        4955
-        orig_rnechec:        7872
+                        empile:       25924
+                     play_move:       18081
+ is_white_king_square_attacked:        4955
+ is_black_king_square_attacked:        7872
 Loesung beendet. 
 
 
@@ -1334,10 +1334,10 @@ Loesung beendet.
 
   1.nBb7-b8=nL   2.nBa7*b8=nS[+nLf8]   3.nBh7-h8=nT   4.nBg7*f8=nD # 
 
-              empile:       66379
-           play_move:       63393
-        orig_rbechec:       12565
-        orig_rnechec:       64736
+                        empile:       66379
+                     play_move:       63393
+ is_white_king_square_attacked:       12565
+ is_black_king_square_attacked:       64736
 Loesung beendet. 
 
 
@@ -1369,10 +1369,10 @@ Loesung beendet.
   1.nBa2-a4   2.nBa4-a5   3.nBa5-a6   4.nBa6-a7   5.nBa7-a8=nD   6.nDa8-h1 + 
   1.nBa2-a4   2.nBa4-a5   3.nBa5-a6   4.nBa6-a7   5.nBa7-a8=nT   6.nTa8-h8 + 
 
-              empile:        2170
-           play_move:        2173
-        orig_rbechec:        2173
-        orig_rnechec:        4252
+                        empile:        2170
+                     play_move:        2173
+ is_white_king_square_attacked:        2173
+ is_black_king_square_attacked:        4252
 Loesung beendet. 
 
 
@@ -1404,10 +1404,10 @@ Loesung beendet.
 
   1.Ke8-d7   2.Kd7-e6   3.Ke6-d5   4.Kd5-e4   5.Ge5-e3   6.Ke4-d3   7.Kd3-e2   8.Ke2-d1 Gh6-d2 # 
 
-              empile:       26091
-           play_move:       18263
-        orig_rbechec:       18263
-        orig_rnechec:           0
+                        empile:       26091
+                     play_move:       18263
+ is_white_king_square_attacked:       18263
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -1441,10 +1441,10 @@ Loesung beendet.
   1.b6-b7   2.b7-b8=D   3.Db8-e5   4.Lc2-d1 + Da4*d1 # 
   1.b6-b7   2.b7-b8=L   3.Lb8-f4   4.Lc2-d1 + Da4*d1 # 
 
-              empile:      685988
-           play_move:      165391
-        orig_rbechec:      165391
-        orig_rnechec:       91333
+                        empile:      685988
+                     play_move:      165391
+ is_white_king_square_attacked:      165391
+ is_black_king_square_attacked:       91333
 Loesung beendet. 
 
 
@@ -1476,10 +1476,10 @@ Loesung beendet.
 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a5   5.Ka5-a6   6.b6-b7 + Ka8-b8 == 
 
-              empile:      127418
-           play_move:       77196
-        orig_rbechec:       24178
-        orig_rnechec:       81479
+                        empile:      127418
+                     play_move:       77196
+ is_white_king_square_attacked:       24178
+ is_black_king_square_attacked:       81479
 Loesung beendet. 
 
 
@@ -1513,10 +1513,10 @@ Loesung beendet.
 
   1.Ge2-c2 Sd2-b3   2.Gc2-a4 Sb3-a5   3.Ga4-a6 Sa5-b7   4.Ga6-c8 Sb7-d8   5.Gc8-e8 Sd8-f7   6.Ge8-g6 Sf7-g5   7.Gg6-g4 Sg5-f3   8.Gg4-e2 Sf3-d2 z 
 
-              empile:         464
-           play_move:         380
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:         464
+                     play_move:         380
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -1554,10 +1554,10 @@ Loesung beendet.
                   3.Sc8-d6 z
 
 
-              empile:       10336
-           play_move:        3607
-        orig_rbechec:        2437
-        orig_rnechec:        1181
+                        empile:       10336
+                     play_move:        3607
+ is_white_king_square_attacked:        2437
+ is_black_king_square_attacked:        1181
 Loesung beendet. 
 
 
@@ -1610,10 +1610,10 @@ Loesung beendet.
               2...h2*g1=RO +
 
 
-              empile:        7656
-           play_move:        9632
-        orig_rbechec:        9580
-        orig_rnechec:        1005
+                        empile:        7656
+                     play_move:        9632
+ is_white_king_square_attacked:        9580
+ is_black_king_square_attacked:        1005
 Loesung beendet. 
 
 
@@ -1651,35 +1651,35 @@ a)
   1.Kg8-f8   2.Kf8-e8   3.Ke8*d7[+sTa8]   4.nBb7*a8=nL % 
   1.nBb7-b8=nL   2.nLb8-d6   3.nLd6-f8   4.Kg8*f8 % 
 
-              empile:         950
-           play_move:         252
-        orig_rbechec:         243
-        orig_rnechec:         163
+                        empile:         950
+                     play_move:         252
+ is_white_king_square_attacked:         243
+ is_black_king_square_attacked:         163
 b) sKa4-->e8
 
   1.nBb7-b8=nS   2.nSb8*d7[+sTa8]   3.nSd7-b6   4.nSb6*a8 % 
 
-              empile:         834
-           play_move:         210
-        orig_rbechec:         204
-        orig_rnechec:         122
+                        empile:         834
+                     play_move:         210
+ is_white_king_square_attacked:         204
+ is_black_king_square_attacked:         122
 c) sTd7-->b2
 
   1.Kg8-f7   2.nBb7-b8=nD   3.nDb8*b2[+sTh8]   4.nDb2*h8 % 
   1.nBb7-b8=nL   2.nLb8-d6   3.nLd6-f8   4.Kg8*f8 % 
 
-              empile:        2853
-           play_move:         543
-        orig_rbechec:         498
-        orig_rnechec:         398
+                        empile:        2853
+                     play_move:         543
+ is_white_king_square_attacked:         498
+ is_black_king_square_attacked:         398
 d) sTd7-->f8
 
   1.Kg8-g7   2.nBb7-b8=nT   3.nTb8*f8[+sTh8]   4.nTf8*h8 % 
 
-              empile:         809
-           play_move:         183
-        orig_rbechec:         139
-        orig_rnechec:          60
+                        empile:         809
+                     play_move:         183
+ is_white_king_square_attacked:         139
+ is_black_king_square_attacked:          60
 Loesung beendet. 
 
 
@@ -1711,10 +1711,10 @@ Loesung beendet.
 
   1.Kh3-h4   2.Kh4-h5   3.Kh5-h6   4.Kh6-h7   5.Kh7*g8[+sHg1]   6.Kg8-h7   7.Kh7-h6   8.Kh6-h5   9.Kh5-h4  10.Kh4-h3 = 
 
-              empile:         856
-           play_move:         713
-        orig_rbechec:         576
-        orig_rnechec:         513
+                        empile:         856
+                     play_move:         713
+ is_white_king_square_attacked:         576
+ is_black_king_square_attacked:         513
 Loesung beendet. 
 
 
@@ -1746,10 +1746,10 @@ Loesung beendet.
 
   1.Kh3-h4   2.Kh4-h5   3.Kh5-h6   4.Kh6-h7   5.Kh7*g8[+sHg1]   6.Kg8-f7   7.Kf7-e6   8.Ke6-d5   9.Kd5-c4  10.Kc4-b3  11.Kb3*a2[+sSg8]  12.Ka2-b3  13.Kb3-c4  14.Kc4-d5  15.Kd5-e6  16.Ke6-f7  17.Kf7*g8  18.Kg8-h7  19.Kh7-h6  20.Kh6-h5  21.Kh5-h4  22.Kh4-h3 = 
 
-              empile:        7413
-           play_move:        6882
-        orig_rbechec:        6356
-        orig_rnechec:        5010
+                        empile:        7413
+                     play_move:        6882
+ is_white_king_square_attacked:        6356
+ is_black_king_square_attacked:        5010
 Loesung beendet. 
 
 
@@ -1780,10 +1780,10 @@ Loesung beendet.
 
   1.De8-e4   2.De4-g2   3.Kh1-g1   4.Kg1-f2   5.Kf2-e3   6.Ke3-d4   7.Kd4-c5   8.Dg2-a8 # 
 
-              empile:       50951
-           play_move:       38152
-        orig_rbechec:       32153
-        orig_rnechec:       34993
+                        empile:       50951
+                     play_move:       38152
+ is_white_king_square_attacked:       32153
+ is_black_king_square_attacked:       34993
 Loesung beendet. 
 
 
@@ -1815,10 +1815,10 @@ Loesung beendet.
 
   1.h2-h1=S   2.Sh1-f2   3.Sf2-h3   4.Sh3-f4   5.Sf4-e6   6.Se6-c7   7.Sc7-e8   8.Se8-d6   9.Sd6-c4 Dg2-c2 # 
 
-              empile:      346762
-           play_move:      330091
-        orig_rbechec:       44921
-        orig_rnechec:      120108
+                        empile:      346762
+                     play_move:      330091
+ is_white_king_square_attacked:       44921
+ is_black_king_square_attacked:      120108
 Loesung beendet. 
 
 
@@ -1850,10 +1850,10 @@ Loesung beendet.
 
   1.Kg6-f7   2.Lc2-h7   3.Kf7*g8   4.Kg8-g7   5.Lh7-g6   6.Kg7-f6   7.Lg6-f5   8.Kf6-e5   9.Lf5-e4  10.Ke5-d4  11.Le4-d3  12.Kd4-c3  13.Ld3-c4 # 
 
-              empile:        5599
-           play_move:        5414
-        orig_rbechec:        1620
-        orig_rnechec:        1836
+                        empile:        5599
+                     play_move:        5414
+ is_white_king_square_attacked:        1620
+ is_black_king_square_attacked:        1836
 Loesung beendet. 
 
 
@@ -1890,10 +1890,10 @@ Loesung beendet.
   4  (Ke1-d2 )
   5  (Ke1-f2 + )
 
-              empile:       26260
-           play_move:       14820
-        orig_rbechec:        9057
-        orig_rnechec:       13954
+                        empile:       26260
+                     play_move:       14820
+ is_white_king_square_attacked:        9057
+ is_black_king_square_attacked:       13954
 Loesung beendet. 
 
 
@@ -1925,10 +1925,10 @@ Loesung beendet.
 
   1.Ka8-b8   2.Kb8-c8   3.Kc8-d8   4.Kd8-e8   5.Ke8-f8   6.Kf8-g8   7.Kg8*h7[+sTa8]   8.Kh7-h6   9.Kh6-g5  10.Kg5*f4[+sSb8]  11.Kf4-e5  12.Ke5-d6  13.Kd6-c7  14.Kc7-b7  15.Kb7*a8  16.Ka8*b8  17.Kb8-c7  18.Kc7-d6  19.Kd6-e5  20.Ke5-f4  21.Kf4-g3 Kh1-g1 z 
 
-              empile:       42057
-           play_move:       14160
-        orig_rbechec:        7914
-        orig_rnechec:       11295
+                        empile:       42057
+                     play_move:       14160
+ is_white_king_square_attacked:        7914
+ is_black_king_square_attacked:       11295
 Loesung beendet. 
 
 
@@ -1960,10 +1960,10 @@ Loesung beendet.
 
   1.Ka3-a4   2.Ka4-a5   3.Ka5-a6   4.Ka6-b7   5.Kb7-c7   6.Kc7-d8   7.Kd8-e7   8.Ke7-f6   9.Kf6-e5  10.Ke5-e4  11.Ke4-d3  12.Kd3-c2  13.Kc2*c1[+sLf8] x 
 
-              empile:         902
-           play_move:         712
-        orig_rbechec:         712
-        orig_rnechec:         371
+                        empile:         902
+                     play_move:         712
+ is_white_king_square_attacked:         712
+ is_black_king_square_attacked:         371
 Loesung beendet. 
 
 
@@ -1996,10 +1996,10 @@ Loesung beendet.
   1.Ka8-b8   2.Kb8-c8   3.Kc8-d8   4.Kd8-e8   5.Ke8-f8   6.Kf8-g8   7.Kg8*h7[+sTa8]   8.Kh7-h6   9.Kh6-h5  10.Kh5-g4  11.h4-h5  12.h5-h6  13.h6-h7  14.h7-h8=D + 
   1.Ka8-b8   2.Kb8-c8   3.Kc8-d8   4.Kd8-e8   5.Ke8-f8   6.Kf8-g8   7.Kg8*h7[+sTa8]   8.Kh7-h6   9.Kh6-h5  10.Kh5-g4  11.h4-h5  12.h5-h6  13.h6-h7  14.h7-h8=L + 
 
-              empile:        1351
-           play_move:        1354
-        orig_rbechec:        1352
-        orig_rnechec:        2081
+                        empile:        1351
+                     play_move:        1354
+ is_white_king_square_attacked:        1352
+ is_black_king_square_attacked:        2081
 Loesung beendet. 
 
 
@@ -2031,10 +2031,10 @@ Loesung beendet.
 
   1.Kc8-d8   2.Kd8-e7   3.Ke7-f6   4.Kf6-e5   5.Ke5-d4   6.Kd4-c3   7.Kc3-b2   8.Kb2*a1[+sTh8]   9.Ka1-b2  10.Kb2-c3  11.Kc3-d4  12.Kd4-e5  13.Ke5-f6  14.Kf6-g7  15.Kg7*h8  16.Kh8-g7  17.Kg7-f6  18.Kf6-e5  19.Ke5-d4  20.Kd4-c3  21.Kc3-b4  22.Kb4-a5  23.Ka5-a6  24.Ka6-a7  25.Ka7-a8 z 
 
-              empile:        8754
-           play_move:        8038
-        orig_rbechec:        8038
-        orig_rnechec:        5392
+                        empile:        8754
+                     play_move:        8038
+ is_white_king_square_attacked:        8038
+ is_black_king_square_attacked:        5392
 Loesung beendet. 
 
 
@@ -2066,10 +2066,10 @@ Loesung beendet.
 
   1.Kf8-e7   2.Ke7-d6   3.Kd6-c5   4.Kc5-b4   5.Kb4*a3[+sBa2]   6.Ka3-b3   7.Kb3-c2 = 
 
-              empile:        2391
-           play_move:        1657
-        orig_rbechec:        1267
-        orig_rnechec:        1650
+                        empile:        2391
+                     play_move:        1657
+ is_white_king_square_attacked:        1267
+ is_black_king_square_attacked:        1650
 Loesung beendet. 
 
 
@@ -2103,18 +2103,18 @@ a)
 
   1.d2-d4   2.d4-d5   3.d5-d6   4.d6-d7   5.d7-d8=T   6.Td8-d4   7.Td4*h4[+sBh7]   8.Th4*h7 = 
 
-              empile:       48604
-           play_move:       22841
-        orig_rbechec:       14274
-        orig_rnechec:       21877
+                        empile:       48604
+                     play_move:       22841
+ is_white_king_square_attacked:       14274
+ is_black_king_square_attacked:       21877
 b) SpiegelCirce
 
   1.d2-d4   2.d4-d5   3.d5-d6   4.d6-d7   5.d7-d8=D   6.Dd8*h4[+sBh2]   7.Dh4*h2   8.Dh2-h6 = 
 
-              empile:       49899
-           play_move:       23135
-        orig_rbechec:       14329
-        orig_rnechec:       22181
+                        empile:       49899
+                     play_move:       23135
+ is_white_king_square_attacked:       14329
+ is_black_king_square_attacked:       22181
 Loesung beendet. 
 
 
@@ -2188,10 +2188,10 @@ Loesung beendet.
           2.Td4-a4 #
 
 
-              empile:         338
-           play_move:         273
-        orig_rbechec:          70
-        orig_rnechec:         263
+                        empile:         338
+                     play_move:         273
+ is_white_king_square_attacked:          70
+ is_black_king_square_attacked:         263
 Loesung beendet. 
 
 
@@ -2222,10 +2222,10 @@ Loesung beendet.
 
   1.Ka8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-d5   5.Kd5-d4   6.Kd4-c3   7.Kc3-b2   8.Kb2-c1   9.Kc1-d1  10.Kd1-e1  11.Ke1-f2  12.Kf2-f3  13.Kf3-g4  14.Kg4-h5  15.Kh5-h6  16.Kh6-g7  17.Kg7-f7  18.Kf7*e8  19.Ke8-f7  20.Kf7-g7  21.Kg7-h6  22.Kh6-h5  23.Kh5-g4  24.Kg4-f3  25.Kf3-f2  26.Kf2-e1  27.Ke1-d1  28.Kd1-c1  29.Kc1-b2  30.Kb2-c3  31.Kc3-d4  32.Kd4-d5  33.Kd5-c6  34.Kc6-c7  35.Kc7*c8  36.Kc8-c7  37.Kc7-c6  38.Kc6-d5  39.Kd5-d4  40.Kd4-c3  41.Kc3-b2  42.Kb2-c1  43.Kc1-d1  44.Kd1-e1  45.Ke1-f2  46.Kf2-f3  47.Kf3-g4  48.Kg4-h5  49.Kh5-h6  50.Kh6-g7  51.Kg7-f7  52.Kf7*e7  53.Ke7-d6  54.Kd6*c5  55.Kc5-d4  56.Kd4*d3  57.Kd3-c4  58.d2-d4  59.d4-d5  60.d5-d6  61.d6-d7  62.d7-d8=D  63.Dd8*g5  64.Dg5*f4  65.Df4-c7 = 
 
-              empile:      253672
-           play_move:      132384
-        orig_rbechec:       89182
-        orig_rnechec:      115337
+                        empile:      253672
+                     play_move:      132384
+ is_white_king_square_attacked:       89182
+ is_black_king_square_attacked:      115337
 Loesung beendet. 
 
 
@@ -2256,10 +2256,10 @@ Loesung beendet.
 
   1.Kb8-c8   2.Lh2-g1   3.Lg1-c5   4.Lc5-d6   5.Kc8-d8   6.Kd8-e8   7.Ld6-f8   8.Lf8-g7   9.Ke8-f8  10.Kf8-g8  11.Kg8-h7  12.Kh7-h6  13.Lg7-f6  14.Lf6-h4  15.Lh4-g3  16.Kh6-g5  17.Kg5-f4  18.Lg3-f2  19.Lf2-d4  20.Kf4-e3  21.Ke3-d3  22.Kd3-c3  23.Ld4-b6  24.Kc3-b4  25.Kb4-a4  26.Lb6-c5  27.Ka4-a5  28.Ka5*a6 x 
 
-              empile:       69041
-           play_move:       62815
-        orig_rbechec:       62815
-        orig_rnechec:       40177
+                        empile:       69041
+                     play_move:       62815
+ is_white_king_square_attacked:       62815
+ is_black_king_square_attacked:       40177
 Loesung beendet. 
 
 
@@ -2290,10 +2290,10 @@ Loesung beendet.
 
   1.Kc1-d1   2.Lf8-c5   3.Lc5-e3   4.Kd1-e1   5.Ke1-f1   6.Le3-g5   7.Kf1-g1   8.Kg1-h1   9.Lg5-d2  10.Kh1-h2  11.Kh2-h3  12.Ld2-f4  13.Kh3-h4  14.Kh4-h5  15.Lf4-e5  16.Le5-g7  17.Kh5-g5  18.Kg5-f6  19.Lg7-f8  20.Lf8-d6  21.Ld6-e5  22.Kf6-e7  23.Ke7-d6  24.Le5-c3  25.Kd6-c5  26.Kc5-b5  27.Lc3-d4  28.Kb5-b4  29.Kb4*b3 x 
 
-              empile:       71817
-           play_move:       65966
-        orig_rbechec:       65966
-        orig_rnechec:       43603
+                        empile:       71817
+                     play_move:       65966
+ is_white_king_square_attacked:       65966
+ is_black_king_square_attacked:       43603
 Loesung beendet. 
 
 
@@ -2326,10 +2326,10 @@ Loesung beendet.
 
   1.h7-h5   2.h5*g4[+wZh5]   3.g4-g3   4.g3-g2   5.g2-g1=S   6.Sg1-e2   7.Se2-g3   8.Sg3*h5[+wZg3]   9.Sh5-f6  10.Sf6-h7 Zg3-e6 # 
 
-              empile:      163500
-           play_move:      159467
-        orig_rbechec:       38646
-        orig_rnechec:      159467
+                        empile:      163500
+                     play_move:      159467
+ is_white_king_square_attacked:       38646
+ is_black_king_square_attacked:      159467
 Loesung beendet. 
 
 
@@ -2361,10 +2361,10 @@ Loesung beendet.
 
   1.Kg1-f2   2.Kf2-e3   3.Ke3-d4   4.Kd4-c5   5.Kc5*b5[+sBb7]   6.Kb5-b6   7.Kb6*b7   8.Kb7-c6   9.Kc6-d6 = 
 
-              empile:        4863
-           play_move:        3834
-        orig_rbechec:        2175
-        orig_rnechec:        3706
+                        empile:        4863
+                     play_move:        3834
+ is_white_king_square_attacked:        2175
+ is_black_king_square_attacked:        3706
 Loesung beendet. 
 
 
@@ -2397,10 +2397,10 @@ Loesung beendet.
 
   1.Kb1-a2   2.Ka2-a3   3.Ka3-a4   4.Ka4-b5   5.Kb5-c5   6.c7-c8=D   7.Dc8-f5   8.Df5-c2 # 
 
-              empile:       24411
-           play_move:       20448
-        orig_rbechec:       19376
-        orig_rnechec:       17463
+                        empile:       24411
+                     play_move:       20448
+ is_white_king_square_attacked:       19376
+ is_black_king_square_attacked:       17463
 Loesung beendet. 
 
 
@@ -2432,10 +2432,10 @@ Loesung beendet.
 
   1.Dg5-d5   2.Dd5-g2   3.Kh1-g1   4.Kg1-f1   5.Kf1-e2   6.Ke2-d1   7.Kd1-c1   8.Kc1-b1   9.Kb1-a2  10.Ka2-a3  11.Ka3-a4  12.Ka4-b5  13.Kb5-c5  14.Dg2-c2 # 
 
-              empile:       71425
-           play_move:       53280
-        orig_rbechec:       46869
-        orig_rnechec:       47307
+                        empile:       71425
+                     play_move:       53280
+ is_white_king_square_attacked:       46869
+ is_black_king_square_attacked:       47307
 Loesung beendet. 
 
 
@@ -2467,10 +2467,10 @@ Loesung beendet.
 
   1.Kg4-f5   2.Kf5-f6   3.Lh3-e6   4.Le6*g8[+sLc8]   5.Lg8-e6   6.Le6*c8   7.Lc8-f5   8.Lf5-g6 = 
 
-              empile:      271906
-           play_move:      144160
-        orig_rbechec:       94253
-        orig_rnechec:      137790
+                        empile:      271906
+                     play_move:      144160
+ is_white_king_square_attacked:       94253
+ is_black_king_square_attacked:      137790
 Loesung beendet. 
 
 
@@ -2502,10 +2502,10 @@ Loesung beendet.
 
   1.Kc7-b6   2.Sh5-f6   3.Sf6-d7   4.Sd7*b8[+sLf8]   5.Sb8-d7   6.Sd7*f8   7.Sf8-d7 = 
 
-              empile:       78283
-           play_move:       56317
-        orig_rbechec:       36872
-        orig_rnechec:       52326
+                        empile:       78283
+                     play_move:       56317
+ is_white_king_square_attacked:       36872
+ is_black_king_square_attacked:       52326
 Loesung beendet. 
 
 
@@ -2537,10 +2537,10 @@ Loesung beendet.
 
   1.Kc1-d2   2.Kd2-e3   3.Ke3-f4   4.Kf4-g5   5.Kg5*h5[+sBh7]   6.Kh5-h6   7.Kh6*h7   8.Kh7-g6   9.Kg6-f5  10.Kf5-e4  11.Ke4-d3  12.Kd3-c2 = 
 
-              empile:        6580
-           play_move:        5668
-        orig_rbechec:        4709
-        orig_rnechec:        5480
+                        empile:        6580
+                     play_move:        5668
+ is_white_king_square_attacked:        4709
+ is_black_king_square_attacked:        5480
 Loesung beendet. 
 
 
@@ -2571,10 +2571,10 @@ Loesung beendet.
 
   1.Kh8-h7   2.Kh7-h6   3.Kh6-g5   4.h5-h6   5.h6-h7   6.h7-h8=S + 
 
-              empile:         146
-           play_move:         149
-        orig_rbechec:         146
-        orig_rnechec:         240
+                        empile:         146
+                     play_move:         149
+ is_white_king_square_attacked:         146
+ is_black_king_square_attacked:         240
 Loesung beendet. 
 
 
@@ -2605,10 +2605,10 @@ Loesung beendet.
 
   1.Kc1-d2   2.Kd2-e3   3.Ke3-f4   4.Kf4-g5   5.Kg5-h6   6.Kh6-h7   7.Kh7*h8   8.Kh8-h7   9.Kh7-h6  10.Kh6-g5  11.h5-h6  12.h6-h7  13.h7-h8=S + 
 
-              empile:        7625
-           play_move:        7628
-        orig_rbechec:        7625
-        orig_rnechec:       14264
+                        empile:        7625
+                     play_move:        7628
+ is_white_king_square_attacked:        7625
+ is_black_king_square_attacked:       14264
 Loesung beendet. 
 
 
@@ -2639,10 +2639,10 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=CR   6.CRa1-b4 CRc1*b4 = 
 
-              empile:       14563
-           play_move:        6432
-        orig_rbechec:        2466
-        orig_rnechec:        6361
+                        empile:       14563
+                     play_move:        6432
+ is_white_king_square_attacked:        2466
+ is_black_king_square_attacked:        6361
 Loesung beendet. 
 
 
@@ -2675,10 +2675,10 @@ Loesung beendet.
 
   1.Kc7-d7   2.Kd7-e6   3.Ke6-f5   4.Kf5*g4[+sSg8]   5.Kg4-f5   6.Kf5-e6   7.Ke6-d7   8.Kd7-c7   9.Kc7-b6  10.Kb6*a5[+sSb8]  11.Ka5-b6  12.Kb6-c7  13.Kc7*c8[+sTa8]  14.Td8-d1  15.Kc8-d8  16.Td1*h1  17.Kd8-c7  18.Th1*h7 # 
 
-              empile:       20449
-           play_move:       20338
-        orig_rbechec:       12929
-        orig_rnechec:       15581
+                        empile:       20449
+                     play_move:       20338
+ is_white_king_square_attacked:       12929
+ is_black_king_square_attacked:       15581
 Loesung beendet. 
 
 
@@ -2712,10 +2712,10 @@ Loesung beendet.
 
   1.ELb1-d4 kELd3-b4   2.ELd4-a2 ELa4-c3   3.ELc4-a3 + kELb4-a1   4.ELa3-d4 ELd2-a3   5.ELa2-b4 + ELa3-c4 ## 
 
-              empile:      188275
-           play_move:      150100
-        orig_rbechec:      121546
-        orig_rnechec:       28643
+                        empile:      188275
+                     play_move:      150100
+ is_white_king_square_attacked:      121546
+ is_black_king_square_attacked:       28643
 Loesung beendet. 
 
 
@@ -2745,10 +2745,10 @@ Hilfsreflexmatt - nicht 1.Kc2 wegen 2.Dxa5#
 
   1.Kd1-c1 e3*d2 +   2.Kc1-b1 d2-d1=D # 
 
-              empile:       20670
-           play_move:       11156
-        orig_rbechec:        9844
-        orig_rnechec:        4600
+                        empile:       20670
+                     play_move:       11156
+ is_white_king_square_attacked:        9844
+ is_black_king_square_attacked:        4600
 Loesung beendet. 
 
 
@@ -2806,10 +2806,10 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
  14  (Kb4-c3 )
  15  (Kb4-a3 )
 
-              empile:      207544
-           play_move:      153532
-        orig_rbechec:      102464
-        orig_rnechec:      153508
+                        empile:      207544
+                     play_move:      153532
+ is_white_king_square_attacked:      102464
+ is_black_king_square_attacked:      153508
 Loesung beendet. 
 
 
@@ -2839,10 +2839,10 @@ Loesung beendet.
 
   1...Kg2-f3   2.h6-h5 Kf3-e2 # 
 
-              empile:         243
-           play_move:         205
-        orig_rbechec:          92
-        orig_rnechec:         200
+                        empile:         243
+                     play_move:         205
+ is_white_king_square_attacked:          92
+ is_black_king_square_attacked:         200
 Loesung beendet. 
 
 
@@ -2890,10 +2890,10 @@ Loesung beendet.
       1...Kc3*d2 !
 
 
-              empile:        4983
-           play_move:        2062
-        orig_rbechec:        2032
-        orig_rnechec:        1107
+                        empile:        4983
+                     play_move:        2062
+ is_white_king_square_attacked:        2032
+ is_black_king_square_attacked:        1107
 Loesung beendet. 
 
 
@@ -2924,10 +2924,10 @@ sofortiges forciertes Reflexmatt durch Weiss
    1.c7-c8=D #
    1.c7-c8=T #
 
-              empile:           9
-           play_move:          12
-        orig_rbechec:           2
-        orig_rnechec:          13
+                        empile:           9
+                     play_move:          12
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:          13
 Loesung beendet. 
 
 
@@ -2964,20 +2964,20 @@ a)
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4[+sDd6] Dd6-g3 +   6.Se4*g3[+sDe4] # 
 
-              empile:    10659438
-           play_move:     4741222
-        orig_rbechec:     3596879
-        orig_rnechec:     3898399
+                        empile:    10659438
+                     play_move:     4741222
+ is_white_king_square_attacked:     3596879
+ is_black_king_square_attacked:     3898399
 b) ser-s#6
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4[+sDd6]   6.Se4-g3 + Dd6*g3[+wSd6] # 
 
   1.De4*e5[+wBe4]   2.De5-e8   3.De8*e4[+wBe8=S]   4.De4*e8[+wSe4]   5.De8-e5   6.De5-g3 + Se4*g3[+sDe4] # 
 
-              empile:    12401776
-           play_move:     3867500
-        orig_rbechec:     3340189
-        orig_rnechec:     3061657
+                        empile:    12401776
+                     play_move:     3867500
+ is_white_king_square_attacked:     3340189
+ is_black_king_square_attacked:     3061657
 Loesung beendet. 
 
 

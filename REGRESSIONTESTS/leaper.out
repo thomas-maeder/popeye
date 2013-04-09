@@ -46,10 +46,10 @@
           2.Td2-d4 #
 
 
-              empile:       29700
-           play_move:       18871
-        orig_rbechec:         900
-        orig_rnechec:       18874
+                        empile:       29700
+                     play_move:       18871
+ is_white_king_square_attacked:         900
+ is_black_king_square_attacked:       18874
 Loesung beendet. 
 
 

@@ -46,10 +46,10 @@
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:    23746357
-           play_move:    23781301
-        orig_rbechec:     3776216
-        orig_rnechec:     2729691
+                        empile:    23746357
+                     play_move:    23781301
+ is_white_king_square_attacked:     3776216
+ is_black_king_square_attacked:     2729691
 Loesung beendet. 
 
 

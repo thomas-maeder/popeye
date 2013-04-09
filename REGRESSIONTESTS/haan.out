@@ -28,18 +28,18 @@ a)
 
   1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 # 
 
-              empile:       10697
-           play_move:        9227
-        orig_rbechec:         865
-        orig_rnechec:        8952
+                        empile:       10697
+                     play_move:        9227
+ is_white_king_square_attacked:         865
+ is_black_king_square_attacked:        8952
 b) wLb1 
 
   1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 # 
 
-              empile:       10070
-           play_move:        7573
-        orig_rbechec:        1238
-        orig_rnechec:        7211
+                        empile:       10070
+                     play_move:        7573
+ is_white_king_square_attacked:        1238
+ is_black_king_square_attacked:        7211
 Loesung beendet. 
 
 
@@ -74,10 +74,10 @@ Loesung beendet.
 
   1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S = 
 
-              empile:       64276
-           play_move:       29309
-        orig_rbechec:           0
-        orig_rnechec:       27869
+                        empile:       64276
+                     play_move:       29309
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:       27869
 Loesung beendet. 
 
 
@@ -111,10 +111,10 @@ Loesung beendet.
   1.a7-a5 b6-b7 # 
   1.a7-a6 b6-b7 # 
 
-              empile:          13
-           play_move:          13
-        orig_rbechec:           5
-        orig_rnechec:          13
+                        empile:          13
+                     play_move:          13
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          13
 Loesung beendet. 
 
 
@@ -151,19 +151,19 @@ a)
 
   1.a7-a5 b6-b7 # 
 
-              empile:          14
-           play_move:          14
-        orig_rbechec:           5
-        orig_rnechec:          14
+                        empile:          14
+                     play_move:          14
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          14
 b) HaanerSchach
    SchwarzerKuerzestzueger
 
   1.a7-a6 b6-b7 # 
 
-              empile:          14
-           play_move:          14
-        orig_rbechec:           5
-        orig_rnechec:          14
+                        empile:          14
+                     play_move:          14
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          14
 Loesung beendet. 
 
 
@@ -197,10 +197,10 @@ Beispiel fuer Rochadeschach + Haaner Schach
       1...a4-a3 =
 
 
-              empile:          41
-           play_move:          21
-        orig_rbechec:          31
-        orig_rnechec:           0
+                        empile:          41
+                     play_move:          21
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -233,10 +233,10 @@ Beispiel fuer Rochade in Haaner Schach
       1...h4-h3 =
 
 
-              empile:          44
-           play_move:          23
-        orig_rbechec:          25
-        orig_rnechec:           0
+                        empile:          44
+                     play_move:          23
+ is_white_king_square_attacked:          25
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 

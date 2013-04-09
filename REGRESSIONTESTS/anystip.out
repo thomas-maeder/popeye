@@ -28,10 +28,10 @@
    1.kBa7*b8[-wkBb8] !
 
 
-              empile:           3
-           play_move:           3
-        orig_rbechec:           2
-        orig_rnechec:           0
+                        empile:           3
+                     play_move:           3
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 

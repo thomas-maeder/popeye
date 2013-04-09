@@ -26,10 +26,10 @@
   1.b3-b5 c5*b6 ep. #
   1.b3-b6 c5*b6 #
 
-              empile:          58
-           play_move:          27
-        orig_rbechec:           5
-        orig_rnechec:          27
+                        empile:          58
+                     play_move:          27
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          27
 solution finished. 
 
 
@@ -95,10 +95,10 @@ solution finished.
       1...Sd1*e3 !
 
 
-              empile:        5559
-           play_move:        1470
-        orig_rbechec:         104
-        orig_rnechec:        1459
+                        empile:        5559
+                     play_move:        1470
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1459
 solution finished. 
 
 

@@ -105,10 +105,10 @@
           2.Kd1-e2 #
 
 
-              empile:       14576
-           play_move:        4876
-        orig_rbechec:        4010
-        orig_rnechec:        8262
+                        empile:       14576
+                     play_move:        4876
+ is_white_king_square_attacked:        4010
+ is_black_king_square_attacked:        8262
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
   1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 # 
   1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 # 
 
-              empile:       17226
-           play_move:       18125
-        orig_rbechec:        6208
-        orig_rnechec:       19686
+                        empile:       17226
+                     play_move:       18125
+ is_white_king_square_attacked:        6208
+ is_black_king_square_attacked:       19686
 Loesung beendet. 
 
 
@@ -190,10 +190,10 @@ Loesung beendet.
           2.Tb4-c4 #
 
 
-              empile:        6191
-           play_move:        1949
-        orig_rbechec:        1455
-        orig_rnechec:        3203
+                        empile:        6191
+                     play_move:        1949
+ is_white_king_square_attacked:        1455
+ is_black_king_square_attacked:        3203
 Loesung beendet. 
 
 
@@ -246,10 +246,10 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
       1...Dh3*h1 !
 
 
-              empile:       15489
-           play_move:        3099
-        orig_rbechec:        3878
-        orig_rnechec:        6640
+                        empile:       15489
+                     play_move:        3099
+ is_white_king_square_attacked:        3878
+ is_black_king_square_attacked:        6640
 Loesung beendet. 
 
 
@@ -294,10 +294,10 @@ a)
           2.Sb3-d4 #
 
 
-              empile:        7376
-           play_move:        2534
-        orig_rbechec:        2520
-        orig_rnechec:        4554
+                        empile:        7376
+                     play_move:        2534
+ is_white_king_square_attacked:        2520
+ is_black_king_square_attacked:        4554
 b) PlatzwechselCirce
 
    1.Df6-g5 ! Drohung:
@@ -312,10 +312,10 @@ b) PlatzwechselCirce
           2.Dg5*g2[+spSg5] #
 
 
-              empile:        7399
-           play_move:        2529
-        orig_rbechec:        2522
-        orig_rnechec:        4530
+                        empile:        7399
+                     play_move:        2529
+ is_white_king_square_attacked:        2522
+ is_black_king_square_attacked:        4530
 Loesung beendet. 
 
 
@@ -347,10 +347,10 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
    1.pKa7-b7 = !
 
 
-              empile:         116
-           play_move:          29
-        orig_rbechec:          35
-        orig_rnechec:         113
+                        empile:         116
+                     play_move:          29
+ is_white_king_square_attacked:          35
+ is_black_king_square_attacked:         113
 Loesung beendet. 
 
 
@@ -383,10 +383,10 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
    1.Kc2-d3 != !
 
 
-              empile:         170
-           play_move:          16
-        orig_rbechec:          43
-        orig_rnechec:           1
+                        empile:         170
+                     play_move:          16
+ is_white_king_square_attacked:          43
+ is_black_king_square_attacked:           1
 Loesung beendet. 
 
 

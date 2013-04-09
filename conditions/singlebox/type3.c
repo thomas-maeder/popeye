@@ -115,3 +115,62 @@ stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
+
+boolean singleboxtype3_is_black_king_square_attacked(evalfunction_t *evaluate)
+{
+  unsigned int promotionstried = 0;
+  square sq;
+  for (sq = next_latent_pawn(initsquare,White);
+       sq!=vide;
+       sq = next_latent_pawn(sq,White))
+  {
+    PieNam pprom;
+    for (pprom = next_singlebox_prom(Empty,White);
+         pprom!=Empty;
+         pprom = next_singlebox_prom(pprom,White))
+    {
+      boolean result;
+      ++promotionstried;
+      e[sq] = pprom;
+      ++nbpiece[pprom];
+      result = is_black_king_square_attacked(evaluate);
+      --nbpiece[pprom];
+      e[sq] = pb;
+      if (result) {
+        return true;
+      }
+    }
+  }
+
+  return promotionstried==0 && is_black_king_square_attacked(evaluate);
+}
+
+boolean singleboxtype3_is_white_king_square_attacked(evalfunction_t *evaluate)
+{
+  unsigned int promotionstried = 0;
+  square sq;
+
+  for (sq = next_latent_pawn(initsquare,Black);
+       sq!=vide;
+       sq = next_latent_pawn(sq,Black))
+  {
+    PieNam pprom;
+    for (pprom = next_singlebox_prom(Empty,Black);
+         pprom!=Empty;
+         pprom = next_singlebox_prom(pprom,Black))
+    {
+      boolean result;
+      ++promotionstried;
+      e[sq] = -pprom;
+      ++nbpiece[-(piece)pprom];
+      result = is_white_king_square_attacked(evaluate);
+      --nbpiece[-(piece)pprom];
+      e[sq] = pn;
+      if (result) {
+        return true;
+      }
+    }
+  }
+
+  return promotionstried==0 && is_white_king_square_attacked(evaluate);
+}

@@ -31,10 +31,10 @@
           2.Kc7*b6 =
 
 
-              empile:         137
-           play_move:         112
-        orig_rbechec:          24
-        orig_rnechec:          45
+                        empile:         137
+                     play_move:         112
+ is_white_king_square_attacked:          24
+ is_black_king_square_attacked:          45
 solution finished. 
 
 

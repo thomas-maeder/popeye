@@ -29,10 +29,10 @@
   1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-c7=L   4.Th3-f3=L # 
   1.Lf1*h3=T   2.Th3-h6   3.Th6-d6=D   4.Sg1-f3=L # 
 
-              empile:       21042
-           play_move:       19874
-        orig_rbechec:        3039
-        orig_rnechec:       19760
+                        empile:       21042
+                     play_move:       19874
+ is_white_king_square_attacked:        3039
+ is_black_king_square_attacked:       19760
 Loesung beendet. 
 
 
@@ -79,10 +79,10 @@ Loesung beendet.
                       3...cDd4*f2=cS #
 
 
-              empile:      588032
-           play_move:      256173
-        orig_rbechec:      254908
-        orig_rnechec:      163291
+                        empile:      588032
+                     play_move:      256173
+ is_white_king_square_attacked:      254908
+ is_black_king_square_attacked:      163291
 Loesung beendet. 
 
 
@@ -162,10 +162,10 @@ Loesung beendet.
       1...Kd4*e3 !
 
 
-              empile:       27168
-           play_move:       18522
-        orig_rbechec:        1374
-        orig_rnechec:       18398
+                        empile:       27168
+                     play_move:       18522
+ is_white_king_square_attacked:        1374
+ is_black_king_square_attacked:       18398
 Loesung beendet. 
 
 
@@ -199,18 +199,18 @@ a)
 
   1.cDe6-c6=cS cDb6-b4=cS   2.cLd5-g2=cT cSb4-d3=cL # 
 
-              empile:      992661
-           play_move:      899774
-        orig_rbechec:       29739
-        orig_rnechec:      898447
+                        empile:      992661
+                     play_move:      899774
+ is_white_king_square_attacked:       29739
+ is_black_king_square_attacked:      898447
 b) sDh1-->h3
 
   1.cLd5-b7=cT cDb6-d6=cS   2.cDe6-g4=cS cSd6-e4=cL # 
 
-              empile:     1036462
-           play_move:      942573
-        orig_rbechec:       30676
-        orig_rnechec:      941179
+                        empile:     1036462
+                     play_move:      942573
+ is_white_king_square_attacked:       30676
+ is_black_king_square_attacked:      941179
 Loesung beendet. 
 
 
@@ -254,10 +254,10 @@ Loesung beendet.
           2.cSd6-e4=cL #
 
 
-              empile:       10032
-           play_move:        5709
-        orig_rbechec:         493
-        orig_rnechec:        5712
+                        empile:       10032
+                     play_move:        5709
+ is_white_king_square_attacked:         493
+ is_black_king_square_attacked:        5712
 Loesung beendet. 
 
 
@@ -308,10 +308,10 @@ Loesung beendet.
           2.De5-e6 #
 
 
-              empile:       19750
-           play_move:       12600
-        orig_rbechec:        1133
-        orig_rnechec:       12603
+                        empile:       19750
+                     play_move:       12600
+ is_white_king_square_attacked:        1133
+ is_black_king_square_attacked:       12603
 Loesung beendet. 
 
 
@@ -353,10 +353,10 @@ Loesung beendet.
           2.cDc7*c5=cS #
 
 
-              empile:       12197
-           play_move:        7552
-        orig_rbechec:         604
-        orig_rnechec:        7555
+                        empile:       12197
+                     play_move:        7552
+ is_white_king_square_attacked:         604
+ is_black_king_square_attacked:        7555
 Loesung beendet. 
 
 
@@ -415,10 +415,10 @@ Loesung beendet.
           2.d2-d3 #
 
 
-              empile:        6837
-           play_move:        4561
-        orig_rbechec:         423
-        orig_rnechec:        4564
+                        empile:        6837
+                     play_move:        4561
+ is_white_king_square_attacked:         423
+ is_black_king_square_attacked:        4564
 Loesung beendet. 
 
 
@@ -459,10 +459,10 @@ Loesung beendet.
           2.Da4-e4 #
 
 
-              empile:        3519
-           play_move:        2170
-        orig_rbechec:         230
-        orig_rnechec:        2173
+                        empile:        3519
+                     play_move:        2170
+ is_white_king_square_attacked:         230
+ is_black_king_square_attacked:        2173
 Loesung beendet. 
 
 
@@ -522,10 +522,10 @@ Loesung beendet.
                   3.Se4-g5 #
 
 
-              empile:      122131
-           play_move:       65348
-        orig_rbechec:        7125
-        orig_rnechec:       63791
+                        empile:      122131
+                     play_move:       65348
+ is_white_king_square_attacked:        7125
+ is_black_king_square_attacked:       63791
 Loesung beendet. 
 
 
@@ -570,10 +570,10 @@ Loesung beendet.
   1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
   1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
 
-              empile:      132630
-           play_move:       99165
-        orig_rbechec:       17306
-        orig_rnechec:       98824
+                        empile:      132630
+                     play_move:       99165
+ is_white_king_square_attacked:       17306
+ is_black_king_square_attacked:       98824
 Loesung beendet. 
 
 
@@ -620,10 +620,10 @@ Loesung beendet.
           2.cDd1*f3=cS[+sBf7] #
 
 
-              empile:        6137
-           play_move:        3403
-        orig_rbechec:         298
-        orig_rnechec:        3406
+                        empile:        6137
+                     play_move:        3403
+ is_white_king_square_attacked:         298
+ is_black_king_square_attacked:        3406
 Loesung beendet. 
 
 
@@ -683,10 +683,10 @@ Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
    1.cLf1-e2=cT !
 
 
-              empile:           7
-           play_move:          14
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           7
+                     play_move:          14
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -736,10 +736,10 @@ Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
    1.c6*d7[wBd7->e8=L=c] !
 
 
-              empile:           2
-           play_move:           9
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           2
+                     play_move:           9
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 

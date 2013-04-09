@@ -18,7 +18,7 @@ boolean beamten_is_observed(square sq_departure)
   TraceFunctionParamListEnd();
 
   king_square[side] = sq_departure;
-  result = rechec[side](&validate_observer);
+  result = is_king_square_attacked[side](&validate_observer);
   king_square[side] = save_king_square;
 
   TraceFunctionExit(__func__);

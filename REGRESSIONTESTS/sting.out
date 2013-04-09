@@ -31,10 +31,10 @@ a)
                   3.e7-e8=T #
 
 
-              empile:        2556
-           play_move:        1424
-        orig_rbechec:         772
-        orig_rnechec:         814
+                        empile:        2556
+                     play_move:        1424
+ is_white_king_square_attacked:         772
+ is_black_king_square_attacked:         814
 b) StingSchach
 
    1.Kc7-b6 ! Drohung:
@@ -47,10 +47,10 @@ b) StingSchach
                   3.La6-b7 #
 
 
-              empile:        7427
-           play_move:        5383
-        orig_rbechec:        1328
-        orig_rnechec:        4601
+                        empile:        7427
+                     play_move:        5383
+ is_white_king_square_attacked:        1328
+ is_black_king_square_attacked:        4601
 Loesung beendet. 
 
 
@@ -102,10 +102,10 @@ Loesung beendet.
  17  (Lg4-e6 )
  18  (Lg4-f5 )
 
-              empile:     1288269
-           play_move:     1119092
-        orig_rbechec:      250561
-        orig_rnechec:      919103
+                        empile:     1288269
+                     play_move:     1119092
+ is_white_king_square_attacked:      250561
+ is_black_king_square_attacked:      919103
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
   1.b4*c3 Ke1-d1   2.b5-b4 Kd1-a4   3.b3-b2 a3*b4 # 
   1.b4*c3 Ke1-b4   2.b3-b2 a3-a4   3.b5*a4 Kb4*a4 # 
 
-              empile:      531582
-           play_move:      507375
-        orig_rbechec:       50664
-        orig_rnechec:      497524
+                        empile:      531582
+                     play_move:      507375
+ is_white_king_square_attacked:       50664
+ is_black_king_square_attacked:      497524
 Loesung beendet. 
 
 

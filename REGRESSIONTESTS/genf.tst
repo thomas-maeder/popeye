@@ -25,10 +25,10 @@ Madrasi paralysis even if rebirth square is occupied
              GenevaChess
 
 
-              empile:           0
-           play_move:           0
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -61,10 +61,10 @@ Patrol support even if rebirth square is occupied
    1.b3*c4 x !
 
 
-              empile:           4
-           play_move:           1
-        orig_rbechec:           0
-        orig_rnechec:           1
+                        empile:           4
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
 solution finished. 
 
 

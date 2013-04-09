@@ -106,10 +106,10 @@
                                   5.Th1-h8 c81
 
 
-              empile:     2863108
-           play_move:     1911637
-        orig_rbechec:     1679737
-        orig_rnechec:      210004
+                        empile:     2863108
+                     play_move:     1911637
+ is_white_king_square_attacked:     1679737
+ is_black_king_square_attacked:      210004
 Loesung beendet. 
 
 
@@ -145,10 +145,10 @@ Loesung beendet.
                   3.Tf6-f8 c81
 
 
-              empile:        4094
-           play_move:        1813
-        orig_rbechec:        1194
-        orig_rnechec:         360
+                        empile:        4094
+                     play_move:        1813
+ is_white_king_square_attacked:        1194
+ is_black_king_square_attacked:         360
 Loesung beendet. 
 
 
@@ -202,10 +202,10 @@ Loesung beendet.
                   3.Ta5-a8 c81
 
 
-              empile:       37542
-           play_move:        7895
-        orig_rbechec:        3747
-        orig_rnechec:        2399
+                        empile:       37542
+                     play_move:        7895
+ is_white_king_square_attacked:        3747
+ is_black_king_square_attacked:        2399
 Loesung beendet. 
 
 
@@ -246,10 +246,10 @@ Loesung beendet.
                       3...Ka2-b1 c81
 
 
-              empile:       11944
-           play_move:        4080
-        orig_rbechec:        2254
-        orig_rnechec:        1841
+                        empile:       11944
+                     play_move:        4080
+ is_white_king_square_attacked:        2254
+ is_black_king_square_attacked:        1841
 Loesung beendet. 
 
 
@@ -283,10 +283,10 @@ Loesung beendet.
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=T c81 
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=L c81 
 
-              empile:        3071
-           play_move:         673
-        orig_rbechec:          79
-        orig_rnechec:         611
+                        empile:        3071
+                     play_move:         673
+ is_white_king_square_attacked:          79
+ is_black_king_square_attacked:         611
 Loesung beendet. 
 
 

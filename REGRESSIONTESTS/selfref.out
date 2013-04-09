@@ -41,10 +41,10 @@
                       3...Sg8-e7 #
 
 
-              empile:      236330
-           play_move:      100404
-        orig_rbechec:      100004
-        orig_rnechec:       53718
+                        empile:      236330
+                     play_move:      100404
+ is_white_king_square_attacked:      100004
+ is_black_king_square_attacked:       53718
 Loesung beendet. 
 
 
@@ -205,10 +205,10 @@ Loesung beendet.
               2...Sb1*c3 #
 
 
-              empile:      942669
-           play_move:      687119
-        orig_rbechec:      686492
-        orig_rnechec:      352425
+                        empile:      942669
+                     play_move:      687119
+ is_white_king_square_attacked:      686492
+ is_black_king_square_attacked:      352425
 Loesung beendet. 
 
 
@@ -369,10 +369,10 @@ Loesung beendet.
               2...Ta7-b7 #
 
 
-              empile:       62665
-           play_move:       51638
-        orig_rbechec:       43160
-        orig_rnechec:        9520
+                        empile:       62665
+                     play_move:       51638
+ is_white_king_square_attacked:       43160
+ is_black_king_square_attacked:        9520
 Loesung beendet. 
 
 
@@ -474,10 +474,10 @@ Loesung beendet.
                       3...Ld1-f3 #
 
 
-              empile:      571967
-           play_move:      328911
-        orig_rbechec:      295138
-        orig_rnechec:       93264
+                        empile:      571967
+                     play_move:      328911
+ is_white_king_square_attacked:      295138
+ is_black_king_square_attacked:       93264
 Loesung beendet. 
 
 
@@ -530,10 +530,10 @@ Loesung beendet.
                               4...Sf5*d6 #
 
 
-              empile:     9735516
-           play_move:     5586951
-        orig_rbechec:     5561351
-        orig_rnechec:     3329407
+                        empile:     9735516
+                     play_move:     5586951
+ is_white_king_square_attacked:     5561351
+ is_black_king_square_attacked:     3329407
 Loesung beendet. 
 
 

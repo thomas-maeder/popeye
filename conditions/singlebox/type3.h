@@ -5,6 +5,7 @@
  */
 
 #include "solving/solve.h"
+#include "pyproc.h"
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -42,5 +43,8 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
  */
 stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
                                                         stip_length_type n);
+
+boolean singleboxtype3_is_black_king_square_attacked(evalfunction_t *evaluate);
+boolean singleboxtype3_is_white_king_square_attacked(evalfunction_t *evaluate);
 
 #endif

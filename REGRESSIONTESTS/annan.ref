@@ -66,10 +66,10 @@ cooked, even with suggestion +WPb6 in Chessics #8
           2.Sb4-d6 #
 
 
-              empile:        3236
-           play_move:        2423
-        orig_rbechec:         292
-        orig_rnechec:        2436
+                        empile:        3236
+                     play_move:        2423
+ is_white_king_square_attacked:         292
+ is_black_king_square_attacked:        2436
 solution finished. 
 
 
@@ -102,10 +102,10 @@ solution finished.
 
   1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 #
 
-              empile:     7230355
-           play_move:     6007461
-        orig_rbechec:      704015
-        orig_rnechec:     5708105
+                        empile:     7230355
+                     play_move:     6007461
+ is_white_king_square_attacked:      704015
+ is_black_king_square_attacked:     5708105
 solution finished. 
 
 
@@ -141,10 +141,10 @@ solution finished.
               2...Kh1-g3 #
 
 
-              empile:         957
-           play_move:         450
-        orig_rbechec:         451
-        orig_rnechec:         256
+                        empile:         957
+                     play_move:         450
+ is_white_king_square_attacked:         451
+ is_black_king_square_attacked:         256
 solution finished. 
 
 
@@ -183,10 +183,10 @@ solution finished.
               2...Kd4-c6 #
 
 
-              empile:       12118
-           play_move:        5197
-        orig_rbechec:        5199
-        orig_rnechec:        3518
+                        empile:       12118
+                     play_move:        5197
+ is_white_king_square_attacked:        5199
+ is_black_king_square_attacked:        3518
 solution finished. 
 
 
@@ -223,10 +223,10 @@ ddlkl
   1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-h5 Re3-a3 #
   1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-g5 Re3-a3 #
 
-              empile:      136142
-           play_move:      100665
-        orig_rbechec:       14499
-        orig_rnechec:      100230
+                        empile:      136142
+                     play_move:      100665
+ is_white_king_square_attacked:       14499
+ is_black_king_square_attacked:      100230
 solving interrupted. 
 
 
@@ -261,10 +261,10 @@ solving interrupted.
           2.Kf5-g5 #
 
 
-              empile:         580
-           play_move:         470
-        orig_rbechec:          89
-        orig_rnechec:         473
+                        empile:         580
+                     play_move:         470
+ is_white_king_square_attacked:          89
+ is_black_king_square_attacked:         473
 solution finished. 
 
 
@@ -298,18 +298,18 @@ a)
 
   1.Bg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Bh2-b8 Ba1-d4 #
 
-              empile:      376629
-           play_move:      338692
-        orig_rbechec:       17391
-        orig_rnechec:      329815
+                        empile:      376629
+                     play_move:      338692
+ is_white_king_square_attacked:       17391
+ is_black_king_square_attacked:      329815
 b) PolishType
 
   1.Kb1-a2 Kh1-g2   2.Ba1-b1 Kg2-d5   3.Ka2-a1 Bg1-d4 #
 
-              empile:      334970
-           play_move:      296474
-        orig_rbechec:       16483
-        orig_rnechec:      288500
+                        empile:      334970
+                     play_move:      296474
+ is_white_king_square_attacked:       16483
+ is_black_king_square_attacked:      288500
 solution finished. 
 
 
@@ -341,10 +341,10 @@ solution finished.
 
   1.Kh8-g7 Bb8-a7   2.Kg7-a1 Ka8-e4   3.Bg8-a2 Ba7-d4 #
 
-              empile:      252499
-           play_move:      213271
-        orig_rbechec:       14519
-        orig_rnechec:      207564
+                        empile:      252499
+                     play_move:      213271
+ is_white_king_square_attacked:       14519
+ is_black_king_square_attacked:      207564
 solution finished. 
 
 
@@ -377,10 +377,10 @@ solution finished.
 
   1.Ka8-b7   2.Kb7-d5   3.Bb8-e5   4.Be5-d4   5.Bd4-e4   6.Kd5-e5   7.Ke5-f4   8.Be4*f3   9.Bf3-g3  10.Kf4-e4  11.Bg3-e5  12.Ke4-a8  13.Be5-b8 Bg4-f3 #
 
-              empile:      870337
-           play_move:      841123
-        orig_rbechec:      455306
-        orig_rnechec:      841123
+                        empile:      870337
+                     play_move:      841123
+ is_white_king_square_attacked:      455306
+ is_black_king_square_attacked:      841123
 solution finished. 
 
 

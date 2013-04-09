@@ -29,10 +29,10 @@ a)
   2  (Ra1*c1 )
   3  (Ra1-b1 )
 
-              empile:           4
-           play_move:           3
-        orig_rbechec:           4
-        orig_rnechec:           7
+                        empile:           4
+                     play_move:           3
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           7
 b) bSc1 
 
   4  (Ra1*a3 + )
@@ -42,10 +42,10 @@ b) bSc1
   6  (Ra1*c1 )
   7  (Ra1-b1 )
 
-              empile:           4
-           play_move:           4
-        orig_rbechec:           6
-        orig_rnechec:           9
+                        empile:           4
+                     play_move:           4
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:           9
 solution finished. 
 
 

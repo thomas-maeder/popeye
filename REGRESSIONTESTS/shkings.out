@@ -76,10 +76,10 @@
           2.Th6-h4 #
 
 
-              empile:       22767
-           play_move:       13420
-        orig_rbechec:        4183
-        orig_rnechec:       16300
+                        empile:       22767
+                     play_move:       13420
+ is_white_king_square_attacked:        4183
+ is_black_king_square_attacked:       16300
 Loesung beendet. 
 
 
@@ -113,18 +113,18 @@ a)
 
   1.Sf6-h5 Tf7-f5   2.Dg4-h3 + Kg2*h3 # 
 
-              empile:      248155
-           play_move:      227410
-        orig_rbechec:       30563
-        orig_rnechec:      232190
+                        empile:      248155
+                     play_move:      227410
+ is_white_king_square_attacked:       30563
+ is_black_king_square_attacked:      232190
 b) wSg5-->g3
 
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 # 
 
-              empile:      274024
-           play_move:      251589
-        orig_rbechec:       36195
-        orig_rnechec:      255032
+                        empile:      274024
+                     play_move:      251589
+ is_white_king_square_attacked:       36195
+ is_black_king_square_attacked:      255032
 Loesung beendet. 
 
 
@@ -197,10 +197,10 @@ a)
       1...Kf3-g2 !
 
 
-              empile:       14329
-           play_move:        9913
-        orig_rbechec:        2153
-        orig_rnechec:        9886
+                        empile:       14329
+                     play_move:        9913
+ is_white_king_square_attacked:        2153
+ is_black_king_square_attacked:        9886
 b) s#3
 
    1.Le6-d5 + ?
@@ -223,10 +223,10 @@ b) s#3
                       3...e3*f2 #
 
 
-              empile:      705278
-           play_move:      251119
-        orig_rbechec:      280340
-        orig_rnechec:      190483
+                        empile:      705278
+                     play_move:      251119
+ is_white_king_square_attacked:      280340
+ is_black_king_square_attacked:      190483
 Loesung beendet. 
 
 

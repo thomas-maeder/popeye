@@ -40,10 +40,10 @@ a)
           2.CAc2-f3 #
 
 
-              empile:        8190
-           play_move:        4947
-        orig_rbechec:         434
-        orig_rnechec:        4950
+                        empile:        8190
+                     play_move:        4947
+ is_white_king_square_attacked:         434
+ is_black_king_square_attacked:        4950
 b) Circe
    GlasgowSchach
 
@@ -59,10 +59,10 @@ b) Circe
           2.CAc2-f3 #
 
 
-              empile:        7398
-           play_move:        4457
-        orig_rbechec:         396
-        orig_rnechec:        4460
+                        empile:        7398
+                     play_move:        4457
+ is_white_king_square_attacked:         396
+ is_black_king_square_attacked:        4460
 Loesung beendet. 
 
 

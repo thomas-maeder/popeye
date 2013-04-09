@@ -40,10 +40,10 @@
                           4.Tf5-f3 #
 
 
-              empile:       35608
-           play_move:       19044
-        orig_rbechec:        9255
-        orig_rnechec:       12607
+                        empile:       35608
+                     play_move:       19044
+ is_white_king_square_attacked:        9255
+ is_black_king_square_attacked:       12607
 Loesung beendet. 
 
 
@@ -124,10 +124,10 @@ Loesung beendet.
                                                           8.Se5-c6 #
 
 
-              empile:       84808
-           play_move:       63909
-        orig_rbechec:       40469
-        orig_rnechec:       28781
+                        empile:       84808
+                     play_move:       63909
+ is_white_king_square_attacked:       40469
+ is_black_king_square_attacked:       28781
 Loesung beendet. 
 
 
@@ -171,10 +171,10 @@ Loesung beendet.
                           4.Lh1*f3 #
 
 
-              empile:      137470
-           play_move:       60134
-        orig_rbechec:       18823
-        orig_rnechec:       59196
+                        empile:      137470
+                     play_move:       60134
+ is_white_king_square_attacked:       18823
+ is_black_king_square_attacked:       59196
 Loesung beendet. 
 
 
@@ -228,10 +228,10 @@ nebenloesig - eigentlich #6
                           4.ROe6*c5[+sBe6] #
 
 
-              empile:      137510
-           play_move:      117170
-        orig_rbechec:       50325
-        orig_rnechec:       71316
+                        empile:      137510
+                     play_move:      117170
+ is_white_king_square_attacked:       50325
+ is_black_king_square_attacked:       71316
 Loesung beendet. 
 
 

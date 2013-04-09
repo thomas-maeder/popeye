@@ -26,10 +26,10 @@ knights can't be captured - there is no cage
 
   1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6[+bBd8] +   3.Ke7-d7 Sg6-e7 =
 
-              empile:    13468796
-           play_move:     3485036
-        orig_rbechec:     2382897
-        orig_rnechec:     1241286
+                        empile:    13468796
+                     play_move:     3485036
+ is_white_king_square_attacked:     2382897
+ is_black_king_square_attacked:     1241286
 solution finished. 
 
 
@@ -61,10 +61,10 @@ knights can't be captured - g1 is occupied
 
   1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6[+bBd8] +   3.Ke7-d7 Sg6-e7 =
 
-              empile:    11238939
-           play_move:     2969966
-        orig_rbechec:     2074069
-        orig_rnechec:     1053378
+                        empile:    11238939
+                     play_move:     2969966
+ is_white_king_square_attacked:     2074069
+ is_black_king_square_attacked:     1053378
 solution finished. 
 
 
@@ -95,10 +95,10 @@ solution finished.
               CageCirce
 
 
-              empile:    11615207
-           play_move:     3058053
-        orig_rbechec:     2119799
-        orig_rnechec:     1103950
+                        empile:    11615207
+                     play_move:     3058053
+ is_white_king_square_attacked:     2119799
+ is_black_king_square_attacked:     1103950
 solution finished. 
 
 

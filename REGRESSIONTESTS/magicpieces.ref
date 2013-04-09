@@ -76,10 +76,10 @@
           2.mPb7-b8=mB #
 
 
-              empile:       21655
-           play_move:       12536
-        orig_rbechec:        1096
-        orig_rnechec:       12528
+                        empile:       21655
+                     play_move:       12536
+ is_white_king_square_attacked:        1096
+ is_black_king_square_attacked:       12528
 solution finished. 
 
 
@@ -374,10 +374,10 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
       1...Sf6*g8 !
 
 
-              empile:      107614
-           play_move:       66000
-        orig_rbechec:        2387
-        orig_rnechec:       65519
+                        empile:      107614
+                     play_move:       66000
+ is_white_king_square_attacked:        2387
+ is_black_king_square_attacked:       65519
 solution finished. 
 
 
@@ -440,10 +440,10 @@ a)
           2.mPg7-g8=mR[g6=w] #
 
 
-              empile:       29391
-           play_move:       20337
-        orig_rbechec:         760
-        orig_rnechec:       20344
+                        empile:       29391
+                     play_move:       20337
+ is_white_king_square_attacked:         760
+ is_black_king_square_attacked:       20344
 b) wPe6 
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -474,10 +474,10 @@ b) wPe6
           2.mPg7-g8=mQ[e6=w][g6=w] #
 
 
-              empile:       29898
-           play_move:       20601
-        orig_rbechec:         773
-        orig_rnechec:       20608
+                        empile:       29898
+                     play_move:       20601
+ is_white_king_square_attacked:         773
+ is_black_king_square_attacked:       20608
 +c) wSg6 
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -508,10 +508,10 @@ b) wPe6
           2.mPg7-g8=mB[e6=w] #
 
 
-              empile:       30157
-           play_move:       20787
-        orig_rbechec:         760
-        orig_rnechec:       20794
+                        empile:       30157
+                     play_move:       20787
+ is_white_king_square_attacked:         760
+ is_black_king_square_attacked:       20794
 +d) bPe6 
 
    1.mQf4-e3[c5=w][e6=w] ! threat:
@@ -542,10 +542,10 @@ b) wPe6
           2.mPg7-g8=mS[e7=b] #
 
 
-              empile:       29816
-           play_move:       20681
-        orig_rbechec:         755
-        orig_rnechec:       20688
+                        empile:       29816
+                     play_move:       20681
+ is_white_king_square_attacked:         755
+ is_black_king_square_attacked:       20688
 solution finished. 
 
 
@@ -621,10 +621,10 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
       1...Se6-c5[c5=w] !
 
 
-              empile:       41202
-           play_move:       30450
-        orig_rbechec:        1389
-        orig_rnechec:       30334
+                        empile:       41202
+                     play_move:       30450
+ is_white_king_square_attacked:        1389
+ is_black_king_square_attacked:       30334
 solution finished. 
 
 
@@ -665,10 +665,10 @@ a)
    1.Ka5-b4[+wPa5] !
 
 
-              empile:           5
-           play_move:           5
-        orig_rbechec:           5
-        orig_rnechec:           0
+                        empile:           5
+                     play_move:           5
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           0
 b) wmKa5 
 
    1.mKa5-b5[+wPa5] !
@@ -682,18 +682,18 @@ b) wmKa5
    1.mKa5-b4[+wPa5] !
 
 
-              empile:           5
-           play_move:           5
-        orig_rbechec:           5
-        orig_rnechec:           0
+                        empile:           5
+                     play_move:           5
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           0
 c) nmKa5 
 too much fairy chess for neutral pieces
 problem ignored
 
-              empile:           0
-           play_move:           0
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -724,10 +724,10 @@ an example for castling with a recolored rook
 
   1.mGd1-d4[a1=w] 0-0-0 + 
 
-              empile:          37
-           play_move:          20
-        orig_rbechec:           5
-        orig_rnechec:          20
+                        empile:          37
+                     play_move:          20
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          20
 solution finished. 
 
 

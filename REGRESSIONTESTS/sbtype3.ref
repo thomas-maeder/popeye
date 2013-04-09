@@ -24,10 +24,10 @@ latent pawns' side decides which one to promote -> f2*e1 would be self-check
           SingleBox    Type3
 
 
-              empile:         151
-           play_move:         150
-        orig_rbechec:          20
-        orig_rnechec:         148
+                        empile:         151
+                     play_move:         150
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:         148
 solution finished. 
 
 
@@ -57,10 +57,10 @@ latent pawns' side which one to promote -> f7*e8 would be self-check
           SingleBox    Type3
 
 
-              empile:          21
-           play_move:          21
-        orig_rbechec:           8
-        orig_rnechec:          20
+                        empile:          21
+                     play_move:          21
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          20
 solution finished. 
 
 
@@ -96,10 +96,10 @@ solution finished.
    1.Se3*g2 + !
 
 
-              empile:          15
-           play_move:          15
-        orig_rbechec:           9
-        orig_rnechec:          16
+                        empile:          15
+                     play_move:          15
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          16
 solution finished. 
 
 
@@ -130,10 +130,10 @@ solution finished.
 
   1.g5*f4 [a8=S]Rg6*g1 + 
 
-              empile:         286
-           play_move:         286
-        orig_rbechec:           3
-        orig_rnechec:         286
+                        empile:         286
+                     play_move:         286
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:         286
 solution finished. 
 
 
@@ -164,10 +164,10 @@ pawn's side selects which pawn to promote -> Ra1 can't capture
 
   1.a4-a3 Bc8-d7 # 
 
-              empile:          87
-           play_move:          78
-        orig_rbechec:          11
-        orig_rnechec:          80
+                        empile:          87
+                     play_move:          78
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          80
 solution finished. 
 
 
@@ -201,10 +201,10 @@ solution finished.
    1.[e8=S]Qd8-d5 # !
 
 
-              empile:         251
-           play_move:         169
-        orig_rbechec:          24
-        orig_rnechec:         172
+                        empile:         251
+                     play_move:         169
+ is_white_king_square_attacked:          24
+ is_black_king_square_attacked:         172
 solution finished. 
 
 
@@ -258,10 +258,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 #
 
 
-              empile:        9467
-           play_move:        6923
-        orig_rbechec:         759
-        orig_rnechec:        6754
+                        empile:        9467
+                     play_move:        6923
+ is_white_king_square_attacked:         759
+ is_black_king_square_attacked:        6754
 solution finished. 
 
 
@@ -332,10 +332,10 @@ solution finished.
       1...d5*e4 !
 
 
-              empile:      330622
-           play_move:      235283
-        orig_rbechec:       16429
-        orig_rnechec:      217133
+                        empile:      330622
+                     play_move:      235283
+ is_white_king_square_attacked:       16429
+ is_black_king_square_attacked:      217133
 solution finished. 
 
 

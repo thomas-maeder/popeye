@@ -28,26 +28,26 @@ a)
 
   1.c5-c4 + Se4-c5   2.Sb4-d3 + Sc5-e6 # 
 
-              empile:      255610
-           play_move:      221251
-        orig_rbechec:       14646
-        orig_rnechec:      220544
+                        empile:      255610
+                     play_move:      221251
+ is_white_king_square_attacked:       14646
+ is_black_king_square_attacked:      220544
 b) wHEe8-->f1
 
   1.Sb4-d3 + Sd5-b4   2.e7-e5 + Sb4-c2 # 
 
-              empile:      326868
-           play_move:      280762
-        orig_rbechec:       19222
-        orig_rnechec:      279989
+                        empile:      326868
+                     play_move:      280762
+ is_white_king_square_attacked:       19222
+ is_black_king_square_attacked:      279989
 c) wHEe8-->g6
 
   1.e7-e5 + Sd5-e7   2.c5-c4 + Se7-f5 # 
 
-              empile:      244713
-           play_move:      209703
-        orig_rbechec:       14743
-        orig_rnechec:      209024
+                        empile:      244713
+                     play_move:      209703
+ is_white_king_square_attacked:       14743
+ is_black_king_square_attacked:      209024
 Loesung beendet. 
 
 

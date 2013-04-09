@@ -28,10 +28,10 @@
   1.b2-b1=T c7-c8=T   2.Tb1-b7 Tc8-h8   3.Tb7-h7 Th8*h7 = 
 609 moegliche Stellungen in 3+3
 
-              empile:      324866
-           play_move:      297308
-        orig_rbechec:        5105
-        orig_rnechec:      272365
+                        empile:      324866
+                     play_move:      297308
+ is_white_king_square_attacked:        5105
+ is_black_king_square_attacked:      272365
 Loesung beendet. 
 
 
@@ -70,10 +70,10 @@ Loesung beendet.
   1.Kg1*f1   2.Tg2-g1   3.g3-g2   4.Lh2-f4   5.Lf4-d2 Kd1*d2 = 
 3 moegliche Stellungen in 1+5
 
-              empile:       58155
-           play_move:       57583
-        orig_rbechec:          88
-        orig_rnechec:       60743
+                        empile:       58155
+                     play_move:       57583
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:       60743
 Loesung beendet. 
 
 
@@ -110,10 +110,10 @@ Loesung beendet.
   1.b2-b1=T   2.Tb1*b5   3.Tb5-b6   4.Tb6-c6   5.Tc6*c8 b7*c8=D = 
 29 moegliche Stellungen in 1+5
 
-              empile:      919130
-           play_move:      671736
-        orig_rbechec:        5964
-        orig_rnechec:      687303
+                        empile:      919130
+                     play_move:      671736
+ is_white_king_square_attacked:        5964
+ is_black_king_square_attacked:      687303
 Loesung beendet. 
 
 
@@ -151,10 +151,10 @@ Loesung beendet.
   1.Tg6-g5 g2-g1=D   2.Tg5-c5 Dg1*c5 = 
 12 moegliche Stellungen in 2+2
 
-              empile:       14524
-           play_move:       14434
-        orig_rbechec:         133
-        orig_rnechec:       10930
+                        empile:       14524
+                     play_move:       14434
+ is_white_king_square_attacked:         133
+ is_black_king_square_attacked:       10930
 Loesung beendet. 
 
 
@@ -193,10 +193,10 @@ a)
   1.f7-f8=L   2.a7-a8=T   3.Ta8-a7   4.Ta7-g7 = 
 38 moegliche Stellungen in 4+0
 
-              empile:        5190
-           play_move:        4716
-        orig_rbechec:        1258
-        orig_rnechec:        1742
+                        empile:        5190
+                     play_move:        4716
+ is_white_king_square_attacked:        1258
+ is_black_king_square_attacked:        1742
 b) wKa6-->g2
 
 0 moegliche Stellungen in 1+0
@@ -205,10 +205,10 @@ b) wKa6-->g2
   1.Kg2-h1   2.f7-f8=S   3.a7-a8=D   4.Da8-g2 = 
 33 moegliche Stellungen in 4+0
 
-              empile:         900
-           play_move:         695
-        orig_rbechec:         198
-        orig_rnechec:        1008
+                        empile:         900
+                     play_move:         695
+ is_white_king_square_attacked:         198
+ is_black_king_square_attacked:        1008
 Loesung beendet. 
 
 
@@ -246,10 +246,10 @@ Loesung beendet.
   1.a2-a1=L   2.La1-c3   3.Lc3-e1   4.Le1-h4   5.Lh4-d8 c7*d8=D = 
 35 moegliche Stellungen in 1+5
 
-              empile:      273393
-           play_move:      185050
-        orig_rbechec:         871
-        orig_rnechec:      199469
+                        empile:      273393
+                     play_move:      185050
+ is_white_king_square_attacked:         871
+ is_black_king_square_attacked:      199469
 Loesung beendet. 
 
 
@@ -284,10 +284,10 @@ Loesung beendet.
   1.g2-g1=T   2.Tg1-g8   3.Tg8-d8 + c7*d8=S = 
 9 moegliche Stellungen in 1+3
 
-              empile:       14439
-           play_move:       14624
-        orig_rbechec:         230
-        orig_rnechec:        6331
+                        empile:       14439
+                     play_move:       14624
+ is_white_king_square_attacked:         230
+ is_black_king_square_attacked:        6331
 Loesung beendet. 
 
 
@@ -321,10 +321,10 @@ Loesung beendet.
   1.Td7-e7 Td4-d8 +   2.Lg6-e8 De4-b4   3.Tg3-g7 Le3-h6 = 
 1446 moegliche Stellungen in 3+3
 
-              empile:     5829651
-           play_move:     5821653
-        orig_rbechec:        8637
-        orig_rnechec:     5562381
+                        empile:     5829651
+                     play_move:     5821653
+ is_white_king_square_attacked:        8637
+ is_black_king_square_attacked:     5562381
 Loesung beendet. 
 
 
@@ -362,10 +362,10 @@ Es fehlt ein weisser oder schwarzer Koenig
   1.e7-e8=S   2.d7-d8=T   3.Td8-d7   4.Td7*g7 = 
 168 moegliche Stellungen in 4+0
 
-              empile:        9994
-           play_move:       12172
-        orig_rbechec:           0
-        orig_rnechec:        4514
+                        empile:        9994
+                     play_move:       12172
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        4514
 Loesung beendet. 
 
 
@@ -399,10 +399,10 @@ Loesung beendet.
   1.g2-g1=L a7*b8=D   2.Lg1-b6 b7*c8=T   3.Lb6-d8 e7*d8=S = 
 5694 moegliche Stellungen in 3+3
 
-              empile:    11939082
-           play_move:    11222793
-        orig_rbechec:       81056
-        orig_rnechec:     9140087
+                        empile:    11939082
+                     play_move:    11222793
+ is_white_king_square_attacked:       81056
+ is_black_king_square_attacked:     9140087
 Loesung beendet. 
 
 
@@ -436,10 +436,10 @@ Loesung beendet.
   1...a7*b8=D   2.d2-d1=T d7*e8=L   3.Td1-d8 c7*d8=S = 
 3862 moegliche Stellungen in 3+2
 
-              empile:     2454606
-           play_move:     2569782
-        orig_rbechec:       18775
-        orig_rnechec:     2099063
+                        empile:     2454606
+                     play_move:     2569782
+ is_white_king_square_attacked:       18775
+ is_black_king_square_attacked:     2099063
 Loesung beendet. 
 
 
@@ -473,10 +473,10 @@ Loesung beendet.
   1.a3-a2 a7*b8=D   2.a2-a1=L c7*d8=S   3.Tc1-c8 b7*c8=T = 
 7593 moegliche Stellungen in 3+3
 
-              empile:    14579604
-           play_move:    13394588
-        orig_rbechec:       39180
-        orig_rnechec:    12902221
+                        empile:    14579604
+                     play_move:    13394588
+ is_white_king_square_attacked:       39180
+ is_black_king_square_attacked:    12902221
 Loesung beendet. 
 
 
@@ -510,10 +510,10 @@ Loesung beendet.
   1.h2-h1=S b7*c8=T   2.Tb6-b8 a7*b8=D   3.Da5-d8 e7*d8=L = 
 892 moegliche Stellungen in 3+3
 
-              empile:    13656283
-           play_move:     9588116
-        orig_rbechec:       20525
-        orig_rnechec:     8534766
+                        empile:    13656283
+                     play_move:     9588116
+ is_white_king_square_attacked:       20525
+ is_black_king_square_attacked:     8534766
 Loesung beendet. 
 
 
@@ -547,10 +547,10 @@ Loesung beendet.
   1...f7*e8=L   2.d2-d1=T b7-b8=D   3.Td1-d8 c7*d8=S = 
 4535 moegliche Stellungen in 3+2
 
-              empile:     2233965
-           play_move:     2094655
-        orig_rbechec:       25576
-        orig_rnechec:     2151061
+                        empile:     2233965
+                     play_move:     2094655
+ is_white_king_square_attacked:       25576
+ is_black_king_square_attacked:     2151061
 Loesung beendet. 
 
 
@@ -584,10 +584,10 @@ Loesung beendet.
   1.a2-a1=L h7*g8=S   2.La1-h8 d7*e8=D +   3.Kg6-g7 e7*f8=T = 
 1979 moegliche Stellungen in 3+3
 
-              empile:     4327925
-           play_move:     4392096
-        orig_rbechec:       34057
-        orig_rnechec:     3566165
+                        empile:     4327925
+                     play_move:     4392096
+ is_white_king_square_attacked:       34057
+ is_black_king_square_attacked:     3566165
 Loesung beendet. 
 
 
@@ -629,10 +629,10 @@ a)
   1.d2-d1=D   2.Dd1*d4   3.Dd4-a1   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=L   8.Ld1-c2   9.Lc2-b1 Lf1-c4 # 
 29 moegliche Stellungen in 1+9
 
-              empile:      637022
-           play_move:      642808
-        orig_rbechec:      225267
-        orig_rnechec:      270391
+                        empile:      637022
+                     play_move:      642808
+ is_white_king_square_attacked:      225267
+ is_black_king_square_attacked:      270391
 b) ser-h=9
 
 0 moegliche Stellungen in 1+1
@@ -646,10 +646,10 @@ b) ser-h=9
   1.d2-d1=T   2.Td1*d4   3.Td4-c4   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=S   8.Sd1-b2   9.Ka2-a3 Lf1*c4 = 
 5 moegliche Stellungen in 1+9
 
-              empile:      163266
-           play_move:      160378
-        orig_rbechec:       45712
-        orig_rnechec:      104885
+                        empile:      163266
+                     play_move:      160378
+ is_white_king_square_attacked:       45712
+ is_black_king_square_attacked:      104885
 Loesung beendet. 
 
 
@@ -696,10 +696,10 @@ a)
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=D   7.Dd1*d4   8.Dd4-a1   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=L  13.Ld1-c2  14.Lc2-b1 Lf1-c4 # 
 131 moegliche Stellungen in 1+14
 
-              empile:      845709
-           play_move:      849575
-        orig_rbechec:      289105
-        orig_rnechec:      390338
+                        empile:      845709
+                     play_move:      849575
+ is_white_king_square_attacked:      289105
+ is_black_king_square_attacked:      390338
 b) ser-h=14
 
 0 moegliche Stellungen in 1+1
@@ -718,10 +718,10 @@ b) ser-h=14
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=T   7.Td1*d4   8.Td4-c4   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=S  13.Sd1-b2  14.Ka2-a3 Lf1*c4 = 
 17 moegliche Stellungen in 1+14
 
-              empile:      353252
-           play_move:      335771
-        orig_rbechec:       79201
-        orig_rnechec:      279362
+                        empile:      353252
+                     play_move:      335771
+ is_white_king_square_attacked:       79201
+ is_black_king_square_attacked:      279362
 Loesung beendet. 
 
 
@@ -763,10 +763,10 @@ a)
   1.Ke6-f7   2.e7-e5   3.e5*f4   4.f4-f3   5.f3*e2   6.e2-e1=T   7.Te1-e7   8.Kf7-e6   9.Lg8-f7 Td1-d6 # 
 38 moegliche Stellungen in 1+9
 
-              empile:       30382
-           play_move:       30180
-        orig_rbechec:        6930
-        orig_rnechec:       35480
+                        empile:       30382
+                     play_move:       30180
+ is_white_king_square_attacked:        6930
+ is_black_king_square_attacked:       35480
 b) ser-h=9
 
 0 moegliche Stellungen in 1+1
@@ -780,10 +780,10 @@ b) ser-h=9
   1.Lg8-f7   2.Lf7-e8   3.Le8-b5   4.Lb5-d3   5.Ke6-d5   6.e7-e5   7.e5-e4   8.e4-e3   9.Kd5-e4 Td1*d3 = 
 34 moegliche Stellungen in 1+9
 
-              empile:       85547
-           play_move:       81149
-        orig_rbechec:        9693
-        orig_rnechec:      110512
+                        empile:       85547
+                     play_move:       81149
+ is_white_king_square_attacked:        9693
+ is_black_king_square_attacked:      110512
 Loesung beendet. 
 
 
@@ -822,10 +822,10 @@ a)
   1.a2-a1=S   2.Sa1-b3   3.Sb3-c5   4.Sc5-d7   5.Kf8-e8   6.Ke8-d8 Lc6*d7 = 
 1 moegliche Stellungen in 1+6
 
-              empile:       22880
-           play_move:       21189
-        orig_rbechec:        4467
-        orig_rnechec:       14460
+                        empile:       22880
+                     play_move:       21189
+ is_white_king_square_attacked:        4467
+ is_black_king_square_attacked:       14460
 b) sBa2-->b3
 
 0 moegliche Stellungen in 1+1
@@ -836,10 +836,10 @@ b) sBa2-->b3
   1.b3-b2   2.b2-b1=L   3.Lb1-f5   4.Lf5-d7   5.Kf8-e8   6.Ke8-d8 Lc6*d7 = 
 1 moegliche Stellungen in 1+6
 
-              empile:        9453
-           play_move:        8413
-        orig_rbechec:        1004
-        orig_rnechec:        8560
+                        empile:        9453
+                     play_move:        8413
+ is_white_king_square_attacked:        1004
+ is_black_king_square_attacked:        8560
 Loesung beendet. 
 
 
@@ -879,10 +879,10 @@ a)
   1.f7-f8=L   2.Lf8-c5   3.Lc5-b6   4.f6-f7   5.f7*g8=L   6.Lg8-d5 # 
 7940 moegliche Stellungen in 6+0
 
-              empile:      955007
-           play_move:     1025649
-        orig_rbechec:      205278
-        orig_rnechec:      463571
+                        empile:      955007
+                     play_move:     1025649
+ is_white_king_square_attacked:      205278
+ is_black_king_square_attacked:      463571
 b) ser-=6
 
 0 moegliche Stellungen in 1+0
@@ -893,10 +893,10 @@ b) ser-=6
   1.f7*g8=L   2.Lg8-c4   3.Lc4*a6   4.f6-f7   5.f7-f8=L   6.Lf8-c5 = 
 7375 moegliche Stellungen in 6+0
 
-              empile:     1252381
-           play_move:     1220366
-        orig_rbechec:      191806
-        orig_rnechec:      396105
+                        empile:     1252381
+                     play_move:     1220366
+ is_white_king_square_attacked:      191806
+ is_black_king_square_attacked:      396105
 Loesung beendet. 
 
 
@@ -935,10 +935,10 @@ a)
   1.c7-c8=L   2.Lc8-b7   3.Lb7-e4   4.f7-f8=D # 
 857 moegliche Stellungen in 4+0
 
-              empile:       39947
-           play_move:       53918
-        orig_rbechec:        9152
-        orig_rnechec:       29823
+                        empile:       39947
+                     play_move:       53918
+ is_white_king_square_attacked:        9152
+ is_black_king_square_attacked:       29823
 b) ser-=4
 
 0 moegliche Stellungen in 1+0
@@ -947,10 +947,10 @@ b) ser-=4
   1.f7-f8=S   2.c7-c8=T   3.Tc8*c3   4.Tc3-g3 = 
 627 moegliche Stellungen in 4+0
 
-              empile:       29537
-           play_move:       37718
-        orig_rbechec:        3533
-        orig_rnechec:       15457
+                        empile:       29537
+                     play_move:       37718
+ is_white_king_square_attacked:        3533
+ is_black_king_square_attacked:       15457
 Loesung beendet. 
 
 
@@ -986,20 +986,20 @@ a)
   1.c7-c8=S   2.f7-f8=S # 
 38 moegliche Stellungen in 2+0
 
-              empile:        2852
-           play_move:        2831
-        orig_rbechec:         307
-        orig_rnechec:       20015
+                        empile:        2852
+                     play_move:        2831
+ is_white_king_square_attacked:         307
+ is_black_king_square_attacked:       20015
 b) ser-=2
 
 0 moegliche Stellungen in 1+0
   1.c7*d8=S   2.f7*e8=S = 
 140 moegliche Stellungen in 2+0
 
-              empile:        7529
-           play_move:        9235
-        orig_rbechec:         123
-        orig_rnechec:       35269
+                        empile:        7529
+                     play_move:        9235
+ is_white_king_square_attacked:         123
+ is_black_king_square_attacked:       35269
 Loesung beendet. 
 
 
@@ -1043,10 +1043,10 @@ Loesung beendet.
   1.f4-f3   2.f3-f2   3.f2-f1=S   4.Sf1-e3   5.Se3-c2   6.Sc2-b4   7.g4-g3   8.g3-g2   9.g2-g1=L  10.Lg1-b6  11.Lb6-a5 Tc6-a6 = 
 38 moegliche Stellungen in 1+11
 
-              empile:      934552
-           play_move:      804285
-        orig_rbechec:       46106
-        orig_rnechec:      666361
+                        empile:      934552
+                     play_move:      804285
+ is_white_king_square_attacked:       46106
+ is_black_king_square_attacked:      666361
 Loesung beendet. 
 
 
@@ -1085,10 +1085,10 @@ Loesung beendet.
   1.e2-e1=S Kc4*c5   2.Se1-f3 g2*f3   3.c2-c1=L f3*g4   4.Lc1-h6 g4-g5   5.g3-g2 g5*h6   6.g2-g1=T h6-h7   7.Tg1-g8 h7*g8=D +   8.Kb8-a7 Dg8-c8 = 
 565 moegliche Stellungen in 8+8
 
-              empile:    37896560
-           play_move:    37580222
-        orig_rbechec:     1719560
-        orig_rnechec:    11661306
+                        empile:    37896560
+                     play_move:    37580222
+ is_white_king_square_attacked:     1719560
+ is_black_king_square_attacked:    11661306
 Loesung beendet. 
 
 
@@ -1127,10 +1127,10 @@ Loesung beendet.
   1.c2-c1=S Kh8*g7   2.Sc1-b3 a2*b3   3.g2-g1=L b3-b4   4.Lg1-c5 b4*c5   5.a3-a2 c5*b6   6.a2-a1=T b6-b7   7.Ta1-a3 b7-b8=D   8.Ta3-g3 + Db8*g3 = 
 204 moegliche Stellungen in 8+8
 
-              empile:     5829074
-           play_move:     5823553
-        orig_rbechec:      445971
-        orig_rnechec:     1763963
+                        empile:     5829074
+                     play_move:     5823553
+ is_white_king_square_attacked:      445971
+ is_black_king_square_attacked:     1763963
 Loesung beendet. 
 
 
@@ -1164,10 +1164,10 @@ Loesung beendet.
   1.h2-h1=S Te1-b1   2.c2-c1=L g7-g8=D   3.a2*b1=T Dg8-b3 = 
 4586 moegliche Stellungen in 3+3
 
-              empile:     2759601
-           play_move:     2370173
-        orig_rbechec:       15703
-        orig_rnechec:     2152085
+                        empile:     2759601
+                     play_move:     2370173
+ is_white_king_square_attacked:       15703
+ is_black_king_square_attacked:     2152085
 Loesung beendet. 
 
 
@@ -1201,10 +1201,10 @@ Loesung beendet.
   1.f2-f1=S b7-b8=D   2.h2-h1=L Db8*f4   3.b2*a1=T Df4-d2 = 
 4643 moegliche Stellungen in 3+3
 
-              empile:     3437767
-           play_move:     2754804
-        orig_rbechec:       13015
-        orig_rnechec:     2391406
+                        empile:     3437767
+                     play_move:     2754804
+ is_white_king_square_attacked:       13015
+ is_black_king_square_attacked:     2391406
 Loesung beendet. 
 
 
@@ -1238,10 +1238,10 @@ Loesung beendet.
   1.h2-h1=S Dc1-b1   2.a2*b1=T e7-e8=D   3.c2-c1=L De8*a4 = 
 9408 moegliche Stellungen in 3+3
 
-              empile:    38535660
-           play_move:    29023454
-        orig_rbechec:        2759
-        orig_rnechec:    29689288
+                        empile:    38535660
+                     play_move:    29023454
+ is_white_king_square_attacked:        2759
+ is_black_king_square_attacked:    29689288
 Loesung beendet. 
 
 
@@ -1275,10 +1275,10 @@ Loesung beendet.
   1.h2-h1=S Tc1-b1 +   2.a2*b1=T d7-d8=D   3.c2-c1=L Dd8-a5 = 
 6423 moegliche Stellungen in 3+3
 
-              empile:     7952688
-           play_move:     5900663
-        orig_rbechec:        7883
-        orig_rnechec:     5874059
+                        empile:     7952688
+                     play_move:     5900663
+ is_white_king_square_attacked:        7883
+ is_black_king_square_attacked:     5874059
 Loesung beendet. 
 
 
@@ -1312,10 +1312,10 @@ Loesung beendet.
   1.e2-e1=L b7-b8=D   2.h2-h1=S Db8*f4   3.b2*a1=T Df4-d2 = 
 10834 moegliche Stellungen in 3+3
 
-              empile:     5962086
-           play_move:     4570955
-        orig_rbechec:       14512
-        orig_rnechec:     3963249
+                        empile:     5962086
+                     play_move:     4570955
+ is_white_king_square_attacked:       14512
+ is_black_king_square_attacked:     3963249
 Loesung beendet. 
 
 
@@ -1351,10 +1351,10 @@ Loesung beendet.
   1.b2-b1=T a4-a5   2.Tb1-b6 a5*b6   3.e2-e1=S b6-b7   4.Se1-g2 b7-b8=D   5.h2-h1=L Db8-g3 = 
 6048 moegliche Stellungen in 5+5
 
-              empile:    15747730
-           play_move:    15875374
-        orig_rbechec:      387624
-        orig_rnechec:     5121544
+                        empile:    15747730
+                     play_move:    15875374
+ is_white_king_square_attacked:      387624
+ is_black_king_square_attacked:     5121544
 Loesung beendet. 
 
 
@@ -1388,10 +1388,10 @@ Loesung beendet.
   1.c2*b1=T Se1-c2 +   2.d2-d1=S c7-c8=D   3.h2-h1=L Dc8-c3 = 
 17972 moegliche Stellungen in 3+3
 
-              empile:    25001632
-           play_move:    23738308
-        orig_rbechec:      322612
-        orig_rnechec:    14269320
+                        empile:    25001632
+                     play_move:    23738308
+ is_white_king_square_attacked:      322612
+ is_black_king_square_attacked:    14269320
 Loesung beendet. 
 
 
@@ -1426,10 +1426,10 @@ Loesung beendet.
   1.c2-c1=T h6-h7   2.Tc1-h1 h7-h8=D   3.g2-g1=L Dh8-h3   4.b2-b1=S Dh3-f1 = 
 686 moegliche Stellungen in 4+4
 
-              empile:     9330024
-           play_move:     8567929
-        orig_rbechec:       63905
-        orig_rnechec:     4003356
+                        empile:     9330024
+                     play_move:     8567929
+ is_white_king_square_attacked:       63905
+ is_black_king_square_attacked:     4003356
 Loesung beendet. 
 
 
@@ -1464,10 +1464,10 @@ Loesung beendet.
   1.c2-c1=T g6-g7   2.Tc1-h1 g7-g8=D   3.g2-g1=L Dg8-g2   4.b2-b1=S Dg2-f1 = 
 757 moegliche Stellungen in 4+4
 
-              empile:    10653875
-           play_move:     9517306
-        orig_rbechec:       72590
-        orig_rnechec:     4852756
+                        empile:    10653875
+                     play_move:     9517306
+ is_white_king_square_attacked:       72590
+ is_black_king_square_attacked:     4852756
 Loesung beendet. 
 
 
@@ -1506,10 +1506,10 @@ a)
   1.c7-c5   2.c5-c4   3.c4-c3   4.c3-c2   5.c2-c1=L   6.Lc1-f4 Le5*f4 = 
 7 moegliche Stellungen in 1+6
 
-              empile:        8618
-           play_move:        7120
-        orig_rbechec:         220
-        orig_rnechec:        7678
+                        empile:        8618
+                     play_move:        7120
+ is_white_king_square_attacked:         220
+ is_black_king_square_attacked:        7678
 b) sBc7-->d6
 
 7 moegliche Stellungen in 1+1
@@ -1520,10 +1520,10 @@ b) sBc7-->d6
   1.d6-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=S   6.Sd1-f2 Kf1*f2 = 
 7 moegliche Stellungen in 1+6
 
-              empile:        7489
-           play_move:        6121
-        orig_rbechec:         134
-        orig_rnechec:        7139
+                        empile:        7489
+                     play_move:        6121
+ is_white_king_square_attacked:         134
+ is_black_king_square_attacked:        7139
 Loesung beendet. 
 
 
@@ -1558,20 +1558,20 @@ a)
   1.Sc6-a7 Tb5-b6   2.Sa7-b5 Tb6-c6 # 
 12 moegliche Stellungen in 2+2
 
-              empile:         399
-           play_move:         389
-        orig_rbechec:          14
-        orig_rnechec:        4706
+                        empile:         399
+                     play_move:         389
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:        4706
 b) h=2
 
 0 moegliche Stellungen in 1+1
   1.Sc6-e7 Tb5*d5   2.Se7-f5 Td5*f5 = 
 13 moegliche Stellungen in 2+2
 
-              empile:        8930
-           play_move:        8774
-        orig_rbechec:          49
-        orig_rnechec:       13564
+                        empile:        8930
+                     play_move:        8774
+ is_white_king_square_attacked:          49
+ is_black_king_square_attacked:       13564
 Loesung beendet. 
 
 
@@ -1606,20 +1606,20 @@ a)
   1.h2-h1=T b7-b8=D   2.Th1-h2 Db8-c8 # 
 41 moegliche Stellungen in 2+2
 
-              empile:        1078
-           play_move:        1343
-        orig_rbechec:          56
-        orig_rnechec:        1356
+                        empile:        1078
+                     play_move:        1343
+ is_white_king_square_attacked:          56
+ is_black_king_square_attacked:        1356
 b) h=2   -sBh4
 
 0 moegliche Stellungen in 1+1
   1.h2-h1=S b7-b8=L   2.Sh1-g3 Lb8*g3 = 
 18 moegliche Stellungen in 2+2
 
-              empile:        2796
-           play_move:        2678
-        orig_rbechec:          24
-        orig_rnechec:        2944
+                        empile:        2796
+                     play_move:        2678
+ is_white_king_square_attacked:          24
+ is_black_king_square_attacked:        2944
 Loesung beendet. 
 
 
@@ -1656,10 +1656,10 @@ Loesung beendet.
   1.g2-g1=L   2.Lg1-h2   3.Lh2-f4 Se2*f4 = 
 2 moegliche Stellungen in 1+3
 
-              empile:        7429
-           play_move:        6431
-        orig_rbechec:          48
-        orig_rnechec:        7627
+                        empile:        7429
+                     play_move:        6431
+ is_white_king_square_attacked:          48
+ is_black_king_square_attacked:        7627
 Loesung beendet. 
 
 
@@ -1697,10 +1697,10 @@ Loesung beendet.
   1.a2-a1=S   2.Sa1-c2   3.Sc2-d4   4.Sd4*e6   5.Se6-d8 e7*d8=T = 
 12 moegliche Stellungen in 1+5
 
-              empile:       34186
-           play_move:       29936
-        orig_rbechec:        1099
-        orig_rnechec:       35808
+                        empile:       34186
+                     play_move:       29936
+ is_white_king_square_attacked:        1099
+ is_black_king_square_attacked:       35808
 Loesung beendet. 
 
 
@@ -1737,10 +1737,10 @@ a)
   1.Lf4-h6 f5-f6   2.Lh6-g7 f6*g7   3.Kh5-g5 g7-g8=D +   4.Kg5-h6 Dg8-g6 # 
 42 moegliche Stellungen in 4+4
 
-              empile:       21668
-           play_move:       21704
-        orig_rbechec:        1089
-        orig_rnechec:        7112
+                        empile:       21668
+                     play_move:       21704
+ is_white_king_square_attacked:        1089
+ is_black_king_square_attacked:        7112
 b) h=4
 
 0 moegliche Stellungen in 1+1
@@ -1749,10 +1749,10 @@ b) h=4
   1.Lf4-d6 f5-f6   2.Ld6-e7 f6*e7   3.Kh5-h6 e7-e8=D   4.Kh6-h7 De8-f8 = 
 25 moegliche Stellungen in 4+4
 
-              empile:       26982
-           play_move:       27042
-        orig_rbechec:        1748
-        orig_rnechec:       15989
+                        empile:       26982
+                     play_move:       27042
+ is_white_king_square_attacked:        1748
+ is_black_king_square_attacked:       15989
 Loesung beendet. 
 
 
@@ -1789,10 +1789,10 @@ a)
   1.Ke4-e5 f5*g6   2.Ke5-f6 g6-g7   3.Kf6-f7 Kd7-d6   4.Kf7-e8 g7-g8=D # 
 23 moegliche Stellungen in 4+4
 
-              empile:        1922
-           play_move:        1946
-        orig_rbechec:         176
-        orig_rnechec:        5643
+                        empile:        1922
+                     play_move:        1946
+ is_white_king_square_attacked:         176
+ is_black_king_square_attacked:        5643
 b) h=4  sBg6-->e6
 
 0 moegliche Stellungen in 1+1
@@ -1801,10 +1801,10 @@ b) h=4  sBg6-->e6
   1.Ke4-e5 f5*e6   2.Ke5-f6 e6-e7   3.Kf6-f7 Kd7-d6   4.Kf7-e8 Kd6-e6 = 
 11 moegliche Stellungen in 4+4
 
-              empile:        1786
-           play_move:        1849
-        orig_rbechec:         122
-        orig_rnechec:       12378
+                        empile:        1786
+                     play_move:        1849
+ is_white_king_square_attacked:         122
+ is_black_king_square_attacked:       12378
 Loesung beendet. 
 
 
@@ -1839,20 +1839,20 @@ a)
   1.g7-g6 Sf1-e3   2.g6-g5 g2-g3 # 
 1 moegliche Stellungen in 2+2
 
-              empile:          42
-           play_move:          40
-        orig_rbechec:           7
-        orig_rnechec:         398
+                        empile:          42
+                     play_move:          40
+ is_white_king_square_attacked:           7
+ is_black_king_square_attacked:         398
 b) h=2
 
 0 moegliche Stellungen in 1+1
   1.g7-g5 g2-g4   2.h5*g4 Sf1-g3 = 
 11 moegliche Stellungen in 2+2
 
-              empile:         413
-           play_move:         413
-        orig_rbechec:          22
-        orig_rnechec:        2661
+                        empile:         413
+                     play_move:         413
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:        2661
 Loesung beendet. 
 
 
@@ -1888,10 +1888,10 @@ Loesung beendet.
   1.Kd5-c6 Kg5*f4   2.Lc3-e5 + Kf4*e5   3.Kc6-b7 Ke5-d6   4.Kb7-a8 Kd6-c7 = 
 12 moegliche Stellungen in 4+4
 
-              empile:        7858
-           play_move:        7858
-        orig_rbechec:         352
-        orig_rnechec:       39131
+                        empile:        7858
+                     play_move:        7858
+ is_white_king_square_attacked:         352
+ is_black_king_square_attacked:       39131
 Loesung beendet. 
 
 
@@ -1927,10 +1927,10 @@ Loesung beendet.
   1.Se8-c7 Dd6-a6 +   2.Tb2-b7 Lc2-f5 +   3.Th7-d7 Th3-c3 = 
 321 moegliche Stellungen in 3+3
 
-              empile:     8622438
-           play_move:     6866775
-        orig_rbechec:        4722
-        orig_rnechec:     6948730
+                        empile:     8622438
+                     play_move:     6866775
+ is_white_king_square_attacked:        4722
+ is_black_king_square_attacked:     6948730
 Loesung beendet. 
 
 
@@ -1969,10 +1969,10 @@ a)
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=T f7-f8=D   6.Td1-b1 Df8-a3 # 
 1 moegliche Stellungen in 6+6
 
-              empile:         177
-           play_move:         186
-        orig_rbechec:          20
-        orig_rnechec:        3206
+                        empile:         177
+                     play_move:         186
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:        3206
 b) h=6  sKa1-->h1
 
 0 moegliche Stellungen in 1+1
@@ -1983,10 +1983,10 @@ b) h=6  sKa1-->h1
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=S f7-f8=D   6.Sd1-f2 Df8*f2 = 
 2 moegliche Stellungen in 6+6
 
-              empile:        6901
-           play_move:        6520
-        orig_rbechec:         318
-        orig_rnechec:       13277
+                        empile:        6901
+                     play_move:        6520
+ is_white_king_square_attacked:         318
+ is_black_king_square_attacked:       13277
 Loesung beendet. 
 
 
@@ -2025,10 +2025,10 @@ a)
   1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-h1 # 
 1 moegliche Stellungen in 6+6
 
-              empile:         168
-           play_move:         171
-        orig_rbechec:          18
-        orig_rnechec:        1196
+                        empile:         168
+                     play_move:         171
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:        1196
 b) h=6
 
 0 moegliche Stellungen in 1+1
@@ -2039,10 +2039,10 @@ b) h=6
   1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-a3 = 
 1 moegliche Stellungen in 6+6
 
-              empile:         219
-           play_move:         222
-        orig_rbechec:          18
-        orig_rnechec:        4289
+                        empile:         219
+                     play_move:         222
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:        4289
 Loesung beendet. 
 
 
@@ -2081,10 +2081,10 @@ a)
   1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-h1 # 
 1 moegliche Stellungen in 6+6
 
-              empile:         168
-           play_move:         171
-        orig_rbechec:          18
-        orig_rnechec:        1196
+                        empile:         168
+                     play_move:         171
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:        1196
 b) h=6
 
 0 moegliche Stellungen in 1+1
@@ -2095,10 +2095,10 @@ b) h=6
   1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-a3 = 
 1 moegliche Stellungen in 6+6
 
-              empile:         219
-           play_move:         222
-        orig_rbechec:          18
-        orig_rnechec:        4289
+                        empile:         219
+                     play_move:         222
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:        4289
 Loesung beendet. 
 
 
@@ -2137,10 +2137,10 @@ a)
   1.Kh7-g6 h2-h4   2.Kg6-f5 h4-h5   3.Kf5-e4 h5-h6   4.Ke4-d3 h6-h7   5.Kd3-c2 h7-h8=D   6.Kc2-b1 Dh8-b2 # 
 1 moegliche Stellungen in 6+6
 
-              empile:          94
-           play_move:          97
-        orig_rbechec:          14
-        orig_rnechec:        1298
+                        empile:          94
+                     play_move:          97
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:        1298
 b) h=6
 
 0 moegliche Stellungen in 1+1
@@ -2151,10 +2151,10 @@ b) h=6
   1.Kh7-g6 h2-h4   2.Kg6-f5 h4-h5   3.Kf5-e4 h5-h6   4.Ke4-d3 h6-h7   5.Kd3-c2 h7-h8=D   6.Kc2-b1 Dh8-c3 = 
 1 moegliche Stellungen in 6+6
 
-              empile:         132
-           play_move:         135
-        orig_rbechec:          14
-        orig_rnechec:        3949
+                        empile:         132
+                     play_move:         135
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:        3949
 Loesung beendet. 
 
 
@@ -2199,10 +2199,10 @@ Loesung beendet.
   1.Df3-a8   2.Kc8-b7   3.Kb7-c6   4.Kc6-d5   5.Kd5-e4   6.Ke4-f3   7.Kf3-g2   8.Kg2-g1   9.Da8-h1  10.g3-g2  11.Lc7-h2  12.g4-g3  13.Ld7-h3  14.g5-g4 Ke1-e2 = 
 24 moegliche Stellungen in 1+14
 
-              empile:     3784444
-           play_move:     3953380
-        orig_rbechec:      373630
-        orig_rnechec:      754427
+                        empile:     3784444
+                     play_move:     3953380
+ is_white_king_square_attacked:      373630
+ is_black_king_square_attacked:      754427
 Loesung beendet. 
 
 
@@ -2242,10 +2242,10 @@ a)
   1.Lb7-a6 d2-d3   2.La6-c4 d3*c4   3.Db1-b5 + c4*b5   4.d4-d3 b5*c6   5.d3-d2 c6-c7   6.d2-d1=T c7-c8=D   7.Td1-g1 Dc8-h3 # 
 243 moegliche Stellungen in 7+7
 
-              empile:      112813
-           play_move:      112957
-        orig_rbechec:        3116
-        orig_rnechec:       82141
+                        empile:      112813
+                     play_move:      112957
+ is_white_king_square_attacked:        3116
+ is_black_king_square_attacked:       82141
 b) h=7
 
 0 moegliche Stellungen in 1+1
@@ -2257,10 +2257,10 @@ b) h=7
   1.Db1-e4 d2-d3   2.Lb7-c8 d3*e4   3.Lc8-f5 e4*f5   4.d4-d3 f5-f6   5.d3-d2 f6-f7   6.d2-d1=S f7-f8=D   7.Sd1-f2 Df8*f2 = 
 110 moegliche Stellungen in 7+7
 
-              empile:      185505
-           play_move:      170746
-        orig_rbechec:        2691
-        orig_rnechec:      247968
+                        empile:      185505
+                     play_move:      170746
+ is_white_king_square_attacked:        2691
+ is_black_king_square_attacked:      247968
 Loesung beendet. 
 
 
@@ -2296,10 +2296,10 @@ a)
   1.f2-f1=L f6-f7   2.Lf1-c4 f7*e8=D   3.Lc4-a2 De8*h8 # 
 15 moegliche Stellungen in 3+3
 
-              empile:        6015
-           play_move:        6334
-        orig_rbechec:         214
-        orig_rnechec:        6357
+                        empile:        6015
+                     play_move:        6334
+ is_white_king_square_attacked:         214
+ is_black_king_square_attacked:        6357
 b) h=3
 
 0 moegliche Stellungen in 1+1
@@ -2307,10 +2307,10 @@ b) h=3
   1.Se8-g7 f6*g7   2.f2-f1=S g7*h8=T   3.Sf1-h2 Th8*h2 = 
 23 moegliche Stellungen in 3+3
 
-              empile:       50976
-           play_move:       42354
-        orig_rbechec:          63
-        orig_rnechec:       50149
+                        empile:       50976
+                     play_move:       42354
+ is_white_king_square_attacked:          63
+ is_black_king_square_attacked:       50149
 Loesung beendet. 
 
 
@@ -2353,10 +2353,10 @@ Loesung beendet.
   1.e2-e1=S   2.Sg1-e2   3.g2-g1=T   4.Se1-g2   5.Sg2-f4   6.Tg1-g2   7.Se2-g1   8.Sf4-e2 Dc1-d2 = 
 1104 moegliche Stellungen in 1+8
 
-              empile:    51443973
-           play_move:    48191083
-        orig_rbechec:      390458
-        orig_rnechec:    46233649
+                        empile:    51443973
+                     play_move:    48191083
+ is_white_king_square_attacked:      390458
+ is_black_king_square_attacked:    46233649
 Loesung beendet. 
 
 
@@ -2392,10 +2392,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5*f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=S = 
 667 moegliche Stellungen in 5+5
 
-              empile:    10077271
-           play_move:     9792951
-        orig_rbechec:      230430
-        orig_rnechec:     3151765
+                        empile:    10077271
+                     play_move:     9792951
+ is_white_king_square_attacked:      230430
+ is_black_king_square_attacked:     3151765
 Loesung beendet. 
 
 
@@ -2435,10 +2435,10 @@ Loesung beendet.
   1.d2-d1=L Kb1-a1   2.Ld1-b3 a2*b3   3.f2-f1=L b3-b4   4.Lf1-a6 b4-b5   5.g2-g1=L b5*a6   6.Lg1-h2 a6-a7   7.Lh2-b8 a7*b8=D   8.a3-a2 Db8-g3 = 
 656 moegliche Stellungen in 8+8
 
-              empile:     6948665
-           play_move:     6385931
-        orig_rbechec:       76545
-        orig_rnechec:     5119191
+                        empile:     6948665
+                     play_move:     6385931
+ is_white_king_square_attacked:       76545
+ is_black_king_square_attacked:     5119191
 Loesung beendet. 
 
 
@@ -2473,10 +2473,10 @@ bug
   1.d2-d1=S Ta1*b1 +   2.c2*b1=T e7-e8=D   3.a2-a1=L De8*e1 = 
 3708 moegliche Stellungen in 3+3
 
-              empile:     3446365
-           play_move:     2902134
-        orig_rbechec:        6346
-        orig_rnechec:     2742293
+                        empile:     3446365
+                     play_move:     2902134
+ is_white_king_square_attacked:        6346
+ is_black_king_square_attacked:     2742293
 Loesung beendet. 
 
 
@@ -2513,10 +2513,10 @@ a)
   1.Kf7-g6 Sg3-e4   2.Lh4-g3 Kh3*g3   3.Kg6-h5 Kg3-f4   4.Kh5-h4 Se4*f6 = 
 7 moegliche Stellungen in 4+4
 
-              empile:       31399
-           play_move:       31399
-        orig_rbechec:        2036
-        orig_rnechec:       81173
+                        empile:       31399
+                     play_move:       31399
+ is_white_king_square_attacked:        2036
+ is_black_king_square_attacked:       81173
 b) sSf6-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2525,10 +2525,10 @@ b) sSf6-->h1
   1.Kf7-g6 Sg3*h1   2.Lh4-g3 Kh3*g3   3.Kg6-h5 Kg3-f4   4.Kh5-h4 Sh1-g3 = 
 7 moegliche Stellungen in 4+4
 
-              empile:       21916
-           play_move:       21916
-        orig_rbechec:        1509
-        orig_rnechec:       79752
+                        empile:       21916
+                     play_move:       21916
+ is_white_king_square_attacked:        1509
+ is_black_king_square_attacked:       79752
 Loesung beendet. 
 
 
@@ -2563,10 +2563,10 @@ Loesung beendet.
   1...Lf2-e1   2.f3-f2 Kf1-g2   3.f2-f1=T Le1-d2   4.Tf1-c1 Ld2*c1 = 
 5 moegliche Stellungen in 4+3
 
-              empile:       28758
-           play_move:       27852
-        orig_rbechec:          58
-        orig_rnechec:       65506
+                        empile:       28758
+                     play_move:       27852
+ is_white_king_square_attacked:          58
+ is_black_king_square_attacked:       65506
 Loesung beendet. 
 
 
@@ -2600,10 +2600,10 @@ Loesung beendet.
   1.Kh5-h6 h7-h8=S   2.Kh6-h7 Sh8*f7 = 
 23 moegliche Stellungen in 2+2
 
-              empile:        1680
-           play_move:        1792
-        orig_rbechec:          54
-        orig_rnechec:        5253
+                        empile:        1680
+                     play_move:        1792
+ is_white_king_square_attacked:          54
+ is_black_king_square_attacked:        5253
 Loesung beendet. 
 
 
@@ -2638,10 +2638,10 @@ Loesung beendet.
   1.Kf6-f7 g4-g5   2.Kf7-g8 g5-g6   3.Kg8-h8 g6*h7 = 
 3 moegliche Stellungen in 3+3
 
-              empile:         192
-           play_move:         192
-        orig_rbechec:          22
-        orig_rnechec:        2336
+                        empile:         192
+                     play_move:         192
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:        2336
 Loesung beendet. 
 
 
@@ -2679,10 +2679,10 @@ Loesung beendet.
   1.e2-e1=L Kc2-c1   2.Le1-b4 a3*b4   3.g2-g1=L b4-b5   4.Lg1-a7 b5-b6   5.h3-h2 b6*a7   6.h2-h1=L a7-a8=L   7.Lh1-d5 La8*d5 = 
 325 moegliche Stellungen in 7+7
 
-              empile:    52170838
-           play_move:    56143416
-        orig_rbechec:     1739494
-        orig_rnechec:    12992499
+                        empile:    52170838
+                     play_move:    56143416
+ is_white_king_square_attacked:     1739494
+ is_black_king_square_attacked:    12992499
 Loesung beendet. 
 
 
@@ -2717,10 +2717,10 @@ Loesung beendet.
   1.Sg3-e2 Lf5-g6   2.Kg5-h6 Sf4*e2   3.Lh8*f6 + Ke5*f6 = 
 620 moegliche Stellungen in 3+3
 
-              empile:      491686
-           play_move:      469057
-        orig_rbechec:         844
-        orig_rnechec:      684477
+                        empile:      491686
+                     play_move:      469057
+ is_white_king_square_attacked:         844
+ is_black_king_square_attacked:      684477
 Loesung beendet. 
 
 
@@ -2754,10 +2754,10 @@ Loesung beendet.
   1.Ke6-f6 Ke8*d7   2.Kf6-f7 Kd7-d6   3.Kf7-e8 Kd6-e6 = 
 40 moegliche Stellungen in 3+3
 
-              empile:        2183
-           play_move:        2264
-        orig_rbechec:         121
-        orig_rnechec:       25439
+                        empile:        2183
+                     play_move:        2264
+ is_white_king_square_attacked:         121
+ is_black_king_square_attacked:       25439
 Loesung beendet. 
 
 
@@ -2800,10 +2800,10 @@ Loesung beendet.
   1.Sa8*c7   2.Da7-a8   3.Lb8-a7   4.Tb7-b8   5.Kc8-b7   6.Kb7-a6   7.Ka6-a5   8.Lb5-a6   9.La6-c8  10.Ka5-a6  11.Ka6-b7  12.Sc7-b5 + a4*b5 = 
 15 moegliche Stellungen in 1+12
 
-              empile:    18828204
-           play_move:    16895388
-        orig_rbechec:      854739
-        orig_rnechec:    14019907
+                        empile:    18828204
+                     play_move:    16895388
+ is_white_king_square_attacked:      854739
+ is_black_king_square_attacked:    14019907
 Loesung beendet. 
 
 
@@ -2840,10 +2840,10 @@ Loesung beendet.
   1.c2-c1=L g3-g4   2.Lc1-h6 g4-g5   3.a2-a1=L g5*h6   4.La1-g7 h6*g7   5.f2-f1=L g7-g8=T   6.Lf1-g2 + Tg8*g2 = 
 64 moegliche Stellungen in 6+6
 
-              empile:     2307857
-           play_move:     2400515
-        orig_rbechec:       64394
-        orig_rnechec:      955229
+                        empile:     2307857
+                     play_move:     2400515
+ is_white_king_square_attacked:       64394
+ is_black_king_square_attacked:      955229
 Loesung beendet. 
 
 
@@ -2884,10 +2884,10 @@ a)
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=T f7-f8=D   6.Td1-f1 Df8*f1 = 
 19 moegliche Stellungen in 6+6
 
-              empile:       15148
-           play_move:       15539
-        orig_rbechec:        1075
-        orig_rnechec:       24418
+                        empile:       15148
+                     play_move:       15539
+ is_white_king_square_attacked:        1075
+ is_black_king_square_attacked:       24418
 b) sKh2-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2898,10 +2898,10 @@ b) sKh2-->h1
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=S f7-f8=D   6.Sd1-f2 + Df8*f2 = 
 11 moegliche Stellungen in 6+6
 
-              empile:       16059
-           play_move:       16520
-        orig_rbechec:        1080
-        orig_rnechec:       22120
+                        empile:       16059
+                     play_move:       16520
+ is_white_king_square_attacked:        1080
+ is_black_king_square_attacked:       22120
 c) wKg4-->f1  wBf2-->a2
 
 0 moegliche Stellungen in 1+1
@@ -2912,10 +2912,10 @@ c) wKg4-->f1  wBf2-->a2
   1.d7-d5 a2-a4   2.d5-d4 a4-a5   3.d4-d3 a5-a6   4.d3-d2 a6-a7   5.d2-d1=L a7-a8=D   6.Ld1-f3 Da8*f3 = 
 21 moegliche Stellungen in 6+6
 
-              empile:       35481
-           play_move:       36775
-        orig_rbechec:        2787
-        orig_rnechec:       19398
+                        empile:       35481
+                     play_move:       36775
+ is_white_king_square_attacked:        2787
+ is_black_king_square_attacked:       19398
 Loesung beendet. 
 
 
@@ -2951,10 +2951,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7*f8=L = 
 89 moegliche Stellungen in 5+5
 
-              empile:      311891
-           play_move:      281967
-        orig_rbechec:        5437
-        orig_rnechec:      314273
+                        empile:      311891
+                     play_move:      281967
+ is_white_king_square_attacked:        5437
+ is_black_king_square_attacked:      314273
 Loesung beendet. 
 
 
@@ -2990,10 +2990,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*g7   5.a2-a1=S g7-g8=T = 
 3279 moegliche Stellungen in 5+5
 
-              empile:     4121513
-           play_move:     3479973
-        orig_rbechec:      135597
-        orig_rnechec:     2107188
+                        empile:     4121513
+                     play_move:     3479973
+ is_white_king_square_attacked:      135597
+ is_black_king_square_attacked:     2107188
 Loesung beendet. 
 
 
@@ -3029,10 +3029,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
 169 moegliche Stellungen in 5+5
 
-              empile:      270914
-           play_move:      227453
-        orig_rbechec:        9984
-        orig_rnechec:      231397
+                        empile:      270914
+                     play_move:      227453
+ is_white_king_square_attacked:        9984
+ is_black_king_square_attacked:      231397
 Loesung beendet. 
 
 
@@ -3068,10 +3068,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7-e8=S = 
 60 moegliche Stellungen in 5+5
 
-              empile:      146349
-           play_move:      126772
-        orig_rbechec:        2382
-        orig_rnechec:      231676
+                        empile:      146349
+                     play_move:      126772
+ is_white_king_square_attacked:        2382
+ is_black_king_square_attacked:      231676
 Loesung beendet. 
 
 
@@ -3108,10 +3108,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=S = 
 154 moegliche Stellungen in 5+5
 
-              empile:     8579615
-           play_move:     8581308
-        orig_rbechec:      269833
-        orig_rnechec:     1201416
+                        empile:     8579615
+                     play_move:     8581308
+ is_white_king_square_attacked:      269833
+ is_black_king_square_attacked:     1201416
 Loesung beendet. 
 
 
@@ -3147,10 +3147,10 @@ Loesung beendet.
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=S h7-h8=L = 
 1990 moegliche Stellungen in 5+5
 
-              empile:    18771350
-           play_move:    18222368
-        orig_rbechec:      501029
-        orig_rnechec:     4298038
+                        empile:    18771350
+                     play_move:    18222368
+ is_white_king_square_attacked:      501029
+ is_black_king_square_attacked:     4298038
 Loesung beendet. 
 
 
@@ -3186,10 +3186,10 @@ Loesung beendet.
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=L h7-h8=L = 
 203 moegliche Stellungen in 5+5
 
-              empile:     5181173
-           play_move:     5137445
-        orig_rbechec:      134993
-        orig_rnechec:      970076
+                        empile:     5181173
+                     play_move:     5137445
+ is_white_king_square_attacked:      134993
+ is_black_king_square_attacked:      970076
 Loesung beendet. 
 
 
@@ -3225,10 +3225,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
 1592 moegliche Stellungen in 5+5
 
-              empile:     8015606
-           play_move:     7675206
-        orig_rbechec:      157500
-        orig_rnechec:     4359972
+                        empile:     8015606
+                     play_move:     7675206
+ is_white_king_square_attacked:      157500
+ is_black_king_square_attacked:     4359972
 Loesung beendet. 
 
 
@@ -3264,10 +3264,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5*f6   4.a3-a2 f6-f7   5.a2-a1=S f7*g8=T = 
 376 moegliche Stellungen in 5+5
 
-              empile:     3911046
-           play_move:     3808409
-        orig_rbechec:       94691
-        orig_rnechec:     1098258
+                        empile:     3911046
+                     play_move:     3808409
+ is_white_king_square_attacked:       94691
+ is_black_king_square_attacked:     1098258
 Loesung beendet. 
 
 
@@ -3303,10 +3303,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7*g8=T = 
 849 moegliche Stellungen in 5+5
 
-              empile:    10047961
-           play_move:     9903052
-        orig_rbechec:      335819
-        orig_rnechec:     2286512
+                        empile:    10047961
+                     play_move:     9903052
+ is_white_king_square_attacked:      335819
+ is_black_king_square_attacked:     2286512
 Loesung beendet. 
 
 
@@ -3342,10 +3342,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=T = 
 1300 moegliche Stellungen in 5+5
 
-              empile:     2925430
-           play_move:     2838563
-        orig_rbechec:      138576
-        orig_rnechec:     1057824
+                        empile:     2925430
+                     play_move:     2838563
+ is_white_king_square_attacked:      138576
+ is_black_king_square_attacked:     1057824
 Loesung beendet. 
 
 
@@ -3381,10 +3381,10 @@ Loesung beendet.
   1.a7-a5 g2-g4   2.a5-a4 g4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
 136 moegliche Stellungen in 5+5
 
-              empile:     1439439
-           play_move:     1397542
-        orig_rbechec:       52741
-        orig_rnechec:      486529
+                        empile:     1439439
+                     play_move:     1397542
+ is_white_king_square_attacked:       52741
+ is_black_king_square_attacked:      486529
 Loesung beendet. 
 
 
@@ -3421,10 +3421,10 @@ Loesung beendet.
   1.a7-a5 c2-c4   2.a5-a4 c4*d5   3.a4-a3 d5-d6   4.a3-a2 d6-d7   5.a2-a1=L d7-d8=D = 
 1911 moegliche Stellungen in 5+5
 
-              empile:     5184353
-           play_move:     5014847
-        orig_rbechec:      234901
-        orig_rnechec:     1843106
+                        empile:     5184353
+                     play_move:     5014847
+ is_white_king_square_attacked:      234901
+ is_black_king_square_attacked:     1843106
 Loesung beendet. 
 
 
@@ -3460,10 +3460,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D = 
 24 moegliche Stellungen in 5+5
 
-              empile:     1624774
-           play_move:     1617504
-        orig_rbechec:       49305
-        orig_rnechec:      405838
+                        empile:     1624774
+                     play_move:     1617504
+ is_white_king_square_attacked:       49305
+ is_black_king_square_attacked:      405838
 Loesung beendet. 
 
 
@@ -3500,10 +3500,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D = 
 20 moegliche Stellungen in 5+5
 
-              empile:      232328
-           play_move:      239673
-        orig_rbechec:        7803
-        orig_rnechec:      110054
+                        empile:      232328
+                     play_move:      239673
+ is_white_king_square_attacked:        7803
+ is_black_king_square_attacked:      110054
 Loesung beendet. 
 
 
@@ -3540,10 +3540,10 @@ Loesung beendet.
   1.b7-b5 f2-f4   2.b5-b4 f4-f5   3.b4-b3 f5-f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=D = 
 158 moegliche Stellungen in 5+5
 
-              empile:     1233283
-           play_move:     1145418
-        orig_rbechec:       19397
-        orig_rnechec:      839944
+                        empile:     1233283
+                     play_move:     1145418
+ is_white_king_square_attacked:       19397
+ is_black_king_square_attacked:      839944
 Loesung beendet. 
 
 
@@ -3583,10 +3583,10 @@ Loesung beendet.
   1.Tc4-c3 + Sa4*c3   2.Kd3-d2 Sc3*d5 +   3.Kd2-d1 Tc6*c2 = 
 968 moegliche Stellungen in 3+3
 
-              empile:      825591
-           play_move:      822000
-        orig_rbechec:        5582
-        orig_rnechec:      939522
+                        empile:      825591
+                     play_move:      822000
+ is_white_king_square_attacked:        5582
+ is_black_king_square_attacked:      939522
 Loesung beendet. 
 
 
@@ -3622,10 +3622,10 @@ Loesung beendet.
   1.d5*e4   2.Kd6-d5   3.Kd5-d4   4.d7-d5   5.e4*d3 + c2*d3 = 
 61 moegliche Stellungen in 1+5
 
-              empile:       16195
-           play_move:       16219
-        orig_rbechec:        1475
-        orig_rnechec:       30194
+                        empile:       16195
+                     play_move:       16219
+ is_white_king_square_attacked:        1475
+ is_black_king_square_attacked:       30194
 Loesung beendet. 
 
 
@@ -3662,10 +3662,10 @@ Loesung beendet.
   1.Kb2-c3 a2*b3   2.Kc3-d4 b3*c4   3.Kd4-e5 c4*d5   4.Ke5-f6 d5*e6   5.Kf6-g7 e6*f7   6.Kg7-h8 Kh5-h6 = 
 58 moegliche Stellungen in 6+6
 
-              empile:      211397
-           play_move:      199858
-        orig_rbechec:        7675
-        orig_rnechec:      116853
+                        empile:      211397
+                     play_move:      199858
+ is_white_king_square_attacked:        7675
+ is_black_king_square_attacked:      116853
 Loesung beendet. 
 
 
@@ -3703,10 +3703,10 @@ a)
   1.c2-c1=S a7-a8=T   2.Sc1-e2 Ta8-a3   3.Se2-g3 Ta3*g3 = 
 3737 moegliche Stellungen in 3+3
 
-              empile:      946374
-           play_move:      937452
-        orig_rbechec:       20096
-        orig_rnechec:      979739
+                        empile:      946374
+                     play_move:      937452
+ is_white_king_square_attacked:       20096
+ is_black_king_square_attacked:      979739
 b) sBc2-->b2
 
 0 moegliche Stellungen in 1+1
@@ -3714,10 +3714,10 @@ b) sBc2-->b2
   1.b2-b1=L a7-a8=D   2.Lb1-e4 Da8*d5   3.Le4-g2 Dd5*g2 = 
 3319 moegliche Stellungen in 3+3
 
-              empile:      993665
-           play_move:      992380
-        orig_rbechec:       20990
-        orig_rnechec:      984604
+                        empile:      993665
+                     play_move:      992380
+ is_white_king_square_attacked:       20990
+ is_black_king_square_attacked:      984604
 Loesung beendet. 
 
 
@@ -3755,10 +3755,10 @@ Loesung beendet.
   1.Sb1-d2 Td4-g4   2.Sd2-f3 La8*f3 = 
 2 moegliche Stellungen in 2+2
 
-              empile:        4029
-           play_move:        4029
-        orig_rbechec:          24
-        orig_rnechec:        7590
+                        empile:        4029
+                     play_move:        4029
+ is_white_king_square_attacked:          24
+ is_black_king_square_attacked:        7590
 Loesung beendet. 
 
 
@@ -3795,10 +3795,10 @@ a)
   1.d3-d2 + Kc1-c2   2.d2-d1=T Le1-f2   3.Td1-g1 Lf2*g1 = 
 3 moegliche Stellungen in 3+3
 
-              empile:       15717
-           play_move:       15189
-        orig_rbechec:          29
-        orig_rnechec:       35805
+                        empile:       15717
+                     play_move:       15189
+ is_white_king_square_attacked:          29
+ is_black_king_square_attacked:       35805
 b) wTe1 
 
 0 moegliche Stellungen in 1+1
@@ -3806,10 +3806,10 @@ b) wTe1
   1.d3-d2 + Kc1-b1   2.d2-d1=L Te1-e2   3.Ld1-c2 + Kb1*c2 = 
 1 moegliche Stellungen in 3+3
 
-              empile:       27015
-           play_move:       24712
-        orig_rbechec:          29
-        orig_rnechec:       52579
+                        empile:       27015
+                     play_move:       24712
+ is_white_king_square_attacked:          29
+ is_black_king_square_attacked:       52579
 Loesung beendet. 
 
 
@@ -3848,10 +3848,10 @@ a)
   1.c2-c1=T   2.Tc1-g1   3.Tg1-g3   4.Kf3-g2   5.Kg2-h1 Dg7*g3 = 
 4 moegliche Stellungen in 1+5
 
-              empile:       11160
-           play_move:       10072
-        orig_rbechec:         770
-        orig_rnechec:       12865
+                        empile:       11160
+                     play_move:       10072
+ is_white_king_square_attacked:         770
+ is_black_king_square_attacked:       12865
 b) wKe5-->b3
 
 0 moegliche Stellungen in 1+1
@@ -3862,10 +3862,10 @@ b) wKe5-->b3
   1.c2-c1=L   2.Lc1-f4   3.Lf4-g3   4.Kf3-g2   5.Kg2-h1 Dg7*g3 = 
 8 moegliche Stellungen in 1+5
 
-              empile:       14005
-           play_move:       13086
-        orig_rbechec:         984
-        orig_rnechec:       14238
+                        empile:       14005
+                     play_move:       13086
+ is_white_king_square_attacked:         984
+ is_black_king_square_attacked:       14238
 Loesung beendet. 
 
 
@@ -3899,10 +3899,10 @@ Loesung beendet.
   1.Th1-g1 Kd5-e5   2.Kg2-h1 Le6-d5 +   3.Tg1-g2 Ke5-e6 = 
 1767 moegliche Stellungen in 3+3
 
-              empile:      378031
-           play_move:      375995
-        orig_rbechec:        2149
-        orig_rnechec:      332140
+                        empile:      378031
+                     play_move:      375995
+ is_white_king_square_attacked:        2149
+ is_black_king_square_attacked:      332140
 Loesung beendet. 
 
 
@@ -3940,10 +3940,10 @@ Loesung beendet.
   1.c2-c1=L   2.Lc1-f4   3.Lf4-g3 + Dc3*g3 = 
 1 moegliche Stellungen in 1+3
 
-              empile:       10818
-           play_move:        9573
-        orig_rbechec:         109
-        orig_rnechec:        6954
+                        empile:       10818
+                     play_move:        9573
+ is_white_king_square_attacked:         109
+ is_black_king_square_attacked:        6954
 Loesung beendet. 
 
 
@@ -3980,10 +3980,10 @@ Loesung beendet.
   1.g2-g1=L b4-b5   2.Lg1-a7 b5-b6   3.b2-b1=T b6*a7   4.Tb1-b8 a7*b8=D   5.d2-d1=S Db8*f4   6.Sd1-f2 Df4*f2 = 
 40 moegliche Stellungen in 6+6
 
-              empile:     3059527
-           play_move:     3281190
-        orig_rbechec:      108740
-        orig_rnechec:      809790
+                        empile:     3059527
+                     play_move:     3281190
+ is_white_king_square_attacked:      108740
+ is_black_king_square_attacked:      809790
 Loesung beendet. 
 
 
@@ -4021,10 +4021,10 @@ Loesung beendet.
   1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.h2-h1=T e5*f6   4.Th1-h8 f6-f7   5.Th8-g8 f7*g8=D   6.d2-d1=S Dg8*g3   7.Sd1-c3 Dg3*c3 = 
 201 moegliche Stellungen in 7+7
 
-              empile:   138028342
-           play_move:   151272315
-        orig_rbechec:     9042406
-        orig_rnechec:    29760813
+                        empile:   138028342
+                     play_move:   151272315
+ is_white_king_square_attacked:     9042406
+ is_black_king_square_attacked:    29760813
 Loesung beendet. 
 
 
@@ -4063,10 +4063,10 @@ Loesung beendet.
   1.f2-f1=S Kd7-c6   2.Sf1-g3 h2*g3   3.c2-c1=L g3-g4   4.Lc1-h6 g4-g5   5.h3-h2 g5*h6   6.h2-h1=T h6*g7   7.Th1-h8 g7*h8=D   8.Kb3-a4 Dh8-c3 = 
 314 moegliche Stellungen in 8+8
 
-              empile:    11591439
-           play_move:    11645975
-        orig_rbechec:      763965
-        orig_rnechec:     3678458
+                        empile:    11591439
+                     play_move:    11645975
+ is_white_king_square_attacked:      763965
+ is_black_king_square_attacked:     3678458
 Loesung beendet. 
 
 
@@ -4097,10 +4097,10 @@ Loesung beendet.
 
   1.f7-f8=S   2.Sf8-e6   3.Se6-g7   4.h7-h8=D   5.Dh8-h5   6.Sg7-e6 = 
 
-              empile:      559649
-           play_move:      648690
-        orig_rbechec:       87530
-        orig_rnechec:      200678
+                        empile:      559649
+                     play_move:      648690
+ is_white_king_square_attacked:       87530
+ is_black_king_square_attacked:      200678
 Loesung beendet. 
 
 
@@ -4137,10 +4137,10 @@ Loesung beendet.
   1.a2-a1=L   2.La1-c3   3.Lc3-b4 a3*b4 = 
 2 moegliche Stellungen in 1+3
 
-              empile:        7349
-           play_move:        6408
-        orig_rbechec:          49
-        orig_rnechec:        5432
+                        empile:        7349
+                     play_move:        6408
+ is_white_king_square_attacked:          49
+ is_black_king_square_attacked:        5432
 Loesung beendet. 
 
 
@@ -4177,10 +4177,10 @@ Loesung beendet.
   1.c2-c1=L   2.Lc1-f4   3.Lf4-g3 + Dd3*g3 = 
 9 moegliche Stellungen in 1+3
 
-              empile:       17451
-           play_move:       14824
-        orig_rbechec:         159
-        orig_rnechec:        8490
+                        empile:       17451
+                     play_move:       14824
+ is_white_king_square_attacked:         159
+ is_black_king_square_attacked:        8490
 Loesung beendet. 
 
 
@@ -4217,10 +4217,10 @@ Loesung beendet.
   1...c7-c8=T   2.Tf7-c7 Tc8*c7 +   3.Kb7-a8 Kd8-c8 = 
 39 moegliche Stellungen in 3+2
 
-              empile:       24014
-           play_move:       24319
-        orig_rbechec:         896
-        orig_rnechec:       17571
+                        empile:       24014
+                     play_move:       24319
+ is_white_king_square_attacked:         896
+ is_black_king_square_attacked:       17571
 Loesung beendet. 
 
 
@@ -4254,10 +4254,10 @@ Loesung beendet.
   1.d2-d1=S c7-c8=D   2.a2-a1=L Dc8-b8   3.c2*b1=T Db8-h2 = 
 7185 moegliche Stellungen in 3+3
 
-              empile:     2843640
-           play_move:     2584591
-        orig_rbechec:       17096
-        orig_rnechec:     2131117
+                        empile:     2843640
+                     play_move:     2584591
+ is_white_king_square_attacked:       17096
+ is_black_king_square_attacked:     2131117
 Loesung beendet. 
 
 
@@ -4294,10 +4294,10 @@ Loesung beendet.
   1.f2-f1=L   2.Lf1-c4   3.Lc4-b3 + Kc2*b3 = 
 30 moegliche Stellungen in 1+3
 
-              empile:       13420
-           play_move:       12659
-        orig_rbechec:          86
-        orig_rnechec:       13334
+                        empile:       13420
+                     play_move:       12659
+ is_white_king_square_attacked:          86
+ is_black_king_square_attacked:       13334
 Loesung beendet. 
 
 
@@ -4337,10 +4337,10 @@ Loesung beendet.
   1.Ka1-b2 Ka5-a4   2.Kb2-b1 Ka4-b3   3.Kb1-a1 Kb3-c2 = 
 1 moegliche Stellungen in 3+3
 
-              empile:         150
-           play_move:         150
-        orig_rbechec:          16
-        orig_rnechec:        2565
+                        empile:         150
+                     play_move:         150
+ is_white_king_square_attacked:          16
+ is_black_king_square_attacked:        2565
 Loesung beendet. 
 
 
@@ -4374,10 +4374,10 @@ Loesung beendet.
   1.Kd8-c7 d5-d6 +   2.Kc7-c8 d6-d7 +   3.Kc8-d8 Ke6-d6 = 
 1 moegliche Stellungen in 3+3
 
-              empile:         107
-           play_move:         107
-        orig_rbechec:          13
-        orig_rnechec:        1256
+                        empile:         107
+                     play_move:         107
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:        1256
 Loesung beendet. 
 
 
@@ -4426,10 +4426,10 @@ Loesung beendet.
   1.Kg8-h8   2.Tf8-g8   3.Tg8-g7   4.Kh8-h7   5.Kh7-h6   6.Tg7-g5   7.Tg5-f5   8.Kh6-g5   9.Kg5-f4  10.Kf4-e5  11.Ke5-d6  12.Tf5-e5  13.Te5-e7  14.Kd6-d7  15.Kd7-c8  16.Kc8-b8  17.Kb8-a8  18.Te7-b7 + Tf7*b7 = 
 1 moegliche Stellungen in 1+18
 
-              empile:      222200
-           play_move:      222200
-        orig_rbechec:      113900
-        orig_rnechec:      168423
+                        empile:      222200
+                     play_move:      222200
+ is_white_king_square_attacked:      113900
+ is_black_king_square_attacked:      168423
 Loesung beendet. 
 
 
@@ -4475,10 +4475,10 @@ Loesung beendet.
   1.Ka8-a7   2.Lb6-c7   3.Ka7-b6   4.Kb6-c5   5.Kc5-d4   6.Kd4-e3   7.Ke3-f2   8.Kf2-g1   9.Kg1*h1  10.Kh1-g2  11.Kg2-f3  12.Kf3-e4  13.Ke4-d5  14.Kd5-c6 = 
 1 moegliche Stellungen in 14+0
 
-              empile:      212826
-           play_move:      212826
-        orig_rbechec:      146660
-        orig_rnechec:      134603
+                        empile:      212826
+                     play_move:      212826
+ is_white_king_square_attacked:      146660
+ is_black_king_square_attacked:      134603
 Loesung beendet. 
 
 
@@ -4518,10 +4518,10 @@ a)
   1.e2-e4   2.e4-e5   3.e5-e6   4.e6-e7   5.e7-e8=S   6.Se8-f6   7.Sf6-d7 = 
 14 moegliche Stellungen in 7+0
 
-              empile:        1987
-           play_move:        2078
-        orig_rbechec:         345
-        orig_rnechec:         582
+                        empile:        1987
+                     play_move:        2078
+ is_white_king_square_attacked:         345
+ is_black_king_square_attacked:         582
 b) sKa8-->b8
 
 0 moegliche Stellungen in 1+0
@@ -4533,10 +4533,10 @@ b) sKa8-->b8
   1.e2-e4   2.e4-e5   3.e5-e6   4.e6-e7   5.e7-e8=L   6.Le8-c6   7.Lc6-b7 = 
 4 moegliche Stellungen in 7+0
 
-              empile:         596
-           play_move:         610
-        orig_rbechec:          68
-        orig_rnechec:         437
+                        empile:         596
+                     play_move:         610
+ is_white_king_square_attacked:          68
+ is_black_king_square_attacked:         437
 Loesung beendet. 
 
 
@@ -4576,10 +4576,10 @@ Loesung beendet.
   1.Ke7-d6 Lg4-f3   2.Kd6-e5 f7-f6 +   3.Ke5-f5 Kg7-f7 = 
 38 moegliche Stellungen in 3+3
 
-              empile:        4641
-           play_move:        4641
-        orig_rbechec:         178
-        orig_rnechec:       23970
+                        empile:        4641
+                     play_move:        4641
+ is_white_king_square_attacked:         178
+ is_black_king_square_attacked:       23970
 Loesung beendet. 
 
 
@@ -4616,10 +4616,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7*g8=T = 
 860 moegliche Stellungen in 5+5
 
-              empile:     8839772
-           play_move:     8446680
-        orig_rbechec:      248194
-        orig_rnechec:     2451004
+                        empile:     8839772
+                     play_move:     8446680
+ is_white_king_square_attacked:      248194
+ is_black_king_square_attacked:     2451004
 Loesung beendet. 
 
 
@@ -4655,10 +4655,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4*f5   3.b4-b3 f5*e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
 14454 moegliche Stellungen in 5+5
 
-              empile:    33479904
-           play_move:    29626035
-        orig_rbechec:      352640
-        orig_rnechec:    15707249
+                        empile:    33479904
+                     play_move:    29626035
+ is_white_king_square_attacked:      352640
+ is_black_king_square_attacked:    15707249
 Loesung beendet. 
 
 
@@ -4694,10 +4694,10 @@ Loesung beendet.
   1.Tg6-h6 Sc4*e3   2.Th6-h2 Se3-c4   3.Th2*g2 Kf1*g2 = 
 6608 moegliche Stellungen in 3+3
 
-              empile:    30542571
-           play_move:    27723537
-        orig_rbechec:       63960
-        orig_rnechec:    24611057
+                        empile:    30542571
+                     play_move:    27723537
+ is_white_king_square_attacked:       63960
+ is_black_king_square_attacked:    24611057
 Loesung beendet. 
 
 
@@ -4734,10 +4734,10 @@ Loesung beendet.
   1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.g2-g1=T e5*f6   4.Tg1-g7 + f6*g7   5.d2-d1=S g7*f8=D   6.Sd1-f2 Df8*f2 = 
 4 moegliche Stellungen in 6+6
 
-              empile:      357367
-           play_move:      336130
-        orig_rbechec:        5097
-        orig_rnechec:      241475
+                        empile:      357367
+                     play_move:      336130
+ is_white_king_square_attacked:        5097
+ is_black_king_square_attacked:      241475
 Loesung beendet. 
 
 
@@ -4782,10 +4782,10 @@ Fassung: Theodor Steudel, Problemkiste 128, 4/2000
   1.d2-d1=L   2.d3-d2   3.d4-d3   4.d5-d4   5.d6-d5   6.d7-d6   7.Kc8-d7   8.Kd7-e6   9.Ke6-f5  10.Kf5-g4  11.Kg4-h3  12.Kh3-h2  13.Kh2-h1 Lh4-g3 = 
 80 moegliche Stellungen in 1+13
 
-              empile:     4558487
-           play_move:     3625752
-        orig_rbechec:        3453
-        orig_rnechec:     3655315
+                        empile:     4558487
+                     play_move:     3625752
+ is_white_king_square_attacked:        3453
+ is_black_king_square_attacked:     3655315
 Loesung beendet. 
 
 
@@ -4821,10 +4821,10 @@ Loesung beendet.
   1.Ka8-b7 Kc4-b5   2.Tb8-a8 c2-c4   3.La7-b8 c4-c5   4.Kb7-a7 c5-c6 = 
 1 moegliche Stellungen in 4+4
 
-              empile:        1242
-           play_move:        1242
-        orig_rbechec:          27
-        orig_rnechec:        9268
+                        empile:        1242
+                     play_move:        1242
+ is_white_king_square_attacked:          27
+ is_black_king_square_attacked:        9268
 Loesung beendet. 
 
 
@@ -4860,10 +4860,10 @@ Loesung beendet.
   1.Sf6-g8 f5-f6   2.Kb4*c4 f6-f7   3.Kc4-d5 f7*g8=D +   4.Kd5-e5 Dg8-f7 = 
 23 moegliche Stellungen in 4+4
 
-              empile:       18153
-           play_move:       18349
-        orig_rbechec:         676
-        orig_rnechec:       65276
+                        empile:       18153
+                     play_move:       18349
+ is_white_king_square_attacked:         676
+ is_black_king_square_attacked:       65276
 Loesung beendet. 
 
 
@@ -4904,10 +4904,10 @@ Loesung beendet.
   1.Dg7-g3   2.Dg3-b8   3.Ld8-c7   4.Lc7-e5   5.Le5*c3   6.Lc3-e5   7.Le5-c7   8.Lc7-d8   9.Db8-g3  10.Dg3-g7 Lb2*g7 = 
 15 moegliche Stellungen in 1+10
 
-              empile:      554900
-           play_move:      483684
-        orig_rbechec:      139193
-        orig_rnechec:      336266
+                        empile:      554900
+                     play_move:      483684
+ is_white_king_square_attacked:      139193
+ is_black_king_square_attacked:      336266
 Loesung beendet. 
 
 
@@ -4944,10 +4944,10 @@ Loesung beendet.
   1.Sf3-h2 Kh1*h2   2.Tf1-e1 Kh2*h3   3.Te1-e2 Kh3*h4   4.Kf2-g2 Sg1*e2   5.Kg2-h1 Kh4-g3   6.h5-h4 + Kg3-h3 = 
 706 moegliche Stellungen in 6+6
 
-              empile:     4160606
-           play_move:     4107161
-        orig_rbechec:      278623
-        orig_rnechec:     1254011
+                        empile:     4160606
+                     play_move:     4107161
+ is_white_king_square_attacked:      278623
+ is_black_king_square_attacked:     1254011
 Loesung beendet. 
 
 
@@ -4983,10 +4983,10 @@ a)
   1.0-0-0 Th1*h3   2.Kc8-b8 Th3*h8   3.Le6-c8 Th8*d8 = 
 419 moegliche Stellungen in 3+3
 
-              empile:     1476593
-           play_move:     1472733
-        orig_rbechec:       11394
-        orig_rnechec:     1593399
+                        empile:     1476593
+                     play_move:     1472733
+ is_white_king_square_attacked:       11394
+ is_black_king_square_attacked:     1593399
 b) wBd6-->g6
 
 0 moegliche Stellungen in 1+1
@@ -4994,10 +4994,10 @@ b) wBd6-->g6
   1.0-0 Ta1*a8   2.Kg8-h8 Ta8*f8 +   3.Le6-g8 Sc5-e6 = 
 433 moegliche Stellungen in 3+3
 
-              empile:     1523119
-           play_move:     1518828
-        orig_rbechec:       13174
-        orig_rnechec:     1568584
+                        empile:     1523119
+                     play_move:     1518828
+ is_white_king_square_attacked:       13174
+ is_black_king_square_attacked:     1568584
 Loesung beendet. 
 
 
@@ -5033,46 +5033,46 @@ a)
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        1823
-           play_move:        1979
-        orig_rbechec:           5
-        orig_rnechec:        2843
+                        empile:        1823
+                     play_move:        1979
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:        2843
 b) sSa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        1526
-           play_move:        1564
-        orig_rbechec:           5
-        orig_rnechec:        2536
+                        empile:        1526
+                     play_move:        1564
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:        2536
 c) sLa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        1979
-           play_move:        2045
-        orig_rbechec:           5
-        orig_rnechec:        2937
+                        empile:        1979
+                     play_move:        2045
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:        2937
 d) sTa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        1820
-           play_move:        1889
-        orig_rbechec:           5
-        orig_rnechec:        2753
+                        empile:        1820
+                     play_move:        1889
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:        2753
 e) sDa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        1960
-           play_move:        2015
-        orig_rbechec:           5
-        orig_rnechec:        2907
+                        empile:        1960
+                     play_move:        2015
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:        2907
 Loesung beendet. 
 
 
@@ -5106,10 +5106,10 @@ dies ist ein Testfall fuer intelligent und loch
   1.La4-c2   2.Sb2-a4   3.Sa4-c3   4.Sc3-b1   5.Sb1-a3   6.Kb4-a4   7.Sc6-b4   8.Tc4-c3   9.Tc3-b3  10.Lc2-e4  11.Le4-b7 Sa5*b7 = 
   1.Kb4-c5   2.Tb5-b3   3.Sc6-b4   4.La4-c6   5.Kc5-b5   6.Tc4-c5   7.Sb2-c4   8.Sc4-a3   9.Kb5-a4  10.Tc5-b5  11.Lc6-b7 Sa5*b7 = 
 
-              empile:    21632191
-           play_move:    21488525
-        orig_rbechec:       70196
-        orig_rnechec:    21316605
+                        empile:    21632191
+                     play_move:    21488525
+ is_white_king_square_attacked:       70196
+ is_black_king_square_attacked:    21316605
 Loesung beendet. 
 
 

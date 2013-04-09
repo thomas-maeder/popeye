@@ -30,10 +30,10 @@ piece is of the same colour as the king to be mated
   1.Bh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 #
   1.Bh8-d4 Se6-g7   2.Rg8-d8 Sg7*f5 #
 
-              empile:       76524
-           play_move:       64326
-        orig_rbechec:       63735
-        orig_rnechec:       66465
+                        empile:       76524
+                     play_move:       64326
+ is_white_king_square_attacked:       63735
+ is_black_king_square_attacked:       66465
 solution finished. 
 
 
@@ -66,10 +66,10 @@ caused all kinds of trouble, including this shortie not being solved.
 
   1.f2-f4 e7-e5 dia
 
-              empile:          40
-           play_move:          40
-        orig_rbechec:           4
-        orig_rnechec:           8
+                        empile:          40
+                     play_move:          40
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           8
 solution finished. 
 
 
@@ -135,10 +135,10 @@ Test: avoid duplicate king moves (e.g. to f5)
    1.Ke5-f5 !
 
 
-              empile:          35
-           play_move:          27
-        orig_rbechec:          27
-        orig_rnechec:           0
+                        empile:          35
+                     play_move:          27
+ is_white_king_square_attacked:          27
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -146,10 +146,10 @@ solution finished.
  20  (Sb1-a3=b )
   1.Sb1-a3=b Sa3-b1=w dia
 
-              empile:          44
-           play_move:          44
-        orig_rbechec:           3
-        orig_rnechec:           5
+                        empile:          44
+                     play_move:          44
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           5
 solution finished. 
 
 
@@ -180,10 +180,10 @@ solution finished.
  20  (Sb1-a3=b )
   1.Sb1-a3=b Sa3-b1=w dia
 
-              empile:          44
-           play_move:          44
-        orig_rbechec:           3
-        orig_rnechec:           5
+                        empile:          44
+                     play_move:          44
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           5
 solution finished. 
 
 
@@ -217,19 +217,19 @@ a)
    1.Qc1-c8 # !
 
 
-              empile:          63
-           play_move:          61
-        orig_rbechec:           6
-        orig_rnechec:          56
+                        empile:          63
+                     play_move:          61
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:          56
 b)  -wQc1
 
    1.h7*g8=R[+wQd1] # !
 
 
-              empile:          15
-           play_move:          21
-        orig_rbechec:           4
-        orig_rnechec:          21
+                        empile:          15
+                     play_move:          21
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          21
 solution finished. 
 
 
@@ -237,10 +237,10 @@ fairy pieces only allowed in proof games since releases >4.51
 
   1.Ka1-a2 Ga8-a1 a=>b
 
-              empile:           4
-           play_move:           4
-        orig_rbechec:           0
-        orig_rnechec:           4
+                        empile:           4
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -271,10 +271,10 @@ White's first move
 
   1.Kh5-h6 Ba1*b2   2.Bf7-h5 Bb2-c1 #
 
-              empile:       12003
-           play_move:        6649
-        orig_rbechec:        6071
-        orig_rnechec:        1717
+                        empile:       12003
+                     play_move:        6649
+ is_white_king_square_attacked:        6071
+ is_black_king_square_attacked:        1717
 solution finished. 
 
 
@@ -305,927 +305,927 @@ test for twin numbering after we have run out of letters
 a) 
 
 
-              empile:          69
-           play_move:          69
-        orig_rbechec:          10
-        orig_rnechec:          60
+                        empile:          69
+                     play_move:          69
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          60
 b) +wSa7 +bBa5 
 
 
-              empile:         777
-           play_move:         756
-        orig_rbechec:          64
-        orig_rnechec:         696
+                        empile:         777
+                     play_move:         756
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         696
 c) +wSa7 +bBa4 
 
 
-              empile:         760
-           play_move:         739
-        orig_rbechec:          64
-        orig_rnechec:         679
+                        empile:         760
+                     play_move:         739
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         679
 d) +wSa7 +bBa3 
 
 
-              empile:         751
-           play_move:         730
-        orig_rbechec:          64
-        orig_rnechec:         670
+                        empile:         751
+                     play_move:         730
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         670
 e) +wSa7 +bBa2 
 
 
-              empile:         706
-           play_move:         685
-        orig_rbechec:          64
-        orig_rnechec:         625
+                        empile:         706
+                     play_move:         685
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         625
 f) +wSa7 +bBb7 
 
 
-              empile:         866
-           play_move:         845
-        orig_rbechec:          70
-        orig_rnechec:         779
+                        empile:         866
+                     play_move:         845
+ is_white_king_square_attacked:          70
+ is_black_king_square_attacked:         779
 g) +wSa7 +bBb6 
 
 
-              empile:         932
-           play_move:         911
-        orig_rbechec:          73
-        orig_rnechec:         842
+                        empile:         932
+                     play_move:         911
+ is_white_king_square_attacked:          73
+ is_black_king_square_attacked:         842
 h) +wSa7 +bBb5 
 
 
-              empile:         932
-           play_move:         911
-        orig_rbechec:          76
-        orig_rnechec:         839
+                        empile:         932
+                     play_move:         911
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         839
 i) +wSa7 +bBb4 
 
 
-              empile:         963
-           play_move:         942
-        orig_rbechec:          76
-        orig_rnechec:         870
+                        empile:         963
+                     play_move:         942
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         870
 j) +wSa7 +bBb3 
 
 
-              empile:         888
-           play_move:         867
-        orig_rbechec:          76
-        orig_rnechec:         795
+                        empile:         888
+                     play_move:         867
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         795
 k) +wSa7 +bBb2 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 l) +wSa7 +bBc7 
 
 
-              empile:         965
-           play_move:         944
-        orig_rbechec:          76
-        orig_rnechec:         872
+                        empile:         965
+                     play_move:         944
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         872
 m) +wSa7 +bBc6 
 
 
-              empile:        1025
-           play_move:        1004
-        orig_rbechec:          82
-        orig_rnechec:         926
+                        empile:        1025
+                     play_move:        1004
+ is_white_king_square_attacked:          82
+ is_black_king_square_attacked:         926
 n) +wSa7 +bBc5 
 
 
-              empile:        1118
-           play_move:        1097
-        orig_rbechec:          85
-        orig_rnechec:        1016
+                        empile:        1118
+                     play_move:        1097
+ is_white_king_square_attacked:          85
+ is_black_king_square_attacked:        1016
 o) +wSa7 +bBc4 
 
 
-              empile:        1063
-           play_move:        1042
-        orig_rbechec:          88
-        orig_rnechec:         958
+                        empile:        1063
+                     play_move:        1042
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         958
 p) +wSa7 +bBc3 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 q) +wSa7 +bBc2 
 
 
-              empile:         888
-           play_move:         867
-        orig_rbechec:          76
-        orig_rnechec:         795
+                        empile:         888
+                     play_move:         867
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         795
 r) +wSa7 +bBd7 
 
 
-              empile:         949
-           play_move:         928
-        orig_rbechec:          76
-        orig_rnechec:         856
+                        empile:         949
+                     play_move:         928
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         856
 s) +wSa7 +bBd6 
 
 
-              empile:        1151
-           play_move:        1130
-        orig_rbechec:          88
-        orig_rnechec:        1046
+                        empile:        1151
+                     play_move:        1130
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:        1046
 t) +wSa7 +bBd5 
 
 
-              empile:        1154
-           play_move:        1133
-        orig_rbechec:          94
-        orig_rnechec:        1043
+                        empile:        1154
+                     play_move:        1133
+ is_white_king_square_attacked:          94
+ is_black_king_square_attacked:        1043
 u) +wSa7 +bBd4 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 v) +wSa7 +bBd3 
 
 
-              empile:        1063
-           play_move:        1042
-        orig_rbechec:          88
-        orig_rnechec:         958
+                        empile:        1063
+                     play_move:        1042
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         958
 w) +wSa7 +bBd2 
 
 
-              empile:         963
-           play_move:         942
-        orig_rbechec:          76
-        orig_rnechec:         870
+                        empile:         963
+                     play_move:         942
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         870
 x) +wSa7 +bBe7 
 
 
-              empile:         963
-           play_move:         942
-        orig_rbechec:          76
-        orig_rnechec:         870
+                        empile:         963
+                     play_move:         942
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         870
 y) +wSa7 +bBe6 
 
 
-              empile:        1073
-           play_move:        1052
-        orig_rbechec:          88
-        orig_rnechec:         968
+                        empile:        1073
+                     play_move:        1052
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         968
 z) +wSa7 +bBe5 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z1) +wSa7 +bBe4 
 
 
-              empile:        1151
-           play_move:        1133
-        orig_rbechec:          94
-        orig_rnechec:        1043
+                        empile:        1151
+                     play_move:        1133
+ is_white_king_square_attacked:          94
+ is_black_king_square_attacked:        1043
 z2) +wSa7 +bBe3 
 
 
-              empile:        1115
-           play_move:        1097
-        orig_rbechec:          85
-        orig_rnechec:        1016
+                        empile:        1115
+                     play_move:        1097
+ is_white_king_square_attacked:          85
+ is_black_king_square_attacked:        1016
 z3) +wSa7 +bBe2 
 
 
-              empile:         969
-           play_move:         951
-        orig_rbechec:          76
-        orig_rnechec:         879
+                        empile:         969
+                     play_move:         951
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         879
 z4) +wSa7 +bBf7 
 
 
-              empile:         890
-           play_move:         869
-        orig_rbechec:          76
-        orig_rnechec:         797
+                        empile:         890
+                     play_move:         869
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         797
 z5) +wSa7 +bBf6 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z6) +wSa7 +bBf5 
 
 
-              empile:        1073
-           play_move:        1052
-        orig_rbechec:          88
-        orig_rnechec:         968
+                        empile:        1073
+                     play_move:        1052
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         968
 z7) +wSa7 +bBf4 
 
 
-              empile:        1148
-           play_move:        1130
-        orig_rbechec:          88
-        orig_rnechec:        1046
+                        empile:        1148
+                     play_move:        1130
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:        1046
 z8) +wSa7 +bBf3 
 
 
-              empile:        1032
-           play_move:        1032
-        orig_rbechec:          79
-        orig_rnechec:         954
+                        empile:        1032
+                     play_move:        1032
+ is_white_king_square_attacked:          79
+ is_black_king_square_attacked:         954
 z9) +wSa7 +bBf2 
 
 
-              empile:         917
-           play_move:         899
-        orig_rbechec:          73
-        orig_rnechec:         830
+                        empile:         917
+                     play_move:         899
+ is_white_king_square_attacked:          73
+ is_black_king_square_attacked:         830
 z10) +wSa7 +bBg7 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z11) +wSa7 +bBg6 
 
 
-              empile:         890
-           play_move:         869
-        orig_rbechec:          76
-        orig_rnechec:         797
+                        empile:         890
+                     play_move:         869
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         797
 z12) +wSa7 +bBg5 
 
 
-              empile:         963
-           play_move:         942
-        orig_rbechec:          76
-        orig_rnechec:         870
+                        empile:         963
+                     play_move:         942
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         870
 z13) +wSa7 +bBg4 
 
 
-              empile:         979
-           play_move:         961
-        orig_rbechec:          76
-        orig_rnechec:         889
+                        empile:         979
+                     play_move:         961
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         889
 z14) +wSa7 +bBg3 
 
 
-              empile:         950
-           play_move:         932
-        orig_rbechec:          76
-        orig_rnechec:         860
+                        empile:         950
+                     play_move:         932
+ is_white_king_square_attacked:          76
+ is_black_king_square_attacked:         860
 z15) +wSa7 +bBg2 
 
 
-              empile:         752
-           play_move:         752
-        orig_rbechec:          61
-        orig_rnechec:         692
+                        empile:         752
+                     play_move:         752
+ is_white_king_square_attacked:          61
+ is_black_king_square_attacked:         692
 z16) +wSa7 +bBh7 
 
 
-              empile:         727
-           play_move:         706
-        orig_rbechec:          64
-        orig_rnechec:         646
+                        empile:         727
+                     play_move:         706
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         646
 z17) +wSa7 +bBh6 
 
 
-              empile:         787
-           play_move:         766
-        orig_rbechec:          64
-        orig_rnechec:         706
+                        empile:         787
+                     play_move:         766
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         706
 z18) +wSa7 +bBh5 
 
 
-              empile:         797
-           play_move:         776
-        orig_rbechec:          64
-        orig_rnechec:         716
+                        empile:         797
+                     play_move:         776
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         716
 z19) +wSa7 +bBh4 
 
 
-              empile:         777
-           play_move:         756
-        orig_rbechec:          64
-        orig_rnechec:         696
+                        empile:         777
+                     play_move:         756
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         696
 z20) +wSa7 +bBh3 
 
 
-              empile:         768
-           play_move:         747
-        orig_rbechec:          64
-        orig_rnechec:         687
+                        empile:         768
+                     play_move:         747
+ is_white_king_square_attacked:          64
+ is_black_king_square_attacked:         687
 z21) +wSa7 +bBh2 
 
 
-              empile:         701
-           play_move:         680
-        orig_rbechec:          58
-        orig_rnechec:         626
+                        empile:         701
+                     play_move:         680
+ is_white_king_square_attacked:          58
+ is_black_king_square_attacked:         626
 z22) +wSa5 +bBa7 
 
 
-              empile:        1019
-           play_move:         918
-        orig_rbechec:          88
-        orig_rnechec:         848
+                        empile:        1019
+                     play_move:         918
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         848
 z23) +wSa5 +bBa4 
 
 
-              empile:        1003
-           play_move:         893
-        orig_rbechec:          88
-        orig_rnechec:         823
+                        empile:        1003
+                     play_move:         893
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         823
 z24) +wSa5 +bBa3 
 
 
-              empile:         981
-           play_move:         878
-        orig_rbechec:          88
-        orig_rnechec:         808
+                        empile:         981
+                     play_move:         878
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         808
 z25) +wSa5 +bBa2 
 
 
-              empile:         895
-           play_move:         785
-        orig_rbechec:          88
-        orig_rnechec:         715
+                        empile:         895
+                     play_move:         785
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         715
 z26) +wSa5 +bBb7 
 
 
-              empile:        1100
-           play_move:         991
-        orig_rbechec:          95
-        orig_rnechec:         914
+                        empile:        1100
+                     play_move:         991
+ is_white_king_square_attacked:          95
+ is_black_king_square_attacked:         914
 z27) +wSa5 +bBb6 
 
 
-              empile:        1193
-           play_move:        1078
-        orig_rbechec:         100
-        orig_rnechec:         998
+                        empile:        1193
+                     play_move:        1078
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         998
 z28) +wSa5 +bBb5 
 
 
-              empile:        1235
-           play_move:        1112
-        orig_rbechec:         104
-        orig_rnechec:        1028
+                        empile:        1235
+                     play_move:        1112
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1028
 z29) +wSa5 +bBb4 
 
 
-              empile:        1195
-           play_move:        1078
-        orig_rbechec:         100
-        orig_rnechec:         998
+                        empile:        1195
+                     play_move:        1078
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         998
 z30) +wSa5 +bBb3 
 
 
-              empile:        1114
-           play_move:         990
-        orig_rbechec:         104
-        orig_rnechec:         906
+                        empile:        1114
+                     play_move:         990
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:         906
 z31) +wSa5 +bBb2 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z32) +wSa5 +bBc7 
 
 
-              empile:        1193
-           play_move:        1078
-        orig_rbechec:         100
-        orig_rnechec:         998
+                        empile:        1193
+                     play_move:        1078
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         998
 z33) +wSa5 +bBc6 
 
 
-              empile:        1327
-           play_move:        1204
-        orig_rbechec:         111
-        orig_rnechec:        1113
+                        empile:        1327
+                     play_move:        1204
+ is_white_king_square_attacked:         111
+ is_black_king_square_attacked:        1113
 z34) +wSa5 +bBc5 
 
 
-              empile:        1473
-           play_move:        1344
-        orig_rbechec:         120
-        orig_rnechec:        1246
+                        empile:        1473
+                     play_move:        1344
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1246
 z35) +wSa5 +bBc4 
 
 
-              empile:        1346
-           play_move:        1209
-        orig_rbechec:         120
-        orig_rnechec:        1111
+                        empile:        1346
+                     play_move:        1209
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1111
 z36) +wSa5 +bBc3 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z37) +wSa5 +bBc2 
 
 
-              empile:        1169
-           play_move:        1045
-        orig_rbechec:         104
-        orig_rnechec:         961
+                        empile:        1169
+                     play_move:        1045
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:         961
 z38) +wSa5 +bBd7 
 
 
-              empile:        1259
-           play_move:        1136
-        orig_rbechec:         104
-        orig_rnechec:        1052
+                        empile:        1259
+                     play_move:        1136
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1052
 z39) +wSa5 +bBd6 
 
 
-              empile:        1473
-           play_move:        1344
-        orig_rbechec:         120
-        orig_rnechec:        1246
+                        empile:        1473
+                     play_move:        1344
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1246
 z40) +wSa5 +bBd5 
 
 
-              empile:        1449
-           play_move:        1312
-        orig_rbechec:         127
-        orig_rnechec:        1207
+                        empile:        1449
+                     play_move:        1312
+ is_white_king_square_attacked:         127
+ is_black_king_square_attacked:        1207
 z41) +wSa5 +bBd4 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z42) +wSa5 +bBd3 
 
 
-              empile:        1399
-           play_move:        1262
-        orig_rbechec:         120
-        orig_rnechec:        1164
+                        empile:        1399
+                     play_move:        1262
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1164
 z43) +wSa5 +bBd2 
 
 
-              empile:        1195
-           play_move:        1078
-        orig_rbechec:         100
-        orig_rnechec:         998
+                        empile:        1195
+                     play_move:        1078
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         998
 z44) +wSa5 +bBe7 
 
 
-              empile:        1239
-           play_move:        1122
-        orig_rbechec:         104
-        orig_rnechec:        1038
+                        empile:        1239
+                     play_move:        1122
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1038
 z45) +wSa5 +bBe6 
 
 
-              empile:        1376
-           play_move:        1239
-        orig_rbechec:         120
-        orig_rnechec:        1141
+                        empile:        1376
+                     play_move:        1239
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1141
 z46) +wSa5 +bBe5 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z47) +wSa5 +bBe4 
 
 
-              empile:        1489
-           play_move:        1358
-        orig_rbechec:         127
-        orig_rnechec:        1253
+                        empile:        1489
+                     play_move:        1358
+ is_white_king_square_attacked:         127
+ is_black_king_square_attacked:        1253
 z48) +wSa5 +bBe3 
 
 
-              empile:        1467
-           play_move:        1344
-        orig_rbechec:         120
-        orig_rnechec:        1246
+                        empile:        1467
+                     play_move:        1344
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1246
 z49) +wSa5 +bBe2 
 
 
-              empile:        1246
-           play_move:        1133
-        orig_rbechec:         104
-        orig_rnechec:        1049
+                        empile:        1246
+                     play_move:        1133
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1049
 z50) +wSa5 +bBf7 
 
 
-              empile:        1138
-           play_move:        1014
-        orig_rbechec:         104
-        orig_rnechec:         930
+                        empile:        1138
+                     play_move:        1014
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:         930
 z51) +wSa5 +bBf6 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z52) +wSa5 +bBf5 
 
 
-              empile:        1422
-           play_move:        1285
-        orig_rbechec:         120
-        orig_rnechec:        1187
+                        empile:        1422
+                     play_move:        1285
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1187
 z53) +wSa5 +bBf4 
 
 
-              empile:        1467
-           play_move:        1344
-        orig_rbechec:         120
-        orig_rnechec:        1246
+                        empile:        1467
+                     play_move:        1344
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1246
 z54) +wSa5 +bBf3 
 
 
-              empile:        1293
-           play_move:        1212
-        orig_rbechec:         105
-        orig_rnechec:        1121
+                        empile:        1293
+                     play_move:        1212
+ is_white_king_square_attacked:         105
+ is_black_king_square_attacked:        1121
 z55) +wSa5 +bBf2 
 
 
-              empile:        1213
-           play_move:        1108
-        orig_rbechec:         104
-        orig_rnechec:        1024
+                        empile:        1213
+                     play_move:        1108
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1024
 z56) +wSa5 +bBg7 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z57) +wSa5 +bBg6 
 
 
-              empile:        1184
-           play_move:        1060
-        orig_rbechec:         104
-        orig_rnechec:         976
+                        empile:        1184
+                     play_move:        1060
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:         976
 z58) +wSa5 +bBg5 
 
 
-              empile:        1239
-           play_move:        1122
-        orig_rbechec:         104
-        orig_rnechec:        1038
+                        empile:        1239
+                     play_move:        1122
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1038
 z59) +wSa5 +bBg4 
 
 
-              empile:        1272
-           play_move:        1156
-        orig_rbechec:         104
-        orig_rnechec:        1072
+                        empile:        1272
+                     play_move:        1156
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1072
 z60) +wSa5 +bBg3 
 
 
-              empile:        1216
-           play_move:        1108
-        orig_rbechec:         104
-        orig_rnechec:        1024
+                        empile:        1216
+                     play_move:        1108
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1024
 z61) +wSa5 +bBg2 
 
 
-              empile:         946
-           play_move:         884
-        orig_rbechec:          82
-        orig_rnechec:         814
+                        empile:         946
+                     play_move:         884
+ is_white_king_square_attacked:          82
+ is_black_king_square_attacked:         814
 z62) +wSa5 +bBh7 
 
 
-              empile:         974
-           play_move:         864
-        orig_rbechec:          88
-        orig_rnechec:         794
+                        empile:         974
+                     play_move:         864
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         794
 z63) +wSa5 +bBh6 
 
 
-              empile:        1017
-           play_move:         914
-        orig_rbechec:          88
-        orig_rnechec:         844
+                        empile:        1017
+                     play_move:         914
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         844
 z64) +wSa5 +bBh5 
 
 
-              empile:        1038
-           play_move:         929
-        orig_rbechec:          88
-        orig_rnechec:         859
+                        empile:        1038
+                     play_move:         929
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         859
 z65) +wSa5 +bBh4 
 
 
-              empile:        1001
-           play_move:         900
-        orig_rbechec:          88
-        orig_rnechec:         830
+                        empile:        1001
+                     play_move:         900
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         830
 z66) +wSa5 +bBh3 
 
 
-              empile:        1003
-           play_move:         902
-        orig_rbechec:          87
-        orig_rnechec:         832
+                        empile:        1003
+                     play_move:         902
+ is_white_king_square_attacked:          87
+ is_black_king_square_attacked:         832
 z67) +wSa5 +bBh2 
 
 
-              empile:         911
-           play_move:         811
-        orig_rbechec:          81
-        orig_rnechec:         748
+                        empile:         911
+                     play_move:         811
+ is_white_king_square_attacked:          81
+ is_black_king_square_attacked:         748
 z68) +wSa4 +bBa7 
 
 
-              empile:         972
-           play_move:         886
-        orig_rbechec:          87
-        orig_rnechec:         816
+                        empile:         972
+                     play_move:         886
+ is_white_king_square_attacked:          87
+ is_black_king_square_attacked:         816
 z69) +wSa4 +bBa5 
 
 
-              empile:         976
-           play_move:         881
-        orig_rbechec:          88
-        orig_rnechec:         811
+                        empile:         976
+                     play_move:         881
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         811
 z70) +wSa4 +bBa3 
 
 
-              empile:         936
-           play_move:         845
-        orig_rbechec:          88
-        orig_rnechec:         775
+                        empile:         936
+                     play_move:         845
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         775
 z71) +wSa4 +bBa2 
 
 
-              empile:         947
-           play_move:         852
-        orig_rbechec:          88
-        orig_rnechec:         782
+                        empile:         947
+                     play_move:         852
+ is_white_king_square_attacked:          88
+ is_black_king_square_attacked:         782
 z72) +wSa4 +bBb7 
 
 
-              empile:        1174
-           play_move:        1073
-        orig_rbechec:          97
-        orig_rnechec:         996
+                        empile:        1174
+                     play_move:        1073
+ is_white_king_square_attacked:          97
+ is_black_king_square_attacked:         996
 z73) +wSa4 +bBb6 
 
 
-              empile:        1170
-           play_move:        1076
-        orig_rbechec:         103
-        orig_rnechec:         992
+                        empile:        1170
+                     play_move:        1076
+ is_white_king_square_attacked:         103
+ is_black_king_square_attacked:         992
 z74) +wSa4 +bBb5 
 
 
-              empile:        1226
-           play_move:        1124
-        orig_rbechec:         100
-        orig_rnechec:        1044
+                        empile:        1226
+                     play_move:        1124
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:        1044
 z75) +wSa4 +bBb4 
 
 
-              empile:        1197
-           play_move:        1094
-        orig_rbechec:         104
-        orig_rnechec:        1010
+                        empile:        1197
+                     play_move:        1094
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1010
 z76) +wSa4 +bBb3 
 
 
-              empile:        1130
-           play_move:        1027
-        orig_rbechec:         100
-        orig_rnechec:         947
+                        empile:        1130
+                     play_move:        1027
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         947
 z77) +wSa4 +bBb2 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z78) +wSa4 +bBc7 
 
 
-              empile:        1226
-           play_move:        1128
-        orig_rbechec:         104
-        orig_rnechec:        1044
+                        empile:        1226
+                     play_move:        1128
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1044
 z79) +wSa4 +bBc6 
 
 
-              empile:        1356
-           play_move:        1247
-        orig_rbechec:         109
-        orig_rnechec:        1160
+                        empile:        1356
+                     play_move:        1247
+ is_white_king_square_attacked:         109
+ is_black_king_square_attacked:        1160
 z80) +wSa4 +bBc5 
 
 
-              empile:        1392
-           play_move:        1290
-        orig_rbechec:         119
-        orig_rnechec:        1192
+                        empile:        1392
+                     play_move:        1290
+ is_white_king_square_attacked:         119
+ is_black_king_square_attacked:        1192
 z81) +wSa4 +bBc4 
 
 
-              empile:        1407
-           play_move:        1297
-        orig_rbechec:         120
-        orig_rnechec:        1199
+                        empile:        1407
+                     play_move:        1297
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1199
 z82) +wSa4 +bBc3 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z83) +wSa4 +bBc2 
 
 
-              empile:        1130
-           play_move:        1027
-        orig_rbechec:         100
-        orig_rnechec:         947
+                        empile:        1130
+                     play_move:        1027
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         947
 z84) +wSa4 +bBd7 
 
 
-              empile:        1227
-           play_move:        1124
-        orig_rbechec:         100
-        orig_rnechec:        1044
+                        empile:        1227
+                     play_move:        1124
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:        1044
 z85) +wSa4 +bBd6 
 
 
-              empile:        1447
-           play_move:        1341
-        orig_rbechec:         120
-        orig_rnechec:        1243
+                        empile:        1447
+                     play_move:        1341
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1243
 z86) +wSa4 +bBd5 
 
 
-              empile:        1535
-           play_move:        1418
-        orig_rbechec:         129
-        orig_rnechec:        1313
+                        empile:        1535
+                     play_move:        1418
+ is_white_king_square_attacked:         129
+ is_black_king_square_attacked:        1313
 z87) +wSa4 +bBd4 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z88) +wSa4 +bBd3 
 
 
-              empile:        1407
-           play_move:        1297
-        orig_rbechec:         120
-        orig_rnechec:        1199
+                        empile:        1407
+                     play_move:        1297
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1199
 z89) +wSa4 +bBd2 
 
 
-              empile:        1221
-           play_move:        1118
-        orig_rbechec:         104
-        orig_rnechec:        1034
+                        empile:        1221
+                     play_move:        1118
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1034
 z90) +wSa4 +bBe7 
 
 
-              empile:        1214
-           play_move:        1115
-        orig_rbechec:         104
-        orig_rnechec:        1031
+                        empile:        1214
+                     play_move:        1115
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1031
 z91) +wSa4 +bBe6 
 
 
-              empile:        1408
-           play_move:        1297
-        orig_rbechec:         120
-        orig_rnechec:        1199
+                        empile:        1408
+                     play_move:        1297
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1199
 z92) +wSa4 +bBe5 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z93) +wSa4 +bBe4 
 
 
-              empile:        1535
-           play_move:        1418
-        orig_rbechec:         129
-        orig_rnechec:        1313
+                        empile:        1535
+                     play_move:        1418
+ is_white_king_square_attacked:         129
+ is_black_king_square_attacked:        1313
 z94) +wSa4 +bBe3 
 
 
-              empile:        1415
-           play_move:        1319
-        orig_rbechec:         119
-        orig_rnechec:        1221
+                        empile:        1415
+                     play_move:        1319
+ is_white_king_square_attacked:         119
+ is_black_king_square_attacked:        1221
 z95) +wSa4 +bBe2 
 
 
-              empile:        1264
-           play_move:        1168
-        orig_rbechec:         104
-        orig_rnechec:        1084
+                        empile:        1264
+                     play_move:        1168
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1084
 z96) +wSa4 +bBf7 
 
 
-              empile:        1174
-           play_move:        1071
-        orig_rbechec:         104
-        orig_rnechec:         987
+                        empile:        1174
+                     play_move:        1071
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:         987
 z97) +wSa4 +bBf6 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z98) +wSa4 +bBf5 
 
 
-              empile:        1408
-           play_move:        1297
-        orig_rbechec:         120
-        orig_rnechec:        1199
+                        empile:        1408
+                     play_move:        1297
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1199
 z99) +wSa4 +bBf4 
 
 
-              empile:        1467
-           play_move:        1364
-        orig_rbechec:         120
-        orig_rnechec:        1266
+                        empile:        1467
+                     play_move:        1364
+ is_white_king_square_attacked:         120
+ is_black_king_square_attacked:        1266
 z100) +wSa4 +bBf3 
 
 
-              empile:        1384
-           play_move:        1284
-        orig_rbechec:         113
-        orig_rnechec:        1193
+                        empile:        1384
+                     play_move:        1284
+ is_white_king_square_attacked:         113
+ is_black_king_square_attacked:        1193
 z101) +wSa4 +bBf2 
 
 
-              empile:        1121
-           play_move:        1072
-        orig_rbechec:          97
-        orig_rnechec:         988
+                        empile:        1121
+                     play_move:        1072
+ is_white_king_square_attacked:          97
+ is_black_king_square_attacked:         988
 z102) +wSa4 +bBg7 
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 z103) +wSa4 +bBg6 
 
 
-              empile:        1174
-           play_move:        1071
-        orig_rbechec:         104
-        orig_rnechec:         987
+                        empile:        1174
+                     play_move:        1071
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:         987
 z104) +wSa4 +bBg5 
 
 
-              empile:        1237
-           play_move:        1138
-        orig_rbechec:         104
-        orig_rnechec:        1054
+                        empile:        1237
+                     play_move:        1138
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1054
 z105) +wSa4 +bBg4 
 
 
-              empile:        1268
-           play_move:        1168
-        orig_rbechec:         104
-        orig_rnechec:        1084
+                        empile:        1268
+                     play_move:        1168
+ is_white_king_square_attacked:         104
+ is_black_king_square_attacked:        1084
 z106) +wSa4 +bBg3 
 
 
-              empile:        1193
-           play_move:        1123
-        orig_rbechec:         101
-        orig_rnechec:        1039
+                        empile:        1193
+                     play_move:        1123
+ is_white_king_square_attacked:         101
+ is_black_king_square_attacked:        1039
 solution finished. 
 
 
@@ -1260,10 +1260,10 @@ solution finished.
    1.Ka1-b2 !
 
 
-              empile:           3
-           play_move:           3
-        orig_rbechec:           3
-        orig_rnechec:           4
+                        empile:           3
+                     play_move:           3
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -1298,10 +1298,10 @@ solution finished.
    1.Ka1-b2 !
 
 
-              empile:           3
-           play_move:           3
-        orig_rbechec:           3
-        orig_rnechec:           4
+                        empile:           3
+                     play_move:           3
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -1331,10 +1331,10 @@ there is no solution, but 4.51 gave 1.Qb2#
                  AMU
 
 
-              empile:           5
-           play_move:           5
-        orig_rbechec:           5
-        orig_rnechec:           1
+                        empile:           5
+                     play_move:           5
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           1
 solution finished. 
 
 
@@ -1342,10 +1342,10 @@ Can't decide whether condition applies to White or Black
 
 problem ignored
 
-              empile:           0
-           play_move:           0
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1379,10 +1379,10 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
   1...Ka3-a2   2.Ka7-a6 b4-b5 +
   1...Ka3-b2   2.Ka7-a6 b4-b5 +
 
-              empile:          34
-           play_move:          34
-        orig_rbechec:          13
-        orig_rnechec:          39
+                        empile:          34
+                     play_move:          34
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          39
 solution finished. 
 
 
@@ -1433,10 +1433,10 @@ if wK could castle after having moved, we'd have 8 solutions
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:    13430852
-           play_move:     6195644
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:    13430852
+                     play_move:     6195644
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1472,10 +1472,10 @@ solution finished.
    1.h2*g3 !
 
 
-              empile:        1390
-           play_move:          68
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:        1390
+                     play_move:          68
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1509,10 +1509,10 @@ solution finished.
    1.c6*b7[+bBa8] !
 
 
-              empile:         539
-           play_move:          67
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:         539
+                     play_move:          67
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1548,10 +1548,10 @@ solution finished.
    1.c6*b7[+bPb8] !
 
 
-              empile:         414
-           play_move:          90
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:         414
+                     play_move:          90
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1593,10 +1593,10 @@ solution finished.
    1.g2-g3 !
 
 
-              empile:         394
-           play_move:          94
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:         394
+                     play_move:          94
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1644,10 +1644,10 @@ cage for promoted pawn, capturer part of cage
    1.e2-e3 !
 
 
-              empile:         374
-           play_move:         100
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:         374
+                     play_move:         100
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1679,10 +1679,10 @@ solution finished.
   1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] #
   1.Ke4*f3[+wRh1] g1*h2   2.g5-g4 0-0 #
 
-              empile:     8137277
-           play_move:     1210884
-        orig_rbechec:      772573
-        orig_rnechec:      267566
+                        empile:     8137277
+                     play_move:     1210884
+ is_white_king_square_attacked:      772573
+ is_black_king_square_attacked:      267566
 solution finished. 
 
 
@@ -1744,10 +1744,10 @@ never generates the same solution twice (but some solutions
   1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b
   1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b
 
-              empile:       28339
-           play_move:       17067
-        orig_rbechec:        2913
-        orig_rnechec:        6015
+                        empile:       28339
+                     play_move:       17067
+ is_white_king_square_attacked:        2913
+ is_black_king_square_attacked:        6015
 solution finished. 
 
 
@@ -1806,10 +1806,10 @@ promote to bishop (no cage for queen) even if there was a cage
 
   1.e2*d1=B a=>b
 
-              empile:        1829
-           play_move:        1076
-        orig_rbechec:         824
-        orig_rnechec:           2
+                        empile:        1829
+                     play_move:        1076
+ is_white_king_square_attacked:         824
+ is_black_king_square_attacked:           2
 solution finished. 
 
 
@@ -1847,10 +1847,10 @@ solution finished.
    1.Ke8-f7 !
 
 
-              empile:           5
-           play_move:           5
-        orig_rbechec:           5
-        orig_rnechec:           0
+                        empile:           5
+                     play_move:           5
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1949,10 +1949,10 @@ consider previous cage after advancing type of promotee
    1.e2*d1=S[+wQc8] !
 
 
-              empile:        1700
-           play_move:        1048
-        orig_rbechec:         786
-        orig_rnechec:          35
+                        empile:        1700
+                     play_move:        1048
+ is_white_king_square_attacked:         786
+ is_black_king_square_attacked:          35
 solving interrupted. 
 
 
@@ -1983,10 +1983,10 @@ solving interrupted.
   1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 #
   1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 #
 
-              empile:       66707
-           play_move:       39531
-        orig_rbechec:       35411
-        orig_rnechec:       10134
+                        empile:       66707
+                     play_move:       39531
+ is_white_king_square_attacked:       35411
+ is_black_king_square_attacked:       10134
 solution finished. 
 
 
@@ -2017,10 +2017,10 @@ solution finished.
 
   1...e4-e3   2.Kd1-c1 e3*d2 +   3.Kc1-b1 d2-d1=Q #
 
-              empile:       52700
-           play_move:       27711
-        orig_rbechec:       19567
-        orig_rnechec:       14715
+                        empile:       52700
+                     play_move:       27711
+ is_white_king_square_attacked:       19567
+ is_black_king_square_attacked:       14715
 solution finished. 
 
 
@@ -2051,10 +2051,10 @@ solution finished.
              Sentinelles
 
 
-              empile:         850
-           play_move:         815
-        orig_rbechec:          79
-        orig_rnechec:         777
+                        empile:         850
+                     play_move:         815
+ is_white_king_square_attacked:          79
+ is_black_king_square_attacked:         777
 solution finished. 
 
 
@@ -2096,10 +2096,10 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
   1.Bc2-b1   2.Bb1-f5   3.Bf5-b1 Bg6-c2 =
   1.Bc2-b1   2.Bb1-e4   3.Be4-b1 Bg6-c2 =
 
-              empile:       11793
-           play_move:        4804
-        orig_rbechec:        2145
-        orig_rnechec:        4367
+                        empile:       11793
+                     play_move:        4804
+ is_white_king_square_attacked:        2145
+ is_black_king_square_attacked:        4367
 solving interrupted. 
 
 
@@ -2143,10 +2143,10 @@ White would have to deliver mate after the key
               2...d2*e1=R #
 
 
-              empile:         484
-           play_move:         343
-        orig_rbechec:         307
-        orig_rnechec:          94
+                        empile:         484
+                     play_move:         343
+ is_white_king_square_attacked:         307
+ is_black_king_square_attacked:          94
 solution finished. 
 
 
@@ -2178,10 +2178,10 @@ issue 2903930: countermate used to only work in help play
       1...Kc8-b7 ##!
 
 
-              empile:         561
-           play_move:         542
-        orig_rbechec:         105
-        orig_rnechec:         505
+                        empile:         561
+                     play_move:         542
+ is_white_king_square_attacked:         105
+ is_black_king_square_attacked:         505
 solution finished. 
 
 
@@ -2240,10 +2240,10 @@ issue 2886962: 4.51 didn't allow a reborn rook
 
   1.Rb8*c8[+wRh1] 0-0 a=>b
 
-              empile:          25
-           play_move:          25
-        orig_rbechec:           5
-        orig_rnechec:           2
+                        empile:          25
+                     play_move:          25
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           2
 solution finished. 
 
 
@@ -2274,10 +2274,10 @@ feature request 2813613: proof games and Cavalier Majeur
 
   1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia
 
-              empile:     6993553
-           play_move:     6993553
-        orig_rbechec:       15723
-        orig_rnechec:      357929
+                        empile:     6993553
+                     play_move:     6993553
+ is_white_king_square_attacked:       15723
+ is_black_king_square_attacked:      357929
 solution finished. 
 
 
@@ -2308,10 +2308,10 @@ feature request 2813613: proof games and Leofamily
 
   1.a2-a3 h7-h6   2.VAc1*h6 dia
 
-              empile:        8532
-           play_move:        8532
-        orig_rbechec:          21
-        orig_rnechec:         364
+                        empile:        8532
+                     play_move:        8532
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:         364
 solution finished. 
 
 
@@ -2348,19 +2348,19 @@ a)
    1.f7*e8-a8=B # !
 
 
-              empile:          25
-           play_move:          47
-        orig_rbechec:           4
-        orig_rnechec:          48
+                        empile:          25
+                     play_move:          47
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          48
 b) nPf7 
 
    1.nPf7*e8-a8=nB # !
 
 
-              empile:          51
-           play_move:          60
-        orig_rbechec:           4
-        orig_rnechec:          61
+                        empile:          51
+                     play_move:          60
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          61
 c) nhPf7 
 
    1.nhPf7*e8-a8=nhQ=wh # !
@@ -2368,10 +2368,10 @@ c) nhPf7
    1.nhPf7*e8-a8=nhB=wh # !
 
 
-              empile:          25
-           play_move:          47
-        orig_rbechec:           4
-        orig_rnechec:          48
+                        empile:          25
+                     play_move:          47
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          48
 solution finished. 
 
 
@@ -2403,10 +2403,10 @@ ghostchess bug; 4.51 didn't find a solution here
 
   1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] #
 
-              empile:        4060
-           play_move:        2104
-        orig_rbechec:         607
-        orig_rnechec:        2088
+                        empile:        4060
+                     play_move:        2104
+ is_white_king_square_attacked:         607
+ is_black_king_square_attacked:        2088
 solution finished. 
 
 

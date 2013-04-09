@@ -29,10 +29,10 @@
 
   1.Kb4*a5[sKa5->e8]   2.0-0-0 
 
-              empile:          84
-           play_move:         223
-        orig_rbechec:         220
-        orig_rnechec:         228
+                        empile:          84
+                     play_move:         223
+ is_white_king_square_attacked:         220
+ is_black_king_square_attacked:         228
 Loesung beendet. 
 
 
@@ -240,10 +240,10 @@ a)
    1.c6*b7[wBb7->h8=L] x !
 
 
-              empile:           2
-           play_move:          88
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           2
+                     play_move:          88
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 b) Verschiebung a1 ==> a2
 
    1.c7*b8=D[wDb8->a1] x !
@@ -759,10 +759,10 @@ b) Verschiebung a1 ==> a2
    1.c7*b8=L[wLb8->h8] x !
 
 
-              empile:           2
-           play_move:         256
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           2
+                     play_move:         256
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -798,19 +798,19 @@ a)
    1.Kd6*c6[wKc6->c7] = !
 
 
-              empile:         195
-           play_move:         138
-        orig_rbechec:          67
-        orig_rnechec:         134
+                        empile:         195
+                     play_move:         138
+ is_white_king_square_attacked:          67
+ is_black_king_square_attacked:         134
 b) AntiSuperCirce  Cheylan
 
    1.Kd6*c6[wKc6->c7] = !
 
 
-              empile:         192
-           play_move:         134
-        orig_rbechec:          66
-        orig_rnechec:         130
+                        empile:         192
+                     play_move:         134
+ is_white_king_square_attacked:          66
+ is_black_king_square_attacked:         130
 Loesung beendet. 
 
 

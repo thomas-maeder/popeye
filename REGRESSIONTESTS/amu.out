@@ -133,10 +133,10 @@
       1...Dc4*c2 !
 
 
-              empile:        5752
-           play_move:        4937
-        orig_rbechec:         995
-        orig_rnechec:        8413
+                        empile:        5752
+                     play_move:        4937
+ is_white_king_square_attacked:         995
+ is_black_king_square_attacked:        8413
 Loesung beendet. 
 
 
@@ -195,10 +195,10 @@ Loesung beendet.
       1...VAg1*c5 !
 
 
-              empile:       27814
-           play_move:       15346
-        orig_rbechec:        8288
-        orig_rnechec:       18117
+                        empile:       27814
+                     play_move:       15346
+ is_white_king_square_attacked:        8288
+ is_black_king_square_attacked:       18117
 Loesung beendet. 
 
 
@@ -230,10 +230,10 @@ Beispiel fuer Mehrfachbeobachung durch den selben Stein
    1.e7-e8=D # !
 
 
-              empile:          23
-           play_move:          27
-        orig_rbechec:           5
-        orig_rnechec:          50
+                        empile:          23
+                     play_move:          27
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          50
 Loesung beendet. 
 
 

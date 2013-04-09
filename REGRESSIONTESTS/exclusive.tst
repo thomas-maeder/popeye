@@ -27,10 +27,10 @@
    1.Qa1-e1 # !
 
 
-              empile:        3298
-           play_move:        2734
-        orig_rbechec:        1566
-        orig_rnechec:        1875
+                        empile:        3298
+                     play_move:        2734
+ is_white_king_square_attacked:        1566
+ is_black_king_square_attacked:        1875
 solution finished. 
 
 
@@ -63,10 +63,10 @@ solution finished.
   1...Qa1-d4 Can't decide whether this move is refuted
 
 
-              empile:        3052
-           play_move:        2356
-        orig_rbechec:        1537
-        orig_rnechec:        1371
+                        empile:        3052
+                     play_move:        2356
+ is_white_king_square_attacked:        1537
+ is_black_king_square_attacked:        1371
 solution finished. 
 
 
@@ -97,10 +97,10 @@ solution finished.
             ExclusiveChess
 
 
-              empile:        3136
-           play_move:        2609
-        orig_rbechec:        1228
-        orig_rnechec:        1993
+                        empile:        3136
+                     play_move:        2609
+ is_white_king_square_attacked:        1228
+ is_black_king_square_attacked:        1993
 solution finished. 
 
 
@@ -131,10 +131,10 @@ solution finished.
             ExclusiveChess
 
 
-              empile:        2060
-           play_move:        1576
-        orig_rbechec:         807
-        orig_rnechec:        1162
+                        empile:        2060
+                     play_move:        1576
+ is_white_king_square_attacked:         807
+ is_black_king_square_attacked:        1162
 solution finished. 
 
 
@@ -168,10 +168,10 @@ solution finished.
 
 
 
-              empile:        3104
-           play_move:        2362
-        orig_rbechec:        1609
-        orig_rnechec:        1303
+                        empile:        3104
+                     play_move:        2362
+ is_white_king_square_attacked:        1609
+ is_black_king_square_attacked:        1303
 solution finished. 
 
 

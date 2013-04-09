@@ -136,7 +136,7 @@ boolean is_piece_paralysed_on(square s)
     square const save_king_square = king_square[paralysed_side];
 
     king_square[paralysed_side] = s;
-    result = rechec[paralysed_side](&validate_paralyser);
+    result = is_king_square_attacked[paralysed_side](&validate_paralyser);
     king_square[paralysed_side] = save_king_square;
   }
 

@@ -67,7 +67,7 @@ boolean central_can_piece_move_from(square sq_departure)
     square const save_opponent_king_square = king_square[opponent];
 
     king_square[opponent] = sq_departure;
-    result = rechec[opponent](&central_test_supporter);
+    result = is_king_square_attacked[opponent](&central_test_supporter);
     king_square[opponent] = save_opponent_king_square;
   }
 

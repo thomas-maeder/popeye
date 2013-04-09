@@ -31,10 +31,10 @@ a)
           2.Qd8-a5 #
 
 
-              empile:        1151
-           play_move:         955
-        orig_rbechec:         282
-        orig_rnechec:         957
+                        empile:        1151
+                     play_move:         955
+ is_white_king_square_attacked:         282
+ is_black_king_square_attacked:         957
 b) =2
 
    1.b6*a7[wPa7->b6] = !
@@ -44,10 +44,10 @@ b) =2
           2.Qe8-c6 =
 
 
-              empile:        3498
-           play_move:        1830
-        orig_rbechec:         836
-        orig_rnechec:        1681
+                        empile:        3498
+                     play_move:        1830
+ is_white_king_square_attacked:         836
+ is_black_king_square_attacked:        1681
 solution finished. 
 
 
@@ -80,10 +80,10 @@ solution finished.
 
   1.a7*b6[bPb6->e1=Q]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 # 
 
-              empile:       17082
-           play_move:       14459
-        orig_rbechec:       13666
-        orig_rnechec:        6750
+                        empile:       17082
+                     play_move:       14459
+ is_white_king_square_attacked:       13666
+ is_black_king_square_attacked:        6750
 solution finished. 
 
 
@@ -119,10 +119,10 @@ solution finished.
 
   1.a7*b6[bPb6->a3][+wPb2] b2*a3[wPa3->a6][+bPa7] = 
 
-              empile:        3456
-           play_move:        2824
-        orig_rbechec:        1162
-        orig_rnechec:        2614
+                        empile:        3456
+                     play_move:        2824
+ is_white_king_square_attacked:        1162
+ is_black_king_square_attacked:        2614
 solution finished. 
 
 
@@ -157,10 +157,10 @@ solution finished.
 
   1.Kb4*a5[bKa5->e8]   2.0-0-0 
 
-              empile:          84
-           play_move:         223
-        orig_rbechec:         220
-        orig_rnechec:         228
+                        empile:          84
+                     play_move:         223
+ is_white_king_square_attacked:         220
+ is_black_king_square_attacked:         228
 solution finished. 
 
 
@@ -368,10 +368,10 @@ a)
    1.c6*b7[wPb7->h8=B] x !
 
 
-              empile:           2
-           play_move:          88
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           2
+                     play_move:          88
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 b) shift a1 ==> a2
 
    1.c7*b8=Q[wQb8->a1] x !
@@ -887,10 +887,10 @@ b) shift a1 ==> a2
    1.c7*b8=B[wBb8->h8] x !
 
 
-              empile:           2
-           play_move:         256
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           2
+                     play_move:         256
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -926,19 +926,19 @@ a)
    1.Kd6*c6[wKc6->c7] = !
 
 
-              empile:         195
-           play_move:         138
-        orig_rbechec:          67
-        orig_rnechec:         134
+                        empile:         195
+                     play_move:         138
+ is_white_king_square_attacked:          67
+ is_black_king_square_attacked:         134
 b) AntiSuperCirce  Cheylan
 
    1.Kd6*c6[wKc6->c7] = !
 
 
-              empile:         192
-           play_move:         134
-        orig_rbechec:          66
-        orig_rnechec:         130
+                        empile:         192
+                     play_move:         134
+ is_white_king_square_attacked:          66
+ is_black_king_square_attacked:         130
 solution finished. 
 
 

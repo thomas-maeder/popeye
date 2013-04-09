@@ -73,10 +73,10 @@
           2.Dh7*g6 #
 
 
-              empile:       14192
-           play_move:       12195
-        orig_rbechec:         771
-        orig_rnechec:       12198
+                        empile:       14192
+                     play_move:       12195
+ is_white_king_square_attacked:         771
+ is_black_king_square_attacked:       12198
 Loesung beendet. 
 
 
@@ -155,10 +155,10 @@ Loesung beendet.
       1...d5-d4=w !
 
 
-              empile:        3259
-           play_move:        2673
-        orig_rbechec:         329
-        orig_rnechec:        2550
+                        empile:        3259
+                     play_move:        2673
+ is_white_king_square_attacked:         329
+ is_black_king_square_attacked:        2550
 Loesung beendet. 
 
 
@@ -200,10 +200,10 @@ Loesung beendet.
           2.Le7-f6 #
 
 
-              empile:       10042
-           play_move:        7714
-        orig_rbechec:         415
-        orig_rnechec:        7717
+                        empile:       10042
+                     play_move:        7714
+ is_white_king_square_attacked:         415
+ is_black_king_square_attacked:        7717
 Loesung beendet. 
 
 
@@ -236,10 +236,10 @@ Loesung beendet.
   1.d2-d1=D=w Dd1-d6   2.e2-e1=D=w De1-b4 # 
   1.e2-e1=D=w De1-e3   2.d2-d1=D=w Dd1-b3 # 
 
-              empile:       28919
-           play_move:        9634
-        orig_rbechec:           0
-        orig_rnechec:        9556
+                        empile:       28919
+                     play_move:        9634
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        9556
 Loesung beendet. 
 
 
@@ -273,10 +273,10 @@ Loesung beendet.
   1.a2-a1=S=w   2.b2*a1=D[+wSb8]   3.Da1-a2=w Da2-g8 = 
   1.b2-b1=L=w   2.a2*b1=T[+wLc8]   3.Tb1-b8=w Lc8-e6 = 
 
-              empile:       82040
-           play_move:       28373
-        orig_rbechec:       12494
-        orig_rnechec:       26749
+                        empile:       82040
+                     play_move:       28373
+ is_white_king_square_attacked:       12494
+ is_black_king_square_attacked:       26749
 Loesung beendet. 
 
 
@@ -328,10 +328,10 @@ Loesung beendet.
               2...Lb8*c7[+wBc2=s] #
 
 
-              empile:        9488
-           play_move:        5663
-        orig_rbechec:        5666
-        orig_rnechec:        1924
+                        empile:        9488
+                     play_move:        5663
+ is_white_king_square_attacked:        5666
+ is_black_king_square_attacked:        1924
 Loesung beendet. 
 
 

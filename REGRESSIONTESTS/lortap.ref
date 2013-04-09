@@ -37,10 +37,10 @@
           2.Se5-f3 #
 
 
-              empile:        1991
-           play_move:        1279
-        orig_rbechec:         446
-        orig_rnechec:        2332
+                        empile:        1991
+                     play_move:        1279
+ is_white_king_square_attacked:         446
+ is_black_king_square_attacked:        2332
 solution finished. 
 
 
@@ -70,10 +70,10 @@ solution finished.
 
   1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 # 
 
-              empile:      457976
-           play_move:      425881
-        orig_rbechec:       79049
-        orig_rnechec:      444071
+                        empile:      457976
+                     play_move:      425881
+ is_white_king_square_attacked:       79049
+ is_black_king_square_attacked:      444071
 solution finished. 
 
 
@@ -105,18 +105,18 @@ a)
 
   1...Kc8-c7   2.Be8-f7 Bf8-g7   3.Ke6-e7 Kc7*d7 # 
 
-              empile:       68848
-           play_move:       61444
-        orig_rbechec:        8308
-        orig_rnechec:       82586
+                        empile:       68848
+                     play_move:       61444
+ is_white_king_square_attacked:        8308
+ is_black_king_square_attacked:       82586
 b) Patrouille
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 # 
 
-              empile:      135127
-           play_move:      102269
-        orig_rbechec:        9804
-        orig_rnechec:      152865
+                        empile:      135127
+                     play_move:      102269
+ is_white_king_square_attacked:        9804
+ is_black_king_square_attacked:      152865
 solution finished. 
 
 
@@ -147,10 +147,10 @@ solution finished.
   1.Ka4-a5 Se3-d5   2.Sb4-c6 Rf4-a4 # 
   1.Rc5-c3 Rf4-f6   2.Rc3-b3 Rf6-a6 # 
 
-              empile:      130726
-           play_move:      111114
-        orig_rbechec:       10313
-        orig_rnechec:      131576
+                        empile:      130726
+                     play_move:      111114
+ is_white_king_square_attacked:       10313
+ is_black_king_square_attacked:      131576
 solution finished. 
 
 
@@ -181,18 +181,18 @@ a)
 
   1.Bd4-c3 Rf8-f5   2.Re4-c4 Rf5-d5 # 
 
-              empile:       70285
-           play_move:       32538
-        orig_rbechec:        8453
-        orig_rnechec:       32182
+                        empile:       70285
+                     play_move:       32538
+ is_white_king_square_attacked:        8453
+ is_black_king_square_attacked:       32182
 b) Lortap
 
   1.Bd4-c3 Bh7-f5   2.Re4-c4 Rf8-d8 # 
 
-              empile:      242673
-           play_move:      160054
-        orig_rbechec:       26344
-        orig_rnechec:      243349
+                        empile:      242673
+                     play_move:      160054
+ is_white_king_square_attacked:       26344
+ is_black_king_square_attacked:      243349
 solution finished. 
 
 
@@ -223,26 +223,26 @@ a)
 
   1.Re6-f6 Sd6-f7   2.Kd5-e6 Bb5-c4 # 
 
-              empile:       33085
-           play_move:       13379
-        orig_rbechec:        4326
-        orig_rnechec:       13084
+                        empile:       33085
+                     play_move:       13379
+ is_white_king_square_attacked:        4326
+ is_black_king_square_attacked:       13084
 b) Lortap
 
   1.Kd5-e5 Sd6-c4   2.Ke5-d6 Bb5*c6 # 
 
-              empile:       64577
-           play_move:       45074
-        orig_rbechec:        8079
-        orig_rnechec:       56253
+                        empile:       64577
+                     play_move:       45074
+ is_white_king_square_attacked:        8079
+ is_black_king_square_attacked:       56253
 c) Patrouille
 
   1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 # 
 
-              empile:       73338
-           play_move:       55339
-        orig_rbechec:        6408
-        orig_rnechec:       72275
+                        empile:       73338
+                     play_move:       55339
+ is_white_king_square_attacked:        6408
+ is_black_king_square_attacked:       72275
 solution finished. 
 
 
@@ -274,10 +274,10 @@ solution finished.
 
   1.Kd4-c4 Rd3-e3   2.Kc4-b3 Qg6-b1 # 
 
-              empile:      157738
-           play_move:       92517
-        orig_rbechec:       25292
-        orig_rnechec:      184356
+                        empile:      157738
+                     play_move:       92517
+ is_white_king_square_attacked:       25292
+ is_black_king_square_attacked:      184356
 solution finished. 
 
 
@@ -320,10 +320,10 @@ solution finished.
                               4...Bf5-b1 #
 
 
-              empile:      290907
-           play_move:      116574
-        orig_rbechec:       33442
-        orig_rnechec:      141184
+                        empile:      290907
+                     play_move:      116574
+ is_white_king_square_attacked:       33442
+ is_black_king_square_attacked:      141184
 solution finished. 
 
 
@@ -354,10 +354,10 @@ solution finished.
 
   1.Ba8-f3 Kd3-d2 # 
 
-              empile:         314
-           play_move:         282
-        orig_rbechec:          65
-        orig_rnechec:         337
+                        empile:         314
+                     play_move:         282
+ is_white_king_square_attacked:          65
+ is_black_king_square_attacked:         337
 solution finished. 
 
 
@@ -399,10 +399,10 @@ solution finished.
           2.Qg4-g1 #
 
 
-              empile:        3655
-           play_move:        2847
-        orig_rbechec:         658
-        orig_rnechec:        4153
+                        empile:        3655
+                     play_move:        2847
+ is_white_king_square_attacked:         658
+ is_black_king_square_attacked:        4153
 solution finished. 
 
 
@@ -432,10 +432,10 @@ solution finished.
 
   1.e2-e4 d7-d5   2.Bf1-a6 Bc8-d7   3.Sg1-e2 d5*e4 dia 
 
-              empile:         440
-           play_move:         432
-        orig_rbechec:          31
-        orig_rnechec:          24
+                        empile:         440
+                     play_move:         432
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:          24
 solution finished. 
 
 
@@ -467,10 +467,10 @@ solution finished.
   1.f2-f1=Q Kd3-e2 # 
   1.f2-f1=R Kd3-e2 # 
 
-              empile:          90
-           play_move:          88
-        orig_rbechec:          89
-        orig_rnechec:         148
+                        empile:          90
+                     play_move:          88
+ is_white_king_square_attacked:          89
+ is_black_king_square_attacked:         148
 solution finished. 
 
 

@@ -24,10 +24,10 @@
    1.CPb6-a6 = !
 
 
-              empile:          27
-           play_move:          21
-        orig_rbechec:           8
-        orig_rnechec:          20
+                        empile:          27
+                     play_move:          21
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          20
 solution finished. 
 
 
@@ -56,10 +56,10 @@ solution finished.
 
   1.CPb6-b7   2.CPb7-b8 # 
 
-              empile:          76
-           play_move:          74
-        orig_rbechec:          20
-        orig_rnechec:          74
+                        empile:          76
+                     play_move:          74
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:          74
 solution finished. 
 
 
@@ -91,10 +91,10 @@ solution finished.
           2.CPb6*a6 =
 
 
-              empile:         274
-           play_move:         193
-        orig_rbechec:          82
-        orig_rnechec:         183
+                        empile:         274
+                     play_move:         193
+ is_white_king_square_attacked:          82
+ is_black_king_square_attacked:         183
 solution finished. 
 
 

@@ -40,10 +40,10 @@ a)
           2.Sf2-e4 #
 
 
-              empile:        2305
-           play_move:        1097
-        orig_rbechec:         183
-        orig_rnechec:        1656
+                        empile:        2305
+                     play_move:        1097
+ is_white_king_square_attacked:         183
+ is_black_king_square_attacked:        1656
 b) WeisseOszillierendeKoenige    TypB
 
    1.Sf2-d1[Kf5<->Kc5] ! Zugzwang.
@@ -51,18 +51,18 @@ b) WeisseOszillierendeKoenige    TypB
           2.Sd1-e3[Kd5<->Kf5] #
 
 
-              empile:        2287
-           play_move:        1182
-        orig_rbechec:        1083
-        orig_rnechec:        1185
+                        empile:        2287
+                     play_move:        1182
+ is_white_king_square_attacked:        1083
+ is_black_king_square_attacked:        1185
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
 
 
-              empile:        2566
-           play_move:         948
-        orig_rbechec:        1000
-        orig_rnechec:         949
+                        empile:        2566
+                     play_move:         948
+ is_white_king_square_attacked:        1000
+ is_black_king_square_attacked:         949
 Loesung beendet. 
 
 
@@ -98,10 +98,10 @@ Loesung beendet.
               2...Lf3*d5[Kh8<->Ka8] #
 
 
-              empile:        4429
-           play_move:        1792
-        orig_rbechec:        1793
-        orig_rnechec:        3159
+                        empile:        4429
+                     play_move:        1792
+ is_white_king_square_attacked:        1793
+ is_black_king_square_attacked:        3159
 Loesung beendet. 
 
 
@@ -144,10 +144,10 @@ Loesung beendet.
           2.Dc1-c6 #
 
 
-              empile:        2014
-           play_move:        1286
-        orig_rbechec:         182
-        orig_rnechec:        1289
+                        empile:        2014
+                     play_move:        1286
+ is_white_king_square_attacked:         182
+ is_black_king_square_attacked:        1289
 Loesung beendet. 
 
 

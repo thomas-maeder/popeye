@@ -46,10 +46,10 @@
 
   1.Kc8-d8   2.Kd8-e7   3.Ke7-f8   4.Kf8-g7   5.Kg7-h6   6.Kh6-g5   7.Kg5-h4   8.Kh4-g3   9.Kg3-f2  10.Kf2-e1  11.Ke1-d1  12.Kd1-c2  13.Kc2-b3  14.Kb3-a4  15.Ka4-b5  16.Kb5-a6  17.Ka6*a7 = 
 
-              empile:        3246
-           play_move:        1491
-        orig_rbechec:        1359
-        orig_rnechec:        1507
+                        empile:        3246
+                     play_move:        1491
+ is_white_king_square_attacked:        1359
+ is_black_king_square_attacked:        1507
 solution finished. 
 
 
@@ -81,10 +81,10 @@ solution finished.
 
   1.Kc8-d7   2.Kd7-c6   3.Kc6-d5   4.Kd5-c4   5.Kc4-d3   6.Kd3-c2   7.Kc2-b1   8.Kb1-a2   9.Ka2-b3  10.Kb3-a4  11.Ka4-b5  12.Kb5-a6  13.Ka6*a7  14.b6-b7 # 
 
-              empile:        4773
-           play_move:        2648
-        orig_rbechec:        2602
-        orig_rnechec:        2623
+                        empile:        4773
+                     play_move:        2648
+ is_white_king_square_attacked:        2602
+ is_black_king_square_attacked:        2623
 solution finished. 
 
 
@@ -117,10 +117,10 @@ solution finished.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=Q   6.Qa1-a4   7.Qa4-c6 # 
 
-              empile:         879
-           play_move:         579
-        orig_rbechec:         484
-        orig_rnechec:         443
+                        empile:         879
+                     play_move:         579
+ is_white_king_square_attacked:         484
+ is_black_king_square_attacked:         443
 solution finished. 
 
 

@@ -26,10 +26,10 @@
   1.sGe7-c5[d6=s] sGg1-b6[c5=w] +   2.Ke6-f5 sGc5-e7[d6=w] # 
   1.sGe7-g7[f7=s] sGg1-g8[g7=w] +   2.Ke6-e5 sGg7-e7[f7=w] # 
 
-              empile:       25527
-           play_move:       16934
-        orig_rbechec:        1636
-        orig_rnechec:       16851
+                        empile:       25527
+                     play_move:       16934
+ is_white_king_square_attacked:        1636
+ is_black_king_square_attacked:       16851
 Loesung beendet. 
 
 

@@ -26,10 +26,10 @@ Thomas Maeder, Popeye test problem for promotion into white king
    1.b7-b8=K z !
 
 
-              empile:           3
-           play_move:           6
-        orig_rbechec:           5
-        orig_rnechec:           0
+                        empile:           3
+                     play_move:           6
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -60,10 +60,10 @@ Thomas Maeder, Popeye test problem for promotion into black king
 
   1.b2-b1=K Lh8*a1 z 
 
-              empile:          22
-           play_move:           8
-        orig_rbechec:           0
-        orig_rnechec:           7
+                        empile:          22
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           7
 Loesung beendet. 
 
 
@@ -94,10 +94,10 @@ Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
 
   1.BBa2-b1=K Ta8*a1 + z 
 
-              empile:          43
-           play_move:           8
-        orig_rbechec:           0
-        orig_rnechec:           7
+                        empile:          43
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           7
 Loesung beendet. 
 
 
@@ -128,10 +128,10 @@ Thomas Maeder, Popeye test problem for correct initialization of castling possib
 
   1.Sh2*f1 0-0-0 
 
-              empile:          19
-           play_move:           4
-        orig_rbechec:           4
-        orig_rnechec:           0
+                        empile:          19
+                     play_move:           4
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -202,10 +202,10 @@ Janez Nastran, 203 Sahovska misel 6/2005
  34  (Ld7-e8 )
  35  (Ld7-c8 )
 
-              empile:      517186
-           play_move:      354452
-        orig_rbechec:       54381
-        orig_rnechec:      336271
+                        empile:      517186
+                     play_move:      354452
+ is_white_king_square_attacked:       54381
+ is_black_king_square_attacked:      336271
 Loesung beendet. 
 
 
@@ -278,10 +278,10 @@ Janez Nastran, 204 Sahovska misel 6/2005
  27  (Kf4-g3 )
  28  (Kf4-e3 )
 
-              empile:      245488
-           play_move:      178536
-        orig_rbechec:        7958
-        orig_rnechec:      135696
+                        empile:      245488
+                     play_move:      178536
+ is_white_king_square_attacked:        7958
+ is_black_king_square_attacked:      135696
 Loesung beendet. 
 
 
@@ -318,10 +318,10 @@ Janez Nastran, 205 Sahovska misel 6/2005
   5  (Kg8-h7 )
   6  (Kg8-f7 )
 
-              empile:    11202630
-           play_move:     9840404
-        orig_rbechec:     1511851
-        orig_rnechec:     8609010
+                        empile:    11202630
+                     play_move:     9840404
+ is_white_king_square_attacked:     1511851
+ is_black_king_square_attacked:     8609010
 Loesung beendet. 
 
 
@@ -396,10 +396,10 @@ Marko Klasinc, 206 Sahovska misel 6/2005
  42  (Th8-f8 )
  43  (Th8-g8 )
 
-              empile:      980902
-           play_move:      915851
-        orig_rbechec:       17702
-        orig_rnechec:       98225
+                        empile:      980902
+                     play_move:      915851
+ is_white_king_square_attacked:       17702
+ is_black_king_square_attacked:       98225
 Loesung beendet. 
 
 

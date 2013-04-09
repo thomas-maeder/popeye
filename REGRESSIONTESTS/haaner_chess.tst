@@ -26,10 +26,10 @@
    1.0-0-0 !
 
 
-              empile:          16
-           play_move:           1
-        orig_rbechec:           3
-        orig_rnechec:           0
+                        empile:          16
+                     play_move:           1
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -59,10 +59,10 @@ no castling with king landing in hole
              HaanerChess
 
 
-              empile:          13
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:          13
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -92,10 +92,10 @@ no castling with rook landing in hole
              HaanerChess
 
 
-              empile:          13
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:          13
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -125,10 +125,10 @@ no castling with rook moving over hole
              HaanerChess
 
 
-              empile:          12
-           play_move:           0
-        orig_rbechec:           1
-        orig_rnechec:           0
+                        empile:          12
+                     play_move:           0
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -158,10 +158,10 @@ no castling with king moving over new hole
              HaanerChess
 
 
-              empile:          44
-           play_move:           3
-        orig_rbechec:           4
-        orig_rnechec:           0
+                        empile:          44
+                     play_move:           3
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -191,10 +191,10 @@ no castling with rook moving over new hole
              HaanerChess
 
 
-              empile:          34
-           play_move:           3
-        orig_rbechec:           4
-        orig_rnechec:           0
+                        empile:          34
+                     play_move:           3
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -224,10 +224,10 @@ solution finished.
              HaanerChess
 
 
-              empile:          11
-           play_move:          10
-        orig_rbechec:           0
-        orig_rnechec:          12
+                        empile:          11
+                     play_move:          10
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          12
 solution finished. 
 
 

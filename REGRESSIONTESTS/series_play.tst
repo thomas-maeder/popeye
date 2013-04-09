@@ -23,10 +23,10 @@ White at the move, but Black in check
   ser-s#3                     2 + 1
 
 the side to play can capture the king
-              empile:           0
-           play_move:           0
-        orig_rbechec:           0
-        orig_rnechec:           1
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
 solution finished. 
 
 
@@ -55,10 +55,10 @@ no ser-##2 solution because of stalemate after 1.Kh2-h3
   ser-##2                     4 + 4
 
 
-              empile:          29
-           play_move:          19
-        orig_rbechec:          19
-        orig_rnechec:           4
+                        empile:          29
+                     play_move:          19
+ is_white_king_square_attacked:          19
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -88,10 +88,10 @@ solution finished.
 
   1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##! 
 
-              empile:        2250
-           play_move:        1760
-        orig_rbechec:        1206
-        orig_rnechec:        1023
+                        empile:        2250
+                     play_move:        1760
+ is_white_king_square_attacked:        1206
+ is_black_king_square_attacked:        1023
 solution finished. 
 
 
@@ -121,10 +121,10 @@ solution finished.
 
   1.Sb5-d4   2.Sd4*e2   3.0-0 
 
-              empile:         862
-           play_move:         407
-        orig_rbechec:         467
-        orig_rnechec:         368
+                        empile:         862
+                     play_move:         407
+ is_white_king_square_attacked:         467
+ is_black_king_square_attacked:         368
 solution finished. 
 
 
@@ -154,10 +154,10 @@ solution finished.
 
   1.Qb5-e2   2.Qe2-b2 + c3*b2 # 
 
-              empile:        1198
-           play_move:         847
-        orig_rbechec:         688
-        orig_rnechec:         293
+                        empile:        1198
+                     play_move:         847
+ is_white_king_square_attacked:         688
+ is_black_king_square_attacked:         293
 solution finished. 
 
 
@@ -187,10 +187,10 @@ both sides need a kingboth sides need a king
 SetPlay not applicable - ignored
 
 
-              empile:           0
-           play_move:           0
-        orig_rbechec:           0
-        orig_rnechec:           0
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -220,10 +220,10 @@ no solution in 2 - Black has to deliver mate immediately
 
   1.h3-h4 b3-b2 # 
 
-              empile:          18
-           play_move:          18
-        orig_rbechec:          18
-        orig_rnechec:           4
+                        empile:          18
+                     play_move:          18
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -253,10 +253,10 @@ stop solving when the goal is reached
 
   1.h3-h4 Ka8*a7 x 
 
-              empile:          11
-           play_move:          11
-        orig_rbechec:           0
-        orig_rnechec:          11
+                        empile:          11
+                     play_move:          11
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          11
 solution finished. 
 
 

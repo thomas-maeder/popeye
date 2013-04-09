@@ -27,10 +27,10 @@
 
   1.h2-h1=BO Kg4*h3   2.BOh1-h7 Kh3-g4 = 
 
-              empile:       45628
-           play_move:       18878
-        orig_rbechec:        9265
-        orig_rnechec:       16854
+                        empile:       45628
+                     play_move:       18878
+ is_white_king_square_attacked:        9265
+ is_black_king_square_attacked:       16854
 Loesung beendet. 
 
 

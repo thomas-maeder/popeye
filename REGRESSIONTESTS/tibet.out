@@ -29,10 +29,10 @@
   1.d2-d1=D d7-d8=T   2.Dd1-c2 Td8-d1 # 
   1.d2-d1=S d7-d8=L   2.Sd1-b2 Ld8-g5 # 
 
-              empile:       10057
-           play_move:        4093
-        orig_rbechec:           0
-        orig_rnechec:        4063
+                        empile:       10057
+                     play_move:        4093
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        4063
 Loesung beendet. 
 
 
@@ -66,18 +66,18 @@ a)
 
   1.a3-a2 c7-c8=L   2.a2-a1=D Lc8-a6   3.Da1*a6=w Da6-g6 = 
 
-              empile:      319263
-           play_move:      128527
-        orig_rbechec:       61872
-        orig_rnechec:      121158
+                        empile:      319263
+                     play_move:      128527
+ is_white_king_square_attacked:       61872
+ is_black_king_square_attacked:      121158
 b) wKd7-->f6
 
   1.a3-a2 c7-c8=S   2.a2-a1=T Sc8-a7   3.Ta1*a7=w Ta7-g7 = 
 
-              empile:      208047
-           play_move:       96740
-        orig_rbechec:       47673
-        orig_rnechec:       87212
+                        empile:      208047
+                     play_move:       96740
+ is_white_king_square_attacked:       47673
+ is_black_king_square_attacked:       87212
 Loesung beendet. 
 
 
@@ -111,18 +111,18 @@ a)
 
   1...f7-f8=T   2.b2-b1=D Tf8-f5   3.Db1*f5=w Df5-f7 = 
 
-              empile:      322631
-           play_move:      132741
-        orig_rbechec:       62679
-        orig_rnechec:      121304
+                        empile:      322631
+                     play_move:      132741
+ is_white_king_square_attacked:       62679
+ is_black_king_square_attacked:      121304
 b) wKf4-->f6
 
   1...f7-f8=S   2.b2-b1=L Sf8-h7   3.Lb1*h7=w Lh7-g6 = 
 
-              empile:      206313
-           play_move:       88831
-        orig_rbechec:       42045
-        orig_rnechec:       80239
+                        empile:      206313
+                     play_move:       88831
+ is_white_king_square_attacked:       42045
+ is_black_king_square_attacked:       80239
 Loesung beendet. 
 
 
@@ -155,10 +155,10 @@ Loesung beendet.
   1...c7-c8=S   2.g2-g1=L Sc8-b6   3.Lg1*b6=w Kd5-c6 = 
   1...c7-c8=T   2.g2-g1=D Tc8-c5   3.Dg1*c5=w Kd5-c6 = 
 
-              empile:      407920
-           play_move:      172489
-        orig_rbechec:       77275
-        orig_rnechec:      159564
+                        empile:      407920
+                     play_move:      172489
+ is_white_king_square_attacked:       77275
+ is_black_king_square_attacked:      159564
 Loesung beendet. 
 
 
@@ -194,18 +194,18 @@ a)
 
   1.La6*d3=w c2-c3   2.Ta3*c3=w Ld3-f1 # 
 
-              empile:        9246
-           play_move:        7063
-        orig_rbechec:         820
-        orig_rnechec:        6807
+                        empile:        9246
+                     play_move:        7063
+ is_white_king_square_attacked:         820
+ is_black_king_square_attacked:        6807
 b) sKf3-->f1
 
   1.Ta3*d3=w c2-c4   2.La6*c4=w Td3-g3 # 
 
-              empile:        5011
-           play_move:        4951
-        orig_rbechec:         401
-        orig_rnechec:        4743
+                        empile:        5011
+                     play_move:        4951
+ is_white_king_square_attacked:         401
+ is_black_king_square_attacked:        4743
 Loesung beendet. 
 
 

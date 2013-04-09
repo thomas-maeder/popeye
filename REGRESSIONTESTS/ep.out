@@ -98,10 +98,10 @@
           2.c7*b8=L #
 
 
-              empile:       19114
-           play_move:       17107
-        orig_rbechec:         710
-        orig_rnechec:       16992
+                        empile:       19114
+                     play_move:       17107
+ is_white_king_square_attacked:         710
+ is_black_king_square_attacked:       16992
 Loesung beendet. 
 
 
@@ -183,10 +183,10 @@ Loesung beendet.
                                   5.De7*e4 #
 
 
-              empile:     3630543
-           play_move:     2714475
-        orig_rbechec:     1261721
-        orig_rnechec:     1625124
+                        empile:     3630543
+                     play_move:     2714475
+ is_white_king_square_attacked:     1261721
+ is_black_king_square_attacked:     1625124
 Loesung beendet. 
 
 
@@ -219,10 +219,10 @@ Loesung beendet.
           2.Th8*h7 #
 
 
-              empile:         139
-           play_move:          81
-        orig_rbechec:          28
-        orig_rnechec:          84
+                        empile:         139
+                     play_move:          81
+ is_white_king_square_attacked:          28
+ is_black_king_square_attacked:          84
 Loesung beendet. 
 
 
@@ -254,10 +254,10 @@ Loesung beendet.
    1.h5*g6 ep. # !
 
 
-              empile:          43
-           play_move:          46
-        orig_rbechec:           1
-        orig_rnechec:          47
+                        empile:          43
+                     play_move:          46
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:          47
 Loesung beendet. 
 
 
@@ -290,10 +290,10 @@ Loesung beendet.
       1...Tb4*b6 #
 
 
-              empile:        1175
-           play_move:         438
-        orig_rbechec:         438
-        orig_rnechec:         361
+                        empile:        1175
+                     play_move:         438
+ is_white_king_square_attacked:         438
+ is_black_king_square_attacked:         361
 Loesung beendet. 
 
 
@@ -382,10 +382,10 @@ a)
       1...c7-c6 !
 
 
-              empile:        2112
-           play_move:        1926
-        orig_rbechec:         218
-        orig_rnechec:        1894
+                        empile:        2112
+                     play_move:        1926
+ is_white_king_square_attacked:         218
+ is_black_king_square_attacked:        1894
 b) sBc7-->e7
 
    1.Kg5*g6 ? Drohung:
@@ -551,10 +551,10 @@ b) sBc7-->e7
       1...e7*d6 !
 
 
-              empile:        2342
-           play_move:        2187
-        orig_rbechec:         298
-        orig_rnechec:        2109
+                        empile:        2342
+                     play_move:        2187
+ is_white_king_square_attacked:         298
+ is_black_king_square_attacked:        2109
 Loesung beendet. 
 
 
@@ -586,10 +586,10 @@ Loesung beendet.
 
   1.e4*d3 ep. Lf3*g4   2.f4-f3 Lg4-e6 # 
 
-              empile:       51931
-           play_move:       28682
-        orig_rbechec:        9570
-        orig_rnechec:       28041
+                        empile:       51931
+                     play_move:       28682
+ is_white_king_square_attacked:        9570
+ is_black_king_square_attacked:       28041
 Loesung beendet. 
 
 
@@ -622,10 +622,10 @@ Loesung beendet.
 
   1...e5*f6 ep.[+sBf7]   2.Lb4-e7 f6*e7[+sLf8]   3.Ta7-d7 e7*f8=D # 
 
-              empile:        2842
-           play_move:        2928
-        orig_rbechec:         391
-        orig_rnechec:        1591
+                        empile:        2842
+                     play_move:        2928
+ is_white_king_square_attacked:         391
+ is_black_king_square_attacked:        1591
 Loesung beendet. 
 
 
@@ -664,10 +664,10 @@ Loesung beendet.
   1.Sa7-c8 b4*c5   2.Ka4-a5 Ka2*a3   3.Ka5*a6 Ka3-b4 # 
   7  (Tb7-b6 )
 
-              empile:        8875
-           play_move:        6434
-        orig_rbechec:        1844
-        orig_rnechec:        5964
+                        empile:        8875
+                     play_move:        6434
+ is_white_king_square_attacked:        1844
+ is_black_king_square_attacked:        5964
 Loesung beendet. 
 
 
@@ -736,10 +736,10 @@ N.Y. State Chess Association, 16.8.1894
  29  (c2-c4 )
  30  (c2-c3 )
 
-              empile:      214535
-           play_move:      147506
-        orig_rbechec:      114182
-        orig_rnechec:       42425
+                        empile:      214535
+                     play_move:      147506
+ is_white_king_square_attacked:      114182
+ is_black_king_square_attacked:       42425
 Loesung beendet. 
 
 
@@ -833,10 +833,10 @@ Loesung beendet.
  47  (Td1-f1 )
  48  (Td1-e1 )
 
-              empile:    21461160
-           play_move:    11417804
-        orig_rbechec:    11247025
-        orig_rnechec:     3041255
+                        empile:    21461160
+                     play_move:    11417804
+ is_white_king_square_attacked:    11247025
+ is_black_king_square_attacked:     3041255
 Loesung beendet. 
 
 

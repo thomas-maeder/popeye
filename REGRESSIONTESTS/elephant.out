@@ -55,10 +55,10 @@
                                                                                      11...ETb6-h3 #
 
 
-              empile:       12288
-           play_move:        4875
-        orig_rbechec:        5152
-        orig_rnechec:        3914
+                        empile:       12288
+                     play_move:        4875
+ is_white_king_square_attacked:        5152
+ is_black_king_square_attacked:        3914
 Loesung beendet. 
 
 
@@ -132,10 +132,10 @@ Loesung beendet.
                                                                       9...ETa8-h1 #
 
 
-              empile:       31694
-           play_move:       13240
-        orig_rbechec:       13924
-        orig_rnechec:       11398
+                        empile:       31694
+                     play_move:       13240
+ is_white_king_square_attacked:       13924
+ is_black_king_square_attacked:       11398
 Loesung beendet. 
 
 
@@ -246,10 +246,10 @@ Loesung beendet.
                   3.ETd3-b2 #
 
 
-              empile:    25155057
-           play_move:    19117645
-        orig_rbechec:    15089817
-        orig_rnechec:     4658669
+                        empile:    25155057
+                     play_move:    19117645
+ is_white_king_square_attacked:    15089817
+ is_black_king_square_attacked:     4658669
 Loesung beendet. 
 
 
@@ -300,10 +300,10 @@ Loesung beendet.
                   3.ETf5-d6 #
 
 
-              empile:     1386969
-           play_move:      864939
-        orig_rbechec:      568951
-        orig_rnechec:      361855
+                        empile:     1386969
+                     play_move:      864939
+ is_white_king_square_attacked:      568951
+ is_black_king_square_attacked:      361855
 Loesung beendet. 
 
 
@@ -440,10 +440,10 @@ Loesung beendet.
                           4.ETd6-c5 #
 
 
-              empile:      933589
-           play_move:      633293
-        orig_rbechec:      442203
-        orig_rnechec:      231997
+                        empile:      933589
+                     play_move:      633293
+ is_white_king_square_attacked:      442203
+ is_black_king_square_attacked:      231997
 Loesung beendet. 
 
 
@@ -496,10 +496,10 @@ Loesung beendet.
                   3.Sg4-e5 #
 
 
-              empile:      277577
-           play_move:      162977
-        orig_rbechec:       70358
-        orig_rnechec:       97738
+                        empile:      277577
+                     play_move:      162977
+ is_white_king_square_attacked:       70358
+ is_black_king_square_attacked:       97738
 Loesung beendet. 
 
 

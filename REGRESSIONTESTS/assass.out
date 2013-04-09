@@ -26,10 +26,10 @@
 
   1.Ka2*b3[+wBb2] d7-d8=D   2.Kb3-c2 Dd8-d1 # 
 
-              empile:        2547
-           play_move:        2070
-        orig_rbechec:         371
-        orig_rnechec:        3802
+                        empile:        2547
+                     play_move:        2070
+ is_white_king_square_attacked:         371
+ is_black_king_square_attacked:        3802
 Loesung beendet. 
 
 
@@ -61,10 +61,10 @@ Loesung beendet.
 
   1.Kg4-f3   2.Kf3-e3   3.Ke3-d3   4.Kd3-c4   5.Kc4-c5   6.Kc5*c6[+wBc2]   7.Kc6-c5   8.Kc5-c4   9.Kc4-c3  10.Kc3*b2[+wTa1] Ke5-d4 = 
 
-              empile:       12606
-           play_move:        4790
-        orig_rbechec:        4574
-        orig_rnechec:        8385
+                        empile:       12606
+                     play_move:        4790
+ is_white_king_square_attacked:        4574
+ is_black_king_square_attacked:        8385
 Loesung beendet. 
 
 
@@ -97,10 +97,10 @@ Loesung beendet.
   1.Sg3-f1 e7-e8=L +   2.Kd7*e8[+wLf1] Lf1-h3 = 
   1.Sg3-h1 e7-e8=T   2.Kd7*e8[+wTh1] Th1-d1 = 
 
-              empile:      138777
-           play_move:       55276
-        orig_rbechec:       38614
-        orig_rnechec:       87014
+                        empile:      138777
+                     play_move:       55276
+ is_white_king_square_attacked:       38614
+ is_black_king_square_attacked:       87014
 Loesung beendet. 
 
 
@@ -132,10 +132,10 @@ Loesung beendet.
 
   1.a7-a5 Ke8-d7   2.Kb7-a7 Kd7-c6   3.Se6-c5 Kc6-b5 # 
 
-              empile:      243909
-           play_move:      240034
-        orig_rbechec:       29852
-        orig_rnechec:      567029
+                        empile:      243909
+                     play_move:      240034
+ is_white_king_square_attacked:       29852
+ is_black_king_square_attacked:      567029
 Loesung beendet. 
 
 
@@ -200,10 +200,10 @@ Loesung beendet.
           2.Sb4-a6 #
 
 
-              empile:       10229
-           play_move:        7032
-        orig_rbechec:         815
-        orig_rnechec:       10402
+                        empile:       10229
+                     play_move:        7032
+ is_white_king_square_attacked:         815
+ is_black_king_square_attacked:       10402
 Loesung beendet. 
 
 

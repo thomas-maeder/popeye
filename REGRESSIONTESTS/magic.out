@@ -29,10 +29,10 @@
   1.f2-f1=T   2.Tf1-f5   3.Tf5-d5=w Td5-d1 = 
   1.f2-f1=L   2.Lf1-c4   3.Lc4-d5=w Ld5-a2 = 
 
-              empile:       42804
-           play_move:       21969
-        orig_rbechec:        6955
-        orig_rnechec:       20266
+                        empile:       42804
+                     play_move:       21969
+ is_white_king_square_attacked:        6955
+ is_black_king_square_attacked:       20266
 Loesung beendet. 
 
 
@@ -65,10 +65,10 @@ Loesung beendet.
 
   1.Sf7-h8=w Sh8-f7   2.Kh5-h4 Sf7-h8=s   3.Sh8-g6 Kh7-h6   4.Sg6-h8=w Sh8-g6 # 
 
-              empile:       79821
-           play_move:       69052
-        orig_rbechec:       14921
-        orig_rnechec:       56044
+                        empile:       79821
+                     play_move:       69052
+ is_white_king_square_attacked:       14921
+ is_black_king_square_attacked:       56044
 Loesung beendet. 
 
 
@@ -110,10 +110,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-              empile:       40341
-           play_move:       16774
-        orig_rbechec:        8120
-        orig_rnechec:       11544
+                        empile:       40341
+                     play_move:       16774
+ is_white_king_square_attacked:        8120
+ is_black_king_square_attacked:       11544
 Loesung beendet. 
 
 
@@ -160,10 +160,10 @@ Loesung beendet.
                                               6...Df8-f1 =
 
 
-              empile:      204820
-           play_move:      123276
-        orig_rbechec:       75296
-        orig_rnechec:           0
+                        empile:      204820
+                     play_move:      123276
+ is_white_king_square_attacked:       75296
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -196,10 +196,10 @@ Loesung beendet.
 
   1.Sc2-b4 Kb2-c3   2.Sb4-a2=w Sa2-b4   3.Lb3-a2=w La2-b3 +   4.Ka4-a3 Sb4-c2 # 
 
-              empile:      775427
-           play_move:      611926
-        orig_rbechec:      142933
-        orig_rnechec:      502228
+                        empile:      775427
+                     play_move:      611926
+ is_white_king_square_attacked:      142933
+ is_black_king_square_attacked:      502228
 Loesung beendet. 
 
 
@@ -241,10 +241,10 @@ Lob, Albert H. Kniest Jubil"aumsturnier
                               4...Da1*g7 #
 
 
-              empile:      928253
-           play_move:      459097
-        orig_rbechec:      250531
-        orig_rnechec:      350884
+                        empile:      928253
+                     play_move:      459097
+ is_white_king_square_attacked:      250531
+ is_black_king_square_attacked:      350884
 Loesung beendet. 
 
 
@@ -772,10 +772,10 @@ Loesung beendet.
       1...Sh2-g4=w !
 
 
-              empile:      390348
-           play_move:      339169
-        orig_rbechec:      286096
-        orig_rnechec:       58386
+                        empile:      390348
+                     play_move:      339169
+ is_white_king_square_attacked:      286096
+ is_black_king_square_attacked:       58386
 Loesung beendet. 
 
 
@@ -820,10 +820,10 @@ Loesung beendet.
                                               6...Df8-f1 =
 
 
-              empile:      204820
-           play_move:      123276
-        orig_rbechec:       75296
-        orig_rnechec:           0
+                        empile:      204820
+                     play_move:      123276
+ is_white_king_square_attacked:       75296
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 
@@ -864,10 +864,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-              empile:       40341
-           play_move:       16774
-        orig_rbechec:        8120
-        orig_rnechec:       11544
+                        empile:       40341
+                     play_move:       16774
+ is_white_king_square_attacked:        8120
+ is_black_king_square_attacked:       11544
 Loesung beendet. 
 
 
@@ -1000,10 +1000,10 @@ Loesung beendet.
                   3.Tf4-f5 #
 
 
-              empile:      288399
-           play_move:      130044
-        orig_rbechec:       71212
-        orig_rnechec:       77307
+                        empile:      288399
+                     play_move:      130044
+ is_white_king_square_attacked:       71212
+ is_black_king_square_attacked:       77307
 Loesung beendet. 
 
 
@@ -1044,10 +1044,10 @@ Loesung beendet.
               2...Ta8-h8 #
 
 
-              empile:        9477
-           play_move:        5867
-        orig_rbechec:        4530
-        orig_rnechec:        2797
+                        empile:        9477
+                     play_move:        5867
+ is_white_king_square_attacked:        4530
+ is_black_king_square_attacked:        2797
 Loesung beendet. 
 
 
@@ -1082,10 +1082,10 @@ Loesung beendet.
 
   1.b7-b8=S=s g2-g1=L=w   2.Lg1-b6 Sb8-c6 # 
 
-              empile:       15423
-           play_move:       15795
-        orig_rbechec:        6485
-        orig_rnechec:       11997
+                        empile:       15423
+                     play_move:       15795
+ is_white_king_square_attacked:        6485
+ is_black_king_square_attacked:       11997
 Loesung beendet. 
 
 
