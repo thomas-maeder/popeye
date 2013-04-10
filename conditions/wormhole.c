@@ -116,6 +116,7 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
       /* wormhole is occupied */
       skip_wormhole();
     else if (pprise[nbply]==vide
+             && current_promotion_of_moving[nbply]==Empty
              && wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_departure)
       /* illegal null move */
       skip_wormhole();
