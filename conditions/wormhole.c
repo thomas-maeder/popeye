@@ -84,25 +84,44 @@ stip_length_type wormhole_transfered_promoter_solve(slice_index si, stip_length_
   return result;
 }
 
-static void advance_wormhole(square sq_arrival)
+static void skip_wormhole(void)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
   ++wormhole_next_transfer[nbply];
   TraceValue("%u",wormhole_next_transfer[nbply]);
-  TraceSquare(wormhole_positions[wormhole_next_transfer[nbply]]);
+  TraceSquare(wormhole_positions[wormhole_next_transfer[nbply]-1]);
   TraceText("\n");
 
-  while (wormhole_next_transfer[nbply]<=nr_wormholes
-         && (wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_arrival
-             || e[wormhole_positions[wormhole_next_transfer[nbply]-1]]!=vide))
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void advance_wormhole(square sq_departure, square sq_arrival)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
+
+  skip_wormhole();
+
+  while (wormhole_next_transfer[nbply]<=nr_wormholes)
   {
-    ++wormhole_next_transfer[nbply];
-    TraceValue("%u",wormhole_next_transfer[nbply]);
-    TraceSquare(wormhole_positions[wormhole_next_transfer[nbply]]);
-    TraceText("\n");
+    if (wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_arrival)
+      /* wormhole is arrival square - we transfer *from* here! */
+      skip_wormhole();
+    else if (e[wormhole_positions[wormhole_next_transfer[nbply]-1]]!=vide)
+      /* wormhole is occupied */
+      skip_wormhole();
+    else if (pprise[nbply]==vide
+             && wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_departure)
+      /* illegal null move */
+      skip_wormhole();
+    else
+      /* next wormhole found! */
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -125,6 +144,7 @@ static void advance_wormhole(square sq_arrival)
 stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
@@ -140,7 +160,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
     {
       wormhole_next_transfer[nbply] = 0;
-      advance_wormhole(sq_arrival);
+      advance_wormhole(sq_departure,sq_arrival);
       if (wormhole_next_transfer[nbply]==nr_wormholes+1)
         wormhole_next_transfer[nbply] = nr_wormholes+2;
     }
@@ -166,7 +186,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
 
     if (!post_move_iteration_locked[nbply])
     {
-      advance_wormhole(sq_arrival);
+      advance_wormhole(sq_departure,sq_arrival);
       if (wormhole_next_transfer[nbply]<=nr_wormholes)
         lock_post_move_iterations();
     }
