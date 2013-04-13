@@ -740,10 +740,10 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
-                        empile:      922305
-                     play_move:      619520
+                        empile:      922235
+                     play_move:      619456
  is_white_king_square_attacked:       85494
- is_black_king_square_attacked:      618611
+ is_black_king_square_attacked:      618547
 solution finished. 
 
 
@@ -1053,8 +1053,8 @@ solving interrupted.
   1.Sb8-a6 f2-f1=Q #
   1.Sb8-c6 f2-f1=Q #
 
-                        empile:          34
-                     play_move:          40
+                        empile:          33
+                     play_move:          39
  is_white_king_square_attacked:          34
  is_black_king_square_attacked:           0
 solving interrupted. 
@@ -1205,6 +1205,42 @@ Until 4.61, Patrouille and paralysing pieces didn't go well together
                      play_move:           2
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           4
+solution finished. 
+
+
+
+sttipulations with logically connected goals
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   B   .   .   .   7
+|                                   |
+6   .  -P   .   .   .   .   .   .   6
+|                                   |
+5   .   K   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[x&=]              3 + 2
+
+  1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 x
+  1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 =
+  1.Kb8-a7 Be7-d6   2.Ka7-a8 Kb5*b6 x
+  1.Kb8-a7 Be7-d6   2.Ka7-a8 Kb5*b6 =
+
+                        empile:        8233
+                     play_move:        3391
+ is_white_king_square_attacked:        1612
+ is_black_king_square_attacked:        3010
 solution finished. 
 
 

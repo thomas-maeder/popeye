@@ -163,6 +163,10 @@ stip_length_type constraint_solve(slice_index si, stip_length_type n)
       result = n+2;
       break;
 
+    case previous_move_is_illegal:
+      result = previous_move_is_illegal;
+      break;
+
     default:
       assert(0);
       result = n+2;

@@ -279,6 +279,12 @@ option nowk
 
 next
 
+title sttipulations with logically connected goals
+pieces white kb5 be7 pb4 black kb8 pb6
+sstipulation black 4hh[x&=]
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation
