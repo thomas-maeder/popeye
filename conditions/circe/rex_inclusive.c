@@ -1,5 +1,6 @@
 #include "conditions/circe/rex_inclusive.h"
 #include "pydata.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 /* Validate an observation according to Circe rex inclusive
