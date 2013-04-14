@@ -785,7 +785,7 @@ static void WriteConditions(int alignment)
       }
     }
 
-    if (cond==singlebox && CondFlag[singlebox])
+    if (cond==singlebox)
     {
       strcat(CondLine, "    ");
       if (SingleBoxType==singlebox_type1)
@@ -796,7 +796,7 @@ static void WriteConditions(int alignment)
         strcat(CondLine, VariantTypeString[UserLanguage][Type3]);
     }
 
-    if (CondFlag[republican])
+    if (cond == republican)
       republican_write_diagram_caption(CondLine,CondLineLength);
 
     if (cond == sentinelles) {
