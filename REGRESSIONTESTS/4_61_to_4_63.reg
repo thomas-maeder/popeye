@@ -1244,6 +1244,39 @@ sttipulations with logically connected goals
 solution finished. 
 
 
+both sides need a king
+   goal constraints in series play
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   S   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3s[1s[-1s[+]]{x}]     1 + 2
+
+  1.Kh1-g2   2.Kg2-f3   3.Kf3-e4 Sb4*a6 Sa6-c5 +
+
+                        empile:         316
+                     play_move:         316
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:         153
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

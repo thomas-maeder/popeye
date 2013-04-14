@@ -1,6 +1,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
+#include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/constraint.h"
 #include "stipulation/branch.h"
@@ -124,6 +125,7 @@ static slice_index const slice_rank_order[] =
   STLegalAttackCounter,
   STLegalDefenseCounter,
   STMaxSolutionsCounter,
+  STGoalConstraintTester,
   STOutputPlaintextLineLineWriter,
   STOhneschachDetectUndecidableGoal,
   STOutputPlaintextGoalWriter,
@@ -1063,6 +1065,32 @@ void series_branch_insert_constraint(slice_index si, slice_index constraint)
 
   {
     slice_index const prototype = alloc_constraint_tester_slice(constraint);
+    branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a series branch with STConstraintTester slices (as possible in
+ * elabore sstip stipulations)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void series_branch_insert_goal_constraint(slice_index si, slice_index constraint)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",constraint);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(constraint);
+
+  assert(slices[constraint].type==STProxy);
+
+  {
+    slice_index const prototype = alloc_goal_constraint_tester_slice(constraint);
     branch_insert_slices(si,&prototype,1);
   }
 

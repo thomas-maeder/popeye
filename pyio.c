@@ -3800,7 +3800,10 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
       if (tok!=0 && tok[0]=='}')
       {
         ++tok;
-        series_branch_insert_constraint(branch,proxy_operand);
+        if (nested_type==nested_branch_type_goal)
+          series_branch_insert_goal_constraint(branch,proxy_operand);
+        else
+          series_branch_insert_constraint(branch,proxy_operand);
       }
       else
         tok = 0;

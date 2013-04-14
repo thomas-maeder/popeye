@@ -142,4 +142,11 @@ void series_branch_make_setplay(slice_index adapter,
  */
 void series_branch_insert_constraint(slice_index si, slice_index constraint);
 
+/* Instrument a series branch with STConstraintTester slices (as possible in
+ * elabore sstip stipulations)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void series_branch_insert_goal_constraint(slice_index si, slice_index constraint);
+
 #endif
