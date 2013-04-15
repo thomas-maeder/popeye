@@ -1277,6 +1277,51 @@ both sides need a king
 solution finished. 
 
 
+
+movenumbers and nested series branches; until 4.61, Popeye produced
+      thousands of move numbers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -P  -K   .   3
+|                                   |
+2   .   .   .   K   .   .   .  -P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[1s[1s[#]]{+}]     2 + 3
+
+  1  (h2-h1=Q )
+  2  (h2-h1=S )
+  3  (h2-h1=R )
+  4  (h2-h1=B )
+  5  (f3-f2 )
+  6  (Kg3-h3 )
+  7  (Kg3-g4 )
+  8  (Kg3-g2 )
+  1.Kg3-g2 Kd2-e1   2.Kg2-h1 Rc8-c1   3.f3-f2 + Ke1*f2 #
+  9  (Kg3-f4 )
+ 10  (Kg3-h4 )
+ 11  (Kg3-f2 )
+
+                        empile:      235822
+                     play_move:      250668
+ is_white_king_square_attacked:      221287
+ is_black_king_square_attacked:      216607
+solution finished. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

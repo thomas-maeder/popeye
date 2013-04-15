@@ -291,6 +291,13 @@ pieces white sb4 black kh1 pa6
 
 next
 
+title movenumbers and nested series branches; until 4.61, Popeye produced
+title thousands of move numbers
+pieces white kd2 rc8 black kg3 pf3h2
+sstip black 4hh[1s[1s[#]]{+}]
+option movenumbers
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation

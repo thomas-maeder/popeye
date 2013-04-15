@@ -175,8 +175,11 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 
   if (*mode==insert_guard_mode_regular)
   {
-    slice_index const prototype = alloc_restart_guard();
-    branch_insert_slices(si,&prototype,1);
+    if (st->level!=structure_traversal_level_nested)
+    {
+      slice_index const prototype = alloc_restart_guard();
+      branch_insert_slices(si,&prototype,1);
+    }
   }
   else
   {
