@@ -60,6 +60,7 @@ void genleafhopper(square sq_departure, Side camp);
 void gengreatertreehopper(square sq_departure, Side camp);
 void gengreaterleafhopper(square sq_departure, Side camp);
 void generate_marine_knight(square sq_departure, Side camp);
+void generate_poseidon(square sq_departure, Side moving);
 
 void	genpb(square sq_departure);
 	/* generating function for white pawn */
