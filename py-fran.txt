@@ -825,6 +825,7 @@ suivante est un peu plus compliquee:
 	cd      cavalier spirale diagonale
 	ch      chameau
 	cl	cavalier radial
+	cm      cavalier marin
 	cn      chameau noctambule
 	cr      cavalier rebondissant
 	cs      cavalier spirale   

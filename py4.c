@@ -1668,97 +1668,100 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
   square const *bnp;
   PieNam const pabs = abs(p);
 
-  switch  (abs(p)) {
-  case maob:
+  switch (pabs)
+  {
+  case Mao:
     gmao(sq_departure, camp);
     return;
 
-  case paob:
+  case Pao:
     gchin(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
-  case leob:
+  case Leo:
     gchin(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case vaob:
+  case Vao:
     gchin(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
-  case naob:
+
+  case Nao:
     gchin(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
-  case roseb:
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
+  case Rose:
+    for (k= vec_knight_start; k<=vec_knight_end; k++)
+    {
       grose(sq_departure, k, 0,+1, camp);
       grose(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
-  case nequib:
+  case NonStopEquihopper:
     gnequi(sq_departure, camp);
     return;
 
-  case locb:
+  case Locust:
     glocust(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case nightlocustb:
+  case NightLocust:
     glocust(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
-  case bishoplocustb:
+  case BishopLocust:
     glocust(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
 
-  case rooklocustb:
+  case RookLocust:
     glocust(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
-  case kangoub:
+  case Kangaroo:
     gkang(sq_departure, camp);
     return;
 
-  case kanglionb:
+  case KangarooLion:
     gkanglion(sq_departure, camp);
     return;
 
-  case kaob:
+  case Kao:
     gchinleap(sq_departure, vec_knight_start, vec_knight_end, camp);
     return;
 
-  case knighthopperb:
+  case KnightHopper:
     geshop(sq_departure, vec_knight_start, vec_knight_end, camp);
     return;
 
-  case csb:
+  case SpiralSpringer:
     for (k= vec_knight_start; k<=vec_knight_end; k++)
       gcs(sq_departure, vec[k], vec[25 - k], camp);
     return;
 
-  case hamstb:
+  case Hamster:
     ghamst(sq_departure);
     return;
 
-  case ubib:
+  case UbiUbi:
     for (bnp= boardnum; *bnp; bnp++)
       e_ubi[*bnp]= e[*bnp];
     gubi(sq_departure, sq_departure, camp);
     return;
 
-  case mooseb:
+  case Elk:
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
     return;
 
-  case eagleb:
+  case Eagle:
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
     return;
 
-  case sparrb:
+  case Sparrow:
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
     return;
 
-  case margueriteb:
+  case Marguerite:
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
@@ -1766,7 +1769,7 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     ghamst(sq_departure);
     return;
 
-  case archb:
+  case Archbishop:
     if (NoEdge(sq_departure)) {
       for (k= vec_bishop_start; k <= vec_bishop_end; k++)
         grfou(sq_departure, sq_departure, vec[k], 1, camp, empile);
@@ -1777,146 +1780,148 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     }
     return;
 
-  case reffoub:
+  case ReflectBishop:
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
       grfou(sq_departure, sq_departure, vec[k], 4, camp, testempile);
     return;
 
-  case cardb:
+  case Cardinal:
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
       gcard(sq_departure, sq_departure, vec[k], 1, camp, empile);
     return;
 
-  case dcsb:
+  case DiagonalSpiralSpringer:
     for (k= 9; k <= 14; k++)
       gcs(sq_departure, vec[k], vec[23 - k], camp);
     for (k= 15; k <= 16; k++)
       gcs(sq_departure, vec[k], vec[27 - k], camp);
     return;
 
-  case refcb:
+  case BouncyKnight:
     grefc(sq_departure, sq_departure, 2, camp);
     return;
 
-  case refnb:
+  case BouncyNightrider:
     clearedgestraversed();
     grefn(sq_departure, sq_departure, camp);
     return;
 
-  case equib:
+  case EquiHopper:
     gequi(sq_departure, camp);
     return;
 
-  case catb:
+  case CAT:
     gcat(sq_departure, camp);
     return;
 
-  case sireneb:
+  case Sirene:
     gmarin(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case tritonb:
+  case Triton:
     gmarin(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
-  case nereidb:
+  case Nereide:
     gmarin(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
 
-  case orphanb:
+  case Orphan:
     gorph(sq_departure, camp);
     return;
 
-  case friendb:
+  case Friend:
     gfriend(sq_departure, camp);
     return;
 
-  case edgehb:
+  case EdgeHog:
     gedgeh(sq_departure, camp);
     return;
 
-  case moab:
+  case Moa:
     gmoa(sq_departure, camp);
     return;
 
-  case moaridb:
+  case MoaRider:
     gemoarider(sq_departure, camp);
     return;
 
-  case maoridb:
+  case MaoRider:
     gemaorider(sq_departure, camp);
     return;
 
-  case bscoutb:
+  case BoyScout:
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
       gcs(sq_departure, vec[k], vec[13 - k], camp);
     return;
 
-  case gscoutb:
+  case GirlScout:
     for (k= vec_rook_end; k >=vec_rook_start; k--)
       gcs(sq_departure, vec[k], vec[5 - k], camp);
     return;
 
-  case skyllab:
+  case Skylla:
     geskylla(sq_departure, camp);
     return;
 
-  case charybdisb:
+  case Charybdis:
     gecharybdis(sq_departure, camp);
     return;
 
-  case sb:
+  case Grasshopper:
     gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case lionb:
+  case Lion:
     gelrhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case nsautb:
+  case NightriderHopper:
     gerhop(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
-  case camhopb:
+  case CamelHopper:
     gerhop(sq_departure, vec_chameau_start,vec_chameau_end, camp);
     return;
 
-  case zebhopb:
+  case ZebraHopper:
     gerhop(sq_departure, vec_zebre_start,vec_zebre_end, camp);
     return;
 
-  case gnuhopb:
+  case GnuHopper:
     gerhop(sq_departure, vec_chameau_start,vec_chameau_end, camp);
     gerhop(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
-  case tlionb:
+  case RookLion:
     gelrhop(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
-  case flionb:
+  case BishopLion:
     gelrhop(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
 
-  case rookhopb:
+  case RookHopper:
     gerhop(sq_departure, vec_rook_start,vec_rook_end, camp);
     return;
 
-  case bishophopb:
+  case BishopHopper:
     gerhop(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     return;
-  case contragrasb:
+
+  case ContraGras:
     gecrhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case roselionb:
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
+  case RoseLion:
+    for (k= vec_knight_start; k<=vec_knight_end; k++)
+    {
       groselion(sq_departure, k, 0,+1, camp);
       groselion(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
-  case rosehopperb:
+  case RoseHopper:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       grosehopper(sq_departure, k, 0,+1, camp);
       grosehopper(sq_departure, k,
@@ -1924,7 +1929,7 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     }
     return;
 
-  case roselocustb:
+  case RoseLocust:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       groselocust(sq_departure, k, 0,+1, camp);
       groselocust(sq_departure, k,
@@ -1932,38 +1937,39 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     }
     return;
 
-  case g2b:
+  case GrassHopper2:
     gerhop2(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case g3b:
+  case GrassHopper3:
     gerhop3(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
-  case khb:
+
+  case KingHopper:
     geshop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case doublegb:
+  case DoubleGras:
     gdoublegrasshopper(sq_departure, camp);
     return;
 
-  case doublerookhopperb:
+  case DoubleRookHopper:
     gdoublerookhopper(sq_departure, camp);
     return;
 
-  case doublebishopperb:
+  case DoubleBishopper:
     gdoublebishopper(sq_departure, camp);
     return;
 
-  case orixb:
+  case Orix:
     gorix(sq_departure, camp);
     return;
 
-   case norixb:
+   case NonStopOrix:
     gnorix(sq_departure, camp);
     return;
 
-  case gralb:
+  case Gral:
     if (camp==White)
       gebleap(sq_departure, vec_alfil_start,vec_alfil_end);    /* alfilb */
     else
@@ -1971,38 +1977,38 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gerhop(sq_departure, vec_rook_start,vec_rook_end, camp);      /* rookhopper */
     return;
 
-  case rookmooseb:
+  case RookMoose:
     gmhop(sq_departure, vec_rook_start,vec_rook_end, 0, camp);
     return;
 
-  case rookeagleb:
+  case RookEagle:
     gmhop(sq_departure, vec_rook_start,vec_rook_end, 1, camp);
     return;
 
-  case rooksparrb:
+  case RookSparrow:
     gmhop(sq_departure, vec_rook_start,vec_rook_end, 2, camp);
     return;
 
-  case bishopmooseb:
+  case BishopMoose:
     gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 0, camp);
     return;
 
-  case bishopeagleb:
+  case BishopEagle:
     gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 1, camp);
     return;
 
-  case bishopsparrb:
+  case BishopSparrow:
     gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 2, camp);
     return;
 
-  case raob:
+  case Rao:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       grao(sq_departure, k, 0,+1, camp);
       grao(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
     return;
 
-  case scorpionb:
+  case Scorpion:
     if (camp==White)
       gebleap(sq_departure, vec_queen_start,vec_queen_end);        /* ekingb */
     else
@@ -2010,40 +2016,40 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);     /* grashopper */
     return;
 
-  case nrlionb:
+  case NightRiderLion:
     gelrhop(sq_departure, vec_knight_start,vec_knight_end, camp);
     return;
 
-  case mrlionb:
+  case MaoRiderLion:
     gemaoriderlion(sq_departure, camp);
     return;
 
-  case molionb:
+  case MoaRiderLion:
     gemoariderlion(sq_departure, camp);
     return;
 
-  case dolphinb:
+  case Dolphin:
     gkang(sq_departure, camp);
     gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     return;
 
-  case rabbitb:
+  case Rabbit:
     grabbit(sq_departure, camp);
     return;
 
-  case bobb:
+  case Bob:
     gbob(sq_departure, camp);
     return;
 
-  case equiengb:
+  case EquiEnglish:
     gequiapp(sq_departure, camp);
     return;
 
-  case equifrab:
+  case EquiFrench:
     gnequiapp(sq_departure, camp);
     return;
 
-  case querqub:
+  case Querquisite:
     switch (sq_departure%onerow - nr_of_slack_files_left_of_board) {
     case file_rook_queenside:
     case file_rook_kingside:
@@ -2077,39 +2083,39 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     }
     break;
 
-  case bouncerb :
+  case Bouncer :
     genbouncer(sq_departure, vec_queen_start,vec_queen_end, camp);
     break;
 
-  case rookbouncerb :
+  case RookBouncer:
     genbouncer(sq_departure, vec_rook_start,vec_rook_end, camp);
     break;
 
-  case bishopbouncerb :
+  case BishopBouncer :
     genbouncer(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     break;
 
-  case radialknightb :
+  case RadialKnight :
     genradialknight(sq_departure, camp);
     break;
 
-  case treehopperb :
+  case Treehopper :
     gentreehopper(sq_departure, camp);
     break;
 
-  case leafhopperb :
+  case Leafhopper :
     genleafhopper(sq_departure, camp);
     break;
 
-  case greatertreehopperb :
+  case GreaterTreehopper:
     gengreatertreehopper(sq_departure, camp);
     break;
 
-  case greaterleafhopperb :
+  case GreaterLeafhopper:
     gengreaterleafhopper(sq_departure, camp);
     break;
 
-  case cs40b:
+  case SpiralSpringer40:
     gcsp(sq_departure, 9, 16, camp);
     gcsp(sq_departure, 10, 11, camp);
     gcsp(sq_departure, 11, 10, camp);
@@ -2120,7 +2126,7 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 16, 9, camp);
     break;
 
-  case cs20b:
+  case SpiralSpringer20:
     gcsp(sq_departure, 9, 12, camp);
     gcsp(sq_departure, 10, 15, camp);
     gcsp(sq_departure, 11, 14, camp);
@@ -2131,7 +2137,7 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 16, 13, camp);
     break;
 
-  case cs33b:
+  case SpiralSpringer33:
     gcsp(sq_departure, 9, 10, camp);
     gcsp(sq_departure, 10, 9, camp);
     gcsp(sq_departure, 11, 12, camp);
@@ -2142,7 +2148,7 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 16, 15, camp);
     break;
 
-  case cs11b:
+  case SpiralSpringer11:
     gcsp(sq_departure, 9, 14, camp);
     gcsp(sq_departure, 10, 13, camp);
     gcsp(sq_departure, 11, 16, camp);
@@ -2153,7 +2159,7 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 16, 11, camp);
     break;
 
-  case cs31b:
+  case Quintessence:
     gcsp(sq_departure, 9, 11, camp);
     gcsp(sq_departure, 11, 9, camp);
     gcsp(sq_departure, 11, 13, camp);
@@ -2170,6 +2176,10 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 16, 14, camp);
     gcsp(sq_departure, 16, 10, camp);
     gcsp(sq_departure, 10, 16, camp);
+    break;
+
+  case MarineKnight:
+    generate_marine_knight(sq_departure,camp);
     break;
 
   default:
@@ -3372,10 +3382,11 @@ static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdl
   square  sq_arrival, sq_hurdle;
   numvec  k, k1;
 
-  for (k= kanf; k <= kend; k++) {
+  for (k= kanf; k<=kend; ++k)
+  {
     sq_hurdle= sq_departure + vec[k];
-    if (hurdletype == 0 && piece_belongs_to_opponent(e[sq_hurdle], camp) ||
-        hurdletype == 1 && abs(e[sq_hurdle]) >= roib)
+    if ((hurdletype==0 && piece_belongs_to_opponent(e[sq_hurdle],camp))
+        || (hurdletype==1 && abs(e[sq_hurdle])>=roib))
     {
       for (k1= kanf; k1 <= kend; k1++) {
         sq_arrival = (leaf ? sq_departure : sq_hurdle) + vec[k1];
@@ -3464,4 +3475,23 @@ void genleafhopper(square sq_departure, Side camp)
 void gengreaterleafhopper(square sq_departure, Side camp)
 {
   genradial(sq_departure, camp, 1, true);
+}
+
+void generate_marine_knight(square sq_departure, Side moving)
+{
+  Side const opponent = advers(moving);
+  numvec  k;
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    square sq_arrival = sq_departure+vec[k];
+    if (e[sq_arrival]==vide)
+      empile(sq_departure,sq_arrival,sq_arrival);
+    else if (TSTFLAG(spec[sq_arrival],opponent))
+    {
+      square const sq_capture = sq_arrival;
+      sq_arrival += vec[k];
+      if (e[sq_arrival]==vide)
+        empile(sq_departure,sq_arrival,sq_capture);
+    }
+  }
 }

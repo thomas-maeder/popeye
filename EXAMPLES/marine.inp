@@ -1,0 +1,46 @@
+begin
+
+protocol marine.ref
+
+author Rom\'eo B\'edoni
+origin feenschach 1972
+pieces white kg2 rf3 se6g6 pd4g5 msc3h1 black ke4 bg7 msa6e8
+stipulation #2
+option variations
+
+next
+
+author Ronald Turnbull
+origin The Problemist Supplement 2001
+pieces white kf1 pb3 sie5 trd1 ndb1e2 mse4
+       black ke3 pd5f2g5h6 ndd2 msa6c8g8
+stipulation #2
+option vari
+
+next
+
+author Reto Aschwanden
+origin JT Mark Ridley 40, The Problemist Supplement 2001-03, 3rd HM
+piece white kd1 rc4 se3g6 pc6e2f2g5 sih5 msb4c3d6e7
+      black ke4 rf8 pd4 sif3 msb5f1
+stipulation #2
+option vari
+
+next
+
+author James Quah
+origin JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
+pieces white kf1 qd6 bb1 sb8f2g2 pf3h4h5 tre1 ndh1 msa5
+       black kf5 ra4 bc8 pd3e6f6g7h2 trc2d1 ndg5
+stipulation #3
+option vari
+
+next
+
+author Rom\'eo B\'edoni
+origin diagrammes 1991 (v)
+remark added white pa2 against many cooks with triton pinning from a1
+pieces white kc4 pa2c3c6e5 bpd7 trc1 black ka8 bpe2 msc2
+stipulation h=3
+
+end

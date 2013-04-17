@@ -210,6 +210,7 @@ checkfunction_t treehoppercheck;
 checkfunction_t leafhoppercheck;
 checkfunction_t greatertreehoppercheck;
 checkfunction_t greaterleafhoppercheck;
+checkfunction_t marine_knight_check;
 
 square  coinequis(square a);
 

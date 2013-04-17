@@ -871,6 +871,7 @@ sstipulation). A little bit more elaborate is the command
 	ml      maorider lion
 	mm      moarider lion
 	mo      moa
+	ms      marine knight
 	n       nightrider
 	na      nao				chinese nightrider
 	nd      nereide

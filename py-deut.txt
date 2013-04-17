@@ -907,6 +907,7 @@ aufwendiger ist das Kommando
 	ml      Maoreiterlion
 	mm      Moareiterlion
 	mo      Moa                             (Wie Springer) Diagonal-Gerade
+	ms      Mariner Springer
 	n       Nachtreiter                     1,2 Reiter
 	na      Nao				chinesischer Nachtreiter
 	nd      Nereide

@@ -1,0 +1,272 @@
+
+           Rom\'eo B\'edoni
+           feenschach 1972
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   . -MS   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6 -MS   .   .   .   S   .   S   .   6
+|                                   |
+5   .   .   .   .   .   .   P   .   5
+|                                   |
+4   .   .   .   P  -K   .   .   .   4
+|                                   |
+3   .   .  MS   .   .   R   .   .   3
+|                                   |
+2   .   .   .   .   .   .   K   .   2
+|                                   |
+1   .   .   .   .   .   .   .  MS   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 4
+
+   1.Sg6-e5 ! threat:
+          2.g5-g6 #
+      1...MSa6-c7
+          2.MSh1-g3 #
+      1...Bg7-f6
+          2.g5*f6 #
+      1...Bg7-h6
+          2.g5*h6 #
+      1...MSe8-c7
+          2.MSh1-f2 #
+
+
+                        empile:        6393
+                     play_move:        3657
+ is_white_king_square_attacked:         325
+ is_black_king_square_attacked:        3660
+solution finished. 
+
+
+
+           Ronald Turnbull
+    The Problemist Supplement 2001
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   . -MS   .   .   . -MS   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6 -MS   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .  -P  SI   .  -P   .   5
+|                                   |
+4   .   .   .   .  MS   .   .   .   4
+|                                   |
+3   .   P   .   .  -K   .   .   .   3
+|                                   |
+2   .   .   . -ND  ND  -P   .   .   2
+|                                   |
+1   .  ND   .  TR   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 9
+
+   1.NDe2-h5 ! zugzwang.
+      1...NDd2-c1
+          2.MSe4-d2 #
+      1...NDd2-e1
+          2.MSe4-d2 #
+      1...NDd2-a5
+          2.MSe4-d2 #
+      1...NDd2-b4
+          2.MSe4-d2 #
+      1...NDd2-c3
+          2.MSe4*c3-a2 #
+      1...Ke3-d3
+          2.SIe5-c3 #
+          2.MSe4-g3 #
+      1...d5-d4
+          2.MSe4-c3 #
+      1...d5*e4
+          2.NDb1*e4-f5 #
+      1...g5-g4
+          2.MSe4-g5 #
+      1...MSa6-b4
+          2.MSe4-c5 #
+      1...MSa6-c5
+          2.MSe4*c5-a6 #
+      1...MSa6-c7
+          2.MSe4-c5 #
+      1...MSa6-b8
+          2.MSe4-c5 #
+      1...MSc8-a7
+          2.MSe4-d6 #
+      1...MSc8-b6
+          2.MSe4-d6 #
+      1...MSc8-d6
+          2.MSe4*d6-c8 #
+      1...MSc8-e7
+          2.MSe4-d6 #
+      1...MSg8-e7
+          2.MSe4-f6 #
+      1...MSg8-f6
+          2.MSe4*f6-g8 #
+
+   1.TRd1*d2-d3 # !
+
+
+                        empile:       10031
+                     play_move:        7254
+ is_white_king_square_attacked:         619
+ is_black_king_square_attacked:        7257
+solution finished. 
+
+
+
+           Reto Aschwanden
+JT Mark Ridley 40, The Problemist Supplement 2001-03, 3rd HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -R   .   .   8
+|                                   |
+7   .   .   .   .  MS   .   .   .   7
+|                                   |
+6   .   .   P  MS   .   .   S   .   6
+|                                   |
+5   . -MS   .   .   .   .   P  SI   5
+|                                   |
+4   .  MS   R  -P  -K   .   .   .   4
+|                                   |
+3   .   .  MS   .   S -SI   .   .   3
+|                                   |
+2   .   .   .   .   P   P   .   .   2
+|                                   |
+1   .   .   .   K   . -MS   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         13 + 6
+
+   1.Se3-c2 ! threat:
+          2.Rc4*d4 #
+      1...SIf3-h1
+          2.f2-f3 #
+      1...SIf3-g2
+          2.f2-f3 #
+      1...SIf3-g4
+          2.f2-f3 #
+      1...SIf3*c3-b3
+          2.f2-f3 #
+      1...SIf3-d3
+          2.f2-f3 #
+      1...SIf3-e3
+          2.f2-f3 #
+      1...SIf3-f7
+          2.f2-f4 #
+      1...SIf3-f6
+          2.g5*f6 #
+      1...SIf3-f5
+          2.MSe7*f5-g3 #
+      1...SIf3-f4
+          2.SIh5-f3 #
+      1...SIf3-h3
+          2.f2-f3 #
+      1...SIf3-g3
+          2.f2-f3 #
+
+
+                        empile:       18987
+                     play_move:       11483
+ is_white_king_square_attacked:         495
+ is_black_king_square_attacked:       11486
+solution finished. 
+
+
+
+              James Quah
+JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   S  -B   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   Q  -P  -P   .   .   6
+|                                   |
+5  MS   .   .   .   .  -K -ND   P   5
+|                                   |
+4  -R   .   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .  -P   .   P   .   .   3
+|                                   |
+2   .   . -TR   .   .   S   S  -P   2
+|                                   |
+1   .   B   . -TR  TR   K   .  ND   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3                        12 + 11
+
+   1.Bb1-a2 ! threat:
+          2.Ba2*e6 +
+              2...Bc8*e6
+                  3.Qd6*e6 #
+      1...TRc2-c4
+          2.Sf2-e4 threat:
+                  3.Se4-g3 #
+              2...TRc4*e4-f4
+                  3.Sg2-e3 #
+      1...TRc2-e2
+          2.Sb8-c6 threat:
+                  3.Sc6-e7 #
+      1...Ra4*a2
+          2.Sf2-e4 threat:
+                  3.Se4-g3 #
+      1...Ra4-c4
+          2.Sb8-c6 threat:
+                  3.Sc6-e7 #
+              2...Rc4*c6
+                  3.MSa5*c6-e7 #
+      1...e6-e5
+          2.Ba2-f7 threat:
+                  3.Bf7-g6 #
+
+
+                        empile:      614837
+                     play_move:      404849
+ is_white_king_square_attacked:       65941
+ is_black_king_square_attacked:      354278
+solution finished. 
+
+
+added white pa2 against many cooks with triton pinning from a1
+
+           Rom\'eo B\'edoni
+         diagrammes 1991 (v)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  BP   .   .   .   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   K   .   .   .   .   .   4
+|                                   |
+3   .   .   P   .   .   .   .   .   3
+|                                   |
+2   P   . -MS   . -BP   .   .   .   2
+|                                   |
+1   .   .  TR   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         7 + 3
+
+  1.BPe2-d1=MS BPd7-c8=TR   2.MSd1*c3-b5 TRc1*c2-c3   3.MSb5-a7 Kc4-b5 =
+
+                        empile:    47944896
+                     play_move:    28221694
+ is_white_king_square_attacked:    13338110
+ is_black_king_square_attacked:    25200700
+solution finished. 
+
+

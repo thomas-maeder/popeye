@@ -884,6 +884,23 @@ boolean nereidecheck(square    i,
   return marincheck(i, vec_bishop_start, vec_bishop_end, p, evaluate);
 }
 
+boolean marine_knight_check(square sq_king,
+                            piece p,
+                            evalfunction_t *evaluate)
+{
+  numvec  k;
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    square const sq_arrival = sq_king-vec[k];
+    square const sq_departure = sq_king+vec[k];
+    if (e[sq_arrival]==vide && e[sq_departure]==p
+        && evaluate(sq_departure,sq_arrival,sq_king))
+      return true;
+  }
+
+  return false;
+}
+
 boolean nightriderlioncheck(square    i,
                             piece p,
                             evalfunction_t *evaluate)
