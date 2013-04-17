@@ -1125,8 +1125,15 @@ static void WhPieceMovesFromTo(square    from,
                                stip_length_type captallowed,
                                int       captrequ)
 {
-  piece pfrom= e[from];
-  piece pto= target.board[to];
+  piece const pfrom= e[from];
+  piece const pto = target.board[to];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceSquare(to);
+  TraceFunctionParam("%u",captallowed);
+  TraceFunctionParam("%d",captrequ);
+  TraceFunctionParamListEnd();
 
   *moves= current_length;
 
@@ -1148,21 +1155,32 @@ static void WhPieceMovesFromTo(square    from,
                              to, moves, captures, captallowed-captrequ);
     break;
   }
+
+  TraceValue("%u",*moves);
+  TraceValue("%u\n",*captures);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-static void BlPieceMovesFromTo(
-    square    from,
-    square    to,
-    stip_length_type *moves,
-    stip_length_type *captures,
-    stip_length_type captallowed,
-    int       captrequ)
+static void BlPieceMovesFromTo(square    from,
+                               square    to,
+                               stip_length_type *moves,
+                               stip_length_type *captures,
+                               stip_length_type captallowed,
+                               int       captrequ)
 {
-  piece pfrom, pto;
+  piece const pfrom = e[from];
+  piece const pto = target.board[to];
 
-  pfrom= e[from];
-  pto= target.board[to];
-  *moves= current_length;
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceSquare(to);
+  TraceFunctionParam("%u",captallowed);
+  TraceFunctionParam("%d",captrequ);
+  TraceFunctionParamListEnd();
+
+  *moves = current_length;
 
   switch (pto)
   {
@@ -1175,12 +1193,19 @@ static void BlPieceMovesFromTo(
       if (pfrom == pto)
       {
         PieceMovesFromTo(pfrom, from, to, moves);
-        *captures= 0;
+        *captures = 0;
       }
       else if (pfrom == pn)
         BlPromPieceMovesFromTo(from,
                                to, moves, captures, captallowed-captrequ);
+      break;
   }
+
+  TraceValue("%u",*moves);
+  TraceValue("%u\n",*captures);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 typedef struct
@@ -1237,58 +1262,64 @@ static stip_length_type ArrangeListedPieces(
   return Diff;
 }
 
-static stip_length_type ArrangePieces(
-  stip_length_type CapturesAllowed,
-  Side   camp,
-  stip_length_type CapturesRequired)
+static stip_length_type ArrangePieces(stip_length_type CapturesAllowed,
+                                      Side camp,
+                                      stip_length_type CapturesRequired)
 {
-  int       ifrom, ito, Diff;
-  stip_length_type moves, captures;
-  PieceList2    pl[16];
-  boolean   taken[16];
-  PieceList *from, *to;
+  stip_length_type result;
+  PieceList * const to = camp==White ? &ProofWhPieces : &ProofBlPieces;
 
-  from= camp == White
-    ? &CurrentWhPieces
-    : &CurrentBlPieces;
-
-  to= camp == White
-    ? &ProofWhPieces
-    : &ProofBlPieces;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",CapturesAllowed);
+  TraceEnumerator(Side,camp,"");
+  TraceFunctionParam("%u",CapturesRequired);
+  TraceFunctionParamListEnd();
 
   if (to->Nbr == 0)
-    return 0;
-
-  for (ito= 0; ito < to->Nbr; ito++)
+    result = 0;
+  else
   {
-    pl[ito].Nbr= 0;
-    for (ifrom= 0; ifrom < from->Nbr; ifrom++)
+    PieceList * const from= camp==White ? &CurrentWhPieces : &CurrentBlPieces;
+    PieceList2 pl[16];
+    boolean   taken[16];
+    int ito;
+    int ifrom;
+
+    for (ito = 0; ito<to->Nbr; ito++)
     {
-      if (camp == White)
-        WhPieceMovesFromTo(from->sq[ifrom],
-                           to->sq[ito], &moves, &captures,
-                           CapturesAllowed, CapturesRequired);
-      else
-        BlPieceMovesFromTo(from->sq[ifrom],
-                           to->sq[ito], &moves, &captures,
-                           CapturesAllowed, CapturesRequired);
-      if (moves < current_length)
+      pl[ito].Nbr = 0;
+      for (ifrom = 0; ifrom<from->Nbr; ifrom++)
       {
-        pl[ito].moves[pl[ito].Nbr]= moves;
-        pl[ito].captures[pl[ito].Nbr]= captures;
-        pl[ito].id[pl[ito].Nbr]= ifrom;
-        pl[ito].Nbr++;
+        stip_length_type moves, captures;
+        if (camp==White)
+          WhPieceMovesFromTo(from->sq[ifrom],
+                             to->sq[ito], &moves, &captures,
+                             CapturesAllowed, CapturesRequired);
+        else
+          BlPieceMovesFromTo(from->sq[ifrom],
+                             to->sq[ito], &moves, &captures,
+                             CapturesAllowed, CapturesRequired);
+        if (moves<current_length)
+        {
+          pl[ito].moves[pl[ito].Nbr]= moves;
+          pl[ito].captures[pl[ito].Nbr]= captures;
+          pl[ito].id[pl[ito].Nbr]= ifrom;
+          pl[ito].Nbr++;
+        }
       }
     }
+
+    for (ifrom = 0; ifrom<from->Nbr; ifrom++)
+      taken[ifrom]= false;
+
+    /* determine minimal number of moves required */
+    result = ArrangeListedPieces(pl,to->Nbr,from->Nbr,taken,CapturesAllowed);
   }
 
-  for (ifrom= 0; ifrom < from->Nbr; ifrom++)
-    taken[ifrom]= false;
-
-  /* determine minimal number of moves required */
-  Diff= ArrangeListedPieces(pl, to->Nbr, from->Nbr, taken, CapturesAllowed);
-
-  return Diff;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
@@ -1549,12 +1580,11 @@ static boolean ProofImpossible(void)
   stip_length_type white_moves_left = MovesLeft[White];
   stip_length_type WhPieToBeCapt, BlPieToBeCapt;
   stip_length_type WhCapturesRequired, BlCapturesRequired;
-  stip_length_type white_king_moves_needed, black_king_moves_needed;
   piece p1, p2;
   square    sq;
   unsigned int       NbrWh, NbrBl;
 
-  TraceText("ProofFairyImpossible\n");
+  TraceText("ProofImpossible\n");
 
   /* too many pawns captured or promoted */
   if (nr_piece(target)[pb] > nbpiece[pb])
@@ -1654,28 +1684,26 @@ static boolean ProofImpossible(void)
       return true;
     }
 
-  white_king_moves_needed = ProofWhKingMovesNeeded();
-  if (white_moves_left<white_king_moves_needed)
   {
-    TraceValue("%u",white_king_moves_needed);
-    TraceValue("%u",white_moves_left);
-    TraceText(" white_moves_left<white_king_moves_needed\n");
-    return true;
+    stip_length_type const white_king_moves_needed = ProofWhKingMovesNeeded();
+    if (white_moves_left<white_king_moves_needed)
+    {
+      TraceText(" white_moves_left<white_king_moves_needed\n");
+      return true;
+    }
+    else
+      white_moves_left -= ProofWhKingMovesNeeded();
   }
-  else
-    white_moves_left -= ProofWhKingMovesNeeded();
 
-  black_king_moves_needed = ProofBlKingMovesNeeded();
-  if (black_moves_left<black_king_moves_needed)
   {
-    TraceText("black_moves_left<black_king_moves_needed\n");
-    return true;
-  }
-  else
-  {
-    black_moves_left -= black_king_moves_needed;
-    TraceValue("%u",black_king_moves_needed);
-    TraceValue("->%u\n",black_moves_left);
+    stip_length_type const black_king_moves_needed = ProofBlKingMovesNeeded();
+    if (black_moves_left<black_king_moves_needed)
+    {
+      TraceText("black_moves_left<black_king_moves_needed\n");
+      return true;
+    }
+    else
+      black_moves_left -= black_king_moves_needed;
   }
 
   if (CondFlag[haanerchess])
@@ -1880,7 +1908,8 @@ void ProofInitialise(slice_index si)
                 || CondFlag[mars]
                 || CondFlag[castlingchess]
                 || CondFlag[platzwechselrochade]
-                || CondFlag[football]);
+                || CondFlag[football]
+                || CondFlag[kobulkings]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
