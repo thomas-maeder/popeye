@@ -2182,6 +2182,10 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     generate_marine_knight(sq_departure,camp);
     break;
 
+  case Poseidon:
+    generate_poseidon(sq_departure,camp);
+    break;
+
   default:
     /* Since pieces like DUMMY fall through 'default', we have */
     /* to check exactly if there is something to generate ...  */
@@ -3482,6 +3486,25 @@ void generate_marine_knight(square sq_departure, Side moving)
   Side const opponent = advers(moving);
   numvec  k;
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    square sq_arrival = sq_departure+vec[k];
+    if (e[sq_arrival]==vide)
+      empile(sq_departure,sq_arrival,sq_arrival);
+    else if (TSTFLAG(spec[sq_arrival],opponent))
+    {
+      square const sq_capture = sq_arrival;
+      sq_arrival += vec[k];
+      if (e[sq_arrival]==vide)
+        empile(sq_departure,sq_arrival,sq_capture);
+    }
+  }
+}
+
+void generate_poseidon(square sq_departure, Side moving)
+{
+  Side const opponent = advers(moving);
+  numvec  k;
+  for (k = vec_queen_start; k<=vec_queen_end; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
     if (e[sq_arrival]==vide)

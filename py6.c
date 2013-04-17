@@ -511,7 +511,7 @@ static boolean locate_unique_royal(Side side)
     for (bnp = boardnum; *bnp; ++bnp)
     {
       square const s = *bnp;
-      if (abs(e[s])==King)
+      if (abs(e[s])==King || abs(e[s])==Poseidon)
       {
         if (TSTFLAG(spec[s],side))
         {

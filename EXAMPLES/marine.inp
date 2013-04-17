@@ -43,4 +43,20 @@ remark added white pa2 against many cooks with triton pinning from a1
 pieces white kc4 pa2c3c6e5 bpd7 trc1 black ka8 bpe2 msc2
 stipulation h=3
 
+next
+
+author Giuseppe Brogi
+origin feenschach 1971
+pieces white pod1 rf6 bh1 black poe5 sic3f4
+stipulation h#2
+twin move d1 a4
+
+next
+
+author Rom\'eo B\'edoni
+origni feenschach 1972
+pieces white ke2 bf3 ph2 black pog1
+stipulation #2
+option vari
+
 end

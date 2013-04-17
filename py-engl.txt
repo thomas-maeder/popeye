@@ -883,7 +883,8 @@ sstipulation). A little bit more elaborate is the command
 	ok      okapi                           knight + zebra
 	or      Orix                        English equihopper on queen lines
 	p       pawn
-	pa      pao   
+	pa      pao 
+	po      poseidon  
 	pp      reverse pawn       moves opposite to normal p and promotes at opp end of board
 	pr      princess   
 	q       queen   

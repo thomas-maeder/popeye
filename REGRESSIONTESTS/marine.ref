@@ -270,3 +270,91 @@ added white pa2 against many cooks with triton pinning from a1
 solution finished. 
 
 
+
+            Giuseppe Brogi
+           feenschach 1971
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   R   .   .   6
+|                                   |
+5   .   .   .   . -PO   .   .   .   5
+|                                   |
+4   .   .   .   .   . -SI   .   .   4
+|                                   |
+3   .   . -SI   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  PO   .   .   .   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+             Royal e5 d1
+
+a) 
+
+  1.SIf4-d2 Bh1-e4   2.rPOe5*e4-e3 rPOd1*d2-d3 #
+
+                        empile:      502004
+                     play_move:      374056
+ is_white_king_square_attacked:       25207
+ is_black_king_square_attacked:      373084
+b) wPOd1-->a4
+
+  1.SIf4-b4 Bh1-d5   2.rPOe5*d5-c5 rPOa4*b4-c4 #
+
+                        empile:      501016
+                     play_move:      369250
+ is_white_king_square_attacked:       24828
+ is_black_king_square_attacked:      368304
+solution finished. 
+
+
+input-error:command not known
+offending item: origni
+input-error:command not known
+offending item: feenschach
+input-error:command not known
+offending item: 1972
+
+           Rom\'eo B\'edoni
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   .   .   .   K   .   .   P   2
+|                                   |
+1   .   .   .   .   .   . -PO   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 1
+               Royal g1
+
+   1.Ke2-e3 ! zugzwang.
+      1...rPOg1-f1
+          2.Ke3-f2 #
+
+
+                        empile:         346
+                     play_move:         273
+ is_white_king_square_attacked:          44
+ is_black_king_square_attacked:         276
+solution finished. 
+
+

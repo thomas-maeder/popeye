@@ -211,6 +211,7 @@ checkfunction_t leafhoppercheck;
 checkfunction_t greatertreehoppercheck;
 checkfunction_t greaterleafhoppercheck;
 checkfunction_t marine_knight_check;
+checkfunction_t poseidon_check;
 
 square  coinequis(square a);
 
@@ -301,7 +302,9 @@ boolean foucheck(square a, piece b, evalfunction_t *evaluate);
 
 boolean t_lioncheck(square i, piece p, evalfunction_t *evaluate);
 boolean f_lioncheck(square i, piece p, evalfunction_t *evaluate);
-boolean marincheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean marine_rider_check(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
+boolean marine_leaper_check(square sq_king, numvec   kanf, numvec   kend, piece p, evalfunction_t *evaluate);
+
 boolean empile(square departure, square arrival, square capture);
 void add_to_move_generation_stack(square sq_departure,
                                   square sq_arrival,

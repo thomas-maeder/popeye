@@ -659,11 +659,11 @@ boolean ridcheck(square sq_king,
   return false;
 }
 
-boolean marincheck(square   sq_king,
-                   numvec   kanf,
-                   numvec   kend,
-                   piece    p,
-                   evalfunction_t *evaluate)
+boolean marine_rider_check(square   sq_king,
+                           numvec   kanf,
+                           numvec   kend,
+                           piece    p,
+                           evalfunction_t *evaluate)
 {
   /* detect "check" of marin piece p or a locust */
   piece marine;
@@ -680,6 +680,25 @@ boolean marincheck(square   sq_king,
         return true;
     }
   }
+  return false;
+}
+
+boolean marine_leaper_check(square sq_king,
+                            numvec   kanf,
+                            numvec   kend,
+                            piece p,
+                            evalfunction_t *evaluate)
+{
+  numvec  k;
+  for (k = kanf; k<=kend; ++k)
+  {
+    square const sq_arrival = sq_king-vec[k];
+    square const sq_departure = sq_king+vec[k];
+    if (e[sq_arrival]==vide && e[sq_departure]==p
+        && evaluate(sq_departure,sq_arrival,sq_king))
+      return true;
+  }
+
   return false;
 }
 

@@ -354,7 +354,8 @@ EXTERN boolean			anyparrain;
     /*146*/ {'k','p'},   /* knighthopper */
     /*147*/ {'s','h'},   /* bateau */
     /*148*/ {'g','y'},   /* gryphon */
-    /*149*/ {'c','m'}    /* cavalier marin */
+    /*149*/ {'c','m'},   /* cavalier marin */
+    /*150*/ {'p','o'}    /* pos\'eidon */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -505,7 +506,8 @@ EXTERN boolean			anyparrain;
     /*146*/ {'k','p'},   /* knighthopper */
     /*147*/ {'s','h'},   /* schiff */
     /*148*/ {'g','y'},   /* gryphon */
-    /*149*/ {'m','s'}    /* mariner Springer */
+    /*149*/ {'m','s'},   /* mariner Springer */
+    /*150*/ {'p','o'}    /* Poseidon */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -656,7 +658,8 @@ EXTERN boolean			anyparrain;
     /*146*/ {'k','p'},   /* knighthopper */
     /*147*/ {'s','h'},   /* ship */
     /*148*/ {'g','y'},   /* gryphon */
-    /*149*/ {'m','s'}    /* marine knight */
+    /*149*/ {'m','s'},   /* marine knight */
+    /*150*/ {'p','o'}    /* poseidon */
   }
 	};
 #endif
@@ -1907,7 +1910,7 @@ enum {
 /*147 */  shipcheck,
 /*148 */  gryphoncheck,
 /*149 */  marine_knight_check,
-/*150 */  huntercheck,
+/*150 */  poseidon_check,
 /*151 */  huntercheck,
 /*152 */  huntercheck,
 /*153 */  huntercheck,
@@ -1916,7 +1919,8 @@ enum {
 /*156 */  huntercheck,
 /*157 */  huntercheck,
 /*158 */  huntercheck,
-/*159 */  huntercheck
+/*159 */  huntercheck,
+/*160 */  huntercheck
     };
 #endif
 

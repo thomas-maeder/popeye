@@ -923,6 +923,7 @@ aufwendiger ist das Kommando
 	pa      Pao                             Zieht wie Turm, wirkt wie Turm-Lion
 	pf      Pfadfinder
 	pn      Pfadfinderin
+	po      Poseidon
 	pr      Prinzessin                      1,1 Reiter + 1,2 Springer
 	qe      EquiEnglisch                    "EquiApproacher" kann unterbrochen werden
 	qf      EquiFranzoesisch                "EquiApproacher" kann nicht unterbrochen werden

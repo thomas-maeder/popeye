@@ -860,45 +860,42 @@ boolean nightlocustcheck(square    i,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return marine_rider_check(i, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
 boolean loccheck(square    i,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return marine_rider_check(i, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
 boolean tritoncheck(square    i,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_rook_start, vec_rook_end, p, evaluate);
+  return marine_rider_check(i, vec_rook_start, vec_rook_end, p, evaluate);
 }
 
 boolean nereidecheck(square    i,
                      piece p,
                      evalfunction_t *evaluate)
 {
-  return marincheck(i, vec_bishop_start, vec_bishop_end, p, evaluate);
+  return marine_rider_check(i, vec_bishop_start, vec_bishop_end, p, evaluate);
 }
 
 boolean marine_knight_check(square sq_king,
                             piece p,
                             evalfunction_t *evaluate)
 {
-  numvec  k;
-  for (k = vec_knight_start; k<=vec_knight_end; ++k)
-  {
-    square const sq_arrival = sq_king-vec[k];
-    square const sq_departure = sq_king+vec[k];
-    if (e[sq_arrival]==vide && e[sq_departure]==p
-        && evaluate(sq_departure,sq_arrival,sq_king))
-      return true;
-  }
+  return marine_leaper_check(sq_king,vec_knight_start,vec_knight_end,p,evaluate);
+}
 
-  return false;
+boolean poseidon_check(square sq_king,
+                       piece p,
+                       evalfunction_t *evaluate)
+{
+  return marine_leaper_check(sq_king,vec_queen_start,vec_queen_end,p,evaluate);
 }
 
 boolean nightriderlioncheck(square    i,

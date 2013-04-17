@@ -436,7 +436,8 @@ typedef enum
   Ship,                  /* 147 */
   Gryphon,               /* 148 */
   MarineKnight,          /* 149 */
-  Hunter0,               /* 150 */
+  Poseidon,              /* 150 */
+  Hunter0,               /* 151 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;
