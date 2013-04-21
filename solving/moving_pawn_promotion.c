@@ -15,8 +15,7 @@
 
 PieNam promotee_chain[nr_promotee_chains][PieceCount];
 
-static promotee_chain_selector_type promotee_chain_selector[maxply+1];
-PieNam current_promotion_of_moving[maxply+1];
+promotion_state_type current_promotion_state[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
@@ -95,6 +94,39 @@ void init_promotion_pieces(void)
   TraceFunctionResultEnd();
 }
 
+/* Initialise a potential iteration over the promotions of a pawn.
+ * Verifies whether the move just played was a pawn move to a promotion square
+ * of the moving side.
+ * @param state address of structure holding promotion iteration state
+ * @param moving_side side that has just moved
+ * @param sq_arrival arrival square of the move
+ * @note state->promotee==Empty if the move does not lead to pawn promotions
+ */
+void initialise_pawn_promotion(promotion_state_type *state,
+                               Side moving_side,
+                               square sq_arrival)
+{
+  if (has_pawn_reached_promotion_square(moving_side,sq_arrival))
+  {
+    state->selector = (abs(e[sq_arrival])==MarinePawn
+                       ? promotee_chain_marine
+                       : promotee_chain_orthodox);
+    state->promotee = promotee_chain[state->selector][Empty];
+  }
+  else
+    state->promotee = Empty;
+}
+
+/* Continue an iteration over the promotions of a pawn started with an
+ * invokation of initialise_pawn_promotion().
+ * @param state address of structure holding promotion iteration state
+ * @note state->promotee==Empty if iteration has ended
+ */
+void continue_pawn_promotion(promotion_state_type *state)
+{
+  state->promotee = promotee_chain[state->selector][state->promotee];
+}
+
 /* Has a pawn reached a promotion square
  * @param side the pawn's side
  * @param square_reached square reached by the pawn
@@ -144,20 +176,15 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-  {
-    boolean const is_prom_square = has_pawn_reached_promotion_square(slices[si].starter,
-                                                                     sq_arrival);
-    promotee_chain_selector[nbply] = abs(e[sq_arrival])==MarinePawn ? promotee_chain_marine : promotee_chain_orthodox;
-    current_promotion_of_moving[nbply] = is_prom_square ? promotee_chain[promotee_chain_selector[nbply]][Empty] : Empty;
-  }
+    initialise_pawn_promotion(&current_promotion_state[nbply],slices[si].starter,sq_arrival);
 
-  if (current_promotion_of_moving[nbply]==Empty)
+  if (current_promotion_state[nbply].promotee==Empty)
     result = solve(slices[si].next1,n);
   else
   {
     piece const promotee = (e[sq_arrival]<vide
-                            ? -current_promotion_of_moving[nbply]
-                            : current_promotion_of_moving[nbply]);
+                            ? -current_promotion_state[nbply].promotee
+                            : current_promotion_state[nbply].promotee);
 
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_arrival,promotee);
@@ -166,8 +193,8 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_moving[nbply] = promotee_chain[promotee_chain_selector[nbply]][current_promotion_of_moving[nbply]];
-      if (current_promotion_of_moving[nbply]!=Empty)
+      continue_pawn_promotion(&current_promotion_state[nbply]);
+      if (current_promotion_state[nbply].promotee!=Empty)
         lock_post_move_iterations();
     }
   }

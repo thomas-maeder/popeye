@@ -12,22 +12,7 @@
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
-PieNam current_promotion_of_reborn_moving[maxply+1];
-
-static void init_promotee(Side trait_ply)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
-  TraceFunctionParamListEnd();
-
-  if (has_pawn_reached_promotion_square(trait_ply,current_anticirce_rebirth_square[nbply]))
-    current_promotion_of_reborn_moving[nbply] = promotee_chain[promotee_chain_orthodox][Empty];
-  else
-    current_promotion_of_reborn_moving[nbply] = Empty;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+promotion_state_type current_promotion_of_reborn_moving[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -43,7 +28,7 @@ static void init_promotee(Side trait_ply)
  *            n+3 no solution found in next branch
  */
 stip_length_type anticirce_reborn_promoter_solve(slice_index si,
-                                                  stip_length_type n)
+                                                 stip_length_type n)
 {
   stip_length_type result;
 
@@ -53,15 +38,17 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    init_promotee(slices[si].starter);
+    initialise_pawn_promotion(&current_promotion_of_reborn_moving[nbply],
+                              slices[si].starter,
+                              current_anticirce_rebirth_square[nbply]);
 
-  if (current_promotion_of_reborn_moving[nbply]==Empty)
+  if (current_promotion_of_reborn_moving[nbply].promotee==Empty)
     result = solve(slices[si].next1,n);
   else
   {
     square const sq_rebirth = current_anticirce_rebirth_square[nbply];
     piece const pi_reborn = e[sq_rebirth];
-    piece const promotee = pi_reborn<vide ? -current_promotion_of_reborn_moving[nbply] : current_promotion_of_reborn_moving[nbply];
+    piece const promotee = pi_reborn<vide ? -current_promotion_of_reborn_moving[nbply].promotee : current_promotion_of_reborn_moving[nbply].promotee;
 
     move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
                                         sq_rebirth,
@@ -71,9 +58,9 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_reborn_moving[nbply] = promotee_chain[promotee_chain_orthodox][current_promotion_of_reborn_moving[nbply]];
-      TracePiece(current_promotion_of_reborn_moving[nbply]);TraceText("\n");
-      if (current_promotion_of_reborn_moving[nbply]!=Empty)
+      continue_pawn_promotion(&current_promotion_of_reborn_moving[nbply]);
+      TracePiece(current_promotion_of_reborn_moving[nbply].promotee);TraceText("\n");
+      if (current_promotion_of_reborn_moving[nbply].promotee!=Empty)
         lock_post_move_iterations();
     }
 

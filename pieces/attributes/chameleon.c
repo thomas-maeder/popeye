@@ -62,7 +62,7 @@ stip_length_type chameleon_promote_moving_into_solve(slice_index si,
   {
     result = solve(slices[si].next1,n);
 
-    if (current_promotion_of_moving[nbply]!=Empty
+    if (current_promotion_state[nbply].promotee!=Empty
         && !post_move_iteration_locked[nbply])
     {
       promotion_of_moving_into_chameleon[nbply] = true;
@@ -174,7 +174,7 @@ stip_length_type chameleon_promote_anticirce_reborn_into_solve(slice_index si,
   {
     result = solve(slices[si].next1,n);
 
-    if (current_promotion_of_reborn_moving[nbply]!=Empty
+    if (current_promotion_of_reborn_moving[nbply].promotee!=Empty
         && !post_move_iteration_locked[nbply])
     {
       promotion_of_anticirce_reborn_into_chameleon[nbply] = true;

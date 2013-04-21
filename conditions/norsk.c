@@ -42,7 +42,7 @@ static PieNam norsk_walk(PieNam p)
  *            n+3 no solution found in next branch
  */
 stip_length_type norsk_arriving_adjuster_solve(slice_index si,
-                                                       stip_length_type n)
+                                               stip_length_type n)
 {
   stip_length_type result;
 
@@ -51,7 +51,7 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_promotion_of_moving[nbply]==Empty)
+  if (current_promotion_state[nbply].promotee==Empty)
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
     piece const norsked = e[sq_arrival];

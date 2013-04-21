@@ -44,7 +44,7 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
           || e[sq_observee]==vide))
   {
     /* Pawn checking on last rank or football check on a/h file */
-    PieNam pprom= promotee_chain[promotee_chain_orthodox][vide];
+    PieNam pprom = promotee_chain[promotee_chain_orthodox][Empty];
     square    cren;
     do {
       cren= (*antirenai)(pprom, spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);

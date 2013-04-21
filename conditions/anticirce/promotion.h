@@ -2,8 +2,9 @@
 #define CONDITIONS_ANTICIRCE_PROMOTION_H
 
 #include "solving/solve.h"
+#include "solving/moving_pawn_promotion.h"
 
-extern PieNam current_promotion_of_reborn_moving[maxply+1];
+extern promotion_state_type current_promotion_of_reborn_moving[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -19,7 +20,7 @@ extern PieNam current_promotion_of_reborn_moving[maxply+1];
  *            n+3 no solution found in next branch
  */
 stip_length_type anticirce_reborn_promoter_solve(slice_index si,
-                                                  stip_length_type n);
+                                                 stip_length_type n);
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

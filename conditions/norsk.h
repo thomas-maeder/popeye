@@ -19,7 +19,7 @@
  *            n+3 no solution found in next branch
  */
 stip_length_type norsk_arriving_adjuster_solve(slice_index si,
-                                                stip_length_type n);
+                                               stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index
