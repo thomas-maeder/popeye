@@ -1575,19 +1575,51 @@ void enforce_piecename_uniqueness(void);
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern  numvec mixhopdata[4][17];
+	extern  numvec const mixhopdata[4][17];
 #else
 /* This are the vectors for hoppers which change directions after the hurdle */
-/* and for the CAT (a special concatenation of knight and dabbabba-rider     */
-	numvec mixhopdata[4][17] = {
-	/* moose     45 */ { 0, -23,  25,  23,  25,  23, -25, -23, -25,
-				 -1,  24,   1,  24,   1, -24,  -1, -24 },
-	/* eagle     90 */ { 0,  24, -24,   1,  -1,  24, -24,   1,  -1,
-				 25, -25,  23, -23,  25, -25,  23, -23 },
-	/* sparrow  135 */ { 0,  23, -25, -23, -25, -23,  25,  23,  25,
-				  1, -24,  -1, -24,  -1,  24,   1,  24 },
-	/* CAT          */ { 0, -22,  47,  22, -47,  26,  49, -26, -49,
-				 -2,  48,  48,   2,   2, -48, -48,  -2 }
+/* and for the CAT (a special concatenation of knight and dabbabba-rider)    */
+  numvec const mixhopdata[4][17] = {
+  /* moose     45 */ { 0,
+                       dir_down+dir_right,   dir_up+dir_right,
+                       dir_up+dir_left,      dir_up+dir_right,
+                       dir_up+dir_left,      dir_down+dir_left,
+                       dir_down+dir_right,   dir_down+dir_left,
+                       dir_left,             dir_up,
+                       dir_right,            dir_up,
+                       dir_right,            dir_down,
+                       dir_left,             dir_down
+  },
+  /* eagle     90 */ { 0,
+                       dir_up,               dir_down,
+                       dir_right,            dir_left,
+                       dir_up,               dir_down,
+                       dir_right,            dir_left,
+                       dir_up+dir_right,     dir_down+dir_left,
+                       dir_up+dir_left,      dir_down+dir_right,
+                       dir_up+dir_right,     dir_down+dir_left,
+                       dir_up+dir_left,      dir_down+dir_right
+  },
+  /* sparrow  135 */ { 0,
+                       dir_up+dir_left,      dir_down+dir_left,
+                       dir_down+dir_right,   dir_down+dir_left,
+                       dir_down+dir_right,   dir_up+dir_right,
+                       dir_up+dir_left,      dir_up+dir_right,
+                       dir_right,            dir_down,
+                       dir_left,             dir_down,
+                       dir_left,             dir_up,
+                       dir_right,            dir_up
+  },
+  /* CAT          */ { 0,
+                       dir_down+2*dir_right, 2*dir_up+dir_left,
+                       dir_up+2*dir_left,    2*dir_down+dir_right,
+                       dir_up+2*dir_right,   2*dir_up+dir_right,
+                       dir_down+2*dir_left,  2*dir_down+dir_left,
+                       2*dir_left,           2*dir_up,
+                       2*dir_up,             2*dir_right,
+                       2*dir_right,          2*dir_down,
+                       2*dir_down,           2*dir_left
+  }
 	};
 #endif
 

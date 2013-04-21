@@ -313,7 +313,7 @@ void add_to_move_generation_stack(square sq_departure,
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates
  */
-void remove_duplicate_moves(numecoup start);
+void remove_duplicate_moves_of_single_piece(numecoup start);
 
 boolean ooorphancheck(square i, piece porph, piece p, evalfunction_t *evaluate);
 boolean reversepcheck(square a, piece b, evalfunction_t *evaluate);

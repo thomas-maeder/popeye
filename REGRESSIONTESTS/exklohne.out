@@ -4407,7 +4407,7 @@ a)
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
 
-                        empile:     1160831
+                        empile:     1854400
                      play_move:      638549
  is_white_king_square_attacked:      186950
  is_black_king_square_attacked:      638232
@@ -4427,7 +4427,7 @@ b) wKa8-->h8
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-g6 #
   1.RLc4-b5 b7-b8=RL   2.RLb5-e8 f7*e8=RL   3.Kd3-e4 RLe8-f7 #
 
-                        empile:     1412530
+                        empile:     2247683
                      play_move:      772954
  is_white_king_square_attacked:      219505
  is_black_king_square_attacked:      772147

@@ -740,7 +740,7 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
-                        empile:      922235
+                        empile:     1067725
                      play_move:      619456
  is_white_king_square_attacked:       85494
  is_black_king_square_attacked:      618547
@@ -1319,6 +1319,64 @@ movenumbers and nested series branches; until 4.61, Popeye produced
                      play_move:      250668
  is_white_king_square_attacked:      221287
  is_black_king_square_attacked:      216607
+solution finished. 
+
+
+
+Popeye 4.51 to 4.61 would produce the move to c5 twice
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .  -P   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  MG   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+
+   1.MGd4-d5 !
+
+   1.MGd4-a7 !
+
+   1.MGd4-d7 !
+
+   1.MGd4-e5 !
+
+   1.MGd4-c5 !
+
+   1.MGd4-b5 !
+
+   1.MGd4-e6 !
+
+   1.MGd4-c6 !
+
+   1.MGd4-a5 !
+
+   1.MGd4-c7 !
+
+   1.MGd4-e7 !
+
+   1.MGd4-a6 !
+
+   1.MGd4-b7 !
+
+
+                        empile:          16
+                     play_move:          13
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 

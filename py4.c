@@ -428,28 +428,11 @@ static void genbouncer(square sq_departure,
   }
 }
 
-static numecoup testdebut[maxply+1];
-
-static boolean testempile(square sq_departure,
-                          square sq_arrival,
-                          square sq_capture)
-{
-  numecoup k;
-
-  if (!TSTFLAG(spec[sq_departure], ColourChange))
-    for (k= current_move[nbply]; k > testdebut[nbply]; k--)
-      if (move_generation_stack[k].arrival==sq_arrival)
-        return true;
-
-  return empile(sq_departure,sq_arrival,sq_capture);
-}
-
 void gebleap(square sq_departure, numvec kbeg, numvec kend) {
   /* generate white leaper moves from vec[kbeg] to vec[kend] */
-
   square sq_arrival;
-
   numvec  k;
+
   for (k= kbeg; k<= kend; k++) {
     sq_arrival= sq_departure+vec[k];
     if (e[sq_arrival]<=vide)
@@ -602,7 +585,7 @@ static square generate_moves_on_circle_segment(square sq_departure,
     sq_arrival+= vec[k1+*k2];
     *k2+= delta_k;
   } while (e[sq_arrival]==vide
-           && testempile(sq_departure,sq_arrival,sq_arrival));
+           && empile(sq_departure,sq_arrival,sq_arrival));
 
   return sq_arrival;
 }
@@ -624,7 +607,7 @@ void grose(square sq_departure,
   square sq_end= generate_moves_on_circle_segment(sq_departure,sq_departure,
                                                   k1,&k2,delta_k);
   if (piece_belongs_to_opponent(e[sq_end],camp))
-    testempile(sq_departure,sq_end,sq_end);
+    empile(sq_departure,sq_end,sq_end);
 }
 
 static void grao(square sq_departure,
@@ -637,7 +620,7 @@ static void grao(square sq_departure,
     square sq_arrival= fin_circle_line(sq_hurdle,k1,&k2,delta_k);
     if (piece_belongs_to_opponent(e[sq_arrival],camp))
 
-      testempile(sq_departure,sq_arrival,sq_arrival);
+      empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -673,7 +656,7 @@ static void groselion(square sq_departure,
     e[sq_departure] = save_piece;
 #endif
     if (piece_belongs_to_opponent(e[sq_end],camp))
-      testempile(sq_departure,sq_end,sq_end);
+      empile(sq_departure,sq_end,sq_end);
   }
 }
 
@@ -685,7 +668,7 @@ static void grosehopper(square sq_departure,
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs) {
     square sq_arrival= sq_hurdle+vec[k1+k2];
     if (e[sq_arrival]==vide || piece_belongs_to_opponent(e[sq_arrival],camp))
-      testempile(sq_departure,sq_arrival,sq_arrival);
+      empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -726,7 +709,7 @@ static void gmhop(square   sq_departure,
 {
   piece hurdle;
   square sq_hurdle;
-  numvec k, k1;
+  numvec k;
 
   /* ATTENTION:
    *    m == 0: moose    45 degree hopper
@@ -740,23 +723,21 @@ static void gmhop(square   sq_departure,
    *                  (rookmoose, rookeagle, rooksparrow)
    */
 
-  /* different moves from one piece to the same square are possible.
-   * so we have to use testempile !!
-   */
-
   square sq_arrival;
 
-  for (k= kend; k>=kanf; k--) {
+  for (k = kend; k>=kanf; k--)
+  {
     finligne(sq_departure,vec[k],hurdle,sq_hurdle);
 
-    if (hurdle!=obs) {
-      k1= k<<1;
+    if (hurdle!=obs)
+    {
+      numvec const k1 = 2*k;
 
       sq_arrival= sq_hurdle+mixhopdata[m][k1];
       if ((e[sq_arrival]==vide || piece_belongs_to_opponent(e[sq_arrival],camp))
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1])))
       {
-        testempile(sq_departure,sq_arrival,sq_arrival);
+        empile(sq_departure,sq_arrival,sq_arrival);
         if (TSTFLAG(spec[sq_departure],ColourChange))
           move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
@@ -765,7 +746,7 @@ static void gmhop(square   sq_departure,
       if ((e[sq_arrival]==vide || piece_belongs_to_opponent(e[sq_arrival],camp))
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1])))
       {
-        testempile(sq_departure,sq_arrival,sq_arrival);
+        empile(sq_departure,sq_arrival,sq_arrival);
         if (TSTFLAG(spec[sq_departure],ColourChange))
           move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
@@ -1095,37 +1076,37 @@ static void gbob(square sq_departure, Side camp) {
 }
 
 static void gcs(square sq_departure,
-         numvec k1, numvec k2,
-         Side camp)
+                numvec k1, numvec k2,
+                Side camp)
 {
   square sq_arrival= sq_departure+k1;
 
   while (e[sq_arrival]==vide) {
-    testempile(sq_departure,sq_arrival,sq_arrival);
+    empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k2;
     if (e[sq_arrival]==vide) {
-      testempile(sq_departure,sq_arrival,sq_arrival);
+      empile(sq_departure,sq_arrival,sq_arrival);
       sq_arrival+= k1;
     }
     else
       break;
   }
   if (piece_belongs_to_opponent(e[sq_arrival],camp))
-    testempile(sq_departure,sq_arrival,sq_arrival);
+    empile(sq_departure,sq_arrival,sq_arrival);
 
   sq_arrival= sq_departure+k1;
   while (e[sq_arrival]==vide) {
-    testempile(sq_departure,sq_arrival,sq_arrival);
+    empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival-= k2;
     if (e[sq_arrival]==vide) {
-      testempile(sq_departure,sq_arrival,sq_arrival);
+      empile(sq_departure,sq_arrival,sq_arrival);
       sq_arrival+= k1;
     }
     else
       break;
   }
   if (piece_belongs_to_opponent(e[sq_arrival],camp))
-    testempile(sq_departure,sq_arrival,sq_arrival);
+    empile(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void gcsp(square sq_departure,
@@ -1135,17 +1116,17 @@ static void gcsp(square sq_departure,
   square sq_arrival= sq_departure+vec[k1];
 
   while (e[sq_arrival]==vide) {
-    testempile(sq_departure,sq_arrival,sq_arrival);
+    empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= vec[k2];
     if (e[sq_arrival]==vide) {
-      testempile(sq_departure,sq_arrival,sq_arrival);
+      empile(sq_departure,sq_arrival,sq_arrival);
       sq_arrival+= vec[k1];
     }
     else
       break;
   }
   if (piece_belongs_to_opponent(e[sq_arrival],camp))
-    testempile(sq_departure,sq_arrival,sq_arrival);
+    empile(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void gubi(square orig_departure,
@@ -1169,21 +1150,12 @@ static void gubi(square orig_departure,
   }
 }
 
-typedef boolean generatorfunction_t(square, square, square);
-
 static void grfou(square   orig_departure,
-           square   in,
-           numvec   k,
-           int x,
-           Side  camp,
-           generatorfunction_t *generate)
+                  square   in,
+                  numvec   k,
+                  int x,
+                  Side  camp)
 {
-  /* ATTENTION:
-     if first call of x is 1 and boolnoedge[i]
-     use empile() for generate,
-     else
-     use testempile() for generate !!
-  */
   int k1;
 
   square sq_departure= orig_departure;
@@ -1192,22 +1164,24 @@ static void grfou(square   orig_departure,
   if (e[sq_arrival]==obs)
     return;
 
-  while (e[sq_arrival]==vide) {
-    (*generate)(sq_departure,sq_arrival,sq_arrival);
+  while (e[sq_arrival]==vide)
+  {
+    empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k;
   }
 
   if (piece_belongs_to_opponent(e[sq_arrival],camp))
-    (*generate)(sq_departure,sq_arrival,sq_arrival);
-  else if (x && e[sq_arrival]==obs) {
+    empile(sq_departure,sq_arrival,sq_arrival);
+  else if (x && e[sq_arrival]==obs)
+  {
     sq_arrival-= k;
     k1= 5;
     while (vec[k1]!=k)
       k1++;
     k1*= 2;
-    grfou(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp,generate);
+    grfou(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp);
     k1--;
-    grfou(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp,generate);
+    grfou(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp);
   }
 }
 
@@ -1215,39 +1189,35 @@ static void gcard(square   orig_departure,
                   square   in,
                   numvec   k,
                   int x,
-                  Side  camp,
-                  generatorfunction_t *generate)
+                  Side  camp)
 {
-  /* ATTENTION:
-     if first call of x is 1
-     use    empile() for generate,
-     else
-     use testempile() for generate !!
-  */
   int k1;
 
   square sq_departure= orig_departure;
   square sq_arrival= in+k;
 
-  while (e[sq_arrival]==vide) {
-    (*generate)(sq_departure,sq_arrival,sq_arrival);
+  while (e[sq_arrival]==vide)
+  {
+    empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k;
   }
+
   if (piece_belongs_to_opponent(e[sq_arrival],camp))
-    (*generate)(sq_departure,sq_arrival,sq_arrival);
-  else if (x && e[sq_arrival]==obs) {
-    for (k1= 1; k1<=4; k1++) {
-      if (e[sq_arrival+vec[k1]]!=obs) {
+    empile(sq_departure,sq_arrival,sq_arrival);
+  else if (x && e[sq_arrival]==obs)
+  {
+    for (k1= 1; k1<=4; k1++)
+      if (e[sq_arrival+vec[k1]]!=obs)
         break;
-      }
-    }
-    if (k1<=4) {
+
+    if (k1<=4)
+    {
       sq_arrival+= vec[k1];
-      if (piece_belongs_to_opponent(e[sq_arrival],camp)) {
-        (*generate)(sq_departure,sq_arrival,sq_arrival);
-      }
-      else if (e[sq_arrival]==vide) {
-        (*generate)(sq_departure,sq_arrival,sq_arrival);
+      if (piece_belongs_to_opponent(e[sq_arrival],camp))
+        empile(sq_departure,sq_arrival,sq_arrival);
+      else if (e[sq_arrival]==vide)
+      {
+        empile(sq_departure,sq_arrival,sq_arrival);
         k1= 5;
         while (vec[k1]!=k)
           k1++;
@@ -1255,48 +1225,35 @@ static void gcard(square   orig_departure,
         if (e[sq_arrival+mixhopdata[1][k1]]==obs)
           k1--;
 
-        gcard(orig_departure,
-              sq_arrival,
-              mixhopdata[1][k1],
-              x-1,
-              camp,
-              generate);
+        gcard(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp);
       }
     }
   }
 }
 
 static void grefc(square orig_departure,
-            square step_departure,
-            int x,
-            Side camp) {
+                  square step_departure,
+                  int x,
+                  Side camp) {
   numvec k;
 
   /* ATTENTION:   first call of grefcn: x must be 2 !!   */
 
-  square sq_departure= orig_departure;
-  square sq_arrival;
+  square sq_departure = orig_departure;
 
-  for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    if (x) {
-      sq_arrival= step_departure+vec[k];
-      if (e[sq_arrival]==vide) {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        if (!NoEdge(sq_arrival))
-          grefc(orig_departure,sq_arrival,x-1,camp);
-      }
-      else if (piece_belongs_to_opponent(e[sq_arrival], camp))
-        empile(sq_departure,sq_arrival,sq_arrival);
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    square const sq_arrival = step_departure+vec[k];
+    if (e[sq_arrival]==vide)
+    {
+      empile(sq_departure,sq_arrival,sq_arrival);
+      if (x>0 && !NoEdge(sq_arrival))
+        grefc(orig_departure,sq_arrival,x-1,camp);
     }
-    else
-      for (k= vec_knight_start; k<=vec_knight_end; k++) {
-        sq_arrival= step_departure+vec[k];
-        if (e[sq_arrival]==vide
-            || piece_belongs_to_opponent(e[sq_arrival],camp))
-          testempile(sq_departure,sq_arrival,sq_arrival);
-      }
+    else if (piece_belongs_to_opponent(e[sq_arrival], camp))
+      empile(sq_departure,sq_arrival,sq_arrival);
   }
-} /* grefc */
+}
 
 enum
 {
@@ -1370,8 +1327,8 @@ void settraversed(square edge_square)
 }
 
 static void grefn(square orig_departure,
-           square step_departure,
-           Side camp) {
+                  square step_departure,
+                  Side camp) {
   numvec k;
 
   square sq_departure= orig_departure;
@@ -1380,20 +1337,22 @@ static void grefn(square orig_departure,
   if (!NoEdge(step_departure))
     settraversed(step_departure);
 
-  for (k= vec_knight_start; k<=vec_knight_end; k++) {
+  for (k= vec_knight_start; k<=vec_knight_end; k++)
+  {
     sq_arrival= step_departure;
 
     while (e[sq_arrival+=vec[k]]==vide)
     {
-      testempile(sq_departure,sq_arrival,sq_arrival);
+      empile(sq_departure,sq_arrival,sq_arrival);
       if (!NoEdge(sq_arrival) &&
           !traversed(sq_arrival)) {
         grefn(orig_departure,sq_arrival,camp);
         break;
       }
     }
+
     if (piece_belongs_to_opponent(e[sq_arrival], camp))
-      testempile(sq_departure,sq_arrival,sq_arrival);
+      empile(sq_departure,sq_arrival,sq_arrival);
   }
 } /* grefc */
 
@@ -1537,23 +1496,48 @@ static void gmoa(square i, Side camp) {
   gmaooa(i, i+dir_down+dir_left, i+dir_down+2*dir_left, i+2*dir_down+dir_left, camp);
 }
 
-/* Remove duplicate moves at the top of the move_generation_stack.
- * @param start start position of range where to look for duplicates
+typedef unsigned int mark_type;
+
+static mark_type square_marks[square_h8+1] = { 0 };
+static mark_type current_mark = 0;
+
+/* Remove duplicate moves generated for a single piece.
+ * @param last_move_of_prev_piece index of last move of previous piece
  */
-void remove_duplicate_moves(numecoup start)
+void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
 {
-  numecoup l1;
-  for (l1 = start+1; l1<=current_move[nbply]; ++l1)
+  if (current_mark==UINT_MAX)
   {
-    numecoup l2 = l1+1;
-    while (l2<=current_move[nbply])
-      if (move_generation_stack[l1].arrival==move_generation_stack[l2].arrival)
+    square i;
+    for (i = square_a1; i!=square_h8; ++i)
+      square_marks[i] = 0;
+
+    current_mark = 1;
+  }
+  else
+    ++current_mark;
+
+  {
+    numecoup curr_move;
+    numecoup last_unique_move = last_move_of_prev_piece;
+    for (curr_move = last_move_of_prev_piece+1;
+         curr_move<=current_move[nbply];
+         ++curr_move)
+    {
+      square const sq_arrival = move_generation_stack[curr_move].arrival;
+      if (square_marks[sq_arrival]==current_mark)
       {
-        move_generation_stack[l2] = move_generation_stack[current_move[nbply]];
-        --current_move[nbply];
+        // skip over duplicate move
       }
       else
-        ++l2;
+      {
+        ++last_unique_move;
+        move_generation_stack[last_unique_move] = move_generation_stack[curr_move];
+        square_marks[sq_arrival] = current_mark;
+      }
+    }
+
+    current_move[nbply] = last_unique_move;
   }
 }
 
@@ -1584,7 +1568,7 @@ static void gdoublehopper(square sq_departure, Side camp,
     }
   }
 
-  remove_duplicate_moves(save_nbcou);
+  remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
 static void gdoublegrasshopper(square sq_departure, Side camp) {
@@ -1691,12 +1675,16 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     return;
 
   case Rose:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_knight_start; k<=vec_knight_end; k++)
     {
       grose(sq_departure, k, 0,+1, camp);
       grose(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case NonStopEquihopper:
     gnequi(sq_departure, camp);
@@ -1735,9 +1723,13 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     return;
 
   case SpiralSpringer:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_knight_start; k<=vec_knight_end; k++)
       gcs(sq_departure, vec[k], vec[25 - k], camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Hamster:
     ghamst(sq_departure);
@@ -1750,61 +1742,96 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     return;
 
   case Elk:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Eagle:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Sparrow:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Marguerite:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
     gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
     gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
     ghamst(sq_departure);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Archbishop:
-    if (NoEdge(sq_departure)) {
-      for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-        grfou(sq_departure, sq_departure, vec[k], 1, camp, empile);
-    }
-    else {
-      for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-        grfou(sq_departure, sq_departure, vec[k], 1, camp, testempile);
+    {
+      numecoup const save_current_move = current_move[nbply];
+      for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
+        grfou(sq_departure,sq_departure,vec[k],1,camp);
+      if (!NoEdge(sq_departure))
+        remove_duplicate_moves_of_single_piece(save_current_move);
     }
     return;
 
   case ReflectBishop:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      grfou(sq_departure, sq_departure, vec[k], 4, camp, testempile);
+      grfou(sq_departure,sq_departure,vec[k],4,camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Cardinal:
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      gcard(sq_departure, sq_departure, vec[k], 1, camp, empile);
+      gcard(sq_departure, sq_departure, vec[k], 1, camp);
     return;
 
   case DiagonalSpiralSpringer:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= 9; k <= 14; k++)
       gcs(sq_departure, vec[k], vec[23 - k], camp);
     for (k= 15; k <= 16; k++)
       gcs(sq_departure, vec[k], vec[27 - k], camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case BouncyKnight:
+  {
+    numecoup const save_current_move = current_move[nbply];
     grefc(sq_departure, sq_departure, 2, camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case BouncyNightrider:
+  {
+    numecoup const save_current_move = current_move[nbply];
     clearedgestraversed();
     grefn(sq_departure, sq_departure, camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case EquiHopper:
     gequi(sq_departure, camp);
@@ -1851,14 +1878,22 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     return;
 
   case BoyScout:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      gcs(sq_departure, vec[k], vec[13 - k], camp);
+      gcs(sq_departure,vec[k],vec[13-k],camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case GirlScout:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_rook_end; k >=vec_rook_start; k--)
-      gcs(sq_departure, vec[k], vec[5 - k], camp);
+      gcs(sq_departure,vec[k],vec[5-k],camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Skylla:
     geskylla(sq_departure, camp);
@@ -1914,20 +1949,28 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     return;
 
   case RoseLion:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_knight_start; k<=vec_knight_end; k++)
     {
       groselion(sq_departure, k, 0,+1, camp);
       groselion(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case RoseHopper:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       grosehopper(sq_departure, k, 0,+1, camp);
       grosehopper(sq_departure, k,
                   vec_knight_end-vec_knight_start+1,-1, camp);
     }
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case RoseLocust:
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
@@ -1978,35 +2021,59 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     return;
 
   case RookMoose:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_rook_start,vec_rook_end, 0, camp);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case RookEagle:
     gmhop(sq_departure, vec_rook_start,vec_rook_end, 1, camp);
     return;
 
   case RookSparrow:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_rook_start,vec_rook_end, 2, camp);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case BishopMoose:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 0, camp);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case BishopEagle:
     gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 1, camp);
     return;
 
   case BishopSparrow:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 2, camp);
+    if (!TSTFLAG(spec[sq_departure],ColourChange))
+      remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Rao:
+  {
+    numecoup const save_current_move = current_move[nbply];
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       grao(sq_departure, k, 0,+1, camp);
       grao(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
     }
+    remove_duplicate_moves_of_single_piece(save_current_move);
     return;
+  }
 
   case Scorpion:
     if (camp==White)
@@ -2095,11 +2162,11 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     genbouncer(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     break;
 
-  case RadialKnight :
+  case RadialKnight:
     genradialknight(sq_departure, camp);
     break;
 
-  case Treehopper :
+  case Treehopper:
     gentreehopper(sq_departure, camp);
     break;
 
@@ -2116,6 +2183,8 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     break;
 
   case SpiralSpringer40:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gcsp(sq_departure, 9, 16, camp);
     gcsp(sq_departure, 10, 11, camp);
     gcsp(sq_departure, 11, 10, camp);
@@ -2124,9 +2193,13 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 14, 15, camp);
     gcsp(sq_departure, 15, 14, camp);
     gcsp(sq_departure, 16, 9, camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     break;
+  }
 
   case SpiralSpringer20:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gcsp(sq_departure, 9, 12, camp);
     gcsp(sq_departure, 10, 15, camp);
     gcsp(sq_departure, 11, 14, camp);
@@ -2135,9 +2208,13 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 14, 11, camp);
     gcsp(sq_departure, 15, 10, camp);
     gcsp(sq_departure, 16, 13, camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     break;
+  }
 
   case SpiralSpringer33:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gcsp(sq_departure, 9, 10, camp);
     gcsp(sq_departure, 10, 9, camp);
     gcsp(sq_departure, 11, 12, camp);
@@ -2146,9 +2223,13 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 14, 13, camp);
     gcsp(sq_departure, 15, 16, camp);
     gcsp(sq_departure, 16, 15, camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     break;
+  }
 
   case SpiralSpringer11:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gcsp(sq_departure, 9, 14, camp);
     gcsp(sq_departure, 10, 13, camp);
     gcsp(sq_departure, 11, 16, camp);
@@ -2157,9 +2238,13 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 14, 9, camp);
     gcsp(sq_departure, 15, 12, camp);
     gcsp(sq_departure, 16, 11, camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     break;
+  }
 
   case Quintessence:
+  {
+    numecoup const save_current_move = current_move[nbply];
     gcsp(sq_departure, 9, 11, camp);
     gcsp(sq_departure, 11, 9, camp);
     gcsp(sq_departure, 11, 13, camp);
@@ -2176,7 +2261,9 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gcsp(sq_departure, 16, 14, camp);
     gcsp(sq_departure, 16, 10, camp);
     gcsp(sq_departure, 10, 16, camp);
+    remove_duplicate_moves_of_single_piece(save_current_move);
     break;
+  }
 
   case MarineKnight:
     generate_marine_knight(sq_departure,camp);
@@ -2240,7 +2327,6 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp);
 static void gen_p_nocaptures(square sq_departure, numvec dir, int steps);
 
 void gfeerblanc(square i, piece p) {
-  testdebut[nbply]= current_move[nbply];
   switch(p) {
   case nb:
     gebrid(i, vec_knight_start,vec_knight_end);
@@ -2330,26 +2416,24 @@ void gfeerblanc(square i, piece p) {
     return;
 
   case gryphonb:
-      if (i<=square_h1)
+    if (i<=square_h1)
+    {
+      /* pawn on first rank */
+      if (anyparrain
+          || CondFlag[einstein]
+          || CondFlag[normalp]
+          || CondFlag[circecage]
+          || abs(e[i]) == orphanb)
       {
-        /* pawn on first rank */
-        if (anyparrain
-            || CondFlag[einstein]
-            || CondFlag[normalp]
-            || CondFlag[circecage]
-            || abs(e[i]) == orphanb)
-        {
-          /* triple or single step? */
-          gen_p_nocaptures(i,+dir_up, CondFlag[einstein] ? 3 : 1);
-        }
+        /* triple or single step? */
+        gen_p_nocaptures(i,+dir_up, CondFlag[einstein] ? 3 : 1);
       }
-      else
-      {
-        {
-          /* double or single step? */
-          gen_p_nocaptures(i,+dir_up, i<=square_h2 ? 2 : 1);
-        }
-      }
+    }
+    else
+    {
+      /* double or single step? */
+      gen_p_nocaptures(i,+dir_up, i<=square_h2 ? 2 : 1);
+    }
     gebrid(i, vec_bishop_start,vec_bishop_end);
     return;
 
@@ -2470,7 +2554,6 @@ void gfeerblanc(square i, piece p) {
 }
 
 void gfeernoir(square i, piece p) {
-  testdebut[nbply]= current_move[nbply];
   switch(p) {
   case nn:
     genrid(i, vec_knight_start,vec_knight_end);
@@ -2768,10 +2851,7 @@ void genrb(square sq_departure)
   }
 
   if (flag)
-    /* testempile nicht nutzbar */
-    /* VERIFY: has anf always a propper value??
-     */
-    remove_duplicate_moves(save_nbcou);
+    remove_duplicate_moves_of_single_piece(save_nbcou);
 
   /* Now we test castling */
   if (castling_supported)
@@ -3028,7 +3108,7 @@ void gorph(square i, Side camp)
       }
     }
 
-  remove_duplicate_moves(save_nbcou);
+  remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
 void gfriend(square i, Side camp)
@@ -3051,7 +3131,7 @@ void gfriend(square i, Side camp)
       }
     }
 
-  remove_duplicate_moves(save_nbcou);
+  remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
 
@@ -3395,7 +3475,7 @@ static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdl
       for (k1= kanf; k1 <= kend; k1++) {
         sq_arrival = (leaf ? sq_departure : sq_hurdle) + vec[k1];
         if ((sq_arrival != sq_hurdle) && (e[sq_arrival] == vide || piece_belongs_to_opponent(e[sq_arrival], camp)))
-          testempile(sq_departure, sq_arrival, sq_arrival);
+          empile(sq_departure, sq_arrival, sq_arrival);
       }
     }
   }
@@ -3403,6 +3483,8 @@ static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdl
 
 void genqlinesradial(square sq_departure, Side camp, int hurdletype, boolean leaf)
 {
+  numecoup const save_current_move = current_move[nbply];
+
   genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, camp, leaf);
@@ -3417,10 +3499,14 @@ void genqlinesradial(square sq_departure, Side camp, int hurdletype, boolean lea
   genleapleap(sq_departure, vec_leap55_start, vec_leap55_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, camp, leaf);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 void genradial(square sq_departure, Side camp, int hurdletype, boolean leaf)
 {
+  numecoup const save_current_move = current_move[nbply];
+
   genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, camp, leaf);
@@ -3454,6 +3540,8 @@ void genradial(square sq_departure, Side camp, int hurdletype, boolean leaf)
   genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_leap67_start, vec_leap67_end, hurdletype, camp, leaf);
   genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, camp, leaf);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 void genradialknight(square sq_departure, Side camp)

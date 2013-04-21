@@ -1,0 +1,105 @@
+begin
+
+protocol pieces.tst
+
+pieces white rpd1 black pb2c3
+stip ~1
+option nowk nobk
+
+next
+
+pieces white HurdleColourChanging rpd1 black pb2c3
+stip ~1
+option nowk nobk
+
+next
+
+pieces white dsa1
+stip ~1
+option nowk nobk
+
+next
+
+pieces white s1d4
+stip ~1
+option nowk nobk
+
+next
+
+pieces white s2d4
+stip ~1
+option nowk nobk
+
+next
+
+pieces white s3d4
+stip ~1
+option nowk nobk
+
+next
+
+pieces white s4d4
+stip ~1
+option nowk nobk
+
+next
+
+pieces white qnd4
+stip ~1
+option nowk nobk
+
+next
+
+pieces white md4 black pc5d5
+stip ~1
+option nowk nobk
+
+next
+
+pieces white mgd4 black pb6d6
+stip ~1
+option nowk nobk
+
+next
+
+pieces white swd4 black pb6d7
+stip ~1
+option nowk nobk
+
+next
+
+pieces white ard1
+stip ~1
+option nowk nobk
+
+next
+
+pieces white rbd1
+stip ~1
+option nowk nobk
+
+next
+
+pieces white bkd2 black sb1
+stip ~1
+option nowk nobk
+
+next
+
+pieces white bnd2 black sb1
+stip ~1
+option nowk nobk
+
+next
+
+pieces white btd2
+stip ~1
+option nowk nobk
+
+next
+
+pieces white gtd2
+stip ~1
+option nowk nobk
+
+end

@@ -230,7 +230,7 @@ Beispiel fuer Mehrfachbeobachung durch den selben Stein
    1.e7-e8=D # !
 
 
-                        empile:          23
+                        empile:          39
                      play_move:          27
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          50

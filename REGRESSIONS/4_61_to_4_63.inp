@@ -296,6 +296,14 @@ title thousands of move numbers
 pieces white kd2 rc8 black kg3 pf3h2
 sstip black 4hh[1s[1s[#]]{+}]
 option movenumbers
+
+next
+
+title Popeye 4.51 to 4.61 would produce the move to c5 twice
+pieces white mgd4 black pb6d6
+stip ~1
+option nowk nobk
+
 next
 
 title stipulation token without actual stipulation caused a crash

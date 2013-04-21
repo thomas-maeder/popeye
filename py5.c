@@ -622,7 +622,7 @@ void genrn(square sq_departure)
   }
 
   if (flag)
-    remove_duplicate_moves(save_nbcou);
+    remove_duplicate_moves_of_single_piece(save_nbcou);
 
   /* Now we test castling */
   if (castling_supported)
