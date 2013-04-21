@@ -13,36 +13,36 @@
 #include <assert.h>
 #include <stdlib.h>
 
-PieNam getprompiece[PieceCount];
-static boolean is_current_promotion_marine[maxply+1];
-static PieNam getprompiece_marine[PieceCount];
+PieNam promotee_chain[nr_promotee_chains][PieceCount];
+
+static promotee_chain_selector_type promotee_chain_selector[maxply+1];
 PieNam current_promotion_of_moving[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
-static void build_promotee_chain(PieNam (* const chain)[PieceCount],
+static void build_promotee_chain(promotee_chain_selector_type selector,
                                  boolean (* const is_promotee)[PieceCount])
 {
   PieNam p;
   PieNam prev_prom_piece = Empty;
 
   for (p = King; p<PieceCount; ++p)
-    getprompiece[p] = Empty;
+    promotee_chain[promotee_chain_orthodox][p] = Empty;
 
   for (p = King; p<PieceCount; ++p)
     if ((*is_promotee)[p])
     {
-      (*chain)[prev_prom_piece] = p;
+      promotee_chain[selector][prev_prom_piece] = p;
       prev_prom_piece = p;
     }
 }
 
-static void init_promotion_pieces_chain(PieNam (* const chain)[PieceCount],
+static void init_promotion_pieces_chain(promotee_chain_selector_type selector,
                                         standard_walks_type * const standard_walks)
 {
 
   if (CondFlag[promotiononly])
-    build_promotee_chain(chain,&promonly);
+    build_promotee_chain(selector,&promonly);
   else
   {
     boolean is_promotee[PieceCount] = { false };
@@ -65,7 +65,7 @@ static void init_promotion_pieces_chain(PieNam (* const chain)[PieceCount],
         if (exist[p] && is_pawn(p))
           is_promotee[p] = true;
 
-    build_promotee_chain(chain,&is_promotee);
+    build_promotee_chain(selector,&is_promotee);
   }
 }
 
@@ -76,7 +76,7 @@ void init_promotion_pieces(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  init_promotion_pieces_chain(&getprompiece,&standard_walks);
+  init_promotion_pieces_chain(promotee_chain_orthodox,&standard_walks);
 
   if (may_exist[MarinePawn])
   {
@@ -88,7 +88,7 @@ void init_promotion_pieces(void)
     marine_walks[Knight] = MarineKnight;
     marine_walks[Pawn] = MarinePawn;
 
-    init_promotion_pieces_chain(&getprompiece_marine,&marine_walks);
+    init_promotion_pieces_chain(promotee_chain_marine,&marine_walks);
   }
 
   TraceFunctionExit(__func__);
@@ -147,8 +147,8 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
   {
     boolean const is_prom_square = has_pawn_reached_promotion_square(slices[si].starter,
                                                                      sq_arrival);
-    is_current_promotion_marine[nbply] = abs(e[sq_arrival])==MarinePawn;
-    current_promotion_of_moving[nbply] = is_prom_square ? (is_current_promotion_marine[nbply] ? getprompiece_marine : getprompiece)[Empty] : Empty;
+    promotee_chain_selector[nbply] = abs(e[sq_arrival])==MarinePawn ? promotee_chain_marine : promotee_chain_orthodox;
+    current_promotion_of_moving[nbply] = is_prom_square ? promotee_chain[promotee_chain_selector[nbply]][Empty] : Empty;
   }
 
   if (current_promotion_of_moving[nbply]==Empty)
@@ -166,7 +166,7 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_moving[nbply] = (is_current_promotion_marine[nbply] ? getprompiece_marine : getprompiece)[current_promotion_of_moving[nbply]];
+      current_promotion_of_moving[nbply] = promotee_chain[promotee_chain_selector[nbply]][current_promotion_of_moving[nbply]];
       if (current_promotion_of_moving[nbply]!=Empty)
         lock_post_move_iterations();
     }

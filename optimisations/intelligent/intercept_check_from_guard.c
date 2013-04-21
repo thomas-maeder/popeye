@@ -91,7 +91,7 @@ static void promoted_pawn(square to_be_intercepted,
                                                                 to_be_intercepted))
   {
     PieNam pp;
-    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+    for (pp = promotee_chain[promotee_chain_orthodox][Empty]; pp!=Empty; pp = promotee_chain[promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:
@@ -264,7 +264,7 @@ static void place_promoted_black_pawn(square placed_on,
                                                                 placed_on))
   {
     PieNam pp;
-    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+    for (pp = promotee_chain[promotee_chain_orthodox][Empty]; pp!=Empty; pp = promotee_chain[promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

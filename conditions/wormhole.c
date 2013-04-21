@@ -49,7 +49,7 @@ stip_length_type wormhole_transfered_promoter_solve(slice_index si, stip_length_
   {
     if ((TSTFLAG(spec[sq_transfer],White) && has_pawn_reached_promotion_square(White,sq_transfer))
         || (TSTFLAG(spec[sq_transfer],Black) && has_pawn_reached_promotion_square(Black,sq_transfer)))
-      current_promotion_of_transfered[nbply] = getprompiece[Empty];
+      current_promotion_of_transfered[nbply] = promotee_chain[promotee_chain_orthodox][Empty];
     else
       current_promotion_of_transfered[nbply] = Empty;
   }
@@ -68,7 +68,7 @@ stip_length_type wormhole_transfered_promoter_solve(slice_index si, stip_length_
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_transfered[nbply] = getprompiece[current_promotion_of_transfered[nbply]];
+      current_promotion_of_transfered[nbply] = promotee_chain[promotee_chain_orthodox][current_promotion_of_transfered[nbply]];
       TracePiece(current_promotion_of_transfered[nbply]);TraceText("\n");
 
       if (current_promotion_of_transfered[nbply]!=Empty)

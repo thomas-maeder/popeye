@@ -21,7 +21,7 @@ static void init_promotee(Side trait_ply)
   TraceFunctionParamListEnd();
 
   if (has_pawn_reached_promotion_square(trait_ply,current_anticirce_rebirth_square[nbply]))
-    current_promotion_of_reborn_moving[nbply] = getprompiece[Empty];
+    current_promotion_of_reborn_moving[nbply] = promotee_chain[promotee_chain_orthodox][Empty];
   else
     current_promotion_of_reborn_moving[nbply] = Empty;
 
@@ -71,7 +71,7 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_reborn_moving[nbply] = getprompiece[current_promotion_of_reborn_moving[nbply]];
+      current_promotion_of_reborn_moving[nbply] = promotee_chain[promotee_chain_orthodox][current_promotion_of_reborn_moving[nbply]];
       TracePiece(current_promotion_of_reborn_moving[nbply]);TraceText("\n");
       if (current_promotion_of_reborn_moving[nbply]!=Empty)
         lock_post_move_iterations();

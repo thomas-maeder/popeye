@@ -46,7 +46,7 @@ PieNam next_singlebox_prom(PieNam p, Side c)
   TraceEnumerator(Side,c,"");
   TraceFunctionParamListEnd();
 
-  for (pprom = getprompiece[p]; pprom!=Empty; pprom = getprompiece[pprom])
+  for (pprom = promotee_chain[promotee_chain_orthodox][p]; pprom!=Empty; pprom = promotee_chain[promotee_chain_orthodox][pprom])
   {
     piece const colored = c==White ? pprom : -pprom;
     if (pprom!=Pawn && nbpiece[colored]<nr_piece(game_array)[pprom])

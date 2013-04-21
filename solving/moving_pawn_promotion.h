@@ -6,7 +6,15 @@
 /* This module provides implements the promotion of the moving pawn
  */
 
-extern PieNam getprompiece[PieceCount];
+typedef enum
+{
+  promotee_chain_orthodox,
+  promotee_chain_marine,
+
+  nr_promotee_chains
+} promotee_chain_selector_type;
+
+extern PieNam promotee_chain[nr_promotee_chains][PieceCount];
 extern PieNam current_promotion_of_moving[maxply+1];
 
 /* Initialise the set of promotion pieces for the current twin

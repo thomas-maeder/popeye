@@ -235,7 +235,7 @@ static void by_promoted_pawn(unsigned int index_of_checker, square const check_f
                                                                 check_from))
   {
     PieNam pp;
-    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+    for (pp = promotee_chain[promotee_chain_orthodox][Empty]; pp!=Empty; pp = promotee_chain[promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

@@ -518,7 +518,7 @@ static void WriteConditions(int alignment)
       PieNam pp = Empty;
       while (true)
       {
-        pp = getprompiece[pp];
+        pp = promotee_chain[promotee_chain_orthodox][pp];
         if (pp==Empty)
           break;
 
@@ -532,7 +532,7 @@ static void WriteConditions(int alignment)
         strcat(CondLine, LocalBuf);
       }
       if (strlen(CondLine) <= strlen(CondTab[promotiononly])) {
-        /* due to zeroposition, where getprompiece is not */
+        /* due to zeroposition, where promotee_chain is not */
         /* set (it's set in verifieposition), I suppress  */
         /* output of promotiononly for now.  */
         continue;
@@ -559,7 +559,7 @@ static void WriteConditions(int alignment)
         strcat(CondLine, LocalBuf);
       }
       if (strlen(CondLine) <= strlen(CondTab[football])) {
-        /* due to zeroposition, where getprompiece is not */
+        /* due to zeroposition, where promotee_chain is not */
         /* set (it's set in verifieposition), I suppress  */
         /* output of promotiononly for now.  */
         continue;

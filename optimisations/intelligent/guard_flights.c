@@ -614,7 +614,7 @@ static void promoted_pawn(square guard_from)
                                                                 guard_from))
   {
     PieNam pp;
-    for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+    for (pp = promotee_chain[promotee_chain_orthodox][Empty]; pp!=Empty; pp = promotee_chain[promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

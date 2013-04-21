@@ -439,7 +439,7 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
     if (reserve[curr_reserve].nr_remaining_moves[Black]>=moves)
     {
       PieNam pp;
-      for (pp = getprompiece[Empty]; pp!=Empty; pp = getprompiece[pp])
+      for (pp = promotee_chain[promotee_chain_orthodox][Empty]; pp!=Empty; pp = promotee_chain[promotee_chain_orthodox][pp])
       {
         unsigned int const time = black_pawn_promotion(pawn_comes_from,
                                                        -pp,

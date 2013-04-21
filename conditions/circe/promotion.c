@@ -45,7 +45,7 @@ stip_length_type circe_promoter_solve(slice_index si, stip_length_type n)
     /* check for both sides - this has to work for Circe Parrain and neutrals as well! */
     if ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
         || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)))
-      current_promotion_of_capturee[nbply] = getprompiece[Empty];
+      current_promotion_of_capturee[nbply] = promotee_chain[promotee_chain_orthodox][Empty];
     else
       current_promotion_of_capturee[nbply] = Empty;
   }
@@ -64,7 +64,7 @@ stip_length_type circe_promoter_solve(slice_index si, stip_length_type n)
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_capturee[nbply] = getprompiece[current_promotion_of_capturee[nbply]];
+      current_promotion_of_capturee[nbply] = promotee_chain[promotee_chain_orthodox][current_promotion_of_capturee[nbply]];
       TracePiece(current_promotion_of_capturee[nbply]);TraceText("\n");
 
       if (current_promotion_of_capturee[nbply]!=Empty)

@@ -1,0 +1,121 @@
+begin
+
+protocol wurmloch.tst
+
+title king is transfered when castling, rook isn't
+pieces white ke1 rh1
+condition wormholes d4f1g1h5
+stipulation 001
+option nobk
+
+next
+
+title pawns are promoted before and after transfer
+pieces white pa3f7
+condition wormholes a4f8d1
+stipulation ~1
+option nowk nobk
+
+next
+
+title neutral pawns are promoted
+title even if transfered to the "wrong" promotion row
+pieces neutral pd3
+condition wormholes d4f1
+stipulation ~1
+option nowk nobk
+
+next
+
+title pawns in wormholes on 1st rank can do single step
+pieces white pd1e7 black pf8a8
+condition wormholes d1d4f8
+stipulation hzd21
+option nowk nobk
+
+next
+
+title castling after transfer to wormhole
+pieces white ke7 re6
+condition wormholes h1e1f8
+stip ser-003
+option nobk
+
+next
+
+title at least 1 wormhole must be empty for check on a wormhole ...
+pieces white pd5d4 black ke7
+condition wormholes d4e7
+stip ser-+2
+option nowk
+
+next
+
+title ... unless the checking piece occupies a wormhole itself
+pieces white pc6 black ke8 pd7
+condition circe wormholes d7e8f7
+stip +1
+option nowk
+
+next
+
+title paralysis on wormhole even if all wormholes are blocked
+pieces white kh4 qf1 sd7 black ka8 sb8    
+condition madrasi wormholes b8h4
+stipulation #1
+
+next
+
+title support on wormhole even if all wormholes are blocked
+pieces white kh4 qa6 sd7 black ka8
+condition patrouille wormholes a6h4
+stipulation #1
+
+next
+
+title the length of a move is determined by the wormhole a pices moves on
+pieces white ba1
+condition wormhole h8b1 whitemaxi
+stipulation ~1
+option nowk nobk
+
+next
+
+title en passant capture of pawn transfered to wormhole
+pieces white bd1 pd5 black kh5 pe7
+condition wormholes e5f3 blackmaxi
+stip h+1
+option nowk
+
+next
+
+title known limitation: en passant key with wormholes
+condition wormholes e5f3
+stip ~1
+option nowk nobk EnPassant b7
+
+next
+
+title ep capture to wormhole
+pieces black pe7 white pd5
+condition wormholes e6h4
+stip hep1
+option movenum nobk nowk
+
+next
+
+title 1.e2-e4[wBe4->e2] would be an illegal null move; 1.e2*f3[wBf3->e2] isn't
+pieces white pe2 black pf3
+condition wormholes e2e4f3
+stipulation ~1
+option nowk nobk
+
+next
+
+title promotions are not illegal null moves
+pieces white pe7
+condition wormholes e7e8
+stipulation ~1
+option nowk nobk
+
+end
