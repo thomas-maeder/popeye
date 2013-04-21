@@ -1618,7 +1618,7 @@ static void inithash(slice_index si)
   {
     PieNam i;
     for (i = PieceCount; i>Empty; --i)
-      if (exist[i])
+      if (may_exist[i])
         piece_nbr[i] = j++;
   }
 

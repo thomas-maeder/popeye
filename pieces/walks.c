@@ -1,7 +1,8 @@
 #include "pieces/walks.h"
 #include "pydata.h"
 
-PieNam standard_walks[Bishop+1];
+standard_walks_type standard_walks;
+
 /* Initialise array standard_walks according to the current fairy conditions
  */
 void initalise_standard_walks(void)

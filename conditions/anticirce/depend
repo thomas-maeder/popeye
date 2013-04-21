@@ -9,7 +9,7 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/move.h conditions/anticirce/capture_fork.h \
  conditions/magic_square.h solving/observation.h pyproc.h \
- debugging/trace.h
+ solving/moving_pawn_promotion.h debugging/trace.h
 
 conditions/anticirce/anticirce.h:
 
@@ -68,6 +68,8 @@ conditions/magic_square.h:
 solving/observation.h:
 
 pyproc.h:
+
+solving/moving_pawn_promotion.h:
 
 debugging/trace.h:
 conditions/anticirce/goal_filters$(OBJ_SUFFIX): conditions/anticirce/goal_filters.c \

@@ -1036,3 +1036,56 @@ solution finished.
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .  MP   .   7
+|                                   |
+6   .   .  MP   .   .   .   .   .   6
+|                                   |
+5   .   P   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -K   . -MP   .   .   .   4
+|                                   |
+3   .   .   .  MP   .   .   .   .   3
+|                                   |
+2   .  MP   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          5 + 3
+
+  1  (MPg7-g8=Q + )
+   1.MPg7-g8=Q + !
+
+  2  (MPg7-g8=S )
+  3  (MPg7-g8=R )
+  4  (MPg7-g8=B + )
+   1.MPg7-g8=B + !
+
+  5  (MPc6*d7-e8=Q )
+  6  (MPc6*d7-e8=S )
+  7  (MPc6*d7-e8=R )
+  8  (MPc6*d7-e8=B )
+  9  (MPc6-c7 )
+ 10  (b5-b6 + )
+   1.b5-b6 + !
+
+ 11  (MPd3*e4-f5 )
+ 12  (MPd3-d4 )
+ 13  (MPb2-b4 )
+ 14  (MPb2-b3 + )
+   1.MPb2-b3 + !
+
+
+                        empile:           8
+                     play_move:          14
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          29
+solution finished. 
+
+

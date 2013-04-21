@@ -120,6 +120,7 @@ EXTERN  ply      parent_ply[maxply + 1];
 EXTERN  boolean platzwechsel_rochade_allowed[nr_sides][maxply+1];
 
 EXTERN  boolean  exist[PieceCount];
+EXTERN  boolean  may_exist[PieceCount];
 EXTERN  boolean  promonly[PieceCount];
 EXTERN  boolean  is_football_substitute[PieceCount];
 
@@ -355,7 +356,8 @@ EXTERN boolean			anyparrain;
     /*147*/ {'s','h'},   /* bateau */
     /*148*/ {'g','y'},   /* gryphon */
     /*149*/ {'c','m'},   /* cavalier marin */
-    /*150*/ {'p','o'}    /* pos\'eidon */
+    /*150*/ {'p','o'},   /* pos\'eidon */
+    /*151*/ {'p','m'}    /* pion marin */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -507,7 +509,8 @@ EXTERN boolean			anyparrain;
     /*147*/ {'s','h'},   /* schiff */
     /*148*/ {'g','y'},   /* gryphon */
     /*149*/ {'m','s'},   /* mariner Springer */
-    /*150*/ {'p','o'}    /* Poseidon */
+    /*150*/ {'p','o'},   /* Poseidon */
+    /*151*/ {'m','b'}    /* mariner Bauer */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -659,7 +662,8 @@ EXTERN boolean			anyparrain;
     /*147*/ {'s','h'},   /* ship */
     /*148*/ {'g','y'},   /* gryphon */
     /*149*/ {'m','s'},   /* marine knight */
-    /*150*/ {'p','o'}    /* poseidon */
+    /*150*/ {'p','o'},   /* poseidon */
+    /*151*/ {'m','p'}    /* marine pawn */
   }
 	};
 #endif
@@ -1943,7 +1947,7 @@ enum {
 /*148 */  gryphoncheck,
 /*149 */  marine_knight_check,
 /*150 */  poseidon_check,
-/*151 */  huntercheck,
+/*151 */  marine_pawn_check,
 /*152 */  huntercheck,
 /*153 */  huntercheck,
 /*154 */  huntercheck,
@@ -1952,7 +1956,8 @@ enum {
 /*157 */  huntercheck,
 /*158 */  huntercheck,
 /*159 */  huntercheck,
-/*160 */  huntercheck
+/*160 */  huntercheck,
+/*161 */  huntercheck
     };
 #endif
 

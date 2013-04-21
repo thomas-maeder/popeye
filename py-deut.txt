@@ -903,6 +903,7 @@ aufwendiger ist das Kommando
 	lr	Rosen-Heuschrecke
 	ls      Laeuferspatz                    1,1 135 Grad Huepfer
 	ma      Mao                             (Wie Springer) Gerade-Diagonal
+	mb      Mariner Bauer
 	mg      Marguerite                      g+sp+ad+el+ha
 	ml      Maoreiterlion
 	mm      Moareiterlion

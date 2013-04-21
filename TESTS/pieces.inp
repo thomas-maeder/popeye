@@ -102,4 +102,10 @@ pieces white gtd2
 stip ~1
 option nowk nobk
 
+next
+
+pieces white pb5 mpb2c6d3g7 black kc4 pd7 mpe4
+stip +1
+option movenum nowk nobk
+
 end

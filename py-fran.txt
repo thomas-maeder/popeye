@@ -895,6 +895,7 @@ suivante est un peu plus compliquee:
 	pb      pion berolina   
 	pc      pion chinois
 	pi      piece impuissant
+	pm      pion marin
 	po      pos\'eidon
 	pv      pion renverse     joue en directions opposées du pion normal; se promeut sur la rangée opposée
 	pr      princesse   

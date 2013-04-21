@@ -471,8 +471,6 @@ void InitBoard(void)
 void InitAlways(void) {
   square i;
 
-  memset((char *) exist, 0, sizeof(exist));
-
   nbply = nil_ply;
   current_move[nbply] = nil_coup;
   ply_watermark = nil_ply;
@@ -666,20 +664,21 @@ boolean marine_rider_check(square   sq_king,
                            evalfunction_t *evaluate)
 {
   /* detect "check" of marin piece p or a locust */
-  piece marine;
   numvec  k;
 
-  square sq_departure;
-  square sq_arrival;
-
-  for (k= kanf; k<= kend; k++) {
-    sq_arrival= sq_king-vec[k];
-    if (e[sq_arrival]==vide) {
+  for (k= kanf; k<= kend; k++)
+  {
+    square const sq_arrival= sq_king-vec[k];
+    if (e[sq_arrival]==vide)
+    {
+      piece marine;
+      square sq_departure;
       finligne(sq_king,vec[k],marine,sq_departure);
       if (marine==p && evaluate(sq_departure,sq_arrival,sq_king))
         return true;
     }
   }
+
   return false;
 }
 
@@ -694,6 +693,34 @@ boolean marine_leaper_check(square sq_king,
   {
     square const sq_arrival = sq_king-vec[k];
     square const sq_departure = sq_king+vec[k];
+    if (e[sq_arrival]==vide && e[sq_departure]==p
+        && evaluate(sq_departure,sq_arrival,sq_king))
+      return true;
+  }
+
+  return false;
+}
+
+boolean marine_pawn_check(square sq_king,
+                          piece p,
+                          evalfunction_t *evaluate)
+{
+  Side const checking = p>=vide ? White : Black;
+  int const dir_vertical = checking==White ? dir_up : dir_down;
+
+  {
+    int const vec_left = dir_vertical+dir_left;
+    square const sq_arrival = sq_king+vec_left;
+    square const sq_departure = sq_king-vec_left;
+    if (e[sq_arrival]==vide && e[sq_departure]==p
+        && evaluate(sq_departure,sq_arrival,sq_king))
+      return true;
+  }
+
+  {
+    int const vec_right = dir_vertical+dir_right;
+    square const sq_arrival = sq_king+vec_right;
+    square const sq_departure = sq_king-vec_right;
     if (e[sq_arrival]==vide && e[sq_departure]==p
         && evaluate(sq_departure,sq_arrival,sq_king))
       return true;
@@ -1213,20 +1240,4 @@ boolean CrossesGridLines(square dep, square arr)
     return true;
   }
   return false;
-}
-
-PieNam* GetPromotingPieces (square sq_departure,
-                           piece pi_departing,
-                           Side camp,
-                           Flags spec_pi_moving,
-                           square sq_arrival,
-                           piece pi_captured)
-{
-    if (is_pawn(abs(pi_departing))
-        && PromSq(is_reversepawn(abs(pi_departing))^camp,sq_arrival) &&
-	    ((!CondFlag[protean] && !TSTFLAG(spec_pi_moving, Protean)) || pi_captured == vide)) {
-    	return getprompiece;
-    }
-
-    return NULL;
 }

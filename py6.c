@@ -430,20 +430,20 @@ static void initPieces(void)
   initalise_standard_walks();
 
   for (p = Empty; p<PieceCount; ++p)
-    exist[p] = false;
+    may_exist[p] = false;
 
   for (p = Empty; p<=Bishop; p++)
-    exist[standard_walks[p]] = true;
+    may_exist[standard_walks[p]] = true;
 
   if (CondFlag[sentinelles])
   {
-    exist[sentinelle[Black]] = true;
-    exist[sentinelle[White]] = true;
+    may_exist[sentinelle[Black]] = true;
+    may_exist[sentinelle[White]] = true;
   }
 
   if (CondFlag[chinoises])
     for (p = Leo; p<=Vao; ++p)
-      exist[p] = true;
+      may_exist[p] = true;
 
   for (p = (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction]
             ? King
@@ -451,10 +451,10 @@ static void initPieces(void)
        p < PieceCount;
        ++p)
     if (promonly[p] || is_football_substitute[p])
-      exist[p] = true;
+      may_exist[p] = true;
 
   if (CondFlag[protean])
-    exist[ReversePawn] = true;
+    may_exist[ReversePawn] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -464,6 +464,12 @@ static void countPieces(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  {
+    PieNam p;
+    for (p = Empty; p<PieceCount; ++p)
+      exist[p] = false;
+  }
 
   {
     piece p;
@@ -483,9 +489,18 @@ static void countPieces(void)
       if (p!=vide)
       {
         exist[abs(p)] = true;
+        may_exist[abs(p)] = true;
         ++nbpiece[p];
       }
     }
+  }
+
+  if (nbpiece[MarinePawn]>0)
+  {
+    may_exist[Sirene] = true;
+    may_exist[Triton] = true;
+    may_exist[Nereide] = true;
+    may_exist[MarineKnight] = true;
   }
 
   TraceFunctionExit(__func__);
@@ -946,7 +961,7 @@ static boolean verify_position(slice_index si)
     PieNam p;
     for (p = Bishop+1; p<PieceCount; ++p)
     {
-      if (exist[p] || promonly[p] || is_football_substitute[p])
+      if (may_exist[p] || promonly[p] || is_football_substitute[p])
       {
         flagfee = true;
         if (is_rider(p)) {}
@@ -1029,7 +1044,7 @@ static boolean verify_position(slice_index si)
 
   if (anycirce)
   {
-    if (exist[Dummy])
+    if (may_exist[Dummy])
     {
       VerifieMsg(CirceAndDummy);
       return false;
@@ -1494,34 +1509,34 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[heffalumps]
-      && (exist[Rose]
-          || exist[SpiralSpringer]
-          || exist[UbiUbi]
-          || exist[Hamster]
-          || exist[Elk]
-          || exist[Eagle]
-          || exist[Sparrow]
-          || exist[Archbishop]
-          || exist[ReflectBishop]
-          || exist[Cardinal]
-          || exist[BoyScout]
-          || exist[GirlScout]
-          || exist[DiagonalSpiralSpringer]
-          || exist[BouncyKnight]
-          || exist[BouncyNightrider]
-          || exist[CAT]
-          || exist[RoseHopper]
-          || exist[RoseLion]
-          || exist[Rao]
-          || exist[RookMoose]
-          || exist[RookEagle]
-          || exist[RookSparrow]
-          || exist[BishopMoose]
-          || exist[BishopEagle]
-          || exist[BishopSparrow]
-          || exist[DoubleGras]
-          || exist[DoubleRookHopper]
-          || exist[DoubleBishopper]))
+      && (may_exist[Rose]
+          || may_exist[SpiralSpringer]
+          || may_exist[UbiUbi]
+          || may_exist[Hamster]
+          || may_exist[Elk]
+          || may_exist[Eagle]
+          || may_exist[Sparrow]
+          || may_exist[Archbishop]
+          || may_exist[ReflectBishop]
+          || may_exist[Cardinal]
+          || may_exist[BoyScout]
+          || may_exist[GirlScout]
+          || may_exist[DiagonalSpiralSpringer]
+          || may_exist[BouncyKnight]
+          || may_exist[BouncyNightrider]
+          || may_exist[CAT]
+          || may_exist[RoseHopper]
+          || may_exist[RoseLion]
+          || may_exist[Rao]
+          || may_exist[RookMoose]
+          || may_exist[RookEagle]
+          || may_exist[RookSparrow]
+          || may_exist[BishopMoose]
+          || may_exist[BishopEagle]
+          || may_exist[BishopSparrow]
+          || may_exist[DoubleGras]
+          || may_exist[DoubleRookHopper]
+          || may_exist[DoubleBishopper]))
   {
     VerifieMsg(SomePiecesAndHeffa);
     return false;
@@ -1639,7 +1654,7 @@ static boolean verify_position(slice_index si)
       firstprompiece = Queen;
 
     for (p = firstprompiece; p<PieceCount; ++p)
-      if (exist[p])
+      if (may_exist[p])
       {
         if (p>Bishop && p!=Dummy) {
           /* only fairy pieces until now ! */
@@ -1661,7 +1676,7 @@ static boolean verify_position(slice_index si)
   {
     PieNam p;
     for (p = King; p<PieceCount; ++p) {
-      if (exist[p] && p!=Dummy && p!=Hamster)
+      if (may_exist[p] && p!=Dummy && p!=Hamster)
       {
         if (normaltranspieces[White])
           transmpieces[White][tp] = p;
@@ -1670,7 +1685,7 @@ static boolean verify_position(slice_index si)
         tp++;
         if (p!=Orphan
             && p!=Friend
-            && (exist[Orphan] || exist[Friend]))
+            && (may_exist[Orphan] || may_exist[Friend]))
           orphanpieces[op++] = p;
       }
     }
@@ -1699,8 +1714,8 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if ((exist[Orphan]
-       || exist[Friend]
+  if ((may_exist[Orphan]
+       || may_exist[Friend]
        || calc_reflective_king[White]
        || calc_reflective_king[Black])
       && TSTFLAG(some_pieces_flags, Neutral))
@@ -1897,8 +1912,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[schwarzschacher]
       || CondFlag[republican]
       || CondFlag[kobulkings]
-      || exist[UbiUbi] /* sorting by nr of opponents moves doesn't work - why?? */
-      || exist[Hunter0] /* ditto */
+      || may_exist[UbiUbi] /* sorting by nr of opponents moves doesn't work - why?? */
+      || may_exist[Hunter0] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(White);
 
@@ -1919,8 +1934,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[schwarzschacher]
       || CondFlag[republican]
       || CondFlag[kobulkings]
-      || exist[UbiUbi] /* sorting by nr of opponents moves doesn't work  - why?? */
-      || exist[Hunter0] /* ditto */
+      || may_exist[UbiUbi] /* sorting by nr of opponents moves doesn't work  - why?? */
+      || may_exist[Hunter0] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(Black);
 
@@ -2002,7 +2017,7 @@ boolean WriteSpec(Flags sp, piece p, boolean printcolours)
     if ((spname!=Volage || !CondFlag[volage])
         && (spname!=Patrol || !CondFlag[patrouille])
         && (spname!=Beamtet || !CondFlag[beamten])
-        && (spname!=Royal || abs(p)!=King)
+        && (spname!=Royal || (abs(p)!=King && abs(p)!=Poseidon))
         && TSTFLAG(sp, spname))
     {
       StdChar(tolower(*PieSpString[UserLanguage][spname]));

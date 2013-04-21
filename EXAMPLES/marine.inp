@@ -59,4 +59,29 @@ pieces white ke2 bf3 ph2 black pog1
 stipulation #2
 option vari
 
+next
+
+title why does WinChloe only give 2.POb8==, but not 2.POb7?
+author Rom\'eo B\'edoni
+origin Ph\'enix 1992
+pieces white kc8 mpb6 black ka8 mpa7
+stip ==2
+condition circe madrasi rexincl whitemaxi
+option vari halfduplex
+
+next
+
+author Rom\'eo B\'edoni
+origin diagrammes 1991
+pieces white pog6 nde7 mpa2 black poe8 mpb2b4b5
+stip h#3
+
+next
+
+author Rom\'eo B\'edoni
+origin diagrammes 1991
+pieces white pof5 sib1 ndb2 mpf7g7 black pog6 trc8 msc5 mpe2f2
+stip h==3
+condition madrasi rexincl
+
 end

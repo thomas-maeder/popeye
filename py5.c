@@ -419,6 +419,7 @@ boolean is_short(PieNam p)
     case  Skylla:
     case  Charybdis:
     case  ChinesePawn:
+    case  MarinePawn:
       return  true;
 
     default:
@@ -435,6 +436,7 @@ boolean is_pawn(PieNam p)
     case  SuperBerolinaPawn:
     case  SuperPawn:
     case  ReversePawn:
+    case  MarinePawn:
       return  true;
 
     default:
@@ -450,6 +452,7 @@ boolean is_forwardpawn(PieNam p)
     case  BerolinaPawn:
     case  SuperBerolinaPawn:
     case  SuperPawn:
+    case  MarinePawn:
       return  true;
 
     default:

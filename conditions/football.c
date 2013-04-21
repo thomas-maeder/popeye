@@ -38,16 +38,13 @@ void init_football_substitutes(void)
 
   if (!football_are_substitutes_limited)
     for (p = first_candidate; p<PieceCount; ++p)
-      if (exist[p])
+      if (may_exist[p])
         is_football_substitute[p] = ((p!=King
                                       || CondFlag[losingchess]
                                       || CondFlag[dynasty]
                                       || CondFlag[extinction])
                                      && p!=Dummy
-                                     && p!=BerolinaPawn
-                                     && p!=SuperBerolinaPawn
-                                     && p!=SuperPawn
-                                     && p!=ReversePawn);
+                                     && (p==Pawn || !is_pawn(p)));
 
   for (p = first_candidate; p<PieceCount; ++p)
     if (is_football_substitute[p])

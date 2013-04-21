@@ -11,7 +11,8 @@
  * such as Chinese Chess (aka Leofamily), Cavalier Majeur, Marine Chess and the
  * like.
  */
-extern PieNam standard_walks[Bishop+1];
+typedef PieNam standard_walks_type[Bishop+1];
+extern standard_walks_type standard_walks;
 
 /* Initialise array standard_walks according to the current fairy conditions
  */

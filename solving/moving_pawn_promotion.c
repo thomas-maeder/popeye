@@ -1,6 +1,7 @@
 #include "solving/moving_pawn_promotion.h"
-#include "stipulation/pipe.h"
 #include "pydata.h"
+#include "pieces/walks.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -13,53 +14,81 @@
 #include <stdlib.h>
 
 PieNam getprompiece[PieceCount];
+static boolean is_current_promotion_marine[maxply+1];
+static PieNam getprompiece_marine[PieceCount];
 PieNam current_promotion_of_moving[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
+
+static void build_promotee_chain(PieNam (* const chain)[PieceCount],
+                                 boolean (* const is_promotee)[PieceCount])
+{
+  PieNam p;
+  PieNam prev_prom_piece = Empty;
+
+  for (p = King; p<PieceCount; ++p)
+    getprompiece[p] = Empty;
+
+  for (p = King; p<PieceCount; ++p)
+    if ((*is_promotee)[p])
+    {
+      (*chain)[prev_prom_piece] = p;
+      prev_prom_piece = p;
+    }
+}
+
+static void init_promotion_pieces_chain(PieNam (* const chain)[PieceCount],
+                                        standard_walks_type * const standard_walks)
+{
+
+  if (CondFlag[promotiononly])
+    build_promotee_chain(chain,&promonly);
+  else
+  {
+    boolean is_promotee[PieceCount] = { false };
+    PieNam p;
+
+    for (p = Queen; p<=Bishop; ++p)
+      is_promotee[(*standard_walks)[p]] = true;
+
+    for (p = King+1; p<PieceCount; ++p)
+      if (exist[p] && !is_pawn(p))
+        is_promotee[p] = true;
+
+    is_promotee[Dummy] = false;
+
+    if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
+      is_promotee[(*standard_walks)[King]] = true;
+
+    if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
+      for (p = King; p<PieceCount; ++p)
+        if (exist[p] && is_pawn(p))
+          is_promotee[p] = true;
+
+    build_promotee_chain(chain,&is_promotee);
+  }
+}
 
 /* Initialise the set of promotion pieces for the current twin
  */
 void init_promotion_pieces(void)
 {
-  PieNam p;
-  PieNam prev_prom_piece = Empty;
-  PieNam firstprompiece;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
-    firstprompiece = King;
-  else if ((CondFlag[singlebox] && SingleBoxType!=singlebox_type1) || CondFlag[football])
-    firstprompiece = Pawn;
-  else
-    firstprompiece = Queen;
+  init_promotion_pieces_chain(&getprompiece,&standard_walks);
 
-  for (p = firstprompiece; p<PieceCount; ++p)
+  if (may_exist[MarinePawn])
   {
-    getprompiece[p] = Empty;
+    standard_walks_type marine_walks;
+    marine_walks[King] = Poseidon;
+    marine_walks[Queen] = Sirene;
+    marine_walks[Rook] = Triton;
+    marine_walks[Bishop] = Nereide;
+    marine_walks[Knight] = MarineKnight;
+    marine_walks[Pawn] = MarinePawn;
 
-    if (exist[p])
-    {
-      if ((p!=Pawn || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
-          && (p!=King
-              || CondFlag[losingchess]
-              || CondFlag[dynasty]
-              || CondFlag[extinction])
-          && p!=Dummy
-          && p!=BerolinaPawn
-          && p!=SuperBerolinaPawn
-          && p!=SuperPawn
-          && p!=ReversePawn
-          && (!CondFlag[promotiononly] || promonly[p]))
-      {
-        TracePiece(prev_prom_piece);
-        TracePiece(p);
-        TraceText("\n");
-        getprompiece[prev_prom_piece] = p;
-        prev_prom_piece = p;
-      }
-    }
+    init_promotion_pieces_chain(&getprompiece_marine,&marine_walks);
   }
 
   TraceFunctionExit(__func__);
@@ -81,9 +110,9 @@ boolean has_pawn_reached_promotion_square(Side side, square square_reached)
   TraceFunctionParamListEnd();
 
   result = (is_pawn(abs(e[square_reached]))
-           && PromSq(is_reversepawn(abs(e[square_reached]))^side,square_reached)
-           && ((!CondFlag[protean] && !TSTFLAG(spec[square_reached],Protean))
-               || pprise[nbply]==vide));
+            && PromSq(is_reversepawn(abs(e[square_reached]))^side,square_reached)
+            && ((!CondFlag[protean] && !TSTFLAG(spec[square_reached],Protean))
+                || pprise[nbply]==vide));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -118,7 +147,8 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
   {
     boolean const is_prom_square = has_pawn_reached_promotion_square(slices[si].starter,
                                                                      sq_arrival);
-    current_promotion_of_moving[nbply] = is_prom_square ? getprompiece[Empty] : Empty;
+    is_current_promotion_marine[nbply] = abs(e[sq_arrival])==MarinePawn;
+    current_promotion_of_moving[nbply] = is_prom_square ? (is_current_promotion_marine[nbply] ? getprompiece_marine : getprompiece)[Empty] : Empty;
   }
 
   if (current_promotion_of_moving[nbply]==Empty)
@@ -136,7 +166,7 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_moving[nbply] = getprompiece[current_promotion_of_moving[nbply]];
+      current_promotion_of_moving[nbply] = (is_current_promotion_marine[nbply] ? getprompiece_marine : getprompiece)[current_promotion_of_moving[nbply]];
       if (current_promotion_of_moving[nbply]!=Empty)
         lock_post_move_iterations();
     }

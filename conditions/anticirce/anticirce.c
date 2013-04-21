@@ -6,9 +6,11 @@
 #include "conditions/anticirce/capture_fork.h"
 #include "conditions/magic_square.h"
 #include "solving/observation.h"
+#include "solving/moving_pawn_promotion.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 piece anticirce_current_reborn_piece[maxply+1];
 Flags anticirce_current_reborn_spec[maxply+1];
@@ -24,7 +26,6 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
   boolean result;
   Side const side_observing = e[sq_observer]>vide ? White : Black;
   Side side_observed = advers(side_observing);
-  PieNam *acprompieces;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -37,30 +38,27 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
       && magic_square_type==magic_square_type2)
     side_observed = advers(side_observed);
 
-  acprompieces= GetPromotingPieces(sq_observer,
-                                   e[sq_observer],
-                                   advers(side_observed),
-                                   spec[sq_observer],
-                                   sq_landing,
-                                   e[sq_observee]);
-  if (acprompieces)
+  if (is_pawn(abs(e[sq_observer]))
+      && PromSq(is_reversepawn(abs(e[sq_observer]))^advers(side_observed),sq_landing)
+      && ((!CondFlag[protean] && !TSTFLAG(spec[sq_observer],Protean))
+          || e[sq_observee]==vide))
   {
     /* Pawn checking on last rank or football check on a/h file */
-    PieNam pprom= acprompieces[vide];
+    PieNam pprom= getprompiece[vide];
     square    cren;
     do {
       cren= (*antirenai)(pprom, spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
-      pprom= acprompieces[pprom];
+      pprom= getprompiece[pprom];
     } while (!LegalAntiCirceMove(cren, sq_observee, sq_observer) && pprom != Empty);
 
     result = LegalAntiCirceMove(cren,sq_observee,sq_observer) || pprom!=Empty;
   }
   else
   {
-    square cren= (*antirenai)(TSTFLAG(spec[sq_observer], Chameleon)
-                              ? champiece(e[sq_observer])
-                              : e[sq_observer],
-                              spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
+    square cren = (*antirenai)(TSTFLAG(spec[sq_observer], Chameleon)
+                               ? champiece(e[sq_observer])
+                               : e[sq_observer],
+                               spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
     result = LegalAntiCirceMove(cren,sq_observee,sq_observer);
   }
 

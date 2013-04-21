@@ -304,6 +304,7 @@ boolean t_lioncheck(square i, piece p, evalfunction_t *evaluate);
 boolean f_lioncheck(square i, piece p, evalfunction_t *evaluate);
 boolean marine_rider_check(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean marine_leaper_check(square sq_king, numvec   kanf, numvec   kend, piece p, evalfunction_t *evaluate);
+boolean marine_pawn_check(square sq_king, piece p, evalfunction_t *evaluate);
 
 boolean empile(square departure, square arrival, square capture);
 void add_to_move_generation_stack(square sq_departure,
@@ -472,10 +473,4 @@ attackfunction_t GetGirlscoutAttackVectors;
 attackfunction_t GetSpiralSpringerAttackVectors;
 attackfunction_t GetDiagonalSpiralSpringerAttackVectors;
 
-PieNam* GetPromotingPieces (square sq_departure,
-							piece pi_departing,
-						    Side camp,
-						    Flags spec_pi_moving,
-						    square sq_arrival,
-						    piece pi_captured);
 #endif  /* PYPROC_H */

@@ -297,7 +297,7 @@ solution finished.
 
 a) 
 
-  1.SIf4-d2 Bh1-e4   2.rPOe5*e4-e3 rPOd1*d2-d3 #
+  1.SIf4-d2 Bh1-e4   2.POe5*e4-e3 POd1*d2-d3 #
 
                         empile:      502004
                      play_move:      374056
@@ -305,7 +305,7 @@ a)
  is_black_king_square_attacked:      373084
 b) wPOd1-->a4
 
-  1.SIf4-b4 Bh1-d5   2.rPOe5*d5-c5 rPOa4*b4-c4 #
+  1.SIf4-b4 Bh1-d5   2.POe5*d5-c5 POa4*b4-c4 #
 
                         empile:      501016
                      play_move:      369250
@@ -340,7 +340,7 @@ solution finished.
   #2                          3 + 1
 
    1.Ke2-e3 ! zugzwang.
-      1...rPOg1-f1
+      1...POg1-f1
           2.Ke3-f2 #
 
 
@@ -348,6 +348,118 @@ solution finished.
                      play_move:         273
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:         276
+solution finished. 
+
+
+
+           Rom\'eo B\'edoni
+            Ph\'enix 1992
+why does WinChloe only give 2.POb8==, but not 2.POb7?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7 -MP   .   .   .   .   .   .   .   7
+|                                   |
+6   .  MP   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ==2                         2 + 2
+                Circe
+         Madrasi RexInclusive
+           WhiteMaximummer
+              HalfDuplex
+
+   1.MPa7*b6-c5[+wMPb2] ! zugzwang.
+      1...MPb2-b4
+          2.Ka8-b8 ==
+          2.Ka8-b7 ==
+
+
+                        empile:         119
+                     play_move:          53
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:          47
+solution finished. 
+
+
+
+           Rom\'eo B\'edoni
+           diagrammes 1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   . -PO   .   .   .   8
+|                                   |
+7   .   .   .   .  ND   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  PO   .   6
+|                                   |
+5   . -MP   .   .   .   .   .   .   5
+|                                   |
+4   . -MP   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  MP -MP   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         3 + 4
+
+  1.MPb4-b3 MPa2*b3-c4   2.MPb2-b1=TR MPc4*b5-a6   3.TRb1-b7 MPa6*b7-c8=SI #
+
+                        empile:     1046624
+                     play_move:     1010259
+ is_white_king_square_attacked:       45858
+ is_black_king_square_attacked:      992102
+solution finished. 
+
+
+
+           Rom\'eo B\'edoni
+           diagrammes 1991
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   . -TR   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  MP  MP   .   7
+|                                   |
+6   .   .   .   .   .   . -PO   .   6
+|                                   |
+5   .   . -MS   .   .  PO   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  ND   .   . -MP -MP   .   .   2
+|                                   |
+1   .  SI   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h==3                        5 + 5
+         Madrasi RexInclusive
+
+  1.MPe2-e1=ND MPf7-f8=ND   2.NDe1-c3 NDf8*c5-b4   3.MPf2-f1=SI MPg7-g8=TR ==
+
+                        empile:   388802465
+                     play_move:    74537746
+ is_white_king_square_attacked:    71014376
+ is_black_king_square_attacked:     3523714
 solution finished. 
 
 
