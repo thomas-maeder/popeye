@@ -1,5 +1,5 @@
-#if !defined(CONDITIONS_UTILITIES_SIDE_CHANGE_H)
-#define CONDITIONS_UTILITIES_SIDE_CHANGE_H
+#if !defined(PIECES_SIDE_CHANGE_H)
+#define PIECES_SIDE_CHANGE_H
 
 #include "py.h"
 
