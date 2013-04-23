@@ -112,7 +112,6 @@ Side has_pawn_reached_promotion_square(square square_reached)
   PieNam const walk_moving = abs(e[square_reached]);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(square_reached);
   TraceFunctionParamListEnd();
 
