@@ -34,9 +34,9 @@ void generate_king_moves(Side side)
   if (king_square[side]!=initsquare)
   {
     if (side==White)
-      gen_wh_piece(king_square[White],abs(e[king_square[White]]));
+      generate_moves_for_white_piece(king_square[White],abs(e[king_square[White]]));
     else
-      gen_bl_piece(king_square[Black],-abs(e[king_square[Black]]));
+      generate_moves_for_black_piece(king_square[Black],-abs(e[king_square[Black]]));
   }
 }
 

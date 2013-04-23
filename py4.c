@@ -89,6 +89,7 @@
 #include "conditions/marscirce/plus.h"
 #include "conditions/annan.h"
 #include "conditions/wormhole.h"
+#include "conditions/singlebox/type2.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
@@ -1624,20 +1625,20 @@ static void genhunt(square i, piece p, PieNam pabs)
 
     if (p>0) {
       numecoup savenbcou = current_move[nbply];
-      gen_wh_piece(i,huntertype->home);
+      generate_moves_for_white_piece(i,huntertype->home);
       filter(i,savenbcou,DOWN);
 
       savenbcou = current_move[nbply];
-      gen_wh_piece(i,huntertype->away);
+      generate_moves_for_white_piece(i,huntertype->away);
       filter(i,savenbcou,UP);
     }
     else {
       numecoup savenbcou = current_move[nbply];
-      gen_bl_piece(i,-huntertype->away);
+      generate_moves_for_black_piece(i,-huntertype->away);
       filter(i,savenbcou,DOWN);
 
       savenbcou = current_move[nbply];
-      gen_bl_piece(i,-huntertype->home);
+      generate_moves_for_black_piece(i,-huntertype->home);
       filter(i,savenbcou,UP);
     }
   }
@@ -2803,7 +2804,7 @@ void genrb(square sq_departure)
       {
         flag = true;
         current_trans_gen = *ptrans;
-        gen_wh_piece(sq_departure,*ptrans);
+        generate_moves_for_white_piece(sq_departure,*ptrans);
         current_trans_gen = vide;
       }
     }
@@ -2818,7 +2819,7 @@ void genrb(square sq_departure)
         {
           flag = true;
           current_trans_gen = *ptrans;
-          gen_wh_piece(sq_departure,*ptrans);
+          generate_moves_for_white_piece(sq_departure,*ptrans);
           current_trans_gen = vide;
         }
       }
@@ -2914,7 +2915,7 @@ void gen_wh_ply(void)
         if (TSTFLAG(spec[z], Neutral))
           p = -p;
         if (p > obs)
-          gen_wh_piece(z, p);
+          generate_moves_for_white_piece(z, p);
       }
     }
 
@@ -3010,9 +3011,10 @@ void gen_wh_piece_aux(square z, piece p) {
   TraceFunctionResultEnd();
 }
 
-static void orig_gen_wh_piece(square sq_departure, piece p)
+void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
 {
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
   TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
@@ -3026,17 +3028,17 @@ static void orig_gen_wh_piece(square sq_departure, piece p)
       && !(TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure)))
   {
     if (CondFlag[phantom])
-      phantom_chess_generate_moves(White,p,sq_departure);
+      phantom_chess_generate_moves(side,p,sq_departure);
     else if (CondFlag[plus])
-      plus_generate_moves(White,p,sq_departure);
+      plus_generate_moves(side,p,sq_departure);
     else if (anymars)
-      marscirce_generate_moves(White,p,sq_departure);
+      marscirce_generate_moves(side,p,sq_departure);
     else if (anyantimars)
-      antimars_generate_moves(White,p,sq_departure);
+      antimars_generate_moves(side,p,sq_departure);
     else
-      gen_piece_aux(White ,sq_departure,p);
+      gen_piece_aux(side,sq_departure,p);
 
-    if (CondFlag[messigny] && !(king_square[White]==sq_departure && rex_mess_ex))
+    if (CondFlag[messigny] && !(king_square[side]==sq_departure && rex_mess_ex))
     {
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
@@ -3047,49 +3049,22 @@ static void orig_gen_wh_piece(square sq_departure, piece p)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* orig_gen_wh_piece */
-
-void singleboxtype3_gen_wh_piece(square z, piece p)
-{
-  numecoup save_nbcou = current_move[nbply];
-  unsigned int latent_prom = 0;
-  square sq;
-  for (sq = next_latent_pawn(initsquare,White);
-       sq!=initsquare;
-       sq = next_latent_pawn(sq,White))
-  {
-    PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,White);
-         pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,White))
-    {
-      numecoup prev_nbcou = current_move[nbply];
-      ++latent_prom;
-      e[sq] = pprom;
-      orig_gen_wh_piece(z, sq==z ? (piece)pprom : p);
-      e[sq] = pb;
-      for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
-      {
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = pprom;
-      }
-    }
-  }
-
-  if (latent_prom==0)
-  {
-    orig_gen_wh_piece(z,p);
-
-    for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
-    {
-      move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
-      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = vide;
-    }
-  }
 }
 
-void (*gen_wh_piece)(square z, piece p)
-  = &orig_gen_wh_piece;
+static void orig_generate_moves_for_white_piece(square sq_departure, piece p)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  orig_generate_moves_for_piece(White,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void (*generate_moves_for_white_piece)(square z, piece p) = &orig_generate_moves_for_white_piece;
 
 
 void gorph(square i, Side camp)
@@ -3103,12 +3078,12 @@ void gorph(square i, Side camp)
       if (camp == White)
       {
         if (ooorphancheck(i,-*porph,orphann,&validate_observation))
-          gen_wh_piece(i,*porph);
+          generate_moves_for_white_piece(i,*porph);
       }
       else
       {
         if (ooorphancheck(i,*porph,orphanb,&validate_observation))
-          gen_bl_piece(i,-*porph);
+          generate_moves_for_black_piece(i,-*porph);
       }
     }
 
@@ -3126,12 +3101,12 @@ void gfriend(square i, Side camp)
       if (camp==White)
       {
         if (fffriendcheck(i,*pfr,friendb,&validate_observation))
-          gen_wh_piece(i, *pfr);
+          generate_moves_for_white_piece(i, *pfr);
       }
       else
       {
         if (fffriendcheck(i,-*pfr,friendn,&validate_observation))
-          gen_bl_piece(i, -*pfr);
+          generate_moves_for_black_piece(i, -*pfr);
       }
     }
 

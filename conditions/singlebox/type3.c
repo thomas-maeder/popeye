@@ -174,3 +174,114 @@ boolean singleboxtype3_is_white_king_square_attacked(evalfunction_t *evaluate)
 
   return promotionstried==0 && is_white_king_square_attacked(evaluate);
 }
+
+static square find_next_latent_pawn(square sq, Side side)
+{
+  square result = initsquare;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq);
+  TraceFunctionParamListEnd();
+
+  while (sq!=square_h8)
+  {
+    if (sq==square_h1)
+      sq = square_a8;
+    else
+      sq += dir_right;
+
+    {
+      PieNam const walk_promotee = abs(e[sq]);
+      if (is_pawn(walk_promotee)
+          && TSTFLAG(spec[sq],side)
+          && PromSq(is_reversepawn(walk_promotee) ? advers(side) : side, sq))
+      {
+        result = sq;
+        break;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Generate the moves for a black/white piece
+ * @param p side for which to generate moves
+ * @param sq_departure departure square of the moves
+ * @param p walk and side of the piece
+ */
+static void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, piece p)
+{
+  numecoup save_nbcou = current_move[nbply];
+  unsigned int nr_latent_promotions = 0;
+  square sq;
+  for (sq = find_next_latent_pawn(square_a1-dir_right,side);
+       sq!=initsquare;
+       sq = find_next_latent_pawn(sq,side))
+  {
+    Side promoting_side;
+    pieces_pawns_promotion_sequence_type sequence;
+    singlebox_type2_initialise_singlebox_promotion_sequence(sq,&promoting_side,&sequence);
+    assert(promoting_side==side);
+    while (sequence.promotee!=Empty)
+    {
+      piece const pi_departing = e[sq];
+      piece const pi_promotee = sequence.promotee;
+      numecoup prev_nbcou = current_move[nbply];
+      ++nr_latent_promotions;
+      e[sq] = pi_promotee;
+      orig_generate_moves_for_piece(side, sq_departure, sq==sq_departure ? pi_promotee : p);
+      e[sq] = pi_departing;
+      for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
+      {
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = pi_promotee;
+      }
+      singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
+    }
+  }
+
+  if (nr_latent_promotions==0)
+  {
+    orig_generate_moves_for_piece(side,sq_departure,p);
+
+    for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
+    {
+      move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
+      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = vide;
+    }
+  }
+}
+
+/* Generate the moves for a black/white piece
+ * @param sq_departure departure square of the moves
+ * @param p walk and side of the piece
+ */
+void singleboxtype3_generate_moves_for_white_piece(square sq_departure, piece p)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  singleboxtype3_generate_moves_for_piece(White,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void singleboxtype3_generate_moves_for_black_piece(square sq_departure, piece p)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  singleboxtype3_generate_moves_for_piece(Black,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

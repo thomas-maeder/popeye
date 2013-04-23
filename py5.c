@@ -577,7 +577,7 @@ void genrn(square sq_departure)
       {
         flag = true;
         current_trans_gen = -*ptrans;
-        gen_bl_piece(sq_departure,-*ptrans);
+        generate_moves_for_black_piece(sq_departure,-*ptrans);
         current_trans_gen = vide;
       }
     }
@@ -590,7 +590,7 @@ void genrn(square sq_departure)
         {
           flag = true;
           current_trans_gen = -*ptrans;
-          gen_bl_piece(sq_departure,-*ptrans);
+          generate_moves_for_black_piece(sq_departure,-*ptrans);
           current_trans_gen = vide;
         }
     }
@@ -682,7 +682,7 @@ void gen_bl_ply(void)
         if (TSTFLAG(spec[z], Neutral))
           p = -p;
         if (p < vide)
-          gen_bl_piece(z, p);
+          generate_moves_for_black_piece(z, p);
       }
     }
   if (CondFlag[schwarzschacher])
@@ -720,85 +720,20 @@ void gen_bl_piece_aux(square z, piece p)
   TraceFunctionResultEnd();
 }
 
-static void orig_gen_bl_piece(square sq_departure, piece p)
+static void orig_generate_moves_for_black_piece(square sq_departure, piece p)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!(CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
-      && !(CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
-      && !(CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
-      && !(TSTFLAG(some_pieces_flags,Paralysing) && is_piece_paralysed_on(sq_departure))
-      && !(CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
-      && !(CondFlag[central] && !central_can_piece_move_from(sq_departure))
-      && !(TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure)))
-  {
-    if (CondFlag[phantom])
-      phantom_chess_generate_moves(Black,p,sq_departure);
-    else if (CondFlag[plus])
-      plus_generate_moves(Black,p,sq_departure);
-    else if (anymars)
-      marscirce_generate_moves(Black,p,sq_departure);
-    else if (anyantimars)
-      antimars_generate_moves(Black,p,sq_departure);
-    else
-      gen_piece_aux(Black,sq_departure,p);
-
-    if (CondFlag[messigny] && !(king_square[Black]==sq_departure && rex_mess_ex))
-    {
-      square const *bnp;
-      for (bnp = boardnum; *bnp; ++bnp)
-        if (e[*bnp]==-p)
-          empile(sq_departure,*bnp,messigny_exchange);
-    }
-  }
+  orig_generate_moves_for_piece(Black,sq_departure,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* orig_gen_bl_piece */
-
-void singleboxtype3_gen_bl_piece(square z, piece p)
-{
-  numecoup save_nbcou = current_move[nbply];
-  unsigned int latent_prom = 0;
-  square sq;
-  for (sq = next_latent_pawn(initsquare,Black);
-       sq!=initsquare;
-       sq = next_latent_pawn(sq,Black))
-  {
-    PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,Black);
-         pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,Black))
-    {
-      numecoup prev_nbcou = current_move[nbply];
-      ++latent_prom;
-      e[sq] = -pprom;
-      orig_gen_bl_piece(z, sq==z ? (piece)-pprom : p);
-      e[sq] = pn;
-
-      for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
-      {
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = -pprom;
-      }
-    }
-  }
-
-  if (latent_prom==0)
-  {
-    orig_gen_bl_piece(z,p);
-    for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
-    {
-      move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
-      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = vide;
-    }
-  }
 }
 
-void (*gen_bl_piece)(square z, piece p) = &orig_gen_bl_piece;
+void (*generate_moves_for_black_piece)(square z, piece p) = &orig_generate_moves_for_black_piece;
 
 void genmove(Side camp)
 {

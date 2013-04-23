@@ -214,9 +214,16 @@ stip_length_type singlebox_type2_latent_pawn_selector_solve(slice_index si,
   return result;
 }
 
-static void initialise_singlebox_prom(square sq_prom,
-                                      Side *side,
-                                      pieces_pawns_promotion_sequence_type *sequence)
+/* Initialise the sequence of promotions of a latent pawn
+ * @param sq_prom potential promotion square
+ * @param side address of side; *side will be assigned the side of which sq_prom
+ *             is a promotion square
+ * @param sequence address of structure holding the promotion sequence
+ * @note the sequence only contains the promotees legal according to type 2
+ */
+void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
+                                               Side *side,
+                                               pieces_pawns_promotion_sequence_type *sequence)
 {
   *side = PromSq(White,sq_prom) ? White : Black;
   pieces_pawns_initialise_promotion_sequence(sq_prom,sequence);
@@ -231,8 +238,13 @@ static void initialise_singlebox_prom(square sq_prom,
   }
 }
 
-static void advance_singlebox_prom(Side side,
-                                   pieces_pawns_promotion_sequence_type *sequence)
+/* Continue a promotion sequence intialised by
+ * singlebox_type2_initialise_singlebox_promotion_sequence()
+ * @param side side of the promotion square assigned during the initialisation
+ * @param sequence address of structure holding the promotion sequence
+ */
+void singlebox_type2_continue_singlebox_promotion_sequence(Side side,
+                                            pieces_pawns_promotion_sequence_type *sequence)
 {
   pieces_pawns_continue_promotion_sequence(sequence);
   while (sequence->promotee!=Empty)
@@ -253,9 +265,9 @@ static void init_latent_pawn_promotion(void)
 
   if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
   {
-    initialise_singlebox_prom(singlebox_type2_latent_pawn_promotions[nbply].where,
-                              &singlebox_type2_latent_pawn_promotions[nbply].side,
-                              &singlebox_type2_latent_pawn_promotions[nbply].promotion);
+    singlebox_type2_initialise_singlebox_promotion_sequence(singlebox_type2_latent_pawn_promotions[nbply].where,
+                                              &singlebox_type2_latent_pawn_promotions[nbply].side,
+                                              &singlebox_type2_latent_pawn_promotions[nbply].promotion);
     if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
       singlebox_type2_latent_pawn_promotions[nbply].where = initsquare;
   }
@@ -269,9 +281,9 @@ static void advance_latent_pawn_promotion(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  advance_singlebox_prom(singlebox_type2_latent_pawn_promotions[nbply].side,
-                         &singlebox_type2_latent_pawn_promotions[nbply].promotion);
-  TracePiece(singlebox_type2_latent_pawn_promotions[nbply].what);TraceText("\n");
+  singlebox_type2_continue_singlebox_promotion_sequence(singlebox_type2_latent_pawn_promotions[nbply].side,
+                                         &singlebox_type2_latent_pawn_promotions[nbply].promotion);
+  TracePiece(singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);TraceText("\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

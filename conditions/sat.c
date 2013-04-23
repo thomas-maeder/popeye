@@ -48,9 +48,9 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
 
   dont_generate_castling= true;
   if (starter==White)
-    gen_wh_piece(king_square[starter],abs(e[king_square[starter]]));
+    generate_moves_for_white_piece(king_square[starter],abs(e[king_square[starter]]));
   else
-    gen_bl_piece(king_square[starter],-abs(e[king_square[starter]]));
+    generate_moves_for_black_piece(king_square[starter],-abs(e[king_square[starter]]));
   dont_generate_castling = false;
 
   result = solve(slices[si].next1,n);

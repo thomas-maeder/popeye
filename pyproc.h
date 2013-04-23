@@ -278,10 +278,10 @@ boolean rrefcech(square a, square b, int c, piece d, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, piece p, int x, evalfunction_t *evaluate );
 boolean rubiech(square sq, square sqtest, piece p,  echiquier e_ub, evalfunction_t *evaluate );
 
-extern void   (*gen_bl_piece)(square a, piece b);
-void    singleboxtype3_gen_bl_piece(square a, piece b);
-extern void   (*gen_wh_piece)(square a, piece b);
-void    singleboxtype3_gen_wh_piece(square a, piece b);
+void orig_generate_moves_for_piece(Side side, square sq_departure, piece p);
+
+extern void   (*generate_moves_for_black_piece)(square a, piece b);
+extern void   (*generate_moves_for_white_piece)(square a, piece b);
 
 piece   champiece(piece p);
 

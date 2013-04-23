@@ -514,9 +514,9 @@ static void generate_move_reaching_goal()
             && !GridLegal(sq_departure,OpponentsKing))
         {
           if (side_at_move==White)
-            gen_wh_piece(sq_departure,p);
+            generate_moves_for_white_piece(sq_departure,p);
           else
-            gen_bl_piece(sq_departure,p);
+            generate_moves_for_black_piece(sq_departure,p);
         }
         else
         {

@@ -56,7 +56,7 @@ static boolean advance_departure_square(Side side,
         {
           if (p>obs && sq_departure!=king_square[White])
           {
-            gen_wh_piece(sq_departure,p);
+            generate_moves_for_white_piece(sq_departure,p);
             return true;
           }
         }
@@ -64,7 +64,7 @@ static boolean advance_departure_square(Side side,
         {
           if (p<vide && sq_departure!=king_square[Black])
           {
-            gen_bl_piece(sq_departure,p);
+            generate_moves_for_black_piece(sq_departure,p);
             return true;
           }
         }

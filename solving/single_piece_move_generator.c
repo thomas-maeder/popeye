@@ -77,9 +77,9 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
       p = -p;
 
     if (side_at_move==White)
-      gen_wh_piece(square_departure,p);
+      generate_moves_for_white_piece(square_departure,p);
     else
-      gen_bl_piece(square_departure,p);
+      generate_moves_for_black_piece(square_departure,p);
   }
 
   square_departure = initsquare;

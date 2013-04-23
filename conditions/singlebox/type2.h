@@ -17,6 +17,25 @@ typedef struct
 
 extern singlebox_type2_latent_pawn_promotion_type singlebox_type2_latent_pawn_promotions[maxply+1];
 
+/* Initialise the sequence of promotions of a latent pawn
+ * @param sq_prom potential promotion square
+ * @param side address of side; *side will be assigned the side of which sq_prom
+ *             is a promotion square
+ * @param sequence address of structure holding the promotion sequence
+ * @note the sequence only contains the promotees legal according to type 2
+ */
+void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
+                                                             Side *side,
+                                                             pieces_pawns_promotion_sequence_type *sequence);
+
+/* Continue a promotion sequence intialised by
+ * singlebox_type2_initialise_singlebox_promotion_sequence()
+ * @param side side of the promotion square assigned during the initialisation
+ * @param sequence address of structure holding the promotion sequence
+ */
+void singlebox_type2_continue_singlebox_promotion_sequence(Side side,
+                                                           pieces_pawns_promotion_sequence_type *sequence);
+
 /* Find the next latent pawn
  * @param s position of previous latent pawn (initsquare if we search the first
  *          latent pawn)

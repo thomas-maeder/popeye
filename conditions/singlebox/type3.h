@@ -26,7 +26,7 @@ void stip_insert_singlebox_type3(slice_index si);
  *            n+3 no solution found in next branch
  */
 stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
-                                                      stip_length_type n);
+                                                     stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -42,9 +42,18 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
  *            n+3 no solution found in next branch
  */
 stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
-                                                        stip_length_type n);
+                                                       stip_length_type n);
 
+/* is the indicated king square attacked according to type 3?
+ */
 boolean singleboxtype3_is_black_king_square_attacked(evalfunction_t *evaluate);
 boolean singleboxtype3_is_white_king_square_attacked(evalfunction_t *evaluate);
+
+/* Generate the moves for a black/white piece
+ * @param sq_departure departure square of the moves
+ * @param p walk and side of the piece
+ */
+void singleboxtype3_generate_moves_for_black_piece(square sq_departure, piece p);
+void singleboxtype3_generate_moves_for_white_piece(square sq_departure, piece p);
 
 #endif
