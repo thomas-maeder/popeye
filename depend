@@ -300,8 +300,8 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  solving/solve.h conditions/sat.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h pyproc.h conditions/singlebox/type2.h \
- conditions/magic_square.h conditions/immune.h position/position.h \
- conditions/phantom.h stipulation/stipulation.h \
+ pieces/pawns/promotion.h conditions/magic_square.h conditions/immune.h \
+ position/position.h conditions/phantom.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h solving/en_passant.h \
  solving/observation.h conditions/einstein/en_passant.h \
@@ -355,6 +355,8 @@ pyproc.h:
 
 conditions/singlebox/type2.h:
 
+pieces/pawns/promotion.h:
+
 conditions/magic_square.h:
 
 conditions/immune.h:
@@ -397,9 +399,9 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/einstein/en_passant.h conditions/disparate.h \
  conditions/eiffel.h conditions/madrasi.h conditions/sat.h \
  conditions/duellists.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h conditions/singlebox/type3.h \
- conditions/beamten.h conditions/patrol.h conditions/central.h \
- conditions/koeko/koeko.h conditions/phantom.h \
+ conditions/singlebox/type2.h pieces/pawns/promotion.h \
+ conditions/singlebox/type3.h conditions/beamten.h conditions/patrol.h \
+ conditions/central.h conditions/koeko/koeko.h conditions/phantom.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/annan.h conditions/wormhole.h \
  pieces/attributes/paralysing/paralysing.h \
@@ -486,6 +488,8 @@ conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
 
+pieces/pawns/promotion.h:
+
 conditions/singlebox/type3.h:
 
 conditions/beamten.h:
@@ -532,11 +536,11 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/circe/cage.h conditions/circe/super.h \
  conditions/anticirce/super.h conditions/haunted_chess.h \
  solving/move_effect_journal.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h conditions/singlebox/type3.h \
- conditions/beamten.h conditions/patrol.h conditions/central.h \
- conditions/phantom.h conditions/marscirce/marscirce.h \
- conditions/marscirce/anti.h conditions/marscirce/plus.h \
- conditions/annan.h pieces/walks.h \
+ conditions/singlebox/type2.h pieces/pawns/promotion.h \
+ conditions/singlebox/type3.h conditions/beamten.h conditions/patrol.h \
+ conditions/central.h conditions/phantom.h \
+ conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
+ conditions/marscirce/plus.h conditions/annan.h pieces/walks.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h
@@ -636,6 +640,8 @@ solving/move_effect_journal.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
+
+pieces/pawns/promotion.h:
 
 conditions/singlebox/type3.h:
 

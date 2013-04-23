@@ -1,5 +1,6 @@
 #include "conditions/singlebox/type1.h"
 #include "pydata.h"
+#include "pieces/walks.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -66,18 +67,23 @@ PieNam next_singlebox_prom(PieNam p, Side c)
 static boolean singlebox_officer_out_of_box(void)
 {
   boolean result = false;
-  piece p;
+  PieNam orthodox_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (p = roib; p<=fb; ++p)
-    if (nbpiece[p]>nr_piece(game_array)[p]
-        || nbpiece[-p]>nr_piece(game_array)[-p])
+  for (orthodox_walk = King; orthodox_walk<=Bishop; ++orthodox_walk)
+  {
+    PieNam const standard_walk = standard_walks[orthodox_walk];
+    piece const p_white = standard_walk;
+    piece const p_black = -standard_walk;
+    if (nbpiece[p_white]>nr_piece(game_array)[p_white]
+        || nbpiece[p_black]>nr_piece(game_array)[p_black])
     {
       result = true;
       break;
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

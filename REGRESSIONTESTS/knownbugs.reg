@@ -35,68 +35,6 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
 solution finished. 
 
 
-a) should produce same solutions as b) (cf. issue 2790694)
-
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   B   .   .   .   .   .   .   .   8
-|                                   |
-7   .   P   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   S   .   .   .   .   .   .   .   3
-|                                   |
-2   R   S   .   .   .   .   .   .   2
-|                                   |
-1   R   Q   .   .   .   .   .   B   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  ~1                          8 + 0
-               Magic a8
-          SingleBox    Type1
-
-a) 
-
-   1.Sa3-c2 !
-
-   1.Sa3-c4 !
-
-
-                        empile:          23
-                     play_move:          23
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
-b) SingleBox    Type2
-
-   1.b7-b8=B[h1=b] !
-
-   1.Sa3-c2 !
-
-
-                        empile:          24
-                     play_move:          28
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
-c) wBa8 
-
-   1.b7-b8 !
-
-   1.Sa3-c2 !
-
-
-                        empile:          24
-                     play_move:          28
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
-solving interrupted. 
-
-
 
 Strict Circe (==Circe+Immun according to the docs) is not enforced
 if combined with Anticirce - 1.Ra8*a7[wRa7->a1] is illegal!

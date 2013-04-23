@@ -3295,20 +3295,10 @@ void genpb(square sq_departure)
   }
   else
   {
-    /* not first rank */
-    if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
-        && PromSq(White,sq_departure+dir_up)
-        && next_singlebox_prom(Empty,White)==Empty)
-    {
-      /* nothing */
-    }
-    else
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
-      /* double or single step? */
-      gen_p_nocaptures(sq_departure,+dir_up, sq_departure<=square_h2 ? 2 : 1);
-    }
+    gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
+    gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
+    /* double or single step? */
+    gen_p_nocaptures(sq_departure,+dir_up, sq_departure<=square_h2 ? 2 : 1);
   }
 
   TraceFunctionExit(__func__);
@@ -3336,20 +3326,10 @@ void genpn(square sq_departure)
   }
   else
   {
-    /* not last rank */
-    if (CondFlag[singlebox] && SingleBoxType==singlebox_type1
-        && PromSq(Black,sq_departure+dir_down)
-        && next_singlebox_prom(Empty,Black)==Empty)
-    {
-      /* nothing */
-    }
-    else
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
-      /* double or single step? */
-      gen_p_nocaptures(sq_departure,dir_down, sq_departure>=square_a7 ? 2 : 1);
-    }
+    gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
+    gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
+    /* double or single step? */
+    gen_p_nocaptures(sq_departure,dir_down, sq_departure>=square_a7 ? 2 : 1);
   }
 }
 

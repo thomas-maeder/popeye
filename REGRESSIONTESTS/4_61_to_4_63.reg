@@ -1380,6 +1380,68 @@ Popeye 4.51 to 4.61 would produce the move to c5 twice
 solution finished. 
 
 
+
+Up to 4.61, Popeye wouldn't play 1.b7-b8=B[h1=b]
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   S   .   .   .   .   .   .   .   3
+|                                   |
+2   R   S   .   .   .   .   .   .   2
+|                                   |
+1   R   Q   .   .   .   .   .   B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          8 + 0
+               Magic a8
+          SingleBox    Type1
+
+a) 
+
+   1.b7-b8=B[h1=b] !
+
+   1.Sa3-c2 !
+
+
+                        empile:          24
+                     play_move:          27
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) SingleBox    Type2
+
+   1.b7-b8=B[h1=b] !
+
+   1.Sa3-c2 !
+
+
+                        empile:          24
+                     play_move:          28
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+c) wBa8 
+
+   1.b7-b8 !
+
+   1.Sa3-c2 !
+
+
+                        empile:          24
+                     play_move:          28
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solving interrupted. 
+
+
 input-error:cannot recognize the stipulation
 offending item: Option
 input-error:command not known

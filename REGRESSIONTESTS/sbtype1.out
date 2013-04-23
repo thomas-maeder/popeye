@@ -26,8 +26,8 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
    1.Lb8-d6 = !
 
 
-                        empile:         243
-                     play_move:         148
+                        empile:         244
+                     play_move:         152
  is_white_king_square_attacked:          47
  is_black_king_square_attacked:         149
 Loesung beendet. 
@@ -62,8 +62,8 @@ Loesung beendet.
       1...Lh1-e4 =
 
 
-                        empile:        2877
-                     play_move:        1668
+                        empile:        2893
+                     play_move:        1720
  is_white_king_square_attacked:        1484
  is_black_king_square_attacked:         620
 Loesung beendet. 
@@ -129,7 +129,7 @@ Loesung beendet.
   h#1                         3 + 4
      NurPartiesatzSteine    Typ1
 
-  1.d2-d1=T Sg5-f3 # 
+  1.d2-d1=T Sg5-f3 #
 
                         empile:         360
                      play_move:         298
@@ -388,8 +388,8 @@ Loesung beendet.
       1...c6*d5 !
 
 
-                        empile:      761640
-                     play_move:      486025
+                        empile:      762710
+                     play_move:      489509
  is_white_king_square_attacked:       79269
  is_black_king_square_attacked:      435501
 Loesung beendet. 

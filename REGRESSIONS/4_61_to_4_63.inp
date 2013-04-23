@@ -306,6 +306,17 @@ option nowk nobk
 
 next
 
+title Up to 4.61, Popeye wouldn't play 1.b7-b8=B[h1=b]
+pieces white qb1 ra1a2 sa3b2 bh1 pb7
+       magic white ba8
+stip ~1
+option nowk nobk maxsol 2
+condition singlebox type1
+twin condition singlebox type2
+twin add white ba8
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation
