@@ -89,7 +89,7 @@ static void promoted_white_pawn(unsigned int intercepter_index,
                                                                 where_to_intercept))
   {
     PieNam pp;
-    for (pp = promotee_chain[promotee_chain_orthodox][Empty]; pp!=Empty; pp = promotee_chain[promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

@@ -1110,8 +1110,9 @@ solving/moving_pawn_promotion$(OBJ_SUFFIX): solving/moving_pawn_promotion.c \
  solving/moving_pawn_promotion.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h pieces/walks.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ pieces/pawns/promotion.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
@@ -1140,6 +1141,8 @@ utilities/enumeration.h:
 
 pylang.h:
 
+pieces/pawns/promotion.h:
+
 pydata.h:
 
 pyproc.h:
@@ -1149,8 +1152,6 @@ py4.h:
 py.h:
 
 stipulation/goals/goals.h:
-
-pieces/walks.h:
 
 stipulation/pipe.h:
 
@@ -1456,6 +1457,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/relaxed.h conditions/anticirce/strict.h \
  solving/move_effect_journal.h conditions/anticirce/promotion.h \
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
  conditions/anticirce/magic_square.h conditions/bgl.h \
  conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
@@ -1568,10 +1570,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  solving/non_king_move_generator.h solving/play_suppressor.h \
  solving/single_move_generator.h solving/single_piece_move_generator.h \
  solving/trivial_end_filter.h solving/en_passant.h \
- solving/moving_pawn_promotion.h solving/selfcheck_guard.h \
- solving/post_move_iteration.h solving/king_capture_avoider.h \
- stipulation/has_solution_type.h solving/recursion_stopper.h \
- stipulation/move_inverter.h stipulation/battle_play/attack_adapter.h \
+ solving/selfcheck_guard.h solving/post_move_iteration.h \
+ solving/king_capture_avoider.h stipulation/has_solution_type.h \
+ solving/recursion_stopper.h stipulation/move_inverter.h \
+ stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
@@ -1665,6 +1667,10 @@ conditions/anticirce/strict.h:
 solving/move_effect_journal.h:
 
 conditions/anticirce/promotion.h:
+
+solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 
 conditions/anticirce/magic_square.h:
 
@@ -2053,8 +2059,6 @@ solving/single_piece_move_generator.h:
 solving/trivial_end_filter.h:
 
 solving/en_passant.h:
-
-solving/moving_pawn_promotion.h:
 
 solving/selfcheck_guard.h:
 

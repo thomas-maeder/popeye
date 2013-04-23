@@ -1,10 +1,10 @@
 #include "conditions/anticirce/promotion.h"
 #include "pydata.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -12,7 +12,7 @@
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
-promotion_state_type current_promotion_of_reborn_moving[maxply+1];
+pieces_pawns_promotion_sequence_type current_promotion_of_reborn_moving[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -38,9 +38,8 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    initialise_pawn_promotion(&current_promotion_of_reborn_moving[nbply],
-                              slices[si].starter,
-                              current_anticirce_rebirth_square[nbply]);
+    pieces_pawns_initialise_promotion_sequence(current_anticirce_rebirth_square[nbply],
+                                               &current_promotion_of_reborn_moving[nbply]);
 
   if (current_promotion_of_reborn_moving[nbply].promotee==Empty)
     result = solve(slices[si].next1,n);
@@ -58,7 +57,7 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
 
     if (!post_move_iteration_locked[nbply])
     {
-      continue_pawn_promotion(&current_promotion_of_reborn_moving[nbply]);
+      pieces_pawns_continue_promotion_sequence(&current_promotion_of_reborn_moving[nbply]);
       TracePiece(current_promotion_of_reborn_moving[nbply].promotee);TraceText("\n");
       if (current_promotion_of_reborn_moving[nbply].promotee!=Empty)
         lock_post_move_iterations();

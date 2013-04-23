@@ -1,5 +1,6 @@
 #include "conditions/wormhole.h"
 #include "pydata.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -20,7 +21,7 @@ unsigned int wormhole_next_transfer[maxply+1];
 static post_move_iteration_id_type prev_post_move_iteration_id_transfer[maxply+1];
 static post_move_iteration_id_type prev_post_move_iteration_id_promotion[maxply+1];
 
-static PieNam current_promotion_of_transfered[maxply+1];
+static pieces_pawns_promotion_sequence_type promotion_of_transfered[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -46,32 +47,24 @@ stip_length_type wormhole_transfered_promoter_solve(slice_index si, stip_length_
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_promotion[nbply])
-  {
-    if ((TSTFLAG(spec[sq_transfer],White) && has_pawn_reached_promotion_square(White,sq_transfer))
-        || (TSTFLAG(spec[sq_transfer],Black) && has_pawn_reached_promotion_square(Black,sq_transfer)))
-      current_promotion_of_transfered[nbply] = promotee_chain[promotee_chain_orthodox][Empty];
-    else
-      current_promotion_of_transfered[nbply] = Empty;
-  }
+    pieces_pawns_initialise_promotion_sequence(sq_transfer,&promotion_of_transfered[nbply]);
 
-  if (current_promotion_of_transfered[nbply]==Empty)
+  if (promotion_of_transfered[nbply].promotee==Empty)
     result = solve(slices[si].next1,n);
   else
   {
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_transfer,
                                         e[sq_transfer]<vide
-                                        ? -current_promotion_of_transfered[nbply]
-                                        : current_promotion_of_transfered[nbply]);
+                                        ? -promotion_of_transfered[nbply].promotee
+                                        : promotion_of_transfered[nbply].promotee);
 
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_transfered[nbply] = promotee_chain[promotee_chain_orthodox][current_promotion_of_transfered[nbply]];
-      TracePiece(current_promotion_of_transfered[nbply]);TraceText("\n");
-
-      if (current_promotion_of_transfered[nbply]!=Empty)
+      pieces_pawns_continue_promotion_sequence(&promotion_of_transfered[nbply]);
+      if (promotion_of_transfered[nbply].promotee!=Empty)
         lock_post_move_iterations();
     }
   }
@@ -116,7 +109,7 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
       /* wormhole is occupied */
       skip_wormhole();
     else if (pprise[nbply]==vide
-             && current_promotion_state[nbply].promotee==Empty
+             && moving_pawn_promotion_state[nbply].promotee==Empty
              && wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_departure)
       /* illegal null move */
       skip_wormhole();

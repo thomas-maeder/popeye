@@ -83,9 +83,9 @@ static void ReDrawBoard(int sig)
     WriteSquare(move_generation_stack[current_move[pl]].departure);
     StdChar('-');
     WriteSquare(move_generation_stack[current_move[pl]].arrival);
-    if (current_promotion_state[pl-1].promotee) {
+    if (moving_pawn_promotion_state[pl-1].promotee) {
       StdChar('=');
-      WritePiece(current_promotion_state[pl-1].promotee);
+      WritePiece(moving_pawn_promotion_state[pl-1].promotee);
     }
     StdString("   ");
   }

@@ -7,7 +7,7 @@ conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move.h solving/moving_pawn_promotion.h \
- solving/observation.h debugging/trace.h
+ pieces/pawns/promotion.h solving/observation.h debugging/trace.h
 
 conditions/singlebox/type1.h:
 
@@ -65,6 +65,8 @@ stipulation/move.h:
 
 solving/moving_pawn_promotion.h:
 
+pieces/pawns/promotion.h:
+
 solving/observation.h:
 
 debugging/trace.h:
@@ -72,13 +74,13 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  conditions/singlebox/type2.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/move.h solving/post_move_iteration.h \
- solving/move_effect_journal.h conditions/singlebox/type1.h pyproc.h \
- debugging/trace.h
+ pieces/pawns/promotion.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/has_solution_type.h stipulation/pipe.h stipulation/move.h \
+ solving/post_move_iteration.h solving/move_effect_journal.h \
+ conditions/singlebox/type1.h pyproc.h debugging/trace.h
 
 conditions/singlebox/type2.h:
 
@@ -101,6 +103,8 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 pylang.h:
+
+pieces/pawns/promotion.h:
 
 pydata.h:
 
@@ -150,8 +154,8 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h solving/move_effect_journal.h \
- debugging/trace.h
+ conditions/singlebox/type2.h pieces/pawns/promotion.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/singlebox/type3.h:
 
@@ -210,6 +214,8 @@ stipulation/move.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
+
+pieces/pawns/promotion.h:
 
 solving/move_effect_journal.h:
 

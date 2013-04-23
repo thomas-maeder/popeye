@@ -1,0 +1,39 @@
+pieces/pawns/promotion$(OBJ_SUFFIX): pieces/pawns/promotion.c \
+ pieces/pawns/promotion.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h \
+ utilities/boolean.h utilities/enumeration.h pylang.h pieces/walks.h \
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h debugging/trace.h
+
+pieces/pawns/promotion.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/walks.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+debugging/trace.h:

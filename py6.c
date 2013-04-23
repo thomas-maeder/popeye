@@ -262,6 +262,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
+#include "pieces/pawns/promotion.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
 #include "conditions/anticirce/goal_filters.h"
@@ -1636,7 +1637,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[superguards])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  init_promotion_pieces();
+  pieces_pawns_init_promotion_pieces();
 
   if (CondFlag[football])
     init_football_substitutes();

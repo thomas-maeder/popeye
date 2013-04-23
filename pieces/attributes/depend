@@ -137,7 +137,8 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
  pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
  conditions/anticirce/promotion.h solving/moving_pawn_promotion.h \
- conditions/circe/circe.h stipulation/slice_type.h \
+ pieces/pawns/promotion.h conditions/circe/circe.h \
+ stipulation/slice_type.h conditions/circe/promotion.h \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
@@ -180,9 +181,13 @@ conditions/anticirce/promotion.h:
 
 solving/moving_pawn_promotion.h:
 
+pieces/pawns/promotion.h:
+
 conditions/circe/circe.h:
 
 stipulation/slice_type.h:
+
+conditions/circe/promotion.h:
 
 stipulation/stipulation.h:
 

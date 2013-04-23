@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "conditions/anticirce/promotion.h"
 #include "conditions/circe/circe.h"
+#include "conditions/circe/promotion.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -62,7 +63,7 @@ stip_length_type chameleon_promote_moving_into_solve(slice_index si,
   {
     result = solve(slices[si].next1,n);
 
-    if (current_promotion_state[nbply].promotee!=Empty
+    if (moving_pawn_promotion_state[nbply].promotee!=Empty
         && !post_move_iteration_locked[nbply])
     {
       promotion_of_moving_into_chameleon[nbply] = true;
@@ -118,7 +119,7 @@ stip_length_type chameleon_promote_circe_reborn_into_solve(slice_index si,
   {
     result = solve(slices[si].next1,n);
 
-    if (current_promotion_of_capturee[nbply]!=Empty
+    if (reborn_pawn_promotion_state[nbply].promotee!=Empty
         && !post_move_iteration_locked[nbply])
     {
       promotion_of_circe_reborn_into_chameleon[nbply] = true;

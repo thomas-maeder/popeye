@@ -214,20 +214,49 @@ stip_length_type singlebox_type2_latent_pawn_selector_solve(slice_index si,
   return result;
 }
 
-static void init_latent_pawn_promotion(Side trait_ply)
+static void initialise_singlebox_prom(square sq_prom,
+                                      Side *side,
+                                      pieces_pawns_promotion_sequence_type *sequence)
 {
-  Side const adv = advers(trait_ply);
+  *side = PromSq(White,sq_prom) ? White : Black;
+  pieces_pawns_initialise_promotion_sequence(sq_prom,sequence);
+  while (sequence->promotee!=Empty)
+  {
+    piece const sided = *side==White ? sequence->promotee : -sequence->promotee;
+    if (sequence->promotee!=Pawn
+        && nbpiece[sided]<nr_piece(game_array)[sequence->promotee])
+      break;
+    else
+      pieces_pawns_continue_promotion_sequence(sequence);
+  }
+}
 
+static void advance_singlebox_prom(Side side,
+                                   pieces_pawns_promotion_sequence_type *sequence)
+{
+  pieces_pawns_continue_promotion_sequence(sequence);
+  while (sequence->promotee!=Empty)
+  {
+    piece const sided = side==White ? sequence->promotee : -sequence->promotee;
+    if (sequence->promotee!=Pawn
+        && nbpiece[sided]<nr_piece(game_array)[sequence->promotee])
+      break;
+    else
+      pieces_pawns_continue_promotion_sequence(sequence);
+  }
+}
+
+static void init_latent_pawn_promotion(void)
+{
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
   TraceFunctionParamListEnd();
 
   if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
   {
-    singlebox_type2_latent_pawn_promotions[nbply].what = next_singlebox_prom(Empty,adv);
-    TracePiece(singlebox_type2_latent_pawn_promotions[nbply].what);TraceText("\n");
-
-    if (singlebox_type2_latent_pawn_promotions[nbply].what==Empty)
+    initialise_singlebox_prom(singlebox_type2_latent_pawn_promotions[nbply].where,
+                              &singlebox_type2_latent_pawn_promotions[nbply].side,
+                              &singlebox_type2_latent_pawn_promotions[nbply].promotion);
+    if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
       singlebox_type2_latent_pawn_promotions[nbply].where = initsquare;
   }
 
@@ -235,15 +264,13 @@ static void init_latent_pawn_promotion(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-static void advance_latent_pawn_promotion(Side trait_ply)
+static void advance_latent_pawn_promotion(void)
 {
-  Side const adv = advers(trait_ply);
-
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
   TraceFunctionParamListEnd();
 
-  singlebox_type2_latent_pawn_promotions[nbply].what = next_singlebox_prom(singlebox_type2_latent_pawn_promotions[nbply].what,adv);
+  advance_singlebox_prom(singlebox_type2_latent_pawn_promotions[nbply].side,
+                         &singlebox_type2_latent_pawn_promotions[nbply].promotion);
   TracePiece(singlebox_type2_latent_pawn_promotions[nbply].what);TraceText("\n");
 
   TraceFunctionExit(__func__);
@@ -253,8 +280,8 @@ static void advance_latent_pawn_promotion(Side trait_ply)
 static void place_promotee(Side trait_ply)
 {
   piece const promotee = (trait_ply==Black
-                          ? singlebox_type2_latent_pawn_promotions[nbply].what
-                          : -singlebox_type2_latent_pawn_promotions[nbply].what);
+                          ? singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee
+                          : -singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,trait_ply,"");
@@ -293,9 +320,9 @@ stip_length_type singlebox_type2_latent_pawn_promoter_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_promotion[nbply])
-    init_latent_pawn_promotion(slices[si].starter);
+    init_latent_pawn_promotion();
 
-  if (singlebox_type2_latent_pawn_promotions[nbply].what==Empty)
+  if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
     result = solve(next,n);
   else
   {
@@ -304,9 +331,8 @@ stip_length_type singlebox_type2_latent_pawn_promoter_solve(slice_index si,
 
     if (!post_move_iteration_locked[nbply])
     {
-      advance_latent_pawn_promotion(slices[si].starter);
-
-      if (singlebox_type2_latent_pawn_promotions[nbply].what!=Empty)
+      advance_latent_pawn_promotion();
+      if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee!=Empty)
         lock_post_move_iterations();
     }
   }

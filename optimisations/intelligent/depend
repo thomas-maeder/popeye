@@ -359,7 +359,8 @@ optimisations/intelligent/place_white_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/intercept_guard_by_white.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
+ debugging/trace.h
 
 optimisations/intelligent/place_white_piece.h:
 
@@ -406,6 +407,8 @@ optimisations/intelligent/guard_flights.h:
 optimisations/intelligent/intercept_guard_by_white.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 
 debugging/trace.h:
 optimisations/intelligent/place_white_king$(OBJ_SUFFIX): \
@@ -476,7 +479,8 @@ optimisations/intelligent/place_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/intercept_black_move.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
+ debugging/trace.h
 
 optimisations/intelligent/place_black_piece.h:
 
@@ -529,6 +533,8 @@ optimisations/intelligent/intercept_black_move.h:
 optimisations/intelligent/mate/generate_checking_moves.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 
 debugging/trace.h:
 optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
@@ -619,7 +625,7 @@ optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_from_guard.h \
  options/maxsolutions/maxsolutions.h stipulation/slice.h \
  stipulation/slice_type.h solving/moving_pawn_promotion.h \
- platform/maxtime.h debugging/trace.h
+ pieces/pawns/promotion.h platform/maxtime.h debugging/trace.h
 
 optimisations/intelligent/guard_flights.h:
 
@@ -675,6 +681,8 @@ stipulation/slice_type.h:
 
 solving/moving_pawn_promotion.h:
 
+pieces/pawns/promotion.h:
+
 platform/maxtime.h:
 
 debugging/trace.h:
@@ -689,7 +697,8 @@ optimisations/intelligent/intercept_check_from_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
+ debugging/trace.h
 
 optimisations/intelligent/intercept_check_from_guard.h:
 
@@ -737,6 +746,8 @@ optimisations/intelligent/place_black_piece.h:
 
 solving/moving_pawn_promotion.h:
 
+pieces/pawns/promotion.h:
+
 debugging/trace.h:
 optimisations/intelligent/intercept_check_by_black$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_by_black.c \
@@ -750,7 +761,8 @@ optimisations/intelligent/intercept_check_by_black$(OBJ_SUFFIX): \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intercept_guard_by_white.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
+ debugging/trace.h
 
 optimisations/intelligent/intercept_check_by_black.h:
 
@@ -800,6 +812,8 @@ optimisations/intelligent/intercept_guard_by_white.h:
 
 solving/moving_pawn_promotion.h:
 
+pieces/pawns/promotion.h:
+
 debugging/trace.h:
 optimisations/intelligent/intercept_guard_by_white$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_guard_by_white.c \
@@ -813,7 +827,8 @@ optimisations/intelligent/intercept_guard_by_white$(OBJ_SUFFIX): \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_white_king.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
+ debugging/trace.h
 
 optimisations/intelligent/intercept_guard_by_white.h:
 
@@ -862,6 +877,8 @@ optimisations/intelligent/count_nr_of_moves.h:
 optimisations/intelligent/place_white_king.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 
 debugging/trace.h:
 optimisations/intelligent/intercept_black_move$(OBJ_SUFFIX): \
@@ -985,7 +1002,8 @@ optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/intelligent.h position/position.h \
  stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/moves_left.h solving/castling.h \
- solving/en_passant.h solving/moving_pawn_promotion.h debugging/trace.h
+ solving/en_passant.h solving/moving_pawn_promotion.h \
+ pieces/pawns/promotion.h debugging/trace.h
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -1038,5 +1056,7 @@ solving/castling.h:
 solving/en_passant.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 
 debugging/trace.h:

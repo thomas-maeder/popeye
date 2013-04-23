@@ -2,6 +2,9 @@
 #define CONDITIONS_CIRCE_PROMOTION_H
 
 #include "solving/solve.h"
+#include "pieces/pawns/promotion.h"
+
+extern pieces_pawns_promotion_sequence_type reborn_pawn_promotion_state[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -6,7 +6,6 @@
 #include "conditions/haunted_chess.h"
 #include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/neutral/initialiser.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

@@ -2,57 +2,12 @@
 #define SOLVING_MOVING_PAWN_PROMOTION_H
 
 #include "solving/solve.h"
+#include "pieces/pawns/promotion.h"
 
 /* This module provides implements the promotion of the moving pawn
  */
 
-typedef enum
-{
-  promotee_chain_orthodox,
-  promotee_chain_marine,
-
-  nr_promotee_chains
-} promotee_chain_selector_type;
-
-extern PieNam promotee_chain[nr_promotee_chains][PieceCount];
-
-typedef struct
-{
-    promotee_chain_selector_type selector;
-    PieNam promotee;
-} promotion_state_type;
-
-extern promotion_state_type current_promotion_state[maxply+1];
-
-/* Initialise the set of promotion pieces for the current twin
- */
-void init_promotion_pieces(void);
-
-/* Has a pawn reached a promotion square
- * @param side the pawn's side
- * @param square_reached square reached by the pawn
- * @return true iff square_reached is a promotion square
- */
-boolean has_pawn_reached_promotion_square(Side side, square square_reached);
-
-/* Initialise a potential iteration over the promotions of a pawn.
- * Verifies whether the move just played was a pawn move to a promotion square
- * of the moving side.
- * @param state address of structure holding promotion iteration state
- * @param moving_side side that has just moved
- * @param sq_arrival arrival square of the move
- * @note state->promotee==Empty if the move does not lead to pawn promotions
- */
-void initialise_pawn_promotion(promotion_state_type *state,
-                               Side moving_side,
-                               square sq_arrival);
-
-/* Continue an iteration over the promotions of a pawn started with an
- * invokation of initialise_pawn_promotion().
- * @param state address of structure holding promotion iteration state
- * @note state->promotee==Empty if iteration has ended
- */
-void continue_pawn_promotion(promotion_state_type *state);
+extern pieces_pawns_promotion_sequence_type moving_pawn_promotion_state[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index

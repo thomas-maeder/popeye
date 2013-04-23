@@ -7,7 +7,6 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "conditions/circe/circe.h"
@@ -16,6 +15,8 @@
 #include <assert.h>
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
+
+pieces_pawns_promotion_sequence_type reborn_pawn_promotion_state[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -41,33 +42,25 @@ stip_length_type circe_promoter_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-  {
-    /* check for both sides - this has to work for Circe Parrain and neutrals as well! */
-    if ((TSTFLAG(spec[sq_rebirth],White) && has_pawn_reached_promotion_square(White,sq_rebirth))
-        || (TSTFLAG(spec[sq_rebirth],Black) && has_pawn_reached_promotion_square(Black,sq_rebirth)))
-      current_promotion_of_capturee[nbply] = promotee_chain[promotee_chain_orthodox][Empty];
-    else
-      current_promotion_of_capturee[nbply] = Empty;
-  }
+    pieces_pawns_initialise_promotion_sequence(sq_rebirth,
+                                               &reborn_pawn_promotion_state[nbply]);
 
-  if (current_promotion_of_capturee[nbply]==Empty)
+  if (reborn_pawn_promotion_state[nbply].promotee==Empty)
     result = solve(slices[si].next1,n);
   else
   {
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_rebirth,
                                         e[sq_rebirth]<vide
-                                        ? -current_promotion_of_capturee[nbply]
-                                        : current_promotion_of_capturee[nbply]);
+                                        ? -reborn_pawn_promotion_state[nbply].promotee
+                                        : reborn_pawn_promotion_state[nbply].promotee);
 
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {
-      current_promotion_of_capturee[nbply] = promotee_chain[promotee_chain_orthodox][current_promotion_of_capturee[nbply]];
-      TracePiece(current_promotion_of_capturee[nbply]);TraceText("\n");
-
-      if (current_promotion_of_capturee[nbply]!=Empty)
+      pieces_pawns_continue_promotion_sequence(&reborn_pawn_promotion_state[nbply]);
+      if (reborn_pawn_promotion_state[nbply].promotee!=Empty)
         lock_post_move_iterations();
     }
   }

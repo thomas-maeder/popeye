@@ -112,7 +112,7 @@ void intelligent_place_promoted_white_pawn(unsigned int placed_index,
                                                                 placed_on))
   {
     PieNam pp;
-    for (pp = promotee_chain[promotee_chain_orthodox][Empty]; pp!=Empty; pp = promotee_chain[promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

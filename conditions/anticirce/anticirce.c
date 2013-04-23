@@ -44,11 +44,11 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
           || e[sq_observee]==vide))
   {
     /* Pawn checking on last rank or football check on a/h file */
-    PieNam pprom = promotee_chain[promotee_chain_orthodox][Empty];
+    PieNam pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty];
     square    cren;
     do {
       cren= (*antirenai)(pprom, spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
-      pprom= promotee_chain[promotee_chain_orthodox][pprom];
+      pprom= pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pprom];
     } while (!LegalAntiCirceMove(cren, sq_observee, sq_observer) && pprom != Empty);
 
     result = LegalAntiCirceMove(cren,sq_observee,sq_observer) || pprom!=Empty;

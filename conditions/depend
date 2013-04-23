@@ -1726,8 +1726,8 @@ conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h solving/sol
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/move.h solving/moving_pawn_promotion.h \
- solving/move_effect_journal.h solving/move_generator.h pieces/walks.h \
- debugging/trace.h
+ pieces/pawns/promotion.h solving/move_effect_journal.h \
+ solving/move_generator.h pieces/walks.h debugging/trace.h
 
 conditions/norsk.h:
 
@@ -1784,6 +1784,8 @@ stipulation/branch.h:
 stipulation/move.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 
 solving/move_effect_journal.h:
 
@@ -2390,8 +2392,8 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/castling.h solving/moving_pawn_promotion.h \
- solving/post_move_iteration.h solving/move_effect_journal.h \
- debugging/trace.h
+ pieces/pawns/promotion.h solving/post_move_iteration.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/castling_chess.h:
 
@@ -2447,6 +2449,8 @@ solving/castling.h:
 
 solving/moving_pawn_promotion.h:
 
+pieces/pawns/promotion.h:
+
 solving/post_move_iteration.h:
 
 solving/move_effect_journal.h:
@@ -2457,15 +2461,14 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  solving/move_effect_journal.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h pymsg.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/goals/goals.h pymsg.h pieces/pawns/promotion.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h stipulation/proxy.h \
  stipulation/fork.h stipulation/branch.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/move.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/moving_pawn_promotion.h \
- solving/post_move_iteration.h conditions/castling_chess.h \
- debugging/trace.h
+ stipulation/help_play/branch.h solving/post_move_iteration.h \
+ conditions/castling_chess.h debugging/trace.h
 
 conditions/imitator.h:
 
@@ -2503,6 +2506,8 @@ stipulation/goals/goals.h:
 
 pymsg.h:
 
+pieces/pawns/promotion.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -2533,8 +2538,6 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-solving/moving_pawn_promotion.h:
-
 solving/post_move_iteration.h:
 
 conditions/castling_chess.h:
@@ -2549,8 +2552,8 @@ conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
  py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/move.h solving/moving_pawn_promotion.h \
- solving/post_move_iteration.h solving/move_effect_journal.h \
- debugging/trace.h
+ pieces/pawns/promotion.h solving/post_move_iteration.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 conditions/football.h:
 
@@ -2605,6 +2608,8 @@ output/mode.h:
 stipulation/move.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 
 solving/post_move_iteration.h:
 
@@ -3528,13 +3533,12 @@ conditions/nopromotion$(OBJ_SUFFIX): conditions/nopromotion.c \
  conditions/nopromotion.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
- py4.h py.h stipulation/goals/goals.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
+ py4.h py.h stipulation/goals/goals.h pieces/pawns/promotion.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h solving/solve.h stipulation/branch.h \
- solving/moving_pawn_promotion.h conditions/circe/circe.h \
- debugging/trace.h
+ conditions/circe/circe.h debugging/trace.h
 
 conditions/nopromotion.h:
 
@@ -3566,6 +3570,8 @@ py.h:
 
 stipulation/goals/goals.h:
 
+pieces/pawns/promotion.h:
+
 stipulation/stipulation.h:
 
 stipulation/slice.h:
@@ -3587,8 +3593,6 @@ stipulation/pipe.h:
 solving/solve.h:
 
 stipulation/branch.h:
-
-solving/moving_pawn_promotion.h:
 
 conditions/circe/circe.h:
 
@@ -4018,8 +4022,9 @@ conditions/wormhole$(OBJ_SUFFIX): conditions/wormhole.c conditions/wormhole.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
- py4.h py.h stipulation/goals/goals.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ py4.h py.h stipulation/goals/goals.h pieces/pawns/promotion.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/move_effect_journal.h solving/post_move_iteration.h \
@@ -4057,6 +4062,8 @@ py4.h:
 py.h:
 
 stipulation/goals/goals.h:
+
+pieces/pawns/promotion.h:
 
 stipulation/has_solution_type.h:
 

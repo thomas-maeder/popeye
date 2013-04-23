@@ -42,6 +42,7 @@ static slice_index const move_slice_rank_order[] =
     STHaanChessHoleInserter,
     STKamikazeCapturingPieceRemover, /* avoid promotions of a vanishing pawn */
     STChameleonArrivingAdjuster,
+    STProteanPawnAdjuster,
     STNoPromotionsRemovePromotionMoving,
     STMovingPawnToImitatorPromoter,
     STMovingPawnPromoter,
@@ -50,7 +51,6 @@ static slice_index const move_slice_rank_order[] =
     STFootballChessSubsitutor,
     STLineChameleonArrivingAdjuster,
     STNorskArrivingAdjuster,
-    STProteanPawnAdjuster,
     STWormholeTransferer,
     STWormholeTransferedPromoter,
     STEnPassantAdjuster,

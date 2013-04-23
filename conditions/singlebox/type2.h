@@ -5,12 +5,14 @@
  */
 
 #include "solving/solve.h"
+#include "pieces/pawns/promotion.h"
 
 /* TODO this assumes that <=1 latent pawn promotion is possible per ply */
 typedef struct
 {
     square where;
-    PieNam what;
+    Side side;
+    pieces_pawns_promotion_sequence_type promotion;
 } singlebox_type2_latent_pawn_promotion_type;
 
 extern singlebox_type2_latent_pawn_promotion_type singlebox_type2_latent_pawn_promotions[maxply+1];

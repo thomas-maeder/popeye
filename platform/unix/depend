@@ -9,7 +9,8 @@ platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_imp
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pydata.h \
  pyproc.h py4.h py.h stipulation/goals/goals.h optimisations/hash.h \
- DHT/dhtbcmem.h solving/solve.h solving/moving_pawn_promotion.h
+ DHT/dhtbcmem.h solving/solve.h solving/moving_pawn_promotion.h \
+ pieces/pawns/promotion.h
 
 platform/maxtime_impl.h:
 
@@ -52,6 +53,8 @@ DHT/dhtbcmem.h:
 solving/solve.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/pawns/promotion.h:
 platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/pytime.h
 
 platform/pytime.h:

@@ -10,6 +10,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
                                                       square sq_landing,
@@ -46,7 +47,7 @@ PieNam next_singlebox_prom(PieNam p, Side c)
   TraceEnumerator(Side,c,"");
   TraceFunctionParamListEnd();
 
-  for (pprom = promotee_chain[promotee_chain_orthodox][p]; pprom!=Empty; pprom = promotee_chain[promotee_chain_orthodox][pprom])
+  for (pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][p]; pprom!=Empty; pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pprom])
   {
     piece const colored = c==White ? pprom : -pprom;
     if (pprom!=Pawn && nbpiece[colored]<nr_piece(game_array)[pprom])

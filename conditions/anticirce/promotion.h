@@ -4,7 +4,7 @@
 #include "solving/solve.h"
 #include "solving/moving_pawn_promotion.h"
 
-extern promotion_state_type current_promotion_of_reborn_moving[maxply+1];
+extern pieces_pawns_promotion_sequence_type current_promotion_of_reborn_moving[maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index

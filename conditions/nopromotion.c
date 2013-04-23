@@ -1,10 +1,10 @@
 #include "conditions/nopromotion.h"
 #include "pydata.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "solving/moving_pawn_promotion.h"
 #include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 

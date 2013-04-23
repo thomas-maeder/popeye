@@ -1,156 +1,21 @@
 #include "solving/moving_pawn_promotion.h"
 #include "pydata.h"
-#include "pieces/walks.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
-#include "solving/moving_pawn_promotion.h"
+#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-PieNam promotee_chain[nr_promotee_chains][PieceCount];
-
-promotion_state_type current_promotion_state[maxply+1];
+pieces_pawns_promotion_sequence_type moving_pawn_promotion_state[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
-
-static void build_promotee_chain(promotee_chain_selector_type selector,
-                                 boolean (* const is_promotee)[PieceCount])
-{
-  PieNam p;
-  PieNam prev_prom_piece = Empty;
-
-  for (p = King; p<PieceCount; ++p)
-    promotee_chain[promotee_chain_orthodox][p] = Empty;
-
-  for (p = King; p<PieceCount; ++p)
-    if ((*is_promotee)[p])
-    {
-      promotee_chain[selector][prev_prom_piece] = p;
-      prev_prom_piece = p;
-    }
-}
-
-static void init_promotion_pieces_chain(promotee_chain_selector_type selector,
-                                        standard_walks_type * const standard_walks)
-{
-
-  if (CondFlag[promotiononly])
-    build_promotee_chain(selector,&promonly);
-  else
-  {
-    boolean is_promotee[PieceCount] = { false };
-    PieNam p;
-
-    for (p = Queen; p<=Bishop; ++p)
-      is_promotee[(*standard_walks)[p]] = true;
-
-    for (p = King+1; p<PieceCount; ++p)
-      if (exist[p] && !is_pawn(p))
-        is_promotee[p] = true;
-
-    is_promotee[Dummy] = false;
-
-    if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
-      is_promotee[(*standard_walks)[King]] = true;
-
-    if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
-      for (p = King; p<PieceCount; ++p)
-        if (exist[p] && is_pawn(p))
-          is_promotee[p] = true;
-
-    build_promotee_chain(selector,&is_promotee);
-  }
-}
-
-/* Initialise the set of promotion pieces for the current twin
- */
-void init_promotion_pieces(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  init_promotion_pieces_chain(promotee_chain_orthodox,&standard_walks);
-
-  if (may_exist[MarinePawn])
-  {
-    standard_walks_type marine_walks;
-    marine_walks[King] = Poseidon;
-    marine_walks[Queen] = Sirene;
-    marine_walks[Rook] = Triton;
-    marine_walks[Bishop] = Nereide;
-    marine_walks[Knight] = MarineKnight;
-    marine_walks[Pawn] = MarinePawn;
-
-    init_promotion_pieces_chain(promotee_chain_marine,&marine_walks);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Initialise a potential iteration over the promotions of a pawn.
- * Verifies whether the move just played was a pawn move to a promotion square
- * of the moving side.
- * @param state address of structure holding promotion iteration state
- * @param moving_side side that has just moved
- * @param sq_arrival arrival square of the move
- * @note state->promotee==Empty if the move does not lead to pawn promotions
- */
-void initialise_pawn_promotion(promotion_state_type *state,
-                               Side moving_side,
-                               square sq_arrival)
-{
-  if (has_pawn_reached_promotion_square(moving_side,sq_arrival))
-  {
-    state->selector = (abs(e[sq_arrival])==MarinePawn
-                       ? promotee_chain_marine
-                       : promotee_chain_orthodox);
-    state->promotee = promotee_chain[state->selector][Empty];
-  }
-  else
-    state->promotee = Empty;
-}
-
-/* Continue an iteration over the promotions of a pawn started with an
- * invokation of initialise_pawn_promotion().
- * @param state address of structure holding promotion iteration state
- * @note state->promotee==Empty if iteration has ended
- */
-void continue_pawn_promotion(promotion_state_type *state)
-{
-  state->promotee = promotee_chain[state->selector][state->promotee];
-}
-
-/* Has a pawn reached a promotion square
- * @param side the pawn's side
- * @param square_reached square reached by the pawn
- * @return true iff square_reached is a promotion square
- */
-boolean has_pawn_reached_promotion_square(Side side, square square_reached)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceSquare(square_reached);
-  TraceFunctionParamListEnd();
-
-  result = (is_pawn(abs(e[square_reached]))
-            && PromSq(is_reversepawn(abs(e[square_reached]))^side,square_reached)
-            && ((!CondFlag[protean] && !TSTFLAG(spec[square_reached],Protean))
-                || pprise[nbply]==vide));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -167,7 +32,6 @@ boolean has_pawn_reached_promotion_square(Side side, square square_reached)
  */
 stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -176,15 +40,17 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    initialise_pawn_promotion(&current_promotion_state[nbply],slices[si].starter,sq_arrival);
+    pieces_pawns_initialise_promotion_sequence(move_generation_stack[current_move[nbply]].arrival,
+                                               &moving_pawn_promotion_state[nbply]);
 
-  if (current_promotion_state[nbply].promotee==Empty)
+  if (moving_pawn_promotion_state[nbply].promotee==Empty)
     result = solve(slices[si].next1,n);
   else
   {
+    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
     piece const promotee = (e[sq_arrival]<vide
-                            ? -current_promotion_state[nbply].promotee
-                            : current_promotion_state[nbply].promotee);
+                            ? -moving_pawn_promotion_state[nbply].promotee
+                            : moving_pawn_promotion_state[nbply].promotee);
 
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_arrival,promotee);
@@ -193,8 +59,8 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
 
     if (!post_move_iteration_locked[nbply])
     {
-      continue_pawn_promotion(&current_promotion_state[nbply]);
-      if (current_promotion_state[nbply].promotee!=Empty)
+      pieces_pawns_continue_promotion_sequence(&moving_pawn_promotion_state[nbply]);
+      if (moving_pawn_promotion_state[nbply].promotee!=Empty)
         lock_post_move_iterations();
     }
   }

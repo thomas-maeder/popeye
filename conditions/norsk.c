@@ -51,7 +51,7 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_promotion_state[nbply].promotee==Empty)
+  if (moving_pawn_promotion_state[nbply].promotee==Empty)
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
     piece const norsked = e[sq_arrival];
