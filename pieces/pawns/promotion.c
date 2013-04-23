@@ -102,26 +102,31 @@ void pieces_pawns_continue_promotion_sequence(pieces_pawns_promotion_sequence_ty
 }
 
 /* Has a pawn reached a promotion square
- * @param side the pawn's side
  * @param square_reached square reached by the pawn
- * @return true iff square_reached is a promotion square
+ * @return side for which the pawn has reached the promotion square
+ *         no_side if the pawn hasn't
  */
-boolean has_pawn_reached_promotion_square(Side side, square square_reached)
+Side has_pawn_reached_promotion_square(square square_reached)
 {
-  boolean result;
+  Side result = no_side;
+  PieNam const walk_moving = abs(e[square_reached]);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceSquare(square_reached);
   TraceFunctionParamListEnd();
 
-  result = (is_pawn(abs(e[square_reached]))
-            && PromSq(is_reversepawn(abs(e[square_reached]))^side,square_reached)
-            && ((!CondFlag[protean] && !TSTFLAG(spec[square_reached],Protean))
-                || pprise[nbply]==vide));
+  if (is_pawn(walk_moving))
+  {
+    boolean const reverse = is_reversepawn(walk_moving);
+    if (PromSq(White,square_reached) && TSTFLAG(spec[square_reached],White^reverse))
+      result = White;
+    else if (PromSq(Black,square_reached) && TSTFLAG(spec[square_reached],Black^reverse))
+      result = Black;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(Side,result,"");
   TraceFunctionResultEnd();
   return result;
 }

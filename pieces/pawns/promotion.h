@@ -38,11 +38,11 @@ void pieces_pawns_initialise_promotion_sequence(square sq_arrival,
 void pieces_pawns_continue_promotion_sequence(pieces_pawns_promotion_sequence_type *sequence);
 
 /* Has a pawn reached a promotion square
- * @param side the pawn's side
  * @param square_reached square reached by the pawn
- * @return true iff square_reached is a promotion square
+ * @return side for which the pawn has reached the promotion square
+ *         no_side if the pawn hasn't
  */
-boolean has_pawn_reached_promotion_square(Side side, square square_reached);
+Side has_pawn_reached_promotion_square(square square_reached);
 
 /* Initialise the set of promotion pieces for the current twin
  */

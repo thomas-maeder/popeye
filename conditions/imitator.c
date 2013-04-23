@@ -275,7 +275,7 @@ stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    promotion_of_moving_into_imitator[nbply] = has_pawn_reached_promotion_square(slices[si].starter,sq_arrival);
+    promotion_of_moving_into_imitator[nbply] = has_pawn_reached_promotion_square(sq_arrival)!=no_side;
 
   if (promotion_of_moving_into_imitator[nbply])
   {
