@@ -768,8 +768,9 @@ typedef enum
   circetakeandmake,       /* 183 */
   superguards,            /* 184 */
   wormholes,              /* 185 */
+  marine,                 /* 186 */
 
-  CondCount               /* 186 */
+  CondCount               /* 187 */
 } Cond;
 
 /* Some remarks to the conditions:

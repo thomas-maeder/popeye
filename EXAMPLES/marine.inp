@@ -84,4 +84,30 @@ pieces white pof5 sib1 ndb2 mpf7g7 black pog6 trc8 msc5 mpe2f2
 stip h==3
 condition madrasi rexincl
 
+next
+
+title promotion of an orthodox pawn in Marine Chess
+pieces white pd7
+stip ~1
+condition marinechess losingchess
+option nowk nobk
+
+next
+
+title rebirth of a marine piece in Marine Chess
+pieces white pd4 black sie5
+stip ~1
+condition circe
+option nowk nobk
+twin condition marinechess circe
+
+next
+
+title proofgame in marine chess
+pieces white tra1h1 msb1g1 ndb2f1 sid1 ke1 pa2c2d2e2f2g2h2
+       black tra8h8 msb8g8 nda3c8 sid8 ke8 pa7b7c7d7e6f7g7h7
+stip dia2
+condition marinechess
+option nowk nobk
+
 end

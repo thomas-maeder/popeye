@@ -463,3 +463,132 @@ solution finished.
 solution finished. 
 
 
+
+promotion of an orthodox pawn in Marine Chess
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 0
+             LosingChess
+             MarineChess
+
+   1.d7-d8=K !
+
+   1.d7-d8=SI !
+
+   1.d7-d8=TR !
+
+   1.d7-d8=ND !
+
+   1.d7-d8=MS !
+
+
+                        empile:           1
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+rebirth of a marine piece in Marine Chess
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   . -SI   .   .   .   5
+|                                   |
+4   .   .   .   P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+                Circe
+
+a) 
+
+   1.d4-d5 !
+
+   1.d4*e5[+bSIe1] !
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) Circe
+   MarineChess
+
+   1.d4-d5 !
+
+   1.d4*e5[+bSId8] !
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+      proofgame in marine chess
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8 -TR -MS -ND -SI  -K   . -MS -TR   8
+|                                   |
+7  -P  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3 -ND   .   .   .   .   .   .   .   3
+|                                   |
+2   P  ND   P   P   P   P   P   P   2
+|                                   |
+1  TR  MS   .  SI   K  ND  MS  TR   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia2                      15 + 16
+             MarineChess
+
+  1.b2-b4 e7-e6   2.NDc1-b2 NDf8*b4-a3 dia
+
+                        empile:      177670
+                     play_move:      177670
+ is_white_king_square_attacked:        8928
+ is_black_king_square_attacked:         404
+solution finished. 
+
+
