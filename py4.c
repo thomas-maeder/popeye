@@ -528,8 +528,7 @@ void geriderhopper(square   sq_departure,
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          if (TSTFLAG(spec[sq_departure],ColourChange))
-            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
       else {
@@ -540,8 +539,7 @@ void geriderhopper(square   sq_departure,
           if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
-            if (TSTFLAG(spec[sq_departure],ColourChange))
-              move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
           }
           sq_arrival+= vec[k];
         }
@@ -550,8 +548,7 @@ void geriderhopper(square   sq_departure,
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          if (TSTFLAG(spec[sq_departure],ColourChange))
-            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
     }
@@ -739,8 +736,7 @@ static void gmhop(square   sq_departure,
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1])))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
-        if (TSTFLAG(spec[sq_departure],ColourChange))
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
 
       sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
@@ -748,8 +744,7 @@ static void gmhop(square   sq_departure,
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1])))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
-        if (TSTFLAG(spec[sq_departure],ColourChange))
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
     }
   }
@@ -871,8 +866,7 @@ static void gnequi(square sq_departure, Side camp) {
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          if (TSTFLAG(spec[sq_departure],ColourChange))
-            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
     }
@@ -895,8 +889,7 @@ static void gorix(square sq_departure, Side camp) {
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
-        if (TSTFLAG(spec[sq_departure],ColourChange))
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
       else if (abs(end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
                && piece_belongs_to_opponent(at_end_of_line,camp)
@@ -904,8 +897,7 @@ static void gorix(square sq_departure, Side camp) {
       {
         sq_arrival= end_of_line;
         empile(sq_departure,sq_arrival,sq_arrival);
-        if (TSTFLAG(spec[sq_departure],ColourChange))
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
       }
     }
   }
@@ -946,8 +938,7 @@ static void gnorix(square sq_departure, Side camp) {
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          if (TSTFLAG(spec[sq_departure],ColourChange))
-            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
         }
       }
     }
@@ -1377,8 +1368,7 @@ static void gequi(square sq_departure, Side camp) {
           if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
-            if (TSTFLAG(spec[sq_departure],ColourChange))
-              move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
           }
         }
         else if (dist_hurdle_end==dist_hurdle_dep) {
@@ -1387,8 +1377,7 @@ static void gequi(square sq_departure, Side camp) {
               && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
-            if (TSTFLAG(spec[sq_departure],ColourChange))
-              move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
           }
         }
       }
@@ -1403,8 +1392,7 @@ static void gequi(square sq_departure, Side camp) {
         && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
     {
       empile(sq_departure,sq_arrival,sq_arrival);
-      if (TSTFLAG(spec[sq_departure],ColourChange))
-        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+      move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
     }
   }
 }
