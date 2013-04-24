@@ -635,7 +635,7 @@ solution finished.
 
   1.e2-e3 a7-a6   2.Bf1-c4=R Ra8-a7=B   3.Sg1-e2=Q dia
 
-                        empile:        6399
+                        empile:        6400
                      play_move:        6254
  is_white_king_square_attacked:         283
  is_black_king_square_attacked:         259
@@ -811,8 +811,8 @@ Until 4.61, Popeye crashed (Bug #3585629)
               AntiCirce
 
 
-                        empile:          27
-                     play_move:          11
+                        empile:          29
+                     play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          11
 solution finished. 
@@ -1165,8 +1165,8 @@ Until 4.61, pieces reborn on magic squares did not change
   1.Kh8-h7 + Kg1-f2 z
   1.Kh8-g7 + Kg1-f2 z
 
-                        empile:          30
-                     play_move:           9
+                        empile:          36
+                     play_move:          13
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:           9
 solution finished. 

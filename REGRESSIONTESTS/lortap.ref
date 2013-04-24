@@ -68,7 +68,7 @@ solution finished.
   h#4                         2 + 2
                 Lortap
 
-  1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 # 
+  1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 #
 
                         empile:      457976
                      play_move:      425881
@@ -103,7 +103,7 @@ solution finished.
 
 a) 
 
-  1...Kc8-c7   2.Be8-f7 Bf8-g7   3.Ke6-e7 Kc7*d7 # 
+  1...Kc8-c7   2.Be8-f7 Bf8-g7   3.Ke6-e7 Kc7*d7 #
 
                         empile:       68848
                      play_move:       61444
@@ -111,7 +111,7 @@ a)
  is_black_king_square_attacked:       82586
 b) Patrouille
 
-  1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 # 
+  1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 #
 
                         empile:      135127
                      play_move:      102269
@@ -144,8 +144,8 @@ solution finished.
   h#2                         3 + 4
                 Lortap
 
-  1.Ka4-a5 Se3-d5   2.Sb4-c6 Rf4-a4 # 
-  1.Rc5-c3 Rf4-f6   2.Rc3-b3 Rf6-a6 # 
+  1.Ka4-a5 Se3-d5   2.Sb4-c6 Rf4-a4 #
+  1.Rc5-c3 Rf4-f6   2.Rc3-b3 Rf6-a6 #
 
                         empile:      130726
                      play_move:      111114
@@ -179,7 +179,7 @@ solution finished.
 
 a) 
 
-  1.Bd4-c3 Rf8-f5   2.Re4-c4 Rf5-d5 # 
+  1.Bd4-c3 Rf8-f5   2.Re4-c4 Rf5-d5 #
 
                         empile:       70285
                      play_move:       32538
@@ -187,7 +187,7 @@ a)
  is_black_king_square_attacked:       32182
 b) Lortap
 
-  1.Bd4-c3 Bh7-f5   2.Re4-c4 Rf8-d8 # 
+  1.Bd4-c3 Bh7-f5   2.Re4-c4 Rf8-d8 #
 
                         empile:      242673
                      play_move:      160054
@@ -221,7 +221,7 @@ solution finished.
 
 a) 
 
-  1.Re6-f6 Sd6-f7   2.Kd5-e6 Bb5-c4 # 
+  1.Re6-f6 Sd6-f7   2.Kd5-e6 Bb5-c4 #
 
                         empile:       33085
                      play_move:       13379
@@ -229,7 +229,7 @@ a)
  is_black_king_square_attacked:       13084
 b) Lortap
 
-  1.Kd5-e5 Sd6-c4   2.Ke5-d6 Bb5*c6 # 
+  1.Kd5-e5 Sd6-c4   2.Ke5-d6 Bb5*c6 #
 
                         empile:       64577
                      play_move:       45074
@@ -237,7 +237,7 @@ b) Lortap
  is_black_king_square_attacked:       56253
 c) Patrouille
 
-  1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 # 
+  1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 #
 
                         empile:       73338
                      play_move:       55339
@@ -270,9 +270,9 @@ solution finished.
   h#2                         8 + 1
                 Lortap
 
-  1...Ra5-a4 +   2.Kd4*e5 Rd3-d1 # 
+  1...Ra5-a4 +   2.Kd4*e5 Rd3-d1 #
 
-  1.Kd4-c4 Rd3-e3   2.Kc4-b3 Qg6-b1 # 
+  1.Kd4-c4 Rd3-e3   2.Kc4-b3 Qg6-b1 #
 
                         empile:      157738
                      play_move:       92517
@@ -352,12 +352,12 @@ solution finished.
               AntiCirce
                 Lortap
 
-  1.Ba8-f3 Kd3-d2 # 
+  1.Ba8-f3 Kd3-d2 #
 
-                        empile:         314
-                     play_move:         282
- is_white_king_square_attacked:          65
- is_black_king_square_attacked:         337
+                        empile:         401
+                     play_move:         357
+ is_white_king_square_attacked:          90
+ is_black_king_square_attacked:         396
 solution finished. 
 
 
@@ -399,10 +399,10 @@ solution finished.
           2.Qg4-g1 #
 
 
-                        empile:        3655
-                     play_move:        2847
- is_white_king_square_attacked:         658
- is_black_king_square_attacked:        4153
+                        empile:        5215
+                     play_move:        3675
+ is_white_king_square_attacked:         761
+ is_black_king_square_attacked:        5001
 solution finished. 
 
 
@@ -430,7 +430,7 @@ solution finished.
   dia3.0                    15 + 16
                 Lortap
 
-  1.e2-e4 d7-d5   2.Bf1-a6 Bc8-d7   3.Sg1-e2 d5*e4 dia 
+  1.e2-e4 d7-d5   2.Bf1-a6 Bc8-d7   3.Sg1-e2 d5*e4 dia
 
                         empile:         440
                      play_move:         432
@@ -464,8 +464,8 @@ solution finished.
            TransmutedKings
                 Lortap
 
-  1.f2-f1=Q Kd3-e2 # 
-  1.f2-f1=R Kd3-e2 # 
+  1.f2-f1=Q Kd3-e2 #
+  1.f2-f1=R Kd3-e2 #
 
                         empile:          90
                      play_move:          88

@@ -900,11 +900,6 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
     do (end)+= (dir);                           \
     while (e[(end)] == vide);}
 
-#define LegalAntiCirceMove(reb, cap, dep)  \
-  (e[(reb)] == vide \
-   || (!AntiCirCheylan && (reb) == (cap)) \
-   || ((reb) == (dep)))
-
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
   (numgridlines && CrossesGridLines((sq1), (sq2))))
 

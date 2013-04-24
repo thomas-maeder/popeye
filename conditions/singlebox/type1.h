@@ -7,14 +7,6 @@
 #include "solving/solve.h"
 #include "pyproc.h"
 
-/* Determine the next legal single box promotee type
- * @param p type of previous promotee (vide if the first promotee type is to be
- *          found)
- * @param c side of promotee type to be found
- * @return next promotee type; vide if there is none
- */
-PieNam next_singlebox_prom(PieNam p, Side c);
-
 /* Determine whether the move just played is legal according to Singlebox Type 1
  * @return true iff the move is legal
  */

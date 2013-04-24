@@ -117,6 +117,40 @@ stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
   return result;
 }
 
+/* Determine the next legal single box promotee type
+ * @param p type of previous promotee (vide if the first promotee type is to be
+ *          found)
+ * @param c side of promotee type to be found
+ * @return next promotee type; vide if there is none
+ */
+static PieNam next_singlebox_prom(PieNam p, Side c)
+{
+  PieNam pprom;
+  PieNam result = Empty;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(p);
+  TraceEnumerator(Side,c,"");
+  TraceFunctionParamListEnd();
+
+  for (pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][p];
+       pprom!=Empty;
+       pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pprom])
+  {
+    piece const colored = c==White ? pprom : -pprom;
+    if (pprom!=Pawn && nbpiece[colored]<nr_piece(game_array)[pprom])
+    {
+      result = pprom;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TracePiece(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean singleboxtype3_is_black_king_square_attacked(evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;

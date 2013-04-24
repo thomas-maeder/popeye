@@ -3,13 +3,13 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h pydata.h \
- pyproc.h py4.h py.h stipulation/goals/goals.h pieces/pawns/promotion.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/move.h conditions/anticirce/capture_fork.h \
- conditions/magic_square.h solving/observation.h pyproc.h \
- solving/moving_pawn_promotion.h debugging/trace.h
+ stipulation/move.h stipulation/temporary_hacks.h \
+ conditions/anticirce/capture_fork.h solving/single_move_generator.h \
+ debugging/trace.h
 
 conditions/anticirce/anticirce.h:
 
@@ -45,8 +45,6 @@ py.h:
 
 stipulation/goals/goals.h:
 
-pieces/pawns/promotion.h:
-
 stipulation/has_solution_type.h:
 
 stipulation/stipulation.h:
@@ -63,15 +61,11 @@ output/mode.h:
 
 stipulation/move.h:
 
+stipulation/temporary_hacks.h:
+
 conditions/anticirce/capture_fork.h:
 
-conditions/magic_square.h:
-
-solving/observation.h:
-
-pyproc.h:
-
-solving/moving_pawn_promotion.h:
+solving/single_move_generator.h:
 
 debugging/trace.h:
 conditions/anticirce/goal_filters$(OBJ_SUFFIX): conditions/anticirce/goal_filters.c \

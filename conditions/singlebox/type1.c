@@ -7,8 +7,9 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/move.h"
-#include "solving/moving_pawn_promotion.h"
+#include "stipulation/temporary_hacks.h"
 #include "solving/observation.h"
+#include "solving/single_move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -19,8 +20,7 @@ static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
                                                       square sq_observee)
 {
   boolean result;
-  Side const moving = e[sq_observer]>vide ? White : Black;
-  PieNam const walk_observer = abs(e[sq_observer]);
+  Side const side_observing = e[sq_observer]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -28,43 +28,11 @@ static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (is_pawn(walk_observer)
-      && (is_forwardpawn(walk_observer)
-          ? ForwardPromSq(moving,sq_observee)
-          : ReversePromSq(moving,sq_observee)))
-    /* Pawn checking on promotion rank */
-    result = next_singlebox_prom(Empty,moving)!=Empty;
-  else
-    result = true;
+  init_single_move_generator(sq_observer,sq_landing,sq_observee);
+  result = solve(slices[temporary_hack_king_capture_legality_tester[side_observing]].next2,length_unspecified)==next_move_has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-PieNam next_singlebox_prom(PieNam p, Side c)
-{
-  PieNam pprom;
-  PieNam result = Empty;
-
-  TraceFunctionEntry(__func__);
-  TracePiece(p);
-  TraceEnumerator(Side,c,"");
-  TraceFunctionParamListEnd();
-
-  for (pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][p]; pprom!=Empty; pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pprom])
-  {
-    piece const colored = c==White ? pprom : -pprom;
-    if (pprom!=Pawn && nbpiece[colored]<nr_piece(game_array)[pprom])
-    {
-      result = pprom;
-      break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TracePiece(result);
   TraceFunctionResultEnd();
   return result;
 }

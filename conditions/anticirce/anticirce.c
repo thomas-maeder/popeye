@@ -1,13 +1,12 @@
 #include "conditions/anticirce/anticirce.h"
 #include "pydata.h"
-#include "pieces/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "stipulation/temporary_hacks.h"
 #include "conditions/anticirce/capture_fork.h"
-#include "conditions/magic_square.h"
 #include "solving/observation.h"
-#include "solving/moving_pawn_promotion.h"
+#include "solving/single_move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -26,7 +25,6 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
 {
   boolean result;
   Side side_observing = e[sq_observer]>vide ? White : Black;
-  Side side_observed;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -34,38 +32,8 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(spec[sq_observer],Royal)
-      && TSTFLAG(sq_spec[sq_observee],MagicSq)
-      && magic_square_type==magic_square_type2)
-    side_observing = advers(side_observing);
-
-  side_observed = advers(side_observing);
-
-  if (is_pawn(abs(e[sq_observer]))
-      && (is_forwardpawn(abs(e[sq_observer]))
-          ? ForwardPromSq(side_observing,sq_landing)
-          : ReversePromSq(side_observing,sq_landing))
-      && ((!CondFlag[protean] && !TSTFLAG(spec[sq_observer],Protean))
-          || e[sq_observee]==vide))
-  {
-    /* Pawn checking on last rank or football check on a/h file */
-    PieNam pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty];
-    square    cren;
-    do {
-      cren= (*antirenai)(pprom, spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
-      pprom= pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pprom];
-    } while (!LegalAntiCirceMove(cren, sq_observee, sq_observer) && pprom != Empty);
-
-    result = LegalAntiCirceMove(cren,sq_observee,sq_observer) || pprom!=Empty;
-  }
-  else
-  {
-    square cren = (*antirenai)(TSTFLAG(spec[sq_observer], Chameleon)
-                               ? champiece(e[sq_observer])
-                               : e[sq_observer],
-                               spec[sq_observer], sq_observee, sq_observer, sq_landing, side_observed);
-    result = LegalAntiCirceMove(cren,sq_observee,sq_observer);
-  }
+  init_single_move_generator(sq_observer,sq_landing,sq_observee);
+  result = solve(slices[temporary_hack_king_capture_legality_tester[side_observing]].next2,length_unspecified)==next_move_has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

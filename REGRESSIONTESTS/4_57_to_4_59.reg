@@ -69,10 +69,10 @@ if no non-space text followed the remark token on its line
       1...Bf6*a1=S[bSa1->b8] #
 
 
-                        empile:        4066
-                     play_move:        2128
- is_white_king_square_attacked:        2128
- is_black_king_square_attacked:        1686
+                        empile:        6908
+                     play_move:        4173
+ is_white_king_square_attacked:        2133
+ is_black_king_square_attacked:        1691
 solution finished. 
 
 
