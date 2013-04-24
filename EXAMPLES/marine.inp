@@ -122,4 +122,20 @@ pieces white tra1h1 msb1g1b8 ndc1f1 sid1 poe1 mpa2b2c2d2e2g2h2
 stip dia3
 condition ultramarinechess
 
+next
+
+author Michel Caillaud, Henri Nouguier & Uri Avner
+origin Port-de-Bouc 1982, 2nd prize
+pieces white kf4 bf1 sd8 pe6f5h2 msd1 mpf3 mhg2 black kd3 re2 pc2f6g7h4h5 mpe3
+stip s#3
+condition maximum marinechess
+option vari nothr
+
+next
+
+author Daniel Joffart
+origin Port-de-Bouc 1982
+pieces white kh1 sf7 pd5f5 mhh2  black kf4 mpc2d7
+stip ser-h#11
+
 end

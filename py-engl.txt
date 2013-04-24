@@ -859,6 +859,8 @@ sstipulation). A little bit more elaborate is the command
 	ka      kangaroo
 	kh      kinghopper
 	kl      kangaroo lion
+	ko      kao
+	kp      knight hopper
 	l       locust
 	lb      bishop locust
 	le      leo
@@ -870,6 +872,7 @@ sstipulation). A little bit more elaborate is the command
 	m       moose
 	ma      mao
 	mg      marguerite                      g+sw+ea+m+ha
+	mh      marine ship
 	ml      maorider lion
 	mm      moarider lion
 	mo      moa
@@ -915,6 +918,7 @@ sstipulation). A little bit more elaborate is the command
         s2      (2,0)-Zigzag Nightrider (e.g. a1-b3-c1-d3-e1...)
         s3      (3,3)-Zigzag Nightrider (e.g. a1-b3-d4-e6-g7...)
         s4      (4,0)-Zigzag Nightrider (e.g. a1-c2-e1-g2...)
+	sh      ship
 	si      sirene
 	sk      skylla
 	so      scorpion

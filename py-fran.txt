@@ -816,7 +816,9 @@ suivante est un peu plus compliquee:
 	b1	bouncer
 	b2	tour bouncer
 	b3	fou bouncer
+	ba      bateau
 	bi      bison                           1,3+2,3 bondisseur
+	bm      bateau marin
 	bo	bob
 	bs      berolina superpion
 	bt      boy-scout
@@ -863,6 +865,7 @@ suivante est un peu plus compliquee:
 	im      imperatrice   
 	ka      kangourou
 	kl      kangourou lion
+	ko      kao
 	l       locuste   
 	la	lapin
 	le      leo
@@ -929,6 +932,7 @@ suivante est un peu plus compliquee:
 	sr      sauteur roi
 	st      sauterelle tour
 	su	sauteur feuille majeur
+	sv      sauteur cavalier
 	sz      zebre sauteur
 	t       tour
 	tc      tour/fou chasseur

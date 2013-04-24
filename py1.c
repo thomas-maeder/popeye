@@ -729,6 +729,13 @@ boolean marine_pawn_check(square sq_king,
   return false;
 }
 
+boolean marine_ship_check(square sq_king,
+                          piece p,
+                          evalfunction_t *evaluate)
+{
+  return marine_pawn_check(sq_king,p,evaluate) || tritoncheck(sq_king,p,evaluate);
+}
+
 boolean nogridcontact(square j)
 {
   square  j1;

@@ -1647,6 +1647,79 @@ static void genhunt(square i, piece p, PieNam pabs)
   TraceFunctionResultEnd();
 }
 
+static void gen_p_captures(square sq_departure, square sq_arrival, Side camp);
+static void gen_p_nocaptures(square sq_departure, numvec dir, int steps);
+
+static void generate_marine_pawn_captures(square sq_departure, Side moving)
+{
+  Side const opponent = advers(moving);
+  int dir_vertical;
+
+  if (moving==White)
+    dir_vertical = dir_up;
+  else
+    dir_vertical = dir_down;
+
+  {
+    int const vec_left = dir_vertical+dir_left;
+    square const sq_capture = sq_departure+vec_left;
+    square const sq_arrival = sq_capture+vec_left;
+    if (e[sq_arrival]==vide && TSTFLAG(spec[sq_capture],opponent))
+      empile(sq_departure,sq_arrival,sq_capture);
+  }
+
+  {
+    int const vec_right = dir_vertical+dir_right;
+    square const sq_capture = sq_departure+vec_right;
+    square const sq_arrival = sq_capture+vec_right;
+    if (e[sq_arrival]==vide && TSTFLAG(spec[sq_capture],opponent))
+      empile(sq_departure,sq_arrival,sq_capture);
+  }
+}
+
+void generate_marine_pawn(square sq_departure, Side moving)
+{
+  int dir_vertical;
+  unsigned nr_steps;
+
+  if (moving==White)
+  {
+    dir_vertical = dir_up;
+
+    if (sq_departure<=square_h1)
+    {
+      if (CondFlag[einstein])
+        nr_steps = 3;
+      else
+        nr_steps = 1;
+    }
+    else if (sq_departure<=square_h2)
+      nr_steps = 2;
+    else
+      nr_steps = 1;
+  }
+  else
+  {
+    dir_vertical = dir_down;
+
+    if (sq_departure>=square_a8)
+    {
+      if (CondFlag[einstein])
+        nr_steps = 3;
+      else
+        nr_steps = 1;
+    }
+    else if (sq_departure>=square_a7)
+      nr_steps = 2;
+    else
+      nr_steps = 1;
+  }
+
+  gen_p_nocaptures(sq_departure,dir_vertical,nr_steps);
+
+  generate_marine_pawn_captures(sq_departure,moving);
+}
+
 static void gfeerrest(square sq_departure, piece p, Side camp)
 {
   numvec k;
@@ -2278,6 +2351,11 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     generate_marine_pawn(sq_departure,camp);
     break;
 
+  case MarineShip:
+    gmarin(sq_departure, vec_rook_start,vec_rook_end, camp);
+    generate_marine_pawn_captures(sq_departure,camp);
+    return;
+
   default:
     /* Since pieces like DUMMY fall through 'default', we have */
     /* to check exactly if there is something to generate ...  */
@@ -2327,9 +2405,6 @@ static void gencpb(square i) {
     gebleap(i, 3, 3);
   }
 }
-
-static void gen_p_captures(square sq_departure, square sq_arrival, Side camp);
-static void gen_p_nocaptures(square sq_departure, numvec dir, int steps);
 
 void gfeerblanc(square i, piece p) {
   switch(p) {
@@ -3563,63 +3638,5 @@ void generate_poseidon(square sq_departure, Side moving)
       if (e[sq_arrival]==vide)
         empile(sq_departure,sq_arrival,sq_capture);
     }
-  }
-}
-
-void generate_marine_pawn(square sq_departure, Side moving)
-{
-  Side const opponent = advers(moving);
-  int dir_vertical;
-  unsigned nr_steps;
-
-  if (moving==White)
-  {
-    dir_vertical = dir_up;
-
-    if (sq_departure<=square_h1)
-    {
-      if (CondFlag[einstein])
-        nr_steps = 3;
-      else
-        nr_steps = 1;
-    }
-    else if (sq_departure<=square_h2)
-      nr_steps = 2;
-    else
-      nr_steps = 1;
-  }
-  else
-  {
-    dir_vertical = dir_down;
-
-    if (sq_departure>=square_a8)
-    {
-      if (CondFlag[einstein])
-        nr_steps = 3;
-      else
-        nr_steps = 1;
-    }
-    else if (sq_departure>=square_a7)
-      nr_steps = 2;
-    else
-      nr_steps = 1;
-  }
-
-  gen_p_nocaptures(sq_departure,dir_vertical,nr_steps);
-
-  {
-    int const vec_left = dir_vertical+dir_left;
-    square const sq_capture = sq_departure+vec_left;
-    square const sq_arrival = sq_capture+vec_left;
-    if (e[sq_arrival]==vide && TSTFLAG(spec[sq_capture],opponent))
-      empile(sq_departure,sq_arrival,sq_capture);
-  }
-
-  {
-    int const vec_right = dir_vertical+dir_right;
-    square const sq_capture = sq_departure+vec_right;
-    square const sq_arrival = sq_capture+vec_right;
-    if (e[sq_arrival]==vide && TSTFLAG(spec[sq_capture],opponent))
-      empile(sq_departure,sq_arrival,sq_capture);
   }
 }

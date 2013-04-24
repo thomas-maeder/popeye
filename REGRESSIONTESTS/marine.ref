@@ -665,3 +665,134 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 solution finished. 
 
 
+
+Michel Caillaud, Henri Nouguier & Uri Avner
+     Port-de-Bouc 1982, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   S   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   P  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   P   .  -P   5
+|                                   |
+4   .   .   .   .   .   K   .  -P   4
+|                                   |
+3   .   .   .  -K -MP  MP   .   .   3
+|                                   |
+2   .   .  -P   .  -R   .  MH   P   2
+|                                   |
+1   .   .   .  MS   .   B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#3                         9 + 8
+              Maximummer
+             MarineChess
+
+   1.MHg2-f2 !
+      1...MPe3*f2-g1=S
+          2.Bf1*e2 +
+              2...Sg1*e2 #
+      1...MPe3*f2-g1=R
+          2.Sd8-c6
+              2...Rg1-g6
+                  3.Sc6-e5 +
+                      3...f6*e5 #
+          2.Sd8-f7
+              2...Rg1-g6
+                  3.Sf7-e5 +
+                      3...f6*e5 #
+          2.MSd1-f2 +
+              2...Kd3-c4
+                  3.MSf2-g4
+                      3...Rg1*g4 #
+          2.MSd1-e3
+              2...Rg1-g6
+                  3.MSe3-g4
+                      3...Rg6*g4 #
+      1...MPe3*f2-g1=B
+          2.MSd1-e3
+              2...Bg1*e3 #
+      1...MPe3*f2-g1=SI
+          2.MSd1-f2 +
+              2...SIg1*f2-e3 #
+      1...MPe3*f2-g1=TR
+          2.Sd8-c6
+              2...TRg1-g6
+                  3.Sc6-e5 +
+                      3...f6*e5 #
+          2.Sd8-f7
+              2...TRg1-g6
+                  3.Sf7-e5 +
+                      3...f6*e5 #
+                  3.Sf7-g5
+                      3...TRg6*g5-g4 #
+      1...MPe3*f2-g1=ND
+          2.MSd1-f2 +
+              2...NDg1*f2-e3 #
+      1...MPe3*f2-g1=MS
+          2.Bf1-g2
+              2...MSg1*f3-e5
+                  3.Bg2-e4 +
+                      3...Re2*e4 #
+      1...MPe3*f2-g1=MH
+          2.Sd8-c6
+              2...MHg1-g6
+                  3.Sc6-e5 +
+                      3...f6*e5 #
+          2.Sd8-f7
+              2...MHg1-g6
+                  3.Sf7-e5 +
+                      3...f6*e5 #
+          2.MSd1-f2 +
+              2...Kd3-c4
+                  3.MSf2-g4
+                      3...MHg1*g4-g5 #
+
+
+                        empile:       59474
+                     play_move:       26582
+ is_white_king_square_attacked:       11373
+ is_black_king_square_attacked:       19368
+solution finished. 
+
+
+
+            Daniel Joffart
+          Port-de-Bouc 1982
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   . -MP   .   S   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   P   .   P   .   .   5
+|                                   |
+4   .   .   .   .   .  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   . -MP   .   .   .   .  MH   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#11                    5 + 3
+
+  1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=TR   9.TRd1-d5  10.TRd5*f5-g5  11.TRg5-g4 MHh2-f2 #
+  1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d6  10.MHd6-e6  11.MHe6*f5-g4 MHh2-f2 #
+  1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d5  10.MHd5*f5-g5  11.MHg5-g4 MHh2-f2 #
+
+                        empile:    26876068
+                     play_move:    21940063
+ is_white_king_square_attacked:     7324072
+ is_black_king_square_attacked:    21940063
+solution finished. 
+
+

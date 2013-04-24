@@ -351,12 +351,13 @@ EXTERN boolean			anyparrain;
     /*143*/ {'s','u'},   /* greater leafhopper */
     /*144*/ {'k','l'},   /* kangarou lion */
     /*145*/ {'k','o'},   /* kao */
-    /*146*/ {'k','p'},   /* knighthopper */
-    /*147*/ {'s','h'},   /* bateau */
+    /*146*/ {'s','v'},   /* knighthopper */
+    /*147*/ {'b','a'},   /* bateau */
     /*148*/ {'g','y'},   /* gryphon */
     /*149*/ {'c','m'},   /* cavalier marin */
     /*150*/ {'p','o'},   /* pos\'eidon */
-    /*151*/ {'p','m'}    /* pion marin */
+    /*151*/ {'p','m'},   /* pion marin */
+    /*152*/ {'b','m'}    /* bateau marin */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -504,12 +505,13 @@ EXTERN boolean			anyparrain;
     /*143*/ {'g','b'},  /* greater leafhopper */
     /*144*/ {'l','k'},   /* kangarou lion */
     /*145*/ {'k','o'},   /* kao */
-    /*146*/ {'k','p'},   /* knighthopper */
-    /*147*/ {'s','h'},   /* schiff */
+    /*146*/ {'s','h'},   /* springerhuepfer */
+    /*147*/ {'s','c'},   /* schiff */
     /*148*/ {'g','y'},   /* gryphon */
     /*149*/ {'m','s'},   /* mariner Springer */
     /*150*/ {'p','o'},   /* Poseidon */
-    /*151*/ {'m','b'}    /* mariner Bauer */
+    /*151*/ {'m','b'},   /* mariner Bauer */
+    /*152*/ {'m','c'}    /* marines Schiff */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -662,7 +664,8 @@ EXTERN boolean			anyparrain;
     /*148*/ {'g','y'},   /* gryphon */
     /*149*/ {'m','s'},   /* marine knight */
     /*150*/ {'p','o'},   /* poseidon */
-    /*151*/ {'m','p'}    /* marine pawn */
+    /*151*/ {'m','p'},   /* marine pawn */
+    /*152*/ {'m','h'}    /* marine ship */
   }
 	};
 #endif
@@ -1953,7 +1956,7 @@ enum {
 /*149 */  marine_knight_check,
 /*150 */  poseidon_check,
 /*151 */  marine_pawn_check,
-/*152 */  huntercheck,
+/*152 */  marine_ship_check,
 /*153 */  huntercheck,
 /*154 */  huntercheck,
 /*155 */  huntercheck,
@@ -1962,7 +1965,8 @@ enum {
 /*158 */  huntercheck,
 /*159 */  huntercheck,
 /*160 */  huntercheck,
-/*161 */  huntercheck
+/*161 */  huntercheck,
+/*162 */  huntercheck
     };
 #endif
 

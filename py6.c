@@ -496,7 +496,7 @@ static void countPieces(void)
     }
   }
 
-  if (nbpiece[MarinePawn]>0)
+  if (exist[MarinePawn]>0)
   {
     may_exist[Sirene] = true;
     may_exist[Triton] = true;

@@ -893,6 +893,7 @@ aufwendiger ist das Kommando
 	kh      Koenigshuepfer
 	kl      Kardinal
 	kn      Kaiserin                        0,1 Reiter + 1,2 Springer
+	ko      Kao
 	l       Laeufer                         1,1 Reiter
 	la      Laeuferadler                    1,1 90 Grad Huepfer
 	lc      Laeuferelch                     1,1 45 Grad Huepfer
@@ -906,6 +907,7 @@ aufwendiger ist das Kommando
 	ls      Laeuferspatz                    1,1 135 Grad Huepfer
 	ma      Mao                             (Wie Springer) Gerade-Diagonal
 	mb      Mariner Bauer
+	mc      marines Schiff
 	mg      Marguerite                      g+sp+ad+el+ha
 	ml      Maoreiterlion
 	mm      Moareiterlion
@@ -945,7 +947,9 @@ aufwendiger ist das Kommando
         s2      (2,0)-Zigzag Nachtreiter (e.g. a1-b3-c1-d3-e1...)
         s3      (3,3)-Zigzag Nachtreiter (e.g. a1-b3-d4-e6-g7...)
         s4      (4,0)-Zigzag Nachtreiter (e.g. a1-c2-e1-g2...)
+	sc      Schiff
 	sb      Superbauer
+	sh      Springerhuepfer
 	si      Sirene
 	sk      Skylla
 	so      Skorpion			Erlkoenig + Grashuepfer

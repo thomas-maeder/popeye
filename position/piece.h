@@ -167,6 +167,7 @@ typedef enum
   marineknightb, /* 149 */
   poseidonb,     /* 150 */
   marinepawnb,   /* 151 */
+  marineshipb,   /* 152 */
   hunter0b,
   derbla =        hunter0b+maxnrhuntertypes,
 
@@ -320,6 +321,7 @@ typedef enum
   marineknightn  = -marineknightb,
   poseidonn      = -poseidonb,
   marinepawnn    = -marinepawnb,
+  marineshipn    = -marineshipb,
   hunter0n       = -hunter0b,
   dernoi         = -derbla
 
