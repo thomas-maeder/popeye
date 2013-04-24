@@ -38,7 +38,7 @@ stip_length_type imitator_mover_solve(slice_index si, stip_length_type n);
  *            n+3 no solution found in next branch
  */
 stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
-                                                         stip_length_type n);
+                                                        stip_length_type n);
 
 /* Instrument slices with move tracers
  */
