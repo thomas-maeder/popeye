@@ -1,5 +1,6 @@
 #include "conditions/singlebox/type3.h"
 #include "pydata.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -194,7 +195,9 @@ static square find_next_latent_pawn(square sq, Side side)
       PieNam const walk_promotee = abs(e[sq]);
       if (is_pawn(walk_promotee)
           && TSTFLAG(spec[sq],side)
-          && PromSq(is_reversepawn(walk_promotee) ? advers(side) : side, sq))
+          && (is_forwardpawn(walk_promotee)
+              ? ForwardPromSq(side,sq)
+              : ReversePromSq(side,sq)))
       {
         result = sq;
         break;

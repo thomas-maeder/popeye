@@ -1,6 +1,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
@@ -116,7 +117,7 @@ static void GenMatingPawn(square sq_departure,
           if (Battery
               || sq_arrival+dir_up+dir_left == sq_king
               || sq_arrival+dir_up+dir_right == sq_king
-              || (PromSq(White,sq_arrival)
+              || (ForwardPromSq(White,sq_arrival)
                   && (CheckDir[Queen][sq_king-sq_arrival]
                       || CheckDir[Knight][sq_king-sq_arrival])))
             empile(sq_departure,sq_arrival,sq_arrival);
@@ -139,7 +140,7 @@ static void GenMatingPawn(square sq_departure,
         if (Battery
             || sq_arrival+dir_up+dir_left == sq_king
             || sq_arrival+dir_up+dir_right == sq_king
-            || (PromSq(White,sq_arrival)
+            || (ForwardPromSq(White,sq_arrival)
                 && (CheckDir[Queen][sq_king-sq_arrival]
                     || CheckDir[Knight][sq_king-sq_arrival])))
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -150,7 +151,7 @@ static void GenMatingPawn(square sq_departure,
         if (Battery
             || sq_arrival+dir_up+dir_left==sq_king
             || sq_arrival+dir_up+dir_right==sq_king
-            || (PromSq(White,sq_arrival)
+            || (ForwardPromSq(White,sq_arrival)
                 && (CheckDir[Queen][sq_king-sq_arrival]
                     || CheckDir[Knight][sq_king-sq_arrival])))
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -181,7 +182,7 @@ static void GenMatingPawn(square sq_departure,
         if (Battery
             || sq_arrival+dir_down+dir_right==sq_king
             || sq_arrival+dir_down+dir_left==sq_king
-            || (PromSq(Black,sq_arrival)
+            || (ForwardPromSq(Black,sq_arrival)
                 && (CheckDir[Queen][sq_king-sq_arrival]
                     || CheckDir[Knight][sq_king-sq_arrival])))
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -204,7 +205,7 @@ static void GenMatingPawn(square sq_departure,
       if (Battery
           || sq_arrival+dir_down+dir_right==sq_king
           || sq_arrival+dir_down+dir_left==sq_king
-          || (PromSq(Black,sq_arrival)
+          || (ForwardPromSq(Black,sq_arrival)
               && (CheckDir[Queen][sq_king-sq_arrival]
                   || CheckDir[Knight][sq_king-sq_arrival])))
         empile(sq_departure,sq_arrival,sq_arrival);
@@ -216,7 +217,7 @@ static void GenMatingPawn(square sq_departure,
       if (Battery
           || sq_arrival+dir_down+dir_right==sq_king
           || sq_arrival+dir_down+dir_left==sq_king
-          || (PromSq(Black,sq_arrival)
+          || (ForwardPromSq(Black,sq_arrival)
               && (CheckDir[Queen][sq_king-sq_arrival]
                   || CheckDir[Knight][sq_king-sq_arrival])))
         empile(sq_departure,sq_arrival,sq_arrival);

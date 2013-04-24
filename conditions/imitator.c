@@ -264,7 +264,7 @@ stip_length_type imitator_mover_solve(slice_index si, stip_length_type n)
  *            n+3 no solution found in next branch
  */
 stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
-                                                         stip_length_type n)
+                                                        stip_length_type n)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   stip_length_type result;
@@ -275,7 +275,7 @@ stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    promotion_of_moving_into_imitator[nbply] = has_pawn_reached_promotion_square(sq_arrival)!=no_side;
+    promotion_of_moving_into_imitator[nbply] = is_square_occupied_by_promotable_pawn(sq_arrival)!=no_side;
 
   if (promotion_of_moving_into_imitator[nbply])
   {

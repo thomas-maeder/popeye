@@ -1,5 +1,6 @@
 #include "conditions/anticirce/anticirce.h"
 #include "pydata.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -24,8 +25,8 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
                                                   square sq_observee)
 {
   boolean result;
-  Side const side_observing = e[sq_observer]>vide ? White : Black;
-  Side side_observed = advers(side_observing);
+  Side side_observing = e[sq_observer]>vide ? White : Black;
+  Side side_observed;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -36,10 +37,14 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
   if (!TSTFLAG(spec[sq_observer],Royal)
       && TSTFLAG(sq_spec[sq_observee],MagicSq)
       && magic_square_type==magic_square_type2)
-    side_observed = advers(side_observed);
+    side_observing = advers(side_observing);
+
+  side_observed = advers(side_observing);
 
   if (is_pawn(abs(e[sq_observer]))
-      && PromSq(is_reversepawn(abs(e[sq_observer]))^advers(side_observed),sq_landing)
+      && (is_forwardpawn(abs(e[sq_observer]))
+          ? ForwardPromSq(side_observing,sq_landing)
+          : ReversePromSq(side_observing,sq_landing))
       && ((!CondFlag[protean] && !TSTFLAG(spec[sq_observer],Protean))
           || e[sq_observee]==vide))
   {

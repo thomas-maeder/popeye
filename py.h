@@ -893,9 +893,6 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define shopcheck(sq, ka, ke, p, ev)     riderhoppercheck(sq, ka, ke, p, 1, 1, ev)
 #define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
-#define PromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
-#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
-
 #define EndOfLine(from,dir,end)  {end = (from); \
     do (end)+= (dir);                           \
     while (e[(end)] == vide);}

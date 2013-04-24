@@ -1,5 +1,6 @@
 #include "conditions/singlebox/type2.h"
 #include "pydata.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -219,13 +220,14 @@ stip_length_type singlebox_type2_latent_pawn_selector_solve(slice_index si,
  * @param side address of side; *side will be assigned the side of which sq_prom
  *             is a promotion square
  * @param sequence address of structure holding the promotion sequence
+ * @pre square sq_prom is occupied by a promotable pawn
  * @note the sequence only contains the promotees legal according to type 2
  */
 void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
-                                               Side *side,
-                                               pieces_pawns_promotion_sequence_type *sequence)
+                                                             Side *side,
+                                                             pieces_pawns_promotion_sequence_type *sequence)
 {
-  *side = PromSq(White,sq_prom) ? White : Black;
+  *side = (is_forwardpawn(abs(e[sq_prom])) ? ForwardPromSq(White,sq_prom) : ReversePromSq(White,sq_prom)) ? White : Black;
   pieces_pawns_initialise_promotion_sequence(sq_prom,sequence);
   while (sequence->promotee!=Empty)
   {
@@ -266,8 +268,8 @@ static void init_latent_pawn_promotion(void)
   if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
   {
     singlebox_type2_initialise_singlebox_promotion_sequence(singlebox_type2_latent_pawn_promotions[nbply].where,
-                                              &singlebox_type2_latent_pawn_promotions[nbply].side,
-                                              &singlebox_type2_latent_pawn_promotions[nbply].promotion);
+                                                            &singlebox_type2_latent_pawn_promotions[nbply].side,
+                                                            &singlebox_type2_latent_pawn_promotions[nbply].promotion);
     if (singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee==Empty)
       singlebox_type2_latent_pawn_promotions[nbply].where = initsquare;
   }
@@ -282,7 +284,7 @@ static void advance_latent_pawn_promotion(void)
   TraceFunctionParamListEnd();
 
   singlebox_type2_continue_singlebox_promotion_sequence(singlebox_type2_latent_pawn_promotions[nbply].side,
-                                         &singlebox_type2_latent_pawn_promotions[nbply].promotion);
+                                                        &singlebox_type2_latent_pawn_promotions[nbply].promotion);
   TracePiece(singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);TraceText("\n");
 
   TraceFunctionExit(__func__);

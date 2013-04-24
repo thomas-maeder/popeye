@@ -1,6 +1,7 @@
 #include "conditions/singlebox/type1.h"
 #include "pydata.h"
 #include "pieces/walks.h"
+#include "pieces/pawns/promotion.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -19,6 +20,7 @@ static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
 {
   boolean result;
   Side const moving = e[sq_observer]>vide ? White : Black;
+  PieNam const walk_observer = abs(e[sq_observer]);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -26,7 +28,10 @@ static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (is_forwardpawn(abs(e[sq_observer])) && PromSq(moving,sq_observee))
+  if (is_pawn(walk_observer)
+      && (is_forwardpawn(walk_observer)
+          ? ForwardPromSq(moving,sq_observee)
+          : ReversePromSq(moving,sq_observee)))
     /* Pawn checking on promotion rank */
     result = next_singlebox_prom(Empty,moving)!=Empty;
   else

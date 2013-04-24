@@ -68,24 +68,19 @@ static void init_promotion_pieces_chain(pieces_pawns_promotee_chain_selector_typ
 void pieces_pawns_initialise_promotion_sequence(square sq_arrival,
                                                 pieces_pawns_promotion_sequence_type *sequence)
 {
-  PieNam const walk_moving = abs(e[sq_arrival]);
-  boolean const reverse = is_reversepawn(walk_moving);
-
   /* Some fairy chess (e.g. Protean,Kamikaze) prevents promotion by
    * modifying or removing the pawn before we reach here.
    * Only promote the piece if it is still a pawn belonging to the
    * moving side.
    */
-  if (is_pawn(walk_moving)
-      && ((PromSq(White,sq_arrival) && TSTFLAG(spec[sq_arrival],White^reverse))
-          || (PromSq(Black,sq_arrival) && TSTFLAG(spec[sq_arrival],Black^reverse))))
+  if (is_square_occupied_by_promotable_pawn(sq_arrival)!=no_side)
   {
+    PieNam const walk_moving = abs(e[sq_arrival]);
     sequence->selector = (walk_moving==MarinePawn
                           ? pieces_pawns_promotee_chain_marine
                           : pieces_pawns_promotee_chain_orthodox);
     sequence->promotee = pieces_pawns_promotee_chain[sequence->selector][Empty];
     TracePiece(sequence->promotee);
-    TraceValue("%u\n",sequence->selector);
   }
   else
     sequence->promotee = Empty;
@@ -101,12 +96,12 @@ void pieces_pawns_continue_promotion_sequence(pieces_pawns_promotion_sequence_ty
   sequence->promotee = pieces_pawns_promotee_chain[sequence->selector][sequence->promotee];
 }
 
-/* Has a pawn reached a promotion square
+/* Is a square occupied by a pawn that is to be promoted?
  * @param square_reached square reached by the pawn
  * @return side for which the pawn has reached the promotion square
  *         no_side if the pawn hasn't
  */
-Side has_pawn_reached_promotion_square(square square_reached)
+Side is_square_occupied_by_promotable_pawn(square square_reached)
 {
   Side result = no_side;
   PieNam const walk_moving = abs(e[square_reached]);
@@ -117,10 +112,12 @@ Side has_pawn_reached_promotion_square(square square_reached)
 
   if (is_pawn(walk_moving))
   {
-    boolean const reverse = is_reversepawn(walk_moving);
-    if (PromSq(White,square_reached) && TSTFLAG(spec[square_reached],White^reverse))
+    boolean const forward = is_forwardpawn(walk_moving);
+    if ((forward ? ForwardPromSq(White,square_reached) : ReversePromSq(White,square_reached))
+        && TSTFLAG(spec[square_reached],White))
       result = White;
-    else if (PromSq(Black,square_reached) && TSTFLAG(spec[square_reached],Black^reverse))
+    else if ((forward ? ForwardPromSq(Black,square_reached) : ReversePromSq(Black,square_reached))
+             && TSTFLAG(spec[square_reached],Black))
       result = Black;
   }
 

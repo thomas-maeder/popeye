@@ -32,7 +32,7 @@ stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (has_pawn_reached_promotion_square(sq_arrival)==no_side)
+  if (is_square_occupied_by_promotable_pawn(sq_arrival)==no_side)
     result = solve(slices[si].next1,n);
   else
     result = previous_move_is_illegal;
@@ -68,7 +68,7 @@ stip_length_type nopromotion_avoid_promotion_reborn_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  promotion_for_side = has_pawn_reached_promotion_square(sq_rebirth);
+  promotion_for_side = is_square_occupied_by_promotable_pawn(sq_rebirth);
 
   if ((promotion_for_side==White && CondFlag[nowhiteprom])
       || (promotion_for_side==Black && CondFlag[noblackprom]))

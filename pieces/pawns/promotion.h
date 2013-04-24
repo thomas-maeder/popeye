@@ -19,6 +19,9 @@ typedef struct
     PieNam promotee;
 } pieces_pawns_promotion_sequence_type;
 
+#define ForwardPromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
+#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
+
 /* Initialise a sequence of promotions
  * @param sq_arrival arrival square of the move
  * @param sequence address of structure to represent the sequence
@@ -42,7 +45,7 @@ void pieces_pawns_continue_promotion_sequence(pieces_pawns_promotion_sequence_ty
  * @return side for which the pawn has reached the promotion square
  *         no_side if the pawn hasn't
  */
-Side has_pawn_reached_promotion_square(square square_reached);
+Side is_square_occupied_by_promotable_pawn(square square_reached);
 
 /* Initialise the set of promotion pieces for the current twin
  */
