@@ -769,8 +769,9 @@ typedef enum
   superguards,            /* 184 */
   wormholes,              /* 185 */
   marine,                 /* 186 */
+  ultramarine,            /* 187 */
 
-  CondCount               /* 187 */
+  CondCount               /* 188 */
 } Cond;
 
 /* Some remarks to the conditions:

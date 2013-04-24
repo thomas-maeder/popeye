@@ -15,7 +15,7 @@ static void build_promotee_chain(pieces_pawns_promotee_chain_selector_type selec
   PieNam prev_prom_piece = Empty;
 
   for (p = King; p<PieceCount; ++p)
-    pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][p] = Empty;
+    pieces_pawns_promotee_chain[selector][p] = Empty;
 
   for (p = King; p<PieceCount; ++p)
     if ((*is_promotee)[p])

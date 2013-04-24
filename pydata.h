@@ -1009,7 +1009,8 @@ void enforce_piecename_uniqueness(void);
     /*183*/ "CirceTake&Make",
     /*184*/ "Supergardes",
     /*185*/ "TrousDeVer",
-    /*186*/ "EchecsMarins"
+    /*186*/ "EchecsMarins",
+    /*187*/ "EchecsUltramarins"
   },{
     /* German Condition Names */
     /* 0*/  "RexInklusive",
@@ -1198,7 +1199,8 @@ void enforce_piecename_uniqueness(void);
     /*183*/ "CirceTake&Make",
     /*184*/ "SuperDeckungen",
     /*185*/ "Wurmloecher",
-    /*186*/ "MarinesSchach"
+    /*186*/ "MarinesSchach",
+    /*187*/ "UltramarinesSchach"
   },{
     /* English Condition Names */
     /* 0*/  "RexInclusive",
@@ -1387,7 +1389,8 @@ void enforce_piecename_uniqueness(void);
     /*183*/ "CirceTake&Make",
     /*184*/ "SuperGuards",
     /*185*/ "Wormholes",
-    /*186*/ "MarineChess"
+    /*186*/ "MarineChess",
+    /*187*/ "UltramarineChess"
   }
 };
 #endif

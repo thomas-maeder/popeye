@@ -284,6 +284,7 @@ simples:
 	Supergardes
 	TrousDeVer
 	EchecsMarins
+	EchecsUltramarins
 
 	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 

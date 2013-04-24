@@ -414,6 +414,7 @@ void ProofInitialiseStartPosition(void)
 
   start = game_array;
 
+  override_standard_walk(square_e1,White,King);
   override_standard_walk(square_d1,White,Queen);
   override_standard_walk(square_a1,White,Rook);
   override_standard_walk(square_h1,White,Rook);
@@ -421,6 +422,16 @@ void ProofInitialiseStartPosition(void)
   override_standard_walk(square_f1,White,Bishop);
   override_standard_walk(square_b1,White,Knight);
   override_standard_walk(square_g1,White,Knight);
+  override_standard_walk(square_a2,White,Pawn);
+  override_standard_walk(square_b2,White,Pawn);
+  override_standard_walk(square_c2,White,Pawn);
+  override_standard_walk(square_d2,White,Pawn);
+  override_standard_walk(square_e2,White,Pawn);
+  override_standard_walk(square_f2,White,Pawn);
+  override_standard_walk(square_g2,White,Pawn);
+  override_standard_walk(square_h2,White,Pawn);
+
+  override_standard_walk(square_e8,Black,King);
   override_standard_walk(square_d8,Black,Queen);
   override_standard_walk(square_a8,Black,Rook);
   override_standard_walk(square_h8,Black,Rook);
@@ -428,6 +439,14 @@ void ProofInitialiseStartPosition(void)
   override_standard_walk(square_f8,Black,Bishop);
   override_standard_walk(square_b8,Black,Knight);
   override_standard_walk(square_g8,Black,Knight);
+  override_standard_walk(square_a7,Black,Pawn);
+  override_standard_walk(square_b7,Black,Pawn);
+  override_standard_walk(square_c7,Black,Pawn);
+  override_standard_walk(square_d7,Black,Pawn);
+  override_standard_walk(square_e7,Black,Pawn);
+  override_standard_walk(square_f7,Black,Pawn);
+  override_standard_walk(square_g7,Black,Pawn);
+  override_standard_walk(square_h7,Black,Pawn);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

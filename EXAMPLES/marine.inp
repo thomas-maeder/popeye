@@ -86,11 +86,13 @@ condition madrasi rexincl
 
 next
 
-title promotion of an orthodox pawn in Marine Chess
+title promotion of an orthodox pawn in Marine and Ultramarine Chess
 pieces white pd7
 stip ~1
-condition marinechess losingchess
 option nowk nobk
+condition losingchess
+twin condition marinechess losingchess
+twin condition ultramarinechess losingchess
 
 next
 
@@ -109,5 +111,15 @@ pieces white tra1h1 msb1g1 ndb2f1 sid1 ke1 pa2c2d2e2f2g2h2
 stip dia2
 condition marinechess
 option nowk nobk
+
+next
+
+author Peter Fayers
+origin JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
+remark (only first 6 half-moves)
+pieces white tra1h1 msb1g1b8 ndc1f1 sid1 poe1 mpa2b2c2d2e2g2h2
+       black tra8h8 msc6g8 ndc8f8 sib6 poe8 mpa7b7d7f7g7h7
+stip dia3
+condition ultramarinechess
 
 end

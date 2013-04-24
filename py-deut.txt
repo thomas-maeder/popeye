@@ -290,6 +290,7 @@ Kommandos:
 	SuperDeckungen
 	Wurmloecher
 	MarinesSchach
+	UltramarinesSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines

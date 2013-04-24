@@ -20,12 +20,18 @@ void initalise_standard_walks(void)
     standard_walks[Knight] = Mao;
   }
 
-  if (CondFlag[marine])
+  if (CondFlag[marine] || CondFlag[ultramarine])
   {
     standard_walks[Queen] = Sirene;
     standard_walks[Rook] = Triton;
     standard_walks[Bishop] = Nereide;
     standard_walks[Knight] = MarineKnight;
+  }
+
+  if (CondFlag[ultramarine])
+  {
+    standard_walks[King] = Poseidon;
+    standard_walks[Pawn] = MarinePawn;
   }
 
   if (CondFlag[cavaliermajeur])

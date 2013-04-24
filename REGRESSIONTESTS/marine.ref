@@ -464,7 +464,7 @@ solution finished.
 
 
 
-promotion of an orthodox pawn in Marine Chess
+promotion of an orthodox pawn in Marine and Ultramarine Chess
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -487,7 +487,26 @@ promotion of an orthodox pawn in Marine Chess
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
              LosingChess
-             MarineChess
+
+a) 
+
+   1.d7-d8=K !
+
+   1.d7-d8=Q !
+
+   1.d7-d8=S !
+
+   1.d7-d8=R !
+
+   1.d7-d8=B !
+
+
+                        empile:           1
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) LosingChess
+   MarineChess
 
    1.d7-d8=K !
 
@@ -498,6 +517,24 @@ promotion of an orthodox pawn in Marine Chess
    1.d7-d8=ND !
 
    1.d7-d8=MS !
+
+
+                        empile:           1
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+c) LosingChess
+   UltramarineChess
+
+   1.d7-d8=SI !
+
+   1.d7-d8=TR !
+
+   1.d7-d8=ND !
+
+   1.d7-d8=MS !
+
+   1.d7-d8=PO !
 
 
                         empile:           1
@@ -589,6 +626,42 @@ solution finished.
                      play_move:      177670
  is_white_king_square_attacked:        8928
  is_black_king_square_attacked:         404
+solution finished. 
+
+
+(only first 6 half-moves)
+
+             Peter Fayers
+JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8 -TR  MS -ND   . -PO -ND -MS -TR   8
+|                                   |
+7 -MP -MP   . -MP   . -MP -MP -MP   7
+|                                   |
+6   . -SI -MS   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  MP  MP  MP  MP  MP   .  MP  MP   2
+|                                   |
+1  TR  MS  ND  SI  PO  ND  MS  TR   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia3                      16 + 14
+           UltramarineChess
+
+  1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
+
+                        empile:    21374834
+                     play_move:    21376382
+ is_white_king_square_attacked:     1780100
+ is_black_king_square_attacked:      118858
 solution finished. 
 
 
