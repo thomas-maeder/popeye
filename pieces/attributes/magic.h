@@ -7,8 +7,8 @@
 
 typedef struct
 {
-    int bottom;
-    int top;
+    unsigned int bottom;
+    unsigned int top;
 } magicstate_type;
 
 extern magicstate_type magicstate[maxply + 1];

@@ -11,8 +11,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static unsigned int nr_magic_views;
-
 /* magic pieces */
 enum
 {
@@ -33,13 +31,24 @@ magicstate_type magicstate[maxply + 1];
 
 static void PushMagicView(square sq, PieceIdType id1, PieceIdType id2, numvec v)
 {
-  assert(nr_magic_views<magicviews_size);
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq);
+  TraceValue("%d",v);
+  TraceFunctionParamListEnd();
 
-  magicviews[nr_magic_views].piecesquare = sq;
-  magicviews[nr_magic_views].pieceid = id1;
-  magicviews[nr_magic_views].magicpieceid = id2;
-  magicviews[nr_magic_views].vecnum = v;
-  ++nr_magic_views;
+  assert(magicstate[nbply].top<magicviews_size);
+
+  magicviews[magicstate[nbply].top].piecesquare = sq;
+  magicviews[magicstate[nbply].top].pieceid = id1;
+  magicviews[magicstate[nbply].top].magicpieceid = id2;
+  magicviews[magicstate[nbply].top].vecnum = v;
+  ++magicstate[nbply].top;
+
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",magicstate[nbply].top);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void GetRoseAttackVectors(square from, square to)
@@ -450,11 +459,14 @@ static void PushMagicViews(void)
 {
   square const *bnp;
 
-  /*new stack */
-  nr_magic_views = magicstate[parent_ply[nbply]].top;
-  magicstate[nbply].bottom = nr_magic_views;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-  for (bnp= boardnum; *bnp; bnp++)
+  /*new stack */
+  magicstate[nbply].bottom = magicstate[parent_ply[nbply]].top;
+  magicstate[nbply].top = magicstate[nbply].bottom;
+
+  for (bnp = boardnum; *bnp; bnp++)
     if (TSTFLAG(spec[*bnp], Magic))
     {
       /* for each magic piece */
@@ -462,7 +474,6 @@ static void PushMagicViews(void)
       square * const royal = p<=roin ? &king_square[White] : &king_square[Black];
       square const royal_save = *royal;
       square const *bnp1;
-      fromspecificsquare= *bnp;
       for (bnp1 = boardnum; *bnp1; bnp1++)
       {
         if (abs(e[*bnp1])>obs
@@ -473,9 +484,13 @@ static void PushMagicViews(void)
              (n.b. check *bnp != *bnp1 redundant above) */
           *royal = *bnp1;
 
-          if (!attackfunctions[abs(p)])
+          if (attackfunctions[abs(p)])
+            /* call special function to determine all attacks */
+            (*attackfunctions[abs(p)])(*bnp,*royal);
+          else
           {
             /* if single solve at most */
+            fromspecificsquare = *bnp;
             if ((*checkfunctions[abs(p)])(*royal,
                                           p,
                                           eval_fromspecificsquare))
@@ -492,16 +507,14 @@ static void PushMagicViews(void)
                               attackVec);
             }
           }
-          else
-            /* call special function to determine all attacks */
-            (*attackfunctions[abs(p)])(fromspecificsquare,*royal);
         }
       }
 
       *royal= royal_save;
     }
 
-  magicstate[nbply].top = nr_magic_views;
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean find_view(ply ply_id, int j)
@@ -510,7 +523,7 @@ static boolean find_view(ply ply_id, int j)
   int const currmagid = magicviews[j].magicpieceid;
   numvec const currvec = magicviews[j].vecnum;
   boolean result = false;
-  int k;
+  unsigned int k;
 
   for (k = magicstate[ply_id].bottom; k<magicstate[ply_id].top; ++k)
     if (magicviews[k].pieceid==currid
@@ -527,10 +540,19 @@ static boolean find_view(ply ply_id, int j)
 static unsigned int count_changed_views(square sq_viewed)
 {
   unsigned int result = 0;
-  int i;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_viewed);
+  TraceFunctionParamListEnd();
+
   for (i = magicstate[nbply].bottom; i<magicstate[nbply].top; i++)
     if (magicviews[i].piecesquare==sq_viewed && !find_view(parent_ply[nbply],i))
       ++result;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -576,7 +598,8 @@ stip_length_type magic_views_initialiser_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(nbply==1);
-  nr_magic_views = 0;
+  magicstate[nbply].bottom = 0;
+  magicstate[nbply].top = 0;
   PushMagicViews();
   result = solve(slices[si].next1,n);
 
