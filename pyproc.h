@@ -280,8 +280,7 @@ boolean rubiech(square sq, square sqtest, piece p,  echiquier e_ub, evalfunction
 
 void orig_generate_moves_for_piece(Side side, square sq_departure, piece p);
 
-extern void   (*generate_moves_for_black_piece)(square a, piece b);
-extern void   (*generate_moves_for_white_piece)(square a, piece b);
+extern void   (*generate_moves_for_piece)(Side side, square a, piece b);
 
 piece   champiece(piece p);
 

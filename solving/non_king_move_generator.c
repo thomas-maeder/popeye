@@ -54,17 +54,17 @@ static boolean advance_departure_square(Side side,
         TraceEnumerator(Side,side,"\n");
         if (side==White)
         {
-          if (p>obs && sq_departure!=king_square[White])
+          if (p>obs && sq_departure!=king_square[side])
           {
-            generate_moves_for_white_piece(sq_departure,p);
+            generate_moves_for_piece(side,sq_departure,p);
             return true;
           }
         }
         else
         {
-          if (p<vide && sq_departure!=king_square[Black])
+          if (p<vide && sq_departure!=king_square[side])
           {
-            generate_moves_for_black_piece(sq_departure,p);
+            generate_moves_for_piece(side,sq_departure,p);
             return true;
           }
         }

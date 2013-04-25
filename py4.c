@@ -1613,20 +1613,20 @@ static void genhunt(square i, piece p, PieNam pabs)
 
     if (p>0) {
       numecoup savenbcou = current_move[nbply];
-      generate_moves_for_white_piece(i,huntertype->home);
+      generate_moves_for_piece(White,i,huntertype->home);
       filter(i,savenbcou,DOWN);
 
       savenbcou = current_move[nbply];
-      generate_moves_for_white_piece(i,huntertype->away);
+      generate_moves_for_piece(White,i,huntertype->away);
       filter(i,savenbcou,UP);
     }
     else {
       numecoup savenbcou = current_move[nbply];
-      generate_moves_for_black_piece(i,-huntertype->away);
+      generate_moves_for_piece(Black,i,-huntertype->away);
       filter(i,savenbcou,DOWN);
 
       savenbcou = current_move[nbply];
-      generate_moves_for_black_piece(i,-huntertype->home);
+      generate_moves_for_piece(Black,i,-huntertype->home);
       filter(i,savenbcou,UP);
     }
   }
@@ -2867,7 +2867,7 @@ void genrb(square sq_departure)
       {
         flag = true;
         current_trans_gen = *ptrans;
-        generate_moves_for_white_piece(sq_departure,*ptrans);
+        generate_moves_for_piece(White,sq_departure,*ptrans);
         current_trans_gen = vide;
       }
     }
@@ -2882,7 +2882,7 @@ void genrb(square sq_departure)
         {
           flag = true;
           current_trans_gen = *ptrans;
-          generate_moves_for_white_piece(sq_departure,*ptrans);
+          generate_moves_for_piece(White,sq_departure,*ptrans);
           current_trans_gen = vide;
         }
       }
@@ -2978,7 +2978,7 @@ void gen_wh_ply(void)
         if (TSTFLAG(spec[z], Neutral))
           p = -p;
         if (p > obs)
-          generate_moves_for_white_piece(z, p);
+          generate_moves_for_piece(White,z, p);
       }
     }
 
@@ -3114,21 +3114,7 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
   TraceFunctionResultEnd();
 }
 
-static void orig_generate_moves_for_white_piece(square sq_departure, piece p)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  orig_generate_moves_for_piece(White,sq_departure,p);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void (*generate_moves_for_white_piece)(square z, piece p) = &orig_generate_moves_for_white_piece;
-
+void (*generate_moves_for_piece)(Side side, square z, piece p) = &orig_generate_moves_for_piece;
 
 void gorph(square i, Side camp)
 {
@@ -3141,12 +3127,12 @@ void gorph(square i, Side camp)
       if (camp == White)
       {
         if (ooorphancheck(i,-*porph,orphann,&validate_observation))
-          generate_moves_for_white_piece(i,*porph);
+          generate_moves_for_piece(camp,i,*porph);
       }
       else
       {
         if (ooorphancheck(i,*porph,orphanb,&validate_observation))
-          generate_moves_for_black_piece(i,-*porph);
+          generate_moves_for_piece(camp,i,-*porph);
       }
     }
 
@@ -3164,12 +3150,12 @@ void gfriend(square i, Side camp)
       if (camp==White)
       {
         if (fffriendcheck(i,*pfr,friendb,&validate_observation))
-          generate_moves_for_white_piece(i, *pfr);
+          generate_moves_for_piece(camp,i, *pfr);
       }
       else
       {
         if (fffriendcheck(i,-*pfr,friendn,&validate_observation))
-          generate_moves_for_black_piece(i, -*pfr);
+          generate_moves_for_piece(camp,i, -*pfr);
       }
     }
 

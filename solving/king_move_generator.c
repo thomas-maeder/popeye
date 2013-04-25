@@ -33,10 +33,9 @@ void generate_king_moves(Side side)
 {
   if (king_square[side]!=initsquare)
   {
-    if (side==White)
-      generate_moves_for_white_piece(king_square[White],abs(e[king_square[White]]));
-    else
-      generate_moves_for_black_piece(king_square[Black],-abs(e[king_square[Black]]));
+    PieNam const king_walk = abs(e[king_square[side]]);
+    piece const sided_king = side==White ? king_walk : -king_walk;
+    generate_moves_for_piece(side,king_square[side],sided_king);
   }
 }
 

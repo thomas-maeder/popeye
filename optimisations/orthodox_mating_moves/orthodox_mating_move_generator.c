@@ -513,12 +513,7 @@ static void generate_move_reaching_goal()
       {
         if (CondFlag[gridchess]
             && !GridLegal(sq_departure,OpponentsKing))
-        {
-          if (side_at_move==White)
-            generate_moves_for_white_piece(sq_departure,p);
-          else
-            generate_moves_for_black_piece(sq_departure,p);
-        }
+          generate_moves_for_piece(side_at_move,sq_departure,p);
         else
         {
           switch (abs(p))

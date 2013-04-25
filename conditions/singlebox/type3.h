@@ -50,10 +50,10 @@ boolean singleboxtype3_is_black_king_square_attacked(evalfunction_t *evaluate);
 boolean singleboxtype3_is_white_king_square_attacked(evalfunction_t *evaluate);
 
 /* Generate the moves for a black/white piece
+ * @param side for which to generate moves
  * @param sq_departure departure square of the moves
  * @param p walk and side of the piece
  */
-void singleboxtype3_generate_moves_for_black_piece(square sq_departure, piece p);
-void singleboxtype3_generate_moves_for_white_piece(square sq_departure, piece p);
+void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, piece p);
 
 #endif

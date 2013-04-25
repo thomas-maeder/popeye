@@ -76,10 +76,7 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
     if (TSTFLAG(spec[square_departure],Neutral))
       p = -p;
 
-    if (side_at_move==White)
-      generate_moves_for_white_piece(square_departure,p);
-    else
-      generate_moves_for_black_piece(square_departure,p);
+    generate_moves_for_piece(side_at_move,square_departure,p);
   }
 
   square_departure = initsquare;

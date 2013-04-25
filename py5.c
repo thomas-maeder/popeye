@@ -577,7 +577,7 @@ void genrn(square sq_departure)
       {
         flag = true;
         current_trans_gen = -*ptrans;
-        generate_moves_for_black_piece(sq_departure,-*ptrans);
+        generate_moves_for_piece(Black,sq_departure,-*ptrans);
         current_trans_gen = vide;
       }
     }
@@ -590,7 +590,7 @@ void genrn(square sq_departure)
         {
           flag = true;
           current_trans_gen = -*ptrans;
-          generate_moves_for_black_piece(sq_departure,-*ptrans);
+          generate_moves_for_piece(Black,sq_departure,-*ptrans);
           current_trans_gen = vide;
         }
     }
@@ -682,7 +682,7 @@ void gen_bl_ply(void)
         if (TSTFLAG(spec[z], Neutral))
           p = -p;
         if (p < vide)
-          generate_moves_for_black_piece(z, p);
+          generate_moves_for_piece(Black,z, p);
       }
     }
   if (CondFlag[schwarzschacher])
@@ -719,21 +719,6 @@ void gen_bl_piece_aux(square z, piece p)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static void orig_generate_moves_for_black_piece(square sq_departure, piece p)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  orig_generate_moves_for_piece(Black,sq_departure,p);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void (*generate_moves_for_black_piece)(square z, piece p) = &orig_generate_moves_for_black_piece;
 
 void genmove(Side camp)
 {

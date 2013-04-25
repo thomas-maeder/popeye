@@ -250,7 +250,7 @@ static square find_next_latent_pawn(square sq, Side side)
  * @param sq_departure departure square of the moves
  * @param p walk and side of the piece
  */
-static void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, piece p)
+void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, piece p)
 {
   numecoup save_nbcou = current_move[nbply];
   unsigned int nr_latent_promotions = 0;
@@ -291,34 +291,4 @@ static void singleboxtype3_generate_moves_for_piece(Side side, square sq_departu
       move_generation_stack[save_nbcou].singlebox_type3_promotion_what = vide;
     }
   }
-}
-
-/* Generate the moves for a black/white piece
- * @param sq_departure departure square of the moves
- * @param p walk and side of the piece
- */
-void singleboxtype3_generate_moves_for_white_piece(square sq_departure, piece p)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  singleboxtype3_generate_moves_for_piece(White,sq_departure,p);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void singleboxtype3_generate_moves_for_black_piece(square sq_departure, piece p)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  singleboxtype3_generate_moves_for_piece(Black,sq_departure,p);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

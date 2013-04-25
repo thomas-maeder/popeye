@@ -1474,8 +1474,7 @@ static boolean verify_position(slice_index si)
   {
     is_king_square_attacked[Black] = &singleboxtype3_is_black_king_square_attacked;
     is_king_square_attacked[White] = &singleboxtype3_is_white_king_square_attacked;
-    generate_moves_for_white_piece = &singleboxtype3_generate_moves_for_white_piece;
-    generate_moves_for_black_piece = &singleboxtype3_generate_moves_for_black_piece;
+    generate_moves_for_piece = &singleboxtype3_generate_moves_for_piece;
   }
 
   if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs])
