@@ -217,8 +217,8 @@ a)
    1.Qc1-c8 # !
 
 
-                        empile:          63
-                     play_move:          61
+                        empile:          93
+                     play_move:          91
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          56
 b)  -wQc1
@@ -226,8 +226,8 @@ b)  -wQc1
    1.h7*g8=R[+wQd1] # !
 
 
-                        empile:          15
-                     play_move:          21
+                        empile:          27
+                     play_move:          33
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          21
 solution finished. 

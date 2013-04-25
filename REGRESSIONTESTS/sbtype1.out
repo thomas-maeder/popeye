@@ -26,8 +26,8 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
    1.Lb8-d6 = !
 
 
-                        empile:         244
-                     play_move:         152
+                        empile:         361
+                     play_move:         492
  is_white_king_square_attacked:          47
  is_black_king_square_attacked:         149
 Loesung beendet. 
@@ -62,8 +62,8 @@ Loesung beendet.
       1...Lh1-e4 =
 
 
-                        empile:        2893
-                     play_move:        1720
+                        empile:        3924
+                     play_move:        3861
  is_white_king_square_attacked:        1484
  is_black_king_square_attacked:         620
 Loesung beendet. 
@@ -97,8 +97,8 @@ Loesung beendet.
    1.a7-a8=D # !
 
 
-                        empile:          21
-                     play_move:          24
+                        empile:          25
+                     play_move:          28
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          24
 Loesung beendet. 
@@ -131,8 +131,8 @@ Loesung beendet.
 
   1.d2-d1=T Sg5-f3 #
 
-                        empile:         360
-                     play_move:         298
+                        empile:         424
+                     play_move:         362
  is_white_king_square_attacked:          38
  is_black_king_square_attacked:         297
 Loesung beendet. 
@@ -220,8 +220,8 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.d4*e5 #
 
 
-                        empile:     1643873
-                     play_move:     1033125
+                        empile:     1888978
+                     play_move:     1278230
  is_white_king_square_attacked:      527021
  is_black_king_square_attacked:      565967
 Loesung beendet. 
@@ -328,8 +328,8 @@ Beispiel 1
                                           6.De5-g5 #
 
 
-                        empile:     7713494
-                     play_move:     6569962
+                        empile:     9233086
+                     play_move:     8090763
  is_white_king_square_attacked:     4946997
  is_black_king_square_attacked:     1669169
 Loesung beendet. 
@@ -388,8 +388,8 @@ Loesung beendet.
       1...c6*d5 !
 
 
-                        empile:      762710
-                     play_move:      489509
+                        empile:     1055814
+                     play_move:      782613
  is_white_king_square_attacked:       79269
  is_black_king_square_attacked:      435501
 Loesung beendet. 

@@ -2,16 +2,6 @@ begin
 
 prot knownbugs.reg
 
-remark Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
-remark (cf. issue 2790694)
-pieces white kd3 qb1 rh7 ba1g8 sa8b2
-       magic white ra7 pe6
-       black kd8
-stip +1
-condition singlebox type1
-
-next
-
 title Strict Circe (==Circe+Immun according to the docs) is not enforced
 title if combined with Anticirce - 1.Ra8*a7[wRa7->a1] is illegal!
 pieces black ga7 white ra8

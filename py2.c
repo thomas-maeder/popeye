@@ -2524,8 +2524,21 @@ square fromspecificsquare;
 
 boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture)
 {
-  return    sq_departure==fromspecificsquare
-         && validate_observation(sq_departure,sq_arrival,sq_capture);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = (sq_departure==fromspecificsquare
+            && validate_observation(sq_departure,sq_arrival,sq_capture));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean qlinesradialcheck(square    sq_king,

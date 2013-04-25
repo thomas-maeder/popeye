@@ -53,6 +53,11 @@ static boolean singlebox_officer_out_of_box(void)
     if (nbpiece[p_white]>nr_piece(game_array)[p_white]
         || nbpiece[p_black]>nr_piece(game_array)[p_black])
     {
+      TracePiece(standard_walk);
+      TraceValue("%u",nbpiece[p_white]);
+      TraceValue("%u",nr_piece(game_array)[p_white]);
+      TraceValue("%u",nbpiece[p_black]);
+      TraceValue("%u\n",nr_piece(game_array)[p_black]);
       result = true;
       break;
     }

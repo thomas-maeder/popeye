@@ -8,8 +8,8 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/move.h stipulation/temporary_hacks.h \
- conditions/anticirce/capture_fork.h solving/single_move_generator.h \
- debugging/trace.h
+ conditions/anticirce/capture_fork.h solving/observation.h pyproc.h \
+ solving/single_move_generator.h debugging/trace.h
 
 conditions/anticirce/anticirce.h:
 
@@ -64,6 +64,10 @@ stipulation/move.h:
 stipulation/temporary_hacks.h:
 
 conditions/anticirce/capture_fork.h:
+
+solving/observation.h:
+
+pyproc.h:
 
 solving/single_move_generator.h:
 

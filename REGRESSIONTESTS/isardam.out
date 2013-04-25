@@ -25,9 +25,9 @@
                Isardam
                 Duplex
 
-  1.Kf7-e7 Dc1-c7 +   2.Db3-f7 Kc8-d8 # 
+  1.Kf7-e7 Dc1-c7 +   2.Db3-f7 Kc8-d8 #
 
-  1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 # 
+  1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 #
 
                         empile:      278625
                      play_move:      215966
@@ -169,7 +169,7 @@ Loesung beendet.
 
 a) 
 
-  1.Ke8-d8 Da7-d7 +   2.De4-a4 Ka3*a4 # 
+  1.Ke8-d8 Da7-d7 +   2.De4-a4 Ka3*a4 #
 
                         empile:       94051
                      play_move:       68168
@@ -178,12 +178,12 @@ a)
 b) Circe
    Isardam
 
-  1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 # 
+  1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 #
 
-                        empile:      113801
-                     play_move:       90756
- is_white_king_square_attacked:        6525
- is_black_king_square_attacked:       53624
+                        empile:      124005
+                     play_move:       97424
+ is_white_king_square_attacked:        7492
+ is_black_king_square_attacked:       57107
 Loesung beendet. 
 
 
@@ -215,7 +215,7 @@ Loesung beendet.
 
 a) 
 
-  1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 # 
+  1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 #
 
                         empile:      202951
                      play_move:      193199
@@ -223,7 +223,7 @@ a)
  is_black_king_square_attacked:       90290
 b) sKc6-->b7
 
-  1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 # 
+  1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 #
 
                         empile:       59377
                      play_move:       59067
@@ -726,7 +726,7 @@ Loesung beendet.
   h##!0.5                     2 + 3
                Isardam
 
-  1...h7-h8=T ##! 
+  1...h7-h8=T ##!
 
                         empile:         306
                      play_move:         279

@@ -41,8 +41,14 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_piece[nbply] = pprise[nbply];
-  current_circe_reborn_spec[nbply] = pprispec[nbply];
+  /* this test is necessary if we test the legality of the capture of a king
+   * by actually playing it (e.g. Isardam, Singlebox Type1, Anticirce)
+   */
+  if (rex_circe || !TSTFLAG(pprispec[nbply],Royal))
+  {
+    current_circe_reborn_piece[nbply] = pprise[nbply];
+    current_circe_reborn_spec[nbply] = pprispec[nbply];
+  }
 
   result = solve(slices[si].next1,n);
 

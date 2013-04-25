@@ -317,6 +317,15 @@ twin add white ba8
 
 next
 
+title Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
+pieces white kd3 qb1 rh7 ba1g8 sa8b2
+       magic white ra7 pe6
+       black kd8
+stip +1
+condition singlebox type1
+
+next
+
 title stipulation token without actual stipulation caused a crash
 Pieces White Se5 Rf3 Ke1 Black Rb8 Kd8 Rf8 Sf6
 Stipulation
