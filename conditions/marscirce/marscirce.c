@@ -105,7 +105,6 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
 
       if (e[sq_rebirth]==vide)
       {
-
         e[sq_rebirth] = e[sq_departure];
         spec[sq_rebirth] = spec[sq_departure];
 
@@ -114,8 +113,8 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
 
         marscirce_generate_captures(side,p,sq_rebirth,sq_departure);
 
-        e[sq_departure]= e[sq_rebirth];
-        spec[sq_departure]= spec[sq_rebirth];
+        e[sq_departure] = e[sq_rebirth];
+        spec[sq_departure] = spec[sq_rebirth];
 
         e[sq_rebirth] = vide;
         spec[sq_rebirth] = EmptySpec;
