@@ -740,10 +740,10 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
-                        empile:     1074045
-                     play_move:      619456
- is_white_king_square_attacked:       85494
- is_black_king_square_attacked:      618547
+                        empile:     1077363
+                     play_move:      619550
+ is_white_king_square_attacked:       85508
+ is_black_king_square_attacked:      618641
 solution finished. 
 
 

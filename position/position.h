@@ -47,7 +47,7 @@ extern boolean isBoardReflected;
 enum
 {
   BorderSpec = 0,
-  EmptySpec  = BIT(Black)+BIT(White)
+  EmptySpec  = 0
 };
 
 enum

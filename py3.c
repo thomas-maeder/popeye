@@ -209,16 +209,21 @@ boolean feenechec(evalfunction_t *evaluate)
 
 #define marsmap(p) ((p)==maob ? moab : ((p)==moab ? maob : (p)))
 
+/* detect mars circe check of k of Side camp */
 static boolean marsechecc(Side camp, evalfunction_t *evaluate)
 {
   int i,j;
   square square_h = square_h8;
+  boolean result = false;
 
-  /* detect mars circe check of k of Side camp */
-  for (i= nr_rows_on_board; i>0; i--, square_h += dir_down)
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,camp,"");
+  TraceFunctionParamListEnd();
+
+  for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
   {
     square z = square_h;
-    for (j= nr_files_on_board; j>0; j--, z += dir_left)
+    for (j= nr_files_on_board; j>0 && !result; j--, z += dir_left)
     {
       /* in marscirce the kings are included */
       /* in phantomchess the kings are not included, but with rex
@@ -227,7 +232,7 @@ static boolean marsechecc(Side camp, evalfunction_t *evaluate)
            || (e[z]!=e[king_square[White]] && e[z]!=e[king_square[Black]])
            || phantom_chess_rex_inclusive)
           && ((e[z]!=e[king_square[White]] || e[king_square[White]]!=e[king_square[Black]]))   /* exclude nK */
-          && piece_belongs_to_opponent(e[z],camp))
+          && piece_belongs_to_opponent(z,camp))
       {
         mars_circe_rebirth_state = 0;
         do
@@ -249,15 +254,21 @@ static boolean marsechecc(Side camp, evalfunction_t *evaluate)
             e[z] = p;
             spec[z] = psp;
             if (is_check)
-              return true;
+            {
+              result = true;
+              break;
+            }
           }
         } while (mars_circe_rebirth_state);
       }
     }
   }
 
-  return false;
-} /* marsechecc */
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static boolean calc_rnechec(evalfunction_t *evaluate);
 

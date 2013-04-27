@@ -23,7 +23,7 @@ void pawns_generate_capture_move(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (piece_belongs_to_opponent(e[sq_arrival],side))
+  if (piece_belongs_to_opponent(sq_arrival,side))
     /* normal capture */
     empile(sq_departure,sq_arrival,sq_arrival);
   else if (abs(e[sq_departure])!=Orphan /* orphans cannot capture ep */

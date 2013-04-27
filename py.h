@@ -877,7 +877,7 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 
 #define finligne(i,k,p,sq)      do {register int kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
 
-#define piece_belongs_to_opponent(ej, camp)    ((camp)==White ? (ej)<=roin : (ej)>=roib)
+#define piece_belongs_to_opponent(sq,camp)    TSTFLAG(spec[(sq)],advers(camp))
 
 #define lrhopcheck(sq, ka, ke, p, ev)   riderhoppercheck(sq, ka, ke, p, 0, 0, ev)
 #define rhopcheck(sq, ka, ke, p, ev)    riderhoppercheck(sq, ka, ke, p, 0, 1, ev)

@@ -111,10 +111,10 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       e[take_capture]= vide;
       spec[take_capture]= EmptySpec;
 
-      e[take_arrival]= e[take_departure];
-      spec[take_arrival]= spec[take_departure];
+      e[take_arrival] = e[take_departure];
+      spec[take_arrival] = spec[take_departure];
 
-      e[take_departure]= vide;
+      e[take_departure] = vide;
       spec[take_departure]= EmptySpec;
 
       gen_piece_aux(advers(moving),take_arrival,abs(taken));
@@ -131,14 +131,14 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
       current_move[nbply] = make_filtered_top;
 
-      e[take_departure]= e[take_arrival];
-      spec[take_departure]= spec[take_arrival];
+      e[take_departure] = e[take_arrival];
+      spec[take_departure] = spec[take_arrival];
 
-      e[take_arrival]= vide;
-      spec[take_arrival]= EmptySpec;
+      e[take_arrival] = vide;
+      spec[take_arrival] = EmptySpec;
 
-      e[take_capture]= taken;
-      spec[take_capture]= taken_spec;
+      e[take_capture] = taken;
+      spec[take_capture] = taken_spec;
     }
   }
 
