@@ -1,0 +1,121 @@
+
+            Fernand Joseph
+          Horizon, Oct. 2009
+            Gryphon = B+P
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   . -GY   .   .   .   .   8
+|                                   |
+7  -P   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5  -P   .   P  -K   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -P   .   2
+|                                   |
+1   .   .   .   .   .   .   B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 6
+
+  1.GYd8-c7 d7-d8=GY   2.GYc7-h2 GYd8*a5   3.GYh2-h1 GYa5-a6 =
+
+                        empile:     8893441
+                     play_move:     4330678
+ is_white_king_square_attacked:     1432618
+ is_black_king_square_attacked:     4002121
+solution finished. 
+
+
+
+             T.R. Dawson
+     Deutsche Schachzeitung 1911
+              Ship = R+P
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -R  -P   .   .   .   6
+|                                   |
+5   .  -P   .  -P   .   .   .   .   5
+|                                   |
+4   .   P   .  -K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  SH   P   .   3
+|                                   |
+2   .   .   .   .   K   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 5
+
+   1.Ke2-d2 ! threat:
+          2.SHf3-f4 #
+      1...Kd4-c4
+          2.SHf3-c3 #
+      1...e6-e5
+          2.SHf3-d3 #
+
+
+                        empile:        1718
+                     play_move:        1015
+ is_white_king_square_attacked:         137
+ is_black_king_square_attacked:        1018
+solution finished. 
+
+
+
+             T.R. Dawson
+        Reading Observer 1912
+             Dragon = S+P
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   K   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P  -K  -B   5
+|                                   |
+4   .   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   P   .   3
+|                                   |
+2   .   .   .   .   .  DR   S  -R   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 5
+
+   1.g3-g4 ! threat:
+          2.DRf2-f3 #
+      1...Rh2*g2
+          2.DRf2-h3 #
+      1...Rh2-h3
+          2.DRf2*h3 #
+      1...f5*g4
+          2.DRf2-e4 #
+      1...Bh5*g4
+          2.DRf2-f4 #
+
+
+                        empile:        2195
+                     play_move:        1385
+ is_white_king_square_attacked:         211
+ is_black_king_square_attacked:        1388
+solution finished. 
+
+
