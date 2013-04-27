@@ -12,6 +12,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 singlebox_type2_latent_pawn_promotion_type singlebox_type2_latent_pawn_promotions[maxply+1];
 
