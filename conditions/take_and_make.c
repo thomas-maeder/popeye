@@ -117,7 +117,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       e[take_departure]= vide;
       spec[take_departure]= EmptySpec;
 
-      gen_piece_aux(advers(moving),take_arrival,taken);
+      gen_piece_aux(advers(moving),take_arrival,abs(taken));
 
       for (++make_current; make_current<=current_move[nbply]; ++make_current)
         if (e[move_generation_stack[make_current].capture]==vide)

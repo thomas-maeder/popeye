@@ -1002,10 +1002,10 @@ Loesung beendet.
           2.Dc5-f8 #
 
 
-                        empile:       14349
-                     play_move:        8223
+                        empile:       14355
+                     play_move:        8235
  is_white_king_square_attacked:         254
- is_black_king_square_attacked:        5281
+ is_black_king_square_attacked:        5287
 Loesung beendet. 
 
 
@@ -1068,10 +1068,10 @@ Loesung beendet.
       1...Te2-e1 !
 
 
-                        empile:       63128
-                     play_move:       31132
+                        empile:       63197
+                     play_move:       31180
  is_white_king_square_attacked:         704
- is_black_king_square_attacked:       18077
+ is_black_king_square_attacked:       18101
 Loesung beendet. 
 
 
@@ -1568,10 +1568,10 @@ Loesung beendet.
                       3...Td7-d1 #
 
 
-                        empile:      674870
-                     play_move:      305176
- is_white_king_square_attacked:      213697
- is_black_king_square_attacked:      129606
+                        empile:      674872
+                     play_move:      305180
+ is_white_king_square_attacked:      213699
+ is_black_king_square_attacked:      129608
 Loesung beendet. 
 
 
@@ -2896,10 +2896,10 @@ Loesung beendet.
           2.Ta1-c1 #
 
 
-                        empile:       18759
-                     play_move:       10275
+                        empile:       18761
+                     play_move:       10277
  is_white_king_square_attacked:         565
- is_black_king_square_attacked:        6501
+ is_black_king_square_attacked:        6502
 Loesung beendet. 
 
 

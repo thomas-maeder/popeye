@@ -128,7 +128,7 @@ Loesung beendet.
   h+1                         9 + 4
      NurPartiesatzSteine    Typ3
 
-  1.g5*f4 [a8=S]Tg6*g1 + 
+  1.g5*f4 [a8=S]Tg6*g1 +
 
                         empile:         286
                      play_move:         286
@@ -162,7 +162,7 @@ Seite der Bauern entscheidet welchen umzuwandeln -> Ta1 kann nicht schlagen
   h#1                        15 + 3
      NurPartiesatzSteine    Typ3
 
-  1.a4-a3 Lc8-d7 # 
+  1.a4-a3 Lc8-d7 #
 
                         empile:          87
                      play_move:          78
@@ -333,9 +333,9 @@ Loesung beendet.
 
 
                         empile:      330622
-                     play_move:      235283
+                     play_move:      235356
  is_white_king_square_attacked:       16429
- is_black_king_square_attacked:      217133
+ is_black_king_square_attacked:      217206
 Loesung beendet. 
 
 

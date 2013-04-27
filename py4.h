@@ -45,10 +45,8 @@ boolean empile(square departure, square arrival, square capture);
 
 void	gemoarider(square i, Side camp);
 void	gemaorider(square i, Side camp);
-void	gebrid(square i, numvec kbeg, numvec kend);
-void	genrid(square i, numvec kbeg, numvec kend);
-void    gebleap(square i, numvec kbeg, numvec kend);
-void    genleap(square i, numvec kbeg, numvec kend);
+void	rider_generate_moves(Side side, square i, numvec kbeg, numvec kend);
+void  leaper_generate_moves(Side side, square i, numvec kbeg, numvec kend);
 void    geriderhopper(square i, numvec kbeg, numvec kend,
 		      int run_up, int jump, Side camp);
 void grose(square sq_departure,
@@ -63,18 +61,8 @@ void generate_marine_knight(square sq_departure, Side camp);
 void generate_poseidon(square sq_departure, Side moving);
 void generate_marine_pawn(square sq_departure, Side moving);
 
-void	genpb(square sq_departure);
-	/* generating function for white pawn */
-void	genpn(square sq_departure);
-	/* generating function for black pawn */
-void	genreversepb(square sq_departure);
-	/* generating function for white reverse pawn */
-void	genreversepn(square sq_departure);
-	/* generating function for black reverse pawn */
-void	genpbb(square sq_departure);
-	/* generating function for white berolina pawn */
-void	genpbn(square sq_departure);
-	/* generating function for black berolina pawn */
+void	reverse_pawn_generate_moves(Side side, square sq_departure);
+void	berolina_pawn_generate_moves(Side side, square sq_departure);
 
 void clearedgestraversed();
 boolean traversed(square edgesq);

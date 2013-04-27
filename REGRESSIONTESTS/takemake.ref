@@ -26,8 +26,8 @@
   h#2                         3 + 3
             Take&MakeChess
 
-  1.Sd4-f5 Se3*f5-h6   2.Rc5-d5 e4*d5-d8=Q # 
-  1.Rc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 # 
+  1.Sd4-f5 Se3*f5-h6   2.Rc5-d5 e4*d5-d8=Q #
+  1.Rc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 #
 
                         empile:       70167
                      play_move:       59891
@@ -67,20 +67,20 @@ solution finished.
 
 a) 
 
-  1.Sg3-e4 Rd4*e4-g5 +   2.Rf8-f5 Be6*f5-f4 # 
+  1.Sg3-e4 Rd4*e4-g5 +   2.Rf8-f5 Be6*f5-f4 #
 
                         empile:     5260698
-                     play_move:     2659522
+                     play_move:     2659225
  is_white_king_square_attacked:      352298
- is_black_king_square_attacked:     2657460
+ is_black_king_square_attacked:     2657163
 b) bPd2-->g5
 
-  1.Sg3-f5 + Be6*f5-g3 +   2.Rf8-f4 Rd4*f4-f5 # 
+  1.Sg3-f5 + Be6*f5-g3 +   2.Rf8-f4 Rd4*f4-f5 #
 
                         empile:     4231704
-                     play_move:     2244356
+                     play_move:     2244237
  is_white_king_square_attacked:      285201
- is_black_king_square_attacked:     2242437
+ is_black_king_square_attacked:     2242318
 solution finished. 
 
 
@@ -112,7 +112,7 @@ solution finished.
 
 a) 
 
-  1...g2-g3   2.Kf2*f3-g4 h2-h3 # 
+  1...g2-g3   2.Kf2*f3-g4 h2-h3 #
 
                         empile:        3068
                      play_move:        2603
@@ -120,7 +120,7 @@ a)
  is_black_king_square_attacked:        2585
 b) wSf3 
 
-  1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
+  1...h2-h3   2.Kf2*f3-h4 g2-g3 #
 
                         empile:        3126
                      play_move:        2429
@@ -128,7 +128,7 @@ b) wSf3
  is_black_king_square_attacked:        2411
 +c) wKg6-->g7
 
-  1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
+  1...g2-g4   2.Kf2*f3-g5 h2-h4 #
 
                         empile:        3414
                      play_move:        2572
@@ -136,7 +136,7 @@ b) wSf3
  is_black_king_square_attacked:        2554
 +d) wBf3 
 
-  1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
+  1...h2-h4   2.Kf2*f3-h5 g2-g4 #
 
                         empile:        3190
                      play_move:        2663

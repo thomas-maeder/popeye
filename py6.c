@@ -893,14 +893,25 @@ static boolean verify_position(slice_index si)
   {
     square i;
     if (!CondFlag[whprom_sq])
-      for (i = 0; i < 8; i++)
+      for (i = 0; i<nr_files_on_board; ++i)
         SETFLAG(sq_spec[CondFlag[glasgow] ? square_h7-i : square_h8-i],
                 WhPromSq);
 
     if (!CondFlag[blprom_sq])
-      for (i = 0; i < 8; i++)
+      for (i = 0; i<nr_files_on_board; ++i)
         SETFLAG(sq_spec[CondFlag[glasgow] ? square_a2+i : square_a1+i],
                 BlPromSq);
+  }
+
+  {
+    unsigned int i;
+    for (i = 0; i<nr_files_on_board; i++)
+    {
+      SETFLAG(sq_spec[square_a1+i*dir_right],WhBaseSq);
+      SETFLAG(sq_spec[square_a8+i*dir_right],BlBaseSq);
+      SETFLAG(sq_spec[square_a2+i*dir_right],WhPawnDoublestepSq);
+      SETFLAG(sq_spec[square_a7+i*dir_right],BlPawnDoublestepSq);
+    }
   }
 
   im0 = isquare[0];

@@ -46,7 +46,7 @@ a)
  18  (Qe6*c4[+bPc3] )
  19  (Qe6-d5 + )
  20  (Qe6-f5 + )
-  1.Qe6-f5 + Rf6*f5[+wQa5]   2.e4*f5[+bRf1] Rf1-e1   3.f5-f6 + Se2*d4[+wPd5] # 
+  1.Qe6-f5 + Rf6*f5[+wQa5]   2.e4*f5[+bRf1] Rf1-e1   3.f5-f6 + Se2*d4[+wPd5] #
  21  (Qe6-g8 + )
  22  (Qe6-f7 )
  23  (Qe6-c8 )
@@ -85,10 +85,10 @@ a)
  56  (Ke3*d2[+bSf1] )
  57  (Ke3*d2[+bSb1] )
 
-                        empile:    97647690
-                     play_move:    47952137
- is_white_king_square_attacked:    47095237
- is_black_king_square_attacked:    35899727
+                        empile:    97647748
+                     play_move:    47952191
+ is_white_king_square_attacked:    47095291
+ is_black_king_square_attacked:    35899781
 b) bBf6 
 
  58  (Rh6-h1 )
@@ -112,7 +112,7 @@ b) bBf6
  76  (Qe6-c8 )
  77  (Qe6-d7 )
  78  (Qe6-e5 + )
-  1.Qe6-e5 + Bf6*e5[+wQc5]   2.d4*e5[+bBb2] Bb2-c1   3.e5-e6 + Sd2*e4[+wPe5] # 
+  1.Qe6-e5 + Bf6*e5[+wQc5]   2.d4*e5[+bBb2] Bb2-c1   3.e5-e6 + Sd2*e4[+wPe5] #
  79  (Qe6*a6[+bPa5] )
  80  (Qe6-b6 )
  81  (Qe6-c6 )
@@ -177,7 +177,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
   3  (Rd1-c1 )
   4  (Rd1*d7[+wSb8] )
   5  (Rd1*d7[+wSf8] )
-  1.Rd1*d7[+wSf8] Sf8*g6[+bRg4]   2.Rd7*d8[+wRd3] Bc8-f5 # 
+  1.Rd1*d7[+wSf8] Sf8*g6[+bRg4]   2.Rd7*d8[+wRd3] Bc8-f5 #
   6  (Rd1*d7[+wSf6] )
   7  (Rd1*d7[+wSc5] )
   8  (Rd1*d7[+wSb6] )
@@ -197,7 +197,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
  22  (Bh3*d7[+wSf6] )
  23  (Bh3*d7[+wSc5] )
  24  (Bh3*d7[+wSb6] )
-  1.Bh3*d7[+wSb6] Sb6*c4[+bSd2]   2.Bd7*c8[+wBg4] Rd8-d4 # 
+  1.Bh3*d7[+wSb6] Sb6*c4[+bSd2]   2.Bd7*c8[+wBg4] Rd8-d4 #
  25  (Bh3-e6 )
  26  (Bh3-f5 )
  27  (Bh3-g4 )
@@ -292,7 +292,7 @@ a)
  20  (g7*h8=S[+bRh6] )
  21  (g7*h8=S[+bRh5] )
  22  (g7*h8=S[+bRh4] )
-  1.g7*h8=S[+bRh4] Be1*b4[+wPb5]   2.Bf5-d7 + Qe3-e5 # 
+  1.g7*h8=S[+bRh4] Be1*b4[+wPb5]   2.Bf5-d7 + Qe3-e5 #
  23  (g7*h8=S[+bRh3] )
  24  (g7*h8=S[+bRh2] )
  25  (g7*h8=S[+bRh1] )
@@ -460,7 +460,7 @@ b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 180  (Sc2*e1[+bBf2] )
 181  (Sc2*e1[+bBg3] )
 182  (Sc2*e1[+bBh4] )
-  1.Sc2*e1[+bBh4] Rh8*d8[+wRe8]   2.Rf5-c5 + Qe3-e6 # 
+  1.Sc2*e1[+bBh4] Rh8*d8[+wRe8]   2.Rf5-c5 + Qe3-e6 #
 183  (Sc2*e3[+bQf3] + )
 184  (Sc2*e3[+bQg3] + )
 185  (Sc2*e3[+bQh3] + )
@@ -481,10 +481,10 @@ b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 200  (Sc2*d4[+bPd3] )
 201  (Sc2-a3 )
 
-                        empile:     5252568
-                     play_move:     1771893
- is_white_king_square_attacked:     1762968
- is_black_king_square_attacked:      884486
+                        empile:     5251858
+                     play_move:     1771452
+ is_white_king_square_attacked:     1762527
+ is_black_king_square_attacked:      884045
 solution finished. 
 
 
@@ -527,7 +527,7 @@ a)
   9  (Bd6-g3 )
  10  (Bd6-f4 )
  11  (Bd6-e5 )
-  1.Bd6-e5 c7*b6[+wRg6]   2.Bg8*h7[+bSf6] Sf6-g8   3.Rg6-g2 + f3*g2[+wRg6] # 
+  1.Bd6-e5 c7*b6[+wRg6]   2.Bg8*h7[+bSf6] Sf6-g8   3.Rg6-g2 + f3*g2[+wRg6] #
  12  (Bd6-f8 )
  13  (Bd6-e7 )
  14  (Bd6*c7[+bPc6] )
@@ -557,10 +557,10 @@ a)
  38  (Kf1-e2 )
  39  (Kf1-g2 )
 
-                        empile:    91343668
-                     play_move:    35097578
- is_white_king_square_attacked:    34345864
- is_black_king_square_attacked:    18896725
+                        empile:    91342225
+                     play_move:    35095294
+ is_white_king_square_attacked:    34343580
+ is_black_king_square_attacked:    18895760
 b)  -bSg1
 
  40  (Bg8-e6 )
@@ -587,7 +587,7 @@ b)  -bSg1
  61  (Sd5*b4[+bPb3] )
  62  (Sd5-c3 + )
  63  (Sd5-e3 )
-  1.Sd5-e3 Rh8*g8[+wBc4]   2.Rb6*b4[+bPb3] b7-b5   3.Bc4-e2 + f3*e2[+wBc4] # 
+  1.Sd5-e3 Rh8*g8[+wBc4]   2.Rb6*b4[+bPb3] b7-b5   3.Bc4-e2 + f3*e2[+wBc4] #
  64  (Sd5-f4 )
  65  (Sd5-f6 + )
  66  (Sd5-e7 )
@@ -603,10 +603,10 @@ b)  -bSg1
  76  (Kf1-e2 )
  77  (Kf1-g2 )
 
-                        empile:    85889547
-                     play_move:    32595797
- is_white_king_square_attacked:    31884740
- is_black_king_square_attacked:    17686424
+                        empile:    85887916
+                     play_move:    32593501
+ is_white_king_square_attacked:    31882444
+ is_black_king_square_attacked:    17685712
 solution finished. 
 
 
@@ -666,7 +666,7 @@ a)
  26  (Qg5*h5[+wBe8] )
  27  (Qg5*h5[+wBg4] )
  28  (Qg5*h5[+wBf3] )
-  1.Qg5*h5[+wBf3] Bf3-b7   2.Bd1*e2[+wPe4] Bh4-f2 # 
+  1.Qg5*h5[+wBf3] Bf3-b7   2.Bd1*e2[+wPe4] Bh4-f2 #
  29  (Ka7-b7 )
  30  (Ka7-a8 )
  31  (Ka7-a6 )
@@ -695,7 +695,7 @@ b) bKa7-->c6
  47  (Qg5*h4[+wBg5] )
  48  (Qg5*h4[+wBg3] )
  49  (Qg5*h4[+wBf2] )
-  1.Qg5*h4[+wBf2] Bf2-b6   2.Sc1*e2[+wPe3] Bh5-f3 # 
+  1.Qg5*h4[+wBf2] Bf2-b6   2.Sc1*e2[+wPe3] Bh5-f3 #
  50  (Qg5*h4[+wBe1] )
  51  (Qg5-h6 )
  52  (Qg5-g1 )
@@ -766,7 +766,7 @@ a)
   9  (Sf4-d3 )
  10  (Sf4*e2[+wPe3] )
  11  (Sf4*e2[+wPe4] )
-  1.Sf4*e2[+wPe4] e4-e5 +   2.Re6*e5[+wPe6] e6-e7   3.Re8*e7[+wPe8=Q] Qe8-g6 # 
+  1.Sf4*e2[+wPe4] e4-e5 +   2.Re6*e5[+wPe6] e6-e7   3.Re8*e7[+wPe8=Q] Qe8-g6 #
  12  (Sf4-g2 )
  13  (Sf4-h3 )
  14  (Sf4-h5 )
@@ -807,7 +807,7 @@ b) bRe8-->e7
  42  (Sd4-b3 )
  43  (Sd4-c2 )
  44  (Sd4*e2[+wPe3] )
-  1.Sd4*e2[+wPe3] e3*f4[+bSg6]   2.Se2*f4[+wPf5] f5*g6[+bSh8]   3.Sf4*g6[+wPg7] g7*h8=B[+bSf7] # 
+  1.Sd4*e2[+wPe3] e3*f4[+bSg6]   2.Se2*f4[+wPf5] f5*g6[+bSh8]   3.Sf4*g6[+wPg7] g7*h8=B[+bSf7] #
  45  (Sd4*e2[+wPe4] )
  46  (Sd4-f3 )
  47  (Sd4-f5 )
@@ -884,7 +884,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
   4  (Qc7-d6 + )
   5  (Qc7-d8 )
   6  (Qc7-b8 )
-  1.Qc7-b8 Rd1*c1[+wSd3]   2.b7*a8=R[+bSc7] + e5*d4[+wBa7] # 
+  1.Qc7-b8 Rd1*c1[+wSd3]   2.b7*a8=R[+bSc7] + e5*d4[+wBa7] #
   7  (Qc7*c4[+bSb6] + )
   8  (Qc7*c4[+bSd6] + )
   9  (Qc7*c4[+bSe3] + )
@@ -908,7 +908,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
  27  (Qc7-f7 )
  28  (Qc7-e7 )
  29  (Qc7-d7 )
-  1.Qc7-d7 Rb1*c1[+wSb3]   2.b7*c8=B[+bQd8] + a5*b4[+wRb7] # 
+  1.Qc7-d7 Rb1*c1[+wSb3]   2.b7*c8=B[+bQd8] + a5*b4[+wRb7] #
  30  (b7-b8=Q )
  31  (b7-b8=S + )
  32  (b7-b8=R )
@@ -1025,7 +1025,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, Special prize
   2  (Re3-e2 )
   3  (Re3*c3[+bSa4] )
   4  (Re3*c3[+bSb5] )
-  1...Re3*c3[+bSb5]   2.Se4*c3[+wRb3] Rb3*b5[+bSd4] +   3.Kd5-c4 d2-d3 # 
+  1...Re3*c3[+bSb5]   2.Se4*c3[+wRb3] Rb3*b5[+bSd4] +   3.Kd5-c4 d2-d3 #
   5  (Re3*c3[+bSe2] )
   6  (Re3*c3[+bSd1] )
   7  (Re3*c3[+bSb1] )
@@ -1040,12 +1040,12 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, Special prize
  16  (Re3-h3 )
  17  (Re3-g3 )
  18  (Re3-f3 )
-  1...Re3-f3   2.Kd5-e5 Rf3-f6   3.Sc3-d5 d2-d4 # 
+  1...Re3-f3   2.Kd5-e5 Rf3-f6   3.Sc3-d5 d2-d4 #
  19  (d2-d4 )
  20  (d2-d3 )
  21  (d2*c3[+bSa4] )
  22  (d2*c3[+bSb5] )
-  1...d2*c3[+bSb5]   2.Se4-c5 Re3-e6   3.Sb5-d4 c3-c4 # 
+  1...d2*c3[+bSb5]   2.Se4-c5 Re3-e6   3.Sb5-d4 c3-c4 #
  23  (d2*c3[+bSe2] )
  24  (d2*c3[+bSd1] )
  25  (d2*c3[+bSb1] )
@@ -1089,9 +1089,9 @@ WCCC Kobe 2012, Tzuica Tourney, 3rd HM
   hs#2                        7 + 6
             CirceTake&Make
 
-  1.NAf8-h4 g5*h4[+wNAd2]   2.NAe8-c4 + Qf4*c4[+wNAe8] # 
-  1.NAe8-b2 a3*b2[+wNAd3]   2.NAd8-b4 + Qf4*b4[+wNAd8] # 
-  1.NAd8-h6 g7*h6[+wNAb3]   2.NAf8-d4 + Qf4*d4[+wNAf8] # 
+  1.NAf8-h4 g5*h4[+wNAd2]   2.NAe8-c4 + Qf4*c4[+wNAe8] #
+  1.NAe8-b2 a3*b2[+wNAd3]   2.NAd8-b4 + Qf4*b4[+wNAd8] #
+  1.NAd8-h6 g7*h6[+wNAb3]   2.NAf8-d4 + Qf4*d4[+wNAf8] #
 
                         empile:      411142
                      play_move:      167218

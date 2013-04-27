@@ -58,7 +58,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_departure,p);
+  gen_piece_aux(side,sq_departure,abs(p));
 
   if (p!=e[king_square[side]] && !phantom_chess_rex_inclusive)
   {
@@ -77,7 +77,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
       e[sq_departure] = vide;
       spec[sq_departure] = EmptySpec;
 
-      gen_piece_aux(side,sq_rebirth,p);
+      gen_piece_aux(side,sq_rebirth,abs(p));
 
       spec[sq_departure] = spec[sq_rebirth];
       e[sq_departure] = e[sq_rebirth];

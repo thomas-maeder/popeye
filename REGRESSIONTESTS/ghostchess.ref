@@ -26,8 +26,8 @@
              Uncapturable
               GhostChess
 
-  1.Bc3-e5 Rf8-f5   2.Kg4*f5 e2-e4 +   3.Kf5*e4[+wuRf5] uRf5-f3   4.Ke4-d4[+wuPe4] uRf3-d3 # 
-  1.Sc5-e4 Rf8-f4 +   2.Kg4*f4 e2-e3 +   3.Kf4*e3[+wuRf4] uRf4-f2   4.Ke3-d3[+wuPe3] uRf2-d2 # 
+  1.Bc3-e5 Rf8-f5   2.Kg4*f5 e2-e4 +   3.Kf5*e4[+wuRf5] uRf5-f3   4.Ke4-d4[+wuPe4] uRf3-d3 #
+  1.Sc5-e4 Rf8-f4 +   2.Kg4*f4 e2-e3 +   3.Kf4*e3[+wuRf4] uRf4-f2   4.Ke3-d3[+wuPe3] uRf2-d2 #
 
                         empile:    43391994
                      play_move:    24297200
@@ -66,7 +66,7 @@ solution finished.
 
 a) 
 
-  1.Qb6-e6 Bb8-e5   2.Ke4*e5 Ra3-e3 # 
+  1.Qb6-e6 Bb8-e5   2.Ke4*e5 Ra3-e3 #
 
                         empile:       56507
                      play_move:       33733
@@ -74,7 +74,7 @@ a)
  is_black_king_square_attacked:       33091
 b) bPd5-->f4
 
-  1.Qb6-f2 Ra3-e3 +   2.Ke4*e3 Bb8-a7 # 
+  1.Qb6-f2 Ra3-e3 +   2.Ke4*e3 Bb8-a7 #
 
                         empile:       58247
                      play_move:       31796
@@ -110,8 +110,8 @@ Jubil\'e Feenschach-50, feenschach 1999, 3\`eme Recommand\'e
              Uncapturable
               GhostChess
 
-  1.nSa6-b4   2.nSb4*d3   3.nSd3-c1[+wuRd3]   4.nSc1-e2 uRd3-e3 # 
-  1.nSa6-c7   2.nSc7*e6   3.nSe6-f8[+wuBe6]   4.nSf8-g6 uBe6-f5 # 
+  1.nSa6-b4   2.nSb4*d3   3.nSd3-c1[+wuRd3]   4.nSc1-e2 uRd3-e3 #
+  1.nSa6-c7   2.nSc7*e6   3.nSe6-f8[+wuBe6]   4.nSf8-g6 uBe6-f5 #
 
                         empile:       13473
                      play_move:        6261
@@ -147,8 +147,8 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1.Sg3*f1 Rh5-f5   2.Sf1-e3[+wuBf1] uBf1-d3 # 
-  1.Sg3*h5 Bf1-e2   2.Sh5-f4[+wuRh5] uRh5-e5 # 
+  1.Sg3*f1 Rh5-f5   2.Sf1-e3[+wuBf1] uBf1-d3 #
+  1.Sg3*h5 Bf1-e2   2.Sh5-f4[+wuRh5] uRh5-e5 #
 
                         empile:       24091
                      play_move:        8774
@@ -186,7 +186,7 @@ solution finished.
 
 a) 
 
-  1.Sc7*e6 Be4-c6   2.Se6-c7[+wuRe6] uRe6-e8 # 
+  1.Sc7*e6 Be4-c6   2.Se6-c7[+wuRe6] uRe6-e8 #
 
                         empile:       21661
                      play_move:        9593
@@ -194,7 +194,7 @@ a)
  is_black_king_square_attacked:        9400
 b) bSc7-->d7
 
-  1.Kc8-d8 Re6-e8 +   2.Kd8*e8 Be4-g6 # 
+  1.Kc8-d8 Re6-e8 +   2.Kd8*e8 Be4-g6 #
 
                         empile:       22293
                      play_move:        9936
@@ -232,7 +232,7 @@ solution finished.
 
 a) 
 
-  1.Bf8*g7 f5-f6   2.Bg7-h8[+wuRg7] uRg7-g8 # 
+  1.Bf8*g7 f5-f6   2.Bg7-h8[+wuRg7] uRg7-g8 #
 
                         empile:       18063
                      play_move:       11567
@@ -240,7 +240,7 @@ a)
  is_black_king_square_attacked:       11384
 b) wPf5-->h7
 
-  1.Bf7-g8 Rg7-e7 +   2.Bf8*e7 h7*g8=Q # 
+  1.Bf7-g8 Rg7-e7 +   2.Bf8*e7 h7*g8=Q #
 
                         empile:       29989
                      play_move:       25740
@@ -279,20 +279,20 @@ solution finished.
 
 a) 
 
-  1.Bh4-f6   2.Qa6*c6   3.Qc6*c2[+buPc6]   4.Bf6*e5   5.Be5-f4[+buSe5]   6.Qc2*d3[+buPc2] + uSe5*d3 # 
+  1.Bh4-f6   2.Qa6*c6   3.Qc6*c2[+buPc6]   4.Bf6*e5   5.Be5-f4[+buSe5]   6.Qc2*d3[+buPc2] + uSe5*d3 #
 
                         empile:    37128459
-                     play_move:    12557501
- is_white_king_square_attacked:    12557501
- is_black_king_square_attacked:     7924026
+                     play_move:    12557499
+ is_white_king_square_attacked:    12557499
+ is_black_king_square_attacked:     7924024
 b)  -bPg7
 
-  1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 # 
+  1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 #
 
                         empile:    40297953
-                     play_move:    12596335
- is_white_king_square_attacked:    12596335
- is_black_king_square_attacked:     8122384
+                     play_move:    12596336
+ is_white_king_square_attacked:    12596336
+ is_black_king_square_attacked:     8122385
 solution finished. 
 
 
@@ -323,8 +323,8 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1.Rh3*b3 g2-g3   2.Rb3-e3[+wuQb3] uQb3-d5 # 
-  1.Bf7*b3 g2-g4   2.Bb3-d5[+wuQb3] uQb3-e3 # 
+  1.Rh3*b3 g2-g3   2.Rb3-e3[+wuQb3] uQb3-d5 #
+  1.Bf7*b3 g2-g4   2.Bb3-d5[+wuQb3] uQb3-e3 #
 
                         empile:      359087
                      play_move:      120512
@@ -362,7 +362,7 @@ solution finished.
 
 a) 
 
-  1.Qe1*c3 Se4-f6 +   2.Qc3-f3[+wuSc3] uSc3-b5 # 
+  1.Qe1*c3 Se4-f6 +   2.Qc3-f3[+wuSc3] uSc3-b5 #
 
                         empile:      187672
                      play_move:       74921
@@ -370,7 +370,7 @@ a)
  is_black_king_square_attacked:       74481
 b) wKa7-->d8
 
-  1.Qe1*e4 Sc3-a4 +   2.Qe4-c2[+wuSe4] uSe4-d6 # 
+  1.Qe1*e4 Sc3-a4 +   2.Qe4-c2[+wuSe4] uSe4-d6 #
 
                         empile:      185785
                      play_move:       70659
@@ -406,7 +406,7 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1.Rg7*g2 Kh8-h7   2.Rg2-g1[+wuRg2] uRg2-h2 # 
+  1.Rg7*g2 Kh8-h7   2.Rg2-g1[+wuRg2] uRg2-h2 #
 
                         empile:        9163
                      play_move:        6057
@@ -442,8 +442,8 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1.Kh3*g2   2.Kg2-h3[+wuRg2]   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-h8 uRg2-g7 = 
-  1.Kh3*g2   2.Kg2-f1[+wuRg2]   3.Kf1-e1   4.Ke1-d1   5.Kd1-c1   6.Kc1-b1   7.Kb1-a1 uRg2-b2 = 
+  1.Kh3*g2   2.Kg2-h3[+wuRg2]   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-h8 uRg2-g7 =
+  1.Kh3*g2   2.Kg2-f1[+wuRg2]   3.Kf1-e1   4.Ke1-d1   5.Kd1-c1   6.Kc1-b1   7.Kb1-a1 uRg2-b2 =
 
                         empile:        5634
                      play_move:        2319
@@ -479,8 +479,8 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1.Kb3*c4   2.Kc4-b3[+wuRc4]   3.Kb3*a2   4.Ka2-b1[+wuRa2] uRc4-c1 # 
-  1.Kb3*a2   2.Ka2-b3[+wuRa2]   3.Kb3*c4   4.Kc4-b5[+wuRc4] uRa2-a5 # 
+  1.Kb3*c4   2.Kc4-b3[+wuRc4]   3.Kb3*a2   4.Ka2-b1[+wuRa2] uRc4-c1 #
+  1.Kb3*a2   2.Ka2-b3[+wuRa2]   3.Kb3*c4   4.Kc4-b5[+wuRc4] uRa2-a5 #
 
                         empile:         971
                      play_move:         466
@@ -516,7 +516,7 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1.Kc4*c3 Kg3-f4   2.Kc3*c2[+wuPc3] uPc3-c4   3.Kc2-c3[+wuPc2] Sc6-d4   4.Kc3*d4 uPc4-c5   5.Kd4-d5[+wuSd4] uPc2-c4 # 
+  1.Kc4*c3 Kg3-f4   2.Kc3*c2[+wuPc3] uPc3-c4   3.Kc2-c3[+wuPc2] Sc6-d4   4.Kc3*d4 uPc4-c5   5.Kd4-d5[+wuSd4] uPc2-c4 #
 
                         empile:     2651731
                      play_move:     1976153
@@ -1030,9 +1030,9 @@ Problemesis 2002, 2\`eme Mention d'Honneur
              Uncapturable
               GhostChess
 
-  1...nPa7-a8=nR   2.nRa8-h8 nPg7*h8=nB   3.Ke7-d8 nBh8-f6[+nuRh8] # 
+  1...nPa7-a8=nR   2.nRa8-h8 nPg7*h8=nB   3.Ke7-d8 nBh8-f6[+nuRh8] #
 
-  1.Bc7-g3 nPg7-g8=nQ   2.nQg8-b8 nPa7*b8=nS   3.Ke7-d8 nSb8-c6[+nuQb8] # 
+  1.Bc7-g3 nPg7-g8=nQ   2.nQg8-b8 nPa7*b8=nS   3.Ke7-d8 nSb8-c6[+nuQb8] #
 
                         empile:     3927867
                      play_move:     2084034
@@ -1068,8 +1068,8 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1...nPd7-d8=nB   2.Ra5-a6 nPc7*d8=nS   3.Kb6-a5 nSd8-c6[+nuBd8] # 
-  1...nPc7-c8=nQ   2.Ra5-a7 nPd7*c8=nR   3.Kb6-b7 nRc8-b8[+nuQc8] # 
+  1...nPd7-d8=nB   2.Ra5-a6 nPc7*d8=nS   3.Kb6-a5 nSd8-c6[+nuBd8] #
+  1...nPc7-c8=nQ   2.Ra5-a7 nPd7*c8=nR   3.Kb6-b7 nRc8-b8[+nuQc8] #
 
                         empile:      400534
                      play_move:      215348
@@ -1153,7 +1153,7 @@ zeroposition
 
 a) wRf5-->e5
 
-  1.Qd4*e5   2.Kd6-c5   3.Kc5*c4   4.Qe5-c3[+wuRe5] uRe5-c5 # 
+  1.Qd4*e5   2.Kd6-c5   3.Kc5*c4   4.Qe5-c3[+wuRe5] uRe5-c5 #
 
                         empile:      156057
                      play_move:      115204
@@ -1161,7 +1161,7 @@ a) wRf5-->e5
  is_black_king_square_attacked:      115204
 b) wCAc7-->d7
 
-  1.Qd4*c4   2.Kd6-e6   3.Ke6*f5   4.Qc4-g4[+wuBc4] uBc4-e6 # 
+  1.Qd4*c4   2.Kd6-e6   3.Ke6*f5   4.Qc4-g4[+wuBc4] uBc4-e6 #
 
                         empile:      133707
                      play_move:      105136
@@ -1199,7 +1199,7 @@ The Macedonian Problemist 2000, Recommand\'e
 
 a) 
 
-  1.Kh6-g6   2.Kg6-f7   3.Kf7-e6   4.Ke6*e5   5.Ke5-e6[+wuBe5]   6.Ke6-f7   7.Kf7-g6   8.Kg6-g5   9.Kg5-h4  10.Kh4-g3  11.Kg3*f3  12.Kf3-e3[+wuBf3] uBe5-d4 # 
+  1.Kh6-g6   2.Kg6-f7   3.Kf7-e6   4.Ke6*e5   5.Ke5-e6[+wuBe5]   6.Ke6-f7   7.Kf7-g6   8.Kg6-g5   9.Kg5-h4  10.Kh4-g3  11.Kg3*f3  12.Kf3-e3[+wuBf3] uBe5-d4 #
 
                         empile:        2978
                      play_move:        2496
@@ -1207,7 +1207,7 @@ a)
  is_black_king_square_attacked:        2496
 b) wKc2-->d8
 
-  1.Kh6-g5   2.Kg5-h4   3.Kh4-g3   4.Kg3*f3   5.Kf3-g3[+wuBf3]   6.Kg3-h4   7.Kh4-g5   8.Kg5-g6   9.Kg6-f7  10.Kf7-e6  11.Ke6*e5  12.Ke5-e6[+wuBe5] uBf3-d5 # 
+  1.Kh6-g5   2.Kg5-h4   3.Kh4-g3   4.Kg3*f3   5.Kf3-g3[+wuBf3]   6.Kg3-h4   7.Kh4-g5   8.Kg5-g6   9.Kg6-f7  10.Kf7-e6  11.Ke6*e5  12.Ke5-e6[+wuBe5] uBf3-d5 #
 
                         empile:        3750
                      play_move:        3071
@@ -1244,8 +1244,8 @@ Jacques Rotenberg & Christian Poisson
              Uncapturable
               GhostChess
 
-  1.nPf2-f1=nQ nPf7-f8=nS +   2.nQf1*f8 + nQf8*e8[+nuSf8] # 
-  1.nPf2*e1=nR nPf7*e8=nB +   2.nRe1*e8[+nuRe1] + nRe8-d8[+nuBe8] # 
+  1.nPf2-f1=nQ nPf7-f8=nS +   2.nQf1*f8 + nQf8*e8[+nuSf8] #
+  1.nPf2*e1=nR nPf7*e8=nB +   2.nRe1*e8[+nuRe1] + nRe8-d8[+nuBe8] #
 
                         empile:      223742
                      play_move:      161769
@@ -1283,7 +1283,7 @@ solution finished.
 
 a) 
 
-  1.nRe1*c1 nSe2-c3 +   2.nRc1*c3[+nuBc1] nRc3-a3[+nuSc3] # 
+  1.nRe1*c1 nSe2-c3 +   2.nRc1*c3[+nuBc1] nRc3-a3[+nuSc3] #
 
                         empile:       57830
                      play_move:       32028
@@ -1291,7 +1291,7 @@ a)
  is_black_king_square_attacked:       31593
 b) nBc1-->d2
 
-  1.nBd2-c3 nSe2-c1 +   2.nRe1*c1 nRc1-a1[+nuSc1] # 
+  1.nBd2-c3 nSe2-c1 +   2.nRe1*c1 nRc1-a1[+nuSc1] #
 
                         empile:       73954
                      play_move:       37956

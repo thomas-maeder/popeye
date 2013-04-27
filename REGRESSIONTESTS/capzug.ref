@@ -23,15 +23,15 @@
 +---a---b---c---d---e---f---g---h---+
   black - 5h[/1d[x]a{!+}]h    9 + 7
 
-  1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3 
-  1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2 
-  1...e7*f8=R   2.e2-e1=R Rf8-b8   3.Re1-a1 Rb8-b1 
-  1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3 
+  1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3
+  1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2
+  1...e7*f8=R   2.e2-e1=R Rf8-b8   3.Re1-a1 Rb8-b1
+  1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3
 
-                        empile:    31388850
-                     play_move:     9145430
+                        empile:    31388259
+                     play_move:     9145509
  is_white_king_square_attacked:     4560437
- is_black_king_square_attacked:     9013104
+ is_black_king_square_attacked:     9013183
 solution finished. 
 
 
@@ -60,10 +60,10 @@ WCCC 2010, CapZug Tourney, 1st commendation
 +---a---b---c---d---e---f---g---h---+
   black 8hh[/1d[x]a{!+}]      3 + 3
 
-  1...Ka5-b4   2.Kb7-a6 Kb4-c5   3.Ka6-a5 a2-a4   4.a7-a6 a4*b5 
+  1...Ka5-b4   2.Kb7-a6 Kb4-c5   3.Ka6-a5 a2-a4   4.a7-a6 a4*b5
 
-  1.b5-b4 Ka5-b5   2.a7-a6 + Kb5-c4   3.Kb7-b6 a2-a3   4.Kb6-a5 Kc4-c5 
-  1.Kb7-c6 Ka5-a6   2.b5-b4 Ka6*a7   3.Kc6-b5 Ka7-b7   4.Kb5-a5 a2-a4 
+  1.b5-b4 Ka5-b5   2.a7-a6 + Kb5-c4   3.Kb7-b6 a2-a3   4.Kb6-a5 Kc4-c5
+  1.Kb7-c6 Ka5-a6   2.b5-b4 Ka6*a7   3.Kc6-b5 Ka7-b7   4.Kb5-a5 a2-a4
 
                         empile:      518932
                      play_move:      255107
@@ -97,7 +97,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   black 8hh[/1d[+]a{!+}]      2 + 2
 
-  1.Ka8-b7 a7-a8=R   2.g2-g1=Q Ra8-a6   3.Qg1-a7 Ke6-d7   4.Kb7-a8 + Kd7-c8 
+  1.Ka8-b7 a7-a8=R   2.g2-g1=Q Ra8-a6   3.Qg1-a7 Ke6-d7   4.Kb7-a8 + Kd7-c8
 
                         empile:    27720656
                      play_move:     6617769
@@ -135,7 +135,7 @@ solution finished.
   2  (d2-d1=S )
   3  (d2-d1=R + )
   4  (d2-d1=B )
-  1.d2-d1=B Bg8-b3   2.Bd1*b3 f5-f6   3.Bb3-g8 f6-f7   4.Kc3-b3 f7*g8=B +   5.Kb3-a3 Bg8-b3 
+  1.d2-d1=B Bg8-b3   2.Bd1*b3 f5-f6   3.Bb3-g8 f6-f7   4.Kc3-b3 f7*g8=B +   5.Kb3-a3 Bg8-b3
   5  (Kc3-d3 )
   6  (Kc3-c4 )
   7  (Kc3-b3 )
@@ -218,7 +218,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   black 8s[1a[/1d[+]a{!+}]d]  2 + 2
 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=B   6.Ba1-e5   7.Be5-b8   8.Bb8-a7 Kc8-c7 
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=B   6.Ba1-e5   7.Be5-b8   8.Bb8-a7 Kc8-c7
 
                         empile:      112812
                      play_move:       32403
@@ -252,12 +252,12 @@ The Problemist Fairy Chess Supplement 1930 (v)
 +---a---b---c---d---e---f---g---h---+
   white 5h[/1d[#]a{!+}]h      4 + 6
 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 
+  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1
 
-                        empile:     2749033
-                     play_move:     1448078
- is_white_king_square_attacked:     1383180
- is_black_king_square_attacked:      905678
+                        empile:     2749671
+                     play_move:     1448457
+ is_white_king_square_attacked:     1383559
+ is_black_king_square_attacked:      905786
 solution finished. 
 
 
@@ -286,7 +286,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   white 7h[/1d[=]a{!+}]h      2 + 4
 
-  1.a2-a4 Kb2-a3   2.Ke4-d3 b3-b2   3.Kd3-c2 b5*a4   4.Kc2-b1 
+  1.a2-a4 Kb2-a3   2.Ke4-d3 b3-b2   3.Kd3-c2 b5*a4   4.Kc2-b1
 
                         empile:     1220109
                      play_move:      343651

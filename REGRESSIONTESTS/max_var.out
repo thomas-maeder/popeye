@@ -24,7 +24,7 @@
   h#3                         4 + 6
            Duellantenschach
 
-  1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 # 
+  1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 #
 
                         empile:     1808321
                      play_move:      961531
@@ -95,10 +95,10 @@ Loesung beendet.
                   3.Dg6-b1 #
 
 
-                        empile:       78554
-                     play_move:       34158
- is_white_king_square_attacked:        8180
- is_black_king_square_attacked:       26966
+                        empile:       75685
+                     play_move:       32308
+ is_white_king_square_attacked:        7539
+ is_black_king_square_attacked:       25736
 Loesung beendet. 
 
 
@@ -128,7 +128,7 @@ Loesung beendet.
   ser-h#7                     3 + 8
            Duellantenschach
 
-  1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 # 
+  1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 #
 
                         empile:      323133
                      play_move:      255240

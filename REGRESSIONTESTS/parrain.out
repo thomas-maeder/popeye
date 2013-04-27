@@ -24,8 +24,8 @@
   h#2                         4 + 2
              CirceParrain
 
-  1.Da7-e3 Ge8-e2   2.De3*f4 Gf6*f4[+wGf2] # 
-  1.Da7-g7 Gg2-g8   2.Dg7*f6 Gf4*f6[+wGf8] # 
+  1.Da7-e3 Ge8-e2   2.De3*f4 Gf6*f4[+wGf2] #
+  1.Da7-g7 Gg2-g8   2.Dg7*f6 Gf4*f6[+wGf8] #
 
                         empile:        9210
                      play_move:        7421
@@ -60,7 +60,7 @@ Loesung beendet.
   h#4                         4 + 2
              CirceParrain
 
-  1.Kc5-c6 e2-e4   2.d7-d5 e4*d5 +   3.Kc6-b7[+sBc6] d5*c6 +   4.Kb7-a8[+sBb7] c6*b7 # 
+  1.Kc5-c6 e2-e4   2.d7-d5 e4*d5 +   3.Kc6-b7[+sBc6] d5*c6 +   4.Kb7-a8[+sBb7] c6*b7 #
 
                         empile:     2609652
                      play_move:     2151854
@@ -94,11 +94,11 @@ Loesung beendet.
   h#1                         3 + 3
              CirceParrain
 
-  1.Lh4*e7 b7-b8=D[+wBe8=D] # 
-  1.Lh4*e7 b7-b8=D[+wBe8=L] # 
-  1.Lh4*e7 b7-b8=S[+wBe8=S] # 
-  1.Lh4*e7 b7-b8=L[+wBe8=D] # 
-  1.Lh4*e7 b7-b8=L[+wBe8=L] # 
+  1.Lh4*e7 b7-b8=D[+wBe8=D] #
+  1.Lh4*e7 b7-b8=D[+wBe8=L] #
+  1.Lh4*e7 b7-b8=S[+wBe8=S] #
+  1.Lh4*e7 b7-b8=L[+wBe8=D] #
+  1.Lh4*e7 b7-b8=L[+wBe8=L] #
 
                         empile:         442
                      play_move:         337
@@ -396,9 +396,9 @@ Loesung beendet.
 
 
                         empile:       34756
-                     play_move:       24588
+                     play_move:       24587
  is_white_king_square_attacked:        1178
- is_black_king_square_attacked:       24591
+ is_black_king_square_attacked:       24590
 Loesung beendet. 
 
 
@@ -461,9 +461,9 @@ Loesung beendet.
 
 
                         empile:       21785
-                     play_move:       14231
+                     play_move:       14239
  is_white_king_square_attacked:         943
- is_black_king_square_attacked:       14180
+ is_black_king_square_attacked:       14188
 Loesung beendet. 
 
 

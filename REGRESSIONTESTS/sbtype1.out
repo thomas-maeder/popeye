@@ -220,10 +220,10 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.d4*e5 #
 
 
-                        empile:     1888978
-                     play_move:     1278230
+                        empile:     1888917
+                     play_move:     1278108
  is_white_king_square_attacked:      527021
- is_black_king_square_attacked:      565967
+ is_black_king_square_attacked:      565906
 Loesung beendet. 
 
 
@@ -388,10 +388,10 @@ Loesung beendet.
       1...c6*d5 !
 
 
-                        empile:     1055814
-                     play_move:      782613
+                        empile:     1055819
+                     play_move:      782623
  is_white_king_square_attacked:       79269
- is_black_king_square_attacked:      435501
+ is_black_king_square_attacked:      435506
 Loesung beendet. 
 
 

@@ -135,7 +135,7 @@ Loesung beendet.
 
 a) 
 
-  1.c2-c1=S b7-b8=T   2.Sc1-a2 Tb8-b3 # 
+  1.c2-c1=S b7-b8=T   2.Sc1-a2 Tb8-b3 #
 
                         empile:        3251
                      play_move:        2209
@@ -143,7 +143,7 @@ a)
  is_black_king_square_attacked:        2147
 b) nBBc2   wKa5-->d1
 
-  1.nBBc2-b1=nL b7-b8=D   2.nLb1-a2 Db8-b3 # 
+  1.nBBc2-b1=nL b7-b8=D   2.nLb1-a2 Db8-b3 #
 
                         empile:       17511
                      play_move:       14423
@@ -180,7 +180,7 @@ Loesung beendet.
 
 a) 
 
-  1.Sb8-a6   2.Sa6-b4   3.Sb4-a2 Tb2-b3 # 
+  1.Sb8-a6   2.Sa6-b4   3.Sb4-a2 Tb2-b3 #
 
                         empile:        1921
                      play_move:         906
@@ -188,7 +188,7 @@ a)
  is_black_king_square_attacked:         906
 b) sSb8-->c8
 
-  1.Sc8-b6   2.Sb6-a4   3.Sa4*b2[+wDd1] Dd1-a4 # 
+  1.Sc8-b6   2.Sb6-a4   3.Sa4*b2[+wDd1] Dd1-a4 #
 
                         empile:        2925
                      play_move:        1363
@@ -224,11 +224,11 @@ Loesung beendet.
   ser-h#4                     4 + 2
            ChamaeleonCirce
 
-  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c8   4.Tc8-h8 Sg1-f3 # 
-  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c7   4.Tc7-h7 Sg1-f3 # 
-  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c6   4.Tc6-h6 Sg1-f3 # 
-  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c5   4.Tc5-h5 Sg1-f3 # 
-  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c4   4.Tc4-h4 Sg1-f3 # 
+  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c8   4.Tc8-h8 Sg1-f3 #
+  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c7   4.Tc7-h7 Sg1-f3 #
+  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c6   4.Tc6-h6 Sg1-f3 #
+  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c5   4.Tc5-h5 Sg1-f3 #
+  1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c4   4.Tc4-h4 Sg1-f3 #
 
                         empile:       20164
                      play_move:       14258
@@ -303,10 +303,10 @@ Loesung beendet.
   h#2                        2 + 11
               CirceClone
 
-  1.Lg1-f2 Tb6*d6[+sTh8]   2.Sb5*d6[+wSg1] Sg1-f3 # 
-  1.e3-e2 Kf4-f3   2.Lg1*b6[+wLc1] Lc1-g5 # 
-  1.d6-d5 Tb6-g6   2.f7*g6[+wBg2] g2-g3 # 
-  1.Sa8-c7 Tb6*a6[+sTa8]   2.Ta8*a6[+wTh1] Th1*h3[+sTa8] # 
+  1.Lg1-f2 Tb6*d6[+sTh8]   2.Sb5*d6[+wSg1] Sg1-f3 #
+  1.e3-e2 Kf4-f3   2.Lg1*b6[+wLc1] Lc1-g5 #
+  1.d6-d5 Tb6-g6   2.f7*g6[+wBg2] g2-g3 #
+  1.Sa8-c7 Tb6*a6[+sTa8]   2.Ta8*a6[+wTh1] Th1*h3[+sTa8] #
 
                         empile:        5039
                      play_move:        4468
@@ -342,9 +342,9 @@ Loesung beendet.
               CirceClone
                 Duplex
 
-  1.Dd7-e6 f5*e6[+sBe7]   2.Tf6*h6[+wTa1] Ta1-a8 # 
+  1.Dd7-e6 f5*e6[+sBe7]   2.Tf6*h6[+wTa1] Ta1-a8 #
 
-  1.Kc1-d2 Dd7*f5[+wDd1]   2.Kd2-e1 Df5-f2 # 
+  1.Kc1-d2 Dd7*f5[+wDd1]   2.Kd2-e1 Df5-f2 #
 
                         empile:       39651
                      play_move:       20388
@@ -381,7 +381,7 @@ Loesung beendet.
 
 a) 
 
-  1.Lh6*g5[+wLc1] Lc1-b2   2.La2*e6[+wLf1] Lf1-d3 # 
+  1.Lh6*g5[+wLc1] Lc1-b2   2.La2*e6[+wLf1] Lf1-d3 #
 
                         empile:       90712
                      play_move:       35522
@@ -389,7 +389,7 @@ a)
  is_black_king_square_attacked:       35114
 b) wSg5-->e4
 
-  1.Te8*e6[+wTh1] Th1*h6[+sTh8]   2.Te6*e4[+wTh1] Th1-h5 # 
+  1.Te8*e6[+wTh1] Th1*h6[+sTh8]   2.Te6*e4[+wTh1] Th1-h5 #
 
                         empile:      133392
                      play_move:       52709

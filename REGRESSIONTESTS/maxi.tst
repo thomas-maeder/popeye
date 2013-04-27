@@ -209,9 +209,9 @@ solution finished.
            WhiteMaximummer
           SingleBox    Type3
 
+  1.b7*c6 [h8=B]Bh8-a1
   1.b7*a6 [h8=R]Rh8-h1
   1.b7*a6 [h8=R]Rh8-a8
-  1.b7*c6 [h8=B]Bh8-a1
 
                         empile:         103
                      play_move:          21

@@ -23,15 +23,15 @@
 +---a---b---c---d---e---f---g---h---+
   hs#3                       11 + 9
 
-  1.d7-d8=L g2-g1=S   2.Ld8*f6 Sg1*f3   3.Lf6-g5 + Sf3*g5 # 
-  1.a7-a8=D g2*f1=L   2.Da8-a6 Lf1*e2   3.Da6-d3 + Le2*d3 # 
-  1.a7-a8=S c2-c1=T   2.Sa8*b6 Tc1-c2   3.Sb6-c4 + Tc2*c4 # 
-  1.a7-a8=T g2-g1=D   2.Ta8*a5 Dg1-g8   3.Ta5-d5 + e6*d5 # 
+  1.d7-d8=L g2-g1=S   2.Ld8*f6 Sg1*f3   3.Lf6-g5 + Sf3*g5 #
+  1.a7-a8=D g2*f1=L   2.Da8-a6 Lf1*e2   3.Da6-d3 + Le2*d3 #
+  1.a7-a8=S c2-c1=T   2.Sa8*b6 Tc1-c2   3.Sb6-c4 + Tc2*c4 #
+  1.a7-a8=T g2-g1=D   2.Ta8*a5 Dg1-g8   3.Ta5-d5 + e6*d5 #
 
                         empile:     8811288
-                     play_move:     3586343
- is_white_king_square_attacked:     3458997
- is_black_king_square_attacked:     1889414
+                     play_move:     3586415
+ is_white_king_square_attacked:     3459069
+ is_black_king_square_attacked:     1889486
 Loesung beendet. 
 
 

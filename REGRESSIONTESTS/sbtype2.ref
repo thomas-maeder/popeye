@@ -78,7 +78,7 @@ solution finished.
   h+1                         9 + 4
           SingleBox    Type2
 
-  1.g5*f4[a8=S] Rg6*g1 + 
+  1.g5*f4[a8=S] Rg6*g1 +
 
                         empile:          14
                      play_move:          14
@@ -112,9 +112,9 @@ capturing side selects which pawn to promote -> Ra1 can capture
   h#1                        15 + 3
           SingleBox    Type2
 
-  1.Ra1*a2[h8=R] Bc8-d7 # 
-  1.Ra1*b1[h8=R] Bc8-d7 # 
-  1.a4-a3 Bc8-d7 # 
+  1.Ra1*a2[h8=R] Bc8-d7 #
+  1.Ra1*b1[h8=R] Bc8-d7 #
+  1.a4-a3 Bc8-d7 #
 
                         empile:          68
                      play_move:          64
@@ -285,9 +285,9 @@ solution finished.
 
 
                         empile:      214095
-                     play_move:      142593
+                     play_move:      142664
  is_white_king_square_attacked:       33449
- is_black_king_square_attacked:      112097
+ is_black_king_square_attacked:      112168
 solution finished. 
 
 

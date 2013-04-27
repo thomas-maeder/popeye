@@ -67,9 +67,9 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
 
 
                         empile:        3236
-                     play_move:        2423
+                     play_move:        2418
  is_white_king_square_attacked:         292
- is_black_king_square_attacked:        2436
+ is_black_king_square_attacked:        2431
 Loesung beendet. 
 
 
@@ -100,7 +100,7 @@ Loesung beendet.
   h#4                         2 + 2
            Annanschach    
 
-  1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 # 
+  1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 #
 
                         empile:     7230355
                      play_move:     6007461
@@ -184,9 +184,9 @@ Loesung beendet.
 
 
                         empile:       12118
-                     play_move:        5197
- is_white_king_square_attacked:        5199
- is_black_king_square_attacked:        3518
+                     play_move:        5192
+ is_white_king_square_attacked:        5194
+ is_black_king_square_attacked:        3513
 Loesung beendet. 
 
 
@@ -218,10 +218,10 @@ ddlkl
   h#3                         2 + 3
            Annanschach    
 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-d4 Te3-a3 # 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-b5 Te3-a3 # 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-h5 Te3-a3 # 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-g5 Te3-a3 # 
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-d4 Te3-a3 #
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-b5 Te3-a3 #
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-h5 Te3-a3 #
+  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-g5 Te3-a3 #
 
                         empile:      136142
                      play_move:      100665
@@ -296,7 +296,7 @@ Chessics #4 1977 / The Problemist, Mai 2007
 
 a) 
 
-  1.Lg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Lh2-b8 La1-d4 # 
+  1.Lg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Lh2-b8 La1-d4 #
 
                         empile:      376629
                      play_move:      338692
@@ -304,7 +304,7 @@ a)
  is_black_king_square_attacked:      329815
 b) Farbwechsel
 
-  1.Kb1-a2 Kh1-g2   2.La1-b1 Kg2-d5   3.Ka2-a1 Lg1-d4 # 
+  1.Kb1-a2 Kh1-g2   2.La1-b1 Kg2-d5   3.Ka2-a1 Lg1-d4 #
 
                         empile:      334970
                      play_move:      296474
@@ -339,7 +339,7 @@ Loesung beendet.
   h#3                         2 + 2
            Annanschach    
 
-  1.Kh8-g7 Lb8-a7   2.Kg7-a1 Ka8-e4   3.Lg8-a2 La7-d4 # 
+  1.Kh8-g7 Lb8-a7   2.Kg7-a1 Ka8-e4   3.Lg8-a2 La7-d4 #
 
                         empile:      252499
                      play_move:      213271
@@ -375,7 +375,7 @@ Loesung beendet.
   ser-h#13                    4 + 2
            Annanschach    
 
-  1.Ka8-b7   2.Kb7-d5   3.Lb8-e5   4.Le5-d4   5.Ld4-e4   6.Kd5-e5   7.Ke5-f4   8.Le4*f3   9.Lf3-g3  10.Kf4-e4  11.Lg3-e5  12.Ke4-a8  13.Le5-b8 Lg4-f3 # 
+  1.Ka8-b7   2.Kb7-d5   3.Lb8-e5   4.Le5-d4   5.Ld4-e4   6.Kd5-e5   7.Ke5-f4   8.Le4*f3   9.Lf3-g3  10.Kf4-e4  11.Lg3-e5  12.Ke4-a8  13.Le5-b8 Lg4-f3 #
 
                         empile:      870337
                      play_move:      841123

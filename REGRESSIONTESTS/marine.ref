@@ -229,9 +229,9 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
 
 
                         empile:      614837
-                     play_move:      404849
+                     play_move:      404852
  is_white_king_square_attacked:       65941
- is_black_king_square_attacked:      354278
+ is_black_king_square_attacked:      354281
 solution finished. 
 
 
@@ -754,9 +754,9 @@ Michel Caillaud, Henri Nouguier & Uri Avner
 
 
                         empile:       59474
-                     play_move:       26582
+                     play_move:       26580
  is_white_king_square_attacked:       11373
- is_black_king_square_attacked:       19368
+ is_black_king_square_attacked:       19366
 solution finished. 
 
 

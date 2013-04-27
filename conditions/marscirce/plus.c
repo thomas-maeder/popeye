@@ -3,6 +3,8 @@
 #include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"
 
+#include <stdlib.h>
+
 static void generate_additional_captures_from(Side side,
                                               piece p,
                                               square from,
@@ -51,7 +53,7 @@ void plus_generate_moves(Side side, piece p, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_departure,p);
+  gen_piece_aux(side,sq_departure,abs(p));
 
   if (sq_departure==square_d4
       || sq_departure==square_e4

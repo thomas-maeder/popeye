@@ -102,6 +102,7 @@
 #include "pieces/walks.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/pawns/pawn.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
 
@@ -560,111 +561,6 @@ void generate_castling(Side side)
   TraceFunctionResultEnd();
 }
 
-void genrn(square sq_departure)
-{
-  Side const side = Black;
-  boolean flag = false;  /* K im Schach ? */
-  numecoup const save_nbcou = current_move[nbply];
-
-  if (calc_reflective_king[side] && !calctransmute)
-  {
-    /* K im Schach zieht auch */
-    calctransmute = true;
-    if (!normaltranspieces[side] && echecc(side))
-    {
-      PieNam *ptrans;
-      for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
-      {
-        flag = true;
-        current_trans_gen = -*ptrans;
-        generate_moves_for_piece(Black,sq_departure,-*ptrans);
-        current_trans_gen = vide;
-      }
-    }
-    else if (normaltranspieces[side])
-    {
-      PieNam const *ptrans;
-      for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
-        if (nbpiece[*ptrans]>0
-            && (*checkfunctions[*ptrans])(sq_departure,*ptrans,&validate_observation))
-        {
-          flag = true;
-          current_trans_gen = -*ptrans;
-          generate_moves_for_piece(Black,sq_departure,-*ptrans);
-          current_trans_gen = vide;
-        }
-    }
-    calctransmute = false;
-
-    if (flag && nbpiece[orphanb]>0)
-    {
-      piece const king = e[king_square[side]];
-      e[king_square[side]] = dummyn;
-      if (!echecc(side))
-        /* side's king checked only by an orphan empowered by the king */
-        flag = false;
-      e[king_square[side]] = king;
-    }
-
-    /* K im Schach zieht nur */
-    if (calc_transmuting_king[side] && flag)
-      return;
-  }
-
-  if (CondFlag[sting])
-    gerhop(sq_departure,vec_queen_start,vec_queen_end,side);
-
-  {
-    numvec k;
-    for (k = vec_queen_end; k>=vec_queen_start; --k)
-    {
-      square const sq_arrival = sq_departure+vec[k];
-      if (e[sq_arrival]==vide || e[sq_arrival]>=roib)
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-
-  if (flag)
-    remove_duplicate_moves_of_single_piece(save_nbcou);
-
-  /* Now we test castling */
-  if (castling_supported)
-    generate_castling(side);
-
-  if (CondFlag[castlingchess] && !echecc(side))
-  {
-    numvec k;
-    for (k = vec_queen_end; k>= vec_queen_start; --k)
-    {
-      square const sq_passed = sq_departure+vec[k];
-      square const sq_arrival = sq_passed+vec[k];
-      square sq_castler;
-      piece p;
-
-      finligne(sq_departure,vec[k],p,sq_castler);
-      if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib
-          && castling_is_intermediate_king_move_legal(side,sq_departure,sq_passed))
-        empile(sq_departure,sq_arrival,maxsquare+sq_castler);
-    }
-  }
-
-  if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[Black][nbply])
-  {
-    int i;
-    square square_a = square_a1;
-    for (i = nr_rows_on_board; i>0; --i, square_a += onerow)
-    {
-      int j;
-      square pos_partner = square_a;
-      for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
-        if (pos_partner!=sq_departure
-            && TSTFLAG(spec[pos_partner],Black)
-            && !is_pawn(abs(e[pos_partner]))) /* not sure if "castling" with Ps forbidden */
-          empile(sq_departure,pos_partner,platzwechsel_rochade);
-    }
-  }
-}
-
 void gen_bl_ply(void)
 {
   square i, j, z;
@@ -691,34 +587,6 @@ void gen_bl_ply(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 } /* gen_bl_ply */
-
-void gen_bl_piece_aux(square z, piece p)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(z);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  switch(p) {
-    case roin: genrn(z);
-      break;
-    case pn: genpn(z);
-      break;
-    case cn: genleap(z, vec_knight_start,vec_knight_end);
-      break;
-    case tn: genrid(z, vec_rook_start,vec_rook_end);
-      break;
-    case dn: genrid(z, vec_queen_start,vec_queen_end);
-      break;
-    case fn: genrid(z, vec_bishop_start,vec_bishop_end);
-      break;
-    default: gfeernoir(z, p);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 void genmove(Side camp)
 {

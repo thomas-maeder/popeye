@@ -375,9 +375,9 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
 
 
                         empile:      107614
-                     play_move:       66000
+                     play_move:       65994
  is_white_king_square_attacked:        2387
- is_black_king_square_attacked:       65519
+ is_black_king_square_attacked:       65513
 solution finished. 
 
 
@@ -441,9 +441,9 @@ a)
 
 
                         empile:       29391
-                     play_move:       20337
+                     play_move:       20332
  is_white_king_square_attacked:         760
- is_black_king_square_attacked:       20344
+ is_black_king_square_attacked:       20339
 b) wPe6 
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -475,9 +475,9 @@ b) wPe6
 
 
                         empile:       29898
-                     play_move:       20601
+                     play_move:       20597
  is_white_king_square_attacked:         773
- is_black_king_square_attacked:       20608
+ is_black_king_square_attacked:       20604
 +c) wSg6 
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
@@ -509,9 +509,9 @@ b) wPe6
 
 
                         empile:       30157
-                     play_move:       20787
+                     play_move:       20785
  is_white_king_square_attacked:         760
- is_black_king_square_attacked:       20794
+ is_black_king_square_attacked:       20792
 +d) bPe6 
 
    1.mQf4-e3[c5=w][e6=w] ! threat:
@@ -543,9 +543,9 @@ b) wPe6
 
 
                         empile:       29816
-                     play_move:       20681
+                     play_move:       20678
  is_white_king_square_attacked:         755
- is_black_king_square_attacked:       20688
+ is_black_king_square_attacked:       20685
 solution finished. 
 
 
@@ -622,9 +622,9 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
 
 
                         empile:       41202
-                     play_move:       30450
+                     play_move:       30449
  is_white_king_square_attacked:        1389
- is_black_king_square_attacked:       30334
+ is_black_king_square_attacked:       30333
 solution finished. 
 
 
@@ -722,7 +722,7 @@ an example for castling with a recolored rook
   h001                        2 + 3
                Magic d1
 
-  1.mGd1-d4[a1=w] 0-0-0 + 
+  1.mGd1-d4[a1=w] 0-0-0 +
 
                         empile:          37
                      play_move:          20

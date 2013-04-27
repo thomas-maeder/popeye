@@ -24,10 +24,10 @@
   ser-#4                      5 + 3
         LinienChamaeleonSchach
 
-  1.Sg1*h3=T   2.Lf1-a6=T   3.Ta6-d6=D   4.Th3-f3=L # 
-  1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-d6=D   4.Th3-f3=L # 
-  1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-c7=L   4.Th3-f3=L # 
-  1.Lf1*h3=T   2.Th3-h6   3.Th6-d6=D   4.Sg1-f3=L # 
+  1.Sg1*h3=T   2.Lf1-a6=T   3.Ta6-d6=D   4.Th3-f3=L #
+  1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-d6=D   4.Th3-f3=L #
+  1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-c7=L   4.Th3-f3=L #
+  1.Lf1*h3=T   2.Th3-h6   3.Th6-d6=D   4.Sg1-f3=L #
 
                         empile:       21042
                      play_move:       19874
@@ -197,7 +197,7 @@ Loesung beendet.
 
 a) 
 
-  1.cDe6-c6=cS cDb6-b4=cS   2.cLd5-g2=cT cSb4-d3=cL # 
+  1.cDe6-c6=cS cDb6-b4=cS   2.cLd5-g2=cT cSb4-d3=cL #
 
                         empile:      992661
                      play_move:      899774
@@ -205,7 +205,7 @@ a)
  is_black_king_square_attacked:      898447
 b) sDh1-->h3
 
-  1.cLd5-b7=cT cDb6-d6=cS   2.cDe6-g4=cS cSd6-e4=cL # 
+  1.cLd5-b7=cT cDb6-d6=cS   2.cDe6-g4=cS cSd6-e4=cL #
 
                         empile:     1036462
                      play_move:      942573
@@ -523,9 +523,9 @@ Loesung beendet.
 
 
                         empile:      122131
-                     play_move:       65348
+                     play_move:       65345
  is_white_king_square_attacked:        7125
- is_black_king_square_attacked:       63791
+ is_black_king_square_attacked:       63788
 Loesung beendet. 
 
 
@@ -555,20 +555,20 @@ Loesung beendet.
   h#2                    2 + 4 + 2n
            Chamaeleon d8 b5
 
-  1.ncSb5-c3=ncL ncLc3-e1=ncT   2.ncTe1-e7=ncD nBa7-a8=nS=nc # 
-  1.ncSb5-c3=ncL ncLc3-g7=ncT   2.ncTg7-e7=ncD nBa7-a8=nS=nc # 
-  1.ncSb5-c3=ncL ncLc3-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nS=nc # 
-  1.ncSb5-d6=ncL ncLd6-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nS=nc # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.ncTc7-e7=ncD nBa7-a8=nS=nc # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.Sb8-d7 nBa7-a8=nS=nc # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-e6=cL nBa7-a8=nS=nc # 
-  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-f7=cL nBa7-a8=nS=nc # 
-  1.Kb6-b7 Ka4-b4   2.ncSb5-c7=ncL nBa7*b8=nD # 
-  1.Kb6-b7 Ka4-b3   2.ncSb5-c7=ncL nBa7*b8=nD # 
-  1.Sb8-d7 ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
-  1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=nS=nc # 
-  1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
-  1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc # 
+  1.ncSb5-c3=ncL ncLc3-e1=ncT   2.ncTe1-e7=ncD nBa7-a8=nS=nc #
+  1.ncSb5-c3=ncL ncLc3-g7=ncT   2.ncTg7-e7=ncD nBa7-a8=nS=nc #
+  1.ncSb5-c3=ncL ncLc3-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nS=nc #
+  1.ncSb5-d6=ncL ncLd6-e5=ncT   2.ncTe5-e7=ncD nBa7-a8=nS=nc #
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.ncTc7-e7=ncD nBa7-a8=nS=nc #
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.Sb8-d7 nBa7-a8=nS=nc #
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-e6=cL nBa7-a8=nS=nc #
+  1.ncSb5-d6=ncL ncLd6-c7=ncT   2.cSd8-f7=cL nBa7-a8=nS=nc #
+  1.Kb6-b7 Ka4-b4   2.ncSb5-c7=ncL nBa7*b8=nD #
+  1.Kb6-b7 Ka4-b3   2.ncSb5-c7=ncL nBa7*b8=nD #
+  1.Sb8-d7 ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
+  1.cSd8-c6=cL Ka4-b4   2.cLc6-b7=cT nBa7-a8=nS=nc #
+  1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
+  1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
 
                         empile:      132630
                      play_move:       99165

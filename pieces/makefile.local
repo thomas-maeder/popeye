@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = side_change.c walks.c
+SRC_CFILES = side_change.c walks.c hunters.c
 
-INCLUDES = side_change.h walks.h
+INCLUDES = side_change.h walks.h hunters.h
 
 include makefile.rules $(CURRPWD)depend

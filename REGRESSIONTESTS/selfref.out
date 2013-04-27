@@ -29,22 +29,22 @@
               2...Kg5*f6
                   3.Td6*d7
                       3...Sg8-e7 #
-      1...e7*d6
-          2.Se5-f3 +
-              2...Kg5*f6
-                  3.Dh3*d7
-                      3...Sg8-e7 #
       1...e7*f6
           2.Dh3-g3 +
               2...Kg5-f5
                   3.Se5*d7
                       3...Sg8-e7 #
+      1...e7*d6
+          2.Se5-f3 +
+              2...Kg5*f6
+                  3.Dh3*d7
+                      3...Sg8-e7 #
 
 
-                        empile:      236330
-                     play_move:      100404
- is_white_king_square_attacked:      100004
- is_black_king_square_attacked:       53718
+                        empile:      236469
+                     play_move:      100398
+ is_white_king_square_attacked:       99998
+ is_black_king_square_attacked:       53700
 Loesung beendet. 
 
 
@@ -531,9 +531,9 @@ Loesung beendet.
 
 
                         empile:     9735516
-                     play_move:     5586951
- is_white_king_square_attacked:     5561351
- is_black_king_square_attacked:     3329407
+                     play_move:     5586834
+ is_white_king_square_attacked:     5561234
+ is_black_king_square_attacked:     3329290
 Loesung beendet. 
 
 

@@ -91,9 +91,9 @@ c) wSc1
   1.Bh3*e6[e7=K] Ke7*e6[d4=rB]   2.b4-b3 Sc1*b3[d4=K] #
 
                         empile:      316633
-                     play_move:      236685
+                     play_move:      236684
  is_white_king_square_attacked:       19936
- is_black_king_square_attacked:      236025
+ is_black_king_square_attacked:      236024
 solution finished. 
 
 
@@ -324,9 +324,9 @@ solution finished.
 
 
                         empile:       12964
-                     play_move:        8080
+                     play_move:        8078
  is_white_king_square_attacked:         666
- is_black_king_square_attacked:        8021
+ is_black_king_square_attacked:        8019
 solution finished. 
 
 

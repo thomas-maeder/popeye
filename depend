@@ -405,8 +405,9 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/annan.h conditions/wormhole.h \
  pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/neutral/initialiser.h debugging/trace.h \
- debugging/measure.h
+ pieces/attributes/neutral/initialiser.h pieces/pawns/pawns.h \
+ position/position.h pieces/pawns/pawn.h pieces/hunters.h \
+ debugging/trace.h debugging/measure.h
 
 py.h:
 
@@ -516,6 +517,14 @@ pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
 
+pieces/pawns/pawns.h:
+
+position/position.h:
+
+pieces/pawns/pawn.h:
+
+pieces/hunters.h:
+
 debugging/trace.h:
 
 debugging/measure.h:
@@ -542,8 +551,9 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/annan.h pieces/walks.h \
  pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/neutral/initialiser.h optimisations/hash.h \
- DHT/dhtbcmem.h debugging/trace.h
+ pieces/attributes/neutral/initialiser.h pieces/pawns/pawn.h \
+ position/position.h optimisations/hash.h DHT/dhtbcmem.h \
+ debugging/trace.h
 
 py.h:
 
@@ -666,6 +676,10 @@ pieces/walks.h:
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/neutral/initialiser.h:
+
+pieces/pawns/pawn.h:
+
+position/position.h:
 
 optimisations/hash.h:
 

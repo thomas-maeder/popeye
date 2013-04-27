@@ -43,9 +43,9 @@
 
 
                         empile:        4607
-                     play_move:        3175
+                     play_move:        3167
  is_white_king_square_attacked:         231
- is_black_king_square_attacked:        3178
+ is_black_king_square_attacked:        3170
 Loesung beendet. 
 
 
@@ -75,9 +75,9 @@ Loesung beendet.
   h#2                        4 + 10
              Sentinelles
 
-  1...Lg4-f3[+wBg4]   2.Sb8-a6 Gd1-d5 # 
+  1...Lg4-f3[+wBg4]   2.Sb8-a6 Gd1-d5 #
 
-  1.Sb2-a4[+sBb2] Lg4-f5[+wBg4]   2.b2-b1=G Gd8-d3 # 
+  1.Sb2-a4[+sBb2] Lg4-f5[+wBg4]   2.b2-b1=G Gd8-d3 #
 
                         empile:       33228
                      play_move:       28770

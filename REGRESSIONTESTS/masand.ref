@@ -24,11 +24,11 @@
   h#2                         2 + 4
                 Masand
 
-  1.Ra1-f1 Ra3-f3   2.Bg3-f4 Rf3-f2[f1=w][f4=w] # 
-  1.Ra1-e1 Ra3-e3   2.Bg3-e5 Re3-e2[e1=w][e5=w] # 
-  1.Ra1-d1 Ra3-d3   2.Bg3-d6 Rd3-d2[d1=w][d6=w] # 
-  1.Ra1-c1 Ra3-c3   2.Bg3-c7 + Rc3-c2[c1=w][c7=w] # 
-  1.Ra1-b1 Ra3-b3   2.Bg3-b8 Rb3-b2[b1=w][b8=w] # 
+  1.Ra1-f1 Ra3-f3   2.Bg3-f4 Rf3-f2[f1=w][f4=w] #
+  1.Ra1-e1 Ra3-e3   2.Bg3-e5 Re3-e2[e1=w][e5=w] #
+  1.Ra1-d1 Ra3-d3   2.Bg3-d6 Rd3-d2[d1=w][d6=w] #
+  1.Ra1-c1 Ra3-c3   2.Bg3-c7 + Rc3-c2[c1=w][c7=w] #
+  1.Ra1-b1 Ra3-b3   2.Bg3-b8 Rb3-b2[b1=w][b8=w] #
 
                         empile:       17227
                      play_move:       11076
@@ -78,9 +78,9 @@ solution finished.
 
 
                         empile:    40164649
-                     play_move:    16715886
- is_white_king_square_attacked:    26572077
- is_black_king_square_attacked:    21460080
+                     play_move:    16715883
+ is_white_king_square_attacked:    26572074
+ is_black_king_square_attacked:    21460077
 solution finished. 
 
 
@@ -172,37 +172,37 @@ solution finished.
           2.Re7-d7[b7=b][d8=b] #
       1...Rg1*e1
           2.Re7-e4[e1=w] #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w][e7=b] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w][e7=b] #
     but
       1...Rh8-h6 !
 
    1.Re8*h8 ? threat:
           2.Re1-e4 #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w] #
     but
       1...Rg1*e1 !
 
    1.Re8-g8 ? threat:
           2.Re1-e4 #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w] #
     but
       1...Rg1*e1 !
 
    1.Re8-f8 ? threat:
           2.Re1-e4 #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w][f8=b] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w] #
     but
       1...Rg1*e1 !
 
@@ -210,10 +210,10 @@ solution finished.
           2.Bb8-e5[h8=w] #
       1...Rg1*e1
           2.Re8-e4[e1=w] #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w][b8=b] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w][b8=b] #
       1...Rh8*e8
           2.Re1-e4[e8=w] #
 
@@ -243,10 +243,10 @@ solution finished.
       1...Re8*e4 !
 
 
-                        empile:       15493
-                     play_move:       13401
- is_white_king_square_attacked:       51572
- is_black_king_square_attacked:       26986
+                        empile:       15322
+                     play_move:       13226
+ is_white_king_square_attacked:       50934
+ is_black_king_square_attacked:       26649
 solution finished. 
 
 

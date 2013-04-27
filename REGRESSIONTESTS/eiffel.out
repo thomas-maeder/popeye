@@ -162,8 +162,8 @@ Loesung beendet.
   h#2                        8 + 10
              EiffelSchach
 
-  1.Lg1*e3 f7-f8=T   2.Le3-h6 Dd3-e4 # 
-  1.Db3*c3 f7-f8=L   2.Dc3-a5 Dd3-c4 # 
+  1.Lg1*e3 f7-f8=T   2.Le3-h6 Dd3-e4 #
+  1.Db3*c3 f7-f8=L   2.Dc3-a5 Dd3-c4 #
 
                         empile:      710373
                      play_move:      622957
@@ -198,8 +198,8 @@ Loesung beendet.
   h#2                         5 + 8
              EiffelSchach
 
-  1.Dd6-d2 Te3-f3   2.Tc5-c4 + Ke4-d5 # 
-  1.Dd6-d3 Te2-f2   2.Sb3-d2 + Ke4-d4 # 
+  1.Dd6-d2 Te3-f3   2.Tc5-c4 + Ke4-d5 #
+  1.Dd6-d3 Te2-f2   2.Sb3-d2 + Ke4-d4 #
 
                         empile:       60692
                      play_move:       55667
@@ -238,18 +238,18 @@ Loesung beendet.
       1...d3-d2
           2.Tg7-g4 +
               2...d2-d1=T #
-      1...d3*c2
-          2.Tg7-g5 +
-              2...c2-c1=T #
       1...d3*e2
           2.Tg7-e7 +
               2...e2-e1=T #
+      1...d3*c2
+          2.Tg7-g5 +
+              2...c2-c1=T #
 
 
-                        empile:       40909
-                     play_move:       38344
- is_white_king_square_attacked:       38347
- is_black_king_square_attacked:        5914
+                        empile:       40934
+                     play_move:       38365
+ is_white_king_square_attacked:       38368
+ is_black_king_square_attacked:        5904
 Loesung beendet. 
 
 
@@ -331,7 +331,7 @@ Loesung beendet.
 
 a) 
 
-  1.c2-c1=L c7-c8=L   2.Lc1-b2 d7-d8=D # 
+  1.c2-c1=L c7-c8=L   2.Lc1-b2 d7-d8=D #
 
                         empile:      178010
                      play_move:      200192
@@ -339,7 +339,7 @@ a)
  is_black_king_square_attacked:      199457
 b) sLf4-->d6
 
-  1.c2-c1=T c7-c8=S   2.Tc1-c3 d7-d8=T # 
+  1.c2-c1=T c7-c8=S   2.Tc1-c3 d7-d8=T #
 
                         empile:      215440
                      play_move:      247293
@@ -375,8 +375,8 @@ Loesung beendet.
                 Circe
              EiffelSchach
 
-  1.Da8-g8 f5-f6   2.Th6*f6[+wBf2] Kf4*f3 # 
-  1.Da8-b8 e5-e6   2.Th6*e6[+wBe2] Kf4*g3 # 
+  1.Da8-g8 f5-f6   2.Th6*f6[+wBf2] Kf4*f3 #
+  1.Da8-b8 e5-e6   2.Th6*e6[+wBe2] Kf4*g3 #
 
                         empile:      917781
                      play_move:      875493

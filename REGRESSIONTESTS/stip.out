@@ -2964,10 +2964,10 @@ a)
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4[+sDd6] Dd6-g3 +   6.Se4*g3[+sDe4] #
 
-                        empile:    10659438
-                     play_move:     4741222
- is_white_king_square_attacked:     3596879
- is_black_king_square_attacked:     3898399
+                        empile:    10659504
+                     play_move:     4741236
+ is_white_king_square_attacked:     3596885
+ is_black_king_square_attacked:     3898413
 b) ser-s#6
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4[+sDd6]   6.Se4-g3 + Dd6*g3[+wSd6] #

@@ -26,8 +26,8 @@
   h#2                         3 + 3
            Take&MakeSchach
 
-  1.Sd4-f5 Se3*f5-h6   2.Tc5-d5 e4*d5-d8=D # 
-  1.Tc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 # 
+  1.Sd4-f5 Se3*f5-h6   2.Tc5-d5 e4*d5-d8=D #
+  1.Tc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 #
 
                         empile:       70167
                      play_move:       59891
@@ -67,20 +67,20 @@ Loesung beendet.
 
 a) 
 
-  1.Sg3-e4 Td4*e4-g5 +   2.Tf8-f5 Le6*f5-f4 # 
+  1.Sg3-e4 Td4*e4-g5 +   2.Tf8-f5 Le6*f5-f4 #
 
                         empile:     5260698
-                     play_move:     2659522
+                     play_move:     2659225
  is_white_king_square_attacked:      352298
- is_black_king_square_attacked:     2657460
+ is_black_king_square_attacked:     2657163
 b) sBd2-->g5
 
-  1.Sg3-f5 + Le6*f5-g3 +   2.Tf8-f4 Td4*f4-f5 # 
+  1.Sg3-f5 + Le6*f5-g3 +   2.Tf8-f4 Td4*f4-f5 #
 
                         empile:     4231704
-                     play_move:     2244356
+                     play_move:     2244237
  is_white_king_square_attacked:      285201
- is_black_king_square_attacked:     2242437
+ is_black_king_square_attacked:     2242318
 Loesung beendet. 
 
 
@@ -112,7 +112,7 @@ Loesung beendet.
 
 a) 
 
-  1...g2-g3   2.Kf2*f3-g4 h2-h3 # 
+  1...g2-g3   2.Kf2*f3-g4 h2-h3 #
 
                         empile:        3068
                      play_move:        2603
@@ -120,7 +120,7 @@ a)
  is_black_king_square_attacked:        2585
 b) wSf3 
 
-  1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
+  1...h2-h3   2.Kf2*f3-h4 g2-g3 #
 
                         empile:        3126
                      play_move:        2429
@@ -128,7 +128,7 @@ b) wSf3
  is_black_king_square_attacked:        2411
 +c) wKg6-->g7
 
-  1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
+  1...g2-g4   2.Kf2*f3-g5 h2-h4 #
 
                         empile:        3414
                      play_move:        2572
@@ -136,7 +136,7 @@ b) wSf3
  is_black_king_square_attacked:        2554
 +d) wLf3 
 
-  1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
+  1...h2-h4   2.Kf2*f3-h5 g2-g4 #
 
                         empile:        3190
                      play_move:        2663
@@ -214,7 +214,7 @@ Loesung beendet.
 
 a) 
 
-  1...Sa3*c4-c3   2.Td5*e5-c4 Lc1*d2-d6 # 
+  1...Sa3*c4-c3   2.Td5*e5-c4 Lc1*d2-d6 #
 
                         empile:       68438
                      play_move:       38836
@@ -222,7 +222,7 @@ a)
  is_black_king_square_attacked:       38802
 b) sTd2-->e3
 
-  1...Sa3*b5-d7   2.Td5*e5-c6 Tf7*f6-d4 # 
+  1...Sa3*b5-d7   2.Td5*e5-c6 Tf7*f6-d4 #
 
                         empile:      113819
                      play_move:       55430
@@ -257,13 +257,13 @@ Loesung beendet.
   h#2                        5 + 14
            Take&MakeSchach
 
-  1.Te3-e4 Te1-e3   2.Lc4-f1 Sh2*f1-e2 # 
-  1.Lc4-d5 La2-c4   2.Te3-f3 Sh2*f3-b3 # 
+  1.Te3-e4 Te1-e3   2.Lc4-f1 Sh2*f1-e2 #
+  1.Lc4-d5 La2-c4   2.Te3-f3 Sh2*f3-b3 #
 
                         empile:     2058941
-                     play_move:     1256349
+                     play_move:     1256368
  is_white_king_square_attacked:      181747
- is_black_king_square_attacked:     1254412
+ is_black_king_square_attacked:     1254431
 Loesung beendet. 
 
 
@@ -293,13 +293,13 @@ Andernach 2006, 2. Platz (Nach-Andernach-Version)
   h#2                        5 + 11
            Take&MakeSchach
 
-  1.Le2-h5 Ld1-g4   2.Td6-d7 Sd4-f3 # 
-  1.Td6-g6 Tc6-f6   2.Le2-f1 Sd4-e6 # 
+  1.Le2-h5 Ld1-g4   2.Td6-d7 Sd4-f3 #
+  1.Td6-g6 Tc6-f6   2.Le2-f1 Sd4-e6 #
 
                         empile:     1565249
-                     play_move:     1009986
+                     play_move:     1009973
  is_white_king_square_attacked:      111533
- is_black_king_square_attacked:     1008316
+ is_black_king_square_attacked:     1008303
 Loesung beendet. 
 
 
@@ -329,8 +329,8 @@ Loesung beendet.
   h#2                         4 + 8
            Take&MakeSchach
 
-  1.Db1-h1 Td4*c4-e5   2.La1*c3-c4 Ld5*h1-g1 # 
-  1.Db1-d1 Ld5*c4-e3   2.Tb3*c3-c4 Td4*d1-h5 # 
+  1.Db1-h1 Td4*c4-e5   2.La1*c3-c4 Ld5*h1-g1 #
+  1.Db1-d1 Ld5*c4-e3   2.Tb3*c3-c4 Td4*d1-h5 #
 
                         empile:     1624945
                      play_move:      901068
@@ -367,7 +367,7 @@ Loesung beendet.
 
 a) 
 
-  1.Th7-d7 Lb7-c8   2.La8-c6 Lc8*d7-b7   3.Ke6-d5 Kb6*c6-d7 # 
+  1.Th7-d7 Lb7-c8   2.La8-c6 Lc8*d7-b7   3.Ke6-d5 Kb6*c6-d7 #
 
                         empile:    15562414
                      play_move:     9237830
@@ -375,12 +375,12 @@ a)
  is_black_king_square_attacked:     9152340
 b) wLb7-->b8
 
-  1.Th7-a7 Lb8*a7-g7   2.La8-c6 Lg7*h8-a8   3.Ke6-d5 Kb6*c6-d7 # 
-  1.Th7-c7 Lb8*c7-g7   2.La8-c6 Lg7*h8-a8   3.Ke6-d5 Kb6*c6-d7 # 
-  1.Th7-e7 Lb8-d6   2.La8-c6 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 # 
-  1.La8-d5 Lb8*e5-f6   2.Th7-c7 Lf6*h8-b8   3.Ke6-e5 Kb6*c7-e7 # 
-  1.La8-c6 Lb8-d6   2.Th7-c7 Ld6*c7-b7   3.Ke6-d5 Kb6*c6-d7 # 
-  1.La8-c6 Lb8-d6   2.Th7-e7 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 # 
+  1.Th7-a7 Lb8*a7-g7   2.La8-c6 Lg7*h8-a8   3.Ke6-d5 Kb6*c6-d7 #
+  1.Th7-c7 Lb8*c7-g7   2.La8-c6 Lg7*h8-a8   3.Ke6-d5 Kb6*c6-d7 #
+  1.Th7-e7 Lb8-d6   2.La8-c6 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 #
+  1.La8-d5 Lb8*e5-f6   2.Th7-c7 Lf6*h8-b8   3.Ke6-e5 Kb6*c7-e7 #
+  1.La8-c6 Lb8-d6   2.Th7-c7 Ld6*c7-b7   3.Ke6-d5 Kb6*c6-d7 #
+  1.La8-c6 Lb8-d6   2.Th7-e7 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 #
 
                         empile:    19714666
                      play_move:    13851517
@@ -417,7 +417,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
 
 a) 
 
-  1.Dd4-d5 Lf8*c5-c4   2.La3-e7 Lc4*f1-f8   3.Ke5-d6 Ke8*e7-f6 # 
+  1.Dd4-d5 Lf8*c5-c4   2.La3-e7 Lc4*f1-f8   3.Ke5-d6 Ke8*e7-f6 #
 
                         empile:    60532626
                      play_move:    34160074
@@ -425,7 +425,7 @@ a)
  is_black_king_square_attacked:    33980424
 b) wLf8-->g8
 
-  1.d7-d6 Lg8-d5   2.Tf1-f7 Ld5*g2-g8   3.Ke5-d5 Ke8*f7-f5 # 
+  1.d7-d6 Lg8-d5   2.Tf1-f7 Ld5*g2-g8   3.Ke5-d5 Ke8*f7-f5 #
 
                         empile:    57805471
                      play_move:    36274693
@@ -460,10 +460,10 @@ Loesung beendet.
   ser-h#3                     9 + 3
            Take&MakeSchach
 
-  1.f2-f1=D   2.Df1*c4-b6   3.Db6*b8-d8 e7*d8-f8=D # 
-  1.f2-f1=S   2.Sf1*g3-g4   3.Sg4-f6 e7-e8=S # 
-  1.f2-f1=T   2.Tf1-h1   3.Th1-h5 e7-e8=L # 
-  1.f2-f1=L   2.Lf1-d3   3.Ld3-e4 e7-e8=T # 
+  1.f2-f1=D   2.Df1*c4-b6   3.Db6*b8-d8 e7*d8-f8=D #
+  1.f2-f1=S   2.Sf1*g3-g4   3.Sg4-f6 e7-e8=S #
+  1.f2-f1=T   2.Tf1-h1   3.Th1-h5 e7-e8=L #
+  1.f2-f1=L   2.Lf1-d3   3.Ld3-e4 e7-e8=T #
 
                         empile:       36877
                      play_move:       18777
@@ -498,8 +498,8 @@ Loesung beendet.
   h#2                         4 + 9
            Take&MakeSchach
 
-  1.Tg4*f4-f5 Te5*f5-f4 +   2.Tg5-g4 Le6*g4-g5 # 
-  1.Tg5-f5 Le6*f5-f6 +   2.Tg4-g5 Te5*g5-g4 # 
+  1.Tg4*f4-f5 Te5*f5-f4 +   2.Tg5-g4 Le6*g4-g5 #
+  1.Tg5-f5 Le6*f5-f6 +   2.Tg4-g5 Te5*g5-g4 #
 
                         empile:      499393
                      play_move:      376948
@@ -534,8 +534,8 @@ Loesung beendet.
   h#2                         2 + 6
            Take&MakeSchach
 
-  1.Ld3-g6 d2-d4   2.Tc7-c5 d4*c5-g5 # 
-  1.Ld3-c4 d2-d3   2.Tc7-e7 d3*c4-g8=S # 
+  1.Ld3-g6 d2-d4   2.Tc7-c5 d4*c5-g5 #
+  1.Ld3-c4 d2-d3   2.Tc7-e7 d3*c4-g8=S #
 
                         empile:       59067
                      play_move:       56765
@@ -572,7 +572,7 @@ Loesung beendet.
 
 a) 
 
-  1.Tg4-g6 h5*g6-g8=T   2.Le4-g6 Tg8*g6-e4 # 
+  1.Tg4-g6 h5*g6-g8=T   2.Le4-g6 Tg8*g6-e4 #
 
                         empile:     1047950
                      play_move:      666396
@@ -580,7 +580,7 @@ a)
  is_black_king_square_attacked:      665371
 b) sLd7-->e5
 
-  1.Le4-g6 h5*g6-e8=L   2.Tg4-g6 Le8*g6-g4 # 
+  1.Le4-g6 h5*g6-e8=L   2.Tg4-g6 Le8*g6-g4 #
 
                         empile:     1705263
                      play_move:     1078469
@@ -619,7 +619,7 @@ Loesung beendet.
 
 a) 
 
-  1.Kh2-h3 Ta7*d7-g4[+sLc8]   2.Kh3*g4-g6[+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5[+wTh1] 0-0 
+  1.Kh2-h3 Ta7*d7-g4[+sLc8]   2.Kh3*g4-g6[+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5[+wTh1] 0-0
 
                         empile:       65350
                      play_move:       42686
@@ -627,7 +627,7 @@ a)
  is_black_king_square_attacked:       26164
 b) sKh2-->b2
 
-  1.Kb2-b3 Ta7*d7-h3[+sLc8] +   2.Lc8*h3-h4[+wTh1] + Th1*h4-d8[+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2[+wTa1] 0-0-0 
+  1.Kb2-b3 Ta7*d7-h3[+sLc8] +   2.Lc8*h3-h4[+wTh1] + Th1*h4-d8[+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2[+wTa1] 0-0-0
 
                         empile:       83176
                      play_move:       56146
@@ -664,7 +664,7 @@ Loesung beendet.
 
 a) 
 
-  1.Sb3-d4 Te5-e3   2.Kf2*e3-e5 Kc4*d4-c6 # 
+  1.Sb3-d4 Te5-e3   2.Kf2*e3-e5 Kc4*d4-c6 #
 
                         empile:       75891
                      play_move:       57464
@@ -672,7 +672,7 @@ a)
  is_black_king_square_attacked:       57140
 b) wLb2-->a5
 
-  1.Sb3-c5 La5-e1 +   2.Kf2*e1-a5 Kc4*c5-b7 # 
+  1.Sb3-c5 La5-e1 +   2.Kf2*e1-a5 Kc4*c5-b7 #
 
                         empile:       94153
                      play_move:       69637
@@ -707,7 +707,7 @@ Loesung beendet.
   ser-h#5                     6 + 4
            Take&MakeSchach
 
-  1.f5*e4-e5   2.Tg4-d4   3.Kh5-g4   4.Kg4-f5   5.Tg1-g4 e2-e4 # 
+  1.f5*e4-e5   2.Tg4-d4   3.Kh5-g4   4.Kg4-f5   5.Tg1-g4 e2-e4 #
 
                         empile:     5697116
                      play_move:     4230119
@@ -747,8 +747,8 @@ Loesung beendet.
   1  (g3*f4-b8=D[+sLf8] + )
   2  (g3*f4-b8=S[+sLf8] )
   3  (g3*f4-b8=T[+sLf8] + )
-  1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b6[+wTa1] La3*f8-h6[+sLf8]   3.Lf8-b4 + Lh6-d2   4.Lb4-a5 0-0-0 
-  1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b7[+wTa1] La3*f8-h6[+sLf8]   3.Lf8*h6-c1 Ta1*c1-h6[+sLf8]   4.Lf8*h6-a6[+wTa1] 0-0-0 
+  1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b6[+wTa1] La3*f8-h6[+sLf8]   3.Lf8-b4 + Lh6-d2   4.Lb4-a5 0-0-0
+  1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b7[+wTa1] La3*f8-h6[+sLf8]   3.Lf8*h6-c1 Ta1*c1-h6[+sLf8]   4.Lf8*h6-a6[+wTa1] 0-0-0
   4  (g3*f4-b8=L[+sLf8] )
   5  (La3-f8 )
 
@@ -953,10 +953,10 @@ Loesung beendet.
  43  (Kc1-b1 )
  44  (Kc1-b2 )
 
-                        empile:   134509219
-                     play_move:    42435730
- is_white_king_square_attacked:     4979495
- is_black_king_square_attacked:    40895828
+                        empile:   147597252
+                     play_move:    46454808
+ is_white_king_square_attacked:     5464640
+ is_black_king_square_attacked:    44775165
 Loesung beendet. 
 
 

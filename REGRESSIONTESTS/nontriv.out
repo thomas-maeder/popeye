@@ -151,10 +151,10 @@
  49  (Tc1*e1 )
  50  (Tc1-d1 )
 
-                        empile:    32589763
-                     play_move:    21623003
- is_white_king_square_attacked:    18451561
- is_black_king_square_attacked:    15863819
+                        empile:    32589758
+                     play_move:    21622927
+ is_white_king_square_attacked:    18451485
+ is_black_king_square_attacked:    15863743
 Loesung beendet. 
 
 
@@ -283,10 +283,10 @@ Loesung beendet.
  46  (Ng1*c3 )
  47  (Ng1-e2 )
 
-                        empile:   158464857
-                     play_move:   120523581
- is_white_king_square_attacked:   107825594
- is_black_king_square_attacked:    78646641
+                        empile:   158465217
+                     play_move:   120523595
+ is_white_king_square_attacked:   107825608
+ is_black_king_square_attacked:    78646553
 Loesung beendet. 
 
 
@@ -868,10 +868,10 @@ Loesung beendet.
  27  (b2-b4 )
  28  (b2-b3 )
 
-                        empile:     4545978
-                     play_move:     3059082
- is_white_king_square_attacked:     1053339
- is_black_king_square_attacked:     2449320
+                        empile:     4545076
+                     play_move:     3058362
+ is_white_king_square_attacked:     1053150
+ is_black_king_square_attacked:     2448602
 Loesung beendet. 
 
 

@@ -320,9 +320,9 @@ Loesung beendet.
 
 
                         empile:      640671
-                     play_move:      373948
+                     play_move:      373929
  is_white_king_square_attacked:       96624
- is_black_king_square_attacked:      287586
+ is_black_king_square_attacked:      287567
 Loesung beendet. 
 
 
@@ -957,9 +957,9 @@ Loesung beendet.
 
 
                         empile:      262144
-                     play_move:      164537
+                     play_move:      164539
  is_white_king_square_attacked:       55721
- is_black_king_square_attacked:      119660
+ is_black_king_square_attacked:      119662
 Loesung beendet. 
 
 
@@ -999,10 +999,10 @@ Loesung beendet.
                                   5.LJc3-h8 #
 
 
-                        empile:     1732235
-                     play_move:     1227736
- is_white_king_square_attacked:      477811
- is_black_king_square_attacked:      822604
+                        empile:     3045901
+                     play_move:     1230946
+ is_white_king_square_attacked:      477942
+ is_black_king_square_attacked:      825632
 Loesung beendet. 
 
 
@@ -1051,6 +1051,26 @@ Loesung beendet.
                   3.TJb8*d6 #
       1...TJa7-b6
           2.Lc6-f3 Zugzwang.
+              2...TJb6-b8
+                  3.TJb5*b8 #
+              2...TJb6-b7
+                  3.e2-e4 Zugzwang.
+                      3...TJb7-b8
+                          4.TJb5*b8 #
+                      3...TJb7-a6
+                          4.TJb5-b8 #
+                      3...TJb7*e4
+                          4.TJb5-b8 +
+                              4...TJe4-e5
+                                  5.TJb8*e5 #
+                      3...TJb7-d5
+                          4.TJb5-b8 +
+                              4...TJd5-d6
+                                  5.TJb8*d6 #
+                      3...TJb7-c6
+                          4.TJb5-b8 +
+                              4...TJc6-c7
+                                  5.TJb8*c7 #
               2...TJb6-a5
                   3.TJb5-b8 #
               2...TJb6-g1
@@ -1071,32 +1091,12 @@ Loesung beendet.
                   3.TJb5-b8 +
                       3...TJc5-c7
                           4.TJb8*c7 #
-              2...TJb6-b8
-                  3.TJb5*b8 #
-              2...TJb6-b7
-                  3.e2-e4 Zugzwang.
-                      3...TJb7-a6
-                          4.TJb5-b8 #
-                      3...TJb7*e4
-                          4.TJb5-b8 +
-                              4...TJe4-e5
-                                  5.TJb8*e5 #
-                      3...TJb7-d5
-                          4.TJb5-b8 +
-                              4...TJd5-d6
-                                  5.TJb8*d6 #
-                      3...TJb7-c6
-                          4.TJb5-b8 +
-                              4...TJc6-c7
-                                  5.TJb8*c7 #
-                      3...TJb7-b8
-                          4.TJb5*b8 #
 
 
-                        empile:     1838817
-                     play_move:     1425570
- is_white_king_square_attacked:      816453
- is_black_king_square_attacked:      657367
+                        empile:     2864439
+                     play_move:     1417892
+ is_white_king_square_attacked:      822707
+ is_black_king_square_attacked:      642853
 Loesung beendet. 
 
 
@@ -1191,7 +1191,7 @@ Loesung beendet.
                           4.LJb3-b2 #
 
 
-                        empile:      381650
+                        empile:      595172
                      play_move:      274615
  is_white_king_square_attacked:      122406
  is_black_king_square_attacked:      162191

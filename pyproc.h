@@ -221,28 +221,12 @@ boolean eval_ortho(square departure, square arrival, square capture);
 
 boolean feebechec(evalfunction_t *evaluate );
 boolean feenechec(evalfunction_t *evaluate );
-void    gchinb(int a, numvec b, numvec c);
-void    gchinn(int a, numvec b, numvec c);
-void    gcsb(square a, numvec b, numvec c);
-void    gcsn(square a, numvec b, numvec c);
 void    gen_wh_ply(void);
-void    genmove(Side a);
 void    gen_bl_ply(void);
+void    genmove(Side a);
 
-void    genrb(square a);
-void    genrn(square a);
-void    gfeerblanc(square a,piece b);
-void    gfeernoir(square a,piece b);
-void    glocb(square a);
-void    glocn(square a);
-void    gmaob(square a);
-void    gmaon(square a);
-void    gnequib(square a);
-void    gnequin(square a);
-void    groseb(square a);
-void    grosen(square a);
-void    gubib(square a, square b);
-void    gubin(square a, square b);
+void    king_generate_moves(Side side, square sq_departure);
+void    piece_generate_moves(Side side, square sq_departure, PieNam b);
 void    hardinit(void);
 boolean imok(square i, square j);
 
@@ -287,10 +271,7 @@ piece   champiece(piece p);
 void    PrintTime();
 boolean leapcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean ridcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-void    gebleap(square a, numvec b, numvec c);
-void    gebrid(square a, numvec b, numvec c);
-void    genleap(square a, numvec b, numvec c);
-void    genrid(square a, numvec b, numvec c);
+void    leaper_generate_moves(Side side, square a, numvec b, numvec c);
 
 boolean roicheck(square a, piece b, evalfunction_t *evaluate);
 boolean pioncheck(square a, piece b, evalfunction_t *evaluate);
@@ -322,8 +303,6 @@ void    gorph(square a, Side b);
 void    gfriend(square a, Side b);
 void    gedgeh(square a, Side b);
 
-void    gmoab(square a);
-void    gmoan(square a);
 Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
 void    ErrString(char const *s);
@@ -389,11 +368,6 @@ void transformPosition(SquareTransformation transformation);
 void generate_castling(Side side);
 boolean castling_is_intermediate_king_move_legal(Side side, square from, square to);
 
-void    grabbitb(square sq);
-void    grabbitn(square sq);
-void    gbobb(square sq);
-void    gbobn(square sq);
-
 boolean nokingcontact(square ia);
 boolean nowazircontact(square ia);
 boolean noferscontact(square ia);
@@ -407,9 +381,7 @@ boolean noantelopecontact(square ia);
 
 boolean castlingimok(square i, square j);
 boolean maooaimok(square i, square j, square pass);
-void gen_piece_aux(Side side, square z, piece p);
-void gen_wh_piece_aux(square z, piece p);
-void gen_bl_piece_aux(square z, piece p);
+void gen_piece_aux(Side side, square sq_departure, PieNam p);
 void WriteBGLNumber(char* a, long int b);
 boolean CrossesGridLines(square i, square j);
 

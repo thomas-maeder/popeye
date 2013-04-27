@@ -78,9 +78,9 @@
 
 
                         empile:       25030
-                     play_move:       19294
+                     play_move:       19289
  is_white_king_square_attacked:        1089
- is_black_king_square_attacked:       18740
+ is_black_king_square_attacked:       18735
 Loesung beendet. 
 
 
@@ -556,7 +556,7 @@ Nr. F14, 11. TT Chess Composition Microweb 28.2.2003
 
 a) 
 
-  1.Kg7-f8 Kd5-d4   2.a2-a1=D + Kd4*a1=D   3.Th8-g8 Da1-f6 # 
+  1.Kg7-f8 Kd5-d4   2.a2-a1=D + Kd4*a1=D   3.Th8-g8 Da1-f6 #
 
                         empile:     6163583
                      play_move:     4513505
@@ -564,11 +564,11 @@ a)
  is_black_king_square_attacked:     4168795
 b) sBa2-->b2
 
-  1.Kg7-f8 Kd5-c5   2.Th8-g8 Kc5-b6   3.b2-b1=D + Kb6-f6=D # 
-  1.Kg7-f8 Kd5-c6   2.Th8-g8 Kc6-b6   3.b2-b1=D + Kb6-f6=D # 
-  1.Te8-f8 Kd5-e4   2.b2-b1=D + Ke4*b1=D   3.Kg7-g8 Db1-g6 # 
-  1.Th8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=D + Kb6-f6=D # 
-  1.Th8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=D + Kb6-f6=D # 
+  1.Kg7-f8 Kd5-c5   2.Th8-g8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
+  1.Kg7-f8 Kd5-c6   2.Th8-g8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
+  1.Te8-f8 Kd5-e4   2.b2-b1=D + Ke4*b1=D   3.Kg7-g8 Db1-g6 #
+  1.Th8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
+  1.Th8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
 
                         empile:     6320382
                      play_move:     4570852

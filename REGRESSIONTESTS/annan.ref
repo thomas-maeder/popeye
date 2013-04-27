@@ -67,9 +67,9 @@ cooked, even with suggestion +WPb6 in Chessics #8
 
 
                         empile:        3236
-                     play_move:        2423
+                     play_move:        2418
  is_white_king_square_attacked:         292
- is_black_king_square_attacked:        2436
+ is_black_king_square_attacked:        2431
 solution finished. 
 
 
@@ -184,9 +184,9 @@ solution finished.
 
 
                         empile:       12118
-                     play_move:        5197
- is_white_king_square_attacked:        5199
- is_black_king_square_attacked:        3518
+                     play_move:        5192
+ is_white_king_square_attacked:        5194
+ is_black_king_square_attacked:        3513
 solution finished. 
 
 

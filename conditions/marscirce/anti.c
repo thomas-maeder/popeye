@@ -34,7 +34,7 @@ void antimars_generate_moves(Side side, piece p, square sq_departure)
                                            advers(side));
 
     if (sq_rebirth==sq_departure)
-      gen_piece_aux(side,sq_departure,p);
+      gen_piece_aux(side,sq_departure,abs(p));
     else
     {
       marscirce_generate_captures(side,p,sq_departure,sq_departure);

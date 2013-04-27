@@ -92,6 +92,9 @@
 #include "conditions/singlebox/type2.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/pawns/pawns.h"
+#include "pieces/pawns/pawn.h"
+#include "pieces/hunters.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -346,111 +349,84 @@ static void gemoariderlion(square i, Side camp)
   gemaooariderlion(i,+dir_down+dir_left,+2*dir_down+dir_left, camp);
 }
 
+void leaper_generate_moves(Side side, square sq_departure, numvec kbeg, numvec kend)
+{
+  /* generate leaper moves from vec[kbeg] to vec[kend] */
+  Side const opponent = advers(side);
+  numvec  k;
+
+  for (k= kbeg; k<= kend; ++k)
+  {
+    square const sq_arrival = sq_departure+vec[k];
+    if (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent))
+      empile(sq_departure,sq_arrival,sq_arrival);
+  }
+}
+
 static square generate_moves_on_line_segment(square sq_departure,
                                              square sq_base,
-                                             int k) {
-  square arr= sq_base+vec[k];
+                                             int k)
+{
+  square sq_arrival = sq_base+vec[k];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceSquare(sq_base);
   TraceFunctionParamListEnd();
 
-  while (e[arr]==vide && empile(sq_departure,arr,arr))
-    arr+= vec[k];
+  while (e[sq_arrival]==vide && empile(sq_departure,sq_arrival,sq_arrival))
+    sq_arrival += vec[k];
 
   TraceFunctionExit(__func__);
-  TraceSquare(arr);
+  TraceSquare(sq_arrival);
   TraceFunctionResultEnd();
-  return arr;
+  return sq_arrival;
 }
 
-void gebrid(square sq_departure, numvec kbeg, numvec kend) {
-  /* generate white rider moves from vec[kbeg] to vec[kend] */
-  numvec k;
-  square sq_arrival;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  for (k= kbeg; k<= kend; k++) {
-    sq_arrival= generate_moves_on_line_segment(sq_departure,sq_departure,k);
-    if (e[sq_arrival]<=roin)
-      empile(sq_departure,sq_arrival,sq_arrival);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void genrid(square sq_departure, numvec kbeg, numvec kend) {
-  /* generate black rider moves from vec[kbeg] to vec[kend] */
-  numvec k;
-  square sq_arrival;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  for (k= kbeg; k<= kend; k++) {
-    sq_arrival= generate_moves_on_line_segment(sq_departure,sq_departure,k);
-    if (e[sq_arrival]>=roib)
-      empile(sq_departure,sq_arrival,sq_arrival);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void genbouncer(square sq_departure,
-                       numvec kbeg, numvec kend,
-                       Side camp)
+void rider_generate_moves(Side side, square sq_departure, numvec kbeg, numvec kend)
 {
-  square sq_arrival;
+  /* generate rider moves from vec[kbeg] to vec[kend] */
+  numvec k;
+  Side const opponent = advers(side);
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  for (k = kbeg; k<=kend; ++k)
+  {
+    square const sq_arrival = generate_moves_on_line_segment(sq_departure,sq_departure,k);
+    if (TSTFLAG(spec[sq_arrival],opponent))
+      empile(sq_departure,sq_arrival,sq_arrival);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void bouncer_generate_moves(Side side,
+                                   square sq_departure,
+                                   numvec kbeg, numvec kend)
+{
+  Side const opponent = advers(side);
   numvec  k;
-  for (k= kend; k >= kbeg; k--) {
+  for (k = kend; k>=kbeg; k--)
+  {
     piece   p1;
     square  bounce_where;
     finligne(sq_departure,vec[k],p1,bounce_where);
 
     {
-      square const bounce_to= 2*sq_departure-bounce_where;
+      square const bounce_to = 2*sq_departure-bounce_where;
 
-      sq_arrival= sq_departure-vec[k];
+      square sq_arrival = sq_departure-vec[k];
       while (sq_arrival!=bounce_to && e[sq_arrival]==vide)
-        sq_arrival-= vec[k];
+        sq_arrival -= vec[k];
 
       if (sq_arrival==bounce_to
-          && (e[sq_arrival]==vide || piece_belongs_to_opponent(e[sq_arrival],camp)))
+          && (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent)))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
-  }
-}
-
-void gebleap(square sq_departure, numvec kbeg, numvec kend) {
-  /* generate white leaper moves from vec[kbeg] to vec[kend] */
-  square sq_arrival;
-  numvec  k;
-
-  for (k= kbeg; k<= kend; k++) {
-    sq_arrival= sq_departure+vec[k];
-    if (e[sq_arrival]<=vide)
-      empile(sq_departure,sq_arrival,sq_arrival);
-  }
-}
-
-void genleap(square sq_departure, numvec kbeg, numvec kend) {
-  /* generate black leaper moves from vec[kbeg] to vec[kend] */
-
-  square sq_arrival;
-
-  numvec  k;
-  for (k= kbeg; k<= kend; k++) {
-    sq_arrival= sq_departure+vec[k];
-    if (e[sq_arrival]==vide || e[sq_arrival] >= roib)
-      empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -1572,72 +1548,6 @@ static void gdoublebishopper(square sq_departure, Side camp) {
   gdoublehopper(sq_departure,camp,vec_bishop_start,vec_bishop_end);
 }
 
-typedef enum
-{
-  UP,
-  DOWN
-} UPDOWN;
-
-static void filter(square i, numecoup prevnbcou, UPDOWN u)
-{
-  numecoup s = prevnbcou+1;
-
-  while (s<=current_move[nbply])
-    if ((u==DOWN && move_generation_stack[s].arrival-i>-8)
-        || (u==UP && move_generation_stack[s].arrival-i<8))
-    {
-      memmove(move_generation_stack+s,
-              move_generation_stack+s+1,
-              (current_move[nbply]-s) * sizeof move_generation_stack[s]);
-      --current_move[nbply];
-    }
-    else
-      ++s;
-}
-
-static void genhunt(square i, piece p, PieNam pabs)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(i);
-  TracePiece(p);
-  TraceFunctionParam("%d",p);
-  TraceFunctionParamListEnd();
-
-  /*   PieNam const pabs = abs(p);  */
-  assert(pabs>=Hunter0);
-  assert(pabs<Hunter0+maxnrhuntertypes);
-
-  {
-    unsigned int const typeofhunter = pabs-Hunter0;
-    HunterType const * const huntertype = huntertypes+typeofhunter;
-
-    if (p>0) {
-      numecoup savenbcou = current_move[nbply];
-      generate_moves_for_piece(White,i,huntertype->home);
-      filter(i,savenbcou,DOWN);
-
-      savenbcou = current_move[nbply];
-      generate_moves_for_piece(White,i,huntertype->away);
-      filter(i,savenbcou,UP);
-    }
-    else {
-      numecoup savenbcou = current_move[nbply];
-      generate_moves_for_piece(Black,i,-huntertype->away);
-      filter(i,savenbcou,DOWN);
-
-      savenbcou = current_move[nbply];
-      generate_moves_for_piece(Black,i,-huntertype->home);
-      filter(i,savenbcou,UP);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void gen_p_captures(square sq_departure, square sq_arrival, Side camp);
-static void gen_p_nocaptures(square sq_departure, numvec dir, int steps);
-
 static void generate_marine_pawn_captures(square sq_departure, Side moving)
 {
   Side const opponent = advers(moving);
@@ -1703,655 +1613,10 @@ void generate_marine_pawn(square sq_departure, Side moving)
       nr_steps = 1;
   }
 
-  gen_p_nocaptures(sq_departure,dir_vertical,nr_steps);
+  pawns_generate_nocapture_moves(sq_departure,dir_vertical,nr_steps);
 
   generate_marine_pawn_captures(sq_departure,moving);
 }
-
-static void gfeerrest(square sq_departure, piece p, Side camp)
-{
-  numvec k;
-  square const *bnp;
-  PieNam const pabs = abs(p);
-
-  switch (pabs)
-  {
-  case Mao:
-    gmao(sq_departure, camp);
-    return;
-
-  case Pao:
-    gchin(sq_departure, vec_rook_start,vec_rook_end, camp);
-    return;
-
-  case Leo:
-    gchin(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case Vao:
-    gchin(sq_departure, vec_bishop_start,vec_bishop_end, camp);
-    return;
-
-  case Nao:
-    gchin(sq_departure, vec_knight_start,vec_knight_end, camp);
-    return;
-
-  case Rose:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_knight_start; k<=vec_knight_end; k++)
-    {
-      grose(sq_departure, k, 0,+1, camp);
-      grose(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
-    }
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case NonStopEquihopper:
-    gnequi(sq_departure, camp);
-    return;
-
-  case Locust:
-    glocust(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case NightLocust:
-    glocust(sq_departure, vec_knight_start,vec_knight_end, camp);
-    return;
-
-  case BishopLocust:
-    glocust(sq_departure, vec_bishop_start,vec_bishop_end, camp);
-    return;
-
-  case RookLocust:
-    glocust(sq_departure, vec_rook_start,vec_rook_end, camp);
-    return;
-
-  case Kangaroo:
-    gkang(sq_departure, camp);
-    return;
-
-  case KangarooLion:
-    gkanglion(sq_departure, camp);
-    return;
-
-  case Kao:
-    gchinleap(sq_departure, vec_knight_start, vec_knight_end, camp);
-    return;
-
-  case KnightHopper:
-    geshop(sq_departure, vec_knight_start, vec_knight_end, camp);
-    return;
-
-  case SpiralSpringer:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_knight_start; k<=vec_knight_end; k++)
-      gcs(sq_departure, vec[k], vec[25 - k], camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Hamster:
-    ghamst(sq_departure);
-    return;
-
-  case UbiUbi:
-    for (bnp= boardnum; *bnp; bnp++)
-      e_ubi[*bnp]= e[*bnp];
-    gubi(sq_departure, sq_departure, camp);
-    return;
-
-  case Elk:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Eagle:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Sparrow:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Marguerite:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, camp);
-    gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, camp);
-    gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, camp);
-    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
-    ghamst(sq_departure);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Archbishop:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
-        grfou(sq_departure,sq_departure,vec[k],1,camp);
-      if (!NoEdge(sq_departure))
-        remove_duplicate_moves_of_single_piece(save_current_move);
-    }
-    return;
-
-  case ReflectBishop:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      grfou(sq_departure,sq_departure,vec[k],4,camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Cardinal:
-    for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      gcard(sq_departure, sq_departure, vec[k], 1, camp);
-    return;
-
-  case DiagonalSpiralSpringer:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= 9; k <= 14; k++)
-      gcs(sq_departure, vec[k], vec[23 - k], camp);
-    for (k= 15; k <= 16; k++)
-      gcs(sq_departure, vec[k], vec[27 - k], camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case BouncyKnight:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    grefc(sq_departure, sq_departure, 2, camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case BouncyNightrider:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    clearedgestraversed();
-    grefn(sq_departure, sq_departure, camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case EquiHopper:
-    gequi(sq_departure, camp);
-    return;
-
-  case CAT:
-    gcat(sq_departure, camp);
-    return;
-
-  case Sirene:
-    gmarin(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case Triton:
-    gmarin(sq_departure, vec_rook_start,vec_rook_end, camp);
-    return;
-
-  case Nereide:
-    gmarin(sq_departure, vec_bishop_start,vec_bishop_end, camp);
-    return;
-
-  case Orphan:
-    gorph(sq_departure, camp);
-    return;
-
-  case Friend:
-    gfriend(sq_departure, camp);
-    return;
-
-  case EdgeHog:
-    gedgeh(sq_departure, camp);
-    return;
-
-  case Moa:
-    gmoa(sq_departure, camp);
-    return;
-
-  case MoaRider:
-    gemoarider(sq_departure, camp);
-    return;
-
-  case MaoRider:
-    gemaorider(sq_departure, camp);
-    return;
-
-  case BoyScout:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-      gcs(sq_departure,vec[k],vec[13-k],camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case GirlScout:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_rook_end; k >=vec_rook_start; k--)
-      gcs(sq_departure,vec[k],vec[5-k],camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Skylla:
-    geskylla(sq_departure, camp);
-    return;
-
-  case Charybdis:
-    gecharybdis(sq_departure, camp);
-    return;
-
-  case Grasshopper:
-    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case Lion:
-    gelrhop(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case NightriderHopper:
-    gerhop(sq_departure, vec_knight_start,vec_knight_end, camp);
-    return;
-
-  case CamelHopper:
-    gerhop(sq_departure, vec_chameau_start,vec_chameau_end, camp);
-    return;
-
-  case ZebraHopper:
-    gerhop(sq_departure, vec_zebre_start,vec_zebre_end, camp);
-    return;
-
-  case GnuHopper:
-    gerhop(sq_departure, vec_chameau_start,vec_chameau_end, camp);
-    gerhop(sq_departure, vec_knight_start,vec_knight_end, camp);
-    return;
-
-  case RookLion:
-    gelrhop(sq_departure, vec_rook_start,vec_rook_end, camp);
-    return;
-
-  case BishopLion:
-    gelrhop(sq_departure, vec_bishop_start,vec_bishop_end, camp);
-    return;
-
-  case RookHopper:
-    gerhop(sq_departure, vec_rook_start,vec_rook_end, camp);
-    return;
-
-  case BishopHopper:
-    gerhop(sq_departure, vec_bishop_start,vec_bishop_end, camp);
-    return;
-
-  case ContraGras:
-    gecrhop(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case RoseLion:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_knight_start; k<=vec_knight_end; k++)
-    {
-      groselion(sq_departure, k, 0,+1, camp);
-      groselion(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
-    }
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case RoseHopper:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      grosehopper(sq_departure, k, 0,+1, camp);
-      grosehopper(sq_departure, k,
-                  vec_knight_end-vec_knight_start+1,-1, camp);
-    }
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case RoseLocust:
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      groselocust(sq_departure, k, 0,+1, camp);
-      groselocust(sq_departure, k,
-                  vec_knight_end-vec_knight_start+1,-1, camp);
-    }
-    return;
-
-  case GrassHopper2:
-    gerhop2(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case GrassHopper3:
-    gerhop3(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case KingHopper:
-    geshop(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case DoubleGras:
-    gdoublegrasshopper(sq_departure, camp);
-    return;
-
-  case DoubleRookHopper:
-    gdoublerookhopper(sq_departure, camp);
-    return;
-
-  case DoubleBishopper:
-    gdoublebishopper(sq_departure, camp);
-    return;
-
-  case Orix:
-    gorix(sq_departure, camp);
-    return;
-
-   case NonStopOrix:
-    gnorix(sq_departure, camp);
-    return;
-
-  case Gral:
-    if (camp==White)
-      gebleap(sq_departure, vec_alfil_start,vec_alfil_end);    /* alfilb */
-    else
-      genleap(sq_departure, vec_alfil_start,vec_alfil_end);    /* alfiln */
-    gerhop(sq_departure, vec_rook_start,vec_rook_end, camp);      /* rookhopper */
-    return;
-
-  case RookMoose:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_rook_start,vec_rook_end, 0, camp);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case RookEagle:
-    gmhop(sq_departure, vec_rook_start,vec_rook_end, 1, camp);
-    return;
-
-  case RookSparrow:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_rook_start,vec_rook_end, 2, camp);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case BishopMoose:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 0, camp);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case BishopEagle:
-    gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 1, camp);
-    return;
-
-  case BishopSparrow:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 2, camp);
-    if (!TSTFLAG(spec[sq_departure],ColourChange))
-      remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Rao:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
-      grao(sq_departure, k, 0,+1, camp);
-      grao(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, camp);
-    }
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    return;
-  }
-
-  case Scorpion:
-    if (camp==White)
-      gebleap(sq_departure, vec_queen_start,vec_queen_end);        /* ekingb */
-    else
-      genleap(sq_departure, vec_queen_start,vec_queen_end);        /* ekingn */
-    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);     /* grashopper */
-    return;
-
-  case NightRiderLion:
-    gelrhop(sq_departure, vec_knight_start,vec_knight_end, camp);
-    return;
-
-  case MaoRiderLion:
-    gemaoriderlion(sq_departure, camp);
-    return;
-
-  case MoaRiderLion:
-    gemoariderlion(sq_departure, camp);
-    return;
-
-  case Dolphin:
-    gkang(sq_departure, camp);
-    gerhop(sq_departure, vec_queen_start,vec_queen_end, camp);
-    return;
-
-  case Rabbit:
-    grabbit(sq_departure, camp);
-    return;
-
-  case Bob:
-    gbob(sq_departure, camp);
-    return;
-
-  case EquiEnglish:
-    gequiapp(sq_departure, camp);
-    return;
-
-  case EquiFrench:
-    gnequiapp(sq_departure, camp);
-    return;
-
-  case Querquisite:
-    switch (sq_departure%onerow - nr_of_slack_files_left_of_board) {
-    case file_rook_queenside:
-    case file_rook_kingside:
-      if (camp == White)
-        gebrid(sq_departure, vec_rook_start,vec_rook_end);
-      else
-        genrid(sq_departure, vec_rook_start,vec_rook_end);
-      break;
-    case file_bishop_queenside:
-    case file_bishop_kingside:  if (camp == White)
-        gebrid(sq_departure, vec_bishop_start,vec_bishop_end);
-      else
-        genrid(sq_departure, vec_bishop_start,vec_bishop_end);
-      break;
-    case file_queen:    if (camp == White)
-        gebrid(sq_departure, vec_queen_start,vec_queen_end);
-      else
-        genrid(sq_departure, vec_queen_start,vec_queen_end);
-      break;
-    case file_knight_queenside:
-    case file_knight_kingside:  if (camp == White)
-        gebleap(sq_departure, vec_knight_start,vec_knight_end);
-      else
-        genleap(sq_departure, vec_knight_start,vec_knight_end);
-      break;
-    case file_king: if (camp == White)
-        gebleap(sq_departure, vec_queen_start,vec_queen_end);
-      else
-        genleap(sq_departure, vec_queen_start,vec_queen_end);
-      break;
-    }
-    break;
-
-  case Bouncer :
-    genbouncer(sq_departure, vec_queen_start,vec_queen_end, camp);
-    break;
-
-  case RookBouncer:
-    genbouncer(sq_departure, vec_rook_start,vec_rook_end, camp);
-    break;
-
-  case BishopBouncer :
-    genbouncer(sq_departure, vec_bishop_start,vec_bishop_end, camp);
-    break;
-
-  case RadialKnight:
-    genradialknight(sq_departure, camp);
-    break;
-
-  case Treehopper:
-    gentreehopper(sq_departure, camp);
-    break;
-
-  case Leafhopper :
-    genleafhopper(sq_departure, camp);
-    break;
-
-  case GreaterTreehopper:
-    gengreatertreehopper(sq_departure, camp);
-    break;
-
-  case GreaterLeafhopper:
-    gengreaterleafhopper(sq_departure, camp);
-    break;
-
-  case SpiralSpringer40:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gcsp(sq_departure, 9, 16, camp);
-    gcsp(sq_departure, 10, 11, camp);
-    gcsp(sq_departure, 11, 10, camp);
-    gcsp(sq_departure, 12, 13, camp);
-    gcsp(sq_departure, 13, 12, camp);
-    gcsp(sq_departure, 14, 15, camp);
-    gcsp(sq_departure, 15, 14, camp);
-    gcsp(sq_departure, 16, 9, camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    break;
-  }
-
-  case SpiralSpringer20:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gcsp(sq_departure, 9, 12, camp);
-    gcsp(sq_departure, 10, 15, camp);
-    gcsp(sq_departure, 11, 14, camp);
-    gcsp(sq_departure, 12, 9, camp);
-    gcsp(sq_departure, 13, 16, camp);
-    gcsp(sq_departure, 14, 11, camp);
-    gcsp(sq_departure, 15, 10, camp);
-    gcsp(sq_departure, 16, 13, camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    break;
-  }
-
-  case SpiralSpringer33:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gcsp(sq_departure, 9, 10, camp);
-    gcsp(sq_departure, 10, 9, camp);
-    gcsp(sq_departure, 11, 12, camp);
-    gcsp(sq_departure, 12, 11, camp);
-    gcsp(sq_departure, 13, 14, camp);
-    gcsp(sq_departure, 14, 13, camp);
-    gcsp(sq_departure, 15, 16, camp);
-    gcsp(sq_departure, 16, 15, camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    break;
-  }
-
-  case SpiralSpringer11:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gcsp(sq_departure, 9, 14, camp);
-    gcsp(sq_departure, 10, 13, camp);
-    gcsp(sq_departure, 11, 16, camp);
-    gcsp(sq_departure, 12, 15, camp);
-    gcsp(sq_departure, 13, 10, camp);
-    gcsp(sq_departure, 14, 9, camp);
-    gcsp(sq_departure, 15, 12, camp);
-    gcsp(sq_departure, 16, 11, camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    break;
-  }
-
-  case Quintessence:
-  {
-    numecoup const save_current_move = current_move[nbply];
-    gcsp(sq_departure, 9, 11, camp);
-    gcsp(sq_departure, 11, 9, camp);
-    gcsp(sq_departure, 11, 13, camp);
-    gcsp(sq_departure, 13, 11, camp);
-    gcsp(sq_departure, 13, 15, camp);
-    gcsp(sq_departure, 15, 13, camp);
-    gcsp(sq_departure, 15, 9, camp);
-    gcsp(sq_departure, 9, 15, camp);
-    gcsp(sq_departure, 10, 12, camp);
-    gcsp(sq_departure, 12, 10, camp);
-    gcsp(sq_departure, 12, 14, camp);
-    gcsp(sq_departure, 14, 12, camp);
-    gcsp(sq_departure, 14, 16, camp);
-    gcsp(sq_departure, 16, 14, camp);
-    gcsp(sq_departure, 16, 10, camp);
-    gcsp(sq_departure, 10, 16, camp);
-    remove_duplicate_moves_of_single_piece(save_current_move);
-    break;
-  }
-
-  case MarineKnight:
-    generate_marine_knight(sq_departure,camp);
-    break;
-
-  case Poseidon:
-    generate_poseidon(sq_departure,camp);
-    break;
-
-  case MarinePawn:
-    generate_marine_pawn(sq_departure,camp);
-    break;
-
-  case MarineShip:
-    gmarin(sq_departure, vec_rook_start,vec_rook_end, camp);
-    generate_marine_pawn_captures(sq_departure,camp);
-    return;
-
-  default:
-    /* Since pieces like DUMMY fall through 'default', we have */
-    /* to check exactly if there is something to generate ...  */
-    if ((pabs>=Hunter0) && (pabs<Hunter0+maxnrhuntertypes))
-      genhunt(sq_departure,p,pabs);
-    break;
-  }
-} /* gfeerrest */
 
 /* Two auxiliary functions for generating super pawn moves */
 static void gen_sp_nocaptures(square sq_departure, numvec dir) {
@@ -2378,481 +1643,916 @@ static void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
     empile(sq_departure,sq_arrival,sq_arrival);
 }
 
-static void gencpn(square i) {
-  genleap(i, 4, 4);
-  if (2*i < square_h8+square_a1) {
-    genleap(i, 1, 1);
-    genleap(i, 3, 3);
-  }
-}
-
-static void gencpb(square i) {
-  gebleap(i, 2, 2);
-  if (2*i > square_h8+square_a1) {
-    gebleap(i, 1, 1);
-    gebleap(i, 3, 3);
-  }
-}
-
-void gfeerblanc(square i, piece p) {
-  switch(p) {
-  case nb:
-    gebrid(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case zb:
-    gebleap(i, vec_zebre_start,vec_zebre_end);
-    return;
-
-  case chb:
-    gebleap(i, vec_chameau_start,vec_chameau_end);
-    return;
-
-  case gib:
-    gebleap(i, vec_girafe_start,vec_girafe_end);
-    return;
-
-  case rccinqb:
-    gebleap(i, vec_rccinq_start,vec_rccinq_end);
-    return;
-
-  case bub:
-    gebleap(i, vec_bucephale_start,vec_bucephale_end);
-    return;
-
-  case vizirb:
-    gebleap(i, vec_rook_start,vec_rook_end);
-    return;
-
-  case alfilb:
-    gebleap(i, vec_alfil_start,vec_alfil_end);
-    return;
-
-  case fersb:
-    gebleap(i, vec_bishop_start,vec_bishop_end);
-    return;
-
-  case dabb:
-    gebleap(i, vec_dabbaba_start,vec_dabbaba_end);
-    return;
-
-  case pbb:
-    genpbb(i);
-    return;
-
-  case reversepb:
-    genreversepb(i);
-    return;
-
-  case amazb:
-    gebrid(i, vec_queen_start,vec_queen_end);
-    gebleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case impb:
-    gebrid(i, vec_rook_start,vec_rook_end);
-    gebleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case princb:
-    gebrid(i, vec_bishop_start,vec_bishop_end);
-    gebleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case gnoub:
-    gebleap(i, vec_chameau_start,vec_chameau_end);
-    gebleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case antilb:
-    gebleap(i, vec_antilope_start,vec_antilope_end);
-    return;
-
-  case ecurb:
-    gebleap(i, vec_ecureuil_start,vec_ecureuil_end);
-    gebleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case waranb:
-    gebrid(i, vec_knight_start,vec_knight_end);
-    gebrid(i, vec_rook_start,vec_rook_end);
-    return;
-
-  case dragonb:
-    genpb(i);
-    gebleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case gryphonb:
-    if (i<=square_h1)
-    {
-      /* pawn on first rank */
-      if (anyparrain
-          || CondFlag[einstein]
-          || CondFlag[normalp]
-          || CondFlag[circecage]
-          || abs(e[i]) == orphanb)
-      {
-        /* triple or single step? */
-        gen_p_nocaptures(i,+dir_up, CondFlag[einstein] ? 3 : 1);
-      }
-    }
-    else
-    {
-      /* double or single step? */
-      gen_p_nocaptures(i,+dir_up, i<=square_h2 ? 2 : 1);
-    }
-    gebrid(i, vec_bishop_start,vec_bishop_end);
-    return;
-
-  case shipb:
-    if (i >= square_a2
-      || anyparrain
-      || CondFlag[einstein]
-      || CondFlag[normalp]
-      || CondFlag[circecage]
-      || abs(e[i]) == orphanb)
-    {
-      gen_p_captures(i, i+dir_up+dir_left, White);
-      gen_p_captures(i, i+dir_up+dir_right, White);
-    }
-    gebrid(i, vec_rook_start,vec_rook_end);
-    return;
-
-  case camridb:
-    gebrid(i, vec_chameau_start,vec_chameau_end);
-    return;
-
-  case zebridb:
-    gebrid(i, vec_zebre_start,vec_zebre_end);
-    return;
-
-  case gnuridb:
-    gebrid(i, vec_chameau_start,vec_chameau_end);
-    gebrid(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case bspawnb:
-    gen_sp_nocaptures(i,+dir_up+dir_left);
-    gen_sp_nocaptures(i,+dir_up+dir_right);
-    gen_sp_captures(i,+dir_up, White);
-    return;
-
-  case spawnb:
-    gen_sp_nocaptures(i,+dir_up);
-    gen_sp_captures(i,+dir_up+dir_left, White);
-    gen_sp_captures(i,+dir_up+dir_right, White);
-    return;
-
-  case rhuntb:
-    gebrid(i, 2, 2);
-    gebrid(i, 7, 8);
-    return;
-
-  case bhuntb:
-    gebrid(i, 4, 4);
-    gebrid(i, 5, 6);
-    return;
-
-  case ekingb:
-    gebleap(i, vec_queen_start,vec_queen_end);
-    return;
-
-  case okapib:
-    gebleap(i, vec_okapi_start,vec_okapi_end);
-    return;
-
-  case leap37b:
-    gebleap(i, vec_leap37_start,vec_leap37_end);
-    return;
-
-  case leap16b:
-    gebleap(i, vec_leap16_start,vec_leap16_end);
-    return;
-
-  case leap24b:
-    gebleap(i, vec_leap24_start,vec_leap24_end);
-    return;
-
-  case leap35b:
-    gebleap(i, vec_leap35_start,vec_leap35_end);
-    return;
-
-  case leap15b:
-    gebleap(i, vec_leap15_start,vec_leap15_end);
-    return;
-
-  case leap25b:
-    gebleap(i, vec_leap25_start,vec_leap25_end);
-    return;
-
-  case vizridb:
-    gebrid(i,   vec_rook_start,vec_rook_end);
-    return;
-
-  case fersridb:
-    gebrid(i, vec_bishop_start,vec_bishop_end);
-    return;
-
-  case bisonb:
-    gebleap(i, vec_bison_start,vec_bison_end);
-    return;
-
-  case zebub:
-    gebleap(i, vec_chameau_start,vec_chameau_end);
-    gebleap(i, vec_girafe_start,vec_girafe_end);
-    return;
-
-  case elephantb:
-    gebrid(i, vec_elephant_start,vec_elephant_end);
-    return;
-
-  case leap36b:
-    gebleap(i, vec_leap36_start,vec_leap36_end);
-    return;
-
-  case chinesepawnb:
-    gencpb(i);
-    return;
-
-  default:
-    gfeerrest(i, p, White);
-    break;
-  }
-}
-
-void gfeernoir(square i, piece p) {
-  switch(p) {
-  case nn:
-    genrid(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case zn:
-    genleap(i, vec_zebre_start,vec_zebre_end);
-    return;
-
-  case chn:
-    genleap(i, vec_chameau_start,vec_chameau_end);
-    return;
-
-  case gin:
-    genleap(i, vec_girafe_start,vec_girafe_end);
-    return;
-
-  case rccinqn:
-    genleap(i, vec_rccinq_start,vec_rccinq_end);
-    return;
-
-  case bun:
-    genleap(i, vec_bucephale_start,vec_bucephale_end);
-    return;
-
-  case vizirn:
-    genleap(i, vec_rook_start,vec_rook_end);
-    return;
-
-  case alfiln:
-    genleap(i, vec_alfil_start,vec_alfil_end);
-    return;
-
-  case fersn:
-    genleap(i, vec_bishop_start,vec_bishop_end);
-    return;
-
-  case dabn:
-    genleap(i, vec_dabbaba_start,vec_dabbaba_end);
-    return;
-
-  case pbn:
-    genpbn(i);
-    return;
-
-  case reversepn:
-    genreversepn(i);
-    return;
-
-  case amazn:
-    genrid(i, vec_queen_start,vec_queen_end);
-    genleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case impn:
-    genrid(i, vec_rook_start,vec_rook_end);
-    genleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case princn:
-    genrid(i, vec_bishop_start,vec_bishop_end);
-    genleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case gnoun:
-    genleap(i, vec_chameau_start,vec_chameau_end);
-    genleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case antiln:
-    genleap(i, vec_antilope_start,vec_antilope_end);
-    return;
-
-  case ecurn:
-    genleap(i, vec_ecureuil_start,vec_ecureuil_end);
-    genleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case warann:
-    genrid(i, vec_knight_start,vec_knight_end);
-    genrid(i, vec_rook_start,vec_rook_end);
-    return;
-
-  case dragonn:
-    genpn(i);
-    genleap(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case gryphonn:
-      if (i>=square_a8)
-      {
-        /* pawn on first rank */
-        if (anyparrain
-            || CondFlag[einstein]
-            || CondFlag[normalp]
-            || CondFlag[circecage]
-            || abs(e[i]) == orphanb)
-        {
-          /* triple or single step? */
-            gen_p_nocaptures(i,dir_down, CondFlag[einstein] ? 3 : 1);
-        }
-      }
-      else
-      {
-        {
-          /* double or single step? */
-            gen_p_nocaptures(i,dir_down, CondFlag[einstein] ? 3 : 1);
-        }
-      }
-    genrid(i, vec_bishop_start,vec_bishop_end);
-    return;
-
-  case shipn:
-    if (i<=square_h7
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || abs(e[i])==orphanb)
-    {
-      gen_p_captures(i, i+dir_down+dir_right, Black);
-      gen_p_captures(i, i+dir_down+dir_left, Black);
-    }
-    genrid(i, vec_rook_start,vec_rook_end);
-    return;
-
-  case camridn:
-    genrid(i, vec_chameau_start,vec_chameau_end);
-    return;
-
-  case zebridn:
-    genrid(i, vec_zebre_start,vec_zebre_end);
-    return;
-
-  case gnuridn:
-    genrid(i, vec_chameau_start,vec_chameau_end);
-    genrid(i, vec_knight_start,vec_knight_end);
-    return;
-
-  case bspawnn:
-    gen_sp_nocaptures(i,+dir_down+dir_right);
-    gen_sp_nocaptures(i,+dir_down+dir_left);
-    gen_sp_captures(i,+dir_down, Black);
-    return;
-
-  case spawnn:
-    gen_sp_nocaptures(i,+dir_down);
-    gen_sp_captures(i,+dir_down+dir_right, Black);
-    gen_sp_captures(i,+dir_down+dir_left, Black);
-    return;
-
-  case rhuntn:
-    genrid(i, 2, 2);
-    genrid(i, 7, 8);
-    return;
-
-  case bhuntn:
-    genrid(i, 4, 4);
-    genrid(i, 5, 6);
-    return;
-
-  case ekingn:
-    genleap(i, vec_queen_start,vec_queen_end);
-    return;
-
-  case okapin:
-    genleap(i, vec_okapi_start,vec_okapi_end);
-    return;
-
-  case leap37n:
-    genleap(i, vec_leap37_start,vec_leap37_end);
-    return;
-
-  case leap16n:
-    genleap(i, vec_leap16_start,vec_leap16_end);
-    return;
-
-  case leap24n:
-    genleap(i, vec_leap24_start,vec_leap24_end);
-    return;
-
-  case leap35n:
-    genleap(i, vec_leap35_start,vec_leap35_end);
-    return;
-
-  case leap15n:
-    genleap(i, vec_leap15_start,vec_leap15_end);
-    return;
-
-  case leap25n:
-    genleap(i, vec_leap25_start,vec_leap25_end);
-    return;
-
-  case vizridn:
-    genrid(i, vec_rook_start,vec_rook_end);
-    return;
-
-  case fersridn:
-    genrid(i, vec_bishop_start,vec_bishop_end);
-    return;
-
-  case bisonn:
-    genleap(i, vec_bison_start,vec_bison_end);
-    return;
-
-  case zebun:
-    genleap(i, vec_chameau_start,vec_chameau_end);
-    genleap(i, vec_girafe_start,vec_girafe_end);
-    return;
-
-  case elephantn:
-    genrid(i, vec_elephant_start,vec_elephant_end);
-    return;
-
-  case leap36n:
-    genleap(i, vec_leap36_start,vec_leap36_end);
-    return;
-
-  case chinesepawnn:
-    gencpn(i);
-    return;
-
-  default:
-    gfeerrest(i, p, Black);
-    break;
-  }
-} /* end of gfeernoir */
-
-void genrb(square sq_departure)
+void chinese_pawn_generate_moves(Side side, square sq_departure)
 {
-  Side const side = White;
+  Side const opponent = advers(side);
+  boolean const past_river = (side==White
+                              ? 2*sq_departure>square_h8+square_a1
+                              : 2*sq_departure<square_h8+square_a1);
+
+  {
+    int const dir_forward = side==White ? dir_up : dir_down;
+    square const sq_arrival = sq_departure+dir_forward;
+    if (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent))
+      empile(sq_departure,sq_arrival,sq_arrival);
+  }
+
+  if (past_river)
+  {
+    {
+      square const sq_arrival = sq_departure+dir_right;
+      if (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent))
+        empile(sq_departure,sq_arrival,sq_arrival);
+    }
+    {
+      square const sq_arrival = sq_departure+dir_left;
+      if (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent))
+        empile(sq_departure,sq_arrival,sq_arrival);
+    }
+  }
+}
+
+void piece_generate_moves(Side side, square sq_departure, PieNam p)
+{
+  switch (p)
+  {
+    case King:
+      king_generate_moves(side,sq_departure);
+      break;
+
+    case Pawn:
+      pawn_generate_moves(side,sq_departure);
+      break;
+
+    case Knight:
+      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      break;
+
+    case Rook:
+      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      break;
+
+    case Queen:
+      rider_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+      break;
+
+    case Bishop:
+      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      break;
+
+    case NightRider:
+      rider_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case Zebra:
+      leaper_generate_moves(side,sq_departure, vec_zebre_start,vec_zebre_end);
+      return;
+
+    case Camel:
+      leaper_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
+      return;
+
+    case Giraffe:
+      leaper_generate_moves(side,sq_departure, vec_girafe_start,vec_girafe_end);
+      return;
+
+    case RootFiftyLeaper:
+      leaper_generate_moves(side,sq_departure, vec_rccinq_start,vec_rccinq_end);
+      return;
+
+    case Bucephale:
+      leaper_generate_moves(side,sq_departure, vec_bucephale_start,vec_bucephale_end);
+      return;
+
+    case Wesir:
+      leaper_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      return;
+
+    case Alfil:
+      leaper_generate_moves(side,sq_departure, vec_alfil_start,vec_alfil_end);
+      return;
+
+    case Fers:
+      leaper_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      return;
+
+    case Dabbaba:
+      leaper_generate_moves(side,sq_departure, vec_dabbaba_start,vec_dabbaba_end);
+      return;
+
+    case BerolinaPawn:
+      berolina_pawn_generate_moves(side,sq_departure);
+      return;
+
+    case ReversePawn:
+      reverse_pawn_generate_moves(side,sq_departure);
+      return;
+
+    case Amazone:
+      rider_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case Empress:
+      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case Princess:
+      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case Gnu:
+      leaper_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
+      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case Antilope:
+      leaper_generate_moves(side,sq_departure, vec_antilope_start,vec_antilope_end);
+      return;
+
+    case Squirrel:
+      leaper_generate_moves(side,sq_departure, vec_ecureuil_start,vec_ecureuil_end);
+      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case Waran:
+      rider_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      return;
+
+    case Dragon:
+      pawn_generate_moves(side,sq_departure);
+      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case Gryphon:
+    {
+      unsigned int const no_capture_length = pawn_get_no_capture_length(side,sq_departure);
+
+      if (no_capture_length>0)
+      {
+        int const dir_forward = side==White ? dir_up : dir_down;
+        pawns_generate_nocapture_moves(sq_departure,dir_forward,no_capture_length);
+      }
+
+      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      return;
+    }
+
+    case Ship:
+      if (pawn_get_no_capture_length(side,sq_departure)>0)
+      {
+        int const dir_forward = side==White ? dir_up : dir_down;
+        pawns_generate_capture_move(side,sq_departure,dir_forward+dir_left);
+        pawns_generate_capture_move(side,sq_departure,dir_forward+dir_right);
+      }
+
+      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      return;
+
+    case Camelrider:
+      rider_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
+      return;
+
+    case Zebrarider:
+      rider_generate_moves(side,sq_departure, vec_zebre_start,vec_zebre_end);
+      return;
+
+    case Gnurider:
+      rider_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
+      rider_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      return;
+
+    case SuperBerolinaPawn:
+    {
+      int const dir_forward = side==White ? dir_up : dir_down;
+      gen_sp_nocaptures(sq_departure,dir_forward+dir_left);
+      gen_sp_nocaptures(sq_departure,dir_forward+dir_right);
+      gen_sp_captures(sq_departure,dir_forward,side);
+      return;
+    }
+
+    case SuperPawn:
+    {
+      int const dir_forward = side==White ? dir_up : dir_down;
+      gen_sp_nocaptures(sq_departure,dir_forward);
+      gen_sp_captures(sq_departure,dir_forward+dir_left,side);
+      gen_sp_captures(sq_departure,dir_forward+dir_right,side);
+      return;
+    }
+
+    case RookHunter:
+      rook_hunter_generate_moves(side,sq_departure);
+      return;
+
+    case BishopHunter:
+      bishop_hunter_generate_moves(side,sq_departure);
+      return;
+
+    case ErlKing:
+      leaper_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+      return;
+
+    case Okapi:
+      leaper_generate_moves(side,sq_departure, vec_okapi_start,vec_okapi_end);
+      return;
+
+    case Leap37:
+      leaper_generate_moves(side,sq_departure, vec_leap37_start,vec_leap37_end);
+      return;
+
+    case Leap16:
+      leaper_generate_moves(side,sq_departure, vec_leap16_start,vec_leap16_end);
+      return;
+
+    case Leap24:
+      leaper_generate_moves(side,sq_departure, vec_leap24_start,vec_leap24_end);
+      return;
+
+    case Leap35:
+      leaper_generate_moves(side,sq_departure, vec_leap35_start,vec_leap35_end);
+      return;
+
+    case Leap15:
+      leaper_generate_moves(side,sq_departure, vec_leap15_start,vec_leap15_end);
+      return;
+
+    case Leap25:
+      leaper_generate_moves(side,sq_departure, vec_leap25_start,vec_leap25_end);
+      return;
+
+    case WesirRider:
+      rider_generate_moves(side,sq_departure,   vec_rook_start,vec_rook_end);
+      return;
+
+    case FersRider:
+      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      return;
+
+    case Bison:
+      leaper_generate_moves(side,sq_departure, vec_bison_start,vec_bison_end);
+      return;
+
+    case Zebu:
+      leaper_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
+      leaper_generate_moves(side,sq_departure, vec_girafe_start,vec_girafe_end);
+      return;
+
+    case Elephant:
+      rider_generate_moves(side,sq_departure, vec_elephant_start,vec_elephant_end);
+      return;
+
+    case Leap36:
+      leaper_generate_moves(side,sq_departure, vec_leap36_start,vec_leap36_end);
+      return;
+
+    case ChinesePawn:
+      chinese_pawn_generate_moves(side,sq_departure);
+      return;
+
+    case Mao:
+      gmao(sq_departure, side);
+      return;
+
+    case Pao:
+      gchin(sq_departure, vec_rook_start,vec_rook_end, side);
+      return;
+
+    case Leo:
+      gchin(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case Vao:
+      gchin(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      return;
+
+    case Nao:
+      gchin(sq_departure, vec_knight_start,vec_knight_end, side);
+      return;
+
+    case Rose:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_knight_start; k<=vec_knight_end; k++)
+      {
+        grose(sq_departure, k, 0,+1, side);
+        grose(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, side);
+      }
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case NonStopEquihopper:
+      gnequi(sq_departure, side);
+      return;
+
+    case Locust:
+      glocust(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case NightLocust:
+      glocust(sq_departure, vec_knight_start,vec_knight_end, side);
+      return;
+
+    case BishopLocust:
+      glocust(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      return;
+
+    case RookLocust:
+      glocust(sq_departure, vec_rook_start,vec_rook_end, side);
+      return;
+
+    case Kangaroo:
+      gkang(sq_departure, side);
+      return;
+
+    case KangarooLion:
+      gkanglion(sq_departure, side);
+      return;
+
+    case Kao:
+      gchinleap(sq_departure, vec_knight_start, vec_knight_end, side);
+      return;
+
+    case KnightHopper:
+      geshop(sq_departure, vec_knight_start, vec_knight_end, side);
+      return;
+
+    case SpiralSpringer:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_knight_start; k<=vec_knight_end; k++)
+        gcs(sq_departure, vec[k], vec[25 - k], side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Hamster:
+      ghamst(sq_departure);
+      return;
+
+    case UbiUbi:
+    {
+      square const *bnp;
+      for (bnp= boardnum; *bnp; bnp++)
+        e_ubi[*bnp]= e[*bnp];
+      gubi(sq_departure, sq_departure, side);
+      return;
+    }
+
+    case Elk:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, side);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Eagle:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, side);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Sparrow:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, side);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Marguerite:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, side);
+      gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, side);
+      gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, side);
+      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      ghamst(sq_departure);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Archbishop:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
+        grfou(sq_departure,sq_departure,vec[k],1,side);
+      if (!NoEdge(sq_departure))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case ReflectBishop:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_bishop_start; k <= vec_bishop_end; k++)
+        grfou(sq_departure,sq_departure,vec[k],4,side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Cardinal:
+    {
+      numvec k;
+      for (k= vec_bishop_start; k <= vec_bishop_end; k++)
+        gcard(sq_departure, sq_departure, vec[k], 1, side);
+      return;
+    }
+
+    case DiagonalSpiralSpringer:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= 9; k <= 14; k++)
+        gcs(sq_departure, vec[k], vec[23 - k], side);
+      for (k= 15; k <= 16; k++)
+        gcs(sq_departure, vec[k], vec[27 - k], side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case BouncyKnight:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      grefc(sq_departure, sq_departure, 2, side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case BouncyNightrider:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      clearedgestraversed();
+      grefn(sq_departure, sq_departure, side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case EquiHopper:
+      gequi(sq_departure, side);
+      return;
+
+    case CAT:
+      gcat(sq_departure, side);
+      return;
+
+    case Sirene:
+      gmarin(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case Triton:
+      gmarin(sq_departure, vec_rook_start,vec_rook_end, side);
+      return;
+
+    case Nereide:
+      gmarin(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      return;
+
+    case Orphan:
+      gorph(sq_departure, side);
+      return;
+
+    case Friend:
+      gfriend(sq_departure, side);
+      return;
+
+    case EdgeHog:
+      gedgeh(sq_departure, side);
+      return;
+
+    case Moa:
+      gmoa(sq_departure, side);
+      return;
+
+    case MoaRider:
+      gemoarider(sq_departure, side);
+      return;
+
+    case MaoRider:
+      gemaorider(sq_departure, side);
+      return;
+
+    case BoyScout:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_bishop_start; k <= vec_bishop_end; k++)
+        gcs(sq_departure,vec[k],vec[13-k],side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case GirlScout:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_rook_end; k >=vec_rook_start; k--)
+        gcs(sq_departure,vec[k],vec[5-k],side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Skylla:
+      geskylla(sq_departure, side);
+      return;
+
+    case Charybdis:
+      gecharybdis(sq_departure, side);
+      return;
+
+    case Grasshopper:
+      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case Lion:
+      gelrhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case NightriderHopper:
+      gerhop(sq_departure, vec_knight_start,vec_knight_end, side);
+      return;
+
+    case CamelHopper:
+      gerhop(sq_departure, vec_chameau_start,vec_chameau_end, side);
+      return;
+
+    case ZebraHopper:
+      gerhop(sq_departure, vec_zebre_start,vec_zebre_end, side);
+      return;
+
+    case GnuHopper:
+      gerhop(sq_departure, vec_chameau_start,vec_chameau_end, side);
+      gerhop(sq_departure, vec_knight_start,vec_knight_end, side);
+      return;
+
+    case RookLion:
+      gelrhop(sq_departure, vec_rook_start,vec_rook_end, side);
+      return;
+
+    case BishopLion:
+      gelrhop(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      return;
+
+    case RookHopper:
+      gerhop(sq_departure, vec_rook_start,vec_rook_end, side);
+      return;
+
+    case BishopHopper:
+      gerhop(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      return;
+
+    case ContraGras:
+      gecrhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case RoseLion:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_knight_start; k<=vec_knight_end; k++)
+      {
+        groselion(sq_departure, k, 0,+1, side);
+        groselion(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, side);
+      }
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case RoseHopper:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_knight_start; k<=vec_knight_end; k++) {
+        grosehopper(sq_departure, k, 0,+1, side);
+        grosehopper(sq_departure, k,
+                    vec_knight_end-vec_knight_start+1,-1, side);
+      }
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case RoseLocust:
+    {
+      numvec k;
+      for (k= vec_knight_start; k<=vec_knight_end; k++) {
+        groselocust(sq_departure, k, 0,+1, side);
+        groselocust(sq_departure, k,
+                    vec_knight_end-vec_knight_start+1,-1, side);
+      }
+      return;
+    }
+
+    case GrassHopper2:
+      gerhop2(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case GrassHopper3:
+      gerhop3(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case KingHopper:
+      geshop(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case DoubleGras:
+      gdoublegrasshopper(sq_departure, side);
+      return;
+
+    case DoubleRookHopper:
+      gdoublerookhopper(sq_departure, side);
+      return;
+
+    case DoubleBishopper:
+      gdoublebishopper(sq_departure, side);
+      return;
+
+    case Orix:
+      gorix(sq_departure, side);
+      return;
+
+     case NonStopOrix:
+      gnorix(sq_departure, side);
+      return;
+
+    case Gral:
+      leaper_generate_moves(side,sq_departure, vec_alfil_start,vec_alfil_end);
+      gerhop(sq_departure, vec_rook_start,vec_rook_end, side);      /* rookhopper */
+      return;
+
+    case RookMoose:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_rook_start,vec_rook_end, 0, side);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case RookEagle:
+      gmhop(sq_departure, vec_rook_start,vec_rook_end, 1, side);
+      return;
+
+    case RookSparrow:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_rook_start,vec_rook_end, 2, side);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case BishopMoose:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 0, side);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case BishopEagle:
+      gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 1, side);
+      return;
+
+    case BishopSparrow:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 2, side);
+      if (!TSTFLAG(spec[sq_departure],ColourChange))
+        remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Rao:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      numvec k;
+      for (k= vec_knight_start; k<=vec_knight_end; k++) {
+        grao(sq_departure, k, 0,+1, side);
+        grao(sq_departure, k, vec_knight_end-vec_knight_start+1,-1, side);
+      }
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case Scorpion:
+      leaper_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end); /* eking */
+      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);     /* grashopper */
+      return;
+
+    case NightRiderLion:
+      gelrhop(sq_departure, vec_knight_start,vec_knight_end, side);
+      return;
+
+    case MaoRiderLion:
+      gemaoriderlion(sq_departure, side);
+      return;
+
+    case MoaRiderLion:
+      gemoariderlion(sq_departure, side);
+      return;
+
+    case Dolphin:
+      gkang(sq_departure, side);
+      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      return;
+
+    case Rabbit:
+      grabbit(sq_departure, side);
+      return;
+
+    case Bob:
+      gbob(sq_departure, side);
+      return;
+
+    case EquiEnglish:
+      gequiapp(sq_departure, side);
+      return;
+
+    case EquiFrench:
+      gnequiapp(sq_departure, side);
+      return;
+
+    case Querquisite:
+      switch (sq_departure%onerow - nr_of_slack_files_left_of_board) {
+      case file_rook_queenside:
+      case file_rook_kingside:
+        rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+        break;
+      case file_bishop_queenside:
+      case file_bishop_kingside:
+        rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+        break;
+      case file_queen:
+        rider_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+        break;
+      case file_knight_queenside:
+      case file_knight_kingside:
+        leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+        break;
+      case file_king:
+        leaper_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+        break;
+      }
+      break;
+
+    case Bouncer :
+      bouncer_generate_moves(side, sq_departure, vec_queen_start,vec_queen_end);
+      break;
+
+    case RookBouncer:
+      bouncer_generate_moves(side, sq_departure, vec_rook_start,vec_rook_end);
+      break;
+
+    case BishopBouncer :
+      bouncer_generate_moves(side, sq_departure, vec_bishop_start,vec_bishop_end);
+      break;
+
+    case RadialKnight:
+      genradialknight(sq_departure, side);
+      break;
+
+    case Treehopper:
+      gentreehopper(sq_departure, side);
+      break;
+
+    case Leafhopper :
+      genleafhopper(sq_departure, side);
+      break;
+
+    case GreaterTreehopper:
+      gengreatertreehopper(sq_departure, side);
+      break;
+
+    case GreaterLeafhopper:
+      gengreaterleafhopper(sq_departure, side);
+      break;
+
+    case SpiralSpringer40:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gcsp(sq_departure, 9, 16, side);
+      gcsp(sq_departure, 10, 11, side);
+      gcsp(sq_departure, 11, 10, side);
+      gcsp(sq_departure, 12, 13, side);
+      gcsp(sq_departure, 13, 12, side);
+      gcsp(sq_departure, 14, 15, side);
+      gcsp(sq_departure, 15, 14, side);
+      gcsp(sq_departure, 16, 9, side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      break;
+    }
+
+    case SpiralSpringer20:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gcsp(sq_departure, 9, 12, side);
+      gcsp(sq_departure, 10, 15, side);
+      gcsp(sq_departure, 11, 14, side);
+      gcsp(sq_departure, 12, 9, side);
+      gcsp(sq_departure, 13, 16, side);
+      gcsp(sq_departure, 14, 11, side);
+      gcsp(sq_departure, 15, 10, side);
+      gcsp(sq_departure, 16, 13, side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      break;
+    }
+
+    case SpiralSpringer33:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gcsp(sq_departure, 9, 10, side);
+      gcsp(sq_departure, 10, 9, side);
+      gcsp(sq_departure, 11, 12, side);
+      gcsp(sq_departure, 12, 11, side);
+      gcsp(sq_departure, 13, 14, side);
+      gcsp(sq_departure, 14, 13, side);
+      gcsp(sq_departure, 15, 16, side);
+      gcsp(sq_departure, 16, 15, side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      break;
+    }
+
+    case SpiralSpringer11:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gcsp(sq_departure, 9, 14, side);
+      gcsp(sq_departure, 10, 13, side);
+      gcsp(sq_departure, 11, 16, side);
+      gcsp(sq_departure, 12, 15, side);
+      gcsp(sq_departure, 13, 10, side);
+      gcsp(sq_departure, 14, 9, side);
+      gcsp(sq_departure, 15, 12, side);
+      gcsp(sq_departure, 16, 11, side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      break;
+    }
+
+    case Quintessence:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      gcsp(sq_departure, 9, 11, side);
+      gcsp(sq_departure, 11, 9, side);
+      gcsp(sq_departure, 11, 13, side);
+      gcsp(sq_departure, 13, 11, side);
+      gcsp(sq_departure, 13, 15, side);
+      gcsp(sq_departure, 15, 13, side);
+      gcsp(sq_departure, 15, 9, side);
+      gcsp(sq_departure, 9, 15, side);
+      gcsp(sq_departure, 10, 12, side);
+      gcsp(sq_departure, 12, 10, side);
+      gcsp(sq_departure, 12, 14, side);
+      gcsp(sq_departure, 14, 12, side);
+      gcsp(sq_departure, 14, 16, side);
+      gcsp(sq_departure, 16, 14, side);
+      gcsp(sq_departure, 16, 10, side);
+      gcsp(sq_departure, 10, 16, side);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      break;
+    }
+
+    case MarineKnight:
+      generate_marine_knight(sq_departure,side);
+      break;
+
+    case Poseidon:
+      generate_poseidon(sq_departure,side);
+      break;
+
+    case MarinePawn:
+      generate_marine_pawn(sq_departure,side);
+      break;
+
+    case MarineShip:
+      gmarin(sq_departure, vec_rook_start,vec_rook_end, side);
+      generate_marine_pawn_captures(sq_departure,side);
+      return;
+
+    default:
+      /* Since pieces like DUMMY fall through 'default', we have */
+      /* to check exactly if there is something to generate ...  */
+      if (p>=Hunter0 && p<Hunter0+maxnrhuntertypes)
+        hunter_generate_moves(side,sq_departure,p);
+      break;
+  }
+}
+
+void king_generate_moves(Side side, square sq_departure)
+{
   boolean   flag = false;       /* K im Schach ? */
   numecoup const save_nbcou = current_move[nbply];
 
@@ -2867,7 +2567,7 @@ void genrb(square sq_departure)
       {
         flag = true;
         current_trans_gen = *ptrans;
-        generate_moves_for_piece(White,sq_departure,*ptrans);
+        generate_moves_for_piece(side,sq_departure,*ptrans);
         current_trans_gen = vide;
       }
     }
@@ -2876,29 +2576,28 @@ void genrb(square sq_departure)
       PieNam const *ptrans;
       for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
       {
-        piece const ptrans_black = -*ptrans;
-        if (nbpiece[ptrans_black]
-            && (*checkfunctions[*ptrans])(sq_departure,ptrans_black,&validate_observation))
+        piece const ptrans_opponent = side==White ? -*ptrans : *ptrans;
+        if (nbpiece[ptrans_opponent]
+            && (*checkfunctions[*ptrans])(sq_departure,ptrans_opponent,&validate_observation))
         {
           flag = true;
-          current_trans_gen = *ptrans;
-          generate_moves_for_piece(White,sq_departure,*ptrans);
+          current_trans_gen = -ptrans_opponent;
+          generate_moves_for_piece(side,sq_departure,current_trans_gen);
           current_trans_gen = vide;
         }
       }
     }
     calctransmute= false;
 
-    if (flag && nbpiece[orphann]>0)
+    if (flag && nbpiece[side==White ? orphann : orphanb]>0)
     {
       piece const king = e[king_square[side]];
-      e[king_square[side]] = dummyb;
+      e[king_square[side]] = side==White ? dummyb : dummyn;
       if (!echecc(side))
         /* side's king checked only by an orphan empowered by the king */
         flag= false;
       e[king_square[side]] = king;
     }
-
 
     /* K im Schach zieht nur */
     if (calc_transmuting_king[side] && flag)
@@ -2913,7 +2612,7 @@ void genrb(square sq_departure)
     for (k= vec_queen_end; k >=vec_queen_start; k--)
     {
       square const sq_arrival = sq_departure+vec[k];
-      if (e[sq_arrival] <= vide)
+      if (e[sq_arrival]==vide || piece_belongs_to_opponent(e[sq_arrival],side))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -2936,13 +2635,13 @@ void genrb(square sq_departure)
       piece p;
 
       finligne(sq_departure,vec[k],p,sq_castler);
-      if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib
+      if (sq_castler!=sq_passed && sq_castler!=sq_arrival && p!=obs
           && castling_is_intermediate_king_move_legal(side,sq_departure,sq_passed))
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
 
-  if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[White][nbply])
+  if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[side][nbply])
   {
     int i;
     square square_a = square_a1;
@@ -2952,7 +2651,7 @@ void genrb(square sq_departure)
       square pos_partner = square_a;
       for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
         if (pos_partner!=sq_departure
-            && TSTFLAG(spec[pos_partner],White)
+            && TSTFLAG(spec[pos_partner],side)
             && !is_pawn(abs(e[pos_partner]))) /* not sure if "castling" with Ps forbidden */
           empile(sq_departure,pos_partner,platzwechsel_rochade);
     }
@@ -2986,89 +2685,30 @@ void gen_wh_ply(void)
   TraceFunctionResultEnd();
 }
 
-void gen_piece_aux(Side side, square z, piece p)
+void gen_piece_aux(Side side, square sq_departure, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
-  TraceSquare(z);
+  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (CondFlag[annan])
   {
     int const annaniser_dir = side==White ? -onerow : +onerow;
-    square const annaniser_pos = z+annaniser_dir;
-    piece const annaniser_walk = e[annaniser_pos];
-    if (annanises(side,annaniser_pos,z))
+    square const annaniser_pos = sq_departure+annaniser_dir;
+    if (annanises(side,annaniser_pos,sq_departure))
     {
       boolean const save_castling_supported = castling_supported;
-
       castling_supported = false;
-
-      if (side==White)
-        gen_wh_piece_aux(z,annaniser_walk);
-      else
-        gen_bl_piece_aux(z,annaniser_walk);
-
+      piece_generate_moves(side,sq_departure,abs(e[annaniser_pos]));
       castling_supported = save_castling_supported;
     }
     else
-    {
-      if (side==White)
-        gen_wh_piece_aux(z,p);
-      else
-        gen_bl_piece_aux(z,p);
-    }
+      piece_generate_moves(side,sq_departure,p);
   }
   else
-  {
-    if (side==White)
-      gen_wh_piece_aux(z,p);
-    else
-      gen_bl_piece_aux(z,p);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void gen_wh_piece_aux(square z, piece p) {
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(z);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  switch(p)
-  {
-    case roib:
-      genrb(z);
-      break;
-
-    case pb:
-      genpb(z);
-      break;
-
-    case cb:
-      gebleap(z, vec_knight_start,vec_knight_end);
-      break;
-
-    case tb:
-      gebrid(z, vec_rook_start,vec_rook_end);
-      break;
-
-    case db:
-      gebrid(z, vec_queen_start,vec_queen_end);
-      break;
-
-    case fb:
-      gebrid(z, vec_bishop_start,vec_bishop_end);
-      break;
-
-    default:
-      gfeerblanc(z, p);
-      break;
-  }
+    piece_generate_moves(side,sq_departure,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3099,13 +2739,15 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
     else if (anyantimars)
       antimars_generate_moves(side,p,sq_departure);
     else
-      gen_piece_aux(side,sq_departure,p);
+      gen_piece_aux(side,sq_departure,abs(p));
 
     if (CondFlag[messigny] && !(king_square[side]==sq_departure && rex_mess_ex))
     {
+      PieNam const walk = abs(p);
+      Side const opponent = advers(side);
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
-        if (e[*bnp]==-p)
+        if (TSTFLAG(spec[*bnp],opponent) && abs(e[*bnp])==walk)
           empile(sq_departure,*bnp,messigny_exchange);
     }
   }
@@ -3220,254 +2862,35 @@ void gecharybdis(square i, Side camp) {
  **                                    **
  ***********************************************************************/
 
-/* Two auxiliary function for generating pawn moves */
-static void gen_p_captures(square sq_departure, square sq_arrival, Side camp)
+void reverse_pawn_generate_moves(Side side, square sq_departure)
 {
-  /* generates move of a pawn of side camp on departure capturing a
-     piece on arrival
-  */
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceEnumerator(Side,camp,"");
-  TraceFunctionParamListEnd();
+  unsigned int const no_capture_length = pawn_get_no_capture_length(advers(side),
+                                                                    sq_departure);
 
-  if (piece_belongs_to_opponent(e[sq_arrival],camp))
-    /* normal capture */
-    empile(sq_departure,sq_arrival,sq_arrival);
-  else if ((abs(e[sq_departure])!=Orphan)   /* orphans cannot capture ep */
-           && (sq_arrival==ep[parent_ply[nbply]] || sq_arrival==einstein_ep[parent_ply[nbply]])
-           /* a pawn has just done a critical move */
-           && trait[parent_ply[nbply]]!=camp) /* the opponent has just moved */
+  if (no_capture_length>0)
   {
-    /* ep capture */
-    square prev_arrival;
+    int const dir_backward = side==White ? dir_down : dir_up;
 
-    if (nbply==2)
-    {    /* ep.-key  standard pawn */
-      if (camp==White)
-        move_generation_stack[current_move[1]].arrival = sq_arrival+dir_down;
-      else
-        move_generation_stack[current_move[1]].arrival = sq_arrival+dir_up;
-    }
-
-    prev_arrival = move_generation_stack[current_move[parent_ply[nbply]]].arrival;
-
-    if (TSTFLAG(sq_spec[prev_arrival],Wormhole))
-      prev_arrival = wormhole_positions[wormhole_next_transfer[parent_ply[nbply]]-1];
-
-    if (piece_belongs_to_opponent(e[prev_arrival],camp))
-      empile(sq_departure,sq_arrival,prev_arrival);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-} /* end gen_p_captures */
-
-static void gen_p_nocaptures(square sq_departure, numvec dir, int steps)
-{
-  /* generates moves of a pawn in direction dir where steps single
-     steps are possible.
-  */
-
-  square sq_arrival= sq_departure+dir;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParam("%d",dir);
-  TraceFunctionParam("%d",steps);
-  TraceFunctionParamListEnd();
-
-  while (steps--)
-  {
-    TraceSquare(sq_arrival);
-    TracePiece(e[sq_arrival]);
-    TraceText("\n");
-    if (e[sq_arrival]==vide && empile(sq_departure,sq_arrival,sq_arrival))
-      sq_arrival+= dir;
-    else
-      break;
-    TraceValue("%d\n",steps);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/****************************  white pawn  ****************************/
-void genpb(square sq_departure)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  if (sq_departure<=square_h1)
-  {
-    /* pawn on first rank */
-    if (anyparrain
-        || CondFlag[einstein]
-        || CondFlag[normalp]
-        || CondFlag[circecage]
-        || abs(e[sq_departure])==Orphan
-        || TSTFLAG(sq_spec[sq_departure],Wormhole))
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
-      /* triple or single step? */
-      gen_p_nocaptures(sq_departure,+dir_up, CondFlag[einstein] ? 3 : 1);
-    }
-  }
-  else
-  {
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, White);
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, White);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure,+dir_up, sq_departure<=square_h2 ? 2 : 1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-} /* end of genpb */
-
-/****************************  black pawn  ****************************/
-void genpn(square sq_departure)
-{
-  if (sq_departure>=square_a8)
-  {
-    /* pawn on last rank */
-    if (anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || abs(e[sq_departure])==Orphan
-        || TSTFLAG(sq_spec[sq_departure],Wormhole))
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
-      /* triple or single step? */
-      gen_p_nocaptures(sq_departure,dir_down, CondFlag[einstein] ? 3 : 1);
-    }
-  }
-  else
-  {
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, Black);
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, Black);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure,dir_down, sq_departure>=square_a7 ? 2 : 1);
-  }
-}
-
-void genreversepb(square sq_departure)
-{
-  if (sq_departure>=square_a8)
-  {
-    /* pawn on last rank */
-    if (anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || abs(e[sq_departure]) == orphanb)
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, White);
-      gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, White);
-      /* triple or single step? */
-      gen_p_nocaptures(sq_departure,dir_down, CondFlag[einstein] ? 3 : 1);
-    }
-  }
-  else
-  {
-    /* not last rank */
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_right, White);
-    gen_p_captures(sq_departure, sq_departure+dir_down+dir_left, White);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure, dir_down, sq_departure>=square_a7 ? 2 : 1);
-  }
-}
-
-void genreversepn(square sq_departure)
-{
-  if (sq_departure<=square_h1)
-  {
-    /* pawn on last rank */
-    if (anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || abs(e[sq_departure]) == orphanb)
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, Black);
-      gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, Black);
-      /* triple or single step? */
-      gen_p_nocaptures(sq_departure, dir_up, CondFlag[einstein] ? 3 : 1);
-    }
-  }
-  else
-  {
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_right, Black);
-    gen_p_captures(sq_departure, sq_departure+dir_up+dir_left, Black);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure, dir_up, sq_departure<=square_h1 ? 2 : 1);
+    pawns_generate_capture_move(side,sq_departure,dir_backward+dir_right);
+    pawns_generate_capture_move(side,sq_departure,dir_backward+dir_left);
+    pawns_generate_nocapture_moves(sq_departure,dir_backward,no_capture_length);
   }
 }
 
 /************************  white berolina pawn  ***********************/
-void genpbb(square sq_departure)
+void berolina_pawn_generate_moves(Side side, square sq_departure)
 {
-  if (sq_departure<=square_h1)
+  unsigned int const no_capture_length = pawn_get_no_capture_length(side,sq_departure);
+
+  if (no_capture_length>0)
   {
-    /* pawn on first rank */
-    if ( anyparrain
-         || CondFlag[normalp]
-         || CondFlag[einstein]
-         || CondFlag[circecage]
-         || abs(e[sq_departure]) == orphanb)
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_up, White);
-      /* triple or single step? */
-      gen_p_nocaptures(sq_departure,+dir_up+dir_left, CondFlag[einstein] ? 3 : 1);
-      gen_p_nocaptures(sq_departure,+dir_up+dir_right, CondFlag[einstein] ? 3 : 1);
-    }
-  }
-  else {
-    /* not first rank */
-    gen_p_captures(sq_departure, sq_departure+dir_up, White);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure,+dir_up+dir_left, sq_departure<=square_h2 ? 2 : 1);
-    gen_p_nocaptures(sq_departure,+dir_up+dir_right, sq_departure<=square_h2 ? 2 : 1);
+    int const dir_forward = side==White ? dir_up : dir_down;
+
+    pawns_generate_capture_move(side,sq_departure,dir_forward);
+    pawns_generate_nocapture_moves(sq_departure,dir_forward+dir_left,no_capture_length);
+    pawns_generate_nocapture_moves(sq_departure,dir_forward+dir_right,no_capture_length);
   }
 }
-
-/************************  black berolina pawn  ***********************/
-void genpbn(square sq_departure) {
-  if (sq_departure>=square_a8)
-  {
-    /* pawn on last rank */
-    if ( anyparrain
-         || CondFlag[normalp]
-         || CondFlag[einstein]
-         || CondFlag[circecage]
-         || abs(e[sq_departure]) == orphanb)
-    {
-      gen_p_captures(sq_departure, sq_departure+dir_down, Black);
-      /* triple or single step? */
-      gen_p_nocaptures(sq_departure,+dir_down+dir_right, CondFlag[einstein] ? 3 : 1);
-      gen_p_nocaptures(sq_departure,+dir_down+dir_left, CondFlag[einstein] ? 3 : 1);
-    }
-    else {
-      return;
-    }
-  }
-  else {
-    /* not last rank */
-    gen_p_captures(sq_departure, sq_departure+dir_down, Black);
-    /* double or single step? */
-    gen_p_nocaptures(sq_departure,+dir_down+dir_right,
-                     sq_departure>=square_a7 ? 2 : 1);
-    gen_p_nocaptures(sq_departure,+dir_down+dir_left,
-                     sq_departure>=square_a7 ? 2 : 1);
-  }
-}
-
 
 static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, Side camp, boolean leaf)
 {

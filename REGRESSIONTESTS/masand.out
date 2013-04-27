@@ -24,11 +24,11 @@
   h#2                         2 + 4
                 Masand
 
-  1.Ta1-f1 Ta3-f3   2.Lg3-f4 Tf3-f2[f1=w][f4=w] # 
-  1.Ta1-e1 Ta3-e3   2.Lg3-e5 Te3-e2[e1=w][e5=w] # 
-  1.Ta1-d1 Ta3-d3   2.Lg3-d6 Td3-d2[d1=w][d6=w] # 
-  1.Ta1-c1 Ta3-c3   2.Lg3-c7 + Tc3-c2[c1=w][c7=w] # 
-  1.Ta1-b1 Ta3-b3   2.Lg3-b8 Tb3-b2[b1=w][b8=w] # 
+  1.Ta1-f1 Ta3-f3   2.Lg3-f4 Tf3-f2[f1=w][f4=w] #
+  1.Ta1-e1 Ta3-e3   2.Lg3-e5 Te3-e2[e1=w][e5=w] #
+  1.Ta1-d1 Ta3-d3   2.Lg3-d6 Td3-d2[d1=w][d6=w] #
+  1.Ta1-c1 Ta3-c3   2.Lg3-c7 + Tc3-c2[c1=w][c7=w] #
+  1.Ta1-b1 Ta3-b3   2.Lg3-b8 Tb3-b2[b1=w][b8=w] #
 
                         empile:       17227
                      play_move:       11076
@@ -78,9 +78,9 @@ Loesung beendet.
 
 
                         empile:    40164649
-                     play_move:    16715886
- is_white_king_square_attacked:    26572077
- is_black_king_square_attacked:    21460080
+                     play_move:    16715883
+ is_white_king_square_attacked:    26572074
+ is_black_king_square_attacked:    21460077
 Loesung beendet. 
 
 
@@ -172,37 +172,37 @@ Loesung beendet.
           2.Te7-d7[b7=s][d8=s] #
       1...Tg1*e1
           2.Te7-e4[e1=w] #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w][e7=s] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w][e7=s] #
     Aber
       1...Th8-h6 !
 
    1.Te8*h8 ? Drohung:
           2.Te1-e4 #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w] #
     Aber
       1...Tg1*e1 !
 
    1.Te8-g8 ? Drohung:
           2.Te1-e4 #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w] #
     Aber
       1...Tg1*e1 !
 
    1.Te8-f8 ? Drohung:
           2.Te1-e4 #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w][f8=s] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w] #
     Aber
       1...Tg1*e1 !
 
@@ -210,10 +210,10 @@ Loesung beendet.
           2.Lb8-e5[h8=w] #
       1...Tg1*e1
           2.Te8-e4[e1=w] #
-      1...b6*a5 +
-          2.Sd8-c6[a5=w][b8=s] #
       1...b6*c5 +
           2.Sd8-e6[c5=w][g5=w] #
+      1...b6*a5 +
+          2.Sd8-c6[a5=w][b8=s] #
       1...Th8*e8
           2.Te1-e4[e8=w] #
 
@@ -243,10 +243,10 @@ Loesung beendet.
       1...Te8*e4 !
 
 
-                        empile:       15493
-                     play_move:       13401
- is_white_king_square_attacked:       51572
- is_black_king_square_attacked:       26986
+                        empile:       15322
+                     play_move:       13226
+ is_white_king_square_attacked:       50934
+ is_black_king_square_attacked:       26649
 Loesung beendet. 
 
 

@@ -77,9 +77,9 @@
 
 
                         empile:       25030
-                     play_move:       19294
+                     play_move:       19289
  is_white_king_square_attacked:        1089
- is_black_king_square_attacked:       18740
+ is_black_king_square_attacked:       18735
 solution finished. 
 
 
@@ -554,7 +554,7 @@ solution finished.
 
 a) 
 
-  1.Kg7-f8 Kd5-d4   2.a2-a1=Q + Kd4*a1=Q   3.Rh8-g8 Qa1-f6 # 
+  1.Kg7-f8 Kd5-d4   2.a2-a1=Q + Kd4*a1=Q   3.Rh8-g8 Qa1-f6 #
 
                         empile:     6163583
                      play_move:     4513505
@@ -562,11 +562,11 @@ a)
  is_black_king_square_attacked:     4168795
 b) bPa2-->b2
 
-  1.Kg7-f8 Kd5-c5   2.Rh8-g8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q # 
-  1.Kg7-f8 Kd5-c6   2.Rh8-g8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q # 
-  1.Re8-f8 Kd5-e4   2.b2-b1=Q + Ke4*b1=Q   3.Kg7-g8 Qb1-g6 # 
-  1.Rh8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q # 
-  1.Rh8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q # 
+  1.Kg7-f8 Kd5-c5   2.Rh8-g8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q #
+  1.Kg7-f8 Kd5-c6   2.Rh8-g8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q #
+  1.Re8-f8 Kd5-e4   2.b2-b1=Q + Ke4*b1=Q   3.Kg7-g8 Qb1-g6 #
+  1.Rh8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q #
+  1.Rh8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q #
 
                         empile:     6320382
                      play_move:     4570852
