@@ -45,6 +45,12 @@ boolean empile(square departure, square arrival, square capture);
 
 void	gemoarider(square i, Side camp);
 void	gemaorider(square i, Side camp);
+square generate_moves_on_line_segment(square sq_departure,
+                                      square sq_base,
+                                      int k);
+void generate_locust_capture(square sq_departure, square sq_capture,
+                             int k,
+                             Side camp);
 void	rider_generate_moves(Side side, square i, numvec kbeg, numvec kend);
 void  leaper_generate_moves(Side side, square i, numvec kbeg, numvec kend);
 void    geriderhopper(square i, numvec kbeg, numvec kend,
@@ -57,9 +63,6 @@ void gentreehopper(square sq_departure, Side camp);
 void genleafhopper(square sq_departure, Side camp);
 void gengreatertreehopper(square sq_departure, Side camp);
 void gengreaterleafhopper(square sq_departure, Side camp);
-void generate_marine_knight(square sq_departure, Side camp);
-void generate_poseidon(square sq_departure, Side moving);
-void generate_marine_pawn(square sq_departure, Side moving);
 
 void	reverse_pawn_generate_moves(Side side, square sq_departure);
 void	berolina_pawn_generate_moves(Side side, square sq_departure);

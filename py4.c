@@ -95,6 +95,7 @@
 #include "pieces/pawns/pawns.h"
 #include "pieces/pawns/pawn.h"
 #include "pieces/hunters.h"
+#include "pieces/marine.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -363,9 +364,9 @@ void leaper_generate_moves(Side side, square sq_departure, numvec kbeg, numvec k
   }
 }
 
-static square generate_moves_on_line_segment(square sq_departure,
-                                             square sq_base,
-                                             int k)
+square generate_moves_on_line_segment(square sq_departure,
+                                      square sq_base,
+                                      int k)
 {
   square sq_arrival = sq_base+vec[k];
 
@@ -726,9 +727,10 @@ static void gmhop(square   sq_departure,
   }
 }
 
-static void generate_locust_capture(square sq_departure, square sq_capture,
-                                    int k,
-                                    Side camp) {
+void generate_locust_capture(square sq_departure, square sq_capture,
+                             int k,
+                             Side camp)
+{
   square sq_arrival;
   if (piece_belongs_to_opponent(sq_capture,camp)) {
     sq_arrival= sq_capture+vec[k];
@@ -751,21 +753,6 @@ static void glocust(square sq_departure,
     generate_locust_capture(sq_departure,sq_capture,k,camp);
   }
 } /* glocust */
-
-static void gmarin(square  sq_departure,
-                   numvec  kbeg,
-                   numvec  kend,
-                   Side camp)
-{
-  /* generate marin-pieces moves from vec[kbeg] to vec[kend] */
-  numvec k;
-  square sq_capture;
-
-  for (k= kbeg; k<=kend; k++) {
-    sq_capture= generate_moves_on_line_segment(sq_departure,sq_departure,k);
-    generate_locust_capture(sq_departure,sq_capture,k,camp);
-  }
-}
 
 static void gchin(square   sq_departure,
            numvec   kbeg, numvec    kend,
@@ -1550,76 +1537,6 @@ static void gdoublebishopper(square sq_departure, Side camp) {
   gdoublehopper(sq_departure,camp,vec_bishop_start,vec_bishop_end);
 }
 
-static void generate_marine_pawn_captures(square sq_departure, Side moving)
-{
-  Side const opponent = advers(moving);
-  int dir_vertical;
-
-  if (moving==White)
-    dir_vertical = dir_up;
-  else
-    dir_vertical = dir_down;
-
-  {
-    int const vec_left = dir_vertical+dir_left;
-    square const sq_capture = sq_departure+vec_left;
-    square const sq_arrival = sq_capture+vec_left;
-    if (e[sq_arrival]==vide && TSTFLAG(spec[sq_capture],opponent))
-      empile(sq_departure,sq_arrival,sq_capture);
-  }
-
-  {
-    int const vec_right = dir_vertical+dir_right;
-    square const sq_capture = sq_departure+vec_right;
-    square const sq_arrival = sq_capture+vec_right;
-    if (e[sq_arrival]==vide && TSTFLAG(spec[sq_capture],opponent))
-      empile(sq_departure,sq_arrival,sq_capture);
-  }
-}
-
-void generate_marine_pawn(square sq_departure, Side moving)
-{
-  int dir_vertical;
-  unsigned nr_steps;
-
-  if (moving==White)
-  {
-    dir_vertical = dir_up;
-
-    if (sq_departure<=square_h1)
-    {
-      if (CondFlag[einstein])
-        nr_steps = 3;
-      else
-        nr_steps = 1;
-    }
-    else if (sq_departure<=square_h2)
-      nr_steps = 2;
-    else
-      nr_steps = 1;
-  }
-  else
-  {
-    dir_vertical = dir_down;
-
-    if (sq_departure>=square_a8)
-    {
-      if (CondFlag[einstein])
-        nr_steps = 3;
-      else
-        nr_steps = 1;
-    }
-    else if (sq_departure>=square_a7)
-      nr_steps = 2;
-    else
-      nr_steps = 1;
-  }
-
-  pawns_generate_nocapture_moves(sq_departure,dir_vertical,nr_steps);
-
-  generate_marine_pawn_captures(sq_departure,moving);
-}
-
 /* Two auxiliary functions for generating super pawn moves */
 static void gen_sp_nocaptures(square sq_departure, numvec dir) {
   /* generates non capturing moves of a super pawn in direction dir */
@@ -2113,15 +2030,15 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       return;
 
     case Sirene:
-      gmarin(sq_departure, vec_queen_start,vec_queen_end, side);
+      marine_rider_generate_moves(side, sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case Triton:
-      gmarin(sq_departure, vec_rook_start,vec_rook_end, side);
+      marine_rider_generate_moves(side, sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case Nereide:
-      gmarin(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      marine_rider_generate_moves(side, sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case Orphan:
@@ -2528,20 +2445,19 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     }
 
     case MarineKnight:
-      generate_marine_knight(sq_departure,side);
+      marine_knight_generate_moves(side,sq_departure);
       break;
 
     case Poseidon:
-      generate_poseidon(sq_departure,side);
+      poseidon_generate_moves(side,sq_departure);
       break;
 
     case MarinePawn:
-      generate_marine_pawn(sq_departure,side);
+      marine_pawn_generate_moves(side,sq_departure);
       break;
 
     case MarineShip:
-      gmarin(sq_departure, vec_rook_start,vec_rook_end, side);
-      generate_marine_pawn_captures(sq_departure,side);
+      marine_ship_generate_moves(side,sq_departure,vec_rook_start,vec_rook_end);
       return;
 
     default:
@@ -2999,43 +2915,4 @@ void genleafhopper(square sq_departure, Side camp)
 void gengreaterleafhopper(square sq_departure, Side camp)
 {
   genradial(sq_departure, camp, 1, true);
-}
-
-void generate_marine_knight(square sq_departure, Side moving)
-{
-  numvec  k;
-  for (k = vec_knight_start; k<=vec_knight_end; ++k)
-  {
-    square sq_arrival = sq_departure+vec[k];
-    if (e[sq_arrival]==vide)
-      empile(sq_departure,sq_arrival,sq_arrival);
-    else if (piece_belongs_to_opponent(sq_arrival,moving))
-    {
-      square const sq_capture = sq_arrival;
-      sq_arrival += vec[k];
-      if (e[sq_arrival]==vide)
-        empile(sq_departure,sq_arrival,sq_capture);
-    }
-  }
-}
-
-void generate_poseidon(square sq_departure, Side moving)
-{
-  numvec  k;
-  for (k = vec_queen_start; k<=vec_queen_end; ++k)
-  {
-    square sq_arrival = sq_departure+vec[k];
-    if (e[sq_arrival]==vide)
-      empile(sq_departure,sq_arrival,sq_arrival);
-    else if (piece_belongs_to_opponent(sq_arrival,moving))
-    {
-      square const sq_capture = sq_arrival;
-      sq_arrival += vec[k];
-      if (e[sq_arrival]==vide)
-        empile(sq_departure,sq_arrival,sq_capture);
-    }
-  }
-
-  if (castling_supported)
-    generate_castling(moving);
 }
