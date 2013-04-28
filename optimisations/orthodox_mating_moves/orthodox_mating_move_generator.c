@@ -30,208 +30,139 @@ slice_index alloc_orthodox_mating_move_generator_slice(void)
   return result;
 }
 
-typedef Flags ColourSpec;
-
 static boolean IsABattery(square KingSquare,
                           square FrontSquare,
                           numvec Direction,
-                          ColourSpec ColourMovingPiece,
-                          piece BackPiece1,
-                          piece BackPiece2)
+                          Side side,
+                          PieNam RearPiece1,
+                          PieNam RearPiece2)
 {
-  square sq;
-  piece p;
+  square sq_target;
+  EndOfLine(FrontSquare, Direction, sq_target);
+  if (sq_target==KingSquare)
+  {
+    square sq_rear;
+    EndOfLine(FrontSquare, -Direction,sq_rear);
 
-  /* is the line between king and front piece empty? */
-  EndOfLine(FrontSquare, Direction, sq);
-  if (sq == KingSquare) {
-    /* the line is empty, but is there really an appropriate back
-    ** battery piece? */
-    EndOfLine(FrontSquare, -Direction, sq);
-    p= e[sq];
-    if (p < vide)
-      p= -p;
-    if ((p == BackPiece1 || p == BackPiece2)
-        && TSTFLAG(spec[sq], ColourMovingPiece))
     {
-      /* So, it is a battery. */
-      return true;
+      piece const pi_rear = abs(e[sq_rear]);
+      if ((pi_rear==RearPiece1 || pi_rear==RearPiece2)
+          && TSTFLAG(spec[sq_rear],side))
+        return true;
     }
   }
+
   return false;
-} /* IsABattery */
+}
 
-static void GenMatingPawn(square sq_departure,
-                          square sq_king,
-                          ColourSpec ColourMovingPiece)
+static numvec detect_battery(square sq_departure, square sq_king, Side side)
 {
-  boolean Battery = false;
-  numvec k;
-  square sq_arrival;
+  boolean is_front_piece = false;
 
-  k= CheckDir[Bishop][sq_king-sq_departure];
-  if (k!=0)
-    Battery=
-      IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-  else {
-    k= CheckDir[Rook][sq_king-sq_departure];
-    if (k!=0)
-      Battery=
-        IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
+  numvec dir_battery = CheckDir[Bishop][sq_king-sq_departure];
+  if (dir_battery!=0)
+    is_front_piece = IsABattery(sq_king,sq_departure,dir_battery,side,Bishop,Queen);
+  else
+  {
+    dir_battery = CheckDir[Rook][sq_king-sq_departure];
+    if (dir_battery!=0)
+      is_front_piece = IsABattery(sq_king,sq_departure,dir_battery,side,Rook,Queen);
   }
 
-  /* if the pawn is not the front piece of a battery reset k,
-     otherwise normalise it to be positiv. This is necessary to
+  /* if the pawn is not the front piece of a battery reset dir_battery,
+     otherwise normalise it to be positive. This is necessary to
      avoid moves along the battery line subsequently.
   */
-  if (Battery) {
-    if (k<0)
-      k= -k;
-  }
-  else
-    k= 0;
+  return is_front_piece ? abs(dir_battery) : 0;
+}
 
-  if (ColourMovingPiece==White) {
-    if (sq_departure<=square_h1)
-      return;
-    else {
-      /* not first rank */
-      /* ep captures */
-      if (ep[parent_ply[nbply]]!=initsquare
-          && trait[parent_ply[nbply]]!=trait[nbply]
-          && (sq_departure+dir_up+dir_right==ep[parent_ply[nbply]]
-              || sq_departure+dir_up+dir_left==ep[parent_ply[nbply]]))
-      {
-        if (nbply==2)    /* ep.-key  standard pawn */
-          move_generation_stack[current_move[1]].arrival= ep[parent_ply[nbply]]+dir_down;
-        empile(sq_departure,
-               ep[parent_ply[nbply]],
-               move_generation_stack[current_move[parent_ply[nbply]]].arrival);
-        move_generation_stack[current_move[nbply]].auxiliary = ep[parent_ply[nbply]];
-      }
-
-      /* single step */
-      if (k!=dir_up) {
-        /* suppress moves along a battery line */
-        sq_arrival= sq_departure+dir_up;
-        if (e[sq_arrival]==vide) {
-          if (Battery
-              || sq_arrival+dir_up+dir_left == sq_king
-              || sq_arrival+dir_up+dir_right == sq_king
-              || (ForwardPromSq(White,sq_arrival)
-                  && (CheckDir[Queen][sq_king-sq_arrival]
-                      || CheckDir[Knight][sq_king-sq_arrival])))
-            empile(sq_departure,sq_arrival,sq_arrival);
-
-          /* double step */
-          if (sq_departure<=square_h2) {
-            sq_arrival+= onerow;
-            if (e[sq_arrival]==vide
-                && (Battery
-                    || sq_arrival+dir_up+dir_left==sq_king
-                    || sq_arrival+dir_up+dir_right==sq_king))
-              empile(sq_departure,sq_arrival,sq_arrival);
-          }
-        }
-      }
-
-      /* capture+dir_up+dir_left */
-      sq_arrival= sq_departure+dir_up+dir_left;
-      if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],Black))
-        if (Battery
-            || sq_arrival+dir_up+dir_left == sq_king
-            || sq_arrival+dir_up+dir_right == sq_king
-            || (ForwardPromSq(White,sq_arrival)
-                && (CheckDir[Queen][sq_king-sq_arrival]
-                    || CheckDir[Knight][sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-
-      /* capture+dir_up+dir_right */
-      sq_arrival= sq_departure+dir_up+dir_right;
-      if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],Black))
-        if (Battery
-            || sq_arrival+dir_up+dir_left==sq_king
-            || sq_arrival+dir_up+dir_right==sq_king
-            || (ForwardPromSq(White,sq_arrival)
-                && (CheckDir[Queen][sq_king-sq_arrival]
-                    || CheckDir[Knight][sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-  else {
-    if (sq_departure>=square_a8)
-      return;
-
-    /* not last rank */
-    /* ep captures */
-    if (ep[parent_ply[nbply]]!=initsquare
-        && trait[parent_ply[nbply]] != trait[nbply]
-        && (sq_departure+dir_down+dir_left==ep[parent_ply[nbply]]
-            || sq_departure+dir_down+dir_right==ep[parent_ply[nbply]]))
-    {
-      if (nbply==2)    /* ep.-key  standard pawn */
-        move_generation_stack[current_move[1]].arrival= ep[parent_ply[nbply]]+dir_up;
-      empile(sq_departure,
-             ep[parent_ply[nbply]],
-             move_generation_stack[current_move[parent_ply[nbply]]].arrival);
-      move_generation_stack[current_move[nbply]].auxiliary = ep[parent_ply[nbply]];
-    }
-
-    /* single step */
-    if (k!=dir_up) {    /* suppress moves along a battery line */
-      sq_arrival= sq_departure+dir_down;
-      if (e[sq_arrival]==vide) {
-        if (Battery
-            || sq_arrival+dir_down+dir_right==sq_king
-            || sq_arrival+dir_down+dir_left==sq_king
-            || (ForwardPromSq(Black,sq_arrival)
-                && (CheckDir[Queen][sq_king-sq_arrival]
-                    || CheckDir[Knight][sq_king-sq_arrival])))
-          empile(sq_departure,sq_arrival,sq_arrival);
-
-        /* double step */
-        if (sq_departure>=square_a7) {
-          sq_arrival-= onerow;
-          if (e[sq_arrival] == vide
-              && (Battery
-                  || sq_arrival+dir_down+dir_right==sq_king
-                  || sq_arrival+dir_down+dir_left==sq_king))
-            empile(sq_departure,sq_arrival,sq_arrival);
-        }
-      }
-    }
-
-    /* capture+dir_up+dir_left */
-    sq_arrival= sq_departure+dir_down+dir_right;
-    if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],White)) {
-      if (Battery
-          || sq_arrival+dir_down+dir_right==sq_king
-          || sq_arrival+dir_down+dir_left==sq_king
-          || (ForwardPromSq(Black,sq_arrival)
-              && (CheckDir[Queen][sq_king-sq_arrival]
-                  || CheckDir[Knight][sq_king-sq_arrival])))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-
-    /* capture+dir_up+dir_right */
-    sq_arrival= sq_departure+dir_down+dir_left;
-    if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],White)) {
-      if (Battery
-          || sq_arrival+dir_down+dir_right==sq_king
-          || sq_arrival+dir_down+dir_left==sq_king
-          || (ForwardPromSq(Black,sq_arrival)
-              && (CheckDir[Queen][sq_king-sq_arrival]
-                  || CheckDir[Knight][sq_king-sq_arrival])))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
-} /* GenMatingPawn */
-
-static void GenMatingKing(square sq_departure,
-                          square sq_king,
-                          ColourSpec ColourMovingPiece)
+static void pawn_ep(square sq_departure, Side side)
 {
-  ColourSpec const ColourCapturedPiece = advers(ColourMovingPiece);
+  numvec const dir_forward = side==White ? dir_up : dir_down;
+
+  if (ep[parent_ply[nbply]]!=initsquare
+      && trait[parent_ply[nbply]]!=trait[nbply]
+      && (sq_departure+dir_forward+dir_right==ep[parent_ply[nbply]]
+          || sq_departure+dir_forward+dir_left==ep[parent_ply[nbply]]))
+  {
+    if (nbply==2)    /* ep.-key  standard pawn */
+    {
+      numvec const dir_backward = side==White ? dir_down : dir_up;
+      move_generation_stack[current_move[1]].arrival = ep[parent_ply[nbply]]+dir_backward;
+    }
+    empile(sq_departure,
+           ep[parent_ply[nbply]],
+           move_generation_stack[current_move[parent_ply[nbply]]].arrival);
+    move_generation_stack[current_move[nbply]].auxiliary = ep[parent_ply[nbply]];
+  }
+}
+
+static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_king, Side side)
+{
+  numvec const dir_forward = side==White ? dir_up : dir_down;
+  square const sq_arrival_singlestep = sq_departure+dir_forward;
+
+  if (e[sq_arrival_singlestep]==vide)
+  {
+    if (dir_battery!=0
+        || sq_arrival_singlestep+dir_forward+dir_left == sq_king
+        || sq_arrival_singlestep+dir_forward+dir_right == sq_king
+        || (ForwardPromSq(side,sq_arrival_singlestep)
+            && (CheckDir[Queen][sq_king-sq_arrival_singlestep]
+                || CheckDir[Knight][sq_king-sq_arrival_singlestep])))
+      empile(sq_departure,sq_arrival_singlestep,sq_arrival_singlestep);
+
+    {
+      SquareFlags const double_step = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
+      if (TSTFLAG(sq_spec[sq_departure],double_step))
+      {
+        square const sq_arrival_doublestep = sq_arrival_singlestep+dir_forward;
+        if (e[sq_arrival_doublestep]==vide
+            && (dir_battery!=0
+                || sq_arrival_doublestep+dir_forward+dir_left==sq_king
+                || sq_arrival_doublestep+dir_forward+dir_right==sq_king))
+          empile(sq_departure,sq_arrival_doublestep,sq_arrival_doublestep);
+      }
+    }
+  }
+}
+
+static void pawn_capture(square sq_departure, Side side, numvec dir_battery, square sq_king, numvec leftright)
+{
+  numvec const dir_forward = side==White ? dir_up : dir_down;
+  square const sq_arrival = sq_departure+dir_forward+leftright;
+
+  if (e[sq_arrival]!=vide && piece_belongs_to_opponent(sq_arrival,side))
+    if (dir_battery!=0
+        || sq_arrival+dir_forward+dir_left == sq_king
+        || sq_arrival+dir_forward+dir_right == sq_king
+        || (ForwardPromSq(side,sq_arrival)
+            && (CheckDir[Queen][sq_king-sq_arrival]
+                || CheckDir[Knight][sq_king-sq_arrival])))
+      empile(sq_departure,sq_arrival,sq_arrival);
+}
+
+static void pawn(square sq_departure, square sq_king, Side side)
+{
+  SquareFlags const base_square = side==White ? WhBaseSq : BlBaseSq;
+
+  if (!TSTFLAG(sq_spec[sq_departure],base_square))
+  {
+    numvec const dir_battery = detect_battery(sq_departure,sq_king,side);
+
+    pawn_ep(sq_departure,side);
+
+    if (dir_battery!=dir_up)
+      pawn_no_capture(sq_departure,dir_battery,sq_king,side);
+
+    pawn_capture(sq_departure,side,dir_battery,sq_king,dir_left);
+    pawn_capture(sq_departure,side,dir_battery,sq_king,dir_right);
+  }
+}
+
+static void GenMatingKing(square sq_departure, square sq_king, Side side)
+{
+  Side const opponent = advers(side);
 
   if (king_square[White]==king_square[Black])
   {
@@ -243,7 +174,7 @@ static void GenMatingKing(square sq_departure,
       square const sq_arrival = sq_departure+vec[k];
       /* they must capture to mate the opponent */
       if (e[sq_arrival]!=vide
-          && TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
+          && TSTFLAG(spec[sq_arrival],opponent))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -253,12 +184,12 @@ static void GenMatingKing(square sq_departure,
 
     numvec k = CheckDir[Bishop][sq_king-sq_departure];
     if (k!=0)
-      is_king_battery_front_piece = IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
+      is_king_battery_front_piece = IsABattery(sq_king,sq_departure,k,side,Bishop,Queen);
     else
     {
       k = CheckDir[Rook][sq_king-sq_departure];
       if (k!=0)
-        is_king_battery_front_piece = IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
+        is_king_battery_front_piece = IsABattery(sq_king,sq_departure,k,side,Rook,Queen);
     }
 
     if (is_king_battery_front_piece)
@@ -271,7 +202,7 @@ static void GenMatingKing(square sq_departure,
         {
           square const sq_arrival = sq_departure+vec[k2];
           if ((e[sq_arrival]==vide
-               || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
+               || TSTFLAG(spec[sq_arrival],opponent))
               && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
             empile(sq_departure,sq_arrival,sq_arrival);
         }
@@ -281,16 +212,14 @@ static void GenMatingKing(square sq_departure,
 
   /* castling */
   if (castling_supported)
-    generate_castling(ColourMovingPiece);
+    generate_castling(side);
 }
 
-static void GenMatingKnight(square sq_departure,
-                            square sq_king,
-                            ColourSpec ColourMovingPiece)
+static void GenMatingKnight(square sq_departure, square sq_king, Side side)
 {
   numvec    k;
   boolean   Generate = false;
-  ColourSpec    ColourCapturedPiece = advers(ColourMovingPiece);
+  Side const opponent = advers(side);
 
   square sq_arrival;
 
@@ -299,9 +228,9 @@ static void GenMatingKnight(square sq_departure,
   */
   if ((k = CheckDir[Bishop][sq_king-sq_departure])!=0)
     Generate=
-      IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
+      IsABattery(sq_king,sq_departure,k,side,Bishop,Queen);
   else if ((k = CheckDir[Rook][sq_king-sq_departure])!=0)
-    Generate= IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
+    Generate= IsABattery(sq_king,sq_departure,k,side,Rook,Queen);
 
   k= abs(sq_king-sq_departure);
   if (Generate
@@ -311,19 +240,17 @@ static void GenMatingKnight(square sq_departure,
     for (k= vec_knight_start; k<=vec_knight_end; k++) {
       sq_arrival= sq_departure+vec[k];
       if (e[sq_arrival]==vide
-          || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
+          || TSTFLAG(spec[sq_arrival],opponent))
         if (Generate || CheckDir[Knight][sq_arrival-sq_king]!=0)
           empile(sq_departure,sq_arrival,sq_arrival);
     }
 }
 
-static void GenMatingRook(square sq_departure,
-                          square sq_king,
-                          ColourSpec ColourMovingPiece)
+static void GenMatingRook(square sq_departure, square sq_king, Side side)
 {
   square    sq2;
   numvec    k, k2;
-  ColourSpec    ColourCapturedPiece = advers(ColourMovingPiece);
+  Side const opponent = advers(side);
 
   square sq_arrival;
 
@@ -331,7 +258,7 @@ static void GenMatingRook(square sq_departure,
    */
   k= CheckDir[Bishop][sq_king-sq_departure];
   if (k != 0
-      && IsABattery(sq_king, sq_departure, k, ColourMovingPiece, Bishop, Queen))
+      && IsABattery(sq_king, sq_departure, k, side, Bishop, Queen))
   {
     for (k= vec_rook_start; k<=vec_rook_end; k++) {
       sq_arrival= sq_departure+vec[k];
@@ -339,7 +266,7 @@ static void GenMatingRook(square sq_departure,
         empile(sq_departure,sq_arrival,sq_arrival);
         sq_arrival+= vec[k];
       }
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
+      if (TSTFLAG(spec[sq_arrival],opponent))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -351,7 +278,7 @@ static void GenMatingRook(square sq_departure,
       /* the rook is already on a line with the king */
       EndOfLine(sq_departure,k2,sq_arrival);
       /* We are at the end of the line */
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
+      if (TSTFLAG(spec[sq_arrival],opponent)) {
         EndOfLine(sq_arrival,k2,sq2);
         if (sq2==sq_king)
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -376,7 +303,7 @@ static void GenMatingRook(square sq_departure,
           if (k2==0)
             continue;
           if (e[sq_arrival]==vide
-              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
+              || TSTFLAG(spec[sq_arrival],opponent))
           {
             EndOfLine(sq_arrival,k2,sq2);
             if (sq2==sq_king)
@@ -388,13 +315,11 @@ static void GenMatingRook(square sq_departure,
   }
 }
 
-static void GenMatingQueen(square sq_departure,
-                           square sq_king,
-                           ColourSpec ColourMovingPiece)
+static void GenMatingQueen(square sq_departure, square sq_king, Side side)
 {
   square sq2;
   numvec  k, k2;
-  ColourSpec ColourCapturedPiece = advers(ColourMovingPiece);
+  Side const opponent = advers(side);
 
   square sq_arrival;
 
@@ -409,7 +334,7 @@ static void GenMatingQueen(square sq_departure,
       }
       sq_arrival+= vec[k];
     }
-    if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
+    if (TSTFLAG(spec[sq_arrival],opponent)) {
       k2= CheckDir[Queen][sq_king-sq_arrival];
       if (k2) {
         EndOfLine(sq_arrival,k2,sq2);
@@ -420,13 +345,11 @@ static void GenMatingQueen(square sq_departure,
   }
 }
 
-static void GenMatingBishop(square sq_departure,
-                            square sq_king,
-                            ColourSpec ColourMovingPiece)
+static void GenMatingBishop(square sq_departure, square sq_king, Side side)
 {
   square    sq2;
   numvec    k, k2;
-  ColourSpec    ColourCapturedPiece = advers(ColourMovingPiece);
+  Side const opponent = advers(side);
 
   square sq_arrival;
 
@@ -435,7 +358,7 @@ static void GenMatingBishop(square sq_departure,
   */
   k = CheckDir[Rook][sq_king-sq_departure];
   if (k!=0
-      && IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen))
+      && IsABattery(sq_king,sq_departure,k,side,Rook,Queen))
   {
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       sq_arrival= sq_departure+vec[k];
@@ -443,7 +366,7 @@ static void GenMatingBishop(square sq_departure,
         empile(sq_departure,sq_arrival,sq_arrival);
         sq_arrival+= vec[k];
       }
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
+      if (TSTFLAG(spec[sq_arrival],opponent))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -455,7 +378,7 @@ static void GenMatingBishop(square sq_departure,
       /* the bishop is already on a line with the king */
       EndOfLine(sq_departure,k2,sq_arrival);
       /* We are at the end of the line */
-      if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
+      if (TSTFLAG(spec[sq_arrival],opponent)) {
         EndOfLine(sq_arrival,k2,sq2);
         if (sq2==sq_king)
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -480,7 +403,7 @@ static void GenMatingBishop(square sq_departure,
           if (k2==0)
             continue;
           if (e[sq_arrival]==vide
-              || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
+              || TSTFLAG(spec[sq_arrival],opponent))
           {
             EndOfLine(sq_arrival,k2,sq2);
             if (sq2==sq_king)
@@ -525,7 +448,7 @@ static void generate_move_reaching_goal()
               break;
 
             case Pawn:
-              GenMatingPawn(sq_departure,OpponentsKing,side_at_move);
+              pawn(sq_departure,OpponentsKing,side_at_move);
               break;
 
             case Knight:
