@@ -234,7 +234,7 @@ void add_to_move_generation_stack(square sq_departure,
   move_generation_stack[current_move[nbply]].arrival= sq_arrival;
   move_generation_stack[current_move[nbply]].capture= sq_capture;
   move_generation_stack[current_move[nbply]].current_transmutation = current_trans_gen;
-  move_generation_stack[current_move[nbply]].hopper_hurdle = initsquare;
+  move_generation_stack[current_move[nbply]].auxiliary = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -505,7 +505,7 @@ void geriderhopper(square   sq_departure,
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
         }
       }
       else {
@@ -516,7 +516,7 @@ void geriderhopper(square   sq_departure,
           if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
-            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
           }
           sq_arrival+= vec[k];
         }
@@ -525,7 +525,7 @@ void geriderhopper(square   sq_departure,
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
         }
       }
     }
@@ -713,7 +713,7 @@ static void gmhop(square   sq_departure,
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1])))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
       }
 
       sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
@@ -721,7 +721,7 @@ static void gmhop(square   sq_departure,
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1])))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
       }
     }
   }
@@ -830,7 +830,7 @@ static void gnequi(square sq_departure, Side camp) {
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
         }
       }
     }
@@ -853,7 +853,7 @@ static void gorix(square sq_departure, Side camp) {
           && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
       }
       else if (abs(end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
                && piece_belongs_to_opponent(end_of_line,camp)
@@ -861,7 +861,7 @@ static void gorix(square sq_departure, Side camp) {
       {
         sq_arrival= end_of_line;
         empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
       }
     }
   }
@@ -902,7 +902,7 @@ static void gnorix(square sq_departure, Side camp) {
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
         }
       }
     }
@@ -1333,7 +1333,7 @@ static void gequi(square sq_departure, Side camp) {
           if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
-            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
           }
         }
         else if (dist_hurdle_end==dist_hurdle_dep) {
@@ -1342,7 +1342,7 @@ static void gequi(square sq_departure, Side camp) {
               && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
-            move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
           }
         }
       }
@@ -1357,7 +1357,7 @@ static void gequi(square sq_departure, Side camp) {
         && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
     {
       empile(sq_departure,sq_arrival,sq_arrival);
-      move_generation_stack[current_move[nbply]].hopper_hurdle = sq_hurdle;
+      move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
     }
   }
 }

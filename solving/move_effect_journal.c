@@ -248,7 +248,8 @@ void move_effect_journal_link_capture_to_movement(move_effect_journal_index_type
   TraceFunctionParamListEnd();
 
   assert(removal_elmt->type==move_effect_piece_removal);
-  assert(removal_elmt->reason==move_effect_reason_regular_capture);
+  assert(removal_elmt->reason==move_effect_reason_regular_capture
+         || removal_elmt->reason==move_effect_reason_ep_capture);
 
   assert(move_effect_journal[movement].type==move_effect_piece_movement);
   assert(move_effect_journal[movement].reason==move_effect_reason_moving_piece_movement);

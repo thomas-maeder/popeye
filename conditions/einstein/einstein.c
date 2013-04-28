@@ -137,7 +137,8 @@ void einstein_collect_capturers(boolean is_capturer[square_h8-square_a1])
 
   for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_removal
-        && move_effect_journal[curr].reason==move_effect_reason_regular_capture)
+        && (move_effect_journal[curr].reason==move_effect_reason_regular_capture
+            || move_effect_journal[curr].reason==move_effect_reason_ep_capture))
     {
       move_effect_journal_index_type const movement = move_effect_journal[curr].u.piece_removal.capturing_movement;
       square const capturer_origin = move_effect_journal[movement].u.piece_movement.from;

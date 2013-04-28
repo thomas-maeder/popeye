@@ -239,7 +239,7 @@ typedef struct {
     square singlebox_type3_promotion_where;
     piece singlebox_type3_promotion_what;
     piece current_transmutation;
-    square hopper_hurdle;
+    square auxiliary; /* hopper hurdle, e.p. virtual single step arrival, ...*/
 } move_generation_elmt;
 
 typedef struct {

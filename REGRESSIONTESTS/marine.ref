@@ -699,9 +699,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   hep1                        2 + 3
 
-  1.b7-b5 MPc5*b5-a7
-  1.MPd7-d5 MPc5*d5-e7
-  1.BPf7-h5 MPf5*h5-h7
+  1.b7-b5 MPc5*a7 ep.
+  1.MPd7-d5 MPc5*e7 ep.
+  1.BPf7-h5 MPf5*h7 ep.
 
                         empile:          19
                      play_move:          11

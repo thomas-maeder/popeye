@@ -238,11 +238,9 @@ void output_plaintext_write_move(void)
                   WriteSquare(move_effect_journal[curr].u.piece_movement.to);
                 else
                 {
-                  /* TODO better modeling for e.p.? */
-                  if (is_pawn(abs(move_effect_journal[capture].u.piece_removal.removed))
-                      && is_pawn(abs(move_effect_journal[curr].u.piece_movement.moving))
-                      && (move_effect_journal[curr].u.piece_movement.to==ep[parent_ply[nbply]]
-                          || move_effect_journal[curr].u.piece_movement.to==einstein_ep[parent_ply[nbply]]))
+                  if (is_pawn(abs(move_effect_journal[curr].u.piece_movement.moving))
+                      && is_pawn(abs(move_effect_journal[capture].u.piece_removal.removed))
+                      && move_effect_journal[capture].reason==move_effect_reason_ep_capture)
                   {
                     WriteSquare(move_effect_journal[curr].u.piece_movement.to);
                     StdString(" ep.");
@@ -358,6 +356,7 @@ void output_plaintext_write_move(void)
         switch (move_effect_journal[curr].reason)
         {
           case move_effect_reason_regular_capture:
+          case move_effect_reason_ep_capture:
           {
             capture = curr;
             break;

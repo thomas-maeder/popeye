@@ -41,6 +41,7 @@ typedef enum
 {
   move_effect_reason_moving_piece_movement,
   move_effect_reason_regular_capture,
+  move_effect_reason_ep_capture,
   move_effect_reason_castling_king_movement,
   move_effect_reason_castling_partner_movement,
   move_effect_reason_pawn_promotion,

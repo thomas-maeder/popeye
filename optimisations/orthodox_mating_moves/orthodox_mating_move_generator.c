@@ -107,6 +107,7 @@ static void GenMatingPawn(square sq_departure,
         empile(sq_departure,
                ep[parent_ply[nbply]],
                move_generation_stack[current_move[parent_ply[nbply]]].arrival);
+        move_generation_stack[current_move[nbply]].auxiliary = ep[parent_ply[nbply]];
       }
 
       /* single step */
@@ -173,6 +174,7 @@ static void GenMatingPawn(square sq_departure,
       empile(sq_departure,
              ep[parent_ply[nbply]],
              move_generation_stack[current_move[parent_ply[nbply]]].arrival);
+      move_generation_stack[current_move[nbply]].auxiliary = ep[parent_ply[nbply]];
     }
 
     /* single step */

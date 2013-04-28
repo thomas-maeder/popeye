@@ -3,6 +3,8 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
+#include "solving/en_passant.h"
+#include "conditions/einstein/en_passant.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -45,9 +47,16 @@ static void play_move(void)
                                           sq_departure,sq_arrival);
   else
   {
+    square const sq_auxiliary = move_gen_top->auxiliary;
+    ply const ply_parent = parent_ply[nbply];
+    boolean const is_ep = (e[sq_auxiliary]==vide
+                           && (sq_auxiliary==ep[ply_parent]
+                               || sq_auxiliary==einstein_ep[ply_parent]));
+    move_effect_reason_type const removal_reason = (is_ep
+                                                    ? move_effect_reason_ep_capture
+                                                    : move_effect_reason_regular_capture);
     move_effect_journal_index_type const
-      removal = move_effect_journal_do_piece_removal(move_effect_reason_regular_capture,
-                                                     sq_capture);
+      removal = move_effect_journal_do_piece_removal(removal_reason,sq_capture);
     move_effect_journal_index_type const
       movement = move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
                                                        sq_departure,sq_arrival);

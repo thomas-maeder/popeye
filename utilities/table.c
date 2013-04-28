@@ -99,6 +99,7 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       switch (move_effect_journal[idx].reason)
       {
         case move_effect_reason_regular_capture:
+        case move_effect_reason_ep_capture:
           result = CondFlag[takemake];
           break;
 

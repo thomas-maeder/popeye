@@ -48,7 +48,10 @@ void pawns_generate_ep_capture_move(Side side,
       sq_capture = wormhole_positions[wormhole_next_transfer[ply_parent]-1];
 
     if (piece_belongs_to_opponent(sq_capture,side))
+    {
       empile(sq_departure,sq_arrival,sq_capture);
+      move_generation_stack[current_move[nbply]].auxiliary = sq_arrival_singlestep;
+    }
   }
 
   TraceFunctionExit(__func__);
