@@ -421,10 +421,10 @@ solution finished.
 
   1.MPb4-b3 MPa2*b3-c4   2.MPb2-b1=TR MPc4*b5-a6   3.TRb1-b7 MPa6*b7-c8=SI #
 
-                        empile:     1046624
-                     play_move:     1010259
+                        empile:     1054778
+                     play_move:     1019221
  is_white_king_square_attacked:       45858
- is_black_king_square_attacked:      992102
+ is_black_king_square_attacked:     1001064
 solution finished. 
 
 
@@ -675,6 +675,41 @@ b) UltramarineChess  wPOe1
 solution finished. 
 
 
+
+ en passant capture and marine pawns
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   . -MP   . -BP   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  MP   .   .  MP   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        2 + 3
+
+  1.b7-b5 MPc5*b5-a7
+  1.MPd7-d5 MPc5*d5-e7
+  1.BPf7-h5 MPf5*h5-h7
+
+                        empile:          19
+                     play_move:          11
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
 (only first 6 half-moves)
 
              Peter Fayers
@@ -704,10 +739,10 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
   1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
 
-                        empile:    21468080
-                     play_move:    21469628
- is_white_king_square_attacked:     1850462
- is_black_king_square_attacked:      903855
+                        empile:    32742130
+                     play_move:    32743894
+ is_white_king_square_attacked:     2612587
+ is_black_king_square_attacked:     1372365
 solution finished. 
 
 
@@ -835,10 +870,10 @@ solution finished.
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d6  10.MHd6-e6  11.MHe6*f5-g4 MHh2-f2 #
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d5  10.MHd5*f5-g5  11.MHg5-g4 MHh2-f2 #
 
-                        empile:    26876068
-                     play_move:    21940063
- is_white_king_square_attacked:     7324072
- is_black_king_square_attacked:    21940063
+                        empile:    29467747
+                     play_move:    24146804
+ is_white_king_square_attacked:     8105039
+ is_black_king_square_attacked:    24146804
 solution finished. 
 
 

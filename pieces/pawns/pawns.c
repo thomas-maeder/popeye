@@ -8,6 +8,53 @@
 #include <assert.h>
 #include <stdlib.h>
 
+void pawns_generate_ep_capture_move(Side side,
+                                    square sq_departure,
+                                    square sq_arrival,
+                                    square sq_arrival_singlestep)
+{
+  ply const ply_parent = parent_ply[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_arrival_singlestep);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(ep[ply_parent]);
+  TraceSquare(einstein_ep[ply_parent]);
+  TraceText("\n");
+
+  if (abs(e[sq_departure])!=Orphan /* orphans cannot capture ep */
+      && (sq_arrival_singlestep==ep[ply_parent]
+          || sq_arrival_singlestep==einstein_ep[ply_parent]))
+  {
+    /* ep capture */
+    square sq_capture;
+
+    if (nbply==2)
+    {
+      /* ep.-key  standard pawn */
+      int const dir_backward = side==White ? dir_down : dir_up;
+      sq_capture = sq_arrival_singlestep+dir_backward;
+    }
+    else if (trait[ply_parent]==advers(side))
+      sq_capture = move_generation_stack[current_move[ply_parent]].arrival;
+    else
+      sq_capture = initsquare;
+
+    if (TSTFLAG(sq_spec[sq_capture],Wormhole))
+      sq_capture = wormhole_positions[wormhole_next_transfer[ply_parent]-1];
+
+    if (piece_belongs_to_opponent(sq_capture,side))
+      empile(sq_departure,sq_arrival,sq_capture);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* generates move of a pawn of side camp on departure capturing a piece on
  * arrival
  */
@@ -15,7 +62,6 @@ void pawns_generate_capture_move(Side side,
                                  square sq_departure,
                                  numvec dir)
 {
-  Side const opponent = advers(side);
   square const sq_arrival = sq_departure+dir;
 
   TraceFunctionEntry(__func__);
@@ -24,36 +70,13 @@ void pawns_generate_capture_move(Side side,
   TraceFunctionParamListEnd();
 
   if (piece_belongs_to_opponent(sq_arrival,side))
-    /* normal capture */
     empile(sq_departure,sq_arrival,sq_arrival);
-  else if (abs(e[sq_departure])!=Orphan /* orphans cannot capture ep */
-           && (sq_arrival==ep[parent_ply[nbply]]
-               || sq_arrival==einstein_ep[parent_ply[nbply]]))
-  {
-    /* ep capture */
-    square prev_arrival;
-
-    if (nbply==2)
-    {
-      /* ep.-key  standard pawn */
-      int const dir_backward = side==White ? dir_down : dir_up;
-      prev_arrival = sq_arrival+dir_backward;
-    }
-    else if (trait[parent_ply[nbply]]==opponent)
-      prev_arrival = move_generation_stack[current_move[parent_ply[nbply]]].arrival;
-    else
-      prev_arrival = initsquare;
-
-    if (TSTFLAG(sq_spec[prev_arrival],Wormhole))
-      prev_arrival = wormhole_positions[wormhole_next_transfer[parent_ply[nbply]]-1];
-
-    if (TSTFLAG(spec[prev_arrival],opponent))
-      empile(sq_departure,sq_arrival,prev_arrival);
-  }
+  else
+    pawns_generate_ep_capture_move(side,sq_departure,sq_arrival,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* end pawns_generate_capture_move */
+}
 
 /* generates moves of a pawn in direction dir where steps single steps are
  * possible.

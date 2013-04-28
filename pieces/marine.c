@@ -20,6 +20,11 @@ void marine_rider_generate_moves(Side side,
 {
   numvec k;
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
   for (k = kbeg; k<=kend; k++)
   {
     square const sq_capture = generate_moves_on_line_segment(sq_departure,
@@ -27,6 +32,9 @@ void marine_rider_generate_moves(Side side,
                                                              k);
     generate_locust_capture(sq_departure,sq_capture,k,side);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Generate moves for a marine knight
@@ -36,6 +44,12 @@ void marine_rider_generate_moves(Side side,
 void marine_knight_generate_moves(Side side, square sq_departure)
 {
   numvec  k;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
@@ -49,6 +63,9 @@ void marine_knight_generate_moves(Side side, square sq_departure)
         empile(sq_departure,sq_arrival,sq_capture);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Generate moves for a poseidon
@@ -58,6 +75,12 @@ void marine_knight_generate_moves(Side side, square sq_departure)
 void poseidon_generate_moves(Side side, square sq_departure)
 {
   numvec  k;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
   for (k = vec_queen_start; k<=vec_queen_end; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
@@ -74,17 +97,32 @@ void poseidon_generate_moves(Side side, square sq_departure)
 
   if (castling_supported)
     generate_castling(side);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void marine_pawn_generate_capture(Side side, square sq_departure, int dir)
 {
   square const sq_capture = sq_departure+dir;
-  if (piece_belongs_to_opponent(sq_capture,side))
+  square const sq_arrival = sq_capture+dir;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(sq_departure);
+  TraceFunctionParam("%d",dir);
+  TraceFunctionParamListEnd();
+
+  if (e[sq_arrival]==vide)
   {
-    square const sq_arrival = sq_capture+dir;
-    if (e[sq_arrival]==vide)
+    if (piece_belongs_to_opponent(sq_capture,side))
       empile(sq_departure,sq_arrival,sq_capture);
+    else
+      pawns_generate_ep_capture_move(side,sq_departure,sq_arrival,sq_capture);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Generate moves for a marine pawn
@@ -95,6 +133,11 @@ void marine_pawn_generate_moves(Side side, square sq_departure)
 {
   unsigned int const no_capture_length = pawn_get_no_capture_length(side,sq_departure);
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
   if (no_capture_length>0)
   {
     int const dir_forward = side==White ? dir_up : dir_down;
@@ -102,6 +145,9 @@ void marine_pawn_generate_moves(Side side, square sq_departure)
     marine_pawn_generate_capture(side,sq_departure,dir_forward+dir_right);
     marine_pawn_generate_capture(side,sq_departure,dir_forward+dir_left);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Generate moves for a marine ship (Triton + marine pawn)
@@ -114,7 +160,16 @@ void marine_ship_generate_moves(Side side,
                                 numvec  kbeg, numvec  kend)
 {
   int const dir_forward = side==White ? dir_up : dir_down;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
   marine_rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
   marine_pawn_generate_capture(side,sq_departure,dir_forward+dir_right);
   marine_pawn_generate_capture(side,sq_departure,dir_forward+dir_left);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

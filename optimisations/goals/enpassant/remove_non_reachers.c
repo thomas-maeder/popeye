@@ -38,7 +38,7 @@ static boolean is_enpassant_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = sq_arrival==ep[parent_ply[nbply]] || sq_arrival==einstein_ep[parent_ply[nbply]];
+  result = is_pawn(abs(e[sq_departure])) && is_pawn(abs(e[sq_capture])) && e[sq_arrival]==vide;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

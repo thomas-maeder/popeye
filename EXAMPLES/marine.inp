@@ -122,6 +122,13 @@ twin condition ultramarine add white poe1
 
 next
 
+title en passant capture and marine pawns
+pieces white mpc5f5 black pb7 bpf7 mpd7
+stip hep1
+option nowk nobk
+
+next
+
 author Peter Fayers
 origin JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 remark (only first 6 half-moves)

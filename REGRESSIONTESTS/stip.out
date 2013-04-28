@@ -837,7 +837,7 @@ Loesung beendet.
   1.c3-c2   2.c2-c1=L   3.Lc1-f4   4.Lf4-e5   5.Le5-g7   6.e7-e5 d5*e6 ep. +
 
                         empile:       18514
-                     play_move:       18694
+                     play_move:       18693
  is_white_king_square_attacked:        3167
  is_black_king_square_attacked:       18693
 Loesung beendet. 

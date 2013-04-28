@@ -28,6 +28,7 @@ void adjust_ep_squares(square sq_multistep_departure)
   {
     case pb:
     case reversepn:
+    case marinepawnb:
       if (sq_arrival-sq_multistep_departure==2*dir_up
           && sq_multistep_departure<=square_h2)
         ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
@@ -35,6 +36,7 @@ void adjust_ep_squares(square sq_multistep_departure)
 
     case pn:
     case reversepb:
+    case marinepawnn:
       if (sq_arrival-sq_multistep_departure==2*dir_down
           && sq_multistep_departure>=square_a7)
         ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
