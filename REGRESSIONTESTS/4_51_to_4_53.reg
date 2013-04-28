@@ -2310,8 +2310,8 @@ feature request 2813613: proof games and Leofamily
 
                         empile:        8532
                      play_move:        8532
- is_white_king_square_attacked:          21
- is_black_king_square_attacked:         364
+ is_white_king_square_attacked:         384
+ is_black_king_square_attacked:         383
 solution finished. 
 
 

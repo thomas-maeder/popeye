@@ -2,6 +2,7 @@
 #include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pieces/walks.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
@@ -32,7 +33,7 @@ void restore_castling_rights(square sq_arrival)
     piece const pi_arrived = e[sq_arrival];
     Flags const spec_arrived = spec[sq_arrival];
 
-    if (abs(pi_arrived)==Rook)
+    if (abs(pi_arrived)==standard_walks[Rook])
     {
       if (TSTFLAG(spec_arrived, White)) {
         if (sq_arrival==square_h1)
@@ -52,15 +53,15 @@ void restore_castling_rights(square sq_arrival)
       }
     }
 
-    else if (abs(pi_arrived)==King) {
+    else if (abs(pi_arrived)==standard_walks[King]) {
       if (TSTFLAG(spec_arrived, White)
           && sq_arrival==square_e1
-          && (!CondFlag[dynasty] || nbpiece[roib]==1))
+          && (!CondFlag[dynasty] || nbpiece[standard_walks[King]]==1))
         /* white king reborn on e1 */
         SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
       else if (TSTFLAG(spec_arrived, Black)
                && sq_arrival==square_e8
-               && (!CondFlag[dynasty] || nbpiece[roin]==1))
+               && (!CondFlag[dynasty] || nbpiece[-standard_walks[King]]==1))
         /* black king reborn on e8 */
         SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
     }
@@ -253,7 +254,7 @@ void enable_castling_rights(square sq_arrival)
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  if (p==Rook)
+  if (p==standard_walks[Rook])
   {
     if (TSTFLAG(specs,White))
     {
@@ -270,7 +271,7 @@ void enable_castling_rights(square sq_arrival)
         SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
     }
   }
-  else if (p==King)
+  else if (p==standard_walks[King])
   {
     if (TSTFLAG(specs,White) && sq_arrival==square_e1)
       SETCASTLINGFLAGMASK(nbply,White,k_cancastle);

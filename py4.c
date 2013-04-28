@@ -2622,7 +2622,6 @@ void king_generate_moves(Side side, square sq_departure)
   if (flag)
     remove_duplicate_moves_of_single_piece(save_nbcou);
 
-  /* Now we test castling */
   if (castling_supported)
     generate_castling(side);
 
@@ -3004,14 +3003,13 @@ void gengreaterleafhopper(square sq_departure, Side camp)
 
 void generate_marine_knight(square sq_departure, Side moving)
 {
-  Side const opponent = advers(moving);
   numvec  k;
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
     if (e[sq_arrival]==vide)
       empile(sq_departure,sq_arrival,sq_arrival);
-    else if (TSTFLAG(spec[sq_arrival],opponent))
+    else if (piece_belongs_to_opponent(sq_arrival,moving))
     {
       square const sq_capture = sq_arrival;
       sq_arrival += vec[k];
@@ -3023,14 +3021,13 @@ void generate_marine_knight(square sq_departure, Side moving)
 
 void generate_poseidon(square sq_departure, Side moving)
 {
-  Side const opponent = advers(moving);
   numvec  k;
   for (k = vec_queen_start; k<=vec_queen_end; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
     if (e[sq_arrival]==vide)
       empile(sq_departure,sq_arrival,sq_arrival);
-    else if (TSTFLAG(spec[sq_arrival],opponent))
+    else if (piece_belongs_to_opponent(sq_arrival,moving))
     {
       square const sq_capture = sq_arrival;
       sq_arrival += vec[k];
@@ -3038,4 +3035,7 @@ void generate_poseidon(square sq_departure, Side moving)
         empile(sq_departure,sq_arrival,sq_capture);
     }
   }
+
+  if (castling_supported)
+    generate_castling(moving);
 }

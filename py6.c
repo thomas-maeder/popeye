@@ -1810,19 +1810,19 @@ static boolean verify_position(slice_index si)
   complex_castling_through_flag = CondFlag[imitators];
 
   if (castling_supported) {
-    if ((abs(e[square_e1])== King) && TSTFLAG(spec[square_e1], White)
-        && (!CondFlag[dynasty] || nbpiece[roib]==1))
+    if ((abs(e[square_e1])== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
+        && (!CondFlag[dynasty] || nbpiece[standard_walks[King]]==1))
       SETCASTLINGFLAGMASK(0,White,k_cancastle);
-    if ((abs(e[square_h1])== Rook) && TSTFLAG(spec[square_h1], White))
+    if ((abs(e[square_h1])== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
       SETCASTLINGFLAGMASK(0,White,rh_cancastle);
-    if ((abs(e[square_a1])== Rook) && TSTFLAG(spec[square_a1], White))
+    if ((abs(e[square_a1])== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
       SETCASTLINGFLAGMASK(0,White,ra_cancastle);
-    if ((abs(e[square_e8])== King) && TSTFLAG(spec[square_e8], Black)
-        && (!CondFlag[dynasty] || nbpiece[roin]==1))
+    if ((abs(e[square_e8])== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
+        && (!CondFlag[dynasty] || nbpiece[-standard_walks[King]]==1))
       SETCASTLINGFLAGMASK(0,Black,k_cancastle);
-    if ((abs(e[square_h8])== Rook) && TSTFLAG(spec[square_h8], Black))
+    if ((abs(e[square_h8])== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
       SETCASTLINGFLAGMASK(0,Black,rh_cancastle);
-    if ((abs(e[square_a8])== Rook) && TSTFLAG(spec[square_a8], Black))
+    if ((abs(e[square_a8])== standard_walks[Rook]) && TSTFLAG(spec[square_a8], Black))
       SETCASTLINGFLAGMASK(0,Black,ra_cancastle);
   }
 

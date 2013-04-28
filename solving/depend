@@ -903,7 +903,7 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h pylang.h \
  solving/move_effect_journal.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h pyproc.h stipulation/pipe.h \
+ stipulation/goals/goals.h pyproc.h pieces/walks.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/fork.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
@@ -947,6 +947,8 @@ py.h:
 stipulation/goals/goals.h:
 
 pyproc.h:
+
+pieces/walks.h:
 
 stipulation/pipe.h:
 

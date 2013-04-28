@@ -596,7 +596,7 @@ solution finished.
 
 
 
-      proofgame in marine chess
+      proofgame in Marine chess
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -624,8 +624,54 @@ solution finished.
 
                         empile:      177670
                      play_move:      177670
- is_white_king_square_attacked:        8928
- is_black_king_square_attacked:         404
+ is_white_king_square_attacked:        9330
+ is_black_king_square_attacked:        8032
+solution finished. 
+
+
+
+castling in Marine and Ultramarine Chess
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   R   .   .   .   4
+|                                   |
+3   .   .   .   P   .  -K   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   .   .   .   .   K   .   .  TR   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          5 + 1
+             MarineChess
+
+a) 
+
+   1.0-0 # !
+
+
+                        empile:          56
+                     play_move:          43
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          44
+b) UltramarineChess  wPOe1 
+
+   1.0-0 # !
+
+
+                        empile:          56
+                     play_move:          43
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          44
 solution finished. 
 
 
@@ -658,10 +704,10 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
   1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
 
-                        empile:    21374834
-                     play_move:    21376382
- is_white_king_square_attacked:     1780100
- is_black_king_square_attacked:      118858
+                        empile:    21468080
+                     play_move:    21469628
+ is_white_king_square_attacked:     1850462
+ is_black_king_square_attacked:      903855
 solution finished. 
 
 
