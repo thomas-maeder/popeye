@@ -8,6 +8,8 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
+#include <stdlib.h>
+
 /* Allocate a STEnPassantRemoveNonReachers slice.
  * @return index of allocated slice
  */
