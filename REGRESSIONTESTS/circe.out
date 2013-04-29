@@ -331,10 +331,10 @@ Loesung beendet.
                           4.Dd1*d2[+sTh8] #
 
 
-                        empile:      602178
-                     play_move:      397885
+                        empile:      602177
+                     play_move:      397884
  is_white_king_square_attacked:      273871
- is_black_king_square_attacked:      143369
+ is_black_king_square_attacked:      143368
 Loesung beendet. 
 
 

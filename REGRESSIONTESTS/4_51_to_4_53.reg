@@ -1983,9 +1983,9 @@ solving interrupted.
   1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 #
   1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 #
 
-                        empile:       66707
-                     play_move:       39531
- is_white_king_square_attacked:       35411
+                        empile:       66703
+                     play_move:       39527
+ is_white_king_square_attacked:       35407
  is_black_king_square_attacked:       10134
 solution finished. 
 

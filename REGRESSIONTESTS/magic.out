@@ -110,10 +110,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-                        empile:       40341
-                     play_move:       16772
+                        empile:       40327
+                     play_move:       16758
  is_white_king_square_attacked:        8120
- is_black_king_square_attacked:       11542
+ is_black_king_square_attacked:       11528
 Loesung beendet. 
 
 
@@ -196,10 +196,10 @@ Loesung beendet.
 
   1.Sc2-b4 Kb2-c3   2.Sb4-a2=w Sa2-b4   3.Lb3-a2=w La2-b3 +   4.Ka4-a3 Sb4-c2 #
 
-                        empile:      775427
-                     play_move:      611926
+                        empile:      775412
+                     play_move:      611911
  is_white_king_square_attacked:      142933
- is_black_king_square_attacked:      502228
+ is_black_king_square_attacked:      502213
 Loesung beendet. 
 
 
@@ -864,10 +864,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-                        empile:       40341
-                     play_move:       16772
+                        empile:       40327
+                     play_move:       16758
  is_white_king_square_attacked:        8120
- is_black_king_square_attacked:       11542
+ is_black_king_square_attacked:       11528
 Loesung beendet. 
 
 

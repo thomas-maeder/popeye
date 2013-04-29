@@ -26,15 +26,15 @@
 
 a) 
 
-  1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 # 
+  1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 #
 
-                        empile:       10697
-                     play_move:        9227
+                        empile:        9975
+                     play_move:        8505
  is_white_king_square_attacked:         865
- is_black_king_square_attacked:        8952
+ is_black_king_square_attacked:        8230
 b) wLb1 
 
-  1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 # 
+  1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 #
 
                         empile:       10070
                      play_move:        7573
@@ -70,9 +70,9 @@ Loesung beendet.
   h=5                         1 + 1
              HaanerSchach
 
-  1...  ...  2.Ke5-f6 g2-g3   3.Kf6-g7 g3-g4   4.Kg7-g8 g4-g5   5.Kg8-h8 g5-g6 = 
+  1...  ...  2.Ke5-f6 g2-g3   3.Kf6-g7 g3-g4   4.Kg7-g8 g4-g5   5.Kg8-h8 g5-g6 =
 
-  1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S = 
+  1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S =
 
                         empile:       64276
                      play_move:       29309
@@ -108,8 +108,8 @@ Loesung beendet.
   h#1                         2 + 2
              HaanerSchach
 
-  1.a7-a5 b6-b7 # 
-  1.a7-a6 b6-b7 # 
+  1.a7-a5 b6-b7 #
+  1.a7-a6 b6-b7 #
 
                         empile:          13
                      play_move:          13
@@ -149,7 +149,7 @@ Loesung beendet.
 
 a) 
 
-  1.a7-a5 b6-b7 # 
+  1.a7-a5 b6-b7 #
 
                         empile:          14
                      play_move:          14
@@ -158,7 +158,7 @@ a)
 b) HaanerSchach
    SchwarzerKuerzestzueger
 
-  1.a7-a6 b6-b7 # 
+  1.a7-a6 b6-b7 #
 
                         empile:          14
                      play_move:          14

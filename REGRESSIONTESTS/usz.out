@@ -109,10 +109,10 @@ Loesung beendet.
 
   1.b2-b1=T + Kb3*c2   2.d2-d1=L + Kc2-d3   3.e2-e1=S + Kd3-e4   4.h2-h1=D + Ke4-f4   5.Dh1-h2 + Ta2*h2 #
 
-                        empile:     1521888
-                     play_move:     1774871
+                        empile:     1521742
+                     play_move:     1774725
  is_white_king_square_attacked:     1771841
- is_black_king_square_attacked:      428059
+ is_black_king_square_attacked:      427913
 Loesung beendet. 
 
 

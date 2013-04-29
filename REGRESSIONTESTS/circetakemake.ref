@@ -675,10 +675,10 @@ a)
  34  (Sb8-c6 )
  35  (Sb8-d7 )
 
-                        empile:       86137
-                     play_move:       50953
+                        empile:       86134
+                     play_move:       50950
  is_white_king_square_attacked:       11459
- is_black_king_square_attacked:       49909
+ is_black_king_square_attacked:       49906
 b) bKa7-->c6
 
  36  (Sc1*e2[+wPe3] )
@@ -720,10 +720,10 @@ b) bKa7-->c6
  71  (Sb8-a6 )
  72  (Sb8-d7 )
 
-                        empile:      148437
-                     play_move:       71623
+                        empile:      148436
+                     play_move:       71622
  is_white_king_square_attacked:       17418
- is_black_king_square_attacked:       70641
+ is_black_king_square_attacked:       70640
 solution finished. 
 
 

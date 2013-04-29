@@ -1684,7 +1684,8 @@ numvec vec[maxvec + 1] = { 0,
 
 /* Symbols indicating start and end of a range inside vec - please
  * ALWAYS use these rather than int literals. */
-enum {
+typedef enum
+{
   vec_rook_start= 1,              vec_rook_end=   4,
   vec_bishop_start=5,             vec_bishop_end=  8,
   vec_queen_start=1,              vec_queen_end=  8,
@@ -1728,7 +1729,7 @@ enum {
   vec_leap57_start=209,           vec_leap57_end=  216,
   vec_leap67_start=217,           vec_leap67_end=  224,
   vec_leap27_start=225,           vec_leap27_end=  232
-};
+} vec_index_type;
 
 
 #if defined(WE_ARE_EXTERN)

@@ -79,10 +79,10 @@ a)
 
   1.Kd7-d8 Kb5-c6   2.Dg7-e7 Da6-a8 #
 
-                        empile:      290658
-                     play_move:      123162
- is_white_king_square_attacked:       82950
- is_black_king_square_attacked:       83789
+                        empile:      290628
+                     play_move:      123132
+ is_white_king_square_attacked:       82925
+ is_black_king_square_attacked:       83784
 b) h=2
 
   1.Kb5-a4 Dg7-c3   2.Da6-c6 + Kd7*c6 =
@@ -481,10 +481,10 @@ d) Drehung 270
 
   1.Dh3-c8 b7*c8=T[+sDd8]   2.Dd8*c8[+wTh1] Th1*e1[+sTh8] #
 
-                        empile:       95662
-                     play_move:       61412
+                        empile:       95656
+                     play_move:       61406
  is_white_king_square_attacked:       18575
- is_black_king_square_attacked:       60628
+ is_black_king_square_attacked:       60622
 Loesung beendet. 
 
 

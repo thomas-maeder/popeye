@@ -664,10 +664,10 @@ Loesung beendet.
   1.Sa7-c8 b4*c5   2.Ka4-a5 Ka2*a3   3.Ka5*a6 Ka3-b4 #
   7  (Tb7-b6 )
 
-                        empile:        8875
-                     play_move:        6434
+                        empile:        8851
+                     play_move:        6410
  is_white_king_square_attacked:        1844
- is_black_king_square_attacked:        5964
+ is_black_king_square_attacked:        5940
 Loesung beendet. 
 
 
@@ -736,10 +736,10 @@ N.Y. State Chess Association, 16.8.1894
  29  (c2-c4 )
  30  (c2-c3 )
 
-                        empile:      214552
-                     play_move:      147518
+                        empile:      214513
+                     play_move:      147479
  is_white_king_square_attacked:      114185
- is_black_king_square_attacked:       42437
+ is_black_king_square_attacked:       42398
 Loesung beendet. 
 
 

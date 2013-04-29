@@ -996,9 +996,9 @@ solution finished.
               2...Qg4-d1 #
 
 
-                        empile:      101128
-                     play_move:       67393
- is_white_king_square_attacked:       62438
+                        empile:      101126
+                     play_move:       67391
+ is_white_king_square_attacked:       62436
  is_black_king_square_attacked:       15370
 solution finished. 
 
@@ -1034,10 +1034,10 @@ Problemesis 2002, 2\`eme Mention d'Honneur
 
   1.Bc7-g3 nPg7-g8=nQ   2.nQg8-b8 nPa7*b8=nS   3.Ke7-d8 nSb8-c6[+nuQb8] #
 
-                        empile:     3927867
-                     play_move:     2084034
+                        empile:     3927844
+                     play_move:     2084011
  is_white_king_square_attacked:      556694
- is_black_king_square_attacked:     2036577
+ is_black_king_square_attacked:     2036554
 solution finished. 
 
 

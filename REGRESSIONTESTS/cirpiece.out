@@ -308,10 +308,10 @@ Loesung beendet.
   1.d6-d5 Tb6-g6   2.f7*g6[+wBg2] g2-g3 #
   1.Sa8-c7 Tb6*a6[+sTa8]   2.Ta8*a6[+wTh1] Th1*h3[+sTa8] #
 
-                        empile:        5039
-                     play_move:        4468
+                        empile:        4995
+                     play_move:        4424
  is_white_king_square_attacked:         686
- is_black_king_square_attacked:        4248
+ is_black_king_square_attacked:        4204
 Loesung beendet. 
 
 
@@ -383,18 +383,18 @@ a)
 
   1.Lh6*g5[+wLc1] Lc1-b2   2.La2*e6[+wLf1] Lf1-d3 #
 
-                        empile:       90712
-                     play_move:       35522
+                        empile:       90711
+                     play_move:       35521
  is_white_king_square_attacked:       10210
- is_black_king_square_attacked:       35114
+ is_black_king_square_attacked:       35113
 b) wSg5-->e4
 
   1.Te8*e6[+wTh1] Th1*h6[+sTh8]   2.Te6*e4[+wTh1] Th1-h5 #
 
-                        empile:      133392
-                     play_move:       52709
+                        empile:      133390
+                     play_move:       52707
  is_white_king_square_attacked:       15126
- is_black_king_square_attacked:       52141
+ is_black_king_square_attacked:       52139
 Loesung beendet. 
 
 

@@ -337,10 +337,10 @@ b) Verschiebung a1 ==> a2
 
   1.Tc2-c1 Sb3*c1=s   2.Sc1*d3=w Sd3-b4 #
 
-                        empile:       13047
-                     play_move:        8131
+                        empile:       13046
+                     play_move:        8130
  is_white_king_square_attacked:        1797
- is_black_king_square_attacked:        7837
+ is_black_king_square_attacked:        7836
 Loesung beendet. 
 
 

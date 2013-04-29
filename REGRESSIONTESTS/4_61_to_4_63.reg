@@ -1315,10 +1315,10 @@ movenumbers and nested series branches; until 4.61, Popeye produced
  10  (Kg3-h4 )
  11  (Kg3-f2 )
 
-                        empile:      235822
-                     play_move:      250668
+                        empile:      235771
+                     play_move:      250617
  is_white_king_square_attacked:      221287
- is_black_king_square_attacked:      216607
+ is_black_king_square_attacked:      216556
 solution finished. 
 
 

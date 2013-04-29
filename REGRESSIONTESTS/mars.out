@@ -94,10 +94,10 @@ a)
           2.Sc1-e2 #
 
 
-                        empile:        5250
-                     play_move:        4066
+                        empile:        5245
+                     play_move:        4061
  is_white_king_square_attacked:         297
- is_black_king_square_attacked:        4069
+ is_black_king_square_attacked:        4064
 b) MarsCirce
 
    1.Ka3-b2 ! Drohung:
