@@ -94,7 +94,7 @@ static void block_planned_flights(void)
 
 static void plan_blocks_of_flights(void)
 {
-  unsigned int i;
+  vec_index_type i;
   unsigned int nr_available_blockers;
 
   TraceFunctionEntry(__func__);

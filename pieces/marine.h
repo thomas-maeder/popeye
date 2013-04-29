@@ -1,6 +1,7 @@
 #if !defined(PIECES_MARINE_H)
 #define PIECES_MARINE_H
 
+#include "pieces/vectors.h"
 #include "position/board.h"
 #include "position/position.h"
 #include "py.h"
@@ -12,7 +13,7 @@
  */
 void marine_rider_generate_moves(Side side,
                                  square sq_departure,
-                                 numvec kbeg, numvec kend);
+                                 vec_index_type kbeg, vec_index_type kend);
 
 /* Generate moves for a marine knight
  * @param side side for which to generate moves
@@ -39,6 +40,6 @@ void marine_pawn_generate_moves(Side side, square sq_departure);
  */
 void marine_ship_generate_moves(Side side,
                                 square sq_departure,
-                                numvec kbeg, numvec  kend);
+                                vec_index_type kbeg, vec_index_type  kend);
 
 #endif

@@ -16,9 +16,9 @@
  */
 void marine_rider_generate_moves(Side side,
                                  square sq_departure,
-                                 numvec kbeg, numvec kend)
+                                 vec_index_type kbeg, vec_index_type kend)
 {
-  numvec k;
+  vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -43,7 +43,7 @@ void marine_rider_generate_moves(Side side,
  */
 void marine_knight_generate_moves(Side side, square sq_departure)
 {
-  numvec  k;
+  vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -74,7 +74,7 @@ void marine_knight_generate_moves(Side side, square sq_departure)
  */
 void poseidon_generate_moves(Side side, square sq_departure)
 {
-  numvec  k;
+  vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -157,7 +157,7 @@ void marine_pawn_generate_moves(Side side, square sq_departure)
  */
 void marine_ship_generate_moves(Side side,
                                 square  sq_departure,
-                                numvec  kbeg, numvec  kend)
+                                vec_index_type kbeg, vec_index_type kend)
 {
   int const dir_forward = side==White ? dir_up : dir_down;
 

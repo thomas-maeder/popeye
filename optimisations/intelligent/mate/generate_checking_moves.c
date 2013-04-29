@@ -53,7 +53,7 @@ static void init_disturb_mate_rider_onedir(square target, int dir, unsigned int 
 
 static void init_disturb_mate_dir_rider(square const check_from, int dir)
 {
-  unsigned int i;
+  vec_index_type i;
   unsigned int disturb_index = 0;
 
   TraceFunctionEntry(__func__);
@@ -98,7 +98,7 @@ static void init_disturb_mate_dir_knight(square const check_from, int dir)
 
   for (s = check_from; s!=king_square[Black]; s += dir)
   {
-    unsigned int i;
+    vec_index_type i;
     for (i = vec_knight_start; i<=vec_knight_end; ++i)
       DisturbMateDirKnight[s+vec[i]] = vec[i];
   }

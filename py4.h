@@ -12,6 +12,7 @@
 #define	PY4_H
 
 #include "py.h"
+#include "pieces/vectors.h"
 
 int len_max (square departure, square arrival, square capture);
 	/* determines move length for maximummers */
@@ -47,16 +48,16 @@ void	gemoarider(square i, Side camp);
 void	gemaorider(square i, Side camp);
 square generate_moves_on_line_segment(square sq_departure,
                                       square sq_base,
-                                      int k);
+                                      vec_index_type k);
 void generate_locust_capture(square sq_departure, square sq_capture,
-                             int k,
+                             vec_index_type k,
                              Side camp);
-void	rider_generate_moves(Side side, square i, numvec kbeg, numvec kend);
-void  leaper_generate_moves(Side side, square i, numvec kbeg, numvec kend);
-void    geriderhopper(square i, numvec kbeg, numvec kend,
-		      int run_up, int jump, Side camp);
+void	rider_generate_moves(Side side, square i, vec_index_type kbeg, vec_index_type kend);
+void  leaper_generate_moves(Side side, square i, vec_index_type kbeg, vec_index_type kend);
+void  geriderhopper(square i, vec_index_type kbeg, vec_index_type kend,
+                    int run_up, int jump, Side camp);
 void grose(square sq_departure,
-           numvec k1, numvec k2, numvec delta_k,
+           vec_index_type k1, numvec k2, numvec delta_k,
            Side camp);
 void genradialknight(square sq_departure, Side camp);
 void gentreehopper(square sq_departure, Side camp);

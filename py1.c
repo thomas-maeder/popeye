@@ -108,7 +108,8 @@ numvec const * const * const CheckDir = check_dir_impl-Queen;
 
 void InitCheckDir(void)
 {
-  int i, j;
+  vec_index_type i;
+  unsigned int j;
 
   assert(Queen<Rook);
   assert(Rook-Queen<4);
@@ -507,19 +508,16 @@ square coinequis(square i)
   return 75 + (onerow*(((i/onerow)+3)/2) + (((i%onerow)+3)/2));
 }
 
-boolean leapcheck(square     sq_king,
-                  numvec     kanf,
-                  numvec     kend,
-                  piece  p,
+boolean leapcheck(square sq_king,
+                  vec_index_type kanf, vec_index_type kend,
+                  piece p,
                   evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */
-  numvec  k;
-
-  square sq_departure;
-
-  for (k= kanf; k<=kend; k++) {
-    sq_departure= sq_king+vec[k];
+  vec_index_type k;
+  for (k= kanf; k<=kend; k++)
+  {
+    square const sq_departure= sq_king+vec[k];
     if (e[sq_departure]==p
         && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
@@ -530,30 +528,29 @@ boolean leapcheck(square     sq_king,
 }
 
 boolean leapleapcheck(square     sq_king,
-                      numvec     kanf,
-                      numvec     kend,
+                      vec_index_type kanf, vec_index_type kend,
                       int hurdletype,
                       boolean leaf,
                       piece  p,
                       evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */
-  numvec  k, k1;
-  square  sq_departure, sq_hurdle;
+  vec_index_type  k;
 
-  for (k= kanf; k<= kend; k++) {
-    sq_hurdle= sq_king + vec[k];
-    if (hurdletype==0 && abs(e[sq_hurdle])>obs && e[sq_hurdle]*p<0 ||
-       hurdletype ==1 && abs(e[sq_hurdle])>obs)
+  for (k= kanf; k<= kend; k++)
+  {
+    square const sq_hurdle= sq_king + vec[k];
+    if ((hurdletype==0 && abs(e[sq_hurdle])>obs && e[sq_hurdle]*p<0)
+        || (hurdletype ==1 && abs(e[sq_hurdle])>obs))
     {
-      for (k1= kanf; k1<= kend; k1++) {
-        sq_departure = sq_hurdle + vec[k1];
+      vec_index_type k1;
+      for (k1= kanf; k1<= kend; k1++)
+      {
+        square const sq_departure = sq_hurdle + vec[k1];
         if (e[sq_departure]==p && sq_departure!=sq_king
             && (*evaluate)(sq_departure,sq_king,sq_king)
             && imcheck(sq_departure,sq_king))
-        {
           return true;
-        }
       }
     }
   }
@@ -562,8 +559,7 @@ boolean leapleapcheck(square     sq_king,
 }
 
 boolean riderhoppercheck(square  sq_king,
-                         numvec  kanf,
-                         numvec  kend,
+                         vec_index_type kanf, vec_index_type kend,
                          piece   p,
                          int     run_up,
                          int     jump,
@@ -578,9 +574,9 @@ boolean riderhoppercheck(square  sq_king,
      lion:           run_up: 0   jump: 0
   ********/
 
-  piece   hurdle, hopper;
-  square  sq_hurdle;
-  numvec  k;
+  piece hurdle, hopper;
+  square sq_hurdle;
+  vec_index_type k;
 
   square sq_departure;
 
@@ -636,14 +632,13 @@ boolean riderhoppercheck(square  sq_king,
 } /* end of riderhoppercheck */
 
 boolean ridcheck(square sq_king,
-                 numvec kanf,
-                 numvec kend,
+                 vec_index_type kanf, vec_index_type kend,
                  piece  p,
                  evalfunction_t *evaluate)
 {
   /* detect "check" of rider p */
   piece rider;
-  numvec  k;
+  vec_index_type k;
   square sq_departure;
 
   for (k= kanf; k<= kend; k++)
@@ -658,13 +653,12 @@ boolean ridcheck(square sq_king,
 }
 
 boolean marine_rider_check(square   sq_king,
-                           numvec   kanf,
-                           numvec   kend,
+                           vec_index_type kanf, vec_index_type kend,
                            piece    p,
                            evalfunction_t *evaluate)
 {
   /* detect "check" of marin piece p or a locust */
-  numvec  k;
+  vec_index_type k;
 
   for (k= kanf; k<= kend; k++)
   {
@@ -683,12 +677,11 @@ boolean marine_rider_check(square   sq_king,
 }
 
 boolean marine_leaper_check(square sq_king,
-                            numvec   kanf,
-                            numvec   kend,
+                            vec_index_type kanf, vec_index_type kend,
                             piece p,
                             evalfunction_t *evaluate)
 {
-  numvec  k;
+  vec_index_type k;
   for (k = kanf; k<=kend; ++k)
   {
     square const sq_arrival = sq_king-vec[k];
@@ -751,11 +744,11 @@ boolean nogridcontact(square j)
   return true;
 }
 
-static boolean noleapcontact(square sq_arrival, numvec kanf, numvec kend)
+static boolean noleapcontact(square sq_arrival, vec_index_type kanf, vec_index_type kend)
 {
   boolean result = true;
 
-  numvec k;
+  vec_index_type k;
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();

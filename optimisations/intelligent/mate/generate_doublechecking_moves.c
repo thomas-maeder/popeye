@@ -119,8 +119,8 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
 static void front_check_by_promotee_rider(unsigned int index_of_checker,
                                           PieNam promotee_type,
                                           square via,
-                                          unsigned int vec_start,
-                                          unsigned int vec_end)
+                                          vec_index_type vec_start,
+                                          vec_index_type vec_end)
 {
   Flags const checker_flags = white[index_of_checker].flags;
   unsigned int i;
@@ -166,7 +166,7 @@ static void front_check_by_promotee_knight(unsigned int index_of_checker,
                                            square via)
 {
   Flags const checker_flags = white[index_of_checker].flags;
-  unsigned int i;
+  vec_index_type i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -450,11 +450,11 @@ static void generate_front_check(square rear_pos)
 }
 
 static void rear_check_by_promotee(unsigned int index_of_checker,
-                                   numvec start, numvec end,
+                                   vec_index_type start, vec_index_type end,
                                    PieNam checker_type)
 {
   Flags const checker_flags = white[index_of_checker].flags;
-  numvec k;
+  vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -523,12 +523,12 @@ static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
 }
 
 static void rear_check_by_rider(unsigned int index_of_checker,
-                                numvec start, numvec end,
+                                vec_index_type start, vec_index_type end,
                                 piece checker_type)
 {
   square const checker_origin = white[index_of_checker].diagram_square;
   Flags const checker_flags = white[index_of_checker].flags;
-  numvec k;
+  vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);

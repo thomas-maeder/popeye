@@ -108,4 +108,44 @@ pieces white pb5 mpb2c6d3g7 black kc4 pd7 mpe4
 stip +1
 option movenum nowk nobk
 
+next
+
+pieces neutral rod1
+stip ~1
+option nowk nobk
+twin add black pf2
+
+next
+
+pieces neutral rpd1
+stip ~1
+option nowk nobk
+twin add black pf2
+twin cont add black pg4
+
+next
+
+pieces neutral rad1
+stip ~1
+option nowk nobk
+twin add black pf2
+twin cont add black pg4
+
+next
+
+pieces neutral rnd1
+stip ~1
+option nowk nobk
+twin add black pf2
+twin cont add black pf6
+
+next
+
+pieces neutral lsd1
+stip ~1
+option nowk nobk
+twin add black pf2
+twin cont add black pg4
+
+
 end

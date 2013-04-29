@@ -44,6 +44,7 @@
 #define PYPROC_H
 
 #include "py4.h"
+#include "pieces/vectors.h"
 #include "stipulation/goals/goals.h"
 #include "utilities/boolean.h"
 #include <stdio.h>
@@ -254,7 +255,7 @@ typedef enum {
   angle_135
 } angle_t;
 
-boolean rmhopech(square a, numvec kend, numvec kanf, angle_t angle, piece c, evalfunction_t *evaluate);
+boolean rmhopech(square a, vec_index_type kend, vec_index_type kanf, angle_t angle, piece c, evalfunction_t *evaluate);
 
 boolean is_black_king_square_attacked(evalfunction_t *evaluate);
 
@@ -269,9 +270,8 @@ extern void   (*generate_moves_for_piece)(Side side, square a, piece b);
 piece   champiece(piece p);
 
 void    PrintTime();
-boolean leapcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-boolean ridcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-void    leaper_generate_moves(Side side, square a, numvec b, numvec c);
+boolean leapcheck(square a, vec_index_type b, vec_index_type c, piece d, evalfunction_t *evaluate);
+boolean ridcheck(square a, vec_index_type b, vec_index_type c, piece d, evalfunction_t *evaluate);
 
 boolean roicheck(square a, piece b, evalfunction_t *evaluate);
 boolean pioncheck(square a, piece b, evalfunction_t *evaluate);
@@ -282,8 +282,8 @@ boolean foucheck(square a, piece b, evalfunction_t *evaluate);
 
 boolean t_lioncheck(square i, piece p, evalfunction_t *evaluate);
 boolean f_lioncheck(square i, piece p, evalfunction_t *evaluate);
-boolean marine_rider_check(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
-boolean marine_leaper_check(square sq_king, numvec   kanf, numvec   kend, piece p, evalfunction_t *evaluate);
+boolean marine_rider_check(square a, vec_index_type b, vec_index_type c, piece d, evalfunction_t *evaluate);
+boolean marine_leaper_check(square sq_king, vec_index_type kanf, vec_index_type kend, piece p, evalfunction_t *evaluate);
 boolean marine_pawn_check(square sq_king, piece p, evalfunction_t *evaluate);
 boolean marine_ship_check(square sq_king, piece p, evalfunction_t *evaluate);
 
@@ -342,9 +342,7 @@ void    gecharybdis(square i, Side camp);
 int len_whforcedsquare(square departure, square arrival, square capture);
 int len_blforcedsquare(square departure, square arrival, square capture);
 
-void    geriderhopper(square i, numvec kbeg, numvec kend,
-		      int run_up, int jump, Side camp);
-boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
+boolean riderhoppercheck(square i, vec_index_type kanf, vec_index_type kend, piece p,
                          int run_up, int jump,
                          evalfunction_t *evaluate);
 
@@ -386,8 +384,7 @@ void WriteBGLNumber(char* a, long int b);
 boolean CrossesGridLines(square i, square j);
 
 boolean leapleapcheck(square	 sq_king,
-                      numvec	 kanf,
-                      numvec	 kend,
+                      vec_index_type kanf, vec_index_type kend,
                       int hurdletype,
                       boolean leaf,
                       piece	 p,
@@ -396,30 +393,30 @@ checkfunction_t radialknightcheck;
 
 boolean detect_rosecheck_on_line(square sq_king,
                                  piece p,
-                                 numvec k, numvec k1,
+                                 vec_index_type k, numvec k1,
                                  numvec delta_k,
                                  evalfunction_t *evaluate);
 boolean detect_roselioncheck_on_line(square sq_king,
                                      piece p,
-                                     numvec k, numvec k1,
+                                     vec_index_type k, numvec k1,
                                      numvec delta_k,
                                      evalfunction_t *evaluate);
 boolean detect_rosehoppercheck_on_line(square sq_king,
                                        square sq_hurdle,
                                        piece p,
-                                       numvec k, numvec k1,
+                                       vec_index_type k, numvec k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
 boolean detect_roselocustcheck_on_line(square sq_king,
                                        square sq_arrival,
                                        piece p,
-                                       numvec k, numvec k1,
+                                       vec_index_type k, numvec k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
 
 /* analogon to finligne() for circle  lines */
 square fin_circle_line(square sq_departure,
-                       numvec k1, numvec *k2, numvec delta_k);
+                       vec_index_type k1, numvec *k2, numvec delta_k);
 
 extern square fromspecificsquare;
 

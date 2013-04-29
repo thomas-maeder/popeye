@@ -53,7 +53,7 @@ static void PushMagicView(square sq, PieceIdType id1, PieceIdType id2, numvec v)
 
 void GetRoseAttackVectors(square from, square to)
 {
-  numvec  k;
+  vec_index_type  k;
   for (k= vec_knight_start; k<=vec_knight_end; k++)
   {
     if (detect_rosecheck_on_line(to,e[from],
@@ -69,7 +69,7 @@ void GetRoseAttackVectors(square from, square to)
 
 void GetRoseLionAttackVectors(square from, square to)
 {
-  numvec  k;
+  vec_index_type  k;
   for (k= vec_knight_start; k <= vec_knight_end; k++)
   {
     if (detect_roselioncheck_on_line(to,e[from],
@@ -85,7 +85,7 @@ void GetRoseLionAttackVectors(square from, square to)
 
 void GetRoseHopperAttackVectors(square from, square to)
 {
-  numvec  k;
+  vec_index_type k;
   square sq_hurdle;
 
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
@@ -110,7 +110,7 @@ void GetRoseHopperAttackVectors(square from, square to)
 void GetRoseLocustAttackVectors(square from, square to)
 {
   /* detects check by a rose locust */
-  numvec  k;
+  vec_index_type  k;
   square sq_arrival;
 
   for (k= vec_knight_start; k <= vec_knight_end; k++)
@@ -133,20 +133,20 @@ void GetRoseLocustAttackVectors(square from, square to)
   }
 }
 
-static void GetRMHopAttackVectors(square from, square to, numvec kend, numvec kanf, angle_t angle)
+static void GetRMHopAttackVectors(square from, square to,
+                                  vec_index_type kend, vec_index_type kanf,
+                                  angle_t angle)
 {
-  square sq_hurdle;
-  numvec k, k1;
-  piece hopper;
-
-  square sq_departure;
+  vec_index_type k;
 
   for (k= kend; k>=kanf; k--)
   {
-    sq_hurdle= to+vec[k];
+    square const sq_hurdle = to+vec[k];
     if (abs(e[sq_hurdle])>=roib)
     {
-      k1= 2*k;
+      vec_index_type const k1 = 2*k;
+      piece hopper;
+      square sq_departure;
       finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==e[from]) {
         if (eval_fromspecificsquare(sq_departure,to,to))
@@ -258,28 +258,28 @@ static void GetZigZagAttackVectors(square from, square to,
 }
 
 void GetBoyscoutAttackVectors(square from, square to) {
-  numvec  k;
+  vec_index_type k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++)
     GetZigZagAttackVectors(from, to, vec[k], vec[13 - k]);
 }
 
 void GetGirlscoutAttackVectors(square from, square to) {
-  numvec  k;
+  vec_index_type k;
 
   for (k= vec_rook_start; k <= vec_rook_end; k++)
     GetZigZagAttackVectors(from, to, vec[k], vec[5 - k]);
 }
 
 void GetSpiralSpringerAttackVectors(square from, square to) {
-  numvec  k;
+  vec_index_type k;
 
   for (k= vec_knight_start; k <= vec_knight_end; k++)
     GetZigZagAttackVectors(from, to, vec[k], vec[25 - k]);
 }
 
 void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
-  numvec  k;
+  vec_index_type k;
 
   for (k= vec_knight_start; k <= 14; k++)
     GetZigZagAttackVectors(from, to, vec[k], vec[23 - k]);

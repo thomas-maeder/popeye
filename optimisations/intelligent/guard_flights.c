@@ -21,10 +21,10 @@ guard_dir_struct GuardDir[5][maxsquare+4];
 
 static void init_guard_dirs_leaper(PieNam guarder,
                                    square target,
-                                   unsigned int start, unsigned int end,
+                                   vec_index_type start, vec_index_type end,
                                    numvec value)
 {
-  unsigned int i;
+  vec_index_type i;
   for (i = start; i <= end; ++i)
     GuardDir[guarder-Pawn][target+vec[i]].dir = value;
 }
@@ -52,7 +52,7 @@ static void init_guard_dirs_rider(PieNam guarder,
 
 static void init_guard_dirs_queen(square black_king_pos)
 {
-  unsigned int i;
+  vec_index_type i;
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
@@ -84,14 +84,14 @@ static void init_guard_dirs_queen(square black_king_pos)
 
 static void init_guard_dirs_rook(square black_king_pos)
 {
-  unsigned int i;
+  vec_index_type i;
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
     if (e[flight]==vide)
     {
-      unsigned int j;
+      vec_index_type j;
       for (j = vec_rook_start; j<=vec_rook_end; ++j)
         if (vec[i]!=-vec[j])
           init_guard_dirs_rider(Rook,flight,vec[j]);
@@ -116,14 +116,14 @@ static void init_guard_dirs_rook(square black_king_pos)
 
 static void init_guard_dirs_bishop(square black_king_pos)
 {
-  unsigned int i;
+  vec_index_type i;
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
     if (e[flight]==vide)
     {
-      unsigned int j;
+      vec_index_type j;
       for (j = vec_bishop_start; j<=vec_bishop_end; ++j)
         if (vec[i]!=-vec[j])
           init_guard_dirs_rider(Bishop,flight,vec[j]);
@@ -148,7 +148,7 @@ static void init_guard_dirs_bishop(square black_king_pos)
 
 static void init_guard_dirs_knight(square black_king_pos)
 {
-  unsigned int i;
+  vec_index_type i;
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
@@ -177,7 +177,7 @@ static void init_guard_dir_pawn(square flight, numvec dir)
 
 static void init_guard_dirs_pawn(square black_king_pos)
 {
-  unsigned int i;
+  vec_index_type i;
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];

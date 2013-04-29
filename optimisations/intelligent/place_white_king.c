@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static numvec current_direction;
+static vec_index_type current_direction;
 static void (*go_on_after)(void);
 
 /* Is the placed white king in check from a particular direction?
@@ -40,7 +40,7 @@ static boolean check_from_direction(int dir)
  */
 static void continue_intercepting_checks(void)
 {
-  numvec const save_current_direction = current_direction;
+  vec_index_type const save_current_direction = current_direction;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

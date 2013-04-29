@@ -63,20 +63,20 @@ boolean rubiech(square  intermediate_square,
                 echiquier e_ub,
                 evalfunction_t *evaluate)
 {
-  numvec k;
-
-  square sq_departure;
+  vec_index_type k;
 
   e_ub[intermediate_square]= obs;
-  for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    sq_departure= intermediate_square+vec[k];
-    if (e_ub[sq_departure]==vide) {
+  for (k= vec_knight_start; k<=vec_knight_end; k++)
+  {
+    square const sq_departure= intermediate_square+vec[k];
+    if (e_ub[sq_departure]==vide)
+    {
       if (rubiech(sq_departure,sq_king,p,e_ub,evaluate))
         return true;
     }
-    else {
-      if (e_ub[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
+    else
+    {
+      if (e_ub[sq_departure]==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
@@ -302,7 +302,6 @@ boolean is_black_king_square_attacked(evalfunction_t *evaluate)
 /* detect, if black king is checked     */
 static boolean calc_rnechec(evalfunction_t *evaluate)
 {
-  numvec k;
   piece p;
 
   square sq_departure;
@@ -356,8 +355,11 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
 
       calc_reflective_king[White] = true;
 
-      if (!calc_transmuting_king[White] || flag) {
-        for (k= vec_queen_end; k>=vec_queen_start; k--) {
+      if (!calc_transmuting_king[White] || flag)
+      {
+        vec_index_type k;
+        for (k= vec_queen_end; k>=vec_queen_start; k--)
+        {
           sq_departure= king_square[Black]+vec[k];
           if (e[sq_departure]==roib
               && evaluate(sq_departure,king_square[Black],king_square[Black]))
@@ -366,17 +368,21 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         }
       }
     }
-    else {
+    else
+    {
       if (CondFlag[sting]
           && (*checkfunctions[sb])(king_square[Black], roib, evaluate))
         return true;
-
-      for (k= vec_queen_end; k>=vec_queen_start; k--) {
-        sq_departure= king_square[Black]+vec[k];
-        if (e[sq_departure]==roib
-            && evaluate(sq_departure,king_square[Black],king_square[Black])
-            && imcheck(sq_departure,king_square[Black]))
-          return true;
+      else
+      {
+        vec_index_type k;
+        for (k= vec_queen_end; k>=vec_queen_start; k--) {
+          sq_departure= king_square[Black]+vec[k];
+          if (e[sq_departure]==roib
+              && evaluate(sq_departure,king_square[Black],king_square[Black])
+              && imcheck(sq_departure,king_square[Black]))
+            return true;
+        }
       }
     }
   }
@@ -437,24 +443,34 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
 
 
   if (nbpiece[cb]>0)
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
+  {
+    vec_index_type k;
+    for (k= vec_knight_start; k<=vec_knight_end; k++)
+    {
       sq_departure= king_square[Black]+vec[k];
       if (e[sq_departure]==cb
           && evaluate(sq_departure,king_square[Black],king_square[Black]))
         if (imcheck(sq_departure,king_square[Black]))
           return true;
     }
+  }
 
   if (nbpiece[db]>0 || nbpiece[tb]>0)
-    for (k= vec_rook_end; k>=vec_rook_start; k--) {
+  {
+    vec_index_type k;
+    for (k= vec_rook_end; k>=vec_rook_start; k--)
+    {
       finligne(king_square[Black],vec[k],p,sq_departure);
       if ((p==tb || p==db)
           && evaluate(sq_departure,king_square[Black],king_square[Black]))
         if (ridimcheck(sq_departure,king_square[Black],vec[k]))
           return true;
     }
+  }
 
   if (nbpiece[db]>0 || nbpiece[fb]>0)
+  {
+    vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(king_square[Black],vec[k],p,sq_departure);
       if ((p==fb || p==db)
@@ -462,6 +478,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         if (ridimcheck(sq_departure,king_square[Black],vec[k]))
           return true;
     }
+  }
 
   if (flagfee)
     return feenechec(evaluate);
@@ -503,7 +520,6 @@ boolean is_white_king_square_attacked(evalfunction_t *evaluate)
 /* detect, if white king is checked  */
 static boolean calc_rbechec(evalfunction_t *evaluate)
 {
-  numvec k;
   piece p;
 
   square sq_departure;
@@ -555,8 +571,11 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
 
       calc_reflective_king[Black] = true;
 
-      if (!calc_transmuting_king[Black] || flag) {
-        for (k= vec_queen_end; k>=vec_queen_start; k--) {
+      if (!calc_transmuting_king[Black] || flag)
+      {
+        vec_index_type k;
+        for (k= vec_queen_end; k>=vec_queen_start; k--)
+        {
           sq_departure= king_square[White]+vec[k];
           if (e[sq_departure]==roin
               && evaluate(sq_departure,king_square[White],king_square[White]))
@@ -565,19 +584,22 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         }
       }
     }
-    else {
+    else
+    {
       if ( CondFlag[sting]
            && (*checkfunctions[sb])(king_square[White], roin, evaluate))
-      {
         return true;
-      }
-      for (k= vec_queen_end; k>=vec_queen_start; k--)
+      else
       {
-        sq_departure= king_square[White]+vec[k];
-        if (e[sq_departure]==roin
-            && evaluate(sq_departure,king_square[White],king_square[White]))
-          if (imcheck(sq_departure,king_square[White]))
-            return true;
+        vec_index_type k;
+        for (k= vec_queen_end; k>=vec_queen_start; k--)
+        {
+          sq_departure= king_square[White]+vec[k];
+          if (e[sq_departure]==roin
+              && evaluate(sq_departure,king_square[White],king_square[White]))
+            if (imcheck(sq_departure,king_square[White]))
+              return true;
+        }
       }
     }
   }
@@ -638,24 +660,34 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   }
 
   if (nbpiece[cn]>0)
-    for (k= vec_knight_start; k<=vec_knight_end; k++) {
+  {
+    vec_index_type k;
+    for (k= vec_knight_start; k<=vec_knight_end; k++)
+    {
       sq_departure= king_square[White]+vec[k];
       if (e[sq_departure]==cn
           && evaluate(sq_departure,king_square[White],king_square[White]))
         if (imcheck(sq_departure,king_square[White]))
           return true;
     }
+  }
 
   if (nbpiece[dn]>0 || nbpiece[tn]>0)
-    for (k= vec_rook_end; k>=vec_rook_start; k--) {
+  {
+    vec_index_type k;
+    for (k= vec_rook_end; k>=vec_rook_start; k--)
+    {
       finligne(king_square[White],vec[k],p,sq_departure);
       if ((p==tn || p==dn)
           && evaluate(sq_departure,king_square[White],king_square[White]))
         if (ridimcheck(sq_departure,king_square[White],vec[k]))
           return true;
     }
+  }
 
   if (nbpiece[dn]>0 || nbpiece[fn]>0)
+  {
+    vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(king_square[White],vec[k],p,sq_departure);
       if ((p==fn || p==dn)
@@ -663,6 +695,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         if (ridimcheck(sq_departure,king_square[White],vec[k]))
           return true;
     }
+  }
 
   if (flagfee)
     return feebechec(evaluate);

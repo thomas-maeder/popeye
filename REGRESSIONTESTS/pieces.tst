@@ -1089,3 +1089,383 @@ solution finished.
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   . =RO   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                     0 + 0 + 1n
+
+a) 
+
+   1.nROd1-h1 !
+
+   1.nROd1-e3 !
+
+   1.nROd1-h5 !
+
+   1.nROd1-d5 !
+
+   1.nROd1-c3 !
+
+   1.nROd1-f2 !
+
+   1.nROd1-g4 !
+
+   1.nROd1-f6 !
+
+   1.nROd1-d7 !
+
+   1.nROd1-b6 !
+
+   1.nROd1-a4 !
+
+   1.nROd1-b2 !
+
+
+                        empile:          28
+                     play_move:          12
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) +bPf2 
+
+   1.nROd1-e3 !
+
+   1.nROd1-h5 !
+
+   1.nROd1-d5 !
+
+   1.nROd1-c3 !
+
+   1.nROd1*f2 !
+
+   1.nROd1-g4 !
+
+   1.nROd1-f6 !
+
+   1.nROd1-d7 !
+
+   1.nROd1-b6 !
+
+   1.nROd1-a4 !
+
+   1.nROd1-b2 !
+
+
+                        empile:          21
+                     play_move:          11
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   . =RP   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                     0 + 0 + 1n
+
+a) 
+
+
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) +bPf2 
+
+   1.nRPd1-g4 !
+
+   1.nRPd1-h1 !
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
++c) +bPg4 
+
+   1.nRPd1*g4 !
+
+   1.nRPd1-h1 !
+
+   1.nRPd1*f2 !
+
+
+                        empile:           3
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   . =RA   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                     0 + 0 + 1n
+
+a) 
+
+   1.nRAd1-h1 !
+
+   1.nRAd1-e3 !
+
+   1.nRAd1-h5 !
+
+   1.nRAd1-d5 !
+
+   1.nRAd1-c3 !
+
+   1.nRAd1-f2 !
+
+   1.nRAd1-g4 !
+
+   1.nRAd1-f6 !
+
+   1.nRAd1-d7 !
+
+   1.nRAd1-b6 !
+
+   1.nRAd1-a4 !
+
+   1.nRAd1-b2 !
+
+
+                        empile:          28
+                     play_move:          12
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) +bPf2 
+
+   1.nRAd1-e3 !
+
+   1.nRAd1-h5 !
+
+   1.nRAd1-d5 !
+
+   1.nRAd1-c3 !
+
+   1.nRAd1-g4 !
+
+   1.nRAd1-f6 !
+
+   1.nRAd1-d7 !
+
+   1.nRAd1-b6 !
+
+   1.nRAd1-a4 !
+
+   1.nRAd1-b2 !
+
+
+                        empile:          18
+                     play_move:          10
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
++c) +bPg4 
+
+   1.nRAd1*g4 !
+
+   1.nRAd1-e3 !
+
+   1.nRAd1-h5 !
+
+   1.nRAd1-d5 !
+
+   1.nRAd1-c3 !
+
+   1.nRAd1*f2 !
+
+   1.nRAd1-f6 !
+
+   1.nRAd1-d7 !
+
+   1.nRAd1-b6 !
+
+   1.nRAd1-a4 !
+
+   1.nRAd1-b2 !
+
+
+                        empile:          18
+                     play_move:          11
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   . =RN   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                     0 + 0 + 1n
+
+a) 
+
+
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) +bPf2 
+
+   1.nRNd1-b2 !
+
+   1.nRNd1-a4 !
+
+   1.nRNd1-b6 !
+
+   1.nRNd1-d7 !
+
+   1.nRNd1-f6 !
+
+   1.nRNd1-g4 !
+
+   1.nRNd1-h1 !
+
+
+                        empile:           7
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
++c) +bPf6 
+
+   1.nRNd1*f6 !
+
+   1.nRNd1-h1 !
+
+   1.nRNd1-h5 !
+
+   1.nRNd1*f2 !
+
+   1.nRNd1-g4 !
+
+
+                        empile:           6
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   . =LS   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                     0 + 0 + 1n
+
+a) 
+
+
+                        empile:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) +bPf2 
+
+   1.nLSd1*f2-g4 !
+
+   1.nLSd1*f2-h1 !
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
++c) +bPg4 
+
+   1.nLSd1*f2-h1 !
+
+
+                        empile:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

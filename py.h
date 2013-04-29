@@ -209,8 +209,7 @@ enum
 
 enum
 {
-  toppile = 60*maxply,
-  maxvec = 232
+  toppile = 60*maxply
 };
 
 enum
@@ -228,7 +227,6 @@ enum
 };
 
 typedef int         ply;
-typedef int        numvec;
 
 typedef square       pilecase[maxply+1];
 

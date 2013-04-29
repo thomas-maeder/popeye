@@ -740,10 +740,10 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
-                        empile:     1076879
-                     play_move:      619456
- is_white_king_square_attacked:       85494
- is_black_king_square_attacked:      618547
+                        empile:     1058816
+                     play_move:      616035
+ is_white_king_square_attacked:       85491
+ is_black_king_square_attacked:      615126
 solution finished. 
 
 
@@ -1053,8 +1053,8 @@ solving interrupted.
   1.Sb8-a6 f2-f1=Q #
   1.Sb8-c6 f2-f1=Q #
 
-                        empile:          33
-                     play_move:          39
+                        empile:          34
+                     play_move:          40
  is_white_king_square_attacked:          34
  is_black_king_square_attacked:           0
 solving interrupted. 

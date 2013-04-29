@@ -127,7 +127,6 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 {
   square const *bnp;
   square sq;
-  numvec    k;
   int   MoveNbr;
   boolean   GoOn;
 
@@ -198,6 +197,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
     {
       if (WhKingMoves[*bnp] == MoveNbr)
       {
+        vec_index_type k;
         for (k= vec_queen_end; k>=vec_queen_start; k--)
         {
           sq= *bnp+vec[k];
@@ -220,6 +220,8 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
           }
         }
         if (calc_transmuting_king[White])
+        {
+          vec_index_type k;
           for (k= vec_knight_end; k>=vec_knight_start; k--)
           {
             sq= *bnp+vec[k];
@@ -229,6 +231,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
               GoOn= true;
             }
           }
+        }
       }
     }
     MoveNbr++;
@@ -244,6 +247,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
     {
       if (BlKingMoves[*bnp] == MoveNbr)
       {
+        vec_index_type k;
         for (k= vec_queen_end; k>=vec_queen_start; k--)
         {
           sq= *bnp+vec[k];
@@ -267,6 +271,8 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
           }
         }
         if (calc_transmuting_king[Black])
+        {
+          vec_index_type k;
           for (k= vec_knight_end; k>=vec_knight_start; k--)
           {
             sq= *bnp+vec[k];
@@ -276,6 +282,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
               GoOn= true;
             }
           }
+        }
       }
     }
 
@@ -973,13 +980,15 @@ static void PieceMovesFromTo(piece p,
     if (*moves > 1)
     {
       square    sqi, sqj;
-      int   i, j;
       stip_length_type testmov;
       stip_length_type testmin = current_length;
+      vec_index_type i;
       for (i= vec_knight_start; i<=vec_knight_end; ++i)
       {
         sqi= from+vec[i];
         if (!BLOCKED(sqi) && e[sqi] != obs)
+        {
+          vec_index_type j;
           for (j= vec_knight_start; j<=vec_knight_end; j++)
           {
             sqj= to+vec[j];
@@ -992,6 +1001,7 @@ static void PieceMovesFromTo(piece p,
                 testmin= testmov;
             }
           }
+        }
       }
       *moves= testmin;
     }

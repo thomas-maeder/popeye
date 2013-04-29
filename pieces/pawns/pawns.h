@@ -1,6 +1,7 @@
 #if !defined(PIECES_PAWNS_PAWNS_H)
 #define PIECES_PAWNS_PAWNS_H
 
+#include "pieces/vectors.h"
 #include "position/board.h"
 #include "position/position.h"
 #include "py.h"

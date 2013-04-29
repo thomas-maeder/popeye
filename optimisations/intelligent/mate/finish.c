@@ -97,7 +97,7 @@ static boolean exists_redundant_white_piece(void)
 static square find_king_flight(void)
 {
   square result = initsquare;
-  unsigned int i;
+  vec_index_type i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
