@@ -56,9 +56,6 @@ void	rider_generate_moves(Side side, square i, vec_index_type kbeg, vec_index_ty
 void  leaper_generate_moves(Side side, square i, vec_index_type kbeg, vec_index_type kend);
 void  geriderhopper(square i, vec_index_type kbeg, vec_index_type kend,
                     int run_up, int jump, Side camp);
-void grose(square sq_departure,
-           vec_index_type k1, numvec k2, numvec delta_k,
-           Side camp);
 void genradialknight(square sq_departure, Side camp);
 void gentreehopper(square sq_departure, Side camp);
 void genleafhopper(square sq_departure, Side camp);

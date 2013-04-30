@@ -112,6 +112,52 @@ pieces/vectors.h:
 stipulation/goals/goals.h:
 
 debugging/trace.h:
+pieces/roses$(OBJ_SUFFIX): pieces/roses.c pieces/roses.h position/board.h \
+ utilities/bitmask.h position/position.h position/piece.h \
+ utilities/boolean.h utilities/enumeration.h pieces/vectors.h pydata.h \
+ pyproc.h py4.h py.h utilities/boolean.h position/position.h pylang.h \
+ pieces/vectors.h stipulation/goals/goals.h py.h pyproc.h \
+ debugging/trace.h
+
+pieces/roses.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/position.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pieces/vectors.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+pyproc.h:
+
+debugging/trace.h:
 pieces/marine$(OBJ_SUFFIX): pieces/marine.c pieces/marine.h pieces/vectors.h \
  position/board.h utilities/bitmask.h position/position.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h py.h \

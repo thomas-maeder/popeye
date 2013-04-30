@@ -72,6 +72,7 @@
 #include "solving/observation.h"
 #include "stipulation/temporary_hacks.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "pieces/roses.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -931,7 +932,7 @@ boolean f_lioncheck(square    i,
  * handled */
 boolean detect_rosecheck_on_line(square sq_king,
                                  piece p,
-                                 vec_index_type k, numvec k1,
+                                 vec_index_type k, vec_index_type k1,
                                  numvec delta_k,
                                  evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
@@ -947,11 +948,11 @@ boolean rosecheck(square    sq_king,
   vec_index_type k;
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
     if (detect_rosecheck_on_line(sq_king,p,
-                                 k,0,+1,
+                                 k,0,rose_rotation_clockwise,
                                  evaluate))
       return true;
     if (detect_rosecheck_on_line(sq_king,p,
-                                 k,vec_knight_end-vec_knight_start+1,-1,
+                                 k,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                  evaluate))
       return true;
   }
@@ -961,7 +962,7 @@ boolean rosecheck(square    sq_king,
 
 boolean detect_roselioncheck_on_line(square sq_king,
                                      piece p,
-                                     vec_index_type k, numvec k1,
+                                     vec_index_type k, vec_index_type k1,
                                      numvec delta_k,
                                      evalfunction_t *evaluate) {
   square sq_hurdle= fin_circle_line(sq_king,k,&k1,delta_k);
@@ -996,10 +997,10 @@ boolean roselioncheck(square    sq_king,
   vec_index_type k;
   for (k= vec_knight_start; k <= vec_knight_end; k++)
     if (detect_roselioncheck_on_line(sq_king,p,
-                                     k,0,+1,
+                                     k,0,rose_rotation_clockwise,
                                      evaluate)
         || detect_roselioncheck_on_line(sq_king,p,
-                                        k,vec_knight_end-vec_knight_start+1,-1,
+                                        k,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                         evaluate))
       return true;
 
@@ -1009,7 +1010,7 @@ boolean roselioncheck(square    sq_king,
 boolean detect_rosehoppercheck_on_line(square sq_king,
                                        square sq_hurdle,
                                        piece p,
-                                       vec_index_type k, numvec k1,
+                                       vec_index_type k, vec_index_type k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
@@ -1032,11 +1033,11 @@ boolean rosehoppercheck(square  sq_king,
        * vec_knight_end-vec_knight_start+1) were already used for
        * sq_hurdle! */
       if (detect_rosehoppercheck_on_line(sq_king,sq_hurdle,p,
-                                         k,1,+1,
+                                         k,1,rose_rotation_clockwise,
                                          evaluate))
         return true;
       if (detect_rosehoppercheck_on_line(sq_king,sq_hurdle,p,
-                                         k,vec_knight_end-vec_knight_start,-1,
+                                         k,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          evaluate))
         return true;
     }
@@ -1048,7 +1049,7 @@ boolean rosehoppercheck(square  sq_king,
 boolean detect_roselocustcheck_on_line(square sq_king,
                                        square sq_arrival,
                                        piece p,
-                                       vec_index_type k, numvec k1,
+                                       vec_index_type k, vec_index_type k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
@@ -1071,11 +1072,11 @@ boolean roselocustcheck(square  sq_king,
        * vec_knight_end-vec_knight_start+1) were already used for
        * sq_hurdle! */
       if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
-                                         k,1,+1,
+                                         k,1,rose_rotation_clockwise,
                                          evaluate))
         return true;
       if (detect_roselocustcheck_on_line(sq_king,sq_arrival,p,
-                                         k,vec_knight_end-vec_knight_start,-1,
+                                         k,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          evaluate))
         return true;
     }

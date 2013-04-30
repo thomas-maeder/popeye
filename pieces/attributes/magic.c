@@ -1,6 +1,7 @@
 #include "pieces/attributes/magic.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "pieces/roses.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -53,56 +54,56 @@ static void PushMagicView(square sq, PieceIdType id1, PieceIdType id2, numvec v)
 
 void GetRoseAttackVectors(square from, square to)
 {
-  vec_index_type  k;
-  for (k= vec_knight_start; k<=vec_knight_end; k++)
+  vec_index_type vec_index_start;
+  for (vec_index_start = vec_knight_start; vec_index_start<=vec_knight_end; vec_index_start++)
   {
     if (detect_rosecheck_on_line(to,e[from],
-                                 k,0,+1,
+                                 vec_index_start,0,rose_rotation_clockwise,
                                  eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
+      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
     if (detect_rosecheck_on_line(to,e[from],
-                                 k,vec_knight_end-vec_knight_start+1,-1,
+                                 vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                  eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
+      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
   }
 }
 
 void GetRoseLionAttackVectors(square from, square to)
 {
-  vec_index_type  k;
-  for (k= vec_knight_start; k <= vec_knight_end; k++)
+  vec_index_type vec_index_start;
+  for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
     if (detect_roselioncheck_on_line(to,e[from],
-                                     k,0,+1,
+                                     vec_index_start,0,rose_rotation_clockwise,
                                      eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
+      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
     if (detect_roselioncheck_on_line(to,e[from],
-                                        k,vec_knight_end-vec_knight_start+1,-1,
+                                        vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                         eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
+      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
   }
 }
 
 void GetRoseHopperAttackVectors(square from, square to)
 {
-  vec_index_type k;
-  square sq_hurdle;
+  vec_index_type vec_index_start;
 
-  for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    sq_hurdle= to+vec[k];
+  for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
+  {
+    square const sq_hurdle= to+vec[vec_index_start];
     if (e[sq_hurdle]!=vide && e[sq_hurdle]!=obs)
     {
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
          * sq_hurdle! */
       if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
-                                         k,1,+1,
+                                         vec_index_start,1,rose_rotation_clockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
+        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
       if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
-                                         k,vec_knight_end-vec_knight_start,-1,
+                                         vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
+        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
     }
   }
 }
@@ -110,25 +111,24 @@ void GetRoseHopperAttackVectors(square from, square to)
 void GetRoseLocustAttackVectors(square from, square to)
 {
   /* detects check by a rose locust */
-  vec_index_type  k;
-  square sq_arrival;
+  vec_index_type  vec_index_start;
 
-  for (k= vec_knight_start; k <= vec_knight_end; k++)
+  for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
-    sq_arrival= to-vec[k];
+    square const sq_arrival= to-vec[vec_index_start];
     if (e[sq_arrival]==vide)
     {
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
          * sq_hurdle! */
       if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
-                                         k,1,+1,
+                                         vec_index_start,1,rose_rotation_clockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
+        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
       if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
-                                         k,vec_knight_end-vec_knight_start,-1,
+                                         vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
+        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
     }
   }
 }

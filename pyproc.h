@@ -393,30 +393,26 @@ checkfunction_t radialknightcheck;
 
 boolean detect_rosecheck_on_line(square sq_king,
                                  piece p,
-                                 vec_index_type k, numvec k1,
+                                 vec_index_type k, vec_index_type k1,
                                  numvec delta_k,
                                  evalfunction_t *evaluate);
 boolean detect_roselioncheck_on_line(square sq_king,
                                      piece p,
-                                     vec_index_type k, numvec k1,
+                                     vec_index_type k, vec_index_type k1,
                                      numvec delta_k,
                                      evalfunction_t *evaluate);
 boolean detect_rosehoppercheck_on_line(square sq_king,
                                        square sq_hurdle,
                                        piece p,
-                                       vec_index_type k, numvec k1,
+                                       vec_index_type k, vec_index_type k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
 boolean detect_roselocustcheck_on_line(square sq_king,
                                        square sq_arrival,
                                        piece p,
-                                       vec_index_type k, numvec k1,
+                                       vec_index_type k, vec_index_type k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
-
-/* analogon to finligne() for circle  lines */
-square fin_circle_line(square sq_departure,
-                       vec_index_type k1, numvec *k2, numvec delta_k);
 
 extern square fromspecificsquare;
 
