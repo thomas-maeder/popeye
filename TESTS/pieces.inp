@@ -147,5 +147,9 @@ option nowk nobk
 twin add black pf2
 twin cont add black pg4
 
+next
+pieces white dsd4
+stip ~1
+option nowk nobk
 
 end

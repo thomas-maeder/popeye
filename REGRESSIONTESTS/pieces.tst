@@ -1469,3 +1469,90 @@ b) +bPf2
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  DS   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 0
+
+   1.DSd4-b3 !
+
+   1.DSd4-a1 !
+
+   1.DSd4-c2 !
+
+   1.DSd4-d1 !
+
+   1.DSd4-e2 !
+
+   1.DSd4-h5 !
+
+   1.DSd4-f3 !
+
+   1.DSd4-g1 !
+
+   1.DSd4-h3 !
+
+   1.DSd4-f2 !
+
+   1.DSd4-g4 !
+
+   1.DSd4-e3 !
+
+   1.DSd4-f5 !
+
+   1.DSd4-c8 !
+
+   1.DSd4-b6 !
+
+   1.DSd4-c5 !
+
+   1.DSd4-e6 !
+
+   1.DSd4-g7 !
+
+   1.DSd4-e8 !
+
+   1.DSd4-f6 !
+
+   1.DSd4-d7 !
+
+   1.DSd4-e5 !
+
+   1.DSd4-c6 !
+
+   1.DSd4-b2 !
+
+   1.DSd4-a4 !
+
+   1.DSd4-c3 !
+
+   1.DSd4-a7 !
+
+   1.DSd4-b5 !
+
+
+                        empile:          56
+                     play_move:          28
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

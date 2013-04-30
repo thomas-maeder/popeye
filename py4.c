@@ -920,20 +920,19 @@ static void gbob(square sq_departure, Side camp) {
   }
 }
 
-static void gcs(square sq_departure,
-                numvec k1, numvec k2,
-                Side camp)
+static void spiral_springer_generate_moves(Side camp, square sq_departure,
+                                           numvec k1, numvec k2)
 {
   square sq_arrival= sq_departure+k1;
 
   while (e[sq_arrival]==vide)
   {
     empile(sq_departure,sq_arrival,sq_arrival);
-    sq_arrival+= k2;
+    sq_arrival += k2;
     if (e[sq_arrival]==vide)
     {
       empile(sq_departure,sq_arrival,sq_arrival);
-      sq_arrival+= k1;
+      sq_arrival += k1;
     }
     else
       break;
@@ -941,15 +940,15 @@ static void gcs(square sq_departure,
   if (piece_belongs_to_opponent(sq_arrival,camp))
     empile(sq_departure,sq_arrival,sq_arrival);
 
-  sq_arrival= sq_departure+k1;
+  sq_arrival = sq_departure+k1;
   while (e[sq_arrival]==vide)
   {
     empile(sq_departure,sq_arrival,sq_arrival);
-    sq_arrival-= k2;
+    sq_arrival -= k2;
     if (e[sq_arrival]==vide)
     {
       empile(sq_departure,sq_arrival,sq_arrival);
-      sq_arrival+= k1;
+      sq_arrival += k1;
     }
     else
       break;
@@ -1810,9 +1809,45 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case SpiralSpringer:
     {
       numecoup const save_current_move = current_move[nbply];
+      vec_index_type const top = vec_knight_start+vec_knight_end;
       vec_index_type k;
-      for (k= vec_knight_start; k<=vec_knight_end; k++)
-        gcs(sq_departure, vec[k], vec[vec_knight_start+vec_knight_end-k], side);
+      for (k = vec_knight_start; k<=vec_knight_end; ++k)
+        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[top-k]);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case DiagonalSpiralSpringer:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      vec_index_type k;
+      for (k = vec_knight_start; k<=vec_knight_end; k += 2)
+      {
+        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[k+1]);
+        spiral_springer_generate_moves(side,sq_departure,vec[k+1],vec[k]);
+      }
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case BoyScout:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      vec_index_type const top = vec_bishop_start+vec_bishop_end;
+      vec_index_type k;
+      for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
+        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[top-k]);
+      remove_duplicate_moves_of_single_piece(save_current_move);
+      return;
+    }
+
+    case GirlScout:
+    {
+      numecoup const save_current_move = current_move[nbply];
+      vec_index_type const top = vec_rook_start+vec_rook_end;
+      vec_index_type k;
+      for (k = vec_rook_end; k>=vec_rook_start; --k)
+        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[top-k]);
       remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
@@ -1899,18 +1934,6 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       return;
     }
 
-    case DiagonalSpiralSpringer:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      numvec k;
-      for (k= 9; k <= 14; k++)
-        gcs(sq_departure, vec[k], vec[23 - k], side);
-      for (k= 15; k <= 16; k++)
-        gcs(sq_departure, vec[k], vec[27 - k], side);
-      remove_duplicate_moves_of_single_piece(save_current_move);
-      return;
-    }
-
     case BouncyKnight:
     {
       numecoup const save_current_move = current_move[nbply];
@@ -1971,26 +1994,6 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case MaoRider:
       gemaorider(sq_departure, side);
       return;
-
-    case BoyScout:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      vec_index_type k;
-      for (k= vec_bishop_start; k <= vec_bishop_end; ++k)
-        gcs(sq_departure,vec[k],vec[vec_bishop_start+vec_bishop_end-k],side);
-      remove_duplicate_moves_of_single_piece(save_current_move);
-      return;
-    }
-
-    case GirlScout:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      vec_index_type k;
-      for (k= vec_rook_end; k >=vec_rook_start; --k)
-        gcs(sq_departure,vec[k],vec[vec_rook_start+vec_rook_end-k],side);
-      remove_duplicate_moves_of_single_piece(save_current_move);
-      return;
-    }
 
     case Skylla:
       geskylla(sq_departure, side);
