@@ -5,13 +5,7 @@
 
 #include "solving/solve.h"
 
-typedef struct
-{
-    unsigned int bottom;
-    unsigned int top;
-} magicstate_type;
-
-extern magicstate_type magicstate[maxply + 1];
+extern unsigned int magic_views_top[maxply+1];
 
 /* Can a specific type of (fairy) piece be magic?
  * @param p type of piece

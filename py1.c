@@ -172,7 +172,7 @@ static void initply(ply parent, ply child)
   BGL_values[White][child] = BGL_values[White][parent];
   BGL_values[Black][child] = BGL_values[Black][parent];
 
-  magicstate[child] = magicstate[parent];
+  magic_views_top[child] = magic_views_top[child-1];
 
   platzwechsel_rochade_allowed[White][child] = platzwechsel_rochade_allowed[White][parent];
   platzwechsel_rochade_allowed[Black][child] = platzwechsel_rochade_allowed[Black][parent];
@@ -212,7 +212,7 @@ static void do_copyply(ply original, ply copy)
   BGL_values[White][copy] = BGL_values[White][parent_ply[original]];
   BGL_values[Black][copy] = BGL_values[Black][parent_ply[original]];
 
-  magicstate[copy] = magicstate[parent_ply[original]];
+  magic_views_top[copy] = magic_views_top[copy-1];
 
   platzwechsel_rochade_allowed[White][copy] = platzwechsel_rochade_allowed[White][parent_ply[original]];
   platzwechsel_rochade_allowed[Black][copy] = platzwechsel_rochade_allowed[Black][parent_ply[original]];

@@ -323,7 +323,8 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-  if (state.base_rank==no_slice_rank || slices[base].type==STMove)
+  if (state.base_rank==no_slice_rank
+      || slices[base].type==STMove || slices[base].type==STDummyMove)
     start_insertion_according_to_move_order(proxy,&st,STAttackPlayed);
   else
   {
@@ -393,7 +394,8 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-  if (state.base_rank==no_slice_rank || slices[base].type==STMove)
+  if (state.base_rank==no_slice_rank
+      || slices[base].type==STMove || slices[base].type==STDummyMove)
     start_insertion_according_to_move_order(proxy,&st,STDefensePlayed);
   else
   {

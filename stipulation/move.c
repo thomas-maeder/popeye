@@ -14,6 +14,7 @@
 static slice_index const move_slice_rank_order[] =
 {
     STMove,
+    STDummyMove,
     STForEachAttack,
     STFindAttack,
     STForEachDefense,
@@ -216,6 +217,25 @@ void stip_instrument_moves(slice_index si, slice_type type)
 
   stip_structure_traversal_init(&st,&type);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument dummy moves with a slice type
+ * @param identifies where to start instrumentation
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_dummy_moves(slice_index si, slice_type type)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&type);
+  stip_structure_traversal_override_single(&st,STDummyMove,&instrument_move);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

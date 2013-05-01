@@ -2460,9 +2460,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[sentinelles])
     stip_insert_sentinelles_inserters(result);
 
-  if (TSTFLAG(some_pieces_flags,Magic))
-    stip_insert_magic_pieces_recolorers(result);
-
   if (CondFlag[antisuper])
   {
     stip_insert_anticirce_strict(result);
@@ -2748,6 +2745,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_insert_avoid_unsolvable_forks(result);
 
   stip_insert_move_iterators(result);
+
+  if (TSTFLAG(some_pieces_flags,Magic))
+    stip_insert_magic_pieces_recolorers(result);
 
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);

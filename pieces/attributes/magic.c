@@ -28,7 +28,7 @@ typedef struct
 
 static magicview_type magicviews[magicviews_size];
 
-magicstate_type magicstate[maxply + 1];
+unsigned int magic_views_top[maxply + 1];
 
 static void PushMagicView(square sq, PieceIdType id1, PieceIdType id2, numvec v)
 {
@@ -37,16 +37,16 @@ static void PushMagicView(square sq, PieceIdType id1, PieceIdType id2, numvec v)
   TraceValue("%d",v);
   TraceFunctionParamListEnd();
 
-  assert(magicstate[nbply].top<magicviews_size);
+  assert(magic_views_top[nbply]<magicviews_size);
 
-  magicviews[magicstate[nbply].top].piecesquare = sq;
-  magicviews[magicstate[nbply].top].pieceid = id1;
-  magicviews[magicstate[nbply].top].magicpieceid = id2;
-  magicviews[magicstate[nbply].top].vecnum = v;
-  ++magicstate[nbply].top;
+  magicviews[magic_views_top[nbply]].piecesquare = sq;
+  magicviews[magic_views_top[nbply]].pieceid = id1;
+  magicviews[magic_views_top[nbply]].magicpieceid = id2;
+  magicviews[magic_views_top[nbply]].vecnum = v;
+  ++magic_views_top[nbply];
 
   TraceValue("%u",nbply);
-  TraceValue("%u\n",magicstate[nbply].top);
+  TraceValue("%u\n",magic_views_top[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -462,9 +462,7 @@ static void PushMagicViews(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /*new stack */
-  magicstate[nbply].bottom = magicstate[parent_ply[nbply]].top;
-  magicstate[nbply].top = magicstate[nbply].bottom;
+  magic_views_top[nbply] = magic_views_top[nbply-1];
 
   for (bnp = boardnum; *bnp; bnp++)
     if (TSTFLAG(spec[*bnp], Magic))
@@ -513,6 +511,9 @@ static void PushMagicViews(void)
       *royal= royal_save;
     }
 
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",magic_views_top[nbply]);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -525,7 +526,12 @@ static boolean find_view(ply ply_id, int j)
   boolean result = false;
   unsigned int k;
 
-  for (k = magicstate[ply_id].bottom; k<magicstate[ply_id].top; ++k)
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TraceFunctionParam("%d",j);
+  TraceFunctionParamListEnd();
+
+  for (k = magic_views_top[ply_id-1]; k<magic_views_top[ply_id]; ++k)
     if (magicviews[k].pieceid==currid
         && magicviews[k].magicpieceid==currmagid
         && magicviews[k].vecnum==currvec)
@@ -534,6 +540,10 @@ static boolean find_view(ply ply_id, int j)
       break;
     }
 
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -546,7 +556,7 @@ static unsigned int count_changed_views(square sq_viewed)
   TraceSquare(sq_viewed);
   TraceFunctionParamListEnd();
 
-  for (i = magicstate[nbply].bottom; i<magicstate[nbply].top; i++)
+  for (i = magic_views_top[nbply-1]; i<magic_views_top[nbply]; i++)
     if (magicviews[i].piecesquare==sq_viewed && !find_view(parent_ply[nbply],i))
       ++result;
 
@@ -598,8 +608,6 @@ stip_length_type magic_views_initialiser_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(nbply==1);
-  magicstate[nbply].bottom = 0;
-  magicstate[nbply].top = 0;
   PushMagicViews();
   result = solve(slices[si].next1,n);
 
@@ -652,6 +660,9 @@ void stip_insert_magic_pieces_recolorers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STMagicPiecesRecolorer);
+
+  /* make sure that we compare the correct magic views in threats */
+  stip_instrument_dummy_moves(si,STMagicPiecesRecolorer);
 
   {
     slice_index const prototype = alloc_pipe(STMagicViewsInitialiser);

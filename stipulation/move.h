@@ -23,4 +23,10 @@ void start_insertion_according_to_move_order(slice_index si,
  */
 void stip_instrument_moves(slice_index si, slice_type type);
 
+/* Instrument dummy moves with a slice type
+ * @param identifies where to start instrumentation
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_dummy_moves(slice_index si, slice_type type);
+
 #endif

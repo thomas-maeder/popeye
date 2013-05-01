@@ -483,6 +483,7 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
                                                 &insert_visit_binary);
   stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
   stip_structure_traversal_override_single(st,STMove,&insert_visit_move);
+  stip_structure_traversal_override_single(st,STDummyMove,&insert_visit_move);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
