@@ -48,7 +48,6 @@ void rosehopper_generate_moves(Side side, square sq_departure,
                                vec_index_type vec_range_start, vec_index_type vec_range_end);
 
 void roselocust_generate_moves(Side side, square sq_departure,
-                               vec_index_type vec_range_start, vec_index_type vec_range_end)
-;
+                               vec_index_type vec_range_start, vec_index_type vec_range_end);
 
 #endif
