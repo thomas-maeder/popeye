@@ -362,7 +362,7 @@ static void simple_rider_indirectly_approach_king(square sq_departure,
                                                   vec_index_type index_end,
                                                   PieNam rider_walk)
 {
-  int const OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
+  move_diff_type const OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
   vec_index_type vec_index;
   for (vec_index = index_start; vec_index<=index_end; ++vec_index)
   {

@@ -208,7 +208,7 @@ void init_guard_dirs(square black_king_pos)
  */
 static boolean white_king_guards_flight(square from)
 {
-  int const diff = move_diff_code[abs(king_square[Black]-from)];
+  move_diff_type const diff = move_diff_code[abs(king_square[Black]-from)];
   boolean const result = diff>3 && diff<=8;
 
   TraceFunctionEntry(__func__);
@@ -550,7 +550,7 @@ static void promoted_rook(square guard_from)
  */
 static void promoted_bishop(square guard_from)
 {
-  int const diff = move_diff_code[abs(king_square[Black]-guard_from)];
+  move_diff_type const diff = move_diff_code[abs(king_square[Black]-guard_from)];
 
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -742,7 +742,7 @@ static void rook(square guard_from)
  */
 static void bishop(square guard_from)
 {
-  int const diff = move_diff_code[abs(king_square[Black]-guard_from)];
+  move_diff_type const diff = move_diff_code[abs(king_square[Black]-guard_from)];
 
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
