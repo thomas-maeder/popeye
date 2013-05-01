@@ -1,5 +1,5 @@
-#if !defined(PIECES_ROSESS_H)
-#define PIECES_ROSESS_H
+#if !defined(PIECES_ROSES_H)
+#define PIECES_ROSES_H
 
 #include "position/board.h"
 #include "position/position.h"
