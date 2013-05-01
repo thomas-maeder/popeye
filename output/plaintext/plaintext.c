@@ -60,7 +60,6 @@ void output_plaintext_write_move(void)
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_index_type curr;
   move_effect_journal_index_type capture = move_effect_journal_index_null;
-  move_effect_journal_index_type castling = move_effect_journal_index_null;
   move_context context = { "", vide, 0, initsquare };
 
 #ifdef _SE_DECORATE_SOLUTION_
@@ -265,23 +264,25 @@ void output_plaintext_write_move(void)
           }
 
           case move_effect_reason_castling_king_movement:
-          {
-            square const to = move_effect_journal[curr].u.piece_movement.to;
-            if (to==square_g1 || to==square_g8)
-              StdString("0-0");
+            if (CondFlag[castlingchess])
+            {
+              WritePiece(move_effect_journal[curr].u.piece_movement.moving);
+              WriteSquare(move_effect_journal[curr].u.piece_movement.from);
+              StdChar('-');
+              WriteSquare(move_effect_journal[curr].u.piece_movement.to);
+            }
             else
-              StdString("0-0-0");
-            castling = curr;
+            {
+              square const to = move_effect_journal[curr].u.piece_movement.to;
+              if (to==square_g1 || to==square_g8)
+                StdString("0-0");
+              else
+                StdString("0-0-0");
+            }
             break;
-          }
 
           case move_effect_reason_castling_partner_movement:
-          {
-            /* TODO model a connection between
-             * move_effect_reason_castling_king_movement
-             * /move_effect_reason_moving_piece_movement
-             * and move_effect_reason_castling_partner_movement? */
-            if (castling==move_effect_journal_index_null)
+            if (CondFlag[castlingchess])
             {
               StdChar('/');
               WriteSpec(move_effect_journal[curr].u.piece_movement.movingspec,
@@ -291,11 +292,8 @@ void output_plaintext_write_move(void)
               WriteSquare(move_effect_journal[curr].u.piece_movement.from);
               StdChar('-');
               WriteSquare(move_effect_journal[curr].u.piece_movement.to);
-
-              castling = move_effect_journal_index_null;
             }
             break;
-          }
 
           default:
             break;

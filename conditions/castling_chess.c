@@ -50,7 +50,7 @@ stip_length_type castling_chess_move_player_solve(slice_index si,
     pprise[nbply] = vide;
     pprispec[nbply] = 0;
 
-    move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+    move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                           sq_departure,sq_arrival);
     move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
                                           sq_capture-maxsquare,
