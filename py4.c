@@ -96,6 +96,7 @@
 #include "pieces/pawns/pawn.h"
 #include "pieces/hunters.h"
 #include "pieces/roses.h"
+#include "pieces/spiral_springers.h"
 #include "pieces/marine.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
@@ -918,43 +919,6 @@ static void gbob(square sq_departure, Side camp) {
       }
     }
   }
-}
-
-static void spiral_springer_generate_moves(Side camp, square sq_departure,
-                                           numvec k1, numvec k2)
-{
-  square sq_arrival= sq_departure+k1;
-
-  while (e[sq_arrival]==vide)
-  {
-    empile(sq_departure,sq_arrival,sq_arrival);
-    sq_arrival += k2;
-    if (e[sq_arrival]==vide)
-    {
-      empile(sq_departure,sq_arrival,sq_arrival);
-      sq_arrival += k1;
-    }
-    else
-      break;
-  }
-  if (piece_belongs_to_opponent(sq_arrival,camp))
-    empile(sq_departure,sq_arrival,sq_arrival);
-
-  sq_arrival = sq_departure+k1;
-  while (e[sq_arrival]==vide)
-  {
-    empile(sq_departure,sq_arrival,sq_arrival);
-    sq_arrival -= k2;
-    if (e[sq_arrival]==vide)
-    {
-      empile(sq_departure,sq_arrival,sq_arrival);
-      sq_arrival += k1;
-    }
-    else
-      break;
-  }
-  if (piece_belongs_to_opponent(sq_arrival,camp))
-    empile(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void gcsp(square sq_departure,
@@ -1807,50 +1771,20 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       return;
 
     case SpiralSpringer:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      vec_index_type const top = vec_knight_start+vec_knight_end;
-      vec_index_type k;
-      for (k = vec_knight_start; k<=vec_knight_end; ++k)
-        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[top-k]);
-      remove_duplicate_moves_of_single_piece(save_current_move);
+      spiralspringer_generate_moves(side,sq_departure);
       return;
-    }
 
     case DiagonalSpiralSpringer:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      vec_index_type k;
-      for (k = vec_knight_start; k<=vec_knight_end; k += 2)
-      {
-        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[k+1]);
-        spiral_springer_generate_moves(side,sq_departure,vec[k+1],vec[k]);
-      }
-      remove_duplicate_moves_of_single_piece(save_current_move);
+      diagonalspiralspringer_generate_moves(side,sq_departure);
       return;
-    }
 
     case BoyScout:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      vec_index_type const top = vec_bishop_start+vec_bishop_end;
-      vec_index_type k;
-      for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
-        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[top-k]);
-      remove_duplicate_moves_of_single_piece(save_current_move);
+      boyscout_generate_moves(side,sq_departure);
       return;
-    }
 
     case GirlScout:
-    {
-      numecoup const save_current_move = current_move[nbply];
-      vec_index_type const top = vec_rook_start+vec_rook_end;
-      vec_index_type k;
-      for (k = vec_rook_end; k>=vec_rook_start; --k)
-        spiral_springer_generate_moves(side,sq_departure,vec[k],vec[top-k]);
-      remove_duplicate_moves_of_single_piece(save_current_move);
+      girlscout_generate_moves(side,sq_departure);
       return;
-    }
 
     case Hamster:
       ghamst(sq_departure);

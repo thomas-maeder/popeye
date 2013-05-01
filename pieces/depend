@@ -223,3 +223,49 @@ pieces/vectors.h:
 position/board.h:
 
 utilities/bitmask.h:
+pieces/spiral_springers$(OBJ_SUFFIX): pieces/spiral_springers.c \
+ pieces/spiral_springers.h position/board.h utilities/bitmask.h \
+ position/position.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pieces/vectors.h pydata.h pyproc.h py4.h py.h \
+ utilities/boolean.h position/position.h pylang.h pieces/vectors.h \
+ stipulation/goals/goals.h py.h pyproc.h debugging/trace.h
+
+pieces/spiral_springers.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/position.h:
+
+position/piece.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pieces/vectors.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+pyproc.h:
+
+debugging/trace.h:
