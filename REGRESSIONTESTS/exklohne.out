@@ -4884,10 +4884,10 @@ Ohneschach-Anomalie !
    1.Td8-e8 # !
 
 
-                        empile:      152854
-                     play_move:      110010
- is_white_king_square_attacked:       47127
- is_black_king_square_attacked:       77451
+                        empile:      152549
+                     play_move:      109786
+ is_white_king_square_attacked:       47014
+ is_black_king_square_attacked:       77279
 Loesung beendet. 
 
 
