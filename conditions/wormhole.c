@@ -108,14 +108,19 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
     else if (e[wormhole_positions[wormhole_next_transfer[nbply]-1]]!=vide)
       /* wormhole is occupied */
       skip_wormhole();
-    else if (pprise[nbply]==vide
-             && moving_pawn_promotion_state[nbply].promotee==Empty
-             && wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_departure)
-      /* illegal null move */
-      skip_wormhole();
     else
-      /* next wormhole found! */
-      break;
+    {
+      move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+      move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+      if (move_effect_journal[capture].type==move_effect_no_piece_removal
+          && moving_pawn_promotion_state[nbply].promotee==Empty
+          && wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_departure)
+        /* illegal null move */
+        skip_wormhole();
+      else
+        /* next wormhole found! */
+        break;
+    }
   }
 
   TraceFunctionExit(__func__);

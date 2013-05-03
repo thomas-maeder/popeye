@@ -53,9 +53,8 @@ stip_length_type dummy_move_solve(slice_index si, stip_length_type n)
 
   /* insert an empty ply for the dummy defense */
   nextply();
-
+  trait[nbply] = no_side;
   result = solve(slices[si].next1,n);
-
   finply();
 
   TraceFunctionExit(__func__);

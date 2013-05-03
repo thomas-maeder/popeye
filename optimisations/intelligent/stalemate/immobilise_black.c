@@ -2,6 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "solving/solve.h"
+#include "solving/move_effect_journal.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -152,7 +153,9 @@ boolean intelligent_stalemate_immobilise_black(void)
 
 static void update_leaper_requirement(immobilisation_requirement_type if_unblockable)
 {
-  boolean const is_block_possible = (pprise[nbply]==vide
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  boolean const is_block_possible = (move_effect_journal[capture].type==move_effect_no_piece_removal
                                      && nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].arrival]==0
                                      && *where_to_start_placing_black_pieces<=move_generation_stack[current_move[nbply]].arrival);
   immobilisation_requirement_type const new_req = is_block_possible ? block_of_officer_required : if_unblockable;
@@ -170,8 +173,10 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
   int const dir = CheckDir[Queen][diff];
   if (diff==dir)
   {
+    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
     square const closest_flight = move_generation_stack[current_move[nbply]].departure+dir;
-    boolean const is_block_possible = (pprise[nbply]==vide
+    boolean const is_block_possible = (move_effect_journal[capture].type==move_effect_no_piece_removal
                                        && nr_reasons_for_staying_empty[closest_flight]==0
                                        && *where_to_start_placing_black_pieces<=closest_flight);
     immobilisation_requirement_type const new_req = is_block_possible ? block_of_officer_required : if_unblockable;
@@ -235,9 +240,12 @@ static void update_pawn_requirement(void)
  *            n+3 no solution found in next branch
  */
 stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
-                                                           stip_length_type n)
+                                                          stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -251,7 +259,7 @@ stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
     current_state->current.target_square = move_generation_stack[current_move[nbply]].departure;
   }
 
-  switch (pjoue[nbply])
+  switch (pi_departing)
   {
     case roin: /* unpinnable leaper */
       update_leaper_requirement(immobilisation_impossible);

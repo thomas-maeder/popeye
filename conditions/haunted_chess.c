@@ -165,7 +165,7 @@ stip_length_type haunted_chess_ghost_summoner_solve(slice_index si,
   return result;
 }
 
-void move_effect_journal_do_remember_ghost(void)
+void move_effect_journal_do_remember_ghost(piece removed, Flags removedspec)
 {
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
   square const sq_capture = move_generation_stack[current_move[nbply]].capture;
@@ -178,8 +178,8 @@ void move_effect_journal_do_remember_ghost(void)
   top_elmt->type = move_effect_remember_ghost;
   top_elmt->reason = move_effect_reason_regular_capture;
   top_elmt->u.handle_ghost.ghost_pos = nr_ghosts;
-  top_elmt->u.handle_ghost.ghost = pprise[nbply];
-  top_elmt->u.handle_ghost.flags = pprispec[nbply];
+  top_elmt->u.handle_ghost.ghost = removed;
+  top_elmt->u.handle_ghost.flags = removedspec;
   top_elmt->u.handle_ghost.on = sq_capture;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
@@ -189,8 +189,8 @@ void move_effect_journal_do_remember_ghost(void)
   ++move_effect_journal_top[nbply];
 
   ghosts[nr_ghosts].on = sq_capture;
-  ghosts[nr_ghosts].ghost = pprise[nbply];
-  ghosts[nr_ghosts].flags = pprispec[nbply];
+  ghosts[nr_ghosts].ghost = removed;
+  ghosts[nr_ghosts].flags = removedspec;
   ++nr_ghosts;
 
   TraceFunctionExit(__func__);
@@ -254,13 +254,15 @@ stip_length_type haunted_chess_ghost_rememberer_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]==vide)
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
     result = solve(slices[si].next1,n);
   else
   {
@@ -270,7 +272,8 @@ stip_length_type haunted_chess_ghost_rememberer_solve(slice_index si,
     if (preempted_idx!=ghost_not_found)
       move_effect_journal_do_forget_ghost(preempted_idx);
 
-    move_effect_journal_do_remember_ghost();
+    move_effect_journal_do_remember_ghost(move_effect_journal[capture].u.piece_removal.removed,
+                                          move_effect_journal[capture].u.piece_removal.removedspec);
 
     result = solve(slices[si].next1,n);
   }

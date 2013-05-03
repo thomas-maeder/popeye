@@ -104,9 +104,6 @@ extern numvec const * const * const CheckDir;
 
 EXTERN  unsigned int    zzzaa[derbla-dernoi-1];     /* nbpiece */
 
-EXTERN piece pjoue[maxply+1];
-EXTERN piece pprise[maxply+1];
-
 EXTERN  boolean			rex_mad,rex_circe,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];
@@ -148,8 +145,6 @@ EXTERN  pileside     trait;
 EXTERN  boolean         flagfee,
             change_moving_piece,
             supergenre ;
-
-EXTERN  Flags           pprispec[maxply + 1];
 
 EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
 

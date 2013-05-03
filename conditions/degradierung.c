@@ -30,21 +30,26 @@ stip_length_type degradierung_degrader_solve(slice_index si,
   stip_length_type result;
   square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  PieNam const pi_played = abs(e[sq_arrival]);
+  SquareFlags const double_step = slices[si].starter==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!is_pawn(abs(pjoue[nbply]))
+  assert(pi_played!=vide);
+
+  if (!is_pawn(pi_played)
       && sq_departure!=prev_king_square[Black][nbply]
       && sq_departure!=prev_king_square[White][nbply]
-      && (slices[si].starter==Black
-          ? sq_arrival>=square_a7 && sq_arrival<=square_h7
-          : sq_arrival>=square_a2 && sq_arrival<=square_h2))
+      && TSTFLAG(sq_spec[sq_arrival],double_step))
+  {
+    piece const degraded = slices[si].starter==White ? pb : pn;
     move_effect_journal_do_piece_change(move_effect_reason_degradierung,
                                         sq_arrival,
-                                        pjoue[nbply]<vide ? pn : pb);
+                                        degraded);
+  }
 
   result = solve(slices[si].next1,n);
 

@@ -44,10 +44,7 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
 
     assert(sq_arrival!=nullsquare);
 
-    pjoue[nbply] = e[sq_departure];
-    pprise[nbply] = vide;
-    pprispec[nbply] = 0;
-
+    move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_exchange(move_effect_reason_exchange_castling_exchange,
                                           sq_departure,sq_arrival);
 

@@ -5,6 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "solving/move_effect_journal.h"
 #include "solving/en_passant.h"
 #include "debugging/trace.h"
 
@@ -117,13 +118,18 @@ static void adjust(Side trait_ply)
 {
   numecoup const coup_id = current_move[nbply];
   square const sq_arrival = move_generation_stack[coup_id].arrival;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   ep[nbply] = initsquare;
 
-  if (is_pawn(abs(e[sq_arrival])) && pprise[nbply]==vide)
+  if (is_pawn(abs(e[sq_arrival]))
+      && move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     square const sq_departure = move_generation_stack[coup_id].departure;
-    square const sq_multistep_departure = rennormal(pjoue[nbply],
+    square const sq_multistep_departure = rennormal(pi_moving,
                                                     spec[sq_arrival],
                                                     sq_departure,
                                                     initsquare,

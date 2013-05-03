@@ -6,7 +6,7 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h pydata.h \
- pyproc.h py4.h py.h stipulation/goals/goals.h \
+ pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h solving/solve.h \
  optimisations/intelligent/intelligent.h position/position.h \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -54,6 +54,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
@@ -142,10 +144,11 @@ optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h optimisations/intelligent/intelligent.h \
- position/position.h stipulation/goals/goals.h solving/solve.h \
+ pieces/vectors.h stipulation/goals/goals.h \
+ optimisations/intelligent/intelligent.h position/position.h \
+ stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/guard_flights.h \
+ optimisations/intelligent/guard_flights.h pieces/vectors.h \
  solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
  debugging/trace.h
 
@@ -177,6 +180,8 @@ py4.h:
 
 py.h:
 
+pieces/vectors.h:
+
 stipulation/goals/goals.h:
 
 optimisations/intelligent/intelligent.h:
@@ -191,6 +196,8 @@ optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/guard_flights.h:
 
+pieces/vectors.h:
+
 solving/moving_pawn_promotion.h:
 
 pieces/pawns/promotion.h:
@@ -202,10 +209,11 @@ optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h optimisations/intelligent/intelligent.h \
- position/position.h stipulation/goals/goals.h solving/solve.h \
+ pieces/vectors.h stipulation/goals/goals.h \
+ optimisations/intelligent/intelligent.h position/position.h \
+ stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/guard_flights.h \
+ optimisations/intelligent/guard_flights.h pieces/vectors.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
  debugging/trace.h
@@ -238,6 +246,8 @@ py4.h:
 
 py.h:
 
+pieces/vectors.h:
+
 stipulation/goals/goals.h:
 
 optimisations/intelligent/intelligent.h:
@@ -251,6 +261,8 @@ solving/solve.h:
 optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/guard_flights.h:
+
+pieces/vectors.h:
 
 optimisations/intelligent/mate/generate_checking_moves.h:
 
@@ -268,10 +280,10 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h solving/castling.h \
- solving/solve.h solving/en_passant.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h stipulation/has_solution_type.h \
- optimisations/intelligent/intelligent.h position/position.h \
- optimisations/intelligent/moves_left.h \
+ solving/solve.h solving/en_passant.h solving/move_effect_journal.h \
+ pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ stipulation/has_solution_type.h optimisations/intelligent/intelligent.h \
+ position/position.h optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
 optimisations/intelligent/mate/goalreachable_guard.h:
@@ -314,6 +326,8 @@ solving/solve.h:
 
 solving/en_passant.h:
 
+solving/move_effect_journal.h:
+
 pydata.h:
 
 pyproc.h:
@@ -321,6 +335,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 

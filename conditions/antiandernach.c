@@ -4,6 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/andernach.h"
 #include "debugging/trace.h"
 
@@ -27,6 +28,8 @@ stip_length_type antiandernach_side_changer_solve(slice_index si,
                                                    stip_length_type n)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -34,7 +37,7 @@ stip_length_type antiandernach_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]==vide
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal
       && sq_departure!=prev_king_square[Black][nbply]
       && sq_departure!=prev_king_square[White][nbply])
     andernach_assume_side(advers(slices[si].starter));

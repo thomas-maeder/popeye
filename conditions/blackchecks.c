@@ -175,7 +175,10 @@ stip_length_type null_move_player_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (move_generation_stack[current_move[nbply]].arrival==nullsquare)
+  {
+    move_effect_journal_do_null_move();
     result = solve(slices[si].next2,n);
+  }
   else
     result = solve(slices[si].next1,n);
 

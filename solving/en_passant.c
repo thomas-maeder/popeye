@@ -4,6 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -17,8 +18,10 @@ square ep[maxply+1];
  */
 void adjust_ep_squares(square sq_multistep_departure)
 {
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  PieNam const pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  piece const pi_moving = trait[nbply]==White ? abs(pjoue[nbply]) : -abs(pjoue[nbply]);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_multistep_departure);
@@ -26,33 +29,43 @@ void adjust_ep_squares(square sq_multistep_departure)
 
   switch (pi_moving)
   {
-    case pb:
-    case reversepn:
-    case marinepawnb:
-      if (sq_arrival-sq_multistep_departure==2*dir_up
-          && sq_multistep_departure<=square_h2)
+    case Pawn:
+    case MarinePawn:
+    {
+      numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+      SquareFlags const double_step = (trait[nbply]==White
+                                       ? BIT(WhPawnDoublestepSq)|BIT(WhBaseSq)
+                                       : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
+      if (sq_arrival-sq_multistep_departure==2*dir_forward
+          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
         ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
       break;
+    }
 
-    case pn:
-    case reversepb:
-    case marinepawnn:
-      if (sq_arrival-sq_multistep_departure==2*dir_down
-          && sq_multistep_departure>=square_a7)
+    case BerolinaPawn:
+    {
+      numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+      SquareFlags const double_step = (trait[nbply]==White
+                                       ? BIT(WhPawnDoublestepSq)|BIT(WhBaseSq)
+                                       : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
+      numvec const v = sq_arrival-sq_multistep_departure;
+      if ((v==2*dir_forward+2*dir_left || v==2*dir_forward+2*dir_right)
+          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
         ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
       break;
+    }
 
-    case pbb:
-      if (sq_arrival-sq_multistep_departure>=2*dir_up-2
-          && sq_multistep_departure<=square_h2)
+    case ReversePawn:
+    {
+      numvec const dir_backward = trait[nbply]==Black ? dir_up : dir_down;
+      SquareFlags const double_step = (trait[nbply]==Black
+                                       ? BIT(WhPawnDoublestepSq)|BIT(WhBaseSq)
+                                       : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
+      if (sq_arrival-sq_multistep_departure==2*dir_backward
+          && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
         ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
       break;
-
-    case pbn:
-      if (sq_arrival-sq_multistep_departure<=2*dir_down+2
-          && sq_multistep_departure>=square_a7)
-        ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
-      break;
+    }
 
     default:
       break;
@@ -80,6 +93,10 @@ void adjust_ep_squares(square sq_multistep_departure)
 stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -88,7 +105,8 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
 
   ep[nbply] = initsquare;
 
-  if (is_pawn(abs(pjoue[nbply])) && pprise[nbply]==vide)
+  if (is_pawn(abs(pi_moving))
+      && move_effect_journal[capture].type==move_effect_no_piece_removal)
     adjust_ep_squares(move_generation_stack[current_move[nbply]].departure);
 
   result = solve(slices[si].next1,n);

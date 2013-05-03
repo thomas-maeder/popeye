@@ -141,10 +141,7 @@ stip_length_type messigny_move_player_solve(slice_index si, stip_length_type n)
     square const sq_arrival = move_gen_top->arrival;
     square const sq_departure = move_gen_top->departure;
 
-    pjoue[nbply] = e[sq_departure];
-    pprise[nbply] = vide;
-    pprispec[nbply] = 0;
-
+    move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_exchange(move_effect_reason_messigny_exchange,
                                           sq_arrival,sq_departure);
 

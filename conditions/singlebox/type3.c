@@ -42,6 +42,8 @@ void stip_insert_singlebox_type3(slice_index si)
   stip_instrument_moves(si,STSingleBoxType3LegalityTester);
   stip_instrument_moves(si,STSingleBoxType3PawnPromoter);
 
+  move_effect_journal_register_pre_capture_effect();
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -74,6 +76,12 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
     move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
                                         move_generation_stack[coup_id].singlebox_type3_promotion_where,
                                         move_generation_stack[coup_id].singlebox_type3_promotion_what);
+  else
+  {
+    move_effect_journal[move_effect_journal_top[nbply]].type = move_effect_none;
+    move_effect_journal[move_effect_journal_top[nbply]].reason = move_effect_no_reason;
+    ++move_effect_journal_top[nbply];
+  }
 
   result = solve(slices[si].next1,n);
 

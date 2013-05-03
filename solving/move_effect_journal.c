@@ -13,25 +13,63 @@
 
 move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
 
-move_effect_journal_index_type move_effect_journal_top[maxply+1];
+move_effect_journal_index_type move_effect_journal_top[maxply+1] = { 3, 4 };
+
+move_effect_journal_index_type move_effect_journal_index_offset_capture;
+move_effect_journal_index_type move_effect_journal_index_offset_movement;
+move_effect_journal_index_type move_effect_journal_index_offset_other_effects;
+
+void move_effect_journal_reset(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_index_offset_capture = 0;
+  move_effect_journal_index_offset_movement = 1;
+  move_effect_journal_index_offset_other_effects = 2;
+
+  move_effect_journal[2].type = move_effect_no_piece_removal;
+  move_effect_journal[2].u.piece_removal.removed = vide;
+  move_effect_journal[2].u.piece_removal.removedspec = 0;
+  move_effect_journal_top[0] = 3;
+  move_effect_journal_top[1] = 4;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void move_effect_journal_register_pre_capture_effect(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  ++move_effect_journal_index_offset_capture;
+  ++move_effect_journal_index_offset_movement;
+  ++move_effect_journal_index_offset_other_effects;
+
+  move_effect_journal[0].type = move_effect_none;
+  move_effect_journal[1].type = move_effect_no_piece_removal;
+  move_effect_journal[1].u.piece_removal.removed = vide;
+  move_effect_journal[1].u.piece_removal.removedspec = 0;
+  move_effect_journal_top[0] = 2;
+
+  move_effect_journal[2].type = move_effect_none;
+  move_effect_journal_top[1] = 4;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 #if defined(DOTRACE)
 unsigned long move_effect_journal_next_id;
 #endif
 
-/* Add moving a piece to the current move of the current ply
- * @param reason reason for moving the piece
- * @param from current position of the piece
- * @param to where to move the piece
- * @return index of piece piece_movement effect
- */
-move_effect_journal_index_type
-move_effect_journal_do_piece_movement(move_effect_reason_type reason,
-                                      square from,
-                                      square to)
+static void push_movement_elmt(move_effect_reason_type reason,
+                               square from,
+                               square to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
-  move_effect_journal_index_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -52,8 +90,14 @@ move_effect_journal_do_piece_movement(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  result = move_effect_journal_top[nbply]++;
+  ++move_effect_journal_top[nbply];
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_movement(square from, square to)
+{
   if (to!=from)
   {
     e[to] = e[from];
@@ -61,7 +105,15 @@ move_effect_journal_do_piece_movement(move_effect_reason_type reason,
 
     e[from] = vide;
     CLEARFL(spec[from]);
+  }
+}
 
+static void do_king_square_movement(move_effect_reason_type reason,
+                                    square from,
+                                    square to)
+{
+  if (to!=from)
+  {
     if (TSTFLAG(spec[to],Royal))
     {
       if (TSTFLAG(spec[to],White))
@@ -70,11 +122,29 @@ move_effect_journal_do_piece_movement(move_effect_reason_type reason,
         move_effect_journal_do_king_square_movement(reason,Black,to);
     }
   }
+}
+
+/* Add moving a piece to the current move of the current ply
+ * @param reason reason for moving the piece
+ * @param from current position of the piece
+ * @param to where to move the piece
+ */
+void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
+                                           square from,
+                                           square to)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceSquare(from);
+  TraceSquare(to);
+  TraceFunctionParamListEnd();
+
+  push_movement_elmt(reason,from,to);
+  do_movement(from,to);
+  do_king_square_movement(reason,from,to);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void undo_piece_movement(move_effect_journal_index_type curr)
@@ -233,45 +303,35 @@ static void redo_piece_addition(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-/* Link the piece_removal and piece_movement just inserted as a capture
- * @param piece_removal index of the piece_removal effect
- * @param piece_removal index of the piece_movement effect
- */
-void move_effect_journal_link_capture_to_movement(move_effect_journal_index_type removal,
-                                                  move_effect_journal_index_type movement)
+void move_effect_journal_do_no_piece_removal(void)
 {
-  move_effect_journal_entry_type * const removal_elmt = &move_effect_journal[removal];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",removal);
-  TraceFunctionParam("%u",movement);
   TraceFunctionParamListEnd();
 
-  assert(removal_elmt->type==move_effect_piece_removal);
-  assert(removal_elmt->reason==move_effect_reason_regular_capture
-         || removal_elmt->reason==move_effect_reason_ep_capture);
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
-  assert(move_effect_journal[movement].type==move_effect_piece_movement);
-  assert(move_effect_journal[movement].reason==move_effect_reason_moving_piece_movement);
+  top_elmt->type = move_effect_no_piece_removal;
+  top_elmt->reason = move_effect_no_reason;
+  top_elmt->u.piece_removal.removed = vide;
+  top_elmt->u.piece_removal.removedspec = 0;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
 
-  removal_elmt->u.piece_removal.capturing_movement = movement;
+  ++move_effect_journal_top[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Add removing a piece to the current move of the current ply
- * @param reason reason for removing the piece
- * @param from current position of the piece
- * @return index of piece piece_removal effect
- */
-move_effect_journal_index_type
-move_effect_journal_do_piece_removal(move_effect_reason_type reason,
-                                     square from)
+static void push_removal_elmt(move_effect_reason_type reason, square from)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
-  move_effect_journal_index_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -287,32 +347,59 @@ move_effect_journal_do_piece_removal(move_effect_reason_type reason,
   top_elmt->u.piece_removal.from = from;
   top_elmt->u.piece_removal.removed = e[from];
   top_elmt->u.piece_removal.removedspec = spec[from];
-  top_elmt->u.piece_removal.capturing_movement = move_effect_journal_index_null;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  result = move_effect_journal_top[nbply]++;
+  ++move_effect_journal_top[nbply];
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_removal(square from)
+{
   assert(e[from]!=vide);
   --nbpiece[e[from]];
   e[from] = vide;
 
-  if (TSTFLAG(spec[from],Royal))
+  CLEARFL(spec[from]);
+}
+
+static void do_king_square_removal(move_effect_reason_type reason,
+                                   square from,
+                                   Flags spec_captured)
+{
+  if (TSTFLAG(spec_captured,Royal))
   {
-    if (TSTFLAG(spec[from],White))
+    if (TSTFLAG(spec_captured,White))
       move_effect_journal_do_king_square_movement(reason,White,initsquare);
-    if (TSTFLAG(spec[from],Black))
+    if (TSTFLAG(spec_captured,Black))
       move_effect_journal_do_king_square_movement(reason,Black,initsquare);
   }
+}
 
-  CLEARFL(spec[from]);
+/* Add removing a piece to the current move of the current ply
+ * @param reason reason for removing the piece
+ * @param from current position of the piece
+ */
+void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
+                                          square from)
+{
+  Flags const spec_captured = spec[from];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  push_removal_elmt(reason,from);
+  do_removal(from);
+  do_king_square_removal(reason,from,spec_captured);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void undo_piece_removal(move_effect_journal_index_type curr)
@@ -959,6 +1046,65 @@ static void redo_board_transformation(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
+/* Add the effects of a capture move to the current move of the current ply
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture position of the captured piece
+ * @param removal_reason reason for the capture (ep or regular?)
+ */
+void move_effect_journal_do_capture_move(square sq_departure,
+                                         square sq_arrival,
+                                         square sq_capture,
+                                         move_effect_reason_type removal_reason)
+{
+  Flags const spec_captured = spec[sq_capture];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParam("%u",removal_reason);
+  TraceFunctionParamListEnd();
+
+  /* Be careful when attempting to reordering. This sequence makes sure that
+   * the effects are in the order removal - movement - king_square
+   */
+  push_removal_elmt(removal_reason,sq_capture);
+  do_removal(sq_capture);
+
+  push_movement_elmt(move_effect_reason_moving_piece_movement,sq_departure,sq_arrival);
+  do_movement(sq_departure,sq_arrival);
+
+  do_king_square_removal(removal_reason,sq_capture,spec_captured);
+  do_king_square_movement(move_effect_reason_moving_piece_movement,sq_departure,sq_arrival);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Add the effects of a null move to the current move of the current ply
+ */
+void move_effect_journal_do_null_move(void)
+{
+  move_effect_journal_index_type top = move_effect_journal_top[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(top+2<move_effect_journal_size);
+
+  move_effect_journal[top].type = move_effect_none;
+  move_effect_journal[top].reason = move_effect_no_reason;
+
+  move_effect_journal[top+1].type = move_effect_none;
+  move_effect_journal[top+1].reason = move_effect_no_reason;
+
+  move_effect_journal_top[nbply] += 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Redo the effects of the current move in ply nbply
  */
 void redo_move_effects(void)
@@ -974,12 +1120,19 @@ void redo_move_effects(void)
   for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
     switch (move_effect_journal[curr].type)
     {
+      case move_effect_none:
+        /* nothing */
+        break;
+
       case move_effect_piece_movement:
         redo_piece_movement(curr);
         break;
 
       case move_effect_piece_addition:
         redo_piece_addition(curr);
+        break;
+
+      case move_effect_no_piece_removal:
         break;
 
       case move_effect_piece_removal:
@@ -1063,12 +1216,19 @@ void undo_move_effects(void)
   {
     switch (move_effect_journal[top-1].type)
     {
+      case move_effect_none:
+        /* nothing */
+        break;
+
       case move_effect_piece_movement:
         undo_piece_movement(top-1);
         break;
 
       case move_effect_piece_addition:
         undo_piece_addition(top-1);
+        break;
+
+      case move_effect_no_piece_removal:
         break;
 
       case move_effect_piece_removal:

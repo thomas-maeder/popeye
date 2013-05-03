@@ -14,18 +14,20 @@ boolean kobulking[nr_sides];
 
 static void substitute(Side trait_ply)
 {
-  piece const pi_captured = pprise[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   square const king_pos = king_square[advers(trait_ply)];
 
-  if (pi_captured!=vide
+  if (move_effect_journal[capture].type==move_effect_piece_removal
       && kobulking[advers(trait_ply)]
       && king_pos!=initsquare)
   {
-    PieNam const kobul_kind = is_pawn(abs(pi_captured)) ? King : abs(pi_captured);
+    PieNam const pi_captured = abs(move_effect_journal[capture].u.piece_removal.removed);
+    PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
     piece const pi_kobul = e[king_pos]<=roin ? -kobul_kind : kobul_kind;
 
     Flags const colour_mask = BIT(White)|BIT(Black)|BIT(Neutral);
-    Flags spec_kobul = pprispec[nbply];
+    Flags spec_kobul = move_effect_journal[capture].u.piece_removal.removedspec;
 
     SETFLAG(spec_kobul,Royal);
     SETFLAGMASK(spec_kobul, spec[king_pos]&colour_mask);

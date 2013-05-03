@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/stalemate/goalreachable_guard.h"
 #include "stipulation/stipulation.h"
 #include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"
@@ -14,12 +15,14 @@
 static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(void)
 {
   boolean result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   CapturesLeft[nbply] = CapturesLeft[parent_ply[nbply]];
-  if (pprise[nbply]<vide)
+  if (TSTFLAG(move_effect_journal[capture].u.piece_removal.removedspec,Black))
     --CapturesLeft[nbply];
 
   TraceValue("%u\n",CapturesLeft[nbply]);
@@ -34,12 +37,14 @@ static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(v
 static boolean stalemate_isGoalReachable(void)
 {
   boolean result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]
-      && target_position[GetPieceId(pprispec[nbply])].diagram_square!=initsquare)
+  if (move_effect_journal[capture].type==move_effect_piece_removal
+      && target_position[GetPieceId(move_effect_journal[capture].u.piece_removal.removedspec)].diagram_square!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 
@@ -80,7 +85,10 @@ static boolean stalemate_isGoalReachable(void)
 
       if (target_position[id].diagram_square!=initsquare)
       {
-        unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(pjoue[nbply],
+        move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+        move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+        piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+        unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(pi_departing,
                                                                                         move_generation_stack[current_move[nbply]].departure,
                                                                                         target_position[id].type,
                                                                                         target_position[id].diagram_square);
@@ -90,7 +98,7 @@ static boolean stalemate_isGoalReachable(void)
                                                                                      target_position[id].type,
                                                                                      target_position[id].diagram_square);
 
-        TracePiece(pjoue[nbply]);
+        TracePiece(pi_departing);
         TraceSquare(move_generation_stack[current_move[nbply]].departure);
         TracePiece(e[move_generation_stack[current_move[nbply]].arrival]);
         TraceSquare(move_generation_stack[current_move[nbply]].arrival);

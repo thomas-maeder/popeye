@@ -116,6 +116,7 @@
 #include "solving/battle_play/try.h"
 #include "solving/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 #include "conditions/check_zigzag.h"
@@ -1627,14 +1628,19 @@ static char *ParseSquareList(char *tok,
       if (TSTFLAG(Spec, Neutral)) {
         Spec |= BIT(Black) + BIT(White);
       }
-      if (echo != 1) {
+      if (echo==1)
+      {
+        move_generation_stack[1].capture = Square;
+        move_effect_journal[3].type = move_effect_piece_removal;
+        move_effect_journal[3].reason = move_effect_reason_regular_capture;
+        move_effect_journal[3].u.piece_removal.from = Square;
+        move_effect_journal[3].u.piece_removal.removed = TSTFLAG(Spec,White) ? Name : -Name;
+        move_effect_journal[3].u.piece_removal.removedspec = Spec;
+      }
+      else
+      {
         spec[Square] = Spec;
         e[Square] = TSTFLAG(Spec,White) ? Name : -Name;
-      }
-      else {
-        pprise[1] = TSTFLAG(Spec,White) ? Name : -Name;
-        pprispec[1] = Spec;
-        move_generation_stack[1].capture = Square;
       }
       tok+= 2;
       SquareCnt++;

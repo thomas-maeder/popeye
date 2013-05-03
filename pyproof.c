@@ -1498,7 +1498,15 @@ static boolean ProofFairyImpossible(void)
         return true;
     }
 
-    pparr = anyparrain ? pprise[nbply] : vide;
+    if (anyparrain)
+    {
+      move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+      move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+      pparr = move_effect_journal[capture].u.piece_removal.removed;
+    }
+    else
+      pparr = vide;
+
     if (!CondFlag[sentinelles])
     {
       /* note, that we are in the !change_moving_piece section

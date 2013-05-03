@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "conditions/circe/circe.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -23,8 +24,11 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  square const pi_captured = pprise[nbply];
-  square const pi_departing = pjoue[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  piece const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
+  piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   numecoup const coup_id = current_move[nbply];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
   square const sq_departure = move_gen_top->departure;
@@ -36,7 +40,7 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_spec[nbply] = pprispec[nbply];
+  current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
 
   if (sq_departure!=prev_rn && sq_departure!=prev_rb)
     /* Circe Clone - new implementation

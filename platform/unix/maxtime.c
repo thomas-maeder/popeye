@@ -12,6 +12,7 @@
 #include "pydata.h"
 #include "optimisations/hash.h"
 #include "solving/moving_pawn_promotion.h"
+#include "solving/move_effect_journal.h"
 
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
@@ -79,7 +80,10 @@ static void ReDrawBoard(int sig)
   */
   for (pl= 3; pl < nbply; pl++)
   {
-    WritePiece(pjoue[pl-1]);
+    move_effect_journal_index_type const top = move_effect_journal_top[pl-2];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+    WritePiece(pi_moving);
     WriteSquare(move_generation_stack[current_move[pl]].departure);
     StdChar('-');
     WriteSquare(move_generation_stack[current_move[pl]].arrival);

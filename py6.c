@@ -1481,7 +1481,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type3))
+  if (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
   {
     is_king_square_attacked[Black] = &singleboxtype3_is_black_king_square_attacked;
     is_king_square_attacked[White] = &singleboxtype3_is_white_king_square_attacked;
@@ -1997,6 +1997,8 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(Black);
   if (mummer_strictness[White]!=mummer_strictness_none)
     disable_orthodox_mating_move_optimisation(White);
+
+  move_effect_journal_reset();
 
   return true;
 }

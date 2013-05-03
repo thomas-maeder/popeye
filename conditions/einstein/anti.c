@@ -92,14 +92,16 @@ stip_length_type anti_einstein_determine_reborn_piece_solve(slice_index si,
                                                             stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_piece[nbply] = einstein_increase_piece(pprise[nbply]);
-  current_circe_reborn_spec[nbply] = pprispec[nbply];
+  current_circe_reborn_piece[nbply] = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.removed);
+  current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
 
   result = solve(slices[si].next1,n);
 

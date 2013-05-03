@@ -4,6 +4,7 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -26,7 +27,9 @@ boolean is_april_kind[PieceCount];
  */
 stip_length_type april_chess_fork_solve(slice_index si, stip_length_type n)
 {
-  PieNam const pi_captured = abs(pprise[nbply]);
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  PieNam const pi_captured = abs(move_effect_journal[capture].u.piece_removal.removed);
   slice_index const next = is_april_kind[pi_captured] ? slices[si].next1 : slices[si].next2;
   stip_length_type result;
 

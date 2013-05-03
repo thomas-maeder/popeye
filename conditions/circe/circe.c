@@ -35,19 +35,25 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
                                                     stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  /* circe capture fork makes sure of that */
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
   /* this test is necessary if we test the legality of the capture of a king
    * by actually playing it (e.g. Isardam, Singlebox Type1, Anticirce)
    */
-  if (rex_circe || !TSTFLAG(pprispec[nbply],Royal))
+  if (rex_circe || !TSTFLAG(removedspec,Royal))
   {
-    current_circe_reborn_piece[nbply] = pprise[nbply];
-    current_circe_reborn_spec[nbply] = pprispec[nbply];
+    current_circe_reborn_piece[nbply] = move_effect_journal[capture].u.piece_removal.removed;
+    current_circe_reborn_spec[nbply] = removedspec;
   }
 
   result = solve(slices[si].next1,n);

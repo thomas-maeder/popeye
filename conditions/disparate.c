@@ -1,6 +1,7 @@
 #include "conditions/disparate.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "solving/observation.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 
@@ -13,15 +14,23 @@
 boolean disparate_can_piece_move(square sq)
 {
   boolean result = true;
+  ply const parent = parent_ply[nbply];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
   if (nbply>2
-      && trait[nbply]!=trait[parent_ply[nbply]]
-      && abs(e[sq])==abs(pjoue[parent_ply[nbply]]))
-    result = false;
+      && trait[parent]!=no_side /* testing the threat? */
+      && trait[nbply]!=trait[parent])
+  {
+    move_effect_journal_index_type const parent_top = move_effect_journal_top[parent-1];
+    move_effect_journal_index_type const parent_movement = parent_top+move_effect_journal_index_offset_movement;
+    piece const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
+
+    if (abs(e[sq])==abs(pi_parent_moving))
+      result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

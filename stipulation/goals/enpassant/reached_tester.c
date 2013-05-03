@@ -4,6 +4,7 @@
 #include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -51,6 +52,9 @@ slice_index alloc_goal_enpassant_reached_tester_system(void)
 stip_length_type goal_enpassant_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_capture = move_generation_stack[current_move[nbply]].capture;
 
   TraceFunctionEntry(__func__);
@@ -62,7 +66,7 @@ stip_length_type goal_enpassant_reached_tester_solve(slice_index si, stip_length
 
   if (sq_capture!=move_generation_stack[current_move[nbply]].arrival
       && sq_capture<=square_h8
-      && is_pawn(abs(pjoue[nbply])))
+      && is_pawn(abs(pi_moving)))
     result = solve(slices[si].next1,n);
   else
     result = n+2;

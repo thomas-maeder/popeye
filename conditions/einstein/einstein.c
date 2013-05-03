@@ -140,7 +140,7 @@ void einstein_collect_capturers(boolean is_capturer[square_h8-square_a1])
         && (move_effect_journal[curr].reason==move_effect_reason_regular_capture
             || move_effect_journal[curr].reason==move_effect_reason_ep_capture))
     {
-      move_effect_journal_index_type const movement = move_effect_journal[curr].u.piece_removal.capturing_movement;
+      move_effect_journal_index_type const movement = curr+1;
       square const capturer_origin = move_effect_journal[movement].u.piece_movement.from;
       is_capturer[capturer_origin-square_a1] = true;
     }

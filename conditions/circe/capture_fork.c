@@ -9,6 +9,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
@@ -31,13 +32,15 @@ stip_length_type circe_capture_fork_solve(slice_index si,
                                            stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]==vide)
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     current_circe_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);

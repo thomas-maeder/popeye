@@ -1258,17 +1258,22 @@ byte *CommonEncode(byte *bp,
   if (OptFlag[nontrivial])
     *bp++ = (byte)(max_nr_nontrivial);
 
-  if (anyparrain) {
+  if (anyparrain)
+  {
+    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+    piece const removed = move_effect_journal[capture].u.piece_removal.removed;
+    Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
+
     /* a piece has been captured and can be reborn */
     *bp++ = (byte)(move_generation_stack[current_move[nbply]].capture - square_a1);
-    if (one_byte_hash) {
-      *bp++ = (byte)(pprispec[nbply])
-          + ((byte)(piece_nbr[abs(pprise[nbply])]) << (CHAR_BIT/2));
-    }
-    else {
-      *bp++ = pprise[nbply];
-      *bp++ = (byte)(pprispec[nbply]>>CHAR_BIT);
-      *bp++ = (byte)(pprispec[nbply]&ByteMask);
+    if (one_byte_hash)
+      *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[abs(removed)]) << (CHAR_BIT/2));
+    else
+    {
+      *bp++ = removed;
+      *bp++ = (byte)(removedspec>>CHAR_BIT);
+      *bp++ = (byte)(removedspec&ByteMask);
     }
   }
 
@@ -1288,8 +1293,12 @@ byte *CommonEncode(byte *bp,
     bp += sizeof BGL_values[Black][nbply];
   }
 
-  if (CondFlag[disparate]) {
-    *bp++ = (byte)(nbply>=2?pjoue[nbply]:vide);
+  if (CondFlag[disparate])
+  {
+    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+    *bp++ = (byte)(nbply>=2 ? pi_departing : vide);
   }
 
   return bp;

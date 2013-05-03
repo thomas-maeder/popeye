@@ -17,9 +17,12 @@ static void insert_sentinelle(Side trait_ply)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  piece const pi_departing = pjoue[nbply];
-  Flags const spec_pi_moving = spec[sq_arrival];
-  piece const pi_captured = pprise[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  piece const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
+  piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+  Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
 
   if (sq_departure>=square_a2 && sq_departure<=square_h7
       && !is_pawn(abs(pi_departing))

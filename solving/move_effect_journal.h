@@ -16,9 +16,11 @@
 /* types of effects */
 typedef enum
 {
+  move_effect_none,
   move_effect_piece_change,
   move_effect_piece_movement,
   move_effect_piece_addition,
+  move_effect_no_piece_removal,
   move_effect_piece_removal,
   move_effect_piece_exchange,
   move_effect_side_change,
@@ -39,6 +41,7 @@ typedef enum
 /* reasons for effects */
 typedef enum
 {
+  move_effect_no_reason,
   move_effect_reason_moving_piece_movement,
   move_effect_reason_regular_capture,
   move_effect_reason_ep_capture,
@@ -127,7 +130,6 @@ typedef struct
             square from;
             piece removed;
             Flags removedspec;
-            move_effect_journal_index_type capturing_movement; /* ==move_effect_journal_index_null if not applicable */
         } piece_removal;
         struct
         {
@@ -197,20 +199,26 @@ extern move_effect_journal_entry_type move_effect_journal[move_effect_journal_si
 /* index of next effect per ply (i.e. 1 position beyond the last effect) */
 extern move_effect_journal_index_type move_effect_journal_top[maxply+1];
 
+extern move_effect_journal_index_type move_effect_journal_index_offset_capture;
+extern move_effect_journal_index_type move_effect_journal_index_offset_movement;
+extern move_effect_journal_index_type move_effect_journal_index_offset_other_effects;
+
 #if defined(DOTRACE)
 extern unsigned long move_effect_journal_next_id;
 #endif
+
+void move_effect_journal_reset(void);
+
+void move_effect_journal_register_pre_capture_effect(void);
 
 /* Add moving a piece to the current move of the current ply
  * @param reason reason for moving the piece
  * @param from current position of the piece
  * @param to where to move the piece
- * @return index of piece piece_movement effect
  */
-move_effect_journal_index_type
-move_effect_journal_do_piece_movement(move_effect_reason_type reason,
-                                      square from,
-                                      square to);
+void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
+                                           square from,
+                                           square to);
 
 /* Add adding a piece to the current move of the current ply
  * @param reason reason for adding the piece
@@ -223,21 +231,14 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
                                            piece added,
                                            Flags addedspec);
 
-/* Link the piece_removal and piece_movement just inserted as a capture
- * @param piece_removal index of the piece_removal effect
- * @param piece_removal index of the piece_movement effect
- */
-void move_effect_journal_link_capture_to_movement(move_effect_journal_index_type removal,
-                                                  move_effect_journal_index_type movement);
+void move_effect_journal_do_no_piece_removal(void);
 
 /* Add removing a piece to the current move of the current ply
  * @param reason reason for removing the piece
  * @param from current position of the piece
- * @return index of piece piece_removal effect
  */
-move_effect_journal_index_type
-move_effect_journal_do_piece_removal(move_effect_reason_type reason,
-                                     square from);
+void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
+                                          square from);
 
 /* Add changing the nature of a piece to the current move of the current ply
  * @param reason reason for changing the piece's nature
@@ -290,6 +291,21 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
  */
 void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
                                                  SquareTransformation transformation);
+
+/* Add the effects of a capture move to the current move of the current ply
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture position of the captured piece
+ * @param removal_reason reason for the capture (ep or regular?)
+ */
+void move_effect_journal_do_capture_move(square sq_departure,
+                                         square sq_arrival,
+                                         square sq_capture,
+                                         move_effect_reason_type removal_reason);
+
+/* Add the effects of a null move to the current move of the current ply
+ */
+void move_effect_journal_do_null_move(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index

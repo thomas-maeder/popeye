@@ -6,6 +6,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
 #include "solving/en_passant.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"
 
@@ -66,10 +67,13 @@ static void adjust(void)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   piece const pi_arriving = e[sq_arrival];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   ep[nbply] = initsquare;
 
-  if (is_pawn(abs(pi_arriving)) && pprise[nbply]==vide)
+  if (is_pawn(abs(pi_arriving))
+      && move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     square const sq_departure = move_generation_stack[current_move[nbply]].departure;
     square const sq_rebirth = (*marsrenai)(pi_arriving,

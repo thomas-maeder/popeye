@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -24,14 +25,16 @@ stip_length_type anticirce_couscous_determine_relevant_piece_solve(slice_index s
                                                                    stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  anticirce_current_relevant_piece[nbply] = pprise[nbply];
-  anticirce_current_relevant_spec[nbply] = pprispec[nbply];
+  anticirce_current_relevant_piece[nbply] = move_effect_journal[capture].u.piece_removal.removed;
+  anticirce_current_relevant_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
   anticirce_current_relevant_side[nbply] = slices[si].starter;
 
   result = solve(slices[si].next1,n);

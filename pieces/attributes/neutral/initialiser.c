@@ -358,6 +358,8 @@ void stip_insert_neutral_initialisers(slice_index si)
 
   TraceStipulation(si);
 
+  move_effect_journal_register_pre_capture_effect();
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

@@ -1053,8 +1053,8 @@ solving interrupted.
   1.Sb8-a6 f2-f1=Q #
   1.Sb8-c6 f2-f1=Q #
 
-                        empile:          34
-                     play_move:          40
+                        empile:          33
+                     play_move:          39
  is_white_king_square_attacked:          34
  is_black_king_square_attacked:           0
 solving interrupted. 

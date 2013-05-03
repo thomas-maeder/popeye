@@ -27,6 +27,8 @@ stip_length_type protean_pawn_adjuster_solve(slice_index si,
                                               stip_length_type n)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -34,11 +36,14 @@ stip_length_type protean_pawn_adjuster_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]!=vide
+  if (move_effect_journal[capture].type==move_effect_piece_removal
       && (!rex_protean_ex || !TSTFLAG(spec[sq_arrival],Royal)))
   {
-    piece substitute = -pprise[nbply];
-    if (pjoue[nbply]<vide)
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    piece const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
+    Flags const spec_moving = move_effect_journal[movement].u.piece_movement.movingspec;
+    piece substitute = -pi_captured;
+    if (TSTFLAG(spec_moving,Black))
     {
       if (substitute==pn)
         substitute = reversepn;

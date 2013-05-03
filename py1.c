@@ -154,8 +154,6 @@ static void initply(ply parent, ply child)
   einstein_ep[child] = initsquare;
   ep[child] = initsquare;
 
-  pprise[child] = vide;
-
   prev_king_square[White][nbply] = king_square[White];
   prev_king_square[Black][nbply] = king_square[Black];
 
@@ -193,8 +191,6 @@ static void do_copyply(ply original, ply copy)
 
   einstein_ep[copy] = einstein_ep[parent_ply[original]];
   ep[copy] = ep[parent_ply[original]];
-
-  pprise[copy] = vide;
 
   prev_king_square[White][nbply] = prev_king_square[White][parent_ply[original]];
   prev_king_square[Black][nbply] = prev_king_square[Black][parent_ply[original]];
@@ -237,6 +233,8 @@ void nextply(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  assert(ply_watermark<maxply);
 
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
@@ -420,9 +418,8 @@ void InitOpt(void)
       OptFlag[i] = false;
   }
 
-  pprise[1] = vide;
-  pprispec[1] = EmptySpec;
   move_generation_stack[1].capture = initsquare;
+  move_effect_journal[3].type = move_effect_no_piece_removal;
 }
 
 void InitBoard(void)
@@ -887,7 +884,8 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   if (sq_capture == messigny_exchange) {
     e[sq_departure]= e[sq_arrival];
   }
-  else {
+  else
+  {
     /* the pieces captured and reborn may be different: */
     /* Clone, Chameleon Circe               */
     pp= e[sq_capture];
@@ -902,22 +900,28 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
     TracePiece(pprise[parent_ply[nbply]]);
     TracePiece(pprise[parent_ply[parent_ply[nbply]]]);
     TraceText("\n");
-    if (anyparrain && pprise[parent_ply[parent_ply[nbply]]] != vide)
+    if (anyparrain)
     {
-      if (CondFlag[parrain]) {
-        cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
-            + sq_arrival - sq_departure);
-      }
-      if (CondFlag[contraparrain]) {
-        cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
-            - sq_arrival + sq_departure);
-      }
-      pc = e[cr];
-      if (pc==vide)
+      ply const grand_parent = parent_ply[parent_ply[nbply]];
+      move_effect_journal_index_type const grand_parent_top = move_effect_journal_top[grand_parent-1];
+      move_effect_journal_index_type const grand_parent_capture = grand_parent_top+move_effect_journal_index_offset_capture;
+      if (move_effect_journal[grand_parent_capture].type==move_effect_piece_removal)
       {
-        e[cr]= pprise[parent_ply[parent_ply[nbply]]];
-        TraceSquare(cr);
-        TraceText("\n");
+        if (CondFlag[parrain]) {
+          cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
+              + sq_arrival - sq_departure);
+        }
+        if (CondFlag[contraparrain]) {
+          cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
+              - sq_arrival + sq_departure);
+        }
+        pc = e[cr];
+        if (pc==vide)
+        {
+          e[cr]= move_effect_journal[grand_parent_capture].u.piece_removal.removed;
+          TraceSquare(cr);
+          TraceText("\n");
+        }
       }
     }
 

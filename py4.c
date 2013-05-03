@@ -146,8 +146,12 @@ int len_min(square sq_departure, square sq_arrival, square sq_capture) {
   return -len_max(sq_departure,sq_arrival,sq_capture);
 }
 
-int len_capt(square sq_departure, square sq_arrival, square sq_capture) {
-  return pprise[nbply]!=vide;
+int len_capt(square sq_departure, square sq_arrival, square sq_capture)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+
+  return move_effect_journal[capture].type==move_effect_piece_removal;
 }
 
 int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
@@ -217,7 +221,10 @@ int len_schwarzschacher(square sq_departure, square sq_arrival, square sq_captur
 
 int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
 {
-  return pprise[nbply]!=vide ? 1 : 0;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+
+  return move_effect_journal[capture].type==move_effect_piece_removal;
 }
 
 void add_to_move_generation_stack(square sq_departure,

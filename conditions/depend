@@ -650,8 +650,8 @@ conditions/disparate$(OBJ_SUFFIX): conditions/disparate.c conditions/disparate.h
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/enumeration.h pylang.h pieces/attributes/neutral/initialiser.h \
  solving/solve.h solving/observation.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h pydata.h pyproc.h \
- debugging/trace.h
+ pieces/vectors.h stipulation/goals/goals.h solving/move_effect_journal.h \
+ pydata.h pyproc.h debugging/trace.h
 
 conditions/disparate.h:
 
@@ -688,6 +688,8 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
+
+solving/move_effect_journal.h:
 
 pydata.h:
 
@@ -1439,7 +1441,7 @@ conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move.h \
- conditions/haunted_chess.h solving/move_effect_journal.h \
+ solving/move_effect_journal.h conditions/haunted_chess.h \
  debugging/trace.h
 
 conditions/ghost_chess.h:
@@ -1496,9 +1498,9 @@ stipulation/has_solution_type.h:
 
 stipulation/move.h:
 
-conditions/haunted_chess.h:
-
 solving/move_effect_journal.h:
+
+conditions/haunted_chess.h:
 
 debugging/trace.h:
 conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h solving/solve.h \
@@ -1646,7 +1648,7 @@ conditions/antiandernach$(OBJ_SUFFIX): conditions/antiandernach.c \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- conditions/andernach.h debugging/trace.h
+ solving/move_effect_journal.h conditions/andernach.h debugging/trace.h
 
 conditions/antiandernach.h:
 
@@ -1701,6 +1703,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move.h:
+
+solving/move_effect_journal.h:
 
 conditions/andernach.h:
 
@@ -2132,7 +2136,8 @@ conditions/tibet$(OBJ_SUFFIX): conditions/tibet.c conditions/tibet.h solving/sol
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move.h conditions/andernach.h debugging/trace.h
+ stipulation/move.h solving/move_effect_journal.h conditions/andernach.h \
+ debugging/trace.h
 
 conditions/tibet.h:
 
@@ -2185,6 +2190,8 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
+
+solving/move_effect_journal.h:
 
 conditions/andernach.h:
 
@@ -2265,8 +2272,8 @@ conditions/phantom$(OBJ_SUFFIX): conditions/phantom.c conditions/phantom.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h stipulation/move.h solving/en_passant.h \
- debugging/trace.h
+ stipulation/has_solution_type.h stipulation/move.h \
+ solving/move_effect_journal.h solving/en_passant.h debugging/trace.h
 
 conditions/phantom.h:
 
@@ -2321,6 +2328,8 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
+
+solving/move_effect_journal.h:
 
 solving/en_passant.h:
 

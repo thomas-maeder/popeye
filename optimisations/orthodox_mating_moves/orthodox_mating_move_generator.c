@@ -433,49 +433,50 @@ static void generate_move_reaching_goal()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* Don't try to "optimize" by hand. The double-loop is tested as
-   * the fastest way to compute (due to compiler-optimizations!) */
-  for (i = nr_rows_on_board; i>0; i--, square_a += onerow)
-  {
-    square sq_departure = square_a;
-    int j;
-    for (j = nr_files_on_board; j>0; j--, sq_departure += dir_right)
+  if (OpponentsKing!=initsquare)
+    /* Don't try to "optimize" by hand. The double-loop is tested as
+     * the fastest way to compute (due to compiler-optimizations!) */
+    for (i = nr_rows_on_board; i>0; i--, square_a += onerow)
     {
-      piece const p = e[sq_departure];
-      if (p!=vide && TSTFLAG(spec[sq_departure],side_at_move))
+      square sq_departure = square_a;
+      int j;
+      for (j = nr_files_on_board; j>0; j--, sq_departure += dir_right)
       {
-        if (CondFlag[gridchess]
-            && !GridLegal(sq_departure,OpponentsKing))
-          generate_moves_for_piece(side_at_move,sq_departure,p);
-        else
-          switch (abs(p))
-          {
-            case King:
-              king(sq_departure,OpponentsKing,side_at_move);
-              break;
+        piece const p = e[sq_departure];
+        if (p!=vide && TSTFLAG(spec[sq_departure],side_at_move))
+        {
+          if (CondFlag[gridchess]
+              && !GridLegal(sq_departure,OpponentsKing))
+            generate_moves_for_piece(side_at_move,sq_departure,p);
+          else
+            switch (abs(p))
+            {
+              case King:
+                king(sq_departure,OpponentsKing,side_at_move);
+                break;
 
-            case Pawn:
-              pawn(sq_departure,OpponentsKing,side_at_move);
-              break;
+              case Pawn:
+                pawn(sq_departure,OpponentsKing,side_at_move);
+                break;
 
-            case Knight:
-              knight(sq_departure,OpponentsKing,side_at_move);
-              break;
+              case Knight:
+                knight(sq_departure,OpponentsKing,side_at_move);
+                break;
 
-            case Rook:
-              rook(sq_departure,OpponentsKing,side_at_move);
-              break;
+              case Rook:
+                rook(sq_departure,OpponentsKing,side_at_move);
+                break;
 
-            case Queen:
-              queen(sq_departure,OpponentsKing,side_at_move);
-              break;
+              case Queen:
+                queen(sq_departure,OpponentsKing,side_at_move);
+                break;
 
-            case Bishop:
-              bishop(sq_departure,OpponentsKing,side_at_move);
-              break;
-          }
+              case Bishop:
+                bishop(sq_departure,OpponentsKing,side_at_move);
+                break;
+            }
+        }
       }
-    }
   }
 
   TraceFunctionExit(__func__);

@@ -1,9 +1,10 @@
 #include "stipulation/goals/capture/reached_tester.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
+#include "solving/move_effect_journal.h"
+#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -50,6 +51,8 @@ slice_index alloc_goal_capture_reached_tester_system(void)
 stip_length_type goal_capture_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -58,7 +61,7 @@ stip_length_type goal_capture_reached_tester_solve(slice_index si, stip_length_t
 
   assert(nbply!=nil_ply);
 
-  if (pprise[nbply]==vide)
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
     result = n+2;
   else
     result = solve(slices[si].next1,n);

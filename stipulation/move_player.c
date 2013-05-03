@@ -38,13 +38,12 @@ static void play_move(void)
 
   assert(sq_arrival!=nullsquare);
 
-  pjoue[nbply] = e[sq_departure];
-  pprise[nbply] = e[sq_capture];
-  pprispec[nbply] = spec[sq_capture];
-
   if (e[sq_capture]==vide)
+  {
+    move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
                                           sq_departure,sq_arrival);
+  }
   else
   {
     square const sq_auxiliary = move_gen_top->auxiliary;
@@ -55,12 +54,8 @@ static void play_move(void)
     move_effect_reason_type const removal_reason = (is_ep
                                                     ? move_effect_reason_ep_capture
                                                     : move_effect_reason_regular_capture);
-    move_effect_journal_index_type const
-      removal = move_effect_journal_do_piece_removal(removal_reason,sq_capture);
-    move_effect_journal_index_type const
-      movement = move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
-                                                       sq_departure,sq_arrival);
-    move_effect_journal_link_capture_to_movement(removal,movement);
+
+    move_effect_journal_do_capture_move(sq_departure,sq_arrival,sq_capture,removal_reason);
   }
 }
 

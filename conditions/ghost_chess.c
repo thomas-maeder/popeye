@@ -4,6 +4,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/haunted_chess.h"
 #include "debugging/trace.h"
 
@@ -24,18 +25,21 @@
  *            n+3 no solution found in next branch
  */
 stip_length_type ghost_chess_ghost_rememberer_solve(slice_index si,
-                                                     stip_length_type n)
+                                                    stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]!=vide)
+  if (move_effect_journal[capture].type==move_effect_piece_removal)
   {
-    move_effect_journal_do_remember_ghost();
+    move_effect_journal_do_remember_ghost(move_effect_journal[capture].u.piece_removal.removed,
+                                          move_effect_journal[capture].u.piece_removal.removedspec);
     SETFLAG(ghosts[nr_ghosts-1].flags,Uncapturable);
   }
 

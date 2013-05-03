@@ -8,6 +8,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/single_piece_move_generator.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -22,12 +23,14 @@ static boolean init_rebirth_squares(Side side_reborn)
   square const sq_capture = move_generation_stack[current_move[nbply]].capture;
   piece const pi_capturing = e[sq_capture];
   Flags const flags_capturing = spec[sq_capture];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  e[sq_capture] = pprise[nbply];
-  spec[sq_capture] = pprispec[nbply];
+  e[sq_capture] = move_effect_journal[capture].u.piece_removal.removed;
+  spec[sq_capture] = move_effect_journal[capture].u.piece_removal.removedspec;
 
   init_single_piece_move_generator(sq_capture);
 

@@ -2,6 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"
@@ -16,12 +17,14 @@ static unsigned int OpeningsRequired[maxply+1];
 static boolean mate_isGoalReachable(void)
 {
   boolean result;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]
-      && target_position[GetPieceId(pprispec[nbply])].diagram_square!=initsquare)
+  if (move_effect_journal[capture].type==move_effect_piece_removal
+      && target_position[GetPieceId(move_effect_journal[capture].u.piece_removal.removedspec)].diagram_square!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 
@@ -84,7 +87,7 @@ static boolean mate_isGoalReachable(void)
         assert(OpeningsRequired[nbply]>0);
         --OpeningsRequired[nbply];
       }
-      if (pprise[nbply]!=vide
+      if (move_effect_journal[capture].type==move_effect_piece_removal
           && nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].capture]>0)
       {
         assert(OpeningsRequired[nbply]>0);
@@ -97,20 +100,23 @@ static boolean mate_isGoalReachable(void)
       {
         unsigned int time_before;
         unsigned int time_now;
+        move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+        move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+        piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check)
         {
           square const save_king_square = king_square[Black];
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
           king_square[Black] = target_position[id_king].diagram_square;
-          time_before = intelligent_count_nr_of_moves_from_to_checking(pjoue[nbply],
+          time_before = intelligent_count_nr_of_moves_from_to_checking(pi_departing,
                                                                        move_generation_stack[current_move[nbply]].departure,
                                                                        target_position[id].type,
                                                                        target_position[id].diagram_square);
           king_square[Black] = save_king_square;
         }
         else
-          time_before = intelligent_count_nr_of_moves_from_to_no_check(pjoue[nbply],
+          time_before = intelligent_count_nr_of_moves_from_to_no_check(pi_departing,
                                                                        move_generation_stack[current_move[nbply]].departure,
                                                                        target_position[id].type,
                                                                        target_position[id].diagram_square);

@@ -117,6 +117,8 @@ stip_length_type kamikaze_capturing_piece_remover_solve(slice_index si,
                                                          stip_length_type n)
 {
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -124,7 +126,8 @@ stip_length_type kamikaze_capturing_piece_remover_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_arrival],Kamikaze) && pprise[nbply]!=vide)
+  if (TSTFLAG(spec[sq_arrival],Kamikaze)
+      && move_effect_journal[capture].type==move_effect_piece_removal)
     move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
                                          sq_arrival);
 

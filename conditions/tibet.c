@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
+#include "solving/move_effect_journal.h"
 #include "conditions/andernach.h"
 #include "debugging/trace.h"
 
@@ -28,13 +29,16 @@ stip_length_type double_tibet_solve(slice_index si, stip_length_type n)
   numecoup const coup_id = current_move[nbply];
   square const sq_departure = move_generation_stack[coup_id].departure;
   square const sq_arrival = move_generation_stack[coup_id].arrival;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pprise[nbply]!=vide && e[sq_arrival]!=-pprise[nbply]
+  if (move_effect_journal[capture].type==move_effect_piece_removal
+      && e[sq_arrival]!=-move_effect_journal[capture].u.piece_removal.removed
       && sq_departure!=prev_king_square[slices[si].starter][nbply])
     andernach_assume_side(advers(slices[si].starter));
 
@@ -80,6 +84,8 @@ stip_length_type tibet_solve(slice_index si, stip_length_type n)
   numecoup const coup_id = current_move[nbply];
   square const sq_departure = move_generation_stack[coup_id].departure;
   square const sq_arrival = move_generation_stack[coup_id].arrival;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -87,8 +93,8 @@ stip_length_type tibet_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (slices[si].starter==Black
-      && pprise[nbply]!=vide
-      && e[sq_arrival]!=-pprise[nbply]
+      && move_effect_journal[capture].type==move_effect_piece_removal
+      && e[sq_arrival]!=-move_effect_journal[capture].u.piece_removal.removed
       && sq_departure!=prev_king_square[Black][nbply])
     andernach_assume_side(advers(slices[si].starter));
 

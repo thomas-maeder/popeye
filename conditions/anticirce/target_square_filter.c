@@ -1,6 +1,7 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 
@@ -39,12 +40,15 @@ static boolean is_mover_removed_from_target(slice_index si)
 {
   boolean result;
   square const target = slices[si].u.goal_handler.goal.target;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = pprise[nbply]!=vide && current_anticirce_rebirth_square[nbply]!=target;
+  result = (move_effect_journal[capture].type==move_effect_piece_removal
+            && current_anticirce_rebirth_square[nbply]!=target);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

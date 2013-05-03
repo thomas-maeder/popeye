@@ -1,6 +1,7 @@
 #include "solving/capture_counter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 
@@ -46,14 +47,16 @@ slice_index alloc_capture_counter_slice(void)
 stip_length_type capture_counter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  Side const just_moved = advers(slices[si].starter);
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (just_moved==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
+  if (TSTFLAG(move_effect_journal[capture].u.piece_removal.removedspec,
+              slices[si].starter))
     ++capture_counter_count;
 
   TraceValue("%u",capture_counter_count);
