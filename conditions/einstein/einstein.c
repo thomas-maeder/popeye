@@ -124,60 +124,61 @@ void einstein_increase_castling_partner(Side trait_ply)
   }
 }
 
-/* Remember all capturers of the current move
- * @param is_capturer remembers capturers by their departure square (minus square_a1)
+/* Determine the capturer of the current move (if any)
+ * @return departure square of the capturer; initsquare if the current move
+ *                   isn't a capture
  */
-void einstein_collect_capturers(boolean is_capturer[square_h8-square_a1])
+square einstein_collect_capturers(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
-  move_effect_journal_index_type curr;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_removal
-        && (move_effect_journal[curr].reason==move_effect_reason_regular_capture
-            || move_effect_journal[curr].reason==move_effect_reason_ep_capture))
-    {
-      move_effect_journal_index_type const movement = curr+1;
-      square const capturer_origin = move_effect_journal[movement].u.piece_movement.from;
-      is_capturer[capturer_origin-square_a1] = true;
-    }
+  if (move_effect_journal[capture].type==move_effect_piece_removal)
+  {
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    result = move_effect_journal[movement].u.piece_movement.from;
+  }
+  else
+    result = initsquare;
 
   TraceFunctionExit(__func__);
+  TraceSquare(result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void adjust(void)
 {
-  boolean is_capturer[square_h8-square_a1] = { false };
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
-  move_effect_journal_index_type curr;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[parent_ply[nbply]]<=top);
+  {
+    square const capturer_origin = einstein_collect_capturers();
 
-  einstein_collect_capturers(is_capturer);
-
-  for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_piece_movement
-        && (move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement
-            || move_effect_journal[curr].reason==move_effect_reason_castling_king_movement
-            || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement))
-    {
-      square const from = move_effect_journal[curr].u.piece_movement.from;
-      square const to = move_effect_journal[curr].u.piece_movement.to;
-      piece const einsteined = e[to];
-      piece const substitute = (is_capturer[from-square_a1]
-                                ? einstein_increase_piece(einsteined)
-                                : einstein_decrease_piece(einsteined));
-      if (einsteined!=substitute)
-        move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
-                                            to,substitute);
-    }
+    move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+    move_effect_journal_index_type curr;
+    assert(move_effect_journal_top[parent_ply[nbply]]<=top);
+    for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
+      if (move_effect_journal[curr].type==move_effect_piece_movement
+          && (move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement
+              || move_effect_journal[curr].reason==move_effect_reason_castling_king_movement
+              || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement))
+      {
+        square const from = move_effect_journal[curr].u.piece_movement.from;
+        square const to = move_effect_journal[curr].u.piece_movement.to;
+        piece const einsteined = e[to];
+        piece const substitute = (capturer_origin==from
+                                  ? einstein_increase_piece(einsteined)
+                                  : einstein_decrease_piece(einsteined));
+        if (einsteined!=substitute)
+          move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
+                                              to,substitute);
+      }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

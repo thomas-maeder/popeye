@@ -25,10 +25,11 @@ void einstein_decrease_castling_partner(Side trait_ply);
  */
 void einstein_increase_castling_partner(Side trait_ply);
 
-/* Remember all capturers of the current move
- * @param is_capturer remembers capturers by their departure square (minus square_a1)
+/* Determine the capturer of the current move (if any)
+ * @return departure square of the capturer; initsquare if the current move
+ *                   isn't a capture
  */
-void einstein_collect_capturers(boolean is_capturer[square_h8-square_a1]);
+square einstein_collect_capturers(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index
