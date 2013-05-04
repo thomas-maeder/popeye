@@ -327,6 +327,10 @@ void move_effect_journal_do_capture_move(square sq_departure,
                                          square sq_capture,
                                          move_effect_reason_type removal_reason);
 
+/* Add a null effect to the current move of the current ply
+ */
+void move_effect_journal_do_null_effect(void);
+
 /* Add the effects of a null move to the current move of the current ply
  */
 void move_effect_journal_do_null_move(void);

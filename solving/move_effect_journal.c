@@ -1116,24 +1116,35 @@ void move_effect_journal_do_capture_move(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-/* Add the effects of a null move to the current move of the current ply
+/* Add a null effect to the current move of the current ply
  */
-void move_effect_journal_do_null_move(void)
+void move_effect_journal_do_null_effect(void)
 {
   move_effect_journal_index_type top = move_effect_journal_top[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(top+2<move_effect_journal_size);
+  assert(top+1<move_effect_journal_size);
 
   move_effect_journal[top].type = move_effect_none;
   move_effect_journal[top].reason = move_effect_no_reason;
 
-  move_effect_journal[top+1].type = move_effect_none;
-  move_effect_journal[top+1].reason = move_effect_no_reason;
+  ++move_effect_journal_top[nbply];
 
-  move_effect_journal_top[nbply] += 2;
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Add the effects of a null move to the current move of the current ply
+ */
+void move_effect_journal_do_null_move(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_do_null_effect(); /* no piece removal */
+  move_effect_journal_do_null_effect(); /* and no piece movement */
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

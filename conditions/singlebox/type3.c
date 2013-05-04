@@ -72,16 +72,12 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[coup_id].singlebox_type3_promotion_what!=vide)
+  if (move_generation_stack[coup_id].singlebox_type3_promotion_what==vide)
+    move_effect_journal_do_null_effect();
+  else
     move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
                                         move_generation_stack[coup_id].singlebox_type3_promotion_where,
                                         move_generation_stack[coup_id].singlebox_type3_promotion_what);
-  else
-  {
-    move_effect_journal[move_effect_journal_top[nbply]].type = move_effect_none;
-    move_effect_journal[move_effect_journal_top[nbply]].reason = move_effect_no_reason;
-    ++move_effect_journal_top[nbply];
-  }
 
   result = solve(slices[si].next1,n);
 
