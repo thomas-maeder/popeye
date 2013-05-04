@@ -19,25 +19,11 @@ move_effect_journal_index_type move_effect_journal_index_offset_capture;
 move_effect_journal_index_type move_effect_journal_index_offset_movement;
 move_effect_journal_index_type move_effect_journal_index_offset_other_effects;
 
-void move_effect_journal_reset(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_index_offset_capture = 0;
-  move_effect_journal_index_offset_movement = 1;
-  move_effect_journal_index_offset_other_effects = 2;
-
-  move_effect_journal[2].type = move_effect_no_piece_removal;
-  move_effect_journal[2].u.piece_removal.removed = vide;
-  move_effect_journal[2].u.piece_removal.removedspec = 0;
-  move_effect_journal_top[0] = 3;
-  move_effect_journal_top[1] = 4;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
+/* Reserve space for an effect in each move before the capture (e.g. for
+ * Singlebox Type 3 promotions). Conditions that do this have to make sure
+ * that every move has such an effect, possibly by adding a null effect to
+ * fill the reserved gap.
+ */
 void move_effect_journal_register_pre_capture_effect(void)
 {
   TraceFunctionEntry(__func__);
@@ -58,6 +44,50 @@ void move_effect_journal_register_pre_capture_effect(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Reset the move effects journal from pre-capture effect reservations
+ */
+void move_effect_journal_reset(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_index_offset_capture = 0;
+  move_effect_journal_index_offset_movement = 1;
+  move_effect_journal_index_offset_other_effects = 2;
+
+  move_effect_journal[2].type = move_effect_no_piece_removal;
+  move_effect_journal[2].u.piece_removal.removed = vide;
+  move_effect_journal[2].u.piece_removal.removedspec = 0;
+  move_effect_journal_top[0] = 3;
+  move_effect_journal_top[1] = 4;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Store a retro capture, e.g. for Circe Parrain key moves
+ * @param from square where the retro capture took place
+ * @param removed piece removed by the capture
+ * @param removedspec flags of that piece
+ */
+void move_effect_journal_store_retro_capture(square from,
+                                             piece removed,
+                                             Flags removedspec)
+{
+  move_effect_journal[3].type = move_effect_piece_removal;
+  move_effect_journal[3].reason = move_effect_reason_regular_capture;
+  move_effect_journal[3].u.piece_removal.from = from;
+  move_effect_journal[3].u.piece_removal.removed = removed;
+  move_effect_journal[3].u.piece_removal.removedspec = removedspec;
+}
+
+/* Reset the stored retro capture
+ */
+void move_effect_journal_reset_retro_capture(void)
+{
+  move_effect_journal[3].type = move_effect_no_piece_removal;
 }
 
 #if defined(DOTRACE)
@@ -303,6 +333,8 @@ static void redo_piece_addition(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
+/* Fill the capture gap at the head of each move by no capture
+ */
 void move_effect_journal_do_no_piece_removal(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
@@ -383,6 +415,8 @@ static void do_king_square_removal(move_effect_reason_type reason,
 /* Add removing a piece to the current move of the current ply
  * @param reason reason for removing the piece
  * @param from current position of the piece
+ * @note use move_effect_journal_do_capture_move(), not
+ * move_effect_journal_do_piece_removal() for regular captures
  */
 void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
                                           square from)

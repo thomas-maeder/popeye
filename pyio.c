@@ -1630,12 +1630,8 @@ static char *ParseSquareList(char *tok,
       }
       if (echo==1)
       {
-        move_generation_stack[1].capture = Square;
-        move_effect_journal[3].type = move_effect_piece_removal;
-        move_effect_journal[3].reason = move_effect_reason_regular_capture;
-        move_effect_journal[3].u.piece_removal.from = Square;
-        move_effect_journal[3].u.piece_removal.removed = TSTFLAG(Spec,White) ? Name : -Name;
-        move_effect_journal[3].u.piece_removal.removedspec = Spec;
+        piece const removed = TSTFLAG(Spec,White) ? Name : -Name;
+        move_effect_journal_store_retro_capture(Square,removed,Spec);
       }
       else
       {

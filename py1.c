@@ -418,8 +418,7 @@ void InitOpt(void)
       OptFlag[i] = false;
   }
 
-  move_generation_stack[1].capture = initsquare;
-  move_effect_journal[3].type = move_effect_no_piece_removal;
+  move_effect_journal_reset_retro_capture();
 }
 
 void InitBoard(void)

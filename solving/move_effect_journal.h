@@ -207,9 +207,29 @@ extern move_effect_journal_index_type move_effect_journal_index_offset_other_eff
 extern unsigned long move_effect_journal_next_id;
 #endif
 
+/* Reserve space for an effect in each move before the capture (e.g. for
+ * Singlebox Type 3 promotions). Conditions that do this have to make sure
+ * that every move has such an effect, possibly by adding a null effect to
+ * fill the reserved gap.
+ */
+void move_effect_journal_register_pre_capture_effect(void);
+
+/* Reset the move effects journal from pre-capture effect reservations
+ */
 void move_effect_journal_reset(void);
 
-void move_effect_journal_register_pre_capture_effect(void);
+/* Store a retro capture, e.g. for Circe Parrain key moves
+ * @param from square where the retro capture took place
+ * @param removed piece removed by the capture
+ * @param removedspec flags of that piece
+ */
+void move_effect_journal_store_retro_capture(square from,
+                                             piece removed,
+                                             Flags removedspec);
+
+/* Reset the stored retro capture
+ */
+void move_effect_journal_reset_retro_capture(void);
 
 /* Add moving a piece to the current move of the current ply
  * @param reason reason for moving the piece
@@ -231,11 +251,15 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
                                            piece added,
                                            Flags addedspec);
 
+/* Fill the capture gap at the head of each move by no capture
+ */
 void move_effect_journal_do_no_piece_removal(void);
 
 /* Add removing a piece to the current move of the current ply
  * @param reason reason for removing the piece
  * @param from current position of the piece
+ * @note use move_effect_journal_do_capture_move(), not
+ * move_effect_journal_do_piece_removal() for regular captures
  */
 void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
                                           square from);
