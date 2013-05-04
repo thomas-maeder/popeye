@@ -33,6 +33,7 @@ void move_effect_journal_register_pre_capture_effect(void)
   ++move_effect_journal_index_offset_movement;
   ++move_effect_journal_index_offset_other_effects;
 
+  /* this acrobatics is needed in Circe Parrain */
   move_effect_journal[0].type = move_effect_none;
   move_effect_journal[1].type = move_effect_no_piece_removal;
   move_effect_journal[1].u.piece_removal.removed = vide;
