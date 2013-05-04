@@ -22,7 +22,7 @@
 +---a---b---c---d---e---f---g---h---+
   pser-#2                     4 + 3
 
-  1.Rh4*h7 + Qg8*h7   2.Qh3*h7 # 
+  1.Rh4*h7 + Qg8*h7   2.Qh3*h7 #
 
                         empile:        1674
                      play_move:        1055
@@ -55,12 +55,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   2->pser-h#3                 5 + 5
 
-  1.Ba2-c4   2.Ra1-a8   1.Bd8-g5 + h4*g5   2.Sf2-d3 + Bc4*d3 +   3.f7-f5 g5*f6 ep. # 
+  1.Ba2-c4   2.Ra1-a8   1.Bd8-g5 + h4*g5   2.Sf2-d3 + Bc4*d3 +   3.f7-f5 g5*f6 ep. #
 
-                        empile:     2470962
-                     play_move:     1502510
+                        empile:     2469666
+                     play_move:     1501214
  is_white_king_square_attacked:      440165
- is_black_king_square_attacked:     1419638
+ is_black_king_square_attacked:     1418342
 solution finished. 
 
 
@@ -89,7 +89,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-h#7                    2 + 8
 
-  1.Sc2-a1   2.Qb1-h7   3.Qh7-b7 + Ra4-e4   4.Kb3-a2   5.Qb7-b1   6.Rb8-b2   7.Sa1-b3 Re4-a4 # 
+  1.Sc2-a1   2.Qb1-h7   3.Qh7-b7 + Ra4-e4   4.Kb3-a2   5.Qb7-b1   6.Rb8-b2   7.Sa1-b3 Re4-a4 #
 
                         empile:     9362848
                      play_move:     9364144
@@ -123,7 +123,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-h#6                    2 + 5
 
-  1.h2-h1=Q   2.Kg1-h2   3.Qh1-c1 + Sd5-f4   4.Qc1-c6 + Sf4-e6   5.Qc6-c1 + Se6-g5   6.Qc1-h1 Sg5-f3 # 
+  1.h2-h1=Q   2.Kg1-h2   3.Qh1-c1 + Sd5-f4   4.Qc1-c6 + Sf4-e6   5.Qc6-c1 + Se6-g5   6.Qc1-h1 Sg5-f3 #
 
                         empile:      279798
                      play_move:      325359
@@ -159,7 +159,7 @@ Dan Meinking (dedicated to Perry Sill)
 
 a) 
 
-  1.e2-e1=S   2.Se1-d3 + Kb2-c2   3.Sd3-e1 + Kc2-d2   4.Se1-f3 + Kd2-e2   5.Sf3-g1 + Ke2-f2   6.Sg1-h3 + Kf2-g3   7.Sh3-g1 Sd1-f2 # 
+  1.e2-e1=S   2.Se1-d3 + Kb2-c2   3.Sd3-e1 + Kc2-d2   4.Se1-f3 + Kd2-e2   5.Sf3-g1 + Ke2-f2   6.Sg1-h3 + Kf2-g3   7.Sh3-g1 Sd1-f2 #
 
                         empile:       46395
                      play_move:       49827
@@ -167,7 +167,7 @@ a)
  is_black_king_square_attacked:      113403
 b) wBd1 
 
-  1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 # 
+  1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 #
 
                         empile:      160272
                      play_move:      165982
@@ -201,7 +201,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-h#14                   3 + 2
 
-  1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 # 
+  1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 #
 
                         empile:   186742793
                      play_move:   186485453
@@ -235,9 +235,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-#3                     3 + 9
 
-  1.Qe1-g3 + Ke5-f5   2.Ba6-f1   3.Bf1-h3 # 
-  1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 # 
-  1.Qe1-g3 + Ke5-d4   2.Qg3-e1   3.Qe1-a1 # 
+  1.Qe1-g3 + Ke5-f5   2.Ba6-f1   3.Bf1-h3 #
+  1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 #
+  1.Qe1-g3 + Ke5-d4   2.Qg3-e1   3.Qe1-a1 #
 
                         empile:       13057
                      play_move:        5941
@@ -271,13 +271,13 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-#6                     5 + 6
 
-  1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 # 
-  1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 # 
+  1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 #
+  1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 #
 
-                        empile:     4888985
-                     play_move:     2575476
+                        empile:     4888943
+                     play_move:     2575434
  is_white_king_square_attacked:     1573079
- is_black_king_square_attacked:     1591318
+ is_black_king_square_attacked:     1591276
 solution finished. 
 
 
@@ -306,8 +306,8 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
 +---a---b---c---d---e---f---g---h---+
   pser-s#7                    6 + 6
 
-  1.Qe8-e5 + Be1-c3   2.Kd6-e7   3.Ke7-f6   4.Kf6-g5   5.Kg5*h4   6.Kh4-g3   7.Qe5-e1 + Bc3*e1 # 
-  1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 # 
+  1.Qe8-e5 + Be1-c3   2.Kd6-e7   3.Ke7-f6   4.Kf6-g5   5.Kg5*h4   6.Kh4-g3   7.Qe5-e1 + Bc3*e1 #
+  1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 #
 
                         empile:  1852162812
                      play_move:   807141395
@@ -341,7 +341,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-hdia10               14 + 14
 
-  1.f2-f4   2.f4-f5   3.f5-f6   4.f6*e7   5.e7*f8=R + Ke8-e7   6.Rf8-e8 + Ke7-f6   7.Re8-e6 + Kf6-f5   8.g2-g4 + Kf5*g4   9.Re6-e4 + Kg4-h5  10.Re4-h4 + Qd8*h4 + dia 
+  1.f2-f4   2.f4-f5   3.f5-f6   4.f6*e7   5.e7*f8=R + Ke8-e7   6.Rf8-e8 + Ke7-f6   7.Re8-e6 + Kf6-f5   8.g2-g4 + Kf5*g4   9.Re6-e4 + Kg4-h5  10.Re4-h4 + Qd8*h4 + dia
 
                         empile:      213131
                      play_move:      213191
@@ -376,7 +376,7 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
   pser-s=8                    2 + 2
 
   1  (h7-h8=Q )
-  1.h7-h8=Q   2.Qh8-a8 + Sb2-a4   3.Qa8-h1 + Ka1-a2   4.Qh1-b1 + Ka2-a3   5.Qb1-e1   6.Kc2-b1   7.Kb1-a1   8.Qe1-c3 + Sa4*c3 = 
+  1.h7-h8=Q   2.Qh8-a8 + Sb2-a4   3.Qa8-h1 + Ka1-a2   4.Qh1-b1 + Ka2-a3   5.Qb1-e1   6.Kc2-b1   7.Kb1-a1   8.Qe1-c3 + Sa4*c3 =
   2  (h7-h8=S )
   3  (h7-h8=R )
   4  (h7-h8=B )
@@ -422,7 +422,7 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
   pser-s#8                    4 + 2
 
   1  (f6-f7 )
-  1.f6-f7   2.f7-f8=Q + Kb8-a7   3.Kd6-c7   4.Qf8-c5 + Ka7-a6   5.Kc7-b8   6.Kb8-a8   7.b7-b8=B   8.Bd5-b7 + Bh1*b7 # 
+  1.f6-f7   2.f7-f8=Q + Kb8-a7   3.Kd6-c7   4.Qf8-c5 + Ka7-a6   5.Kc7-b8   6.Kb8-a8   7.b7-b8=B   8.Bd5-b7 + Bh1*b7 #
   2  (Kd6-e6 )
   3  (Kd6-d7 )
   4  (Kd6-c6 )
@@ -474,7 +474,7 @@ StrateGems 47, 2009, no. 12 (last 4 moves of a pser-h=18)
 +---a---b---c---d---e---f---g---h---+
   pser-h=4                   6 + 10
 
-  1.d2-d1=Q   2.Qd1-d8 + e7-e8=S   3.Qd8-f6 + Se8*f6   4.g4-g3 Rb1-f1 = 
+  1.d2-d1=Q   2.Qd1-d8 + e7-e8=S   3.Qd8-f6 + Se8*f6   4.g4-g3 Rb1-f1 =
 
                         empile:     8597132
                      play_move:     4736831
@@ -509,7 +509,7 @@ Good Companions Quick Composing Tourney 2010, 5th Prize
 +---a---b---c---d---e---f---g---h---+
   phser-007                   5 + 6
 
-  1.Bb6-d4   2.Bd4-b2   3.Bb2-a3 + Kb4-a5   4.Ba3-c5 + Bc2-a4   5.Bc5-b6 + Ka5-b4   6.Bb6-c5 + Kb4-b3   7.0-0-0 
+  1.Bb6-d4   2.Bd4-b2   3.Bb2-a3 + Kb4-a5   4.Ba3-c5 + Bc2-a4   5.Bc5-b6 + Ka5-b4   6.Bb6-c5 + Kb4-b3   7.0-0-0
 
                         empile:     7834783
                      play_move:     7818990
