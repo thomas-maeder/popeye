@@ -114,15 +114,41 @@
 /*113*/|I |nl|noctambule lion                     |nl|Nachtreiterlion                             |nl|nightrider lion
 /*114*/|I |ml|noctambule mao lion                 |ml|Maoreiterlion                               |ml|maorider lion
 /*115*/|I |mm|noctambule moa lion                 |mm|Moareiterlion                               |mm|moarider lion
-/*116*/|I |as|sauterelle d'Andernach              |ag|AndernachGrashuepfer                        |ag|AndernachGrasshopper
-/*117*/|I |a |ami                                 |f |Freund                                      |f |friend
-/*118*/|I |dn|dauphin                             |de|Delphin                                     |do|dolphin
-/*119*/|I |la|lapin                               |he|Hase                                        |rt|rabbit
-/*120*/|I |bo|bob                                 |bo|Bob                                         |bo|bob
-/*121*/|I |qa|equis anglais                       |qe|EquiEnglisch                                |qe|equi english
-/*122*/|I |qf|equis francais                      |qf|EquiFranzoesisch                            |qf|equi french
-/*123*/|I |qq|querquisite                         |od|Odysseus                                    |qq|querquisite
-/*124*/|I |b1|bouncer                             |b1|Bouncer                                     |b1|bouncer
-/*125*/|I |b2|tour bouncer                        |b2|TurmBouncer                                 |b2|rook bouncer
-/*126*/|I |b3|fou bouncer                         |b3|LaeuferBouncer                              |b3|bishop bouncer
-/*127*/|BR|pc|pion chinois                        |cb|chinesischer Bauer                          |cp|chinese pawn
+/*116*/|I |a |ami                                 |f |Freund                                      |f |friend
+/*117*/|I |dn|dauphin                             |de|Delphin                                     |do|dolphin
+/*118*/|I |la|lapin                               |he|Hase                                        |rt|rabbit
+/*119*/|I |bo|bob                                 |bo|Bob                                         |bo|bob
+/*120*/|I |qa|equis anglais                       |qe|EquiEnglisch                                |qe|equi english
+/*121*/|I |qf|equis francais                      |qf|EquiFranzoesisch                            |qf|equi french
+/*122*/|I |qq|querquisite                         |od|Odysseus                                    |qq|querquisite
+/*123*/|I |b1|bouncer                             |b1|Bouncer                                     |b1|bouncer
+/*124*/|I |b2|tour bouncer                        |b2|TurmBouncer                                 |b2|rook bouncer
+/*125*/|I |b3|fou bouncer                         |b3|LaeuferBouncer                              |b3|bishop bouncer
+/*126*/|BR|pc|pion chinois                        |cb|chinesischer Bauer                          |cp|chinese pawn
+/*127*/|I |cl|cavalier radial                     |rp|Radialspringer                              |rk|radial knight
+/*128*/|I |pv|pion renverse                       |rb|ReversBauer                                 |pp|protean pawn
+/*129*/|I |lr|rose locuste                        |lr|RosenHeuschrecke                            |ls|Rose Locust
+/*130*/|I |ze|zebu                                |ze|Zebu                                        |ze|zebu
+/*131*/|I |nr|noctambule rebondissant             |nr|Reflektierender Nachreiter                  |bn|Bouncy Nightrider
+/*132*/|I |n2|spiralspringer (2,0)                |s2|spiralspringer (2,0)                        |s2|spiralspringer (2,0)
+/*133*/|I |n4|spiralspringer (4,0)                |s4|spiralspringer (4,0)                        |s4|spiralspringer (4,0)
+/*134*/|I |n1|diagonalspiralspringer (1,1)        |s1|diagonalspiralspringer (1,1)                |s1|diagonalspiralspringer (1,1)
+/*135*/|I |n3|diagonalspiralspringer (3,3)        |s3|diagonalspiralspringer (3,3)                |s3|diagonalspiralspringer (3,3)
+/*136*/|I |qn|quintessence                        |qn|quintessence                                |qn|quintessence
+/*137*/|I |dt|double tour-sauterelle              |dt|Doppelturmhuepfer                           |dk|double rookhopper
+/*138*/|I |df|double fou-sauterelle               |dl|Doppellaeuferhuepfer                        |db|double bishopper
+/*139*/|I |no|orix (non-stop)                     |no|orix (non-stop)                             |no|orix (non-stop)
+/*140*/|I |sb|treehopper                          |uh|treehopper                                  |th|treehopper
+/*141*/|I |se|leafhopper                          |bh|leafhopper                                  |lh|leafhopper
+/*142*/|I |sm|greater treehopper                  |gu|greater treehopper                          |ge|greater treehopper
+/*143*/|I |su|greater leafhopper                  |gb|greater leafhopper                          |gf|greater leafhopper
+/*144*/|I |kl|kangarou lion                       |lk|kangarou lion                               |kl|kangarou lion
+/*145*/|I |ko|kao                                 |ko|kao                                         |ko|kao
+/*146*/|I |sv|knighthopper                        |sh|springerhuepfer                             |kp|knighthopper
+/*147*/|I |ba|bateau                              |sc|schiff                                      |sh|ship
+/*148*/|I |gy|gryphon                             |gy|gryphon                                     |gy|gryphon
+/*149*/|I |cm|cavalier marin                      |ms|mariner Springer                            |ms|marine knight
+/*150*/|I |po|pos\'eidon                          |po|Poseidon                                    |po|poseidon
+/*151*/|I |pm|pion marin                          |mb|mariner Bauer                               |mp|marine pawn
+/*152*/|I |bm|bateau marin                        |mc|marines Schiff                              |mh|marine ship
+
