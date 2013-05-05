@@ -455,7 +455,7 @@ void intelligent_place_pinned_unpromoted_black_pawn(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (placed_on>=square_a2 && placed_on<=square_h7
+  if (!TSTFLAGMASK(sq_spec[placed_on],BIT(BlBaseSq)|BIT(BlPromSq))
       && !black_pawn_attacks_king(placed_on)
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
@@ -481,7 +481,7 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (placed_on>=square_a2 && placed_on<=square_h7
+  if (!TSTFLAGMASK(sq_spec[placed_on],BIT(BlBaseSq)|BIT(BlPromSq))
       && !black_pawn_attacks_king(placed_on)
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))

@@ -23,8 +23,9 @@ static void insert_sentinelle(Side trait_ply)
   piece const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
   piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
+  SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);
 
-  if (sq_departure>=square_a2 && sq_departure<=square_h7
+  if (!TSTFLAGMASK(sq_spec[sq_departure],prom_square)
       && !is_pawn(abs(pi_departing))
       && e[sq_departure]==vide)
   {

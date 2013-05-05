@@ -1331,15 +1331,18 @@ boolean bspawncheck(square  sq_king,
   if (p==bspawnn
       || (calc_reflective_king[Black] && p==roin))
   {
-    if (sq_king<=square_h7) {          /* it can move from eigth rank */
+    if (!TSTFLAG(sq_spec[sq_king],BlBaseSq))          /* it can move from eigth rank */
+    {
       finligne(sq_king,+dir_up,p1,sq_departure);
       if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
     }
   }
-  else {/* hopefully ((p == bspawnb)
-           || (calc_whrefl_king && p == roib)) */
-    if (sq_king>=square_a2) {          /* it can move from first rank */
+  else /* hopefully ((p == bspawnb)
+          || (calc_whrefl_king && p == roib)) */
+  {
+    if (!TSTFLAG(sq_spec[sq_king],WhBaseSq))          /* it can move from first rank */
+    {
       finligne(sq_king,+dir_down,p1,sq_departure);
       if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
@@ -1360,7 +1363,8 @@ boolean spawncheck(square   sq_king,
   if (p==spawnn
       || (calc_reflective_king[Black] && p==roin))
   {
-    if (sq_king<=square_h7) {          /* it can move from eigth rank */
+    if (!TSTFLAG(sq_spec[sq_king],BlBaseSq))          /* it can move from eigth rank */
+    {
       finligne(sq_king,dir_up+dir_left,p1,sq_departure);
       if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;
@@ -1370,9 +1374,11 @@ boolean spawncheck(square   sq_king,
         return true;
     }
   }
-  else {/* hopefully ((p == bspawnb)
-           || (calc_whrefl_king && p == roib)) */
-    if (sq_king>=square_a2) {          /* it can move from first rank */
+  else /* hopefully ((p == bspawnb)
+          || (calc_whrefl_king && p == roib)) */
+  {
+    if (!TSTFLAG(sq_spec[sq_king],WhBaseSq))          /* it can move from first rank */
+    {
       finligne(sq_king,+dir_down+dir_right,p1,sq_departure);
       if (p1==p && evaluate(sq_departure,sq_king,sq_king))
         return true;

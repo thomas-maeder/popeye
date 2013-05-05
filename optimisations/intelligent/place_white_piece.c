@@ -21,7 +21,7 @@ void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (placed_on>=square_a2 && placed_on<=square_h7
+  if (!TSTFLAGMASK(sq_spec[placed_on],BIT(WhBaseSq)|BIT(WhPromSq))
       && GuardDir[Pawn-Pawn][placed_on].dir<guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))

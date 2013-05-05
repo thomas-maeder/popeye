@@ -262,13 +262,14 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
 {
   square const checker_from = white[index_of_checker].diagram_square;
   Flags const checker_flags = white[index_of_checker].flags;
+  SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
   TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
-  if (check_from>=square_a2 && check_from<=square_h7
+  if (!TSTFLAGMASK(sq_spec[check_from],prom_square)
       && GuardDir[Pawn-Pawn][check_from].dir==guard_dir_check_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,check_from))
   {

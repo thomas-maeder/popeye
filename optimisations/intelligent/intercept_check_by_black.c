@@ -146,7 +146,7 @@ static void black_piece_on(square where_to_intercept,
           promoted_black_pawn(intercepter_index,where_to_intercept,
                               is_diagonal,
                               go_on);
-          if (where_to_intercept>=square_a2 && where_to_intercept<=square_h7)
+          if (!TSTFLAGMASK(sq_spec[where_to_intercept],BIT(BlBaseSq)|BIT(BlPromSq)))
             intelligent_place_unpromoted_black_pawn(intercepter_index,
                                                     where_to_intercept,
                                                     go_on);

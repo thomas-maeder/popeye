@@ -843,7 +843,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
     e[sq_departure]= obs;
   }
   else if (CondFlag[sentinelles]
-           && sq_departure>=square_a2 && sq_departure<=square_h7
+           && !TSTFLAGMASK(sq_spec[sq_departure],BIT(WhPromSq)|BIT(BlPromSq))
            && !is_pawn(abs(pj)))
   {
     if ((pj<=roin) != SentPionAdverse) {

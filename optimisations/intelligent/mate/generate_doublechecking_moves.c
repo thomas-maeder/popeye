@@ -365,7 +365,7 @@ static void front_check_by_pawn(unsigned int index_of_checker, square via)
     front_check_by_unpromoted_pawn(index_of_checker,via,dir_up+dir_right);
   }
 
-  if (square_a7<=via && via<=square_h7)
+  if (TSTFLAG(sq_spec[via+dir_up],WhPromSq))
   {
     front_check_by_pawn_promotion_without_capture(index_of_checker,via,dir_up);
     front_check_by_pawn_promotion_with_capture(index_of_checker,via,dir_up+dir_left);

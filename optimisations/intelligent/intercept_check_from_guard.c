@@ -228,7 +228,7 @@ void intercept_check_on_guarded_square(square to_be_intercepted)
             break;
 
           case pb:
-            if (to_be_intercepted>=square_a2 && to_be_intercepted<=square_h7)
+            if (!TSTFLAGMASK(sq_spec[to_be_intercepted],BIT(WhBaseSq)|BIT(WhPromSq)))
               unpromoted_pawn(to_be_intercepted,intercepter_index);
             promoted_pawn(to_be_intercepted,intercepter_index,is_diagonal);
             break;
