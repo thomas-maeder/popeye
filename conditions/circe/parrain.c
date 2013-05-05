@@ -56,27 +56,22 @@ stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
 {
   stip_length_type result;
   ply const parent = parent_ply[nbply];
+  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+  move_effect_journal_index_type const parent_capture = parent_base+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nbply>2 && trait[parent]==no_side)
+  if (parent_capture>=move_effect_journal_top[parent] /* threat! */
+      || move_effect_journal[parent_capture].type==move_effect_no_piece_removal)
     current_circe_rebirth_square[nbply] = initsquare;
   else
   {
-    move_effect_journal_index_type const parent_top = move_effect_journal_top[parent-1];
-    move_effect_journal_index_type const parent_capture = parent_top+move_effect_journal_index_offset_capture;
-
-    if (move_effect_journal[parent_capture].type==move_effect_no_piece_removal)
-      current_circe_rebirth_square[nbply] = initsquare;
-    else
-    {
-      current_circe_rebirth_square[nbply] = move_effect_journal[parent_capture].u.piece_removal.from+move_vector();
-      current_circe_reborn_piece[nbply] = move_effect_journal[parent_capture].u.piece_removal.removed;
-      current_circe_reborn_spec[nbply] = move_effect_journal[parent_capture].u.piece_removal.removedspec;
-    }
+    current_circe_rebirth_square[nbply] = move_effect_journal[parent_capture].u.piece_removal.from+move_vector();
+    current_circe_reborn_piece[nbply] = move_effect_journal[parent_capture].u.piece_removal.removed;
+    current_circe_reborn_spec[nbply] = move_effect_journal[parent_capture].u.piece_removal.removedspec;
   }
 
   result = solve(slices[si].next1,n);

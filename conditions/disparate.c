@@ -20,16 +20,20 @@ boolean disparate_can_piece_move(square sq)
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
-  if (nbply>2
-      && trait[parent]!=no_side /* testing the threat? */
-      && trait[nbply]!=trait[parent])
+  if (nbply>2 && trait[nbply]!=trait[parent])
   {
-    move_effect_journal_index_type const parent_top = move_effect_journal_top[parent-1];
-    move_effect_journal_index_type const parent_movement = parent_top+move_effect_journal_index_offset_movement;
-    piece const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
-
-    if (abs(e[sq])==abs(pi_parent_moving))
-      result = false;
+    move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+    move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
+    if (parent_movement>=move_effect_journal_top[parent])
+    {
+      /* we are solving a threat - no disparate effect there */
+    }
+    else
+    {
+      piece const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
+      if (abs(e[sq])==abs(pi_parent_moving))
+        result = false;
+    }
   }
 
   TraceFunctionExit(__func__);
