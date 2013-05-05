@@ -125,18 +125,18 @@
 /*124*/|I |b2|tour bouncer                        |b2|TurmBouncer                                 |b2|rook bouncer
 /*125*/|I |b3|fou bouncer                         |b3|LaeuferBouncer                              |b3|bishop bouncer
 /*126*/|BR|pc|pion chinois                        |cb|chinesischer Bauer                          |cp|chinese pawn
-/*127*/|I |cl|cavalier radial                     |rp|Radialspringer                              |rk|radial knight
+/*127*/|SR|cl|cavalier radial                     |rp|Radialspringer                              |rk|radial knight
 /*128*/|I |pv|pion renverse                       |rb|ReversBauer                                 |pp|protean pawn
-/*129*/|I |lr|rose locuste                        |lr|RosenHeuschrecke                            |ls|Rose Locust
-/*130*/|I |ze|zebu                                |ze|Zebu                                        |ze|zebu
-/*131*/|I |nr|noctambule rebondissant             |nr|Reflektierender Nachreiter                  |bn|Bouncy Nightrider
-/*132*/|I |n2|spiralspringer (2,0)                |s2|spiralspringer (2,0)                        |s2|spiralspringer (2,0)
-/*133*/|I |n4|spiralspringer (4,0)                |s4|spiralspringer (4,0)                        |s4|spiralspringer (4,0)
-/*134*/|I |n1|diagonalspiralspringer (1,1)        |s1|diagonalspiralspringer (1,1)                |s1|diagonalspiralspringer (1,1)
-/*135*/|I |n3|diagonalspiralspringer (3,3)        |s3|diagonalspiralspringer (3,3)                |s3|diagonalspiralspringer (3,3)
+/*129*/|SR|lr|rose locuste                        |lr|RosenHeuschrecke                            |ls|Rose Locust
+/*130*/|SR|ze|zebu                                |ze|Zebu                                        |ze|zebu
+/*131*/|SR|nr|noctambule rebondissant             |nr|Reflektierender Nachreiter                  |bn|Bouncy Nightrider
+/*132*/|SR|n2|spiralspringer (2,0)                |s2|spiralspringer (2,0)                        |s2|spiralspringer (2,0)
+/*133*/|SR|n4|spiralspringer (4,0)                |s4|spiralspringer (4,0)                        |s4|spiralspringer (4,0)
+/*134*/|SR|n1|diagonalspiralspringer (1,1)        |s1|diagonalspiralspringer (1,1)                |s1|diagonalspiralspringer (1,1)
+/*135*/|SR|n3|diagonalspiralspringer (3,3)        |s3|diagonalspiralspringer (3,3)                |s3|diagonalspiralspringer (3,3)
 /*136*/|I |qn|quintessence                        |qn|quintessence                                |qn|quintessence
-/*137*/|I |dt|double tour-sauterelle              |dt|Doppelturmhuepfer                           |dk|double rookhopper
-/*138*/|I |df|double fou-sauterelle               |dl|Doppellaeuferhuepfer                        |db|double bishopper
+/*137*/|TR|dt|double tour-sauterelle              |dt|Doppelturmhuepfer                           |dk|double rookhopper
+/*138*/|LR|df|double fou-sauterelle               |dl|Doppellaeuferhuepfer                        |db|double bishopper
 /*139*/|I |no|orix (non-stop)                     |no|orix (non-stop)                             |no|orix (non-stop)
 /*140*/|I |sb|treehopper                          |uh|treehopper                                  |th|treehopper
 /*141*/|I |se|leafhopper                          |bh|leafhopper                                  |lh|leafhopper
@@ -144,11 +144,11 @@
 /*143*/|I |su|greater leafhopper                  |gb|greater leafhopper                          |gf|greater leafhopper
 /*144*/|I |kl|kangarou lion                       |lk|kangarou lion                               |kl|kangarou lion
 /*145*/|I |ko|kao                                 |ko|kao                                         |ko|kao
-/*146*/|I |sv|knighthopper                        |sh|springerhuepfer                             |kp|knighthopper
-/*147*/|I |ba|bateau                              |sc|schiff                                      |sh|ship
-/*148*/|I |gy|gryphon                             |gy|gryphon                                     |gy|gryphon
-/*149*/|I |cm|cavalier marin                      |ms|mariner Springer                            |ms|marine knight
-/*150*/|I |po|pos\'eidon                          |po|Poseidon                                    |po|poseidon
-/*151*/|I |pm|pion marin                          |mb|mariner Bauer                               |mp|marine pawn
-/*152*/|I |bm|bateau marin                        |mc|marines Schiff                              |mh|marine ship
+/*146*/|SR|sv|knighthopper                        |sh|springerhuepfer                             |kp|knighthopper
+/*147*/|TR|ba|bateau                              |sc|schiff                                      |sh|ship
+/*148*/|LR|gy|gryphon                             |gy|gryphon                                     |gy|gryphon
+/*149*/|SR|cm|cavalier marin                      |ms|mariner Springer                            |ms|marine knight
+/*150*/|KR|po|pos\'eidon                          |po|Poseidon                                    |po|poseidon
+/*151*/|BR|pm|pion marin                          |mb|mariner Bauer                               |mp|marine pawn
+/*152*/|TR|bm|bateau marin                        |mc|marines Schiff                              |mh|marine ship
 
