@@ -23,8 +23,8 @@
 +---a---b---c---d---e---f---g---h---+
   ser-h005                    3 + 9
 
-  1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
-  1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0 
+  1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0
+  1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0
 
                         empile:    52830392
                      play_move:    11644417
@@ -62,7 +62,7 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 a) 
 
   1  (16g7-a6 )
-  1.16g7-a6   2.16a6-g5   3.16g5-a4   4.16a4-g3   5.16g3-a2   6.16a2-b8   7.16b8-c2   8.16c2-d8   9.16d8-e2  10.16e2-f8  11.16f8-g2 # 
+  1.16g7-a6   2.16a6-g5   3.16g5-a4   4.16a4-g3   5.16g3-a2   6.16a2-b8   7.16b8-c2   8.16c2-d8   9.16d8-e2  10.16e2-f8  11.16f8-g2 #
   2  (16g7-f1 )
   3  (16g7-h1 )
   4  (16g7-a8 )
@@ -80,7 +80,7 @@ b) wKc1-->b3
 
  10  (16g7-a6 )
  11  (16g7-f1 )
-  1.16g7-f1   2.16f1-e7   3.16e7-d1   4.16d1-c7   5.16c7-b1   6.16b1-a7   7.16a7-g6   8.16g6-a5   9.16a5-g4  10.16g4-a3  11.16a3-g2 # 
+  1.16g7-f1   2.16f1-e7   3.16e7-d1   4.16d1-c7   5.16c7-b1   6.16b1-a7   7.16a7-g6   8.16g6-a5   9.16a5-g4  10.16g4-a3  11.16a3-g2 #
  12  (16g7-h1 )
  13  (16g7-a8 )
  14  (Kb3-c3 )
@@ -139,10 +139,10 @@ Motto: Viele Koeche verderben den Brei
   8  (Ke2-f3 )
   9  (Ke2-d1 )
  10  (d7-d5 )
-  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=S h7-h8=S # 
+  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=S h7-h8=S #
  11  (d7-d6 )
 
-                        empile:    89545466
+                        empile:    83305227
                      play_move:    47937131
  is_white_king_square_attacked:     3348158
  is_black_king_square_attacked:    45164407
@@ -184,20 +184,21 @@ Loesung beendet.
   7  (Kd5-d4 )
   8  (Kd5-c6 )
   9  (Kd5-e6 )
- 10  (Kd5-c4 )
- 11  (Sf6-e4 )
- 12  (Sf6-g4 )
- 13  (Sf6-h5 )
- 14  (Sf6*h7 )
- 15  (Sf6-g8 )
-  1.Sf6-g8 Lh7-b1   2.c3-c2 h6-h7   3.c2*b1=L h7*g8=S   4.Lb1-e4 Sg8-e7 # 
- 16  (Sf6-e8 )
- 17  (Sf6-d7 )
+ 10  (Kd5-e4 )
+ 11  (Kd5-c4 )
+ 12  (Sf6-e4 )
+ 13  (Sf6-g4 )
+ 14  (Sf6-h5 )
+ 15  (Sf6*h7 )
+ 16  (Sf6-g8 )
+  1.Sf6-g8 Lh7-b1   2.c3-c2 h6-h7   3.c2*b1=L h7*g8=S   4.Lb1-e4 Sg8-e7 #
+ 17  (Sf6-e8 )
+ 18  (Sf6-d7 )
 
-                        empile:    55587893
-                     play_move:    37849173
- is_white_king_square_attacked:    27353548
- is_black_king_square_attacked:    58090435
+                        empile:    53082848
+                     play_move:    37123363
+ is_white_king_square_attacked:     8471044
+ is_black_king_square_attacked:    37089915
 Loesung beendet. 
 
 
@@ -1579,10 +1580,10 @@ Loesung beendet.
                                                   7.Tc1-c3 #
 
 
-                        empile:  6413950089
-                     play_move:  2089121145
- is_white_king_square_attacked:   161141051
- is_black_king_square_attacked:  1946573492
+                        empile:  6390029229
+                     play_move:  2089073093
+ is_white_king_square_attacked:   161138454
+ is_black_king_square_attacked:  1946530214
 Loesung beendet. 
 
 
@@ -1632,10 +1633,10 @@ Loesung beendet.
                           4.Lc6-b7 =
 
 
-                        empile:  2407620855
-                     play_move:   387806133
+                        empile:  2327544611
+                     play_move:   385869418
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:   320394410
+ is_black_king_square_attacked:   318717527
 Loesung beendet. 
 
 
@@ -1665,13 +1666,13 @@ Loesung beendet.
   h=5                         2 + 4
               OhneSchach
 
-  1.b2-b1=T a5-a6   2.Tb1-b6 Ka7*b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 = 
-  1.b2-b1=T a5-a6   2.Tb1-h1 Ka7-b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 = 
+  1.b2-b1=T a5-a6   2.Tb1-b6 Ka7*b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 =
+  1.b2-b1=T a5-a6   2.Tb1-h1 Ka7-b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 =
 
-                        empile:  1051029823
-                     play_move:   128020459
- is_white_king_square_attacked:   154260207
- is_black_king_square_attacked:   162470025
+                        empile:   991034893
+                     play_move:   107507675
+ is_white_king_square_attacked:   107114262
+ is_black_king_square_attacked:    97365384
 Loesung beendet. 
 
 
@@ -1704,7 +1705,7 @@ Loesung beendet.
   1  (b2-b1=D )
   2  (b2-b1=S )
   3  (b2-b1=T )
-  1.b2-b1=T f7-f8=S   2.Tb1-b7 c6*b7   3.c2-c1=L b7-b8=D   4.Lc1-f4 Db8*f4 = 
+  1.b2-b1=T f7-f8=S   2.Tb1-b7 c6*b7   3.c2-c1=L b7-b8=D   4.Lc1-f4 Db8*f4 =
   4  (b2-b1=L )
   5  (c2-c1=D )
   6  (c2-c1=S )
@@ -1716,10 +1717,10 @@ Loesung beendet.
  12  (Kh5-g6 )
  13  (Kh5-g4 )
 
-                        empile:  1222651305
-                     play_move:   209475133
- is_white_king_square_attacked:   152678631
- is_black_king_square_attacked:   249239228
+                        empile:  1028586519
+                     play_move:   101900625
+ is_white_king_square_attacked:   101165287
+ is_black_king_square_attacked:    99067618
 Loesung beendet. 
 
 
@@ -1756,19 +1757,21 @@ Loesung beendet.
   4  (c2-c1=D )
   5  (c2-c1=S )
   6  (c2-c1=T )
-  1.c2-c1=T b4-b5   2.Tc1-c6 b5*c6   3.e2-e1=S c6-c7   4.Se1-g2 c7-c8=D   5.h2-h1=L Dc8-c2 = 
+  1.c2-c1=T b4-b5   2.Tc1-c6 b5*c6   3.e2-e1=S c6-c7   4.Se1-g2 c7-c8=D   5.h2-h1=L Dc8-c2 =
   7  (c2-c1=L )
   8  (e2-e1=D )
   9  (e2-e1=S )
  10  (e2-e1=T )
  11  (e2-e1=L )
- 12  (h2-h1=S )
- 13  (h2-h1=T )
+ 12  (h2-h1=D + )
+ 13  (h2-h1=S )
+ 14  (h2-h1=T )
+ 15  (h2-h1=L + )
 
-                        empile:   874964656
-                     play_move:   106180327
- is_white_king_square_attacked:   134486587
- is_black_king_square_attacked:   140894981
+                        empile:   838407004
+                     play_move:    96144067
+ is_white_king_square_attacked:    95595734
+ is_black_king_square_attacked:    85701115
 Loesung beendet. 
 
 
@@ -1809,40 +1812,42 @@ Loesung beendet.
   8  (a2-a1=L )
   9  (d2-d1=D )
  10  (d2-d1=S )
-  1.d2-d1=S Kg8-h8   2.g2-g1=T f5-f6   3.Tg1-g7 f6*g7   4.Sd1-b2 g7-g8=D   5.a2-a1=L Dg8-c4 = 
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 = 
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 = 
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 = 
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 = 
+  1.d2-d1=S Kg8-h8   2.g2-g1=T f5-f6   3.Tg1-g7 f6*g7   4.Sd1-b2 g7-g8=D   5.a2-a1=L Dg8-c4 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
  11  (d2-d1=T )
  12  (d2-d1=L )
- 13  (g2-g1=S )
- 14  (g2-g1=L )
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 = 
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 = 
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 = 
+ 13  (g2-g1=D + )
+ 14  (g2-g1=S )
+ 15  (g2-g1=T + )
+ 16  (g2-g1=L )
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
 
-                        empile:  2262522021
-                     play_move:   257015171
- is_white_king_square_attacked:   289920800
- is_black_king_square_attacked:   330296938
+                        empile:  2034867482
+                     play_move:   204304913
+ is_white_king_square_attacked:   199016623
+ is_black_king_square_attacked:   190331416
 Loesung beendet. 
 
 
@@ -1875,21 +1880,23 @@ Loesung beendet.
 
   1  (Kd1-e1 )
   2  (Kd1-c1 )
-  3  (a2-a1=S )
-  4  (a2-a1=T )
-  5  (c2-c1=D )
-  1.c2-c1=D e2-e4   2.Kd1-c2 e4-e5   3.d2-d1=S e5-e6   4.Sd1-b2 e6-e7   5.Dc1-a1 e7-e8=D   6.Kc2-b1 De8-c6 = 
-  1.c2-c1=D e2-e4   2.Kd1-c2 e4-e5   3.d2-d1=S e5-e6   4.Sd1-b2 e6-e7   5.Dc1-a1 e7-e8=D   6.Kc2-b1 De8-c8 = 
-  1.c2-c1=D e2-e4   2.Kd1-c2 e4-e5   3.d2-d1=S e5-e6   4.Sd1-b2 e6-e7   5.Dc1-a1 e7-e8=T   6.Kc2-b1 Te8-c8 = 
-  6  (c2-c1=S )
-  7  (c2-c1=T )
-  1.c2-c1=T e2-e4   2.Tc1-b1 e4-e5   3.Kd1-c1 e5-e6   4.d2-d1=S e6-e7   5.Sd1-b2 e7-e8=D   6.a2-a1=L De8-e2 = 
-  8  (c2-c1=L )
+  3  (a2-a1=D + )
+  4  (a2-a1=S )
+  5  (a2-a1=T )
+  6  (a2-a1=L + )
+  7  (c2-c1=D )
+  1.c2-c1=D e2-e4   2.Kd1-c2 e4-e5   3.d2-d1=S e5-e6   4.Sd1-b2 e6-e7   5.Dc1-a1 e7-e8=D   6.Kc2-b1 De8-c6 =
+  1.c2-c1=D e2-e4   2.Kd1-c2 e4-e5   3.d2-d1=S e5-e6   4.Sd1-b2 e6-e7   5.Dc1-a1 e7-e8=D   6.Kc2-b1 De8-c8 =
+  1.c2-c1=D e2-e4   2.Kd1-c2 e4-e5   3.d2-d1=S e5-e6   4.Sd1-b2 e6-e7   5.Dc1-a1 e7-e8=T   6.Kc2-b1 Te8-c8 =
+  8  (c2-c1=S )
+  9  (c2-c1=T )
+  1.c2-c1=T e2-e4   2.Tc1-b1 e4-e5   3.Kd1-c1 e5-e6   4.d2-d1=S e6-e7   5.Sd1-b2 e7-e8=D   6.a2-a1=L De8-e2 =
+ 10  (c2-c1=L )
 
-                        empile:  3828790658
-                     play_move:   475880604
- is_white_king_square_attacked:   588990083
- is_black_king_square_attacked:   635628103
+                        empile:  3634349430
+                     play_move:   421009662
+ is_white_king_square_attacked:   420081615
+ is_black_king_square_attacked:   382052570
 Loesung beendet. 
 
 
@@ -1940,7 +1947,7 @@ a)
  16  (Tc5-f5 )
  17  (Tc5-e5 + )
  18  (Tc5-d5 )
-  1.Tc5-d5 Kd4*e5[+sTh8]   2.Lh6*f8[+wSg1] Kd4-d3   3.Le8-c6 Sh7*f6[+sLf8] # 
+  1.Tc5-d5 Kd4*e5[+sTh8]   2.Lh6*f8[+wSg1] Kd4-d3   3.Le8-c6 Sh7*f6[+sLf8] #
  19  (Ka7-a8 )
  20  (Ka7-a6 )
  21  (Ka7-b8 )
@@ -1978,7 +1985,7 @@ b) sKa7-->b1
  46  (Kb1-a2 )
  47  (Kb1-c2 )
  48  (La3*c1[+wSg1] )
-  1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] # 
+  1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] #
  49  (La3-b2 )
  50  (La3-b4 )
  51  (f3-f2 )
@@ -2084,10 +2091,10 @@ a)
  17  (Sb4-a6[If8] )
  18  (Tg2-g1[Ig5] + )
 
-                        empile:   145516256
-                     play_move:    59739088
- is_white_king_square_attacked:    59388140
- is_black_king_square_attacked:    28922612
+                        empile:   145854405
+                     play_move:    59733619
+ is_white_king_square_attacked:    59382671
+ is_black_king_square_attacked:    28918862
 b) sBc4-->c3
 
  19  (g7-g8=I[Ig7,g8] )
@@ -2123,10 +2130,10 @@ b) sBc4-->c3
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
 
-                        empile:   159209677
-                     play_move:    66238837
- is_white_king_square_attacked:    65852177
- is_black_king_square_attacked:    32022149
+                        empile:   159618973
+                     play_move:    66251003
+ is_white_king_square_attacked:    65864323
+ is_black_king_square_attacked:    32028139
 c) sBb3-->c3
 
  38  (g7-g8=I[Ig7,g8] )
@@ -2161,10 +2168,10 @@ c) sBb3-->c3
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
 
-                        empile:   154347104
-                     play_move:    63393770
- is_white_king_square_attacked:    63070350
- is_black_king_square_attacked:    31277031
+                        empile:   154666603
+                     play_move:    63394018
+ is_white_king_square_attacked:    63070578
+ is_black_king_square_attacked:    31276223
 Loesung beendet. 
 
 
@@ -2204,7 +2211,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
   7  (e2-e4 )
   8  (e2-e3 )
   9  (d2-d4 )
-  1.d2-d4 c7-c6   2.Dd1-d3 Dd8-a5[Ke8<->Ke1]   3.Ke8*f8 Ke1*f1   4.Dd3-d1[Kf1<->Kf8] Da5-d8   5.Kf1-e1 Kf8-e8 dia 
+  1.d2-d4 c7-c6   2.Dd1-d3 Dd8-a5[Ke8<->Ke1]   3.Ke8*f8 Ke1*f1   4.Dd3-d1[Kf1<->Kf8] Da5-d8   5.Kf1-e1 Kf8-e8 dia
  10  (d2-d3 )
  11  (c2-c4 )
  12  (c2-c3 )
@@ -2334,7 +2341,7 @@ dauert 13 min mit Athlon 2400 / 200MB
                         empile:    89448571
                      play_move:    58246350
  is_white_king_square_attacked:    58585887
- is_black_king_square_attacked:    10800221
+ is_black_king_square_attacked:    10800225
 Loesung beendet. 
 
 
@@ -2447,10 +2454,10 @@ Loesung beendet.
  56  (Tb1-d1 )
  57  (Tb1-c1 )
 
-                        empile: 81728859330
-                     play_move: 13500989483
- is_white_king_square_attacked: 13500989491
- is_black_king_square_attacked:  9042919650
+                        empile: 81746140862
+                     play_move: 13502302594
+ is_white_king_square_attacked: 13502302602
+ is_black_king_square_attacked:  9044187594
 Loesung beendet. 
 
 
@@ -2489,15 +2496,15 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
   6  (Kc1-d2 )
   7  (Sa2-c3 )
   8  (h2-h1=D + )
-  1.h2-h1=D + Le4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Lh1-a8[+sDh1]   4.Dh1*a8 Ke2-d2   5.Da8-a3[+wLa8] La8-d5 # 
+  1.h2-h1=D + Le4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Lh1-a8[+sDh1]   4.Dh1*a8 Ke2-d2   5.Da8-a3[+wLa8] La8-d5 #
   9  (h2-h1=S )
  10  (h2-h1=T + )
  11  (h2-h1=L )
 
-                        empile:   128321246
-                     play_move:   114413155
+                        empile:   128304360
+                     play_move:   114396269
  is_white_king_square_attacked:    29861799
- is_black_king_square_attacked:    90280126
+ is_black_king_square_attacked:    90263240
 Loesung beendet. 
 
 
@@ -2733,10 +2740,10 @@ Initial (Weiss ->):
                                           6.Kc2-b1 a=>b
 
 
-                        empile:  8651011921
-                     play_move:  7277528848
- is_white_king_square_attacked:  3996682473
- is_black_king_square_attacked:   376617335
+                        empile:  8794031786
+                     play_move:  7277521675
+ is_white_king_square_attacked:  3996665379
+ is_black_king_square_attacked:   376616129
 Loesung beendet. 
 
 
@@ -2765,147 +2772,147 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 6hh[/2da[#]{!+}]    4 + 9
 
-  1.Kg1-h1 Th6*g6   2.b2-b1=S Tg6-e6   3.Se7-g8 Ke1-f2 
-  1.Kg1-h1 Th6*g6   2.b2-b1=S Ke1-f2   3.Se7-g8 Tg6-e6 
-  1.Kg1-h1 Th6*g6   2.b2-b1=L Tg6-e6   3.Se7-g8 Ke1-f2 
-  1.Kg1-h1 Th6*g6   2.b2-b1=L Ke1-f2   3.Se7-g8 Tg6-e6 
-  1.Kg1-h1 Th6*g6   2.b2*a1=L Tg6-e6   3.Se7-g8 Ke1-f2 
-  1.Kg1-h1 Th6*g6   2.b2*a1=L Ke1-f2   3.Se7-g8 Tg6-e6 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2-b1=S Ke1-f2 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2-b1=L Ke1-f2 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2*a1=L Ke1-f2 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2-b1=S Tg6-e6 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2-b1=L Tg6-e6 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2*a1=L Tg6-e6 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Ta1-b1   3.a2-a1=L b6*a7 
-  1.Kg1-h1 Th6*g6   2.Se7-g8 Ta1-b1   3.a2-a1=L Ke1-d1 
-  1.Kg1-h1 b6-b7   2.Tg6-g1 + Ke1-f2   3.Th8-a8 b7-b8=D 
-  1.Kg1-h1 b6-b7   2.Tg6-g1 + Ke1-f2   3.Th8-a8 b7-b8=L 
-  1.Kg1-h1 b6-b7   2.Th8-a8 b7-b8=D   3.Tg6-g1 + Ke1-f2 
-  1.Kg1-h1 b6-b7   2.Th8-a8 b7-b8=L   3.Tg6-g1 + Ke1-f2 
-  1.Kg1-h1 b6-b7   2.Th8-a8 Ke1-f2 +   3.Tg6-g1 b7-b8=D 
-  1.Kg1-h1 b6-b7   2.Th8-a8 Ke1-f2 +   3.Tg6-g1 b7-b8=L 
-  1.Kg1-h1 b6*a7   2.Tg6-g1 + Ke1-f2   3.Th8-b8 a7*b8=D 
-  1.Kg1-h1 b6*a7   2.Tg6-g1 + Ke1-f2   3.Th8-b8 a7*b8=L 
-  1.Kg1-h1 b6*a7   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6 
-  1.Kg1-h1 b6*a7   2.Th8-b8 a7*b8=D   3.Tg6-g1 + Ke1-f2 
-  1.Kg1-h1 b6*a7   2.Th8-b8 a7*b8=L   3.Tg6-g1 + Ke1-f2 
-  1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=D 
-  1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=L 
-  1.Kg1-h1 Ke1-d1   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6 
-  1.Kg1-h1 Ke1-f2 +   2.b2-b1=S Th6*g6   3.Se7-g8 Tg6-e6 
-  1.Kg1-h1 Ke1-f2 +   2.b2-b1=L Th6*g6   3.Se7-g8 Tg6-e6 
-  1.Kg1-h1 Ke1-f2 +   2.b2*a1=L Th6*g6   3.Se7-g8 Tg6-e6 
-  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6-b7   3.Th8-a8 b7-b8=D 
-  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6-b7   3.Th8-a8 b7-b8=L 
-  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=D 
-  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=L 
-  1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 b6*a7 
-  1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 Ke1-d1 
-  1.Kg1-h1 Ta1-b1   2.a2-a1=L b6*a7   3.Se7-g8 Th6*g6 
-  1.Kg1-h1 Ta1-b1   2.a2-a1=L Ke1-d1   3.Se7-g8 Th6*g6 
-  1.Kg1-h1 Ta1-b1   2.Se7-g8 Th6*g6   3.a2-a1=L b6*a7 
-  1.Kg1-h1 Ta1-b1   2.Se7-g8 Th6*g6   3.a2-a1=L Ke1-d1 
-  1.Kg1-h1 Ta1-b1   2.Se7-g8 b6*a7   3.a2-a1=L Th6*g6 
-  1.Kg1-h1 Ta1-b1   2.Se7-g8 Ke1-d1   3.a2-a1=L Th6*g6 
-  1.b2-b1=S Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2 
-  1.b2-b1=S Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6 
-  1.b2-b1=S b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4 
-  1.b2-b1=S b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4 
-  1.b2-b1=S b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4 
-  1.b2-b1=S b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4 
-  1.b2-b1=L Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2 
-  1.b2-b1=L Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6 
-  1.b2-b1=L b6-b7   2.Lb1-e4 b7-b8=D   3.h2-h1=L Db8-f4 
-  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Lb1-e4 Db8-f4 
-  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4 
-  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4 
-  1.b2-b1=L b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4 
-  1.b2-b1=L b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4 
-  1.b2*a1=L Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2 
-  1.b2*a1=L Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6 
-  1.b2*a1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4 
-  1.b2*a1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4 
-  1.b2*a1=L b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4 
-  1.b2*a1=L b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4 
-  1.h2-h1=L b6-b7   2.b2-b1=S b7-b8=D   3.Tg6-g8 Db8-f4 
-  1.h2-h1=L b6-b7   2.b2-b1=S b7-b8=D   3.Tg6-g7 Db8-f4 
-  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Lb1-e4 Db8-f4 
-  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Tg6-g8 Db8-f4 
-  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Tg6-g7 Db8-f4 
-  1.h2-h1=L b6-b7   2.b2*a1=L b7-b8=D   3.Tg6-g8 Db8-f4 
-  1.h2-h1=L b6-b7   2.b2*a1=L b7-b8=D   3.Tg6-g7 Db8-f4 
-  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2-b1=S Db8-f4 
-  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2-b1=L Db8-f4 
-  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2*a1=L Db8-f4 
-  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2-b1=S Db8-f4 
-  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2-b1=L Db8-f4 
-  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2*a1=L Db8-f4 
-  1.Tg6*b6 Th6*b6   2.Kg1-h1 Tb6*b2   3.Se7-g8 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.h2-h1=T Tb6*b2   3.Se7-g8 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.c3-c2 Tb6*b2   3.Se7-g8 Tb2*c2 
-  1.Tg6*b6 Th6*b6   2.a7-a5 Tb6*b2   3.Se7-g8 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.a7-a6 Tb6*b2   3.Se7-g8 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Se7-g6 Tb6*b2   3.Sg6-f8 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Se7-g6 Tb6*b2   3.Th8-h6 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.Kg1-h1 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.h2-h1=T Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.c3-c2 Tb2*c2 
-  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.a7-a5 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.a7-a6 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Th8-h6 Tb6*b2   3.Se7-g6 Tb2-c2 
-  1.Tg6*b6 Th6*b6   2.Th8-a8 Tb6*b2   3.Se7-c8 Tb2-c2 
-  1.Tg6-c6 Th6*c6   2.c3-c2 Tc6*c2   3.Se7-g8 Tc2*b2 
-  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2-b1=S Dc8-h3 
-  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2-b1=L Dc8-h3 
-  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2*a1=L Dc8-h3 
-  1.Tg6-g8 b6-b7   2.b2-b1=S b7-b8=D   3.h2-h1=L Db8-f4 
-  1.Tg6-g8 b6-b7   2.b2-b1=L b7-b8=D   3.h2-h1=L Db8-f4 
-  1.Tg6-g8 b6-b7   2.b2*a1=L b7-b8=D   3.h2-h1=L Db8-f4 
-  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=S Db8-f4 
-  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=L Db8-f4 
-  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2*a1=L Db8-f4 
-  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2-b1=S Dc8-h3 
-  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2-b1=L Dc8-h3 
-  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2*a1=L Dc8-h3 
-  1.Tg6-g7 b6-b7   2.b2-b1=S b7-b8=D   3.h2-h1=L Db8-f4 
-  1.Tg6-g7 b6-b7   2.b2-b1=L b7-b8=D   3.h2-h1=L Db8-f4 
-  1.Tg6-g7 b6-b7   2.b2*a1=L b7-b8=D   3.h2-h1=L Db8-f4 
-  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=S Db8-f4 
-  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=L Db8-f4 
-  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2*a1=L Db8-f4 
-  1.Se7-g8 Th6*h2   2.Tg6-h6 Th2*b2   3.Th6-h1 Tb2-c2 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2-b1=S Ke1-f2 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2-b1=L Ke1-f2 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2*a1=L Ke1-f2 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2-b1=S Tg6-e6 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2-b1=L Tg6-e6 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2*a1=L Tg6-e6 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ta1-b1   3.a2-a1=L b6*a7 
-  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ta1-b1   3.a2-a1=L Ke1-d1 
-  1.Se7-g8 b6*a7   2.Kg1-h1 Ta1-b1   3.a2-a1=L Th6*g6 
-  1.Se7-g8 Ke1-d1   2.Kg1-h1 Ta1-b1   3.a2-a1=L Th6*g6 
-  1.Se7-g8 Ta1-b1   2.Kg1-h1 Th6*g6   3.a2-a1=L b6*a7 
-  1.Se7-g8 Ta1-b1   2.Kg1-h1 Th6*g6   3.a2-a1=L Ke1-d1 
-  1.Se7-g8 Ta1-b1   2.Kg1-h1 b6*a7   3.a2-a1=L Th6*g6 
-  1.Se7-g8 Ta1-b1   2.Kg1-h1 Ke1-d1   3.a2-a1=L Th6*g6 
-  1.Se7-g8 Ta1-b1   2.a2-a1=L Th6*g6 +   3.Kg1-h1 b6*a7 
-  1.Se7-g8 Ta1-b1   2.a2-a1=L Th6*g6 +   3.Kg1-h1 Ke1-d1 
-  1.Se7-g8 Ta1-b1   2.a2-a1=L b6*a7   3.Kg1-h1 Th6*g6 
-  1.Se7-g8 Ta1-b1   2.a2-a1=L Ke1-d1   3.Kg1-h1 Th6*g6 
-  1.Th8-a8 b6-b7   2.Kg1-h1 b7-b8=D   3.Tg6-g1 + Ke1-f2 
-  1.Th8-a8 b6-b7   2.Kg1-h1 b7-b8=L   3.Tg6-g1 + Ke1-f2 
-  1.Th8-a8 b6-b7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 b7-b8=D 
-  1.Th8-a8 b6-b7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 b7-b8=L 
-  1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=D   3.Tg6-g1 + Ke1-f2 
-  1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=L   3.Tg6-g1 + Ke1-f2 
-  1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=D 
-  1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=L 
+  1.Kg1-h1 Th6*g6   2.b2-b1=S Tg6-e6   3.Se7-g8 Ke1-f2
+  1.Kg1-h1 Th6*g6   2.b2-b1=S Ke1-f2   3.Se7-g8 Tg6-e6
+  1.Kg1-h1 Th6*g6   2.b2-b1=L Tg6-e6   3.Se7-g8 Ke1-f2
+  1.Kg1-h1 Th6*g6   2.b2-b1=L Ke1-f2   3.Se7-g8 Tg6-e6
+  1.Kg1-h1 Th6*g6   2.b2*a1=L Tg6-e6   3.Se7-g8 Ke1-f2
+  1.Kg1-h1 Th6*g6   2.b2*a1=L Ke1-f2   3.Se7-g8 Tg6-e6
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2-b1=S Ke1-f2
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2-b1=L Ke1-f2
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2*a1=L Ke1-f2
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2-b1=S Tg6-e6
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2-b1=L Tg6-e6
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2*a1=L Tg6-e6
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ta1-b1   3.a2-a1=L b6*a7
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ta1-b1   3.a2-a1=L Ke1-d1
+  1.Kg1-h1 b6-b7   2.Tg6-g1 + Ke1-f2   3.Th8-a8 b7-b8=D
+  1.Kg1-h1 b6-b7   2.Tg6-g1 + Ke1-f2   3.Th8-a8 b7-b8=L
+  1.Kg1-h1 b6-b7   2.Th8-a8 b7-b8=D   3.Tg6-g1 + Ke1-f2
+  1.Kg1-h1 b6-b7   2.Th8-a8 b7-b8=L   3.Tg6-g1 + Ke1-f2
+  1.Kg1-h1 b6-b7   2.Th8-a8 Ke1-f2 +   3.Tg6-g1 b7-b8=D
+  1.Kg1-h1 b6-b7   2.Th8-a8 Ke1-f2 +   3.Tg6-g1 b7-b8=L
+  1.Kg1-h1 b6*a7   2.Tg6-g1 + Ke1-f2   3.Th8-b8 a7*b8=D
+  1.Kg1-h1 b6*a7   2.Tg6-g1 + Ke1-f2   3.Th8-b8 a7*b8=L
+  1.Kg1-h1 b6*a7   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6
+  1.Kg1-h1 b6*a7   2.Th8-b8 a7*b8=D   3.Tg6-g1 + Ke1-f2
+  1.Kg1-h1 b6*a7   2.Th8-b8 a7*b8=L   3.Tg6-g1 + Ke1-f2
+  1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=D
+  1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=L
+  1.Kg1-h1 Ke1-d1   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6
+  1.Kg1-h1 Ke1-f2 +   2.b2-b1=S Th6*g6   3.Se7-g8 Tg6-e6
+  1.Kg1-h1 Ke1-f2 +   2.b2-b1=L Th6*g6   3.Se7-g8 Tg6-e6
+  1.Kg1-h1 Ke1-f2 +   2.b2*a1=L Th6*g6   3.Se7-g8 Tg6-e6
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6-b7   3.Th8-a8 b7-b8=D
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6-b7   3.Th8-a8 b7-b8=L
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=D
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=L
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 b6*a7
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 Ke1-d1
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L b6*a7   3.Se7-g8 Th6*g6
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L Ke1-d1   3.Se7-g8 Th6*g6
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 Th6*g6   3.a2-a1=L b6*a7
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 Th6*g6   3.a2-a1=L Ke1-d1
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 b6*a7   3.a2-a1=L Th6*g6
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 Ke1-d1   3.a2-a1=L Th6*g6
+  1.b2-b1=S Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2
+  1.b2-b1=S Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6
+  1.b2-b1=S b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4
+  1.b2-b1=S b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4
+  1.b2-b1=S b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4
+  1.b2-b1=S b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4
+  1.b2-b1=L Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2
+  1.b2-b1=L Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6
+  1.b2-b1=L b6-b7   2.Lb1-e4 b7-b8=D   3.h2-h1=L Db8-f4
+  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Lb1-e4 Db8-f4
+  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4
+  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4
+  1.b2-b1=L b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4
+  1.b2-b1=L b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4
+  1.b2*a1=L Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2
+  1.b2*a1=L Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6
+  1.b2*a1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4
+  1.b2*a1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4
+  1.b2*a1=L b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4
+  1.b2*a1=L b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4
+  1.h2-h1=L b6-b7   2.b2-b1=S b7-b8=D   3.Tg6-g8 Db8-f4
+  1.h2-h1=L b6-b7   2.b2-b1=S b7-b8=D   3.Tg6-g7 Db8-f4
+  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Lb1-e4 Db8-f4
+  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Tg6-g8 Db8-f4
+  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Tg6-g7 Db8-f4
+  1.h2-h1=L b6-b7   2.b2*a1=L b7-b8=D   3.Tg6-g8 Db8-f4
+  1.h2-h1=L b6-b7   2.b2*a1=L b7-b8=D   3.Tg6-g7 Db8-f4
+  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2-b1=S Db8-f4
+  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2-b1=L Db8-f4
+  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2*a1=L Db8-f4
+  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2-b1=S Db8-f4
+  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2-b1=L Db8-f4
+  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2*a1=L Db8-f4
+  1.Tg6*b6 Th6*b6   2.Kg1-h1 Tb6*b2   3.Se7-g8 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.h2-h1=T Tb6*b2   3.Se7-g8 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.c3-c2 Tb6*b2   3.Se7-g8 Tb2*c2
+  1.Tg6*b6 Th6*b6   2.a7-a5 Tb6*b2   3.Se7-g8 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.a7-a6 Tb6*b2   3.Se7-g8 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Se7-g6 Tb6*b2   3.Sg6-f8 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Se7-g6 Tb6*b2   3.Th8-h6 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.Kg1-h1 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.h2-h1=T Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.c3-c2 Tb2*c2
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.a7-a5 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.a7-a6 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Th8-h6 Tb6*b2   3.Se7-g6 Tb2-c2
+  1.Tg6*b6 Th6*b6   2.Th8-a8 Tb6*b2   3.Se7-c8 Tb2-c2
+  1.Tg6-c6 Th6*c6   2.c3-c2 Tc6*c2   3.Se7-g8 Tc2*b2
+  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2-b1=S Dc8-h3
+  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2-b1=L Dc8-h3
+  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2*a1=L Dc8-h3
+  1.Tg6-g8 b6-b7   2.b2-b1=S b7-b8=D   3.h2-h1=L Db8-f4
+  1.Tg6-g8 b6-b7   2.b2-b1=L b7-b8=D   3.h2-h1=L Db8-f4
+  1.Tg6-g8 b6-b7   2.b2*a1=L b7-b8=D   3.h2-h1=L Db8-f4
+  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=S Db8-f4
+  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=L Db8-f4
+  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2*a1=L Db8-f4
+  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2-b1=S Dc8-h3
+  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2-b1=L Dc8-h3
+  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2*a1=L Dc8-h3
+  1.Tg6-g7 b6-b7   2.b2-b1=S b7-b8=D   3.h2-h1=L Db8-f4
+  1.Tg6-g7 b6-b7   2.b2-b1=L b7-b8=D   3.h2-h1=L Db8-f4
+  1.Tg6-g7 b6-b7   2.b2*a1=L b7-b8=D   3.h2-h1=L Db8-f4
+  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=S Db8-f4
+  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=L Db8-f4
+  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2*a1=L Db8-f4
+  1.Se7-g8 Th6*h2   2.Tg6-h6 Th2*b2   3.Th6-h1 Tb2-c2
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2-b1=S Ke1-f2
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2-b1=L Ke1-f2
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2*a1=L Ke1-f2
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2-b1=S Tg6-e6
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2-b1=L Tg6-e6
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2*a1=L Tg6-e6
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ta1-b1   3.a2-a1=L b6*a7
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ta1-b1   3.a2-a1=L Ke1-d1
+  1.Se7-g8 b6*a7   2.Kg1-h1 Ta1-b1   3.a2-a1=L Th6*g6
+  1.Se7-g8 Ke1-d1   2.Kg1-h1 Ta1-b1   3.a2-a1=L Th6*g6
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 Th6*g6   3.a2-a1=L b6*a7
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 Th6*g6   3.a2-a1=L Ke1-d1
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 b6*a7   3.a2-a1=L Th6*g6
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 Ke1-d1   3.a2-a1=L Th6*g6
+  1.Se7-g8 Ta1-b1   2.a2-a1=L Th6*g6 +   3.Kg1-h1 b6*a7
+  1.Se7-g8 Ta1-b1   2.a2-a1=L Th6*g6 +   3.Kg1-h1 Ke1-d1
+  1.Se7-g8 Ta1-b1   2.a2-a1=L b6*a7   3.Kg1-h1 Th6*g6
+  1.Se7-g8 Ta1-b1   2.a2-a1=L Ke1-d1   3.Kg1-h1 Th6*g6
+  1.Th8-a8 b6-b7   2.Kg1-h1 b7-b8=D   3.Tg6-g1 + Ke1-f2
+  1.Th8-a8 b6-b7   2.Kg1-h1 b7-b8=L   3.Tg6-g1 + Ke1-f2
+  1.Th8-a8 b6-b7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 b7-b8=D
+  1.Th8-a8 b6-b7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 b7-b8=L
+  1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=D   3.Tg6-g1 + Ke1-f2
+  1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=L   3.Tg6-g1 + Ke1-f2
+  1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=D
+  1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=L
 
-                        empile:  1562714956
-                     play_move:   242089803
+                        empile:  1556864361
+                     play_move:   236394442
  is_white_king_square_attacked:   111823542
- is_black_king_square_attacked:   225067180
+ is_black_king_square_attacked:   219371819
 Loesung beendet. 
 
 
@@ -2934,25 +2941,25 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 8hh[/2da[#]{!+}]    2 + 8
 
-  1.Sb6-d5 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
-  1.Sb6-c8 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
-  1.Tf7-f1 Tg8*g1   2.Sb6-d5 Tg1*f1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
-  1.Tf7-f1 Tg8*g1   2.Sb6-c8 Tg1*f1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
-  1.Tf7-f1 Tg8*g1   2.Th7-d7 Tg1*f1   3.Sb6-d5 Ke8*d7   4.Sd5-c7 Kd7*c7 
-  1.Tf7-f1 Tg8*g1   2.Th7-d7 Tg1*f1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8 
-  1.Tf7-d7 Tg8*g1   2.Td7-d8 + Ke8*d8   3.Sb6-c8 Kd8*c8   4.Th7-c7 + Kc8*c7 
-  1.Tf7-g7 Tg8*g7   2.Sb6-d5 Tg7*g1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
-  1.Tf7-g7 Tg8*g7   2.Sb6-c8 Tg7*g1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
-  1.Th7-g7 Tg8*g7   2.Sb6-d5 Tg7*g1   3.Tf7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
-  1.Th7-g7 Tg8*g7   2.Sb6-c8 Tg7*g1   3.Tf7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
-  1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-d5 Ke8*d7   4.Sd5-c7 Kd7*c7 
-  1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8 
-  1.Th7-h8 Ke8-d8   2.Tf7-f8 + Kd8-c7   3.Tf8-b8 Tg8*g1   4.Th8-c8 + Kc7*b6 
+  1.Sb6-d5 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7
+  1.Sb6-c8 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8
+  1.Tf7-f1 Tg8*g1   2.Sb6-d5 Tg1*f1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7
+  1.Tf7-f1 Tg8*g1   2.Sb6-c8 Tg1*f1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8
+  1.Tf7-f1 Tg8*g1   2.Th7-d7 Tg1*f1   3.Sb6-d5 Ke8*d7   4.Sd5-c7 Kd7*c7
+  1.Tf7-f1 Tg8*g1   2.Th7-d7 Tg1*f1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8
+  1.Tf7-d7 Tg8*g1   2.Td7-d8 + Ke8*d8   3.Sb6-c8 Kd8*c8   4.Th7-c7 + Kc8*c7
+  1.Tf7-g7 Tg8*g7   2.Sb6-d5 Tg7*g1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7
+  1.Tf7-g7 Tg8*g7   2.Sb6-c8 Tg7*g1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8
+  1.Th7-g7 Tg8*g7   2.Sb6-d5 Tg7*g1   3.Tf7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7
+  1.Th7-g7 Tg8*g7   2.Sb6-c8 Tg7*g1   3.Tf7-d7 Ke8*d7   4.b7-b6 Kd7*c8
+  1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-d5 Ke8*d7   4.Sd5-c7 Kd7*c7
+  1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8
+  1.Th7-h8 Ke8-d8   2.Tf7-f8 + Kd8-c7   3.Tf8-b8 Tg8*g1   4.Th8-c8 + Kc7*b6
 
-                        empile: 26751716908
-                     play_move:  2561062470
+                        empile: 26745064568
+                     play_move:  2554411415
  is_white_king_square_attacked:  1306313450
- is_black_king_square_attacked:  2187914751
+ is_black_king_square_attacked:  2181263696
 Loesung beendet. 
 
 
@@ -2983,28 +2990,228 @@ Loesung beendet.
 
 a) 
 
-  1.Le4-g6 h5*g6   2.Se5-f7 g6*f7   3.Sf6-e8 f7*e8=D   4.a2-a1=L De8-e2 
-  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2 
-  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
+  1.Le4-g6 h5*g6   2.Se5-f7 g6*f7   3.Sf6-e8 f7*e8=D   4.a2-a1=L De8-e2
+  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2
+  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2
 
-                        empile:  7935779378
-                     play_move:   710001162
+                        empile:  7935778607
+                     play_move:   710000391
  is_white_king_square_attacked:   378836417
- is_black_king_square_attacked:   574748369
+ is_black_king_square_attacked:   574747598
 b) sBe5 
 
-  1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=D 
-  1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=L 
-  1.Le4-g6 h5*g6   2.Kc1-b1 g6-g7   3.Kb1-a1 g7-g8=D   4.g2-g1=L Dg8-c4 
-  1.Le4-g6 h5*g6   2.Kc1-b1 g6-g7   3.g2-g1=L g7-g8=D   4.Kb1-a1 Dg8-c4 
-  1.Le4-g6 h5*g6   2.g2-g1=L g6-g7   3.Kc1-b1 g7-g8=D   4.Kb1-a1 Dg8-c4 
-  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2 
-  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
+  1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=D
+  1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=L
+  1.Le4-g6 h5*g6   2.Kc1-b1 g6-g7   3.Kb1-a1 g7-g8=D   4.g2-g1=L Dg8-c4
+  1.Le4-g6 h5*g6   2.Kc1-b1 g6-g7   3.g2-g1=L g7-g8=D   4.Kb1-a1 Dg8-c4
+  1.Le4-g6 h5*g6   2.g2-g1=L g6-g7   3.Kc1-b1 g7-g8=D   4.Kb1-a1 Dg8-c4
+  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2
+  1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2
 
-                        empile:  3066122438
-                     play_move:   310256761
+                        empile:  3066122306
+                     play_move:   310256629
  is_white_king_square_attacked:   166370835
- is_black_king_square_attacked:   249115276
+ is_black_king_square_attacked:   249115144
+Loesung beendet. 
+
+
+
+        Ofer Comay & Paz Einat
+WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -T   T   .   .   S  -T   8
+|                                   |
+7   .   .   .   L   B   .   B   .   7
+|                                   |
+6   .   .  -B   K   .   .   .   .   6
+|                                   |
+5   .   .   T   .   .   .   .   .   5
+|                                   |
+4   .   B  -B  -B   .   .   .  -K   4
+|                                   |
+3   .   .   .   .  -D   .   .   .   3
+|                                   |
+2   .   .   .   .   S   .   .   .   2
+|                                   |
+1   .   .   .   .  -L   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        9 + 8
+            CirceTake&Make
+
+a) 
+
+  1  (Sg8-f6 )
+  2  (Sg8-h6 )
+  3  (Td8*c8[+sTd8] )
+  4  (Td8*c8[+sTe8] )
+  5  (Td8*c8[+sTf8] )
+  6  (Td8*c8[+sTb8] )
+  7  (Td8*c8[+sTa8] )
+  8  (Td8*c8[+sTc7] )
+  9  (Td8-f8 )
+ 10  (Td8-e8 )
+ 11  (g7*h8=D[+sTh7] )
+ 12  (g7*h8=D[+sTh6] )
+ 13  (g7*h8=D[+sTh5] )
+ 14  (g7*h8=S[+sTh7] )
+ 15  (g7*h8=S[+sTh6] )
+ 16  (g7*h8=S[+sTh5] )
+ 17  (g7*h8=T[+sTh7] )
+ 18  (g7*h8=T[+sTh6] )
+ 19  (g7*h8=T[+sTh5] )
+ 20  (g7*h8=L[+sTh7] )
+ 21  (g7*h8=L[+sTh6] )
+ 22  (g7*h8=L[+sTh5] )
+ 23  (e7-e8=D )
+ 24  (e7-e8=S )
+ 25  (e7-e8=T )
+ 26  (e7-e8=L )
+ 27  (Ld7-h3 )
+ 28  (Ld7-g4 )
+ 29  (Ld7-f5 )
+  1.Ld7-f5 Kh4-g5   2.g7*h8=S[+sTh4] Le1*b4[+wBb5]   3.Lf5-d7 + De3-e5 #
+ 30  (Ld7-e6 )
+ 31  (Ld7-e8 )
+ 32  (Ld7*c8[+sTb8] )
+ 33  (Ld7*c8[+sTa8] )
+ 34  (Ld7*c8[+sTc7] )
+ 35  (Kd6-e6 )
+ 36  (Kd6-d5 )
+ 37  (Kd6-c7 )
+ 38  (Kd6-e5 )
+ 39  (Tc5*c4[+sBc3] )
+ 40  (Tc5-a5 )
+ 41  (Tc5-b5 )
+ 42  (Tc5*c6[+sBc5] )
+ 43  (Tc5-h5 + )
+ 44  (Tc5-g5 )
+ 45  (Tc5-f5 )
+ 46  (Tc5-e5 )
+ 47  (Tc5-d5 )
+ 48  (b4-b5 )
+ 49  (Se2-c1 )
+ 50  (Se2-g1 )
+ 51  (Se2-g3 )
+ 52  (Se2-f4 )
+ 53  (Se2*d4[+sBd3] )
+ 54  (Se2-c3 )
+
+                        empile:  1050626202
+                     play_move:   390103230
+ is_white_king_square_attacked:   386782783
+ is_black_king_square_attacked:   195653644
+b) wSg8-->c2
+
+ 55  (Td8*c8[+sTd8] )
+ 56  (Td8*c8[+sTe8] )
+ 57  (Td8*c8[+sTf8] )
+ 58  (Td8*c8[+sTg8] )
+ 59  (Td8*c8[+sTb8] )
+ 60  (Td8*c8[+sTa8] )
+ 61  (Td8*c8[+sTc7] )
+ 62  (Td8*h8[+sTg8] + )
+ 63  (Td8*h8[+sTf8] + )
+ 64  (Td8*h8[+sTe8] + )
+ 65  (Td8*h8[+sTd8] + )
+ 66  (Td8*h8[+sTh7] )
+ 67  (Td8*h8[+sTh6] )
+ 68  (Td8*h8[+sTh5] )
+ 69  (Td8-g8 )
+ 70  (Td8-f8 )
+ 71  (Td8-e8 )
+ 72  (g7-g8=D )
+ 73  (g7-g8=S )
+ 74  (g7-g8=T )
+ 75  (g7-g8=L )
+ 76  (g7*h8=D[+sTg8] + )
+ 77  (g7*h8=D[+sTf8] + )
+ 78  (g7*h8=D[+sTe8] + )
+ 79  (g7*h8=D[+sTh7] )
+ 80  (g7*h8=D[+sTh6] )
+ 81  (g7*h8=D[+sTh5] )
+ 82  (g7*h8=S[+sTg8] )
+ 83  (g7*h8=S[+sTf8] )
+ 84  (g7*h8=S[+sTe8] )
+ 85  (g7*h8=S[+sTh7] )
+ 86  (g7*h8=S[+sTh6] )
+ 87  (g7*h8=S[+sTh5] )
+ 88  (g7*h8=T[+sTg8] + )
+ 89  (g7*h8=T[+sTf8] + )
+ 90  (g7*h8=T[+sTe8] + )
+ 91  (g7*h8=T[+sTh7] )
+ 92  (g7*h8=T[+sTh6] )
+ 93  (g7*h8=T[+sTh5] )
+ 94  (g7*h8=L[+sTg8] )
+ 95  (g7*h8=L[+sTf8] )
+ 96  (g7*h8=L[+sTe8] )
+ 97  (g7*h8=L[+sTh7] )
+ 98  (g7*h8=L[+sTh6] )
+ 99  (g7*h8=L[+sTh5] )
+100  (e7-e8=D )
+101  (e7-e8=S )
+102  (e7-e8=T )
+103  (e7-e8=L )
+104  (Ld7-h3 )
+105  (Ld7-g4 )
+106  (Ld7-f5 )
+107  (Ld7-e6 )
+108  (Ld7-e8 )
+109  (Ld7*c8[+sTb8] )
+110  (Ld7*c8[+sTa8] )
+111  (Ld7*c8[+sTc7] )
+112  (Kd6-e6 )
+113  (Kd6-d5 )
+114  (Kd6-c7 )
+115  (Kd6-e5 )
+116  (Tc5*c4[+sBc3] )
+117  (Tc5-a5 )
+118  (Tc5-b5 )
+119  (Tc5*c6[+sBc5] )
+120  (Tc5-h5 + )
+121  (Tc5-g5 )
+122  (Tc5-f5 )
+  1.Tc5-f5 Kh4-g4   2.Sc2*e1[+sLh4] Th8*d8[+wTe8]   3.Tf5-c5 + De3-e6 #
+123  (Tc5-e5 )
+124  (Tc5-d5 )
+125  (b4-b5 )
+126  (Se2-c1 )
+127  (Se2-g1 )
+128  (Se2-g3 )
+129  (Se2-f4 )
+130  (Se2*d4[+sBd3] )
+131  (Se2-c3 )
+132  (Sc2-a1 )
+133  (Sc2*e1[+sLd2] )
+134  (Sc2*e1[+sLc3] )
+135  (Sc2*e1[+sLf2] )
+136  (Sc2*e1[+sLg3] )
+137  (Sc2*e3[+sDf3] )
+138  (Sc2*e3[+sDg3] )
+139  (Sc2*e3[+sDh3] )
+140  (Sc2*e3[+sDe4] )
+141  (Sc2*e3[+sDe5] )
+142  (Sc2*e3[+sDe6] )
+143  (Sc2*e3[+sDd3] )
+144  (Sc2*e3[+sDc3] )
+145  (Sc2*e3[+sDb3] )
+146  (Sc2*e3[+sDa3] )
+147  (Sc2*e3[+sDf4] )
+148  (Sc2*e3[+sDg5] )
+149  (Sc2*e3[+sDh6] )
+150  (Sc2*e3[+sDf2] )
+151  (Sc2*e3[+sDg1] )
+152  (Sc2*e3[+sDd2] )
+153  (Sc2*e3[+sDc1] )
+154  (Sc2*d4[+sBd3] )
+155  (Sc2-a3 )
+
+                        empile:  3248196099
+                     play_move:  1210391536
+ is_white_king_square_attacked:  1201596916
+ is_black_king_square_attacked:   622156694
 Loesung beendet. 
 
 

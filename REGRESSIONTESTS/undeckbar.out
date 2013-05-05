@@ -23,14 +23,14 @@
 +---a---b---c---d---e---f---g---h---+
   schwarz 6hh[/2da[#]{!+}]    2 + 6
 
-  1...Lb2-c1   2.Sg6-f8 Lc1-h6   3.g7-g5 Ke8-f7 
+  1...Lb2-c1   2.Sg6-f8 Lc1-h6   3.g7-g5 Ke8-f7
 
-  1.Sg6-f8 Lb2-c1   2.g7-g6 Lc1-h6   3.g6-g5 Ke8-f7 
+  1.Sg6-f8 Lb2-c1   2.g7-g6 Lc1-h6   3.g6-g5 Ke8-f7
 
-                        empile:     5091359
-                     play_move:      940936
+                        empile:     5091277
+                     play_move:      940854
  is_white_king_square_attacked:      473446
- is_black_king_square_attacked:      845622
+ is_black_king_square_attacked:      845540
 Loesung beendet. 
 
 
@@ -59,12 +59,12 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 6hh[/2da[#]{!+}]    2 + 2
 
-  1.Kd5-c4 Kb2-c1   2.Kc4-b3 e7-e8=D   3.Kb3-a2 De8-e3 
+  1.Kd5-c4 Kb2-c1   2.Kc4-b3 e7-e8=D   3.Kb3-a2 De8-e3
 
-                        empile:     1260996
-                     play_move:      378575
+                        empile:     1260993
+                     play_move:      378572
  is_white_king_square_attacked:      174775
- is_black_king_square_attacked:      365066
+ is_black_king_square_attacked:      365063
 Loesung beendet. 
 
 
@@ -93,13 +93,13 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 6hh[/2da[#]{!+}]    2 + 2
 
-  1.Kd5-c6 Ke3-d4   2.Kc6-b7 Kd4-c5   3.Kb7-a8 Kc5-b6 
-  1.Kd5-c4 f7-f8=D   2.Kc4-b3 Ke3*d3   3.Kb3-a2 Kd3-c2 
+  1.Kd5-c6 Ke3-d4   2.Kc6-b7 Kd4-c5   3.Kb7-a8 Kc5-b6
+  1.Kd5-c4 f7-f8=D   2.Kc4-b3 Ke3*d3   3.Kb3-a2 Kd3-c2
 
-                        empile:     2637287
-                     play_move:      650327
+                        empile:     2637147
+                     play_move:      650187
  is_white_king_square_attacked:      304474
- is_black_king_square_attacked:      616339
+ is_black_king_square_attacked:      616199
 Loesung beendet. 
 
 
@@ -128,9 +128,9 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 6hh[/2da[#]{!+}]    2 + 2
 
-  1...a5-a6   2.Kc6-b6 a6*b7   3.Kb6-a6 b7-b8=D 
+  1...a5-a6   2.Kc6-b6 a6*b7   3.Kb6-a6 b7-b8=D
 
-  1.Kc6-c7 a5-a6   2.Kc7-b6 a6*b7   3.Kb6-a6 b7-b8=D 
+  1.Kc6-c7 a5-a6   2.Kc7-b6 a6*b7   3.Kb6-a6 b7-b8=D
 
                         empile:      198442
                      play_move:       56723
@@ -166,302 +166,302 @@ Loesung beendet.
 
 a) 
 
-  1.d2-d1=L h5-h6   2.Ld1-h5 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Ld1-g4 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Ld1-f3 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Ld1-e2 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-b2 
-  1.d2-d1=L h5-h6   2.Ld1-e2 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Ld1-a4 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Ld1-b3 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-h5 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-g4 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-f3 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-b2 
-  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.Kc3-c2 h5-h6   2.Kc2-d1 h6-h7   3.Kd1-e1 h7-h8=D   4.d2-d1=L Dh8-h2 
-  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-h5 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-g4 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-f3 h7-h8=D   4.Kc2-d1 Dh8-c3 
-  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-b2 
-  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-c3 
+  1.d2-d1=L h5-h6   2.Ld1-h5 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Ld1-g4 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Ld1-f3 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Ld1-e2 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-b2
+  1.d2-d1=L h5-h6   2.Ld1-e2 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Ld1-a4 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Ld1-b3 h6-h7   3.Kc3-c2 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-h5 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-g4 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-f3 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-b2
+  1.d2-d1=L h5-h6   2.Kc3-c2 h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.Kc3-c2 h5-h6   2.Kc2-d1 h6-h7   3.Kd1-e1 h7-h8=D   4.d2-d1=L Dh8-h2
+  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-h5 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-g4 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-f3 h7-h8=D   4.Kc2-d1 Dh8-c3
+  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-b2
+  1.Kc3-c2 h5-h6   2.d2-d1=L h6-h7   3.Ld1-e2 h7-h8=D   4.Kc2-d1 Dh8-c3
 
-                        empile:    19536627
-                     play_move:     3114734
+                        empile:    19536226
+                     play_move:     3114333
  is_white_king_square_attacked:     1439195
- is_black_king_square_attacked:     2659272
+ is_black_king_square_attacked:     2658871
 b) wBh5-->f4  schwarz 10hh[/2da[#]{!+}] 
 
-  1.d2-d1=D f4-f5   2.Dd1-h5 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dh5-c5 + Df8*c5 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dg4-c8 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Dg4-c8 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-b2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-a4 f5-f6   3.Kc3-c2 f6-f7   4.Da4-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Dd1-a4 f5-f6   3.Kc3-c2 f6-f7   4.Da4-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-a4 f5-f6   3.Kc3-c2 f6-f7   4.Da4-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd8-c8 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd8-c8 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-b2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd7-c8 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd7-c8 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd6-c5 + Df8*c5 
-  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Dd6-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Dd6-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Dd6-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd5-c5 + Df8*c5 
-  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-h5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dh5-c5 + Df8*c5 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Dg4-c8 Df8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Dg4-c8 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd8-c8 Df8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd8-c8 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd7-c8 Df8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd7-c8 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d6 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd6-c5 + Df8*c5 
-  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd5-c5 + Df8*c5 
-  1.d2-d1=D f4-f5   2.Kc3-b2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=D f4-f5   2.Kc3-b2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-c1 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c8 Df8*c8 
-  1.d2-d1=T f4-f5   2.Td1-c1 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c5 Df8*c5 
-  1.d2-d1=T f4-f5   2.Td1-c1 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Tc1-c8 Tf8*c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Td8-c8 Df8*c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Td8-c8 Tf8*c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-b2 f6-f7   4.Td8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=T f4-f5   2.Td1-d5 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Td5-c5 Df8*c5 
-  1.d2-d1=T f4-f5   2.Td1-d5 f5-f6   3.Kc3-c2 f6-f7   4.Td5-c5 f7-f8=D   5.Kc2-d1 Df8*c5 
-  1.d2-d1=T f4-f5   2.Td1-d5 f5-f6   3.Td5-c5 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c5 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-b2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c8 Df8*c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c5 Df8*c5 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=T   5.Tc1-c8 Tf8*c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Td8-c8 Df8*c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Td8-c8 Tf8*c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Td5-c5 Df8*c5 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d5 f6-f7   4.Td5-c5 f7-f8=D   5.Kc2-d1 Df8*c5 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=T f4-f5   2.Kc3-b2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=T f4-f5   2.Kc3-b2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=L f4-f5   2.Ld1-h5 f5-f6   3.Lh5-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=L f4-f5   2.Ld1-h5 f5-f6   3.Lh5-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-h5 f5-f6   3.Lh5-e8 f6-f7   4.Kc3-c2 f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Lg4-c8 Df8*c8 
-  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Lg4-c8 Tf8*c8 
-  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Lg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Lg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Lg4-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Lg4-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.Kc3-c2 f6-f7   4.La4-e8 f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.Kc3-c2 f6-f7   4.La4-e8 f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.Kc3-c2 f6-f7   4.La4-e8 f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.La4-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c6 
-  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.La4-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.La4-e8 f6-f7   4.Kc3-c2 f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.d2-d1=L f4-f5   2.Ld1-c2 f5-f6   3.Lc2-b1 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8-f2 
-  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Lg4-c8 Df8*c8 
-  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Lg4-c8 Tf8*c8 
-  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=D f7-f8=D   5.Dd1-d3 + Ke3*d3 
-  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=D f7-f8=T   5.Dd1-d3 + Ke3*d3 
-  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=T f7-f8=D   5.Td1-d3 + Ke3*d3 
-  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=T f7-f8=T   5.Td1-d3 + Ke3*d3 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-h5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dh5-c5 + Df8*c5 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Dg4-c8 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Dg4-c8 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd8-c8 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd8-c8 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd7-c8 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd7-c8 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d6 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd6-c5 + Df8*c5 
-  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd5-c5 + Df8*c5 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c8 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c5 Df8*c5 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=T   5.Tc1-c8 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Td8-c8 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Td8-c8 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c6 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Td5-c5 Df8*c5 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d5 f6-f7   4.Td5-c5 f7-f8=D   5.Kc2-d1 Df8*c5 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-c1 Dg8-a2 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c4 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=T   5.Kc2-d1 Tg8-c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Lg4-c8 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Lg4-c8 Tf8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8 
-  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8 
-  1.Kc3-b2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.Kc3-b2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.Kc3-b2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
-  1.Kc3-b2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kb2-c1 Dg8-a2 
+  1.d2-d1=D f4-f5   2.Dd1-h5 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dh5-c5 + Df8*c5
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dg4-c8 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Dg4-c8 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Dg4-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Kc3-b2 f6-f7   4.Dg4-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-g4 f5-f6   3.Dg4-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-a4 f5-f6   3.Kc3-c2 f6-f7   4.Da4-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Dd1-a4 f5-f6   3.Kc3-c2 f6-f7   4.Da4-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Dd1-a4 f5-f6   3.Kc3-c2 f6-f7   4.Da4-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-b3 f5-f6   3.Db3-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd8-c8 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd8-c8 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Dd8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Kc3-b2 f6-f7   4.Dd8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d8 f5-f6   3.Dd8-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd7-c8 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd7-c8 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Kc3-c2 f6-f7   4.Dd7-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d7 f5-f6   3.Dd7-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd6-c5 + Df8*c5
+  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Dd6-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Dd6-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d6 f5-f6   3.Dd6-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd5-c5 + Df8*c5
+  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Dd1-d5 f5-f6   3.Dd5-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-h5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dh5-c5 + Df8*c5
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Dg4-c8 Df8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Dg4-c8 Tf8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd8-c8 Df8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd8-c8 Tf8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd7-c8 Df8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd7-c8 Tf8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d6 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd6-c5 + Df8*c5
+  1.d2-d1=D f4-f5   2.Kc3-c2 f5-f6   3.Dd1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd5-c5 + Df8*c5
+  1.d2-d1=D f4-f5   2.Kc3-b2 f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=D f4-f5   2.Kc3-b2 f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-c1 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c8 Df8*c8
+  1.d2-d1=T f4-f5   2.Td1-c1 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c5 Df8*c5
+  1.d2-d1=T f4-f5   2.Td1-c1 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Tc1-c8 Tf8*c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Td8-c8 Df8*c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Td8-c8 Tf8*c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-c2 f6-f7   4.Td8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Kc3-b2 f6-f7   4.Td8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Td1-d8 f5-f6   3.Td8-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-e7 + f6*e7   4.Kc3-c2 e7-e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=T f4-f5   2.Td1-d7 f5-f6   3.Td7-e7 + f6*e7   4.Kc3-c2 e7-e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=T f4-f5   2.Td1-d5 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Td5-c5 Df8*c5
+  1.d2-d1=T f4-f5   2.Td1-d5 f5-f6   3.Kc3-c2 f6-f7   4.Td5-c5 f7-f8=D   5.Kc2-d1 Df8*c5
+  1.d2-d1=T f4-f5   2.Td1-d5 f5-f6   3.Td5-c5 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c5
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-c2 g7-g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Tg1-g7 f6*g7   4.Kc3-b2 g7-g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-c2 f6-f7   4.Tg1-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Td1-g1 f5-f6   3.Kc3-b2 f6-f7   4.Tg1-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c8 Df8*c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c5 Df8*c5
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=T   5.Tc1-c8 Tf8*c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Td8-c8 Df8*c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Td8-c8 Tf8*c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Td5-c5 Df8*c5
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-d5 f6-f7   4.Td5-c5 f7-f8=D   5.Kc2-d1 Df8*c5
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=T f4-f5   2.Kc3-c2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=T f4-f5   2.Kc3-b2 f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=T f4-f5   2.Kc3-b2 f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=L f4-f5   2.Ld1-h5 f5-f6   3.Lh5-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=L f4-f5   2.Ld1-h5 f5-f6   3.Lh5-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=L f4-f5   2.Ld1-h5 f5-f6   3.Lh5-e8 f6-f7   4.Kc3-c2 f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=D   5.Lg4-c8 Df8*c8
+  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Kc2-d1 f7-f8=T   5.Lg4-c8 Tf8*c8
+  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Lg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Kc3-c2 f6-f7   4.Lg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Lg4-c8 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=L f4-f5   2.Ld1-g4 f5-f6   3.Lg4-c8 f6-f7   4.Kc3-c2 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.Kc3-c2 f6-f7   4.La4-e8 f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.Kc3-c2 f6-f7   4.La4-e8 f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.Kc3-c2 f6-f7   4.La4-e8 f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.La4-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c6
+  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.La4-e8 f6-f7   4.Kc3-c2 f7*e8=D   5.Kc2-d1 De8-c8
+  1.d2-d1=L f4-f5   2.Ld1-a4 f5-f6   3.La4-e8 f6-f7   4.Kc3-c2 f7*e8=T   5.Kc2-d1 Te8-c8
+  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-c2 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.d2-d1=L f4-f5   2.Ld1-b3 f5-f6   3.Lb3-g8 f6-f7   4.Kc3-b2 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.d2-d1=L f4-f5   2.Ld1-c2 f5-f6   3.Lc2-b1 f6-f7   4.Kc3-c2 f7-f8=D   5.Kc2-d1 Df8-f2
+  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Lg4-c8 Df8*c8
+  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Lg4-c8 Tf8*c8
+  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.d2-d1=L f4-f5   2.Kc3-c2 f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=D f7-f8=D   5.Dd1-d3 + Ke3*d3
+  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=D f7-f8=T   5.Dd1-d3 + Ke3*d3
+  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=T f7-f8=D   5.Td1-d3 + Ke3*d3
+  1.Kc3-c2 f4-f5   2.Kc2-d1 f5-f6   3.Kd1-e1 f6-f7   4.d2-d1=T f7-f8=T   5.Td1-d3 + Ke3*d3
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-h5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dh5-c5 + Df8*c5
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Dg4-c8 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Dg4-c8 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd8-c8 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd8-c8 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd7-c8 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Kc2-d1 f7-f8=T   5.Dd7-c8 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d7 f6-f7   4.Dd7-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d6 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd6-c5 + Df8*c5
+  1.Kc3-c2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Dd5-c5 + Df8*c5
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c8 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=D   5.Tc1-c5 Df8*c5
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-c1 f6-f7   4.Kc2-d1 f7-f8=T   5.Tc1-c8 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=D   5.Td8-c8 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Kc2-d1 f7-f8=T   5.Td8-c8 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c6
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=D   5.Kc2-d1 De8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-e8 + f7*e8=T   5.Kc2-d1 Te8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d5 f6-f7   4.Kc2-d1 f7-f8=D   5.Td5-c5 Df8*c5
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d5 f6-f7   4.Td5-c5 f7-f8=D   5.Kc2-d1 Df8*c5
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-c1 Dg8-a2
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c4
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kc2-d1 Dg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=T   5.Kc2-d1 Tg8-c8
+  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=D   5.Lg4-c8 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Kc2-d1 f7-f8=T   5.Lg4-c8 Tf8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=D   5.Kc2-d1 Df8*c8
+  1.Kc3-c2 f4-f5   2.d2-d1=L f5-f6   3.Ld1-g4 f6-f7   4.Lg4-c8 f7-f8=T   5.Kc2-d1 Tf8*c8
+  1.Kc3-b2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-g4 f6-f7   4.Dg4-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.Kc3-b2 f4-f5   2.d2-d1=D f5-f6   3.Dd1-d8 f6-f7   4.Dd8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.Kc3-b2 f4-f5   2.d2-d1=T f5-f6   3.Td1-d8 f6-f7   4.Td8-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
+  1.Kc3-b2 f4-f5   2.d2-d1=T f5-f6   3.Td1-g1 f6-f7   4.Tg1-g8 f7*g8=D   5.Kb2-c1 Dg8-a2
 
-                        empile:    73476328
-                     play_move:    13890473
+                        empile:    73474960
+                     play_move:    13889105
  is_white_king_square_attacked:     5821091
- is_black_king_square_attacked:    11668016
+ is_black_king_square_attacked:    11666648
 Loesung beendet. 
 
 
@@ -490,33 +490,33 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 6hh[/2da[#]{!+}]    5 + 4
 
-  1.Kd3-d4 Th1-h5   2.Ta4*a5 Ke1-d2   3.Ta5-a8 b7*a8=D 
-  1.Kd3-d4 Ke1-d2   2.Ta4*a5 Th1-h5   3.Ta5-a8 b7*a8=D 
-  1.Kd3-c4 b7-b8=D   2.Ta4-a2 Db8-b6   3.Ta2-d2 Ke1*d2 
-  1.Kd3-c4 b7-b8=D   2.Ta4-b4 Ke1-d2   3.Tb4-b6 Db8*b6 
-  1.Kd3-c4 Ke1-d2   2.Ta4*a5 Th1-b1   3.Ta5-a8 b7*a8=D 
-  1.Kd3-c4 Ke1-d2   2.Ta4-b4 b7-b8=D   3.Tb4-b6 Db8*b6 
-  1.Kd3-c2 b7-b8=D   2.Kc2-c1 Th1-h2   3.Ta4-a2 Th2*a2 
-  1.Kd3-c2 b7-b8=D   2.Ta4-a2 Th1-h2 +   3.Kc2-c1 Th2*a2 
-  1.Kd3-c2 b7-b8=T   2.Kc2-c1 Tb8-b2   3.Ta4-a1 Tb2-g2 
-  1.Kd3-c2 Th1-h5   2.Kc2-b1 Ke1-d2   3.Ta4*a5 Th5*a5 
-  1.Kd3-c2 Th1-h5   2.Ta4*a5 Th5*a5   3.Kc2-b1 Ke1-d2 
-  1.Kd3-c2 Th1-h2 +   2.Kc2-c1 b7-b8=D   3.Ta4-a2 Th2*a2 
-  1.Ta4-a2 b7-b8=D   2.Ta2-d2 Db8-b6   3.Kd3-c4 Ke1*d2 
-  1.Ta4-a2 b7-b8=D   2.Kd3-c4 Db8-b6   3.Ta2-d2 Ke1*d2 
-  1.Ta4-a2 b7-b8=D   2.Kd3-c2 Th1-h2 +   3.Kc2-c1 Th2*a2 
-  1.Ta4*a5 Th1-h5   2.Kd3-d4 Ke1-d2   3.Ta5-a8 b7*a8=D 
-  1.Ta4*a5 Th1-h5   2.Kd3-c2 Th5*a5   3.Kc2-b1 Ke1-d2 
-  1.Ta4*a5 Th1-h5   2.Ta5-a8 b7*a8=D   3.Kd3-d4 Ke1-d2 
-  1.Ta4-d4 b7-b8=D   2.Kd3-c4 Db8-b6   3.Td4-d2 Ke1*d2 
-  1.Ta4-c4 0-0   2.Tc4-c8 b7*c8=D   3.Kd3-e2 Dc8-c3 
-  1.Ta4-b4 b7-b8=D   2.Kd3-c4 Ke1-d2   3.Tb4-b6 Db8*b6 
-  1.Ta4-b4 b7-b8=D   2.Tb4-b6 Db8*b6   3.Kd3-c4 Ke1-d2 
+  1.Kd3-d4 Th1-h5   2.Ta4*a5 Ke1-d2   3.Ta5-a8 b7*a8=D
+  1.Kd3-d4 Ke1-d2   2.Ta4*a5 Th1-h5   3.Ta5-a8 b7*a8=D
+  1.Kd3-c4 b7-b8=D   2.Ta4-a2 Db8-b6   3.Ta2-d2 Ke1*d2
+  1.Kd3-c4 b7-b8=D   2.Ta4-b4 Ke1-d2   3.Tb4-b6 Db8*b6
+  1.Kd3-c4 Ke1-d2   2.Ta4*a5 Th1-b1   3.Ta5-a8 b7*a8=D
+  1.Kd3-c4 Ke1-d2   2.Ta4-b4 b7-b8=D   3.Tb4-b6 Db8*b6
+  1.Kd3-c2 b7-b8=D   2.Kc2-c1 Th1-h2   3.Ta4-a2 Th2*a2
+  1.Kd3-c2 b7-b8=D   2.Ta4-a2 Th1-h2 +   3.Kc2-c1 Th2*a2
+  1.Kd3-c2 b7-b8=T   2.Kc2-c1 Tb8-b2   3.Ta4-a1 Tb2-g2
+  1.Kd3-c2 Th1-h5   2.Kc2-b1 Ke1-d2   3.Ta4*a5 Th5*a5
+  1.Kd3-c2 Th1-h5   2.Ta4*a5 Th5*a5   3.Kc2-b1 Ke1-d2
+  1.Kd3-c2 Th1-h2 +   2.Kc2-c1 b7-b8=D   3.Ta4-a2 Th2*a2
+  1.Ta4-a2 b7-b8=D   2.Ta2-d2 Db8-b6   3.Kd3-c4 Ke1*d2
+  1.Ta4-a2 b7-b8=D   2.Kd3-c4 Db8-b6   3.Ta2-d2 Ke1*d2
+  1.Ta4-a2 b7-b8=D   2.Kd3-c2 Th1-h2 +   3.Kc2-c1 Th2*a2
+  1.Ta4*a5 Th1-h5   2.Kd3-d4 Ke1-d2   3.Ta5-a8 b7*a8=D
+  1.Ta4*a5 Th1-h5   2.Kd3-c2 Th5*a5   3.Kc2-b1 Ke1-d2
+  1.Ta4*a5 Th1-h5   2.Ta5-a8 b7*a8=D   3.Kd3-d4 Ke1-d2
+  1.Ta4-d4 b7-b8=D   2.Kd3-c4 Db8-b6   3.Td4-d2 Ke1*d2
+  1.Ta4-c4 0-0   2.Tc4-c8 b7*c8=D   3.Kd3-e2 Dc8-c3
+  1.Ta4-b4 b7-b8=D   2.Kd3-c4 Ke1-d2   3.Tb4-b6 Db8*b6
+  1.Ta4-b4 b7-b8=D   2.Tb4-b6 Db8*b6   3.Kd3-c4 Ke1-d2
 
-                        empile:    91133499
-                     play_move:    17681779
+                        empile:    91127989
+                     play_move:    17676404
  is_white_king_square_attacked:     8834657
- is_black_king_square_attacked:    16505173
+ is_black_king_square_attacked:    16499798
 Loesung beendet. 
 
 
@@ -547,7 +547,7 @@ Loesung beendet.
 
 a) 
 
-  1.b2-b1=L Ka5-b4 
+  1.b2-b1=L Ka5-b4
 
                         empile:       14557
                      play_move:        5753
@@ -555,22 +555,22 @@ a)
  is_black_king_square_attacked:        5724
 b) schwarz 4:4hh[/2da[#]{!+}] 
 
-  1.a2-a1=L Ka5*a4   2.Kc2-b1 Dd4-c4 
-  1.a2-a1=L Dd4-f2 +   2.Kc2-d3 Ka5-b4 
-  1.a2-a1=L Dd4*a4   2.Kc2-b1 Sb3-d4 
-  1.a2-a1=L Dd4-c4 +   2.Kc2-b1 Ka5*a4 
-  1.b2-b1=S Dd4-f2 +   2.Kc2-d3 Ka5-b4 
-  1.b2-b1=L Dd4-b2 +   2.Kc2-d1 Db2-f2 
-  1.b2-b1=L Dd4-f2 +   2.Kc2-d3 Ka5-b4 
-  1.b2-b1=L Dd4-f2 +   2.Kc2-d1 Ka5-b4 
-  1.b2-b1=L Dd4-e3   2.Kc2-d1 De3-f2 
-  1.Kc2-b1 Ka5*a4   2.a2-a1=L Dd4-c4 
-  1.Kc2-b1 Dd4*a4   2.a2-a1=L Sb3-d4 
-  1.Kc2-b1 Dd4-c4   2.a2-a1=L Ka5*a4 
-  1.Kc2-b1 Dd4-c4   2.Sa4-b6 Ka5*b6 
-  1.Kc2-b1 Sb3-a1   2.Kb1*a1 Ka5*a4 
-  1.Sa4-b6 Ka5*b6   2.Kc2-b1 Dd4-c4 
-  1.Sa4-b6 Dd4-c4 +   2.Kc2-b1 Ka5*b6 
+  1.a2-a1=L Ka5*a4   2.Kc2-b1 Dd4-c4
+  1.a2-a1=L Dd4-f2 +   2.Kc2-d3 Ka5-b4
+  1.a2-a1=L Dd4*a4   2.Kc2-b1 Sb3-d4
+  1.a2-a1=L Dd4-c4 +   2.Kc2-b1 Ka5*a4
+  1.b2-b1=S Dd4-f2 +   2.Kc2-d3 Ka5-b4
+  1.b2-b1=L Dd4-b2 +   2.Kc2-d1 Db2-f2
+  1.b2-b1=L Dd4-f2 +   2.Kc2-d3 Ka5-b4
+  1.b2-b1=L Dd4-f2 +   2.Kc2-d1 Ka5-b4
+  1.b2-b1=L Dd4-e3   2.Kc2-d1 De3-f2
+  1.Kc2-b1 Ka5*a4   2.a2-a1=L Dd4-c4
+  1.Kc2-b1 Dd4*a4   2.a2-a1=L Sb3-d4
+  1.Kc2-b1 Dd4-c4   2.a2-a1=L Ka5*a4
+  1.Kc2-b1 Dd4-c4   2.Sa4-b6 Ka5*b6
+  1.Kc2-b1 Sb3-a1   2.Kb1*a1 Ka5*a4
+  1.Sa4-b6 Ka5*b6   2.Kc2-b1 Dd4-c4
+  1.Sa4-b6 Dd4-c4 +   2.Kc2-b1 Ka5*b6
 
                         empile:     1935096
                      play_move:      595985
@@ -604,18 +604,18 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 4hh[/2da[#]{!+}]    5 + 9
 
-  1...Lg7-f6   2.0-0 0-0-0 
-  1...Lg7-f6   2.0-0 Ta1-a2 
+  1...Lg7-f6   2.0-0 0-0-0
+  1...Lg7-f6   2.0-0 Ta1-a2
 
-  1.e3-e2 Lg7-f6   2.0-0 Ta1-a3 
-  1.b4-b3 Lg7-f6   2.0-0 Ta1-a4 
-  1.b4-b3 Lg7-f6   2.0-0 Ta1-a2 
-  1.Lc6-a4 Lg7-f6   2.0-0 Ta1-a2 
-  1.Lc6-b5 Lg7-f6   2.0-0 Ta1-a2 
-  1.Lc6-d7 Lg7-f6   2.0-0 Ta1-a2 
-  1.Lc6-a8 Lg7-f6   2.0-0 Ke1-e2 
-  1.Lc6-a8 Lg7-f6   2.0-0 Ta1-a2 
-  1.Lc6-b7 Lg7-f6   2.0-0 Ta1-a2 
+  1.e3-e2 Lg7-f6   2.0-0 Ta1-a3
+  1.b4-b3 Lg7-f6   2.0-0 Ta1-a4
+  1.b4-b3 Lg7-f6   2.0-0 Ta1-a2
+  1.Lc6-a4 Lg7-f6   2.0-0 Ta1-a2
+  1.Lc6-b5 Lg7-f6   2.0-0 Ta1-a2
+  1.Lc6-d7 Lg7-f6   2.0-0 Ta1-a2
+  1.Lc6-a8 Lg7-f6   2.0-0 Ke1-e2
+  1.Lc6-a8 Lg7-f6   2.0-0 Ta1-a2
+  1.Lc6-b7 Lg7-f6   2.0-0 Ta1-a2
 
                         empile:     3866628
                      play_move:      808817
@@ -651,14 +651,14 @@ Loesung beendet.
 
 a) 
 
-  1.a2-a1=S Tc7*b7   2.0-0-0 Ta4*a6 
-  1.Ld7-e6 f5*e6   2.Ke8-d8 e6*f7 
-  1.Ld7-e6 f5*e6   2.Ke8-d8 Ta4-g4 
-  1.Ld7-e6 Ta4-g4   2.Ke8-d8 f5*e6 
-  1.Ld7-c8 Ta4*a6   2.Ke8-d8 Ta6*a8 
-  1.Ke8-d8 Tc7*d7 +   2.Kd8-c8 Ta4-d4 
-  1.Ke8-d8 Ta4*a6   2.Ld7-c8 Ta6*a8 
-  1.Ke8-d8 Ta4-g4   2.Ld7-e6 f5*e6 
+  1.a2-a1=S Tc7*b7   2.0-0-0 Ta4*a6
+  1.Ld7-e6 f5*e6   2.Ke8-d8 e6*f7
+  1.Ld7-e6 f5*e6   2.Ke8-d8 Ta4-g4
+  1.Ld7-e6 Ta4-g4   2.Ke8-d8 f5*e6
+  1.Ld7-c8 Ta4*a6   2.Ke8-d8 Ta6*a8
+  1.Ke8-d8 Tc7*d7 +   2.Kd8-c8 Ta4-d4
+  1.Ke8-d8 Ta4*a6   2.Ld7-c8 Ta6*a8
+  1.Ke8-d8 Ta4-g4   2.Ld7-e6 f5*e6
 
                         empile:     4744987
                      play_move:     1261833
@@ -666,11 +666,11 @@ a)
  is_black_king_square_attacked:     1493867
 b) sTa8-->h8
 
-  1.Ld7-c8 Ta4*a6   2.Ke8-d8 Ta6-a8 
-  1.Ld7-c8 Ta4*a6   2.Th8-f8 Ta6-a8 
-  1.0-0 Ta4-h4   2.Ld7-e8 Tc7-c4 
-  1.Ke8-d8 Ta4*a6   2.Ld7-c8 Ta6-a8 
-  1.Th8-f8 Ta4*a6   2.Ld7-c8 Ta6-a8 
+  1.Ld7-c8 Ta4*a6   2.Ke8-d8 Ta6-a8
+  1.Ld7-c8 Ta4*a6   2.Th8-f8 Ta6-a8
+  1.0-0 Ta4-h4   2.Ld7-e8 Tc7-c4
+  1.Ke8-d8 Ta4*a6   2.Ld7-c8 Ta6-a8
+  1.Th8-f8 Ta4*a6   2.Ld7-c8 Ta6-a8
 
                         empile:     7170610
                      play_move:     1695062
@@ -706,181 +706,181 @@ Loesung beendet.
 
 a) 
 
-  1.Ke8-f8 Dh7-h5   2.Kf8-g7 Dh5*h8 +   3.Kg7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-h3 
-  1.Ke8-f8 Dh7-h5   2.Kf8-g7 Dh5*h8 +   3.Kg7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-g3 
-  1.Ke8-f8 Dh7-h6 +   2.Kf8-f7 Dh6*h8   3.Kf7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-h3 
-  1.Ke8-f8 Dh7-h6 +   2.Kf8-f7 Dh6*h8   3.Kf7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-g3 
-  1.Ke8-f8 Dh7*h8   2.Kf8-f7 Kh4-h5   3.Tg8-e8 Dh8-h7 +   4.Kf7-f8 Kh5-g6 
-  1.Ke8-f8 Dh7*h8   2.Kf8-f7 Kh4-h3   3.Kf7-g6 Dh8*g8 +   4.Kg6-h6 Kh3-g3 
-  1.Ke8-f8 Dh7*h8   2.Kf8-e7 Kh4-h5   3.Tg8-e8 Dh8-h7 +   4.Ke7-f8 Kh5-g6 
-  1.Ke8-f8 Kh4-h5   2.Tg8-g5 + f4*g5   3.Th8-g8 Dh7-d7   4.Tg8-g6 Kh5*g6 
-  1.Ke8-f8 Kh4-h5   2.Tg8-g5 + f4*g5   3.Th8-g8 g5*f6   4.Tg8-g6 Kh5*g6 
-  1.Ke8-f8 Kh4-h5   2.Tg8-g6 Kh5*g6   3.Th8-g8 + Kg6*f6   4.Tg8-g5 f4*g5 
-  1.Ke8-d8 Dh7*h8   2.Kd8-e7 Kh4-h5   3.Tg8-e8 Dh8-h7 +   4.Ke7-f8 Kh5-g6 
-  1.Ke8-d8 Dh7*h8   2.Tg8-e8 Kh4-h5   3.Kd8-e7 Dh8-h7 +   4.Ke7-f8 Kh5-g6 
-  1.Ke8-d8 Kh4-h5   2.Tg8-e8 Dh7*h8   3.Kd8-e7 Dh8-h7 +   4.Ke7-f8 Kh5-g6 
-  1.Tg8-g1 Kh4-h5   2.Tg1-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6 
-  1.Tg8-g2 Dh7*h8 +   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 Kh3*g2 
-  1.Tg8-g2 Kh4-h5   2.Tg2-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6 
-  1.Tg8-g3 Dh7-h6   2.Ke8-f7 Dh6*h8   3.Kf7-g6 Dh8-g8 +   4.Kg6-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g7 Da8-g8 +   4.Kg7-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Da8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g6 Da8-g8 +   4.Kg6-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Da8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g7 Db8-g8 +   4.Kg7-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Db8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g6 Db8-g8 +   4.Kg6-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Db8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g7 Dc8-g8 +   4.Kg7-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Dc8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g6 Dc8-g8 +   4.Kg6-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Dc8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g7 Dd8-g8 +   4.Kg7-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Dd8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g6 Dd8-g8 +   4.Kg6-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Dd8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-e8 +   3.Kf7-g7 De8-g8 +   4.Kg7-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-e8 +   3.Kf7-g7 Kh4*g3   4.Kg7-h6 De8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-f8 +   3.Kf7-g6 Df8-g8 +   4.Kg6-h6 Kh4*g3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 Kg3-g2 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-g7 +   4.Kg6-h5 Kg3-f3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-a8   4.Kg6-h6 Da8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-b8   4.Kg6-h6 Db8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-c8   4.Kg6-h6 Dc8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-d8   4.Kg6-h6 Dd8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-e8 +   4.Kg6-h6 De8-g8 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-g8 +   4.Kg6-h6 Kg3-h3 
-  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-g8 +   4.Kg6-h6 Kg3-f3 
-  1.Tg8-g3 Kh4-h5   2.Tg3-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6 
-  1.Tg8-g4 + Kh4-h5   2.Tg4-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6 
-  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 Dh8-f8 +   3.Kf7-g6 f4*g5   4.Kg6-h7 g5*f6 
-  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 f4*g5 
-  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8-g7 +   4.Kg6-h5 f4*g5 
-  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 f4*g5   3.Kf7-g6 Dh8-f8   4.Kg6-h7 g5*f6 
-  1.Tg8-g5 f4*g5   2.f5-f4 g5*f6   3.Th8-g8 Dh7-a7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.f5-f4 g5*f6   3.Th8-g8 Dh7-b7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.f5-f4 g5*f6   3.Th8-g8 Dh7-c7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.f6*g5 + Kh4*g5   3.Th8-f8 Dh7-c7   4.Tf8-f6 Kg5*f6 
-  1.Tg8-g5 f4*g5   2.Ke8-f8 g5*f6   3.Th8-g8 Kh4-h5   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Ke8-f8 Kh4-h5   3.Th8-g8 Dh7-d7   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Ke8-f8 Kh4-h5   3.Th8-g8 g5*f6   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Ke8-d8 g5-g6   3.Th8-f8 Dh7-a7   4.Tf8-f7 g6*f7 
-  1.Tg8-g5 f4*g5   2.Ke8-d8 g5-g6   3.Th8-f8 Dh7-b7   4.Tf8-f7 g6*f7 
-  1.Tg8-g5 f4*g5   2.Ke8-d8 g5*f6   3.Th8-g8 Dh7-a7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Ke8-d8 g5*f6   3.Th8-g8 Dh7-b7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Ke8-d8 g5*f6   3.Th8-g8 Dh7-f7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Ke8-d8 g5-g6   4.Tf8-f7 g6*f7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-f7 g5-g6   4.Tf7-h7 + g6*h7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-f7 g5-g6   4.Ke8-d8 g6*f7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-f7 g5*f6   4.Tf7-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-g8 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Ke8-d8 g5-g6   4.Tf8-f7 g6*f7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-f7 g5-g6   4.Tf7-h7 + g6*h7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-f7 g5-g6   4.Ke8-d8 g6*f7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-f7 g5*f6   4.Tf7-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-g8 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.f6*g5 + Kh4*g5   4.Tf8-f6 Kg5*f6 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f7 g5-g6   4.Tf7-h7 + g6*h7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f7 g5*f6   4.Tf7-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.Tf8-g8 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 g5-g6   3.Ke8-d8 Dh7-a7   4.Tf8-f7 g6*f7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 g5-g6   3.Ke8-d8 Dh7-b7   4.Tf8-f7 g6*f7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 g5-g6   3.Tf8-f7 Dh7*f7 +   4.Ke8-d8 g6-g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8*f6 Kh4-g5   4.Ke8-f8 Kg5*f6 
-  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8-g8 Dh7-a7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8-g8 Dh7-b7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8-g8 Dh7-c7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.f5-f4 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Ke8-d8 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g6 g5*f6   4.Tg6-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g7 g5-g6   4.Tg7-h7 + g6*h7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g7 g5*f6   4.f5-f4 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g7 g5*f6   4.Ke8-d8 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.f5-f4 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Ke8-d8 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g6 g5*f6   4.Tg6-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g7 g5-g6   4.Tg7-h7 + g6*h7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g7 g5*f6   4.f5-f4 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g7 g5*f6   4.Ke8-d8 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.f5-f4 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.Tg8-g6 g5*f6   4.Tg6-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.Tg8-g7 g5-g6   4.Tg7-h7 + g6*h7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.Tg8-g7 g5*f6   4.f5-f4 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-d7 +   3.Ke8-f8 Kh4-h5   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-f7 +   3.Ke8-d8 g5*f6   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.f5-f4 Dh7-a7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.f5-f4 Dh7-b7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.f5-f4 Dh7-c7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-f8 Kh4-h5   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-d8 Dh7-a7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-d8 Dh7-b7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-d8 Dh7-f7   4.Tg8-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g1 Dh7-a7   4.Tg1-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g1 Dh7-b7   4.Tg1-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g1 Dh7-c7   4.Tg1-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g2 Dh7-a7   4.Tg2-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g2 Dh7-b7   4.Tg2-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g2 Dh7-c7   4.Tg2-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Dh7-a7   4.Tg3-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Dh7-b7   4.Tg3-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Dh7-c7   4.Tg3-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Kh4*g3   4.Ke8-f8 Kg3-f4 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Dh7-a7   4.Tg5-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Dh7-b7   4.Tg5-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Dh7-c7   4.Tg5-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Kh4*g5   4.Ke8-f8 Kg5-g6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Kh4*g5   4.Ke8-f8 Kg5*f5 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Kh4*g5   4.Ke8-f8 Kg5-f4 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Dh7-a7   4.Tg6-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Dh7-b7   4.Tg6-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Dh7-c7   4.Tg6-g7 f6*g7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Kh4-h5   4.Ke8-f8 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Ke8-f8 Dh7-d7   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Ke8-f8 g5*f6   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Dh7-d7 +   4.Ke8-f8 Kh5*g6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Kh5*g6   4.Ke8-f8 Dh7-d7 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Kh5*g6   4.Ke8-f8 Kg6*f6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Kh5*g6   4.Ke8-f8 g5*f6 
-  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 g5*f6   4.Ke8-f8 Kh5*g6 
-  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-a8 Kh5-h6 
-  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-b8 Kh5-h6 
-  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-c8 Kh5-h6 
-  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-d8 Kh5-h6 
-  1.Tg8-g6 Dh7-h6   2.Ke8-e7 Kh4-h5   3.Th8-e8 Dh6-h7 +   4.Ke7-f8 Kh5*g6 
-  1.Tg8-g6 Dh7-h6   2.Ke8-f7 Kh4-h5   3.Th8-e8 Dh6-h7 +   4.Kf7-f8 Kh5*g6 
-  1.Tg8-g6 Kh4-h5   2.Tg6-h6 + Kh5*h6   3.Th8-g8 Dh7-c7   4.Tg8-g6 + Kh6*g6 
-  1.Tg8-g6 Kh4-h5   2.Ke8-f8 Kh5*g6   3.Th8-g8 + Kg6*f6   4.Tg8-g5 f4*g5 
-  1.Tg8-g6 Kh4-h5   2.Th8-f8 Dh7-a7   3.Tf8-f7 Kh5*g6   4.Tf7-c7 Da7*c7 
-  1.Tg8-g6 Kh4-h5   2.Th8-f8 Dh7-b7   3.Tf8-f7 Kh5*g6   4.Tf7-c7 Db7*c7 
-  1.Tg8-g6 Kh4-h5   2.Th8-f8 Dh7-g7   3.Tf8-f7 Kh5*g6   4.Tf7-c7 Dg7*c7 
-  1.Tg8-g6 Kh4-h5   2.Th8-f8 Kh5*g6   3.Tf8-f7 Dh7-g7   4.Tf7-c7 Dg7*c7 
-  1.Tg8-g6 Kh4-h5   2.Th8-g8 Dh7-c7   3.Tg6-h6 + Kh5*h6   4.Tg8-g6 + Kh6*g6 
-  1.Tg8-g7 Dh7-h6   2.0-0 Dh6*f6   3.Kg8-h8 Kh4-h5   4.Tf8-g8 Kh5-h6 
-  1.Tg8-g7 Kh4-h5   2.Tg7-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6 
-  1.Tg8-g7 Kh4-h5   2.Tg7-c7 Kh5-h6   3.Th8-g8 Dh7*c7   4.Tg8-g6 + Kh6*g6 
-  1.Tg8-g7 Kh4-h5   2.Tg7-d7 Kh5-g6   3.Ke8-f8 Dh7*d7   4.Th8-h6 + Kg6*h6 
-  1.Tg8-g7 Kh4-h5   2.Th8-f8 Dh7*g7   3.Tf8-f7 Kh5-g6   4.Tf7-c7 Dg7*c7 
-  1.Tg8-g7 Kh4-h5   2.Th8-f8 Dh7*g7   3.Tf8-g8 Dg7-c7   4.Tg8-g6 Kh5*g6 
-  1.Tg8-g7 Kh4-h5   2.Th8-g8 Kh5-h6   3.Tg7-c7 Dh7*c7   4.Tg8-g6 + Kh6*g6 
-  1.Tg8-f8 Dh7*h8   2.Ke8-e7 Kh4-h5   3.Tf8-e8 Dh8-h7 +   4.Ke7-f8 Kh5-g6 
-  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Dh8*f8 +   3.Kf7-g6 Df8-g8 +   4.Kg6-h6 Kh4-h3 
-  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Dh8*f8 +   3.Kf7-g6 Df8-g8 +   4.Kg6-h6 Kh4-g3 
-  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Kh4-h5   3.Tf8-e8 Dh8-h7 +   4.Kf7-f8 Kh5-g6 
-  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 Df6-g7 
+  1.Ke8-f8 Dh7-h5   2.Kf8-g7 Dh5*h8 +   3.Kg7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-h3
+  1.Ke8-f8 Dh7-h5   2.Kf8-g7 Dh5*h8 +   3.Kg7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-g3
+  1.Ke8-f8 Dh7-h6 +   2.Kf8-f7 Dh6*h8   3.Kf7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-h3
+  1.Ke8-f8 Dh7-h6 +   2.Kf8-f7 Dh6*h8   3.Kf7-g6 Dh8*g8 +   4.Kg6-h6 Kh4-g3
+  1.Ke8-f8 Dh7*h8   2.Kf8-f7 Kh4-h5   3.Tg8-e8 Dh8-h7 +   4.Kf7-f8 Kh5-g6
+  1.Ke8-f8 Dh7*h8   2.Kf8-f7 Kh4-h3   3.Kf7-g6 Dh8*g8 +   4.Kg6-h6 Kh3-g3
+  1.Ke8-f8 Dh7*h8   2.Kf8-e7 Kh4-h5   3.Tg8-e8 Dh8-h7 +   4.Ke7-f8 Kh5-g6
+  1.Ke8-f8 Kh4-h5   2.Tg8-g5 + f4*g5   3.Th8-g8 Dh7-d7   4.Tg8-g6 Kh5*g6
+  1.Ke8-f8 Kh4-h5   2.Tg8-g5 + f4*g5   3.Th8-g8 g5*f6   4.Tg8-g6 Kh5*g6
+  1.Ke8-f8 Kh4-h5   2.Tg8-g6 Kh5*g6   3.Th8-g8 + Kg6*f6   4.Tg8-g5 f4*g5
+  1.Ke8-d8 Dh7*h8   2.Kd8-e7 Kh4-h5   3.Tg8-e8 Dh8-h7 +   4.Ke7-f8 Kh5-g6
+  1.Ke8-d8 Dh7*h8   2.Tg8-e8 Kh4-h5   3.Kd8-e7 Dh8-h7 +   4.Ke7-f8 Kh5-g6
+  1.Ke8-d8 Kh4-h5   2.Tg8-e8 Dh7*h8   3.Kd8-e7 Dh8-h7 +   4.Ke7-f8 Kh5-g6
+  1.Tg8-g1 Kh4-h5   2.Tg1-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6
+  1.Tg8-g2 Dh7*h8 +   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 Kh3*g2
+  1.Tg8-g2 Kh4-h5   2.Tg2-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6
+  1.Tg8-g3 Dh7-h6   2.Ke8-f7 Dh6*h8   3.Kf7-g6 Dh8-g8 +   4.Kg6-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g7 Da8-g8 +   4.Kg7-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Da8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g6 Da8-g8 +   4.Kg6-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-a8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Da8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g7 Db8-g8 +   4.Kg7-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Db8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g6 Db8-g8 +   4.Kg6-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-b8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Db8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g7 Dc8-g8 +   4.Kg7-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Dc8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g6 Dc8-g8 +   4.Kg6-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-c8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Dc8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g7 Dd8-g8 +   4.Kg7-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g7 Kh4*g3   4.Kg7-h6 Dd8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g6 Dd8-g8 +   4.Kg6-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-d8   3.Kf7-g6 Kh4*g3   4.Kg6-h6 Dd8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-e8 +   3.Kf7-g7 De8-g8 +   4.Kg7-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-e8 +   3.Kf7-g7 Kh4*g3   4.Kg7-h6 De8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Dh8-f8 +   3.Kf7-g6 Df8-g8 +   4.Kg6-h6 Kh4*g3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 Kg3-g2
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-g7 +   4.Kg6-h5 Kg3-f3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-a8   4.Kg6-h6 Da8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-b8   4.Kg6-h6 Db8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-c8   4.Kg6-h6 Dc8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-d8   4.Kg6-h6 Dd8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-e8 +   4.Kg6-h6 De8-g8
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-g8 +   4.Kg6-h6 Kg3-h3
+  1.Tg8-g3 Dh7*h8 +   2.Ke8-f7 Kh4*g3   3.Kf7-g6 Dh8-g8 +   4.Kg6-h6 Kg3-f3
+  1.Tg8-g3 Kh4-h5   2.Tg3-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6
+  1.Tg8-g4 + Kh4-h5   2.Tg4-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6
+  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 Dh8-f8 +   3.Kf7-g6 f4*g5   4.Kg6-h7 g5*f6
+  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 f4*g5
+  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8-g7 +   4.Kg6-h5 f4*g5
+  1.Tg8-g5 Dh7*h8 +   2.Ke8-f7 f4*g5   3.Kf7-g6 Dh8-f8   4.Kg6-h7 g5*f6
+  1.Tg8-g5 f4*g5   2.f5-f4 g5*f6   3.Th8-g8 Dh7-a7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.f5-f4 g5*f6   3.Th8-g8 Dh7-b7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.f5-f4 g5*f6   3.Th8-g8 Dh7-c7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.f6*g5 + Kh4*g5   3.Th8-f8 Dh7-c7   4.Tf8-f6 Kg5*f6
+  1.Tg8-g5 f4*g5   2.Ke8-f8 g5*f6   3.Th8-g8 Kh4-h5   4.Tg8-g6 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Ke8-f8 Kh4-h5   3.Th8-g8 Dh7-d7   4.Tg8-g6 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Ke8-f8 Kh4-h5   3.Th8-g8 g5*f6   4.Tg8-g6 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Ke8-d8 g5-g6   3.Th8-f8 Dh7-a7   4.Tf8-f7 g6*f7
+  1.Tg8-g5 f4*g5   2.Ke8-d8 g5-g6   3.Th8-f8 Dh7-b7   4.Tf8-f7 g6*f7
+  1.Tg8-g5 f4*g5   2.Ke8-d8 g5*f6   3.Th8-g8 Dh7-a7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Ke8-d8 g5*f6   3.Th8-g8 Dh7-b7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Ke8-d8 g5*f6   3.Th8-g8 Dh7-f7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Ke8-d8 g5-g6   4.Tf8-f7 g6*f7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-f7 g5-g6   4.Tf7-h7 + g6*h7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-f7 g5-g6   4.Ke8-d8 g6*f7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-f7 g5*f6   4.Tf7-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-a7   3.Tf8-g8 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Ke8-d8 g5-g6   4.Tf8-f7 g6*f7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-f7 g5-g6   4.Tf7-h7 + g6*h7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-f7 g5-g6   4.Ke8-d8 g6*f7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-f7 g5*f6   4.Tf7-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-b7   3.Tf8-g8 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.f6*g5 + Kh4*g5   4.Tf8-f6 Kg5*f6
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f7 g5-g6   4.Tf7-h7 + g6*h7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f7 g5*f6   4.Tf7-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 Dh7-c7   3.Tf8-g8 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 g5-g6   3.Ke8-d8 Dh7-a7   4.Tf8-f7 g6*f7
+  1.Tg8-g5 f4*g5   2.Th8-f8 g5-g6   3.Ke8-d8 Dh7-b7   4.Tf8-f7 g6*f7
+  1.Tg8-g5 f4*g5   2.Th8-f8 g5-g6   3.Tf8-f7 Dh7*f7 +   4.Ke8-d8 g6-g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8*f6 Kh4-g5   4.Ke8-f8 Kg5*f6
+  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8-g8 Dh7-a7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8-g8 Dh7-b7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-f8 g5*f6   3.Tf8-g8 Dh7-c7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.f5-f4 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Ke8-d8 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g6 g5*f6   4.Tg6-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g7 g5-g6   4.Tg7-h7 + g6*h7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g7 g5*f6   4.f5-f4 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-a7   3.Tg8-g7 g5*f6   4.Ke8-d8 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.f5-f4 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Ke8-d8 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g6 g5*f6   4.Tg6-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g7 g5-g6   4.Tg7-h7 + g6*h7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g7 g5*f6   4.f5-f4 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-b7   3.Tg8-g7 g5*f6   4.Ke8-d8 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.f5-f4 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.Tg8-g6 g5*f6   4.Tg6-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.Tg8-g7 g5-g6   4.Tg7-h7 + g6*h7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-c7   3.Tg8-g7 g5*f6   4.f5-f4 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-d7 +   3.Ke8-f8 Kh4-h5   4.Tg8-g6 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Th8-g8 Dh7-f7 +   3.Ke8-d8 g5*f6   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.f5-f4 Dh7-a7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.f5-f4 Dh7-b7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.f5-f4 Dh7-c7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-f8 Kh4-h5   4.Tg8-g6 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-d8 Dh7-a7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-d8 Dh7-b7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Ke8-d8 Dh7-f7   4.Tg8-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g1 Dh7-a7   4.Tg1-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g1 Dh7-b7   4.Tg1-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g1 Dh7-c7   4.Tg1-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g2 Dh7-a7   4.Tg2-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g2 Dh7-b7   4.Tg2-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g2 Dh7-c7   4.Tg2-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Dh7-a7   4.Tg3-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Dh7-b7   4.Tg3-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Dh7-c7   4.Tg3-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g3 Kh4*g3   4.Ke8-f8 Kg3-f4
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Dh7-a7   4.Tg5-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Dh7-b7   4.Tg5-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Dh7-c7   4.Tg5-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Kh4*g5   4.Ke8-f8 Kg5-g6
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Kh4*g5   4.Ke8-f8 Kg5*f5
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g5 Kh4*g5   4.Ke8-f8 Kg5-f4
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Dh7-a7   4.Tg6-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Dh7-b7   4.Tg6-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Dh7-c7   4.Tg6-g7 f6*g7
+  1.Tg8-g5 f4*g5   2.Th8-g8 g5*f6   3.Tg8-g6 Kh4-h5   4.Ke8-f8 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Ke8-f8 Dh7-d7   4.Tg8-g6 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Ke8-f8 g5*f6   4.Tg8-g6 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Dh7-d7 +   4.Ke8-f8 Kh5*g6
+  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Kh5*g6   4.Ke8-f8 Dh7-d7
+  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Kh5*g6   4.Ke8-f8 Kg6*f6
+  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 Kh5*g6   4.Ke8-f8 g5*f6
+  1.Tg8-g5 f4*g5   2.Th8-g8 Kh4-h5   3.Tg8-g6 g5*f6   4.Ke8-f8 Kh5*g6
+  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-a8 Kh5-h6
+  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-b8 Kh5-h6
+  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-c8 Kh5-h6
+  1.Tg8-g6 Dh7-h5   2.0-0 Dh5*g6 +   3.Kg8-h8 Kh4-h5   4.Tf8-d8 Kh5-h6
+  1.Tg8-g6 Dh7-h6   2.Ke8-e7 Kh4-h5   3.Th8-e8 Dh6-h7 +   4.Ke7-f8 Kh5*g6
+  1.Tg8-g6 Dh7-h6   2.Ke8-f7 Kh4-h5   3.Th8-e8 Dh6-h7 +   4.Kf7-f8 Kh5*g6
+  1.Tg8-g6 Kh4-h5   2.Tg6-h6 + Kh5*h6   3.Th8-g8 Dh7-c7   4.Tg8-g6 + Kh6*g6
+  1.Tg8-g6 Kh4-h5   2.Ke8-f8 Kh5*g6   3.Th8-g8 + Kg6*f6   4.Tg8-g5 f4*g5
+  1.Tg8-g6 Kh4-h5   2.Th8-f8 Dh7-a7   3.Tf8-f7 Kh5*g6   4.Tf7-c7 Da7*c7
+  1.Tg8-g6 Kh4-h5   2.Th8-f8 Dh7-b7   3.Tf8-f7 Kh5*g6   4.Tf7-c7 Db7*c7
+  1.Tg8-g6 Kh4-h5   2.Th8-f8 Dh7-g7   3.Tf8-f7 Kh5*g6   4.Tf7-c7 Dg7*c7
+  1.Tg8-g6 Kh4-h5   2.Th8-f8 Kh5*g6   3.Tf8-f7 Dh7-g7   4.Tf7-c7 Dg7*c7
+  1.Tg8-g6 Kh4-h5   2.Th8-g8 Dh7-c7   3.Tg6-h6 + Kh5*h6   4.Tg8-g6 + Kh6*g6
+  1.Tg8-g7 Dh7-h6   2.0-0 Dh6*f6   3.Kg8-h8 Kh4-h5   4.Tf8-g8 Kh5-h6
+  1.Tg8-g7 Kh4-h5   2.Tg7-g6 Kh5*g6   3.Ke8-f8 Dh7-d7   4.Th8-h6 + Kg6*h6
+  1.Tg8-g7 Kh4-h5   2.Tg7-c7 Kh5-h6   3.Th8-g8 Dh7*c7   4.Tg8-g6 + Kh6*g6
+  1.Tg8-g7 Kh4-h5   2.Tg7-d7 Kh5-g6   3.Ke8-f8 Dh7*d7   4.Th8-h6 + Kg6*h6
+  1.Tg8-g7 Kh4-h5   2.Th8-f8 Dh7*g7   3.Tf8-f7 Kh5-g6   4.Tf7-c7 Dg7*c7
+  1.Tg8-g7 Kh4-h5   2.Th8-f8 Dh7*g7   3.Tf8-g8 Dg7-c7   4.Tg8-g6 Kh5*g6
+  1.Tg8-g7 Kh4-h5   2.Th8-g8 Kh5-h6   3.Tg7-c7 Dh7*c7   4.Tg8-g6 + Kh6*g6
+  1.Tg8-f8 Dh7*h8   2.Ke8-e7 Kh4-h5   3.Tf8-e8 Dh8-h7 +   4.Ke7-f8 Kh5-g6
+  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Dh8*f8 +   3.Kf7-g6 Df8-g8 +   4.Kg6-h6 Kh4-h3
+  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Dh8*f8 +   3.Kf7-g6 Df8-g8 +   4.Kg6-h6 Kh4-g3
+  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Kh4-h5   3.Tf8-e8 Dh8-h7 +   4.Kf7-f8 Kh5-g6
+  1.Tg8-f8 Dh7*h8   2.Ke8-f7 Kh4-h3   3.Kf7-g6 Dh8*f6 +   4.Kg6-h5 Df6-g7
 
-                        empile:   161800423
-                     play_move:    31261897
- is_white_king_square_attacked:    14833872
- is_black_king_square_attacked:    29157879
+                        empile:   161795280
+                     play_move:    31256805
+ is_white_king_square_attacked:    14833866
+ is_black_king_square_attacked:    29152787
 b)  -sBf6  schwarz 6hh[/2da[#]{!+}] 
 
-  1.Tg8-g5 Kh4*g5   2.Ke8-f8 Dh7-d7   3.Th8-h6 Kg5*h6 
-  1.Tg8-g5 Kh4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f6 Kg5*f6 
+  1.Tg8-g5 Kh4*g5   2.Ke8-f8 Dh7-d7   3.Th8-h6 Kg5*h6
+  1.Tg8-g5 Kh4*g5   2.Th8-f8 Dh7-c7   3.Tf8-f6 Kg5*f6
 
-                        empile:     5900820
-                     play_move:     1414516
+                        empile:     5900611
+                     play_move:     1414307
  is_white_king_square_attacked:      651320
- is_black_king_square_attacked:     1350513
+ is_black_king_square_attacked:     1350304
 Loesung beendet. 
 
 
@@ -909,20 +909,20 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 6hh[/2da[#]{!+}]    3 + 8
 
-  1.c4-c3 Lc1-h6   2.c2-c1=T Lh6-d2   3.c3-c2 Ka3-b4 
-  1.c4-c3 Lc1-h6   2.c2-c1=T Lh6-d2   3.c3-c2 Ld2-b4 
-  1.c4-c3 Lc1-h6   2.c2-c1=T Ka3-b4   3.c3-c2 Lh6-d2 
-  1.c4-c3 Lc1-g5   2.c2-c1=T Lg5-d2   3.c3-c2 Ka3-b4 
-  1.c4-c3 Lc1-g5   2.c2-c1=T Lg5-d2   3.c3-c2 Ld2-b4 
-  1.c4-c3 Lc1-g5   2.c2-c1=T Ka3-b4   3.c3-c2 Lg5-d2 
-  1.c4-c3 Lc1-f4   2.c2-c1=T Lf4-d2   3.c3-c2 Ka3-b4 
-  1.c4-c3 Lc1-f4   2.c2-c1=T Lf4-d2   3.c3-c2 Ld2-b4 
-  1.c4-c3 Lc1-f4   2.c2-c1=T Ka3-b4   3.c3-c2 Lf4-d2 
-  1.c4-c3 Lc1-e3   2.c2-c1=T Le3-d2   3.c3-c2 Ka3-b4 
-  1.c4-c3 Lc1-e3   2.c2-c1=T Le3-d2   3.c3-c2 Ld2-b4 
-  1.c4-c3 Lc1-e3   2.c2-c1=T Ka3-b4   3.c3-c2 Le3-d2 
-  1.c4-c3 Lc1-d2   2.c2-c1=T Ld2-e1   3.c3-c2 Le1-b4 
-  1.b5-b4 + Ka3*a4   2.b4-b3 Ka4-b4   3.c4-c3 Kb4*c3 
+  1.c4-c3 Lc1-h6   2.c2-c1=T Lh6-d2   3.c3-c2 Ka3-b4
+  1.c4-c3 Lc1-h6   2.c2-c1=T Lh6-d2   3.c3-c2 Ld2-b4
+  1.c4-c3 Lc1-h6   2.c2-c1=T Ka3-b4   3.c3-c2 Lh6-d2
+  1.c4-c3 Lc1-g5   2.c2-c1=T Lg5-d2   3.c3-c2 Ka3-b4
+  1.c4-c3 Lc1-g5   2.c2-c1=T Lg5-d2   3.c3-c2 Ld2-b4
+  1.c4-c3 Lc1-g5   2.c2-c1=T Ka3-b4   3.c3-c2 Lg5-d2
+  1.c4-c3 Lc1-f4   2.c2-c1=T Lf4-d2   3.c3-c2 Ka3-b4
+  1.c4-c3 Lc1-f4   2.c2-c1=T Lf4-d2   3.c3-c2 Ld2-b4
+  1.c4-c3 Lc1-f4   2.c2-c1=T Ka3-b4   3.c3-c2 Lf4-d2
+  1.c4-c3 Lc1-e3   2.c2-c1=T Le3-d2   3.c3-c2 Ka3-b4
+  1.c4-c3 Lc1-e3   2.c2-c1=T Le3-d2   3.c3-c2 Ld2-b4
+  1.c4-c3 Lc1-e3   2.c2-c1=T Ka3-b4   3.c3-c2 Le3-d2
+  1.c4-c3 Lc1-d2   2.c2-c1=T Ld2-e1   3.c3-c2 Le1-b4
+  1.b5-b4 + Ka3*a4   2.b4-b3 Ka4-b4   3.c4-c3 Kb4*c3
 
                         empile:      158006
                      play_move:       30779
