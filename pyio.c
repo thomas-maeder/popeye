@@ -6073,7 +6073,7 @@ static void MovePieceFromTo(square from, square to)
   e[to]= e[from];
   spec[to]= spec[from];
   e[from]= vide;
-  spec[from]= 0;
+  CLEARFL(spec[from]);
   if (from == king_square[White]) {
     king_square[White]= to;
   }
@@ -6248,7 +6248,7 @@ static char *ParseTwinningRemove(void) {
       WritePiece(e[sq]);
       WriteSquare(sq);
       e[sq]= vide;
-      spec[sq]= 0;
+      CLEARFL(spec[sq]);;
       if (sq == king_square[White]) {
         king_square[White]= initsquare;
       }

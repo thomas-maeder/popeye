@@ -37,7 +37,7 @@ void move_effect_journal_register_pre_capture_effect(void)
   move_effect_journal[0].type = move_effect_none;
   move_effect_journal[1].type = move_effect_no_piece_removal;
   move_effect_journal[1].u.piece_removal.removed = vide;
-  move_effect_journal[1].u.piece_removal.removedspec = 0;
+  CLEARFL(move_effect_journal[1].u.piece_removal.removedspec);
   move_effect_journal_top[0] = 2;
 
   move_effect_journal[2].type = move_effect_none;
@@ -60,7 +60,7 @@ void move_effect_journal_reset(void)
 
   move_effect_journal[2].type = move_effect_no_piece_removal;
   move_effect_journal[2].u.piece_removal.removed = vide;
-  move_effect_journal[2].u.piece_removal.removedspec = 0;
+  CLEARFL(move_effect_journal[2].u.piece_removal.removedspec);
   move_effect_journal_top[0] = 3;
   move_effect_journal_top[1] = 4;
 
@@ -349,7 +349,7 @@ void move_effect_journal_do_no_piece_removal(void)
   top_elmt->type = move_effect_no_piece_removal;
   top_elmt->reason = move_effect_no_reason;
   top_elmt->u.piece_removal.removed = vide;
-  top_elmt->u.piece_removal.removedspec = 0;
+  CLEARFL(top_elmt->u.piece_removal.removedspec);
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
