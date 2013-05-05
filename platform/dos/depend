@@ -1,0 +1,30 @@
+platform/dos/maxmem$(OBJ_SUFFIX): platform/dos/maxmem.c platform/maxmem.h \
+ utilities/boolean.h
+
+platform/maxmem.h:
+
+utilities/boolean.h:
+platform/dos/maxtime$(OBJ_SUFFIX): platform/dos/maxtime.c platform/maxtime_impl.h \
+ platform/maxtime.h utilities/boolean.h pymsg.h pylang.h
+
+platform/maxtime_impl.h:
+
+platform/maxtime.h:
+
+utilities/boolean.h:
+
+pymsg.h:
+
+pylang.h:
+platform/dos/pytime$(OBJ_SUFFIX): platform/dos/pytime.c platform/pytime.h
+
+platform/pytime.h:
+platform/dos/priority$(OBJ_SUFFIX): platform/dos/priority.c platform/priority.h
+
+platform/priority.h:
+platform/dos/beep$(OBJ_SUFFIX): platform/dos/beep.c platform/beep.h \
+ utilities/boolean.h
+
+platform/beep.h:
+
+utilities/boolean.h:
