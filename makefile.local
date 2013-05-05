@@ -14,7 +14,7 @@ GENERATED_CFILES = pygmarr.c
 ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
-		readme.txt license.txt
+		readme.txt COPIER COPYING KOPIEREN
 DEVELOP =       coding.txt
 SCRIPTS =       $(wildcard scripts/*.sh)
 SPECIALCFILES = pymain.c
