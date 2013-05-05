@@ -127,4 +127,29 @@ b1 I  bouncer
 b2 I  rook bouncer
 b3 I  bishop bouncer
 cp BR chinese pawn
-ze ZE Zebu
+rk SR radial knight
+pp I  protean pawn
+ls SR Rose Locust
+ze SR zebu
+bn SR Bouncy Nightrider
+s2 SR spiralspringer (2,0)
+s4 SR spiralspringer (4,0)
+s1 SR diagonalspiralspringer (1,1)
+s3 SR diagonalspiralspringer (3,3)
+qn I  quintessence
+dk TR double rookhopper
+db LR double bishopper
+no I  orix (non-stop)
+th I  treehopper
+lh I  leafhopper
+ge I  greater treehopper
+gf I  greater leafhopper
+kl I  kangarou lion
+ko I  kao
+kp SR knighthopper
+sh TR ship
+gy LR gryphon
+ms SR marine knight
+po KR poseidon
+mp BR marine pawn
+mh TR marine ship

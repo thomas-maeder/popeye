@@ -127,4 +127,29 @@ b1 I  bouncer
 b2 I  tour bouncer
 b3 I  fou bouncer
 pc BR pion chinois
+cl SR cavalier radial
+pv I  pion renverse
+lr SR rose locuste
 ze ZE Zebu
+nr SR noctambule rebondissant
+n2 SR spiralspringer (2,0)
+n4 SR spiralspringer (4,0)
+n1 SR diagonalspiralspringer (1,1)
+n3 SR diagonalspiralspringer (3,3)
+qn I  quintessence
+dt TR double tour-sauterelle
+df LR double fou-sauterelle
+no I  orix (non-stop)
+sb I  treehopper
+se I  leafhopper
+sm I  greater treehopper
+su I  greater leafhopper
+kl I  kangarou lion
+ko I  kao
+sv SR knighthopper
+ba TR bateau
+gy LR gryphon
+cm SR cavalier marin
+po KR pos\'eidon
+pm BR pion marin
+bm TR bateau marin

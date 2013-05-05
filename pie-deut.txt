@@ -115,7 +115,6 @@ mg I  Marguerite
 nl I  Nachtreiterlion
 ml I  Maoreiterlion
 mm I  Moareiterlion
-ag I  AndernachGrashuepfer
 f  I  Freund
 de I  Delphin
 he I  Hase
@@ -127,4 +126,29 @@ b1 I  Bouncer
 b2 I  TurmBouncer
 b3 I  LaeuferBouncer
 cb BR Chinesischer Bauer
+rp SR Radialspringer
+rb I  ReversBauer
+lr SR RosenHeuschrecke
 ze ZE Zebu
+nr SR Reflektierender Nachreiter
+s2 SR spiralspringer (2,0)
+s4 SR spiralspringer (4,0)
+s1 SR diagonalspiralspringer (1,1)
+s3 SR diagonalspiralspringer (3,3)
+qn I  quintessence
+dt TR Doppelturmhuepfer
+dl LR Doppellaeuferhuepfer
+no I  orix (non-stop)
+uh I  treehopper
+bh I  leafhopper
+gu I  greater treehopper
+gb I  greater leafhopper
+lk I  kangarou lion
+ko I  kao
+sh SR springerhuepfer
+sc TR schiff
+gy LR gryphon
+ms SR mariner Springer
+po KR Poseidon
+mb BR mariner Bauer
+mc TR marines Schiff
