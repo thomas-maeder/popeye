@@ -1,0 +1,35 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Linux using clang
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the
+# target plarform and can be found in the $PATH:
+# - clang
+
+
+# Include "regular" gcc settings
+include toolchains/gcc/make.incl
+
+
+# Now override where necessary
+
+# Compiler options
+# ================
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on host
+CCHOST=clang
+
+# Linker for creating executables on host
+LDHOST=clang
+
+# Compiler for creating executables on target
+CCTARGET=clang
+
+# Linker for creating executables on target
+LDTARGET=clang
