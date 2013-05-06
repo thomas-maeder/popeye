@@ -141,10 +141,10 @@ reported P.Raican (orig. M.Caillaud??)
 
   1.Sg1-h3 d7-d5   2.Sh3-f4 Qd8-d6   3.Sf4*d5 Qd6-d8[+bPd7]   4.Sd5-b6 dia
 
-                        empile:     7471932
-                     play_move:     7472940
- is_white_king_square_attacked:      435270
- is_black_king_square_attacked:      384870
+                        empile:     5714103
+                     play_move:     5715111
+ is_white_king_square_attacked:      380553
+ is_black_king_square_attacked:      302617
 solution finished. 
 
 

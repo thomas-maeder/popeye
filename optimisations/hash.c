@@ -1260,20 +1260,36 @@ byte *CommonEncode(byte *bp,
 
   if (anyparrain)
   {
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-    move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-    piece const removed = move_effect_journal[capture].u.piece_removal.removed;
-    Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+    {
+      /* a piece has been captured and can be reborn */
+      square const from = move_effect_journal[capture].u.piece_removal.from;
+      piece const removed = move_effect_journal[capture].u.piece_removal.removed;
+      Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
-    /* a piece has been captured and can be reborn */
-    *bp++ = (byte)(move_generation_stack[current_move[nbply]].capture - square_a1);
-    if (one_byte_hash)
-      *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[abs(removed)]) << (CHAR_BIT/2));
+      *bp++ = (byte)(from-square_a1);
+      if (one_byte_hash)
+        *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[abs(removed)]) << (CHAR_BIT/2));
+      else
+      {
+        *bp++ = removed;
+        *bp++ = (byte)(removedspec>>CHAR_BIT);
+        *bp++ = (byte)(removedspec&ByteMask);
+      }
+    }
     else
     {
-      *bp++ = removed;
-      *bp++ = (byte)(removedspec>>CHAR_BIT);
-      *bp++ = (byte)(removedspec&ByteMask);
+      *bp++ = (byte)0;
+      if (one_byte_hash)
+        *bp++ = (byte)0;
+      else
+      {
+        *bp++ = (byte)0;
+        *bp++ = (byte)0;
+        *bp++ = (byte)0;
+      }
     }
   }
 
