@@ -895,10 +895,6 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
      */
     e[sq_capture]= vide;
 
-    TraceValue("%u",nbply);
-    TracePiece(pprise[parent_ply[nbply]]);
-    TracePiece(pprise[parent_ply[parent_ply[nbply]]]);
-    TraceText("\n");
     if (anyparrain)
     {
       ply const grand_parent = parent_ply[parent_ply[nbply]];
