@@ -271,9 +271,9 @@ Loesung beendet.
               2...Lb1<->Lf6 #
 
 
-                        empile:       23606
-                     play_move:       22565
- is_white_king_square_attacked:       22495
+                        empile:       23643
+                     play_move:       22599
+ is_white_king_square_attacked:       22529
  is_black_king_square_attacked:        1123
 Loesung beendet. 
 

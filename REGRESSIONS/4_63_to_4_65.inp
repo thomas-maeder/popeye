@@ -1,0 +1,11 @@
+begin
+
+protocol 4_63_to_4_65.reg
+
+title until 4.63, Popeye indicated Zugzwang
+pieces white kh8 rf8 be8 sd7a5 black ka8 bh1h6 pa6a7
+condition messigny nocapt
+stipulation exact-#2
+option vari
+
+end

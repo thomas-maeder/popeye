@@ -14,10 +14,11 @@ static boolean is_not_illegal_repetition(square sq_departure,
                                          square sq_arrival,
                                          square sq_capture)
 {
-  boolean result;
-  numecoup const parent_coup_id = current_move[parent_ply[nbply]];
-  square const sq_parent_departure = move_generation_stack[parent_coup_id].departure;
-  square const sq_parent_arrival = move_generation_stack[parent_coup_id].arrival;
+  boolean result = true;
+  ply const parent = parent_ply[nbply];
+  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+  move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -25,12 +26,20 @@ static boolean is_not_illegal_repetition(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(sq_capture==messigny_exchange
-             && move_generation_stack[parent_coup_id].capture==messigny_exchange
-             && (sq_departure==sq_parent_arrival
-                 || sq_departure==sq_parent_departure
-                 || sq_arrival==sq_parent_arrival
-                 || sq_arrival==sq_parent_departure));
+  if (parent_movement<parent_top
+      && sq_capture==messigny_exchange
+      && move_effect_journal[parent_movement].type==move_effect_piece_exchange
+      && move_effect_journal[parent_movement].reason==move_effect_reason_messigny_exchange)
+  {
+    square const sq_parent_departure = move_effect_journal[parent_movement].u.piece_exchange.from;
+    square const sq_parent_arrival = move_effect_journal[parent_movement].u.piece_exchange.to;
+
+    if (sq_departure==sq_parent_arrival
+        || sq_departure==sq_parent_departure
+        || sq_arrival==sq_parent_arrival
+        || sq_arrival==sq_parent_departure)
+      result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
