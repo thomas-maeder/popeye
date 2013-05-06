@@ -70,9 +70,9 @@ static void adjust_ep_squares2(square sq_multistep_departure)
 stip_length_type einstein_en_passant_adjuster_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
@@ -84,7 +84,7 @@ stip_length_type einstein_en_passant_adjuster_solve(slice_index si, stip_length_
 
   if (is_pawn(abs(pi_moving))
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
-    adjust_ep_squares2(move_generation_stack[current_move[nbply]].departure);
+    adjust_ep_squares2(move_effect_journal[movement].u.piece_movement.from);
 
   result = solve(slices[si].next1,n);
 

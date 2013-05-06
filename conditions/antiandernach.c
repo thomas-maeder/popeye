@@ -27,9 +27,10 @@
 stip_length_type antiandernach_side_changer_solve(slice_index si,
                                                    stip_length_type n)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);

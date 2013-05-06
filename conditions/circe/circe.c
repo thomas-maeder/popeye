@@ -116,16 +116,19 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = current_move[nbply];
-  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
-  square const sq_arrival = move_gen_top->arrival;
-  square const sq_capture = move_gen_top->capture;
-  square const sq_departure = move_gen_top->departure;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
   current_circe_rebirth_square[nbply] = (*circerenai)(current_circe_relevant_piece[nbply],
                                                       current_circe_relevant_spec[nbply],

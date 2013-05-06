@@ -139,7 +139,9 @@ stip_length_type haunted_chess_ghost_summoner_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   ghost_index_type const ghost_pos = find_ghost(sq_departure);
 
   TraceFunctionEntry(__func__);
