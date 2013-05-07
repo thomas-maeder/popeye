@@ -155,14 +155,16 @@ static void update_leaper_requirement(immobilisation_requirement_type if_unblock
 {
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   boolean const is_block_possible = (move_effect_journal[capture].type==move_effect_no_piece_removal
-                                     && nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].arrival]==0
-                                     && *where_to_start_placing_black_pieces<=move_generation_stack[current_move[nbply]].arrival);
+                                     && nr_reasons_for_staying_empty[sq_arrival]==0
+                                     && *where_to_start_placing_black_pieces<=sq_arrival);
   immobilisation_requirement_type const new_req = is_block_possible ? block_of_officer_required : if_unblockable;
   if (current_state->current.requirement<new_req)
     current_state->current.requirement = new_req;
   assert(current_state->current.nr_flight_directions<8);
-  current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[current_move[nbply]].arrival;
+  current_state->current.closest_flights[current_state->current.nr_flight_directions] = sq_arrival;
   ++current_state->current.nr_flight_directions;
 }
 

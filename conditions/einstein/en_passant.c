@@ -19,9 +19,8 @@ square einstein_ep[maxply+1];
  */
 static void adjust_ep_squares2(square sq_multistep_departure)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   PieNam const pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
 
   switch (pi_moving)
@@ -30,6 +29,7 @@ static void adjust_ep_squares2(square sq_multistep_departure)
     case MarinePawn:
     {
       numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_forward)
       {
         ep[nbply] = (sq_multistep_departure+sq_arrival+sq_arrival) / 3;
@@ -41,6 +41,7 @@ static void adjust_ep_squares2(square sq_multistep_departure)
     case ReversePawn:
     {
       numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_backward)
       {
         ep[nbply] = (sq_multistep_departure+sq_arrival+sq_arrival) / 3;

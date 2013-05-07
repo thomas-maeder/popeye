@@ -1220,12 +1220,18 @@ byte *CommonEncode(byte *bp,
                    stip_length_type min_length,
                    stip_length_type validity_value)
 {
-  if (CondFlag[messigny]) {
-    if (move_generation_stack[current_move[nbply]].capture == messigny_exchange) {
-      *bp++ = (byte)(move_generation_stack[current_move[nbply]].arrival - square_a1);
-      *bp++ = (byte)(move_generation_stack[current_move[nbply]].departure - square_a1);
+  if (CondFlag[messigny])
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    if (move_effect_journal[movement].type==move_effect_piece_exchange
+        && move_effect_journal[movement].reason==move_effect_reason_messigny_exchange)
+    {
+      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.to - square_a1);
+      *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.from - square_a1);
     }
-    else {
+    else
+    {
       *bp++ = (byte)(0);
       *bp++ = (byte)(0);
     }
@@ -1236,12 +1242,20 @@ byte *CommonEncode(byte *bp,
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
-    *bp++ = (byte)(move_generation_stack[current_move[nbply]].departure - square_a1);
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    *bp++ = (byte)(move_effect_journal[movement].u.piece_movement.from - square_a1);
+  }
 
   if (flag_synchron)
-    *bp++= (byte)(sq_num[move_generation_stack[current_move[nbply]].departure]
-                  -sq_num[move_generation_stack[current_move[nbply]].arrival]
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    *bp++= (byte)(sq_num[move_effect_journal[movement].u.piece_movement.from]
+                  -sq_num[move_effect_journal[movement].u.piece_movement.to]
                   +64);
+  }
 
   if (CondFlag[imitators])
   {

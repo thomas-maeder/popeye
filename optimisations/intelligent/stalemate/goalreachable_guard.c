@@ -37,8 +37,8 @@ static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(v
 static boolean stalemate_isGoalReachable(void)
 {
   boolean result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -79,14 +79,13 @@ static boolean stalemate_isGoalReachable(void)
     }
     else
     {
-      PieceIdType const id = GetPieceId(spec[move_generation_stack[current_move[nbply]].arrival]);
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
       MovesRequired[White][nbply] = MovesRequired[White][parent_ply[nbply]];
       MovesRequired[Black][nbply] = MovesRequired[Black][parent_ply[nbply]];
 
       if (target_position[id].diagram_square!=initsquare)
       {
-        move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-        move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
         square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
         piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;

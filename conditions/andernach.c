@@ -15,7 +15,9 @@
  */
 void andernach_assume_side(Side side)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   move_effect_journal_do_side_change(move_effect_reason_andernach_chess,
                                      sq_arrival,
