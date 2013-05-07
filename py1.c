@@ -898,18 +898,15 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
     if (anyparrain)
     {
       ply const grand_parent = parent_ply[parent_ply[nbply]];
-      move_effect_journal_index_type const grand_parent_top = move_effect_journal_top[grand_parent-1];
-      move_effect_journal_index_type const grand_parent_capture = grand_parent_top+move_effect_journal_index_offset_capture;
+      move_effect_journal_index_type const grand_parent_base = move_effect_journal_top[grand_parent-1];
+      move_effect_journal_index_type const grand_parent_capture = grand_parent_base+move_effect_journal_index_offset_capture;
       if (move_effect_journal[grand_parent_capture].type==move_effect_piece_removal)
       {
-        if (CondFlag[parrain]) {
-          cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
-              + sq_arrival - sq_departure);
-        }
-        if (CondFlag[contraparrain]) {
-          cr = (move_generation_stack[current_move[parent_ply[nbply]-1]].capture
-              - sq_arrival + sq_departure);
-        }
+        square const sq_capture = move_effect_journal[grand_parent_capture].u.piece_removal.from;
+        if (CondFlag[parrain])
+          cr = sq_capture + sq_arrival - sq_departure;
+        if (CondFlag[contraparrain])
+          cr = sq_capture - sq_arrival + sq_departure;
         pc = e[cr];
         if (pc==vide)
         {

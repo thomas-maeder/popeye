@@ -167,15 +167,21 @@ stip_length_type haunted_chess_ghost_summoner_solve(slice_index si,
   return result;
 }
 
-void move_effect_journal_do_remember_ghost(piece removed, Flags removedspec)
+void move_effect_journal_do_remember_ghost(void)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
+  piece const removed = move_effect_journal[capture].u.piece_removal.removed;
+  Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(top+1<move_effect_journal_size);
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
   top_elmt->type = move_effect_remember_ghost;
   top_elmt->reason = move_effect_reason_regular_capture;
@@ -274,8 +280,7 @@ stip_length_type haunted_chess_ghost_rememberer_solve(slice_index si,
     if (preempted_idx!=ghost_not_found)
       move_effect_journal_do_forget_ghost(preempted_idx);
 
-    move_effect_journal_do_remember_ghost(move_effect_journal[capture].u.piece_removal.removed,
-                                          move_effect_journal[capture].u.piece_removal.removedspec);
+    move_effect_journal_do_remember_ghost();
 
     result = solve(slices[si].next1,n);
   }

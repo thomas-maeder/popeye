@@ -70,60 +70,6 @@ piece einstein_increase_piece(piece p)
   return p;
 }
 
-static void decrease_passive_piece(square sq_arrival)
-{
-  --nbpiece[e[sq_arrival]];
-  e[sq_arrival] = einstein_decrease_piece(e[sq_arrival]);
-  ++nbpiece[e[sq_arrival]];
-}
-
-static void increase_passive_piece(square sq_arrival)
-{
-  --nbpiece[e[sq_arrival]];
-  e[sq_arrival] = einstein_increase_piece(e[sq_arrival]);
-  ++nbpiece[e[sq_arrival]];
-}
-
-/* Adjust the castling partner if the current move is a castling
- * @param trait_ply side executing the current move
- */
-void einstein_decrease_castling_partner(Side trait_ply)
-{
-  switch (move_generation_stack[current_move[nbply]].capture)
-  {
-    case kingside_castling:
-    {
-      decrease_passive_piece(trait_ply==White ? square_f1 : square_f8);
-      break;
-    }
-    case queenside_castling:
-    {
-      decrease_passive_piece(trait_ply==White ? square_d1 : square_d8);
-      break;
-    }
-  }
-}
-
-/* Adjust the castling partner if the current move is a castling
- * @param trait_ply side executing the current move
- */
-void einstein_increase_castling_partner(Side trait_ply)
-{
-  switch (move_generation_stack[current_move[nbply]].capture)
-  {
-    case kingside_castling:
-    {
-      increase_passive_piece(trait_ply==White ? square_f1 : square_f8);
-      break;
-    }
-    case queenside_castling:
-    {
-      increase_passive_piece(trait_ply==White ? square_d1 : square_d8);
-      break;
-    }
-  }
-}
-
 /* Determine the capturer of the current move (if any)
  * @return departure square of the capturer; initsquare if the current move
  *                   isn't a capture

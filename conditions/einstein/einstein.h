@@ -15,16 +15,6 @@ piece einstein_decrease_piece(piece p);
  */
 piece einstein_increase_piece(piece p);
 
-/* Adjust the castling partner if the current move is a castling
- * @param trait_ply side executing the current move
- */
-void einstein_decrease_castling_partner(Side trait_ply);
-
-/* Adjust the castling partner if the current move is a castling
- * @param trait_ply side executing the current move
- */
-void einstein_increase_castling_partner(Side trait_ply);
-
 /* Determine the capturer of the current move (if any)
  * @return departure square of the capturer; initsquare if the current move
  *                   isn't a capture

@@ -28,9 +28,9 @@ typedef unsigned int ghost_index_type;
 
 extern ghost_index_type nr_ghosts;
 
-/* Remember a ghost "below" a square
+/* Remember the ghost from the current capture
  */
-void move_effect_journal_do_remember_ghost(piece removed, Flags removedspec);
+void move_effect_journal_do_remember_ghost(void);
 void move_effect_journal_undo_remember_ghost(move_effect_journal_index_type curr);
 void move_effect_journal_redo_remember_ghost(move_effect_journal_index_type curr);
 
