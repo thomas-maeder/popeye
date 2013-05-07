@@ -406,6 +406,10 @@ static void WriteConditions(int alignment)
         continue;
     }
 
+    if ((cond==whitealphabetic || cond==blackalphabetic)
+        && CondFlag[alphabetic])
+      continue;
+
     /* Write DEFAULT Conditions */
     strcpy(CondLine, CondTab[cond]);
 
@@ -5401,6 +5405,12 @@ static char *ParseCond(void)
       case whiteantisynchron:
       case whsupertrans_king:
       case whforsqu:
+        mummer_strictness[White] = mummer_strictness_regular;
+        tok = ReadNextTokStr();
+        break;
+
+      case alphabetic:
+        mummer_strictness[Black] = mummer_strictness_regular;
         mummer_strictness[White] = mummer_strictness_regular;
         tok = ReadNextTokStr();
         break;

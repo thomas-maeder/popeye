@@ -27,4 +27,12 @@ stip #2
 cond blacksync whiteantisync
 option vari
 
+next
+
+title 4.63 gave 1.Rh3 as mating move
+author Wilfried Seehofer
+pieces white Kf5 Rh8 black Kf3 Rf2 Sg2 Pe2
+condition alphabet
+stipulation #1
+
 end

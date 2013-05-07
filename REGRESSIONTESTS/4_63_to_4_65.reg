@@ -124,3 +124,37 @@ only the anti-synchronous move Rd8-d1 was legal
 solution finished. 
 
 
+
+          Wilfried Seehofer
+    4.63 gave 1.Rh3 as mating move
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   R   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -K   .   .   3
+|                                   |
+2   .   .   .   .  -P  -R  -S   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 4
+           AlphabeticChess
+
+
+                        empile:          22
+                     play_move:           9
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           7
+solution finished. 
+
+
