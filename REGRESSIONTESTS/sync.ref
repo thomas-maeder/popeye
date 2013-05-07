@@ -158,10 +158,10 @@ b) BlackSynchronMover
                                               6...a2-a1=S +
 
 
-                        empile:        1393
-                     play_move:         786
- is_white_king_square_attacked:         401
- is_black_king_square_attacked:         409
+                        empile:        3719
+                     play_move:        2274
+ is_white_king_square_attacked:        1135
+ is_black_king_square_attacked:        1167
 solution finished. 
 
 

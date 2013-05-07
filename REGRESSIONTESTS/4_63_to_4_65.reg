@@ -1,5 +1,6 @@
 
-until 4.63, Popeye indicated Zugzwang
+until 4.63, Popeye indicated Zugzwang because it "thought" that
+another Messigny exchange of the same piece was illegal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -44,6 +45,44 @@ until 4.63, Popeye indicated Zugzwang
                      play_move:        3121
  is_white_king_square_attacked:         277
  is_black_king_square_attacked:        3098
+solution finished. 
+
+
+
+until 4.63, Popeye indicated Zugzwang because it "thought" that
+only the synchronous move h2-h4 was legal
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   K   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6  -P   .   .   R   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+          BlackSynchronMover
+          WhiteSynchronMover
+
+   1.Rd6-d8 ! threat:
+          2.Kc8-c7 #
+
+
+                        empile:         496
+                     play_move:         202
+ is_white_king_square_attacked:          67
+ is_black_king_square_attacked:         165
 solution finished. 
 
 
