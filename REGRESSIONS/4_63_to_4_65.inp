@@ -18,4 +18,13 @@ stip #2
 cond blacksync whitesync
 option vari
 
+next
+
+title until 4.63, Popeye indicated Zugzwang because it "thought" that
+title only the anti-synchronous move Rd8-d1 was legal
+pieces white kc7 rc8d1 black ka7 pa5a6
+stip #2
+cond blacksync whiteantisync
+option vari
+
 end

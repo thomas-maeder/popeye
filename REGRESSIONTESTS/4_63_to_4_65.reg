@@ -86,3 +86,41 @@ only the synchronous move h2-h4 was legal
 solution finished. 
 
 
+
+until 4.63, Popeye indicated Zugzwang because it "thought" that
+only the anti-synchronous move Rd8-d1 was legal
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   R   .   .   .   .   .   8
+|                                   |
+7  -K   .   K   .   .   .   .   .   7
+|                                   |
+6  -P   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   R   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+          BlackSynchronMover
+        WhiteAntiSynchronMover
+
+   1.Rd1-d8 ! threat:
+          2.Rc8-a8 #
+
+
+                        empile:         970
+                     play_move:         366
+ is_white_king_square_attacked:          96
+ is_black_king_square_attacked:         314
+solution finished. 
+
+
