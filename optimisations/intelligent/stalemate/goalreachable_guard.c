@@ -87,14 +87,17 @@ static boolean stalemate_isGoalReachable(void)
       {
         move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
         move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+        square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
         piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+        square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+        piece const pi_arrived = e[sq_arrival];
         unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(pi_departing,
-                                                                                        move_generation_stack[current_move[nbply]].departure,
+                                                                                        sq_departure,
                                                                                         target_position[id].type,
                                                                                         target_position[id].diagram_square);
 
-        unsigned int const time_now = intelligent_count_nr_of_moves_from_to_no_check(e[move_generation_stack[current_move[nbply]].arrival],
-                                                                                     move_generation_stack[current_move[nbply]].arrival,
+        unsigned int const time_now = intelligent_count_nr_of_moves_from_to_no_check(pi_arrived,
+                                                                                     sq_arrival,
                                                                                      target_position[id].type,
                                                                                      target_position[id].diagram_square);
 

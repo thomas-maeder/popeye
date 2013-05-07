@@ -77,23 +77,27 @@ static boolean mate_isGoalReachable(void)
     }
     else
     {
+      move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+      square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
       PieceIdType const id = GetPieceId(spec[move_generation_stack[current_move[nbply]].arrival]);
       MovesRequired[White][nbply] = MovesRequired[White][parent_ply[nbply]];
       MovesRequired[Black][nbply] = MovesRequired[Black][parent_ply[nbply]];
       OpeningsRequired[nbply] = OpeningsRequired[parent_ply[nbply]];
 
-      if (nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].departure]>0)
+      if (nr_reasons_for_staying_empty[sq_departure]>0)
       {
         assert(OpeningsRequired[nbply]>0);
         --OpeningsRequired[nbply];
       }
       if (move_effect_journal[capture].type==move_effect_piece_removal
-          && nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].capture]>0)
+          && nr_reasons_for_staying_empty[sq_capture]>0)
       {
         assert(OpeningsRequired[nbply]>0);
         --OpeningsRequired[nbply];
       }
-      if (nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].arrival]>0)
+      if (nr_reasons_for_staying_empty[sq_arrival]>0)
         ++OpeningsRequired[nbply];
 
       if (target_position[id].diagram_square!=initsquare)
@@ -101,8 +105,8 @@ static boolean mate_isGoalReachable(void)
         unsigned int time_before;
         unsigned int time_now;
         move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-        move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
         piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+        piece const pi_arrived = e[sq_arrival];
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check)
         {
@@ -110,14 +114,14 @@ static boolean mate_isGoalReachable(void)
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
           king_square[Black] = target_position[id_king].diagram_square;
           time_before = intelligent_count_nr_of_moves_from_to_checking(pi_departing,
-                                                                       move_generation_stack[current_move[nbply]].departure,
+                                                                       sq_departure,
                                                                        target_position[id].type,
                                                                        target_position[id].diagram_square);
           king_square[Black] = save_king_square;
         }
         else
           time_before = intelligent_count_nr_of_moves_from_to_no_check(pi_departing,
-                                                                       move_generation_stack[current_move[nbply]].departure,
+                                                                       sq_departure,
                                                                        target_position[id].type,
                                                                        target_position[id].diagram_square);
 
@@ -128,15 +132,15 @@ static boolean mate_isGoalReachable(void)
           square const save_king_square = king_square[Black];
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
           king_square[Black] = target_position[id_king].diagram_square;
-          time_now = intelligent_count_nr_of_moves_from_to_checking(e[move_generation_stack[current_move[nbply]].arrival],
-                                                                    move_generation_stack[current_move[nbply]].arrival,
+          time_now = intelligent_count_nr_of_moves_from_to_checking(pi_arrived,
+                                                                    sq_arrival,
                                                                     target_position[id].type,
                                                                     target_position[id].diagram_square);
           king_square[Black] = save_king_square;
         }
         else
-          time_now = intelligent_count_nr_of_moves_from_to_no_check(e[move_generation_stack[current_move[nbply]].arrival],
-                                                                    move_generation_stack[current_move[nbply]].arrival,
+          time_now = intelligent_count_nr_of_moves_from_to_no_check(pi_arrived,
+                                                                    sq_arrival,
                                                                     target_position[id].type,
                                                                     target_position[id].diagram_square);
 

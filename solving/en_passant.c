@@ -107,7 +107,7 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
 
   if (is_pawn(abs(pi_moving))
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
-    adjust_ep_squares(move_generation_stack[current_move[nbply]].departure);
+    adjust_ep_squares(move_effect_journal[movement].u.piece_movement.from);
 
   result = solve(slices[si].next1,n);
 

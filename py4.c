@@ -154,8 +154,16 @@ int len_capt(square sq_departure, square sq_arrival, square sq_capture)
   return move_effect_journal[capture].type==move_effect_piece_removal;
 }
 
-int len_follow(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_arrival == move_generation_stack[current_move[parent_ply[nbply]]].departure);
+int len_follow(square sq_departure, square sq_arrival, square sq_capture)
+{
+  ply const parent = parent_ply[nbply];
+  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+  move_effect_journal_index_type const movement = parent_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
+  if (movement<parent_top)
+    return sq_arrival==move_effect_journal[movement].u.piece_movement.from;
+  else
+    return true;
 }
 
 int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
@@ -170,16 +178,40 @@ int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
   return -((sq_departure/onerow) + onerow*(sq_departure%onerow));
 }
 
-int len_synchron(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_departure-sq_arrival
-          == (move_generation_stack[current_move[parent_ply[nbply]]].departure
-              - move_generation_stack[current_move[parent_ply[nbply]]].arrival));
+int len_synchron(square sq_departure, square sq_arrival, square sq_capture)
+{
+  ply const parent = parent_ply[nbply];
+  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+  move_effect_journal_index_type const movement = parent_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
+  if (movement<parent_top)
+  {
+    square const sq_parent_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const sq_parent_arrival = move_effect_journal[movement].u.piece_movement.to;
+    numvec const parent_diff = sq_parent_departure-sq_parent_arrival;
+    numvec const diff = sq_departure-sq_arrival;
+    return diff==parent_diff;
+  }
+  else
+    return true;
 }
 
-int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_arrival-sq_departure
-          == (move_generation_stack[current_move[parent_ply[nbply]]].departure
-              - move_generation_stack[current_move[parent_ply[nbply]]].arrival));
+int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture)
+{
+  ply const parent = parent_ply[nbply];
+  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+  move_effect_journal_index_type const movement = parent_base+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
+  if (movement<parent_top)
+  {
+    square const sq_parent_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const sq_parent_arrival = move_effect_journal[movement].u.piece_movement.to;
+    numvec const parent_diff = sq_parent_departure-sq_parent_arrival;
+    numvec const diff = sq_departure-sq_arrival;
+    return diff==-parent_diff;
+  }
+  else
+    return true;
 }
 
 int len_whforcedsquare(square sq_departure,

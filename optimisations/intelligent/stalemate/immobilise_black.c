@@ -153,8 +153,8 @@ boolean intelligent_stalemate_immobilise_black(void)
 
 static void update_leaper_requirement(immobilisation_requirement_type if_unblockable)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   boolean const is_block_possible = (move_effect_journal[capture].type==move_effect_no_piece_removal
                                      && nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].arrival]==0
                                      && *where_to_start_placing_black_pieces<=move_generation_stack[current_move[nbply]].arrival);
@@ -168,14 +168,19 @@ static void update_leaper_requirement(immobilisation_requirement_type if_unblock
 
 static void update_rider_requirement(immobilisation_requirement_type if_unblockable)
 {
-  int const diff = (move_generation_stack[current_move[nbply]].arrival
-                    -move_generation_stack[current_move[nbply]].departure);
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  int const diff = sq_arrival-sq_departure;
   int const dir = CheckDir[Queen][diff];
   if (diff==dir)
   {
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-    move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-    square const closest_flight = move_generation_stack[current_move[nbply]].departure+dir;
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+    square const closest_flight = sq_departure+dir;
     boolean const is_block_possible = (move_effect_journal[capture].type==move_effect_no_piece_removal
                                        && nr_reasons_for_staying_empty[closest_flight]==0
                                        && *where_to_start_placing_black_pieces<=closest_flight);
@@ -190,8 +195,11 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
 
 static void update_pawn_requirement(void)
 {
-  int const diff = (move_generation_stack[current_move[nbply]].arrival
-                    -move_generation_stack[current_move[nbply]].departure);
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  int const diff = sq_arrival-sq_departure;
   switch (diff)
   {
     case dir_down:
@@ -199,9 +207,9 @@ static void update_pawn_requirement(void)
        * the same square to closest_flights more than once */
       if (current_state->current.requirement==no_requirement)
       {
-        if (nr_reasons_for_staying_empty[move_generation_stack[current_move[nbply]].arrival]==0)
+        if (nr_reasons_for_staying_empty[sq_arrival]==0)
         {
-          current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[current_move[nbply]].arrival;
+          current_state->current.closest_flights[current_state->current.nr_flight_directions] = sq_arrival;
           ++current_state->current.nr_flight_directions;
           current_state->current.requirement = block_of_pawn_required;
         }
@@ -243,8 +251,9 @@ stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
@@ -252,11 +261,11 @@ stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[current_move[nbply]].departure!=current_state->current.target_square)
+  if (sq_departure!=current_state->current.target_square)
   {
     next_trouble_maker();
     current_state->current = null_trouble_maker;
-    current_state->current.target_square = move_generation_stack[current_move[nbply]].departure;
+    current_state->current.target_square = sq_departure;
   }
 
   switch (pi_departing)

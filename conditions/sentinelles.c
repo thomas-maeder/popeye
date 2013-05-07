@@ -15,12 +15,12 @@ unsigned int sentinelles_max_nr_pawns_total;
 
 static void insert_sentinelle(Side trait_ply)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   piece const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
   SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);

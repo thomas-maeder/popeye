@@ -2,10 +2,20 @@ begin
 
 protocol 4_63_to_4_65.reg
 
-title until 4.63, Popeye indicated Zugzwang
+title until 4.63, Popeye indicated Zugzwang because it "thought" that
+title another Messigny exchange of the same piece was illegal
 pieces white kh8 rf8 be8 sd7a5 black ka8 bh1h6 pa6a7
 condition messigny nocapt
 stipulation exact-#2
+option vari
+
+next
+
+title until 4.63, Popeye indicated Zugzwang because it "thought" that
+title only the synchronous move h2-h4 was legal
+pieces white kc8 rd6 ph2 black ka8 pa6a7
+stip #2
+cond blacksync whitesync
 option vari
 
 end
