@@ -843,8 +843,6 @@ Until 4.61, a=>b stipulations weren't correctly solved
 +---a---b---c---d---e---f---g---h---+
   a=>b2                  0 + 0 + 2n
            AlphabeticChess
-         WhiteAlphabeticChess
-         BlackAlphabeticChess
 
 Initial (Black ->):
 
@@ -872,13 +870,11 @@ Until 4.61, a=>b stipulations weren't correctly solved
 +---a---b---c---d---e---f---g---h---+
   a=>b2                  0 + 0 + 2n
            AlphabeticChess
-         WhiteAlphabeticChess
-         BlackAlphabeticChess
 
   1.nSa1-b3 nSa8-b6   2.nSb3-c1 nSb6-c8 a=>b
 
                         empile:         330
-                     play_move:         146
+                     play_move:         195
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
