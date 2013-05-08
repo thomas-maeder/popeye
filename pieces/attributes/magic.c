@@ -30,20 +30,19 @@ static magicview_type magicviews[magicviews_size];
 
 unsigned int magic_views_top[maxply + 1];
 
-static void PushMagicView(square pos_viewed, PieceIdType viewedid, PieceIdType magicpieceid, numvec vec_viewed_to_magic)
+static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed_to_magic)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(pos_viewed);
-  TraceValue("%u",viewedid);
-  TraceValue("%u",magicpieceid);
+  TraceSquare(pos_magic);
   TraceValue("%d",vec_viewed_to_magic);
   TraceFunctionParamListEnd();
 
   assert(magic_views_top[nbply]<magicviews_size);
 
   magicviews[magic_views_top[nbply]].pos_viewed = pos_viewed;
-  magicviews[magic_views_top[nbply]].viewedid = viewedid;
-  magicviews[magic_views_top[nbply]].magicpieceid = magicpieceid;
+  magicviews[magic_views_top[nbply]].viewedid = GetPieceId(spec[pos_viewed]);
+  magicviews[magic_views_top[nbply]].magicpieceid = GetPieceId(spec[pos_magic]);
   magicviews[magic_views_top[nbply]].vec_viewed_to_magic = vec_viewed_to_magic;
   ++magic_views_top[nbply];
 
@@ -62,11 +61,11 @@ void GetRoseAttackVectors(square from, square to)
     if (detect_rosecheck_on_line(to,e[from],
                                  vec_index_start,0,rose_rotation_clockwise,
                                  eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
+      PushMagicView(to, from, 200+vec[vec_index_start] );
     if (detect_rosecheck_on_line(to,e[from],
                                  vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                  eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
+      PushMagicView(to, from, 300+vec[vec_index_start]);
   }
 }
 
@@ -78,11 +77,11 @@ void GetRoseLionAttackVectors(square from, square to)
     if (detect_roselioncheck_on_line(to,e[from],
                                      vec_index_start,0,rose_rotation_clockwise,
                                      eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
+      PushMagicView(to, from, 200+vec[vec_index_start] );
     if (detect_roselioncheck_on_line(to,e[from],
                                         vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                         eval_fromspecificsquare))
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
+      PushMagicView(to, from, 300+vec[vec_index_start]);
   }
 }
 
@@ -101,11 +100,11 @@ void GetRoseHopperAttackVectors(square from, square to)
       if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
                                          vec_index_start,1,rose_rotation_clockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
+        PushMagicView(to, from, 200+vec[vec_index_start] );
       if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
                                          vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
+        PushMagicView(to, from, 300+vec[vec_index_start]);
     }
   }
 }
@@ -126,11 +125,11 @@ void GetRoseLocustAttackVectors(square from, square to)
       if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
                                          vec_index_start,1,rose_rotation_clockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[vec_index_start] );
+        PushMagicView(to, from, 200+vec[vec_index_start] );
       if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
                                          vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          eval_fromspecificsquare))
-        PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[vec_index_start]);
+        PushMagicView(to, from, 300+vec[vec_index_start]);
     }
   }
 }
@@ -152,12 +151,12 @@ static void GetRMHopAttackVectors(square from, square to,
       finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==e[from]) {
         if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[k] );
+          PushMagicView(to, from, vec[k] );
       }
       finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
       if (hopper==e[from]) {
         if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[k] );
+          PushMagicView(to, from, vec[k] );
       }
     }
   }
@@ -219,7 +218,7 @@ void GetMargueriteAttackVectors(square from, square to)
     else
       attackVec = -move_vec_code[to - from];
     if (attackVec)
-      PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), attackVec);
+      PushMagicView(to, from, attackVec);
   }
 }
 
@@ -242,7 +241,7 @@ static void GetZigZagAttackVectors(square from, square to,
 
   if (e[sq_departure]==e[from]
       && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[500+k] );
+    PushMagicView(to, from, vec[500+k] );
 
   sq_departure = to+k;
   while (e[sq_departure]==vide)
@@ -256,7 +255,7 @@ static void GetZigZagAttackVectors(square from, square to,
 
   if (e[sq_departure]==e[from]
       && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagicView(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[400+k] );
+    PushMagicView(to, from, vec[400+k] );
 }
 
 void GetBoyscoutAttackVectors(square from, square to) {
@@ -469,10 +468,8 @@ static void PushMagicViews(void)
   for (pos_magic = boardnum; *pos_magic; pos_magic++)
     if (TSTFLAG(spec[*pos_magic], Magic))
     {
-      /* for each magic piece */
-      piece const p = e[*pos_magic];
-      Side const viewed = p<=roin ? White : Black;
-      square const save_king_square = king_square[viewed];
+      piece const pi_magic = e[*pos_magic];
+
       square const *pos_viewed;
       for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
         if (abs(e[*pos_viewed])>obs
@@ -481,18 +478,16 @@ static void PushMagicViews(void)
         {
           /* for each non-magic piece
              (n.b. check *pos_magic != *pos_viewed redundant above) */
-          king_square[viewed] = *pos_viewed;
-
-          if (attackfunctions[abs(p)])
+          if (attackfunctions[abs(pi_magic)])
             /* call special function to determine all attacks */
-            (*attackfunctions[abs(p)])(*pos_magic,*pos_viewed);
+            (*attackfunctions[abs(pi_magic)])(*pos_magic,*pos_viewed);
           else
           {
             /* if single solve at most */
             fromspecificsquare = *pos_magic;
-            if ((*checkfunctions[abs(p)])(*pos_viewed,
-                                          p,
-                                          eval_fromspecificsquare))
+            if ((*checkfunctions[abs(pi_magic)])(*pos_viewed,
+                                                 pi_magic,
+                                                 eval_fromspecificsquare))
             {
               numvec vec_viewed_to_magic;
               if (*pos_viewed<*pos_magic)
@@ -500,15 +495,10 @@ static void PushMagicViews(void)
               else
                 vec_viewed_to_magic = -move_vec_code[*pos_viewed-*pos_magic];
               if (vec_viewed_to_magic!=0)
-                PushMagicView(*pos_viewed,
-                              GetPieceId(spec[*pos_viewed]),
-                              GetPieceId(spec[*pos_magic]),
-                              vec_viewed_to_magic);
+                PushMagicView(*pos_viewed,*pos_magic,vec_viewed_to_magic);
             }
           }
         }
-
-      king_square[viewed] = save_king_square;
     }
 
   TraceValue("%u",nbply);
