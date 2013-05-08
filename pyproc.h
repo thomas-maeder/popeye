@@ -60,7 +60,6 @@ void    WriteGrid(void);
 
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
 typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
-typedef void (attackfunction_t)(square, square);
 
 checkfunction_t pawnedpiececheck;
 
@@ -417,25 +416,5 @@ boolean detect_roselocustcheck_on_line(square sq_king,
 extern square fromspecificsquare;
 
 boolean eval_fromspecificsquare(square departure, square arrival, square capture);
-
-attackfunction_t GetRoseAttackVectors;
-attackfunction_t GetRoseLionAttackVectors;
-attackfunction_t GetRoseHopperAttackVectors;
-attackfunction_t GetRoseLocustAttackVectors;
-attackfunction_t GetMooseAttackVectors;
-attackfunction_t GetRookMooseAttackVectors;
-attackfunction_t GetBishopMooseAttackVectors;
-attackfunction_t GetEagleAttackVectors;
-attackfunction_t GetRookEagleAttackVectors;
-attackfunction_t GetBishopEagleAttackVectors;
-attackfunction_t GetSparrowAttackVectors;
-attackfunction_t GetRookSparrowAttackVectors;
-attackfunction_t GetBishopSparrowAttackVectors;
-attackfunction_t unsupported_uncalled_attackfunction;
-attackfunction_t GetMargueriteAttackVectors;
-attackfunction_t GetBoyscoutAttackVectors;
-attackfunction_t GetGirlscoutAttackVectors;
-attackfunction_t GetSpiralSpringerAttackVectors;
-attackfunction_t GetDiagonalSpiralSpringerAttackVectors;
 
 #endif  /* PYPROC_H */

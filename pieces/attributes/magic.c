@@ -258,39 +258,48 @@ static void GetZigZagAttackVectors(square from, square to,
     PushMagicView(to, from, vec[400+k] );
 }
 
-void GetBoyscoutAttackVectors(square from, square to) {
+void GetBoyscoutAttackVectors(square from, square to)
+{
+  vec_index_type const top = vec_bishop_start+vec_bishop_end;
   vec_index_type k;
 
-  for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[13 - k]);
+  for (k = vec_bishop_start; k<=vec_bishop_end; k++)
+    GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
 }
 
-void GetGirlscoutAttackVectors(square from, square to) {
+void GetGirlscoutAttackVectors(square from, square to)
+{
+  vec_index_type const top = vec_rook_start+vec_rook_end;
   vec_index_type k;
 
-  for (k= vec_rook_start; k <= vec_rook_end; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[5 - k]);
+  for (k = vec_rook_start; k<=vec_rook_end; k++)
+    GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
 }
 
-void GetSpiralSpringerAttackVectors(square from, square to) {
+void GetSpiralSpringerAttackVectors(square from, square to)
+{
+  vec_index_type const top = vec_knight_start+vec_knight_end;
   vec_index_type k;
 
-  for (k= vec_knight_start; k <= vec_knight_end; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[25 - k]);
+  for (k = vec_knight_start; k<=vec_knight_end; k++)
+    GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
 }
 
 void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
   vec_index_type k;
 
-  for (k= vec_knight_start; k <= 14; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[23 - k]);
-  for (k= 15; k <= vec_knight_end; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[27 - k]);
+  for (k = vec_knight_start; k<=vec_knight_end; k += 2)
+  {
+    GetZigZagAttackVectors(from, to, vec[k],vec[k+1]);
+    GetZigZagAttackVectors(from, to, vec[k+1],vec[k]);
+  }
 }
 
 /* should never get called if validation works
 (disallow magic + piecetype) */
-void unsupported_uncalled_attackfunction(square from, square to) {}
+void unsupported_uncalled_crosseyed_function(square from, square to) {}
+
+typedef void (*crosseyed_views_function_t)(square, square);
 
 /* magic pieces -
 for most types a magic piece of that type can only
@@ -302,9 +311,9 @@ More complicated types can solve from more than one direction and need
 special functions listed below to calculate each potential direction.
 
 Unsupported types are listed below with the entry
-unsupported_uncalled_attackfunction
+unsupported_uncalled_crosseyed_function
 */
-static attackfunction_t *attackfunctions[PieceCount] = {
+static crosseyed_views_function_t crosseyed_views_functions[PieceCount] = {
 /*  0 */        0, /* not used */
 /*  1 */        0, /* not used */
 /*  2 */        0,
@@ -317,7 +326,7 @@ static attackfunction_t *attackfunctions[PieceCount] = {
 /*  9 */        0,
 /* 10 */        0,
 /* 11 */        0,
-/* 12 */        GetRoseAttackVectors,
+/* 12 */        &GetRoseAttackVectors,
 /* 13 */        0,
 /* 14 */        0,
 /* 15 */        0,
@@ -342,15 +351,15 @@ static attackfunction_t *attackfunctions[PieceCount] = {
 /* 34 */        0,
 /* 35 */        0,
 /* 36 */        0,
-/* 37 */        GetSpiralSpringerAttackVectors,
-/* 38 */        unsupported_uncalled_attackfunction, /* ubiubi */
+/* 37 */        &GetSpiralSpringerAttackVectors,
+/* 38 */        &unsupported_uncalled_crosseyed_function, /* ubiubi */
 /* 39 */        0,
-/* 40 */        GetMooseAttackVectors,
-/* 41 */        GetEagleAttackVectors,
-/* 42 */        GetSparrowAttackVectors,
-/* 43 */        unsupported_uncalled_attackfunction,  /* archbishop */
-/* 44 */        unsupported_uncalled_attackfunction, /* ref B */
-/* 45 */        unsupported_uncalled_attackfunction, /* cardinal */
+/* 40 */        &GetMooseAttackVectors,
+/* 41 */        &GetEagleAttackVectors,
+/* 42 */        &GetSparrowAttackVectors,
+/* 43 */        &unsupported_uncalled_crosseyed_function,  /* archbishop */
+/* 44 */        &unsupported_uncalled_crosseyed_function, /* ref B */
+/* 45 */        &unsupported_uncalled_crosseyed_function, /* cardinal */
 /* 46 */        0,
 /* 47 */        0,
 /* 48 */        0,
@@ -359,10 +368,10 @@ static attackfunction_t *attackfunctions[PieceCount] = {
 /* 51 */        0,
 /* 52 */        0,
 /* 53 */        0,
-/* 54 */        GetDiagonalSpiralSpringerAttackVectors,
-/* 55 */        unsupported_uncalled_attackfunction, /* bouncy knight */
+/* 54 */        &GetDiagonalSpiralSpringerAttackVectors,
+/* 55 */        &unsupported_uncalled_crosseyed_function, /* bouncy knight */
 /* 56 */        0,
-/* 57 */        unsupported_uncalled_attackfunction, /* cat */
+/* 57 */        &unsupported_uncalled_crosseyed_function, /* cat */
 /* 58 */        0,
 /* 59 */        0,
 /* 60 */        0,
@@ -370,7 +379,7 @@ static attackfunction_t *attackfunctions[PieceCount] = {
 /* 62 */        0,
 /* 63 */        0,
 /* 64 */        0,
-/* 65 */        unsupported_uncalled_attackfunction,  /* orphan */
+/* 65 */        &unsupported_uncalled_crosseyed_function,  /* orphan */
 /* 66 */        0,
 /* 67 */        0,
 /* 68 */        0,
@@ -380,13 +389,13 @@ static attackfunction_t *attackfunctions[PieceCount] = {
 /* 72 */        0,
 /* 73 */        0,
 /* 74 */        0,
-/* 75 */        GetBoyscoutAttackVectors, /* boyscout */
-/* 76 */        GetGirlscoutAttackVectors, /* girlscout */
+/* 75 */        &GetBoyscoutAttackVectors, /* boyscout */
+/* 76 */        &GetGirlscoutAttackVectors, /* girlscout */
 /* 77 */        0, /* skylla - depends on vacant sq?? */
 /* 78 */        0, /* charybdis - depends on vacant sq?? */
 /* 79 */        0,
-/* 80 */        GetRoseLionAttackVectors,
-/* 81 */        GetRoseHopperAttackVectors,
+/* 80 */        &GetRoseLionAttackVectors,
+/* 81 */        &GetRoseHopperAttackVectors,
 /* 82 */        0,
 /* 83 */        0,
 /* 84 */        0,
@@ -408,20 +417,20 @@ static attackfunction_t *attackfunctions[PieceCount] = {
 /*100 */        0,
 /*101 */        0,
 /*102 */        0,
-/*103 */        GetRookMooseAttackVectors,
-/*104 */        GetRookEagleAttackVectors,
-/*105 */        GetRookSparrowAttackVectors,
-/*106 */        GetBishopMooseAttackVectors,
-/*107 */        GetBishopEagleAttackVectors,
-/*108 */        GetBishopSparrowAttackVectors,
-/*109 */        GetRoseLionAttackVectors,   /* rao checks like roselion */
+/*103 */        &GetRookMooseAttackVectors,
+/*104 */        &GetRookEagleAttackVectors,
+/*105 */        &GetRookSparrowAttackVectors,
+/*106 */        &GetBishopMooseAttackVectors,
+/*107 */        &GetBishopEagleAttackVectors,
+/*108 */        &GetBishopSparrowAttackVectors,
+/*109 */        &GetRoseLionAttackVectors,   /* rao checks like roselion */
 /*110 */        0,
-/*111 */        GetMargueriteAttackVectors, /* = G+M+EA+SW; magic - believe ok to treat as combination of these */
+/*111 */        &GetMargueriteAttackVectors, /* = G+M+EA+SW; magic - believe ok to treat as combination of these */
 /*112 */        0,
 /*113 */        0,
 /*114 */        0,
 /*115 */        0,
-/*116 */        unsupported_uncalled_attackfunction,    /*friend*/
+/*116 */        &unsupported_uncalled_crosseyed_function,    /*friend*/
 /*117 */        0,  /* dolphin - do g, g2 count as different vectors? */
 /*118 */        0,
 /*119 */        0,
@@ -432,19 +441,19 @@ static attackfunction_t *attackfunctions[PieceCount] = {
 /*124 */  0,
 /*125 */  0,
 /*126 */  0,
-/*127 */  unsupported_uncalled_attackfunction, /*radial k*/
+/*127 */  &unsupported_uncalled_crosseyed_function, /*radial k*/
 /*128 */  0,
-/*129 */  GetRoseLocustAttackVectors,
-/*130 */  unsupported_uncalled_attackfunction,
-/*131 */  unsupported_uncalled_attackfunction,
-/*132 */  unsupported_uncalled_attackfunction,
-/*133 */  unsupported_uncalled_attackfunction,
-/*134 */  unsupported_uncalled_attackfunction,
-/*135 */  unsupported_uncalled_attackfunction,
-/*136 */  unsupported_uncalled_attackfunction,
-/*137 */  unsupported_uncalled_attackfunction,
-/*138 */  unsupported_uncalled_attackfunction,
-/*139 */  unsupported_uncalled_attackfunction
+/*129 */  &GetRoseLocustAttackVectors,
+/*130 */  &unsupported_uncalled_crosseyed_function,
+/*131 */  &unsupported_uncalled_crosseyed_function,
+/*132 */  &unsupported_uncalled_crosseyed_function,
+/*133 */  &unsupported_uncalled_crosseyed_function,
+/*134 */  &unsupported_uncalled_crosseyed_function,
+/*135 */  &unsupported_uncalled_crosseyed_function,
+/*136 */  &unsupported_uncalled_crosseyed_function,
+/*137 */  &unsupported_uncalled_crosseyed_function,
+/*138 */  &unsupported_uncalled_crosseyed_function,
+/*139 */  &unsupported_uncalled_crosseyed_function
 };
 
 /* Can a specific type of (fairy) piece be magic?
@@ -453,7 +462,7 @@ static attackfunction_t *attackfunctions[PieceCount] = {
  */
 boolean magic_is_piece_supported(PieNam p)
 {
-  return attackfunctions[p]!=unsupported_uncalled_attackfunction;
+  return crosseyed_views_functions[p]!=&unsupported_uncalled_crosseyed_function;
 }
 
 static void PushMagicViews(void)
@@ -478,12 +487,12 @@ static void PushMagicViews(void)
         {
           /* for each non-magic piece
              (n.b. check *pos_magic != *pos_viewed redundant above) */
-          if (attackfunctions[abs(pi_magic)])
-            /* call special function to determine all attacks */
-            (*attackfunctions[abs(pi_magic)])(*pos_magic,*pos_viewed);
+          if (crosseyed_views_functions[abs(pi_magic)]!=0)
+            /* call special function to push all views by cross-eyed pieces */
+            (*crosseyed_views_functions[abs(pi_magic)])(*pos_magic,*pos_viewed);
           else
           {
-            /* if single solve at most */
+            /* piece is not cross-eyed - use regular check function */
             fromspecificsquare = *pos_magic;
             if ((*checkfunctions[abs(pi_magic)])(*pos_viewed,
                                                  pi_magic,
