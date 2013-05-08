@@ -158,3 +158,39 @@ solution finished.
 solution finished. 
 
 
+
+           Dmitri Turevski
+4.63 indicated 1.Bg4-h3 # because it forgot to recolor the bishop
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -R  -P   5
+|                                   |
+4   .   .   K   .   .   .  -B  -R   4
+|                                   |
+3   .   .   .   .   .  -P   .   .   3
+|                                   |
+2   .   .  -K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          1 + 7
+             Magic g5 h4
+              AntiCirce
+              HalfDuplex
+
+
+                        empile:         416
+                     play_move:         242
+ is_white_king_square_attacked:          39
+ is_black_king_square_attacked:           6
+solution finished. 
+
+

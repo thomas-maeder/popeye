@@ -1469,8 +1469,8 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
    1.mPe6-e7 + !
 
 
-                        empile:         817
-                     play_move:         824
+                        empile:         843
+                     play_move:         858
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          48
 solution finished. 

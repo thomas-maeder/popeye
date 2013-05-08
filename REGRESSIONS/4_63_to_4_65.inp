@@ -35,4 +35,15 @@ pieces white Kf5 Rh8 black Kf3 Rf2 Sg2 Pe2
 condition alphabet
 stipulation #1
 
+next
+
+title 4.63 indicated 1.Bg4-h3 # because it forgot to recolor the bishop
+author Dmitri Turevski
+Stipulation #1
+Option  HalfDuplex
+Pieces white  Kc4
+       black  Ph5f3e6 Kc2 Bg4
+       black Magic rg5h4
+Condition Anticirce
+
 end

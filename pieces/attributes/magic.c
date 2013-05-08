@@ -20,29 +20,31 @@ enum
 
 typedef struct
 {
-  square piecesquare;
-  int pieceid;
-  int magicpieceid;
-  numvec vecnum;
+  square pos_viewed;
+  PieceIdType viewedid;
+  PieceIdType magicpieceid;
+  numvec vec_viewed_to_magic;
 } magicview_type;
 
 static magicview_type magicviews[magicviews_size];
 
 unsigned int magic_views_top[maxply + 1];
 
-static void PushMagicView(square sq, PieceIdType id1, PieceIdType id2, numvec v)
+static void PushMagicView(square pos_viewed, PieceIdType viewedid, PieceIdType magicpieceid, numvec vec_viewed_to_magic)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq);
-  TraceValue("%d",v);
+  TraceSquare(pos_viewed);
+  TraceValue("%u",viewedid);
+  TraceValue("%u",magicpieceid);
+  TraceValue("%d",vec_viewed_to_magic);
   TraceFunctionParamListEnd();
 
   assert(magic_views_top[nbply]<magicviews_size);
 
-  magicviews[magic_views_top[nbply]].piecesquare = sq;
-  magicviews[magic_views_top[nbply]].pieceid = id1;
-  magicviews[magic_views_top[nbply]].magicpieceid = id2;
-  magicviews[magic_views_top[nbply]].vecnum = v;
+  magicviews[magic_views_top[nbply]].pos_viewed = pos_viewed;
+  magicviews[magic_views_top[nbply]].viewedid = viewedid;
+  magicviews[magic_views_top[nbply]].magicpieceid = magicpieceid;
+  magicviews[magic_views_top[nbply]].vec_viewed_to_magic = vec_viewed_to_magic;
   ++magic_views_top[nbply];
 
   TraceValue("%u",nbply);
@@ -457,58 +459,56 @@ boolean magic_is_piece_supported(PieNam p)
 
 static void PushMagicViews(void)
 {
-  square const *bnp;
+  square const *pos_magic;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   magic_views_top[nbply] = magic_views_top[nbply-1];
 
-  for (bnp = boardnum; *bnp; bnp++)
-    if (TSTFLAG(spec[*bnp], Magic))
+  for (pos_magic = boardnum; *pos_magic; pos_magic++)
+    if (TSTFLAG(spec[*pos_magic], Magic))
     {
       /* for each magic piece */
-      piece const p = e[*bnp];
-      square * const royal = p<=roin ? &king_square[White] : &king_square[Black];
-      square const royal_save = *royal;
-      square const *bnp1;
-      for (bnp1 = boardnum; *bnp1; bnp1++)
-      {
-        if (abs(e[*bnp1])>obs
-            && !TSTFLAG(spec[*bnp1],Magic)
-            && !TSTFLAG(spec[*bnp1],Royal))
+      piece const p = e[*pos_magic];
+      Side const viewed = p<=roin ? White : Black;
+      square const save_king_square = king_square[viewed];
+      square const *pos_viewed;
+      for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
+        if (abs(e[*pos_viewed])>obs
+            && !TSTFLAG(spec[*pos_viewed],Magic)
+            && !TSTFLAG(spec[*pos_viewed],Royal))
         {
           /* for each non-magic piece
-             (n.b. check *bnp != *bnp1 redundant above) */
-          *royal = *bnp1;
+             (n.b. check *pos_magic != *pos_viewed redundant above) */
+          king_square[viewed] = *pos_viewed;
 
           if (attackfunctions[abs(p)])
             /* call special function to determine all attacks */
-            (*attackfunctions[abs(p)])(*bnp,*royal);
+            (*attackfunctions[abs(p)])(*pos_magic,*pos_viewed);
           else
           {
             /* if single solve at most */
-            fromspecificsquare = *bnp;
-            if ((*checkfunctions[abs(p)])(*royal,
+            fromspecificsquare = *pos_magic;
+            if ((*checkfunctions[abs(p)])(*pos_viewed,
                                           p,
                                           eval_fromspecificsquare))
             {
-              numvec attackVec;
-              if (*royal<*bnp)
-                attackVec = move_vec_code[*bnp-*royal];
+              numvec vec_viewed_to_magic;
+              if (*pos_viewed<*pos_magic)
+                vec_viewed_to_magic = move_vec_code[*pos_magic-*pos_viewed];
               else
-                attackVec = -move_vec_code[*royal-*bnp];
-              if (attackVec!=0)
-                PushMagicView(*royal,
-                              GetPieceId(spec[*royal]),
-                              GetPieceId(spec[fromspecificsquare]),
-                              attackVec);
+                vec_viewed_to_magic = -move_vec_code[*pos_viewed-*pos_magic];
+              if (vec_viewed_to_magic!=0)
+                PushMagicView(*pos_viewed,
+                              GetPieceId(spec[*pos_viewed]),
+                              GetPieceId(spec[*pos_magic]),
+                              vec_viewed_to_magic);
             }
           }
         }
-      }
 
-      *royal= royal_save;
+      king_square[viewed] = save_king_square;
     }
 
   TraceValue("%u",nbply);
@@ -520,9 +520,9 @@ static void PushMagicViews(void)
 
 static boolean find_view(ply ply_id, int j)
 {
-  int const currid = magicviews[j].pieceid;
-  int const currmagid = magicviews[j].magicpieceid;
-  numvec const currvec = magicviews[j].vecnum;
+  PieceIdType const currid = magicviews[j].viewedid;
+  PieceIdType const magicpieceid = magicviews[j].magicpieceid;
+  numvec const vec_viewed_to_magic = magicviews[j].vec_viewed_to_magic;
   boolean result = false;
   unsigned int k;
 
@@ -531,15 +531,25 @@ static boolean find_view(ply ply_id, int j)
   TraceFunctionParam("%d",j);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",magicviews[j].viewedid);
+  TraceValue("%u",magicviews[j].magicpieceid);
+  TraceValue("%d\n",magicviews[j].vec_viewed_to_magic);
+
+  TraceValue("%u",magic_views_top[ply_id-1]);
+  TraceValue("%u\n",magic_views_top[ply_id]);
   for (k = magic_views_top[ply_id-1]; k<magic_views_top[ply_id]; ++k)
-    if (magicviews[k].pieceid==currid
-        && magicviews[k].magicpieceid==currmagid
-        && magicviews[k].vecnum==currvec)
+  {
+    TraceValue("%u",magicviews[k].viewedid);
+    TraceValue("%u",magicviews[k].magicpieceid);
+    TraceValue("%d\n",magicviews[k].vec_viewed_to_magic);
+    if (magicviews[k].viewedid==currid
+        && magicviews[k].magicpieceid==magicpieceid
+        && magicviews[k].vec_viewed_to_magic==vec_viewed_to_magic)
     {
       result = true;
       break;
     }
-
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -556,8 +566,11 @@ static unsigned int count_changed_views(square sq_viewed)
   TraceSquare(sq_viewed);
   TraceFunctionParamListEnd();
 
-  for (i = magic_views_top[nbply-1]; i<magic_views_top[nbply]; i++)
-    if (magicviews[i].piecesquare==sq_viewed && !find_view(parent_ply[nbply],i))
+  TraceValue("%u",nbply);
+  TraceValue("%u",magic_views_top[nbply-1]);
+  TraceValue("%u\n",magic_views_top[nbply]);
+  for (i = magic_views_top[nbply-1]; i<magic_views_top[nbply]; ++i)
+    if (magicviews[i].pos_viewed==sq_viewed && !find_view(parent_ply[nbply],i))
       ++result;
 
   TraceFunctionExit(__func__);
@@ -680,13 +693,13 @@ static void WriteMagicViews(int ply)
   for (i= magictop[parent_ply[ply]]; i < magictop[ply]; i++)
   {
     char buf[10];
-    WriteSquare(magicviews[i].piecesquare);
+    WriteSquare(magicviews[i].pos_viewed);
     StdChar(' ');
-    WriteSquare(magicviews[i].pieceid);
+    WriteSquare(magicviews[i].viewedid);
     StdChar(' ');
     WriteSquare(magicviews[i].magicpieceid);
     StdChar(' ');
-    sprintf(buf, "%i", magicviews[i].vecnum);
+    sprintf(buf, "%i", magicviews[i].vec_viewed_to_magic);
     StdString(buf);
     StdChar('\n');
   }
