@@ -331,132 +331,132 @@ boolean rcspech(square  sq_king,
   return false;
 }
 
-boolean nevercheck(square  i,
+boolean nevercheck(square  sq_king,
                    piece   p,
                    evalfunction_t *evaluate)
 {
   return false;
 }
 
-boolean cscheck(square  i,
+boolean cscheck(square  sq_king,
                 piece   p,
                 evalfunction_t *evaluate)
 {
   vec_index_type k;
 
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    if (rcsech(i, vec[k], vec[25 - k], p, evaluate)) {
+    if (rcsech(sq_king, vec[k], vec[25 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean bscoutcheck(square  i,
+boolean bscoutcheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
   vec_index_type k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rcsech(i, vec[k], vec[13 - k], p, evaluate)) {
+    if (rcsech(sq_king, vec[k], vec[13 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean gscoutcheck(square  i,
+boolean gscoutcheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
   vec_index_type k;
 
   for (k= vec_rook_end; k >= vec_rook_start; k--) {
-    if (rcsech(i, vec[k], vec[5 - k], p, evaluate)) {
+    if (rcsech(sq_king, vec[k], vec[5 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean sp40check(square  i,
+boolean sp40check(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  return rcspech(i, 9, 16, p, evaluate) ||
-         rcspech(i, 10, 11, p, evaluate) ||
-         rcspech(i, 11, 10, p, evaluate) ||
-         rcspech(i, 12, 13, p, evaluate) ||
-         rcspech(i, 13, 12, p, evaluate) ||
-         rcspech(i, 14, 15, p, evaluate) ||
-         rcspech(i, 15, 14, p, evaluate) ||
-         rcspech(i, 16, 9, p, evaluate);
+  return rcspech(sq_king, 9, 16, p, evaluate) ||
+         rcspech(sq_king, 10, 11, p, evaluate) ||
+         rcspech(sq_king, 11, 10, p, evaluate) ||
+         rcspech(sq_king, 12, 13, p, evaluate) ||
+         rcspech(sq_king, 13, 12, p, evaluate) ||
+         rcspech(sq_king, 14, 15, p, evaluate) ||
+         rcspech(sq_king, 15, 14, p, evaluate) ||
+         rcspech(sq_king, 16, 9, p, evaluate);
 }
 
-boolean sp20check(square  i,
+boolean sp20check(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  return rcspech(i, 9, 12, p, evaluate) ||
-         rcspech(i, 10, 15, p, evaluate) ||
-         rcspech(i, 11, 14, p, evaluate) ||
-         rcspech(i, 12, 9, p, evaluate) ||
-         rcspech(i, 13, 16, p, evaluate) ||
-         rcspech(i, 14, 11, p, evaluate) ||
-         rcspech(i, 15, 10, p, evaluate) ||
-         rcspech(i, 16, 13, p, evaluate);
+  return rcspech(sq_king, 9, 12, p, evaluate) ||
+         rcspech(sq_king, 10, 15, p, evaluate) ||
+         rcspech(sq_king, 11, 14, p, evaluate) ||
+         rcspech(sq_king, 12, 9, p, evaluate) ||
+         rcspech(sq_king, 13, 16, p, evaluate) ||
+         rcspech(sq_king, 14, 11, p, evaluate) ||
+         rcspech(sq_king, 15, 10, p, evaluate) ||
+         rcspech(sq_king, 16, 13, p, evaluate);
 }
 
-boolean sp33check(square  i,
+boolean sp33check(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  return rcspech(i, 9, 10, p, evaluate) ||
-         rcspech(i, 10, 9, p, evaluate) ||
-         rcspech(i, 11, 12, p, evaluate) ||
-         rcspech(i, 12, 11, p, evaluate) ||
-         rcspech(i, 13, 14, p, evaluate) ||
-         rcspech(i, 14, 13, p, evaluate) ||
-         rcspech(i, 15, 16, p, evaluate) ||
-         rcspech(i, 16, 15, p, evaluate);
+  return rcspech(sq_king, 9, 10, p, evaluate) ||
+         rcspech(sq_king, 10, 9, p, evaluate) ||
+         rcspech(sq_king, 11, 12, p, evaluate) ||
+         rcspech(sq_king, 12, 11, p, evaluate) ||
+         rcspech(sq_king, 13, 14, p, evaluate) ||
+         rcspech(sq_king, 14, 13, p, evaluate) ||
+         rcspech(sq_king, 15, 16, p, evaluate) ||
+         rcspech(sq_king, 16, 15, p, evaluate);
 }
 
-boolean sp11check(square  i,
+boolean sp11check(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  return rcspech(i, 9, 14, p, evaluate) ||
-         rcspech(i, 14, 9, p, evaluate) ||
-         rcspech(i, 10, 13, p, evaluate) ||
-         rcspech(i, 13, 10, p, evaluate) ||
-         rcspech(i, 11, 16, p, evaluate) ||
-         rcspech(i, 16, 11, p, evaluate) ||
-         rcspech(i, 12, 15, p, evaluate) ||
-         rcspech(i, 15, 12, p, evaluate);
+  return rcspech(sq_king, 9, 14, p, evaluate) ||
+         rcspech(sq_king, 14, 9, p, evaluate) ||
+         rcspech(sq_king, 10, 13, p, evaluate) ||
+         rcspech(sq_king, 13, 10, p, evaluate) ||
+         rcspech(sq_king, 11, 16, p, evaluate) ||
+         rcspech(sq_king, 16, 11, p, evaluate) ||
+         rcspech(sq_king, 12, 15, p, evaluate) ||
+         rcspech(sq_king, 15, 12, p, evaluate);
 }
 
 
-boolean sp31check(square  i,
+boolean sp31check(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  return rcspech(i, 9, 11, p, evaluate) ||
-         rcspech(i, 11, 9, p, evaluate) ||
-         rcspech(i, 11, 13, p, evaluate) ||
-         rcspech(i, 13, 11, p, evaluate) ||
-         rcspech(i, 13, 15, p, evaluate) ||
-         rcspech(i, 15, 13, p, evaluate) ||
-         rcspech(i, 15, 9, p, evaluate) ||
-         rcspech(i, 9, 15, p, evaluate) ||
-         rcspech(i, 10, 12, p, evaluate) ||
-         rcspech(i, 12, 10, p, evaluate) ||
-         rcspech(i, 12, 14, p, evaluate) ||
-         rcspech(i, 14, 12, p, evaluate) ||
-         rcspech(i, 14, 16, p, evaluate) ||
-         rcspech(i, 16, 14, p, evaluate) ||
-         rcspech(i, 16, 10, p, evaluate) ||
-         rcspech(i, 10, 16, p, evaluate);
+  return rcspech(sq_king, 9, 11, p, evaluate) ||
+         rcspech(sq_king, 11, 9, p, evaluate) ||
+         rcspech(sq_king, 11, 13, p, evaluate) ||
+         rcspech(sq_king, 13, 11, p, evaluate) ||
+         rcspech(sq_king, 13, 15, p, evaluate) ||
+         rcspech(sq_king, 15, 13, p, evaluate) ||
+         rcspech(sq_king, 15, 9, p, evaluate) ||
+         rcspech(sq_king, 9, 15, p, evaluate) ||
+         rcspech(sq_king, 10, 12, p, evaluate) ||
+         rcspech(sq_king, 12, 10, p, evaluate) ||
+         rcspech(sq_king, 12, 14, p, evaluate) ||
+         rcspech(sq_king, 14, 12, p, evaluate) ||
+         rcspech(sq_king, 14, 16, p, evaluate) ||
+         rcspech(sq_king, 16, 14, p, evaluate) ||
+         rcspech(sq_king, 16, 10, p, evaluate) ||
+         rcspech(sq_king, 10, 16, p, evaluate);
 }
 
 
@@ -628,170 +628,170 @@ boolean equifracheck(square sq_king,
   return false;
 }
 
-boolean vizircheck(square    i,
+boolean vizircheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_rook_start, vec_rook_end, p, evaluate);
+  return leapcheck(sq_king, vec_rook_start, vec_rook_end, p, evaluate);
 }
 
-boolean dabcheck(square    i,
+boolean dabcheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_dabbaba_start, vec_dabbaba_end, p, evaluate);
+  return leapcheck(sq_king, vec_dabbaba_start, vec_dabbaba_end, p, evaluate);
 }
 
-boolean ferscheck(square    i,
+boolean ferscheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_bishop_start, vec_bishop_end, p, evaluate);
+  return leapcheck(sq_king, vec_bishop_start, vec_bishop_end, p, evaluate);
 }
 
 
-boolean alfilcheck(square    i,
+boolean alfilcheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_alfil_start, vec_alfil_end, p, evaluate);
+  return leapcheck(sq_king, vec_alfil_start, vec_alfil_end, p, evaluate);
 }
 
-boolean rccinqcheck(square    i,
+boolean rccinqcheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_rccinq_start, vec_rccinq_end, p, evaluate);
+  return leapcheck(sq_king, vec_rccinq_start, vec_rccinq_end, p, evaluate);
 }
 
 
-boolean bucheck(square    i,
+boolean bucheck(square    sq_king,
                 piece p,
                 evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_bucephale_start, vec_bucephale_end, p, evaluate);
+  return leapcheck(sq_king, vec_bucephale_start, vec_bucephale_end, p, evaluate);
 }
 
 
-boolean gicheck(square    i,
+boolean gicheck(square    sq_king,
                 piece p,
                 evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_girafe_start, vec_girafe_end, p, evaluate);
+  return leapcheck(sq_king, vec_girafe_start, vec_girafe_end, p, evaluate);
 }
 
-boolean chcheck(square    i,
+boolean chcheck(square    sq_king,
                 piece p,
                 evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return leapcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
 
-boolean zcheck(square    i,
+boolean zcheck(square    sq_king,
                piece p,
                evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_zebre_start, vec_zebre_end, p, evaluate);
+  return leapcheck(sq_king, vec_zebre_start, vec_zebre_end, p, evaluate);
 }
 
-boolean leap16check(square    i,
+boolean leap16check(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap16_start, vec_leap16_end, p, evaluate);
+  return leapcheck(sq_king, vec_leap16_start, vec_leap16_end, p, evaluate);
 }
 
-boolean leap24check(square    i,
+boolean leap24check(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap24_start, vec_leap24_end, p, evaluate);
+  return leapcheck(sq_king, vec_leap24_start, vec_leap24_end, p, evaluate);
 }
 
-boolean leap35check(square    i,
+boolean leap35check(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap35_start, vec_leap35_end, p, evaluate);
+  return leapcheck(sq_king, vec_leap35_start, vec_leap35_end, p, evaluate);
 }
 
-boolean leap37check(square    i,
+boolean leap37check(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap37_start, vec_leap37_end, p, evaluate);
+  return leapcheck(sq_king, vec_leap37_start, vec_leap37_end, p, evaluate);
 }
 
-boolean okapicheck(square    i,
+boolean okapicheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_okapi_start, vec_okapi_end, p, evaluate);   /* knight+zebra */
+  return leapcheck(sq_king, vec_okapi_start, vec_okapi_end, p, evaluate);   /* knight+zebra */
 }
 
-boolean bisoncheck(square    i,
+boolean bisoncheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_bison_start, vec_bison_end, p, evaluate);    /* camel+zebra */
+  return leapcheck(sq_king, vec_bison_start, vec_bison_end, p, evaluate);    /* camel+zebra */
 }
 
-boolean zebucheck(square    i,
+boolean zebucheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return (leapcheck(i,vec_chameau_start,vec_chameau_end,p,evaluate)
-          || leapcheck(i,vec_girafe_start,vec_girafe_end,p,evaluate));
+  return (leapcheck(sq_king,vec_chameau_start,vec_chameau_end,p,evaluate)
+          || leapcheck(sq_king,vec_girafe_start,vec_girafe_end,p,evaluate));
 }
 
-boolean elephantcheck(square    i,
+boolean elephantcheck(square    sq_king,
                       piece p,
                       evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_elephant_start, vec_elephant_end, p, evaluate);    /* queen+nightrider  */
+  return ridcheck(sq_king, vec_elephant_start, vec_elephant_end, p, evaluate);    /* queen+nightrider  */
 }
 
-boolean ncheck(square    i,
+boolean ncheck(square    sq_king,
                piece p,
                evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return ridcheck(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
-boolean scheck(square    i,
+boolean scheck(square    sq_king,
                piece p,
                evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return rhopcheck(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean grasshop2check(square    i,
+boolean grasshop2check(square    sq_king,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rhop2check(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return rhop2check(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean grasshop3check(square    i,
+boolean grasshop3check(square    sq_king,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rhop3check(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return rhop3check(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean kinghopcheck(square    i,
+boolean kinghopcheck(square    sq_king,
                      piece p,
                      evalfunction_t *evaluate)
 {
-  return shopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return shopcheck(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean knighthoppercheck(square    i,
+boolean knighthoppercheck(square    sq_king,
                           piece p,
                           evalfunction_t *evaluate)
 {
-    return shopcheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return shopcheck(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
 static boolean doublehoppercheck(square sq_king,
@@ -851,39 +851,39 @@ boolean doublebishoppercheck(square  sq_king,
   return doublehoppercheck(sq_king,p,vec_bishop_start,vec_bishop_end,evaluate);
 }
 
-boolean contragrascheck(square    i,
+boolean contragrascheck(square    sq_king,
                         piece p,
                         evalfunction_t *evaluate)
 {
-  return crhopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return crhopcheck(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean nightlocustcheck(square    i,
+boolean nightlocustcheck(square    sq_king,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return marine_rider_check(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return marine_rider_check(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
-boolean loccheck(square    i,
+boolean loccheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return marine_rider_check(i, vec_queen_start, vec_queen_end, p, evaluate);
+  return marine_rider_check(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean tritoncheck(square    i,
+boolean tritoncheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return marine_rider_check(i, vec_rook_start, vec_rook_end, p, evaluate);
+  return marine_rider_check(sq_king, vec_rook_start, vec_rook_end, p, evaluate);
 }
 
-boolean nereidecheck(square    i,
+boolean nereidecheck(square    sq_king,
                      piece p,
                      evalfunction_t *evaluate)
 {
-  return marine_rider_check(i, vec_bishop_start, vec_bishop_end, p, evaluate);
+  return marine_rider_check(sq_king, vec_bishop_start, vec_bishop_end, p, evaluate);
 }
 
 boolean marine_knight_check(square sq_king,
@@ -900,32 +900,32 @@ boolean poseidon_check(square sq_king,
   return marine_leaper_check(sq_king,vec_queen_start,vec_queen_end,p,evaluate);
 }
 
-boolean nightriderlioncheck(square    i,
+boolean nightriderlioncheck(square    sq_king,
                             piece p,
                             evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_knight_start, vec_knight_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
-boolean lioncheck(square    i,
+boolean lioncheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean t_lioncheck(square    i,
+boolean t_lioncheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean f_lioncheck(square    i,
+boolean f_lioncheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
 /* see comment in py4.c on how rose and rose based pieces are
@@ -1220,32 +1220,32 @@ boolean moacheck(square sq_king,
   return false;
 }
 
-boolean paocheck(square    i,
+boolean paocheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean vaocheck(square    i,
+boolean vaocheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean naocheck(square    i,
+boolean naocheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_knight_start,vec_knight_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
-boolean leocheck(square    i,
+boolean leocheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return lrhopcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
 boolean pbcheck(square  sq_king,
@@ -1392,59 +1392,59 @@ boolean spawncheck(square   sq_king,
   return false;
 }
 
-boolean amazcheck(square    i,
+boolean amazcheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || ridcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return  leapcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean impcheck(square    i,
+boolean impcheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || ridcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return  leapcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean princcheck(square    i,
+boolean princcheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || ridcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return  leapcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
-boolean gnoucheck(square    i,
+boolean gnoucheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || leapcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return  leapcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || leapcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean antilcheck(square    i,
+boolean antilcheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_antilope_start, vec_antilope_end, p, evaluate);
+  return leapcheck(sq_king, vec_antilope_start, vec_antilope_end, p, evaluate);
 }
 
-boolean ecurcheck(square    i,
+boolean ecurcheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return  leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || leapcheck(i, vec_ecureuil_start, vec_ecureuil_end, p, evaluate);
+  return  leapcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || leapcheck(sq_king, vec_ecureuil_start, vec_ecureuil_end, p, evaluate);
 }
 
-boolean warancheck(square    i,
+boolean warancheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return  ridcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || ridcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return  ridcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
 boolean dragoncheck(square  sq_king,
@@ -1644,7 +1644,7 @@ boolean bobcheck(square sq_king,
   return false;
 }
 
-boolean ubicheck(square    i,
+boolean ubicheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
@@ -1655,222 +1655,222 @@ boolean ubicheck(square    i,
     for (bnp= boardnum; *bnp; bnp++) {
       e_ubi_mad[*bnp]= e[*bnp];
     }
-    return rubiech(i, i, p, e_ubi_mad, evaluate);
+    return rubiech(sq_king, sq_king, p, e_ubi_mad, evaluate);
   }
   else
   {
     for (bnp= boardnum; *bnp; bnp++) {
       e_ubi[*bnp]= e[*bnp];
     }
-    return rubiech(i, i, p, e_ubi, evaluate);
+    return rubiech(sq_king, sq_king, p, e_ubi, evaluate);
   }
 }
 
-boolean moosecheck(square    i,
+boolean moosecheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_queen_end,vec_queen_start, angle_45, p, evaluate);
+  return rmhopech(sq_king, vec_queen_end,vec_queen_start, angle_45, p, evaluate);
 }
 
-boolean eaglecheck(square    i,
+boolean eaglecheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_queen_end,vec_queen_start, angle_90, p, evaluate);
+  return rmhopech(sq_king, vec_queen_end,vec_queen_start, angle_90, p, evaluate);
 }
 
-boolean sparrcheck(square    i,
+boolean sparrcheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_queen_end,vec_queen_start, angle_135, p, evaluate);
+  return rmhopech(sq_king, vec_queen_end,vec_queen_start, angle_135, p, evaluate);
 }
 
-boolean margueritecheck(square    i,
+boolean margueritecheck(square    sq_king,
                         piece p,
                         evalfunction_t *evaluate)
 {
-  return  sparrcheck(i, p, evaluate)
-      || eaglecheck(i, p, evaluate)
-      || moosecheck(i, p, evaluate)
-      || scheck(i, p, evaluate);
+  return  sparrcheck(sq_king, p, evaluate)
+      || eaglecheck(sq_king, p, evaluate)
+      || moosecheck(sq_king, p, evaluate)
+      || scheck(sq_king, p, evaluate);
 }
 
-boolean leap36check(square    i,
+boolean leap36check(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_leap36_start, vec_leap36_end, p, evaluate);
+  return leapcheck(sq_king, vec_leap36_start, vec_leap36_end, p, evaluate);
 }
 
-boolean rookmoosecheck(square    i,
+boolean rookmoosecheck(square    sq_king,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
+  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
 }
 
-boolean rookeaglecheck(square    i,
+boolean rookeaglecheck(square    sq_king,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_90, p, evaluate);
+  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_90, p, evaluate);
 }
 
-boolean rooksparrcheck(square    i,
+boolean rooksparrcheck(square    sq_king,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
+  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
 }
 
-boolean bishopmoosecheck(square    i,
+boolean bishopmoosecheck(square    sq_king,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
+  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
 }
 
-boolean bishopeaglecheck(square    i,
+boolean bishopeaglecheck(square    sq_king,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_90, p, evaluate);
+  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_90, p, evaluate);
 }
 
-boolean bishopsparrcheck(square    i,
+boolean bishopsparrcheck(square    sq_king,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
+  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
 }
 
-boolean archcheck(square    i,
+boolean archcheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rrfouech(i, i, vec[k], p, 1, evaluate)) {
+    if (rrfouech(sq_king, sq_king, vec[k], p, 1, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean reffoucheck(square    i,
+boolean reffoucheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rrfouech(i, i, vec[k], p, 4, evaluate)) {
+    if (rrfouech(sq_king, sq_king, vec[k], p, 4, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean cardcheck(square    i,
+boolean cardcheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rcardech(i, i, vec[k], p, 1, evaluate)) {
+    if (rcardech(sq_king, sq_king, vec[k], p, 1, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean nsautcheck(square    i,
+boolean nsautcheck(square    sq_king,
                    piece p,
                    evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_knight_start,vec_knight_end, p, evaluate);
+  return rhopcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
-boolean camridcheck(square    i,
+boolean camridcheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return ridcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean zebridcheck(square    i,
+boolean zebridcheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_zebre_start, vec_zebre_end, p, evaluate);
+  return ridcheck(sq_king, vec_zebre_start, vec_zebre_end, p, evaluate);
 }
 
-boolean gnuridcheck(square    i,
+boolean gnuridcheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return  ridcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || ridcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return  ridcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || ridcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean camhopcheck(square    i,
+boolean camhopcheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return rhopcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean zebhopcheck(square    i,
+boolean zebhopcheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_zebre_start, vec_zebre_end, p, evaluate);
+  return rhopcheck(sq_king, vec_zebre_start, vec_zebre_end, p, evaluate);
 }
 
-boolean gnuhopcheck(square    i,
+boolean gnuhopcheck(square    sq_king,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return  rhopcheck(i, vec_knight_start,vec_knight_end, p, evaluate)
-      || rhopcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return  rhopcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || rhopcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
-boolean dcscheck(square    i,
+boolean dcscheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
   vec_index_type  k;
 
   for (k= vec_knight_start; k <= 14; k++) {
-    if (rcsech(i, vec[k], vec[23 - k], p, evaluate)) {
+    if (rcsech(sq_king, vec[k], vec[23 - k], p, evaluate)) {
       return true;
     }
   }
   for (k= 15; k <= vec_knight_end; k++) {
-    if (rcsech(i, vec[k], vec[27 - k], p, evaluate)) {
+    if (rcsech(sq_king, vec[k], vec[27 - k], p, evaluate)) {
       return true;
     }
   }
   return false;
 }
 
-boolean refccheck(square    i,
+boolean refccheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return rrefcech(i, i, 2, p, evaluate);
+  return rrefcech(sq_king, sq_king, 2, p, evaluate);
 }
 
-boolean refncheck(square    i,
+boolean refncheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
   clearedgestraversed();
-  return rrefnech(i, i, p, evaluate);
+  return rrefnech(sq_king, sq_king, p, evaluate);
 }
 
 boolean equicheck(square    sq_king,
@@ -1977,39 +1977,39 @@ boolean catcheck(square sq_king,
   }
 }
 
-boolean roicheck(square    i,
+boolean roicheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return leapcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean cavcheck(square    i,
+boolean cavcheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return leapcheck(i, vec_knight_start,vec_knight_end, p, evaluate);
+  return leapcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
-boolean damecheck(square    i,
+boolean damecheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+  return ridcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean tourcheck(square    i,
+boolean tourcheck(square    sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return ridcheck(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
-boolean foucheck(square    i,
+boolean foucheck(square    sq_king,
                  piece p,
                  evalfunction_t *evaluate)
 {
-  return ridcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return ridcheck(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
 boolean pioncheck(square sq_king,
