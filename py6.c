@@ -908,9 +908,32 @@ static boolean verify_position(slice_index si)
     for (i = 0; i<nr_files_on_board; i++)
     {
       SETFLAG(sq_spec[square_a1+i*dir_right],WhBaseSq);
-      SETFLAG(sq_spec[square_a8+i*dir_right],BlBaseSq);
       SETFLAG(sq_spec[square_a2+i*dir_right],WhPawnDoublestepSq);
       SETFLAG(sq_spec[square_a7+i*dir_right],BlPawnDoublestepSq);
+      SETFLAG(sq_spec[square_a8+i*dir_right],BlBaseSq);
+
+      SETFLAG(sq_spec[square_a3+i*dir_right],CapturableByWhPawnSq);
+      SETFLAG(sq_spec[square_a4+i*dir_right],CapturableByWhPawnSq);
+      SETFLAG(sq_spec[square_a5+i*dir_right],CapturableByWhPawnSq);
+      SETFLAG(sq_spec[square_a6+i*dir_right],CapturableByWhPawnSq);
+      SETFLAG(sq_spec[square_a7+i*dir_right],CapturableByWhPawnSq);
+      SETFLAG(sq_spec[square_a8+i*dir_right],CapturableByWhPawnSq);
+
+      SETFLAG(sq_spec[square_a1+i*dir_right],CapturableByBlPawnSq);
+      SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByBlPawnSq);
+      SETFLAG(sq_spec[square_a3+i*dir_right],CapturableByBlPawnSq);
+      SETFLAG(sq_spec[square_a4+i*dir_right],CapturableByBlPawnSq);
+      SETFLAG(sq_spec[square_a5+i*dir_right],CapturableByBlPawnSq);
+      SETFLAG(sq_spec[square_a6+i*dir_right],CapturableByBlPawnSq);
+
+      if (anyparrain
+          || CondFlag[normalp]
+          || CondFlag[einstein]
+          || CondFlag[circecage])
+      {
+        SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByWhPawnSq);
+        SETFLAG(sq_spec[square_a7+i*dir_right],CapturableByBlPawnSq);
+      }
     }
   }
 

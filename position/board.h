@@ -175,8 +175,10 @@ typedef enum
   BlBaseSq,           /* 10 */
   WhPawnDoublestepSq, /* 11 */
   BlPawnDoublestepSq, /* 12 */
-  Wormhole,           /* 13 */
-  Grid,               /* 14 */
+  CapturableByWhPawnSq, /* 13 */
+  CapturableByBlPawnSq, /* 14 */
+  Wormhole,           /* 15 */
+  Grid,               /* 16 */
 
   nrSquareFlags
 } SquareFlags;
