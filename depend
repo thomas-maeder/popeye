@@ -317,7 +317,8 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h solving/en_passant.h \
  solving/observation.h conditions/einstein/en_passant.h \
- conditions/annan.h debugging/trace.h debugging/measure.h
+ conditions/annan.h conditions/marscirce/plus.h \
+ conditions/marscirce/marscirce.h debugging/trace.h debugging/measure.h
 
 py.h:
 
@@ -396,6 +397,10 @@ solving/observation.h:
 conditions/einstein/en_passant.h:
 
 conditions/annan.h:
+
+conditions/marscirce/plus.h:
+
+conditions/marscirce/marscirce.h:
 
 debugging/trace.h:
 

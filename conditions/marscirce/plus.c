@@ -69,3 +69,41 @@ void plus_generate_moves(Side side, piece p, square sq_departure)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Determine whether a specific side is in check in Echecs Plus
+ * @param side the side
+ * @param evaluate filter for king capturing moves
+ * @return true iff side is in check
+ */
+boolean plusechecc(Side side, evalfunction_t *evaluate)
+{
+  int i,j;
+  square square_h = square_h8;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
+  {
+    square pos_checking = square_h;
+    for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
+      if (piece_belongs_to_opponent(pos_checking,side)
+          && pos_checking!=king_square[side]   /* exclude nK */)
+      {
+        if (pos_checking==square_d4 || pos_checking==square_d5 || pos_checking==square_e4 || pos_checking==square_e5)
+          result = (mars_does_piece_deliver_check(side,pos_checking,square_d4)
+                    || mars_does_piece_deliver_check(side,pos_checking,square_d5)
+                    || mars_does_piece_deliver_check(side,pos_checking,square_e4)
+                    || mars_does_piece_deliver_check(side,pos_checking,square_e5));
+        else
+          result = mars_does_piece_deliver_check(side,pos_checking,pos_checking);
+      }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

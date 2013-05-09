@@ -161,7 +161,7 @@ checkfunction_t okapicheck;
 checkfunction_t orixcheck;
 checkfunction_t orphancheck;
 checkfunction_t paocheck;
-checkfunction_t pbcheck;
+checkfunction_t berolina_pawn_check;
 checkfunction_t pchincheck;
 checkfunction_t princcheck;
 checkfunction_t querquisitecheck;
@@ -358,8 +358,6 @@ void LaTeXOpen(void);
 void LaTeXClose(void);
 void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
-
-square renplus(piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void transformPosition(SquareTransformation transformation);
 void generate_castling(Side side);

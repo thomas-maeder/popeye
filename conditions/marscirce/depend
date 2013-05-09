@@ -117,8 +117,8 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  conditions/marscirce/plus.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- conditions/marscirce/marscirce.h debugging/trace.h
+ pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h pydata.h \
+ pyproc.h conditions/marscirce/marscirce.h debugging/trace.h
 
 conditions/marscirce/plus.h:
 
@@ -142,8 +142,6 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pydata.h:
-
 pyproc.h:
 
 py4.h:
@@ -153,6 +151,10 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
+
+pydata.h:
+
+pyproc.h:
 
 conditions/marscirce/marscirce.h:
 

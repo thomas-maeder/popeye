@@ -5278,9 +5278,10 @@ static char *ParseCond(void)
         marsrenai= rennormal;
         break;
       case plus:
-        marsrenai= renplus;
+        marsrenai= 0;
         anymars= true;
         break;
+
       case whprom_sq:
         ReadSquares(WhPromSq);
         break;

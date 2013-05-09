@@ -37,4 +37,13 @@ void marscirce_generate_captures(Side side,
  */
 void marscirce_generate_moves(Side side, piece p, square sq_departure);
 
+/* Determine whether a specific piece delivers check to a specific side from a
+ * specific rebirth square
+ * @param side potentially in check
+ * @param pos_checking potentially delivering check ...
+ * @param sq_rebrirth ... from this square
+ * @note the piece on pos_checking must belong to advers(side)
+ */
+boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_rebirth);
+
 #endif

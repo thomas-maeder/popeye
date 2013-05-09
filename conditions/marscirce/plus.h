@@ -2,6 +2,7 @@
 #define CONDITIONS_MARSCIRCE_PLUS_H
 
 #include "solving/solve.h"
+#include "pyproc.h"
 
 /* This module provides implements the condition Echecs Plus
  */
@@ -14,5 +15,12 @@
  * @note the piece on the departure square need not have that walk
  */
 void plus_generate_moves(Side side, piece p, square sq_departure);
+
+/* Determine whether a specific side is in check in Echecs Plus
+ * @param side the side
+ * @param evaluate filter for king capturing moves
+ * @return true iff side is in check
+ */
+boolean plusechecc(Side side, evalfunction_t *evaluate);
 
 #endif

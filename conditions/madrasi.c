@@ -27,8 +27,8 @@ static boolean is_ep_paralysed_on(piece p,
      --------------------------------------
      white pawn     pn      pioncheck
      black pawn     pb      pioncheck
-     white berolina pawn  pbn     pbcheck
-     black berolina pawn  pbb     pbcheck
+     white berolina pawn  pbn     berolina_pawn_check
+     black berolina pawn  pbb     berolina_pawn_check
   */
 
   ply const ply_dblstp = parent_ply[nbply];
@@ -56,14 +56,14 @@ static boolean is_ep_paralysed(piece p, square sq)
       break;
 
     case pbb: /* white berolina pawn */
-      if (is_ep_paralysed_on(pbn,sq+dir_down+dir_right,pbcheck)
-          || is_ep_paralysed_on(pbn,sq+dir_down+dir_left,pbcheck))
+      if (is_ep_paralysed_on(pbn,sq+dir_down+dir_right,berolina_pawn_check)
+          || is_ep_paralysed_on(pbn,sq+dir_down+dir_left,berolina_pawn_check))
         result = true;
       break;
 
     case pbn: /* black berolina pawn */
-      if (is_ep_paralysed_on(pbb,sq+dir_up+dir_left,pbcheck)
-          || is_ep_paralysed_on(pbb,sq+dir_up+dir_right,pbcheck))
+      if (is_ep_paralysed_on(pbb,sq+dir_up+dir_left,berolina_pawn_check)
+          || is_ep_paralysed_on(pbb,sq+dir_up+dir_right,berolina_pawn_check))
         result = true;
       /* NB: Super (Berolina) pawns cannot neither be captured
        * ep nor capture ep themselves.

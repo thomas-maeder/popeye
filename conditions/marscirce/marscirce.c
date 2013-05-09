@@ -125,3 +125,38 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Determine whether a specific piece delivers check to a specific side from a
+ * specific rebirth square
+ * @param side potentially in check
+ * @param pos_checking potentially delivering check ...
+ * @param sq_rebrirth ... from this square
+ * @note the piece on pos_checking must belong to advers(side)
+ */
+boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_rebirth)
+{
+  boolean result = false;
+  piece const pi_checking = e[pos_checking];
+  Flags const spec_checking = spec[pos_checking];
+
+  if (e[sq_rebirth]==vide || sq_rebirth==pos_checking)
+  {
+    Flags const spec_rebirth = spec[sq_rebirth];
+
+    e[pos_checking] = vide;
+
+    e[sq_rebirth] = pi_checking;
+    spec[sq_rebirth] = spec_checking;
+
+    fromspecificsquare = sq_rebirth;
+    result = (*checkfunctions[abs(pi_checking)])(king_square[side],pi_checking,&eval_fromspecificsquare);
+
+    e[sq_rebirth] = vide;
+    spec[sq_rebirth] = spec_rebirth;
+
+    e[pos_checking] = pi_checking;
+    spec[pos_checking] = spec_checking;
+  }
+
+  return result;
+}

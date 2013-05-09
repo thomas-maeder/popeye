@@ -50,3 +50,109 @@ Rex Multiplex 42-43 (Phénix 22-23), IX 1993, S. 2204-2206
 Loesung beendet. 
 
 
+
+           Bernard Rothmann
+        Ph\'enix 1994, 6. Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -D   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -K   3
+|                                   |
+2   .   .   .   B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#4                         2 + 2
+              PlusSchach
+
+  1.Dc8-c1 Kh5-g6   2.Kh3-g4 Kg6-f7   3.Kg4-f5 Kf7-e8   4.Kf5-e6 d2-d4 #
+
+                        empile:     1192354
+                     play_move:     1065780
+ is_white_king_square_attacked:      125238
+ is_black_king_square_attacked:      976782
+Loesung beendet. 
+
+
+
+          Ren\'e J. Millour
+        Ph\'enix 1997, 6. Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   K   .   .   .   6
+|                                   |
+5   .  -T  -L   .   .   .   .   .   5
+|                                   |
+4   .  -B  -K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 4
+              PlusSchach
+
+  1.b4-b3 Ke6-f5   2.Lc5-b4 + Kf5-e4 #
+  1.Lc5-b6 Ke6-f6   2.Kc4-c5 Kf6-e5 #
+
+                        empile:       14430
+                     play_move:       12439
+ is_white_king_square_attacked:        1066
+ is_black_king_square_attacked:       12297
+Loesung beendet. 
+
+
+
+           Bernard Rothmann
+            Ph\'enix 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -D   .   .   .   .   .   .   D   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -B   .   .   .   .   .   .   3
+|                                   |
+2  -L   K   .  -S   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         2 + 5
+              PlusSchach
+
+  1.Da8-h1 Dh8*h1   2.La2-b1 Dh1*b1   3.Sd2-e4 Db1*e4 =
+
+                        empile:    26201453
+                     play_move:    12350028
+ is_white_king_square_attacked:     6322061
+ is_black_king_square_attacked:    10037277
+Loesung beendet. 
+
+

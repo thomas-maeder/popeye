@@ -1248,9 +1248,9 @@ boolean leocheck(square    sq_king,
   return lrhopcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean pbcheck(square  sq_king,
-                piece   p,
-                evalfunction_t *evaluate)
+boolean berolina_pawn_check(square  sq_king,
+                            piece   p,
+                            evalfunction_t *evaluate)
 {
   if (CondFlag[phantom])
   {

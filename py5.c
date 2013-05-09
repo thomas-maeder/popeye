@@ -124,51 +124,6 @@ piece champiece(piece pi_arriving)
   return  pi_arriving<vide ? -walk_chameleonised : walk_chameleonised;
 }
 
-#if defined(DOS)
-# pragma warn -par
-#endif
-
-square renplus(piece p_captured, Flags p_captured_spec,
-               square sq_capture, square sq_departure, square sq_arrival,
-               Side capturer) {
-  /* Echecs plus */
-  if (sq_capture==square_d4
-      || sq_capture==square_e4
-      || sq_capture==square_d5
-      || sq_capture==square_e5)
-  {
-    square k;
-    switch (mars_circe_rebirth_state)
-    {
-      case 0:
-        k= square_d4;
-        break;
-
-      case 1:
-        k= square_e4;
-        break;
-
-      case 2:
-        k= square_d5;
-        break;
-
-      case 3:
-        k= square_e5;
-        break;
-
-      default:
-        k= initsquare;
-        break;
-    }
-
-    mars_circe_rebirth_state = (mars_circe_rebirth_state+1)%4;
-
-    return k;
-  }
-  else
-    return sq_capture;
-}
-
 square renrank(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
                Side capturer) {

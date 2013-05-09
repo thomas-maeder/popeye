@@ -168,7 +168,6 @@ EXTERN  PieNam          transmpieces[nr_sides][PieceCount];
 EXTERN  boolean         normaltranspieces[nr_sides];
 EXTERN  PieNam          orphanpieces[PieceCount];
 
-EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;
 EXTERN boolean          flagparasent;
 
@@ -1685,7 +1684,7 @@ void enforce_piecename_uniqueness(void);
 /* 24 */        lioncheck,
 /* 25 */        nequicheck,
 /* 26 */        loccheck,
-/* 27 */        pbcheck,
+/* 27 */        berolina_pawn_check,
 /* 28 */        amazcheck,
 /* 29 */        impcheck,
 /* 30 */        princcheck,

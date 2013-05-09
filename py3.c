@@ -50,6 +50,8 @@
 #include "solving/observation.h"
 #include "conditions/einstein/en_passant.h"
 #include "conditions/annan.h"
+#include "conditions/marscirce/plus.h"
+#include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -207,59 +209,33 @@ boolean feenechec(evalfunction_t *evaluate)
   return false;
 }
 
-#define marsmap(p) ((p)==maob ? moab : ((p)==moab ? maob : (p)))
-
 /* detect mars circe check of k of Side camp */
-static boolean marsechecc(Side camp, evalfunction_t *evaluate)
+static boolean marsechecc(Side side, evalfunction_t *evaluate)
 {
   int i,j;
   square square_h = square_h8;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,camp,"");
+  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
   {
-    square z = square_h;
-    for (j= nr_files_on_board; j>0 && !result; j--, z += dir_left)
+    square pos_checking = square_h;
+    for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
     {
       /* in marscirce the kings are included */
       /* in phantomchess the kings are not included, but with rex
          inclusif they are */
-      if ((!CondFlag[phantom]
-           || (e[z]!=e[king_square[White]] && e[z]!=e[king_square[Black]])
-           || phantom_chess_rex_inclusive)
-          && ((e[z]!=e[king_square[White]] || e[king_square[White]]!=e[king_square[Black]]))   /* exclude nK */
-          && piece_belongs_to_opponent(z,camp))
+      if ((!CondFlag[phantom] || !TSTFLAG(spec[pos_checking],Royal) || phantom_chess_rex_inclusive)
+          && piece_belongs_to_opponent(pos_checking,side)
+          && pos_checking!=king_square[side]   /* exclude nK */)
       {
-        mars_circe_rebirth_state = 0;
-        do
-        {
-          piece const p = e[z];
-          Flags const psp = spec[z];
-          square const sq_rebirth = (*marsrenai)(p,psp,z,initsquare,initsquare,camp);
-          if (e[sq_rebirth]==vide || sq_rebirth==z)
-          {
-            boolean is_check;
-            Flags const spec_rebirth = spec[sq_rebirth];
-            e[z] = vide;
-            e[sq_rebirth] = p;
-            spec[sq_rebirth] = psp;
-            fromspecificsquare = sq_rebirth;
-            is_check = (*checkfunctions[marsmap(abs(p))])(king_square[camp],p,&eval_fromspecificsquare);
-            e[sq_rebirth] = vide;
-            spec[sq_rebirth] = spec_rebirth;
-            e[z] = p;
-            spec[z] = psp;
-            if (is_check)
-            {
-              result = true;
-              break;
-            }
-          }
-        } while (mars_circe_rebirth_state);
+        piece const pi_checking = e[pos_checking];
+        Flags const spec_checking = spec[pos_checking];
+        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
+        result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);
       }
     }
   }
@@ -315,6 +291,8 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     if (marsechecc(Black,evaluate))
       return true;
   }
+  else if (CondFlag[plus])
+    return plusechecc(Black,evaluate);
   else if (anymars)
     return marsechecc(Black,evaluate);
 
@@ -533,6 +511,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     if (marsechecc(White,evaluate))
       return true;
   }
+  else if (CondFlag[plus])
+    return plusechecc(White,evaluate);
   else if (anymars)
     return marsechecc(White,evaluate);
 
