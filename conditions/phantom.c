@@ -61,7 +61,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
 
   gen_piece_aux(side,sq_departure,abs(p));
 
-  if (p!=e[king_square[side]] && !phantom_chess_rex_inclusive)
+  if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
     square const sq_rebirth = (*marsrenai)(p,
                                            spec[sq_departure],
