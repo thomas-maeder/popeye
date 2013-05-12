@@ -87,6 +87,7 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
         case move_effect_reason_supercirce_rebirth:
         case move_effect_reason_antisupercirce_rebirth:
         case move_effect_reason_republican_king_insertion:
+        case move_effect_reason_wormhole_transfer:
           result = true;
           break;
 
@@ -100,6 +101,7 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       {
         case move_effect_reason_regular_capture:
         case move_effect_reason_ep_capture:
+        case move_effect_reason_wormhole_transfer:
           result = CondFlag[takemake];
           break;
 

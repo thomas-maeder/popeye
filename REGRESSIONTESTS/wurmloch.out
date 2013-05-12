@@ -236,3 +236,75 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+Thomas Maeder & Bruno Stucker & Kjell Widlert
+       Andernach 2013, 3. Preis
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   T   .   .   .   .   7
+|                                   |
+6   .   .   .   .   S   .   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   B   .  -K   .   .  -B   .   L   4
+|                                   |
+3   .   .  -B   .   .  -B   .   .   3
+|                                   |
+2   .   .   K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   L   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          7 + 4
+      Wurmloecher f2 d4 c5 d6 a7
+
+      1...f3-f2[sBf2->d4]
+          2.Se6-c5[wSc5->d6] #
+      1...f3-f2[sBf2->c5]
+          2.Se6-d4[wSd4->d6] #
+      1...f3-f2[sBf2->d6]
+          2.Td7-c7 #
+
+   1.Sd5-b6 + ?
+    Aber
+      1...Kc4-b4 !
+
+   1.Lh4-e1 ? Zugzwang.
+      1...f3-f2[sBf2->d4]
+          2.Se6-c5[wSc5->d6] #
+      1...f3-f2[sBf2->c5]
+          2.Se6-d4[wSd4->d6] #
+      1...f3-f2[sBf2->d6]
+          2.Td7-c7 #
+    Aber
+      1...f3-f2[sBf2->a7] !
+
+   1.Lh4-f2[wLf2->a7] ! Zugzwang.
+      1...f3-f2[sBf2->d4]
+          2.Se6*d4[wSd4->d6] #
+      1...f3-f2[sBf2->c5]
+          2.Se6*c5[wSc5->d6] #
+      1...f3-f2[sBf2->d6]
+          2.Td7-c7 #
+
+   1.Lh1-g2 ? Drohung:
+          2.Lg2-f1 #
+      1...f3-f2[sBf2->d4]
+          2.Se6-c5[wSc5->d6] #
+      1...f3-f2[sBf2->d6]
+          2.Td7-c7 #
+    Aber
+      1...f3*g2 !
+
+
+                        empile:       11614
+                     play_move:        8516
+ is_white_king_square_attacked:        1025
+ is_black_king_square_attacked:        8472
+Loesung beendet. 
+
+
