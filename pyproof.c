@@ -1948,7 +1948,8 @@ void ProofInitialise(slice_index si)
                 || CondFlag[castlingchess]
                 || CondFlag[platzwechselrochade]
                 || CondFlag[football]
-                || CondFlag[kobulkings]);
+                || CondFlag[kobulkings]
+                || CondFlag[wormholes]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
