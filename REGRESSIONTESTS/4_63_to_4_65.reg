@@ -194,3 +194,63 @@ solution finished.
 solution finished. 
 
 
+
+4.63 couldn't solve proof games with worm holes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K   .   .  -R   8
+|                                   |
+7  -P  -P   .  -P  -P  -P   .   .   7
+|                                   |
+6   .  -B   .   .   .  -S   .  -P   6
+|                                   |
+5   .   .  -P   .   K   .  -P   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   .   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     16 + 16
+           Wormholes e5 f8
+
+Initial (Black ->):
+
+4.63 couldn't solve proof games with worm holes
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K   .   .  -R   8
+|                                   |
+7  -P  -P   .  -P  -P  -P   K  -P   7
+|                                   |
+6   .  -B   .   .   .  -S   .   .   6
+|                                   |
+5   .   .  -P   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   P   P   2
+|                                   |
+1   R   S   B   Q   .   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     16 + 16
+           Wormholes e5 f8
+
+  1.h7-h6 Kg7-f8[wKf8->e5] a=>b
+
+                        empile:          99
+                     play_move:         105
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           5
+solution finished. 
+
+

@@ -46,4 +46,14 @@ Pieces white  Kc4
        black Magic rg5h4
 Condition Anticirce
 
+next
+
+title 4.63 couldn't solve proof games with worm holes
+pieces white kg7 qd1 ra1h1 bc1f1 sb1g1 pa2b2c2d2e4f2g2h2
+       black ke8 qd8 ra8h8 bc8b6 sb8f6 pa7b7c5d7e7f7g5h7
+stipulation a=>b 1
+pieces white ke5 qd1 ra1h1 bc1f1 sb1g1 pa2b2c2d2e4f2g2h2
+       black ke8 qd8 ra8h8 bc8b6 sb8f6 pa7b7c5d7e7f7g5h6
+condition wormholes e5f8
+
 end
