@@ -229,7 +229,7 @@ Loesung beendet.
 
 a) 
 
-  1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 # 
+  1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 #
 
                         empile:     3289316
                      play_move:     1700155
@@ -237,7 +237,7 @@ a)
  is_black_king_square_attacked:     1548464
 b) sKe2-->f2
 
-  1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 # 
+  1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 #
 
                         empile:     2326947
                      play_move:     1226709
@@ -321,7 +321,7 @@ Loesung beendet.
 
 a) 
 
-  1...c7-c8=L   2.c2-c1=S Lc8-d7 # 
+  1...c7-c8=L   2.c2-c1=S Lc8-d7 #
 
                         empile:        1314
                      play_move:         791
@@ -329,7 +329,7 @@ a)
  is_black_king_square_attacked:         391
 b) sBb3-->b5
 
-  1...c7-c8=D   2.c2-c1=T Dc8-c2 # 
+  1...c7-c8=D   2.c2-c1=T Dc8-c2 #
 
                         empile:        1310
                      play_move:         793
@@ -419,7 +419,7 @@ Preis, 7. PK-Kompositionsturnier 1991
         SchwarzerLaengstzueger
          WeisserLaengstzueger
 
-  1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 # 
+  1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 #
 
                         empile:      135270
                      play_move:       56920
@@ -651,12 +651,12 @@ F2676 The Problemist Vol 21 No 12 (Nov 2008)
   h#6.5                       1 + 6
      WeisserLaengstzueger  Ultra
 
-  1...Ta1-h1 +   2.Kh8-h7 Th1-a1   3.a7-a6 Ta1-h1   4.a6-a5 Th1-a1   5.d2-d1=S Ta1*a5   6.Kh7-h8 Ta5-h5   7.g6-g5 Th5-h1 # 
+  1...Ta1-h1 +   2.Kh8-h7 Th1-a1   3.a7-a6 Ta1-h1   4.a6-a5 Th1-a1   5.d2-d1=S Ta1*a5   6.Kh7-h8 Ta5-h5   7.g6-g5 Th5-h1 #
 
-                        empile:     7097628
-                     play_move:     1050240
+                        empile:     7097636
+                     play_move:     1050242
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1013650
+ is_black_king_square_attacked:     1013652
 Loesung beendet. 
 
 

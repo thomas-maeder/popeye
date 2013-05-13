@@ -812,9 +812,9 @@ Until 4.61, Popeye crashed (Bug #3585629)
 
 
                         empile:          29
-                     play_move:          12
+                     play_move:          13
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          11
+ is_black_king_square_attacked:          12
 solution finished. 
 
 

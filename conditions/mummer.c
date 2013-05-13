@@ -92,15 +92,32 @@ static void invert_move_order(void)
  */
 static void reset_accepted_moves(ply ply)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
+
   last_candidate[ply] = current_move[ply-1];
+  TraceValue("%u\n",last_candidate[ply]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Accept a move for being played eventually
  */
 static void accept_move(ply ply, numecoup id)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParam("%u",id);
+  TraceFunctionParamListEnd();
+
   ++last_candidate[ply];
+  TraceValue("%u\n",last_candidate[ply]);
   move_generation_stack[last_candidate[ply]] = move_generation_stack[id];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves.
@@ -221,7 +238,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
     {
       slice_index const prototypes[] =
       {
-          alloc_pipe(STMummerBookkeeper),
+          alloc_testing_pipe(STMummerOrchestrator),
           alloc_pipe(STUltraMummerMeasurerDeadend)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -484,11 +501,8 @@ static boolean eval_ultra_mummer_king_check(Side delivering_check,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  nextply();
-  mum_length[nbply] = INT_MIN;
   solve(slices[temporary_hack_ultra_mummer_length_measurer[delivering_check]].next2,length_unspecified);
-  result = (*mummer_measure_length[delivering_check])(sq_departure,sq_arrival,sq_capture)==mum_length[nbply];
-  finply();
+  result = (*mummer_measure_length[delivering_check])(sq_departure,sq_arrival,sq_capture)==mum_length[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
