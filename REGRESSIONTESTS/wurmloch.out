@@ -308,3 +308,37 @@ Thomas Maeder & Bruno Stucker & Kjell Widlert
 Loesung beendet. 
 
 
+
+           Bernd Gr\"afrath
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T   .  -L  -D  -K  -L  -S  -T   8
+|                                   |
+7  -B  -B  -B  -B  -B  -B  -B  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   B   B   .   B   B   B   B   2
+|                                   |
+1   T   S   L   D   K   L   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia4                      15 + 15
+          Wurmloecher c6 b8
+
+  1.d2-d4 Sb8-a6   2.d4-d5 c7-c6[sBc6->b8]   3.d5-d6 Sa6-c7   4.d6*c7 b8*c7 dia
+
+                        empile:   106250292
+                     play_move:   104267526
+ is_white_king_square_attacked:     4866283
+ is_black_king_square_attacked:     7133767
+Loesung beendet. 
+
+
