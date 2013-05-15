@@ -40,18 +40,28 @@ static void init_promotion_pieces_chain(pieces_pawns_promotee_chain_selector_typ
       is_promotee[(*standard_walks)[p]] = true;
 
     for (p = King+1; p<PieceCount; ++p)
-      if (exist[p] && !is_pawn(p))
+      if (exist[p] && !is_pawn(p) && !is_king(p))
         is_promotee[p] = true;
 
     is_promotee[Dummy] = false;
 
     if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
+    {
       is_promotee[(*standard_walks)[King]] = true;
 
+      for (p = Bishop+1; p<PieceCount; ++p)
+        if (exist[p] && is_king(p))
+          is_promotee[p] = true;
+    }
+
     if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
-      for (p = King; p<PieceCount; ++p)
+    {
+      is_promotee[(*standard_walks)[Pawn]] = true;
+
+      for (p = Bishop+1; p<PieceCount; ++p)
         if (exist[p] && is_pawn(p))
           is_promotee[p] = true;
+    }
 
     build_promotee_chain(selector,&is_promotee);
   }

@@ -330,6 +330,7 @@ square renspiegel(piece p, Flags pspec, square j, square i, square ip, Side camp
 void pyfputs(char const *s, FILE *f);
 
 boolean hopimok(square i, square j, square k, numvec d, numvec d1);
+boolean is_king(PieNam p);
 boolean is_pawn(PieNam p);
 boolean is_forwardpawn(PieNam p);
 boolean is_reversepawn(PieNam p);

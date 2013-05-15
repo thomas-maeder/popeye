@@ -254,3 +254,40 @@ Initial (Black ->):
 solution finished. 
 
 
+
+           Petko A. Petkov
+         Julia's Fairies 2013
+4.63 allowed the pawn to promote to Poseidon
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P   .   Q   .   .   2
+|                                   |
+1   .   .   .   .   .   .   . -PO   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#3                     2 + 2
+
+  1.d2-d1=S   2.Sd1-e3   3.Se3-f1 Qf2-g1 #
+  1.d2-d1=R   2.Rd1-d3   3.Rd3-f3 Qf2-g2 #
+  1.d2-d1=B   2.Bd1-g4   3.Bg4-h3 Qf2-h2 #
+
+                        empile:       24668
+                     play_move:       21289
+ is_white_king_square_attacked:        3845
+ is_black_king_square_attacked:       21289
+solution finished. 
+
+

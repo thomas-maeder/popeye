@@ -421,10 +421,10 @@ solution finished.
 
   1.MPb4-b3 MPa2*b3-c4   2.MPb2-b1=TR MPc4*b5-a6   3.TRb1-b7 MPa6*b7-c8=SI #
 
-                        empile:     1054778
-                     play_move:     1019221
- is_white_king_square_attacked:       45858
- is_black_king_square_attacked:     1001064
+                        empile:      908790
+                     play_move:      877784
+ is_white_king_square_attacked:       39355
+ is_black_king_square_attacked:      862233
 solution finished. 
 
 
@@ -456,10 +456,10 @@ solution finished.
 
   1.MPe2-e1=ND MPf7-f8=ND   2.NDe1-c3 NDf8*c5-b4   3.MPf2-f1=SI MPg7-g8=TR ==
 
-                        empile:   388802465
-                     play_move:    74537746
- is_white_king_square_attacked:    71014376
- is_black_king_square_attacked:     3523714
+                        empile:   259892176
+                     play_move:    50606596
+ is_white_king_square_attacked:    48075030
+ is_black_king_square_attacked:     2531850
 solution finished. 
 
 
@@ -739,10 +739,10 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
   1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
 
-                        empile:    32742130
-                     play_move:    32743894
- is_white_king_square_attacked:     2612587
- is_black_king_square_attacked:     1372365
+                        empile:    32741880
+                     play_move:    32743203
+ is_white_king_square_attacked:     2612577
+ is_black_king_square_attacked:     1372355
 solution finished. 
 
 

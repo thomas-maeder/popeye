@@ -383,6 +383,19 @@ boolean is_short(PieNam p)
   }
 }
 
+boolean is_king(PieNam p)
+{
+  switch (p)
+  {
+    case  King:
+    case  Poseidon:
+      return  true;
+
+    default:
+      return  false;
+  }
+}
+
 boolean is_pawn(PieNam p)
 {
   switch (p)
