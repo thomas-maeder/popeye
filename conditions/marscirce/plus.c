@@ -90,7 +90,7 @@ boolean plusechecc(Side side, evalfunction_t *evaluate)
     square pos_checking = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
       if (piece_belongs_to_opponent(pos_checking,side)
-          && pos_checking!=king_square[side]   /* exclude nK */)
+          && pos_checking!=king_square[side]) /* exclude nK */
       {
         if (pos_checking==square_d4 || pos_checking==square_d5 || pos_checking==square_e4 || pos_checking==square_e5)
           result = (mars_does_piece_deliver_check(side,pos_checking,square_d4)
