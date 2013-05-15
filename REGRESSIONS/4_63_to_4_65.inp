@@ -64,4 +64,28 @@ origin Julia's Fairies 2013
 pieces white ka6 qf2 black pd2 poh1
 stipulation ser-h#3
 
+next
+
+title Until 4.63, berolina pawns were not allowed in Phantom Chess, ...
+pieces white bpa4 black kb3
+stip +1
+condition phantom
+option nowk
+
+next
+
+title ... Plus Chess, ...
+pieces white bpd3 black ke6
+stip +1
+condition plus
+option nowk
+
+next
+
+title ... and Mars Circe - reason unknown
+pieces white bpd3 black ke3
+stip +1
+condition marscirce
+option nowk
+
 end
