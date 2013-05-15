@@ -874,7 +874,6 @@ static stip_length_type get_max_nr_moves(slice_index si)
 static boolean verify_position(slice_index si)
 {
   int      tp, op;
-  boolean flagleofamilyonly;
   boolean flagveryfairy = false;
   boolean flagsymmetricfairy = false;
   boolean flagsimplehoppers = false;
@@ -990,8 +989,6 @@ static boolean verify_position(slice_index si)
 #ifdef _SE_DECORATE_SOLUTION_
   se_init();
 #endif
-  flagleofamilyonly = CondFlag[leofamily];
-
   {
     PieNam p;
     for (p = Bishop+1; p<PieceCount; ++p)
@@ -1007,11 +1004,8 @@ static boolean verify_position(slice_index si)
         else if (is_symmetricfairy(p))
           flagsymmetricfairy = true;
         else
-        {
-          if (!is_pawn(p) && p!=Dummy && (p<Leo || p>Vao))
-            flagleofamilyonly = false;
           flagveryfairy = true;
-        }
+
         if (TSTFLAG(some_pieces_flags,Magic) && !magic_is_piece_supported(p))
         {
           VerifieMsg(MagicAndFairyPieces);
@@ -1440,8 +1434,7 @@ static boolean verify_position(slice_index si)
         || calc_reflective_king[Black]
         || CondFlag[bicolores]
         || CondFlag[sting]
-        || flagsimplehoppers
-        || (flagveryfairy && !flagleofamilyonly) )
+        || flagsimplehoppers)
     {
       VerifieMsg(MarsCirceAndOthers);
       return false;
