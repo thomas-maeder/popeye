@@ -88,4 +88,12 @@ stip +1
 condition marscirce
 option nowk
 
+next
+
+title 4.63 gave 1.Kf3-e2 d1*e2 =
+pieces white pd1 black kf3
+condition wormholes d1d8
+stipulation h=1
+option nowk
+
 end

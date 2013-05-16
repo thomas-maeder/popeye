@@ -1252,12 +1252,14 @@ boolean berolina_pawn_check(square  sq_king,
                             piece   p,
                             evalfunction_t *evaluate)
 {
-  if (p<=roin) {
+  if (p<=roin)
+  {
     if (sq_king<=square_h6
         || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
+        || CondFlag[wormholes]
         || p==orphann)
     {
       square sq_departure= sq_king+dir_up;
@@ -1285,6 +1287,7 @@ boolean berolina_pawn_check(square  sq_king,
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
+        || CondFlag[wormholes]
         || p==orphanb)
     {
       square sq_departure= sq_king+dir_down;
@@ -2014,6 +2017,7 @@ boolean pioncheck(square sq_king,
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
+        || CondFlag[wormholes]
         || p==orphann
         || p<=hunter0n)
     {
@@ -2034,6 +2038,7 @@ boolean pioncheck(square sq_king,
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
+        || CondFlag[wormholes]
         || p==orphanb
         || p>=hunter0b)
     {

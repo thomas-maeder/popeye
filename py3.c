@@ -334,7 +334,8 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
-        || CondFlag[circecage])
+        || CondFlag[circecage]
+        || CondFlag[wormholes])
     {
       sq_departure= king_square[Black]+dir_down+dir_right;
       if (e[sq_departure]==pb
@@ -553,7 +554,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
-        || CondFlag[circecage])
+        || CondFlag[circecage]
+        || CondFlag[wormholes])
     {
       sq_departure= king_square[White]+dir_up+dir_left;
       if (e[sq_departure]==pn

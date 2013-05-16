@@ -396,3 +396,36 @@ solution finished.
 solution finished. 
 
 
+
+      4.63 gave 1.Kf3-e2 d1*e2 =
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -K   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   P   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=1                         1 + 1
+           Wormholes d1 d8
+
+
+                        empile:          63
+                     play_move:          21
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          21
+solution finished. 
+
+
