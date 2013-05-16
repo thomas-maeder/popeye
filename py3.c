@@ -250,15 +250,13 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   if (SATCheck)
     return echecc_SAT(Black);
 
-  if (CondFlag[phantom])
-  {
-    if (marsechecc(Black,evaluate))
-      return true;
-  }
-  else if (CondFlag[plus])
+  if (CondFlag[plus])
     return plusechecc(Black,evaluate);
   else if (CondFlag[phantom])
-    return phantom_echecc(Black,evaluate);
+  {
+    if (phantom_echecc(Black,evaluate))
+      return true;
+  }
   else if (anymars)
     return marsechecc(Black,evaluate);
 
@@ -472,15 +470,13 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   if (SATCheck)
     return echecc_SAT(White);
 
-  if (CondFlag[phantom])
-  {
-    if (marsechecc(White,evaluate))
-      return true;
-  }
-  else if (CondFlag[plus])
+  if (CondFlag[plus])
     return plusechecc(White,evaluate);
   else if (CondFlag[phantom])
-    return phantom_echecc(White,evaluate);
+  {
+    if (phantom_echecc(White,evaluate))
+      return true;
+  }
   else if (anymars)
     return marsechecc(White,evaluate);
 

@@ -212,7 +212,7 @@ boolean phantom_echecc(Side side, evalfunction_t *evaluate)
       /* in marscirce the kings are included */
       /* in phantomchess the kings are not included, but with rex
          inclusif they are */
-      if ((!CondFlag[phantom] || !TSTFLAG(spec[pos_checking],Royal) || phantom_chess_rex_inclusive)
+      if ((!TSTFLAG(spec[pos_checking],Royal) || phantom_chess_rex_inclusive)
           && piece_belongs_to_opponent(pos_checking,side)
           && pos_checking!=king_square[side]   /* exclude nK */)
       {
