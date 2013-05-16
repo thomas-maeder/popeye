@@ -1425,19 +1425,28 @@ static boolean verify_position(slice_index si)
       && CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[White])
     CondFlag[swappingkings] = true;
 
-  if (anymars || anyantimars || CondFlag[phantom]) {
-    optim_neutralretractable = false;
-    disable_orthodox_mating_move_optimisation(nr_sides);
-    if (calc_transmuting_king[White]
-        || calc_reflective_king[White]
-        || calc_transmuting_king[Black]
-        || calc_reflective_king[Black]
-        || CondFlag[bicolores]
-        || CondFlag[sting]
-        || flagsimplehoppers)
+  if (anymars || anyantimars || CondFlag[phantom])
+  {
+    if (anymars+anyantimars+CondFlag[phantom]>1)
     {
       VerifieMsg(MarsCirceAndOthers);
       return false;
+    }
+    else if (calc_transmuting_king[White]
+             || calc_reflective_king[White]
+             || calc_transmuting_king[Black]
+             || calc_reflective_king[Black]
+             || CondFlag[bicolores]
+             || CondFlag[sting]
+             || flagsimplehoppers)
+    {
+      VerifieMsg(MarsCirceAndOthers);
+      return false;
+    }
+    else
+    {
+      optim_neutralretractable = false;
+      disable_orthodox_mating_move_optimisation(nr_sides);
     }
   }
 
