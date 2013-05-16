@@ -2,6 +2,7 @@
 #define CONDITIONS_PHANTOM_H
 
 #include "solving/solve.h"
+#include "pyproc.h"
 
 /* This module provides implements the condition Phantom Chess
  */
@@ -36,5 +37,12 @@ stip_length_type phantom_en_passant_adjuster_solve(slice_index si,
 /* Instrument slices with promotee markers
  */
 void stip_insert_phantom_en_passant_adjusters(slice_index si);
+
+/* Determine whether a specific side is in check in Phantom Chess
+ * @param side the side
+ * @param evaluate filter for king capturing moves
+ * @return true iff side is in check
+ */
+boolean phantom_echecc(Side side, evalfunction_t *evaluate);
 
 #endif

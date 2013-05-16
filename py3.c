@@ -45,6 +45,7 @@
 #include "conditions/magic_square.h"
 #include "conditions/immune.h"
 #include "conditions/phantom.h"
+#include "conditions/marscirce/marscirce.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "solving/observation.h"
@@ -209,43 +210,6 @@ boolean feenechec(evalfunction_t *evaluate)
   return false;
 }
 
-/* detect mars circe check of k of Side camp */
-static boolean marsechecc(Side side, evalfunction_t *evaluate)
-{
-  int i,j;
-  square square_h = square_h8;
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
-  {
-    square pos_checking = square_h;
-    for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
-    {
-      /* in marscirce the kings are included */
-      /* in phantomchess the kings are not included, but with rex
-         inclusif they are */
-      if ((!CondFlag[phantom] || !TSTFLAG(spec[pos_checking],Royal) || phantom_chess_rex_inclusive)
-          && piece_belongs_to_opponent(pos_checking,side)
-          && pos_checking!=king_square[side]   /* exclude nK */)
-      {
-        piece const pi_checking = e[pos_checking];
-        Flags const spec_checking = spec[pos_checking];
-        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
-        result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean calc_rnechec(evalfunction_t *evaluate);
 
 DEFINE_COUNTER(is_black_king_square_attacked)
@@ -293,6 +257,8 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   }
   else if (CondFlag[plus])
     return plusechecc(Black,evaluate);
+  else if (CondFlag[phantom])
+    return phantom_echecc(Black,evaluate);
   else if (anymars)
     return marsechecc(Black,evaluate);
 
@@ -513,6 +479,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   }
   else if (CondFlag[plus])
     return plusechecc(White,evaluate);
+  else if (CondFlag[phantom])
+    return phantom_echecc(White,evaluate);
   else if (anymars)
     return marsechecc(White,evaluate);
 

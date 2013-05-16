@@ -2,6 +2,7 @@
 #define CONDITIONS_MARSCIRCE_MARSCIRCE_H
 
 #include "solving/solve.h"
+#include "pyproc.h"
 
 /* This module provides implements the condition Mars-Circe
  */
@@ -45,5 +46,12 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure);
  * @note the piece on pos_checking must belong to advers(side)
  */
 boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_rebirth);
+
+/* Determine whether a specific side is in check in Mars Circe
+ * @param side the side
+ * @param evaluate filter for king capturing moves
+ * @return true iff side is in check
+ */
+boolean marsechecc(Side side, evalfunction_t *evaluate);
 
 #endif

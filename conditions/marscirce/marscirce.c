@@ -160,3 +160,38 @@ boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_
 
   return result;
 }
+
+/* Determine whether a specific side is in check in Mars Circe
+ * @param side the side
+ * @param evaluate filter for king capturing moves
+ * @return true iff side is in check
+ */
+boolean marsechecc(Side side, evalfunction_t *evaluate)
+{
+  int i,j;
+  square square_h = square_h8;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
+  {
+    square pos_checking = square_h;
+    for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
+      if (piece_belongs_to_opponent(pos_checking,side)
+          && pos_checking!=king_square[side]   /* exclude nK */)
+      {
+        piece const pi_checking = e[pos_checking];
+        Flags const spec_checking = spec[pos_checking];
+        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
+        result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);
+      }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
