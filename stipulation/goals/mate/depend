@@ -2,11 +2,12 @@ stipulation/goals/mate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/mate/reached_tester.c \
  stipulation/goals/mate/reached_tester.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/goals/check/reached_tester.h stipulation/stipulation.h \
- stipulation/goals/goals.h utilities/boolean.h output/mode.h \
+ stipulation/goals/goals.h output/mode.h \
  stipulation/goals/immobile/reached_tester.h stipulation/boolean/true.h \
  debugging/trace.h
 
@@ -25,6 +26,8 @@ position/board.h:
 utilities/bitmask.h:
 
 position/piece.h:
+
+utilities/boolean.h:
 
 utilities/enumeration.h:
 
@@ -45,8 +48,6 @@ stipulation/goals/check/reached_tester.h:
 stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
-
-utilities/boolean.h:
 
 output/mode.h:
 

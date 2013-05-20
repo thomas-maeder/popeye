@@ -7,6 +7,7 @@
 #include "stipulation/pipe.h"
 #include "solving/castling.h"
 #include "solving/en_passant.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -87,24 +88,29 @@ static numvec detect_battery(square sq_departure, square sq_king, Side side)
           +detect_directed_battery(sq_departure,sq_king,side,Rook));
 }
 
+static void pawn_ep_try_direction(square sq_departure, numvec dir)
+{
+  square const sq_arrival = sq_departure+dir;
+  ply const parent = parent_ply[nbply];
+
+  if (en_passant_is_capture_possible_to(sq_arrival))
+  {
+    move_effect_journal_index_type const oarent_base = move_effect_journal_top[parent-1];
+    move_effect_journal_index_type const parent_movement = oarent_base+move_effect_journal_index_offset_movement;
+    empile(sq_departure,
+           sq_arrival,
+           move_effect_journal[parent_movement].u.piece_movement.to);
+    move_generation_stack[current_move[nbply]].auxiliary = sq_arrival;
+  }
+}
+
 static void pawn_ep(square sq_departure, Side side)
 {
-  numvec const dir_forward = side==White ? dir_up : dir_down;
-
-  if (ep[parent_ply[nbply]]!=initsquare
-      && trait[parent_ply[nbply]]!=trait[nbply]
-      && (sq_departure+dir_forward+dir_right==ep[parent_ply[nbply]]
-          || sq_departure+dir_forward+dir_left==ep[parent_ply[nbply]]))
+  if (trait[parent_ply[nbply]]!=trait[nbply])
   {
-    if (nbply==2)    /* ep.-key  standard pawn */
-    {
-      numvec const dir_backward = side==White ? dir_down : dir_up;
-      move_generation_stack[current_move[1]].arrival = ep[parent_ply[nbply]]+dir_backward;
-    }
-    empile(sq_departure,
-           ep[parent_ply[nbply]],
-           move_generation_stack[current_move[parent_ply[nbply]]].arrival);
-    move_generation_stack[current_move[nbply]].auxiliary = ep[parent_ply[nbply]];
+    numvec const dir_forward = side==White ? dir_up : dir_down;
+    pawn_ep_try_direction(sq_departure,dir_forward+dir_right);
+    pawn_ep_try_direction(sq_departure,dir_forward+dir_left);
   }
 }
 

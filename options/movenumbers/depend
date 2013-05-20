@@ -7,7 +7,7 @@ options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h stipulation/pipe.h pymsg.h \
+ pieces/vectors.h stipulation/goals/goals.h stipulation/pipe.h pymsg.h \
  stipulation/has_solution_type.h debugging/trace.h options/movenumbers.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h
 
@@ -54,6 +54,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 

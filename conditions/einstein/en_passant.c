@@ -32,7 +32,7 @@ static void adjust_ep_squares2(square sq_multistep_departure)
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_forward)
       {
-        ep[nbply] = (sq_multistep_departure+sq_arrival+sq_arrival) / 3;
+        en_passant_remember_multistep_over((sq_multistep_departure+sq_arrival+sq_arrival) / 3);
         einstein_ep[nbply] = (sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3;
       }
       break;
@@ -44,7 +44,7 @@ static void adjust_ep_squares2(square sq_multistep_departure)
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_backward)
       {
-        ep[nbply] = (sq_multistep_departure+sq_arrival+sq_arrival) / 3;
+        en_passant_remember_multistep_over((sq_multistep_departure+sq_arrival+sq_arrival) / 3);
         einstein_ep[nbply] = (sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3;
       }
       break;

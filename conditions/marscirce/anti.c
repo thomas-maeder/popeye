@@ -63,15 +63,14 @@ void antimars_generate_moves(Side side, piece p, square sq_departure)
   TraceFunctionResultEnd();
 }
 
-static void adjust(void)
+static square adjust(void)
 {
+  square result = initsquare;
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   piece const pi_arriving = e[sq_arrival];
-
-  ep[nbply] = initsquare;
 
   if (is_pawn(abs(pi_arriving))
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
@@ -83,17 +82,18 @@ static void adjust(void)
                                            initsquare,
                                            initsquare,
                                            advers(trait[nbply]));
-
-    adjust_ep_squares(sq_rebirth);
+    result = en_passant_find_potential(sq_rebirth);
 
     /* In positions like pieces black pe6 white pd5, we can't tell whether
      * the black pawn's move to e5 is a double step.
      * As the ep capturer normally has the burden of proof, let's disallow
      * ep capture in that case for now.
      */
-    if (ep[nbply]==sq_departure)
-      ep[nbply] = initsquare;
+    if (result==sq_departure)
+      result = initsquare;
   }
+
+  return result;
 }
 
 /* Try to solve in n half-moves.
@@ -113,14 +113,22 @@ stip_length_type antimars_en_passant_adjuster_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
+  square multipstep_over;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  adjust();
-  result = solve(slices[si].next1,n);
+  multipstep_over = adjust();
+  if (multipstep_over==initsquare)
+    result = solve(slices[si].next1,n);
+  else
+  {
+    en_passant_remember_multistep_over(multipstep_over);
+    result = solve(slices[si].next1,n);
+    en_passant_forget_multistep();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1311,7 +1311,7 @@ byte *CommonEncode(byte *bp,
   if (min_length>slack_length+1)
     *bp++ = (byte)(validity_value);
 
-  if (ep[nbply]!=initsquare)
+  if (en_passant_was_multistep_played(nbply))
     *bp++ = (byte)(ep[nbply] - square_a1);
 
   *bp++ = castling_flag[nbply];     /* Castling_Flag */

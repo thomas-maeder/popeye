@@ -12,12 +12,81 @@
 
 square ep[maxply+1];
 
-/* Adjust en passant possibilities of the following move after a non-capturing
- * move
- * @param sq_multistep_departure departure square of pawn move
+/* Remember a square avoided by a multistep move of a pawn
+ * @param s avoided square
  */
-void adjust_ep_squares(square sq_multistep_departure)
+void en_passant_remember_multistep_over(square s)
 {
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  assert(s!=initsquare);
+  ep[nbply] = s;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Forget the last square remembered by en_passant_remember_multistep_over()
+ */
+void en_passant_forget_multistep(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  ep[nbply] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Was a pawn multistep move played in a certain ply?
+ * @param ply the ply
+ * @return true iff a multi step move was played in ply ply
+ */
+boolean en_passant_was_multistep_played(ply ply)
+{
+  boolean const result = ep[ply]!=initsquare;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Is an en passant capture possible to a specific square?
+ * @param s the square
+ * @return true iff an en passant capture to s is currently possible
+ */
+boolean en_passant_is_capture_possible_to(square s)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  result = ep[parent_ply[nbply]]==s;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find out whether the pawn that has just moved (if any) has the potential
+ * of being captured en passant
+ * @param sq_multistep_departure departure square of pawn move
+ * @return the square avoided by the multistep; initsquare if no multistep
+ */
+square en_passant_find_potential(square sq_multistep_departure)
+{
+  square result = initsquare;
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   PieNam const pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
@@ -38,7 +107,7 @@ void adjust_ep_squares(square sq_multistep_departure)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       if (sq_arrival-sq_multistep_departure==2*dir_forward
           && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
-        ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
+        result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
 
@@ -51,7 +120,7 @@ void adjust_ep_squares(square sq_multistep_departure)
       numvec const v = sq_arrival-sq_multistep_departure;
       if ((v==2*dir_forward+2*dir_left || v==2*dir_forward+2*dir_right)
           && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
-        ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
+        result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
 
@@ -63,7 +132,7 @@ void adjust_ep_squares(square sq_multistep_departure)
                                        : BIT(BlPawnDoublestepSq)|BIT(BlBaseSq));
       if (sq_arrival-sq_multistep_departure==2*dir_backward
           && TSTFLAGMASK(sq_spec[sq_multistep_departure],double_step))
-        ep[nbply] = (sq_multistep_departure+sq_arrival) / 2;
+        result = (sq_multistep_departure+sq_arrival) / 2;
       break;
     }
 
@@ -71,10 +140,10 @@ void adjust_ep_squares(square sq_multistep_departure)
       break;
   }
 
-  TraceSquare(ep[nbply]);TraceText("\n");
-
   TraceFunctionExit(__func__);
+  TraceSquare(result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to solve in n half-moves.
@@ -103,13 +172,21 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  ep[nbply] = initsquare;
-
   if (is_pawn(abs(pi_moving))
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
-    adjust_ep_squares(move_effect_journal[movement].u.piece_movement.from);
-
-  result = solve(slices[si].next1,n);
+  {
+    square const multistep_over = en_passant_find_potential(move_effect_journal[movement].u.piece_movement.from);
+    if (multistep_over!=initsquare)
+    {
+      en_passant_remember_multistep_over(multistep_over);
+      result = solve(slices[si].next1,n);
+      en_passant_forget_multistep();
+    }
+    else
+      result = solve(slices[si].next1,n);
+  }
+  else
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

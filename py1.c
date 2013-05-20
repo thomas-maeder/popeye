@@ -152,7 +152,6 @@ static void initply(ply parent, ply child)
   move_effect_journal_top[child] = move_effect_journal_top[child-1];
 
   einstein_ep[child] = initsquare;
-  ep[child] = initsquare;
 
   prev_king_square[White][nbply] = king_square[White];
   prev_king_square[Black][nbply] = king_square[Black];
@@ -190,7 +189,6 @@ static void do_copyply(ply original, ply copy)
   move_effect_journal_top[copy] = move_effect_journal_top[copy-1];
 
   einstein_ep[copy] = einstein_ep[parent_ply[original]];
-  ep[copy] = ep[parent_ply[original]];
 
   prev_king_square[White][nbply] = prev_king_square[White][parent_ply[original]];
   prev_king_square[Black][nbply] = prev_king_square[Black][parent_ply[original]];
@@ -401,7 +399,7 @@ void InitOpt(void)
 
   castling_flag[castlings_flags_no_castling] = bl_castlings|wh_castlings;
 
-  ep[nbply] = initsquare;
+  en_passant_forget_multistep();
   einstein_ep[nbply] = initsquare;
 
   resetOptionMaxtime();

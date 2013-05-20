@@ -54,8 +54,6 @@ stip_length_type goal_enpassant_reached_tester_solve(slice_index si, stip_length
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
 
   TraceFunctionEntry(__func__);
@@ -65,9 +63,8 @@ stip_length_type goal_enpassant_reached_tester_solve(slice_index si, stip_length
 
   assert(nbply!=nil_ply);
 
-  if (sq_capture!=move_effect_journal[movement].u.piece_movement.to
-      && sq_capture<=square_h8
-      && is_pawn(abs(pi_moving)))
+  if (move_effect_journal[capture].type==move_effect_piece_removal
+      && move_effect_journal[capture].reason==move_effect_reason_ep_capture)
     result = solve(slices[si].next1,n);
   else
     result = n+2;

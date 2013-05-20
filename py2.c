@@ -1268,7 +1268,7 @@ boolean berolina_pawn_check(square  sq_king,
           && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
-      if (ep[nbply]!=initsquare
+      if (en_passant_was_multistep_played(nbply)
           && prev_king_square[White][nbply]!=king_square[White]
           && (king_square[White]==ep[nbply]+dir_up+dir_left
               || king_square[White]==ep[nbply]+dir_up+dir_right)) {
@@ -1296,7 +1296,7 @@ boolean berolina_pawn_check(square  sq_king,
           && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
-      if (ep[nbply]!=initsquare
+      if (en_passant_was_multistep_played(nbply)
           && prev_king_square[Black][nbply]!=king_square[Black]
           && (king_square[Black]==ep[nbply]+dir_down+dir_right
               || king_square[Black]==ep[nbply]+dir_down+dir_left)) {

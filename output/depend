@@ -6,11 +6,11 @@ utilities/enumeration.h:
 output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  utilities/enumeration.h stipulation/slice.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h pylang.h stipulation/slice_type.h \
+ position/piece.h utilities/boolean.h pylang.h stipulation/slice_type.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
- stipulation/pipe.h solving/battle_play/attack_play.h \
- stipulation/branch.h output/plaintext/end_of_phase_writer.h \
+ stipulation/traversal.h stipulation/goals/goals.h stipulation/pipe.h \
+ solving/solve.h stipulation/branch.h \
+ output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h output/plaintext/tree/tree.h \
  output/plaintext/line/line.h debugging/trace.h
 
@@ -34,6 +34,8 @@ utilities/bitmask.h:
 
 position/piece.h:
 
+utilities/boolean.h:
+
 pylang.h:
 
 stipulation/slice_type.h:
@@ -46,11 +48,9 @@ stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
-utilities/boolean.h:
-
 stipulation/pipe.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 stipulation/branch.h:
 

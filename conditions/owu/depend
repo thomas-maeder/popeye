@@ -6,11 +6,11 @@ conditions/owu/immobility_tester$(OBJ_SUFFIX): conditions/owu/immobility_tester.
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h stipulation/has_solution_type.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
- stipulation/boolean/and.h solving/king_move_generator.h \
- solving/non_king_move_generator.h solving/legal_move_counter.h \
- solving/capture_counter.h debugging/trace.h
+ pieces/vectors.h stipulation/goals/goals.h \
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/boolean/and.h \
+ solving/king_move_generator.h solving/non_king_move_generator.h \
+ solving/legal_move_counter.h solving/capture_counter.h debugging/trace.h
 
 conditions/owu/immobility_tester.h:
 
@@ -55,6 +55,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 

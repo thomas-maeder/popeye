@@ -1,12 +1,13 @@
 debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h pyproc.h \
  py4.h py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/goals/goals.h py.h pydata.h \
- pyproc.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- optimisations/hash.h DHT/dhtbcmem.h solving/solve.h \
- output/plaintext/plaintext.h stipulation/move.h
+ utilities/enumeration.h pylang.h pieces/vectors.h \
+ stipulation/goals/goals.h py.h pydata.h pyproc.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h optimisations/hash.h \
+ DHT/dhtbcmem.h solving/solve.h output/plaintext/plaintext.h \
+ stipulation/move.h
 
 debugging/measure.h:
 
@@ -31,6 +32,8 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 pylang.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
@@ -66,12 +69,12 @@ stipulation/move.h:
 debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pyproc.h py4.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/goals/goals.h py.h pydata.h \
- pyproc.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- optimisations/hash.h DHT/dhtbcmem.h solving/solve.h \
- output/plaintext/plaintext.h
+ utilities/enumeration.h pylang.h pieces/vectors.h \
+ stipulation/goals/goals.h py.h pydata.h pyproc.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h optimisations/hash.h \
+ DHT/dhtbcmem.h solving/solve.h output/plaintext/plaintext.h
 
 debugging/trace.h:
 
@@ -96,6 +99,8 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 pylang.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 

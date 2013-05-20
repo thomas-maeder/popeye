@@ -4346,13 +4346,20 @@ static char *ReadSquares(SquareListContext context)
           switch (nr_squares_read)
           {
             case 0:
-              ep[1]= sq;
+            {
+              Side const side = sq<=square_h4 ? White : Black;
+              numvec const dir_forward = side==White ? dir_up : dir_down  ;
+              move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+              move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+              en_passant_remember_multistep_over(sq);
+              move_effect_journal[movement].u.piece_movement.to = sq+dir_forward;
               break;
+            }
             case 1:
               einstein_ep[1]= sq;
               break;
             default:
-              Message(ToManyEpKeySquares);
+              Message(TooManyEpKeySquares);
               break;
           }
           break;

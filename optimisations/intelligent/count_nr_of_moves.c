@@ -598,15 +598,15 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
         if (e[from_square+dir_up]==pn
             && (e[from_square+dir_left]<=roib
                 && e[from_square+dir_right]<=roib))
-          /* Black can't immediately get rid of block on 3th row
+          /* Black can't immediately get rid of block on 3rd row
            * -> no immediate double step possible */
           ++result;
 
         else if (e[from_square+2*dir_up]==pn
                  && (e[from_square+dir_up+dir_left]<=roib
                      && e[from_square+dir_up+dir_right]<=roib
-                     && ep[1]!=from_square+dir_up+dir_left
-                     && ep[1]!=from_square+dir_up+dir_right))
+                     && !en_passant_is_capture_possible_to(from_square+dir_up+dir_left)
+                     && !en_passant_is_capture_possible_to(from_square+dir_up+dir_right)))
           /* Black can't immediately get rid of block on 4th row
            * -> no immediate double step possible */
           ++result;

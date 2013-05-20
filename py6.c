@@ -1538,7 +1538,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[wormholes] && (ep[1]!=initsquare || einstein_ep[1]!=initsquare))
+  if (CondFlag[wormholes] && (en_passant_was_multistep_played(1) || einstein_ep[1]!=initsquare))
   {
     VerifieMsg(WormholesEPKey);
     return false;

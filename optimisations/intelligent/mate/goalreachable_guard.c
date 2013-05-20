@@ -151,7 +151,7 @@ static boolean mate_isGoalReachable(void)
 
     result = (MovesRequired[White][nbply]<=MovesLeft[White]
               && MovesRequired[Black][nbply]<=MovesLeft[Black]
-              && OpeningsRequired[nbply]<=MovesLeft[White]+MovesLeft[Black]+(ep[nbply]!=initsquare));
+              && OpeningsRequired[nbply]<=MovesLeft[White]+MovesLeft[Black]+(en_passant_was_multistep_played(nbply)));
   }
 
   TraceFunctionExit(__func__);

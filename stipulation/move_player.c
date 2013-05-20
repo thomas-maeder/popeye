@@ -49,7 +49,7 @@ static void play_move(void)
     square const sq_auxiliary = move_gen_top->auxiliary;
     ply const ply_parent = parent_ply[nbply];
     boolean const is_ep = (e[sq_auxiliary]==vide
-                           && (sq_auxiliary==ep[ply_parent]
+                           && (en_passant_is_capture_possible_to(sq_auxiliary)
                                || sq_auxiliary==einstein_ep[ply_parent]));
     move_effect_reason_type const removal_reason = (is_ep
                                                     ? move_effect_reason_ep_capture

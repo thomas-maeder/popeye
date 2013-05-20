@@ -27,7 +27,7 @@ void pawns_generate_ep_capture_move(Side side,
   TraceText("\n");
 
   if (abs(e[sq_departure])!=Orphan /* orphans cannot capture ep */
-      && (sq_arrival_singlestep==ep[ply_parent]
+      && (en_passant_is_capture_possible_to(sq_arrival_singlestep)
           || sq_arrival_singlestep==einstein_ep[ply_parent]))
   {
     /* ep capture */

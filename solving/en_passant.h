@@ -8,11 +8,33 @@
 
 extern square ep[maxply+1];
 
+/* Remember a square avoided by a multistep move of a pawn
+ * @param s avoided square
+ */
+void en_passant_remember_multistep_over(square s);
+
+/* Forget the last square remembered by en_passant_remember_multistep_over()
+ */
+void en_passant_forget_multistep(void);
+
+/* Was a pawn multistep move played in a certain ply?
+ * @param ply the ply
+ * @return true iff a multi step move was played in ply ply
+ */
+boolean en_passant_was_multistep_played(ply ply);
+
+/* Is an en passant capture possible to a specific square?
+ * @param s the square
+ * @return true iff an en passant capture to s is currently possible
+ */
+boolean en_passant_is_capture_possible_to(square s);
+
 /* Adjust en passant possibilities of the following move after a non-capturing
  * move
  * @param sq_multistep_departure departure square of pawn move
+ * @return the square avoided by the multistep; initsquare if no multistep
  */
-void adjust_ep_squares(square sq_multistep_departure);
+square en_passant_find_potential(square sq_multistep_departure);
 
 /* Try to solve in n half-moves.
  * @param si slice index

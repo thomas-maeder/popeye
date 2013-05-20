@@ -1,7 +1,5 @@
 DHT/dht$(OBJ_SUFFIX): DHT/dht.c utilities/boolean.h DHT/dhtvalue.h DHT/fxf.h \
- DHT/dht.h debugging/trace.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h \
- utilities/enumeration.h pylang.h
+ DHT/dht.h debugging/trace.h
 
 utilities/boolean.h:
 
@@ -12,22 +10,6 @@ DHT/fxf.h:
 DHT/dht.h:
 
 debugging/trace.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-position/piece.h:
-
-utilities/enumeration.h:
-
-pylang.h:
 DHT/dhtcmem$(OBJ_SUFFIX): DHT/dhtcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtcmem.h \
  DHT/dht.h
 

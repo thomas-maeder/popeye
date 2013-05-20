@@ -2,16 +2,14 @@ stipulation/goals/autostalemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/autostalemate/reached_tester.c \
  stipulation/goals/autostalemate/reached_tester.h stipulation/slice.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/slice_type.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- solving/battle_play/attack_play.h stipulation/goals/reached_tester.h \
- stipulation/goals/goals.h utilities/boolean.h \
- solving/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h stipulation/goals/immobile/reached_tester.h \
- stipulation/stipulation.h output/mode.h \
- stipulation/goals/notcheck/reached_tester.h stipulation/boolean/true.h \
- debugging/trace.h
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/traversal.h solving/solve.h \
+ stipulation/goals/reached_tester.h stipulation/goals/goals.h \
+ stipulation/goals/immobile/reached_tester.h stipulation/stipulation.h \
+ output/mode.h stipulation/goals/notcheck/reached_tester.h \
+ stipulation/boolean/true.h debugging/trace.h
 
 stipulation/goals/autostalemate/reached_tester.h:
 
@@ -29,6 +27,8 @@ utilities/bitmask.h:
 
 position/piece.h:
 
+utilities/boolean.h:
+
 utilities/enumeration.h:
 
 pylang.h:
@@ -41,23 +41,9 @@ stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-solving/battle_play/attack_play.h:
+solving/solve.h:
 
 stipulation/goals/reached_tester.h:
-
-stipulation/goals/goals.h:
-
-utilities/boolean.h:
-
-solving/battle_play/defense_play.h:
-
-pydata.h:
-
-pyproc.h:
-
-py4.h:
-
-py.h:
 
 stipulation/goals/goals.h:
 

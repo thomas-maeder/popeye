@@ -2,8 +2,7 @@ platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
  utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- solving/battle_play/attack_play.h stipulation/slice.h \
- stipulation/slice_type.h
+ solving/solve.h
 
 platform/maxmem.h:
 
@@ -29,16 +28,12 @@ utilities/enumeration.h:
 
 pylang.h:
 
-solving/battle_play/attack_play.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
+solving/solve.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \
  platform/maxtime.h utilities/boolean.h pydata.h pyproc.h py4.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/enumeration.h pylang.h \
- stipulation/goals/goals.h py.h
+ pieces/vectors.h stipulation/goals/goals.h py.h
 
 platform/maxtime_impl.h:
 
@@ -67,6 +62,8 @@ position/piece.h:
 utilities/enumeration.h:
 
 pylang.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 

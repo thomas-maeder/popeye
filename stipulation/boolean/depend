@@ -113,8 +113,8 @@ stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/pipe.h pyproc.h py4.h py.h stipulation/goals/goals.h \
- pydata.h pyproc.h debugging/trace.h
+ stipulation/pipe.h pyproc.h py4.h py.h pieces/vectors.h \
+ stipulation/goals/goals.h pydata.h pyproc.h debugging/trace.h
 
 stipulation/boolean/not.h:
 
@@ -161,6 +161,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 

@@ -33,7 +33,7 @@ static boolean is_ep_paralysed_on(piece p,
 
   ply const ply_dblstp = parent_ply[nbply];
 
-  return (ep[ply_dblstp]==sq || einstein_ep[ply_dblstp]==sq)
+  return (en_passant_is_capture_possible_to(sq) || einstein_ep[ply_dblstp]==sq)
           && nbpiece[p]>0
           && (*checkfunc)(sq,p,&validate_observation_geometry);
 }

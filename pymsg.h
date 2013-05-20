@@ -113,7 +113,7 @@ typedef enum
   CheckingLevel2                                    = 72,
   StipNotSupported                                  = 73,
   MultipleGoalsWithProofGameNotAcceptable           = 74,
-  ToManyEpKeySquares                                = 75,
+  TooManyEpKeySquares                                = 75,
   Abort                                             = 76,
   TransmRoyalPieces                                 = 77,
   UnrecRotMirr                                      = 78,

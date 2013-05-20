@@ -3,13 +3,13 @@ output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h pydata.h \
- pyproc.h py4.h py.h stipulation/goals/goals.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- solving/solve.h stipulation/fork.h output/output.h output/mode.h \
- stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/help_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h solving/trivial_end_filter.h \
- output/plaintext/move_inversion_counter.h \
+ pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/traversal.h solving/solve.h stipulation/fork.h \
+ output/output.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/help_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ solving/trivial_end_filter.h output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/goal_writer.h output/plaintext/end_of_phase_writer.h \
@@ -47,6 +47,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
@@ -98,8 +100,8 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  utilities/boolean.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/enumeration.h pylang.h solving/solve.h pydata.h pyproc.h py4.h \
- py.h stipulation/goals/goals.h pymsg.h output/plaintext/plaintext.h \
- output/plaintext/move_inversion_counter.h \
+ py.h pieces/vectors.h stipulation/goals/goals.h pymsg.h \
+ output/plaintext/plaintext.h output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
@@ -137,6 +139,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
@@ -178,7 +182,8 @@ output/plaintext/line/end_of_intro_series_marker$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h stipulation/pipe.h debugging/trace.h
+ pieces/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
+ debugging/trace.h
 
 output/plaintext/line/end_of_intro_series_marker.h:
 
@@ -224,6 +229,8 @@ py4.h:
 
 py.h:
 
+pieces/vectors.h:
+
 stipulation/goals/goals.h:
 
 stipulation/pipe.h:
@@ -239,7 +246,7 @@ output/plaintext/line/exclusive$(OBJ_SUFFIX): output/plaintext/line/exclusive.c 
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  conditions/exclusive.h utilities/table.h position/position.h \
  output/plaintext/line/line_writer.h pymsg.h pydata.h pyproc.h py4.h py.h \
- stipulation/goals/goals.h debugging/trace.h
+ pieces/vectors.h stipulation/goals/goals.h debugging/trace.h
 
 output/plaintext/line/exclusive.h:
 
@@ -298,6 +305,8 @@ pyproc.h:
 py4.h:
 
 py.h:
+
+pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
