@@ -35,8 +35,8 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
                                                     stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
   TraceFunctionEntry(__func__);
