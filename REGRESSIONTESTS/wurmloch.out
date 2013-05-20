@@ -25,10 +25,10 @@
 
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S[sSa1->g7] f7-f8=S #
 
-                        empile:    12222091
-                     play_move:    11955298
- is_white_king_square_attacked:     1410866
- is_black_king_square_attacked:    10913793
+                        empile:    12223451
+                     play_move:    11955188
+ is_white_king_square_attacked:     1411104
+ is_black_king_square_attacked:    10913715
 Loesung beendet. 
 
 
