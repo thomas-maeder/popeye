@@ -95,8 +95,8 @@ static void pawn_ep_try_direction(square sq_departure, numvec dir)
 
   if (en_passant_is_capture_possible_to(sq_arrival))
   {
-    move_effect_journal_index_type const oarent_base = move_effect_journal_top[parent-1];
-    move_effect_journal_index_type const parent_movement = oarent_base+move_effect_journal_index_offset_movement;
+    move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+    move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
     empile(sq_departure,
            sq_arrival,
            move_effect_journal[parent_movement].u.piece_movement.to);
