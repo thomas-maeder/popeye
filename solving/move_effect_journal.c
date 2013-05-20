@@ -15,9 +15,9 @@ move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
 
 move_effect_journal_index_type move_effect_journal_top[maxply+1] = { 3, 4 };
 
-move_effect_journal_index_type move_effect_journal_index_offset_capture;
-move_effect_journal_index_type move_effect_journal_index_offset_movement;
-move_effect_journal_index_type move_effect_journal_index_offset_other_effects;
+move_effect_journal_index_type move_effect_journal_index_offset_capture = 0;
+move_effect_journal_index_type move_effect_journal_index_offset_movement = 1;
+move_effect_journal_index_type move_effect_journal_index_offset_other_effects = 2;
 
 /* Reserve space for an effect in each move before the capture (e.g. for
  * Singlebox Type 3 promotions). Conditions that do this have to make sure
@@ -35,12 +35,10 @@ void move_effect_journal_register_pre_capture_effect(void)
 
   /* this acrobatics is needed in Circe Parrain */
   move_effect_journal[0].type = move_effect_none;
-  move_effect_journal[1].type = move_effect_no_piece_removal;
-  move_effect_journal[1].u.piece_removal.removed = vide;
-  CLEARFL(move_effect_journal[1].u.piece_removal.removedspec);
-  move_effect_journal_top[0] = 2;
-
+  move_effect_journal[1] = move_effect_journal[2];
   move_effect_journal[2].type = move_effect_none;
+
+  move_effect_journal_top[0] = 2;
   move_effect_journal_top[1] = 4;
 
   TraceFunctionExit(__func__);

@@ -2,6 +2,7 @@
 #include "conditions/einstein/en_passant.h"
 #include "conditions/wormhole.h"
 #include "solving/en_passant.h"
+#include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 
@@ -33,14 +34,12 @@ void pawns_generate_ep_capture_move(Side side,
     /* ep capture */
     square sq_capture;
 
-    if (nbply==2)
+    if (trait[ply_parent]!=side)
     {
-      /* ep.-key  standard pawn */
-      int const dir_backward = side==White ? dir_down : dir_up;
-      sq_capture = sq_arrival_singlestep+dir_backward;
+      move_effect_journal_index_type const parent_base = move_effect_journal_top[ply_parent-1];
+      move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
+      sq_capture = move_effect_journal[parent_movement].u.piece_movement.to;
     }
-    else if (trait[ply_parent]==advers(side))
-      sq_capture = move_generation_stack[current_move[ply_parent]].arrival;
     else
       sq_capture = initsquare;
 
