@@ -51,7 +51,7 @@ stip_length_type enpassant_filter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (ep[nbply]!=initsquare || einstein_ep[nbply]!=initsquare)
+  if (en_passant_was_multistep_played(nbply) || einstein_ep[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
   result = solve(next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);
