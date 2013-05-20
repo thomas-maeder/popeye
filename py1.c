@@ -177,7 +177,10 @@ static void initply(ply parent, ply child)
   take_make_circe_current_rebirth_square_index[child] = take_make_circe_current_rebirth_square_index[parent];
 
   ++post_move_iteration_id[child];
-  TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
+
+  TraceValue("%u",child);
+  TraceValue("%u",move_effect_journal_top[child]);
+  TraceValue("%u\n",post_move_iteration_id[child]);
 }
 
 static void do_copyply(ply original, ply copy)
