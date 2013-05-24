@@ -144,10 +144,10 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 
   1.e4*d3 ep. #
 
-                        empile:         221
-                     play_move:         190
+                        empile:         222
+                     play_move:         191
  is_white_king_square_attacked:          98
- is_black_king_square_attacked:         119
+ is_black_king_square_attacked:         120
 solution finished. 
 
 
