@@ -50,13 +50,13 @@ static boolean singlebox_officer_out_of_box(void)
     PieNam const standard_walk = standard_walks[orthodox_walk];
     piece const p_white = standard_walk;
     piece const p_black = -standard_walk;
-    if (nbpiece[p_white]>nr_piece(game_array)[p_white]
-        || nbpiece[p_black]>nr_piece(game_array)[p_black])
+    if (number_of_pieces[White][standard_walk]>nr_piece(game_array)[p_white]
+        || number_of_pieces[Black][standard_walk]>nr_piece(game_array)[p_black])
     {
       TracePiece(standard_walk);
-      TraceValue("%u",nbpiece[p_white]);
+      TraceValue("%u",number_of_pieces[White][standard_walk]);
       TraceValue("%u",nr_piece(game_array)[p_white]);
-      TraceValue("%u",nbpiece[p_black]);
+      TraceValue("%u",number_of_pieces[Black][standard_walk]);
       TraceValue("%u\n",nr_piece(game_array)[p_black]);
       result = true;
       break;
@@ -71,8 +71,8 @@ static boolean singlebox_officer_out_of_box(void)
 
 static boolean singlebox_pawn_out_of_box(void)
 {
-  boolean const result = (nbpiece[pb]>nr_piece(game_array)[pb]
-                          || nbpiece[pn]>nr_piece(game_array)[pn]);
+  boolean const result = (number_of_pieces[White][Pawn]>nr_piece(game_array)[pb]
+                          || number_of_pieces[Black][Pawn]>nr_piece(game_array)[pn]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

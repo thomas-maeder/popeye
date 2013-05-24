@@ -473,11 +473,11 @@ static void countPieces(void)
   }
 
   {
-    piece p;
-    for (p = roib; p<derbla; ++p)
+    PieNam p;
+    for (p = King; p<PieceCount; ++p)
     {
-      nbpiece[p] = 0;
-      nbpiece[-p] = 0;
+      number_of_pieces[White][p] = 0;
+      number_of_pieces[Black][p] = 0;
     }
   }
 
@@ -489,9 +489,10 @@ static void countPieces(void)
 
       if (p!=vide)
       {
+        Side const side = p>0 ? White : Black;
         exist[abs(p)] = true;
         may_exist[abs(p)] = true;
-        ++nbpiece[p];
+        ++number_of_pieces[side][abs(p)];
       }
     }
   }
@@ -583,7 +584,7 @@ static boolean locate_royals(void)
           Side const king_side = p==roib ? White : Black;
           CLRFLAGMASK(spec[s],all_pieces_flags);
           SETFLAGMASK(spec[s],all_royals_flags);
-          if (nbpiece[p]==1)
+          if (number_of_pieces[king_side][King]==1)
           {
             king_square[king_side] = s;
             SETFLAG(spec[s],Royal);
@@ -1057,15 +1058,13 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[leofamily])
   {
-    piece p;
-    for (p = db; p<=fb; p++)
-    {
-      if (nbpiece[p]+nbpiece[-p]!=0)
+    PieNam p;
+    for (p = Queen; p<=Bishop; p++)
+      if (number_of_pieces[White][p]+number_of_pieces[Black][p]!=0)
       {
         VerifieMsg(LeoFamAndOrtho);
         return false;
       }
-    }
   }
 
   if (CondFlag[chinoises])
@@ -1269,7 +1268,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[cavaliermajeur])
   {
-    if (nbpiece[cb] + nbpiece[cn] > 0)
+    if (number_of_pieces[White][Knight] + number_of_pieces[Black][Knight] > 0)
     {
       VerifieMsg(CavMajAndKnight);
       return false;
@@ -1283,10 +1282,10 @@ static boolean verify_position(slice_index si)
   if (OptFlag[sansrn] && king_square[Black]!=initsquare)
     OptFlag[sansrn] = false;
 
-  if (king_square[White]==initsquare && nbpiece[roib]==0 && !OptFlag[sansrb])
+  if (king_square[White]==initsquare && number_of_pieces[White][King]==0 && !OptFlag[sansrb])
     ErrorMsg(MissingKing);
 
-  if (king_square[Black]==initsquare && nbpiece[roin]==0 && !OptFlag[sansrn])
+  if (king_square[Black]==initsquare && number_of_pieces[Black][King]==0 && !OptFlag[sansrn])
     ErrorMsg(MissingKing);
 
   if (rex_circe)
@@ -1836,14 +1835,14 @@ static boolean verify_position(slice_index si)
 
   if (castling_supported) {
     if ((abs(e[square_e1])== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
-        && (!CondFlag[dynasty] || nbpiece[standard_walks[King]]==1))
+        && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
       SETCASTLINGFLAGMASK(0,White,k_cancastle);
     if ((abs(e[square_h1])== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
       SETCASTLINGFLAGMASK(0,White,rh_cancastle);
     if ((abs(e[square_a1])== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
       SETCASTLINGFLAGMASK(0,White,ra_cancastle);
     if ((abs(e[square_e8])== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
-        && (!CondFlag[dynasty] || nbpiece[-standard_walks[King]]==1))
+        && (!CondFlag[dynasty] || number_of_pieces[Black][standard_walks[King]]==1))
       SETCASTLINGFLAGMASK(0,Black,k_cancastle);
     if ((abs(e[square_h8])== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
       SETCASTLINGFLAGMASK(0,Black,rh_cancastle);

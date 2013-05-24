@@ -112,9 +112,12 @@ static void StorePosition(stored_position_type *store)
 static void ResetPosition(stored_position_type const *store)
 {
   {
-    piece p;
-    for (p = dernoi+1; p<derbla; p++)
-      nbpiece[p]= 0;
+    PieNam p;
+    for (p = King; p<PieceCount; ++p)
+    {
+      number_of_pieces[White][p] = 0;
+      number_of_pieces[Black][p] = 0;
+    }
   }
 
   king_square[Black] = store->rn_sic;
@@ -124,7 +127,9 @@ static void ResetPosition(stored_position_type const *store)
     unsigned int i;
     for (i = 0; i<nr_squares_on_board; i++)
     {
-      nbpiece[e[boardnum[i]]= store->e[i]]++;
+      Side const side = TSTFLAG(store->spec[i],White) ? White : Black;
+      ++number_of_pieces[side][abs(store->e[i])];
+      e[boardnum[i]] = store->e[i];
       spec[boardnum[i]]= store->spec[i];
     }
   }
@@ -356,8 +361,8 @@ void solve_target_position(void)
     int p;
     for (p = King; p<=Bishop; ++p)
     {
-      nbpiece[-p] = 2;
-      nbpiece[p] = 2;
+      number_of_pieces[White][p] = 2;
+      number_of_pieces[Black][p] = 2;
     }
   }
 
@@ -513,11 +518,11 @@ void IntelligentRegulargoal_types(stip_length_type n)
     }
 
     {
-      piece p;
-      for (p = roib; p<=fb; ++p)
+      PieNam p;
+      for (p = King; p<=Bishop; ++p)
       {
-        nbpiece[p] = 2;
-        nbpiece[-p] = 2;
+        number_of_pieces[White][p] = 2;
+        number_of_pieces[Black][p] = 2;
       }
     }
 

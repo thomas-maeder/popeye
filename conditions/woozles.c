@@ -66,7 +66,8 @@ static boolean aux_wh(square sq_departure,
   if (validate_observation_geometry(sq_departure,sq_arrival,sq_capture))
   {
     piece const p = e[sq_woo_from];
-    return nbpiece[p]>0
+    Side const side = p>0 ? White : Black;
+    return number_of_pieces[side][abs(p)]>0
         && (*checkfunctions[abs(p)])(sq_departure,e[sq_woo_from],&aux_whx);
   }
   else
@@ -76,9 +77,9 @@ static boolean aux_wh(square sq_departure,
 static boolean woohefflibre(square to, square from)
 {
   PieNam *pcheck;
-  Side const col_woo = e[from]>vide ? White : Black;
+  Side const side_woozled = e[from]>vide ? White : Black;
 
-  if (rex_wooz_ex && from==king_square[col_woo])
+  if (rex_wooz_ex && from==king_square[side_woozled])
     return true;
 
   sq_woo_from = from;
@@ -90,9 +91,10 @@ static boolean woohefflibre(square to, square from)
 
   while (*pcheck)
   {
-    piece const p = CondFlag[biwoozles]!=(col_woo==Black) ? -*pcheck : *pcheck;
+    Side const side_woozle = CondFlag[biwoozles] ? advers(side_woozled) : side_woozled;
+    piece const p = side_woozle==White ? *pcheck : -*pcheck;
 
-    if (nbpiece[p]>0 && (*checkfunctions[*pcheck])(from,p,&aux_wh))
+    if (number_of_pieces[side_woozle][*pcheck]>0 && (*checkfunctions[*pcheck])(from,p,&aux_wh))
       return false;
     else
       ++pcheck;

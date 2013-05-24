@@ -58,9 +58,9 @@ boolean singlebox_illegal_latent_white_pawn(void)
 
   if (next_latent_white!=initsquare)
   {
-    piece p;
-    for (p = db; p<=fb; ++p)
-      if (nbpiece[p]<nr_piece(game_array)[p])
+    PieNam p;
+    for (p = Queen; p<=Bishop; ++p)
+      if (number_of_pieces[White][p]<nr_piece(game_array)[p])
       {
         result = true;
         break;
@@ -87,9 +87,9 @@ boolean singlebox_illegal_latent_black_pawn(void)
 
   if (next_latent_black!=initsquare)
   {
-    piece p;
-    for (p = dn; p>=fn; --p)
-      if (nbpiece[p]<nr_piece(game_array)[p])
+    PieNam p;
+    for (p = Queen; p<=Bishop; ++p)
+      if (number_of_pieces[Black][p]<nr_piece(game_array)[-(piece)p])
       {
         result = true;
         break;
@@ -231,14 +231,11 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
   *side = (is_forwardpawn(abs(e[sq_prom])) ? ForwardPromSq(White,sq_prom) : ReversePromSq(White,sq_prom)) ? White : Black;
   pieces_pawns_initialise_promotion_sequence(sq_prom,sequence);
   while (sequence->promotee!=Empty)
-  {
-    piece const sided = *side==White ? sequence->promotee : -sequence->promotee;
     if (sequence->promotee!=Pawn
-        && nbpiece[sided]<nr_piece(game_array)[sequence->promotee])
+        && number_of_pieces[*side][sequence->promotee]<nr_piece(game_array)[sequence->promotee])
       break;
     else
       pieces_pawns_continue_promotion_sequence(sequence);
-  }
 }
 
 /* Continue a promotion sequence intialised by
@@ -247,18 +244,15 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
  * @param sequence address of structure holding the promotion sequence
  */
 void singlebox_type2_continue_singlebox_promotion_sequence(Side side,
-                                            pieces_pawns_promotion_sequence_type *sequence)
+                                                           pieces_pawns_promotion_sequence_type *sequence)
 {
   pieces_pawns_continue_promotion_sequence(sequence);
   while (sequence->promotee!=Empty)
-  {
-    piece const sided = side==White ? sequence->promotee : -sequence->promotee;
     if (sequence->promotee!=Pawn
-        && nbpiece[sided]<nr_piece(game_array)[sequence->promotee])
+        && number_of_pieces[side][sequence->promotee]<nr_piece(game_array)[sequence->promotee])
       break;
     else
       pieces_pawns_continue_promotion_sequence(sequence);
-  }
 }
 
 static void init_latent_pawn_promotion(void)

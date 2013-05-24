@@ -32,9 +32,10 @@ static boolean is_ep_paralysed_on(piece p,
   */
 
   ply const ply_dblstp = parent_ply[nbply];
+  Side const side = p>0 ? White : Black;
 
   return (en_passant_is_capture_possible_to(sq) || einstein_ep[ply_dblstp]==sq)
-          && nbpiece[p]>0
+          && number_of_pieces[side][abs(p)]>0
           && (*checkfunc)(sq,p,&validate_observation_geometry);
 }
 
@@ -89,14 +90,15 @@ boolean madrasi_is_observed(square sq)
     result = false;
   else
   {
-    piece p = e[sq];
+    piece const p = e[sq];
+    Side const side = p>0 ? White : Black;
 
     if (TSTFLAG(some_pieces_flags,Neutral))
       initialise_neutrals(advers(neutral_side));
 
     if (is_ep_paralysed(p,sq))
       result = true;
-    else if (nbpiece[-p]==0)
+    else if (number_of_pieces[advers(side)][abs(p)]==0)
       result = false;
     else
       result = (*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
@@ -133,10 +135,14 @@ boolean madrasi_can_piece_move(square sq)
 
     if (is_ep_paralysed(p,sq))
       result = false;
-    else if (nbpiece[-p]==0)
-      result = true;
     else
-      result = !(*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
+    {
+      Side const side = p>0 ? White : Black;
+      if (number_of_pieces[advers(side)][abs(p)]==0)
+        result = true;
+      else
+        result = !(*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
+    }
   }
 
   TraceFunctionExit(__func__);

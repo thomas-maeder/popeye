@@ -43,19 +43,19 @@ static void insert_sentinelle(Side trait_ply)
 
       if (flagparasent)
       {
-        unsigned int prev_nr_other_sentinelles = nbpiece[-sentinelle[sentinelle_side]];
+        unsigned int prev_nr_other_sentinelles = number_of_pieces[advers(sentinelle_side)][abs(sentinelle[sentinelle_side])];
 
         if (pi_captured==-sentinelle[sentinelle_side])
           ++prev_nr_other_sentinelles;
 
-        if (nbpiece[sentinelle[sentinelle_side]]>prev_nr_other_sentinelles)
+        if (number_of_pieces[sentinelle_side][abs(sentinelle[sentinelle_side])]>prev_nr_other_sentinelles)
           sentinelle_side = no_side;
       }
 
       if (sentinelle_side!=no_side)
       {
-        if (nbpiece[sentinelle[sentinelle_side]]+1>sentinelles_max_nr_pawns[sentinelle_side]
-            || nbpiece[sentinelle[White]]+nbpiece[sentinelle[Black]]+1 > sentinelles_max_nr_pawns_total)
+        if (number_of_pieces[sentinelle_side][abs(sentinelle[sentinelle_side])]+1>sentinelles_max_nr_pawns[sentinelle_side]
+            || number_of_pieces[White][sentinelle[White]]+number_of_pieces[Black][-sentinelle[Black]]+1 > sentinelles_max_nr_pawns_total)
           sentinelle_side = no_side;
       }
 

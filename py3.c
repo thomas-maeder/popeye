@@ -191,7 +191,7 @@ boolean feebechec(evalfunction_t *evaluate)
   PieNam const *pcheck;
 
   for (pcheck = checkpieces; *pcheck; ++pcheck)
-    if (nbpiece[-(piece)*pcheck]>0
+    if (number_of_pieces[Black][*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[White], -*pcheck, evaluate))
       return true;
 
@@ -203,7 +203,7 @@ boolean feenechec(evalfunction_t *evaluate)
   PieNam const *pcheck;
 
   for (pcheck = checkpieces; *pcheck; ++pcheck)
-    if (nbpiece[*pcheck]>0
+    if (number_of_pieces[White][*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[Black], *pcheck, evaluate))
       return true;
 
@@ -260,7 +260,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   else if (anymars)
     return marsechecc(Black,evaluate);
 
-  if (nbpiece[roib]>0) {
+  if (number_of_pieces[White][King]>0) {
     if (calc_reflective_king[White]) {
       boolean flag = true;
 
@@ -283,7 +283,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         for (ptrans= transmpieces[White]; *ptrans; ptrans++)
         {
           piece const ptrans_black = -*ptrans;
-          if (nbpiece[ptrans_black]>0
+          if (number_of_pieces[Black][*ptrans]>0
               && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate))
           {
             flag= false;
@@ -329,7 +329,8 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[pb]>0) {
+  if (number_of_pieces[White][Pawn]>0)
+  {
     if (king_square[Black]>=square_a3
         || anyparrain
         || CondFlag[normalp]
@@ -384,8 +385,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
   }
 
-
-  if (nbpiece[cb]>0)
+  if (number_of_pieces[White][Knight]>0)
   {
     vec_index_type k;
     for (k= vec_knight_start; k<=vec_knight_end; k++)
@@ -398,7 +398,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[db]>0 || nbpiece[tb]>0)
+  if (number_of_pieces[White][Queen]>0 || number_of_pieces[White][Rook]>0)
   {
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
@@ -411,7 +411,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[db]>0 || nbpiece[fb]>0)
+  if (number_of_pieces[White][Queen]>0 || number_of_pieces[White][Bishop]>0)
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
@@ -481,7 +481,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   else if (anymars)
     return marsechecc(White,evaluate);
 
-  if (nbpiece[roin]>0)
+  if (number_of_pieces[Black][King]>0)
   {
     if (calc_reflective_king[Black])
     {
@@ -503,7 +503,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
       else if (normaltranspieces[Black])
       {
         for (ptrans= transmpieces[Black]; *ptrans; ptrans++) {
-          if (nbpiece[*ptrans]>0
+          if (number_of_pieces[White][*ptrans]>0
               && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, evaluate)) {
             flag= false;
             if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate)) {
@@ -549,7 +549,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[pn]>0) {
+  if (number_of_pieces[Black][Pawn]>0) {
     if (king_square[White]<=square_h6
         || anyparrain
         || CondFlag[normalp]
@@ -605,7 +605,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[cn]>0)
+  if (number_of_pieces[Black][Knight]>0)
   {
     vec_index_type k;
     for (k= vec_knight_start; k<=vec_knight_end; k++)
@@ -618,7 +618,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[dn]>0 || nbpiece[tn]>0)
+  if (number_of_pieces[Black][Queen]>0 || number_of_pieces[Black][Rook]>0)
   {
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
@@ -631,7 +631,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (nbpiece[dn]>0 || nbpiece[fn]>0)
+  if (number_of_pieces[Black][Queen]>0 || number_of_pieces[Black][Bishop]>0)
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
@@ -658,15 +658,15 @@ static boolean echecc_wh_extinction(void)
 {
   boolean result = false;
 
-  piece p;
-  for (p = roib; p<derbla; ++p)
+  PieNam p;
+  for (p = King; p<PieceCount; ++p)
   {
     square const *bnp;
-    if (!exist[p] || nbpiece[p]!=1)
+    if (!exist[p] || number_of_pieces[White][p]!=1)
       continue;
 
     for (bnp= boardnum; *bnp; ++bnp)
-      if (e[*bnp]==p)
+      if (e[*bnp]==(piece)p)
         break;
 
     king_square[White] = *bnp;
@@ -686,16 +686,16 @@ static boolean echecc_bl_extinction(void)
 {
   boolean result = false;
 
-  piece p;
-  for (p=roin; p>dernoi; --p)
+  PieNam p;
+  for (p = King; p<PieceCount; ++p)
   {
     square const *bnp;
 
-    if (!exist[-p] || nbpiece[p]!=1)
+    if (!exist[p] || number_of_pieces[Black][p]!=1)
       continue;
 
     for (bnp= boardnum; *bnp; bnp++)
-      if (e[*bnp]==p)
+      if (e[*bnp]==-(piece)p)
         break;
 
     king_square[Black] = *bnp;

@@ -11,17 +11,16 @@
 
 static void update_king_square(Side side)
 {
-  piece const king_type = side==White ? roib : roin;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nbpiece[king_type]);
-  if (nbpiece[king_type]==1)
+  TraceValue("%u\n",number_of_pieces[side][King]);
+  if (number_of_pieces[side][King]==1)
   {
     if (king_square[side]==initsquare)
     {
+      piece const king_type = side==White ? roib : roin;
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
         if (e[*bnp]==king_type)

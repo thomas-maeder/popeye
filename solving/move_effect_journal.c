@@ -247,6 +247,7 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  Side const side = added>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -269,7 +270,7 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
   ++move_effect_journal_top[nbply];
 
   assert(e[on]==vide);
-  ++nbpiece[added];
+  ++number_of_pieces[side][abs(added)];
   e[on] = added;
   spec[on] = addedspec;
 
@@ -291,6 +292,7 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
 static void undo_piece_addition(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.piece_addition.on;
+  Side const side = e[on]>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -299,7 +301,7 @@ static void undo_piece_addition(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  --nbpiece[e[on]];
+  --number_of_pieces[side][abs(e[on])];
   e[on] = vide;
   CLEARFL(spec[on]);
 
@@ -313,6 +315,7 @@ static void redo_piece_addition(move_effect_journal_index_type curr)
   square const on = curr_elmt->u.piece_addition.on;
   piece const added = curr_elmt->u.piece_addition.added;
   piece const addedspec = curr_elmt->u.piece_addition.addedspec;
+  Side const side = added>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -322,7 +325,7 @@ static void redo_piece_addition(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  ++nbpiece[added];
+  ++number_of_pieces[side][abs(added)];
 
   assert(e[on]==vide);
   e[on] = added;
@@ -391,8 +394,10 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
 
 static void do_removal(square from)
 {
+  Side const side = e[from]>0 ? White : Black;
+
   assert(e[from]!=vide);
-  --nbpiece[e[from]];
+  --number_of_pieces[side][abs(e[from])];
   e[from] = vide;
 
   CLEARFL(spec[from]);
@@ -440,6 +445,7 @@ static void undo_piece_removal(move_effect_journal_index_type curr)
   square const from = move_effect_journal[curr].u.piece_removal.from;
   piece const removed = move_effect_journal[curr].u.piece_removal.removed;
   Flags const removedspec = move_effect_journal[curr].u.piece_removal.removedspec;
+  Side const side = removed>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -450,7 +456,7 @@ static void undo_piece_removal(move_effect_journal_index_type curr)
 
   e[from] = removed;
   spec[from] = removedspec;
-  ++nbpiece[removed];
+  ++number_of_pieces[side][abs(removed)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -460,6 +466,7 @@ static void redo_piece_removal(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const from = curr_elmt->u.piece_removal.from;
+  Side const side = e[from]>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -470,7 +477,7 @@ static void redo_piece_removal(move_effect_journal_index_type curr)
 #endif
   TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(curr_elmt->u.piece_removal.removed);TraceText("\n");
 
-  --nbpiece[e[from]];
+  --number_of_pieces[side][abs(e[from])];
 
   e[from] = vide;
   CLEARFL(spec[from]);
@@ -489,6 +496,8 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
                                          piece to)
 {
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  Side const side_from = e[on]>0 ? White : Black;
+  Side const side_to = to>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -510,9 +519,9 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
 
   ++move_effect_journal_top[nbply];
 
-  --nbpiece[e[on]];
+  --number_of_pieces[side_from][abs(e[on])];
   e[on] = to;
-  ++nbpiece[to];
+  ++number_of_pieces[side_to][abs(to)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -522,6 +531,8 @@ static void undo_piece_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.piece_change.on;
   piece const from = move_effect_journal[curr].u.piece_change.from;
+  Side const side_to = e[on]>0 ? White : Black;
+  Side const side_from = from>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -534,9 +545,9 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   TraceValue("%d",e[on]);
   TraceValue("%d\n",from);
 
-  --nbpiece[e[on]];
+  --number_of_pieces[side_to][abs(e[on])];
   e[on] = from;
-  ++nbpiece[from];
+  ++number_of_pieces[side_from][abs(from)];
 
   TraceValue("%d",GetPieceId(spec[on]));
   TraceValue("%d",TSTFLAG(spec[on],White));
@@ -553,6 +564,8 @@ static void redo_piece_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.piece_change.on;
   piece const to = move_effect_journal[curr].u.piece_change.to;
+  Side const side_from = e[on]>0 ? White : Black;
+  Side const side_to = to>0 ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -562,9 +575,9 @@ static void redo_piece_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  --nbpiece[e[on]];
+  --number_of_pieces[side_from][abs(e[on])];
   e[on] = to;
-  ++nbpiece[to];
+  ++number_of_pieces[side_to][abs(to)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -715,9 +728,9 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason,
   CLRFLAGMASK(spec[on],BIT(Black)|BIT(White)|BIT(Neutral));
   SETFLAG(spec[on],to);
 
-  --nbpiece[e[on]];
+  --number_of_pieces[advers(to)][abs(e[on])];
   e[on] = to==White ? abs(e[on]) : -abs(e[on]);
-  ++nbpiece[e[on]];
+  ++number_of_pieces[to][abs(e[on])];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -739,9 +752,9 @@ static void undo_side_change(move_effect_journal_index_type curr)
   CLRFLAGMASK(spec[on],BIT(Black)|BIT(White)|BIT(Neutral));
   SETFLAG(spec[on],advers(to));
 
-  --nbpiece[e[on]];
+  --number_of_pieces[to][abs(e[on])];
   e[on] = to==White ? -abs(e[on]) : abs(e[on]);
-  ++nbpiece[e[on]];
+  ++number_of_pieces[advers(to)][abs(e[on])];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -763,9 +776,9 @@ static void redo_side_change(move_effect_journal_index_type curr)
   CLRFLAGMASK(spec[on],BIT(Black)|BIT(White)|BIT(Neutral));
   SETFLAG(spec[on],to);
 
-  --nbpiece[e[on]];
+  --number_of_pieces[advers(to)][abs(e[on])];
   e[on] = to==White ? abs(e[on]) : -abs(e[on]);
-  ++nbpiece[e[on]];
+  ++number_of_pieces[to][abs(e[on])];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

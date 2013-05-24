@@ -2345,7 +2345,7 @@ void king_generate_moves(Side side, square sq_departure)
       for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
       {
         piece const ptrans_opponent = side==White ? -*ptrans : *ptrans;
-        if (nbpiece[ptrans_opponent]
+        if (number_of_pieces[advers(side)][*ptrans]
             && (*checkfunctions[*ptrans])(sq_departure,ptrans_opponent,&validate_observation))
         {
           flag = true;
@@ -2357,7 +2357,7 @@ void king_generate_moves(Side side, square sq_departure)
     }
     calctransmute= false;
 
-    if (flag && nbpiece[side==White ? orphann : orphanb]>0)
+    if (flag && number_of_pieces[advers(side)][Orphan]>0)
     {
       piece const king = e[king_square[side]];
       e[king_square[side]] = side==White ? dummyb : dummyn;
@@ -2531,7 +2531,7 @@ void gorph(square i, Side camp)
 
   PieNam const *porph;
   for (porph = orphanpieces; *porph!=Empty; ++porph)
-    if (nbpiece[*porph]>0 || nbpiece[-(piece)*porph]>0)
+    if (number_of_pieces[White][*porph]>0 || number_of_pieces[Black][*porph]>0)
     {
       if (camp == White)
       {
@@ -2554,7 +2554,7 @@ void gfriend(square i, Side camp)
 
   PieNam const *pfr;
   for (pfr = orphanpieces; *pfr!=Empty; ++pfr)
-    if (nbpiece[*pfr]>0)
+    if (number_of_pieces[camp][*pfr]>0)
     {
       if (camp==White)
       {

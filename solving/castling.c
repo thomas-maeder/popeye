@@ -56,12 +56,12 @@ void restore_castling_rights(square sq_arrival)
     else if (abs(pi_arrived)==standard_walks[King]) {
       if (TSTFLAG(spec_arrived, White)
           && sq_arrival==square_e1
-          && (!CondFlag[dynasty] || nbpiece[standard_walks[King]]==1))
+          && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
         /* white king reborn on e1 */
         SETCASTLINGFLAGMASK(nbply,White,k_cancastle);
       else if (TSTFLAG(spec_arrived, Black)
                && sq_arrival==square_e8
-               && (!CondFlag[dynasty] || nbpiece[-standard_walks[King]]==1))
+               && (!CondFlag[dynasty] || number_of_pieces[Black][standard_walks[King]]==1))
         /* black king reborn on e8 */
         SETCASTLINGFLAGMASK(nbply,Black,k_cancastle);
     }

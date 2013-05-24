@@ -102,7 +102,7 @@ EXTERN  ply             nbply;
 
 extern numvec const * const * const CheckDir;
 
-EXTERN  unsigned int    zzzaa[derbla-dernoi-1];     /* nbpiece */
+EXTERN unsigned int number_of_pieces[nr_sides][PieceCount];
 
 EXTERN  boolean			rex_mad,rex_circe,
                         rex_mess_ex, rex_wooz_ex;

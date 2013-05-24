@@ -35,13 +35,11 @@ static slice_index alloc_keepmating_filter_slice(Side mating)
  */
 static boolean is_a_mating_piece_left(Side mating_side)
 {
-  boolean const is_white_mating = mating_side==White;
-
-  piece p = roib+1;
-  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
+  PieNam p = King+1;
+  while (p<PieceCount && number_of_pieces[mating_side][p]==0)
     p++;
 
-  return p<derbla;
+  return p<PieceCount;
 }
 
 /* Try to solve in n half-moves.

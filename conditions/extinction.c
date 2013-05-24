@@ -40,14 +40,11 @@ static boolean move_extincts_kind(Side starter)
 
   for (walk = King; walk<PieceCount; ++walk)
     if (prev_nbpiece[walk]>0)
-    {
-      piece const p = starter==White ? walk : -walk;
-      if (nbpiece[p]==0)
+      if (number_of_pieces[starter][walk]==0)
       {
         result = true;
         break;
       }
-    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -82,10 +79,7 @@ stip_length_type extinction_remember_threatened_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   for (walk = King; walk<PieceCount; walk++)
-  {
-    piece const p = starter==White ? walk : -walk;
-    prev_nbpiece[walk] = nbpiece[p];
-  }
+    prev_nbpiece[walk] = number_of_pieces[starter][walk];
 
   result = solve(next,n);
 

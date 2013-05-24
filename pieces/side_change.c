@@ -8,9 +8,11 @@
  */
 void piece_change_side(piece *p)
 {
-  --nbpiece[*p];
+  Side const side = *p>0 ? White : Black;
+
+  --number_of_pieces[side][abs(*p)];
   *p = -*p;
-  ++nbpiece[*p];
+  ++number_of_pieces[advers(side)][abs(*p)];
 }
 
 /* Change the side of some piece specs

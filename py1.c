@@ -848,11 +848,11 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
            && !is_pawn(abs(pj)))
   {
     if ((pj<=roin) != SentPionAdverse) {
-      if (nbpiece[sentinelle[Black]] < sentinelles_max_nr_pawns[Black]
-          && nbpiece[sentinelle[White]]+nbpiece[sentinelle[Black]] < sentinelles_max_nr_pawns_total
+      if (number_of_pieces[Black][-sentinelle[Black]] < sentinelles_max_nr_pawns[Black]
+          && number_of_pieces[White][sentinelle[White]]+number_of_pieces[Black][-sentinelle[Black]] < sentinelles_max_nr_pawns_total
           && (!flagparasent
-              || (nbpiece[sentinelle[Black]]
-                  <= nbpiece[sentinelle[White]]+(pp==sentinelle[White]?1:0))))
+              || (number_of_pieces[Black][-sentinelle[Black]]
+                  <= number_of_pieces[White][sentinelle[White]]+(pp==sentinelle[White]?1:0))))
       {
         e[sq_departure]= sentinelle[Black];
       }
@@ -861,11 +861,11 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
       }
     }
     else { /* we assume  pj >= roib */
-      if (nbpiece[sentinelle[White]] < sentinelles_max_nr_pawns[White]
-          && nbpiece[sentinelle[White]]+nbpiece[sentinelle[Black]] < sentinelles_max_nr_pawns_total
+      if (number_of_pieces[White][sentinelle[White]] < sentinelles_max_nr_pawns[White]
+          && number_of_pieces[White][sentinelle[White]]+number_of_pieces[Black][-sentinelle[Black]] < sentinelles_max_nr_pawns_total
           && (!flagparasent
-              || (nbpiece[sentinelle[White]]
-                  <= nbpiece[sentinelle[Black]]+(pp==sentinelle[Black]?1:0))))
+              || (number_of_pieces[White][sentinelle[White]]
+                  <= number_of_pieces[Black][-sentinelle[Black]]+(pp==sentinelle[Black]?1:0))))
       {
         e[sq_departure]= sentinelle[White];
       }
@@ -1013,15 +1013,16 @@ boolean ooorphancheck(square sq_king,
   square    olist[63];
   square const *bnp;
   unsigned int j, k, nrp, co;
+  Side const side = p>0 ? White : Black;
 
   if ((*checkfunctions[abs(porph)])(sq_king,porph,evaluate))
     return true;
 
-  nrp= nbpiece[p];
+  nrp = number_of_pieces[side][abs(p)];
   if (nrp == 0)
     return false;
 
-  nbpiece[-p]--;
+  --number_of_pieces[advers(side)][abs(p)];
   e[sq_king]= dummyb;
   co= 0;
   for (bnp= boardnum; co < nrp; bnp++) {
@@ -1047,7 +1048,7 @@ boolean ooorphancheck(square sq_king,
         e[olist[j]]= p;
   }
 
-  nbpiece[-p]++;
+  ++number_of_pieces[advers(side)][abs(p)];
   e[sq_king]= -p;
   return flag;
 }
@@ -1065,7 +1066,7 @@ boolean orphancheck(square   sq_king,
 
   for (porph = orphanpieces; *porph!=Empty; porph++)
   {
-    if (nbpiece[(piece)*porph]>0 || nbpiece[-(piece)*porph]>0) {
+    if (number_of_pieces[White][*porph]>0 || number_of_pieces[Black][*porph]>0) {
       if (!inited)
       {
         inited = true;
@@ -1114,15 +1115,16 @@ boolean fffriendcheck(square    sq_king,
   square    flist[63];
   square const *bnp;
   unsigned int j, k, nrp, cf= 0;
+  Side const side = p>0 ? White : Black;
 
   if ((*checkfunctions[abs(pfr)])(sq_king, pfr, evaluate))
     return true;
 
-  nrp= nbpiece[p]-1;
+  nrp = number_of_pieces[side][abs(p)]-1;
   if (nrp == 0)
     return false;
 
-  nbpiece[p]--;
+  --number_of_pieces[side][abs(p)];
   e[sq_king]= dummyb;
   for (bnp= boardnum; cf < nrp; bnp++) {
     if (e[*bnp] == p) {
@@ -1150,7 +1152,7 @@ boolean fffriendcheck(square    sq_king,
     }
   }
 
-  nbpiece[p]++;
+  ++number_of_pieces[side][abs(p)];
   e[sq_king]= p;
   return flag;
 } /* fffriendcheck */
@@ -1160,18 +1162,17 @@ boolean friendcheck(square    i,
                     evalfunction_t *evaluate)
 {
   PieNam const *pfr;
-  piece cfr;
   boolean   flag= false;
   boolean   initialized= false;
   square    flist[63];
   square const *bnp;
   int   k, j, cf= 0;
+  Side const side = p==friendb ? White : Black;
 
   for (pfr= orphanpieces; *pfr!=Empty; pfr++)
-  {
-    cfr = p== friendb ? (piece)*pfr : -(piece)*pfr;
-    if (nbpiece[cfr]>0)
+    if (number_of_pieces[side][*pfr]>0)
     {
+      piece const cfr = p== friendb ? (piece)*pfr : -(piece)*pfr;
       if (!initialized)
       {
         initialized= true;
@@ -1180,7 +1181,8 @@ boolean friendcheck(square    i,
             flist[cf++]= *bnp;
       }
 
-      for (k= 0; k < cf; k++) {
+      for (k= 0; k < cf; k++)
+      {
         j= 0;
         while (j < cf) {
           e[flist[j]]= (k == j) ? p : dummyb;
@@ -1194,16 +1196,15 @@ boolean friendcheck(square    i,
             break;
           }
         }
-        else {
+        else
           for (j= 0; j < cf; e[flist[j++]]= p)
             ;
-        }
       }
-      if (flag) {
+
+      if (flag)
         return true;
-      }
     }
-  }
+
   return false;
 } /* friendcheck */
 

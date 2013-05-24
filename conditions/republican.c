@@ -78,14 +78,14 @@ static void advance_mate_square(Side side)
   assert(republican_goal.type==goal_mate);
 
   king_square[other_side] =  king_placement[nbply]+1;
-  ++nbpiece[to_be_placed];
+  ++number_of_pieces[other_side][King];
   while (king_square[other_side]<=square_h8)
     if (is_mate_square(other_side,to_be_placed))
       break;
     else
       ++king_square[other_side];
 
-  --nbpiece[to_be_placed];
+  --number_of_pieces[other_side][King];
   king_placement[nbply] = king_square[other_side];
   king_square[other_side] = initsquare;
 

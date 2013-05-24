@@ -462,7 +462,7 @@ void ProofInitialiseStartPosition(void)
 void ProofSaveStartPosition(void)
 {
   unsigned int i;
-  piece p;
+  PieNam p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -470,8 +470,11 @@ void ProofSaveStartPosition(void)
   start.king_square[Black] = king_square[Black];
   start.king_square[White] = king_square[White];
 
-  for (p = dernoi+1; p<derbla; ++p)
-    nr_piece(start)[p] = nbpiece[p];
+  for (p = King; p<PieceCount; ++p)
+  {
+    nr_piece(start)[p] = number_of_pieces[White][p];
+    nr_piece(start)[-(piece)p] = number_of_pieces[Black][p];
+  }
 
   for (i = 0; i<maxsquare; ++i)
     start.board[i] = e[i];
@@ -515,7 +518,7 @@ void ProofRestoreStartPosition(void)
 void ProofSaveTargetPosition(void)
 {
   unsigned int i;
-  piece p;
+  PieNam p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -523,8 +526,11 @@ void ProofSaveTargetPosition(void)
   target.king_square[White] = king_square[White];
   target.king_square[Black] = king_square[Black];
 
-  for (p = dernoi+1; p<derbla; ++p)
-    nr_piece(target)[p] = nbpiece[p];
+  for (p = King; p<PieceCount; ++p)
+  {
+    nr_piece(target)[p] = number_of_pieces[White][p];
+    nr_piece(target)[-(piece)p] = number_of_pieces[Black][p];
+  }
 
   for (i = 0; i<maxsquare; ++i)
     target.board[i] = e[i];
@@ -613,15 +619,15 @@ static boolean compareProofPieces(void)
 static boolean compareProofNbrPiece(void)
 {
   boolean result = true;
-  piece const last_piece = flagfee ? derbla : fb;
-  piece p;
+  PieNam const last_piece = flagfee ? PieceCount-1 : Bishop;
+  PieNam p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (p = roib; p<=last_piece; ++p)
-    if (nr_piece(target)[p]!=nbpiece[p]
-        || nr_piece(target)[-p]!=nbpiece[-p])
+  for (p = King; p<=last_piece; ++p)
+    if (nr_piece(target)[p]!=number_of_pieces[White][p]
+        || nr_piece(target)[-(piece)p]!=number_of_pieces[Black][p])
     {
       result = false;
       break;
@@ -1437,19 +1443,19 @@ static boolean ProofFairyImpossible(void)
 
   TraceText("ProofFairyImpossible\n");
 
-  NbrWh = nbpiece[pb]
-    + nbpiece[cb]
-    + nbpiece[tb]
-    + nbpiece[fb]
-    + nbpiece[db]
-    + nbpiece[roib];
+  NbrWh = number_of_pieces[White][Pawn]
+          + number_of_pieces[White][Knight]
+          + number_of_pieces[White][Rook]
+          + number_of_pieces[White][Bishop]
+          + number_of_pieces[White][Queen]
+          + number_of_pieces[White][King];
 
-  NbrBl = nbpiece[pn]
-    + nbpiece[cn]
-    + nbpiece[tn]
-    + nbpiece[fn]
-    + nbpiece[dn]
-    + nbpiece[roin];
+  NbrBl = number_of_pieces[Black][Pawn]
+          + number_of_pieces[Black][Knight]
+          + number_of_pieces[Black][Rook]
+          + number_of_pieces[Black][Bishop]
+          + number_of_pieces[Black][Queen]
+          + number_of_pieces[Black][King];
 
   /* not enough time to capture the remaining pieces */
   if (change_moving_piece)
@@ -1512,8 +1518,8 @@ static boolean ProofFairyImpossible(void)
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
-      if (nr_piece(target)[pb] > nbpiece[pb]+(pparr==pb)
-          || nr_piece(target)[pn] > nbpiece[pn]+(pparr==pn))
+      if (nr_piece(target)[pb] > number_of_pieces[White][Pawn]+(pparr==pb)
+          || nr_piece(target)[pn] > number_of_pieces[Black][Pawn]+(pparr==pn))
         return true;
     }
 
@@ -1624,33 +1630,33 @@ static boolean ProofImpossible(void)
   TraceText("ProofImpossible\n");
 
   /* too many pawns captured or promoted */
-  if (nr_piece(target)[pb] > nbpiece[pb])
+  if (nr_piece(target)[pb] > number_of_pieces[White][Pawn])
   {
     TraceValue("%d ",nr_piece(target)[pb]);
     TraceValue("%d\n",nbpiece[pb]);
     return true;
   }
 
-  if (nr_piece(target)[pn] > nbpiece[pn])
+  if (nr_piece(target)[pn] > number_of_pieces[Black][Pawn])
   {
     TraceValue("%d ",nr_piece(target)[pn]);
     TraceValue("%d\n",nbpiece[pn]);
     return true;
   }
 
-  NbrWh = nbpiece[pb]
-    + nbpiece[cb]
-    + nbpiece[tb]
-    + nbpiece[fb]
-    + nbpiece[db]
-    + nbpiece[roib];
+  NbrWh = number_of_pieces[White][Pawn]
+          + number_of_pieces[White][Knight]
+          + number_of_pieces[White][Rook]
+          + number_of_pieces[White][Bishop]
+          + number_of_pieces[White][Queen]
+          + number_of_pieces[White][King];
 
-  NbrBl = nbpiece[pn]
-    + nbpiece[cn]
-    + nbpiece[tn]
-    + nbpiece[fn]
-    + nbpiece[dn]
-    + nbpiece[roin];
+  NbrBl = number_of_pieces[Black][Pawn]
+          + number_of_pieces[Black][Knight]
+          + number_of_pieces[Black][Rook]
+          + number_of_pieces[Black][Bishop]
+          + number_of_pieces[Black][Queen]
+          + number_of_pieces[Black][King];
 
   /* too many pieces captured */
   if (NbrWh < ProofNbrWhitePieces)
