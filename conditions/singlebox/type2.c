@@ -60,7 +60,7 @@ boolean singlebox_illegal_latent_white_pawn(void)
   {
     PieNam p;
     for (p = Queen; p<=Bishop; ++p)
-      if (number_of_pieces[White][p]<nr_piece(game_array)[p])
+      if (number_of_pieces[White][p]<game_array.number_of_pieces[White][p])
       {
         result = true;
         break;
@@ -89,7 +89,7 @@ boolean singlebox_illegal_latent_black_pawn(void)
   {
     PieNam p;
     for (p = Queen; p<=Bishop; ++p)
-      if (number_of_pieces[Black][p]<nr_piece(game_array)[-(piece)p])
+      if (number_of_pieces[Black][p]<game_array.number_of_pieces[Black][p])
       {
         result = true;
         break;
@@ -232,7 +232,7 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
   pieces_pawns_initialise_promotion_sequence(sq_prom,sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn
-        && number_of_pieces[*side][sequence->promotee]<nr_piece(game_array)[sequence->promotee])
+        && number_of_pieces[*side][sequence->promotee]<game_array.number_of_pieces[*side][sequence->promotee])
       break;
     else
       pieces_pawns_continue_promotion_sequence(sequence);
@@ -249,7 +249,7 @@ void singlebox_type2_continue_singlebox_promotion_sequence(Side side,
   pieces_pawns_continue_promotion_sequence(sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn
-        && number_of_pieces[side][sequence->promotee]<nr_piece(game_array)[sequence->promotee])
+        && number_of_pieces[side][sequence->promotee]<game_array.number_of_pieces[side][sequence->promotee])
       break;
     else
       pieces_pawns_continue_promotion_sequence(sequence);

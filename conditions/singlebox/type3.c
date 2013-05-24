@@ -141,7 +141,7 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   for (pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][p];
        pprom!=Empty;
        pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pprom])
-    if (pprom!=Pawn && number_of_pieces[side][pprom]<nr_piece(game_array)[pprom])
+    if (pprom!=Pawn && number_of_pieces[side][pprom]<game_array.number_of_pieces[side][pprom])
     {
       result = pprom;
       break;

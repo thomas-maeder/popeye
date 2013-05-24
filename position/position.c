@@ -2,6 +2,8 @@
 #include "py.h"
 #include "debugging/trace.h"
 
+#include <stdlib.h>
+
 #define ENUMERATION_TYPENAME Side
 #define ENUMERATORS \
   ENUMERATOR(White), \
@@ -34,16 +36,17 @@ piece const PAS[nr_squares_on_board] = {
 
 void initialise_game_array(position *pos)
 {
-  int i;
+  unsigned int i;
+  PieNam p;
   square const *bnp;
 
   pos->king_square[White] = square_e1;
   pos->king_square[Black] = square_e8;
 
-  for (i = 0; i <derbla; ++i)
+  for (p = 0; p<PieceCount; ++p)
   {
-    nr_piece(*pos)[i] = 0;
-    nr_piece(*pos)[-i] = 0;
+    pos->number_of_pieces[White][p] = 0;
+    pos->number_of_pieces[Black][p] = 0;
   }
 
   /* TODO avoid duplication with InitBoard()
@@ -65,11 +68,12 @@ void initialise_game_array(position *pos)
     piece const p = PAS[i];
     square const square_i = boardnum[i];
     pos->board[square_i] = p;
-    ++nr_piece(*pos)[p];
-    if (p>=roib)
-      SETFLAG(pos->spec[square_i],White);
-    else if (p<=roin)
-      SETFLAG(pos->spec[square_i],Black);
+    if (p!=vide && p!=obs)
+    {
+      Side const side = p>0 ? White : Black;
+      ++pos->number_of_pieces[side][abs(p)];
+      SETFLAG(pos->spec[square_i],side);
+    }
   }
 
   pos->inum = 0;

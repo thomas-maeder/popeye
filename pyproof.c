@@ -292,7 +292,7 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
 
 void ProofInitialiseIntelligent(stip_length_type length)
 {
-  int i;
+  PieNam i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -303,10 +303,10 @@ void ProofInitialiseIntelligent(stip_length_type length)
   ProofNbrWhitePieces = 0;
   ProofNbrBlackPieces = 0;
 
-  for (i = roib; i <= fb; ++i)
+  for (i = King; i <= Bishop; ++i)
   {
-    ProofNbrWhitePieces += nr_piece(target)[i];
-    ProofNbrBlackPieces += nr_piece(target)[-i];
+    ProofNbrWhitePieces += target.number_of_pieces[White][i];
+    ProofNbrBlackPieces += target.number_of_pieces[Black][i];
   }
 
   if (!ProofFairy)
@@ -409,9 +409,9 @@ static void override_standard_walk(square s, Side side, PieNam orthodox_walk)
   PieNam const overriding_walk = standard_walks[orthodox_walk];
   piece const overrider = side==White ? overriding_walk : -overriding_walk;
 
-  --nr_piece(start)[start.board[s]];
+  --start.number_of_pieces[side][abs(start.board[s])];
   start.board[s] = overrider;
-  ++nr_piece(start)[start.board[s]];
+  ++start.number_of_pieces[side][overriding_walk];
 }
 
 void ProofInitialiseStartPosition(void)
@@ -472,8 +472,8 @@ void ProofSaveStartPosition(void)
 
   for (p = King; p<PieceCount; ++p)
   {
-    nr_piece(start)[p] = number_of_pieces[White][p];
-    nr_piece(start)[-(piece)p] = number_of_pieces[Black][p];
+    start.number_of_pieces[White][p] = number_of_pieces[White][p];
+    start.number_of_pieces[Black][p] = number_of_pieces[Black][p];
   }
 
   for (i = 0; i<maxsquare; ++i)
@@ -528,8 +528,8 @@ void ProofSaveTargetPosition(void)
 
   for (p = King; p<PieceCount; ++p)
   {
-    nr_piece(target)[p] = number_of_pieces[White][p];
-    nr_piece(target)[-(piece)p] = number_of_pieces[Black][p];
+    target.number_of_pieces[White][p] = number_of_pieces[White][p];
+    target.number_of_pieces[Black][p] = number_of_pieces[Black][p];
   }
 
   for (i = 0; i<maxsquare; ++i)
@@ -626,8 +626,8 @@ static boolean compareProofNbrPiece(void)
   TraceFunctionParamListEnd();
 
   for (p = King; p<=last_piece; ++p)
-    if (nr_piece(target)[p]!=number_of_pieces[White][p]
-        || nr_piece(target)[-(piece)p]!=number_of_pieces[Black][p])
+    if (target.number_of_pieces[White][p]!=number_of_pieces[White][p]
+        || target.number_of_pieces[Black][p]!=number_of_pieces[Black][p])
     {
       result = false;
       break;
@@ -1518,8 +1518,8 @@ static boolean ProofFairyImpossible(void)
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
-      if (nr_piece(target)[pb] > number_of_pieces[White][Pawn]+(pparr==pb)
-          || nr_piece(target)[pn] > number_of_pieces[Black][Pawn]+(pparr==pn))
+      if (target.number_of_pieces[White][Pawn] > number_of_pieces[White][Pawn]+(pparr==pb)
+          || target.number_of_pieces[Black][Pawn] > number_of_pieces[Black][Pawn]+(pparr==pn))
         return true;
     }
 
@@ -1630,17 +1630,17 @@ static boolean ProofImpossible(void)
   TraceText("ProofImpossible\n");
 
   /* too many pawns captured or promoted */
-  if (nr_piece(target)[pb] > number_of_pieces[White][Pawn])
+  if (target.number_of_pieces[White][Pawn] > number_of_pieces[White][Pawn])
   {
-    TraceValue("%d ",nr_piece(target)[pb]);
-    TraceValue("%d\n",nbpiece[pb]);
+    TraceValue("%d ",target.number_of_pieces[White][Pawn]);
+    TraceValue("%d\n",number_of_pieces[White][Pawn]);
     return true;
   }
 
-  if (nr_piece(target)[pn] > number_of_pieces[Black][Pawn])
+  if (target.number_of_pieces[Black][Pawn] > number_of_pieces[Black][Pawn])
   {
-    TraceValue("%d ",nr_piece(target)[pn]);
-    TraceValue("%d\n",nbpiece[pn]);
+    TraceValue("%d ",number_of_pieces[Black][Pawn]);
+    TraceValue("%d\n",number_of_pieces[Black][Pawn]);
     return true;
   }
 

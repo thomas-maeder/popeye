@@ -107,21 +107,37 @@ static void dump_imitator_initialisers_to_stream(FILE *dest,
  */
 static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos)
 {
-  piece p;
+  PieNam p;
   unsigned int column = 0;
 
-  fprintf(dest,"  { /* numbers of pieces */\n    ");
-  for (p = dernoi+1; p+1<derbla; ++p)
+  fprintf(dest,"  { /* numbers of pieces */\n");
+  fprintf(dest,"    { /* White */\n      ");
+  for (p = 0; p<PieceCount-1; ++p)
   {
-    fprintf(dest,"%u,",nr_piece(*pos)[p]);
+    fprintf(dest,"%u,",pos->number_of_pieces[White][p]);
     ++column;
     if (column==20)
     {
-      fprintf(dest,"\n    ");
+      fprintf(dest,"\n      ");
       column = 0;
     }
   }
-  fprintf(dest,"%u\n",nr_piece(*pos)[p]);
+  fprintf(dest,"%u\n",pos->number_of_pieces[White][p]);
+  fprintf(dest,"    },\n");
+  column = 0;
+  fprintf(dest,"    { /* Black */\n      ");
+  for (p = 0; p<PieceCount-1; ++p)
+  {
+    fprintf(dest,"%u,",pos->number_of_pieces[Black][p]);
+    ++column;
+    if (column==20)
+    {
+      fprintf(dest,"\n      ");
+      column = 0;
+    }
+  }
+  fprintf(dest,"%u\n",pos->number_of_pieces[Black][p]);
+  fprintf(dest,"    }\n");
   fprintf(dest,"  }");
 }
 
