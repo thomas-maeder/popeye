@@ -68,10 +68,11 @@ static boolean aux_wh(square sq_departure,
   if (validate_observation_geometry(sq_departure,sq_arrival,sq_capture))
   {
     piece const p = e[sq_woo_from];
-    Side const side = p>0 ? White : Black;
-    if (number_of_pieces[side][abs(p)]>0)
+    Side const observing_side = p>0 ? White : Black;
+    if (number_of_pieces[observing_side][abs(p)]>0)
     {
       nextply();
+      trait[nbply] = observing_side;
       result = (*checkfunctions[abs(p)])(sq_departure,e[sq_woo_from],&aux_whx);
       finply();
     }
@@ -84,6 +85,7 @@ static boolean woohefflibre(square to, square from)
 {
   PieNam *pcheck;
   Side const side_woozled = e[from]>vide ? White : Black;
+  Side const side_woozle = CondFlag[biwoozles] ? advers(side_woozled) : side_woozled;
   boolean result = true;
 
   if (!rex_wooz_ex || from!=king_square[side_woozled])
@@ -96,10 +98,10 @@ static boolean woohefflibre(square to, square from)
       ++pcheck;
 
     nextply();
+    trait[nbply] = side_woozle;
 
     while (*pcheck)
     {
-      Side const side_woozle = CondFlag[biwoozles] ? advers(side_woozled) : side_woozled;
       piece const p = side_woozle==White ? *pcheck : -*pcheck;
 
       if (number_of_pieces[side_woozle][*pcheck]>0)

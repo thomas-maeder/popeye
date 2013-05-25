@@ -1252,7 +1252,7 @@ boolean berolina_pawn_check(square  sq_king,
                             piece   p,
                             evalfunction_t *evaluate)
 {
-  if (p<=roin)
+  if (trait[nbply]==Black)
   {
     if (sq_king<=square_h6
         || anyparrain
@@ -1281,7 +1281,7 @@ boolean berolina_pawn_check(square  sq_king,
       }
     }
   }
-  else      /* hopefully (p >= roib) */
+  else
   {
     if (sq_king>=square_a3
         || anyparrain

@@ -231,6 +231,9 @@ boolean is_black_king_square_attacked(evalfunction_t *evaluate)
 
   INCREMENT_COUNTER(is_black_king_square_attacked);
 
+  nextply();
+  trait[nbply] = White;
+
   if (TSTFLAG(some_pieces_flags,Neutral))
   {
     Side const neutcoul_save = neutral_side;
@@ -240,6 +243,8 @@ boolean is_black_king_square_attacked(evalfunction_t *evaluate)
   }
   else
     result = calc_rnechec(evaluate);
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -457,6 +462,9 @@ boolean is_white_king_square_attacked(evalfunction_t *evaluate)
 
   INCREMENT_COUNTER(is_white_king_square_attacked);
 
+  nextply();
+  trait[nbply] = Black;
+
   if (TSTFLAG(some_pieces_flags,Neutral))
   {
     Side const neutcoul_save = neutral_side;
@@ -466,6 +474,8 @@ boolean is_white_king_square_attacked(evalfunction_t *evaluate)
   }
   else
     result = calc_rbechec(evaluate);
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -832,8 +842,6 @@ boolean echecc(Side camp)
 {
   boolean result;
 
-  nextply();
-
   if ((camp==White) != CondFlag[vogt])
   {
     if (CondFlag[extinction])
@@ -891,8 +899,6 @@ boolean echecc(Side camp)
     }
   }
 
-  finply();
-
   return result;
 } /* end of echecc */
 
@@ -921,6 +927,7 @@ boolean huntercheck(square i,
   assert(typeofhunter<maxnrhuntertypes);
   next_evaluate = evaluate;
   nextply();
+  trait[nbply] = p>0 ? White : Black;
   result = ((*checkfunctions[huntertype->home])(i,p,eval_home)
             || (*checkfunctions[huntertype->away])(i,p,eval_away));
   finply();

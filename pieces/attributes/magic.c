@@ -484,6 +484,8 @@ static void PushMagicViews(void)
       piece const pi_magic = e[*pos_magic];
       square const *pos_viewed;
 
+      trait[nbply] = pi_magic>0 ? White : Black;
+
       /* avoid unnecessary recursion if checkfunction has to play the
        * observation */
       CLRFLAG(spec[*pos_magic],Magic);

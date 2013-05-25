@@ -82,6 +82,7 @@ static boolean uninterceptably_attacked(square s)
   boolean result;
 
   nextply();
+  trait[nbply] = Black;
 
   result = ((*checkfunctions[Pawn])(s,pn,eval_ortho)
             || (*checkfunctions[Knight])(s,cn,eval_ortho)

@@ -91,18 +91,20 @@ boolean madrasi_is_observed(square sq)
   else
   {
     piece const p = e[sq];
-    Side const side = p>0 ? White : Black;
+    Side const observed_side = p>0 ? White : Black;
+    Side const observing_side = advers(observed_side);
 
     if (TSTFLAG(some_pieces_flags,Neutral))
       initialise_neutrals(advers(neutral_side));
 
     if (is_ep_paralysed(p,sq))
       result = true;
-    else if (number_of_pieces[advers(side)][abs(p)]==0)
+    else if (number_of_pieces[observing_side][abs(p)]==0)
       result = false;
     else
     {
       nextply();
+      trait[nbply] = observing_side;
       result = (*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
       finply();
     }
@@ -141,12 +143,14 @@ boolean madrasi_can_piece_move(square sq)
       result = false;
     else
     {
-      Side const side = p>0 ? White : Black;
-      if (number_of_pieces[advers(side)][abs(p)]==0)
+      Side const observed_side = p>0 ? White : Black;
+      Side const observing_side = advers(observed_side);
+      if (number_of_pieces[observing_side][abs(p)]==0)
         result = true;
       else
       {
         nextply();
+        trait[nbply] = observing_side;
         result = !(*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
         finply();
       }
