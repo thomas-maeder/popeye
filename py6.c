@@ -929,7 +929,8 @@ static boolean verify_position(slice_index si)
       if (anyparrain
           || CondFlag[normalp]
           || CondFlag[einstein]
-          || CondFlag[circecage])
+          || CondFlag[circecage]
+          || CondFlag[wormholes])
       {
         SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByWhPawnSq);
         SETFLAG(sq_spec[square_a7+i*dir_right],CapturableByBlPawnSq);

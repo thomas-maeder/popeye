@@ -349,12 +349,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
 
   if (number_of_pieces[White][Pawn]>0)
   {
-    if (king_square[Black]>=square_a3
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || CondFlag[wormholes])
+    if (TSTFLAG(sq_spec[king_square[Black]],CapturableByWhPawnSq))
     {
       sq_departure= king_square[Black]+dir_down+dir_right;
       if (e[sq_departure]==pb
@@ -582,12 +577,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
 
   if (number_of_pieces[Black][Pawn]>0)
   {
-    if (king_square[White]<=square_h6
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || CondFlag[wormholes])
+    if (TSTFLAG(sq_spec[king_square[White]],CapturableByBlPawnSq))
     {
       sq_departure= king_square[White]+dir_up+dir_left;
       TraceSquare(sq_departure);TraceText("\n");

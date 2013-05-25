@@ -1254,13 +1254,7 @@ boolean berolina_pawn_check(square  sq_king,
 {
   if (trait[nbply]==Black)
   {
-    if (sq_king<=square_h6
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || CondFlag[wormholes]
-        || p==orphann)
+    if (TSTFLAG(sq_spec[sq_king],CapturableByBlPawnSq) || p==orphann)
     {
       square sq_departure= sq_king+dir_up;
 
@@ -1283,13 +1277,7 @@ boolean berolina_pawn_check(square  sq_king,
   }
   else
   {
-    if (sq_king>=square_a3
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || CondFlag[wormholes]
-        || p==orphanb)
+    if (TSTFLAG(sq_spec[sq_king],CapturableByWhPawnSq) || p==orphanb)
     {
       square sq_departure= sq_king+dir_down;
 
