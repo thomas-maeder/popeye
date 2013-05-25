@@ -191,8 +191,6 @@ boolean feebechec(evalfunction_t *evaluate)
   PieNam const *pcheck;
   boolean result = false;
 
-  nextply();
-
   for (pcheck = checkpieces; *pcheck; ++pcheck)
     if (number_of_pieces[Black][*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[White], -*pcheck, evaluate))
@@ -200,8 +198,6 @@ boolean feebechec(evalfunction_t *evaluate)
       result = true;
       break;
     }
-
-  finply();
 
   return result;
 }
@@ -211,8 +207,6 @@ boolean feenechec(evalfunction_t *evaluate)
   PieNam const *pcheck;
   boolean result = false;
 
-  nextply();
-
   for (pcheck = checkpieces; *pcheck; ++pcheck)
     if (number_of_pieces[White][*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[Black], *pcheck, evaluate))
@@ -220,8 +214,6 @@ boolean feenechec(evalfunction_t *evaluate)
       result = true;
       break;
     }
-
-  finply();
 
   return result;
 }
@@ -289,19 +281,11 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         PieNam *ptrans;
         transmutation_of_king_of_checking_side_found = true;
         for (ptrans = transmpieces[White]; *ptrans; ptrans++)
-        {
-          boolean king_checks;
-
-          nextply();
-          king_checks = (*checkfunctions[*ptrans])(king_square[Black], roib, evaluate);
-          finply();
-
-          if (king_checks)
+          if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate))
           {
             calc_reflective_king[White] = true;
             return true;
           }
-        }
       }
       else if (normaltranspieces[White])
       {
@@ -309,23 +293,12 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         for (ptrans= transmpieces[White]; *ptrans; ptrans++)
         {
           piece const ptrans_black = -*ptrans;
-          boolean is_king_of_checking_side_transmuted;
-
-          nextply();
-          is_king_of_checking_side_transmuted = number_of_pieces[Black][*ptrans]>0 && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate);
-          finply();
-
-          if (is_king_of_checking_side_transmuted)
+          if (number_of_pieces[Black][*ptrans]>0
+              && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate))
           {
-            boolean does_transmuted_king_deliver_check;
-
             transmutation_of_king_of_checking_side_found = true;
 
-            nextply();
-            does_transmuted_king_deliver_check = (*checkfunctions[*ptrans])(king_square[Black], roib, evaluate);
-            finply();
-
-            if (does_transmuted_king_deliver_check)
+            if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate))
             {
               calc_reflective_king[White] = true;
               return true;
@@ -352,13 +325,8 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
     else
     {
-      boolean sting_checks;
-
-      nextply();
-      sting_checks = CondFlag[sting] && (*checkfunctions[sb])(king_square[Black], roib, evaluate);
-      finply();
-
-      if (sting_checks)
+      if (CondFlag[sting]
+          && (*checkfunctions[sb])(king_square[Black], roib, evaluate))
         return true;
       else
       {
@@ -395,7 +363,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         if (imcheck(sq_departure,king_square[Black]))
           return true;
 
-      sq_arrival= ep[nbply];
+      sq_arrival= ep[parent_ply[nbply]];
       if (sq_arrival!=initsquare && king_square[Black]==sq_arrival+dir_down) {
         /* ep captures of royal pawns */
         /* ep[nbply] != initsquare --> a pawn has made a
@@ -415,7 +383,7 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
             return true;
       }
 
-      sq_arrival= einstein_ep[nbply]; /* Einstein triple step */
+      sq_arrival= einstein_ep[parent_ply[nbply]]; /* Einstein triple step */
       if (sq_arrival!=initsquare && king_square[Black]==sq_arrival+dir_down) {
         sq_departure= sq_arrival+dir_down+dir_right;
         if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,king_square[Black]))
@@ -541,42 +509,23 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         transmutation_of_king_of_checking_side_found = true;
 
         for (ptrans= transmpieces[Black]; *ptrans; ptrans++)
-        {
-          boolean king_checks;
-
-          nextply();
-          king_checks = (*checkfunctions[*ptrans])(king_square[White], roin, evaluate);
-          finply();
-
-          if (king_checks)
+          if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate))
           {
             calc_reflective_king[Black] = true;
             return true;
           }
-        }
       }
       else if (normaltranspieces[Black])
       {
         PieNam *ptrans;
         for (ptrans = transmpieces[Black]; *ptrans; ptrans++)
         {
-          boolean is_king_of_checking_side_transmuted;
-
-          nextply();
-          is_king_of_checking_side_transmuted = number_of_pieces[White][*ptrans]>0 && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, evaluate);
-          finply();
-
-          if (is_king_of_checking_side_transmuted)
+          if (number_of_pieces[White][*ptrans]>0
+              && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, evaluate))
           {
-            boolean does_transmuted_king_deliver_check;
-
             transmutation_of_king_of_checking_side_found = true;
 
-            nextply();
-            does_transmuted_king_deliver_check = (*checkfunctions[*ptrans])(king_square[White], roin, evaluate);
-            finply();
-
-            if (does_transmuted_king_deliver_check)
+            if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate))
             {
               calc_reflective_king[Black] = true;
               return true;
@@ -603,13 +552,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
     else
     {
-      boolean sting_checks;
-
-      nextply();
-      sting_checks = CondFlag[sting] && (*checkfunctions[sb])(king_square[White], roin, evaluate);
-      finply();
-
-      if (sting_checks)
+      if (CondFlag[sting]
+          && (*checkfunctions[sb])(king_square[White], roin, evaluate))
         return true;
       else
       {
@@ -626,7 +570,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (number_of_pieces[Black][Pawn]>0) {
+  if (number_of_pieces[Black][Pawn]>0)
+  {
     if (king_square[White]<=square_h6
         || anyparrain
         || CondFlag[normalp]
@@ -635,6 +580,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         || CondFlag[wormholes])
     {
       sq_departure= king_square[White]+dir_up+dir_left;
+      TraceSquare(sq_departure);TraceText("\n");
       if (e[sq_departure]==pn
           && evaluate(sq_departure,king_square[White],king_square[White]))
         if (imcheck(sq_departure,king_square[White]))
@@ -646,7 +592,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         if (imcheck(sq_departure,king_square[White]))
           return true;
 
-      sq_arrival= ep[nbply];
+      sq_arrival = ep[parent_ply[nbply]];
       if (sq_arrival!=initsquare && king_square[White]==sq_arrival+dir_up) {
         /* ep captures of royal pawns.
            ep[nbply] != initsquare
@@ -667,7 +613,7 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
             return true;
       }
 
-      sq_arrival= einstein_ep[nbply]; /* Einstein triple step */
+      sq_arrival = einstein_ep[parent_ply[nbply]]; /* Einstein triple step */
       if (sq_arrival!=initsquare && king_square[White]==sq_arrival+dir_up) {
         sq_departure= sq_arrival+dir_up+dir_left;
         if (e[sq_departure]==pn && evaluate(sq_departure,sq_arrival,king_square[White]))

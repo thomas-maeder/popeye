@@ -342,13 +342,13 @@ boolean cscheck(square  sq_king,
                 piece   p,
                 evalfunction_t *evaluate)
 {
+  vec_index_type const sum = vec_knight_start+vec_knight_end;
   vec_index_type k;
 
-  for (k= vec_knight_start; k <= vec_knight_end; k++) {
-    if (rcsech(sq_king, vec[k], vec[25 - k], p, evaluate)) {
+  for (k= vec_knight_start; k <= vec_knight_end; k++)
+    if (rcsech(sq_king, vec[k], vec[sum-k], p, evaluate))
       return true;
-    }
-  }
+
   return false;
 }
 
@@ -356,13 +356,13 @@ boolean bscoutcheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
+  vec_index_type const sum = vec_bishop_start+vec_bishop_end;
   vec_index_type k;
 
-  for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
-    if (rcsech(sq_king, vec[k], vec[13 - k], p, evaluate)) {
+  for (k= vec_bishop_start; k <= vec_bishop_end; k++)
+    if (rcsech(sq_king, vec[k], vec[sum-k], p, evaluate))
       return true;
-    }
-  }
+
   return false;
 }
 
@@ -370,13 +370,13 @@ boolean gscoutcheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
+  vec_index_type const sum = vec_rook_start+vec_rook_end;
   vec_index_type k;
 
-  for (k= vec_rook_end; k >= vec_rook_start; k--) {
-    if (rcsech(sq_king, vec[k], vec[5 - k], p, evaluate)) {
+  for (k= vec_rook_end; k >= vec_rook_start; k--)
+    if (rcsech(sq_king, vec[k], vec[sum-k], p, evaluate))
       return true;
-    }
-  }
+
   return false;
 }
 
@@ -1268,20 +1268,21 @@ boolean berolina_pawn_check(square  sq_king,
           && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
-      if (en_passant_was_multistep_played(nbply)
-          && prev_king_square[White][nbply]!=king_square[White]
-          && (king_square[White]==ep[nbply]+dir_up+dir_left
-              || king_square[White]==ep[nbply]+dir_up+dir_right)) {
+      if (en_passant_was_multistep_played(parent_ply[nbply])
+          && prev_king_square[White][parent_ply[nbply]]!=king_square[White]
+          && (king_square[White]==ep[parent_ply[nbply]]+dir_up+dir_left
+              || king_square[White]==ep[parent_ply[nbply]]+dir_up+dir_right)) {
         /* ep captures of royal pawns */
-        sq_departure= ep[nbply]+dir_up;
+        sq_departure= ep[parent_ply[nbply]]+dir_up;
         if (e[sq_departure]==pbn
-            && evaluate(sq_departure,ep[nbply],sq_king))
-          if (imcheck(sq_departure,ep[nbply]))
+            && evaluate(sq_departure,ep[parent_ply[nbply]],sq_king))
+          if (imcheck(sq_departure,ep[parent_ply[nbply]]))
             return true;
       }
     }
   }
-  else {      /* hopefully (p >= roib) */
+  else      /* hopefully (p >= roib) */
+  {
     if (sq_king>=square_a3
         || anyparrain
         || CondFlag[normalp]
@@ -1296,15 +1297,15 @@ boolean berolina_pawn_check(square  sq_king,
           && evaluate(sq_departure,sq_king,sq_king))
         return true;
 
-      if (en_passant_was_multistep_played(nbply)
-          && prev_king_square[Black][nbply]!=king_square[Black]
-          && (king_square[Black]==ep[nbply]+dir_down+dir_right
-              || king_square[Black]==ep[nbply]+dir_down+dir_left)) {
+      if (en_passant_was_multistep_played(parent_ply[nbply])
+          && prev_king_square[Black][parent_ply[nbply]]!=king_square[Black]
+          && (king_square[Black]==ep[parent_ply[nbply]]+dir_down+dir_right
+              || king_square[Black]==ep[parent_ply[nbply]]+dir_down+dir_left)) {
         /* ep captures of royal pawns */
-        sq_departure= ep[nbply]+dir_down;
+        sq_departure= ep[parent_ply[nbply]]+dir_down;
         if (e[sq_departure] == pbb
-            && evaluate(sq_departure,ep[nbply],sq_king))
-          if (imcheck(sq_departure,ep[nbply]))
+            && evaluate(sq_departure,ep[parent_ply[nbply]],sq_king))
+          if (imcheck(sq_departure,ep[parent_ply[nbply]]))
             return true;
       }
     }

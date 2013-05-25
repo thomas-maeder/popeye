@@ -429,3 +429,73 @@ solution finished.
 solution finished. 
 
 
+
+4.51 to 4.63 played 1.rPd7-d5 in spite of the self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+               Royal d7
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+solution finished. 
+
+
+
+4.51 to 4.63 played 1.rBPd7-f5 in spite of the self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   . -BP   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  BP   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+               Royal d7
+
+  1.rBPd7-b5 BPe5-f6
+  1.rBPd7-b5 BPe5-d6
+  1.rBPd7-c6 BPe5-f6
+  1.rBPd7-c6 BPe5-d6
+
+                        empile:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           8
+solution finished. 
+
+
