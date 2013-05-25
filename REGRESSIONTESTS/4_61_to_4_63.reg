@@ -1409,8 +1409,8 @@ a)
    1.Sa3-c2 !
 
 
-                        empile:          81
-                     play_move:          84
+                        empile:          52
+                     play_move:          55
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) SingleBox    Type2
@@ -1469,8 +1469,8 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
    1.mPe6-e7 + !
 
 
-                        empile:         843
-                     play_move:         858
+                        empile:         212
+                     play_move:         213
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          48
 solution finished. 

@@ -2345,8 +2345,13 @@ void king_generate_moves(Side side, square sq_departure)
       for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
       {
         piece const ptrans_opponent = side==White ? -*ptrans : *ptrans;
-        if (number_of_pieces[advers(side)][*ptrans]
-            && (*checkfunctions[*ptrans])(sq_departure,ptrans_opponent,&validate_observation))
+        boolean is_king_transmuted;
+
+        nextply();
+        is_king_transmuted = number_of_pieces[advers(side)][*ptrans] && (*checkfunctions[*ptrans])(sq_departure,ptrans_opponent,&validate_observation);
+        finply();
+
+        if (is_king_transmuted)
         {
           flag = true;
           current_trans_gen = -ptrans_opponent;

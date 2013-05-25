@@ -48,7 +48,7 @@ stip_length_type recursion_stopper_solve(slice_index si, stip_length_type n)
   /* empirically determined at 1 workstation */
   ply const stop_at_ply = 250;
 #else
-  ply const stop_at_ply = maxply-2;
+  ply const stop_at_ply = maxply-3;
 #endif
 
   TraceFunctionEntry(__func__);

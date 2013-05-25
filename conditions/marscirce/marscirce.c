@@ -148,8 +148,10 @@ boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_
     e[sq_rebirth] = pi_checking;
     spec[sq_rebirth] = spec_checking;
 
+    nextply();
     fromspecificsquare = sq_rebirth;
     result = (*checkfunctions[abs(pi_checking)])(king_square[side],pi_checking,&eval_fromspecificsquare);
+    finply();
 
     e[sq_rebirth] = vide;
     spec[sq_rebirth] = spec_rebirth;

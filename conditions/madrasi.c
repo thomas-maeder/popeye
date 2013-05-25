@@ -101,7 +101,11 @@ boolean madrasi_is_observed(square sq)
     else if (number_of_pieces[advers(side)][abs(p)]==0)
       result = false;
     else
+    {
+      nextply();
       result = (*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
+      finply();
+    }
 
     if (TSTFLAG(spec[sq],Neutral))
       initialise_neutrals(advers(neutral_side));
@@ -141,7 +145,11 @@ boolean madrasi_can_piece_move(square sq)
       if (number_of_pieces[advers(side)][abs(p)]==0)
         result = true;
       else
+      {
+        nextply();
         result = !(*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
+        finply();
+      }
     }
   }
 

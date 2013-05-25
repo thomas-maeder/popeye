@@ -189,25 +189,41 @@ boolean rcardech(square intermediate_square,
 boolean feebechec(evalfunction_t *evaluate)
 {
   PieNam const *pcheck;
+  boolean result = false;
+
+  nextply();
 
   for (pcheck = checkpieces; *pcheck; ++pcheck)
     if (number_of_pieces[Black][*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[White], -*pcheck, evaluate))
-      return true;
+    {
+      result = true;
+      break;
+    }
 
-  return false;
+  finply();
+
+  return result;
 }
 
 boolean feenechec(evalfunction_t *evaluate)
 {
   PieNam const *pcheck;
+  boolean result = false;
+
+  nextply();
 
   for (pcheck = checkpieces; *pcheck; ++pcheck)
     if (number_of_pieces[White][*pcheck]>0
         && (*checkfunctions[*pcheck])(king_square[Black], *pcheck, evaluate))
-      return true;
+    {
+      result = true;
+      break;
+    }
 
-  return false;
+  finply();
+
+  return result;
 }
 
 static boolean calc_rnechec(evalfunction_t *evaluate);
@@ -260,18 +276,28 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   else if (anymars)
     return marsechecc(Black,evaluate);
 
-  if (number_of_pieces[White][King]>0) {
-    if (calc_reflective_king[White]) {
-      boolean flag = true;
+  if (number_of_pieces[White][King]>0)
+  {
+    if (calc_reflective_king[White])
+    {
+      boolean transmutation_of_king_of_checking_side_found = false;
 
       calc_reflective_king[White] = false;
 
       if (!normaltranspieces[White] && echecc(White))
       {
         PieNam *ptrans;
-        flag= false;
-        for (ptrans= transmpieces[White]; *ptrans; ptrans++) {
-          if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate)) {
+        transmutation_of_king_of_checking_side_found = true;
+        for (ptrans = transmpieces[White]; *ptrans; ptrans++)
+        {
+          boolean king_checks;
+
+          nextply();
+          king_checks = (*checkfunctions[*ptrans])(king_square[Black], roib, evaluate);
+          finply();
+
+          if (king_checks)
+          {
             calc_reflective_king[White] = true;
             return true;
           }
@@ -283,11 +309,24 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         for (ptrans= transmpieces[White]; *ptrans; ptrans++)
         {
           piece const ptrans_black = -*ptrans;
-          if (number_of_pieces[Black][*ptrans]>0
-              && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate))
+          boolean is_king_of_checking_side_transmuted;
+
+          nextply();
+          is_king_of_checking_side_transmuted = number_of_pieces[Black][*ptrans]>0 && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate);
+          finply();
+
+          if (is_king_of_checking_side_transmuted)
           {
-            flag= false;
-            if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate)) {
+            boolean does_transmuted_king_deliver_check;
+
+            transmutation_of_king_of_checking_side_found = true;
+
+            nextply();
+            does_transmuted_king_deliver_check = (*checkfunctions[*ptrans])(king_square[Black], roib, evaluate);
+            finply();
+
+            if (does_transmuted_king_deliver_check)
+            {
               calc_reflective_king[White] = true;
               return true;
             }
@@ -297,7 +336,8 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
 
       calc_reflective_king[White] = true;
 
-      if (!calc_transmuting_king[White] || flag)
+      if (!calc_transmuting_king[White]
+          || !transmutation_of_king_of_checking_side_found)
       {
         vec_index_type k;
         for (k= vec_queen_end; k>=vec_queen_start; k--)
@@ -312,8 +352,13 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
     else
     {
-      if (CondFlag[sting]
-          && (*checkfunctions[sb])(king_square[Black], roib, evaluate))
+      boolean sting_checks;
+
+      nextply();
+      sting_checks = CondFlag[sting] && (*checkfunctions[sb])(king_square[Black], roib, evaluate);
+      finply();
+
+      if (sting_checks)
         return true;
       else
       {
@@ -485,16 +530,26 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   {
     if (calc_reflective_king[Black])
     {
-      PieNam   *ptrans;
-      boolean flag= true;
+      boolean transmutation_of_king_of_checking_side_found = false;
 
       calc_reflective_king[Black] = false;
 
       if (!normaltranspieces[Black] && echecc(Black))
       {
-        flag= false;
-        for (ptrans= transmpieces[Black]; *ptrans; ptrans++) {
-          if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate)) {
+        PieNam *ptrans;
+
+        transmutation_of_king_of_checking_side_found = true;
+
+        for (ptrans= transmpieces[Black]; *ptrans; ptrans++)
+        {
+          boolean king_checks;
+
+          nextply();
+          king_checks = (*checkfunctions[*ptrans])(king_square[White], roin, evaluate);
+          finply();
+
+          if (king_checks)
+          {
             calc_reflective_king[Black] = true;
             return true;
           }
@@ -502,11 +557,27 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
       }
       else if (normaltranspieces[Black])
       {
-        for (ptrans= transmpieces[Black]; *ptrans; ptrans++) {
-          if (number_of_pieces[White][*ptrans]>0
-              && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, evaluate)) {
-            flag= false;
-            if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate)) {
+        PieNam *ptrans;
+        for (ptrans = transmpieces[Black]; *ptrans; ptrans++)
+        {
+          boolean is_king_of_checking_side_transmuted;
+
+          nextply();
+          is_king_of_checking_side_transmuted = number_of_pieces[White][*ptrans]>0 && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, evaluate);
+          finply();
+
+          if (is_king_of_checking_side_transmuted)
+          {
+            boolean does_transmuted_king_deliver_check;
+
+            transmutation_of_king_of_checking_side_found = true;
+
+            nextply();
+            does_transmuted_king_deliver_check = (*checkfunctions[*ptrans])(king_square[White], roin, evaluate);
+            finply();
+
+            if (does_transmuted_king_deliver_check)
+            {
               calc_reflective_king[Black] = true;
               return true;
             }
@@ -516,7 +587,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
 
       calc_reflective_king[Black] = true;
 
-      if (!calc_transmuting_king[Black] || flag)
+      if (!calc_transmuting_king[Black]
+          || !transmutation_of_king_of_checking_side_found )
       {
         vec_index_type k;
         for (k= vec_queen_end; k>=vec_queen_start; k--)
@@ -531,8 +603,13 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
     else
     {
-      if ( CondFlag[sting]
-           && (*checkfunctions[sb])(king_square[White], roin, evaluate))
+      boolean sting_checks;
+
+      nextply();
+      sting_checks = CondFlag[sting] && (*checkfunctions[sb])(king_square[White], roin, evaluate);
+      finply();
+
+      if (sting_checks)
         return true;
       else
       {
@@ -890,14 +967,18 @@ boolean huntercheck(square i,
                     evalfunction_t *evaluate)
 {
   /* detect check by a hunter */
+  boolean result;
   evalfunction_t * const eval_away = p<0 ? &eval_down : &eval_up;
   evalfunction_t * const eval_home = p<0 ? &eval_up : &eval_down;
   unsigned int const typeofhunter = abs(p)-Hunter0;
   HunterType const * const huntertype = huntertypes+typeofhunter;
   assert(typeofhunter<maxnrhuntertypes);
   next_evaluate = evaluate;
-  return (*checkfunctions[huntertype->home])(i,p,eval_home)
-      || (*checkfunctions[huntertype->away])(i,p,eval_away);
+  nextply();
+  result = ((*checkfunctions[huntertype->home])(i,p,eval_home)
+            || (*checkfunctions[huntertype->away])(i,p,eval_away));
+  finply();
+  return result;
 }
 
 boolean rhuntcheck(square    i,

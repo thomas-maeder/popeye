@@ -63,44 +63,61 @@ static boolean aux_wh(square sq_departure,
                       square sq_arrival,
                       square sq_capture)
 {
+  boolean result = false;
+
   if (validate_observation_geometry(sq_departure,sq_arrival,sq_capture))
   {
     piece const p = e[sq_woo_from];
     Side const side = p>0 ? White : Black;
-    return number_of_pieces[side][abs(p)]>0
-        && (*checkfunctions[abs(p)])(sq_departure,e[sq_woo_from],&aux_whx);
+    if (number_of_pieces[side][abs(p)]>0)
+    {
+      nextply();
+      result = (*checkfunctions[abs(p)])(sq_departure,e[sq_woo_from],&aux_whx);
+      finply();
+    }
   }
-  else
-    return false;
+
+  return result;
 }
 
 static boolean woohefflibre(square to, square from)
 {
   PieNam *pcheck;
   Side const side_woozled = e[from]>vide ? White : Black;
+  boolean result = true;
 
-  if (rex_wooz_ex && from==king_square[side_woozled])
-    return true;
-
-  sq_woo_from = from;
-  sq_woo_to = to;
-
-  pcheck = transmpieces[White];
-  if (rex_wooz_ex)
-    ++pcheck;
-
-  while (*pcheck)
+  if (!rex_wooz_ex || from!=king_square[side_woozled])
   {
-    Side const side_woozle = CondFlag[biwoozles] ? advers(side_woozled) : side_woozled;
-    piece const p = side_woozle==White ? *pcheck : -*pcheck;
+    sq_woo_from = from;
+    sq_woo_to = to;
 
-    if (number_of_pieces[side_woozle][*pcheck]>0 && (*checkfunctions[*pcheck])(from,p,&aux_wh))
-      return false;
-    else
+    pcheck = transmpieces[White];
+    if (rex_wooz_ex)
       ++pcheck;
+
+    nextply();
+
+    while (*pcheck)
+    {
+      Side const side_woozle = CondFlag[biwoozles] ? advers(side_woozled) : side_woozled;
+      piece const p = side_woozle==White ? *pcheck : -*pcheck;
+
+      if (number_of_pieces[side_woozle][*pcheck]>0)
+      {
+        if ((*checkfunctions[*pcheck])(from,p,&aux_wh))
+        {
+          result = false;
+          break;
+        }
+      }
+
+      ++pcheck;
+    }
+
+    finply();
   }
 
-  return true;
+  return result;
 }
 
 /* Validate an observation according to Woozles

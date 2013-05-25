@@ -32,22 +32,24 @@ unsigned int magic_views_top[maxply + 1];
 
 static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed_to_magic)
 {
+  ply const parent = parent_ply[nbply];
+
   TraceFunctionEntry(__func__);
   TraceSquare(pos_viewed);
   TraceSquare(pos_magic);
   TraceValue("%d",vec_viewed_to_magic);
   TraceFunctionParamListEnd();
 
-  assert(magic_views_top[nbply]<magicviews_size);
+  assert(magic_views_top[parent]<magicviews_size);
 
-  magicviews[magic_views_top[nbply]].pos_viewed = pos_viewed;
-  magicviews[magic_views_top[nbply]].viewedid = GetPieceId(spec[pos_viewed]);
-  magicviews[magic_views_top[nbply]].magicpieceid = GetPieceId(spec[pos_magic]);
-  magicviews[magic_views_top[nbply]].vec_viewed_to_magic = vec_viewed_to_magic;
-  ++magic_views_top[nbply];
+  magicviews[magic_views_top[parent]].pos_viewed = pos_viewed;
+  magicviews[magic_views_top[parent]].viewedid = GetPieceId(spec[pos_viewed]);
+  magicviews[magic_views_top[parent]].magicpieceid = GetPieceId(spec[pos_magic]);
+  magicviews[magic_views_top[parent]].vec_viewed_to_magic = vec_viewed_to_magic;
+  ++magic_views_top[parent];
 
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",magic_views_top[nbply]);
+  TraceValue("%u",parent);
+  TraceValue("%u\n",magic_views_top[parent]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -474,12 +476,18 @@ static void PushMagicViews(void)
 
   magic_views_top[nbply] = magic_views_top[nbply-1];
 
+  nextply();
+
   for (pos_magic = boardnum; *pos_magic; pos_magic++)
     if (TSTFLAG(spec[*pos_magic], Magic))
     {
       piece const pi_magic = e[*pos_magic];
-
       square const *pos_viewed;
+
+      /* avoid unnecessary recursion if checkfunction has to play the
+       * observation */
+      CLRFLAG(spec[*pos_magic],Magic);
+
       for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
         if (abs(e[*pos_viewed])>obs
             && !TSTFLAG(spec[*pos_viewed],Magic)
@@ -508,7 +516,11 @@ static void PushMagicViews(void)
             }
           }
         }
+
+      SETFLAG(spec[*pos_magic],Magic);
     }
+
+  finply();
 
   TraceValue("%u",nbply);
   TraceValue("%u\n",magic_views_top[nbply]);

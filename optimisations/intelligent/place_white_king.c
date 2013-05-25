@@ -79,11 +79,19 @@ static boolean guards_from(square white_king_square)
 
 static boolean uninterceptably_attacked(square s)
 {
-  return ((*checkfunctions[Pawn])(s,pn,eval_ortho)
-          || (*checkfunctions[Knight])(s,cn,eval_ortho)
-          || (*checkfunctions[Fers])(s,fn,eval_ortho)
-          || (*checkfunctions[Wesir])(s,tn,eval_ortho)
-          || (*checkfunctions[ErlKing])(s,dn,eval_ortho));
+  boolean result;
+
+  nextply();
+
+  result = ((*checkfunctions[Pawn])(s,pn,eval_ortho)
+            || (*checkfunctions[Knight])(s,cn,eval_ortho)
+            || (*checkfunctions[Fers])(s,fn,eval_ortho)
+            || (*checkfunctions[Wesir])(s,tn,eval_ortho)
+            || (*checkfunctions[ErlKing])(s,dn,eval_ortho));
+
+  finply();
+
+  return result;
 }
 
 /* Place the white king; intercept checks if necessary

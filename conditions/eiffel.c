@@ -89,10 +89,14 @@ boolean eiffel_can_piece_move(square sq)
   if (eiffel_piece!=vide)
   {
     Side const eiffel_side = eiffel_piece>0 ? White : Black;
-    result = (number_of_pieces[eiffel_side][abs(eiffel_piece)]==0
-              || !(*checkfunctions[abs(eiffel_piece)])(sq,
-                                                       eiffel_piece,
-                                                       &validate_observation_geometry));
+    if (number_of_pieces[eiffel_side][abs(eiffel_piece)]>0)
+    {
+      nextply();
+      result = !(*checkfunctions[abs(eiffel_piece)])(sq,
+                                                     eiffel_piece,
+                                                     &validate_observation_geometry);
+      finply();
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -123,10 +127,14 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
   if (eiffel_piece!=vide)
   {
     Side const eiffel_side = eiffel_piece>0 ? White : Black;
-    result = (number_of_pieces[eiffel_side][abs(eiffel_piece)]==0
-              || !(*checkfunctions[abs(eiffel_piece)])(sq_observer,
-                                                       eiffel_piece,
-                                                       &validate_observation_geometry));
+    if (number_of_pieces[eiffel_side][abs(eiffel_piece)]>0)
+    {
+      nextply();
+      result = !(*checkfunctions[abs(eiffel_piece)])(sq_observer,
+                                                     eiffel_piece,
+                                                     &validate_observation_geometry);
+      finply();
+    }
   }
 
   if (TSTFLAG(spec[sq_observer],Neutral))
