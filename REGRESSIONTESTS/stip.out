@@ -874,10 +874,10 @@ Loesung beendet.
 
   1.Te1-e5=L   1.a6*b5=S   2.Sb5*d4=L   3.Ld4*e5=T   4.Te5*h5=D #
 
-                        empile:      428148
-                     play_move:      348363
- is_white_king_square_attacked:      215894
- is_black_king_square_attacked:      225374
+                        empile:      428163
+                     play_move:      348378
+ is_white_king_square_attacked:      215909
+ is_black_king_square_attacked:      225377
 Loesung beendet. 
 
 

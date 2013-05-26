@@ -24,8 +24,8 @@
   h#2                         2 + 5
             EinsteinSchach
 
-  1.Ta8-a4=L Kf2-f1   2.La4-c2=S Dg6-d3=T # 
-  1.Ta8-a6=L Dg6-d6=T +   2.La6-d3=S + Td6*d3=D # 
+  1.Ta8-a4=L Kf2-f1   2.La4-c2=S Dg6-d3=T #
+  1.Ta8-a6=L Dg6-d6=T +   2.La6-d3=S + Td6*d3=D #
 
                         empile:       58302
                      play_move:       49277
@@ -104,12 +104,12 @@ Loesung beendet.
                 Circe
             EinsteinSchach
 
-  1.Df3-b3=T c2*b3=S[+sTa8]   2.Ta8-a1=L Sb3*a1=L[+sLf8]   3.Lf8-g7=S La1*g7=T[+sSb8]   4.Sb8-d7=B Tg7*d7=D # 
+  1.Df3-b3=T c2*b3=S[+sTa8]   2.Ta8-a1=L Sb3*a1=L[+sLf8]   3.Lf8-g7=S La1*g7=T[+sSb8]   4.Sb8-d7=B Tg7*d7=D #
 
-                        empile:      128034
-                     play_move:      119417
+                        empile:      128048
+                     play_move:      119431
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      113575
+ is_black_king_square_attacked:      113589
 Loesung beendet. 
 
 
@@ -140,9 +140,9 @@ Loesung beendet.
             EinsteinSchach
                 Duplex
 
-  1.Ta2-e2=L Td1-d8=L   2.Le2-g4=S 0-0=L # 
+  1.Ta2-e2=L Td1-d8=L   2.Le2-g4=S 0-0=L #
 
-  1.Th1-g1=L Kh3-g2   2.Lg1-f2=S Ta2*f2=D # 
+  1.Th1-g1=L Kh3-g2   2.Lg1-f2=S Ta2*f2=D #
 
                         empile:       91296
                      play_move:       68977
@@ -217,7 +217,7 @@ Loesung beendet.
   ser-#3                      2 + 2
         ReversesEinsteinSchach
 
-  1.b6-b7=S   2.Sb7-d6=L   3.Ld6-b8=T # 
+  1.b6-b7=S   2.Sb7-d6=L   3.Ld6-b8=T #
 
                         empile:         256
                      play_move:         256

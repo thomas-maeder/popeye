@@ -1312,7 +1312,11 @@ byte *CommonEncode(byte *bp,
     *bp++ = (byte)(validity_value);
 
   if (en_passant_was_multistep_played(nbply))
+  {
     *bp++ = (byte)(en_passant_multistep_over[0][nbply] - square_a1);
+    if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
+      *bp++ = (byte)(en_passant_multistep_over[1][nbply] - square_a1);
+  }
 
   *bp++ = castling_flag[nbply];     /* Castling_Flag */
 
