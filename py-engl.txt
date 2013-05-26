@@ -413,8 +413,13 @@ commands expect further parameters. Lets start with the simpler commands:
 			by an integer. The opposit party has defended
 			when the number of flightsquares for it's king
 			are more or equal this number.
-	EnPassant       Must be followed by at most two squares. A possible
-			enpassant-key to this square(s) is calculated.
+	EnPassant       Must be followed by 3-4 squares which indicate the
+			pawn move just played:
+			- departure square
+			- avoided squares
+			- arrival square
+			This information is used for potential en passant
+			keys.
 	CastlingMutuallyExclusive <wrooksquare><brooksquare>
 			Castlings with the rooks that occupy the
 			indicated squares in the game array are

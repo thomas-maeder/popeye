@@ -153,7 +153,7 @@ bedingung       ExklusivSchach
 steine  weiss   kd1 tc2 lf1 sd7 be4f3
         schwarz kd5 dd6 la4 bc6d4e6
 
-option          enpassant e3
+option          enpassant e2e3e4
 
 weiteresproblem
 

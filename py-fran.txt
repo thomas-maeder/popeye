@@ -416,9 +416,13 @@ simples:
 			considere comme s'etre defendu avec succes si
 			son roi a egalement ou plus des cases fuites 
 			du chiffre indique.
-	EnPassant       Cette option doit etre suivie par ne plus que
-			2 cases. Si une cle enpassant est possible par
-			une des cases, il est calcule.
+	EnPassant       Cette option doit etre suivie par 3 a 4 cases qui
+			indiquent le coup de pion qui vient d'etre joue:
+			- case de depart
+			- case(s) evitees
+			- case d'arrivee
+			Cette information est utilisees pour les cles
+			potentielles avec prise en passant.
 	RoquesMutuellementExclusifs <casetourblanche><casetournoire>
 			Les roques avec les tours occupant les cases
 			indiquees dans la position de partie initiale

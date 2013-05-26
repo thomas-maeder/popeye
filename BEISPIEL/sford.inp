@@ -4,7 +4,7 @@ prot sford.out
 
 bemerkung 1 weisser Angriffszug zum Matt (d.h. forderung #1)
 sforderung weiss 1a[#]d
-option enpassant g6
+option enpassant g7g6g5
 steine weiss kf7 bh5
        schwarz kh7 dd4 te8h8 lc8h6 se4g8 bd7e3e6f3f6g2g5h4
 
@@ -109,7 +109,7 @@ sford schwarz 2hh[#]&1h[#]h
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd4h4
 schw ke8 ta8h8 lb7e3 sf1g3 be4e6f7h2h7
-option enpassant d3
+option enpassant d2d3d4
 
 weiter
 

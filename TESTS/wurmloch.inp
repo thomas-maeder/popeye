@@ -89,13 +89,6 @@ option nowk
 
 next
 
-title known limitation: en passant key with wormholes
-condition wormholes e5f3
-stip ~1
-option nowk nobk EnPassant b7
-
-next
-
 title ep capture to wormhole
 pieces black pe7 white pd5
 condition wormholes e6h4

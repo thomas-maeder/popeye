@@ -31,8 +31,10 @@ static boolean adjust_ep_squares2(square sq_multistep_departure)
       numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_forward)
-        en_passant_remember_multistep_over2((sq_multistep_departure+sq_arrival+sq_arrival) / 3,
-                                            (sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+      {
+        en_passant_remember_multistep_over(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
+        en_passant_remember_multistep_over(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+      }
       result = true;
       break;
     }
@@ -42,8 +44,10 @@ static boolean adjust_ep_squares2(square sq_multistep_departure)
       numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_backward)
-        en_passant_remember_multistep_over2((sq_multistep_departure+sq_arrival+sq_arrival) / 3,
-                                            (sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+      {
+        en_passant_remember_multistep_over(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
+        en_passant_remember_multistep_over(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+      }
       result = true;
       break;
     }

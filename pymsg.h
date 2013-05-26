@@ -53,7 +53,7 @@ typedef enum
   RebirthOutside                                    = 12,
   SetAndCheck                                       = 13,
   KamikazeAndSomeCond                               = 14,
-  WormholesEPKey                                    = 15,
+  Unused                                            = 15,
   TwoMummerCond                                     = 16,
   KingCapture                                       = 17,
   MonoAndBiChrom                                    = 18,

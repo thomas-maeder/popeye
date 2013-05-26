@@ -118,4 +118,34 @@ stip h~1
 condition wormholes d5h3
 option nowk
 
+next
+
+title 4.63 played 1.rPd2-d4[wrPd4->d6] in spite of the self-check
+pieces white royal pd2 black pe4
+condition wormholes d4d6
+stip ~1
+option nobk
+
+next
+
+title en passant key in Einstein Chess
+pieces white pc6e5 black pd5
+stip ep1
+option enpassant d8d7d6d5 nowk nobk
+
+next
+
+title en passant key by Berolina pawn
+pieces white bpe5 black bpd5
+stip ep1
+option enpassant f7e6d5 nowk nobk
+
+next
+
+title en passant key after double-step onto wormhole
+pieces white pc6e5 black ph3
+stip ep1
+condition wormholes d5h3
+option enpassant d7d6h3 nowk nobk
+
 end

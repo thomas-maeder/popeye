@@ -15,32 +15,18 @@
 square en_passant_multistep_over[2][maxply+1];
 
 /* Remember a square avoided by a multistep move of a pawn
+ * @param index index of square (between 0<=index<en_passant_max_nr_multistep_over)
  * @param s avoided square
  */
-void en_passant_remember_multistep_over(square s)
+void en_passant_remember_multistep_over(unsigned int index, square s)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
   assert(s!=initsquare);
-  en_passant_multistep_over[0][nbply] = s;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void en_passant_remember_multistep_over2(square s1, square s2)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(s1);
-  TraceSquare(s2);
-  TraceFunctionParamListEnd();
-
-  assert(s1!=initsquare);
-  assert(s2!=initsquare);
-  en_passant_multistep_over[0][nbply] = s1;
-  en_passant_multistep_over[1][nbply] = s2;
+  assert(index<en_passant_max_nr_multistep_over);
+  en_passant_multistep_over[index][nbply] = s;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -310,7 +296,7 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
     square const multistep_over = en_passant_find_potential(move_effect_journal[movement].u.piece_movement.from);
     if (multistep_over!=initsquare)
     {
-      en_passant_remember_multistep_over(multistep_over);
+      en_passant_remember_multistep_over(0,multistep_over);
       result = solve(slices[si].next1,n);
       en_passant_forget_multistep();
     }

@@ -4342,26 +4342,36 @@ static char *ReadSquares(SquareListContext context)
           break;
 
         case ReadEpSquares:
+        {
+          move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+          move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
           switch (nr_squares_read)
           {
             case 0:
-            {
-              Side const side = sq<=square_h4 ? White : Black;
-              numvec const dir_forward = side==White ? dir_up : dir_down  ;
-              move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
-              move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-              en_passant_remember_multistep_over(sq);
-              move_effect_journal[movement].u.piece_movement.to = sq+dir_forward;
+              move_effect_journal[movement].u.piece_movement.from = sq;
               break;
-            }
+
             case 1:
-              en_passant_multistep_over[1][1] = sq;
+              move_effect_journal[movement].u.piece_movement.to = sq;
               break;
+
+            case 2:
+              en_passant_remember_multistep_over(0,move_effect_journal[movement].u.piece_movement.to);
+              move_effect_journal[movement].u.piece_movement.to = sq;
+              break;
+
+            case 3:
+              en_passant_remember_multistep_over(1,move_effect_journal[movement].u.piece_movement.to);
+              move_effect_journal[movement].u.piece_movement.to = sq;
+              break;
+
             default:
               Message(TooManyEpKeySquares);
               break;
           }
           break;
+        }
 
         case ReadBlRoyalSq:
           royal_square[Black]= sq;

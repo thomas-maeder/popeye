@@ -97,7 +97,7 @@ quelle		7302, Springaren, 1992
 titel		6. ehrende Erwaehnung
 forderung	h#2
 bedingung	koeko
-option		enpassant d3
+option		enpassant d2d3d4
 steine	weiss	kc2 tb7 la1 bd4f5
 	schwarz	kf7 de2 se3 bc4e7
 

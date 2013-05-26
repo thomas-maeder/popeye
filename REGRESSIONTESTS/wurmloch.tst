@@ -418,16 +418,6 @@ en passant capture of pawn transfered to wormhole
 solution finished. 
 
 
-En passant key not supported with Wormholes
-problem ignored
-
-                        empile:           0
-                     play_move:           0
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
-solution finished. 
-
-
 
         ep capture to wormhole
 

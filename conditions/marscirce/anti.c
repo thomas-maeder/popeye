@@ -125,7 +125,7 @@ stip_length_type antimars_en_passant_adjuster_solve(slice_index si,
     result = solve(slices[si].next1,n);
   else
   {
-    en_passant_remember_multistep_over(multipstep_over);
+    en_passant_remember_multistep_over(0,multipstep_over);
     result = solve(slices[si].next1,n);
     en_passant_forget_multistep();
   }

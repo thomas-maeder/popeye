@@ -1536,12 +1536,6 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[wormholes] && en_passant_was_multistep_played(1))
-  {
-    VerifieMsg(WormholesEPKey);
-    return false;
-  }
-
   if (CondFlag[heffalumps]
       && (may_exist[Rose]
           || may_exist[SpiralSpringer]

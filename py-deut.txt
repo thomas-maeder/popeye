@@ -429,8 +429,13 @@ Kommandos:
 			verteidigt, falls die Anzahl der Fluchtfelder
 			fuer ihren Koenig groesser oder gleich 
 			dieser (Zuege-)Zahl ist.
-	EnPassant       Dieser Option koennen max. 2 Felder folgen. Dorthin
-			werden moegliche enpassant-Schluesselzuege berechnet.
+	EnPassant       Dieser Option folgen 3-4 Felder, welche den zuletzt
+			gespielten Bauernzug repraesentieren:
+			- Startfeld
+			- uebersprungene(s Feld(er)     
+			- Zielfeld.
+			Diese Information wird fuer moegliche enpassant-
+			Schluesselzuege verwendet.
 	RochadenGegenseitigAusschliessend <wturmfeld><sturmfeld>
 			Die Rochaden der Tuerme, welche in der
 			Partieausgangsstellung auf den angegebenen
