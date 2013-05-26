@@ -1,6 +1,8 @@
 #include "solving/en_passant.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
+#include "position/pieceid.h"
+#include "conditions/actuated_revolving_centre.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -59,19 +61,134 @@ boolean en_passant_was_multistep_played(ply ply)
   return result;
 }
 
+/* Find the en passant capturee of the current ply. Only meaningful if an en
+ * passant capture is actually possible, which isn't tested here.
+ * @return position of the capturee
+ *         initsquare if the capturee vanished from the board
+ */
+square en_passant_find_capturee(void)
+{
+  ply const ply_parent = parent_ply[nbply];
+  move_effect_journal_index_type const parent_base = move_effect_journal_top[ply_parent-1];
+  move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
+  PieceIdType const capturee_id = GetPieceId(move_effect_journal[parent_movement].u.piece_movement.movingspec);
+  move_effect_journal_index_type other;
+  move_effect_journal_index_type const parent_top = move_effect_journal_top[ply_parent];
+  square result = move_effect_journal[parent_movement].u.piece_movement.to;
+
+  for (other = parent_base+move_effect_journal_index_offset_other_effects;
+       other<parent_top;
+       ++other)
+    switch (move_effect_journal[other].type)
+    {
+      case move_effect_piece_removal:
+        if (move_effect_journal[other].u.piece_removal.from==result)
+        {
+          assert(GetPieceId(move_effect_journal[other].u.piece_removal.removedspec)==capturee_id);
+          result = initsquare;
+        }
+        break;
+
+      case move_effect_piece_readdition:
+      case move_effect_piece_creation:
+        if (GetPieceId(move_effect_journal[other].u.piece_addition.addedspec)==capturee_id)
+        {
+          assert(result==initsquare);
+          result = move_effect_journal[other].u.piece_addition.on;
+        }
+        break;
+
+      case move_effect_piece_movement:
+        if (move_effect_journal[other].u.piece_movement.from==result)
+        {
+          assert(GetPieceId(move_effect_journal[other].u.piece_movement.movingspec)==capturee_id);
+          result = move_effect_journal[other].u.piece_movement.to;
+        }
+        break;
+
+      case move_effect_piece_exchange:
+        if (move_effect_journal[other].u.piece_exchange.from==result)
+          result = move_effect_journal[other].u.piece_exchange.to;
+        else if (move_effect_journal[other].u.piece_exchange.to==result)
+          result = move_effect_journal[other].u.piece_exchange.from;
+        break;
+
+      case move_effect_board_transformation:
+        result = transformSquare(result,move_effect_journal[other].u.board_transformation.transformation);
+        break;
+
+      case move_effect_centre_revolution:
+        result = actuated_revolving_centre_revolve_square(result);
+        break;
+
+      case move_effect_none:
+      case move_effect_no_piece_removal:
+      case move_effect_piece_change:
+      case move_effect_side_change:
+      case move_effect_king_square_movement:
+      case move_effect_flags_change:
+      case move_effect_imitator_addition:
+      case move_effect_imitator_movement:
+      case move_effect_remember_ghost:
+      case move_effect_forget_ghost:
+      case move_effect_neutral_recoloring_do:
+      case move_effect_neutral_recoloring_undo:
+        /* nothing */
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+
+  return result;
+}
+
+#include "conditions/einstein/en_passant.h"
+
+/* Determine whether side trait[nbply] gives check by ep. capture
+ * @param tester pawn-specific tester function
+ * @param evaluate address of evaluater function
+ * @return true if side trait[nbply] gives check by ep. capture
+ */
+boolean en_passant_test_check(en_passant_check_tester_type tester,
+                              evalfunction_t *evaluate)
+{
+  Side const side_in_check = advers(trait[nbply]);
+
+  if (king_square[side_in_check]==en_passant_find_capturee())
+  {
+    square sq_arrival = ep[parent_ply[nbply]];
+    if (sq_arrival!=initsquare
+        && (*tester)(sq_arrival,king_square[side_in_check],evaluate))
+      return true;
+
+    sq_arrival = einstein_ep[parent_ply[nbply]]; /* Einstein triple step */
+    if (sq_arrival!=initsquare
+        && (*tester)(sq_arrival,king_square[side_in_check],evaluate))
+      return true;
+  }
+
+  return false;
+}
+
 /* Is an en passant capture possible to a specific square?
+ * @param side for which side
  * @param s the square
  * @return true iff an en passant capture to s is currently possible
  */
-boolean en_passant_is_capture_possible_to(square s)
+boolean en_passant_is_capture_possible_to(Side side, square s)
 {
   boolean result;
+  ply const ply_parent = parent_ply[nbply];
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  result = ep[parent_ply[nbply]]==s;
+  result = (trait[ply_parent]!=side
+            && (ep[ply_parent]==s || einstein_ep[ply_parent]==s));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

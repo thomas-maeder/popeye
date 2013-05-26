@@ -38,10 +38,10 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
     result = solve(slices[si].next1,n);
   else if (e[current_circe_rebirth_square[nbply]]==vide)
   {
-    move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
-                                          current_circe_rebirth_square[nbply],
-                                          current_circe_reborn_piece[nbply],
-                                          current_circe_reborn_spec[nbply]);
+    move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
+                                            current_circe_rebirth_square[nbply],
+                                            current_circe_reborn_piece[nbply],
+                                            current_circe_reborn_spec[nbply]);
     result = solve(slices[si].next1,n);
   }
   else if (current_circe_rebirth_square[nbply]==king_square[slices[si].starter])
@@ -50,10 +50,10 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                          current_circe_rebirth_square[nbply]);
-    move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
-                                          current_circe_rebirth_square[nbply],
-                                          current_circe_reborn_piece[nbply],
-                                          current_circe_reborn_spec[nbply]);
+    move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
+                                            current_circe_rebirth_square[nbply],
+                                            current_circe_reborn_piece[nbply],
+                                            current_circe_reborn_spec[nbply]);
     result = solve(slices[si].next1,n);
   }
 

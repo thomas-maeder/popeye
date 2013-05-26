@@ -1,6 +1,7 @@
 #if !defined(SOLVING_EN_PASSANT_H)
 #define SOLVING_EN_PASSANT_H
 
+#include "pyproc.h"
 #include "solving/solve.h"
 
 /* This module provides implements en passant captures
@@ -24,10 +25,36 @@ void en_passant_forget_multistep(void);
 boolean en_passant_was_multistep_played(ply ply);
 
 /* Is an en passant capture possible to a specific square?
+ * @param side for which side
  * @param s the square
  * @return true iff an en passant capture to s is currently possible
  */
-boolean en_passant_is_capture_possible_to(square s);
+boolean en_passant_is_capture_possible_to(Side side, square s);
+
+/* Find the en passant capturee of the current ply. Only meaningful if an en
+ * passant capture is actually possible, which isn't tested here.
+ * @return position of the capturee
+ *         initsquare if the capturee vanished from the board
+ */
+square en_passant_find_capturee(void);
+
+/* Type of pawn type-specific check by ep. tester functions
+ * @param sq_arrival arrival square of ep. capture
+ * @param sq_capture position of capturee (typically of the opposite king)
+ * @param evaluate address of evaluater function
+ * @return true iff side trait[nbply] gives check by ep. capture to sq_arrival
+ */
+typedef boolean (*en_passant_check_tester_type)(square sq_arrival,
+                                                square sq_capture,
+                                                evalfunction_t *evaluate);
+
+/* Determine whether side trait[nbply] gives check by ep. capture
+ * @param tester pawn-specific tester function
+ * @param evaluate address of evaluater function
+ * @return true iff side trait[nbply] gives check by ep. capture
+ */
+boolean en_passant_test_check(en_passant_check_tester_type tester,
+                              evalfunction_t *evaluate);
 
 /* Adjust en passant possibilities of the following move after a non-capturing
  * move

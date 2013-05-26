@@ -1,5 +1,6 @@
 #include "conditions/magic_square.h"
 #include "pydata.h"
+#include "position/pieceid.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -58,7 +59,8 @@ stip_length_type magic_square_side_changer_solve(slice_index si,
         break;
       }
 
-      case move_effect_piece_addition:
+      case move_effect_piece_readdition:
+      case move_effect_piece_creation:
       {
         square const on = move_effect_journal[curr].u.piece_addition.on;
         Flags const addedspec = move_effect_journal[curr].u.piece_addition.addedspec;

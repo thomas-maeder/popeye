@@ -32,7 +32,7 @@ static void insert_sentinelle(Side trait_ply)
     if (SentPionNeutral && TSTFLAG(spec_pi_moving,Neutral))
     {
       Flags const sentinelle_spec = all_pieces_flags|BIT(White)|BIT(Black)|BIT(Neutral);
-      move_effect_journal_do_piece_addition(move_effect_reason_sentinelles,
+      move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,
                                             sq_departure,
                                             sentinelle[White],
                                             sentinelle_spec);
@@ -62,7 +62,7 @@ static void insert_sentinelle(Side trait_ply)
       if (sentinelle_side!=no_side)
       {
         Flags const sentinelle_spec = all_pieces_flags|BIT(sentinelle_side);
-        move_effect_journal_do_piece_addition(move_effect_reason_sentinelles,
+        move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,
                                               sq_departure,
                                               sentinelle[sentinelle_side],
                                               sentinelle_spec);

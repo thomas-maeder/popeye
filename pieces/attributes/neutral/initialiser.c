@@ -236,7 +236,8 @@ void neutral_initialiser_recolor_replaying(void)
   for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
     switch (move_effect_journal[curr].type)
     {
-      case move_effect_piece_addition:
+      case move_effect_piece_readdition:
+      case move_effect_piece_creation:
       {
         square const on = move_effect_journal[curr].u.piece_addition.on;
         if (TSTFLAG(spec[on],Neutral))

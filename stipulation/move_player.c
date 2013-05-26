@@ -28,7 +28,7 @@ slice_index alloc_move_player_slice(void)
   return result;
 }
 
-static void play_move(void)
+static void play_move(Side side)
 {
   numecoup const coup_id = current_move[nbply];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
@@ -49,8 +49,7 @@ static void play_move(void)
     square const sq_auxiliary = move_gen_top->auxiliary;
     ply const ply_parent = parent_ply[nbply];
     boolean const is_ep = (e[sq_auxiliary]==vide
-                           && (en_passant_is_capture_possible_to(sq_auxiliary)
-                               || sq_auxiliary==einstein_ep[ply_parent]));
+                           && en_passant_is_capture_possible_to(side,sq_auxiliary));
     move_effect_reason_type const removal_reason = (is_ep
                                                     ? move_effect_reason_ep_capture
                                                     : move_effect_reason_regular_capture);
@@ -81,7 +80,7 @@ stip_length_type move_player_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  play_move();
+  play_move(slices[si].starter);
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

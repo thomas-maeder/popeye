@@ -103,6 +103,7 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/pawns/pawn.h"
+#include "position/pieceid.h"
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
 

@@ -48,10 +48,9 @@ pieces/pawns/pawns$(OBJ_SUFFIX): pieces/pawns/pawns.c pieces/pawns/pawns.h \
  pieces/vectors.h position/board.h utilities/bitmask.h \
  position/position.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h py.h utilities/boolean.h position/position.h \
- pylang.h conditions/einstein/en_passant.h solving/solve.h \
- conditions/wormhole.h solving/en_passant.h solving/move_effect_journal.h \
- pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- debugging/trace.h
+ pylang.h solving/en_passant.h solving/solve.h \
+ solving/move_effect_journal.h pydata.h pyproc.h py4.h py.h \
+ pieces/vectors.h stipulation/goals/goals.h debugging/trace.h
 
 pieces/pawns/pawns.h:
 
@@ -77,13 +76,9 @@ position/position.h:
 
 pylang.h:
 
-conditions/einstein/en_passant.h:
+solving/en_passant.h:
 
 solving/solve.h:
-
-conditions/wormhole.h:
-
-solving/en_passant.h:
 
 solving/move_effect_journal.h:
 

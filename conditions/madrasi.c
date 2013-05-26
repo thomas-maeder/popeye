@@ -3,7 +3,6 @@
 #include "pydata.h"
 #include "solving/en_passant.h"
 #include "solving/observation.h"
-#include "conditions/einstein/en_passant.h"
 
 #include "debugging/trace.h"
 
@@ -31,12 +30,11 @@ static boolean is_ep_paralysed_on(piece p,
      black berolina pawn  pbb     berolina_pawn_check
   */
 
-  ply const ply_dblstp = parent_ply[nbply];
   Side const side = p>0 ? White : Black;
 
-  return (en_passant_is_capture_possible_to(sq) || einstein_ep[ply_dblstp]==sq)
+  return (en_passant_is_capture_possible_to(side,sq)
           && number_of_pieces[side][abs(p)]>0
-          && (*checkfunc)(sq,p,&validate_observation_geometry);
+          && (*checkfunc)(sq,p,&validate_observation_geometry));
 }
 
 static boolean is_ep_paralysed(piece p, square sq)

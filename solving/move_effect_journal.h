@@ -19,8 +19,9 @@ typedef enum
   move_effect_none,
   move_effect_piece_change,
   move_effect_piece_movement,
-  move_effect_piece_addition,
+  move_effect_piece_creation,
   move_effect_no_piece_removal,
+  move_effect_piece_readdition,
   move_effect_piece_removal,
   move_effect_piece_exchange,
   move_effect_side_change,
@@ -240,16 +241,27 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
                                            square from,
                                            square to);
 
-/* Add adding a piece to the current move of the current ply
+/* Readd an already existing piece to the current move of the current ply
  * @param reason reason for adding the piece
  * @param on where to insert the piece
  * @param added nature of added piece
  * @param addedspec specs of added piece
  */
-void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
+void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
+                                             square on,
+                                             piece added,
+                                             Flags addedspec);
+
+/* Add an newly created piece to the current move of the current ply
+ * @param reason reason for creating the piece
+ * @param on where to insert the piece
+ * @param created nature of created piece
+ * @param createdspec specs of created piece
+ */
+void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
                                            square on,
-                                           piece added,
-                                           Flags addedspec);
+                                           piece created,
+                                           Flags createdspec);
 
 /* Fill the capture gap at the head of each move by no capture
  */

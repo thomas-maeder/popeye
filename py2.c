@@ -1248,55 +1248,43 @@ boolean leocheck(square    sq_king,
   return lrhopcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-boolean berolina_pawn_check(square  sq_king,
-                            piece   p,
+static boolean berolina_pawn_test_check(square sq_arrival,
+                                        square sq_capture,
+                                        evalfunction_t *evaluate)
+{
+  piece const pawn_type = trait[nbply]==White ? pbb : pbn;
+  numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+  square const sq_departure = sq_arrival+dir_backward;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = (e[sq_departure]==pawn_type
+            && evaluate(sq_departure,sq_arrival,sq_capture)
+            && imcheck(sq_departure,sq_arrival));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean berolina_pawn_check(square sq_king,
+                            piece p,
                             evalfunction_t *evaluate)
 {
-  if (trait[nbply]==Black)
+  piece const orphan_type = trait[nbply]==White ? orphanb : orphann;
+  SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
+
+  if (TSTFLAG(sq_spec[sq_king],capturable) || p==orphan_type)
   {
-    if (TSTFLAG(sq_spec[sq_king],CapturableByBlPawnSq) || p==orphann)
-    {
-      square sq_departure= sq_king+dir_up;
-
-      if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
-        return true;
-
-      if (en_passant_was_multistep_played(parent_ply[nbply])
-          && prev_king_square[White][parent_ply[nbply]]!=king_square[White]
-          && (king_square[White]==ep[parent_ply[nbply]]+dir_up+dir_left
-              || king_square[White]==ep[parent_ply[nbply]]+dir_up+dir_right)) {
-        /* ep captures of royal pawns */
-        sq_departure= ep[parent_ply[nbply]]+dir_up;
-        if (e[sq_departure]==pbn
-            && evaluate(sq_departure,ep[parent_ply[nbply]],sq_king))
-          if (imcheck(sq_departure,ep[parent_ply[nbply]]))
-            return true;
-      }
-    }
-  }
-  else
-  {
-    if (TSTFLAG(sq_spec[sq_king],CapturableByWhPawnSq) || p==orphanb)
-    {
-      square sq_departure= sq_king+dir_down;
-
-      if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
-        return true;
-
-      if (en_passant_was_multistep_played(parent_ply[nbply])
-          && prev_king_square[Black][parent_ply[nbply]]!=king_square[Black]
-          && (king_square[Black]==ep[parent_ply[nbply]]+dir_down+dir_right
-              || king_square[Black]==ep[parent_ply[nbply]]+dir_down+dir_left)) {
-        /* ep captures of royal pawns */
-        sq_departure= ep[parent_ply[nbply]]+dir_down;
-        if (e[sq_departure] == pbb
-            && evaluate(sq_departure,ep[parent_ply[nbply]],sq_king))
-          if (imcheck(sq_departure,ep[parent_ply[nbply]]))
-            return true;
-      }
-    }
+    if (berolina_pawn_test_check(sq_king,sq_king,evaluate))
+      return true;
+    if (en_passant_test_check(&berolina_pawn_test_check,evaluate))
+      return true;
   }
 
   return false;

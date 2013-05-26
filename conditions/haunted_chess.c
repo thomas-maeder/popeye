@@ -151,10 +151,10 @@ stip_length_type haunted_chess_ghost_summoner_solve(slice_index si,
 
   if (ghost_pos!=ghost_not_found)
   {
-    move_effect_journal_do_piece_addition(move_effect_reason_summon_ghost,
-                                          sq_departure,
-                                          ghosts[ghost_pos].ghost,
-                                          ghosts[ghost_pos].flags);
+    move_effect_journal_do_piece_readdition(move_effect_reason_summon_ghost,
+                                            sq_departure,
+                                            ghosts[ghost_pos].ghost,
+                                            ghosts[ghost_pos].flags);
 
     move_effect_journal_do_forget_ghost(ghost_pos);
   }

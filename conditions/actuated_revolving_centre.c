@@ -58,7 +58,11 @@ static void unrevolve(void)
   spec[square_d4] = spec_temp;
 }
 
-static square revolve_square(square s)
+/* Apply revolution to one square
+ * @param s the square
+ * @return revolved square
+ */
+square actuated_revolving_centre_revolve_square(square s)
 {
   square result;
 
@@ -101,13 +105,13 @@ static void move_effect_journal_do_centre_revolution(move_effect_reason_type rea
   revolve();
 
   {
-    square revolved = revolve_square(king_square[White]);
+    square revolved = actuated_revolving_centre_revolve_square(king_square[White]);
     if (revolved!=initsquare)
       move_effect_journal_do_king_square_movement(reason,White,revolved);
   }
 
   {
-    square revolved = revolve_square(king_square[Black]);
+    square revolved = actuated_revolving_centre_revolve_square(king_square[Black]);
     if (revolved!=initsquare)
       move_effect_journal_do_king_square_movement(reason,Black,revolved);
   }

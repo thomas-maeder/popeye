@@ -49,7 +49,6 @@
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "solving/observation.h"
-#include "conditions/einstein/en_passant.h"
 #include "conditions/annan.h"
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
@@ -252,13 +251,40 @@ boolean is_black_king_square_attacked(evalfunction_t *evaluate)
   return result;
 }
 
+static boolean pawn_test_check(square sq_arrival,
+                               square sq_capture,
+                               evalfunction_t *evaluate)
+{
+  piece const pawn_type = trait[nbply]==White ? pb : pn;
+  numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+  square const sq_departure_right = sq_arrival+dir_backward+dir_right;
+  square const sq_departure_left = sq_arrival+dir_backward+dir_left;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = ((e[sq_departure_right]==pawn_type
+             && evaluate(sq_departure_right,sq_arrival,sq_capture)
+             && imcheck(sq_departure_right,sq_arrival))
+             || (e[sq_departure_left]==pawn_type
+                 && evaluate(sq_departure_left,sq_arrival,sq_capture)
+                 && imcheck(sq_departure_left,sq_arrival)));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* detect, if black king is checked     */
 static boolean calc_rnechec(evalfunction_t *evaluate)
 {
   piece p;
 
   square sq_departure;
-  square sq_arrival;
 
   if (SATCheck)
     return echecc_SAT(Black);
@@ -347,55 +373,13 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     }
   }
 
-  if (number_of_pieces[White][Pawn]>0)
+  if (number_of_pieces[White][Pawn]>0
+      && TSTFLAG(sq_spec[king_square[Black]],CapturableByWhPawnSq))
   {
-    if (TSTFLAG(sq_spec[king_square[Black]],CapturableByWhPawnSq))
-    {
-      sq_departure= king_square[Black]+dir_down+dir_right;
-      if (e[sq_departure]==pb
-          && evaluate(sq_departure,king_square[Black],king_square[Black]))
-        if (imcheck(sq_departure,king_square[Black]))
-          return true;
-
-      sq_departure= king_square[Black]+dir_down+dir_left;
-      if (e[sq_departure]==pb
-          && evaluate(sq_departure,king_square[Black],king_square[Black]))
-        if (imcheck(sq_departure,king_square[Black]))
-          return true;
-
-      sq_arrival= ep[parent_ply[nbply]];
-      if (sq_arrival!=initsquare && king_square[Black]==sq_arrival+dir_down) {
-        /* ep captures of royal pawns */
-        /* ep[nbply] != initsquare --> a pawn has made a
-           double/triple step.
-           RN_[nbply] != king_square[Black] --> the black king has moved
-        */
-        sq_departure= sq_arrival+dir_down+dir_right;
-        if (e[sq_departure]==pb
-            && evaluate(sq_departure,sq_arrival,king_square[Black]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-
-        sq_departure= sq_arrival+dir_down+dir_left;
-        if (e[sq_departure]==pb
-            && evaluate(sq_departure,sq_arrival,king_square[Black]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-      }
-
-      sq_arrival= einstein_ep[parent_ply[nbply]]; /* Einstein triple step */
-      if (sq_arrival!=initsquare && king_square[Black]==sq_arrival+dir_down) {
-        sq_departure= sq_arrival+dir_down+dir_right;
-        if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,king_square[Black]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-
-        sq_departure= sq_arrival+dir_down+dir_left;
-        if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,king_square[Black]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-      }
-    }
+    if (pawn_test_check(king_square[Black],king_square[Black],evaluate))
+      return true;
+    if (en_passant_test_check(&pawn_test_check,evaluate))
+      return true;
   }
 
   if (number_of_pieces[White][Knight]>0)
@@ -484,7 +468,6 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   piece p;
 
   square sq_departure;
-  square sq_arrival;
 
   if (SATCheck)
     return echecc_SAT(White);
@@ -575,57 +558,13 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
     }
   }
 
-  if (number_of_pieces[Black][Pawn]>0)
+  if (number_of_pieces[Black][Pawn]>0
+      && TSTFLAG(sq_spec[king_square[White]],CapturableByBlPawnSq))
   {
-    if (TSTFLAG(sq_spec[king_square[White]],CapturableByBlPawnSq))
-    {
-      sq_departure= king_square[White]+dir_up+dir_left;
-      TraceSquare(sq_departure);TraceText("\n");
-      if (e[sq_departure]==pn
-          && evaluate(sq_departure,king_square[White],king_square[White]))
-        if (imcheck(sq_departure,king_square[White]))
-          return true;
-
-      sq_departure= king_square[White]+dir_up+dir_right;
-      if (e[sq_departure]==pn
-          && evaluate(sq_departure,king_square[White],king_square[White]))
-        if (imcheck(sq_departure,king_square[White]))
-          return true;
-
-      sq_arrival = ep[parent_ply[nbply]];
-      if (sq_arrival!=initsquare && king_square[White]==sq_arrival+dir_up) {
-        /* ep captures of royal pawns.
-           ep[nbply] != initsquare
-           --> a pawn has made a double/triple step.
-           RB_[nbply] != king_square[White]
-           --> the white king has moved
-        */
-        sq_departure= sq_arrival+dir_up+dir_left;
-        if (e[sq_departure]==pn
-            && evaluate(sq_departure,sq_arrival,king_square[White]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-
-        sq_departure= sq_arrival+dir_up+dir_right;
-        if (e[sq_departure]==pn
-            && evaluate(sq_departure,sq_arrival,king_square[White]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-      }
-
-      sq_arrival = einstein_ep[parent_ply[nbply]]; /* Einstein triple step */
-      if (sq_arrival!=initsquare && king_square[White]==sq_arrival+dir_up) {
-        sq_departure= sq_arrival+dir_up+dir_left;
-        if (e[sq_departure]==pn && evaluate(sq_departure,sq_arrival,king_square[White]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-
-        sq_departure= sq_arrival+dir_up+dir_right;
-        if (e[sq_departure]==pn && evaluate(sq_departure,sq_arrival,king_square[White]))
-          if (imcheck(sq_departure,sq_arrival))
-            return true;
-      }
-    }
+    if (pawn_test_check(king_square[White],king_square[White],evaluate))
+      return true;
+    if (en_passant_test_check(&pawn_test_check,evaluate))
+      return true;
   }
 
   if (number_of_pieces[Black][Knight]>0)

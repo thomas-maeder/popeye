@@ -6,6 +6,7 @@
 #include "conditions/haunted_chess.h"
 #include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/neutral/initialiser.h"
+#include "position/pieceid.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -234,16 +235,16 @@ static void redo_piece_movement(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-/* Add adding a piece to the current move of the current ply
+/* Readd an already existing piece to the current move of the current ply
  * @param reason reason for adding the piece
  * @param on where to insert the piece
  * @param added nature of added piece
  * @param addedspec specs of added piece
  */
-void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
-                                           square on,
-                                           piece added,
-                                           Flags addedspec)
+void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
+                                             square on,
+                                             piece added,
+                                             Flags addedspec)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
@@ -257,7 +258,7 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
-  top_elmt->type = move_effect_piece_addition;
+  top_elmt->type = move_effect_piece_readdition;
   top_elmt->reason = reason;
   top_elmt->u.piece_addition.on = on;
   top_elmt->u.piece_addition.added = added;
@@ -273,6 +274,7 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
   ++number_of_pieces[side][abs(added)];
   e[on] = added;
   spec[on] = addedspec;
+  assert(GetPieceId(addedspec)!=NullPieceId);
 
   TraceValue("%u",TSTFLAG(addedspec,Royal));
   TraceValue("%u",TSTFLAG(addedspec,White));
@@ -289,7 +291,7 @@ void move_effect_journal_do_piece_addition(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_addition(move_effect_journal_index_type curr)
+static void undo_piece_readdition(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.piece_addition.on;
   Side const side = e[on]>0 ? White : Black;
@@ -309,7 +311,7 @@ static void undo_piece_addition(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_addition(move_effect_journal_index_type curr)
+static void redo_piece_readdition(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
@@ -330,6 +332,111 @@ static void redo_piece_addition(move_effect_journal_index_type curr)
   assert(e[on]==vide);
   e[on] = added;
   spec[on] = addedspec;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Add an newly created piece to the current move of the current ply
+ * @param reason reason for creating the piece
+ * @param on where to insert the piece
+ * @param created nature of created piece
+ * @param createdspec specs of created piece
+ */
+void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
+                                           square on,
+                                           piece created,
+                                           Flags createdspec)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  Side const side = created>0 ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceSquare(on);
+  TracePiece(created);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_piece_creation;
+  top_elmt->reason = reason;
+  top_elmt->u.piece_addition.on = on;
+  top_elmt->u.piece_addition.added = created;
+  top_elmt->u.piece_addition.addedspec = createdspec;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  assert(e[on]==vide);
+  ++number_of_pieces[side][abs(created)];
+  e[on] = created;
+  spec[on] = createdspec;
+  SetPieceId(spec[on],currPieceId++);
+
+  TraceValue("%u",TSTFLAG(createdspec,Royal));
+  TraceValue("%u",TSTFLAG(createdspec,White));
+  TraceValue("%u\n",TSTFLAG(createdspec,Black));
+  if (TSTFLAG(createdspec,Royal))
+  {
+    if (king_square[White]==initsquare && TSTFLAG(createdspec,White))
+      move_effect_journal_do_king_square_movement(reason,White,on);
+    if (king_square[Black]==initsquare && TSTFLAG(createdspec,Black))
+      move_effect_journal_do_king_square_movement(reason,Black,on);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_piece_creation(move_effect_journal_index_type curr)
+{
+  square const on = move_effect_journal[curr].u.piece_addition.on;
+  Side const side = e[on]>0 ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  --number_of_pieces[side][abs(e[on])];
+  e[on] = vide;
+  --currPieceId;
+  assert(GetPieceId(spec[on])==currPieceId);
+  CLEARFL(spec[on]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_piece_creation(move_effect_journal_index_type curr)
+{
+  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
+  square const on = curr_elmt->u.piece_addition.on;
+  piece const added = curr_elmt->u.piece_addition.added;
+  piece const addedspec = curr_elmt->u.piece_addition.addedspec;
+  Side const side = added>0 ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  ++number_of_pieces[side][abs(added)];
+
+  assert(e[on]==vide);
+  e[on] = added;
+  spec[on] = addedspec;
+  SetPieceId(spec[on],currPieceId++);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1185,8 +1292,12 @@ void redo_move_effects(void)
         redo_piece_movement(curr);
         break;
 
-      case move_effect_piece_addition:
-        redo_piece_addition(curr);
+      case move_effect_piece_readdition:
+        redo_piece_readdition(curr);
+        break;
+
+      case move_effect_piece_creation:
+        redo_piece_creation(curr);
         break;
 
       case move_effect_no_piece_removal:
@@ -1281,8 +1392,12 @@ void undo_move_effects(void)
         undo_piece_movement(top-1);
         break;
 
-      case move_effect_piece_addition:
-        undo_piece_addition(top-1);
+      case move_effect_piece_readdition:
+        undo_piece_readdition(top-1);
+        break;
+
+      case move_effect_piece_creation:
+        undo_piece_creation(top-1);
         break;
 
       case move_effect_no_piece_removal:

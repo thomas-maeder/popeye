@@ -62,6 +62,7 @@
 #include "stipulation/stipulation.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/attributes/magic.h"
+#include "position/pieceid.h"
 #include "platform/maxtime.h"
 #include "solving/move_effect_journal.h"
 #include "solving/battle_play/try.h"

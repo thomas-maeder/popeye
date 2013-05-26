@@ -618,13 +618,8 @@ static boolean locate_royals(void)
   return result;
 }
 
-/* initialize elmt at index NullPieceId with initsquare */
-square PiecePositionsInDiagram[MaxPieceId+1] = { initsquare };
-
 static boolean initialise_piece_flags(void)
 {
-  PieceIdType id = MinPieceId;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -650,6 +645,7 @@ static boolean initialise_piece_flags(void)
 
   {
     square const *bnp;
+    currPieceId = MinPieceId;
     for (bnp = boardnum; *bnp; ++bnp)
     {
       piece const p = e[*bnp];
@@ -657,9 +653,8 @@ static boolean initialise_piece_flags(void)
       {
         SETFLAGMASK(spec[*bnp],all_pieces_flags);
 
-        assert(id<=MaxPieceId);
-        SetPieceId(spec[*bnp],id);
-        ++id;
+        assert(currPieceId<=MaxPieceId);
+        SetPieceId(spec[*bnp],currPieceId++);
         SavePositionInDiagram(spec[*bnp],*bnp);
 
         if (TSTFLAG(spec[*bnp],ColourChange)

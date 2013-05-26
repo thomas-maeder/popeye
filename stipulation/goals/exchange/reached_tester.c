@@ -1,4 +1,5 @@
 #include "stipulation/goals/exchange/reached_tester.h"
+#include "position/pieceid.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"

@@ -1,6 +1,4 @@
 #include "pieces/pawns/pawns.h"
-#include "conditions/einstein/en_passant.h"
-#include "conditions/wormhole.h"
 #include "solving/en_passant.h"
 #include "solving/move_effect_journal.h"
 #include "pydata.h"
@@ -14,8 +12,6 @@ void pawns_generate_ep_capture_move(Side side,
                                     square sq_arrival,
                                     square sq_arrival_singlestep)
 {
-  ply const ply_parent = parent_ply[nbply];
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceSquare(sq_departure);
@@ -23,30 +19,11 @@ void pawns_generate_ep_capture_move(Side side,
   TraceSquare(sq_arrival_singlestep);
   TraceFunctionParamListEnd();
 
-  TraceSquare(ep[ply_parent]);
-  TraceSquare(einstein_ep[ply_parent]);
-  TraceText("\n");
-
   if (abs(e[sq_departure])!=Orphan /* orphans cannot capture ep */
-      && (en_passant_is_capture_possible_to(sq_arrival_singlestep)
-          || sq_arrival_singlestep==einstein_ep[ply_parent]))
+      && en_passant_is_capture_possible_to(side,sq_arrival_singlestep))
   {
-    /* ep capture */
-    square sq_capture;
-
-    if (trait[ply_parent]!=side)
-    {
-      move_effect_journal_index_type const parent_base = move_effect_journal_top[ply_parent-1];
-      move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
-      sq_capture = move_effect_journal[parent_movement].u.piece_movement.to;
-    }
-    else
-      sq_capture = initsquare;
-
-    if (TSTFLAG(sq_spec[sq_capture],Wormhole))
-      sq_capture = wormhole_positions[wormhole_next_transfer[ply_parent]-1];
-
-    if (piece_belongs_to_opponent(sq_capture,side))
+    square const sq_capture = en_passant_find_capturee();
+    if (sq_capture!=initsquare)
     {
       empile(sq_departure,sq_arrival,sq_capture);
       move_generation_stack[current_move[nbply]].auxiliary = sq_arrival_singlestep;

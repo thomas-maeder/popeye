@@ -38,10 +38,10 @@ stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
                                        sq_arrival);
 
   if (e[current_anticirce_rebirth_square[nbply]]==vide)
-    move_effect_journal_do_piece_addition(move_effect_reason_circe_rebirth,
-                                          current_anticirce_rebirth_square[nbply],
-                                          anticirce_current_reborn_piece[nbply],
-                                          anticirce_current_reborn_spec[nbply]);
+    move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
+                                            current_anticirce_rebirth_square[nbply],
+                                            anticirce_current_reborn_piece[nbply],
+                                            anticirce_current_reborn_spec[nbply]);
   else
     current_anticirce_rebirth_square[nbply] = initsquare;
 

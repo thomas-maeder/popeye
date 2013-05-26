@@ -179,9 +179,9 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     Flags const addedspec = spec[sq_arrival];
     move_effect_journal_do_piece_removal(move_effect_reason_wormhole_transfer,
                                          sq_arrival);
-    move_effect_journal_do_piece_addition(move_effect_reason_wormhole_transfer,
-                                          wormhole_positions[wormhole_next_transfer[nbply]-1],
-                                          added,addedspec);
+    move_effect_journal_do_piece_readdition(move_effect_reason_wormhole_transfer,
+                                            wormhole_positions[wormhole_next_transfer[nbply]-1],
+                                            added,addedspec);
 
     result = solve(slices[si].next1,n);
 

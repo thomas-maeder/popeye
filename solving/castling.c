@@ -331,7 +331,8 @@ static void adjust_castling_rights(Side trait_ply)
           disable_castling_rights(move_effect_journal[curr].u.piece_movement.from);
           break;
 
-        case move_effect_piece_addition:
+        case move_effect_piece_readdition:
+        case move_effect_piece_creation:
           enable_castling_rights(move_effect_journal[curr].u.piece_addition.on);
           break;
 

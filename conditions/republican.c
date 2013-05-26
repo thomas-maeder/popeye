@@ -169,13 +169,13 @@ static void place_king(Side moving)
 {
   Side const other_side = advers(moving);
   piece const king_type = other_side==White ? roib : roin;
-  Flags const king_flags = all_royals_flags|BIT(Royal)|BIT(other_side);
+  Flags king_flags = all_royals_flags|BIT(Royal)|BIT(other_side);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,moving,"");
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_piece_addition(move_effect_reason_republican_king_insertion,
+  move_effect_journal_do_piece_creation(move_effect_reason_republican_king_insertion,
                                         king_placement[nbply],
                                         king_type,
                                         king_flags);

@@ -88,19 +88,18 @@ static numvec detect_battery(square sq_departure, square sq_king, Side side)
           +detect_directed_battery(sq_departure,sq_king,side,Rook));
 }
 
-static void pawn_ep_try_direction(square sq_departure, numvec dir)
+static void pawn_ep_try_direction(square sq_departure, Side side, numvec dir)
 {
   square const sq_arrival = sq_departure+dir;
-  ply const parent = parent_ply[nbply];
 
-  if (en_passant_is_capture_possible_to(sq_arrival))
+  if (en_passant_is_capture_possible_to(side,sq_arrival))
   {
-    move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
-    move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
-    empile(sq_departure,
-           sq_arrival,
-           move_effect_journal[parent_movement].u.piece_movement.to);
-    move_generation_stack[current_move[nbply]].auxiliary = sq_arrival;
+    square const pos_capturee = en_passant_find_capturee();
+    if (pos_capturee!=initsquare)
+    {
+      empile(sq_departure,sq_arrival,pos_capturee);
+      move_generation_stack[current_move[nbply]].auxiliary = sq_arrival;
+    }
   }
 }
 
@@ -109,8 +108,8 @@ static void pawn_ep(square sq_departure, Side side)
   if (trait[parent_ply[nbply]]!=trait[nbply])
   {
     numvec const dir_forward = side==White ? dir_up : dir_down;
-    pawn_ep_try_direction(sq_departure,dir_forward+dir_right);
-    pawn_ep_try_direction(sq_departure,dir_forward+dir_left);
+    pawn_ep_try_direction(sq_departure,side,dir_forward+dir_right);
+    pawn_ep_try_direction(sq_departure,side,dir_forward+dir_left);
   }
 }
 

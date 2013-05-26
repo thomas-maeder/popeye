@@ -426,10 +426,10 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
   {
     /* A rough check whether it is worth thinking about promotions */
     unsigned int moves = pawn_comes_from/onerow - nr_of_slack_rows_below_board;
-                          
+
 	  if (TSTFLAG(sq_spec[pawn_comes_from],BlPawnDoublestepSq))
   	  --moves;
-  	  
+
     assert(moves<=5);
 
     if (!TSTFLAG(sq_spec[to_be_blocked],BlPromSq))
@@ -605,8 +605,8 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
         else if (e[from_square+2*dir_up]==pn
                  && (e[from_square+dir_up+dir_left]<=roib
                      && e[from_square+dir_up+dir_right]<=roib
-                     && !en_passant_is_capture_possible_to(from_square+dir_up+dir_left)
-                     && !en_passant_is_capture_possible_to(from_square+dir_up+dir_right)))
+                     && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_left)
+                     && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_right)))
           /* Black can't immediately get rid of block on 4th row
            * -> no immediate double step possible */
           ++result;
@@ -635,10 +635,10 @@ boolean intelligent_can_promoted_white_pawn_theoretically_move_to(unsigned int i
   TraceFunctionParam("%u",index);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
-  
+
   if (!TSTFLAG(sq_spec[to_square],WhPromSq))
     ++min_nr_moves_by_p;
-  
+
   result = reserve[curr_reserve].nr_remaining_moves[White]>=min_nr_moves_by_p;
 
   TraceFunctionExit(__func__);

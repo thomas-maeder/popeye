@@ -29,3 +29,11 @@ position/board$(OBJ_SUFFIX): position/board.c position/board.h utilities/bitmask
 position/board.h:
 
 utilities/bitmask.h:
+position/pieceid$(OBJ_SUFFIX): position/pieceid.c position/pieceid.h \
+ position/board.h utilities/bitmask.h
+
+position/pieceid.h:
+
+position/board.h:
+
+utilities/bitmask.h:

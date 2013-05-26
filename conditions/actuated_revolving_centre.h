@@ -30,4 +30,10 @@ stip_length_type actuated_revolving_centre_solve(slice_index si,
 void undo_centre_revolution(move_effect_journal_index_type curr);
 void redo_centre_revolution(move_effect_journal_index_type curr);
 
+/* Apply revolution to one square
+ * @param s the square
+ * @return revolved square
+ */
+square actuated_revolving_centre_revolve_square(square s);
+
 #endif

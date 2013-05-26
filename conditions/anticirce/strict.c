@@ -37,10 +37,10 @@ stip_length_type anticirce_place_reborn_strict_solve(slice_index si,
 
   if (e[current_anticirce_rebirth_square[nbply]]==vide)
   {
-    move_effect_journal_do_piece_addition(move_effect_reason_anticirce_rebirth,
-                                          current_anticirce_rebirth_square[nbply],
-                                          anticirce_current_reborn_piece[nbply],
-                                          anticirce_current_reborn_spec[nbply]);
+    move_effect_journal_do_piece_readdition(move_effect_reason_anticirce_rebirth,
+                                            current_anticirce_rebirth_square[nbply],
+                                            anticirce_current_reborn_piece[nbply],
+                                            anticirce_current_reborn_spec[nbply]);
     result = solve(slices[si].next1,n);
   }
   else

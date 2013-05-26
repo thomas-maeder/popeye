@@ -534,7 +534,8 @@ static void write_other_effects(move_context *context)
         write_piece_movement(context,curr);
         break;
 
-      case move_effect_piece_addition:
+      case move_effect_piece_readdition:
+      case move_effect_piece_creation:
         write_piece_addition(context,curr);
         break;
 

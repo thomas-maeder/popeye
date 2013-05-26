@@ -81,13 +81,24 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
       }
       break;
 
-    case move_effect_piece_addition:
+    case move_effect_piece_readdition:
       switch (move_effect_journal[idx].reason)
       {
         case move_effect_reason_supercirce_rebirth:
         case move_effect_reason_antisupercirce_rebirth:
-        case move_effect_reason_republican_king_insertion:
         case move_effect_reason_wormhole_transfer:
+          result = true;
+          break;
+
+        default:
+          break;
+      }
+      break;
+
+    case move_effect_piece_creation:
+      switch (move_effect_journal[idx].reason)
+      {
+        case move_effect_reason_republican_king_insertion:
           result = true;
           break;
 
@@ -178,7 +189,8 @@ static boolean moves_equal(table_elmt_type const *snapshot)
               return false;
             break;
 
-          case move_effect_piece_addition:
+          case move_effect_piece_readdition:
+          case move_effect_piece_creation:
             if (move_effect_journal[curr].u.piece_addition.on!=snapshot->relevant_effects[id_relevant].u.piece_addition.on
                 || move_effect_journal[curr].u.piece_addition.added!=snapshot->relevant_effects[id_relevant].u.piece_addition.added
                 || move_effect_journal[curr].u.piece_addition.addedspec!=snapshot->relevant_effects[id_relevant].u.piece_addition.addedspec)

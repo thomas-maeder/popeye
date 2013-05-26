@@ -110,4 +110,12 @@ pieces black royal bpd7 white bpe5
 stip h~1
 option nowk
 
+next
+
+title 4.63 played 1.rPd7-d5[brPd5->h3] in spite of the self-check
+pieces black royal pd7 white pc5
+stip h~1
+condition wormholes d5h3
+option nowk
+
 end

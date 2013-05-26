@@ -10,6 +10,7 @@
 #define PYINT_H
 
 #include "position/position.h"
+#include "position/pieceid.h"
 #include "stipulation/goals/goals.h"
 #include "solving/solve.h"
 

@@ -676,30 +676,6 @@ typedef boolean (*nocontactfunc_t)(square);
 
 typedef unsigned int slice_index;
 
-enum
-{
-  NullPieceId = 0,
-  MinPieceId = 1,
-  MaxPieceId = 63
-};
-
-typedef unsigned int        PieceIdType;
-
-#define PieceIdOffset       (PieSpCount+1)
-#define PieSpMask           ((1<<PieceIdOffset)-1)
-#define PieceIdMask         (~PieSpMask)
-#define SetPieceId(spec,id) ((spec) = ((id)<<PieceIdOffset) | ((spec)&PieSpMask))
-#define GetPieceId(spec)    ((spec) >> PieceIdOffset)
-#define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
-
-extern square DiaRenSquares[MaxPieceId+1];
-
-extern square PiecePositionsInDiagram[MaxPieceId+1];
-
-#define GetPositionInDiagram(spec)     PiecePositionsInDiagram[GetPieceId(spec)]
-#define SavePositionInDiagram(spec,sq) (PiecePositionsInDiagram[GetPieceId(spec)] = (sq))
-#define ClearPositionInDiagram(spec)   SavePositionInDiagram(spec,initsquare)
-
 #define encore()        (current_move[nbply] > current_move[nbply-1])
 #define advers(camp)    ((camp) ? White : Black)
 

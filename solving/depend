@@ -93,7 +93,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/goals/goals.h output/mode.h conditions/imitator.h \
  conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
  pieces/attributes/neutral/half.h pieces/attributes/neutral/initialiser.h \
- debugging/trace.h
+ position/pieceid.h debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -152,6 +152,8 @@ conditions/haunted_chess.h:
 pieces/attributes/neutral/half.h:
 
 pieces/attributes/neutral/initialiser.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
@@ -1364,20 +1366,23 @@ pydata.h:
 pyproc.h:
 
 debugging/trace.h:
-solving/en_passant$(OBJ_SUFFIX): solving/en_passant.c solving/en_passant.h \
- solving/solve.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h \
- utilities/boolean.h utilities/enumeration.h pylang.h stipulation/pipe.h \
+solving/en_passant$(OBJ_SUFFIX): solving/en_passant.c solving/en_passant.h pyproc.h \
+ py4.h py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h pieces/vectors.h \
+ stipulation/goals/goals.h py.h solving/solve.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h py4.h \
- py.h pieces/vectors.h stipulation/goals/goals.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/move_effect_journal.h debugging/trace.h
+ stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h \
+ position/pieceid.h conditions/actuated_revolving_centre.h \
+ solving/move_effect_journal.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move.h debugging/trace.h conditions/einstein/en_passant.h
 
 solving/en_passant.h:
 
-solving/solve.h:
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -1397,6 +1402,14 @@ utilities/enumeration.h:
 
 pylang.h:
 
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+solving/solve.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -1411,13 +1424,11 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
+position/pieceid.h:
 
-py.h:
+conditions/actuated_revolving_centre.h:
 
-pieces/vectors.h:
-
-stipulation/goals/goals.h:
+solving/move_effect_journal.h:
 
 stipulation/has_solution_type.h:
 
@@ -1429,9 +1440,9 @@ output/mode.h:
 
 stipulation/move.h:
 
-solving/move_effect_journal.h:
-
 debugging/trace.h:
+
+conditions/einstein/en_passant.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  solving/post_move_iteration.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -1534,19 +1545,20 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
- conditions/circe/capture_fork.h conditions/circe/circe.h \
- conditions/circe/cage.h conditions/circe/double_agents.h \
- conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/anticirce/anticirce.h conditions/anticirce/super.h \
- conditions/sentinelles.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
- conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/einstein/einstein.h conditions/einstein/reverse.h \
- conditions/einstein/anti.h conditions/einstein/en_passant.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
+ position/pieceid.h conditions/circe/capture_fork.h \
+ conditions/circe/circe.h conditions/circe/cage.h \
+ conditions/circe/double_agents.h conditions/circe/kamikaze.h \
+ conditions/circe/parrain.h conditions/circe/volage.h \
+ conditions/circe/promotion.h conditions/anticirce/anticirce.h \
+ conditions/anticirce/super.h conditions/sentinelles.h \
+ conditions/duellists.h conditions/haunted_chess.h \
+ conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
+ conditions/antiandernach.h conditions/chameleon_pursuit.h \
+ conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
+ conditions/einstein/reverse.h conditions/einstein/anti.h \
+ conditions/einstein/en_passant.h conditions/traitor.h \
+ conditions/volage.h conditions/magic_square.h conditions/tibet.h \
+ conditions/degradierung.h conditions/phantom.h \
  conditions/marscirce/anti.h conditions/line_chameleon.h \
  conditions/haan.h conditions/castling_chess.h \
  conditions/exchange_castling.h conditions/transmuting_kings/super.h \
@@ -1826,6 +1838,8 @@ conditions/actuated_revolving_centre.h:
 conditions/actuated_revolving_board.h:
 
 conditions/republican.h:
+
+position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
