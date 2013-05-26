@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-square ep[maxply+1];
+square en_passant_multistep_over[2][maxply+1];
 
 /* Remember a square avoided by a multistep move of a pawn
  * @param s avoided square
@@ -24,7 +24,23 @@ void en_passant_remember_multistep_over(square s)
   TraceFunctionParamListEnd();
 
   assert(s!=initsquare);
-  ep[nbply] = s;
+  en_passant_multistep_over[0][nbply] = s;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void en_passant_remember_multistep_over2(square s1, square s2)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(s1);
+  TraceSquare(s2);
+  TraceFunctionParamListEnd();
+
+  assert(s1!=initsquare);
+  assert(s2!=initsquare);
+  en_passant_multistep_over[0][nbply] = s1;
+  en_passant_multistep_over[1][nbply] = s2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -37,7 +53,8 @@ void en_passant_forget_multistep(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  ep[nbply] = initsquare;
+  en_passant_multistep_over[0][nbply] = initsquare;
+  en_passant_multistep_over[1][nbply] = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -49,7 +66,7 @@ void en_passant_forget_multistep(void)
  */
 boolean en_passant_was_multistep_played(ply ply)
 {
-  boolean const result = ep[ply]!=initsquare;
+  boolean const result = en_passant_multistep_over[0][ply]!=initsquare;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply);
@@ -144,12 +161,10 @@ square en_passant_find_capturee(void)
   return result;
 }
 
-#include "conditions/einstein/en_passant.h"
-
-/* Determine whether side trait[nbply] gives check by ep. capture
+/* Determine whether side trait[nbply] gives check by en_passant_multistep_over[0]. capture
  * @param tester pawn-specific tester function
  * @param evaluate address of evaluater function
- * @return true if side trait[nbply] gives check by ep. capture
+ * @return true if side trait[nbply] gives check by en_passant_multistep_over[0]. capture
  */
 boolean en_passant_test_check(en_passant_check_tester_type tester,
                               evalfunction_t *evaluate)
@@ -158,12 +173,12 @@ boolean en_passant_test_check(en_passant_check_tester_type tester,
 
   if (king_square[side_in_check]==en_passant_find_capturee())
   {
-    square sq_arrival = ep[parent_ply[nbply]];
+    square sq_arrival = en_passant_multistep_over[0][parent_ply[nbply]];
     if (sq_arrival!=initsquare
         && (*tester)(sq_arrival,king_square[side_in_check],evaluate))
       return true;
 
-    sq_arrival = einstein_ep[parent_ply[nbply]]; /* Einstein triple step */
+    sq_arrival = en_passant_multistep_over[1][parent_ply[nbply]]; /* Einstein triple step */
     if (sq_arrival!=initsquare
         && (*tester)(sq_arrival,king_square[side_in_check],evaluate))
       return true;
@@ -188,7 +203,7 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   TraceFunctionParamListEnd();
 
   result = (trait[ply_parent]!=side
-            && (ep[ply_parent]==s || einstein_ep[ply_parent]==s));
+            && (en_passant_multistep_over[0][ply_parent]==s || en_passant_multistep_over[1][ply_parent]==s));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

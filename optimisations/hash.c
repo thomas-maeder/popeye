@@ -35,7 +35,7 @@
  ** bytes at the beginning give in 64 bits the locations of the pieces
  ** coded after the eight bytes. Both functions give for each piece its
  ** type (1 byte) and specification (2 bytes). After this information
- ** about ep-captures, Duellants and Imitators are coded.
+ ** about en_passant_multistep_over[0]-captures, Duellants and Imitators are coded.
  **
  ** The hash table uses a dynamic hashing scheme which allows dynamic
  ** growth and shrinkage of the hashtable. See the relevant dht* files
@@ -1312,7 +1312,7 @@ byte *CommonEncode(byte *bp,
     *bp++ = (byte)(validity_value);
 
   if (en_passant_was_multistep_played(nbply))
-    *bp++ = (byte)(ep[nbply] - square_a1);
+    *bp++ = (byte)(en_passant_multistep_over[0][nbply] - square_a1);
 
   *bp++ = castling_flag[nbply];     /* Castling_Flag */
 

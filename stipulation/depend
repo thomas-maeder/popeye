@@ -1410,9 +1410,8 @@ stipulation/move_player$(OBJ_SUFFIX): stipulation/move_player.c \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h solving/en_passant.h \
- conditions/einstein/en_passant.h solving/move_effect_journal.h \
- debugging/trace.h
+ stipulation/has_solution_type.h solving/en_passant.h pyproc.h \
+ solving/move_effect_journal.h debugging/trace.h
 
 stipulation/move_player.h:
 
@@ -1468,7 +1467,7 @@ stipulation/has_solution_type.h:
 
 solving/en_passant.h:
 
-conditions/einstein/en_passant.h:
+pyproc.h:
 
 solving/move_effect_journal.h:
 

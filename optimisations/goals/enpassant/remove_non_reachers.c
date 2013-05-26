@@ -4,7 +4,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/en_passant.h"
-#include "conditions/einstein/en_passant.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 

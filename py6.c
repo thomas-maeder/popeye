@@ -666,6 +666,9 @@ static boolean initialise_piece_flags(void)
         }
       }
     }
+
+    if (OptFlag[lastcapture] && move_effect_journal[3].type==move_effect_piece_removal)
+      SetPieceId(move_effect_journal[3].u.piece_removal.removedspec,currPieceId++);
   }
 
   TraceFunctionExit(__func__);
@@ -1533,7 +1536,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[wormholes] && (en_passant_was_multistep_played(1) || einstein_ep[1]!=initsquare))
+  if (CondFlag[wormholes] && en_passant_was_multistep_played(1))
   {
     VerifieMsg(WormholesEPKey);
     return false;

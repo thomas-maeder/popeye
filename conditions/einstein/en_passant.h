@@ -7,8 +7,6 @@
  * pawn steps
  */
 
-extern square einstein_ep[maxply+1];
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

@@ -70,7 +70,6 @@
 #include "solving/castling.h"
 #include "solving/en_passant.h"
 #include "solving/observation.h"
-#include "conditions/einstein/en_passant.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
 #include "conditions/madrasi.h"

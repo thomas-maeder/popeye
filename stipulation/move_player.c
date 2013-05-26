@@ -4,7 +4,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/en_passant.h"
-#include "conditions/einstein/en_passant.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -47,7 +46,6 @@ static void play_move(Side side)
   else
   {
     square const sq_auxiliary = move_gen_top->auxiliary;
-    ply const ply_parent = parent_ply[nbply];
     boolean const is_ep = (e[sq_auxiliary]==vide
                            && en_passant_is_capture_possible_to(side,sq_auxiliary));
     move_effect_reason_type const removal_reason = (is_ep

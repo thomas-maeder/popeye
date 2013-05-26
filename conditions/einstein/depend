@@ -220,7 +220,8 @@ conditions/einstein/en_passant$(OBJ_SUFFIX): conditions/einstein/en_passant.c \
  py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/move_effect_journal.h solving/en_passant.h debugging/trace.h
+ solving/move_effect_journal.h solving/en_passant.h pyproc.h \
+ debugging/trace.h
 
 conditions/einstein/en_passant.h:
 
@@ -279,5 +280,7 @@ stipulation/move.h:
 solving/move_effect_journal.h:
 
 solving/en_passant.h:
+
+pyproc.h:
 
 debugging/trace.h:

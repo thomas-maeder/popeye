@@ -8,7 +8,6 @@
 #include "conditions/kobul.h"
 #include "conditions/imitator.h"
 #include "solving/en_passant.h"
-#include "conditions/einstein/en_passant.h"
 
 #include <assert.h>
 #include <stdlib.h>
