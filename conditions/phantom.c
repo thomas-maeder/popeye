@@ -1,5 +1,6 @@
 #include "conditions/phantom.h"
 #include "pydata.h"
+#include "conditions/marscirce/marscirce.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
