@@ -45,12 +45,12 @@ boolean en_passant_is_capture_possible_to(Side side, square s);
 square en_passant_find_capturee(void);
 
 /* Type of pawn type-specific check by ep. tester functions
- * @param sq_arrival arrival square of ep. capture
+ * @param sq_avoided square avoided by multistep move
  * @param sq_capture position of capturee (typically of the opposite king)
  * @param evaluate address of evaluater function
  * @return true iff side trait[nbply] gives check by ep. capture to sq_arrival
  */
-typedef boolean (*en_passant_check_tester_type)(square sq_arrival,
+typedef boolean (*en_passant_check_tester_type)(square sq_avoided,
                                                 square sq_capture,
                                                 evalfunction_t *evaluate);
 

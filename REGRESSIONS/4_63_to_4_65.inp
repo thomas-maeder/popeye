@@ -148,4 +148,11 @@ stip ep1
 condition wormholes d5h3
 option enpassant d7d6h3 nowk nobk
 
+next
+
+title 4.63 would play 1.rMPd7-d5 in spite of self-check
+pieces black royal mpd7 white mpe5
+stip h~1
+option nowk
+
 end

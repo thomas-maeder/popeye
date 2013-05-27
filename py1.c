@@ -686,30 +686,68 @@ boolean marine_leaper_check(square sq_king,
   return false;
 }
 
+static boolean marine_pawn_test_check_one_dir(numvec dir_check,
+                                              square sq_hurdle,
+                                              square sq_capture,
+                                              evalfunction_t *evaluate)
+{
+  piece const pawn_type = trait[nbply]==White ? marinepawnb : marinepawnn;
+  piece const ship_type = trait[nbply]==White ? marineshipb : marineshipn;
+  square const sq_departure = sq_hurdle-dir_check;
+  square const sq_arrival = sq_hurdle+dir_check;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",dir_check);
+  TraceSquare(sq_hurdle);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = ((e[sq_departure]==pawn_type || e[sq_departure]==ship_type)
+            && e[sq_arrival]==vide
+            && evaluate(sq_departure,sq_arrival,sq_capture));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean marine_pawn_test_check(square sq_hurdle,
+                                      square sq_capture,
+                                      evalfunction_t *evaluate)
+{
+  numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_hurdle);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = (marine_pawn_test_check_one_dir(dir_forward+dir_left,
+                                           sq_hurdle,
+                                           sq_capture,
+                                           evaluate)
+            || marine_pawn_test_check_one_dir(dir_forward+dir_right,
+                                              sq_hurdle,
+                                              sq_capture,
+                                              evaluate));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean marine_pawn_check(square sq_king,
                           piece p,
                           evalfunction_t *evaluate)
 {
-  Side const checking = p>=vide ? White : Black;
-  int const dir_vertical = checking==White ? dir_up : dir_down;
-
-  {
-    int const vec_left = dir_vertical+dir_left;
-    square const sq_arrival = sq_king+vec_left;
-    square const sq_departure = sq_king-vec_left;
-    if (e[sq_arrival]==vide && e[sq_departure]==p
-        && evaluate(sq_departure,sq_arrival,sq_king))
-      return true;
-  }
-
-  {
-    int const vec_right = dir_vertical+dir_right;
-    square const sq_arrival = sq_king+vec_right;
-    square const sq_departure = sq_king-vec_right;
-    if (e[sq_arrival]==vide && e[sq_departure]==p
-        && evaluate(sq_departure,sq_arrival,sq_king))
-      return true;
-  }
+  if (marine_pawn_test_check(sq_king,sq_king,evaluate))
+    return true;
+  if (en_passant_test_check(&marine_pawn_test_check,evaluate))
+    return true;
 
   return false;
 }
