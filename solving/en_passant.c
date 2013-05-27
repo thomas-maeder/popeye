@@ -147,10 +147,10 @@ square en_passant_find_capturee(void)
   return result;
 }
 
-/* Determine whether side trait[nbply] gives check by en_passant_multistep_over[0]. capture
+/* Determine whether side trait[nbply] gives check by p. capture
  * @param tester pawn-specific tester function
  * @param evaluate address of evaluater function
- * @return true if side trait[nbply] gives check by en_passant_multistep_over[0]. capture
+ * @return true if side trait[nbply] gives check by ep. capture
  */
 boolean en_passant_test_check(en_passant_check_tester_type tester,
                               evalfunction_t *evaluate)
