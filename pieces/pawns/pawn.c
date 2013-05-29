@@ -64,3 +64,32 @@ void pawn_generate_moves(Side side, square sq_departure)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Does any pawn deliver check?
+ * @param sq_departure departure square of king capaturing move
+ * @param sq_arrival arrival square of king capaturing move
+ * @param sq_capture square where king is captured (often ==sq_arrival)
+ * @return if any pawn delivers check
+ */
+boolean pawn_test_check(square sq_departure,
+                        square sq_arrival,
+                        square sq_capture,
+                        piece p,
+                        evalfunction_t *evaluate)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  result = (e[sq_departure]==p
+            && evaluate(sq_departure,sq_arrival,sq_capture)
+            && imcheck(sq_departure,sq_arrival));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

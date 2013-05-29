@@ -705,3 +705,286 @@ solution finished.
 solution finished. 
 
 
+
+versions up to 4.63 would do 1.e7-e5 in spite of self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  PP  -P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+               Royal e7
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+solution finished. 
+
+
+
+just to make sure that check by ep capture by ship is enforced
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  SH   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+               Royal e7
+           Wormholes h3 e5
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+solution finished. 
+
+
+
+4.63 would do 1.rPe7-e5[brPe5->h3] in spite of self-check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  MH   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+               Royal e7
+           Wormholes h3 e5
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+solution finished. 
+
+
+
+versions up to 4.63 would do 1.rPd7-d5 in spite of the self check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  DR   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+               Royal d7
+
+
+                        empile:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+solution finished. 
+
+
+
+versions up to 4.63 didn't allow hunters to capture or be captured ep
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   . -P/   .   .   .   .   7
+|              B                    |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  P/   .   .   .   5
+|                  B                |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        1 + 1
+
+a) 
+
+  1.P/Bd7-d5 P/Be5*d5-d6
+
+                        empile:          26
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) brP/Bd7 
+
+
+                        empile:          11
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           4
+solution finished. 
+
+
+
+          just to make sure
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   P   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-zd53                    2 + 1
+               Madrasi
+
+  1.d2-d4   2.h3-h4   3.d4-d5 z
+
+                        empile:          26
+                     play_move:          12
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+       Orphans don't capture ep
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -P   .   .   .   .   7
+|                                   |
+6   . -MP   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   O   .   O   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         2 + 3
+
+a) 
+
+  1.MPb6*c5-d4 Oe5-e6
+  1.MPb6*c5-d4 Oe5*f6
+  1.MPb6-b5 Oe5-e6
+  1.MPb6-b5 Oe5*f6
+  1.f6-f5 Oc5*b6-a7
+  1.f6-f5 Oc5-c6
+  1.f6*e5 Oc5*b6-a7
+  1.f6*e5 Oc5-c6
+  1.d7-d5 Oe5-e6
+  1.d7-d5 Oe5*f6
+  1.d7-d5 Oc5*b6-a7
+  1.d7-d5 Oc5-c6
+  1.d7-d6 Oe5-e6
+  1.d7-d6 Oe5*f6
+  1.d7-d6 Oe5*d6
+  1.d7-d6 Oc5*b6-a7
+  1.d7-d6 Oc5*d6-e7
+  1.d7-d6 Oc5-c6
+  1.d7-d6 Oc5*d6
+  1.d7-d6 Oc5*b6
+
+                        empile:          27
+                     play_move:          26
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) brPd7 
+
+  1.MPb6*c5-d4 Oe5-e6 +
+  1.MPb6*c5-d4 Oe5*f6
+  1.MPb6-b5 Oe5-e6 +
+  1.MPb6-b5 Oe5*f6
+  1.f6-f5 Oc5*b6-a7
+  1.f6-f5 Oc5-c6 +
+  1.f6*e5 Oc5*b6-a7
+  1.f6*e5 Oc5-c6 +
+  1.rPd7-d5 Oe5-e6
+  1.rPd7-d5 Oe5*f6
+  1.rPd7-d5 Oc5*b6-a7
+  1.rPd7-d5 Oc5-c6
+
+                        empile:          18
+                     play_move:          18
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          18
+solution finished. 
+
+

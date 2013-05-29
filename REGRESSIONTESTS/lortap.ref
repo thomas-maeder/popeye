@@ -108,7 +108,7 @@ a)
                         empile:       68848
                      play_move:       61444
  is_white_king_square_attacked:        8308
- is_black_king_square_attacked:       82586
+ is_black_king_square_attacked:       82814
 b) Patrouille
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 #
@@ -116,7 +116,7 @@ b) Patrouille
                         empile:      135127
                      play_move:      102269
  is_white_king_square_attacked:        9804
- is_black_king_square_attacked:      152865
+ is_black_king_square_attacked:      153171
 solution finished. 
 
 

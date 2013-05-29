@@ -1,80 +1,11 @@
 #include "conditions/madrasi.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pydata.h"
-#include "solving/en_passant.h"
 #include "solving/observation.h"
 
 #include "debugging/trace.h"
 
 #include <stdlib.h>
-
-static boolean is_ep_paralysed_on(piece p,
-                                  square sq,
-                                  checkfunction_t *checkfunc)
-{
-  /* Returns true if a pawn who has just crossed the square sq is
-     paralysed by a piece p due to the ugly Madrasi-ep-rule by a
-     pawn p.
-     ---------------------------------------------------------
-     Dear inventors of fairys:
-     Make it as sophisticated and inconsistent as possible!
-     ---------------------------------------------------------
-
-     Checkfunc must be the corresponding checking function.
-
-     pawn just moved        p       checkfunc
-     --------------------------------------
-     white pawn     pn      pioncheck
-     black pawn     pb      pioncheck
-     white berolina pawn  pbn     berolina_pawn_check
-     black berolina pawn  pbb     berolina_pawn_check
-  */
-
-  Side const side = p>0 ? White : Black;
-
-  return (en_passant_is_capture_possible_to(side,sq)
-          && number_of_pieces[side][abs(p)]>0
-          && (*checkfunc)(sq,p,&validate_observation_geometry));
-}
-
-static boolean is_ep_paralysed(piece p, square sq)
-{
-  boolean result = false;
-
-  /* The ep capture needs special handling. */
-  switch (p)
-  {
-    case pb: /* white pawn */
-      if (is_ep_paralysed_on(pn, sq+dir_down,pioncheck))
-        result = true;
-      break;
-
-    case pn: /* black pawn */
-      if (is_ep_paralysed_on(pb, sq+dir_up,pioncheck))
-        result = true;
-      break;
-
-    case pbb: /* white berolina pawn */
-      if (is_ep_paralysed_on(pbn,sq+dir_down+dir_right,berolina_pawn_check)
-          || is_ep_paralysed_on(pbn,sq+dir_down+dir_left,berolina_pawn_check))
-        result = true;
-      break;
-
-    case pbn: /* black berolina pawn */
-      if (is_ep_paralysed_on(pbb,sq+dir_up+dir_left,berolina_pawn_check)
-          || is_ep_paralysed_on(pbb,sq+dir_up+dir_right,berolina_pawn_check))
-        result = true;
-      /* NB: Super (Berolina) pawns cannot neither be captured
-       * ep nor capture ep themselves.
-       */
-      break;
-
-    default:
-      break;
-  }
-
-  return result;
-}
 
 boolean madrasi_is_observed(square sq)
 {
@@ -95,9 +26,7 @@ boolean madrasi_is_observed(square sq)
     if (TSTFLAG(some_pieces_flags,Neutral))
       initialise_neutrals(advers(neutral_side));
 
-    if (is_ep_paralysed(p,sq))
-      result = true;
-    else if (number_of_pieces[observing_side][abs(p)]==0)
+    if (number_of_pieces[observing_side][abs(p)]==0)
       result = false;
     else
     {
@@ -123,36 +52,27 @@ boolean madrasi_is_observed(square sq)
  */
 boolean madrasi_can_piece_move(square sq)
 {
-  piece p = e[sq];
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
-  if (!rex_mad && (sq==king_square[White] || sq==king_square[Black]))
-    result = true; /* nothing */
+  if (!rex_mad && sq==king_square[trait[nbply]])
+    result = true;
   else
   {
-    if (TSTFLAG(spec[sq],Neutral))
-      p = -p;
+    piece candidate = e[sq];
 
-    if (is_ep_paralysed(p,sq))
-      result = false;
-    else
-    {
-      Side const observed_side = p>0 ? White : Black;
-      Side const observing_side = advers(observed_side);
-      if (number_of_pieces[observing_side][abs(p)]==0)
-        result = true;
-      else
-      {
-        nextply();
-        trait[nbply] = observing_side;
-        result = !(*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
-        finply();
-      }
-    }
+    if (TSTFLAG(spec[sq],Neutral))
+      candidate = -candidate;
+
+    trait[nbply] = advers(trait[nbply]);
+    result = (number_of_pieces[trait[nbply]][abs(candidate)]==0
+              || !(*checkfunctions[abs(candidate)])(sq,
+                                                    -candidate,
+                                                    &validate_observation_geometry));
+    trait[nbply] = advers(trait[nbply]);
   }
 
   TraceFunctionExit(__func__);

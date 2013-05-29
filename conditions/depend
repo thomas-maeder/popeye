@@ -517,8 +517,8 @@ conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/enumeration.h pylang.h pieces/attributes/neutral/initialiser.h \
  solving/solve.h pydata.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h solving/en_passant.h pyproc.h \
- solving/observation.h debugging/trace.h
+ stipulation/goals/goals.h solving/observation.h pyproc.h \
+ debugging/trace.h
 
 conditions/madrasi.h:
 
@@ -556,11 +556,9 @@ pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
-solving/en_passant.h:
+solving/observation.h:
 
 pyproc.h:
-
-solving/observation.h:
 
 debugging/trace.h:
 conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \

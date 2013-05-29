@@ -136,10 +136,10 @@ Loesung beendet.
       1...g3*f2 !
 
 
-                        empile:      237094
-                     play_move:      131325
+                        empile:      237096
+                     play_move:      131327
  is_white_king_square_attacked:       17646
- is_black_king_square_attacked:      128437
+ is_black_king_square_attacked:      128439
 Loesung beendet. 
 
 

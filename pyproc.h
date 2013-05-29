@@ -296,7 +296,7 @@ void add_to_move_generation_stack(square sq_departure,
  */
 void remove_duplicate_moves_of_single_piece(numecoup start);
 
-boolean ooorphancheck(square i, piece porph, piece p, evalfunction_t *evaluate);
+boolean orphan_find_observation_chain(square i, PieNam porph, evalfunction_t *evaluate);
 boolean reversepcheck(square a, piece b, evalfunction_t *evaluate);
 void    gorph(square a, Side b);
 void    gfriend(square a, Side b);

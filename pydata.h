@@ -1823,14 +1823,6 @@ void enforce_piecename_uniqueness(void);
     };
 #endif
 
-typedef struct {
-    PieNam home;
-    PieNam away;
-} HunterType;
-
-extern HunterType huntertypes[maxnrhuntertypes];
-extern unsigned int nrhuntertypes;
-
 #define hunterseparator '/'
 
 #endif  /* not PYDATA_H */

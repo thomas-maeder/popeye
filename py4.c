@@ -2537,23 +2537,23 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
 
 void (*generate_moves_for_piece)(Side side, square z, piece p) = &orig_generate_moves_for_piece;
 
-void gorph(square i, Side camp)
+void gorph(square sq_departure, Side camp)
 {
   numecoup const save_nbcou = current_move[nbply];
 
-  PieNam const *porph;
-  for (porph = orphanpieces; *porph!=Empty; ++porph)
-    if (number_of_pieces[White][*porph]>0 || number_of_pieces[Black][*porph]>0)
+  PieNam const *orphan_observer;
+  for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
+    if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
     {
       if (camp == White)
       {
-        if (ooorphancheck(i,-*porph,orphann,&validate_observation))
-          generate_moves_for_piece(camp,i,*porph);
+        if (orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
+          generate_moves_for_piece(camp,sq_departure,*orphan_observer);
       }
       else
       {
-        if (ooorphancheck(i,*porph,orphanb,&validate_observation))
-          generate_moves_for_piece(camp,i,-*porph);
+        if (orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
+          generate_moves_for_piece(camp,sq_departure,-*orphan_observer);
       }
     }
 

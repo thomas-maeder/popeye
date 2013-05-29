@@ -36,6 +36,8 @@
 #include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "pieces/pawns/pawn.h"
+#include "pieces/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/sat.h"
@@ -251,34 +253,6 @@ boolean is_black_king_square_attacked(evalfunction_t *evaluate)
   return result;
 }
 
-static boolean pawn_test_check(square sq_arrival,
-                               square sq_capture,
-                               evalfunction_t *evaluate)
-{
-  piece const pawn_type = trait[nbply]==White ? pb : pn;
-  numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
-  square const sq_departure_right = sq_arrival+dir_backward+dir_right;
-  square const sq_departure_left = sq_arrival+dir_backward+dir_left;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  result = ((e[sq_departure_right]==pawn_type
-             && evaluate(sq_departure_right,sq_arrival,sq_capture)
-             && imcheck(sq_departure_right,sq_arrival))
-             || (e[sq_departure_left]==pawn_type
-                 && evaluate(sq_departure_left,sq_arrival,sq_capture)
-                 && imcheck(sq_departure_left,sq_arrival)));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* detect, if black king is checked     */
 static boolean calc_rnechec(evalfunction_t *evaluate)
 {
@@ -324,15 +298,23 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
         for (ptrans= transmpieces[White]; *ptrans; ptrans++)
         {
           piece const ptrans_black = -*ptrans;
-          if (number_of_pieces[Black][*ptrans]>0
-              && (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate))
+          if (number_of_pieces[Black][*ptrans]>0)
           {
-            transmutation_of_king_of_checking_side_found = true;
+            boolean is_king_transmuted;
 
-            if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate))
+            trait[nbply] = advers(trait[nbply]);
+            is_king_transmuted = (*checkfunctions[*ptrans])(king_square[White],ptrans_black,evaluate);
+            trait[nbply] = advers(trait[nbply]);
+
+            if (is_king_transmuted)
             {
-              calc_reflective_king[White] = true;
-              return true;
+              transmutation_of_king_of_checking_side_found = true;
+
+              if ((*checkfunctions[*ptrans])(king_square[Black], roib, evaluate))
+              {
+                calc_reflective_king[White] = true;
+                return true;
+              }
             }
           }
         }
@@ -374,13 +356,8 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
   }
 
   if (number_of_pieces[White][Pawn]>0
-      && TSTFLAG(sq_spec[king_square[Black]],CapturableByWhPawnSq))
-  {
-    if (pawn_test_check(king_square[Black],king_square[Black],evaluate))
-      return true;
-    if (en_passant_test_check(&pawn_test_check,evaluate))
-      return true;
-  }
+      && pioncheck(king_square[Black],pb,evaluate))
+    return true;
 
   if (number_of_pieces[White][Knight]>0)
   {
@@ -508,15 +485,23 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
         PieNam *ptrans;
         for (ptrans = transmpieces[Black]; *ptrans; ptrans++)
         {
-          if (number_of_pieces[White][*ptrans]>0
-              && (*checkfunctions[*ptrans])(king_square[Black], *ptrans, evaluate))
+          if (number_of_pieces[White][*ptrans]>0)
           {
-            transmutation_of_king_of_checking_side_found = true;
+            boolean is_king_transmuted;
 
-            if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate))
+            trait[nbply] = advers(trait[nbply]);
+            is_king_transmuted = (*checkfunctions[*ptrans])(king_square[Black],*ptrans,evaluate);
+            trait[nbply] = advers(trait[nbply]);
+
+            if (is_king_transmuted)
             {
-              calc_reflective_king[Black] = true;
-              return true;
+              transmutation_of_king_of_checking_side_found = true;
+
+              if ((*checkfunctions[*ptrans])(king_square[White], roin, evaluate))
+              {
+                calc_reflective_king[Black] = true;
+                return true;
+              }
             }
           }
         }
@@ -559,13 +544,8 @@ static boolean calc_rbechec(evalfunction_t *evaluate)
   }
 
   if (number_of_pieces[Black][Pawn]>0
-      && TSTFLAG(sq_spec[king_square[White]],CapturableByBlPawnSq))
-  {
-    if (pawn_test_check(king_square[White],king_square[White],evaluate))
-      return true;
-    if (en_passant_test_check(&pawn_test_check,evaluate))
-      return true;
-  }
+      && pioncheck(king_square[White],pn,evaluate))
+    return true;
 
   if (number_of_pieces[Black][Knight]>0)
   {
@@ -843,7 +823,7 @@ static boolean eval_down(square sq_departure, square sq_arrival, square sq_captu
       && next_evaluate(sq_departure,sq_arrival,sq_capture);
 }
 
-boolean huntercheck(square i,
+boolean huntercheck(square sq_target,
                     piece p,
                     evalfunction_t *evaluate)
 {
@@ -853,13 +833,20 @@ boolean huntercheck(square i,
   evalfunction_t * const eval_home = p<0 ? &eval_up : &eval_down;
   unsigned int const typeofhunter = abs(p)-Hunter0;
   HunterType const * const huntertype = huntertypes+typeofhunter;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_target);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   assert(typeofhunter<maxnrhuntertypes);
   next_evaluate = evaluate;
-  nextply();
-  trait[nbply] = p>0 ? White : Black;
-  result = ((*checkfunctions[huntertype->home])(i,p,eval_home)
-            || (*checkfunctions[huntertype->away])(i,p,eval_away));
-  finply();
+  result = ((*checkfunctions[huntertype->home])(sq_target,p,eval_home)
+            || (*checkfunctions[huntertype->away])(sq_target,p,eval_away));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

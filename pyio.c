@@ -75,6 +75,7 @@
 #include "pyproof.h"
 #include "stipulation/pipe.h"
 #include "output/output.h"
+#include "pieces/hunters.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -1671,29 +1672,6 @@ static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam) {
   return tok;
 }
 
-HunterType huntertypes[maxnrhuntertypes];
-unsigned int nrhuntertypes;
-
-static PieNam MakeHunterType(PieNam away, PieNam home) {
-  unsigned int i;
-  for (i = 0; i!=nrhuntertypes; ++i)
-    if (huntertypes[i].away==away && huntertypes[i].home==home)
-      return Hunter0+i;
-
-  if (nrhuntertypes<maxnrhuntertypes) {
-    PieNam const result = Hunter0+nrhuntertypes;
-    HunterType * const huntertype = huntertypes+nrhuntertypes;
-    huntertype->away = away;
-    huntertype->home = home;
-    ++nrhuntertypes;
-    return result;
-  }
-  else {
-    IoErrorMsg(HunterTypeLimitReached,maxnrhuntertypes);
-    return Invalid;
-  }
-}
-
 static char *PrsPieNam(char *tok, Flags Spec, char echo)
 {
   /* We read from tok the name of the piece */
@@ -1713,7 +1691,9 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
       ++tok; /* skip slash */
       l= strlen(tok);
       tok = PrsPieShortcut(l%2==1,tok,&home);
-      Name = MakeHunterType(away,home);
+      Name = hunter_make_type(away,home);
+      if (Name==Invalid)
+        IoErrorMsg(HunterTypeLimitReached,maxnrhuntertypes);
     }
     else
     {

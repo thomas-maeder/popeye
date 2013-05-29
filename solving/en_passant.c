@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "position/pieceid.h"
 #include "conditions/actuated_revolving_centre.h"
+#include "pieces/hunters.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -79,6 +80,9 @@ square en_passant_find_capturee(void)
   move_effect_journal_index_type const parent_top = move_effect_journal_top[ply_parent];
   square result = move_effect_journal[parent_movement].u.piece_movement.to;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (other = parent_base+move_effect_journal_index_offset_other_effects;
        other<parent_top;
        ++other)
@@ -144,33 +148,65 @@ square en_passant_find_capturee(void)
         break;
     }
 
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
   return result;
 }
 
+static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
+                                                        square sq_target,
+                                                        numvec dir_capture,
+                                                        en_passant_check_tester_type tester,
+                                                        piece p,
+                                                        evalfunction_t *evaluate)
+{
+  square const sq_departure = sq_crossed-dir_capture;
+  return (abs(e[sq_departure])!=Orphan
+          && (*tester)(sq_departure,sq_crossed,sq_target,p,evaluate));
+}
+
 /* Determine whether side trait[nbply] gives check by p. capture
+ * @param sq_target target square
+ * @param dir_capture direction of ep capture
  * @param tester pawn-specific tester function
  * @param evaluate address of evaluater function
  * @return true if side trait[nbply] gives check by ep. capture
  */
-boolean en_passant_test_check(en_passant_check_tester_type tester,
+boolean en_passant_test_check(square sq_target,
+                              numvec dir_capture,
+                              en_passant_check_tester_type tester,
+                              piece p,
                               evalfunction_t *evaluate)
 {
-  Side const side_in_check = advers(trait[nbply]);
+  boolean result = false;
 
-  if (king_square[side_in_check]==en_passant_find_capturee())
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_target);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (sq_target==en_passant_find_capturee())
   {
-    square sq_arrival = en_passant_multistep_over[0][parent_ply[nbply]];
-    if (sq_arrival!=initsquare
-        && (*tester)(sq_arrival,king_square[side_in_check],evaluate))
-      return true;
-
-    sq_arrival = en_passant_multistep_over[1][parent_ply[nbply]]; /* Einstein triple step */
-    if (sq_arrival!=initsquare
-        && (*tester)(sq_arrival,king_square[side_in_check],evaluate))
-      return true;
+    square const sq_crossed0 = en_passant_multistep_over[0][parent_ply[nbply]];
+    if (sq_crossed0!=initsquare)
+    {
+      if (en_passant_test_check_one_square_crossed(sq_crossed0,sq_target,dir_capture,tester,p,evaluate))
+        result = true;
+      else
+      {
+        square const sq_crossed1 = en_passant_multistep_over[1][parent_ply[nbply]];
+        if (sq_crossed1!=initsquare
+            && en_passant_test_check_one_square_crossed(sq_crossed1,sq_target,dir_capture,tester,p,evaluate))
+          result = true;
+      }
+    }
   }
 
-  return false;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Is an en passant capture possible to a specific square?
@@ -207,12 +243,15 @@ square en_passant_find_potential(square sq_multistep_departure)
   square result = initsquare;
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  PieNam const pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
+  PieNam pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_multistep_departure);
   TraceFunctionParamListEnd();
+
+  if (pi_moving>=Hunter0)
+    pi_moving = huntertypes[pi_moving-Hunter0].away;
 
   switch (pi_moving)
   {
@@ -283,14 +322,17 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+  PieNam pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_pawn(abs(pi_moving))
+  if (pi_moving>=Hunter0)
+    pi_moving = huntertypes[pi_moving-Hunter0].away;
+
+  if (is_pawn(pi_moving)
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     square const multistep_over = en_passant_find_potential(move_effect_journal[movement].u.piece_movement.from);

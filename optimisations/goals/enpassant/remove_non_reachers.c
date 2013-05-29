@@ -1,5 +1,6 @@
 #include "optimisations/goals/enpassant/remove_non_reachers.h"
 #include "pydata.h"
+#include "pieces/hunters.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -32,6 +33,8 @@ static boolean is_enpassant_capture(square sq_departure,
                                     square sq_capture)
 {
   boolean result;
+  PieNam pi_moving = abs(e[sq_departure]);
+  PieNam pi_captured = abs(e[sq_capture]);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -39,7 +42,13 @@ static boolean is_enpassant_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = is_pawn(abs(e[sq_departure])) && is_pawn(abs(e[sq_capture])) && e[sq_arrival]==vide;
+  if (pi_moving>=Hunter0)
+     pi_moving = huntertypes[pi_moving-Hunter0].away;
+
+  if (pi_captured>=Hunter0)
+    pi_captured = huntertypes[pi_captured-Hunter0].away;
+
+  result = is_pawn(pi_moving) && is_pawn(pi_captured) && e[sq_arrival]==vide;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

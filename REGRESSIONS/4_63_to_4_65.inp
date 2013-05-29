@@ -155,4 +155,58 @@ pieces black royal mpd7 white mpe5
 stip h~1
 option nowk
 
+next
+
+title versions up to 4.63 would do 1.e7-e5 in spite of self-check
+pieces white ppd7 black royal pe7
+stip h~1
+option nowk
+
+next
+
+title just to make sure that check by ep capture by ship is enforced
+pieces white shd5 black royal pe7
+stip h~1
+condition wormholes e5h3
+option nowk
+
+next
+
+title 4.63 would do 1.rPe7-e5[brPe5->h3] in spite of self-check
+pieces white mhd5 black royal pe7
+stip h~1
+condition wormholes e5h3
+option nowk
+
+next
+
+title versions up to 4.63 would do 1.rPd7-d5 in spite of the self check
+pieces white dre5 black royal pd7
+stip h~1
+option nobk nowk
+
+next
+
+title versions up to 4.63 didn't allow hunters to capture or be captured ep
+pieces white p/be5 black p/bd7
+stip hep1
+option nowk nobk
+twin add royal black p/bd7
+
+next
+
+title just to make sure
+stip ser-zd53
+pieces white pd2h3 black pe4
+condition madrasi
+option nowk nobk
+
+next
+
+title Orphans don't capture ep
+pieces black pd7f6 mpb6 white oc5e5
+stip h~1
+option nowk nobk
+twin add black royal pd7
+
 end

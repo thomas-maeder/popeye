@@ -263,6 +263,7 @@
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/pawns/promotion.h"
+#include "pieces/hunters.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
 #include "conditions/anticirce/goal_filters.h"
@@ -1701,6 +1702,7 @@ static boolean verify_position(slice_index si)
 
   tp = 0;
   op = 0;
+
   {
     PieNam p;
     for (p = King; p<PieceCount; ++p) {
@@ -1711,8 +1713,7 @@ static boolean verify_position(slice_index si)
         if (normaltranspieces[Black])
           transmpieces[Black][tp] = p;
         tp++;
-        if (p!=Orphan
-            && p!=Friend
+        if (p!=Orphan && p!=Friend
             && (may_exist[Orphan] || may_exist[Friend]))
           orphanpieces[op++] = p;
       }

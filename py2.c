@@ -71,6 +71,7 @@
 #include "solving/en_passant.h"
 #include "solving/observation.h"
 #include "stipulation/temporary_hacks.h"
+#include "pieces/pawns/pawn.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/roses.h"
 #include "debugging/trace.h"
@@ -1248,42 +1249,19 @@ boolean leocheck(square    sq_king,
   return lrhopcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
-static boolean berolina_pawn_test_check(square sq_arrival,
-                                        square sq_capture,
-                                        evalfunction_t *evaluate)
-{
-  piece const pawn_type = trait[nbply]==White ? pbb : pbn;
-  numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
-  square const sq_departure = sq_arrival+dir_backward;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  result = (e[sq_departure]==pawn_type
-            && evaluate(sq_departure,sq_arrival,sq_capture)
-            && imcheck(sq_departure,sq_arrival));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean berolina_pawn_check(square sq_king,
                             piece p,
                             evalfunction_t *evaluate)
 {
-  piece const orphan_type = trait[nbply]==White ? orphanb : orphann;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
 
-  if (TSTFLAG(sq_spec[sq_king],capturable) || p==orphan_type)
+  if (TSTFLAG(sq_spec[sq_king],capturable) || abs(p)==Orphan || abs(p)>=Hunter0)
   {
-    if (berolina_pawn_test_check(sq_king,sq_king,evaluate))
+    numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+
+    if (pawn_test_check(sq_king-dir_forward,sq_king,sq_king,p,evaluate))
       return true;
-    if (en_passant_test_check(&berolina_pawn_test_check,evaluate))
+    if (en_passant_test_check(sq_king,dir_forward,&pawn_test_check,p,evaluate))
       return true;
   }
 
@@ -1447,54 +1425,30 @@ boolean shipcheck(square  sq_king,
   return pawnedpiececheck(sq_king, p, evaluate);
 }
 
-boolean pawnedpiececheck(square  sq_king,
-                    piece   p,
-                    evalfunction_t *evaluate)
+boolean pawnedpiececheck(square sq_king,
+                         piece p,
+                         evalfunction_t *evaluate)
 {
-  square sq_departure;
+  boolean result = false;
+  SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
 
-  if (p==dragonn || p==gryphonn || p==shipn
-      || (calc_reflective_king[Black] && p==roin))
-
+  if (TSTFLAG(sq_spec[sq_king],capturable))
   {
-    if (sq_king<=square_h6
-        || anyparrain
-        || CondFlag[normalp])
-    {
-      sq_departure= sq_king+dir_up+dir_left;
-      if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
-          return true;
-      }
+    numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+    numvec const dir_forward_right = dir_forward+dir_right;
+    numvec const dir_forward_left = dir_forward+dir_left;
 
-      sq_departure= sq_king+dir_up+dir_right;
-      if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
-          return true;
-      }
-    }
-  }
-  else {/* hopefully ((p == dragonb || p==gryphonb || p==shipb)
-           || (calc_whrefl_king && p == roib)) */
-    if (sq_king>=square_a3
-        || anyparrain
-        || CondFlag[normalp])
-    {
-      sq_departure= sq_king+dir_down+dir_right;
-      if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
-          return true;
-      }
-
-      sq_departure= sq_king+dir_down+dir_left;
-      if (e[sq_departure]==p) {
-        if (evaluate(sq_departure,sq_king,sq_king))
-          return true;
-      }
-    }
+    if (pawn_test_check(sq_king-dir_forward_right,sq_king,sq_king,p,evaluate))
+      result = true;
+    else if (pawn_test_check(sq_king-dir_forward_left,sq_king,sq_king,p,evaluate))
+      result = true;
+    else if (en_passant_test_check(sq_king,dir_forward_right,&pawn_test_check,p,evaluate))
+      result = true;
+    else if (en_passant_test_check(sq_king,dir_forward_left,&pawn_test_check,p,evaluate))
+      result = true;
   }
 
-  return false;
+  return result;
 }
 
 boolean kangoucheck(square  sq_king,
@@ -1986,58 +1940,42 @@ boolean pioncheck(square sq_king,
                   piece p,
                   evalfunction_t *evaluate)
 {
-  square sq_departure;
+  SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
+  boolean result = false;
 
-  if (p<=roin) {
-    if (sq_king<=square_h6
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || CondFlag[wormholes]
-        || p==orphann
-        || p<=hunter0n)
-    {
-      sq_departure= sq_king+dir_up+dir_left;
-      if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
-        return true;
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
 
-      sq_departure= sq_king+dir_up+dir_right;
-      if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
-        return true;
-    }
-  }
-  else {      /* hopefully (p >= roib) */
-    if (sq_king>=square_a3
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || CondFlag[wormholes]
-        || p==orphanb
-        || p>=hunter0b)
-    {
-      sq_departure= sq_king+dir_down+dir_right;
-      if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
-        return true;
+  if (TSTFLAG(sq_spec[sq_king],capturable) || abs(p)==Orphan || abs(p)>=Hunter0)
+  {
+    numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+    numvec const dir_forward_right = dir_forward+dir_right;
+    numvec const dir_forward_left = dir_forward+dir_left;
 
-      sq_departure= sq_king+dir_down+dir_left;
-      if (e[sq_departure]==p
-          && evaluate(sq_departure,sq_king,sq_king))
-        return true;
-    }
+    if (pawn_test_check(sq_king-dir_forward_right,sq_king,sq_king,p,evaluate))
+      result = true;
+    else if (pawn_test_check(sq_king-dir_forward_left,sq_king,sq_king,p,evaluate))
+      result = true;
+    else if (en_passant_test_check(sq_king,dir_forward_right,&pawn_test_check,p,evaluate))
+      result = true;
+    else if (en_passant_test_check(sq_king,dir_forward_left,&pawn_test_check,p,evaluate))
+      result = true;
   }
 
-  return false;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean reversepcheck(square sq_king,
                       piece p,
                       evalfunction_t *evaluate)
 {
+  SquareFlags const capturable = trait[nbply]==White ? CapturableByBlPawnSq : CapturableByWhPawnSq;
+
   if (anymars || CondFlag[phantom]) {
     boolean anymarscheck=
         (p==e[king_square[White]]
@@ -2046,53 +1984,26 @@ boolean reversepcheck(square sq_king,
         || (p==e[king_square[Black]]
             && (e[sq_king+dir_up+dir_right]==p
                 || e[sq_king+dir_up+dir_left]==p));
-    if (!is_phantomchess || anymarscheck) {
+    if (!is_phantomchess || anymarscheck)
       return anymarscheck;
-    }
   }
 
-  if (p >= roib) {
-    if (sq_king <= square_h8 - 2*onerow
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || p == orphanb
-        || p>=hunter0b)
-    {
-      if (e[sq_king+dir_up+dir_right]==p) {
-        if ((*evaluate)(sq_king+dir_up+dir_right,sq_king,sq_king)) {
-          return true;
-        }
-      }
-      if (e[sq_king+dir_up+dir_left]==p) {
-        if ((*evaluate)(sq_king+dir_up+dir_left,sq_king,sq_king)) {
-          return true;
-        }
-      }
-    }
+  if (TSTFLAG(sq_spec[sq_king],capturable) || abs(p)==Orphan || abs(p)>=Hunter0)
+  {
+    numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+    numvec const dir_backward_right = dir_backward+dir_right;
+    numvec const dir_backward_left = dir_backward+dir_left;
+
+    if (pawn_test_check(sq_king-dir_backward_right,sq_king,sq_king,p,evaluate))
+      return true;
+    else if (pawn_test_check(sq_king-dir_backward_left,sq_king,sq_king,p,evaluate))
+      return true;
+    else if (en_passant_test_check(sq_king,dir_backward_right,&pawn_test_check,p,evaluate))
+      return true;
+    else if (en_passant_test_check(sq_king,dir_backward_left,&pawn_test_check,p,evaluate))
+      return true;
   }
-  else {      /* hopefully (p <= roin) */
-    if (sq_king >= square_a1 + 2*onerow
-        || anyparrain
-        || CondFlag[normalp]
-        || CondFlag[einstein]
-        || CondFlag[circecage]
-        || p == orphann
-        || p<=hunter0n)
-    {
-      if (e[sq_king+dir_down+dir_right]==p) {
-        if ((*evaluate)(sq_king+dir_down+dir_right,sq_king,sq_king)) {
-          return true;
-        }
-      }
-      if (e[sq_king+dir_down+dir_left]==p) {
-        if ((*evaluate)(sq_king+dir_down+dir_left,sq_king,sq_king)) {
-          return true;
-        }
-      }
-    }
-  }
+
   return false;
 }
 

@@ -5,11 +5,35 @@
 #include <assert.h>
 #include <string.h>
 
+HunterType huntertypes[maxnrhuntertypes];
+unsigned int nrhuntertypes;
+
 typedef enum
 {
   UP,
   DOWN
 } UPDOWN;
+
+
+PieNam hunter_make_type(PieNam away, PieNam home)
+{
+  unsigned int i;
+  for (i = 0; i!=nrhuntertypes; ++i)
+    if (huntertypes[i].away==away && huntertypes[i].home==home)
+      return Hunter0+i;
+
+  if (nrhuntertypes<maxnrhuntertypes)
+  {
+    PieNam const result = Hunter0+nrhuntertypes;
+    HunterType * const huntertype = huntertypes+nrhuntertypes;
+    huntertype->away = away;
+    huntertype->home = home;
+    ++nrhuntertypes;
+    return result;
+  }
+  else
+    return Invalid;
+}
 
 static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
 {

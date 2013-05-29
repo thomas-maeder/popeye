@@ -162,9 +162,9 @@ pieces/marine$(OBJ_SUFFIX): pieces/marine.c pieces/marine.h pieces/vectors.h \
  position/board.h utilities/bitmask.h position/position.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h py.h \
  utilities/boolean.h position/position.h pylang.h pieces/pawns/pawns.h \
- pieces/pawns/pawn.h solving/castling.h stipulation/slice_type.h \
- solving/solve.h pydata.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h py4.h debugging/trace.h
+ pieces/pawns/pawn.h pyproc.h py4.h py.h pieces/vectors.h \
+ stipulation/goals/goals.h solving/castling.h stipulation/slice_type.h \
+ solving/solve.h pydata.h pyproc.h py4.h debugging/trace.h
 
 pieces/marine.h:
 
@@ -194,14 +194,6 @@ pieces/pawns/pawns.h:
 
 pieces/pawns/pawn.h:
 
-solving/castling.h:
-
-stipulation/slice_type.h:
-
-solving/solve.h:
-
-pydata.h:
-
 pyproc.h:
 
 py4.h:
@@ -211,6 +203,16 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
+
+solving/castling.h:
+
+stipulation/slice_type.h:
+
+solving/solve.h:
+
+pydata.h:
+
+pyproc.h:
 
 py4.h:
 
