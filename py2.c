@@ -1409,10 +1409,7 @@ boolean gryphoncheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
 {
-  if (ridcheck(sq_king,vec_bishop_start,vec_bishop_end,p,evaluate))
-    return true;
-
-  return pawnedpiececheck(sq_king, p, evaluate);
+  return ridcheck(sq_king,vec_bishop_start,vec_bishop_end,p,evaluate);
 }
 
 boolean shipcheck(square  sq_king,

@@ -209,4 +209,12 @@ stip h~1
 option nowk nobk
 twin add black royal pd7
 
+next
+
+title just to make sure
+pieces white gyd5  black pe7
+stip h~1
+option nowk nobk
+twin add black royal pe7
+
 end

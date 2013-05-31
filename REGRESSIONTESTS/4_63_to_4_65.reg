@@ -988,3 +988,84 @@ b) brPd7
 solution finished. 
 
 
+
+          just to make sure
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  GY   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h~1                         1 + 1
+
+a) 
+
+  1.e7-e5 GYd5-a2
+  1.e7-e5 GYd5-b3
+  1.e7-e5 GYd5-c4
+  1.e7-e5 GYd5-h1
+  1.e7-e5 GYd5-g2
+  1.e7-e5 GYd5-f3
+  1.e7-e5 GYd5-e4
+  1.e7-e5 GYd5-g8
+  1.e7-e5 GYd5-f7
+  1.e7-e5 GYd5-e6
+  1.e7-e5 GYd5-a8
+  1.e7-e5 GYd5-b7
+  1.e7-e5 GYd5-c6
+  1.e7-e5 GYd5-d6
+  1.e7-e6 GYd5-a2
+  1.e7-e6 GYd5-b3
+  1.e7-e6 GYd5-c4
+  1.e7-e6 GYd5-h1
+  1.e7-e6 GYd5-g2
+  1.e7-e6 GYd5-f3
+  1.e7-e6 GYd5-e4
+  1.e7-e6 GYd5*e6
+  1.e7-e6 GYd5-a8
+  1.e7-e6 GYd5-b7
+  1.e7-e6 GYd5-c6
+  1.e7-e6 GYd5-d6
+
+                        empile:          28
+                     play_move:          28
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) brPe7 
+
+  1.rPe7-e5 GYd5-a2
+  1.rPe7-e5 GYd5-b3
+  1.rPe7-e5 GYd5-c4
+  1.rPe7-e5 GYd5-h1
+  1.rPe7-e5 GYd5-g2
+  1.rPe7-e5 GYd5-f3
+  1.rPe7-e5 GYd5-e4
+  1.rPe7-e5 GYd5-g8
+  1.rPe7-e5 GYd5-f7
+  1.rPe7-e5 GYd5-e6
+  1.rPe7-e5 GYd5-a8
+  1.rPe7-e5 GYd5-b7
+  1.rPe7-e5 GYd5-c6
+  1.rPe7-e5 GYd5-d6 +
+
+                        empile:          16
+                     play_move:          16
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          16
+solution finished. 
+
+
