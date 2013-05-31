@@ -1976,18 +1976,6 @@ boolean reversepcheck(square sq_king,
 {
   SquareFlags const capturable = trait[nbply]==White ? CapturableByBlPawnSq : CapturableByWhPawnSq;
 
-  if (anymars || CondFlag[phantom]) {
-    boolean anymarscheck=
-        (p==e[king_square[White]]
-         && (e[sq_king+dir_down+dir_right]==p
-             || e[sq_king+dir_down+dir_left]==p))
-        || (p==e[king_square[Black]]
-            && (e[sq_king+dir_up+dir_right]==p
-                || e[sq_king+dir_up+dir_left]==p));
-    if (!is_phantomchess || anymarscheck)
-      return anymarscheck;
-  }
-
   if (TSTFLAG(sq_spec[sq_king],capturable) || abs(p)==Orphan || abs(p)>=Hunter0)
   {
     numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
