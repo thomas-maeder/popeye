@@ -86,9 +86,7 @@ static void write_capture(move_context *context,
   StdChar('*');
   if (sq_capture==move_effect_journal[movement].u.piece_movement.to)
     WriteSquare(move_effect_journal[movement].u.piece_movement.to);
-  else if (is_pawn(abs(move_effect_journal[movement].u.piece_movement.moving))
-           && is_pawn(abs(move_effect_journal[capture].u.piece_removal.removed))
-           && move_effect_journal[capture].reason==move_effect_reason_ep_capture)
+  else if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
   {
     WriteSquare(move_effect_journal[movement].u.piece_movement.to);
     StdString(" ep.");
