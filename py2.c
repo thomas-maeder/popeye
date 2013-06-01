@@ -213,11 +213,6 @@ boolean rmhopech(square sq_king,
                  PieNam p,
                  evalfunction_t *evaluate)
 {
-  square sq_hurdle;
-  vec_index_type k;
-  vec_index_type k1;
-  piece hopper;
-
   /* ATTENTION:
    *    angle==angle_45:  moose    45 degree hopper
    *    angle==angle_90:  eagle    90 degree hopper
@@ -234,30 +229,66 @@ boolean rmhopech(square sq_king,
    *                                     NG
    */
 
+  vec_index_type k;
   square sq_departure;
-  numvec v, v1;
+  boolean result = false;
 
-  for (k= kend; k>=kanf; k--) {
-    v= vec[k];
-    sq_hurdle= sq_king+v;
-    if (abs(e[sq_hurdle])>=roib) {
-      k1= 2*k;
-      finligne(sq_hurdle,v1=mixhopdata[angle][k1],hopper,sq_departure);
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TraceFunctionParam ("%u",kend);
+  TraceFunctionParam ("%u",kanf);
+  TraceFunctionParam ("%u",angle);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  for (k = kend; k>=kanf; --k)
+  {
+    numvec const v = vec[k];
+    square const sq_hurdle = sq_king+v;
+    TraceValue("%d",v);
+    TraceSquare(sq_hurdle);
+    TracePiece(e[sq_hurdle]);
+    TraceText("\n");
+    if (abs(e[sq_hurdle])>=King)
+    {
+      vec_index_type k1 = 2*k;
+      piece hopper;
+      numvec v1 = mixhopdata[angle][k1];
+
+      finligne(sq_hurdle,v1,hopper,sq_departure);
+      TraceSquare(sq_departure);
+      TracePiece(hopper);
+      TraceValue("%d\n",v1);
       if (abs(hopper)==p && TSTFLAG(spec[sq_departure],trait[nbply]))
       {
         if (evaluate(sq_departure,sq_king,sq_king)
             && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
-          return true;
+        {
+          result = true;
+          break;
+        }
       }
-      finligne(sq_hurdle,v1=mixhopdata[angle][k1-1],hopper,sq_departure);
+
+      v1 = mixhopdata[angle][k1-1];
+      finligne(sq_hurdle,v1,hopper,sq_departure);
+      TraceSquare(sq_departure);
+      TracePiece(hopper);
+      TraceValue("%d\n",v1);
       if (abs(hopper)==p && TSTFLAG(spec[sq_departure],trait[nbply])) {
         if (evaluate(sq_departure,sq_king,sq_king)
             && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
-          return true;
+        {
+          result = true;
+          break;
+        }
       }
     }
   }
-  return false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean rcsech(square  sq_king,
@@ -1658,7 +1689,8 @@ boolean rookmoosecheck(square    sq_king,
                        PieNam p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
 }
 
 boolean rookeaglecheck(square    sq_king,
@@ -1672,14 +1704,16 @@ boolean rooksparrcheck(square    sq_king,
                        PieNam p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
 }
 
 boolean bishopmoosecheck(square    sq_king,
                          PieNam p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
 }
 
 boolean bishopeaglecheck(square    sq_king,
@@ -1693,7 +1727,8 @@ boolean bishopsparrcheck(square    sq_king,
                          PieNam p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
 }
 
 boolean archcheck(square    sq_king,
