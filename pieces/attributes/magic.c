@@ -506,7 +506,7 @@ static void PushMagicViews(void)
             /* piece is not cross-eyed - use regular check function */
             fromspecificsquare = *pos_magic;
             if ((*checkfunctions[abs(pi_magic)])(*pos_viewed,
-                                                 pi_magic,
+                                                 abs(pi_magic),
                                                  eval_fromspecificsquare))
             {
               numvec vec_viewed_to_magic;

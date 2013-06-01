@@ -73,7 +73,7 @@ static boolean aux_wh(square sq_departure,
     {
       nextply();
       trait[nbply] = observing_side;
-      result = (*checkfunctions[abs(p)])(sq_departure,e[sq_woo_from],&aux_whx);
+      result = (*checkfunctions[abs(p)])(sq_departure,abs(e[sq_woo_from]),&aux_whx);
       finply();
     }
   }
@@ -106,7 +106,7 @@ static boolean woohefflibre(square to, square from)
 
       if (number_of_pieces[side_woozle][*pcheck]>0)
       {
-        if ((*checkfunctions[*pcheck])(from,p,&aux_wh))
+        if ((*checkfunctions[*pcheck])(from,abs(p),&aux_wh))
         {
           result = false;
           break;

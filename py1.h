@@ -13,11 +13,10 @@
 #include "pydata.h"
 #include "conditions/haunted_chess.h"
 
-boolean fffriendcheck(
-    square        i,
-    piece         pfr,
-    piece         p,
-    evalfunction_t *evaluate);
+boolean find_next_friend_in_chain(square i,
+                                  PieNam pfr,
+                                  PieNam p,
+                                  evalfunction_t *evaluate);
 
 void InitCheckDir(void);
 void InitBoard(void);

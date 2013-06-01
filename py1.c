@@ -503,7 +503,7 @@ square coinequis(square i)
 
 boolean leapcheck(square sq_king,
                   vec_index_type kanf, vec_index_type kend,
-                  piece p,
+                  PieNam p,
                   evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */
@@ -511,7 +511,8 @@ boolean leapcheck(square sq_king,
   for (k= kanf; k<=kend; k++)
   {
     square const sq_departure= sq_king+vec[k];
-    if (e[sq_departure]==p
+    if (abs(e[sq_departure])==p
+        && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
       return true;
@@ -524,7 +525,7 @@ boolean leapleapcheck(square     sq_king,
                       vec_index_type kanf, vec_index_type kend,
                       int hurdletype,
                       boolean leaf,
-                      piece  p,
+                      PieNam p,
                       evalfunction_t *evaluate)
 {
   /* detect "check" of leaper p */
@@ -533,14 +534,16 @@ boolean leapleapcheck(square     sq_king,
   for (k= kanf; k<= kend; k++)
   {
     square const sq_hurdle= sq_king + vec[k];
-    if ((hurdletype==0 && abs(e[sq_hurdle])>obs && e[sq_hurdle]*p<0)
+    if ((hurdletype==0 && abs(e[sq_hurdle])>obs && TSTFLAG(spec[sq_hurdle],advers(trait[nbply])))
         || (hurdletype ==1 && abs(e[sq_hurdle])>obs))
     {
       vec_index_type k1;
       for (k1= kanf; k1<= kend; k1++)
       {
         square const sq_departure = sq_hurdle + vec[k1];
-        if (e[sq_departure]==p && sq_departure!=sq_king
+        if (abs(e[sq_departure])==p
+            && TSTFLAG(spec[sq_departure],trait[nbply])
+            && sq_departure!=sq_king
             && (*evaluate)(sq_departure,sq_king,sq_king)
             && imcheck(sq_departure,sq_king))
           return true;
@@ -553,7 +556,7 @@ boolean leapleapcheck(square     sq_king,
 
 boolean riderhoppercheck(square  sq_king,
                          vec_index_type kanf, vec_index_type kend,
-                         piece   p,
+                         PieNam p,
                          int     run_up,
                          int     jump,
                          evalfunction_t *evaluate)
@@ -615,7 +618,8 @@ boolean riderhoppercheck(square  sq_king,
         /* grashopper, lion */
         finligne(sq_hurdle,vec[k],hopper,sq_departure);
 
-      if (hopper==p
+      if (abs(hopper)==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king)
           && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
         return true;
@@ -626,28 +630,46 @@ boolean riderhoppercheck(square  sq_king,
 
 boolean ridcheck(square sq_king,
                  vec_index_type kanf, vec_index_type kend,
-                 piece  p,
+                 PieNam p,
                  evalfunction_t *evaluate)
 {
   /* detect "check" of rider p */
+  boolean result = false;
   piece rider;
   vec_index_type k;
   square sq_departure;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,trait[nbply],"\n");
   for (k= kanf; k<= kend; k++)
   {
     finligne(sq_king,vec[k],rider,sq_departure);
-    if (rider==p
+    TraceSquare(sq_departure);
+    TracePiece(rider);
+    TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
+    if (abs(rider)==p
+        && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
-      return true;
+    {
+      result = true;
+      break;
+    }
   }
-  return false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean marine_rider_check(square   sq_king,
                            vec_index_type kanf, vec_index_type kend,
-                           piece    p,
+                           PieNam p,
                            evalfunction_t *evaluate)
 {
   /* detect "check" of marin piece p or a locust */
@@ -661,7 +683,9 @@ boolean marine_rider_check(square   sq_king,
       piece marine;
       square sq_departure;
       finligne(sq_king,vec[k],marine,sq_departure);
-      if (marine==p && evaluate(sq_departure,sq_arrival,sq_king))
+      if (abs(marine)==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_arrival,sq_king))
         return true;
     }
   }
@@ -671,7 +695,7 @@ boolean marine_rider_check(square   sq_king,
 
 boolean marine_leaper_check(square sq_king,
                             vec_index_type kanf, vec_index_type kend,
-                            piece p,
+                            PieNam p,
                             evalfunction_t *evaluate)
 {
   vec_index_type k;
@@ -679,7 +703,9 @@ boolean marine_leaper_check(square sq_king,
   {
     square const sq_arrival = sq_king-vec[k];
     square const sq_departure = sq_king+vec[k];
-    if (e[sq_arrival]==vide && e[sq_departure]==p
+    if (e[sq_arrival]==vide
+        && abs(e[sq_departure])==p
+        && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_arrival,sq_king))
       return true;
   }
@@ -690,7 +716,7 @@ boolean marine_leaper_check(square sq_king,
 static boolean marine_pawn_test_check(square sq_departure,
                                       square sq_hurdle,
                                       square sq_capture,
-                                      piece p,
+                                      PieNam p,
                                       evalfunction_t *evaluate)
 {
   boolean result;
@@ -702,7 +728,8 @@ static boolean marine_pawn_test_check(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = (e[sq_departure]==p
+  result = (abs(e[sq_departure])==p
+            && TSTFLAG(spec[sq_departure],trait[nbply])
             && e[sq_arrival]==vide
             && evaluate(sq_departure,sq_arrival,sq_capture));
 
@@ -713,7 +740,7 @@ static boolean marine_pawn_test_check(square sq_departure,
 }
 
 boolean marine_pawn_check(square sq_king,
-                          piece p,
+                          PieNam p,
                           evalfunction_t *evaluate)
 {
   numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
@@ -733,7 +760,7 @@ boolean marine_pawn_check(square sq_king,
 }
 
 boolean marine_ship_check(square sq_king,
-                          piece p,
+                          PieNam p,
                           evalfunction_t *evaluate)
 {
   return marine_pawn_check(sq_king,p,evaluate) || tritoncheck(sq_king,p,evaluate);
@@ -1018,35 +1045,35 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
   return Result;
 } /* nocontact */
 
-static void locate_orphans(square pos_orphans[])
+static void locate_observees(PieNam walk, square pos_observees[])
 {
   unsigned int current = 0;
   square const *bnp;
 
-  for (bnp = boardnum; current<number_of_pieces[trait[nbply]][Orphan]; ++bnp)
-    if (abs(e[*bnp])==Orphan && TSTFLAG(spec[*bnp],trait[nbply]))
+  for (bnp = boardnum; current<number_of_pieces[trait[nbply]][walk]; ++bnp)
+    if (abs(e[*bnp])==walk && TSTFLAG(spec[*bnp],trait[nbply]))
     {
-      pos_orphans[current] = *bnp;
+      pos_observees[current] = *bnp;
       ++current;
     }
 }
 
-static void isolate_orphan(square const pos_orphans[], unsigned int isolated_orphan)
+static void isolate_observee(PieNam walk, square const pos_observees[], unsigned int isolated_observee)
 {
   unsigned int orphan_id;
 
-  for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][Orphan]; ++orphan_id)
-    if (orphan_id!=isolated_orphan)
-      e[pos_orphans[orphan_id]] = dummyb;
+  for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][walk]; ++orphan_id)
+    if (orphan_id!=isolated_observee)
+      e[pos_observees[orphan_id]] = dummyb;
 }
 
-static void restore_orphans(square const pos_orphans[])
+static void restore_observees(PieNam walk, square const pos_observees[])
 {
   unsigned int orphan_id;
-  piece const orphan_type = trait[nbply]==White ? orphanb : orphann;
+  piece const observee_type = trait[nbply]==White ? walk : -walk;
 
-  for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][Orphan]; ++orphan_id)
-    e[pos_orphans[orphan_id]] = orphan_type;
+  for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][walk]; ++orphan_id)
+    e[pos_observees[orphan_id]] = observee_type;
 }
 
 static boolean find_next_orphan_in_chain(square sq_target,
@@ -1056,17 +1083,16 @@ static boolean find_next_orphan_in_chain(square sq_target,
 {
   boolean result = false;
   unsigned int orphan_id;
-  piece const orphan_type = trait[nbply]==White ? orphanb : orphann;
 
   for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][Orphan]; ++orphan_id)
   {
     boolean does_orphan_observe;
 
-    isolate_orphan(pos_orphans,orphan_id);
+    isolate_observee(Orphan,pos_orphans,orphan_id);
     does_orphan_observe = (*checkfunctions[orphan_observer])(sq_target,
-                                                             orphan_type,
+                                                             Orphan,
                                                              evaluate);
-    restore_orphans(pos_orphans);
+    restore_observees(Orphan,pos_orphans);
 
     if (does_orphan_observe
         && orphan_find_observation_chain(pos_orphans[orphan_id],
@@ -1089,9 +1115,7 @@ boolean orphan_find_observation_chain(square sq_target,
 
   trait[nbply] = advers(trait[nbply]);
 
-  if ((*checkfunctions[orphan_observer])(sq_target,
-                                         trait[nbply]==White ? orphan_observer : -orphan_observer,
-                                         evaluate))
+  if ((*checkfunctions[orphan_observer])(sq_target,orphan_observer,evaluate))
     result = true;
   else if (number_of_pieces[trait[nbply]][Orphan]==0)
     result = false;
@@ -1103,7 +1127,7 @@ boolean orphan_find_observation_chain(square sq_target,
 
     {
       square pos_orphans[63];
-      locate_orphans(pos_orphans);
+      locate_observees(Orphan,pos_orphans);
       result = find_next_orphan_in_chain(sq_target,
                                          pos_orphans,
                                          orphan_observer,
@@ -1120,7 +1144,7 @@ boolean orphan_find_observation_chain(square sq_target,
 }
 
 boolean orphancheck(square sq_target,
-                    piece orphan_type,
+                    PieNam orphan_type,
                     evalfunction_t *evaluate)
 {
   boolean result = false;
@@ -1132,7 +1156,7 @@ boolean orphancheck(square sq_target,
   TracePiece(orphan_type);
   TraceFunctionParamListEnd();
 
-  locate_orphans(pos_orphans);
+  locate_observees(Orphan,pos_orphans);
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
@@ -1150,107 +1174,98 @@ boolean orphancheck(square sq_target,
   return result;
 }
 
-boolean fffriendcheck(square    sq_king,
-                      piece pfr,
-                      piece p,
-                      evalfunction_t *evaluate)
+boolean find_next_friend_in_chain(square sq_target,
+                                  PieNam friend_observer,
+                                  PieNam friend_type,
+                                  evalfunction_t *evaluate)
 {
-  boolean   flag= false;
-  square    flist[63];
-  square const *bnp;
-  unsigned int j, k, nrp, cf= 0;
-  Side const side = p>0 ? White : Black;
+  boolean result = false;
 
-  if ((*checkfunctions[abs(pfr)])(sq_king, pfr, evaluate))
-    return true;
+  if ((*checkfunctions[friend_observer])(sq_target,friend_observer,evaluate))
+    result = true;
+  else
+  {
+    --number_of_pieces[trait[nbply]][Friend];
 
-  nrp = number_of_pieces[side][abs(p)]-1;
-  if (nrp == 0)
-    return false;
+    if (number_of_pieces[trait[nbply]][friend_type]>0)
+    {
+      unsigned int k;
+      square pos_remaining_friends[63];
+      piece const save_friend = e[sq_target];
 
-  --number_of_pieces[side][abs(p)];
-  e[sq_king]= dummyb;
-  for (bnp= boardnum; cf < nrp; bnp++) {
-    if (e[*bnp] == p) {
-      flist[cf++]= *bnp;
-    }
-  }
+      e[sq_target] = dummyb;
 
-  for (k= 0; k < cf; k++) {
-    j= 0;
-    while (j < cf) {
-      e[flist[j]]= (k == j) ? p : dummyb;
-      j++;
-    }
-    if ((*checkfunctions[abs(pfr)])(sq_king, p, evaluate)) {
-      for (j= 0; j < cf; e[flist[j++]]= p)
-        ;
-      flag= fffriendcheck(flist[k], pfr, p, evaluate);
-      if (flag) {
-        break;
+      locate_observees(Friend,pos_remaining_friends);
+
+      for (k = 0; k<number_of_pieces[trait[nbply]][friend_type]; k++)
+      {
+        boolean is_friend_observed;
+
+        isolate_observee(Friend,pos_remaining_friends,k);
+        is_friend_observed = (*checkfunctions[friend_observer])(sq_target,Friend,evaluate);
+        restore_observees(Friend,pos_remaining_friends);
+
+        if (is_friend_observed
+            && find_next_friend_in_chain(pos_remaining_friends[k],friend_observer,friend_type,evaluate))
+        {
+          result = true;
+          break;
+        }
       }
+
+      e[sq_target] = save_friend;
     }
-    else {
-      for (j= 0; j < cf; e[flist[j++]]= p)
-        ;
-    }
+
+    ++number_of_pieces[trait[nbply]][Friend];
   }
 
-  ++number_of_pieces[side][abs(p)];
-  e[sq_king]= p;
-  return flag;
-} /* fffriendcheck */
+  return result;
+}
 
-boolean friendcheck(square    i,
-                    piece p,
+boolean friendcheck(square sq_king,
+                    PieNam p,
                     evalfunction_t *evaluate)
 {
   PieNam const *pfr;
-  boolean   flag= false;
-  boolean   initialized= false;
-  square    flist[63];
-  square const *bnp;
-  int   k, j, cf= 0;
-  Side const side = p==friendb ? White : Black;
+  boolean result = false;
+  square pos_friends[63];
 
-  for (pfr= orphanpieces; *pfr!=Empty; pfr++)
-    if (number_of_pieces[side][*pfr]>0)
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_king);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  locate_observees(Friend,pos_friends);
+
+  for (pfr = orphanpieces; *pfr!=Empty; pfr++)
+    if (number_of_pieces[trait[nbply]][*pfr]>0)
     {
-      piece const cfr = p== friendb ? (piece)*pfr : -(piece)*pfr;
-      if (!initialized)
+      unsigned int k;
+      for (k = 0; k<number_of_pieces[trait[nbply]][Friend]; ++k)
       {
-        initialized= true;
-        for (bnp= boardnum; *bnp; bnp++)
-          if (e[*bnp] == p)
-            flist[cf++]= *bnp;
+        boolean does_friend_observe;
+
+        isolate_observee(Friend,pos_friends,k);
+        does_friend_observe = (*checkfunctions[*pfr])(sq_king,Friend,evaluate);
+        restore_observees(Friend,pos_friends);
+
+        if (does_friend_observe
+            && find_next_friend_in_chain(pos_friends[k],*pfr,p,evaluate))
+        {
+          result = true;
+          break;
+        }
       }
 
-      for (k= 0; k < cf; k++)
-      {
-        j= 0;
-        while (j < cf) {
-          e[flist[j]]= (k == j) ? p : dummyb;
-          j++;
-        }
-        if ((*checkfunctions[*pfr])(i, p, evaluate)) {
-          for (j= 0; j < cf; e[flist[j++]]= p)
-            ;
-          flag= fffriendcheck(flist[k], cfr, p, evaluate);
-          if (flag) {
-            break;
-          }
-        }
-        else
-          for (j= 0; j < cf; e[flist[j++]]= p)
-            ;
-      }
-
-      if (flag)
-        return true;
+      if (result)
+        break;
     }
 
-  return false;
-} /* friendcheck */
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 boolean CrossesGridLines(square dep, square arr)
 {

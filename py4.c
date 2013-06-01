@@ -1253,7 +1253,7 @@ static void gequi(square sq_departure, Side camp)
   {
     square const sq_hurdle= sq_departure+vec[k];
     square const sq_arrival= sq_departure + 2*vec[k];
-    if (abs(e[sq_hurdle])>=roib
+    if (abs(e[sq_hurdle])>=King
         && (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp))
         && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
     {
@@ -1299,7 +1299,7 @@ static void gequiapp(square sq_departure, Side camp)
   {
     square const sq_arrival = sq_departure + vec[k];
     square const sq_hurdle1 = sq_departure+2*vec[k];
-    if (abs(e[sq_hurdle1])>=roib
+    if (abs(e[sq_hurdle1])>=King
         && (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp)))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
@@ -2353,7 +2353,7 @@ void king_generate_moves(Side side, square sq_departure)
           nextply();
           trait[nbply] = side_transmuting;
           is_king_transmuted = (*checkfunctions[*ptrans])(sq_departure,
-                                                          ptrans_opponent,
+                                                          *ptrans,
                                                           &validate_observation);
           finply();
 
@@ -2543,19 +2543,9 @@ void gorph(square sq_departure, Side camp)
 
   PieNam const *orphan_observer;
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
-    if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
-    {
-      if (camp == White)
-      {
-        if (orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
-          generate_moves_for_piece(camp,sq_departure,*orphan_observer);
-      }
-      else
-      {
-        if (orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
-          generate_moves_for_piece(camp,sq_departure,-*orphan_observer);
-      }
-    }
+    if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
+        && orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
+      generate_moves_for_piece(camp,sq_departure, camp == White ? *orphan_observer : -*orphan_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
@@ -2564,21 +2554,11 @@ void gfriend(square i, Side camp)
 {
   numecoup const save_nbcou = current_move[nbply];
 
-  PieNam const *pfr;
-  for (pfr = orphanpieces; *pfr!=Empty; ++pfr)
-    if (number_of_pieces[camp][*pfr]>0)
-    {
-      if (camp==White)
-      {
-        if (fffriendcheck(i,*pfr,friendb,&validate_observation))
-          generate_moves_for_piece(camp,i, *pfr);
-      }
-      else
-      {
-        if (fffriendcheck(i,-*pfr,friendn,&validate_observation))
-          generate_moves_for_piece(camp,i, -*pfr);
-      }
-    }
+  PieNam const *friend_observer;
+  for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
+    if (number_of_pieces[camp][*friend_observer]>0
+        && find_next_friend_in_chain(i,*friend_observer,Friend,&validate_observation))
+      generate_moves_for_piece(camp, i, camp==White ? *friend_observer : -*friend_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }

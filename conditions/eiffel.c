@@ -94,7 +94,7 @@ boolean eiffel_can_piece_move(square sq)
       nextply();
       trait[nbply] = eiffel_side;
       result = !(*checkfunctions[abs(eiffel_piece)])(sq,
-                                                     eiffel_piece,
+                                                     abs(eiffel_piece),
                                                      &validate_observation_geometry);
       finply();
     }
@@ -133,7 +133,7 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
       nextply();
       trait[nbply] = eiffel_side;
       result = !(*checkfunctions[abs(eiffel_piece)])(sq_observer,
-                                                     eiffel_piece,
+                                                     abs(eiffel_piece),
                                                      &validate_observation_geometry);
       finply();
     }

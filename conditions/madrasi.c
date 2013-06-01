@@ -32,7 +32,7 @@ boolean madrasi_is_observed(square sq)
     {
       nextply();
       trait[nbply] = observing_side;
-      result = (*checkfunctions[abs(p)])(sq,-p,&validate_observation_geometry);
+      result = (*checkfunctions[abs(p)])(sq,abs(p),&validate_observation_geometry);
       finply();
     }
 
@@ -62,16 +62,13 @@ boolean madrasi_can_piece_move(square sq)
     result = true;
   else
   {
-    piece candidate = e[sq];
-
-    if (TSTFLAG(spec[sq],Neutral))
-      candidate = -candidate;
+    PieNam const candidate = abs(e[sq]);
 
     trait[nbply] = advers(trait[nbply]);
-    result = (number_of_pieces[trait[nbply]][abs(candidate)]==0
-              || !(*checkfunctions[abs(candidate)])(sq,
-                                                    -candidate,
-                                                    &validate_observation_geometry));
+    result = (number_of_pieces[trait[nbply]][candidate]==0
+              || !(*checkfunctions[candidate])(sq,
+                                               candidate,
+                                               &validate_observation_geometry));
     trait[nbply] = advers(trait[nbply]);
   }
 

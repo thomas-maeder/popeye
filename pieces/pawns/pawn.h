@@ -18,7 +18,7 @@ void  pawn_generate_moves(Side side, square sq_departure);
 boolean pawn_test_check(square sq_departure,
                         square sq_arrival,
                         square sq_capture,
-                        piece p,
+                        PieNam p,
                         evalfunction_t *evaluate);
 
 #endif

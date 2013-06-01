@@ -84,11 +84,11 @@ static boolean uninterceptably_attacked(square s)
   nextply();
   trait[nbply] = Black;
 
-  result = ((*checkfunctions[Pawn])(s,pn,eval_ortho)
-            || (*checkfunctions[Knight])(s,cn,eval_ortho)
-            || (*checkfunctions[Fers])(s,fn,eval_ortho)
-            || (*checkfunctions[Wesir])(s,tn,eval_ortho)
-            || (*checkfunctions[ErlKing])(s,dn,eval_ortho));
+  result = ((*checkfunctions[Pawn])(s,Pawn,eval_ortho)
+            || (*checkfunctions[Knight])(s,Knight,eval_ortho)
+            || (*checkfunctions[Fers])(s,Bishop,eval_ortho)
+            || (*checkfunctions[Wesir])(s,Rook,eval_ortho)
+            || (*checkfunctions[ErlKing])(s,Queen,eval_ortho));
 
   finply();
 

@@ -158,7 +158,7 @@ static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
                                                         square sq_target,
                                                         numvec dir_capture,
                                                         en_passant_check_tester_type tester,
-                                                        piece p,
+                                                        PieNam p,
                                                         evalfunction_t *evaluate)
 {
   square const sq_departure = sq_crossed-dir_capture;
@@ -176,7 +176,7 @@ static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
 boolean en_passant_test_check(square sq_target,
                               numvec dir_capture,
                               en_passant_check_tester_type tester,
-                              piece p,
+                              PieNam p,
                               evalfunction_t *evaluate)
 {
   boolean result = false;
