@@ -358,8 +358,12 @@ void solve_target_position(void)
   }
 
   {
-    int p;
-    for (p = King; p<=Bishop; ++p)
+    PieNam p;
+
+    number_of_pieces[White][King] = 1;
+    number_of_pieces[Black][King] = 1;
+
+    for (p = King+1; p<=Bishop; ++p)
     {
       number_of_pieces[White][p] = 2;
       number_of_pieces[Black][p] = 2;
