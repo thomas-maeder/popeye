@@ -369,6 +369,7 @@ boolean is_a_king_square_attacked(Side side_in_check,
   Side const side_checking = advers(side_in_check);
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_in_check,"");
   TraceFunctionParamListEnd();
 
   if (side_in_check==White)
