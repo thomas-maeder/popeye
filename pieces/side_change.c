@@ -2,6 +2,7 @@
 #include "pydata.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 /* Change the side of the piece on a specific square
  * @param p address of piece whose side to change

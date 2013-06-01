@@ -40,7 +40,7 @@ stip_length_type degradierung_degrader_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(pi_played!=vide);
+  assert(pi_played!=Empty);
 
   if (!is_pawn(pi_played)
       && sq_departure!=prev_king_square[Black][nbply]

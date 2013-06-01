@@ -317,7 +317,8 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h solving/move_effect_journal.h \
+ debugging/trace.h
 
 conditions/blackchecks.h:
 
@@ -380,6 +381,8 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/help_play/branch.h:
+
+solving/move_effect_journal.h:
 
 debugging/trace.h:
 conditions/extinction$(OBJ_SUFFIX): conditions/extinction.c conditions/extinction.h \

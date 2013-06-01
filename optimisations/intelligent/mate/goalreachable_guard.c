@@ -104,7 +104,6 @@ static boolean mate_isGoalReachable(void)
       {
         unsigned int time_before;
         unsigned int time_now;
-        move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
         piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
         piece const pi_arrived = e[sq_arrival];
         if (trait[nbply]==White
