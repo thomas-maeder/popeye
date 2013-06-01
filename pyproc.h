@@ -237,8 +237,6 @@ boolean nogridcontact(square a);
 
 extern boolean(*is_king_square_attacked)(Side side_in_check, evalfunction_t *evaluate);
 
-boolean losingchess_is_king_square_attacked(Side side_in_check,
-                                            evalfunction_t *evaluate);
 boolean is_a_king_square_attacked(Side side_in_check, evalfunction_t *evaluate);
 
 boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );

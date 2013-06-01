@@ -1810,9 +1810,6 @@ static boolean verify_position(slice_index si)
       VerifieMsg(TwoMummerCond);
       return false;
     }
-
-    /* no king is ever in check */
-    is_king_square_attacked = &losingchess_is_king_square_attacked;
   }
 
   /* check castling possibilities */

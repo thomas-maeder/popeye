@@ -402,12 +402,6 @@ boolean is_a_king_square_attacked(Side side_in_check,
   return result;
 }
 
-boolean losingchess_is_king_square_attacked(Side side_in_check,
-                                            evalfunction_t *evaluate)
-{
-  return false;
-}
-
 static boolean echecc_extinction(Side side_in_check)
 {
   boolean result = false;
