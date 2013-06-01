@@ -203,9 +203,6 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
   square sq_departure;
   Side const side_checking = advers(side_in_check);
 
-  if (SATCheck)
-    return echecc_SAT(side_in_check);
-
   if (CondFlag[plus])
     return plusechecc(side_in_check,evaluate);
   else if (CondFlag[phantom])
@@ -490,6 +487,8 @@ boolean echecc(Side side_in_check)
     result = echecc_extinction(side_king_attacked);
   else if (king_square[side_king_attacked]==initsquare)
     result = false;
+  else if (SATCheck)
+    return echecc_SAT(side_in_check);
   else if (rex_circe
            && (CondFlag[pwc]
                || (e[(*circerenai)(e[king_square[side_king_attacked]],
