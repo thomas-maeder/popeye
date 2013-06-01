@@ -194,149 +194,86 @@ boolean rcardech(square intermediate_square,
   return false;
 }
 
+boolean(*is_king_square_attacked[nr_sides])(evalfunction_t *evaluate);
 
-boolean feebechec(evalfunction_t *evaluate)
-{
-  PieNam const *pcheck;
-  boolean result = false;
-
-  for (pcheck = checkpieces; *pcheck; ++pcheck)
-    if (number_of_pieces[Black][*pcheck]>0
-        && (*checkfunctions[*pcheck])(king_square[White], *pcheck, evaluate))
-    {
-      result = true;
-      break;
-    }
-
-  return result;
-}
-
-boolean feenechec(evalfunction_t *evaluate)
-{
-  PieNam const *pcheck;
-  boolean result = false;
-
-  for (pcheck = checkpieces; *pcheck; ++pcheck)
-    if (number_of_pieces[White][*pcheck]>0
-        && (*checkfunctions[*pcheck])(king_square[Black], *pcheck, evaluate))
-    {
-      result = true;
-      break;
-    }
-
-  return result;
-}
-
-static boolean calc_rnechec(evalfunction_t *evaluate);
-
-DEFINE_COUNTER(is_black_king_square_attacked)
-
-boolean is_black_king_square_attacked(evalfunction_t *evaluate)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  INCREMENT_COUNTER(is_black_king_square_attacked);
-
-  nextply();
-  trait[nbply] = White;
-
-  if (TSTFLAG(some_pieces_flags,Neutral))
-  {
-    Side const neutcoul_save = neutral_side;
-    initialise_neutrals(White);
-    result = calc_rnechec(evaluate);
-    initialise_neutrals(neutcoul_save);
-  }
-  else
-    result = calc_rnechec(evaluate);
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* detect, if black king is checked     */
-static boolean calc_rnechec(evalfunction_t *evaluate)
+static boolean is_king_square_attacked_impl(Side side_in_check,
+                                            evalfunction_t *evaluate)
 {
   piece p;
-
   square sq_departure;
+  Side const side_checking = advers(side_in_check);
 
   if (SATCheck)
-    return echecc_SAT(Black);
+    return echecc_SAT(side_in_check);
 
   if (CondFlag[plus])
-    return plusechecc(Black,evaluate);
+    return plusechecc(side_in_check,evaluate);
   else if (CondFlag[phantom])
   {
-    if (phantom_echecc(Black,evaluate))
+    if (phantom_echecc(side_in_check,evaluate))
       return true;
   }
   else if (anymars)
-    return marsechecc(Black,evaluate);
+    return marsechecc(side_in_check,evaluate);
 
-  if (number_of_pieces[White][King]>0)
+  if (number_of_pieces[side_checking][King]>0)
   {
-    if (calc_reflective_king[White])
+    if (calc_reflective_king[side_checking])
     {
       boolean transmutation_of_king_of_checking_side_found = false;
 
-      calc_reflective_king[White] = false;
+      calc_reflective_king[side_checking] = false;
 
-      if (!normaltranspieces[White] && echecc(White))
+      if (!normaltranspieces[side_checking] && echecc(side_checking))
       {
         PieNam *ptrans;
+
         transmutation_of_king_of_checking_side_found = true;
-        for (ptrans = transmpieces[White]; *ptrans; ptrans++)
-          if ((*checkfunctions[*ptrans])(king_square[Black], King, evaluate))
+
+        for (ptrans= transmpieces[side_checking]; *ptrans; ptrans++)
+          if ((*checkfunctions[*ptrans])(king_square[side_in_check], King, evaluate))
           {
-            calc_reflective_king[White] = true;
+            calc_reflective_king[side_checking] = true;
             return true;
           }
       }
-      else if (normaltranspieces[White])
+      else if (normaltranspieces[side_checking])
       {
         PieNam *ptrans;
-        for (ptrans= transmpieces[White]; *ptrans; ptrans++)
-          if (number_of_pieces[Black][*ptrans]>0)
+        for (ptrans = transmpieces[side_checking]; *ptrans; ptrans++)
+          if (number_of_pieces[side_in_check][*ptrans]>0)
           {
             boolean is_king_transmuted;
 
             trait[nbply] = advers(trait[nbply]);
-            is_king_transmuted = (*checkfunctions[*ptrans])(king_square[White],*ptrans,evaluate);
+            is_king_transmuted = (*checkfunctions[*ptrans])(king_square[side_checking],*ptrans,evaluate);
             trait[nbply] = advers(trait[nbply]);
 
             if (is_king_transmuted)
             {
               transmutation_of_king_of_checking_side_found = true;
 
-              if ((*checkfunctions[*ptrans])(king_square[Black], King, evaluate))
+              if ((*checkfunctions[*ptrans])(king_square[side_in_check], King, evaluate))
               {
-                calc_reflective_king[White] = true;
+                calc_reflective_king[side_checking] = true;
                 return true;
               }
             }
           }
       }
 
-      calc_reflective_king[White] = true;
+      calc_reflective_king[side_checking] = true;
 
-      if (!calc_transmuting_king[White]
-          || !transmutation_of_king_of_checking_side_found)
+      if (!calc_transmuting_king[side_checking]
+          || !transmutation_of_king_of_checking_side_found )
       {
         vec_index_type k;
         for (k= vec_queen_end; k>=vec_queen_start; k--)
         {
-          sq_departure= king_square[Black]+vec[k];
-          if (e[sq_departure]==roib
-              && evaluate(sq_departure,king_square[Black],king_square[Black]))
-            if (imcheck(sq_departure,king_square[Black]))
+          sq_departure= king_square[side_in_check]+vec[k];
+          if (abs(e[sq_departure])==King && TSTFLAG(spec[sq_departure],side_checking)
+              && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
+            if (imcheck(sq_departure,king_square[side_in_check]))
               return true;
         }
       }
@@ -344,73 +281,83 @@ static boolean calc_rnechec(evalfunction_t *evaluate)
     else
     {
       if (CondFlag[sting]
-          && (*checkfunctions[sb])(king_square[Black], King, evaluate))
+          && (*checkfunctions[Grasshopper])(king_square[side_in_check], King, evaluate))
         return true;
       else
       {
         vec_index_type k;
-        for (k= vec_queen_end; k>=vec_queen_start; k--) {
-          sq_departure= king_square[Black]+vec[k];
-          if (e[sq_departure]==roib
-              && evaluate(sq_departure,king_square[Black],king_square[Black])
-              && imcheck(sq_departure,king_square[Black]))
-            return true;
+        for (k= vec_queen_end; k>=vec_queen_start; k--)
+        {
+          sq_departure= king_square[side_in_check]+vec[k];
+          if (abs(e[sq_departure])==King && TSTFLAG(spec[sq_departure],side_checking)
+              && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
+            if (imcheck(sq_departure,king_square[side_in_check]))
+              return true;
         }
       }
     }
   }
 
-  if (number_of_pieces[White][Pawn]>0
-      && pioncheck(king_square[Black],Pawn,evaluate))
+  if (number_of_pieces[side_checking][Pawn]>0
+      && pioncheck(king_square[side_in_check],Pawn,evaluate))
     return true;
 
-  if (number_of_pieces[White][Knight]>0)
+  if (number_of_pieces[side_checking][Knight]>0)
   {
     vec_index_type k;
     for (k= vec_knight_start; k<=vec_knight_end; k++)
     {
-      sq_departure= king_square[Black]+vec[k];
-      if (e[sq_departure]==cb
-          && evaluate(sq_departure,king_square[Black],king_square[Black]))
-        if (imcheck(sq_departure,king_square[Black]))
+      sq_departure= king_square[side_in_check]+vec[k];
+      if (abs(e[sq_departure])==Knight && TSTFLAG(spec[sq_departure],side_checking)
+          && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
+        if (imcheck(sq_departure,king_square[side_in_check]))
           return true;
     }
   }
 
-  if (number_of_pieces[White][Queen]>0 || number_of_pieces[White][Rook]>0)
+  if (number_of_pieces[side_checking][Queen]>0 || number_of_pieces[side_checking][Rook]>0)
   {
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
     {
-      finligne(king_square[Black],vec[k],p,sq_departure);
-      if ((p==tb || p==db)
-          && evaluate(sq_departure,king_square[Black],king_square[Black]))
-        if (ridimcheck(sq_departure,king_square[Black],vec[k]))
+      finligne(king_square[side_in_check],vec[k],p,sq_departure);
+      if ((abs(p)==Rook || abs(p)==Queen) && TSTFLAG(spec[sq_departure],side_checking)
+          && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
+        if (ridimcheck(sq_departure,king_square[side_in_check],vec[k]))
           return true;
     }
   }
 
-  if (number_of_pieces[White][Queen]>0 || number_of_pieces[White][Bishop]>0)
+  if (number_of_pieces[side_checking][Queen]>0 || number_of_pieces[side_checking][Bishop]>0)
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-      finligne(king_square[Black],vec[k],p,sq_departure);
-      if ((p==fb || p==db)
-          && evaluate(sq_departure,king_square[Black],king_square[Black]))
-        if (ridimcheck(sq_departure,king_square[Black],vec[k]))
+      finligne(king_square[side_in_check],vec[k],p,sq_departure);
+      if ((abs(p)==Bishop || abs(p)==Queen) && TSTFLAG(spec[sq_departure],side_checking)
+          && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
+        if (ridimcheck(sq_departure,king_square[side_in_check],vec[k]))
           return true;
     }
   }
 
   if (flagfee)
-    return feenechec(evaluate);
+  {
+    PieNam const *pcheck;
+    boolean result = false;
+
+    for (pcheck = checkpieces; *pcheck; ++pcheck)
+      if (number_of_pieces[side_checking][*pcheck]>0
+          && (*checkfunctions[*pcheck])(king_square[side_in_check], *pcheck, evaluate))
+      {
+        result = true;
+        break;
+      }
+
+    return result;
+  }
   else
     return false;
 }
-
-boolean(*is_king_square_attacked[nr_sides])(evalfunction_t *evaluate);
-
-static boolean calc_rbechec(evalfunction_t *evaluate);
 
 DEFINE_COUNTER(is_white_king_square_attacked)
 
@@ -430,11 +377,11 @@ boolean is_white_king_square_attacked(evalfunction_t *evaluate)
   {
     Side const neutcoul_save = neutral_side;
     initialise_neutrals(Black);
-    result = calc_rbechec(evaluate);
+    result = is_king_square_attacked_impl(White,evaluate);
     initialise_neutrals(neutcoul_save);
   }
   else
-    result = calc_rbechec(evaluate);
+    result = is_king_square_attacked_impl(White,evaluate);
 
   finply();
 
@@ -444,154 +391,36 @@ boolean is_white_king_square_attacked(evalfunction_t *evaluate)
   return result;
 }
 
-/* detect, if white king is checked  */
-static boolean calc_rbechec(evalfunction_t *evaluate)
+DEFINE_COUNTER(is_black_king_square_attacked)
+
+boolean is_black_king_square_attacked(evalfunction_t *evaluate)
 {
-  piece p;
+  boolean result;
 
-  square sq_departure;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-  if (SATCheck)
-    return echecc_SAT(White);
+  INCREMENT_COUNTER(is_black_king_square_attacked);
 
-  if (CondFlag[plus])
-    return plusechecc(White,evaluate);
-  else if (CondFlag[phantom])
+  nextply();
+  trait[nbply] = White;
+
+  if (TSTFLAG(some_pieces_flags,Neutral))
   {
-    if (phantom_echecc(White,evaluate))
-      return true;
+    Side const neutcoul_save = neutral_side;
+    initialise_neutrals(White);
+    result = is_king_square_attacked_impl(Black,evaluate);
+    initialise_neutrals(neutcoul_save);
   }
-  else if (anymars)
-    return marsechecc(White,evaluate);
-
-  if (number_of_pieces[Black][King]>0)
-  {
-    if (calc_reflective_king[Black])
-    {
-      boolean transmutation_of_king_of_checking_side_found = false;
-
-      calc_reflective_king[Black] = false;
-
-      if (!normaltranspieces[Black] && echecc(Black))
-      {
-        PieNam *ptrans;
-
-        transmutation_of_king_of_checking_side_found = true;
-
-        for (ptrans= transmpieces[Black]; *ptrans; ptrans++)
-          if ((*checkfunctions[*ptrans])(king_square[White], King, evaluate))
-          {
-            calc_reflective_king[Black] = true;
-            return true;
-          }
-      }
-      else if (normaltranspieces[Black])
-      {
-        PieNam *ptrans;
-        for (ptrans = transmpieces[Black]; *ptrans; ptrans++)
-          if (number_of_pieces[White][*ptrans]>0)
-          {
-            boolean is_king_transmuted;
-
-            trait[nbply] = advers(trait[nbply]);
-            is_king_transmuted = (*checkfunctions[*ptrans])(king_square[Black],*ptrans,evaluate);
-            trait[nbply] = advers(trait[nbply]);
-
-            if (is_king_transmuted)
-            {
-              transmutation_of_king_of_checking_side_found = true;
-
-              if ((*checkfunctions[*ptrans])(king_square[White], King, evaluate))
-              {
-                calc_reflective_king[Black] = true;
-                return true;
-              }
-            }
-          }
-      }
-
-      calc_reflective_king[Black] = true;
-
-      if (!calc_transmuting_king[Black]
-          || !transmutation_of_king_of_checking_side_found )
-      {
-        vec_index_type k;
-        for (k= vec_queen_end; k>=vec_queen_start; k--)
-        {
-          sq_departure= king_square[White]+vec[k];
-          if (e[sq_departure]==roin
-              && evaluate(sq_departure,king_square[White],king_square[White]))
-            if (imcheck(sq_departure,king_square[White]))
-              return true;
-        }
-      }
-    }
-    else
-    {
-      if (CondFlag[sting]
-          && (*checkfunctions[sb])(king_square[White], King, evaluate))
-        return true;
-      else
-      {
-        vec_index_type k;
-        for (k= vec_queen_end; k>=vec_queen_start; k--)
-        {
-          sq_departure= king_square[White]+vec[k];
-          if (e[sq_departure]==roin
-              && evaluate(sq_departure,king_square[White],king_square[White]))
-            if (imcheck(sq_departure,king_square[White]))
-              return true;
-        }
-      }
-    }
-  }
-
-  if (number_of_pieces[Black][Pawn]>0
-      && pioncheck(king_square[White],Pawn,evaluate))
-    return true;
-
-  if (number_of_pieces[Black][Knight]>0)
-  {
-    vec_index_type k;
-    for (k= vec_knight_start; k<=vec_knight_end; k++)
-    {
-      sq_departure= king_square[White]+vec[k];
-      if (e[sq_departure]==cn
-          && evaluate(sq_departure,king_square[White],king_square[White]))
-        if (imcheck(sq_departure,king_square[White]))
-          return true;
-    }
-  }
-
-  if (number_of_pieces[Black][Queen]>0 || number_of_pieces[Black][Rook]>0)
-  {
-    vec_index_type k;
-    for (k= vec_rook_end; k>=vec_rook_start; k--)
-    {
-      finligne(king_square[White],vec[k],p,sq_departure);
-      if ((p==tn || p==dn)
-          && evaluate(sq_departure,king_square[White],king_square[White]))
-        if (ridimcheck(sq_departure,king_square[White],vec[k]))
-          return true;
-    }
-  }
-
-  if (number_of_pieces[Black][Queen]>0 || number_of_pieces[Black][Bishop]>0)
-  {
-    vec_index_type k;
-    for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-      finligne(king_square[White],vec[k],p,sq_departure);
-      if ((p==fn || p==dn)
-          && evaluate(sq_departure,king_square[White],king_square[White]))
-        if (ridimcheck(sq_departure,king_square[White],vec[k]))
-          return true;
-    }
-  }
-
-  if (flagfee)
-    return feebechec(evaluate);
   else
-    return false;
+    result = is_king_square_attacked_impl(Black,evaluate);
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean losingchess_is_king_square_attacked(evalfunction_t *evaluate)

@@ -219,8 +219,6 @@ boolean echecc(Side a);
 
 boolean eval_ortho(square departure, square arrival, square capture);
 
-boolean feebechec(evalfunction_t *evaluate );
-boolean feenechec(evalfunction_t *evaluate );
 void    gen_wh_ply(void);
 void    gen_bl_ply(void);
 void    genmove(Side a);
