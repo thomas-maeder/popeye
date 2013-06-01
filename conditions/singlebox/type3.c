@@ -153,63 +153,35 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   return result;
 }
 
-boolean singleboxtype3_is_black_king_square_attacked(evalfunction_t *evaluate)
+boolean singleboxtype3_is_king_square_attacked(Side side_in_check,
+                                               evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
+  Side const side_checking = advers(side_in_check);
   square sq;
-  for (sq = next_latent_pawn(initsquare,White);
+
+  for (sq = next_latent_pawn(initsquare,side_checking);
        sq!=vide;
-       sq = next_latent_pawn(sq,White))
+       sq = next_latent_pawn(sq,side_checking))
   {
     PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,White);
+    for (pprom = next_singlebox_prom(Empty,side_checking);
          pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,White))
+         pprom = next_singlebox_prom(pprom,side_checking))
     {
       boolean result;
       ++promotionstried;
-      e[sq] = pprom;
-      ++number_of_pieces[White][pprom];
-      result = is_black_king_square_attacked(evaluate);
-      --number_of_pieces[White][pprom];
-      e[sq] = pb;
-      if (result) {
+      e[sq] = side_checking==White ? pprom : -pprom;
+      ++number_of_pieces[side_checking][pprom];
+      result = is_a_king_square_attacked(side_in_check,evaluate);
+      --number_of_pieces[side_checking][pprom];
+      e[sq] = side_checking==White ? pb : pn;
+      if (result)
         return true;
-      }
     }
   }
 
-  return promotionstried==0 && is_black_king_square_attacked(evaluate);
-}
-
-boolean singleboxtype3_is_white_king_square_attacked(evalfunction_t *evaluate)
-{
-  unsigned int promotionstried = 0;
-  square sq;
-
-  for (sq = next_latent_pawn(initsquare,Black);
-       sq!=vide;
-       sq = next_latent_pawn(sq,Black))
-  {
-    PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,Black);
-         pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,Black))
-    {
-      boolean result;
-      ++promotionstried;
-      e[sq] = -pprom;
-      ++number_of_pieces[Black][pprom];
-      result = is_white_king_square_attacked(evaluate);
-      --number_of_pieces[Black][pprom];
-      e[sq] = pn;
-      if (result) {
-        return true;
-      }
-    }
-  }
-
-  return promotionstried==0 && is_white_king_square_attacked(evaluate);
+  return promotionstried==0 && is_a_king_square_attacked(side_in_check,evaluate);
 }
 
 static square find_next_latent_pawn(square sq, Side side)

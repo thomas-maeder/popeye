@@ -1335,8 +1335,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[bichro] || CondFlag[monochro])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  is_king_square_attacked[White] = &is_white_king_square_attacked;
-  is_king_square_attacked[Black] = &is_black_king_square_attacked;
+  is_king_square_attacked = &is_a_king_square_attacked;
 
   if ((CondFlag[koeko]
        || CondFlag[newkoeko]
@@ -1507,8 +1506,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
   {
-    is_king_square_attacked[Black] = &singleboxtype3_is_black_king_square_attacked;
-    is_king_square_attacked[White] = &singleboxtype3_is_white_king_square_attacked;
+    is_king_square_attacked = &singleboxtype3_is_king_square_attacked;
     generate_moves_for_piece = &singleboxtype3_generate_moves_for_piece;
   }
 
@@ -1792,8 +1790,7 @@ static boolean verify_position(slice_index si)
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
-    is_king_square_attacked[White] = &annan_is_white_king_square_attacked;
-    is_king_square_attacked[Black] = &annan_is_black_king_square_attacked;
+    is_king_square_attacked = &annan_is_king_square_attacked;
   }
 
   if (CondFlag[losingchess])
@@ -1815,8 +1812,7 @@ static boolean verify_position(slice_index si)
     }
 
     /* no king is ever in check */
-    is_king_square_attacked[White] = &losingchess_is_king_square_attacked;
-    is_king_square_attacked[Black] = &losingchess_is_king_square_attacked;
+    is_king_square_attacked = &losingchess_is_king_square_attacked;
   }
 
   /* check castling possibilities */

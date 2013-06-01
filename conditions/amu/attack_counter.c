@@ -36,7 +36,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   king_square[trait_ply] = sq_departure;
   amu_attack_count = 0;
   single_attacker_departure = initsquare;
-  is_king_square_attacked[trait_ply](&eval_amu_attack);
+  is_king_square_attacked(trait_ply,&eval_amu_attack);
   king_square[trait_ply] = save_king_square;
 
   return amu_attack_count==1;

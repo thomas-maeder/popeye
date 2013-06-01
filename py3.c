@@ -194,7 +194,7 @@ boolean rcardech(square intermediate_square,
   return false;
 }
 
-boolean(*is_king_square_attacked[nr_sides])(evalfunction_t *evaluate);
+boolean (*is_king_square_attacked)(Side side_in_check, evalfunction_t *evaluate);
 
 static boolean is_king_square_attacked_impl(Side side_in_check,
                                             evalfunction_t *evaluate)
@@ -360,60 +360,38 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
 }
 
 DEFINE_COUNTER(is_white_king_square_attacked)
-
-boolean is_white_king_square_attacked(evalfunction_t *evaluate)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  INCREMENT_COUNTER(is_white_king_square_attacked);
-
-  nextply();
-  trait[nbply] = Black;
-
-  if (TSTFLAG(some_pieces_flags,Neutral))
-  {
-    Side const neutcoul_save = neutral_side;
-    initialise_neutrals(Black);
-    result = is_king_square_attacked_impl(White,evaluate);
-    initialise_neutrals(neutcoul_save);
-  }
-  else
-    result = is_king_square_attacked_impl(White,evaluate);
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 DEFINE_COUNTER(is_black_king_square_attacked)
 
-boolean is_black_king_square_attacked(evalfunction_t *evaluate)
+boolean is_a_king_square_attacked(Side side_in_check,
+                                  evalfunction_t *evaluate)
 {
   boolean result;
+  Side const side_checking = advers(side_in_check);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  INCREMENT_COUNTER(is_black_king_square_attacked);
+  if (side_in_check==White)
+  {
+    INCREMENT_COUNTER(is_white_king_square_attacked);
+  }
+  else
+  {
+    INCREMENT_COUNTER(is_black_king_square_attacked);
+  }
 
   nextply();
-  trait[nbply] = White;
+  trait[nbply] = side_checking;
 
   if (TSTFLAG(some_pieces_flags,Neutral))
   {
     Side const neutcoul_save = neutral_side;
-    initialise_neutrals(White);
-    result = is_king_square_attacked_impl(Black,evaluate);
+    initialise_neutrals(side_checking);
+    result = is_king_square_attacked_impl(side_in_check,evaluate);
     initialise_neutrals(neutcoul_save);
   }
   else
-    result = is_king_square_attacked_impl(Black,evaluate);
+    result = is_king_square_attacked_impl(side_in_check,evaluate);
 
   finply();
 
@@ -423,73 +401,47 @@ boolean is_black_king_square_attacked(evalfunction_t *evaluate)
   return result;
 }
 
-boolean losingchess_is_king_square_attacked(evalfunction_t *evaluate)
+boolean losingchess_is_king_square_attacked(Side side_in_check,
+                                            evalfunction_t *evaluate)
 {
   return false;
 }
 
-static boolean echecc_wh_extinction(void)
+static boolean echecc_extinction(Side side_in_check)
 {
   boolean result = false;
 
   PieNam p;
   for (p = King; p<PieceCount; ++p)
   {
+    piece const endangered = side_in_check==White ? p : -p;
     square const *bnp;
-    if (!exist[p] || number_of_pieces[White][p]!=1)
+    if (!exist[p] || number_of_pieces[side_in_check][p]!=1)
       continue;
 
     for (bnp= boardnum; *bnp; ++bnp)
-      if (e[*bnp]==(piece)p)
+      if (e[*bnp]==endangered)
         break;
 
-    king_square[White] = *bnp;
-    if (is_king_square_attacked[White](&validate_observation))
+    king_square[side_in_check] = *bnp;
+    if (is_king_square_attacked(side_in_check,&validate_observation))
     {
       result = true;
       break;
     }
   }
 
-  king_square[White] = initsquare;
+  king_square[side_in_check] = initsquare;
 
   return result;
 }
 
-static boolean echecc_bl_extinction(void)
+static boolean echecc_assassin(Side side_in_check)
 {
-  boolean result = false;
-
-  PieNam p;
-  for (p = King; p<PieceCount; ++p)
-  {
-    square const *bnp;
-
-    if (!exist[p] || number_of_pieces[Black][p]!=1)
-      continue;
-
-    for (bnp= boardnum; *bnp; bnp++)
-      if (e[*bnp]==-(piece)p)
-        break;
-
-    king_square[Black] = *bnp;
-    if (is_king_square_attacked[Black](&validate_observation))
-    {
-      result = true;
-      break;
-    }
-  }
-
-  king_square[Black] = initsquare;
-
-  return result;
-}
-
-static boolean echecc_wh_assassin(void)
-{
+  Side const side_checking = advers(side_in_check);
   square const *bnp;
 
-  if (is_king_square_attacked[White](&validate_observation))
+  if (is_king_square_attacked(side_in_check,&validate_observation))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -497,16 +449,16 @@ static boolean echecc_wh_assassin(void)
     piece const p = e[*bnp];
 
     if (p!=vide
-        && p>roib
-        && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,Black)==king_square[White])
+        && abs(p)!=King && TSTFLAG(spec[*bnp],side_in_check)
+        && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check])
     {
       boolean flag;
-      square const rb_sic = king_square[White];
-      king_square[White] = *bnp;
+      square const save_king_square = king_square[side_in_check];
+      king_square[side_in_check] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = is_king_square_attacked[White](&validate_observation);
+      flag = is_king_square_attacked(side_in_check,&validate_observation);
       CondFlag[circeassassin] = true;
-      king_square[White] = rb_sic;
+      king_square[side_in_check] = save_king_square;
       if (flag)
         return true;
     }
@@ -515,142 +467,69 @@ static boolean echecc_wh_assassin(void)
   return false;
 }
 
-static boolean echecc_bl_assassin(void)
+static boolean echecc_bicolores(Side side_in_check)
 {
-  square const *bnp;
-
-  if (is_king_square_attacked[Black](&validate_observation))
-    return true;
-
-  for (bnp= boardnum; *bnp; bnp++)
-  {
-    piece const p = e[*bnp];
-    if (p!=vide
-        && p<roin
-        && ((*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,White)
-            ==king_square[Black]))
-    {
-      boolean flag;
-      square rn_sic = king_square[Black];
-      king_square[Black] = *bnp;
-      CondFlag[circeassassin] = false;
-      flag = is_king_square_attacked[Black](&validate_observation);
-      CondFlag[circeassassin] = true;
-      king_square[Black] = rn_sic;
-      if (flag)
-        return true;
-    }
-  }
-
-  return false;
-}
-
-static boolean echecc_wh_bicolores(void)
-{
-  if (is_king_square_attacked[White](&validate_observation))
+  if (is_king_square_attacked(side_in_check,&validate_observation))
     return true;
   else
   {
+    Side const side_checking = advers(side_in_check);
     boolean result;
-    square rn_sic = king_square[Black];
-    king_square[Black] = king_square[White];
+    square save_king_square = king_square[side_checking];
+    king_square[side_checking] = king_square[side_in_check];
     CondFlag[bicolores] = false;
-    result = is_king_square_attacked[Black](&validate_observation);
+    result = is_king_square_attacked(side_checking,&validate_observation);
     CondFlag[bicolores] = true;
-    king_square[Black] = rn_sic;
+    king_square[side_checking] = save_king_square;
     return result;
   }
 }
 
-static boolean echecc_bl_bicolores(void)
-{
-  if (is_king_square_attacked[Black](&validate_observation))
-    return true;
-  else
-  {
-    boolean result;
-    square rb_sic = king_square[White];
-    king_square[White] = king_square[Black];
-    CondFlag[bicolores] = false;
-    result = is_king_square_attacked[White](&validate_observation);
-    CondFlag[bicolores] = true;
-    king_square[White] = rb_sic;
-    return result;
-  }
-}
-
-boolean echecc(Side camp)
+boolean echecc(Side side_in_check)
 {
   boolean result;
+  Side const side_king_attacked = CondFlag[vogt] ? advers(side_in_check) : side_in_check;
+  Side const side_attacking_king = advers(side_king_attacked);
 
-  if ((camp==White) != CondFlag[vogt])
+  if (CondFlag[extinction])
+    result = echecc_extinction(side_king_attacked);
+  else if (king_square[side_king_attacked]==initsquare)
+    result = false;
+  else if (rex_circe
+           && (CondFlag[pwc]
+               || (e[(*circerenai)(e[king_square[side_king_attacked]],
+                                   spec[king_square[side_king_attacked]],
+                                   king_square[side_king_attacked],
+                                   initsquare,
+                                   initsquare,
+                                   side_attacking_king)]
+                   == vide)))
+    result = false;
+  else
   {
-    if (CondFlag[extinction])
-      result = echecc_wh_extinction();
-    else if (king_square[White]==initsquare)
-      result = false;
-    else if (rex_circe
-             && (CondFlag[pwc]
-                 || (e[(*circerenai)(e[king_square[White]],
-                                     spec[king_square[White]],
-                                     king_square[White],
-                                     initsquare,
-                                     initsquare,
-                                     Black)]
-                     == vide)))
-      result = false;
+    if (TSTFLAG(some_pieces_flags,Neutral))
+      initialise_neutrals(side_attacking_king);
+    if (CondFlag[circeassassin] && echecc_assassin(side_king_attacked))
+      result = true;
+    else if (CondFlag[bicolores])
+      result = echecc_bicolores(side_king_attacked);
     else
-    {
-      if (TSTFLAG(some_pieces_flags,Neutral))
-        initialise_neutrals(Black);
-      if (CondFlag[circeassassin] && echecc_wh_assassin())
-        result = true;
-      else if (CondFlag[bicolores])
-        result = echecc_wh_bicolores();
-      else
-        result = CondFlag[antikings]!=is_king_square_attacked[White](&validate_observation);
-    }
-  }
-  else /* camp==Black */
-  {
-    if (CondFlag[extinction])
-      result = echecc_bl_extinction();
-    else if (king_square[Black] == initsquare)
-      result = false;
-    else if (rex_circe
-             && (CondFlag[pwc]
-                 || (e[(*circerenai)(e[king_square[Black]],
-                                     spec[king_square[Black]],
-                                     king_square[Black],
-                                     initsquare,
-                                     initsquare,
-                                     White)]
-                     == vide)))
-      result = false;
-    else
-    {
-      if (TSTFLAG(some_pieces_flags,Neutral))
-        initialise_neutrals(White);
-      if (CondFlag[circeassassin] && echecc_bl_assassin())
-        result = true;
-      else if (CondFlag[bicolores])
-        result = echecc_bl_bicolores();
-      else
-        result = CondFlag[antikings]!=is_king_square_attacked[Black](&validate_observation);
-    }
+      result = CondFlag[antikings]!=is_king_square_attacked(side_king_attacked,&validate_observation);
   }
 
   return result;
-} /* end of echecc */
+}
 
 static evalfunction_t *next_evaluate;
 
-static boolean eval_up(square sq_departure, square sq_arrival, square sq_capture) {
+static boolean eval_up(square sq_departure, square sq_arrival, square sq_capture)
+{
   return sq_arrival-sq_departure>8
       && next_evaluate(sq_departure,sq_arrival,sq_capture);
 }
 
-static boolean eval_down(square sq_departure, square sq_arrival, square sq_capture) {
+static boolean eval_down(square sq_departure, square sq_arrival, square sq_capture)
+{
   return sq_arrival-sq_departure<-8
       && next_evaluate(sq_departure,sq_arrival,sq_capture);
 }

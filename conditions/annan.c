@@ -30,58 +30,40 @@ boolean annanises(Side side, square rear, square front)
     return false;
 }
 
-boolean annan_is_black_king_square_attacked(evalfunction_t *evaluate)
+boolean annan_is_king_square_attacked(Side side_in_check,
+                                      evalfunction_t *evaluate)
 {
+  Side const side_checking = advers(side_in_check);
+  numvec const dir_annaniser = side_checking==White ? dir_down : dir_up;
   square annan_sq[nr_squares_on_board];
   piece annan_p[nr_squares_on_board];
-  int annan_cnt= 0;
-  boolean ret;
+  int annan_cnt = 0;
+  boolean result;
+  unsigned int i;
+  square square_a = side_checking==White ? square_a8 : square_a1;
 
-  square i,j,z,z1;
-  z= square_h8;
-  for (i= nr_rows_on_board-1; i > 0; i--, z-= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z--) {
-      z1= z-onerow;
-      if (e[z] > obs && annanises(White,z1,z))
+  for (i = nr_rows_on_board-1; i>0; --i, square_a += dir_annaniser)
+  {
+    square pos_annanised = square_a;
+    unsigned int j;
+    for (j = nr_files_on_board; j>0; --j, ++pos_annanised)
+    {
+      square const pos_annaniser = pos_annanised+dir_annaniser;
+      if (TSTFLAG(spec[pos_annanised],side_checking)
+          && annanises(side_checking,pos_annaniser,pos_annanised))
       {
-        annan_sq[annan_cnt]= z;
-        annan_p[annan_cnt]= e[z];
+        annan_sq[annan_cnt] = pos_annanised;
+        annan_p[annan_cnt] = e[pos_annanised];
         ++annan_cnt;
-        e[z]=e[z1];
+        e[pos_annanised] = e[pos_annaniser];
       }
     }
-  ret= is_black_king_square_attacked(evaluate);
+  }
+
+  result= is_a_king_square_attacked(side_in_check,evaluate);
 
   while (annan_cnt--)
-    e[annan_sq[annan_cnt]]= annan_p[annan_cnt];
+    e[annan_sq[annan_cnt]] = annan_p[annan_cnt];
 
-  return ret;
-}
-
-boolean annan_is_white_king_square_attacked(evalfunction_t *evaluate)
-{
-  square annan_sq[nr_squares_on_board];
-  piece annan_p[nr_squares_on_board];
-  int annan_cnt= 0;
-  boolean ret;
-
-  square i,j,z,z1;
-  z= square_a1;
-  for (i= nr_rows_on_board-1; i > 0; i--, z+= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z++) {
-      z1= z+onerow;
-      if (e[z] < vide && annanises(Black,z1,z))
-      {
-        annan_sq[annan_cnt]= z;
-        annan_p[annan_cnt]= e[z];
-        ++annan_cnt;
-        e[z]=e[z1];
-      }
-    }
-  ret= is_white_king_square_attacked(evaluate);
-
-  while (annan_cnt--)
-    e[annan_sq[annan_cnt]]= annan_p[annan_cnt];
-
-  return ret;
+  return result;
 }

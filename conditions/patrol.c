@@ -48,7 +48,7 @@ boolean patrol_is_supported(square sq_departure)
   TraceFunctionParamListEnd();
 
   king_square[opponent] = sq_departure;
-  result = is_king_square_attacked[opponent](&validate_observer);
+  result = is_a_king_square_attacked(opponent,&validate_observer);
   king_square[opponent] = save_king_square;
 
   TraceFunctionExit(__func__);

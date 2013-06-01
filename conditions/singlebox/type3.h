@@ -46,8 +46,8 @@ stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
 
 /* is the indicated king square attacked according to type 3?
  */
-boolean singleboxtype3_is_black_king_square_attacked(evalfunction_t *evaluate);
-boolean singleboxtype3_is_white_king_square_attacked(evalfunction_t *evaluate);
+boolean singleboxtype3_is_king_square_attacked(Side side_in_check,
+                                               evalfunction_t *evaluate);
 
 /* Generate the moves for a black/white piece
  * @param side for which to generate moves

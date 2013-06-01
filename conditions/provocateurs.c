@@ -22,7 +22,7 @@ static boolean is_piece_provoked_on(square sq_departure)
   TraceFunctionParamListEnd();
 
   king_square[side_provoked] = sq_departure;
-  result = is_king_square_attacked[side_provoked](&validate_observer);
+  result = is_king_square_attacked(side_provoked,&validate_observer);
   king_square[side_provoked] = save_king_square;
 
   TraceFunctionExit(__func__);

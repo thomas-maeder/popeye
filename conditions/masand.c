@@ -37,7 +37,7 @@ static boolean observed(square on_this, square by_that)
 
   fromspecificsquare = by_that;
   king_square[observed_side]= on_this;
-  result = is_king_square_attacked[observed_side](eval_fromspecificsquare);
+  result = is_a_king_square_attacked(observed_side,eval_fromspecificsquare);
   king_square[observed_side]= save_king_pos;
 
   TraceFunctionExit(__func__);

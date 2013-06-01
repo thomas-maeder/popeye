@@ -235,10 +235,11 @@ void nextply(void);
 boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);
 
-extern boolean(*is_king_square_attacked[nr_sides])(evalfunction_t *evaluate);
+extern boolean(*is_king_square_attacked)(Side side_in_check, evalfunction_t *evaluate);
 
-boolean losingchess_is_king_square_attacked(evalfunction_t *evaluate);
-boolean is_white_king_square_attacked(evalfunction_t *evaluate);
+boolean losingchess_is_king_square_attacked(Side side_in_check,
+                                            evalfunction_t *evaluate);
+boolean is_a_king_square_attacked(Side side_in_check, evalfunction_t *evaluate);
 
 boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 boolean rcsech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
@@ -253,8 +254,6 @@ typedef enum {
 } angle_t;
 
 boolean rmhopech(square a, vec_index_type kend, vec_index_type kanf, angle_t angle, PieNam p, evalfunction_t *evaluate);
-
-boolean is_black_king_square_attacked(evalfunction_t *evaluate);
 
 boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
