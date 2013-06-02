@@ -196,12 +196,13 @@ boolean rcardech(square intermediate_square,
 
 boolean (*is_king_square_attacked)(Side side_in_check, evalfunction_t *evaluate);
 
-static boolean is_king_square_attacked_impl(Side side_in_check,
-                                            evalfunction_t *evaluate)
+static boolean does_observe_square_impl(Side side_checking,
+                                        square sq_target,
+                                        evalfunction_t *evaluate)
 {
   piece p;
   square sq_departure;
-  Side const side_checking = advers(side_in_check);
+  Side const side_in_check = advers(side_checking);
 
   if (CondFlag[plus])
     return plusechecc(side_in_check,evaluate);
@@ -237,7 +238,7 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
             {
               transmutation_of_king_of_checking_side_found = true;
 
-              if ((*checkfunctions[*ptrans])(king_square[side_in_check], King, evaluate))
+              if ((*checkfunctions[*ptrans])(sq_target, King, evaluate))
               {
                 calc_reflective_king[side_checking] = true;
                 return true;
@@ -252,7 +253,7 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
         transmutation_of_king_of_checking_side_found = true;
 
         for (ptrans= transmpieces[side_checking]; *ptrans; ptrans++)
-          if ((*checkfunctions[*ptrans])(king_square[side_in_check], King, evaluate))
+          if ((*checkfunctions[*ptrans])(sq_target, King, evaluate))
           {
             calc_reflective_king[side_checking] = true;
             return true;
@@ -263,22 +264,22 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
 
       if (!(calc_transmuting_king[side_checking]
             && transmutation_of_king_of_checking_side_found)
-          && roicheck(king_square[side_in_check],King,evaluate))
+          && roicheck(sq_target,King,evaluate))
         return true;
     }
     else if (CondFlag[sting]
-        && (*checkfunctions[Grasshopper])(king_square[side_in_check], King, evaluate))
+        && (*checkfunctions[Grasshopper])(sq_target, King, evaluate))
       return true;
-    else if (roicheck(king_square[side_in_check],King,evaluate))
+    else if (roicheck(sq_target,King,evaluate))
       return true;
   }
 
   if (number_of_pieces[side_checking][Pawn]>0
-      && pioncheck(king_square[side_in_check],Pawn,evaluate))
+      && pioncheck(sq_target,Pawn,evaluate))
     return true;
 
   if (number_of_pieces[side_checking][Knight]>0
-      && cavcheck(king_square[side_in_check],Knight,evaluate))
+      && cavcheck(sq_target,Knight,evaluate))
     return true;
 
   if (number_of_pieces[side_checking][Queen]>0
@@ -287,10 +288,10 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
     {
-      finligne(king_square[side_in_check],vec[k],p,sq_departure);
+      finligne(sq_target,vec[k],p,sq_departure);
       if ((abs(p)==Rook || abs(p)==Queen) && TSTFLAG(spec[sq_departure],side_checking)
-          && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
-        if (ridimcheck(sq_departure,king_square[side_in_check],vec[k]))
+          && evaluate(sq_departure,sq_target,sq_target))
+        if (ridimcheck(sq_departure,sq_target,vec[k]))
           return true;
     }
   }
@@ -300,10 +301,10 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-      finligne(king_square[side_in_check],vec[k],p,sq_departure);
+      finligne(sq_target,vec[k],p,sq_departure);
       if ((abs(p)==Bishop || abs(p)==Queen) && TSTFLAG(spec[sq_departure],side_checking)
-          && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
-        if (ridimcheck(sq_departure,king_square[side_in_check],vec[k]))
+          && evaluate(sq_departure,sq_target,sq_target))
+        if (ridimcheck(sq_departure,sq_target,vec[k]))
           return true;
     }
   }
@@ -315,7 +316,7 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
 
     for (pcheck = checkpieces; *pcheck; ++pcheck)
       if (number_of_pieces[side_checking][*pcheck]>0
-          && (*checkfunctions[*pcheck])(king_square[side_in_check], *pcheck, evaluate))
+          && (*checkfunctions[*pcheck])(sq_target, *pcheck, evaluate))
       {
         result = true;
         break;
@@ -356,11 +357,11 @@ boolean is_a_king_square_attacked(Side side_in_check,
   {
     Side const neutcoul_save = neutral_side;
     initialise_neutrals(side_checking);
-    result = is_king_square_attacked_impl(side_in_check,evaluate);
+    result = does_observe_square_impl(side_checking,king_square[side_in_check],evaluate);
     initialise_neutrals(neutcoul_save);
   }
   else
-    result = is_king_square_attacked_impl(side_in_check,evaluate);
+    result = does_observe_square_impl(side_checking,king_square[side_in_check],evaluate);
 
   finply();
 
