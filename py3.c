@@ -381,22 +381,19 @@ static boolean echecc_extinction(Side side_in_check)
 
   PieNam p;
   for (p = King; p<PieceCount; ++p)
-  {
-    piece const endangered = side_in_check==White ? p : -p;
-    square const *bnp;
-    if (!exist[p] || number_of_pieces[side_in_check][p]!=1)
-      continue;
-
-    for (bnp= boardnum; *bnp; ++bnp)
-      if (e[*bnp]==endangered)
-        break;
-
-    if (is_square_attacked(side_checking,*bnp,&validate_observation))
+    if (exist[p] && number_of_pieces[side_in_check][p]==1)
     {
-      result = true;
-      break;
+      square const *bnp;
+      for (bnp  = boardnum; *bnp; ++bnp)
+        if (abs(e[*bnp])==p && TSTFLAG(spec[*bnp],side_in_check))
+          break;
+
+      if (is_square_attacked(side_checking,*bnp,&validate_observation))
+      {
+        result = true;
+        break;
+      }
     }
-  }
 
   return result;
 }
@@ -404,24 +401,20 @@ static boolean echecc_extinction(Side side_in_check)
 static boolean echecc_assassin(Side side_in_check)
 {
   Side const side_checking = advers(side_in_check);
-  square const *bnp;
 
   if (is_square_attacked(side_checking,king_square[side_in_check],&validate_observation))
     return true;
-
-  for (bnp= boardnum; *bnp; bnp++)
+  else
   {
-    piece const p = e[*bnp];
-
-    if (p!=vide
-        && abs(p)!=King && TSTFLAG(spec[*bnp],side_in_check)
-        && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check])
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
     {
-      boolean flag;
-      CondFlag[circeassassin] = false;
-      flag = is_square_attacked(side_checking,*bnp,&validate_observation);
-      CondFlag[circeassassin] = true;
-      if (flag)
+      piece const p = e[*bnp];
+
+      if (p!=vide
+          && abs(p)!=King && TSTFLAG(spec[*bnp],side_in_check)
+          && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check]
+          && is_square_attacked(side_checking,*bnp,&validate_observation))
         return true;
     }
   }
@@ -433,16 +426,8 @@ static boolean echecc_bicolores(Side side_in_check)
 {
   Side const side_checking = advers(side_in_check);
 
-  if (is_square_attacked(side_checking,king_square[side_in_check],&validate_observation))
-    return true;
-  else
-  {
-    boolean result;
-    CondFlag[bicolores] = false;
-    result = is_square_attacked(side_in_check,king_square[side_in_check],&validate_observation);
-    CondFlag[bicolores] = true;
-    return result;
-  }
+  return (is_square_attacked(side_checking,king_square[side_in_check],&validate_observation)
+          || is_square_attacked(side_in_check,king_square[side_in_check],&validate_observation));
 }
 
 boolean echecc(Side side_in_check)
