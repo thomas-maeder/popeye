@@ -17,8 +17,7 @@ static boolean is_capture_not_supported(square sq_observer,
                                         square sq_landing,
                                         square sq_observee)
 {
-  Side const opponent = e[sq_observer]>=roib ? Black : White;
-  square const save_king_square = king_square[opponent];
+  Side const supporting_side = e[sq_observer]>=roib ? White : Black;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -27,9 +26,7 @@ static boolean is_capture_not_supported(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  king_square[opponent] = sq_observer;
-  result = !is_king_square_attacked(opponent,&validate_observer);
-  king_square[opponent] = save_king_square;
+  result = !is_square_attacked(supporting_side,sq_observer,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -62,14 +62,7 @@ boolean central_can_piece_move_from(square sq_departure)
   if (sq_departure==king_square[moving])
     result = true;
   else
-  {
-    Side const opponent = advers(moving);
-    square const save_opponent_king_square = king_square[opponent];
-
-    king_square[opponent] = sq_departure;
-    result = is_king_square_attacked(opponent,&central_test_supporter);
-    king_square[opponent] = save_opponent_king_square;
-  }
+    result = is_square_attacked(moving,sq_departure,&central_test_supporter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -27,8 +27,7 @@ void stip_insert_masand(slice_index si)
 static boolean observed(square on_this, square by_that)
 {
   boolean result;
-  Side const observed_side = e[by_that]>vide ? Black : White;
-  square const save_king_pos = king_square[observed_side];
+  Side const observing_side = e[by_that]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(on_this);
@@ -36,9 +35,7 @@ static boolean observed(square on_this, square by_that)
   TraceFunctionParamListEnd();
 
   fromspecificsquare = by_that;
-  king_square[observed_side]= on_this;
-  result = is_a_king_square_attacked(observed_side,eval_fromspecificsquare);
-  king_square[observed_side]= save_king_pos;
+  result = is_a_square_attacked(observing_side,on_this,eval_fromspecificsquare);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -132,12 +132,8 @@ boolean is_piece_paralysed_on(square s)
     result = false;
   else
   {
-    Side const paralysed_side = e[s]>vide ? White : Black;
-    square const save_king_square = king_square[paralysed_side];
-
-    king_square[paralysed_side] = s;
-    result = is_king_square_attacked(paralysed_side,&validate_paralyser);
-    king_square[paralysed_side] = save_king_square;
+    Side const paralysing_side = e[s]>vide ? Black : White;
+    result = is_square_attacked(paralysing_side,s,&validate_paralyser);
   }
 
   TraceFunctionExit(__func__);

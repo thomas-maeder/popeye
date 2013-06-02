@@ -11,8 +11,6 @@ static boolean shielded_kings_test_support(square sq_observer,
 {
   boolean result;
   Side const moving_side = e[sq_observer]>vide ? White : Black;
-  Side const opponent = advers(moving_side);
-  square const save_king_square = king_square[opponent];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -20,9 +18,7 @@ static boolean shielded_kings_test_support(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  king_square[opponent] = sq_observer;
-  result = is_king_square_attacked(opponent,&validate_observer);
-  king_square[opponent] = save_king_square;
+  result = is_square_attacked(moving_side,sq_observer,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

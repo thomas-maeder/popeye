@@ -194,7 +194,9 @@ boolean rcardech(square intermediate_square,
   return false;
 }
 
-boolean (*is_king_square_attacked)(Side side_in_check, evalfunction_t *evaluate);
+boolean (*is_square_attacked)(Side side_attacking,
+                              square sq_target,
+                              evalfunction_t *evaluate);
 
 static boolean does_observe_square_impl(Side side_checking,
                                         square sq_target,
@@ -331,11 +333,12 @@ static boolean does_observe_square_impl(Side side_checking,
 DEFINE_COUNTER(is_white_king_square_attacked)
 DEFINE_COUNTER(is_black_king_square_attacked)
 
-boolean is_a_king_square_attacked(Side side_in_check,
-                                  evalfunction_t *evaluate)
+boolean is_a_square_attacked(Side side_checking,
+                             square sq_target,
+                             evalfunction_t *evaluate)
 {
   boolean result;
-  Side const side_checking = advers(side_in_check);
+  Side const side_in_check = advers(side_checking);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check,"");
@@ -357,11 +360,11 @@ boolean is_a_king_square_attacked(Side side_in_check,
   {
     Side const neutcoul_save = neutral_side;
     initialise_neutrals(side_checking);
-    result = does_observe_square_impl(side_checking,king_square[side_in_check],evaluate);
+    result = does_observe_square_impl(side_checking,sq_target,evaluate);
     initialise_neutrals(neutcoul_save);
   }
   else
-    result = does_observe_square_impl(side_checking,king_square[side_in_check],evaluate);
+    result = does_observe_square_impl(side_checking,sq_target,evaluate);
 
   finply();
 
@@ -373,6 +376,7 @@ boolean is_a_king_square_attacked(Side side_in_check,
 
 static boolean echecc_extinction(Side side_in_check)
 {
+  Side const side_checking = advers(side_in_check);
   boolean result = false;
 
   PieNam p;
@@ -387,15 +391,12 @@ static boolean echecc_extinction(Side side_in_check)
       if (e[*bnp]==endangered)
         break;
 
-    king_square[side_in_check] = *bnp;
-    if (is_king_square_attacked(side_in_check,&validate_observation))
+    if (is_square_attacked(side_checking,*bnp,&validate_observation))
     {
       result = true;
       break;
     }
   }
-
-  king_square[side_in_check] = initsquare;
 
   return result;
 }
@@ -405,7 +406,7 @@ static boolean echecc_assassin(Side side_in_check)
   Side const side_checking = advers(side_in_check);
   square const *bnp;
 
-  if (is_king_square_attacked(side_in_check,&validate_observation))
+  if (is_square_attacked(side_checking,king_square[side_in_check],&validate_observation))
     return true;
 
   for (bnp= boardnum; *bnp; bnp++)
@@ -417,12 +418,9 @@ static boolean echecc_assassin(Side side_in_check)
         && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check])
     {
       boolean flag;
-      square const save_king_square = king_square[side_in_check];
-      king_square[side_in_check] = *bnp;
       CondFlag[circeassassin] = false;
-      flag = is_king_square_attacked(side_in_check,&validate_observation);
+      flag = is_square_attacked(side_checking,*bnp,&validate_observation);
       CondFlag[circeassassin] = true;
-      king_square[side_in_check] = save_king_square;
       if (flag)
         return true;
     }
@@ -433,18 +431,16 @@ static boolean echecc_assassin(Side side_in_check)
 
 static boolean echecc_bicolores(Side side_in_check)
 {
-  if (is_king_square_attacked(side_in_check,&validate_observation))
+  Side const side_checking = advers(side_in_check);
+
+  if (is_square_attacked(side_checking,king_square[side_in_check],&validate_observation))
     return true;
   else
   {
-    Side const side_checking = advers(side_in_check);
     boolean result;
-    square save_king_square = king_square[side_checking];
-    king_square[side_checking] = king_square[side_in_check];
     CondFlag[bicolores] = false;
-    result = is_king_square_attacked(side_checking,&validate_observation);
+    result = is_square_attacked(side_in_check,king_square[side_in_check],&validate_observation);
     CondFlag[bicolores] = true;
-    king_square[side_checking] = save_king_square;
     return result;
   }
 }
@@ -480,7 +476,9 @@ boolean echecc(Side side_in_check)
     else if (CondFlag[bicolores])
       result = echecc_bicolores(side_king_attacked);
     else
-      result = CondFlag[antikings]!=is_king_square_attacked(side_king_attacked,&validate_observation);
+      result = CondFlag[antikings]!=is_square_attacked(side_attacking_king,
+                                                       king_square[side_king_attacked],
+                                                       &validate_observation);
   }
 
   return result;

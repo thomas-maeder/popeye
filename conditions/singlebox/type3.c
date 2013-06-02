@@ -153,11 +153,12 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   return result;
 }
 
-boolean singleboxtype3_is_king_square_attacked(Side side_in_check,
-                                               evalfunction_t *evaluate)
+boolean singleboxtype3_is_square_attacked(Side side_checking,
+                                          square sq_target,
+                                          evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
-  Side const side_checking = advers(side_in_check);
+  Side const side_in_check = advers(side_checking);
   square sq;
 
   for (sq = next_latent_pawn(initsquare,side_checking);
@@ -173,7 +174,7 @@ boolean singleboxtype3_is_king_square_attacked(Side side_in_check,
       ++promotionstried;
       e[sq] = side_checking==White ? pprom : -pprom;
       ++number_of_pieces[side_checking][pprom];
-      result = is_a_king_square_attacked(side_in_check,evaluate);
+      result = is_a_square_attacked(side_checking,sq_target,evaluate);
       --number_of_pieces[side_checking][pprom];
       e[sq] = side_checking==White ? pb : pn;
       if (result)
@@ -181,7 +182,7 @@ boolean singleboxtype3_is_king_square_attacked(Side side_in_check,
     }
   }
 
-  return promotionstried==0 && is_a_king_square_attacked(side_in_check,evaluate);
+  return promotionstried==0 && is_a_square_attacked(side_checking,sq_target,evaluate);
 }
 
 static square find_next_latent_pawn(square sq, Side side)

@@ -31,13 +31,9 @@ static boolean eval_amu_attack(square sq_departure,
 
 static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 {
-  square const save_king_square = king_square[trait_ply];
-
-  king_square[trait_ply] = sq_departure;
   amu_attack_count = 0;
   single_attacker_departure = initsquare;
-  is_king_square_attacked(trait_ply,&eval_amu_attack);
-  king_square[trait_ply] = save_king_square;
+  is_square_attacked(advers(trait_ply),sq_departure,&eval_amu_attack);
 
   return amu_attack_count==1;
 }

@@ -13,17 +13,14 @@
  */
 static boolean is_piece_provoked_on(square sq_departure)
 {
-  Side const side_provoked = e[sq_departure]>vide ? White : Black;
-  square const save_king_square = king_square[side_provoked];
+  Side const side_provoking = e[sq_departure]>vide ? Black : White;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  king_square[side_provoked] = sq_departure;
-  result = is_king_square_attacked(side_provoked,&validate_observer);
-  king_square[side_provoked] = save_king_square;
+  result = is_square_attacked(side_provoking,sq_departure,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

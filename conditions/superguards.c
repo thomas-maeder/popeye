@@ -12,8 +12,7 @@ static boolean avoid_observing_guarded(square sq_observer,
                                        square sq_observee)
 {
   boolean result;
-  Side const side_moving = e[sq_observer]>vide ? White : Black;
-  square const save_king_square = king_square[side_moving];
+  Side const side_guarding = e[sq_observer]>vide ? Black : White;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -21,9 +20,7 @@ static boolean avoid_observing_guarded(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  king_square[side_moving] = sq_observee;
-  result = !is_king_square_attacked(side_moving,&validate_observer);
-  king_square[side_moving] = save_king_square;
+  result = !is_square_attacked(side_guarding,sq_observee,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

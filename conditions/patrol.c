@@ -39,17 +39,14 @@ static boolean is_not_patrol_or_supported_capture(square sq_observer,
  */
 boolean patrol_is_supported(square sq_departure)
 {
-  Side const opponent = e[sq_departure]>=roib ? Black : White;
-  square const save_king_square = king_square[opponent];
+  Side const moving_side = e[sq_departure]>=roib ? White : Black;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  king_square[opponent] = sq_departure;
-  result = is_a_king_square_attacked(opponent,&validate_observer);
-  king_square[opponent] = save_king_square;
+  result = is_a_square_attacked(moving_side,sq_departure,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
