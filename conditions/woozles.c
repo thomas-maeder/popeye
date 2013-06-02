@@ -12,6 +12,24 @@
 static square  sq_woo_from;
 static square  sq_woo_to;
 
+static PieNam woozlers[PieceCount];
+
+static void init_woozlers(void)
+{
+  unsigned int i = 0;
+  PieNam p;
+
+  for (p = King; p<PieceCount; ++p) {
+    if (may_exist[p] && p!=Dummy && p!=Hamster)
+    {
+      woozlers[i] = p;
+      i++;
+    }
+  }
+
+  woozlers[i] = Empty;
+}
+
 static boolean aux_whx(square sq_departure,
                        square sq_arrival,
                        square sq_capture)
@@ -20,7 +38,8 @@ static boolean aux_whx(square sq_departure,
     return false;
 
   /* sq_departure == sq_woo_from */
-  if (CondFlag[heffalumps]) {
+  if (CondFlag[heffalumps])
+  {
     int cd1= sq_departure%onerow - sq_arrival%onerow;
     int rd1= sq_departure/onerow - sq_arrival/onerow;
     int cd2= sq_woo_to%onerow - sq_departure%onerow;
@@ -73,7 +92,7 @@ static boolean aux_wh(square sq_departure,
     {
       nextply();
       trait[nbply] = observing_side;
-      result = (*checkfunctions[abs(p)])(sq_departure,abs(e[sq_woo_from]),&aux_whx);
+      result = (*checkfunctions[abs(p)])(sq_departure,abs(p),&aux_whx);
       finply();
     }
   }
@@ -83,38 +102,30 @@ static boolean aux_wh(square sq_departure,
 
 static boolean woohefflibre(square to, square from)
 {
-  PieNam *pcheck;
   Side const side_woozled = e[from]>vide ? White : Black;
   Side const side_woozle = CondFlag[biwoozles] ? advers(side_woozled) : side_woozled;
   boolean result = true;
 
   if (!rex_wooz_ex || from!=king_square[side_woozled])
   {
-    sq_woo_from = from;
-    sq_woo_to = to;
+    PieNam const *pcheck = woozlers;
 
-    pcheck = transmpieces[White];
     if (rex_wooz_ex)
       ++pcheck;
+
+    sq_woo_from = from;
+    sq_woo_to = to;
 
     nextply();
     trait[nbply] = side_woozle;
 
-    while (*pcheck)
-    {
-      piece const p = side_woozle==White ? *pcheck : -*pcheck;
-
-      if (number_of_pieces[side_woozle][*pcheck]>0)
+    for (; *pcheck; ++pcheck)
+      if (number_of_pieces[side_woozle][*pcheck]>0
+          && (*checkfunctions[*pcheck])(from,*pcheck,&aux_wh))
       {
-        if ((*checkfunctions[*pcheck])(from,abs(p),&aux_wh))
-        {
-          result = false;
-          break;
-        }
+        result = false;
+        break;
       }
-
-      ++pcheck;
-    }
 
     finply();
   }
@@ -226,6 +237,8 @@ void woozles_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   register_observation_validator(&woozles_heffalumps_validate_observation);
+
+  init_woozlers();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

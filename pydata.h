@@ -164,8 +164,6 @@ EXTERN  PieNam          next_football_substitute[PieceCount];       /* it's a in
 EXTERN  boolean         football_are_substitutes_limited;
 EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
 
-EXTERN  PieNam          transmpieces[nr_sides][PieceCount];
-EXTERN  boolean         normaltranspieces[nr_sides];
 EXTERN  PieNam          orphanpieces[PieceCount];
 
 EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;

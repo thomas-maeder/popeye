@@ -90,6 +90,7 @@
 #include "conditions/wormhole.h"
 #include "conditions/singlebox/type2.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/pawns/pawns.h"
 #include "pieces/pawns/pawn.h"
@@ -2327,18 +2328,22 @@ void king_generate_moves(Side side, square sq_departure)
   {
     /* K im Schach zieht auch */
     calctransmute = true;
-    if (!normaltranspieces[side] && echecc(side))
+
+    if (CondFlag[side==White ? blvault_king : whvault_king])
     {
-      PieNam const *ptrans;
-      for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
+      if (echecc(side))
       {
-        flag = true;
-        current_trans_gen = *ptrans;
-        generate_moves_for_piece(side,sq_departure,*ptrans);
-        current_trans_gen = vide;
+        PieNam const *ptrans;
+        for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
+        {
+          flag = true;
+          current_trans_gen = *ptrans;
+          generate_moves_for_piece(side,sq_departure,*ptrans);
+          current_trans_gen = vide;
+        }
       }
     }
-    else if (normaltranspieces[side])
+    else
     {
       PieNam const *ptrans;
       for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)

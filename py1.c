@@ -380,9 +380,6 @@ void InitCond(void)
   calc_reflective_king[White] = false;
   calc_reflective_king[Black] = false;
 
-  normaltranspieces[White] = true;
-  normaltranspieces[Black] = true;
-
   kobulking[White] = false;
   kobulking[Black] = false;
 } /* InitCond */

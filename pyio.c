@@ -137,6 +137,7 @@
 #include "conditions/koeko/anti.h"
 #include "conditions/phantom.h"
 #include "conditions/annan.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -408,6 +409,14 @@ static void WriteConditions(int alignment)
 
     if ((cond==whitealphabetic || cond==blackalphabetic)
         && CondFlag[alphabetic])
+      continue;
+
+    if ((cond==whvault_king || cond==blvault_king)
+        && CondFlag[vault_king])
+      continue;
+
+    if ((cond==whtrans_king || cond==bltrans_king)
+        && CondFlag[trans_king])
       continue;
 
     /* Write DEFAULT Conditions */
@@ -5005,6 +5014,8 @@ static char *ParseCond(void)
         flag_synchron= true;
         break;
       case trans_king:
+        CondFlag[whtrans_king] = true;
+        CondFlag[bltrans_king] = true;
         calc_transmuting_king[White]= true;
         calc_transmuting_king[Black]= true;
         calc_reflective_king[White]= true;
@@ -5027,6 +5038,8 @@ static char *ParseCond(void)
         calc_reflective_king[Black]= true;
         break;
       case refl_king:
+        CondFlag[whrefl_king] = true;
+        CondFlag[blrefl_king] = true;
         calc_reflective_king[White]= true;
         calc_reflective_king[Black]= true;
         break;
@@ -5037,10 +5050,10 @@ static char *ParseCond(void)
         calc_reflective_king[Black]= true;
         break;
       case vault_king:
+        CondFlag[whvault_king] = true;
+        CondFlag[blvault_king] = true;
         calc_reflective_king[White]= true;
         calc_reflective_king[Black]= true;
-        normaltranspieces[White] = false;
-        normaltranspieces[Black] = false;
         transmpieces[White][0]= EquiHopper;
         transmpieces[Black][0]= EquiHopper;
         transmpieces[White][1]= Empty;
@@ -5048,13 +5061,11 @@ static char *ParseCond(void)
         break;
       case whvault_king:
         calc_reflective_king[White]= true;
-        normaltranspieces[White] = false;
         transmpieces[White][0]= EquiHopper;
         transmpieces[White][1]= Empty;
         break;
       case blvault_king:
         calc_reflective_king[Black]= true;
-        normaltranspieces[Black] = false;
         transmpieces[Black][0]= EquiHopper;
         transmpieces[Black][1]= Empty;
         break;
@@ -5572,17 +5583,13 @@ static char *ParseCond(void)
         tok = ParseRex(&rex_geneva, rexincl);
         break;
       case whvault_king:
-        normaltranspieces[White] = false;
         tok = ParseVaultingPieces(BIT(White));
         break;
       case blvault_king:
-        normaltranspieces[Black] = false;
         tok = ParseVaultingPieces(BIT(Black));
         break;
       case vault_king:
-        normaltranspieces[White] = false;
-        normaltranspieces[Black] = false;
-        tok = ParseVaultingPieces(BIT(White) | BIT(Black));
+        tok = ParseVaultingPieces(BIT(White)|BIT(Black));
         break;
       case gridchess:
         tok = ParseVariant(NULL, gpGrid);

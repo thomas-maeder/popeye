@@ -48,6 +48,7 @@
 #include "conditions/immune.h"
 #include "conditions/phantom.h"
 #include "conditions/marscirce/marscirce.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "solving/observation.h"
@@ -224,7 +225,23 @@ static boolean does_observe_square_impl(Side side_checking,
 
       calc_reflective_king[side_checking] = false;
 
-      if (normaltranspieces[side_checking])
+      if (CondFlag[side_checking==White ? blvault_king : whvault_king])
+      {
+        if (echecc(side_checking))
+        {
+          PieNam *ptrans;
+
+          transmutation_of_king_of_checking_side_found = true;
+
+          for (ptrans= transmpieces[side_checking]; *ptrans; ptrans++)
+            if ((*checkfunctions[*ptrans])(sq_target, King, evaluate))
+            {
+              calc_reflective_king[side_checking] = true;
+              return true;
+            }
+        }
+      }
+      else
       {
         PieNam *ptrans;
         for (ptrans = transmpieces[side_checking]; *ptrans; ptrans++)
@@ -246,19 +263,6 @@ static boolean does_observe_square_impl(Side side_checking,
                 return true;
               }
             }
-          }
-      }
-      else if (echecc(side_checking))
-      {
-        PieNam *ptrans;
-
-        transmutation_of_king_of_checking_side_found = true;
-
-        for (ptrans= transmpieces[side_checking]; *ptrans; ptrans++)
-          if ((*checkfunctions[*ptrans])(sq_target, King, evaluate))
-          {
-            calc_reflective_king[side_checking] = true;
-            return true;
           }
       }
 

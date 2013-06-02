@@ -318,6 +318,7 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/pawns/promotion.h conditions/magic_square.h conditions/immune.h \
  conditions/phantom.h conditions/marscirce/marscirce.h \
+ conditions/transmuting_kings/transmuting_kings.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  solving/en_passant.h solving/observation.h conditions/annan.h \
@@ -389,6 +390,8 @@ conditions/phantom.h:
 
 conditions/marscirce/marscirce.h:
 
+conditions/transmuting_kings/transmuting_kings.h:
+
 stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
@@ -428,10 +431,11 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/annan.h conditions/wormhole.h \
  pieces/attributes/paralysing/paralysing.h \
+ conditions/transmuting_kings/transmuting_kings.h position/position.h \
  pieces/attributes/neutral/initialiser.h pieces/pawns/pawns.h \
- pieces/vectors.h position/position.h pieces/pawns/pawn.h \
- pieces/hunters.h pieces/roses.h pieces/spiral_springers.h \
- pieces/marine.h debugging/trace.h debugging/measure.h
+ pieces/vectors.h pieces/pawns/pawn.h pieces/hunters.h pieces/roses.h \
+ pieces/spiral_springers.h pieces/marine.h debugging/trace.h \
+ debugging/measure.h
 
 py.h:
 
@@ -539,13 +543,15 @@ conditions/wormhole.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
+conditions/transmuting_kings/transmuting_kings.h:
+
+position/position.h:
+
 pieces/attributes/neutral/initialiser.h:
 
 pieces/pawns/pawns.h:
 
 pieces/vectors.h:
-
-position/position.h:
 
 pieces/pawns/pawn.h:
 
@@ -778,7 +784,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/geneva.h conditions/monochrome.h conditions/bichrome.h \
  conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
  conditions/superguards.h conditions/central.h conditions/beamten.h \
- conditions/brunner.h conditions/wormhole.h platform/maxmem.h \
+ conditions/brunner.h conditions/wormhole.h \
+ conditions/transmuting_kings/transmuting_kings.h platform/maxmem.h \
  platform/maxtime.h platform/pytime.h platform/priority.h \
  conditions/shielded_kings.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/end_of_branch.h \
@@ -1113,6 +1120,8 @@ conditions/brunner.h:
 
 conditions/wormhole.h:
 
+conditions/transmuting_kings/transmuting_kings.h:
+
 platform/maxmem.h:
 
 platform/maxtime.h:
@@ -1327,8 +1336,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/sentinelles.h conditions/magic_square.h conditions/mummer.h \
  conditions/transmuting_kings/super.h conditions/immune.h \
  conditions/geneva.h conditions/koeko/koeko.h conditions/koeko/anti.h \
- conditions/phantom.h conditions/annan.h options/degenerate_tree.h \
- options/nontrivial.h options/maxthreatlength.h \
+ conditions/phantom.h conditions/annan.h \
+ conditions/transmuting_kings/transmuting_kings.h \
+ options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
@@ -1529,6 +1539,8 @@ conditions/koeko/anti.h:
 conditions/phantom.h:
 
 conditions/annan.h:
+
+conditions/transmuting_kings/transmuting_kings.h:
 
 options/degenerate_tree.h:
 

@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = super.c
-INCLUDES = super.h
+SRC_CFILES = transmuting_kings.c super.c
+INCLUDES = transmuting_kings.h super.h
 
 include makefile.rules $(CURRPWD)depend

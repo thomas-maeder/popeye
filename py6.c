@@ -214,6 +214,7 @@
 #include "conditions/madrasi.h"
 #include "conditions/brunner.h"
 #include "conditions/wormhole.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -873,7 +874,6 @@ static stip_length_type get_max_nr_moves(slice_index si)
  */
 static boolean verify_position(slice_index si)
 {
-  int      tp, op;
   boolean flagveryfairy = false;
   boolean flagsymmetricfairy = false;
   boolean flagsimplehoppers = false;
@@ -1698,37 +1698,31 @@ static boolean verify_position(slice_index si)
     checkpieces[check_piece_index] = Empty;
   }
 
-  tp = 0;
-  op = 0;
 
   {
+    unsigned int op = 0;
     PieNam p;
     for (p = King; p<PieceCount; ++p) {
       if (may_exist[p] && p!=Dummy && p!=Hamster)
       {
-        if (normaltranspieces[White])
-          transmpieces[White][tp] = p;
-        if (normaltranspieces[Black])
-          transmpieces[Black][tp] = p;
-        tp++;
         if (p!=Orphan && p!=Friend
             && (may_exist[Orphan] || may_exist[Friend]))
           orphanpieces[op++] = p;
       }
     }
+    orphanpieces[op] = Empty;
   }
 
-  if (normaltranspieces[White])
-    transmpieces[White][tp] = Empty;
-  if (normaltranspieces[Black])
-    transmpieces[Black][tp] = Empty;
+  if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king] || CondFlag[whrefl_king])
+    init_regular_transmuting_pieces_sequence(White);
+  if (CondFlag[bltrans_king] || CondFlag[blsupertrans_king] || CondFlag[blrefl_king])
+    init_regular_transmuting_pieces_sequence(Black);
 
   if (calc_reflective_king[White] || calc_reflective_king[Black])
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
-  orphanpieces[op] = Empty;
 
   if ((calc_reflective_king[White]
        && king_square[White] != initsquare
