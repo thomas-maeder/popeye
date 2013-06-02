@@ -221,20 +221,7 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
 
       calc_reflective_king[side_checking] = false;
 
-      if (!normaltranspieces[side_checking] && echecc(side_checking))
-      {
-        PieNam *ptrans;
-
-        transmutation_of_king_of_checking_side_found = true;
-
-        for (ptrans= transmpieces[side_checking]; *ptrans; ptrans++)
-          if ((*checkfunctions[*ptrans])(king_square[side_in_check], King, evaluate))
-          {
-            calc_reflective_king[side_checking] = true;
-            return true;
-          }
-      }
-      else if (normaltranspieces[side_checking])
+      if (normaltranspieces[side_checking])
       {
         PieNam *ptrans;
         for (ptrans = transmpieces[side_checking]; *ptrans; ptrans++)
@@ -258,61 +245,44 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
             }
           }
       }
+      else if (echecc(side_checking))
+      {
+        PieNam *ptrans;
+
+        transmutation_of_king_of_checking_side_found = true;
+
+        for (ptrans= transmpieces[side_checking]; *ptrans; ptrans++)
+          if ((*checkfunctions[*ptrans])(king_square[side_in_check], King, evaluate))
+          {
+            calc_reflective_king[side_checking] = true;
+            return true;
+          }
+      }
 
       calc_reflective_king[side_checking] = true;
 
-      if (!calc_transmuting_king[side_checking]
-          || !transmutation_of_king_of_checking_side_found )
-      {
-        vec_index_type k;
-        for (k= vec_queen_end; k>=vec_queen_start; k--)
-        {
-          sq_departure= king_square[side_in_check]+vec[k];
-          if (abs(e[sq_departure])==King && TSTFLAG(spec[sq_departure],side_checking)
-              && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
-            if (imcheck(sq_departure,king_square[side_in_check]))
-              return true;
-        }
-      }
-    }
-    else
-    {
-      if (CondFlag[sting]
-          && (*checkfunctions[Grasshopper])(king_square[side_in_check], King, evaluate))
+      if (!(calc_transmuting_king[side_checking]
+            && transmutation_of_king_of_checking_side_found)
+          && roicheck(king_square[side_in_check],King,evaluate))
         return true;
-      else
-      {
-        vec_index_type k;
-        for (k= vec_queen_end; k>=vec_queen_start; k--)
-        {
-          sq_departure= king_square[side_in_check]+vec[k];
-          if (abs(e[sq_departure])==King && TSTFLAG(spec[sq_departure],side_checking)
-              && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
-            if (imcheck(sq_departure,king_square[side_in_check]))
-              return true;
-        }
-      }
     }
+    else if (CondFlag[sting]
+        && (*checkfunctions[Grasshopper])(king_square[side_in_check], King, evaluate))
+      return true;
+    else if (roicheck(king_square[side_in_check],King,evaluate))
+      return true;
   }
 
   if (number_of_pieces[side_checking][Pawn]>0
       && pioncheck(king_square[side_in_check],Pawn,evaluate))
     return true;
 
-  if (number_of_pieces[side_checking][Knight]>0)
-  {
-    vec_index_type k;
-    for (k= vec_knight_start; k<=vec_knight_end; k++)
-    {
-      sq_departure= king_square[side_in_check]+vec[k];
-      if (abs(e[sq_departure])==Knight && TSTFLAG(spec[sq_departure],side_checking)
-          && evaluate(sq_departure,king_square[side_in_check],king_square[side_in_check]))
-        if (imcheck(sq_departure,king_square[side_in_check]))
-          return true;
-    }
-  }
+  if (number_of_pieces[side_checking][Knight]>0
+      && cavcheck(king_square[side_in_check],Knight,evaluate))
+    return true;
 
-  if (number_of_pieces[side_checking][Queen]>0 || number_of_pieces[side_checking][Rook]>0)
+  if (number_of_pieces[side_checking][Queen]>0
+      || number_of_pieces[side_checking][Rook]>0)
   {
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
@@ -325,7 +295,8 @@ static boolean is_king_square_attacked_impl(Side side_in_check,
     }
   }
 
-  if (number_of_pieces[side_checking][Queen]>0 || number_of_pieces[side_checking][Bishop]>0)
+  if (number_of_pieces[side_checking][Queen]>0
+      || number_of_pieces[side_checking][Bishop]>0)
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
