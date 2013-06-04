@@ -46,10 +46,10 @@
           2.Ke6-e7 #
 
 
-                        empile:        1683
-                     play_move:         950
- is_white_king_square_attacked:         652
- is_black_king_square_attacked:        1405
+                        empile:        1690
+                     play_move:         963
+ is_white_king_square_attacked:         640
+ is_black_king_square_attacked:        1427
 solution finished. 
 
 
@@ -83,9 +83,9 @@ solution finished.
   1.Qg6-g3 h2-h4   2.Rg7-g4 Qg8-g5 #
 
                         empile:      350670
-                     play_move:      296272
- is_white_king_square_attacked:       94476
- is_black_king_square_attacked:      306487
+                     play_move:      293001
+ is_white_king_square_attacked:       91417
+ is_black_king_square_attacked:      303216
 solution finished. 
 
 
@@ -121,9 +121,9 @@ solution finished.
   1.Kc5-c6 Ka5*b4   2.Kc6*b6 Kb4*c4   3.Kb6-a5 Kc4-b5 #
 
                         empile:       25931
-                     play_move:       23558
- is_white_king_square_attacked:       17188
- is_black_king_square_attacked:       14793
+                     play_move:       23546
+ is_white_king_square_attacked:       17177
+ is_black_king_square_attacked:       14790
 solution finished. 
 
 
@@ -157,9 +157,9 @@ solution finished.
   1.Re2-e3 Be7-c5   2.Re3-h3 Se5-f3 #
 
                         empile:      490967
-                     play_move:      463051
- is_white_king_square_attacked:      102497
- is_black_king_square_attacked:      473847
+                     play_move:      457001
+ is_white_king_square_attacked:       92036
+ is_black_king_square_attacked:      467797
 solution finished. 
 
 
@@ -202,9 +202,9 @@ solution finished.
 
 
                         empile:        5822
-                     play_move:        3424
- is_white_king_square_attacked:        2468
- is_black_king_square_attacked:        3701
+                     play_move:        3283
+ is_white_king_square_attacked:        2320
+ is_black_king_square_attacked:        3560
 solution finished. 
 
 
@@ -234,13 +234,13 @@ S.K. Balasubramanian & K. Seetharaman
   h#2                         2 + 3
              SuperGuards
 
-  1.Kd1-e1 Ke4-f3   2.d2-d1=S Kf3-f2 #
   1.Kd1-c1 Ke4-d3   2.d2-d1=B Kd3-c2 #
+  1.Kd1-e1 Ke4-f3   2.d2-d1=S Kf3-f2 #
 
                         empile:       20603
-                     play_move:       18299
- is_white_king_square_attacked:        4465
- is_black_king_square_attacked:       18771
+                     play_move:       18344
+ is_white_king_square_attacked:        4272
+ is_black_king_square_attacked:       18816
 solution finished. 
 
 

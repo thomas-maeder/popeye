@@ -55,12 +55,12 @@ h#1 with set play, but black king is in check
   h#1                         3 + 1
 
 the side to play can capture the king
-  1.Kb8-a8 Sc4-b6 # 
+  1.Kb8-a8 Sc4-b6 #
 
                         empile:          21
-                     play_move:          13
+                     play_move:          18
  is_white_king_square_attacked:           5
- is_black_king_square_attacked:          14
+ is_black_king_square_attacked:          19
 solution finished. 
 
 
@@ -88,7 +88,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   hep1                        2 + 2
 
-  1.g7-g5 h5*g6 ep. 
+  1.g7-g5 h5*g6 ep.
 
                         empile:           9
                      play_move:           5
@@ -121,7 +121,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h001.5                      3 + 2
 
-  1...h3-h4   2.Bh6-g7 0-0-0 
+  1...h3-h4   2.Bh6-g7 0-0-0
 
                         empile:         384
                      play_move:         192
@@ -154,12 +154,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h##!2                       2 + 3
 
-  1.Rg7-g4 Bh7-b1   2.Qh8-c3 + Ka3-a2 ##! 
+  1.Rg7-g4 Bh7-b1   2.Qh8-c3 + Ka3-a2 ##!
 
                         empile:       15132
-                     play_move:       11144
- is_white_king_square_attacked:        8913
- is_black_king_square_attacked:        5813
+                     play_move:       12053
+ is_white_king_square_attacked:        9827
+ is_black_king_square_attacked:        5808
 solution finished. 
 
 
@@ -187,12 +187,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h##2                        4 + 5
 
-  1.Kg4-h3 Ke4-f3   2.g5-g4 + Kf3*g2 ## 
+  1.Kg4-h3 Ke4-f3   2.g5-g4 + Kf3*g2 ##
 
                         empile:       99152
-                     play_move:       43225
- is_white_king_square_attacked:       36661
- is_black_king_square_attacked:        6718
+                     play_move:       37763
+ is_white_king_square_attacked:       31333
+ is_black_king_square_attacked:        6584
 solution finished. 
 
 
@@ -220,12 +220,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   exact-hr#2                  3 + 2
 
-  1.Qb5-e2 Ka3-b3   2.Qe2-b2 + c3*b2 # 
+  1.Qb5-e2 Ka3-b3   2.Qe2-b2 + c3*b2 #
 
                         empile:       11919
-                     play_move:        9136
- is_white_king_square_attacked:        8233
- is_black_king_square_attacked:        2301
+                     play_move:       10485
+ is_white_king_square_attacked:        9129
+ is_black_king_square_attacked:        2754
 solution finished. 
 
 
@@ -253,7 +253,7 @@ hr#1.5 - don't write long solutions because Black must mate immediately
 +---a---b---c---d---e---f---g---h---+
   hr#1.5                      2 + 4
 
-  1...b3-b2 # 
+  1...b3-b2 #
 
                         empile:          10
                      play_move:          10
@@ -286,7 +286,7 @@ hr#2 - don't write long solutions because Black must mate immediately
 +---a---b---c---d---e---f---g---h---+
   hr#2                        2 + 4
 
-  1.f3-f4 b3-b2 # 
+  1.f3-f4 b3-b2 #
 
                         empile:          18
                      play_move:          18
@@ -319,7 +319,7 @@ stop solving when the goal is reached
 +---a---b---c---d---e---f---g---h---+
   hsx2                        5 + 1
 
-  1.h3-h4 a5*b4 x 
+  1.h3-h4 a5*b4 x
 
                         empile:           5
                      play_move:           5
@@ -352,12 +352,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   hr#1                        2 + 3
 
-  1.Qf6-d8 # 
+  1.Qf6-d8 #
 
                         empile:          76
-                     play_move:          54
+                     play_move:          63
  is_white_king_square_attacked:           8
- is_black_king_square_attacked:          55
+ is_black_king_square_attacked:          64
 solution finished. 
 
 

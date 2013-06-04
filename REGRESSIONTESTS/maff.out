@@ -62,9 +62,9 @@ The Problemist 1998 and Sachova skladba 1997
 
 
                         empile:        9918
-                     play_move:        8181
+                     play_move:        8164
  is_white_king_square_attacked:         555
- is_black_king_square_attacked:        8166
+ is_black_king_square_attacked:        8149
 Loesung beendet. 
 
 
@@ -122,10 +122,10 @@ Loesung beendet.
           2.Te7-d7 #
 
 
-                        empile:       13337
-                     play_move:       10338
- is_white_king_square_attacked:         689
- is_black_king_square_attacked:       10343
+                        empile:       13375
+                     play_move:       10660
+ is_white_king_square_attacked:         690
+ is_black_king_square_attacked:       10665
 Loesung beendet. 
 
 
@@ -263,16 +263,16 @@ Loesung beendet.
           2.Sh3-g5 #
       1...Df3*g3
           2.Dd6*d4 #
-      1...Ke4-e3
-          2.Dd6*f4 #
       1...Ke4-d3
           2.Dd6*d4 #
+      1...Ke4-e3
+          2.Dd6*f4 #
 
 
-                        empile:       43007
-                     play_move:       38931
- is_white_king_square_attacked:        2642
- is_black_king_square_attacked:       38750
+                        empile:       42945
+                     play_move:       38783
+ is_white_king_square_attacked:        2638
+ is_black_king_square_attacked:       38602
 Loesung beendet. 
 
 
@@ -353,8 +353,8 @@ Loesung beendet.
 
    1.Tf8-e8 + ?
     Aber
-      1...Ke7*e8 + !
       1...Ke7*f6 + !
+      1...Ke7*e8 + !
 
    1.Lh7-g6 ? Zugzwang.
       1...Sc4*a3
@@ -403,8 +403,8 @@ Loesung beendet.
           2.Tf8*f7 #
           2.Tf6*f7 #
     Aber
-      1...Ke7*f8 + !
       1...Ke7*f6 + !
+      1...Ke7*f8 + !
 
    1.Lh7-g8 ? Zugzwang.
       1...Sc4*a3
@@ -453,8 +453,8 @@ Loesung beendet.
           2.Tf8*f7 #
           2.Tf6*f7 #
     Aber
-      1...Ke7*f8 + !
       1...Ke7*f6 + !
+      1...Ke7*f8 + !
 
    1.a7-a8=D ? Drohung:
           2.Tf8-e8 #
@@ -497,8 +497,8 @@ Loesung beendet.
 
    1.Tf6-e6 + ?
     Aber
-      1...Ke7*e6 + !
       1...Ke7*f8 + !
+      1...Ke7*e6 + !
 
    1.Tf6*f7 + !
       1...Ke7-e6
@@ -561,10 +561,10 @@ Loesung beendet.
       1...Tf7*f6 !
 
 
-                        empile:       21635
-                     play_move:       18262
- is_white_king_square_attacked:        1659
- is_black_king_square_attacked:       18067
+                        empile:       21766
+                     play_move:       18840
+ is_white_king_square_attacked:        1660
+ is_black_king_square_attacked:       18645
 Loesung beendet. 
 
 

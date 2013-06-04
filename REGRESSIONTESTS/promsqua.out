@@ -28,7 +28,7 @@ Hilmar Ebert, Hans Gruber & Joerg Kuhlmann
 
 a) 
 
-  1.a3-a2=T b2-b4=D # 
+  1.a3-a2=T b2-b4=D #
 
                         empile:          62
                      play_move:          65
@@ -36,12 +36,12 @@ a)
  is_black_king_square_attacked:          65
 b) h=2
 
-  1.a3-a2=S b2-b4=L   2.Sa2-c3 Kc4*c3 = 
+  1.a3-a2=S b2-b4=L   2.Sa2-c3 Kc4*c3 =
 
                         empile:         302
-                     play_move:         202
+                     play_move:         204
  is_white_king_square_attacked:         175
- is_black_king_square_attacked:         149
+ is_black_king_square_attacked:         151
 Loesung beendet. 
 
 
@@ -71,12 +71,12 @@ Loesung beendet.
   h##!3                       2 + 2
         UWFeldSchwarz a5 b5 c5
 
-  1.a7-a5=D b6-b7 +   2.Ka8-a7 b7-b8=T   3.Da5-c5 + Kc8-b7 ##! 
+  1.a7-a5=D b6-b7 +   2.Ka8-a7 b7-b8=T   3.Da5-c5 + Kc8-b7 ##!
 
                         empile:        1501
-                     play_move:        1405
- is_white_king_square_attacked:         959
- is_black_king_square_attacked:         707
+                     play_move:        1388
+ is_white_king_square_attacked:         935
+ is_black_king_square_attacked:         714
 Loesung beendet. 
 
 
@@ -106,12 +106,12 @@ Loesung beendet.
   hs#4                        2 + 2
         UWFeldSchwarz a4 b4 c4
 
-  1...a7-a5   2.Kc8-c7 a5-a4=D   3.Kc7-c8 Da4-a7   4.b6-b7 + Da7*b7 # 
+  1...a7-a5   2.Kc8-c7 a5-a4=D   3.Kc7-c8 Da4-a7   4.b6-b7 + Da7*b7 #
 
-                        empile:        2291
-                     play_move:        1654
- is_white_king_square_attacked:        1405
- is_black_king_square_attacked:        1037
+                        empile:        2298
+                     play_move:        1724
+ is_white_king_square_attacked:        1475
+ is_black_king_square_attacked:        1091
 Loesung beendet. 
 
 

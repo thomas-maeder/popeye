@@ -26,9 +26,9 @@
 
 
                         empile:         177
-                     play_move:         182
+                     play_move:         183
  is_white_king_square_attacked:          62
- is_black_king_square_attacked:         183
+ is_black_king_square_attacked:         184
 Loesung beendet. 
 
 
@@ -91,9 +91,9 @@ Loesung beendet.
 
 
                         empile:         409
-                     play_move:         454
+                     play_move:         452
  is_white_king_square_attacked:         123
- is_black_king_square_attacked:         455
+ is_black_king_square_attacked:         453
 Loesung beendet. 
 
 
@@ -125,9 +125,9 @@ Loesung beendet.
 
 
                         empile:         514
-                     play_move:         511
+                     play_move:        3498
  is_white_king_square_attacked:         124
- is_black_king_square_attacked:         512
+ is_black_king_square_attacked:        3499
 Loesung beendet. 
 
 
@@ -158,9 +158,9 @@ Aprilsteine sind schwierig zu decken!
 
 
                         empile:          32
-                     play_move:          25
+                     play_move:          39
  is_white_king_square_attacked:           8
- is_black_king_square_attacked:          26
+ is_black_king_square_attacked:          40
 Loesung beendet. 
 
 

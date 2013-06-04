@@ -30,10 +30,10 @@
           2.Sc5-d7 #
 
 
-                        empile:         502
-                     play_move:         299
- is_white_king_square_attacked:          68
- is_black_king_square_attacked:         285
+                        empile:         559
+                     play_move:         383
+ is_white_king_square_attacked:          73
+ is_black_king_square_attacked:         368
 solution finished. 
 
 
@@ -89,6 +89,59 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
    1.kBc4-b5 + ?
     but
       1...kBe8*b5[-bkBb5] !
+
+   1.kKf1-e1 ! zugzwang.
+      1...kRa1-d1
+          2.kRHa5-a1 #
+      1...kRa1-c1
+          2.kRHa5-a1 #
+      1...kRa1-b1
+          2.kRHa5-a1 #
+      1...kSh4-f3
+          2.kRHa5*a1[-wkRHa1] #
+      1...kSh4-g2
+          2.kRHa5*a1[-wkRHa1] #
+      1...kSh4-g6
+          2.kPf4-f5 #
+      1...kSh7-f6
+          2.kPf4*g5[-wkPg5] #
+      1...kSh7-f8
+          2.kPf4*g5[-wkPg5] #
+      1...kRa8-a6
+          2.kRHa5-a7 #
+      1...kRa8-a7
+          2.kRHa5-a8 #
+      1...kBb8-a7
+          2.kRHa5*a8[-wkRHa8] #
+          2.kBd4-e5 #
+      1...kBb8*f4[-bkBf4]
+          2.kBd4-e5 #
+      1...kBb8-d6
+          2.kBc4-d5 #
+      1...kBb8-c7
+          2.kBd4-c5 #
+      1...kRc8*c4[-bkRc4]
+          2.kBd4-c5 #
+      1...kRc8-c6
+          2.kBc4-b5 #
+      1...kRc8-c7
+          2.kBd4-e5 #
+      1...kRd8*d4[-bkRd4]
+          2.kBc4-d5 #
+      1...kRd8-d6
+          2.kBd4-e5 #
+      1...kRd8-d7
+          2.kBc4-b5 #
+      1...kBe8-a4
+          2.kRHa5-a3 #
+      1...kBe8-c6
+          2.kBd4-c5 #
+      1...kBe8-d7
+          2.kBc4-d5 #
+      1...kBe8-g6
+          2.kBc4-b5 #
+      1...kBe8-f7
+          2.kBc4-b5 #
 
    1.kKf1-g1 ? zugzwang.
       1...kRa1-f1
@@ -147,64 +200,11 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
     but
       1...kSh4-g2 !
 
-   1.kKf1-e1 ! zugzwang.
-      1...kRa1-d1
-          2.kRHa5-a1 #
-      1...kRa1-c1
-          2.kRHa5-a1 #
-      1...kRa1-b1
-          2.kRHa5-a1 #
-      1...kSh4-f3
-          2.kRHa5*a1[-wkRHa1] #
-      1...kSh4-g2
-          2.kRHa5*a1[-wkRHa1] #
-      1...kSh4-g6
-          2.kPf4-f5 #
-      1...kSh7-f6
-          2.kPf4*g5[-wkPg5] #
-      1...kSh7-f8
-          2.kPf4*g5[-wkPg5] #
-      1...kRa8-a6
-          2.kRHa5-a7 #
-      1...kRa8-a7
-          2.kRHa5-a8 #
-      1...kBb8-a7
-          2.kRHa5*a8[-wkRHa8] #
-          2.kBd4-e5 #
-      1...kBb8*f4[-bkBf4]
-          2.kBd4-e5 #
-      1...kBb8-d6
-          2.kBc4-d5 #
-      1...kBb8-c7
-          2.kBd4-c5 #
-      1...kRc8*c4[-bkRc4]
-          2.kBd4-c5 #
-      1...kRc8-c6
-          2.kBc4-b5 #
-      1...kRc8-c7
-          2.kBd4-e5 #
-      1...kRd8*d4[-bkRd4]
-          2.kBc4-d5 #
-      1...kRd8-d6
-          2.kBd4-e5 #
-      1...kRd8-d7
-          2.kBc4-b5 #
-      1...kBe8-a4
-          2.kRHa5-a3 #
-      1...kBe8-c6
-          2.kBd4-c5 #
-      1...kBe8-d7
-          2.kBc4-d5 #
-      1...kBe8-g6
-          2.kBc4-b5 #
-      1...kBe8-f7
-          2.kBc4-b5 #
 
-
-                        empile:       31554
-                     play_move:       25703
- is_white_king_square_attacked:         988
- is_black_king_square_attacked:       24613
+                        empile:       31517
+                     play_move:       25658
+ is_white_king_square_attacked:         989
+ is_black_king_square_attacked:       24570
 solution finished. 
 
 

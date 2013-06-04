@@ -35,10 +35,10 @@
           2.MSh1-f2 #
 
 
-                        empile:        6393
-                     play_move:        3657
- is_white_king_square_attacked:         325
- is_black_king_square_attacked:        3660
+                        empile:        6478
+                     play_move:        3618
+ is_white_king_square_attacked:         331
+ is_black_king_square_attacked:        3621
 solution finished. 
 
 
@@ -112,9 +112,9 @@ solution finished.
 
 
                         empile:       10031
-                     play_move:        7254
+                     play_move:        6647
  is_white_king_square_attacked:         619
- is_black_king_square_attacked:        7257
+ is_black_king_square_attacked:        6650
 solution finished. 
 
 
@@ -172,9 +172,9 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 3rd HM
 
 
                         empile:       18987
-                     play_move:       11483
+                     play_move:       11699
  is_white_king_square_attacked:         495
- is_black_king_square_attacked:       11486
+ is_black_king_square_attacked:       11702
 solution finished. 
 
 
@@ -228,10 +228,10 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
                   3.Bf7-g6 #
 
 
-                        empile:      614837
-                     play_move:      404852
- is_white_king_square_attacked:       65941
- is_black_king_square_attacked:      354281
+                        empile:      614603
+                     play_move:      418642
+ is_white_king_square_attacked:       65885
+ is_black_king_square_attacked:      368071
 solution finished. 
 
 
@@ -264,9 +264,9 @@ added white pa2 against many cooks with triton pinning from a1
   1.BPe2-d1=MS BPd7-c8=TR   2.MSd1*c3-b5 TRc1*c2-c3   3.MSb5-a7 Kc4-b5 =
 
                         empile:    47944896
-                     play_move:    28221694
+                     play_move:    31440951
  is_white_king_square_attacked:    13338110
- is_black_king_square_attacked:    25200700
+ is_black_king_square_attacked:    28419957
 solution finished. 
 
 
@@ -345,9 +345,9 @@ solution finished.
 
 
                         empile:         346
-                     play_move:         273
- is_white_king_square_attacked:          44
- is_black_king_square_attacked:         276
+                     play_move:         269
+ is_white_king_square_attacked:          43
+ is_black_king_square_attacked:         272
 solution finished. 
 
 
@@ -383,14 +383,14 @@ why does WinChloe only give 2.POb8==, but not 2.POb7?
 
    1.MPa7*b6-c5[+wMPb2] ! zugzwang.
       1...MPb2-b4
-          2.Ka8-b8 ==
           2.Ka8-b7 ==
+          2.Ka8-b8 ==
 
 
-                        empile:         119
-                     play_move:          53
+                        empile:          75
+                     play_move:          39
  is_white_king_square_attacked:          18
- is_black_king_square_attacked:          47
+ is_black_king_square_attacked:          33
 solution finished. 
 
 
@@ -660,18 +660,18 @@ a)
 
 
                         empile:          56
-                     play_move:          43
+                     play_move:          38
  is_white_king_square_attacked:           8
- is_black_king_square_attacked:          44
+ is_black_king_square_attacked:          39
 b) UltramarineChess  wPOe1 
 
    1.0-0 # !
 
 
                         empile:          56
-                     play_move:          43
+                     play_move:          38
  is_white_king_square_attacked:           8
- is_black_king_square_attacked:          44
+ is_black_king_square_attacked:          39
 solution finished. 
 
 
@@ -834,10 +834,10 @@ Michel Caillaud, Henri Nouguier & Uri Avner
                       3...MHg1*g4-g5 #
 
 
-                        empile:       59474
-                     play_move:       26580
- is_white_king_square_attacked:       11373
- is_black_king_square_attacked:       19366
+                        empile:       58828
+                     play_move:       26623
+ is_white_king_square_attacked:       10543
+ is_black_king_square_attacked:       20089
 solution finished. 
 
 
@@ -871,9 +871,9 @@ solution finished.
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d5  10.MHd5*f5-g5  11.MHg5-g4 MHh2-f2 #
 
                         empile:    29467747
-                     play_move:    24146804
+                     play_move:    24006685
  is_white_king_square_attacked:     8105039
- is_black_king_square_attacked:    24146804
+ is_black_king_square_attacked:    24006685
 solution finished. 
 
 

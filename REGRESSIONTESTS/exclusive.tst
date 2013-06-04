@@ -28,9 +28,9 @@
 
 
                         empile:        3298
-                     play_move:        2734
+                     play_move:        2712
  is_white_king_square_attacked:        1566
- is_black_king_square_attacked:        1875
+ is_black_king_square_attacked:        1853
 solution finished. 
 
 
@@ -64,9 +64,9 @@ solution finished.
 
 
                         empile:        3052
-                     play_move:        2356
+                     play_move:        2334
  is_white_king_square_attacked:        1537
- is_black_king_square_attacked:        1371
+ is_black_king_square_attacked:        1349
 solution finished. 
 
 
@@ -98,9 +98,9 @@ solution finished.
 
 
                         empile:        3136
-                     play_move:        2609
+                     play_move:        2600
  is_white_king_square_attacked:        1228
- is_black_king_square_attacked:        1993
+ is_black_king_square_attacked:        1984
 solution finished. 
 
 
@@ -132,9 +132,9 @@ solution finished.
 
 
                         empile:        2060
-                     play_move:        1576
+                     play_move:        1544
  is_white_king_square_attacked:         807
- is_black_king_square_attacked:        1162
+ is_black_king_square_attacked:        1130
 solution finished. 
 
 
@@ -169,9 +169,9 @@ solution finished.
 
 
                         empile:        3104
-                     play_move:        2362
+                     play_move:        2330
  is_white_king_square_attacked:        1609
- is_black_king_square_attacked:        1303
+ is_black_king_square_attacked:        1271
 solution finished. 
 
 

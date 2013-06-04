@@ -24,15 +24,15 @@
   +1                          2 + 1
              GenferSchach
 
-   1.Kc1-d1 + !
-
-   1.Kc1-c2 + !
-
-   1.Kc1-b1 + !
+   1.Kc1-d2 + !
 
    1.Kc1-b2 + !
 
-   1.Kc1-d2 + !
+   1.Kc1-b1 + !
+
+   1.Kc1-c2 + !
+
+   1.Kc1-d1 + !
 
 
                         empile:          16
@@ -72,9 +72,9 @@ Loesung beendet.
 
 
                         empile:          65
-                     play_move:          41
+                     play_move:          39
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          42
+ is_black_king_square_attacked:          40
 Loesung beendet. 
 
 
@@ -108,9 +108,9 @@ Loesung beendet.
 
 
                         empile:          84
-                     play_move:          42
+                     play_move:          49
  is_white_king_square_attacked:          21
- is_black_king_square_attacked:          43
+ is_black_king_square_attacked:          50
 Loesung beendet. 
 
 

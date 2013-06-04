@@ -46,12 +46,12 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
           2.Tc3-b2 #
 
    1.Tc3-b2 ! Zugzwang.
-      1...Kb5-b6
-          2.Sb4-c3 #
-      1...Kb5*c4
-          2.Lc2-d3 #
       1...Kb5-a4
           2.Sb4-c5 #
+      1...Kb5*c4
+          2.Lc2-d3 #
+      1...Kb5-b6
+          2.Sb4-c3 #
       1...b7-b6
           2.Sb4-a3 #
           2.Sb4-d2 #
@@ -66,10 +66,10 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
           2.Sb4-d6 #
 
 
-                        empile:        3236
-                     play_move:        2418
+                        empile:        3240
+                     play_move:        2535
  is_white_king_square_attacked:         292
- is_black_king_square_attacked:        2431
+ is_black_king_square_attacked:        2548
 Loesung beendet. 
 
 
@@ -103,9 +103,9 @@ Loesung beendet.
   1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 #
 
                         empile:     7230355
-                     play_move:     6007461
+                     play_move:     6048084
  is_white_king_square_attacked:      704015
- is_black_king_square_attacked:     5708105
+ is_black_king_square_attacked:     5748728
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
               2...Kh1-g3 #
 
 
-                        empile:         957
-                     play_move:         450
- is_white_king_square_attacked:         451
- is_black_king_square_attacked:         256
+                        empile:         966
+                     play_move:         511
+ is_white_king_square_attacked:         512
+ is_black_king_square_attacked:         313
 Loesung beendet. 
 
 
@@ -183,10 +183,10 @@ Loesung beendet.
               2...Kd4-c6 #
 
 
-                        empile:       12118
-                     play_move:        5192
- is_white_king_square_attacked:        5194
- is_black_king_square_attacked:        3513
+                        empile:       12163
+                     play_move:        5400
+ is_white_king_square_attacked:        5402
+ is_black_king_square_attacked:        3723
 Loesung beendet. 
 
 
@@ -218,15 +218,15 @@ ddlkl
   h#3                         2 + 3
            Annanschach    
 
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-d4 Te3-a3 #
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-b5 Te3-a3 #
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-h5 Te3-a3 #
-  1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-g5 Te3-a3 #
+  1.Kd3-c4 Te6-e3   2.Kc4-d4 + Kb2-c1   3.Kd4-a1 Te3-a3 #
+  1.Kd3-c4 Te6-e3   2.Kc4-d4 + Kb2-c2   3.Kd4-a1 Te3-a3 #
+  1.Kd3-c4 Kb2-c1   2.Kc4-d4 Te6-e3   3.Kd4-a1 Te3-a3 #
+  1.Kd3-c4 Kb2-c1   2.Kc4-d4 Te6-e4 +   3.Kd4-a1 Te4-a4 #
 
-                        empile:      136142
-                     play_move:      100665
- is_white_king_square_attacked:       14499
- is_black_king_square_attacked:      100230
+                        empile:     1620441
+                     play_move:     1227911
+ is_white_king_square_attacked:      160061
+ is_black_king_square_attacked:     1222012
 Bearbeitung abgebrochen. 
 
 
@@ -261,10 +261,10 @@ Bearbeitung abgebrochen.
           2.Kf5-g5 #
 
 
-                        empile:         580
-                     play_move:         470
- is_white_king_square_attacked:          89
- is_black_king_square_attacked:         473
+                        empile:         570
+                     play_move:         478
+ is_white_king_square_attacked:          85
+ is_black_king_square_attacked:         481
 Loesung beendet. 
 
 
@@ -299,17 +299,17 @@ a)
   1.Lg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Lh2-b8 La1-d4 #
 
                         empile:      376629
-                     play_move:      338692
+                     play_move:      339920
  is_white_king_square_attacked:       17391
- is_black_king_square_attacked:      329815
+ is_black_king_square_attacked:      331043
 b) Farbwechsel
 
   1.Kb1-a2 Kh1-g2   2.La1-b1 Kg2-d5   3.Ka2-a1 Lg1-d4 #
 
                         empile:      334970
-                     play_move:      296474
+                     play_move:      301384
  is_white_king_square_attacked:       16483
- is_black_king_square_attacked:      288500
+ is_black_king_square_attacked:      293410
 Loesung beendet. 
 
 
@@ -342,9 +342,9 @@ Loesung beendet.
   1.Kh8-g7 Lb8-a7   2.Kg7-a1 Ka8-e4   3.Lg8-a2 La7-d4 #
 
                         empile:      252499
-                     play_move:      213271
+                     play_move:      218213
  is_white_king_square_attacked:       14519
- is_black_king_square_attacked:      207564
+ is_black_king_square_attacked:      212506
 Loesung beendet. 
 
 
@@ -378,9 +378,9 @@ Loesung beendet.
   1.Ka8-b7   2.Kb7-d5   3.Lb8-e5   4.Le5-d4   5.Ld4-e4   6.Kd5-e5   7.Ke5-f4   8.Le4*f3   9.Lf3-g3  10.Kf4-e4  11.Lg3-e5  12.Ke4-a8  13.Le5-b8 Lg4-f3 #
 
                         empile:      870337
-                     play_move:      841123
+                     play_move:      844164
  is_white_king_square_attacked:      455306
- is_black_king_square_attacked:      841123
+ is_black_king_square_attacked:      844164
 Loesung beendet. 
 
 

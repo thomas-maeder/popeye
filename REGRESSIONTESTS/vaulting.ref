@@ -24,12 +24,12 @@
   h#4                         3 + 3
            VaultingKings S
 
-  1...Bh7-f5 +   2.Kd7-f8 g5-g6   3.Re8-e4 + Kg4-f6   4.Re4-e8 g6-g7 # 
+  1...Bh7-f5 +   2.Kd7-f8 g5-g6   3.Re8-e4 + Kg4-f6   4.Re4-e8 g6-g7 #
 
                         empile:    32586823
-                     play_move:    24538301
- is_white_king_square_attacked:    31110026
- is_black_king_square_attacked:    52813909
+                     play_move:    24717112
+ is_white_king_square_attacked:    27304354
+ is_black_king_square_attacked:    26872484
 solution finished. 
 
 
@@ -59,12 +59,12 @@ solution finished.
   h#2                         2 + 2
            VaultingKings CA
 
-  1.Bg2-d5 + Kc4-f5   2.Bd5-g8 Ra2-h2 # 
+  1.Bg2-d5 + Kc4-f5   2.Bd5-g8 Ra2-h2 #
 
                         empile:       70748
-                     play_move:       48394
- is_white_king_square_attacked:       62389
- is_black_king_square_attacked:      107459
+                     play_move:       47519
+ is_white_king_square_attacked:       52978
+ is_black_king_square_attacked:       53864
 solution finished. 
 
 
@@ -94,12 +94,12 @@ solution finished.
   h#4                         2 + 3
            VaultingKings N
 
-  1.Bf7-b3 + Kc2-f8   2.g7-g6 Rh7-b7 +   3.Kb5-h8 Rb7-b4   4.Bb3-f7 Rb4-h4 # 
+  1.Bf7-b3 + Kc2-f8   2.g7-g6 Rh7-b7 +   3.Kb5-h8 Rb7-b4   4.Bb3-f7 Rb4-h4 #
 
                         empile:   105635825
-                     play_move:    63812457
- is_white_king_square_attacked:    85467517
- is_black_king_square_attacked:   139873802
+                     play_move:    63348248
+ is_white_king_square_attacked:    71145626
+ is_black_king_square_attacked:    72145479
 solution finished. 
 
 
@@ -129,12 +129,12 @@ solution finished.
   h#3                         2 + 4
            VaultingKings CR
 
-  1.Rg7-g2 Rh6-f6 +   2.Kf2-h8 + Kd2-f8   3.Rg2-g5 Rf6-h6 # 
+  1.Rg7-g2 Rh6-f6 +   2.Kf2-h8 + Kd2-f8   3.Rg2-g5 Rf6-h6 #
 
                         empile:    11482339
-                     play_move:     7582171
- is_white_king_square_attacked:    10528034
- is_black_king_square_attacked:    17099995
+                     play_move:     7627527
+ is_white_king_square_attacked:     8858933
+ is_black_king_square_attacked:     8937154
 solution finished. 
 
 
@@ -164,12 +164,12 @@ solution finished.
   h#3                         3 + 3
            VaultingKings G
 
-  1.Ge7-g7 Sf6-d5 +   2.Kc3-h8 Sd5-e7   3.Gd8-f6 Se7-g6 # 
+  1.Ge7-g7 Sf6-d5 +   2.Kc3-h8 Sd5-e7   3.Gd8-f6 Se7-g6 #
 
                         empile:      675380
-                     play_move:      571610
- is_white_king_square_attacked:      718571
- is_black_king_square_attacked:     1231258
+                     play_move:      573472
+ is_white_king_square_attacked:      628837
+ is_black_king_square_attacked:      615138
 solution finished. 
 
 
@@ -202,23 +202,23 @@ solution finished.
 
 a) 
 
-  1.Ka1-a2 Rd4-d2 +   2.EQf2-b2 Rd2-d1   3.Ka2-a3 Rd1-a1 # 
+  1.Ka1-a2 Rd4-d2 +   2.EQf2-b2 Rd2-d1   3.Ka2-a3 Rd1-a1 #
 
                         empile:      709288
-                     play_move:      514060
- is_white_king_square_attacked:      672408
- is_black_king_square_attacked:     1149483
+                     play_move:      498566
+ is_white_king_square_attacked:      554785
+ is_black_king_square_attacked:      573541
 b)  -wEQh7   -bPe6  wPb4   h#4
 
-  1.Ka1-b1 Rd4-g4   2.Kb1-c1 Ke5-e4 +   3.Kc1-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 # 
-  1.Ka1-b1 Rd4-g4   2.Kb1-c1 Ke5-d4   3.Kc1-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 # 
-  1.Ka1-b1 Rd4-g4   2.Kb1-c2 Ke5-e4   3.Kc2-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 # 
-  1.Ka1-b1 Rd4-g4   2.Kb1-c2 Ke5-d4   3.Kc2-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 # 
+  1.Ka1-b2 Ke5-e4   2.Kb2-a3 Ke4-d3   3.EQf2*b4 Kd3-c2   4.EQb4-f4 Rd4-a4 #
+  1.Ka1-b2 Rd4-g4   2.Kb2-c1 Ke5-d4   3.Kc1-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 #
+  1.Ka1-b2 Rd4-g4   2.Kb2-c1 Ke5-e4 +   3.Kc1-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 #
+  1.Ka1-b2 Rd4-g4   2.Kb2-c2 Ke5-d4   3.Kc2-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 #
 
-                        empile:     4113141
-                     play_move:     2993591
- is_white_king_square_attacked:     3914255
- is_black_king_square_attacked:     6624835
+                        empile:     6609446
+                     play_move:     4672104
+ is_white_king_square_attacked:     5179425
+ is_black_king_square_attacked:     5334760
 solving interrupted. 
 
 
@@ -248,12 +248,12 @@ solving interrupted.
   h#3                         5 + 2
             VaultingKings
 
-  1.a5-a4 Rd4-d7   2.a4*b3 Ke5-d4   3.b3-b2 Rd7-a7 # 
+  1.a5-a4 Rd4-d7   2.a4*b3 Ke5-d4   3.b3-b2 Rd7-a7 #
 
                         empile:      423862
-                     play_move:      314828
- is_white_king_square_attacked:      404002
- is_black_king_square_attacked:      693644
+                     play_move:      308197
+ is_white_king_square_attacked:      338471
+ is_black_king_square_attacked:      347301
 solution finished. 
 
 
@@ -284,13 +284,13 @@ solution finished.
   h#3                         3 + 3
             VaultingKings
 
-  1.Kb1-c1 Kd4-d3   2.EQe1-c5 Kd3-c3   3.g4-g3 Re5-e1 # 
-  1.g4-g3 Kd4-d3   2.EQe1-c5 Kd3-c3   3.Kb1-c1 Re5-e1 # 
+  1.Kb1-c1 Kd4-d3   2.EQe1-c5 Kd3-c3   3.g4-g3 Re5-e1 #
+  1.g4-g3 Kd4-d3   2.EQe1-c5 Kd3-c3   3.Kb1-c1 Re5-e1 #
 
                         empile:      758668
-                     play_move:      564149
- is_white_king_square_attacked:      759037
- is_black_king_square_attacked:     1270754
+                     play_move:      553859
+ is_white_king_square_attacked:      625236
+ is_black_king_square_attacked:      644597
 solution finished. 
 
 

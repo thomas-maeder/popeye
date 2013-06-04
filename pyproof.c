@@ -38,6 +38,7 @@
 #include "platform/maxtime.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
+#include "conditions/vaulting_kings.h"
 #include "position/position.h"
 #include "pieces/walks.h"
 #include "pieces/attributes/neutral/initialiser.h"
@@ -206,7 +207,10 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             WhKingMoves[sq]= MoveNbr+1;
             GoOn= true;
           }
-          if (calc_transmuting_king[White]) {
+          if (CondFlag[whtrans_king]
+              || CondFlag[whsupertrans_king]
+              || (CondFlag[whvault_king] && calc_transmuting_king[White]))
+          {
             sq= *bnp+vec[k];
             while (e[sq]!=obs && WhKingMoves[sq]!=-1)
             {
@@ -219,7 +223,9 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             }
           }
         }
-        if (calc_transmuting_king[White])
+        if (CondFlag[whtrans_king]
+            || CondFlag[whsupertrans_king]
+            || (CondFlag[whvault_king] && calc_transmuting_king[White]))
         {
           vec_index_type k;
           for (k= vec_knight_end; k>=vec_knight_start; k--)
@@ -256,7 +262,9 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             BlKingMoves[sq]= MoveNbr+1;
             GoOn= true;
           }
-          if (calc_transmuting_king[Black])
+          if (CondFlag[bltrans_king]
+              || CondFlag[blsupertrans_king]
+              || (CondFlag[blvault_king] && calc_transmuting_king[Black]))
           {
             sq= *bnp+vec[k];
             while (e[sq]!=obs && BlKingMoves[sq]!=-1)
@@ -270,7 +278,9 @@ static void ProofInitialiseKingMoves(square ProofRB, square ProofRN)
             }
           }
         }
-        if (calc_transmuting_king[Black])
+        if (CondFlag[bltrans_king]
+            || CondFlag[blsupertrans_king]
+            || (CondFlag[blvault_king] && calc_transmuting_king[Black]))
         {
           vec_index_type k;
           for (k= vec_knight_end; k>=vec_knight_start; k--)

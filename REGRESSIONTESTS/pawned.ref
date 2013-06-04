@@ -27,9 +27,9 @@
   1.GYd8-c7 d7-d8=GY   2.GYc7-h2 GYd8*a5   3.GYh2-h1 GYa5-a6 =
 
                         empile:     8893441
-                     play_move:     4330678
+                     play_move:     2772548
  is_white_king_square_attacked:     1432618
- is_black_king_square_attacked:     4002121
+ is_black_king_square_attacked:     2443991
 solution finished. 
 
 
@@ -67,10 +67,10 @@ solution finished.
           2.SHf3-d3 #
 
 
-                        empile:        1718
-                     play_move:        1015
- is_white_king_square_attacked:         137
- is_black_king_square_attacked:        1018
+                        empile:        1721
+                     play_move:         989
+ is_white_king_square_attacked:         126
+ is_black_king_square_attacked:         992
 solution finished. 
 
 
@@ -113,9 +113,9 @@ solution finished.
 
 
                         empile:        2195
-                     play_move:        1385
+                     play_move:        1481
  is_white_king_square_attacked:         211
- is_black_king_square_attacked:        1388
+ is_black_king_square_attacked:        1484
 solution finished. 
 
 

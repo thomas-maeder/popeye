@@ -305,9 +305,9 @@ paralysis on wormhole even if all wormholes are blocked
 
 
                         empile:          36
-                     play_move:          33
+                     play_move:          35
  is_white_king_square_attacked:           5
- is_black_king_square_attacked:          34
+ is_black_king_square_attacked:          36
 solution finished. 
 
 
@@ -341,9 +341,9 @@ support on wormhole even if all wormholes are blocked
 
 
                         empile:          41
-                     play_move:          35
+                     play_move:          37
  is_white_king_square_attacked:           4
- is_black_king_square_attacked:          60
+ is_black_king_square_attacked:          66
 solution finished. 
 
 

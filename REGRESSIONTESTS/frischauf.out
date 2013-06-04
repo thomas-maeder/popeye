@@ -28,9 +28,9 @@
               2...d5*c4[+wLf1]
 
 
-                        empile:         252
-                     play_move:         251
- is_white_king_square_attacked:         204
+                        empile:         250
+                     play_move:         247
+ is_white_king_square_attacked:         202
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -62,12 +62,12 @@ Frischauf-Circe mit Angabe von Retro-Information
   h#2                         4 + 7
             FrischAufCirce
 
-  1.Lb7-g2 La8-f3   2.Lg2*f3[+wLf8] Lf8-h6 # 
+  1.Lb7-g2 La8-f3   2.Lg2*f3[+wLf8] Lf8-h6 #
 
                         empile:       54868
-                     play_move:       24451
+                     play_move:       22187
  is_white_king_square_attacked:        7085
- is_black_king_square_attacked:       24167
+ is_black_king_square_attacked:       21903
 Loesung beendet. 
 
 

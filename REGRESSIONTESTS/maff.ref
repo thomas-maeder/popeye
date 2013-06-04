@@ -62,9 +62,9 @@ The Problemist 1998 and Sachova skladba 1997
 
 
                         empile:        9918
-                     play_move:        8181
+                     play_move:        8164
  is_white_king_square_attacked:         555
- is_black_king_square_attacked:        8166
+ is_black_king_square_attacked:        8149
 solution finished. 
 
 
@@ -122,10 +122,10 @@ solution finished.
           2.Re7-d7 #
 
 
-                        empile:       13337
-                     play_move:       10338
- is_white_king_square_attacked:         689
- is_black_king_square_attacked:       10343
+                        empile:       13375
+                     play_move:       10660
+ is_white_king_square_attacked:         690
+ is_black_king_square_attacked:       10665
 solution finished. 
 
 
@@ -263,16 +263,16 @@ solution finished.
           2.Sh3-g5 #
       1...Qf3*g3
           2.Qd6*d4 #
-      1...Ke4-e3
-          2.Qd6*f4 #
       1...Ke4-d3
           2.Qd6*d4 #
+      1...Ke4-e3
+          2.Qd6*f4 #
 
 
-                        empile:       43007
-                     play_move:       38931
- is_white_king_square_attacked:        2642
- is_black_king_square_attacked:       38750
+                        empile:       42945
+                     play_move:       38783
+ is_white_king_square_attacked:        2638
+ is_black_king_square_attacked:       38602
 solution finished. 
 
 

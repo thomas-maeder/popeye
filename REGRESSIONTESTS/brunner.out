@@ -48,27 +48,27 @@
     Aber
       1...Kb5*a5 !
 
-   1.Ka2-b2 ? Zugzwang.
+   1.Ka2-b3 ! Zugzwang.
       1...Kb5*a5
+          2.c5*b6 #
+      1...Kb5*c5
+          2.Kb3-c4 #
+
+   1.Ka2-b2 ? Zugzwang.
+      1...Kb5-a4
           2.c5*b6 #
       1...Kb5-c4
           2.c5*b6 #
-      1...Kb5-a4
+      1...Kb5*a5
           2.c5*b6 #
     Aber
       1...Kb5*c5 !
 
-   1.Ka2-b3 ! Zugzwang.
-      1...Kb5*c5
-          2.Kb3-c4 #
-      1...Kb5*a5
-          2.c5*b6 #
 
-
-                        empile:        6038
-                     play_move:        4984
- is_white_king_square_attacked:        1961
- is_black_king_square_attacked:        2757
+                        empile:        6498
+                     play_move:        5334
+ is_white_king_square_attacked:        2137
+ is_black_king_square_attacked:        2849
 Loesung beendet. 
 
 
@@ -98,12 +98,12 @@ Loesung beendet.
   ser-h#11               1 + 1 + 1n
             BrunnerSchach
 
-  1.Kh2-h3   2.Kh3-g4   3.Kg4-f5   4.Kf5-e6   5.Ke6-d7   6.Kd7-c8   7.nBf2-f1=nL   8.nLf1-h3   9.Kc8-b8  10.Kb8-a8  11.nLh3-c8 + Ka6-b7 # 
+  1.Kh2-h3   2.Kh3-g4   3.Kg4-f5   4.Kf5-e6   5.Ke6-d7   6.Kd7-c8   7.nBf2-f1=nL   8.nLf1-h3   9.Kc8-b8  10.Kb8-a8  11.nLh3-c8 + Ka6-b7 #
 
-                        empile:     1084066
-                     play_move:      992445
- is_white_king_square_attacked:      483471
- is_black_king_square_attacked:      772034
+                        empile:     1085455
+                     play_move:      993641
+ is_white_king_square_attacked:      483882
+ is_black_king_square_attacked:      771841
 Loesung beendet. 
 
 
@@ -133,12 +133,12 @@ Loesung beendet.
   ser-h=17                    2 + 2
             BrunnerSchach
 
-  1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-g5   5.Kg5-f5   6.Kf5-e5   7.Ke5-d5   8.Sd3-e5   9.Se5-g4  10.Kd5-e5  11.Ke5-f5  12.Kf5-g5  13.Kg5-h4  14.Kh4-h3  15.Kh3-h2  16.Kh2-h1  17.Sg4-h2 Kf2-f1 = 
+  1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-g5   5.Kg5-f5   6.Kf5-e5   7.Ke5-d5   8.Sd3-e5   9.Se5-g4  10.Kd5-e5  11.Ke5-f5  12.Kf5-g5  13.Kg5-h4  14.Kh4-h3  15.Kh3-h2  16.Kh2-h1  17.Sg4-h2 Kf2-f1 =
 
-                        empile:      702833
-                     play_move:      355137
- is_white_king_square_attacked:      200460
- is_black_king_square_attacked:      308087
+                        empile:      712421
+                     play_move:      374277
+ is_white_king_square_attacked:      210032
+ is_black_king_square_attacked:      317639
 Loesung beendet. 
 
 
@@ -168,12 +168,12 @@ Loesung beendet.
   ser-h=12                    2 + 2
             BrunnerSchach
 
-  1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-g7   7.Kg7-f6   8.Kf6-e5   9.Ke5-d4  10.Sd3-e5  11.Kd4-e4  12.Ke4-f3 + Dh8-h4 = 
+  1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-g7   7.Kg7-f6   8.Kf6-e5   9.Ke5-d4  10.Sd3-e5  11.Kd4-e4  12.Ke4-f3 + Dh8-h4 =
 
-                        empile:       22149
-                     play_move:       12552
- is_white_king_square_attacked:        6018
- is_black_king_square_attacked:        7458
+                        empile:       21712
+                     play_move:       11734
+ is_white_king_square_attacked:        5610
+ is_black_king_square_attacked:        7077
 Loesung beendet. 
 
 
@@ -203,12 +203,12 @@ Loesung beendet.
   ser-h#8                     2 + 1
             BrunnerSchach
 
-  1.Kd1-e2   2.Ke2-f3   3.Kf3-g4   4.Kg4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-g8   8.Kg8-f8 Kf6-f7 # 
+  1.Kd1-e2   2.Ke2-f3   3.Kf3-g4   4.Kg4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-g8   8.Kg8-f8 Kf6-f7 #
 
-                        empile:        2117
-                     play_move:        2102
- is_white_king_square_attacked:        1271
- is_black_king_square_attacked:        1967
+                        empile:        2123
+                     play_move:        2114
+ is_white_king_square_attacked:        1275
+ is_black_king_square_attacked:        1973
 Loesung beendet. 
 
 

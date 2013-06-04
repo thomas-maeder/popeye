@@ -89,8 +89,9 @@
 #include "conditions/annan.h"
 #include "conditions/wormhole.h"
 #include "conditions/singlebox/type2.h"
-#include "pieces/attributes/paralysing/paralysing.h"
+#include "conditions/vaulting_kings.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/pawns/pawns.h"
 #include "pieces/pawns/pawn.h"
@@ -2319,96 +2320,52 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
   }
 }
 
-void king_generate_moves(Side side, square sq_departure)
+void king_generate_moves(Side side_moving, square sq_departure)
 {
-  boolean   flag = false;       /* K im Schach ? */
-  numecoup const save_nbcou = current_move[nbply];
-
-  if (calc_reflective_king[side] && !calctransmute)
+  if (calc_reflective_king[side_moving] && !transmuting_kings_lock_recursion)
   {
-    /* K im Schach zieht auch */
-    calctransmute = true;
+    boolean generated_by_transmutation = false;
+    numecoup const save_nbcou = current_move[nbply];
 
-    if (CondFlag[side==White ? blvault_king : whvault_king])
+    if (CondFlag[side_moving==White ? blvault_king : whvault_king])
     {
-      if (echecc(side))
-      {
-        PieNam const *ptrans;
-        for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
-        {
-          flag = true;
-          current_trans_gen = *ptrans;
-          generate_moves_for_piece(side,sq_departure,*ptrans);
-          current_trans_gen = vide;
-        }
-      }
+      generated_by_transmutation = vaulting_kings_generate_moves(side_moving,sq_departure);
+      if (generated_by_transmutation && calc_transmuting_king[side_moving])
+        return;
     }
+    else if (CondFlag[side_moving==White ? whtrans_king : bltrans_king]
+             || CondFlag[side_moving==White ? whsupertrans_king : blsupertrans_king])
+    {
+      if (transmuting_kings_generate_moves(side_moving,sq_departure))
+        return;
+    }
+    else if (CondFlag[side_moving==White ? whrefl_king : blrefl_king])
+      generated_by_transmutation = transmuting_kings_generate_moves(side_moving,sq_departure);
     else
     {
-      PieNam const *ptrans;
-      for (ptrans = transmpieces[side]; *ptrans!=Empty; ++ptrans)
-      {
-        piece const ptrans_opponent = side==White ? -*ptrans : *ptrans;
-        Side const side_transmuting = advers(side);
-
-        if (number_of_pieces[side_transmuting][*ptrans]>0)
-        {
-          boolean is_king_transmuted;
-
-          nextply();
-          trait[nbply] = side_transmuting;
-          is_king_transmuted = (*checkfunctions[*ptrans])(sq_departure,
-                                                          *ptrans,
-                                                          &validate_observation);
-          finply();
-
-          if (is_king_transmuted)
-          {
-            flag = true;
-            current_trans_gen = -ptrans_opponent;
-            generate_moves_for_piece(side,sq_departure,current_trans_gen);
-            current_trans_gen = vide;
-          }
-        }
-      }
-    }
-    calctransmute= false;
-
-    if (flag && number_of_pieces[advers(side)][Orphan]>0)
-    {
-      piece const king = e[king_square[side]];
-      e[king_square[side]] = side==White ? dummyb : dummyn;
-      if (!echecc(side))
-        /* side's king checked only by an orphan empowered by the king */
-        flag= false;
-      e[king_square[side]] = king;
+      assert(0);
     }
 
-    /* K im Schach zieht nur */
-    if (calc_transmuting_king[side] && flag)
-      return;
+    if (CondFlag[sting])
+      gerhop(sq_departure,vec_queen_start,vec_queen_end,side_moving);
+
+    leaper_generate_moves(side_moving,sq_departure,vec_queen_start,vec_queen_end);
+
+    if (generated_by_transmutation)
+      remove_duplicate_moves_of_single_piece(save_nbcou);
   }
-
-  if (CondFlag[sting])
-    gerhop(sq_departure,vec_queen_start,vec_queen_end,side);
-
+  else
   {
-    vec_index_type k;
-    for (k= vec_queen_end; k >=vec_queen_start; k--)
-    {
-      square const sq_arrival = sq_departure+vec[k];
-      if (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,side))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
-  }
+    if (CondFlag[sting])
+      gerhop(sq_departure,vec_queen_start,vec_queen_end,side_moving);
 
-  if (flag)
-    remove_duplicate_moves_of_single_piece(save_nbcou);
+    leaper_generate_moves(side_moving,sq_departure,vec_queen_start,vec_queen_end);
+  }
 
   if (castling_supported)
-    generate_castling(side);
+    generate_castling(side_moving);
 
-  if (CondFlag[castlingchess] && !echecc(side))
+  if (CondFlag[castlingchess] && !echecc(side_moving))
   {
     vec_index_type k;
     for (k = vec_queen_end; k>= vec_queen_start; --k)
@@ -2420,12 +2377,12 @@ void king_generate_moves(Side side, square sq_departure)
 
       finligne(sq_departure,vec[k],p,sq_castler);
       if (sq_castler!=sq_passed && sq_castler!=sq_arrival && p!=obs
-          && castling_is_intermediate_king_move_legal(side,sq_departure,sq_passed))
+          && castling_is_intermediate_king_move_legal(side_moving,sq_departure,sq_passed))
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
 
-  if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[side][nbply])
+  if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[side_moving][nbply])
   {
     int i;
     square square_a = square_a1;
@@ -2435,7 +2392,7 @@ void king_generate_moves(Side side, square sq_departure)
       square pos_partner = square_a;
       for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
         if (pos_partner!=sq_departure
-            && TSTFLAG(spec[pos_partner],side)
+            && TSTFLAG(spec[pos_partner],side_moving)
             && !is_pawn(abs(e[pos_partner]))) /* not sure if "castling" with Ps forbidden */
           empile(sq_departure,pos_partner,platzwechsel_rochade);
     }

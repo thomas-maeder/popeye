@@ -215,6 +215,7 @@
 #include "conditions/brunner.h"
 #include "conditions/wormhole.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/vaulting_kings.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1430,9 +1431,9 @@ static boolean verify_position(slice_index si)
       VerifieMsg(MarsCirceAndOthers);
       return false;
     }
-    else if (calc_transmuting_king[White]
+    else if ((CondFlag[whvault_king] && calc_transmuting_king[White])
+             || (CondFlag[blvault_king] && calc_transmuting_king[Black])
              || calc_reflective_king[White]
-             || calc_transmuting_king[Black]
              || calc_reflective_king[Black]
              || CondFlag[bicolores]
              || CondFlag[sting]
@@ -1714,9 +1715,9 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king] || CondFlag[whrefl_king])
-    init_regular_transmuting_pieces_sequence(White);
+    init_transmuters_sequence(White);
   if (CondFlag[bltrans_king] || CondFlag[blsupertrans_king] || CondFlag[blrefl_king])
-    init_regular_transmuting_pieces_sequence(Black);
+    init_transmuters_sequence(Black);
 
   if (calc_reflective_king[White] || calc_reflective_king[Black])
   {
@@ -2791,6 +2792,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (rex_circe)
     circe_rex_inclusive_initialise_solving();
+
+  vaulting_kings_initalise_solving();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

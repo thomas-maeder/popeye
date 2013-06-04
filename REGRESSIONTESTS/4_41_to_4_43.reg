@@ -61,9 +61,9 @@ solution finished.
   1.Kd2-c3 Bd4-e3 #
 
                         empile:         474
-                     play_move:         193
+                     play_move:         176
  is_white_king_square_attacked:          66
- is_black_king_square_attacked:         193
+ is_black_king_square_attacked:         176
 solution finished. 
 
 
@@ -130,10 +130,10 @@ solution finished.
            BlackMinimummer
              ParrainCirce
 
-  1.Sb8*a6 Ka7-b7[+wPb6]
-  1.Sb8*a6 Ka7-a8[+wPa7]
-  1.Sb8*a6 Ka7*a6[+wPa5]
   1.Sb8*a6 Ka7-b6[+wPb5]
+  1.Sb8*a6 Ka7*a6[+wPa5]
+  1.Sb8*a6 Ka7-a8[+wPa7]
+  1.Sb8*a6 Ka7-b7[+wPb6]
 
                         empile:           8
                      play_move:           9
@@ -201,9 +201,9 @@ solution finished.
       1...Bd1*f3[bBf3->c8] #
 
 
-                        empile:        2297
-                     play_move:        1692
- is_white_king_square_attacked:         838
+                        empile:        2290
+                     play_move:        1678
+ is_white_king_square_attacked:         831
  is_black_king_square_attacked:         396
 solution finished. 
 

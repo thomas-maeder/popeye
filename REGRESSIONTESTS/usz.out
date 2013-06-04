@@ -25,9 +25,9 @@ Test Problem - =1 durch 1.Kb4, oder S=1 durch 1.b4 b5?
 
 a) 
 
-   1.Ka4-b4 = !
-
    1.Ka4-b5 = !
+
+   1.Ka4-b4 = !
 
 
                         empile:          32
@@ -75,9 +75,9 @@ Den Teilnehmern in Andernach 1991 gewidmet
   1.a2*b1=T + Kc1-c2   2.e2-e1=S + Kc2-d2   3.Se1-f3 + Kd2-e2   4.Sf3-g1 + Ke2-f2   5.Tb1-b2 + Kf2-g3   6.Tb2-g2 + Lh3*g2 #
 
                         empile:     8161954
-                     play_move:     8205484
+                     play_move:     8208372
  is_white_king_square_attacked:     4632756
- is_black_king_square_attacked:     4781761
+ is_black_king_square_attacked:     4784649
 Loesung beendet. 
 
 
@@ -110,9 +110,9 @@ Loesung beendet.
   1.b2-b1=T + Kb3*c2   2.d2-d1=L + Kc2-d3   3.e2-e1=S + Kd3-e4   4.h2-h1=D + Ke4-f4   5.Dh1-h2 + Ta2*h2 #
 
                         empile:     1521742
-                     play_move:     1774725
+                     play_move:     1774732
  is_white_king_square_attacked:     1771841
- is_black_king_square_attacked:      427913
+ is_black_king_square_attacked:      427920
 Loesung beendet. 
 
 
@@ -148,9 +148,9 @@ Loesung beendet.
   1.Lb6-f2 + Kh4-g5   2.Lf2-e3 + Kg5-f6   3.Le3-d4 + Kf6-e7   4.Ld4-c5 + Da5*c5 #
 
                         empile:      117730
-                     play_move:      117380
- is_white_king_square_attacked:       58709
- is_black_king_square_attacked:       70543
+                     play_move:      117332
+ is_white_king_square_attacked:       58727
+ is_black_king_square_attacked:       70477
 Loesung beendet. 
 
 
@@ -184,9 +184,9 @@ Loesung beendet.
   1.Kc3-b4 a2-a3 +   2.Kb4-b5 a3-a4 +   3.Kb5-b6 a4-a5 +   4.Kb6-b7 a5-a6 +   5.Kb7-b8 a6-a7 +   6.Kb8-c8 a7-a8=T +   7.Kc8-c7 Ta8-c8 +   8.Kc7-d6 Tc8-d8 +   9.Kd6-e5 f2-f4 +  10.Ke5-e6 f4-f5 +  11.Ke6-e7 f5-f6 +  12.Ke7-f7 Td8-d7 +  13.Kf7-g8 f6-f7 +  14.Kg8-h8 f7-f8=T #
 
                         empile:      198121
-                     play_move:      147741
+                     play_move:      148878
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      156977
+ is_black_king_square_attacked:      158114
 Loesung beendet. 
 
 
@@ -220,9 +220,9 @@ Loesung beendet.
   1.Kg3-f4 e2-e3 +   2.Kf4-f5 e3-e4 +   3.Kf5-f6 e4-e5 +   4.Kf6-f7 e5-e6 +   5.Kf7-f8 e6-e7 +   6.Kf8-f7 e7-e8=D +   7.Kf7*e8[+wDd1] Dd1-a4 +   8.Ke8-d8 Da4-d7 #
 
                         empile:        7036
-                     play_move:        3097
+                     play_move:        3174
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        3871
+ is_black_king_square_attacked:        3948
 Loesung beendet. 
 
 

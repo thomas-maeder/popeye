@@ -37,10 +37,10 @@ a)
                                   5.Qb8-b3 =
 
 
-                        empile:       40661
-                     play_move:       18616
- is_white_king_square_attacked:        7197
- is_black_king_square_attacked:       16383
+                        empile:       40862
+                     play_move:       17842
+ is_white_king_square_attacked:        7117
+ is_black_king_square_attacked:       15616
 b) Circe
    BlackSynchronMover  =4
 
@@ -53,10 +53,10 @@ b) Circe
                           4.Sb8*a6[+bPa7] =
 
 
-                        empile:       10762
-                     play_move:        5120
- is_white_king_square_attacked:        2084
- is_black_king_square_attacked:        4502
+                        empile:       11134
+                     play_move:        5057
+ is_white_king_square_attacked:        2104
+ is_black_king_square_attacked:        4449
 c) GlasgowChess
    BlackSynchronMover  =3
 
@@ -67,10 +67,10 @@ c) GlasgowChess
                   3.b6*a7=Q =
 
 
-                        empile:        3868
-                     play_move:        2682
- is_white_king_square_attacked:         962
- is_black_king_square_attacked:        2510
+                        empile:        3679
+                     play_move:        2467
+ is_white_king_square_attacked:         906
+ is_black_king_square_attacked:        2293
 d) AntiAndernachChess
    BlackSynchronMover  =2
 
@@ -79,10 +79,10 @@ d) AntiAndernachChess
           2.Kc7-c8 =
 
 
-                        empile:         212
-                     play_move:         137
- is_white_king_square_attacked:          59
- is_black_king_square_attacked:         128
+                        empile:         218
+                     play_move:         159
+ is_white_king_square_attacked:          63
+ is_black_king_square_attacked:         148
 solution finished. 
 
 
@@ -137,10 +137,10 @@ a)
                                       5...a5-a4 +
 
 
-                        empile:       44179
-                     play_move:       32254
- is_white_king_square_attacked:       19217
- is_black_king_square_attacked:       14220
+                        empile:       45007
+                     play_move:       32119
+ is_white_king_square_attacked:       18915
+ is_black_king_square_attacked:       14376
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
@@ -158,10 +158,10 @@ b) BlackSynchronMover
                                               6...a2-a1=S +
 
 
-                        empile:        3719
-                     play_move:        2274
- is_white_king_square_attacked:        1135
- is_black_king_square_attacked:        1167
+                        empile:        3743
+                     play_move:        2108
+ is_white_king_square_attacked:        1067
+ is_black_king_square_attacked:        1068
 solution finished. 
 
 

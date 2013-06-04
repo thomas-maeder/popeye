@@ -109,10 +109,10 @@
       1...NAf3-e5 !
 
 
-                        empile:       31216
-                     play_move:       21013
- is_white_king_square_attacked:         654
- is_black_king_square_attacked:       20747
+                        empile:       31233
+                     play_move:       21021
+ is_white_king_square_attacked:         655
+ is_black_king_square_attacked:       20755
 Loesung beendet. 
 
 
@@ -220,9 +220,9 @@ Loesung beendet.
 
 
                         empile:       56895
-                     play_move:       29791
+                     play_move:       30265
  is_white_king_square_attacked:        1841
- is_black_king_square_attacked:       29516
+ is_black_king_square_attacked:       29990
 Loesung beendet. 
 
 
@@ -296,10 +296,10 @@ LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
 
    1.Te2-b2 ? Drohung:
           2.MAe8-f6 #
-      1...Kg4-f4
-          2.THb5-f5 #
       1...Kg4-h5
           2.Za5-d7 #
+      1...Kg4-f4
+          2.THb5-f5 #
     Aber
       1...LHa1-c3 !
 
@@ -310,10 +310,10 @@ LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
           2.NAb8-d7 #
       1...LHb1-d3
           2.THb5-f5 #
-      1...Kg4-f4
-          2.MAe8-f6 #
       1...Kg4-h5
           2.THb5-f5 #
+      1...Kg4-f4
+          2.MAe8-f6 #
       1...LHg6-d3
           2.THb5-f5 #
 
@@ -323,18 +323,18 @@ LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
           2.MAe8*f6 #
       1...THd1-d3
           2.Za5-d7 #
-      1...Kg4-f4
-          2.Za5-d7 #
       1...Kg4-h5
           2.MAe8-f6 #
+      1...Kg4-f4
+          2.Za5-d7 #
     Aber
       1...d6-d5 !
 
 
-                        empile:       16244
-                     play_move:       11071
- is_white_king_square_attacked:        1009
- is_black_king_square_attacked:       10985
+                        empile:       15993
+                     play_move:       11209
+ is_white_king_square_attacked:        1015
+ is_black_king_square_attacked:       11123
 Loesung beendet. 
 
 
@@ -545,9 +545,9 @@ Loesung beendet.
 
 
                         empile:      136126
-                     play_move:       74957
+                     play_move:       76035
  is_white_king_square_attacked:        2515
- is_black_king_square_attacked:       76362
+ is_black_king_square_attacked:       77440
 Loesung beendet. 
 
 
@@ -690,10 +690,10 @@ Loesung beendet.
       1...Td5-c5 !
 
 
-                        empile:       70421
-                     play_move:       51192
- is_white_king_square_attacked:        1303
- is_black_king_square_attacked:       28865
+                        empile:       70567
+                     play_move:       51317
+ is_white_king_square_attacked:        1304
+ is_black_king_square_attacked:       28936
 Loesung beendet. 
 
 

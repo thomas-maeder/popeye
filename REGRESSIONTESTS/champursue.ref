@@ -24,13 +24,13 @@
   h#3                         2 + 6
            ChameleonPursuit
 
-  1...Ng3-c1   2.Nd2-b6 Nc1-a5   3.Nd3-c1=w Nc1-b3 # 
-  1...Ng3-h5   2.Nd2-c4 Nh5-b8   3.Nd3-h5=w Nh5-d7 # 
+  1...Ng3-c1   2.Nd2-b6 Nc1-a5   3.Nd3-c1=w Nc1-b3 #
+  1...Ng3-h5   2.Nd2-c4 Nh5-b8   3.Nd3-h5=w Nh5-d7 #
 
                         empile:     1003648
-                     play_move:      790593
+                     play_move:      791936
  is_white_king_square_attacked:      104544
- is_black_king_square_attacked:      786513
+ is_black_king_square_attacked:      787856
 solution finished. 
 
 
@@ -62,20 +62,20 @@ solution finished.
 
 a) 
 
-  1.Bd7-e8 Se5-d7=b   2.Sf7-e5=w Se5-c6 # 
+  1.Bd7-e8 Se5-d7=b   2.Sf7-e5=w Se5-c6 #
 
                         empile:       42991
-                     play_move:       23285
+                     play_move:       27357
  is_white_king_square_attacked:        6779
- is_black_king_square_attacked:       22854
+ is_black_king_square_attacked:       26926
 b) bKd8-->h3
 
-  1.g4-g3 Se5-g4=b   2.Re2-e5=w Re5-h5 # 
+  1.g4-g3 Se5-g4=b   2.Re2-e5=w Re5-h5 #
 
                         empile:       34367
-                     play_move:       22634
+                     play_move:       23511
  is_white_king_square_attacked:        6010
- is_black_king_square_attacked:       22171
+ is_black_king_square_attacked:       23048
 solution finished. 
 
 

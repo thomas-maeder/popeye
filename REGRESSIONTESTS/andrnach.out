@@ -29,17 +29,17 @@ a)
   1.Le4*d3=w Th1-h4   2.Tc4*h4=w Ld3-c4 #
 
                         empile:       81890
-                     play_move:       54561
+                     play_move:       52408
  is_white_king_square_attacked:       11948
- is_black_king_square_attacked:       53811
+ is_black_king_square_attacked:       51658
 b) sBg7-->f7
 
   1.Tf3*d3=w La3-d6   2.Lg3*d6=w Td3-g3 #
 
                         empile:       97378
-                     play_move:       56909
+                     play_move:       65192
  is_white_king_square_attacked:       16169
- is_black_king_square_attacked:       56211
+ is_black_king_square_attacked:       64494
 Loesung beendet. 
 
 
@@ -76,9 +76,9 @@ Loesung beendet.
   1.La6*e2=w Dd8*g5=s   2.Dg5-g3 Le2-f3 #
 
                         empile:      295092
-                     play_move:      220219
+                     play_move:      182683
  is_white_king_square_attacked:       34857
- is_black_king_square_attacked:      219112
+ is_black_king_square_attacked:      181576
 Loesung beendet. 
 
 
@@ -116,17 +116,17 @@ a)
   1.Lc5-b4 Sd5*b4=s   2.Tc8*c4=w Tc4-c3 #
 
                         empile:       25264
-                     play_move:       24748
+                     play_move:       24647
  is_white_king_square_attacked:        1728
- is_black_king_square_attacked:       24122
+ is_black_king_square_attacked:       24021
 b) sLc5-->c7
 
   1.Tf3-b3 Lc4*b3=s   2.Dh1*d5=w Dd5-d6 #
 
                         empile:       19270
-                     play_move:       18686
+                     play_move:       18687
  is_white_king_square_attacked:        1422
- is_black_king_square_attacked:       18163
+ is_black_king_square_attacked:       18164
 Loesung beendet. 
 
 
@@ -161,9 +161,9 @@ Loesung beendet.
   1.Dh5-g5 Ld3-c4   2.Th4*c4=w Tc4-c1 #
 
                         empile:       17467
-                     play_move:       16021
+                     play_move:       16040
  is_white_king_square_attacked:        1531
- is_black_king_square_attacked:       15474
+ is_black_king_square_attacked:       15493
 Loesung beendet. 
 
 
@@ -201,9 +201,9 @@ Loesung beendet.
   1...Sg7-h5   2.Sd1*c3=w Sc3-d1   3.Dd7*d1=w Dd1-d5 #
 
                         empile:      213507
-                     play_move:      103217
+                     play_move:      115851
  is_white_king_square_attacked:       25873
- is_black_king_square_attacked:      100248
+ is_black_king_square_attacked:      112882
 Loesung beendet. 
 
 
@@ -238,17 +238,17 @@ a)
   1.Sc3*e4=w Se4*d6=s   2.Sd6*b5=w Sb5-c3 #
 
                         empile:       30645
-                     play_move:       21723
+                     play_move:       23034
  is_white_king_square_attacked:        4073
- is_black_king_square_attacked:       21265
+ is_black_king_square_attacked:       22576
 b) wBc2-->b2
 
   1.Sc3*b5=w Sb5*d6=s   2.Sd6*e4=w Se4-c3 #
 
                         empile:       36142
-                     play_move:       24697
+                     play_move:       27869
  is_white_king_square_attacked:        5129
- is_black_king_square_attacked:       24189
+ is_black_king_square_attacked:       27361
 Loesung beendet. 
 
 
@@ -285,17 +285,17 @@ a)
   1...Lb8-e5 +   2.Kd4-c5 b7-b8=D   3.a2-a1=S Db8-b3 =
 
                         empile:      808872
-                     play_move:      295211
+                     play_move:      300575
  is_white_king_square_attacked:      148229
- is_black_king_square_attacked:      240255
+ is_black_king_square_attacked:      245619
 b) wSa7-->e5
 
   1...Lb8-a7 +   2.Kd4-c3 b7-b8=T   3.a2-a1=L Tb8-b2 =
 
                         empile:      963473
-                     play_move:      358549
+                     play_move:      371103
  is_white_king_square_attacked:      173923
- is_black_king_square_attacked:      295503
+ is_black_king_square_attacked:      308057
 Loesung beendet. 
 
 
@@ -330,17 +330,17 @@ a)
   1.Tc1-c3 + d2*c3=s   2.c3*b2=w b2-b4 #
 
                         empile:       16372
-                     play_move:        9495
+                     play_move:       13162
  is_white_king_square_attacked:        2271
- is_black_king_square_attacked:        9195
+ is_black_king_square_attacked:       12862
 b) Verschiebung a1 ==> a2
 
   1.Tc2-c1 Sb3*c1=s   2.Sc1*d3=w Sd3-b4 #
 
                         empile:       13046
-                     play_move:        8130
+                     play_move:       10822
  is_white_king_square_attacked:        1797
- is_black_king_square_attacked:        7836
+ is_black_king_square_attacked:       10528
 Loesung beendet. 
 
 
@@ -374,9 +374,9 @@ Loesung beendet.
   1.Tb4*b3=w Tb3-e3   2.Dh6*e3=w De3-b6 #
 
                         empile:       10387
-                     play_move:        7446
+                     play_move:        7571
  is_white_king_square_attacked:        1542
- is_black_king_square_attacked:        7192
+ is_black_king_square_attacked:        7317
 Loesung beendet. 
 
 
@@ -421,10 +421,10 @@ Loesung beendet.
                       3...Sc6-b4 #
 
 
-                        empile:      823593
-                     play_move:      475884
- is_white_king_square_attacked:      474228
- is_black_king_square_attacked:      287574
+                        empile:      828777
+                     play_move:      487716
+ is_white_king_square_attacked:      486060
+ is_black_king_square_attacked:      299363
 Loesung beendet. 
 
 
@@ -487,10 +487,10 @@ Loesung beendet.
                   3.Tb4-e4 #
 
 
-                        empile:      112405
-                     play_move:       78144
- is_white_king_square_attacked:       40936
- is_black_king_square_attacked:       38852
+                        empile:      112167
+                     play_move:       78899
+ is_white_king_square_attacked:       40958
+ is_black_king_square_attacked:       39610
 Loesung beendet. 
 
 
@@ -534,9 +534,9 @@ Loesung beendet.
 
 
                         empile:       10415
-                     play_move:        7030
+                     play_move:        7050
  is_white_king_square_attacked:         376
- is_black_king_square_attacked:        7033
+ is_black_king_square_attacked:        7053
 Loesung beendet. 
 
 
@@ -583,10 +583,10 @@ Loesung beendet.
           2.Le3-d4 #
 
 
-                        empile:       10336
-                     play_move:        8081
- is_white_king_square_attacked:         410
- is_black_king_square_attacked:        8056
+                        empile:       10313
+                     play_move:        8584
+ is_white_king_square_attacked:         407
+ is_black_king_square_attacked:        8559
 Loesung beendet. 
 
 
@@ -649,10 +649,10 @@ Loesung beendet.
               2...Tg2-h2 #
 
 
-                        empile:       17225
-                     play_move:       12840
- is_white_king_square_attacked:       12845
- is_black_king_square_attacked:        2718
+                        empile:       17108
+                     play_move:       12981
+ is_white_king_square_attacked:       12986
+ is_black_king_square_attacked:        2968
 Loesung beendet. 
 
 
@@ -691,9 +691,9 @@ Loesung beendet.
 
 
                         empile:       24213
-                     play_move:       14690
- is_white_king_square_attacked:       14691
- is_black_king_square_attacked:        8496
+                     play_move:       14419
+ is_white_king_square_attacked:       14420
+ is_black_king_square_attacked:        8209
 Loesung beendet. 
 
 
@@ -732,9 +732,9 @@ a)
 
 
                         empile:        1225
-                     play_move:         640
+                     play_move:         690
  is_white_king_square_attacked:         157
- is_black_king_square_attacked:         643
+ is_black_king_square_attacked:         693
 b) r#2
 
    1.Lc7-d8 ! Drohung:
@@ -746,9 +746,9 @@ b) r#2
 
 
                         empile:        4399
-                     play_move:        2642
- is_white_king_square_attacked:        2064
- is_black_king_square_attacked:         904
+                     play_move:        2678
+ is_white_king_square_attacked:        2024
+ is_black_king_square_attacked:         980
 Loesung beendet. 
 
 
@@ -789,9 +789,9 @@ Loesung beendet.
 
 
                         empile:        6422
-                     play_move:        4791
+                     play_move:        4942
  is_white_king_square_attacked:         284
- is_black_king_square_attacked:        4794
+ is_black_king_square_attacked:        4945
 Loesung beendet. 
 
 
@@ -835,10 +835,10 @@ Loesung beendet.
                   3.Te8-e6 #
 
 
-                        empile:       72700
-                     play_move:       34857
- is_white_king_square_attacked:       18136
- is_black_king_square_attacked:       21240
+                        empile:       74204
+                     play_move:       35811
+ is_white_king_square_attacked:       18354
+ is_black_king_square_attacked:       22194
 Loesung beendet. 
 
 

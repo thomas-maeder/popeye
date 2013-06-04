@@ -42,9 +42,9 @@ another Messigny exchange of the same piece was illegal
 
 
                         empile:        4640
-                     play_move:        3121
+                     play_move:        3127
  is_white_king_square_attacked:         277
- is_black_king_square_attacked:        3098
+ is_black_king_square_attacked:        3104
 solution finished. 
 
 
@@ -80,9 +80,9 @@ only the synchronous move h2-h4 was legal
 
 
                         empile:         496
-                     play_move:         202
+                     play_move:         201
  is_white_king_square_attacked:          67
- is_black_king_square_attacked:         165
+ is_black_king_square_attacked:         164
 solution finished. 
 
 
@@ -118,9 +118,9 @@ only the anti-synchronous move Rd8-d1 was legal
 
 
                         empile:         970
-                     play_move:         366
- is_white_king_square_attacked:          96
- is_black_king_square_attacked:         314
+                     play_move:         367
+ is_white_king_square_attacked:          94
+ is_black_king_square_attacked:         318
 solution finished. 
 
 
@@ -154,7 +154,7 @@ solution finished.
                         empile:          22
                      play_move:           9
  is_white_king_square_attacked:           4
- is_black_king_square_attacked:           7
+ is_black_king_square_attacked:           9
 solution finished. 
 
 
@@ -187,9 +187,9 @@ solution finished.
               HalfDuplex
 
 
-                        empile:         420
-                     play_move:         249
- is_white_king_square_attacked:          39
+                        empile:         469
+                     play_move:         285
+ is_white_king_square_attacked:          44
  is_black_king_square_attacked:           6
 solution finished. 
 
@@ -423,9 +423,9 @@ solution finished.
 
 
                         empile:          63
-                     play_move:          21
+                     play_move:          22
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          21
+ is_black_king_square_attacked:          22
 solution finished. 
 
 

@@ -154,9 +154,9 @@ Nicht verwirrt werden mit mehr als einem latenten Bauern
 
 
                         empile:        7243
-                     play_move:        5390
+                     play_move:        5354
  is_white_king_square_attacked:         362
- is_black_king_square_attacked:        5028
+ is_black_king_square_attacked:        4992
 Loesung beendet. 
 
 
@@ -210,10 +210,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Db2-d2 #
 
 
-                        empile:        6569
-                     play_move:        4449
- is_white_king_square_attacked:         694
- is_black_king_square_attacked:        4432
+                        empile:        6701
+                     play_move:        3909
+ is_white_king_square_attacked:         711
+ is_black_king_square_attacked:        3896
 Loesung beendet. 
 
 
@@ -284,10 +284,10 @@ Loesung beendet.
       1...d5*e4 !
 
 
-                        empile:      214095
-                     play_move:      142664
- is_white_king_square_attacked:       33449
- is_black_king_square_attacked:      112168
+                        empile:      213753
+                     play_move:      145794
+ is_white_king_square_attacked:       33397
+ is_black_king_square_attacked:      115492
 Loesung beendet. 
 
 
@@ -326,9 +326,9 @@ Loesung beendet.
 
 
                         empile:        4805
-                     play_move:        3340
+                     play_move:        3465
  is_white_king_square_attacked:         376
- is_black_king_square_attacked:        2889
+ is_black_king_square_attacked:        3014
 Loesung beendet. 
 
 

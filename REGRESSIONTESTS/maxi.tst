@@ -28,10 +28,10 @@ White king is not in check on b7 even if nBc8*bKb7 is not the longest
    1.Ka6*b7 # !
 
 
-                        empile:          38
-                     play_move:          36
- is_white_king_square_attacked:          16
- is_black_king_square_attacked:          20
+                        empile:          40
+                     play_move:          39
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          21
 solution finished. 
 
 
@@ -66,7 +66,7 @@ White king is not in check on d5 even if c6-d5 is shorter than the
 
 
                         empile:          26
-                     play_move:          20
+                     play_move:          27
  is_white_king_square_attacked:           7
  is_black_king_square_attacked:           0
 solution finished. 
@@ -100,9 +100,9 @@ So the only cage is a1, but that is self-check.
            WhiteMaximummer
               CageCirce
 
-   1.Ka1-b1 !
-
    1.Ka1-a2 !
+
+   1.Ka1-b1 !
 
 
                         empile:         476
@@ -142,8 +142,8 @@ White Maximummer doesn't cause the test for the legality of 1.Ke1-f1
 
 
                         empile:          11
-                     play_move:           3
- is_white_king_square_attacked:           5
+                     play_move:           4
+ is_white_king_square_attacked:           6
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -176,9 +176,9 @@ don't ignore the longest move just because of self-check if it reaches
 
   1.Rh8-h2 c2-c4 ##
 
-                        empile:        1053
-                     play_move:         585
- is_white_king_square_attacked:         659
+                        empile:        1038
+                     play_move:         616
+ is_white_king_square_attacked:         694
  is_black_king_square_attacked:          97
 solution finished. 
 

@@ -154,9 +154,9 @@ don't get confused with >1 latent pawn
 
 
                         empile:        7243
-                     play_move:        5390
+                     play_move:        5354
  is_white_king_square_attacked:         362
- is_black_king_square_attacked:        5028
+ is_black_king_square_attacked:        4992
 solution finished. 
 
 
@@ -210,10 +210,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 #
 
 
-                        empile:        6569
-                     play_move:        4449
- is_white_king_square_attacked:         694
- is_black_king_square_attacked:        4432
+                        empile:        6701
+                     play_move:        3909
+ is_white_king_square_attacked:         711
+ is_black_king_square_attacked:        3896
 solution finished. 
 
 
@@ -284,10 +284,10 @@ solution finished.
       1...d5*e4 !
 
 
-                        empile:      214095
-                     play_move:      142664
- is_white_king_square_attacked:       33449
- is_black_king_square_attacked:      112168
+                        empile:      213753
+                     play_move:      145794
+ is_white_king_square_attacked:       33397
+ is_black_king_square_attacked:      115492
 solution finished. 
 
 
@@ -326,9 +326,9 @@ solution finished.
 
 
                         empile:        4805
-                     play_move:        3340
+                     play_move:        3465
  is_white_king_square_attacked:         376
- is_black_king_square_attacked:        2889
+ is_black_king_square_attacked:        3014
 solution finished. 
 
 

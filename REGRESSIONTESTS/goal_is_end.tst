@@ -145,9 +145,9 @@ post-key play
                   3.Rf6-f8 c81
 
                         empile:         620
-                     play_move:         122
+                     play_move:         125
  is_white_king_square_attacked:          34
- is_black_king_square_attacked:          53
+ is_black_king_square_attacked:          56
 solution finished. 
 
 

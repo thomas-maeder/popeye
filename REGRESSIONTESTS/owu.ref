@@ -72,10 +72,10 @@
       1...Kd1*c2 !
 
 
-                        empile:        5768
-                     play_move:        3454
- is_white_king_square_attacked:         714
- is_black_king_square_attacked:        3287
+                        empile:        5924
+                     play_move:        3396
+ is_white_king_square_attacked:         722
+ is_black_king_square_attacked:        3182
 solution finished. 
 
 

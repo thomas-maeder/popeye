@@ -49,6 +49,7 @@
 #include "conditions/phantom.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/vaulting_kings.h"
 #include "stipulation/stipulation.h"
 #include "solving/en_passant.h"
 #include "solving/observation.h"
@@ -199,12 +200,12 @@ boolean (*is_square_attacked)(Side side_attacking,
                               square sq_target,
                               evalfunction_t *evaluate);
 
-static boolean does_observe_square_impl(Side side_checking,
-                                        square sq_target,
+static boolean does_observe_square_impl(square sq_target,
                                         evalfunction_t *evaluate)
 {
   piece p;
   square sq_departure;
+  Side const side_checking = trait[nbply];
   Side const side_in_check = advers(side_checking);
 
   if (CondFlag[plus])
@@ -219,59 +220,28 @@ static boolean does_observe_square_impl(Side side_checking,
 
   if (number_of_pieces[side_checking][King]>0)
   {
-    if (calc_reflective_king[side_checking])
+    if (calc_reflective_king[side_checking] && !transmuting_kings_lock_recursion)
     {
-      boolean transmutation_of_king_of_checking_side_found = false;
-
-      calc_reflective_king[side_checking] = false;
-
-      if (CondFlag[side_checking==White ? blvault_king : whvault_king])
+      if (CondFlag[side_checking==White ? whvault_king : blvault_king])
       {
-        if (echecc(side_checking))
-        {
-          PieNam *ptrans;
-
-          transmutation_of_king_of_checking_side_found = true;
-
-          for (ptrans= transmpieces[side_checking]; *ptrans; ptrans++)
-            if ((*checkfunctions[*ptrans])(sq_target, King, evaluate))
-            {
-              calc_reflective_king[side_checking] = true;
-              return true;
-            }
-        }
+        if (vaulting_kings_is_square_attacked_by_king(sq_target,evaluate))
+          return true;
+      }
+      else if (CondFlag[side_checking==White ? whtrans_king : bltrans_king]
+               || CondFlag[side_checking==White ? whsupertrans_king : blsupertrans_king])
+      {
+        if (transmuting_kings_is_square_attacked_by_king(sq_target,evaluate))
+          return true;
+      }
+      else if (CondFlag[side_checking==White ? whrefl_king : blrefl_king])
+      {
+        if (reflective_kings_is_square_attacked_by_king(sq_target,evaluate))
+          return true;
       }
       else
       {
-        PieNam *ptrans;
-        for (ptrans = transmpieces[side_checking]; *ptrans; ptrans++)
-          if (number_of_pieces[side_in_check][*ptrans]>0)
-          {
-            boolean is_king_transmuted;
-
-            trait[nbply] = advers(trait[nbply]);
-            is_king_transmuted = (*checkfunctions[*ptrans])(king_square[side_checking],*ptrans,evaluate);
-            trait[nbply] = advers(trait[nbply]);
-
-            if (is_king_transmuted)
-            {
-              transmutation_of_king_of_checking_side_found = true;
-
-              if ((*checkfunctions[*ptrans])(sq_target, King, evaluate))
-              {
-                calc_reflective_king[side_checking] = true;
-                return true;
-              }
-            }
-          }
+        assert(0);
       }
-
-      calc_reflective_king[side_checking] = true;
-
-      if (!(calc_transmuting_king[side_checking]
-            && transmutation_of_king_of_checking_side_found)
-          && roicheck(sq_target,King,evaluate))
-        return true;
     }
     else if (CondFlag[sting]
         && (*checkfunctions[Grasshopper])(sq_target, King, evaluate))
@@ -364,11 +334,11 @@ boolean is_a_square_attacked(Side side_checking,
   {
     Side const neutcoul_save = neutral_side;
     initialise_neutrals(side_checking);
-    result = does_observe_square_impl(side_checking,sq_target,evaluate);
+    result = does_observe_square_impl(sq_target,evaluate);
     initialise_neutrals(neutcoul_save);
   }
   else
-    result = does_observe_square_impl(side_checking,sq_target,evaluate);
+    result = does_observe_square_impl(sq_target,evaluate);
 
   finply();
 

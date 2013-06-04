@@ -191,15 +191,15 @@ strange "cages" were selected for neutral pieces
               CageCirce
 
   1.nPg5-g4 + nPg4-g5
-  1.nPg5-g4 + Kf3-g3
-  1.nPg5-g4 + Kf3-f4
-  1.nPg5-g4 + Kf3-e3
-  1.nPg5-g4 + Kf3-f2
-  1.nPg5-g4 + Kf3-e4
-  1.nPg5-g4 + Kf3*g4[+nPg5]
-  1.nPg5-g4 + Kf3-g2
   1.nPg5-g4 + Kf3-e2
-  1.Ke7-f7 nPg5-g6 +
+  1.nPg5-g4 + Kf3-g2
+  1.nPg5-g4 + Kf3*g4[+nPg5]
+  1.nPg5-g4 + Kf3-e4
+  1.nPg5-g4 + Kf3-f2
+  1.nPg5-g4 + Kf3-e3
+  1.nPg5-g4 + Kf3-f4
+  1.nPg5-g4 + Kf3-g3
+  1.Ke7-d6 nPg5-g6
 
                         empile:         749
                      play_move:         144
@@ -277,18 +277,18 @@ a)
   1.nRg8-f8 nRf8-f5   2.Be8-f7 nRf5-h5 +   3.Qg6-g5 Ke7*f7 #
 
                         empile:     2393145
-                     play_move:     2150259
+                     play_move:     2147106
  is_white_king_square_attacked:      185502
- is_black_king_square_attacked:     2125212
+ is_black_king_square_attacked:     2122059
 b) bBe8-->h8
 
   1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
   1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
 
                         empile:     4065413
-                     play_move:     3693946
+                     play_move:     3666950
  is_white_king_square_attacked:      309625
- is_black_king_square_attacked:     3638415
+ is_black_king_square_attacked:     3611419
 solution finished. 
 
 
@@ -414,7 +414,7 @@ b) +wSa8
   1...Rh3-a3 #
 
                         empile:          53
-                     play_move:          45
+                     play_move:          44
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          43
 solution finished. 
@@ -450,9 +450,9 @@ Sentinelle insertion would occur before rebirth, which caused
   1.nKd5*c6[+wPb7] b7-b8=R   2.nKc6-c7[+wPc6] nKc7-c8[+bPc7] #
 
                         empile:        3274
-                     play_move:        2296
+                     play_move:        2398
  is_white_king_square_attacked:         289
- is_black_king_square_attacked:        2243
+ is_black_king_square_attacked:        2345
 solution finished. 
 
 
@@ -601,9 +601,9 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
   1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x
 
                         empile:         456
-                     play_move:         135
+                     play_move:         133
  is_white_king_square_attacked:          63
- is_black_king_square_attacked:          81
+ is_black_king_square_attacked:          79
 solution finished. 
 
 
@@ -741,9 +741,9 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
                         empile:     1058816
-                     play_move:      616035
+                     play_move:      673819
  is_white_king_square_attacked:       85491
- is_black_king_square_attacked:      615126
+ is_black_king_square_attacked:      672910
 solution finished. 
 
 
@@ -779,8 +779,8 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
 
                         empile:         279
                      play_move:         300
- is_white_king_square_attacked:         107
- is_black_king_square_attacked:         201
+ is_white_king_square_attacked:          95
+ is_black_king_square_attacked:         211
 solution finished. 
 
 
@@ -909,9 +909,9 @@ f*g7[S->h5] S*g7[P->f6] f*g7[S->h5] ...
 
 
                         empile:      100854
-                     play_move:      253654
- is_white_king_square_attacked:      215944
- is_black_king_square_attacked:       74701
+                     play_move:      250737
+ is_white_king_square_attacked:      212683
+ is_black_king_square_attacked:       75024
 solution finished. 
 
 
@@ -1016,9 +1016,9 @@ Popeye 4.61 didn't support option maxsolutions in helpself stipulations
   1.Ra5-a1 g3*h2   2.Ra1-e1 + Bh4*e1 #
 
                         empile:       34592
-                     play_move:       28505
- is_white_king_square_attacked:       28295
- is_black_king_square_attacked:        9211
+                     play_move:       29447
+ is_white_king_square_attacked:       29237
+ is_black_king_square_attacked:       10117
 solving interrupted. 
 
 
@@ -1050,8 +1050,8 @@ solving interrupted.
   1.Sb8-c6 f2-f1=Q #
 
                         empile:          33
-                     play_move:          39
- is_white_king_square_attacked:          34
+                     play_move:          37
+ is_white_king_square_attacked:          32
  is_black_king_square_attacked:           0
 solving interrupted. 
 
@@ -1157,9 +1157,9 @@ Until 4.61, pieces reborn on magic squares did not change
               AntiCirce
 
   1.Rh1-h2 Kg1-f2 z
-  1.Kh8-g8 + Kg1-f2 z
-  1.Kh8-h7 + Kg1-f2 z
   1.Kh8-g7 + Kg1-f2 z
+  1.Kh8-h7 + Kg1-f2 z
+  1.Kh8-g8 + Kg1-f2 z
 
                         empile:          36
                      play_move:          13
@@ -1228,15 +1228,15 @@ sttipulations with logically connected goals
 +---a---b---c---d---e---f---g---h---+
   black 4hh[x&=]              3 + 2
 
-  1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 x
-  1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 =
   1.Kb8-a7 Be7-d6   2.Ka7-a8 Kb5*b6 x
   1.Kb8-a7 Be7-d6   2.Ka7-a8 Kb5*b6 =
+  1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 x
+  1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 =
 
                         empile:        8233
-                     play_move:        3391
+                     play_move:        3837
  is_white_king_square_attacked:        1612
- is_black_king_square_attacked:        3010
+ is_black_king_square_attacked:        3456
 solution finished. 
 
 
@@ -1303,18 +1303,18 @@ movenumbers and nested series branches; until 4.61, Popeye produced
   3  (h2-h1=R )
   4  (h2-h1=B )
   5  (f3-f2 )
-  6  (Kg3-h3 )
-  7  (Kg3-g4 )
-  8  (Kg3-g2 )
+  6  (Kg3-f2 )
+  7  (Kg3-h4 )
+  8  (Kg3-f4 )
+  9  (Kg3-g2 )
   1.Kg3-g2 Kd2-e1   2.Kg2-h1 Rc8-c1   3.f3-f2 + Ke1*f2 #
-  9  (Kg3-f4 )
- 10  (Kg3-h4 )
- 11  (Kg3-f2 )
+ 10  (Kg3-g4 )
+ 11  (Kg3-h3 )
 
                         empile:      235771
-                     play_move:      250617
+                     play_move:      250400
  is_white_king_square_attacked:      221287
- is_black_king_square_attacked:      216556
+ is_black_king_square_attacked:      216339
 solution finished. 
 
 

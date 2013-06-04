@@ -24,10 +24,10 @@
             AntiSuperCirce
                 Duplex
 
-  1.Ta5*a8[wTa8->a1]   2.0-0-0 
-  1.Ta5*a8[wTa8->h1]   2.0-0 
+  1.Ta5*a8[wTa8->a1]   2.0-0-0
+  1.Ta5*a8[wTa8->h1]   2.0-0
 
-  1.Kb4*a5[sKa5->e8]   2.0-0-0 
+  1.Kb4*a5[sKa5->e8]   2.0-0-0
 
                         empile:          84
                      play_move:         223
@@ -799,18 +799,18 @@ a)
 
 
                         empile:         195
-                     play_move:         138
+                     play_move:         198
  is_white_king_square_attacked:          67
- is_black_king_square_attacked:         134
+ is_black_king_square_attacked:         194
 b) AntiSuperCirce  Cheylan
 
    1.Kd6*c6[wKc6->c7] = !
 
 
                         empile:         192
-                     play_move:         134
+                     play_move:         194
  is_white_king_square_attacked:          66
- is_black_king_square_attacked:         130
+ is_black_king_square_attacked:         190
 Loesung beendet. 
 
 

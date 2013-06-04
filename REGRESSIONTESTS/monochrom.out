@@ -33,10 +33,10 @@
                           4.Tg1-g7 #
 
 
-                        empile:      113096
-                     play_move:       44496
- is_white_king_square_attacked:       15329
- is_black_king_square_attacked:       31597
+                        empile:      106602
+                     play_move:       43240
+ is_white_king_square_attacked:       14745
+ is_black_king_square_attacked:       30521
 Loesung beendet. 
 
 
@@ -66,14 +66,14 @@ Loesung beendet.
 
 a) 
 
-  1.b7-b8=D   2.Db8-a8 # 
-  1.b7-b8=D   2.Db8-g8 # 
-  1.b7-b8=D   2.Db8-e8 # 
-  1.b7-b8=D   2.Db8-c8 # 
-  1.b7-b8=T   2.Tb8-a8 # 
-  1.b7-b8=T   2.Tb8-g8 # 
-  1.b7-b8=T   2.Tb8-e8 # 
-  1.b7-b8=T   2.Tb8-c8 # 
+  1.b7-b8=D   2.Db8-a8 #
+  1.b7-b8=D   2.Db8-g8 #
+  1.b7-b8=D   2.Db8-e8 #
+  1.b7-b8=D   2.Db8-c8 #
+  1.b7-b8=T   2.Tb8-a8 #
+  1.b7-b8=T   2.Tb8-g8 #
+  1.b7-b8=T   2.Tb8-e8 #
+  1.b7-b8=T   2.Tb8-c8 #
 
                         empile:         145
                      play_move:          91
@@ -81,15 +81,15 @@ a)
  is_black_king_square_attacked:          98
 b) wBb7-->d7
 
-  1.d7-d8=D   2.Dd8-a8 # 
-  1.d7-d8=D   2.Dd8-c8 # 
-  1.d7-d8=D   2.Dd8-g8 # 
-  1.d7-d8=D   2.Dd8-e8 # 
-  1.d7-d8=S   2.Sd8-f7 # 
-  1.d7-d8=T   2.Td8-a8 # 
-  1.d7-d8=T   2.Td8-c8 # 
-  1.d7-d8=T   2.Td8-g8 # 
-  1.d7-d8=T   2.Td8-e8 # 
+  1.d7-d8=D   2.Dd8-a8 #
+  1.d7-d8=D   2.Dd8-c8 #
+  1.d7-d8=D   2.Dd8-g8 #
+  1.d7-d8=D   2.Dd8-e8 #
+  1.d7-d8=S   2.Sd8-f7 #
+  1.d7-d8=T   2.Td8-a8 #
+  1.d7-d8=T   2.Td8-c8 #
+  1.d7-d8=T   2.Td8-g8 #
+  1.d7-d8=T   2.Td8-e8 #
 
                         empile:         150
                      play_move:          95
@@ -97,15 +97,15 @@ b) wBb7-->d7
  is_black_king_square_attacked:         103
 c) wBb7-->f7
 
-  1.f7-f8=D   2.Df8-a8 # 
-  1.f7-f8=D   2.Df8-c8 # 
-  1.f7-f8=D   2.Df8-e8 # 
-  1.f7-f8=D   2.Df8-g8 # 
-  1.f7-f8=S   2.Sf8-g6 # 
-  1.f7-f8=T   2.Tf8-a8 # 
-  1.f7-f8=T   2.Tf8-c8 # 
-  1.f7-f8=T   2.Tf8-e8 # 
-  1.f7-f8=T   2.Tf8-g8 # 
+  1.f7-f8=D   2.Df8-a8 #
+  1.f7-f8=D   2.Df8-c8 #
+  1.f7-f8=D   2.Df8-e8 #
+  1.f7-f8=D   2.Df8-g8 #
+  1.f7-f8=S   2.Sf8-g6 #
+  1.f7-f8=T   2.Tf8-a8 #
+  1.f7-f8=T   2.Tf8-c8 #
+  1.f7-f8=T   2.Tf8-e8 #
+  1.f7-f8=T   2.Tf8-g8 #
 
                         empile:         130
                      play_move:          85

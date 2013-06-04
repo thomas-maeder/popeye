@@ -25,22 +25,6 @@ takes 13 min on Athlon 2400 / 200MB
   s#31                        1 + 3
              BlackChecks
 
-   1.Ka7-b7 ?
-    but
-      1... !
-
-   1.Ka7-a8 ?
-    but
-      1... !
-
-   1.Ka7-a6 ?
-    but
-      1... !
-
-   1.Ka7-b8 ?
-    but
-      1... !
-
    1.Ka7-b6 !
       1...
           2.Kb6-c5
@@ -104,11 +88,27 @@ takes 13 min on Athlon 2400 / 200MB
                                                                                                                                                                                                                                                  31.Kb8-c8
                                                                                                                                                                                                                                                      31...Se4-d6 #
 
+   1.Ka7-b8 ?
+    but
+      1... !
 
-                        empile:    89448571
-                     play_move:    58246350
- is_white_king_square_attacked:    58585887
- is_black_king_square_attacked:    10800225
+   1.Ka7-a6 ?
+    but
+      1... !
+
+   1.Ka7-a8 ?
+    but
+      1... !
+
+   1.Ka7-b7 ?
+    but
+      1... !
+
+
+                        empile:    89505906
+                     play_move:    58339784
+ is_white_king_square_attacked:    58679000
+ is_black_king_square_attacked:    10808101
 solution finished. 
 
 

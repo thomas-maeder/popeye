@@ -70,10 +70,10 @@
                   3.Sd4-c2 #
 
 
-                        empile:      312227
-                     play_move:      169690
- is_white_king_square_attacked:       18105
- is_black_king_square_attacked:      166276
+                        empile:      312329
+                     play_move:      162044
+ is_white_king_square_attacked:       18136
+ is_black_king_square_attacked:      158630
 Loesung beendet. 
 
 
@@ -114,9 +114,9 @@ Loesung beendet.
                   3.B/Sg3-g4 #
       1...Te1-f1
           2.B/Sf2*d1 +
-              2...Ke2-e3
-                  3.Dg2-e2 #
               2...Ke2-e1
+                  3.Dg2-e2 #
+              2...Ke2-e3
                   3.Dg2-e2 #
 
    1.Sh3-g1 + ?
@@ -136,10 +136,10 @@ Loesung beendet.
       1...g3*f2 !
 
 
-                        empile:      237096
-                     play_move:      131327
- is_white_king_square_attacked:       17646
- is_black_king_square_attacked:      128439
+                        empile:      235771
+                     play_move:      125589
+ is_white_king_square_attacked:       17484
+ is_black_king_square_attacked:      122711
 Loesung beendet. 
 
 

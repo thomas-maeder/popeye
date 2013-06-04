@@ -23,14 +23,14 @@
 +---a---b---c---d---e---f---g---h---+
   h=2                         3 + 3
 
-  1...Sh4-g6   2.h2-h1=BO Sg6-f8 = 
+  1...Sh4-g6   2.h2-h1=BO Sg6-f8 =
 
-  1.h2-h1=BO Kg4*h3   2.BOh1-h7 Kh3-g4 = 
+  1.h2-h1=BO Kg4*h3   2.BOh1-h7 Kh3-g4 =
 
                         empile:       45628
-                     play_move:       18878
+                     play_move:       24895
  is_white_king_square_attacked:        9265
- is_black_king_square_attacked:       16854
+ is_black_king_square_attacked:       22871
 Loesung beendet. 
 
 

@@ -25,21 +25,21 @@ Type1: RepublicanChess is suspended when a side inserts the king
 
 a) 
 
-  1.Rg2-h2 Be6-d5[+bKh1] # 
+  1.Rg2-h2 Be6-d5[+bKh1] #
 
                         empile:       62109
-                     play_move:       16691
- is_white_king_square_attacked:        2276
- is_black_king_square_attacked:       44277
+                     play_move:       16679
+ is_white_king_square_attacked:        2234
+ is_black_king_square_attacked:       44307
 b) #1
 
    1.Ra1-h1[+bKh3] # !
 
 
                         empile:        3135
-                     play_move:         866
+                     play_move:         876
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        2341
+ is_black_king_square_attacked:        2351
 solution finished. 
 
 
@@ -70,20 +70,20 @@ Type2 ist Vorgabe; RepublicanerSchach wird nicht suspendiert
 
 a) 
 
-  1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
+  1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] #
 
                         empile:       82373
-                     play_move:       24156
- is_white_king_square_attacked:        2883
- is_black_king_square_attacked:       54416
+                     play_move:       22801
+ is_white_king_square_attacked:        2898
+ is_black_king_square_attacked:       53046
 b) RepublicanChess    Type2
 
-  1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
+  1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] #
 
                         empile:       82373
-                     play_move:       24156
- is_white_king_square_attacked:        2883
- is_black_king_square_attacked:       54416
+                     play_move:       22801
+ is_white_king_square_attacked:        2898
+ is_black_king_square_attacked:       53046
 solution finished. 
 
 
@@ -149,9 +149,9 @@ solution finished.
 
 
                         empile:       17070
-                     play_move:        6547
- is_white_king_square_attacked:        3860
- is_black_king_square_attacked:       16518
+                     play_move:        5835
+ is_white_king_square_attacked:        3715
+ is_black_king_square_attacked:       15951
 solution finished. 
 
 
@@ -199,9 +199,9 @@ solution finished.
 
 
                         empile:       49027
-                     play_move:       13443
- is_white_king_square_attacked:        8945
- is_black_king_square_attacked:       34758
+                     play_move:       14609
+ is_white_king_square_attacked:        9138
+ is_black_king_square_attacked:       35731
 solution finished. 
 
 
@@ -249,9 +249,9 @@ solution finished.
 
 
                         empile:       42940
-                     play_move:       10558
- is_white_king_square_attacked:        1780
- is_black_king_square_attacked:       33744
+                     play_move:       10394
+ is_white_king_square_attacked:        1760
+ is_black_king_square_attacked:       33600
 solution finished. 
 
 
@@ -281,15 +281,15 @@ solution finished.
   hs#2                        2 + 3
        RepublicanChess    Type2
 
-  1.Rb7-h7 Rd1-d4   2.Rh7-h1[+bKe1] + Rd4-d2[+wKg1] # 
-  1.Rb2-g2 Rd1-d6   2.Rg2-g8[+bKd8] + Rd6-d7[+wKf8] # 
-  1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] # 
-  1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] # 
+  1.Rb7-h7 Rd1-d4   2.Rh7-h1[+bKe1] + Rd4-d2[+wKg1] #
+  1.Rb2-g2 Rd1-d6   2.Rg2-g8[+bKd8] + Rd6-d7[+wKf8] #
+  1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] #
+  1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] #
 
                         empile:     4180266
-                     play_move:     1137415
- is_white_king_square_attacked:     3309137
- is_black_king_square_attacked:     2523542
+                     play_move:     1115459
+ is_white_king_square_attacked:     3303013
+ is_black_king_square_attacked:     2508942
 solution finished. 
 
 
@@ -333,9 +333,9 @@ solution finished.
 
 
                         empile:       35574
-                     play_move:        7883
- is_white_king_square_attacked:        4467
- is_black_king_square_attacked:       26210
+                     play_move:        9299
+ is_white_king_square_attacked:        4531
+ is_black_king_square_attacked:       27562
 solution finished. 
 
 
@@ -538,9 +538,9 @@ solution finished.
 
 
                         empile:     7754782
-                     play_move:     2347433
- is_white_king_square_attacked:     9470386
- is_black_king_square_attacked:     3094423
+                     play_move:     2365521
+ is_white_king_square_attacked:     9471764
+ is_black_king_square_attacked:     3111133
 solution finished. 
 
 

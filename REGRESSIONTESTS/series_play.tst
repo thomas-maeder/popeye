@@ -86,11 +86,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ser-h##!2                   2 + 3
 
-  1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##! 
+  1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##!
 
                         empile:        2250
-                     play_move:        1760
- is_white_king_square_attacked:        1206
+                     play_move:        1914
+ is_white_king_square_attacked:        1360
  is_black_king_square_attacked:        1023
 solution finished. 
 
@@ -119,7 +119,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ser-003                     3 + 3
 
-  1.Sb5-d4   2.Sd4*e2   3.0-0 
+  1.Sb5-d4   2.Sd4*e2   3.0-0
 
                         empile:         862
                      play_move:         407
@@ -152,12 +152,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   exact-ser-r#2               4 + 3
 
-  1.Qb5-e2   2.Qe2-b2 + c3*b2 # 
+  1.Qb5-e2   2.Qe2-b2 + c3*b2 #
 
                         empile:        1198
-                     play_move:         847
- is_white_king_square_attacked:         688
- is_black_king_square_attacked:         293
+                     play_move:        1048
+ is_white_king_square_attacked:         698
+ is_black_king_square_attacked:         484
 solution finished. 
 
 
@@ -218,7 +218,7 @@ no solution in 2 - Black has to deliver mate immediately
 +---a---b---c---d---e---f---g---h---+
   ser-r#2                     2 + 5
 
-  1.h3-h4 b3-b2 # 
+  1.h3-h4 b3-b2 #
 
                         empile:          18
                      play_move:          18
@@ -251,7 +251,7 @@ stop solving when the goal is reached
 +---a---b---c---d---e---f---g---h---+
   ser-sx2                     3 + 1
 
-  1.h3-h4 Ka8*a7 x 
+  1.h3-h4 Ka8*a7 x
 
                         empile:          11
                      play_move:          11

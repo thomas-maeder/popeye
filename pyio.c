@@ -138,6 +138,7 @@
 #include "conditions/phantom.h"
 #include "conditions/annan.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/vaulting_kings.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -501,8 +502,8 @@ static void WriteConditions(int alignment)
 
     if ( cond == whvault_king || cond == vault_king)
     {
-        if (transmpieces[White][0] != EquiHopper || transmpieces[White][1] != Empty)
-          WritePieces(transmpieces[White], CondLine);
+        if (king_vaulters[White][0] != EquiHopper || king_vaulters[White][1] != Empty)
+          WritePieces(king_vaulters[White], CondLine);
         if (calc_transmuting_king[White])
         {
           char LocalBuf[4];
@@ -514,8 +515,8 @@ static void WriteConditions(int alignment)
 
     if ( cond == blvault_king )
     {
-        if (transmpieces[Black][0] != EquiHopper || transmpieces[Black][1] != Empty)
-          WritePieces(transmpieces[Black], CondLine);
+        if (king_vaulters[Black][0] != EquiHopper || king_vaulters[Black][1] != Empty)
+          WritePieces(king_vaulters[Black], CondLine);
         if (calc_transmuting_king[Black])
         {
           char LocalBuf[4];
@@ -4768,60 +4769,49 @@ static char *ParseMummerStrictness(mummer_strictness_type *strictness)
   return tok;
 }
 
-static char *ParseVaultingPieces(Flags fl)
+static char *ParseVaultingPieces(Side side)
 {
-  PieNam p;
   char  *tok;
-  int tp = 0;
-  boolean gotpiece;
 
-  while (true) {
-    gotpiece = false;
+  while (true)
+  {
     tok = ReadNextTokStr();
     switch (strlen(tok))
     {
-    case 1:
-      p= GetPieNamIndex(*tok,' ');
-      gotpiece = true;
-      break;
-
-    case 2:
-      p= GetPieNamIndex(*tok,tok[1]);
-      gotpiece = true;
-      break;
-
-    default:
-      switch (GetUniqIndex(VariantTypeCount,VariantTypeTab,tok))
+      case 1:
       {
-        case Transmuting:
-          if (TSTFLAG(fl, White))
-            calc_transmuting_king[White]= true;
-          if (TSTFLAG(fl, Black))
-            calc_transmuting_king[Black]= true;
-          break;
+        PieNam const p = GetPieNamIndex(*tok,' ');
+        if (side!=Black)
+          append_king_vaulter(White,p);
+        if (side!=White)
+          append_king_vaulter(Black,p);
+        break;
+      }
 
-        default:
+      case 2:
+      {
+        PieNam const p = GetPieNamIndex(*tok,tok[1]);
+        if (side!=Black)
+          append_king_vaulter(White,p);
+        if (side!=White)
+          append_king_vaulter(Black,p);
+        break;
+      }
+
+      default:
+        if (GetUniqIndex(VariantTypeCount,VariantTypeTab,tok)==Transmuting)
+        {
+          if (side!=Black)
+            calc_transmuting_king[White]= true;
+          if (side!=White)
+            calc_transmuting_king[Black]= true;
+        }
+        else
           return tok;
-      }
-      break;
-    }
-    if (gotpiece)
-    {
-      if (TSTFLAG(fl, White)) {
-        transmpieces[White][tp] = p;
-      }
-      if (TSTFLAG(fl, Black)) {
-        transmpieces[Black][tp] = p;
-      }
-      tp++;
-      if (TSTFLAG(fl, White)) {
-        transmpieces[White][tp] = Empty;
-      }
-      if (TSTFLAG(fl, Black)) {
-        transmpieces[Black][tp] = Empty;
-      }
+        break;
     }
   }
+
   return tok;
 }
 
@@ -5016,25 +5006,19 @@ static char *ParseCond(void)
       case trans_king:
         CondFlag[whtrans_king] = true;
         CondFlag[bltrans_king] = true;
-        calc_transmuting_king[White]= true;
-        calc_transmuting_king[Black]= true;
         calc_reflective_king[White]= true;
         calc_reflective_king[Black]= true;
         break;
       case whtrans_king:
-        calc_transmuting_king[White]= true;
         calc_reflective_king[White]= true;
         break;
       case bltrans_king:
-        calc_transmuting_king[Black]= true;
         calc_reflective_king[Black]= true;
         break;
       case whsupertrans_king:
-        calc_transmuting_king[White]= true;
         calc_reflective_king[White]= true;
         break;
       case blsupertrans_king:
-        calc_transmuting_king[Black]= true;
         calc_reflective_king[Black]= true;
         break;
       case refl_king:
@@ -5054,20 +5038,16 @@ static char *ParseCond(void)
         CondFlag[blvault_king] = true;
         calc_reflective_king[White]= true;
         calc_reflective_king[Black]= true;
-        transmpieces[White][0]= EquiHopper;
-        transmpieces[Black][0]= EquiHopper;
-        transmpieces[White][1]= Empty;
-        transmpieces[Black][1]= Empty;
+        calc_transmuting_king[White] = false;
+        calc_transmuting_king[Black] = false;
         break;
       case whvault_king:
         calc_reflective_king[White]= true;
-        transmpieces[White][0]= EquiHopper;
-        transmpieces[White][1]= Empty;
+        calc_transmuting_king[White] = false;
         break;
       case blvault_king:
         calc_reflective_king[Black]= true;
-        transmpieces[Black][0]= EquiHopper;
-        transmpieces[Black][1]= Empty;
+        calc_transmuting_king[Black] = false;
         break;
       case whforsqu:
         ReadSquares(WhForcedSq);
@@ -5583,13 +5563,13 @@ static char *ParseCond(void)
         tok = ParseRex(&rex_geneva, rexincl);
         break;
       case whvault_king:
-        tok = ParseVaultingPieces(BIT(White));
+        tok = ParseVaultingPieces(White);
         break;
       case blvault_king:
-        tok = ParseVaultingPieces(BIT(Black));
+        tok = ParseVaultingPieces(Black);
         break;
       case vault_king:
-        tok = ParseVaultingPieces(BIT(White)|BIT(Black));
+        tok = ParseVaultingPieces(no_side);
         break;
       case gridchess:
         tok = ParseVariant(NULL, gpGrid);

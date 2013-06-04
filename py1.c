@@ -93,6 +93,8 @@
 #include "conditions/koeko/anti.h"
 #include "conditions/phantom.h"
 #include "conditions/annan.h"
+#include "conditions/vaulting_kings.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -309,7 +311,7 @@ void InitCond(void)
   rex_mess_ex = false;
   rex_wooz_ex = false;
   rex_protean_ex = false;
-  calctransmute = false;
+  transmuting_kings_lock_recursion = false;
 
   sentinelles_max_nr_pawns[Black] = 8;
   sentinelles_max_nr_pawns[White] = 8;
@@ -374,11 +376,10 @@ void InitCond(void)
   BGL_values[Black][1] = BGL_infinity;
   BGL_global= false;
 
-  calc_transmuting_king[White] = false;
-  calc_transmuting_king[White] = false;
-
   calc_reflective_king[White] = false;
   calc_reflective_king[Black] = false;
+
+  reset_king_vaulters();
 
   kobulking[White] = false;
   kobulking[Black] = false;

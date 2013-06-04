@@ -23,13 +23,13 @@
   h#2                         7 + 2
   SprungbockFarbeWechselnd d8 e7 g1
 
-  1.sGe7-c5[d6=s] sGg1-b6[c5=w] +   2.Ke6-f5 sGc5-e7[d6=w] # 
-  1.sGe7-g7[f7=s] sGg1-g8[g7=w] +   2.Ke6-e5 sGg7-e7[f7=w] # 
+  1.sGe7-c5[d6=s] sGg1-b6[c5=w] +   2.Ke6-f5 sGc5-e7[d6=w] #
+  1.sGe7-g7[f7=s] sGg1-g8[g7=w] +   2.Ke6-e5 sGg7-e7[f7=w] #
 
                         empile:       25527
-                     play_move:       16934
+                     play_move:       17711
  is_white_king_square_attacked:        1636
- is_black_king_square_attacked:       16851
+ is_black_king_square_attacked:       17628
 Loesung beendet. 
 
 

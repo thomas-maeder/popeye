@@ -61,10 +61,10 @@
               2...Nd6*e4
                   3.Nf5*e7 #
 
-                        empile:       68136
-                     play_move:       43120
- is_white_king_square_attacked:        3265
- is_black_king_square_attacked:       42897
+                        empile:       67889
+                     play_move:       45930
+ is_white_king_square_attacked:        3266
+ is_black_king_square_attacked:       45707
 Loesung beendet. 
 
 

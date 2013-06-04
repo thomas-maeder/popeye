@@ -24,12 +24,12 @@
   ser-h=5                     2 + 2
            UWnur D S T L G
 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=G Kc8-c7 = 
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=G Kc8-c7 =
 
                         empile:        1011
-                     play_move:         560
+                     play_move:         559
  is_white_king_square_attacked:         241
- is_black_king_square_attacked:         507
+ is_black_king_square_attacked:         506
 Loesung beendet. 
 
 
@@ -61,11 +61,11 @@ Loesung beendet.
            UWnur D S T L KN
               HalbDuplex
 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=KN   6.KNa1-a5   7.KNa5-b7 = 
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=KN   6.KNa1-a5   7.KNa5-b7 =
 
                         empile:        4609
-                     play_move:        2155
- is_white_king_square_attacked:        1886
+                     play_move:        2821
+ is_white_king_square_attacked:        2552
  is_black_king_square_attacked:        1203
 Loesung beendet. 
 
@@ -115,10 +115,10 @@ Loesung beendet.
                                                                   9.Kc8-b8
                                                                       9...Da1-h8 #
 
-                        empile:    11555204
-                     play_move:     6076051
- is_white_king_square_attacked:     3372167
- is_black_king_square_attacked:     4719088
+                        empile:    14715666
+                     play_move:     9506908
+ is_white_king_square_attacked:     4035123
+ is_black_king_square_attacked:     7785721
 Loesung beendet. 
 
 

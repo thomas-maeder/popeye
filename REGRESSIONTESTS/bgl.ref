@@ -92,9 +92,9 @@ solution finished.
 
 
                         empile:        2292
-                     play_move:        1616
+                     play_move:        1601
  is_white_king_square_attacked:          82
- is_black_king_square_attacked:        1071
+ is_black_king_square_attacked:        1056
 solution finished. 
 
 
@@ -127,9 +127,9 @@ solution finished.
   1.nPb2-b1=nR (-/28)   2.nRb1-h1 (-/22)   3.nRh1-a1 (-/15)   4.nRa1-a8 (-/8)   5.nRa8-h8 (-/1) nRh8*h6 (-/1) #
 
                         empile:     1275665
-                     play_move:     1162070
+                     play_move:     1161246
  is_white_king_square_attacked:       94088
- is_black_king_square_attacked:     1162066
+ is_black_king_square_attacked:     1161242
 solution finished. 
 
 
@@ -162,9 +162,9 @@ solution finished.
   1.a2-a1=N (26.42) Re7-c7 (24.42)   2.Na1-g4 (17.71) Rc7-c3 (13.71)   3.Ng4-a7 (7) Rc3-c8 (2) #
 
                         empile:     4163273
-                     play_move:     3789304
+                     play_move:     3752251
  is_white_king_square_attacked:      279475
- is_black_king_square_attacked:     3728448
+ is_black_king_square_attacked:     3691158
 solution finished. 
 
 
@@ -197,9 +197,9 @@ solution finished.
   1.a2-a1=S (16.65)   2.Sa1-b3 (14.41)   3.Sb3-c5 (12.17)   4.g2-g1=B (11.17) Bh5-f3 (8.34) #
 
                         empile:      116041
-                     play_move:      110560
+                     play_move:      111251
  is_white_king_square_attacked:        3759
- is_black_king_square_attacked:      102779
+ is_black_king_square_attacked:      103470
 solution finished. 
 
 
@@ -253,9 +253,9 @@ solution finished.
 
 
                         empile:        4144
-                     play_move:        2973
+                     play_move:        2940
  is_white_king_square_attacked:         226
- is_black_king_square_attacked:        2734
+ is_black_king_square_attacked:        2701
 solution finished. 
 
 
@@ -285,8 +285,8 @@ solution finished.
   h#2                    1 + 2 + 1n
               BGL 7/3.5
 
-  1.Kd1-d2 (7/2.5) nPa7-a8=nS (6/2.5)   2.nSa8-b6 (6/0.26) nSb6-c4 (3.76/0.26) #
   1.Kd1-c2 (7/2.09) nPa7-a8=nR (6/2.09)   2.nRa8-a6 (6/0.09) nRa6-c6 (4/0.09) #
+  1.Kd1-d2 (7/2.5) nPa7-a8=nS (6/2.5)   2.nSa8-b6 (6/0.26) nSb6-c4 (3.76/0.26) #
 
                         empile:        4215
                      play_move:        4644
@@ -321,8 +321,8 @@ solution finished.
   ser-h#4                     1 + 3
                BGL 2/6
 
-  1.Kd5-c6 (2/4.59)   2.Kc6-d7 (2/3.18)   3.Kd7-e8 (2/1.77)   4.Ke8-f7 (2/0.36) Kh7-g7 (1/0.36) #
   1.Kd5-e4 (2/4.59)   2.Ke4-f3 (2/3.18)   3.Kf3-g4 (2/1.77)   4.Kg4-h5 (2/0.36) Kh7-h6 (1/0.36) #
+  1.Kd5-c6 (2/4.59)   2.Kc6-d7 (2/3.18)   3.Kd7-e8 (2/1.77)   4.Ke8-f7 (2/0.36) Kh7-g7 (1/0.36) #
 
                         empile:        5294
                      play_move:        5297
@@ -362,7 +362,7 @@ solution finished.
                         empile:    14148928
                      play_move:    14148926
  is_white_king_square_attacked:     1525175
- is_black_king_square_attacked:    11146991
+ is_black_king_square_attacked:    11146989
 solution finished. 
 
 
@@ -395,8 +395,8 @@ solution finished.
   1.Sf6-h7 (4/10.76) Ka1-b2 (2.59/10.76)   2.a2-a1=B (2.59/9.76) + Kb2-b3 (1.59/9.76)   3.Ba1-g7 (1.59/1.27) Kb3-b4 (0.59/1.27) ==
 
                         empile:      425524
-                     play_move:      320609
- is_white_king_square_attacked:       56409
+                     play_move:      330888
+ is_white_king_square_attacked:       56081
  is_black_king_square_attacked:       81857
 solution finished. 
 
@@ -435,10 +435,10 @@ solution finished.
                       3...f3-f2 (1.01/2) #
 
 
-                        empile:      140222
-                     play_move:       79265
- is_white_king_square_attacked:       77700
- is_black_king_square_attacked:       41167
+                        empile:      143202
+                     play_move:       74459
+ is_white_king_square_attacked:       72858
+ is_black_king_square_attacked:       43812
 solution finished. 
 
 
@@ -499,10 +499,10 @@ solution finished.
           2.Qe8-c6 (3.17/1.76) #
 
 
-                        empile:        7922
-                     play_move:        4773
- is_white_king_square_attacked:         453
- is_black_king_square_attacked:        4019
+                        empile:        7983
+                     play_move:        4634
+ is_white_king_square_attacked:         441
+ is_black_king_square_attacked:        3860
 solution finished. 
 
 
@@ -539,20 +539,20 @@ a)
           2.Kd7-c7 (1/0.59) #
 
 
-                        empile:         613
-                     play_move:         514
- is_white_king_square_attacked:          46
- is_black_king_square_attacked:         346
+                        empile:         643
+                     play_move:         559
+ is_white_king_square_attacked:          47
+ is_black_king_square_attacked:         353
 b) BGL 8
 
    1.Kd7-c7 (7) ! threat:
           2.Rb5-a5 (6) #
 
 
-                        empile:         726
-                     play_move:         567
- is_white_king_square_attacked:          69
- is_black_king_square_attacked:         528
+                        empile:         756
+                     play_move:         599
+ is_white_king_square_attacked:          70
+ is_black_king_square_attacked:         552
 solution finished. 
 
 
@@ -588,7 +588,7 @@ solution finished.
   1.b6*a7 (0.59/2.5) Ka8-b8 (0.59/1.5) #
 
                         empile:          69
-                     play_move:          69
+                     play_move:          72
  is_white_king_square_attacked:          35
  is_black_king_square_attacked:          28
 solution finished. 
@@ -619,11 +619,11 @@ solution finished.
   #2                          2 + 1
                BGL 8/2
 
-   1.Kd7-e7 (7/2) ? zugzwang.
+   1.Kd7-c8 (6.59/2) ? zugzwang.
     but
-      1...Ka8-a7 (7/1) !
+      1...Ka8-a7 (6.59/1) !
 
-   1.Kd7-d8 (7/2) ? zugzwang.
+   1.Kd7-d6 (7/2) ? zugzwang.
     but
       1...Ka8-a7 (7/1) !
 
@@ -631,19 +631,19 @@ solution finished.
     but
       1...Ka8-a7 (7/1) !
 
-   1.Kd7-d6 (7/2) ? zugzwang.
+   1.Kd7-d8 (7/2) ? zugzwang.
     but
       1...Ka8-a7 (7/1) !
 
-   1.Kd7-c8 (6.59/2) ? zugzwang.
+   1.Kd7-e7 (7/2) ? zugzwang.
     but
-      1...Ka8-a7 (6.59/1) !
+      1...Ka8-a7 (7/1) !
 
    1.Rb1-a1 (7/2) + ?
       1...Ka8-b7 (7/0.59)
-          2.Kd7-c7 (6/0.59) #
-          2.Kd7-c8 (5.59/0.59) #
           2.Kd7-c6 (5.59/0.59) #
+          2.Kd7-c8 (5.59/0.59) #
+          2.Kd7-c7 (6/0.59) #
           2.Ra1-a7 (1/0.59) #
           2.Ra1-b1 (6/0.59) #
     but
@@ -674,10 +674,10 @@ solution finished.
       1...Ka8-a7 (7/1) !
 
 
-                        empile:        1351
-                     play_move:        1186
- is_white_king_square_attacked:         100
- is_black_king_square_attacked:        1021
+                        empile:        1529
+                     play_move:        1325
+ is_white_king_square_attacked:         106
+ is_black_king_square_attacked:        1054
 solution finished. 
 
 

@@ -49,10 +49,10 @@
           2.0-0 #
 
 
-                        empile:       72395
-                     play_move:       56028
- is_white_king_square_attacked:        3980
- is_black_king_square_attacked:       44644
+                        empile:       70287
+                     play_move:       56543
+ is_white_king_square_attacked:        4227
+ is_black_king_square_attacked:       45236
 solution finished. 
 
 
@@ -127,9 +127,9 @@ solution finished.
 
 
                         empile:       32628
-                     play_move:       20848
- is_white_king_square_attacked:        8675
- is_black_king_square_attacked:       19498
+                     play_move:       21352
+ is_white_king_square_attacked:        8688
+ is_black_king_square_attacked:       19706
 solution finished. 
 
 

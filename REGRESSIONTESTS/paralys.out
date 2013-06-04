@@ -26,11 +26,11 @@
              SpiegelCirce
 
    1.pBb7-b8=pD ? Drohung:
-          2.Kd1-c2 #
           2.Kd1-e2 #
-      1...Gb4-b6
-          2.Kd1*d2[+sSg1] #
           2.Kd1-c2 #
+      1...Gb4-b6
+          2.Kd1-c2 #
+          2.Kd1*d2[+sSg1] #
       1...Sd7-b6
           2.Kd1-c2 #
       1...Sd7-e5
@@ -48,8 +48,8 @@
       1...Sd2-e4
           2.Kd1-c2 #
       1...Sd2-c4
-          2.Kd1-c2 #
           2.Kd1-e2 #
+          2.Kd1-c2 #
       1...Sd2-b3
           2.Kd1-c2 #
       1...Gh2-c2
@@ -105,10 +105,10 @@
           2.Kd1-e2 #
 
 
-                        empile:       14576
-                     play_move:        4876
- is_white_king_square_attacked:        4010
- is_black_king_square_attacked:        8262
+                        empile:       14932
+                     play_move:        4930
+ is_white_king_square_attacked:        4087
+ is_black_king_square_attacked:        8377
 Loesung beendet. 
 
 
@@ -138,8 +138,8 @@ Loesung beendet.
   h#2                         2 + 2
          Paralysierend d7 h4
 
-  1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 # 
-  1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 # 
+  1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 #
+  1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 #
 
                         empile:       17226
                      play_move:       18125
@@ -176,24 +176,24 @@ Loesung beendet.
 
    1.pSc4-e3 ! Drohung:
           2.Tb4-d4 #
-      1...Kd6-e6
-          2.pBe7-e8=pT #
-      1...Kd6-d7
-          2.pBe7-e8=pL #
-      1...Kd6*c6 +
-          2.pBe7-e8=pD #
-      1...Kd6-c7
-          2.pBe7-e8=pS #
-      1...Kd6*e7
-          2.Tb4-b7 #
       1...Kd6-c5
           2.Tb4-c4 #
+      1...Kd6*e7
+          2.Tb4-b7 #
+      1...Kd6-c7
+          2.pBe7-e8=pS #
+      1...Kd6*c6 +
+          2.pBe7-e8=pD #
+      1...Kd6-d7
+          2.pBe7-e8=pL #
+      1...Kd6-e6
+          2.pBe7-e8=pT #
 
 
-                        empile:        6191
-                     play_move:        1949
- is_white_king_square_attacked:        1455
- is_black_king_square_attacked:        3203
+                        empile:        6172
+                     play_move:        2014
+ is_white_king_square_attacked:        1481
+ is_black_king_square_attacked:        3254
 Loesung beendet. 
 
 
@@ -248,7 +248,7 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
 
                         empile:       15489
                      play_move:        3099
- is_white_king_square_attacked:        3878
+ is_white_king_square_attacked:        3881
  is_black_king_square_attacked:        6640
 Loesung beendet. 
 
@@ -294,10 +294,10 @@ a)
           2.Sb3-d4 #
 
 
-                        empile:        7376
-                     play_move:        2534
+                        empile:        7373
+                     play_move:        2539
  is_white_king_square_attacked:        2520
- is_black_king_square_attacked:        4554
+ is_black_king_square_attacked:        4559
 b) PlatzwechselCirce
 
    1.Df6-g5 ! Drohung:

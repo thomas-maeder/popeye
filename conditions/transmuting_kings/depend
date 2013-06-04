@@ -2,9 +2,9 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  conditions/transmuting_kings/transmuting_kings.c \
  conditions/transmuting_kings/transmuting_kings.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
- utilities/boolean.h utilities/enumeration.h pydata.h pyproc.h py4.h py.h \
+ utilities/boolean.h utilities/enumeration.h pyproc.h py4.h py.h \
  utilities/boolean.h position/position.h pylang.h pieces/vectors.h \
- stipulation/goals/goals.h py.h
+ stipulation/goals/goals.h py.h pydata.h pyproc.h solving/observation.h
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -19,8 +19,6 @@ position/piece.h:
 utilities/boolean.h:
 
 utilities/enumeration.h:
-
-pydata.h:
 
 pyproc.h:
 
@@ -39,6 +37,12 @@ pieces/vectors.h:
 stipulation/goals/goals.h:
 
 py.h:
+
+pydata.h:
+
+pyproc.h:
+
+solving/observation.h:
 conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  conditions/transmuting_kings/super.c \
  conditions/transmuting_kings/super.h solving/solve.h py.h \

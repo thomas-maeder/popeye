@@ -26,10 +26,10 @@ no check if pawn can't promote due to single box type 1
    1.Bb8-d6 = !
 
 
-                        empile:         361
-                     play_move:         492
+                        empile:         425
+                     play_move:         620
  is_white_king_square_attacked:          47
- is_black_king_square_attacked:         149
+ is_black_king_square_attacked:         213
 solution finished. 
 
 
@@ -62,10 +62,10 @@ solution finished.
       1...Bh1-e4 =
 
 
-                        empile:        3924
-                     play_move:        3861
- is_white_king_square_attacked:        1484
- is_black_king_square_attacked:         620
+                        empile:        3303
+                     play_move:        1952
+ is_white_king_square_attacked:        1017
+ is_black_king_square_attacked:         621
 solution finished. 
 
 
@@ -131,10 +131,10 @@ solution finished.
 
   1.d2-d1=R Sg5-f3 #
 
-                        empile:         424
-                     play_move:         362
+                        empile:         421
+                     play_move:         356
  is_white_king_square_attacked:          38
- is_black_king_square_attacked:         297
+ is_black_king_square_attacked:         294
 solution finished. 
 
 
@@ -168,23 +168,17 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
           2.Sg7-e6 +
               2...Kf4-e4
                   3.Qh3-f3 #
-      1...Kf4-e4
-          2.Qh3-f3 +
-              2...Ke4*d4
-                  3.Sg7-e6 +
-                      3...Kd4-c4
-                          4.Qf3-b3 #
       1...Kf4-g5
           2.f7*g8=R threat:
                   3.Sg7-h5 #
-              2...Kg5-g6
-                  3.Qh3-f5 #
-              2...Kg5-f6
-                  3.Qh3-f5 #
               2...Kg5-f4
                   3.Sg7-e6 +
                       3...Kf4-e4
                           4.Qh3-f3 #
+              2...Kg5-f6
+                  3.Qh3-f5 #
+              2...Kg5-g6
+                  3.Qh3-f5 #
               2...h6-h5
                   3.Sg7*h5 +
                       3...Kg5-h6
@@ -202,16 +196,22 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.g2-g3 #
                       3...Be7-g5
                           4.Qf5-h3 #
+      1...Kf4-e4
+          2.Qh3-f3 +
+              2...Ke4*d4
+                  3.Sg7-e6 +
+                      3...Kd4-c4
+                          4.Qf3-b3 #
       1...e5*d4
           2.Qh3-f3 +
-              2...Kf4-e5
-                  3.Qf3-f5 +
-                      3...Ke5-d6
-                          4.Sg7-e8 #
               2...Kf4-g5
                   3.Qf3-f5 +
                       3...Kg5-h4
                           4.Qf5-f4 #
+              2...Kf4-e5
+                  3.Qf3-f5 +
+                      3...Ke5-d6
+                          4.Sg7-e8 #
       1...Bg8*f7
           2.Qh3-f3 +
               2...Kf4-g5
@@ -220,10 +220,10 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.d4*e5 #
 
 
-                        empile:     1888917
-                     play_move:     1278108
- is_white_king_square_attacked:      527021
- is_black_king_square_attacked:      565906
+                        empile:     1815796
+                     play_move:     1243109
+ is_white_king_square_attacked:      520511
+ is_black_king_square_attacked:      545201
 solution finished. 
 
 
@@ -328,10 +328,10 @@ Example 1
                                           6.Qe5-g5 #
 
 
-                        empile:     9233086
-                     play_move:     8090763
- is_white_king_square_attacked:     4946997
- is_black_king_square_attacked:     1669169
+                        empile:     9101392
+                     play_move:     7984864
+ is_white_king_square_attacked:     4949131
+ is_black_king_square_attacked:     1582294
 solution finished. 
 
 
@@ -388,10 +388,10 @@ solution finished.
       1...c6*d5 !
 
 
-                        empile:     1055819
-                     play_move:      782623
- is_white_king_square_attacked:       79269
- is_black_king_square_attacked:      435506
+                        empile:     1068182
+                     play_move:      805784
+ is_white_king_square_attacked:       79040
+ is_black_king_square_attacked:      447684
 solution finished. 
 
 

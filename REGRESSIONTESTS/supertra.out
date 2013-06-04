@@ -78,9 +78,9 @@
 
 
                         empile:       25030
-                     play_move:       19289
- is_white_king_square_attacked:        1089
- is_black_king_square_attacked:       18735
+                     play_move:       20180
+ is_white_king_square_attacked:        1076
+ is_black_king_square_attacked:       19639
 Loesung beendet. 
 
 
@@ -137,51 +137,48 @@ Loesung beendet.
     Aber
       1...Tb7-g7 !
 
-   1.Kd5-d6 ? Drohung:
-          2.Ta5-h5 #
-      1...Tb7-b4
-          2.La8*f3 #
-      1...Tb7-b5
-          2.La8*f3 #
-      1...Tb7-b6 +
-          2.Kd6-d1=T #
-      1...Tb7-d7 +
-          2.Kd6-h6=T #
-    Aber
-      1...Ta3*a4 !
-
-   1.Kd5-d4 ! Drohung:
+   1.Kd5-c4 ? Drohung:
+          2.Td8-d1 #
           2.Ta5-h5 #
       1...Ta3*a4 +
-          2.Kd4-d1=T #
+          2.Kc4-c1=T #
       1...Tb7-b4 +
-          2.Kd4-d1=T #
+          2.Kc4-c1=T #
       1...Tb7-b5
+          2.Td8-d1 #
           2.La8*f3 #
-      1...Tb7-d7 +
-          2.Kd4-h4=T #
-
-   1.Kd5-c6 ! Drohung:
-          2.Td8-d1 #
-          2.Ta5-h5 #
-      1...La2*b3
-          2.Ta5-h5 #
-      1...Ta3*a4
-          2.Td8-d1 #
-      1...Tb7-b4
-          2.Td8-d1 #
-      1...Tb7-b5
-          2.Td8-d1 #
-      1...Tb7-b6 +
-          2.Kc6-c1=T #
       1...Tb7-g7
           2.Ta5-h5 #
       1...Tb7-e7
+          2.La8*f3 #
           2.Ta5-h5 #
       1...Tb7-d7
+          2.La8*f3 #
           2.Ta5-h5 #
       1...Tb7-c7 +
-          2.Kc6-h6=T #
+          2.Kc4-h4=T #
+    Aber
+      1...La2*b3 + !
+
+   1.Kd5-e4 ! Drohung:
+          2.Td8-d1 #
+          2.Ta5-h5 #
+      1...La2-b1 +
+          2.Ke4*f3=L #
+      1...La2*b3
+          2.Ta5-h5 #
+      1...Ta3*a4 +
+          2.Ke4-e1=T #
+      1...Tb7-b4 +
+          2.Ke4-e1=T #
+      1...Tb7-b5
+          2.Td8-d1 #
+      1...Tb7-g7
+          2.Ta5-h5 #
+      1...Tb7-e7 +
+          2.Ke4-h4=T #
+      1...Tb7-d7
+          2.Ta5-h5 #
 
    1.Kd5-e6 ? Drohung:
           2.Td8-d1 #
@@ -206,48 +203,51 @@ Loesung beendet.
     Aber
       1...La2*b3 + !
 
-   1.Kd5-e4 ! Drohung:
+   1.Kd5-c6 ! Drohung:
           2.Td8-d1 #
           2.Ta5-h5 #
-      1...La2-b1 +
-          2.Ke4*f3=L #
       1...La2*b3
           2.Ta5-h5 #
-      1...Ta3*a4 +
-          2.Ke4-e1=T #
-      1...Tb7-b4 +
-          2.Ke4-e1=T #
+      1...Ta3*a4
+          2.Td8-d1 #
+      1...Tb7-b4
+          2.Td8-d1 #
       1...Tb7-b5
           2.Td8-d1 #
-      1...Tb7-g7
-          2.Ta5-h5 #
-      1...Tb7-e7 +
-          2.Ke4-h4=T #
-      1...Tb7-d7
-          2.Ta5-h5 #
-
-   1.Kd5-c4 ? Drohung:
-          2.Td8-d1 #
-          2.Ta5-h5 #
-      1...Ta3*a4 +
-          2.Kc4-c1=T #
-      1...Tb7-b4 +
-          2.Kc4-c1=T #
-      1...Tb7-b5
-          2.Td8-d1 #
-          2.La8*f3 #
+      1...Tb7-b6 +
+          2.Kc6-c1=T #
       1...Tb7-g7
           2.Ta5-h5 #
       1...Tb7-e7
-          2.La8*f3 #
           2.Ta5-h5 #
       1...Tb7-d7
-          2.La8*f3 #
           2.Ta5-h5 #
       1...Tb7-c7 +
-          2.Kc4-h4=T #
+          2.Kc6-h6=T #
+
+   1.Kd5-d4 ! Drohung:
+          2.Ta5-h5 #
+      1...Ta3*a4 +
+          2.Kd4-d1=T #
+      1...Tb7-b4 +
+          2.Kd4-d1=T #
+      1...Tb7-b5
+          2.La8*f3 #
+      1...Tb7-d7 +
+          2.Kd4-h4=T #
+
+   1.Kd5-d6 ? Drohung:
+          2.Ta5-h5 #
+      1...Tb7-b4
+          2.La8*f3 #
+      1...Tb7-b5
+          2.La8*f3 #
+      1...Tb7-b6 +
+          2.Kd6-d1=T #
+      1...Tb7-d7 +
+          2.Kd6-h6=T #
     Aber
-      1...La2*b3 + !
+      1...Ta3*a4 !
 
    1.Df2-g1 + ?
     Aber
@@ -263,9 +263,9 @@ Loesung beendet.
 
 
                         empile:       35771
-                     play_move:       22935
+                     play_move:       23145
  is_white_king_square_attacked:        3156
- is_black_king_square_attacked:       20895
+ is_black_king_square_attacked:       21105
 Loesung beendet. 
 
 
@@ -345,10 +345,10 @@ Loesung beendet.
           2.Db6-b7 #
 
 
-                        empile:       16907
-                     play_move:       13717
- is_white_king_square_attacked:        1378
- is_black_king_square_attacked:       13043
+                        empile:       16843
+                     play_move:       13730
+ is_white_king_square_attacked:        1315
+ is_black_king_square_attacked:       13118
 Loesung beendet. 
 
 
@@ -521,9 +521,9 @@ Nr. 39, 9. TT Chess Composition Microweb C 17.6.2002
 
 
                         empile:      103208
-                     play_move:       85800
+                     play_move:       85974
  is_white_king_square_attacked:        4014
- is_black_king_square_attacked:       84254
+ is_black_king_square_attacked:       84428
 Loesung beendet. 
 
 
@@ -559,21 +559,21 @@ a)
   1.Kg7-f8 Kd5-d4   2.a2-a1=D + Kd4*a1=D   3.Th8-g8 Da1-f6 #
 
                         empile:     6163583
-                     play_move:     4513505
- is_white_king_square_attacked:      192558
- is_black_king_square_attacked:     4168795
+                     play_move:     4466945
+ is_white_king_square_attacked:      176253
+ is_black_king_square_attacked:     4131582
 b) sBa2-->b2
 
-  1.Kg7-f8 Kd5-c5   2.Th8-g8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
   1.Kg7-f8 Kd5-c6   2.Th8-g8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
+  1.Kg7-f8 Kd5-c5   2.Th8-g8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
   1.Te8-f8 Kd5-e4   2.b2-b1=D + Ke4*b1=D   3.Kg7-g8 Db1-g6 #
-  1.Th8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
   1.Th8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
+  1.Th8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
 
                         empile:     6320382
-                     play_move:     4570852
- is_white_king_square_attacked:      184651
- is_black_king_square_attacked:     4224534
+                     play_move:     4526979
+ is_white_king_square_attacked:      170482
+ is_black_king_square_attacked:     4189185
 Loesung beendet. 
 
 

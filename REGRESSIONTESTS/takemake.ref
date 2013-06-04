@@ -30,9 +30,9 @@
   1.Rc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 #
 
                         empile:       70167
-                     play_move:       59891
+                     play_move:       59264
  is_white_king_square_attacked:        8779
- is_black_king_square_attacked:       59508
+ is_black_king_square_attacked:       58881
 solution finished. 
 
 
@@ -70,17 +70,17 @@ a)
   1.Sg3-e4 Rd4*e4-g5 +   2.Rf8-f5 Be6*f5-f4 #
 
                         empile:     5260698
-                     play_move:     2659225
+                     play_move:     2688657
  is_white_king_square_attacked:      352298
- is_black_king_square_attacked:     2657163
+ is_black_king_square_attacked:     2686595
 b) bPd2-->g5
 
   1.Sg3-f5 + Be6*f5-g3 +   2.Rf8-f4 Rd4*f4-f5 #
 
                         empile:     4231704
-                     play_move:     2244237
+                     play_move:     2272266
  is_white_king_square_attacked:      285201
- is_black_king_square_attacked:     2242318
+ is_black_king_square_attacked:     2270347
 solution finished. 
 
 
@@ -115,33 +115,33 @@ a)
   1...g2-g3   2.Kf2*f3-g4 h2-h3 #
 
                         empile:        3068
-                     play_move:        2603
+                     play_move:        2644
  is_white_king_square_attacked:         118
- is_black_king_square_attacked:        2585
+ is_black_king_square_attacked:        2626
 b) wSf3 
 
   1...h2-h3   2.Kf2*f3-h4 g2-g3 #
 
                         empile:        3126
-                     play_move:        2429
+                     play_move:        2494
  is_white_king_square_attacked:         187
- is_black_king_square_attacked:        2411
+ is_black_king_square_attacked:        2476
 +c) wKg6-->g7
 
   1...g2-g4   2.Kf2*f3-g5 h2-h4 #
 
                         empile:        3414
-                     play_move:        2572
+                     play_move:        2634
  is_white_king_square_attacked:         167
- is_black_king_square_attacked:        2554
+ is_black_king_square_attacked:        2616
 +d) wBf3 
 
   1...h2-h4   2.Kf2*f3-h5 g2-g4 #
 
                         empile:        3190
-                     play_move:        2663
+                     play_move:        2690
  is_white_king_square_attacked:          99
- is_black_king_square_attacked:        2645
+ is_black_king_square_attacked:        2672
 solution finished. 
 
 
@@ -179,10 +179,10 @@ solution finished.
                       3...Ka8*a7-a8 x
 
 
-                        empile:        1238
-                     play_move:         543
- is_white_king_square_attacked:         250
- is_black_king_square_attacked:         300
+                        empile:        1424
+                     play_move:         610
+ is_white_king_square_attacked:         251
+ is_black_king_square_attacked:         366
 solution finished. 
 
 

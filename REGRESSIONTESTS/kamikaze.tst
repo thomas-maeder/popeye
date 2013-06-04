@@ -131,8 +131,8 @@ originally occupied by the other exchanger
                           4.kSh3*g1[-wkSg1][+wkSg1][+bkBf8]
 
 
-                        empile:       48341
-                     play_move:       47397
+                        empile:       48427
+                     play_move:       47483
  is_white_king_square_attacked:       11794
  is_black_king_square_attacked:           0
 solution finished. 

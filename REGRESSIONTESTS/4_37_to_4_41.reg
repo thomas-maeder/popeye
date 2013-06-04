@@ -28,10 +28,10 @@
                Isardam
 
 
-                        empile:          98
-                     play_move:          82
+                        empile:         100
+                     play_move:          86
  is_white_king_square_attacked:           9
- is_black_king_square_attacked:          53
+ is_black_king_square_attacked:          55
 solution finished. 
 
 
@@ -238,10 +238,10 @@ moves in Maximummer+Imitator problems
                                               6...Rc8-c5[If1] #
 
 
-                        empile:      132175
-                     play_move:       53760
- is_white_king_square_attacked:       23027
- is_black_king_square_attacked:       42369
+                        empile:       79105
+                     play_move:       36559
+ is_white_king_square_attacked:       14365
+ is_black_king_square_attacked:       29696
 solution finished. 
 
 

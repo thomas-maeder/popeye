@@ -31,10 +31,10 @@ a)
                   3.e7-e8=T #
 
 
-                        empile:        2556
-                     play_move:        1424
- is_white_king_square_attacked:         772
- is_black_king_square_attacked:         814
+                        empile:        2582
+                     play_move:        1515
+ is_white_king_square_attacked:         782
+ is_black_king_square_attacked:         905
 b) StingSchach
 
    1.Kc7-b6 ! Drohung:
@@ -47,10 +47,10 @@ b) StingSchach
                   3.La6-b7 #
 
 
-                        empile:        7427
-                     play_move:        5383
- is_white_king_square_attacked:        1328
- is_black_king_square_attacked:        4601
+                        empile:        7133
+                     play_move:        5283
+ is_white_king_square_attacked:        1273
+ is_black_king_square_attacked:        4500
 Loesung beendet. 
 
 
@@ -80,32 +80,32 @@ Loesung beendet.
   h#5                         2 + 1
              StingSchach
 
-  1  (Kg7-h7 )
-  2  (Kg7-g8 )
-  3  (Kg7-f7 + )
-  4  (Kg7-g6 )
-  5  (Kg7-f8 + )
-  6  (Kg7-h8 )
-  7  (Kg7-h6 )
-  8  (Kg7-f6 )
+  1  (Kg7-f6 )
+  2  (Kg7-h6 )
+  3  (Kg7-h8 )
+  4  (Kg7-f8 + )
+  5  (Kg7-g6 )
+  6  (Kg7-f7 + )
+  7  (Kg7-g8 )
+  8  (Kg7-h7 )
   9  (Kg7-g3 )
-  1...Kg7-g3   2.Ke8-e7 Lg4-e2   3.Ke7-e1 Le2-f1   4.Ke1-g1 Lf1-h3   5.Kg1-h1 Lh3-g2 # 
+  1...Kg7-g3   2.Ke8-e7 Lg4-e2   3.Ke7-e1 Le2-f1   4.Ke1-g1 Lf1-h3   5.Kg1-h1 Lh3-g2 #
  10  (Lg4-d1 )
  11  (Lg4-e2 )
-  1...Lg4-e2   2.Ke8-e1 Le2-g4   3.Ke1-f1 Kg7-g3   4.Kf1-g1 Lg4-h3   5.Kg1-h1 Lh3-g2 # 
+  1...Lg4-e2   2.Ke8-e1 Le2-g4   3.Ke1-f1 Kg7-g3   4.Kf1-g1 Lg4-h3   5.Kg1-h1 Lh3-g2 #
  12  (Lg4-f3 )
  13  (Lg4-h3 )
  14  (Lg4-h5 + )
  15  (Lg4-c8 )
-  1...Lg4-c8   2.Ke8-b8 Lc8-d7   3.Kb8-a8 Kg7-c7   4.Ka8-a7 Ld7-c8   5.Ka7-a8 Lc8-b7 # 
+  1...Lg4-c8   2.Ke8-b8 Lc8-d7   3.Kb8-a8 Kg7-c7   4.Ka8-a7 Ld7-c8   5.Ka7-a8 Lc8-b7 #
  16  (Lg4-d7 + )
  17  (Lg4-e6 )
  18  (Lg4-f5 )
 
                         empile:     1288269
-                     play_move:     1119092
+                     play_move:     1128191
  is_white_king_square_attacked:      250561
- is_black_king_square_attacked:      919103
+ is_black_king_square_attacked:      928202
 Loesung beendet. 
 
 
@@ -135,16 +135,16 @@ Loesung beendet.
   h#3                         3 + 8
              StingSchach
 
-  1.b3-b2 a3-a4   2.b4*c3 Ke1-b4   3.b5*a4 Kb4*a4 # 
-  1.b4*c3 a3-a4   2.b3-b2 Ke1-b4   3.b5*a4 Kb4*a4 # 
-  1.b4*c3 a3-a4   2.b5*a4 Ke1-b4   3.b3-b2 Kb4*a4 # 
-  1.b4*c3 Ke1-d1   2.b5-b4 Kd1-a4   3.b3-b2 a3*b4 # 
-  1.b4*c3 Ke1-b4   2.b3-b2 a3-a4   3.b5*a4 Kb4*a4 # 
+  1.b3-b2 a3-a4   2.b4*c3 Ke1-b4   3.b5*a4 Kb4*a4 #
+  1.b4*c3 a3-a4   2.b3-b2 Ke1-b4   3.b5*a4 Kb4*a4 #
+  1.b4*c3 a3-a4   2.b5*a4 Ke1-b4   3.b3-b2 Kb4*a4 #
+  1.b4*c3 Ke1-d1   2.b5-b4 Kd1-a4   3.b3-b2 a3*b4 #
+  1.b4*c3 Ke1-b4   2.b3-b2 a3-a4   3.b5*a4 Kb4*a4 #
 
                         empile:      531582
-                     play_move:      507375
+                     play_move:      507366
  is_white_king_square_attacked:       50664
- is_black_king_square_attacked:      497524
+ is_black_king_square_attacked:      497515
 Loesung beendet. 
 
 

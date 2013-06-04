@@ -23,12 +23,12 @@
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 3
 
-  1.KLb2-h2 h5-h6   2.KLh2-h8 h6-h7   3.KLh8-h3 h7-h8=KL # 
+  1.KLb2-h2 h5-h6   2.KLh2-h8 h6-h7   3.KLh8-h3 h7-h8=KL #
 
                         empile:       14460
-                     play_move:       14458
+                     play_move:       14461
  is_white_king_square_attacked:        2327
- is_black_king_square_attacked:       13568
+ is_black_king_square_attacked:       13571
 solution finished. 
 
 

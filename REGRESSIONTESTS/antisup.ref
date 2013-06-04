@@ -32,9 +32,9 @@ a)
 
 
                         empile:        1151
-                     play_move:         955
+                     play_move:         924
  is_white_king_square_attacked:         282
- is_black_king_square_attacked:         957
+ is_black_king_square_attacked:         926
 b) =2
 
    1.b6*a7[wPa7->b6] = !
@@ -45,9 +45,9 @@ b) =2
 
 
                         empile:        3498
-                     play_move:        1830
+                     play_move:        1747
  is_white_king_square_attacked:         836
- is_black_king_square_attacked:        1681
+ is_black_king_square_attacked:        1598
 solution finished. 
 
 
@@ -78,11 +78,11 @@ solution finished.
             AntiSuperCirce
               HalfDuplex
 
-  1.a7*b6[bPb6->e1=Q]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 # 
+  1.a7*b6[bPb6->e1=Q]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 #
 
                         empile:       17082
-                     play_move:       14459
- is_white_king_square_attacked:       13666
+                     play_move:       15224
+ is_white_king_square_attacked:       14431
  is_black_king_square_attacked:        6750
 solution finished. 
 
@@ -115,14 +115,14 @@ solution finished.
                 Circe
             AntiSuperCirce
 
-  1...b6*a7[wPa7->a6][+bPa7] = 
+  1...b6*a7[wPa7->a6][+bPa7] =
 
-  1.a7*b6[bPb6->a3][+wPb2] b2*a3[wPa3->a6][+bPa7] = 
+  1.a7*b6[bPb6->a3][+wPb2] b2*a3[wPa3->a6][+bPa7] =
 
                         empile:        3456
-                     play_move:        2824
+                     play_move:        2840
  is_white_king_square_attacked:        1162
- is_black_king_square_attacked:        2614
+ is_black_king_square_attacked:        2630
 solution finished. 
 
 
@@ -152,10 +152,10 @@ solution finished.
             AntiSuperCirce
                 Duplex
 
-  1.Ra5*a8[wRa8->a1]   2.0-0-0 
-  1.Ra5*a8[wRa8->h1]   2.0-0 
+  1.Ra5*a8[wRa8->a1]   2.0-0-0
+  1.Ra5*a8[wRa8->h1]   2.0-0
 
-  1.Kb4*a5[bKa5->e8]   2.0-0-0 
+  1.Kb4*a5[bKa5->e8]   2.0-0-0
 
                         empile:          84
                      play_move:         223
@@ -927,18 +927,18 @@ a)
 
 
                         empile:         195
-                     play_move:         138
+                     play_move:         198
  is_white_king_square_attacked:          67
- is_black_king_square_attacked:         134
+ is_black_king_square_attacked:         194
 b) AntiSuperCirce  Cheylan
 
    1.Kd6*c6[wKc6->c7] = !
 
 
                         empile:         192
-                     play_move:         134
+                     play_move:         194
  is_white_king_square_attacked:          66
- is_black_king_square_attacked:         130
+ is_black_king_square_attacked:         190
 solution finished. 
 
 

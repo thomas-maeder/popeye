@@ -31,9 +31,9 @@
   1.Ra1-b1 Ra3-b3   2.Bg3-b8 Rb3-b2[b1=w][b8=w] #
 
                         empile:       17227
-                     play_move:       11076
- is_white_king_square_attacked:       12709
- is_black_king_square_attacked:       24469
+                     play_move:       10106
+ is_white_king_square_attacked:       11739
+ is_black_king_square_attacked:       23499
 solution finished. 
 
 
@@ -77,10 +77,10 @@ solution finished.
                                               6...f2-f1=Q[h3=b] #
 
 
-                        empile:    40164649
-                     play_move:    16715883
- is_white_king_square_attacked:    26572074
- is_black_king_square_attacked:    21460077
+                        empile:    42388005
+                     play_move:    17847230
+ is_white_king_square_attacked:    29157967
+ is_black_king_square_attacked:    22716810
 solution finished. 
 
 
@@ -123,9 +123,9 @@ solution finished.
 
 
                         empile:        5603
-                     play_move:        4113
- is_white_king_square_attacked:       11564
- is_black_king_square_attacked:        8768
+                     play_move:        4249
+ is_white_king_square_attacked:       11700
+ is_black_king_square_attacked:        8904
 solution finished. 
 
 
@@ -244,9 +244,9 @@ solution finished.
 
 
                         empile:       15322
-                     play_move:       13226
- is_white_king_square_attacked:       50934
- is_black_king_square_attacked:       26649
+                     play_move:       13070
+ is_white_king_square_attacked:       50778
+ is_black_king_square_attacked:       26493
 solution finished. 
 
 
@@ -349,10 +349,10 @@ solution finished.
       1...Kc1*c2 !
 
 
-                        empile:        9110
-                     play_move:        5700
- is_white_king_square_attacked:        7871
- is_black_king_square_attacked:       17008
+                        empile:        9100
+                     play_move:        5933
+ is_white_king_square_attacked:        8091
+ is_black_king_square_attacked:       17361
 solution finished. 
 
 
@@ -390,10 +390,10 @@ solution finished.
           2.Qe4-e7[f6=w] #
 
 
-                        empile:        3677
-                     play_move:        1247
- is_white_king_square_attacked:        1752
- is_black_king_square_attacked:        3004
+                        empile:        3698
+                     play_move:        1765
+ is_white_king_square_attacked:        3664
+ is_black_king_square_attacked:        3573
 solution finished. 
 
 
@@ -423,6 +423,19 @@ solution finished.
   #2                         6 + 12
                 Masand
 
+   1.Kd8-e7 ! threat:
+          2.Qe2-e6[g4=w][b6=w][f6=b][f7=w] #
+      1...d4-d3
+          2.Qe2-e4[d3=w][c4=w][g4=w] #
+      1...Qa5-b4[b2=w][c3=w][a4=w][c4=w][b6=w] +
+          2.Rc4*d4[b4=w][g4=w] #
+      1...Qa5-c5[c4=w][d4=w][b6=w][c7=w] +
+          2.Rc4*c5[c3=w][c7=b] #
+      1...Qa5-b5
+          2.Qe2*c4[c3=w][a4=w][d4=w][b5=w][c7=w] #
+      1...Sh8-g6 +
+          2.Bb1-e4[g6=w] #
+
    1.Kd8-d7 ? threat:
           2.Qe2-e6[g4=w][b6=w][f6=b][f7=w] #
       1...Sb2-d3
@@ -438,19 +451,6 @@ solution finished.
     but
       1...Qa5-b4 !
 
-   1.Kd8-e7 ! threat:
-          2.Qe2-e6[g4=w][b6=w][f6=b][f7=w] #
-      1...d4-d3
-          2.Qe2-e4[d3=w][c4=w][g4=w] #
-      1...Qa5-b4[b2=w][c3=w][a4=w][c4=w][b6=w] +
-          2.Rc4*d4[b4=w][g4=w] #
-      1...Qa5-c5[c4=w][d4=w][b6=w][c7=w] +
-          2.Rc4*c5[c3=w][c7=b] #
-      1...Qa5-b5
-          2.Qe2*c4[c3=w][a4=w][d4=w][b5=w][c7=w] #
-      1...Sh8-g6 +
-          2.Bb1-e4[g6=w] #
-
    1.Qe2-e6[g4=w][b6=w][f6=b][f7=w] + ?
     but
       1...Kd5*e6 !
@@ -460,10 +460,10 @@ solution finished.
       1...f6*e5 !
 
 
-                        empile:        8998
-                     play_move:        6377
- is_white_king_square_attacked:       15128
- is_black_king_square_attacked:       17116
+                        empile:        9027
+                     play_move:        6054
+ is_white_king_square_attacked:       15603
+ is_black_king_square_attacked:       16811
 solution finished. 
 
 

@@ -37,10 +37,10 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
           2.kLd3*e2[-wkLe2][+wkLf1][+skBe7] #
 
 
-                        empile:       17516
-                     play_move:       10090
- is_white_king_square_attacked:         495
- is_black_king_square_attacked:       10093
+                        empile:       17553
+                     play_move:       10030
+ is_white_king_square_attacked:         496
+ is_black_king_square_attacked:       10033
 Loesung beendet. 
 
 
@@ -90,10 +90,10 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
           2.kBb7*c8=kS[-wkSc8][+wkSb1][+skLc8] #
 
 
-                        empile:        6040
-                     play_move:        5682
- is_white_king_square_attacked:         349
- is_black_king_square_attacked:        5685
+                        empile:        6038
+                     play_move:        5392
+ is_white_king_square_attacked:         350
+ is_black_king_square_attacked:        5395
 Loesung beendet. 
 
 
@@ -127,9 +127,9 @@ Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
   1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3][+wkTh1] #
 
                         empile:       70274
-                     play_move:       63021
+                     play_move:       65685
  is_white_king_square_attacked:          49
- is_black_king_square_attacked:       37530
+ is_black_king_square_attacked:       40194
 Loesung beendet. 
 
 
@@ -189,10 +189,10 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
           2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
 
 
-                        empile:       14745
-                     play_move:        9323
+                        empile:       14746
+                     play_move:        9226
  is_white_king_square_attacked:         353
- is_black_king_square_attacked:        9283
+ is_black_king_square_attacked:        9186
 Loesung beendet. 
 
 
@@ -246,9 +246,9 @@ Loesung beendet.
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
                   3.Sa5*c4[+sBc7] +
-                      3...Kd2-d1
-                          4.Df2*e1[+sSb8] #
                       3...Kd2-c1
+                          4.Df2*e1[+sSb8] #
+                      3...Kd2-d1
                           4.Df2*e1[+sSb8] #
                   3.Df2*e1[+sSb8] +
                       3...Kd2-e3
@@ -265,19 +265,19 @@ Loesung beendet.
                           4.De2*c2[+sTa8] #
               2...Tc2-a2
                   3.Df2*e1[+sSb8] +
-                      3...Kd2-c2
-                          4.De1-c1 #
                       3...Kd2-e3
                           4.Sa5*c4[+sBc7] #
+                      3...Kd2-c2
+                          4.De1-c1 #
                   3.Df2*e2[+sBe7] +
                       3...Kd2-c1
                           4.De2-c2 #
               2...Tc2-b2
                   3.Df2*e1[+sSb8] +
-                      3...Kd2-c2
-                          4.De1-c1 #
                       3...Kd2-e3
                           4.Sa5*c4[+sBc7] #
+                      3...Kd2-c2
+                          4.De1-c1 #
                   3.Df2*e2[+sBe7] +
                       3...Kd2-c1
                           4.De2-c2 #
@@ -290,9 +290,9 @@ Loesung beendet.
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
                   3.Sa5*c4[+sBc7] +
-                      3...Kd2-d1
-                          4.Df2*e1[+sSb8] #
                       3...Kd2-c1
+                          4.Df2*e1[+sSb8] #
+                      3...Kd2-d1
                           4.Df2*e1[+sSb8] #
                   3.Df2*e2[+sBe7] +
                       3...Kd2-c1
@@ -302,9 +302,9 @@ Loesung beendet.
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
                   3.Sa5*c4[+sBc7] +
-                      3...Kd2-d1
-                          4.Df2*e1[+sSb8] #
                       3...Kd2-c1
+                          4.Df2*e1[+sSb8] #
+                      3...Kd2-d1
                           4.Df2*e1[+sSb8] #
                   3.Df2*e2[+sBe7] +
                       3...Kd2-c1
@@ -331,10 +331,10 @@ Loesung beendet.
                           4.Dd1*d2[+sTh8] #
 
 
-                        empile:      602177
-                     play_move:      397884
- is_white_king_square_attacked:      273871
- is_black_king_square_attacked:      143368
+                        empile:      601286
+                     play_move:      399951
+ is_white_king_square_attacked:      273933
+ is_black_king_square_attacked:      145451
 Loesung beendet. 
 
 
@@ -367,9 +367,9 @@ Loesung beendet.
   1.nBe2-e1=nLI nBe7-e8=nLI   2.nBf2*e1=nLI nBf7*e8=nLI =
 
                         empile:      605961
-                     play_move:      370990
+                     play_move:      404932
  is_white_king_square_attacked:      152301
- is_black_king_square_attacked:      335458
+ is_black_king_square_attacked:      369400
 Loesung beendet. 
 
 
@@ -403,9 +403,9 @@ Loesung beendet.
   1...nBc7-c8=nCA   2.Kc4*b4[+nGIb8] nBd7*c8=nGI[+nCAc1] #
 
                         empile:       57032
-                     play_move:       39255
+                     play_move:       45447
  is_white_king_square_attacked:        5413
- is_black_king_square_attacked:       39214
+ is_black_king_square_attacked:       45406
 Loesung beendet. 
 
 
@@ -438,16 +438,16 @@ Loesung beendet.
    1.Te5-e8 ! Drohung:
           2.Tb8-a8 #
           2.Kc3-b3 #
-      1...Ka3-a4
-          2.Kc3-b4 #
       1...Ka3-a2
           2.Kc3-b2 #
+      1...Ka3-a4
+          2.Kc3-b4 #
 
 
-                        empile:        2133
-                     play_move:        1683
- is_white_king_square_attacked:           1
- is_black_king_square_attacked:         377
+                        empile:        2147
+                     play_move:        1630
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:         340
 Loesung beendet. 
 
 
@@ -553,9 +553,9 @@ Loesung beendet.
               2...d5*c4[+wLf1]
 
 
-                        empile:         252
-                     play_move:         251
- is_white_king_square_attacked:         204
+                        empile:         250
+                     play_move:         247
+ is_white_king_square_attacked:         202
  is_black_king_square_attacked:           0
 Loesung beendet. 
 

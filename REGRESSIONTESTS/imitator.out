@@ -43,10 +43,10 @@
           2.Sf6-h5[Ic5] #
 
 
-                        empile:         899
-                     play_move:         519
- is_white_king_square_attacked:         107
- is_black_king_square_attacked:         522
+                        empile:         911
+                     play_move:         520
+ is_white_king_square_attacked:         108
+ is_black_king_square_attacked:         523
 Loesung beendet. 
 
 
@@ -79,9 +79,9 @@ Loesung beendet.
   1.Kc2-c3[Ia8]   2.g7-g6[Ia7]   3.Kc3-c4[Ia8]   4.g6-g5[Ia7]   5.Kc4-c5[Ia8]   6.g5-g4[Ia7]   7.Kc5-c6[Ia8]   8.g4-g3[Ia7]   9.Kc6-c7[Ia8]  10.g3-g2[Ia7]  11.Kc7-c8[Ia8]  12.g2-g1=T[Ia7]  13.Tg1-g2[Ia8]  14.Kc8-c7[Ia7]  15.Tg2-g3[Ia8]  16.Kc7-c6[Ia7]  17.Tg3-g4[Ia8]  18.Kc6-c5[Ia7]  19.Tg4-g5[Ia8]  20.Kc5-c4[Ia7]  21.Tg5-g6[Ia8]  22.Kc4-c3[Ia7]  23.Tg6-g7[Ia8]  24.Kc3-c2[Ia7]  25.Tg7-g8[Ia8]  26.Kc2-c1[Ia7] Ta6-a1[Ia2] #
 
                         empile:        6834
-                     play_move:        1173
+                     play_move:        1192
  is_white_king_square_attacked:         839
- is_black_king_square_attacked:        1173
+ is_black_king_square_attacked:        1192
 Loesung beendet. 
 
 
@@ -173,9 +173,9 @@ Loesung beendet.
 
 
                         empile:        2094
-                     play_move:        1082
+                     play_move:        1054
  is_white_king_square_attacked:         140
- is_black_king_square_attacked:        1068
+ is_black_king_square_attacked:        1040
 Loesung beendet. 
 
 
@@ -206,30 +206,30 @@ Loesung beendet.
              Imitator e1
 
    1.Ke2-d2[Id1] !
-      1...Kf8-g8[Ie1]
-          2.Tc7-c8[Ie2]
-              2...Kg8-h8[If2]
-                  3.Td7-d6[If1]
-                      3...Kh8-g8[Ie1]
-                          4.Td6-a6[Ib1] #
-              2...Kg8-h7[If1]
-                  3.Td7-a7[Ic1]
-                      3...Kh7-h8[Ic2]
-                          4.Ta7-a6[Ic1] #
-                      3...Kh7-g8[Ib2]
-                          4.Ta7-a6[Ib1] #
       1...Kf8-e8[Ic1]
           2.Tc7-b7[Ib1]
               2...Ke8-f8[Ic1]
                   3.Tb7-b8[Ic2]
                       3...Kf8-e8[Ib2]
                           4.Td7-d6[Ib1] #
+      1...Kf8-g8[Ie1]
+          2.Tc7-c8[Ie2]
+              2...Kg8-h7[If1]
+                  3.Td7-a7[Ic1]
+                      3...Kh7-g8[Ib2]
+                          4.Ta7-a6[Ib1] #
+                      3...Kh7-h8[Ic2]
+                          4.Ta7-a6[Ic1] #
+              2...Kg8-h8[If2]
+                  3.Td7-d6[If1]
+                      3...Kh8-g8[Ie1]
+                          4.Td6-a6[Ib1] #
 
 
-                        empile:       53263
-                     play_move:       30320
- is_white_king_square_attacked:        9505
- is_black_king_square_attacked:       22158
+                        empile:       52330
+                     play_move:       30023
+ is_white_king_square_attacked:        9623
+ is_black_king_square_attacked:       21857
 Loesung beendet. 
 
 
@@ -261,37 +261,37 @@ feenschach 1987, Wenigsteiner des Jahres 1987
 
 a) 
 
-  1.Kb6-a7[Id6] b7-b8=S[Id7]   2.Ka7-a8[Id8] Sb8-c6[Ie6] =
   1.Kb6-c7[If6] b7-b8=I[If7,b8]   2.Kc7-c6[If6,b7] Kf5-e6[Ie7,a8] =
+  1.Kb6-a7[Id6] b7-b8=S[Id7]   2.Ka7-a8[Id8] Sb8-c6[Ie6] =
 
                         empile:       18776
-                     play_move:        6036
+                     play_move:        5898
  is_white_king_square_attacked:        2682
- is_black_king_square_attacked:        5909
+ is_black_king_square_attacked:        5771
 b) wKf5-->g5
 
   1.Kb6-c7[If6] b7-b8=L[If7] +   2.Kc7-c8[If8] Lb8-d6[Ih6] =
 
                         empile:       21478
-                     play_move:        6686
+                     play_move:        6531
  is_white_king_square_attacked:        2964
- is_black_king_square_attacked:        6573
+ is_black_king_square_attacked:        6418
 c) Imitator c5
 
   1.Kb6-a6[Ib5] b7-b8=T[Ib6]   2.Ka6-a7[Ib7] Tb8-b2[Ib1] =
 
                         empile:       20628
-                     play_move:        6327
+                     play_move:        6165
  is_white_king_square_attacked:        2808
- is_black_king_square_attacked:        6186
+ is_black_king_square_attacked:        6024
 d) Imitator a7
 
   1.Kb6-c5[Ib6] b7-b8=D[Ib7]   2.Kc5-d5[Ic7] Db8-b4[Ic3] =
 
                         empile:        7243
-                     play_move:        1965
+                     play_move:        1886
  is_white_king_square_attacked:         880
- is_black_king_square_attacked:        1914
+ is_black_king_square_attacked:        1835
 Loesung beendet. 
 
 
@@ -325,10 +325,10 @@ Loesung beendet.
    1.Tf1*g1[Ib8] + !
 
 
-                        empile:        7206
-                     play_move:        2475
- is_white_king_square_attacked:        1138
- is_black_king_square_attacked:        1955
+                        empile:        7124
+                     play_move:        2417
+ is_white_king_square_attacked:        1113
+ is_black_king_square_attacked:        1897
 Loesung beendet. 
 
 
@@ -403,10 +403,10 @@ Loesung beendet.
           2.Da8-c6[Id1] #
 
 
-                        empile:      261148
-                     play_move:      125282
- is_white_king_square_attacked:       48886
- is_black_king_square_attacked:       83699
+                        empile:      260795
+                     play_move:      124453
+ is_white_king_square_attacked:       48839
+ is_black_king_square_attacked:       82871
 Loesung beendet. 
 
 
@@ -463,10 +463,10 @@ Loesung beendet.
                       3...Ke1-f2[Ib5] #
 
 
-                        empile:       17416
-                     play_move:        8533
- is_white_king_square_attacked:        8318
- is_black_king_square_attacked:        2332
+                        empile:       17268
+                     play_move:        8391
+ is_white_king_square_attacked:        8176
+ is_black_king_square_attacked:        2173
 Loesung beendet. 
 
 
@@ -590,10 +590,10 @@ Loesung beendet.
               2...b3-b2[Ib6] #
 
 
-                        empile:      453220
-                     play_move:      313580
- is_white_king_square_attacked:      286397
- is_black_king_square_attacked:       32139
+                        empile:      452680
+                     play_move:      311708
+ is_white_king_square_attacked:      284800
+ is_black_king_square_attacked:       31900
 Loesung beendet. 
 
 
@@ -658,10 +658,10 @@ Loesung beendet.
                                       5...cTh1-b1=cD[Ia1] #
 
 
-                        empile:      500031
-                     play_move:       97091
- is_white_king_square_attacked:       44355
- is_black_king_square_attacked:       73217
+                        empile:      505195
+                     play_move:      100387
+ is_white_king_square_attacked:       45571
+ is_black_king_square_attacked:       75512
 Loesung beendet. 
 
 
@@ -695,25 +695,25 @@ a)
 
   1.0-0-0[Ig4] d6-d7[Ig5] +
   1.0-0-0[Ig4] d6*e7[Ih5]
-  1.0-0-0[Ig4] Ka5-b5[Ih4]
-  1.0-0-0[Ig4] Ka5-a4[Ig3]
   1.0-0-0[Ig4] Ka5-b4[Ih3]
+  1.0-0-0[Ig4] Ka5-a4[Ig3]
+  1.0-0-0[Ig4] Ka5-b5[Ih4]
 
                         empile:          18
-                     play_move:          10
+                     play_move:          11
  is_white_king_square_attacked:          12
- is_black_king_square_attacked:          10
+ is_black_king_square_attacked:          11
 b) SchwarzerLaengstzueger
 
   1.0-0-0 d6-d7 +
   1.0-0-0 d6*e7
-  1.0-0-0 Ka5-a4
   1.0-0-0 Ka5-b4
+  1.0-0-0 Ka5-a4
 
                         empile:          17
-                     play_move:           9
+                     play_move:          10
  is_white_king_square_attacked:          11
- is_black_king_square_attacked:           9
+ is_black_king_square_attacked:          10
 Loesung beendet. 
 
 

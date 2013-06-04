@@ -55,10 +55,10 @@
                                                                                      11...ETb6-h3 #
 
 
-                        empile:       12288
-                     play_move:        4875
- is_white_king_square_attacked:        5152
- is_black_king_square_attacked:        3914
+                        empile:       12292
+                     play_move:        5003
+ is_white_king_square_attacked:        5277
+ is_black_king_square_attacked:        4044
 Loesung beendet. 
 
 
@@ -132,10 +132,10 @@ Loesung beendet.
                                                                       9...ETa8-h1 #
 
 
-                        empile:       31694
-                     play_move:       13240
- is_white_king_square_attacked:       13924
- is_black_king_square_attacked:       11398
+                        empile:       31981
+                     play_move:       14747
+ is_white_king_square_attacked:       15167
+ is_black_king_square_attacked:       12908
 Loesung beendet. 
 
 
@@ -165,57 +165,33 @@ Loesung beendet.
   #6                          2 + 5
 
    1.ETg1-e5 + !
+      1...Kc5-b4
+          2.ETe5-d3 +
+              2...Kb4-a4
+                  3.ETd3-b2 #
       1...Kc5-b6
           2.ETe5-f4 +
               2...Ta5-d5
                   3.ETf4*d5 +
-                      3...Kb6-a6
-                          4.ETd5*c7 #
                       3...Kb6-a7
                           4.ETd5*c7 #
-              2...Kb6-c6
-                  3.ETf4-b4 +
-                      3...Kc6-d7
-                          4.ETb4-f6 +
-                              4...Kd7-c8
-                                  5.ETf6-b6 +
-                                      5...Kc8-d8
-                                          6.ETb6-f8 #
-              2...Kb6-b7
-                  3.ETf4-b4 +
-                      3...Ta5-b5
-                          4.ETb4-d6 +
-                              4...Kb7-b8
-                                  5.ETd6-a6 #
-                              4...Kb7-a7
-                                  5.ETd6*b5 +
-                                      5...Ka7-a8
-                                          6.ETb5*c7 #
-                                          6.ETb5-b6 #
-                              4...Kb7-a8
-                                  5.ETd6*c7 #
-                          4.ETb4*b5 +
-                              4...Kb7-a8
-                                  5.ETb5*c7 #
-                                  5.ETb5-b6 #
-                              4...Kb7-c8
-                                  5.ETb5-d6 +
-                                      5...Kc8-b8
-                                          6.ETd6-a6 #
-                                  5.ETb5-b6 +
-                                      5...Kc8-d8
-                                          6.ETb6-f8 #
-                      3...Kb7-a7
-                          4.ETb4*a5 +
-                              4...Ka7-b8
-                                  5.ETa5-a6 #
-                      3...Kb7-a8
-                          4.ETb4-b6 #
-                      3...Kb7-c8
-                          4.ETb4-b6 +
-                              4...Kc8-d8
-                                  5.ETb6-f8 #
-              2...Kb6-a6
+                      3...Kb6-a6
+                          4.ETd5*c7 #
+              2...Kb6-c5
+                  3.ETf4*c7 +
+                      3...Kc5-b4
+                          4.ETc7-c6 +
+                              4...Kb4-a3
+                                  5.ETc6-c4 #
+                              4...Kb4-b3
+                                  5.ETc6-d4 +
+                                      5...Kb3-a2
+                                          6.ETd4-c3 #
+                                      5...Kb3-a3
+                                          6.ETd4-c4 #
+                      3...Kc5-d4
+                          4.ETc7-e3 #
+              2...Kb6-a7
                   3.ETf4*c7 #
               2...Kb6-b5
                   3.ETf4-d6 +
@@ -224,32 +200,56 @@ Loesung beendet.
                   3.ETf4-d4 +
                       3...Kb5-a6
                           4.ETd4-b8 #
-              2...Kb6-a7
+              2...Kb6-a6
                   3.ETf4*c7 #
-              2...Kb6-c5
-                  3.ETf4*c7 +
-                      3...Kc5-d4
-                          4.ETc7-e3 #
-                      3...Kc5-b4
-                          4.ETc7-c6 +
-                              4...Kb4-b3
-                                  5.ETc6-d4 +
-                                      5...Kb3-a3
-                                          6.ETd4-c4 #
-                                      5...Kb3-a2
-                                          6.ETd4-c3 #
-                              4...Kb4-a3
-                                  5.ETc6-c4 #
-      1...Kc5-b4
-          2.ETe5-d3 +
-              2...Kb4-a4
-                  3.ETd3-b2 #
+              2...Kb6-b7
+                  3.ETf4-b4 +
+                      3...Ta5-b5
+                          4.ETb4-d6 +
+                              4...Kb7-a8
+                                  5.ETd6*c7 #
+                              4...Kb7-a7
+                                  5.ETd6*b5 +
+                                      5...Ka7-a8
+                                          6.ETb5*c7 #
+                                          6.ETb5-b6 #
+                              4...Kb7-b8
+                                  5.ETd6-a6 #
+                          4.ETb4*b5 +
+                              4...Kb7-c8
+                                  5.ETb5-d6 +
+                                      5...Kc8-b8
+                                          6.ETd6-a6 #
+                                  5.ETb5-b6 +
+                                      5...Kc8-d8
+                                          6.ETb6-f8 #
+                              4...Kb7-a8
+                                  5.ETb5*c7 #
+                                  5.ETb5-b6 #
+                      3...Kb7-c8
+                          4.ETb4-b6 +
+                              4...Kc8-d8
+                                  5.ETb6-f8 #
+                      3...Kb7-a8
+                          4.ETb4-b6 #
+                      3...Kb7-a7
+                          4.ETb4*a5 +
+                              4...Ka7-b8
+                                  5.ETa5-a6 #
+              2...Kb6-c6
+                  3.ETf4-b4 +
+                      3...Kc6-d7
+                          4.ETb4-f6 +
+                              4...Kd7-c8
+                                  5.ETf6-b6 +
+                                      5...Kc8-d8
+                                          6.ETb6-f8 #
 
 
-                        empile:    25155057
-                     play_move:    19117645
- is_white_king_square_attacked:    15089817
- is_black_king_square_attacked:     4658669
+                        empile:    36276332
+                     play_move:    26423067
+ is_white_king_square_attacked:    20100389
+ is_black_king_square_attacked:     7356000
 Loesung beendet. 
 
 
@@ -279,31 +279,31 @@ Loesung beendet.
   #4                          2 + 3
 
    1.ETd1-b5 + !
-      1...Kd6-e6
-          2.ETb5-d4 +
-              2...Ke6-e7
-                  3.ETd4-f5 +
-                      3...Ke7-e8
-                          4.ETf5-g7 #
-                          4.ETf5-d6 #
-              2...Ke6-f7
-                  3.ETd4-h6 +
-                      3...Kf7-e7
-                          4.ETh6-g6 #
-                      3...Kf7-e8
-                          4.ETh6-g7 #
-                          4.ETh6-d6 #
       1...Kd6-e7
           2.ETb5-f5 +
               2...Ke7-e8
                   3.ETf5-g7 #
                   3.ETf5-d6 #
+      1...Kd6-e6
+          2.ETb5-d4 +
+              2...Ke6-f7
+                  3.ETd4-h6 +
+                      3...Kf7-e8
+                          4.ETh6-g7 #
+                          4.ETh6-d6 #
+                      3...Kf7-e7
+                          4.ETh6-g6 #
+              2...Ke6-e7
+                  3.ETd4-f5 +
+                      3...Ke7-e8
+                          4.ETf5-g7 #
+                          4.ETf5-d6 #
 
 
-                        empile:     1386969
-                     play_move:      864939
- is_white_king_square_attacked:      568951
- is_black_king_square_attacked:      361855
+                        empile:     1094311
+                     play_move:      717200
+ is_white_king_square_attacked:      484295
+ is_black_king_square_attacked:      283677
 Loesung beendet. 
 
 
@@ -333,46 +333,91 @@ Loesung beendet.
   #4                          2 + 2
 
    1.Kd2-e2 + !
-      1...Kd7-e7
-          2.ETd1-f5 +
-              2...Ke7-e8
-                  3.ETf5-g7 #
-      1...Kd7-c7
-          2.ETd1-b5 +
-              2...Kc7-c8
-                  3.ETb5-a7 #
-      1...Kd7-c8
-          2.ETd1-a7 #
-      1...Kd7-e8
-          2.ETd1-g7 #
+      1...Kd7-c6
+          2.ETd1*d8 +
+              2...Kc6-b5
+                  3.ETd8-b7 +
+                      3...Kb5-a4
+                          4.ETb7-c5 #
+                      3...Kb5-c4
+                          4.ETb7-d3 #
+                  3.ETd8-d4 +
+                      3...Kb5-a6
+                          4.ETd4-c6 #
+                          4.ETd4-c5 #
+                      3...Kb5-a5
+                          4.ETd4-c6 #
+                          4.ETd4-c5 #
+                          4.ETd4-c4 #
+                  3.ETd8-d5 +
+                      3...Kb5-a4
+                          4.ETd5-c3 #
+                          4.ETd5-c4 #
+                          4.ETd5-c5 #
+                      3...Kb5-a6
+                          4.ETd5-c7 #
+                          4.ETd5-c6 #
+                          4.ETd5-c5 #
+                  3.ETd8-d6 +
+                      3...Kb5-a4
+                          4.ETd6-c4 #
+                          4.ETd6-c5 #
+                      3...Kb5-a5
+                          4.ETd6-c4 #
+                          4.ETd6-c5 #
+                          4.ETd6-c6 #
+              2...Kc6-c5
+                  3.ETd8-b7 +
+                      3...Kc5-d4
+                          4.ETb7-d3 #
+                          4.ETb7-c6 #
+                      3...Kc5-c4
+                          4.ETb7-d3 #
       1...Kd7-e6
           2.ETd1*d8 +
+              2...Ke6-f5
+                  3.ETd8-f7 +
+                      3...Kf5-e4
+                          4.ETf7-d6 #
+                          4.ETf7-d3 #
+                          4.ETf7-e6 #
+                          4.ETf7-f3 #
+                          4.ETf7-f6 #
+                      3...Kf5-g4
+                          4.ETf7-f3 #
               2...Ke6-e5
                   3.ETd8-f7 +
+                      3...Ke5-d4
+                          4.ETf7-d3 #
                       3...Ke5-e4
                           4.ETf7-d6 #
                           4.ETf7-d3 #
                           4.ETf7-e6 #
                           4.ETf7-f3 #
                           4.ETf7-f6 #
-                      3...Ke5-d4
-                          4.ETf7-d3 #
                   3.ETd8-e7 +
-                      3...Ke5-f4
-                          4.ETe7-g6 #
-                          4.ETe7-e3 #
                       3...Ke5-d4
                           4.ETe7-c6 #
                           4.ETe7-e3 #
+                      3...Ke5-f4
+                          4.ETe7-g6 #
+                          4.ETe7-e3 #
                   3.ETd8-d7 +
+                      3...Ke5-f4
+                          4.ETd7-f3 #
                       3...Ke5-e4
                           4.ETd7-f3 #
                           4.ETd7-f6 #
                           4.ETd7-e6 #
                           4.ETd7-d3 #
                           4.ETd7-d6 #
-                      3...Ke5-f4
-                          4.ETd7-f3 #
+                  3.Ke2-f3 Drohung:
+                          4.ETd8-f4 #
+                          4.ETd8-d7 #
+                      3...Ke5-f5
+                          4.ETd8-f4 #
+                          4.ETd8-f7 #
+                          4.ETd8-e7 #
                   3.Ke2-e3 Drohung:
                           4.ETd8-f4 #
                           4.ETd8-f7 #
@@ -381,69 +426,24 @@ Loesung beendet.
                           4.ETd8-d7 #
                       3...Ke5-f5
                           4.ETd8-f4 #
-                  3.Ke2-f3 Drohung:
-                          4.ETd8-f4 #
-                          4.ETd8-d7 #
-                      3...Ke5-f5
-                          4.ETd8-f4 #
-                          4.ETd8-f7 #
-                          4.ETd8-e7 #
-              2...Ke6-f5
-                  3.ETd8-f7 +
-                      3...Kf5-g4
-                          4.ETf7-f3 #
-                      3...Kf5-e4
-                          4.ETf7-d6 #
-                          4.ETf7-d3 #
-                          4.ETf7-e6 #
-                          4.ETf7-f3 #
-                          4.ETf7-f6 #
-      1...Kd7-c6
-          2.ETd1*d8 +
-              2...Kc6-c5
-                  3.ETd8-b7 +
-                      3...Kc5-c4
-                          4.ETb7-d3 #
-                      3...Kc5-d4
-                          4.ETb7-d3 #
-                          4.ETb7-c6 #
-              2...Kc6-b5
-                  3.ETd8-b7 +
-                      3...Kb5-c4
-                          4.ETb7-d3 #
-                      3...Kb5-a4
-                          4.ETb7-c5 #
-                  3.ETd8-d4 +
-                      3...Kb5-a5
-                          4.ETd4-c6 #
-                          4.ETd4-c5 #
-                          4.ETd4-c4 #
-                      3...Kb5-a6
-                          4.ETd4-c6 #
-                          4.ETd4-c5 #
-                  3.ETd8-d5 +
-                      3...Kb5-a6
-                          4.ETd5-c7 #
-                          4.ETd5-c6 #
-                          4.ETd5-c5 #
-                      3...Kb5-a4
-                          4.ETd5-c3 #
-                          4.ETd5-c4 #
-                          4.ETd5-c5 #
-                  3.ETd8-d6 +
-                      3...Kb5-a5
-                          4.ETd6-c4 #
-                          4.ETd6-c5 #
-                          4.ETd6-c6 #
-                      3...Kb5-a4
-                          4.ETd6-c4 #
-                          4.ETd6-c5 #
+      1...Kd7-e8
+          2.ETd1-g7 #
+      1...Kd7-c8
+          2.ETd1-a7 #
+      1...Kd7-c7
+          2.ETd1-b5 +
+              2...Kc7-c8
+                  3.ETb5-a7 #
+      1...Kd7-e7
+          2.ETd1-f5 +
+              2...Ke7-e8
+                  3.ETf5-g7 #
 
 
-                        empile:      933589
-                     play_move:      633293
- is_white_king_square_attacked:      442203
- is_black_king_square_attacked:      231997
+                        empile:      738851
+                     play_move:      521009
+ is_white_king_square_attacked:      382219
+ is_black_king_square_attacked:      169426
 Loesung beendet. 
 
 
@@ -496,10 +496,10 @@ Loesung beendet.
                   3.Sg4-e5 #
 
 
-                        empile:      277577
-                     play_move:      162967
- is_white_king_square_attacked:       70358
- is_black_king_square_attacked:       97728
+                        empile:      279628
+                     play_move:      163432
+ is_white_king_square_attacked:       70384
+ is_black_king_square_attacked:       98193
 Loesung beendet. 
 
 

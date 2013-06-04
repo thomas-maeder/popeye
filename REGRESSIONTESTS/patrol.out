@@ -26,20 +26,20 @@
 
    1.Sh5-f6 ! Drohung:
           2.Sf6-d5 #
-      1...Ke5-d6
+      1...Ke5-d4
+          2.Db6-c5 #
+      1...Ke5*f4
           2.Se7-d5 #
       1...Ke5*f6
           2.Se7-d5 #
-      1...Ke5*f4
+      1...Ke5-d6
           2.Se7-d5 #
-      1...Ke5-d4
-          2.Db6-c5 #
 
 
-                        empile:       20191
-                     play_move:        9317
- is_white_king_square_attacked:        4644
- is_black_king_square_attacked:       19684
+                        empile:       21625
+                     play_move:        9813
+ is_white_king_square_attacked:        5004
+ is_black_king_square_attacked:       20903
 Loesung beendet. 
 
 
@@ -167,9 +167,9 @@ F1291, The Problemist 14/1-2, 1-3/1992
 
 
                         empile:       38565
-                     play_move:       25266
- is_white_king_square_attacked:       12086
- is_black_king_square_attacked:       64520
+                     play_move:       24864
+ is_white_king_square_attacked:       12080
+ is_black_king_square_attacked:       63710
 Loesung beendet. 
 
 
@@ -200,20 +200,20 @@ Loesung beendet.
            PatrouilleSchach
 
    1.Sf3-g5 + !
-      1...Ke4*e5
-          2.Sg5-e4 #
-      1...Ke4-e3
-          2.Ta4-e4 #
-      1...Ke4-d5
-          2.Dh1-e4 #
       1...Ke4*f5
           2.La8-e4 #
+      1...Ke4-d5
+          2.Dh1-e4 #
+      1...Ke4-e3
+          2.Ta4-e4 #
+      1...Ke4*e5
+          2.Sg5-e4 #
 
 
-                        empile:        4939
-                     play_move:        2537
- is_white_king_square_attacked:        1278
- is_black_king_square_attacked:        5114
+                        empile:        4752
+                     play_move:        2253
+ is_white_king_square_attacked:        1245
+ is_black_king_square_attacked:        4512
 Loesung beendet. 
 
 

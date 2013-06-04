@@ -25,9 +25,9 @@ latent pawns' side decides which one to promote -> f2*e1 would be self-check
 
 
                         empile:         151
-                     play_move:         150
+                     play_move:         151
  is_white_king_square_attacked:          20
- is_black_king_square_attacked:         148
+ is_black_king_square_attacked:         149
 solution finished. 
 
 
@@ -58,9 +58,9 @@ latent pawns' side which one to promote -> f7*e8 would be self-check
 
 
                         empile:          21
-                     play_move:          21
+                     play_move:          23
  is_white_king_square_attacked:           8
- is_black_king_square_attacked:          20
+ is_black_king_square_attacked:          22
 solution finished. 
 
 
@@ -202,9 +202,9 @@ solution finished.
 
 
                         empile:         251
-                     play_move:         169
+                     play_move:         187
  is_white_king_square_attacked:          24
- is_black_king_square_attacked:         172
+ is_black_king_square_attacked:         190
 solution finished. 
 
 
@@ -258,10 +258,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 #
 
 
-                        empile:        9467
-                     play_move:        6923
- is_white_king_square_attacked:         759
- is_black_king_square_attacked:        6754
+                        empile:        9590
+                     play_move:        6386
+ is_white_king_square_attacked:         776
+ is_black_king_square_attacked:        6213
 solution finished. 
 
 
@@ -332,10 +332,10 @@ solution finished.
       1...d5*e4 !
 
 
-                        empile:      330622
-                     play_move:      235356
- is_white_king_square_attacked:       16429
- is_black_king_square_attacked:      217206
+                        empile:      329570
+                     play_move:      238823
+ is_white_king_square_attacked:       16332
+ is_black_king_square_attacked:      220696
 solution finished. 
 
 

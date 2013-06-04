@@ -48,10 +48,10 @@
                                                                              10...Dh7-b1 #
 
 
-                        empile:     1372222
-                     play_move:      626054
- is_white_king_square_attacked:      142867
- is_black_king_square_attacked:      551286
+                        empile:     1342148
+                     play_move:      650293
+ is_white_king_square_attacked:      141039
+ is_black_king_square_attacked:      574993
 Loesung beendet. 
 
 
@@ -101,10 +101,10 @@ Loesung beendet.
                                                       7...Lf8-a3 #
 
 
-                        empile:     2365215
-                     play_move:     1123404
- is_white_king_square_attacked:      415226
- is_black_king_square_attacked:      922719
+                        empile:     2279807
+                     play_move:     1216535
+ is_white_king_square_attacked:      395464
+ is_black_king_square_attacked:     1024254
 Loesung beendet. 
 
 
@@ -194,10 +194,10 @@ Loesung beendet.
                                                                                                                                                                                                                      27...Th7-a7 #
 
 
-                        empile:     4381569
-                     play_move:     1493243
- is_white_king_square_attacked:      590132
- is_black_king_square_attacked:     1167242
+                        empile:     3960139
+                     play_move:     1364255
+ is_white_king_square_attacked:      490248
+ is_black_king_square_attacked:     1089653
 Loesung beendet. 
 
 
@@ -232,17 +232,17 @@ a)
   1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 #
 
                         empile:     3289316
-                     play_move:     1700155
+                     play_move:     1706721
  is_white_king_square_attacked:      239646
- is_black_king_square_attacked:     1548464
+ is_black_king_square_attacked:     1555030
 b) sKe2-->f2
 
   1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 #
 
                         empile:     2326947
-                     play_move:     1226709
+                     play_move:     1210564
  is_white_king_square_attacked:      177695
- is_black_king_square_attacked:     1103890
+ is_black_king_square_attacked:     1087745
 Loesung beendet. 
 
 
@@ -285,9 +285,9 @@ Loesung beendet.
                                       5...Da6-f1 #
 
 
-                        empile:      399311
-                     play_move:      174813
- is_white_king_square_attacked:       43597
+                        empile:      398776
+                     play_move:      174289
+ is_white_king_square_attacked:       43281
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -324,17 +324,17 @@ a)
   1...c7-c8=L   2.c2-c1=S Lc8-d7 #
 
                         empile:        1314
-                     play_move:         791
- is_white_king_square_attacked:         420
- is_black_king_square_attacked:         391
+                     play_move:         857
+ is_white_king_square_attacked:         498
+ is_black_king_square_attacked:         379
 b) sBb3-->b5
 
   1...c7-c8=D   2.c2-c1=T Dc8-c2 #
 
                         empile:        1310
-                     play_move:         793
- is_white_king_square_attacked:         419
- is_black_king_square_attacked:         393
+                     play_move:         857
+ is_white_king_square_attacked:         497
+ is_black_king_square_attacked:         379
 Loesung beendet. 
 
 
@@ -384,10 +384,10 @@ Loesung beendet.
                   3.Tf8-f2 #
 
 
-                        empile:       81769
-                     play_move:       54853
- is_white_king_square_attacked:        5143
- is_black_king_square_attacked:       53350
+                        empile:       81834
+                     play_move:       57269
+ is_white_king_square_attacked:        5161
+ is_black_king_square_attacked:       55764
 Loesung beendet. 
 
 
@@ -422,9 +422,9 @@ Preis, 7. PK-Kompositionsturnier 1991
   1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 #
 
                         empile:      135270
-                     play_move:       56920
- is_white_king_square_attacked:       31642
- is_black_king_square_attacked:       30190
+                     play_move:       53091
+ is_white_king_square_attacked:       27812
+ is_black_king_square_attacked:       30192
 Loesung beendet. 
 
 
@@ -475,10 +475,10 @@ Loesung beendet.
                                                                       9...Lb6*d4 #
 
 
-                        empile:     2585903
-                     play_move:      799309
- is_white_king_square_attacked:      279258
- is_black_king_square_attacked:      642655
+                        empile:     2846079
+                     play_move:      940508
+ is_white_king_square_attacked:      314415
+ is_black_king_square_attacked:      769493
 Loesung beendet. 
 
 
@@ -510,6 +510,19 @@ Loesung beendet.
                 Duplex
 
    1.Td4-d8 + !
+      1...Kb8-a7
+          2.Ke7-d7 Zugzwang.
+              2...Th6-a6
+                  3.Kd7-c8 Zugzwang.
+                      3...Ta6-h6
+                          4.Td8-d7 +
+                              4...Ka7-b6
+                                  5.Td7-d6 +
+                                      5...Th6*d6
+                                          6.Kc8-b8 Zugzwang.
+                                              6...Td6-d1
+                                                  7.Kb8-a8
+                                                      7...Td1-d8 #
       1...Kb8-c7
           2.Td8-b8 Zugzwang.
               2...Th6-a6
@@ -539,19 +552,6 @@ Loesung beendet.
                                       5...Th6-h1
                                           6.Ke8-d8
                                               6...Th1-h8 #
-      1...Kb8-a7
-          2.Ke7-d7 Zugzwang.
-              2...Th6-a6
-                  3.Kd7-c8 Zugzwang.
-                      3...Ta6-h6
-                          4.Td8-d7 +
-                              4...Ka7-b6
-                                  5.Td7-d6 +
-                                      5...Th6*d6
-                                          6.Kc8-b8 Zugzwang.
-                                              6...Td6-d1
-                                                  7.Kb8-a8
-                                                      7...Td1-d8 #
 
 
    1.Th6-d6 ! Zugzwang.
@@ -569,10 +569,10 @@ Loesung beendet.
                                                       7...Te1-e8 #
 
 
-                        empile:    24907211
-                     play_move:    12333154
- is_white_king_square_attacked:     6791516
- is_black_king_square_attacked:     7209229
+                        empile:    31049943
+                     play_move:    16251050
+ is_white_king_square_attacked:     8897129
+ is_black_king_square_attacked:     9505752
 Loesung beendet. 
 
 
@@ -618,10 +618,10 @@ Loesung beendet.
                                                       7...Te1-e8 #
 
 
-                        empile:    12206160
-                     play_move:     5825823
- is_white_king_square_attacked:     4993378
- is_black_king_square_attacked:     1603205
+                        empile:    16512081
+                     play_move:     7894244
+ is_white_king_square_attacked:     6809896
+ is_black_king_square_attacked:     2168380
 Loesung beendet. 
 
 
@@ -653,10 +653,10 @@ F2676 The Problemist Vol 21 No 12 (Nov 2008)
 
   1...Ta1-h1 +   2.Kh8-h7 Th1-a1   3.a7-a6 Ta1-h1   4.a6-a5 Th1-a1   5.d2-d1=S Ta1*a5   6.Kh7-h8 Ta5-h5   7.g6-g5 Th5-h1 #
 
-                        empile:     7097636
-                     play_move:     1050242
+                        empile:     7083604
+                     play_move:     1048988
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1013652
+ is_black_king_square_attacked:     1012398
 Loesung beendet. 
 
 

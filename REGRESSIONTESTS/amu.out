@@ -71,15 +71,7 @@
     Aber
       1...Dc4*c1 !
 
-   1.Ke7-e8 ? Zugzwang.
-      1...Dc4-c2
-          2.Tc1*c2 #
-      1...Dc4-c3
-          2.Sg3-e4 #
-    Aber
-      1...Dc4*c1 !
-
-   1.Ke7-d7 ? Zugzwang.
+   1.Ke7-f6 ? Zugzwang.
       1...Dc4-c2
           2.Tc1*c2 #
       1...Dc4-c3
@@ -95,7 +87,15 @@
     Aber
       1...Dc4*c1 !
 
-   1.Ke7-f6 ? Zugzwang.
+   1.Ke7-d7 ? Zugzwang.
+      1...Dc4-c2
+          2.Tc1*c2 #
+      1...Dc4-c3
+          2.Sg3-e4 #
+    Aber
+      1...Dc4*c1 !
+
+   1.Ke7-e8 ? Zugzwang.
       1...Dc4-c2
           2.Tc1*c2 #
       1...Dc4-c3
@@ -134,9 +134,9 @@
 
 
                         empile:        5752
-                     play_move:        4937
+                     play_move:        4897
  is_white_king_square_attacked:         995
- is_black_king_square_attacked:        8413
+ is_black_king_square_attacked:        8333
 Loesung beendet. 
 
 
@@ -196,9 +196,9 @@ Loesung beendet.
 
 
                         empile:       27814
-                     play_move:       15346
+                     play_move:       15999
  is_white_king_square_attacked:        8288
- is_black_king_square_attacked:       18117
+ is_black_king_square_attacked:       19423
 Loesung beendet. 
 
 
@@ -231,9 +231,9 @@ Beispiel fuer Mehrfachbeobachung durch den selben Stein
 
 
                         empile:          39
-                     play_move:          27
+                     play_move:          25
  is_white_king_square_attacked:           5
- is_black_king_square_attacked:          50
+ is_black_king_square_attacked:          46
 Loesung beendet. 
 
 

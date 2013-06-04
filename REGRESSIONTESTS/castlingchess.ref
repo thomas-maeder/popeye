@@ -24,14 +24,14 @@
   ser-r=3                     1 + 2
             CastlingChess
 
-  1.Kb1-b2   2.Kb2-d2/bPh2-c2   3.Kd2-c1 Kc4-c3 =
-  1.Kb1-a2   2.Ka2-c2/bPh2-b2   3.Kc2-b1 Kc4-b3 =
   1.Kb1-c2   2.Kc2-e2/bPh2-d2   3.Ke2-d1 Kc4-d3 =
+  1.Kb1-a2   2.Ka2-c2/bPh2-b2   3.Kc2-b1 Kc4-b3 =
+  1.Kb1-b2   2.Kb2-d2/bPh2-c2   3.Kd2-c1 Kc4-c3 =
 
                         empile:        7245
-                     play_move:        2304
- is_white_king_square_attacked:        3061
- is_black_king_square_attacked:        1610
+                     play_move:        2601
+ is_white_king_square_attacked:        3257
+ is_black_king_square_attacked:        1711
 solution finished. 
 
 
@@ -69,10 +69,10 @@ solution finished.
               2...Rg2-f2 #
 
 
-                        empile:        9706
-                     play_move:        7389
- is_white_king_square_attacked:        6728
- is_black_king_square_attacked:        2049
+                        empile:       10292
+                     play_move:        7819
+ is_white_king_square_attacked:        7237
+ is_black_king_square_attacked:        2069
 solution finished. 
 
 
@@ -112,8 +112,8 @@ solution finished.
 
 
                         empile:        1560
-                     play_move:        1102
- is_white_king_square_attacked:        1164
+                     play_move:        1086
+ is_white_king_square_attacked:        1148
  is_black_king_square_attacked:         446
 solution finished. 
 
@@ -147,9 +147,9 @@ solution finished.
   1.Ka8-b7   2.Kb7-d7/wPg7-c7   3.Kd7-c8   4.Kc8-b7   5.Kb7-b5/wPb2-b6   6.Kb5-a6   7.Ka6-b7   8.Kb7-a8 c7-c8=Q #
 
                         empile:       21038
-                     play_move:       20713
+                     play_move:       20559
  is_white_king_square_attacked:        6103
- is_black_king_square_attacked:       23065
+ is_black_king_square_attacked:       22911
 solution finished. 
 
 
@@ -184,17 +184,17 @@ a)
   1.Rc6-c5 Kg4-g3   2.Ke8-c6/bBa4-d7 Kg3-f4   3.Kc6-d5 Sg6-e7 #
 
                         empile:     5632996
-                     play_move:     5152707
+                     play_move:     5200733
  is_white_king_square_attacked:      764424
- is_black_king_square_attacked:     5234860
+ is_black_king_square_attacked:     5282886
 b) ExchangeCastling
 
   1.Ba4-d1 + Kg4-f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 #
 
                         empile:     8579212
-                     play_move:     7397319
+                     play_move:     7419433
  is_white_king_square_attacked:      450454
- is_black_king_square_attacked:     7317944
+ is_black_king_square_attacked:     7340058
 solution finished. 
 
 
@@ -233,17 +233,17 @@ a)
   1.c6-c5 Kg4*f4   2.Ke8-c6/bPb5-d7 Kf4-f5   3.Kc6-d5 Sg6-e7 #
 
                         empile:    12457136
-                     play_move:    11404527
+                     play_move:    11501132
  is_white_king_square_attacked:     1653344
- is_black_king_square_attacked:    11675885
+ is_black_king_square_attacked:    11772490
 b) ExchangeCastling
 
   1.Ba4-d1 + Kg4*f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 #
 
-                        empile:    19263856
-                     play_move:    16321210
+                        empile:    19264287
+                     play_move:    16343651
  is_white_king_square_attacked:      779558
- is_black_king_square_attacked:    16188273
+ is_black_king_square_attacked:    16210714
 solution finished. 
 
 

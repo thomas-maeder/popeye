@@ -30,9 +30,9 @@
   1.f2-f1=L   2.Lf1-c4   3.Lc4-d5=w Ld5-a2 =
 
                         empile:       42804
-                     play_move:       21969
+                     play_move:       15412
  is_white_king_square_attacked:        6955
- is_black_king_square_attacked:       20266
+ is_black_king_square_attacked:       13709
 Loesung beendet. 
 
 
@@ -66,9 +66,9 @@ Loesung beendet.
   1.Sf7-h8=w Sh8-f7   2.Kh5-h4 Sf7-h8=s   3.Sh8-g6 Kh7-h6   4.Sg6-h8=w Sh8-g6 #
 
                         empile:       79821
-                     play_move:       69052
+                     play_move:       69422
  is_white_king_square_attacked:       14921
- is_black_king_square_attacked:       56044
+ is_black_king_square_attacked:       56414
 Loesung beendet. 
 
 
@@ -110,10 +110,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-                        empile:       40327
-                     play_move:       16758
- is_white_king_square_attacked:        8120
- is_black_king_square_attacked:       11528
+                        empile:       41836
+                     play_move:       18953
+ is_white_king_square_attacked:        8309
+ is_black_king_square_attacked:       13718
 Loesung beendet. 
 
 
@@ -161,8 +161,8 @@ Loesung beendet.
 
 
                         empile:      204820
-                     play_move:      123276
- is_white_king_square_attacked:       75296
+                     play_move:      123668
+ is_white_king_square_attacked:       75688
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -197,9 +197,9 @@ Loesung beendet.
   1.Sc2-b4 Kb2-c3   2.Sb4-a2=w Sa2-b4   3.Lb3-a2=w La2-b3 +   4.Ka4-a3 Sb4-c2 #
 
                         empile:      775412
-                     play_move:      611911
+                     play_move:      633535
  is_white_king_square_attacked:      142933
- is_black_king_square_attacked:      502213
+ is_black_king_square_attacked:      523837
 Loesung beendet. 
 
 
@@ -241,10 +241,10 @@ Lob, Albert H. Kniest Jubil"aumsturnier
                               4...Da1*g7 #
 
 
-                        empile:      928253
-                     play_move:      459097
- is_white_king_square_attacked:      250531
- is_black_king_square_attacked:      350884
+                        empile:      969236
+                     play_move:      629755
+ is_white_king_square_attacked:      255800
+ is_black_king_square_attacked:      520968
 Loesung beendet. 
 
 
@@ -821,8 +821,8 @@ Loesung beendet.
 
 
                         empile:      204820
-                     play_move:      123276
- is_white_king_square_attacked:       75296
+                     play_move:      123668
+ is_white_king_square_attacked:       75688
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -864,10 +864,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-                        empile:       40327
-                     play_move:       16758
- is_white_king_square_attacked:        8120
- is_black_king_square_attacked:       11528
+                        empile:       41836
+                     play_move:       18953
+ is_white_king_square_attacked:        8309
+ is_black_king_square_attacked:       13718
 Loesung beendet. 
 
 
@@ -900,6 +900,25 @@ Loesung beendet.
    1.Sg7-f5 !
       1...Ke5-f6
           2.Sf5-d6 +
+              2...Kf6-e5
+                  3.Sd6-f7 #
+              2...Kf6-g5
+                  3.Sd6-f7 +
+                      3...Kg5-h5
+                          4.Tf4-h4 #
+                  3.Sd4-e6 +
+                      3...Kg5-h6
+                          4.Tf4-h4 #
+                      3...Kg5-h5
+                          4.Tf4-h4 #
+              2...Kf6-g7
+                  3.Sd4-e6 +
+                      3...Kg7-h6
+                          4.Tf4-h4 #
+                      3...Kg7-h8
+                          4.Tf4-f8 #
+                      3...Kg7-g8
+                          4.Tf4-f8 #
               2...Kf6-e7
                   3.c6-c7
                       3...Ke7-d7
@@ -909,25 +928,6 @@ Loesung beendet.
                           4.Tf7-d7 #
                           4.c6-c7 #
                           4.Sd4-e6 #
-              2...Kf6-g7
-                  3.Sd4-e6 +
-                      3...Kg7-g8
-                          4.Tf4-f8 #
-                      3...Kg7-h8
-                          4.Tf4-f8 #
-                      3...Kg7-h6
-                          4.Tf4-h4 #
-              2...Kf6-g5
-                  3.Sd6-f7 +
-                      3...Kg5-h5
-                          4.Tf4-h4 #
-                  3.Sd4-e6 +
-                      3...Kg5-h5
-                          4.Tf4-h4 #
-                      3...Kg5-h6
-                          4.Tf4-h4 #
-              2...Kf6-e5
-                  3.Sd6-f7 #
 
    1.Sd4-f3=s !
       1...Sf3-d2
@@ -1000,10 +1000,10 @@ Loesung beendet.
                   3.Tf4-f5 #
 
 
-                        empile:      288399
-                     play_move:      130044
- is_white_king_square_attacked:       71212
- is_black_king_square_attacked:       77307
+                        empile:      261920
+                     play_move:      116153
+ is_white_king_square_attacked:       68551
+ is_black_king_square_attacked:       63470
 Loesung beendet. 
 
 
@@ -1044,10 +1044,10 @@ Loesung beendet.
               2...Ta8-h8 #
 
 
-                        empile:        9477
-                     play_move:        5867
- is_white_king_square_attacked:        4530
- is_black_king_square_attacked:        2797
+                        empile:        9062
+                     play_move:        4910
+ is_white_king_square_attacked:        4127
+ is_black_king_square_attacked:        2014
 Loesung beendet. 
 
 
@@ -1083,9 +1083,9 @@ Loesung beendet.
   1.b7-b8=S=s g2-g1=L=w   2.Lg1-b6 Sb8-c6 #
 
                         empile:       15423
-                     play_move:       15795
- is_white_king_square_attacked:        6485
- is_black_king_square_attacked:       11997
+                     play_move:       15043
+ is_white_king_square_attacked:        6183
+ is_black_king_square_attacked:       11547
 Loesung beendet. 
 
 

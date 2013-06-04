@@ -28,10 +28,10 @@
 a) 
 
    1.Tb6-f6 + !
-      1...Kf5*f6[Kf6<->Kc5]
-          2.Sf2-e4 #
       1...Kf5-e5[Ke5<->Kc5]
           2.d3-d4 #
+      1...Kf5*f6[Kf6<->Kc5]
+          2.Sf2-e4 #
 
    1.c3-c4 ! Zugzwang.
       1...Kf5-e5[Ke5<->Kc5]
@@ -40,10 +40,10 @@ a)
           2.Sf2-e4 #
 
 
-                        empile:        2305
-                     play_move:        1097
- is_white_king_square_attacked:         183
- is_black_king_square_attacked:        1656
+                        empile:        1917
+                     play_move:         914
+ is_white_king_square_attacked:         141
+ is_black_king_square_attacked:        1613
 b) WeisseOszillierendeKoenige    TypB
 
    1.Sf2-d1[Kf5<->Kc5] ! Zugzwang.
@@ -51,18 +51,18 @@ b) WeisseOszillierendeKoenige    TypB
           2.Sd1-e3[Kd5<->Kf5] #
 
 
-                        empile:        2287
-                     play_move:        1182
- is_white_king_square_attacked:        1083
- is_black_king_square_attacked:        1185
+                        empile:        2633
+                     play_move:        1401
+ is_white_king_square_attacked:        1126
+ is_black_king_square_attacked:        1404
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
 
 
-                        empile:        2566
-                     play_move:         948
- is_white_king_square_attacked:        1000
- is_black_king_square_attacked:         949
+                        empile:        3911
+                     play_move:        1191
+ is_white_king_square_attacked:        1170
+ is_black_king_square_attacked:        1192
 Loesung beendet. 
 
 
@@ -98,10 +98,10 @@ Loesung beendet.
               2...Lf3*d5[Kh8<->Ka8] #
 
 
-                        empile:        4429
-                     play_move:        1792
- is_white_king_square_attacked:        1793
- is_black_king_square_attacked:        3159
+                        empile:        5142
+                     play_move:        2055
+ is_white_king_square_attacked:        2056
+ is_black_king_square_attacked:        3604
 Loesung beendet. 
 
 
@@ -136,18 +136,18 @@ Loesung beendet.
           2.Dc1*f4 #
       1...Sg2-e3[Kf3<->Kh6]
           2.Dc1*e3 #
-      1...Kf3-f4[Kf4<->Kh6] +
-          2.Kf4-g3 #
       1...Kf3-e3[Ke3<->Kh6] +
           2.Ke3-f2 #
+      1...Kf3-f4[Kf4<->Kh6] +
+          2.Kf4-g3 #
       1...g6-g5[Kf3<->Kh6]
           2.Dc1-c6 #
 
 
-                        empile:        2014
-                     play_move:        1286
- is_white_king_square_attacked:         182
- is_black_king_square_attacked:        1289
+                        empile:        1640
+                     play_move:        1110
+ is_white_king_square_attacked:         154
+ is_black_king_square_attacked:        1113
 Loesung beendet. 
 
 

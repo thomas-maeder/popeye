@@ -54,9 +54,9 @@
                                                                          10.Nd8-f7 +
                                                                              10...Kb5-b4
                                                                                  11.Lb2-c3 +
-                                                                                     11...Kb4-c4
+                                                                                     11...Kb4-c5
                                                                                          12.Lc3-f6 +
-                                                                                             12...Kc4-b4
+                                                                                             12...Kc5-b4
                                                                                                  13.Nf7-d8 +
                                                                                                      13...Kb4-b5
                                                                                                          14.Lf3-c6 +
@@ -81,9 +81,9 @@
                                                                                                                                                                                      23...Kb4-b5
                                                                                                                                                                                          24.Tc1-b1 +
                                                                                                                                                                                              24...De1*b1 #
-                                                                                     11...Kb4-c5
+                                                                                     11...Kb4-c4
                                                                                          12.Lc3-f6 +
-                                                                                             12...Kc5-b4
+                                                                                             12...Kc4-b4
                                                                                                  13.Nf7-d8 +
                                                                                                      13...Kb4-b5
                                                                                                          14.Lf3-c6 +
@@ -136,9 +136,9 @@
  34  (Lb2-e5 )
  35  (Lb2-d4 )
  36  (Lb2-c3 + )
- 37  (Ka2-a1 )
+ 37  (Ka2-b1 )
  38  (Ka2-b3 + )
- 39  (Ka2-b1 )
+ 39  (Ka2-a1 )
  40  (Tc1-a1 )
  41  (Tc1-b1 )
  42  (Tc1*c8 )
@@ -151,10 +151,10 @@
  49  (Tc1*e1 )
  50  (Tc1-d1 )
 
-                        empile:    32589758
-                     play_move:    21622927
- is_white_king_square_attacked:    18451485
- is_black_king_square_attacked:    15863743
+                        empile:    29600090
+                     play_move:    20006961
+ is_white_king_square_attacked:    17087949
+ is_black_king_square_attacked:    14702794
 Loesung beendet. 
 
 
@@ -269,13 +269,13 @@ Loesung beendet.
  32  (Lb3-d5 )
  33  (Lb3-c4 )
  34  (Lb3-a4 )
- 35  (Kf2-g2 )
- 36  (Kf2-f3 + )
- 37  (Kf2-e2 )
+ 35  (Kf2-e1 )
+ 36  (Kf2-g3 + )
+ 37  (Kf2-e3 )
  38  (Kf2-f1 )
- 39  (Kf2-e3 )
- 40  (Kf2-g3 + )
- 41  (Kf2-e1 )
+ 39  (Kf2-e2 )
+ 40  (Kf2-f3 + )
+ 41  (Kf2-g2 )
  42  (Ng1*h3 )
  43  (Ng1-d7 )
  44  (Ng1-e5 + )
@@ -283,10 +283,10 @@ Loesung beendet.
  46  (Ng1*c3 )
  47  (Ng1-e2 )
 
-                        empile:   158465217
-                     play_move:   120523595
- is_white_king_square_attacked:   107825608
- is_black_king_square_attacked:    78646553
+                        empile:   158530854
+                     play_move:   109631491
+ is_white_king_square_attacked:    96933504
+ is_black_king_square_attacked:    78065714
 Loesung beendet. 
 
 
@@ -392,11 +392,11 @@ Loesung beendet.
  28  (Tf4-f5 )
  29  (Tf4-h4 )
  30  (Tf4-g4 )
- 31  (Kh2-h3 )
- 32  (Kh2-g2 )
+ 31  (Kh2*g1 )
+ 32  (Kh2-g3 )
  33  (Kh2-h1 )
- 34  (Kh2-g3 )
- 35  (Kh2*g1 )
+ 34  (Kh2-g2 )
+ 35  (Kh2-h3 )
  36  (Tc1*b1 )
  37  (Tc1-c5 )
  38  (Tc1-c4 )
@@ -407,10 +407,10 @@ Loesung beendet.
  43  (Tc1-e1 )
  44  (Tc1-d1 )
 
-                        empile:     1437257
-                     play_move:     1091400
- is_white_king_square_attacked:      921563
- is_black_king_square_attacked:      745801
+                        empile:     1437075
+                     play_move:     1110540
+ is_white_king_square_attacked:      940703
+ is_black_king_square_attacked:      757122
 Loesung beendet. 
 
 
@@ -442,10 +442,10 @@ Loesung beendet.
 
   1  (Lf8*d6 )
   2  (Lf8-e7 )
-  3  (Ke8*d8 )
-  4  (Ke8-e7 )
-  5  (Ke8-f7 )
-  6  (Ke8*d7 )
+  3  (Ke8*d7 )
+  4  (Ke8-f7 )
+  5  (Ke8-e7 )
+  6  (Ke8*d8 )
   7  (Tg7-g6 + )
    1.Tg7-g6 + !
       1...Kh8-h7
@@ -516,10 +516,10 @@ Loesung beendet.
  31  (EQf4-b8 )
  32  (EQf4-h6 )
 
-                        empile:    17205468
-                     play_move:    11117118
- is_white_king_square_attacked:     8908413
- is_black_king_square_attacked:     8259074
+                        empile:    17206526
+                     play_move:    11331406
+ is_white_king_square_attacked:     9122701
+ is_black_king_square_attacked:     8290458
 Loesung beendet. 
 
 
@@ -632,9 +632,9 @@ Loesung beendet.
  35  (Se2-g1 )
  36  (Se2-f4 )
  37  (Se2-c3 )
- 38  (Kd1-e1 )
+ 38  (Kd1-c2 )
  39  (Kd1-d2 )
- 40  (Kd1-c2 )
+ 40  (Kd1-e1 )
  41  (Lc1*h6 )
  42  (Lc1-g5 + )
  43  (Lc1-f4 )
@@ -643,10 +643,10 @@ Loesung beendet.
  46  (Lc1-a3 )
  47  (Lc1-b2 )
 
-                        empile:    12833266
-                     play_move:     9877688
- is_white_king_square_attacked:     8108201
- is_black_king_square_attacked:     7199770
+                        empile:    12833088
+                     play_move:     9791861
+ is_white_king_square_attacked:     8022374
+ is_black_king_square_attacked:     7101947
 Loesung beendet. 
 
 
@@ -682,13 +682,13 @@ Loesung beendet.
   5  (Lh6-g5 )
   6  (Lh6-f8 )
   7  (Lh6-g7 )
-  8  (Ke5-f5 )
-  9  (Ke5-e6 )
- 10  (Ke5-e4 + )
+  8  (Ke5-d4 + )
+  9  (Ke5-f4 )
+ 10  (Ke5-f6 )
  11  (Ke5-d6 )
- 12  (Ke5-f6 )
- 13  (Ke5-f4 )
- 14  (Ke5-d4 + )
+ 12  (Ke5-e4 + )
+ 13  (Ke5-e6 )
+ 14  (Ke5-f5 )
  15  (Sd5-b4 + )
  16  (Sd5-c3 )
  17  (Sd5-e3 )
@@ -763,10 +763,10 @@ Loesung beendet.
  43  (La2-c4 + )
  44  (La2-b3 )
 
-                        empile:     4160385
-                     play_move:     2713118
- is_white_king_square_attacked:     2368127
- is_black_king_square_attacked:     1845888
+                        empile:     4161011
+                     play_move:     2659955
+ is_white_king_square_attacked:     2314964
+ is_black_king_square_attacked:     1849082
 Loesung beendet. 
 
 
@@ -852,14 +852,14 @@ Loesung beendet.
 
  12  (g2-g4 )
  13  (g2-g3 )
- 14  (Ke2-f2 )
- 15  (Ke2-e3 )
- 16  (Ke2-d2 )
- 17  (Ke2-e1 )
- 18  (Ke2-d3 )
- 19  (Ke2-f3 )
- 20  (Ke2-f1 )
- 21  (Ke2-d1 )
+ 14  (Ke2-d1 )
+ 15  (Ke2-f1 )
+ 16  (Ke2-f3 )
+ 17  (Ke2-d3 )
+ 18  (Ke2-e1 )
+ 19  (Ke2-d2 )
+ 20  (Ke2-e3 )
+ 21  (Ke2-f2 )
  22  (Sc2-a1 )
  23  (Sc2-e1 )
  24  (Sc2-e3 )
@@ -868,10 +868,10 @@ Loesung beendet.
  27  (b2-b4 )
  28  (b2-b3 )
 
-                        empile:     4545076
-                     play_move:     3058362
- is_white_king_square_attacked:     1053150
- is_black_king_square_attacked:     2448602
+                        empile:     4332303
+                     play_move:     2789716
+ is_white_king_square_attacked:      987132
+ is_black_king_square_attacked:     2223425
 Loesung beendet. 
 
 

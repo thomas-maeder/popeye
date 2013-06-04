@@ -43,9 +43,9 @@
 
 
                         empile:        4607
-                     play_move:        3167
+                     play_move:        3058
  is_white_king_square_attacked:         231
- is_black_king_square_attacked:        3170
+ is_black_king_square_attacked:        3061
 Loesung beendet. 
 
 
@@ -80,9 +80,9 @@ Loesung beendet.
   1.Sb2-a4[+sBb2] Lg4-f5[+wBg4]   2.b2-b1=G Gd8-d3 #
 
                         empile:       33228
-                     play_move:       28770
+                     play_move:       29025
  is_white_king_square_attacked:        2220
- is_black_king_square_attacked:       28597
+ is_black_king_square_attacked:       28852
 Loesung beendet. 
 
 
@@ -181,10 +181,10 @@ Andernach TT 2000, 4. ehrende Erwähnung
           2.Dd8-d7 #
 
 
-                        empile:       36322
-                     play_move:       24651
- is_white_king_square_attacked:        1345
- is_black_king_square_attacked:       24642
+                        empile:       36465
+                     play_move:       25996
+ is_white_king_square_attacked:        1350
+ is_black_king_square_attacked:       25987
 Loesung beendet. 
 
 

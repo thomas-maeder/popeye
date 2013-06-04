@@ -29,17 +29,17 @@ a)
   1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 #
 
                         empile:        9975
-                     play_move:        8505
+                     play_move:        8666
  is_white_king_square_attacked:         865
- is_black_king_square_attacked:        8230
+ is_black_king_square_attacked:        8391
 b) wLb1 
 
   1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 #
 
                         empile:       10070
-                     play_move:        7573
+                     play_move:        7897
  is_white_king_square_attacked:        1238
- is_black_king_square_attacked:        7211
+ is_black_king_square_attacked:        7535
 Loesung beendet. 
 
 
@@ -75,9 +75,9 @@ Loesung beendet.
   1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S =
 
                         empile:       64276
-                     play_move:       29309
+                     play_move:       28814
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       27869
+ is_black_king_square_attacked:       27374
 Loesung beendet. 
 
 
@@ -234,8 +234,8 @@ Beispiel fuer Rochade in Haaner Schach
 
 
                         empile:          44
-                     play_move:          23
- is_white_king_square_attacked:          25
+                     play_move:          24
+ is_white_king_square_attacked:          26
  is_black_king_square_attacked:           0
 Loesung beendet. 
 

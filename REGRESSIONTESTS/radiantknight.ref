@@ -26,9 +26,9 @@
   1.Kb6-a7   2.RKa8-a4   3.RKa4*d3   4.RKd3-a6   5.d4-d3   6.d3-d2   7.d2-d1=RK   8.RKd1-a8 RKc5-c7 #
 
                         empile:     1072737
-                     play_move:      954900
+                     play_move:      961646
  is_white_king_square_attacked:      228804
- is_black_king_square_attacked:      954900
+ is_black_king_square_attacked:      961646
 solution finished. 
 
 
@@ -60,9 +60,9 @@ solution finished.
   1.RKf7*c6   2.RKc6-g8   3.c7-c5   4.c5-c4   5.c4-c3   6.c3-c2   7.c2-c1=B   8.Bc1-e3   9.Be3*f2  10.Bf2-a7  11.f3-f2  12.f2-f1=RK  13.RKf1-h7 RKe7-h6 #
 
                         empile:     7065926
-                     play_move:     6490883
+                     play_move:     6540588
  is_white_king_square_attacked:     1616349
- is_black_king_square_attacked:     6490883
+ is_black_king_square_attacked:     6540588
 solution finished. 
 
 
@@ -128,10 +128,10 @@ solution finished.
       1...RKe6-d1 !
 
 
-                        empile:       11402
-                     play_move:        5686
+                        empile:       11401
+                     play_move:        5998
  is_white_king_square_attacked:         414
- is_black_king_square_attacked:        5605
+ is_black_king_square_attacked:        5917
 solution finished. 
 
 

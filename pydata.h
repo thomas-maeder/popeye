@@ -154,8 +154,6 @@ EXTERN  unsigned int   number_of_imitators;       /* aktuelle Anzahl Imitatoren 
 
 EXTERN  imarr           isquare;                /* Imitatorstandfelder */
 
-EXTERN  boolean         calctransmute;
-
 EXTERN  boolean         anymars;
 EXTERN  boolean         is_phantomchess;
 
@@ -186,7 +184,6 @@ EXTERN boolean          flag_synchron;
 EXTERN ply      	      tempply;
 EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
-EXTERN boolean          calc_transmuting_king[nr_sides];
 EXTERN boolean          calc_reflective_king[nr_sides];
 EXTERN int         gridlines[112][4];
 EXTERN int              numgridlines;
