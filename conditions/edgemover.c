@@ -36,7 +36,6 @@ static boolean avoid_observation_not_to_edge(square sq_observer,
                                              square sq_observee)
 {
   boolean result;
-  Side const side_observing = e[sq_observer]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -44,7 +43,7 @@ static boolean avoid_observation_not_to_edge(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[side2cond[side_observing]])
+  if (CondFlag[side2cond[trait[nbply]]])
     result = !NoEdge(sq_landing);
   else
     result = true;

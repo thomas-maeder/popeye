@@ -14,8 +14,7 @@ static boolean avoid_observation_of_rebirthable_king(square sq_observer,
                                                      square sq_observee)
 {
   boolean result;
-  Side const moving = e[sq_observer]>vide ? White : Black;
-  Side const opponent = advers(moving);
+  Side const side_observee = advers(trait[nbply]);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -23,11 +22,11 @@ static boolean avoid_observation_of_rebirthable_king(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (sq_observee==king_square[opponent])
+  if (sq_observee==king_square[side_observee])
   {
     square const sq_rebirth = (*circerenai)(e[sq_observee],spec[sq_observee],
                                             sq_observee,sq_observer,sq_landing,
-                                            moving);
+                                            trait[nbply]);
     result = e[sq_rebirth]!=vide && sq_observer!=sq_rebirth;
   }
   else

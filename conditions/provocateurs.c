@@ -13,14 +13,15 @@
  */
 static boolean is_piece_provoked_on(square sq_departure)
 {
-  Side const side_provoking = e[sq_departure]>vide ? Black : White;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  result = is_square_attacked(side_provoking,sq_departure,&validate_observer);
+  result = is_square_attacked(advers(trait[nbply]),
+                              sq_departure,
+                              &validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

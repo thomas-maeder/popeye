@@ -24,7 +24,6 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
                                                   square sq_observee)
 {
   boolean result;
-  Side side_observing = e[sq_observer]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -33,7 +32,7 @@ static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
   TraceFunctionParamListEnd();
 
   init_single_move_generator(sq_observer,sq_landing,sq_observee);
-  result = solve(slices[temporary_hack_king_capture_legality_tester[side_observing]].next2,length_unspecified)==next_move_has_solution;
+  result = solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

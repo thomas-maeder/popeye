@@ -17,7 +17,6 @@ static boolean is_capture_not_supported(square sq_observer,
                                         square sq_landing,
                                         square sq_observee)
 {
-  Side const supporting_side = e[sq_observer]>=roib ? White : Black;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -26,7 +25,7 @@ static boolean is_capture_not_supported(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = !is_square_attacked(supporting_side,sq_observer,&validate_observer);
+  result = !is_square_attacked(trait[nbply],sq_observer,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

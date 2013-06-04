@@ -4100,9 +4100,8 @@ conditions/brunner$(OBJ_SUFFIX): conditions/brunner.c conditions/brunner.h pydat
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/temporary_hacks.h pieces/attributes/neutral/initialiser.h \
- solving/solve.h solving/single_move_generator.h solving/observation.h \
- pyproc.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/single_move_generator.h \
+ solving/solve.h solving/observation.h pyproc.h debugging/trace.h
 
 conditions/brunner.h:
 
@@ -4154,11 +4153,9 @@ stipulation/has_solution_type.h:
 
 stipulation/temporary_hacks.h:
 
-pieces/attributes/neutral/initialiser.h:
+solving/single_move_generator.h:
 
 solving/solve.h:
-
-solving/single_move_generator.h:
 
 solving/observation.h:
 

@@ -90,7 +90,6 @@ static boolean is_observation_valid(square sq_observer,
                                     square sq_observee)
 {
   boolean result;
-  Side const side_observing = e[sq_observer]>vide ? White : Black;
   unsigned int const diff = abs(sq_observer-sq_landing);
 
   TraceFunctionEntry(__func__);
@@ -99,7 +98,7 @@ static boolean is_observation_valid(square sq_observer,
   TraceEnumerator(Side,sq_observee,"");
   TraceFunctionParamListEnd();
 
-  result = BGL_move_diff_code[diff]<=BGL_values[side_observing][nbply];
+  result = BGL_move_diff_code[diff]<=BGL_values[trait[nbply]][nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

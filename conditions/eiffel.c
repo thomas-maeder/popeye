@@ -127,7 +127,7 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
 
   if (eiffel_piece!=vide)
   {
-    Side const eiffel_side = eiffel_piece>0 ? White : Black;
+    Side const eiffel_side = advers(trait[nbply]);
     if (number_of_pieces[eiffel_side][abs(eiffel_piece)]>0)
     {
       nextply();

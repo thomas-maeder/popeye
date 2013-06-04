@@ -53,16 +53,15 @@ static boolean is_observer_supported(square sq_observer,
 boolean central_can_piece_move_from(square sq_departure)
 {
   boolean result;
-  Side const moving = e[sq_departure]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (sq_departure==king_square[moving])
+  if (sq_departure==king_square[trait[nbply]])
     result = true;
   else
-    result = is_square_attacked(moving,sq_departure,&central_test_supporter);
+    result = is_square_attacked(trait[nbply],sq_departure,&central_test_supporter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

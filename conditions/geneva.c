@@ -67,7 +67,6 @@ static boolean avoid_illegal_observation(square sq_observer,
                                          square sq_observee)
 {
   boolean result;
-  Side const side_observing = e[sq_observer]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -75,7 +74,7 @@ static boolean avoid_illegal_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = is_capture_legal(side_observing,sq_observer,sq_landing,sq_observee);
+  result = is_capture_legal(trait[nbply],sq_observer,sq_landing,sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

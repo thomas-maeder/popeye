@@ -515,7 +515,6 @@ static boolean avoid_non_mum_observations(square sq_observer,
                                           square sq_observee)
 {
   boolean result;
-  Side const moving = e[sq_observer]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -523,8 +522,8 @@ static boolean avoid_non_mum_observations(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (mummer_strictness[moving]==mummer_strictness_ultra)
-    result = eval_ultra_mummer_king_check(moving,sq_observer,sq_landing,sq_observee);
+  if (mummer_strictness[trait[nbply]]==mummer_strictness_ultra)
+    result = eval_ultra_mummer_king_check(trait[nbply],sq_observer,sq_landing,sq_observee);
   else
     result = true;
 

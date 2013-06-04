@@ -102,7 +102,7 @@ static boolean aux_wh(square sq_departure,
 
 static boolean woohefflibre(square to, square from)
 {
-  Side const side_woozled = e[from]>vide ? White : Black;
+  Side const side_woozled = trait[nbply];
   Side const side_woozle = CondFlag[biwoozles] ? advers(side_woozled) : side_woozled;
   boolean result = true;
 
@@ -140,8 +140,8 @@ static boolean woohefflibre(square to, square from)
  * @return true iff the observation is valid
  */
 static boolean woozles_heffalumps_validate_observation(square sq_observer,
-                                                square sq_landing,
-                                                square sq_observee)
+                                                       square sq_landing,
+                                                       square sq_observee)
 {
   return woohefflibre(sq_landing,sq_observer);
 }
