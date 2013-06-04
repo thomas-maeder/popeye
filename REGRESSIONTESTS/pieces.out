@@ -1393,3 +1393,38 @@ b) sHc6-->a6
 Loesung beendet. 
 
 
+
+            Wilfried neef
+         mpk-Bl"atter I/2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   . =RD   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   . =RD   . =RD   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   . =RD   .   3
+|                                   |
+2   . =RD =RD   .   .   .   .   .   2
+|                                   |
+1   .   .   .   . =RD   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 1 + 7n
+
+  1...nRDe1-e6   2.Kf6-g5 Kd4-e5   3.Kg5-h5 Ke5-f4 #
+  1...nRDe1-c3   2.Kf6-g7 nRDd5-g8 +   3.Kg7-h8 Kd4-c5 #
+
+                        empile:    29232281
+                     play_move:    24503498
+ is_white_king_square_attacked:     1833160
+ is_black_king_square_attacked:    24415586
+Loesung beendet. 
+
+
