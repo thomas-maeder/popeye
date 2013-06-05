@@ -10,29 +10,29 @@
 boolean madrasi_is_observed(square sq)
 {
   boolean result;
+  Side const observed_side = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
-  if (!rex_mad && (sq==king_square[White] || sq==king_square[Black]))
+  if (!rex_mad && sq==king_square[observed_side])
     result = false;
   else
   {
-    piece const p = e[sq];
-    Side const observed_side = p>0 ? White : Black;
+    PieNam const p = abs(e[sq]);
     Side const observing_side = advers(observed_side);
 
     if (TSTFLAG(some_pieces_flags,Neutral))
       initialise_neutrals(advers(neutral_side));
 
-    if (number_of_pieces[observing_side][abs(p)]==0)
+    if (number_of_pieces[observing_side][p]==0)
       result = false;
     else
     {
       nextply();
       trait[nbply] = observing_side;
-      result = (*checkfunctions[abs(p)])(sq,abs(p),&validate_observation_geometry);
+      result = (*checkfunctions[p])(sq,p,&validate_observation_geometry);
       finply();
     }
 

@@ -59,25 +59,42 @@ void stip_insert_isardam_legality_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean pos_legal(void)
+static boolean is_piece_illegally_observed(Side side, square z)
 {
+  boolean result;
+
+  if (TSTFLAG(spec[z],side))
+  {
+    trait[nbply] = side; /* from Madrasi's perspective! */
+    result = madrasi_is_observed(z);
+  }
+  else
+    result = false;
+
+  return result;
+}
+
+static boolean find_illegal_observation(void)
+{
+  boolean result = false;
   square square_h = square_h8;
-  boolean result = true;
   int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  nextply(); /* for e.p. captures */
+  nextply();
 
   for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {
     int j;
     square z = square_h;
     for (j = nr_files_on_board; j>0; j--, z += dir_left)
-      if (e[z]!=vide && madrasi_is_observed(z))
+      if (e[z]!=vide
+          && (is_piece_illegally_observed(White,z)
+              || is_piece_illegally_observed(Black,z)))
       {
-        result = false;
+        result = true;
         break;
       }
   }
@@ -114,10 +131,10 @@ stip_length_type isardam_legality_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pos_legal())
-    result = solve(next,n);
-  else
+  if (find_illegal_observation())
     result = previous_move_is_illegal;
+  else
+    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

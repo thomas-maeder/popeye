@@ -131,10 +131,7 @@ boolean is_piece_paralysed_on(square s)
   if (paralysis_suspended)
     result = false;
   else
-  {
-    Side const paralysing_side = e[s]>vide ? Black : White;
-    result = is_square_attacked(paralysing_side,s,&validate_paralyser);
-  }
+    result = is_square_attacked(advers(trait[nbply]),s,&validate_paralyser);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
