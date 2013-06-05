@@ -316,6 +316,7 @@ boolean is_a_square_attacked(Side side_checking,
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_in_check,"");
+  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
   if (side_in_check==White)
