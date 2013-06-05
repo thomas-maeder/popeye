@@ -231,7 +231,7 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
                                                                      *bnp,
                                                                      target->type,
                                                                      target->square);
-        moves_per_side[e[*bnp]<vide ? Black : White] += time;
+        moves_per_side[TSTFLAG(spec[*bnp],White) ? White : Black] += time;
         TracePiece(e[*bnp]);
         TraceSquare(*bnp);
         TracePiece(target->type);

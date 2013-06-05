@@ -12,11 +12,6 @@
  */
 extern Side neutral_side;
 
-/* Change the side of the piece so that the piece belongs to the neutral side
- * @param p address of piece whose side to change
- */
-void setneutre(piece *p);
-
 /* Initialise the neutral pieces to belong to the side to be captured in the
  * subsequent move
  * @param captured_side side of pieces to be captured

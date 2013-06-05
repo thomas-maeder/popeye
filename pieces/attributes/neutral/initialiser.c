@@ -21,11 +21,11 @@ Side neutral_side;
 
 /* Change the side of the piece on a square so that the piece belongs to the
  * neutral side
- * @param p address of piece whose side to change
+ * @param s position of piece whose side to change
  */
-void setneutre(piece *p)
+static void setneutre(square s)
 {
-  Side const current_side = *p<=roin ? Black : White;
+  Side const current_side = e[s]<=roin ? Black : White;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -34,7 +34,7 @@ void setneutre(piece *p)
   TraceEnumerator(Side,neutral_side,"\n");
 
  if (neutral_side!=current_side)
-   *p = -*p;
+   e[s] = -e[s];
 
  TraceFunctionExit(__func__);
  TraceFunctionResultEnd();
@@ -143,7 +143,7 @@ void neutral_initialiser_recolor_retracting(void)
       {
         square const from = move_effect_journal[curr].u.piece_movement.from;
         if (TSTFLAG(spec[from],Neutral))
-          setneutre(&e[from]);
+          setneutre(from);
         break;
       }
 
@@ -151,7 +151,7 @@ void neutral_initialiser_recolor_retracting(void)
       {
         square const from = move_effect_journal[curr].u.piece_removal.from;
         if (TSTFLAG(spec[from],Neutral))
-          setneutre(&e[from]);
+          setneutre(from);
         break;
       }
 
@@ -159,7 +159,7 @@ void neutral_initialiser_recolor_retracting(void)
       {
         square const on = move_effect_journal[curr].u.piece_change.on;
         if (TSTFLAG(spec[on],Neutral))
-          setneutre(&e[on]);
+          setneutre(on);
         break;
       }
 
@@ -241,7 +241,7 @@ void neutral_initialiser_recolor_replaying(void)
       {
         square const on = move_effect_journal[curr].u.piece_addition.on;
         if (TSTFLAG(spec[on],Neutral))
-          setneutre(&e[on]);
+          setneutre(on);
         break;
       }
 
@@ -249,7 +249,7 @@ void neutral_initialiser_recolor_replaying(void)
       {
         square const on = move_effect_journal[curr].u.piece_change.on;
         if (TSTFLAG(spec[on],Neutral))
-          setneutre(&e[on]);
+          setneutre(on);
         break;
       }
 

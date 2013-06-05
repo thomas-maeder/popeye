@@ -10,7 +10,8 @@ pieces/attributes/neutral/initialiser$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
- solving/move_effect_journal.h pieces/side_change.h debugging/trace.h
+ solving/move_effect_journal.h position/pieceid.h pieces/side_change.h \
+ debugging/trace.h
 
 pieces/attributes/neutral/initialiser.h:
 
@@ -72,6 +73,8 @@ stipulation/move.h:
 
 solving/move_effect_journal.h:
 
+position/pieceid.h:
+
 pieces/side_change.h:
 
 debugging/trace.h:
@@ -86,7 +89,7 @@ pieces/attributes/neutral/half$(OBJ_SUFFIX): pieces/attributes/neutral/half.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/move.h solving/move_effect_journal.h \
- debugging/trace.h
+ position/pieceid.h debugging/trace.h
 
 pieces/attributes/neutral/half.h:
 
@@ -145,5 +148,7 @@ stipulation/branch.h:
 stipulation/move.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
