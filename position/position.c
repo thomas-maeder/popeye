@@ -34,6 +34,17 @@ piece const PAS[nr_squares_on_board] = {
   tn,   cn,   fn,   dn, roin,   fn,   cn,   tn
 };
 
+static Side const PAS_sides[nr_squares_on_board] = {
+    White,   White,   White,   White, White,   White,   White,   White,
+    White,   White,   White,   White,   White,   White,   White,   White,
+    no_side, no_side, no_side, no_side, no_side, no_side, no_side, no_side,
+    no_side, no_side, no_side, no_side, no_side, no_side, no_side, no_side,
+    no_side, no_side, no_side, no_side, no_side, no_side, no_side, no_side,
+    no_side, no_side, no_side, no_side, no_side, no_side, no_side, no_side,
+    Black,   Black,   Black,   Black,   Black,   Black,   Black,   Black,
+    Black,   Black,   Black,   Black, Black,   Black,   Black,   Black
+  };
+
 void initialise_game_array(position *pos)
 {
   unsigned int i;
@@ -70,7 +81,7 @@ void initialise_game_array(position *pos)
     pos->board[square_i] = p;
     if (p!=vide && p!=obs)
     {
-      Side const side = p>0 ? White : Black;
+      Side const side = PAS_sides[i];
       ++pos->number_of_pieces[side][abs(p)];
       SETFLAG(pos->spec[square_i],side);
     }
