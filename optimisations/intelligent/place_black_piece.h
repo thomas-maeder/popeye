@@ -3,6 +3,7 @@
 
 #include "position/piece.h"
 #include "position/board.h"
+#include "position/position.h"
 
 extern square const *where_to_start_placing_black_pieces;
 
@@ -12,7 +13,7 @@ extern square const *where_to_start_placing_black_pieces;
  */
 
 void intelligent_place_promoted_black_rider(unsigned int placed_index,
-                                            piece promotee_type,
+                                            PieNam promotee_type,
                                             square placed_on,
                                             void (*go_on)(void));
 
@@ -41,7 +42,7 @@ void intelligent_place_black_piece(unsigned int placed_index,
                                    void (*go_on)(void));
 
 void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
-                                                   piece promotee_type,
+                                                   PieNam promotee_type,
                                                    square placed_on,
                                                    void (*go_on)(void));
 

@@ -111,7 +111,7 @@ void intelligent_place_white_king(square place_on, void (*go_on)(void))
                                                       place_on))
   {
     king_square[White] = place_on;
-    SetPiece(roib,place_on,white[index_of_king].flags);
+    SetPiece(King,place_on,white[index_of_king].flags);
 
     current_direction = vec_queen_start-1;
     go_on_after = go_on;

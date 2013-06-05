@@ -19,7 +19,7 @@ enum
   checkdir_uninterceptable = INT_MAX
 };
 
-static int find_interceptable_check_dir(piece rider_type, square placed_on)
+static int find_interceptable_check_dir(PieNam rider_type, square placed_on)
 {
   int result;
   square const king_pos = king_square[White];
@@ -34,7 +34,7 @@ static int find_interceptable_check_dir(piece rider_type, square placed_on)
   else
   {
     int const diff = king_pos-placed_on;
-    result = CheckDir[abs(rider_type)][diff];
+    result = CheckDir[rider_type][diff];
 
     if (result==diff)
       result = checkdir_uninterceptable;
@@ -57,7 +57,7 @@ static int find_interceptable_check_dir(piece rider_type, square placed_on)
 }
 
 void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
-                                                   piece promotee_type,
+                                                   PieNam promotee_type,
                                                    square placed_on,
                                                    void (*go_on)(void))
 {
@@ -145,12 +145,12 @@ typedef enum
   rider_requires_pin
 } rider_disturbance_type;
 
-static rider_disturbance_type how_does_rider_disturb(piece placed_type,
+static rider_disturbance_type how_does_rider_disturb(PieNam placed_type,
                                                      square placed_on)
 {
   rider_disturbance_type result = rider_doesnt_disturb;
-  unsigned int const start = disturbance_by_rider_index_ranges[abs(placed_type)-Queen].start;
-  unsigned int const end = disturbance_by_rider_index_ranges[abs(placed_type)-Queen].end;
+  unsigned int const start = disturbance_by_rider_index_ranges[placed_type-Queen].start;
+  unsigned int const end = disturbance_by_rider_index_ranges[placed_type-Queen].end;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -225,7 +225,7 @@ static void next_rider_interception(void)
 }
 
 static void place_rider(unsigned int placed_index,
-                        piece placed_type,
+                        PieNam placed_type,
                         square placed_on,
                         void (*go_on)(void))
 {
@@ -250,8 +250,8 @@ static void place_rider(unsigned int placed_index,
     case rider_requires_interception:
     {
       rider_interception_stack_elmt_type elmt = {
-          disturbance_by_rider_index_ranges[abs(placed_type)-Queen].start,
-          disturbance_by_rider_index_ranges[abs(placed_type)-Queen].end,
+          disturbance_by_rider_index_ranges[placed_type-Queen].start,
+          disturbance_by_rider_index_ranges[placed_type-Queen].end,
           placed_on,
           rider_interception_top
       };
@@ -281,13 +281,13 @@ static void place_rider(unsigned int placed_index,
 }
 
 void intelligent_place_promoted_black_rider(unsigned int placed_index,
-                                            piece promotee_type,
+                                            PieNam promotee_type,
                                             square placed_on,
                                             void (*go_on)(void))
 {
   square const placed_comes_from = black[placed_index].diagram_square;
   int const check_diff = king_square[White]-placed_on;
-  int const check_dir = CheckDir[-promotee_type][check_diff];
+  int const check_dir = CheckDir[promotee_type][check_diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -323,10 +323,10 @@ void intelligent_place_pinned_promoted_black_knight(unsigned int placed_index,
   if ((king_square[White]==initsquare
        || CheckDir[Knight][king_square[White]-placed_on]==0)
       && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_comes_from,
-                                                                cn,
+                                                                Knight,
                                                                 placed_on))
   {
-    SetPiece(cn,placed_on,placed_flags);
+    SetPiece(Knight,placed_on,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -350,10 +350,10 @@ void intelligent_place_promoted_black_knight(unsigned int placed_index,
   if ((king_square[White]==initsquare
        || CheckDir[Knight][king_square[White]-placed_on]==0)
       && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_comes_from,
-                                                                cn,
+                                                                Knight,
                                                                 placed_on))
   {
-    SetPiece(cn,placed_on,placed_flags);
+    SetPiece(Knight,placed_on,placed_flags);
     if (DisturbMateDirKnight[placed_on]==0)
       (*go_on)();
     else
@@ -385,7 +385,7 @@ void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
         case Rook:
         case Bishop:
           intelligent_place_pinned_promoted_black_rider(placed_index,
-                                                        -pp,
+                                                        pp,
                                                         placed_on,
                                                         go_on);
           break;
@@ -424,7 +424,7 @@ void intelligent_place_promoted_black_pawn(unsigned int placed_index,
         case Rook:
         case Bishop:
           intelligent_place_promoted_black_rider(placed_index,
-                                                 -pp,
+                                                 pp,
                                                  placed_on,
                                                  go_on);
           break;
@@ -460,7 +460,7 @@ void intelligent_place_pinned_unpromoted_black_pawn(unsigned int placed_index,
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
   {
-    SetPiece(pn,placed_on,placed_flags);
+    SetPiece(Pawn,placed_on,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -486,7 +486,7 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
   {
-    SetPiece(pn,placed_on,placed_flags);
+    SetPiece(Pawn,placed_on,placed_flags);
 
     switch (DisturbMateDirPawn[placed_on])
     {
@@ -525,7 +525,7 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
                                           square placed_on,
                                           void (*go_on)(void))
 {
-  piece const intercepter_type = black[placed_index].type;
+  PieNam const intercepter_type = black[placed_index].type;
   Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
 
@@ -539,7 +539,8 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
                                                        placed_on);
     if (check_dir==0)
     {
-      if (intelligent_reserve_officer_moves_from_to(placed_comes_from,
+      if (intelligent_reserve_officer_moves_from_to(Black,
+                                                    placed_comes_from,
                                                     intercepter_type,
                                                     placed_on))
       {
@@ -549,7 +550,8 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
       }
     }
     else if (check_dir!=checkdir_uninterceptable
-             && intelligent_reserve_officer_moves_from_to(placed_comes_from,
+             && intelligent_reserve_officer_moves_from_to(Black,
+                                                          placed_comes_from,
                                                           intercepter_type,
                                                           placed_on))
     {
@@ -567,10 +569,10 @@ void intelligent_place_black_rider(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))
 {
-  piece const intercepter_type = black[placed_index].type;
+  PieNam const intercepter_type = black[placed_index].type;
   square const placed_comes_from = black[placed_index].diagram_square;
   int const check_diff = king_square[White]-placed_on;
-  int const check_dir = CheckDir[-intercepter_type][check_diff];
+  int const check_dir = CheckDir[intercepter_type][check_diff];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -578,7 +580,8 @@ void intelligent_place_black_rider(unsigned int placed_index,
   TraceFunctionParamListEnd();
 
   if (check_dir!=check_diff
-      && intelligent_reserve_officer_moves_from_to(placed_comes_from,
+      && intelligent_reserve_officer_moves_from_to(Black,
+                                                   placed_comes_from,
                                                    intercepter_type,
                                                    placed_on))
   {
@@ -604,11 +607,12 @@ void intelligent_place_pinned_black_knight(unsigned int placed_index,
 
   if ((king_square[White]==initsquare
        || CheckDir[Knight][king_square[White]-placed_on]==0)
-      && intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                   cn,
+      && intelligent_reserve_officer_moves_from_to(Black,
+                                                   placed_comes_from,
+                                                   Knight,
                                                    placed_on))
   {
-    SetPiece(cn,placed_on,placed_flags);
+    SetPiece(Knight,placed_on,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -631,11 +635,12 @@ void intelligent_place_black_knight(unsigned int placed_index,
 
   if ((king_square[White]==initsquare
        || CheckDir[Knight][king_square[White]-placed_on]==0)
-      && intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                   cn,
+      && intelligent_reserve_officer_moves_from_to(Black,
+                                                   placed_comes_from,
+                                                   Knight,
                                                    placed_on))
   {
-    SetPiece(cn,placed_on,placed_flags);
+    SetPiece(Knight,placed_on,placed_flags);
     if (DisturbMateDirKnight[placed_on]==0)
       (*go_on)();
     else
@@ -658,17 +663,17 @@ void intelligent_place_black_piece(unsigned int placed_index,
 
   switch (black[placed_index].type)
   {
-    case dn:
-    case tn:
-    case fn:
+    case Queen:
+    case Rook:
+    case Bishop:
       intelligent_place_black_rider(placed_index,placed_on,go_on);
       break;
 
-    case cn:
+    case Knight:
       intelligent_place_black_knight(placed_index,placed_on,go_on);
       break;
 
-    case pn:
+    case Pawn:
       intelligent_place_promoted_black_pawn(placed_index,placed_on,go_on);
       intelligent_place_unpromoted_black_pawn(placed_index,placed_on,go_on);
       break;
@@ -693,17 +698,17 @@ void intelligent_place_pinned_black_piece(unsigned int placed_index,
 
   switch (black[placed_index].type)
   {
-    case dn:
-    case tn:
-    case fn:
+    case Queen:
+    case Rook:
+    case Bishop:
       intelligent_place_pinned_black_rider(placed_index,placed_on,go_on);
       break;
 
-    case cn:
+    case Knight:
       intelligent_place_pinned_black_knight(placed_index,placed_on,go_on);
       break;
 
-    case pn:
+    case Pawn:
       intelligent_place_pinned_promoted_black_pawn(placed_index,placed_on,go_on);
       intelligent_place_pinned_unpromoted_black_pawn(placed_index,placed_on,go_on);
       break;

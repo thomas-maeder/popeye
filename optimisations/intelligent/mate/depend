@@ -291,9 +291,9 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h solving/castling.h \
  solving/solve.h solving/en_passant.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h solving/move_effect_journal.h \
- pydata.h pyproc.h stipulation/has_solution_type.h \
+ position/pieceid.h pydata.h pyproc.h stipulation/has_solution_type.h \
  optimisations/intelligent/intelligent.h position/position.h \
- position/pieceid.h optimisations/intelligent/moves_left.h \
+ optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
 optimisations/intelligent/mate/goalreachable_guard.h:
@@ -348,6 +348,8 @@ stipulation/goals/goals.h:
 
 solving/move_effect_journal.h:
 
+position/pieceid.h:
+
 pydata.h:
 
 pyproc.h:
@@ -357,8 +359,6 @@ stipulation/has_solution_type.h:
 optimisations/intelligent/intelligent.h:
 
 position/position.h:
-
-position/pieceid.h:
 
 optimisations/intelligent/moves_left.h:
 

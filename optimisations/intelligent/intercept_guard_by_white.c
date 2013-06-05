@@ -97,7 +97,7 @@ static void promoted_white_pawn(unsigned int intercepter_index,
 
         case Rook:
           if (is_diagonal)
-            intelligent_place_promoted_white_rider(tb,
+            intelligent_place_promoted_white_rider(Rook,
                                                    intercepter_index,
                                                    where_to_intercept,
                                                    go_on);
@@ -105,7 +105,7 @@ static void promoted_white_pawn(unsigned int intercepter_index,
 
         case Bishop:
           if (!is_diagonal)
-            intelligent_place_promoted_white_rider(fb,
+            intelligent_place_promoted_white_rider(Bishop,
                                                    intercepter_index,
                                                    where_to_intercept,
                                                    go_on);
@@ -180,30 +180,30 @@ static void white_piece_on(square where_to_intercept,
 
       switch (white[intercepter_index].type)
       {
-        case db:
+        case Queen:
           break;
 
-        case tb:
+        case Rook:
           if (is_diagonal)
             intelligent_place_white_rider(intercepter_index,
                                           where_to_intercept,
                                           go_on);
           break;
 
-        case fb:
+        case Bishop:
           if (!is_diagonal)
             intelligent_place_white_rider(intercepter_index,
                                           where_to_intercept,
                                           go_on);
           break;
 
-        case cb:
+        case Knight:
           intelligent_place_white_knight(intercepter_index,
                                          where_to_intercept,
                                          go_on);
           break;
 
-        case pb:
+        case Pawn:
           promoted_white_pawn(intercepter_index,where_to_intercept,is_diagonal,go_on);
           intelligent_place_unpromoted_white_pawn(intercepter_index,
                                                   where_to_intercept,

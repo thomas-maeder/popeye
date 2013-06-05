@@ -10,7 +10,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-
+#include <stdlib.h>
 
 static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(void)
 {
@@ -62,14 +62,15 @@ static boolean stalemate_isGoalReachable(void)
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
-        piece const from_piece = e[from_square];
+        piece const from_piece = abs(e[from_square]);
         if (from_piece!=vide && from_piece!=obs)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
           if (target_position[id].diagram_square!=initsquare)
           {
             Side const from_side = TSTFLAG(spec[from_square],White) ? White : Black;
-            MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_piece,
+            MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_side,
+                                                                                              from_piece,
                                                                                               from_square,
                                                                                               target_position[id].type,
                                                                                               target_position[id].diagram_square);
@@ -87,15 +88,18 @@ static boolean stalemate_isGoalReachable(void)
       if (target_position[id].diagram_square!=initsquare)
       {
         square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-        piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+        piece const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-        piece const pi_arrived = e[sq_arrival];
-        unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(pi_departing,
+        piece const pi_arrived = abs(e[sq_arrival]);
+        Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
+        unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
+                                                                                        pi_departing,
                                                                                         sq_departure,
                                                                                         target_position[id].type,
                                                                                         target_position[id].diagram_square);
 
-        unsigned int const time_now = intelligent_count_nr_of_moves_from_to_no_check(pi_arrived,
+        unsigned int const time_now = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
+                                                                                     pi_arrived,
                                                                                      sq_arrival,
                                                                                      target_position[id].type,
                                                                                      target_position[id].diagram_square);

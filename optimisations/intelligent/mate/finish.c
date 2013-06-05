@@ -111,7 +111,7 @@ static square find_king_flight(void)
     {
       piece const p = e[king_square[Black]];
 
-      if (p==obs || p<=roin)
+      if (abs(p)==Invalid || TSTFLAG(spec[king_square[Black]],Black))
         ; /* 'flight' is off board or blocked - don't bother */
       else
       {

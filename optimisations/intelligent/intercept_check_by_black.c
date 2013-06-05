@@ -90,7 +90,7 @@ static void promoted_black_pawn(unsigned int intercepter_index,
         case Rook:
           if (is_diagonal)
             intelligent_place_promoted_black_rider(intercepter_index,
-                                                   tn,
+                                                   Rook,
                                                    where_to_intercept,
                                                    go_on);
           break;
@@ -98,7 +98,7 @@ static void promoted_black_pawn(unsigned int intercepter_index,
         case Bishop:
           if (!is_diagonal)
             intelligent_place_promoted_black_rider(intercepter_index,
-                                                   fn,
+                                                   Bishop,
                                                    where_to_intercept,
                                                    go_on);
           break;
@@ -142,7 +142,7 @@ static void black_piece_on(square where_to_intercept,
 
       switch (black[intercepter_index].type)
       {
-        case pn:
+        case Pawn:
           promoted_black_pawn(intercepter_index,where_to_intercept,
                               is_diagonal,
                               go_on);
@@ -152,20 +152,20 @@ static void black_piece_on(square where_to_intercept,
                                                     go_on);
           break;
 
-        case dn:
+        case Queen:
           break;
 
-        case tn:
+        case Rook:
           if (is_diagonal)
             intelligent_place_black_rider(intercepter_index,where_to_intercept,go_on);
           break;
 
-        case fn:
+        case Bishop:
           if (!is_diagonal)
             intelligent_place_black_rider(intercepter_index,where_to_intercept,go_on);
           break;
 
-        case cn:
+        case Knight:
           intelligent_place_black_knight(intercepter_index,where_to_intercept,go_on);
           break;
 

@@ -312,7 +312,7 @@ void solve_target_position(void)
       {
         Flags const flags = spec[*bnp];
         PieceIdType const id = GetPieceId(flags);
-        target_position[id].type = type;
+        target_position[id].type = abs(type);
         target_position[id].flags = flags;
         target_position[id].diagram_square = *bnp;
 #if defined(DETAILS)
@@ -352,7 +352,7 @@ void solve_target_position(void)
     for (id = 0; id<=MaxPieceId; ++id)
       if (target_position[id].diagram_square != initsquare)
       {
-        e[target_position[id].diagram_square] = target_position[id].type;
+        e[target_position[id].diagram_square] = TSTFLAG(target_position[id].flags,White) ? target_position[id].type : -target_position[id].type;
         spec[target_position[id].diagram_square] = target_position[id].flags;
       }
   }
@@ -387,7 +387,7 @@ static void GenerateBlackKing(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(black[index_of_king].type==roin);
+  assert(black[index_of_king].type==King);
 
   intelligent_init_reservations(MovesLeft[White],MovesLeft[Black],
                                 MaxPiece[White],MaxPiece[Black]-1);
@@ -408,7 +408,7 @@ static void GenerateBlackKing(void)
         }
       }
 
-      SetPiece(roin,*bnp,king_flags);
+      SetPiece(King,*bnp,king_flags);
       king_square[Black] = *bnp;
       black[index_of_king].usage = piece_is_king;
 
@@ -456,7 +456,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
     MaxPiece[Black] = 0;
     MaxPiece[White] = 0;
 
-    black[index_of_king].type= e[king_square[Black]];
+    black[index_of_king].type= abs(e[king_square[Black]]);
     black[index_of_king].flags= spec[king_square[Black]];
     black[index_of_king].diagram_square= king_square[Black];
     PieceId2index[GetPieceId(spec[king_square[Black]])] = index_of_king;
@@ -467,11 +467,11 @@ void IntelligentRegulargoal_types(stip_length_type n)
     else
     {
       white[index_of_king].usage = piece_is_unused;
-      white[index_of_king].type = e[king_square[White]];
+      white[index_of_king].type = abs(e[king_square[White]]);
       white[index_of_king].flags = spec[king_square[White]];
       white[index_of_king].diagram_square = king_square[White];
       PieceId2index[GetPieceId(spec[king_square[White]])] = index_of_king;
-      assert(white[index_of_king].type==roib);
+      assert(white[index_of_king].type==King);
     }
 
     ++MaxPiece[White];
@@ -484,7 +484,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
         if (king_square[White]!=*bnp && e[*bnp]>obs)
         {
-          white[MaxPiece[White]].type = e[*bnp];
+          white[MaxPiece[White]].type = abs(e[*bnp]);
           white[MaxPiece[White]].flags = spec[*bnp];
           white[MaxPiece[White]].diagram_square = *bnp;
           white[MaxPiece[White]].usage = piece_is_unused;
@@ -497,7 +497,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
         if (king_square[Black]!=*bnp && e[*bnp]<vide)
         {
-          black[MaxPiece[Black]].type = e[*bnp];
+          black[MaxPiece[Black]].type = abs(e[*bnp]);
           black[MaxPiece[Black]].flags = spec[*bnp];
           black[MaxPiece[Black]].diagram_square = *bnp;
           black[MaxPiece[Black]].usage = piece_is_unused;

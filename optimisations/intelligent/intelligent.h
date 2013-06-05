@@ -37,7 +37,7 @@ typedef struct
 {
     square diagram_square;
     Flags flags;
-    piece type;
+    PieNam type;
     piece_usage usage;
 } PIECE;
 
@@ -65,7 +65,7 @@ extern unsigned int MovesRequired[nr_sides][maxply+1];
 
 extern unsigned int PieceId2index[MaxPieceId+1];
 
-#define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
+#define SetPiece(P, SQ, SP) {e[SQ]= TSTFLAG(SP,White) ? P : -P; spec[SQ]= SP;}
 
 void IntelligentRegulargoal_types(stip_length_type n);
 

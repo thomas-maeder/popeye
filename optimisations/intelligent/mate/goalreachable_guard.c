@@ -11,6 +11,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 static unsigned int OpeningsRequired[maxply+1];
 
@@ -43,7 +44,7 @@ static boolean mate_isGoalReachable(void)
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
-        piece const from_piece = e[from_square];
+        piece const from_piece = abs(e[from_square]);
         if (from_piece!=vide && from_piece!=obs)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
@@ -57,14 +58,16 @@ static boolean mate_isGoalReachable(void)
               square const save_king_square = king_square[Black];
               PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
               king_square[Black] = target_position[id_king].diagram_square;
-              MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_checking(from_piece,
+              MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_checking(from_side,
+                                                                                                from_piece,
                                                                                                 from_square,
                                                                                                 target_position[id].type,
                                                                                                 target_position[id].diagram_square);
               king_square[Black] = save_king_square;
             }
             else
-              MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_piece,
+              MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_side,
+                                                                                                from_piece,
                                                                                                 from_square,
                                                                                                 target_position[id].type,
                                                                                                 target_position[id].diagram_square);
@@ -104,22 +107,25 @@ static boolean mate_isGoalReachable(void)
       {
         unsigned int time_before;
         unsigned int time_now;
-        piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
-        piece const pi_arrived = e[sq_arrival];
+        piece const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
+        piece const pi_arrived = abs(e[sq_arrival]);
+        Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check)
         {
           square const save_king_square = king_square[Black];
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
           king_square[Black] = target_position[id_king].diagram_square;
-          time_before = intelligent_count_nr_of_moves_from_to_checking(pi_departing,
+          time_before = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
+                                                                       pi_departing,
                                                                        sq_departure,
                                                                        target_position[id].type,
                                                                        target_position[id].diagram_square);
           king_square[Black] = save_king_square;
         }
         else
-          time_before = intelligent_count_nr_of_moves_from_to_no_check(pi_departing,
+          time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
+                                                                       pi_departing,
                                                                        sq_departure,
                                                                        target_position[id].type,
                                                                        target_position[id].diagram_square);
@@ -131,14 +137,16 @@ static boolean mate_isGoalReachable(void)
           square const save_king_square = king_square[Black];
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
           king_square[Black] = target_position[id_king].diagram_square;
-          time_now = intelligent_count_nr_of_moves_from_to_checking(pi_arrived,
+          time_now = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
+                                                                    pi_arrived,
                                                                     sq_arrival,
                                                                     target_position[id].type,
                                                                     target_position[id].diagram_square);
           king_square[Black] = save_king_square;
         }
         else
-          time_now = intelligent_count_nr_of_moves_from_to_no_check(pi_arrived,
+          time_now = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
+                                                                    pi_arrived,
                                                                     sq_arrival,
                                                                     target_position[id].type,
                                                                     target_position[id].diagram_square);

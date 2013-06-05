@@ -14,7 +14,7 @@
  * @param is_pin_on_diagonal is the piece to be pinned on a diagonal
  */
 static void pin_by_rider(unsigned int pinner_index,
-                         piece pinner_type,
+                         PieNam pinner_type,
                          square pin_from,
                          void (*go_on)(void))
 {
@@ -26,7 +26,8 @@ static void pin_by_rider(unsigned int pinner_index,
   TraceSquare(pin_from);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_officer_moves_from_to(pinner_comes_from,
+  if (intelligent_reserve_officer_moves_from_to(White,
+                                                pinner_comes_from,
                                                 pinner_type,
                                                 pin_from))
   {
@@ -50,7 +51,7 @@ static void pin_by_promoted_pawn(unsigned int pinner_index,
                                  boolean is_pin_on_diagonal,
                                  void (*go_on)(void))
 {
-  piece const minor_pinner_type = is_pin_on_diagonal ? fb : tb;
+  piece const minor_pinner_type = is_pin_on_diagonal ? Bishop : Rook;
   square const pinner_comes_from = white[pinner_index].diagram_square;
 
   TraceFunctionEntry(__func__);
@@ -60,10 +61,10 @@ static void pin_by_promoted_pawn(unsigned int pinner_index,
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_promoting_white_pawn_moves_from_to(pinner_comes_from,
-                                                             db,
+                                                             Queen,
                                                              pin_from))
   {
-    SetPiece(db,pin_from,white[pinner_index].flags);
+    SetPiece(Queen,pin_from,white[pinner_index].flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -99,24 +100,24 @@ static void pin_using_specific_piece_on(unsigned int pinner_index,
 
   switch (white[pinner_index].type)
   {
-    case db:
-      pin_by_rider(pinner_index,db,pin_from,go_on);
+    case Queen:
+      pin_by_rider(pinner_index,Queen,pin_from,go_on);
       break;
 
-    case tb:
+    case Rook:
       if (!is_pin_on_diagonal)
-        pin_by_rider(pinner_index,tb,pin_from,go_on);
+        pin_by_rider(pinner_index,Rook,pin_from,go_on);
       break;
 
-    case fb:
+    case Bishop:
       if (is_pin_on_diagonal)
-        pin_by_rider(pinner_index,fb,pin_from,go_on);
+        pin_by_rider(pinner_index,Bishop,pin_from,go_on);
       break;
 
-    case cb:
+    case Knight:
       break;
 
-    case pb:
+    case Pawn:
       pin_by_promoted_pawn(pinner_index,pin_from,is_pin_on_diagonal,go_on);
       break;
 

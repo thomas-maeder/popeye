@@ -29,31 +29,31 @@ void intelligent_stalemate_white_block(square to_be_blocked)
 
         switch (white[blocker_index].type)
         {
-          case roib:
+          case King:
             intelligent_place_white_king(to_be_blocked,
                                          &intelligent_stalemate_test_target_position);
             break;
 
-          case db:
+          case Queen:
             intelligent_place_white_queen(blocker_index,
                                           to_be_blocked,
                                           &intelligent_stalemate_test_target_position);
             break;
 
-          case tb:
-          case fb:
+          case Rook:
+          case Bishop:
             intelligent_place_white_rider(blocker_index,
                                           to_be_blocked,
                                           &intelligent_stalemate_test_target_position);
             break;
 
-          case cb:
+          case Knight:
             intelligent_place_white_knight(blocker_index,
                                            to_be_blocked,
                                            &intelligent_stalemate_test_target_position);
             break;
 
-          case pb:
+          case Pawn:
             intelligent_place_promoted_white_pawn(blocker_index,
                                                   to_be_blocked,
                                                   &intelligent_stalemate_test_target_position);

@@ -111,7 +111,7 @@ static void plan_blocks_of_flights(void)
     {
       piece const p = e[king_square[Black]];
 
-      if (p==obs || p<=roin)
+      if (abs(p)==Invalid || TSTFLAG(spec[king_square[Black]],Black))
         ; /* 'flight' is off board or blocked - don't bother */
       else
       {
@@ -119,7 +119,8 @@ static void plan_blocks_of_flights(void)
 
         if (!echecc(Black))
         {
-          if (p>=roib || nr_king_flights_to_be_blocked==nr_available_blockers)
+          if (TSTFLAG(spec[king_square[Black]],White)
+              || nr_king_flights_to_be_blocked==nr_available_blockers)
           {
             /* flight can't be blocked! */
             nr_king_flights_to_be_blocked = nr_available_blockers+1;

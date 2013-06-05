@@ -215,7 +215,7 @@ static unsigned int knight(square from_square, square to_square)
   return result;
 }
 
-static unsigned int officer(piece piece, square from_square, square to_square)
+static unsigned int officer(PieNam piece, square from_square, square to_square)
 {
   unsigned int result;
 
@@ -226,7 +226,7 @@ static unsigned int officer(piece piece, square from_square, square to_square)
   TraceFunctionParamListEnd();
 
   assert(from_square!=to_square);
-  switch (abs(piece))
+  switch (piece)
   {
     case Queen:
       result = queen(from_square,to_square);
@@ -257,7 +257,7 @@ static unsigned int officer(piece piece, square from_square, square to_square)
 }
 
 static unsigned int white_pawn_promotion(square from_square,
-                                         piece to_piece,
+                                         PieNam to_piece,
                                          square to_square)
 {
   unsigned int result = maxply+1;
@@ -288,7 +288,7 @@ static unsigned int white_pawn_promotion(square from_square,
 }
 
 static unsigned int black_pawn_promotion(square from_square,
-                                         piece to_piece,
+                                         PieNam to_piece,
                                          square to_square)
 {
   unsigned int result = maxply+1;
@@ -318,14 +318,16 @@ static unsigned int black_pawn_promotion(square from_square,
   return result;
 }
 
-static unsigned int from_to_different(piece from_piece,
+static unsigned int from_to_different(Side side,
+                                      PieNam from_piece,
                                       square from_square,
-                                      piece to_piece,
+                                      PieNam to_piece,
                                       square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
   TracePiece(from_piece);
   TraceSquare(from_square);
   TracePiece(to_piece);
@@ -334,46 +336,41 @@ static unsigned int from_to_different(piece from_piece,
 
   switch (from_piece)
   {
-    case roib:
-      result = white_king(from_square,to_square);
+    case King:
+      result = side==White ? white_king(from_square,to_square) : black_king(from_square,to_square);
       break;
 
-    case roin:
-      result = black_king(from_square,to_square);
-      break;
-
-    case db:
-    case dn:
+    case Queen:
       result = queen(from_square,to_square);
       break;
 
-    case tb:
-    case tn:
+    case Rook:
       result = rook(from_square,to_square);
       break;
 
-    case fb:
-    case fn:
+    case Bishop:
       result = bishop(from_square,to_square);
       break;
 
-    case cb:
-    case cn:
+    case Knight:
       result = knight(from_square,to_square);
       break;
 
-    case pb:
-      if (from_piece==to_piece)
-        result = white_pawn_no_promotion(from_square,to_square);
+    case Pawn:
+      if (side==White)
+      {
+        if (from_piece==to_piece)
+          result = white_pawn_no_promotion(from_square,to_square);
+        else
+          result = white_pawn_promotion(from_square,to_piece,to_square);
+      }
       else
-        result = white_pawn_promotion(from_square,to_piece,to_square);
-      break;
-
-    case pn:
-      if (from_piece==to_piece)
-        result = black_pawn_no_promotion(from_square,to_square);
-      else
-        result = black_pawn_promotion(from_square,to_piece,to_square);
+      {
+        if (from_piece==to_piece)
+          result = black_pawn_no_promotion(from_square,to_square);
+        else
+          result = black_pawn_promotion(from_square,to_piece,to_square);
+      }
       break;
 
     default:
@@ -388,14 +385,16 @@ static unsigned int from_to_different(piece from_piece,
   return result;
 }
 
-unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
+unsigned int intelligent_count_nr_of_moves_from_to_no_check(Side side,
+                                                            PieNam from_piece,
                                                             square from_square,
-                                                            piece to_piece,
+                                                            PieNam to_piece,
                                                             square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
   TracePiece(from_piece);
   TraceSquare(from_square);
   TracePiece(to_piece);
@@ -405,7 +404,7 @@ unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
   if (from_square==to_square && from_piece==to_piece)
     result = 0;
   else
-    result = from_to_different(from_piece,from_square,to_piece,to_square);
+    result = from_to_different(side,from_piece,from_square,to_piece,to_square);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -442,7 +441,7 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
       for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
       {
         unsigned int const time = black_pawn_promotion(pawn_comes_from,
-                                                       -pp,
+                                                       pp,
                                                        to_be_blocked);
         if (time<result)
           result = time;
@@ -476,8 +475,8 @@ static unsigned int estimate_min_nr_black_moves_to(square to_square)
       }
       else
       {
-        piece const type = black[i].type;
-        if (type==pn)
+        PieNam const type = black[i].type;
+        if (type==Pawn)
         {
           if (!TSTFLAG(sq_spec[to_square],BlPromSq))
           {
@@ -509,7 +508,7 @@ static unsigned int estimate_min_nr_black_moves_to(square to_square)
   return result;
 }
 
-static unsigned int count_nr_of_moves_same_piece_same_square_checking(piece piece,
+static unsigned int count_nr_of_moves_same_piece_same_square_checking(PieNam piece,
                                                                       square to_square)
 {
   unsigned int result;
@@ -521,11 +520,11 @@ static unsigned int count_nr_of_moves_same_piece_same_square_checking(piece piec
 
   switch (piece)
    {
-     case pb:
+     case Pawn:
        result = maxply+1;
        break;
 
-     case cb:
+     case Knight:
        result = 2;
        break;
 
@@ -544,14 +543,16 @@ static unsigned int count_nr_of_moves_same_piece_same_square_checking(piece piec
   return result;
 }
 
-unsigned int intelligent_count_nr_of_moves_from_to_checking(piece from_piece,
+unsigned int intelligent_count_nr_of_moves_from_to_checking(Side side,
+                                                            PieNam from_piece,
                                                             square from_square,
-                                                            piece to_piece,
+                                                            PieNam to_piece,
                                                             square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
   TracePiece(from_piece);
   TraceSquare(from_square);
   TracePiece(to_piece);
@@ -562,7 +563,7 @@ unsigned int intelligent_count_nr_of_moves_from_to_checking(piece from_piece,
     result = count_nr_of_moves_same_piece_same_square_checking(from_piece,
                                                                to_square);
   else
-    result = from_to_different(from_piece,from_square,to_piece,to_square);
+    result = from_to_different(side,from_piece,from_square,to_piece,to_square);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -595,18 +596,18 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
       if (MovesLeft[White]<=6)
       {
         /* immediate double step is required if this pawn is to promote */
-        if (e[from_square+dir_up]==pn
-            && (e[from_square+dir_left]<=roib
-                && e[from_square+dir_right]<=roib))
+        if (abs(e[from_square+dir_up])==Pawn && TSTFLAG(spec[from_square+dir_up],Black)
+            && (abs(e[from_square+dir_left])==King || !TSTFLAG(spec[from_square+dir_left],White))
+            && (abs(e[from_square+dir_right])==King || !TSTFLAG(spec[from_square+dir_right],White)))
           /* Black can't immediately get rid of block on 3rd row
            * -> no immediate double step possible */
           ++result;
 
-        else if (e[from_square+2*dir_up]==pn
-                 && (e[from_square+dir_up+dir_left]<=roib
-                     && e[from_square+dir_up+dir_right]<=roib
-                     && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_left)
-                     && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_right)))
+        else if (abs(e[from_square+2*dir_up])==Pawn && TSTFLAG(spec[from_square+2*dir_up],Black)
+                 && (abs(e[from_square+dir_up+dir_left])==King || !TSTFLAG(spec[from_square+dir_up+dir_left],White))
+                 && (abs(e[from_square+dir_up+dir_right])==King || !TSTFLAG(spec[from_square+dir_up+dir_right],White))
+                 && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_left)
+                 && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_right))
           /* Black can't immediately get rid of block on 4th row
            * -> no immediate double step possible */
           ++result;
@@ -967,7 +968,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_sq
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_square,
-                                                                 piece checker_type,
+                                                                 PieNam checker_type,
                                                                  square to_square)
 {
   boolean result;
@@ -1112,7 +1113,7 @@ static boolean reserve_promoting_white_pawn_moves_from_to(unsigned int min_nr_of
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_square,
-                                                               piece promotee_type,
+                                                               PieNam promotee_type,
                                                                square to_square)
 {
   boolean result;
@@ -1158,7 +1159,7 @@ boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_squar
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_square,
-                                                               piece promotee_type,
+                                                               PieNam promotee_type,
                                                                square to_square)
 {
   boolean result;
@@ -1278,7 +1279,7 @@ boolean intelligent_reserve_black_king_moves_from_to(square from_square,
  */
 boolean intelligent_reserve_front_check_by_officer(square from_square,
                                                    square via,
-                                                   piece checker_type,
+                                                   PieNam checker_type,
                                                    square to_square)
 {
   boolean result = false;
@@ -1312,16 +1313,17 @@ boolean intelligent_reserve_front_check_by_officer(square from_square,
 }
 
 /* Tests if an officer can reach some square in a sequence of moves
+ * @param side officer's side
  * @param from_square from
  * @param officer_type type of officer
  * @param to_square destination square of the double checking move
  * @return true iff the move sequence is still possible
  */
-boolean intelligent_reserve_officer_moves_from_to(square from_square,
-                                                  piece officer_type,
+boolean intelligent_reserve_officer_moves_from_to(Side side,
+                                                  square from_square,
+                                                  PieNam officer_type,
                                                   square to_square)
 {
-  Side const side = officer_type>obs ? White : Black;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -1445,7 +1447,7 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_front_check_by_promotee(square from_square,
-                                                    piece promotee_type,
+                                                    PieNam promotee_type,
                                                     square via)
 {
   boolean result;

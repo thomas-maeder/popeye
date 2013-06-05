@@ -46,7 +46,7 @@ static void remember_to_keep_checking_line_open(square from, square to,
 static void front_check_by_rider_via(unsigned int index_of_checker,
                                      square via)
 {
-  piece const checker_type = white[index_of_checker].type;
+  PieNam const checker_type = white[index_of_checker].type;
   Flags const checker_flags = white[index_of_checker].flags;
   square const checker_origin = white[index_of_checker].diagram_square;
   square const *bnp;
@@ -101,11 +101,11 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
         && CheckDir[Knight][king_square[Black]-*bnp]!=0
         && intelligent_reserve_front_check_by_officer(checker_origin,
                                                       via,
-                                                      cb,
+                                                      Knight,
                                                       *bnp))
     {
       TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
-      SetPiece(cb,*bnp,checker_flags);
+      SetPiece(Knight,*bnp,checker_flags);
       intelligent_guard_flights();
       e[*bnp] = vide;
       spec[*bnp] = EmptySpec;
@@ -180,7 +180,7 @@ static void front_check_by_promotee_knight(unsigned int index_of_checker,
         && CheckDir[Knight][king_square[Black]-to_square]!=0)
     {
       TraceSquare(to_square);TracePiece(e[to_square]);TraceText("\n");
-      SetPiece(cb,to_square,checker_flags);
+      SetPiece(Knight,to_square,checker_flags);
       intelligent_guard_flights();
       e[to_square] = vide;
       spec[to_square] = EmptySpec;
@@ -250,7 +250,7 @@ static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
                                                               via,
                                                               check_square))
   {
-    SetPiece(pb,check_square,white[index_of_checker].flags);
+    SetPiece(Pawn,check_square,white[index_of_checker].flags);
     intelligent_guard_flights();
     e[check_square] = vide;
     spec[check_square] = EmptySpec;
@@ -388,7 +388,7 @@ static void generate_front_check_via(square via, boolean diagonal)
   for (index = 1; index<MaxPiece[White]; ++index)
     if (white[index].usage==piece_is_unused)
     {
-      piece const checker_type = white[index].type;
+      PieNam const checker_type = white[index].type;
 
       TraceValue("%u",index);
       TraceSquare(white[index].diagram_square);
@@ -399,21 +399,21 @@ static void generate_front_check_via(square via, boolean diagonal)
 
       switch (checker_type)
       {
-        case tb:
+        case Rook:
           if (diagonal)
             front_check_by_rider_via(index,via);
           break;
 
-        case fb:
+        case Bishop:
           if (!diagonal)
             front_check_by_rider_via(index,via);
           break;
 
-        case cb:
+        case Knight:
           front_check_by_knight_via(index,via);
           break;
 
-        case pb:
+        case Pawn:
           front_check_by_pawn(index,via);
           front_check_by_promotee(index,via);
           break;
@@ -524,7 +524,7 @@ static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
 
 static void rear_check_by_rider(unsigned int index_of_checker,
                                 vec_index_type start, vec_index_type end,
-                                piece checker_type)
+                                PieNam checker_type)
 {
   square const checker_origin = white[index_of_checker].diagram_square;
   Flags const checker_flags = white[index_of_checker].flags;
@@ -543,7 +543,8 @@ static void rear_check_by_rider(unsigned int index_of_checker,
     {
       square rear_pos;
       for (rear_pos = king_square[Black]+2*dir; e[rear_pos]==vide; rear_pos += dir)
-        if (intelligent_reserve_officer_moves_from_to(checker_origin,
+        if (intelligent_reserve_officer_moves_from_to(White,
+                                                      checker_origin,
                                                       checker_type,
                                                       rear_pos))
         {
@@ -572,7 +573,7 @@ static void battery(void)
 
   for (index = 1; index<MaxPiece[White]; ++index)
   {
-    piece const checker_type = white[index].type;
+    PieNam const checker_type = white[index].type;
 
     TraceValue("%u",index);
     TraceSquare(white[index].diagram_square);
@@ -583,19 +584,19 @@ static void battery(void)
 
     switch (checker_type)
     {
-      case db:
+      case Queen:
         rear_check_by_rider(index,vec_queen_start,vec_queen_end,checker_type);
         break;
 
-      case tb:
+      case Rook:
         rear_check_by_rider(index,vec_rook_start,vec_rook_end,checker_type);
         break;
 
-      case fb:
+      case Bishop:
         rear_check_by_rider(index,vec_bishop_start,vec_bishop_end,checker_type);
         break;
 
-      case pb:
+      case Pawn:
         rear_check_by_promoted_pawn(index);
         break;
 
@@ -612,7 +613,7 @@ static void battery(void)
 
 static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
                                                  square check_from,
-                                                 piece rider_type)
+                                                 PieNam rider_type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
@@ -620,7 +621,8 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
   TracePiece(rider_type);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_officer_moves_from_to(white[checker_index].diagram_square,
+  if (intelligent_reserve_officer_moves_from_to(White,
+                                                white[checker_index].diagram_square,
                                                 rider_type,
                                                 check_from))
   {
@@ -679,7 +681,7 @@ static void en_passant_orthogonal_check(int dir_vertical)
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
       {
-        piece const checker_type = white[checker_index].type;
+        PieNam const checker_type = white[checker_index].type;
 
         TraceValue("%u",checker_index);
         TraceSquare(white[checker_index].diagram_square);
@@ -690,12 +692,12 @@ static void en_passant_orthogonal_check(int dir_vertical)
 
         switch (checker_type)
         {
-          case db:
-          case tb:
+          case Queen:
+          case Rook:
             en_passant_orthogonal_check_by_rider(checker_index,check_from,checker_type);
             break;
 
-          case pb:
+          case Pawn:
             en_passant_orthogonal_check_by_promoted_pawn(checker_index,check_from);
             break;
 
@@ -718,7 +720,7 @@ static void en_passant_orthogonal_check(int dir_vertical)
 
 static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
                                                square check_from,
-                                               piece rider_type,
+                                               PieNam rider_type,
                                                int dir_vertical)
 {
   TraceFunctionEntry(__func__);
@@ -728,7 +730,8 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_officer_moves_from_to(white[checker_index].diagram_square,
+  if (intelligent_reserve_officer_moves_from_to(White,
+                                                white[checker_index].diagram_square,
                                                 rider_type,
                                                 check_from))
   {
@@ -792,7 +795,7 @@ static void en_passant_diagonal_check(square via_capturee, int dir_vertical)
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
       {
-        piece const checker_type = white[checker_index].type;
+        PieNam const checker_type = white[checker_index].type;
 
         TraceValue("%u",checker_index);
         TraceSquare(white[checker_index].diagram_square);
@@ -803,12 +806,12 @@ static void en_passant_diagonal_check(square via_capturee, int dir_vertical)
 
         switch (checker_type)
         {
-          case db:
-          case fb:
+          case Queen:
+          case Bishop:
             en_passant_diagonal_check_by_rider(checker_index,check_from,checker_type,dir_vertical);
             break;
 
-          case pb:
+          case Pawn:
             en_passant_diagonal_check_by_promoted_pawn(checker_index,check_from,dir_vertical);
             break;
 
@@ -860,7 +863,7 @@ static void en_passant_select_capturee(square via_capturee, int dir_vertical)
     square const capturee_origin = via_capturee+2*dir_up;
     unsigned int const index_capturee = enpassant_find_capturee(capturee_origin);
     if (index_capturee!=MaxPiece[Black]
-        && black[index_capturee].type==pn
+        && black[index_capturee].type==Pawn
         && black[index_capturee].usage==piece_is_unused)
     {
       ++nr_reasons_for_staying_empty[via_capturee];
@@ -894,7 +897,7 @@ static void en_passant(square king_row_start, square king_row_end,
       ++nr_reasons_for_staying_empty[via_capturer];
 
       for (capturer_index = 1; capturer_index<MaxPiece[White]; ++capturer_index)
-        if (white[capturer_index].type==pb
+        if (white[capturer_index].type==Pawn
             && white[capturer_index].usage==piece_is_unused
             && intelligent_reserve_double_check_by_enpassant_capture(white[capturer_index].diagram_square,
                                                                      via_capturer))

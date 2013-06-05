@@ -25,13 +25,15 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
 boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_square,
                                                                   square to_square);
 
-unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
+unsigned int intelligent_count_nr_of_moves_from_to_no_check(Side side,
+                                                            PieNam from_piece,
                                                             square from_square,
-                                                            piece to_piece,
+                                                            PieNam to_piece,
                                                             square to_square);
-unsigned int intelligent_count_nr_of_moves_from_to_checking(piece from_piece,
+unsigned int intelligent_count_nr_of_moves_from_to_checking(Side side,
+                                                            PieNam from_piece,
                                                             square from_square,
-                                                            piece to_piece,
+                                                            PieNam to_piece,
                                                             square to_square);
 
 /* A rough check whether it is worth thinking about promotions
@@ -118,7 +120,7 @@ boolean intelligent_reserve_black_king_moves_from_to(square from_square,
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_square,
-                                                               piece promotee_type,
+                                                               PieNam promotee_type,
                                                                square to_square);
 
 /* Tests if a specific checking sequence of moves by the same pawn including its
@@ -129,7 +131,7 @@ boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_squar
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_square,
-                                                               piece promotee_type,
+                                                               PieNam promotee_type,
                                                                square to_square);
 
 /* Tests if a specific checking white sequence of moves by the same pawn is
@@ -149,7 +151,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_square,
-                                                                 piece checker_type,
+                                                                 PieNam checker_type,
                                                                  square to_square);
 
 /* Tests if a white officer can be the front piece of a battery double check
@@ -162,17 +164,19 @@ boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_squ
  */
 boolean intelligent_reserve_front_check_by_officer(square from_square,
                                                    square via,
-                                                   piece checker_type,
+                                                   PieNam checker_type,
                                                    square to_square);
 
 /* Tests if an officer can be the rear piece of a battery double check
+ * @param side officer's side
  * @param from_square from
  * @param checker_type type of officer
  * @param to_square destination square of the double checking move
  * @return true iff the move sequence is still possible
  */
-boolean intelligent_reserve_officer_moves_from_to(square from_square,
-                                                  piece checker_type,
+boolean intelligent_reserve_officer_moves_from_to(Side side,
+                                                  square from_square,
+                                                  PieNam officer_type,
                                                   square to_square);
 
 /* Tests if a white pawn can be the front piece of a battery double check
@@ -202,7 +206,7 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_front_check_by_promotee(square from_square,
-                                                    piece promotee_type,
+                                                    PieNam promotee_type,
                                                     square via);
 
 /* Tests if a white pawn can be the front piece of a battery double check

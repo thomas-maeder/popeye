@@ -26,7 +26,7 @@ void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
   {
-    SetPiece(pb,placed_on,placed_flags);
+    SetPiece(Pawn,placed_on,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -87,10 +87,10 @@ void intelligent_place_promoted_white_knight(unsigned int placed_index,
 
   if (GuardDir[Knight-Pawn][placed_on].dir<guard_dir_guard_uninterceptable
       && intelligent_reserve_promoting_white_pawn_moves_from_to(placed_comes_from,
-                                                                cb,
+                                                                Knight,
                                                                 placed_on))
   {
-    SetPiece(cb,placed_on,placed_flags);
+    SetPiece(Knight,placed_on,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -172,7 +172,7 @@ void intelligent_place_white_queen(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))
 {
-  piece const placed_type = white[placed_index].type;
+  PieNam const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
   square const placed_comes_from = white[placed_index].diagram_square;
   int const dir_ortho = GuardDir[Rook-Pawn][placed_on].dir;
@@ -185,7 +185,8 @@ void intelligent_place_white_queen(unsigned int placed_index,
 
   if (dir_ortho<guard_dir_guard_uninterceptable
       && dir_diag<guard_dir_guard_uninterceptable
-      && intelligent_reserve_officer_moves_from_to(placed_comes_from,
+      && intelligent_reserve_officer_moves_from_to(White,
+                                                   placed_comes_from,
                                                    placed_type,
                                                    placed_on))
   {
@@ -215,7 +216,7 @@ void intelligent_place_white_rider(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))
 {
-  piece const placed_type = white[placed_index].type;
+  PieNam const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
   square const placed_comes_from = white[placed_index].diagram_square;
   int const dir = GuardDir[placed_type-Pawn][placed_on].dir;
@@ -233,7 +234,8 @@ void intelligent_place_white_rider(unsigned int placed_index,
 
     case guard_dir_guard_uninterceptable:
       if (placed_index>index_of_guarding_piece
-          && intelligent_reserve_officer_moves_from_to(placed_comes_from,
+          && intelligent_reserve_officer_moves_from_to(White,
+                                                       placed_comes_from,
                                                        placed_type,
                                                        placed_on))
       {
@@ -244,7 +246,8 @@ void intelligent_place_white_rider(unsigned int placed_index,
       break;
 
     default:
-      if (intelligent_reserve_officer_moves_from_to(placed_comes_from,
+      if (intelligent_reserve_officer_moves_from_to(White,
+                                                    placed_comes_from,
                                                     placed_type,
                                                     placed_on))
       {
@@ -286,22 +289,24 @@ void intelligent_place_white_knight(unsigned int placed_index,
 
     case guard_dir_guard_uninterceptable:
       if (placed_index>index_of_guarding_piece
-          && intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                       cb,
+          && intelligent_reserve_officer_moves_from_to(White,
+                                                       placed_comes_from,
+                                                       Knight,
                                                        placed_on))
       {
-        SetPiece(cb,placed_on,placed_flags);
+        SetPiece(Knight,placed_on,placed_flags);
         (*go_on)();
         intelligent_unreserve();
       }
       break;
 
     default:
-      if (intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                    cb,
+      if (intelligent_reserve_officer_moves_from_to(White,
+                                                    placed_comes_from,
+                                                    Knight,
                                                     placed_on))
       {
-        SetPiece(cb,placed_on,placed_flags);
+        SetPiece(Knight,placed_on,placed_flags);
         (*go_on)();
         intelligent_unreserve();
       }
@@ -323,20 +328,20 @@ void intelligent_place_white_piece(unsigned int placed_index,
 
   switch (white[placed_index].type)
   {
-    case db:
+    case Queen:
       intelligent_place_white_queen(placed_index,placed_on,go_on);
       break;
 
-    case tb:
-    case fb:
+    case Rook:
+    case Bishop:
       intelligent_place_white_rider(placed_index,placed_on,go_on);
       break;
 
-    case cb:
+    case Knight:
       intelligent_place_white_knight(placed_index,placed_on,go_on);
       break;
 
-    case pb:
+    case Pawn:
       intelligent_place_unpromoted_white_pawn(placed_index,placed_on,go_on);
       intelligent_place_promoted_white_pawn(placed_index,placed_on,go_on);
       break;

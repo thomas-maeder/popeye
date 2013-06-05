@@ -16,7 +16,7 @@
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_officer(piece officer_type,
+static void place_officer(PieNam officer_type,
                           square to_be_intercepted,
                           unsigned int index_of_intercepting_piece)
 {
@@ -48,7 +48,7 @@ static void place_officer(piece officer_type,
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_promotee(piece promotee_type,
+static void place_promotee(PieNam promotee_type,
                            square to_be_intercepted,
                            unsigned int index_of_intercepting_piece)
 {
@@ -99,16 +99,16 @@ static void promoted_pawn(square to_be_intercepted,
 
         case Rook:
           if (is_diagonal)
-            place_promotee(tb,to_be_intercepted,index_of_intercepting_piece);
+            place_promotee(Rook,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         case Bishop:
           if (!is_diagonal)
-            place_promotee(fb,to_be_intercepted,index_of_intercepting_piece);
+            place_promotee(Bishop,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         case Knight:
-          place_promotee(cb,to_be_intercepted,index_of_intercepting_piece);
+          place_promotee(Knight,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         default:
@@ -164,14 +164,15 @@ static void officer(square to_be_intercepted,
                     unsigned int index_of_intercepting_piece)
 {
   square const officer_diagram_square = white[index_of_intercepting_piece].diagram_square;
-  piece const officer_type = white[index_of_intercepting_piece].type;
+  PieNam const officer_type = white[index_of_intercepting_piece].type;
 
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_officer_moves_from_to(officer_diagram_square,
+  if (intelligent_reserve_officer_moves_from_to(White,
+                                                officer_diagram_square,
                                                 officer_type,
                                                 to_be_intercepted))
   {
@@ -205,29 +206,29 @@ void intercept_check_on_guarded_square(square to_be_intercepted)
       TraceEnumerator(piece_usage,white[intercepter_index].usage,"\n");
       if (white[intercepter_index].usage==piece_is_unused)
       {
-        piece const intercepter_type = white[intercepter_index].type;
+        PieNam const intercepter_type = white[intercepter_index].type;
         white[intercepter_index].usage = piece_intercepts_check_from_guard;
 
         switch (intercepter_type)
         {
-          case db:
+          case Queen:
             break;
 
-          case tb:
+          case Rook:
             if (is_diagonal)
               officer(to_be_intercepted,intercepter_index);
               break;
 
-          case fb:
+          case Bishop:
             if (!is_diagonal)
               officer(to_be_intercepted,intercepter_index);
             break;
 
-          case cb:
+          case Knight:
             officer(to_be_intercepted,intercepter_index);
             break;
 
-          case pb:
+          case Pawn:
             if (!TSTFLAGMASK(sq_spec[to_be_intercepted],BIT(WhBaseSq)|BIT(WhPromSq)))
               unpromoted_pawn(to_be_intercepted,intercepter_index);
             promoted_pawn(to_be_intercepted,intercepter_index,is_diagonal);
@@ -271,7 +272,7 @@ static void place_promoted_black_pawn(square placed_on,
         case Rook:
         case Bishop:
           intelligent_place_pinned_promoted_black_rider(placed_index,
-                                                        fn,
+                                                        Bishop,
                                                         placed_on,
                                                         &intelligent_continue_guarding_flights);
           break;
@@ -311,21 +312,21 @@ void intelligent_intercept_orthogonal_check_by_pin(square placed_on)
 
         switch (black[placed_index].type)
         {
-          case dn:
-          case tn:
-          case fn:
+          case Queen:
+          case Rook:
+          case Bishop:
             intelligent_place_pinned_black_rider(placed_index,
                                                  placed_on,
                                                  &intelligent_continue_guarding_flights);
             break;
 
-          case cn:
+          case Knight:
             intelligent_place_pinned_black_knight(placed_index,
                                                   placed_on,
                                                   &intelligent_continue_guarding_flights);
             break;
 
-          case pn:
+          case Pawn:
             intelligent_place_pinned_unpromoted_black_pawn(placed_index,
                                                            placed_on,
                                                            &intelligent_continue_guarding_flights);

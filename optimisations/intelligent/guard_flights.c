@@ -310,7 +310,7 @@ static void place_queen_opposition(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  SetPiece(db,guard_from,white[index_of_guarding_piece].flags);
+  SetPiece(Queen,guard_from,white[index_of_guarding_piece].flags);
   if (e[to_be_intercepted]==vide)
   {
     assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
@@ -415,7 +415,7 @@ static void place_knight(square guard_from)
 
   if (GuardDir[Knight-Pawn][guard_from].dir==guard_dir_guard_uninterceptable)
   {
-    SetPiece(cb,guard_from,white[index_of_guarding_piece].flags);
+    SetPiece(Knight,guard_from,white[index_of_guarding_piece].flags);
     intelligent_continue_guarding_flights();
   }
 
@@ -440,7 +440,7 @@ static void unpromoted_pawn(square guard_from)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                    guard_from))
   {
-    SetPiece(pb,guard_from,pawn_flags);
+    SetPiece(Pawn,guard_from,pawn_flags);
     intelligent_continue_guarding_flights();
     e[guard_from] = vide;
     spec[guard_from] = EmptySpec;
@@ -469,7 +469,7 @@ static void promoted_queen(square guard_from)
 
     case 4+0: /* e.g. Ka2 Qc2 */
       if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                                 db,
+                                                                 Queen,
                                                                  guard_from))
       {
         place_queen_opposition(guard_from);
@@ -480,10 +480,10 @@ static void promoted_queen(square guard_from)
     case 4+1: /* e.g. Ka2 Qc3 - no lines to be kept open */
     case 9+1: /* e.g. Ka2 Qd3 - 2 guard lines, only 1 needs to remain open */
       if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                                 db,
+                                                                 Queen,
                                                                  guard_from))
       {
-        SetPiece(db,guard_from,white[index_of_guarding_piece].flags);
+        SetPiece(Queen,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
@@ -491,10 +491,10 @@ static void promoted_queen(square guard_from)
 
     default:
       if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                                 db,
+                                                                 Queen,
                                                                  guard_from))
       {
-        place_rider(db,guard_from);
+        place_rider(Queen,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -521,10 +521,10 @@ static void promoted_rook(square guard_from)
 
     case 1+1: /* e.g. Kc2 Rd3 - 2 guard lines, only 1 needs to remain open */
       if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                                 tb,
+                                                                 Rook,
                                                                  guard_from))
       {
-        SetPiece(tb,guard_from,white[index_of_guarding_piece].flags);
+        SetPiece(Rook,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
@@ -532,10 +532,10 @@ static void promoted_rook(square guard_from)
 
     default:
       if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                                 tb,
+                                                                 Rook,
                                                                  guard_from))
       {
-        place_rider(tb,guard_from);
+        place_rider(Rook,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -561,16 +561,16 @@ static void promoted_bishop(square guard_from)
     /* uninterceptable check */
   }
   else if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                                  fb,
+                                                                  Bishop,
                                                                   guard_from))
   {
     if (diff<=4+0)
     {
-      SetPiece(fb,guard_from,white[index_of_guarding_piece].flags);
+      SetPiece(Bishop,guard_from,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
     }
     else
-      place_rider(fb,guard_from);
+      place_rider(Bishop,guard_from);
 
     intelligent_unreserve();
   }
@@ -590,7 +590,7 @@ static void promoted_knight(square guard_from)
 
   if (CheckDir[Knight][king_square[Black]-guard_from]==0
       && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                                cb,
+                                                                Knight,
                                                                 guard_from))
   {
     place_knight(guard_from);
@@ -660,8 +660,9 @@ static void queen(square guard_from)
       break;
 
     case 4+0: /* e.g. Ka2 Qc2 */
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                    db,
+      if (intelligent_reserve_officer_moves_from_to(White,
+                                                    white[index_of_guarding_piece].diagram_square,
+                                                    Queen,
                                                     guard_from))
       {
         place_queen_opposition(guard_from);
@@ -671,22 +672,24 @@ static void queen(square guard_from)
 
     case 4+1: /* e.g. Ka2 Qc3 - no lines to be kept open */
     case 9+1: /* e.g. Ka2 Qd3 - 2 guard lines, only 1 needs to remain open */
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                    db,
+      if (intelligent_reserve_officer_moves_from_to(White,
+                                                    white[index_of_guarding_piece].diagram_square,
+                                                    Queen,
                                                     guard_from))
       {
-        SetPiece(db,guard_from,white[index_of_guarding_piece].flags);
+        SetPiece(Queen,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
       break;
 
     default:
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                    db,
+      if (intelligent_reserve_officer_moves_from_to(White,
+                                                    white[index_of_guarding_piece].diagram_square,
+                                                    Queen,
                                                     guard_from))
       {
-        place_rider(db,guard_from);
+        place_rider(Queen,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -712,22 +715,24 @@ static void rook(square guard_from)
       break;
 
     case 1+1: /* e.g. Kc2 Rd3 - 2 guard lines, only 1 needs to remain open */
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                    tb,
+      if (intelligent_reserve_officer_moves_from_to(White,
+                                                    white[index_of_guarding_piece].diagram_square,
+                                                    Rook,
                                                     guard_from))
       {
-        SetPiece(tb,guard_from,white[index_of_guarding_piece].flags);
+        SetPiece(Rook,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
       break;
 
     default:
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                    tb,
+      if (intelligent_reserve_officer_moves_from_to(White,
+                                                    white[index_of_guarding_piece].diagram_square,
+                                                    Rook,
                                                     guard_from))
       {
-        place_rider(tb,guard_from);
+        place_rider(Rook,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -752,17 +757,18 @@ static void bishop(square guard_from)
   {
     /* uninterceptable check */
   }
-  else if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                     fb,
+  else if (intelligent_reserve_officer_moves_from_to(White,
+                                                     white[index_of_guarding_piece].diagram_square,
+                                                     Bishop,
                                                      guard_from))
   {
     if (diff<=4+0)
     {
-      SetPiece(fb,guard_from,white[index_of_guarding_piece].flags);
+      SetPiece(Bishop,guard_from,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
     }
     else
-      place_rider(fb,guard_from);
+      place_rider(Bishop,guard_from);
 
     intelligent_unreserve();
   }
@@ -781,8 +787,9 @@ static void knight(square guard_from)
   TraceFunctionParamListEnd();
 
   if (CheckDir[Knight][king_square[Black]-guard_from]==0
-      && intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
-                                                   cb,
+      && intelligent_reserve_officer_moves_from_to(White,
+                                                   white[index_of_guarding_piece].diagram_square,
+                                                   Knight,
                                                    guard_from))
   {
     place_knight(guard_from);
@@ -805,23 +812,23 @@ static void guard_next_flight(void)
     {
       switch (white[index_of_guarding_piece].type)
       {
-        case db:
+        case Queen:
           queen(*bnp);
           break;
 
-        case tb:
+        case Rook:
           rook(*bnp);
           break;
 
-        case fb:
+        case Bishop:
           bishop(*bnp);
           break;
 
-        case cb:
+        case Knight:
           knight(*bnp);
           break;
 
-        case pb:
+        case Pawn:
           unpromoted_pawn(*bnp);
           promoted_pawn(*bnp);
           break;
@@ -893,7 +900,7 @@ static void king()
             && intelligent_reserve_white_king_moves_from_to(comes_from,*bnp))
         {
           king_square[White]= *bnp;
-          SetPiece(roib,*bnp,white[index_of_king].flags);
+          SetPiece(King,*bnp,white[index_of_king].flags);
           intelligent_continue_guarding_flights();
           e[*bnp] = vide;
           spec[*bnp] = EmptySpec;
