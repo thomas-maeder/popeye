@@ -28,10 +28,10 @@ White king is not in check on b7 even if nBc8*bKb7 is not the longest
    1.Ka6*b7 # !
 
 
-                        empile:          40
-                     play_move:          39
+                        empile:          44
+                     play_move:          43
  is_white_king_square_attacked:          17
- is_black_king_square_attacked:          21
+ is_black_king_square_attacked:          23
 solution finished. 
 
 

@@ -87,13 +87,13 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  solving/move_effect_journal.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h conditions/imitator.h \
- conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
- pieces/attributes/neutral/half.h pieces/attributes/neutral/initialiser.h \
- position/pieceid.h debugging/trace.h
+ position/pieceid.h pydata.h pyproc.h py4.h py.h pieces/vectors.h \
+ stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ conditions/imitator.h conditions/actuated_revolving_centre.h \
+ conditions/haunted_chess.h pieces/attributes/neutral/half.h \
+ pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -116,6 +116,8 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 pylang.h:
+
+position/pieceid.h:
 
 pydata.h:
 
@@ -152,8 +154,6 @@ conditions/haunted_chess.h:
 pieces/attributes/neutral/half.h:
 
 pieces/attributes/neutral/initialiser.h:
-
-position/pieceid.h:
 
 debugging/trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
@@ -874,8 +874,8 @@ solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- solving/move_effect_journal.h pydata.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h debugging/trace.h
+ solving/move_effect_journal.h position/pieceid.h pydata.h pyproc.h py4.h \
+ py.h pieces/vectors.h stipulation/goals/goals.h debugging/trace.h
 
 solving/capture_counter.h:
 
@@ -917,6 +917,8 @@ stipulation/pipe.h:
 
 solving/move_effect_journal.h:
 
+position/pieceid.h:
+
 pydata.h:
 
 pyproc.h:
@@ -934,8 +936,8 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/slice_type.h utilities/enumeration.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h position/piece.h utilities/boolean.h pylang.h \
- solving/move_effect_journal.h pydata.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h pyproc.h pieces/walks.h \
+ solving/move_effect_journal.h position/pieceid.h pydata.h pyproc.h py4.h \
+ py.h pieces/vectors.h stipulation/goals/goals.h pyproc.h pieces/walks.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/fork.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
@@ -967,6 +969,8 @@ utilities/boolean.h:
 pylang.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 pydata.h:
 
@@ -1158,7 +1162,7 @@ solving/moving_pawn_promotion$(OBJ_SUFFIX): solving/moving_pawn_promotion.c \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
  solving/post_move_iteration.h solving/move_effect_journal.h \
- debugging/trace.h
+ position/pieceid.h debugging/trace.h
 
 solving/moving_pawn_promotion.h:
 
@@ -1219,6 +1223,8 @@ stipulation/move.h:
 solving/post_move_iteration.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
@@ -1373,8 +1379,8 @@ solving/en_passant$(OBJ_SUFFIX): solving/en_passant.c solving/en_passant.h pypro
  stipulation/goals/goals.h py.h solving/solve.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h \
- position/pieceid.h conditions/actuated_revolving_centre.h \
- solving/move_effect_journal.h pieces/hunters.h position/position.h \
+ conditions/actuated_revolving_centre.h solving/move_effect_journal.h \
+ position/pieceid.h pieces/hunters.h position/position.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
  debugging/trace.h
@@ -1425,11 +1431,11 @@ pydata.h:
 
 pyproc.h:
 
-position/pieceid.h:
-
 conditions/actuated_revolving_centre.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 pieces/hunters.h:
 
@@ -1520,10 +1526,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/relaxed.h conditions/anticirce/strict.h \
- solving/move_effect_journal.h conditions/anticirce/promotion.h \
- solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
- conditions/anticirce/magic_square.h conditions/bgl.h \
- conditions/blackchecks.h conditions/koeko/koeko.h \
+ solving/move_effect_journal.h position/pieceid.h \
+ conditions/anticirce/promotion.h solving/moving_pawn_promotion.h \
+ pieces/pawns/promotion.h conditions/anticirce/magic_square.h \
+ conditions/bgl.h conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
  conditions/koeko/new.h conditions/extinction.h \
  conditions/circe/chameleon.h \
@@ -1730,6 +1736,8 @@ conditions/anticirce/relaxed.h:
 conditions/anticirce/strict.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 conditions/anticirce/promotion.h:
 

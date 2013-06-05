@@ -492,10 +492,12 @@ static void countPieces(void)
 
       if (p!=vide)
       {
-        Side const side = p>0 ? White : Black;
         exist[abs(p)] = true;
         may_exist[abs(p)] = true;
-        ++number_of_pieces[side][abs(p)];
+        if (TSTFLAG(spec[*bnp],White))
+          ++number_of_pieces[White][abs(p)];
+        if (TSTFLAG(spec[*bnp],Black))
+          ++number_of_pieces[Black][abs(p)];
       }
     }
   }

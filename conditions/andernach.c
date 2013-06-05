@@ -18,10 +18,15 @@ void andernach_assume_side(Side side)
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
-  move_effect_journal_do_side_change(move_effect_reason_andernach_chess,
-                                     sq_arrival,
-                                     side);
+  square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                        moving_id,
+                                                        sq_arrival);
+  if (pos!=initsquare)
+    move_effect_journal_do_side_change(move_effect_reason_andernach_chess,
+                                       pos,
+                                       side);
 }
 
 /* Try to solve in n half-moves.

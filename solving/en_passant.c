@@ -1,7 +1,6 @@
 #include "solving/en_passant.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
-#include "position/pieceid.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "pieces/hunters.h"
 #include "stipulation/has_solution_type.h"
@@ -76,77 +75,13 @@ square en_passant_find_capturee(void)
   move_effect_journal_index_type const parent_base = move_effect_journal_top[ply_parent-1];
   move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
   PieceIdType const capturee_id = GetPieceId(move_effect_journal[parent_movement].u.piece_movement.movingspec);
-  move_effect_journal_index_type other;
-  move_effect_journal_index_type const parent_top = move_effect_journal_top[ply_parent];
-  square result = move_effect_journal[parent_movement].u.piece_movement.to;
+  square const sq_arrival = move_effect_journal[parent_movement].u.piece_movement.to;
+  square result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (other = parent_base+move_effect_journal_index_offset_other_effects;
-       other<parent_top;
-       ++other)
-    switch (move_effect_journal[other].type)
-    {
-      case move_effect_piece_removal:
-        if (move_effect_journal[other].u.piece_removal.from==result)
-        {
-          assert(GetPieceId(move_effect_journal[other].u.piece_removal.removedspec)==capturee_id);
-          result = initsquare;
-        }
-        break;
-
-      case move_effect_piece_readdition:
-      case move_effect_piece_creation:
-        if (GetPieceId(move_effect_journal[other].u.piece_addition.addedspec)==capturee_id)
-        {
-          assert(result==initsquare);
-          result = move_effect_journal[other].u.piece_addition.on;
-        }
-        break;
-
-      case move_effect_piece_movement:
-        if (move_effect_journal[other].u.piece_movement.from==result)
-        {
-          assert(GetPieceId(move_effect_journal[other].u.piece_movement.movingspec)==capturee_id);
-          result = move_effect_journal[other].u.piece_movement.to;
-        }
-        break;
-
-      case move_effect_piece_exchange:
-        if (move_effect_journal[other].u.piece_exchange.from==result)
-          result = move_effect_journal[other].u.piece_exchange.to;
-        else if (move_effect_journal[other].u.piece_exchange.to==result)
-          result = move_effect_journal[other].u.piece_exchange.from;
-        break;
-
-      case move_effect_board_transformation:
-        result = transformSquare(result,move_effect_journal[other].u.board_transformation.transformation);
-        break;
-
-      case move_effect_centre_revolution:
-        result = actuated_revolving_centre_revolve_square(result);
-        break;
-
-      case move_effect_none:
-      case move_effect_no_piece_removal:
-      case move_effect_piece_change:
-      case move_effect_side_change:
-      case move_effect_king_square_movement:
-      case move_effect_flags_change:
-      case move_effect_imitator_addition:
-      case move_effect_imitator_movement:
-      case move_effect_remember_ghost:
-      case move_effect_forget_ghost:
-      case move_effect_neutral_recoloring_do:
-      case move_effect_neutral_recoloring_undo:
-        /* nothing */
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+  result = move_effect_journal_follow_piece_through_other_effects(ply_parent,capturee_id,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceSquare(result);

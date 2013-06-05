@@ -100,10 +100,10 @@ Loesung beendet.
 
   1.Kh2-h3   2.Kh3-g4   3.Kg4-f5   4.Kf5-e6   5.Ke6-d7   6.Kd7-c8   7.nBf2-f1=nL   8.nLf1-h3   9.Kc8-b8  10.Kb8-a8  11.nLh3-c8 + Ka6-b7 #
 
-                        empile:     1085455
-                     play_move:      993641
- is_white_king_square_attacked:      483882
- is_black_king_square_attacked:      771841
+                        empile:     1088014
+                     play_move:      998191
+ is_white_king_square_attacked:      486146
+ is_black_king_square_attacked:      770805
 Loesung beendet. 
 
 

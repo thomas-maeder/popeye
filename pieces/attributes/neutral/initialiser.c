@@ -34,7 +34,7 @@ void setneutre(piece *p)
   TraceEnumerator(Side,neutral_side,"\n");
 
  if (neutral_side!=current_side)
-    piece_change_side(p);
+   *p = -*p;
 
  TraceFunctionExit(__func__);
  TraceFunctionResultEnd();
@@ -66,7 +66,7 @@ void initialise_neutrals(Side captured_side)
         TraceValue("%u\n",TSTFLAG(spec[*bnp],Neutral));
       }
       if (TSTFLAG(spec[*bnp],Neutral))
-        piece_change_side(&e[*bnp]);
+        e[*bnp] = -e[*bnp];
     }
 
     neutral_side = captured_side;
