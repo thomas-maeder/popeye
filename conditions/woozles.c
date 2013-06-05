@@ -86,14 +86,14 @@ static boolean aux_wh(square sq_departure,
 
   if (validate_observation_geometry(sq_departure,sq_arrival,sq_capture))
   {
-    piece const p = e[sq_woo_from];
-    Side const observing_side = p>0 ? White : Black;
-    if (number_of_pieces[observing_side][abs(p)]>0)
+    Side const side_woozled = trait[parent_ply[nbply]];
+    PieNam const p = abs(e[sq_woo_from]);
+    if (number_of_pieces[side_woozled][p]>0)
     {
-      nextply();
-      trait[nbply] = observing_side;
-      result = (*checkfunctions[abs(p)])(sq_departure,abs(p),&aux_whx);
-      finply();
+      Side save_trait = trait[nbply];
+      trait[nbply] = side_woozled;
+      result = (*checkfunctions[p])(sq_departure,p,&aux_whx);
+      trait[nbply] = save_trait;
     }
   }
 

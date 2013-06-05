@@ -43,9 +43,10 @@ stip_length_type circe_volage_recolorer_solve(slice_index si,
       && (SquareCol(sq_rebirth)
           !=SquareCol(move_generation_stack[current_move[nbply]].capture)))
   {
-    move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
-                                       sq_rebirth,
-                                       e[sq_rebirth]<vide ? White : Black);
+    if (!TSTFLAG(spec[sq_rebirth],trait[nbply]))
+      move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
+                                         sq_rebirth,
+                                         trait[nbply]);
     if (!CondFlag[hypervolage])
     {
       Flags changed = spec[sq_rebirth];

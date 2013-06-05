@@ -34,10 +34,11 @@ stip_length_type circe_turncoats_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_circe_rebirth_square[nbply]!=initsquare)
+  if (current_circe_rebirth_square[nbply]!=initsquare
+      && !TSTFLAG(spec[current_circe_rebirth_square[nbply]],trait[nbply]))
     move_effect_journal_do_side_change(move_effect_reason_circe_turncoats,
                                        current_circe_rebirth_square[nbply],
-                                       e[current_circe_rebirth_square[nbply]]<vide ? White : Black);
+                                       trait[nbply]);
 
   result = solve(slices[si].next1,n);
 

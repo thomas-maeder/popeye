@@ -15,12 +15,12 @@ magic_square_type_type magic_square_type;
 static void side_change_if_magic(square on, Flags changedspec)
 {
   if (TSTFLAG(sq_spec[on],MagicSq)
-      && !TSTFLAG(changedspec,Royal)
+      && !TSTFLAGMASK(changedspec,BIT(Royal)|BIT(Neutral))
       && e[on]!=vide
       && GetPieceId(changedspec)==GetPieceId(spec[on]))
     move_effect_journal_do_side_change(move_effect_reason_magic_square,
                                        on,
-                                       e[on]<vide ? White : Black);
+                                       TSTFLAG(spec[on],Black) ? White : Black);
 }
 
 /* Try to solve in n half-moves.

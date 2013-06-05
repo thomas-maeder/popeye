@@ -49,7 +49,7 @@ static boolean mate_isGoalReachable(void)
           PieceIdType const id = GetPieceId(spec[from_square]);
           if (target_position[id].diagram_square!=initsquare)
           {
-            Side const from_side = from_piece>vide ? White : Black;
+            Side const from_side = TSTFLAG(spec[from_square],White) ? White : Black;
             if (from_side==White
                 && white[PieceId2index[id]].usage==piece_gives_check
                 && MovesLeft[White]>0)

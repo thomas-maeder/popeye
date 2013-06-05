@@ -27,7 +27,6 @@ void stip_insert_masand(slice_index si)
 static boolean observed(square on_this, square by_that)
 {
   boolean result;
-  Side const observing_side = e[by_that]>vide ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(on_this);
@@ -35,7 +34,7 @@ static boolean observed(square on_this, square by_that)
   TraceFunctionParamListEnd();
 
   fromspecificsquare = by_that;
-  result = is_a_square_attacked(observing_side,on_this,eval_fromspecificsquare);
+  result = is_a_square_attacked(trait[nbply],on_this,eval_fromspecificsquare);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -56,10 +55,11 @@ static void change_observed(square observer_pos)
         && *bnp!=king_square[Black]
         && *bnp!=king_square[White]
         && *bnp!=observer_pos
-        && observed(*bnp,observer_pos))
+        && observed(*bnp,observer_pos)
+        && !TSTFLAG(spec[*bnp],Neutral))
       move_effect_journal_do_side_change(move_effect_reason_masand,
                                          *bnp,
-                                         e[*bnp]<vide ? White : Black);
+                                         TSTFLAG(spec[*bnp],Black) ? White : Black);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -974,12 +974,10 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
             : pp;
         }
 
-        if (CondFlag[couscous]) {
-          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, pp > vide ? White : Black);
-        }
-        else {
-          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, pp > vide ? Black : White);
-        }
+        if (CondFlag[couscous])
+          cr= (*circerenai)(pj, spec[sq_departure], sq_capture, sq_departure, sq_arrival, advers(trait[nbply]));
+        else
+          cr= (*circerenai)(pren, spec[sq_capture], sq_capture, sq_departure, sq_arrival, trait[nbply]);
 
         if ((pc= e[cr]) == vide) {
           e[cr]= pren;

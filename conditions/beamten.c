@@ -9,14 +9,13 @@
  */
 boolean beamten_is_observed(square sq_departure)
 {
-  Side const observing_side = e[sq_departure]<=roin ? White : Black;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  result = is_square_attacked(observing_side,sq_departure,&validate_observer);
+  result = is_square_attacked(advers(trait[nbply]),sq_departure,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

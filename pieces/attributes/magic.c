@@ -468,6 +468,46 @@ boolean magic_is_piece_supported(PieNam p)
   return crosseyed_views_functions[p]!=&unsupported_uncalled_crosseyed_function;
 }
 
+static void PushMagicViewsByOnePiece(square pos_magic)
+{
+  piece const pi_magic = e[pos_magic];
+  square const *pos_viewed;
+
+  /* avoid unnecessary recursion if checkfunction has to play the
+   * observation */
+  CLRFLAG(spec[pos_magic],Magic);
+
+  for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
+    if (abs(e[*pos_viewed])>obs
+        && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal)|BIT(Neutral)))
+    {
+      /* for each non-magic piece
+         (n.b. check *pos_magic != *pos_viewed redundant above) */
+      if (crosseyed_views_functions[abs(pi_magic)]!=0)
+        /* call special function to push all views by cross-eyed pieces */
+        (*crosseyed_views_functions[abs(pi_magic)])(pos_magic,*pos_viewed);
+      else
+      {
+        /* piece is not cross-eyed - use regular check function */
+        fromspecificsquare = pos_magic;
+        if ((*checkfunctions[abs(pi_magic)])(*pos_viewed,
+                                             abs(pi_magic),
+                                             eval_fromspecificsquare))
+        {
+          numvec vec_viewed_to_magic;
+          if (*pos_viewed<pos_magic)
+            vec_viewed_to_magic = move_vec_code[pos_magic-*pos_viewed];
+          else
+            vec_viewed_to_magic = -move_vec_code[*pos_viewed-pos_magic];
+          if (vec_viewed_to_magic!=0)
+            PushMagicView(*pos_viewed,pos_magic,vec_viewed_to_magic);
+        }
+      }
+    }
+
+  SETFLAG(spec[pos_magic],Magic);
+}
+
 static void PushMagicViews(void)
 {
   square const *pos_magic;
@@ -482,45 +522,18 @@ static void PushMagicViews(void)
   for (pos_magic = boardnum; *pos_magic; pos_magic++)
     if (TSTFLAG(spec[*pos_magic], Magic))
     {
-      piece const pi_magic = e[*pos_magic];
-      square const *pos_viewed;
-
-      trait[nbply] = pi_magic>0 ? White : Black;
-
-      /* avoid unnecessary recursion if checkfunction has to play the
-       * observation */
-      CLRFLAG(spec[*pos_magic],Magic);
-
-      for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
-        if (abs(e[*pos_viewed])>obs
-            && !TSTFLAG(spec[*pos_viewed],Magic)
-            && !TSTFLAG(spec[*pos_viewed],Royal))
-        {
-          /* for each non-magic piece
-             (n.b. check *pos_magic != *pos_viewed redundant above) */
-          if (crosseyed_views_functions[abs(pi_magic)]!=0)
-            /* call special function to push all views by cross-eyed pieces */
-            (*crosseyed_views_functions[abs(pi_magic)])(*pos_magic,*pos_viewed);
-          else
-          {
-            /* piece is not cross-eyed - use regular check function */
-            fromspecificsquare = *pos_magic;
-            if ((*checkfunctions[abs(pi_magic)])(*pos_viewed,
-                                                 abs(pi_magic),
-                                                 eval_fromspecificsquare))
-            {
-              numvec vec_viewed_to_magic;
-              if (*pos_viewed<*pos_magic)
-                vec_viewed_to_magic = move_vec_code[*pos_magic-*pos_viewed];
-              else
-                vec_viewed_to_magic = -move_vec_code[*pos_viewed-*pos_magic];
-              if (vec_viewed_to_magic!=0)
-                PushMagicView(*pos_viewed,*pos_magic,vec_viewed_to_magic);
-            }
-          }
-        }
-
-      SETFLAG(spec[*pos_magic],Magic);
+      if (TSTFLAG(spec[*pos_magic],White))
+      {
+        trait[nbply] = White;
+        PushMagicViewsByOnePiece(*pos_magic);
+      }
+      if (TSTFLAG(spec[*pos_magic],Black))
+      {
+        trait[nbply] = Black;
+        PushMagicViewsByOnePiece(*pos_magic);
+      }
+      /* TODO: remove double views my neutral magic pieces
+       * apply same logic as for cross-eyed pieces? */
     }
 
   finply();
@@ -603,9 +616,12 @@ static void ChangeMagic(void)
   for (bnp = boardnum; *bnp; ++bnp)
     /* only change if viewee suffers odd-no. new views */
     if (count_changed_views(*bnp)%2==1)
+    {
+      assert(!TSTFLAG(spec[*bnp],Neutral));
       move_effect_journal_do_side_change(move_effect_reason_magic_piece,
                                          *bnp,
-                                         e[*bnp]<vide ? White : Black);
+                                         TSTFLAG(spec[*bnp],Black) ? White : Black);
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

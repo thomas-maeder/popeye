@@ -15,10 +15,11 @@ static void update_hurdle_colour(void)
   square const sq_hurdle = move_generation_stack[current_move[nbply]].auxiliary;
   piece const pi_hurdle = e[sq_hurdle];
 
-  if (abs(pi_hurdle)>King)
+  if (abs(pi_hurdle)>King
+      && !TSTFLAG(spec[sq_hurdle],Neutral))
     move_effect_journal_do_side_change(move_effect_reason_hurdle_colour_changing,
                                        sq_hurdle,
-                                       e[sq_hurdle]<vide ? White : Black);
+                                       TSTFLAG(spec[sq_hurdle],Black) ? White : Black);
 }
 
 /* Try to solve in n half-moves.

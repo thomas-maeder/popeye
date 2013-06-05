@@ -5,7 +5,7 @@ optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
  pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  solving/solve.h optimisations/intelligent/intelligent.h \
- position/position.h stipulation/goals/goals.h \
+ position/position.h position/pieceid.h stipulation/goals/goals.h \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
@@ -50,6 +50,8 @@ optimisations/intelligent/intelligent.h:
 
 position/position.h:
 
+position/pieceid.h:
+
 stipulation/goals/goals.h:
 
 optimisations/intelligent/place_white_king.h:
@@ -78,7 +80,8 @@ optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/goals/immobile/reached_tester.h \
  optimisations/intelligent/intelligent.h position/position.h \
- optimisations/intelligent/duplicate_avoider.h debugging/trace.h
+ position/pieceid.h optimisations/intelligent/duplicate_avoider.h \
+ debugging/trace.h
 
 optimisations/intelligent/stalemate/filter.h:
 
@@ -134,6 +137,8 @@ optimisations/intelligent/intelligent.h:
 
 position/position.h:
 
+position/pieceid.h:
+
 optimisations/intelligent/duplicate_avoider.h:
 
 debugging/trace.h:
@@ -148,7 +153,8 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h solving/solve.h \
  solving/move_effect_journal.h optimisations/intelligent/intelligent.h \
- position/position.h optimisations/intelligent/count_nr_of_moves.h \
+ position/position.h position/pieceid.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/white_block.h \
  optimisations/intelligent/stalemate/black_block.h \
@@ -210,6 +216,8 @@ optimisations/intelligent/intelligent.h:
 
 position/position.h:
 
+position/pieceid.h:
+
 optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/place_black_piece.h:
@@ -233,7 +241,7 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h solving/solve.h \
  platform/maxtime.h optimisations/intelligent/intelligent.h \
- position/position.h stipulation/goals/goals.h \
+ position/position.h position/pieceid.h stipulation/goals/goals.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
@@ -280,6 +288,8 @@ optimisations/intelligent/intelligent.h:
 
 position/position.h:
 
+position/pieceid.h:
+
 stipulation/goals/goals.h:
 
 optimisations/intelligent/moves_left.h:
@@ -301,7 +311,7 @@ optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h \
  optimisations/intelligent/intelligent.h position/position.h \
- stipulation/goals/goals.h solving/solve.h \
+ position/pieceid.h stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_white_king.h \
@@ -343,6 +353,8 @@ optimisations/intelligent/intelligent.h:
 
 position/position.h:
 
+position/pieceid.h:
+
 stipulation/goals/goals.h:
 
 solving/solve.h:
@@ -364,7 +376,7 @@ optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h \
  optimisations/intelligent/intelligent.h position/position.h \
- stipulation/goals/goals.h solving/solve.h \
+ position/pieceid.h stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/finish.h \
@@ -406,6 +418,8 @@ optimisations/intelligent/intelligent.h:
 
 position/position.h:
 
+position/pieceid.h:
+
 stipulation/goals/goals.h:
 
 solving/solve.h:
@@ -426,8 +440,8 @@ optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \
  position/position.h position/piece.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pieces/vectors.h \
  stipulation/goals/goals.h py.h optimisations/intelligent/intelligent.h \
- position/position.h stipulation/goals/goals.h solving/solve.h \
- optimisations/intelligent/pin_black_piece.h \
+ position/position.h position/pieceid.h stipulation/goals/goals.h \
+ solving/solve.h optimisations/intelligent/pin_black_piece.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/finish.h debugging/trace.h
 
@@ -467,6 +481,8 @@ optimisations/intelligent/intelligent.h:
 
 position/position.h:
 
+position/pieceid.h:
+
 stipulation/goals/goals.h:
 
 solving/solve.h:
@@ -490,7 +506,8 @@ optimisations/intelligent/stalemate/goalreachable_guard$(OBJ_SUFFIX): \
  solving/solve.h solving/move_effect_journal.h pydata.h pyproc.h py4.h \
  py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h optimisations/intelligent/intelligent.h \
- position/position.h optimisations/intelligent/moves_left.h \
+ position/position.h position/pieceid.h \
+ optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
 optimisations/intelligent/stalemate/goalreachable_guard.h:
@@ -550,6 +567,8 @@ stipulation/has_solution_type.h:
 optimisations/intelligent/intelligent.h:
 
 position/position.h:
+
+position/pieceid.h:
 
 optimisations/intelligent/moves_left.h:
 

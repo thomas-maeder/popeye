@@ -68,7 +68,7 @@ static boolean stalemate_isGoalReachable(void)
           PieceIdType const id = GetPieceId(spec[from_square]);
           if (target_position[id].diagram_square!=initsquare)
           {
-            Side const from_side = from_piece>vide ? White : Black;
+            Side const from_side = TSTFLAG(spec[from_square],White) ? White : Black;
             MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_piece,
                                                                                               from_square,
                                                                                               target_position[id].type,

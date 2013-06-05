@@ -14,13 +14,15 @@ static void change_side(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  Side const to_side = advers(trait[nbply]);
 
   if (TSTFLAG(spec[sq_arrival],Volage)
-      && SquareCol(sq_departure)!=SquareCol(sq_arrival))
+      && SquareCol(sq_departure)!=SquareCol(sq_arrival)
+      && !TSTFLAG(spec[sq_arrival],to_side))
   {
     move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
                                        sq_arrival,
-                                       e[sq_arrival]<vide ? White : Black);
+                                       to_side);
 
     if (!CondFlag[hypervolage])
     {
