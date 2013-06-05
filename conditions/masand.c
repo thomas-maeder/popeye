@@ -57,9 +57,7 @@ static void change_observed(square observer_pos)
         && *bnp!=observer_pos
         && observed(*bnp,observer_pos)
         && !TSTFLAG(spec[*bnp],Neutral))
-      move_effect_journal_do_side_change(move_effect_reason_masand,
-                                         *bnp,
-                                         TSTFLAG(spec[*bnp],Black) ? White : Black);
+      move_effect_journal_do_side_change(move_effect_reason_masand,*bnp);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

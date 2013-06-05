@@ -18,8 +18,7 @@ static void update_hurdle_colour(void)
   if (abs(pi_hurdle)>King
       && !TSTFLAG(spec[sq_hurdle],Neutral))
     move_effect_journal_do_side_change(move_effect_reason_hurdle_colour_changing,
-                                       sq_hurdle,
-                                       TSTFLAG(spec[sq_hurdle],Black) ? White : Black);
+                                       sq_hurdle);
 }
 
 /* Try to solve in n half-moves.

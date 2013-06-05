@@ -37,8 +37,7 @@ stip_length_type traitor_side_changer_solve(slice_index si, stip_length_type n)
       && sq_arrival<=square_h4
       && !TSTFLAG(spec[sq_arrival],Neutral))
     move_effect_journal_do_side_change(move_effect_reason_traitor_defection,
-                                       sq_arrival,
-                                       White);
+                                       sq_arrival);
 
   result = solve(slices[si].next1,n);
 

@@ -606,9 +606,7 @@ static void ChangeMagic(void)
     if (count_changed_views(*bnp)%2==1)
     {
       assert(!TSTFLAG(spec[*bnp],Neutral));
-      move_effect_journal_do_side_change(move_effect_reason_magic_piece,
-                                         *bnp,
-                                         TSTFLAG(spec[*bnp],Black) ? White : Black);
+      move_effect_journal_do_side_change(move_effect_reason_magic_piece,*bnp);
     }
 
   TraceFunctionExit(__func__);

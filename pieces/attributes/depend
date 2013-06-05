@@ -9,7 +9,7 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/move_effect_journal.h debugging/trace.h
+ solving/move_effect_journal.h position/pieceid.h debugging/trace.h
 
 pieces/attributes/hurdle_colour_changing.h:
 
@@ -64,6 +64,8 @@ output/mode.h:
 stipulation/move.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
@@ -157,7 +159,7 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/move.h solving/post_move_iteration.h \
- solving/move_effect_journal.h debugging/trace.h
+ solving/move_effect_journal.h position/pieceid.h debugging/trace.h
 
 pieces/attributes/chameleon.h:
 
@@ -226,6 +228,8 @@ stipulation/move.h:
 solving/post_move_iteration.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \

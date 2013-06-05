@@ -847,11 +847,8 @@ static void redo_piece_exchange(move_effect_journal_index_type curr)
 /* Add changing the side of a piece to the current move of the current ply
  * @param reason reason for changing the piece's nature
  * @param on position of the piece to be changed
- * @param to to side
  */
-void move_effect_journal_do_side_change(move_effect_reason_type reason,
-                                        square on,
-                                        Side chrtschnbrr)
+void move_effect_journal_do_side_change(move_effect_reason_type reason, square on)
 {
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
   Side const to = TSTFLAG(spec[on],White) ? Black : White;
@@ -863,7 +860,6 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason,
   TraceFunctionParamListEnd();
 
   assert(!TSTFLAG(spec[on],Neutral));
-  assert(TSTFLAG(spec[on],advers(chrtschnbrr)));
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
@@ -878,7 +874,7 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason,
 
   ++move_effect_journal_top[nbply];
 
-  CLRFLAGMASK(spec[on],BIT(Black)|BIT(White));
+  CLRFLAG(spec[on],advers(to));
   SETFLAG(spec[on],to);
 
   --number_of_pieces[advers(to)][abs(e[on])];
@@ -892,7 +888,6 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason,
 static void undo_side_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.side_change.on;
-  Side const chrtschnbrr = move_effect_journal[curr].u.side_change.to;
   Side const from = TSTFLAG(spec[on],White) ? Black : White;
 
   TraceFunctionEntry(__func__);
@@ -903,10 +898,8 @@ static void undo_side_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  assert(TSTFLAG(spec[on],chrtschnbrr));
-
-  CLRFLAGMASK(spec[on],BIT(Black)|BIT(White));
-  SETFLAG(spec[on],advers(chrtschnbrr));
+  CLRFLAG(spec[on],advers(from));
+  SETFLAG(spec[on],from);
 
   --number_of_pieces[advers(from)][abs(e[on])];
   e[on] = from==White ? abs(e[on]) : -abs(e[on]);
@@ -919,7 +912,6 @@ static void undo_side_change(move_effect_journal_index_type curr)
 static void redo_side_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.side_change.on;
-  Side const chrtschnbrr = move_effect_journal[curr].u.side_change.to;
   Side const to = TSTFLAG(spec[on],White) ? Black : White;
 
   TraceFunctionEntry(__func__);
@@ -930,8 +922,8 @@ static void redo_side_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  CLRFLAGMASK(spec[on],BIT(Black)|BIT(White)|BIT(Neutral));
-  SETFLAG(spec[on],chrtschnbrr);
+  CLRFLAG(spec[on],advers(to));
+  SETFLAG(spec[on],to);
 
   --number_of_pieces[advers(to)][abs(e[on])];
   e[on] = to==White ? abs(e[on]) : -abs(e[on]);

@@ -21,8 +21,7 @@ static void change_side(void)
       && !TSTFLAG(spec[sq_arrival],to_side))
   {
     move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
-                                       sq_arrival,
-                                       to_side);
+                                       sq_arrival);
 
     if (!CondFlag[hypervolage])
     {
