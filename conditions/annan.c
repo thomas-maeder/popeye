@@ -34,7 +34,6 @@ boolean annan_is_square_attacked(Side side_attacking,
                                  square sq_target,
                                  evalfunction_t *evaluate)
 {
-  Side const side_in_check = advers(side_attacking);
   numvec const dir_annaniser = side_attacking==White ? dir_down : dir_up;
   square annan_sq[nr_squares_on_board];
   piece annan_p[nr_squares_on_board];

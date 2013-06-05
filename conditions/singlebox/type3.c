@@ -158,7 +158,6 @@ boolean singleboxtype3_is_square_attacked(Side side_checking,
                                           evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
-  Side const side_in_check = advers(side_checking);
   square sq;
 
   for (sq = next_latent_pawn(initsquare,side_checking);
