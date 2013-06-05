@@ -7,7 +7,11 @@
 
 #include <stdlib.h>
 
-boolean madrasi_is_observed(square sq)
+/* Determine whether a particular piece of the moving side is observed
+ * @param sq position of the piece
+ * @return true iff the piece occupying square sq is observed by the opponent
+ */
+boolean madrasi_is_moving_piece_observed(square sq)
 {
   boolean result;
   Side const observed_side = trait[nbply];
@@ -87,7 +91,7 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
                                               square sq_landing,
                                               square sq_observee)
 {
-  return !madrasi_is_observed(sq_observer);
+  return !madrasi_is_moving_piece_observed(sq_observer);
 }
 
 /* Inialise solving in Madrasi

@@ -209,4 +209,12 @@ steine weiss kf6 bh7
 forderung h##!0.5
 bedingung isardam
 
+weiter
+
+titel illegale Beobachtung nach Doppelschritt vermeiden
+steine weiss bd2 schwarz be4
+forderung ~1
+bedingung isardam
+option ohnewk ohnesk
+
 endeproblem

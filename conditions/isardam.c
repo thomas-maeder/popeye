@@ -66,7 +66,7 @@ static boolean is_piece_illegally_observed(Side side, square z)
   if (TSTFLAG(spec[z],side))
   {
     trait[nbply] = side; /* from Madrasi's perspective! */
-    result = madrasi_is_observed(z);
+    result = madrasi_is_moving_piece_observed(z);
   }
   else
     result = false;
@@ -76,14 +76,13 @@ static boolean is_piece_illegally_observed(Side side, square z)
 
 static boolean find_illegal_observation(void)
 {
+  Side const save_trait = trait[nbply];
   boolean result = false;
   square square_h = square_h8;
   int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  nextply();
 
   for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {
@@ -99,7 +98,9 @@ static boolean find_illegal_observation(void)
       }
   }
 
-  finply();
+  /* We have juggled with trait[npbly] to be able to reuse Madrasi
+   * functionality. Now we have to clean up after ourselves: */
+  trait[nbply] = save_trait;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

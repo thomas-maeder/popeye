@@ -7,7 +7,11 @@
 /* Implementation of condition Madrasi
  */
 
-boolean madrasi_is_observed(square sq);
+/* Determine whether a particular piece of the moving side is observed
+ * @param sq position of the piece
+ * @return true iff the piece occupying square sq is observed by the opponent
+ */
+boolean madrasi_is_moving_piece_observed(square sq);
 
 /* Can a piece on a particular square can move according to Madrasi?
  * @param sq position of piece
