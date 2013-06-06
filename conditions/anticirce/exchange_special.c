@@ -58,7 +58,7 @@ stip_length_type anticirce_exchange_special_solve(slice_index si, stip_length_ty
     Side const just_moved = advers(slices[si].starter);
     square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
     if (GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
-        && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
+        && TSTFLAG(spec[sq_diagram],just_moved)
         && sq_diagram!=sq_rebirth)
       result = solve(slices[si].next1,n);
     else

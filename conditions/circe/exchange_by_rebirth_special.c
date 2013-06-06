@@ -47,7 +47,6 @@ stip_length_type circe_exchange_special_solve(slice_index si, stip_length_type n
   stip_length_type result;
   square const sq_rebirth = current_circe_rebirth_square[nbply];
   square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
-  Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -56,7 +55,7 @@ stip_length_type circe_exchange_special_solve(slice_index si, stip_length_type n
 
   if (sq_rebirth!=initsquare
       && GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
-      && (just_moved==Black ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
+      && TSTFLAG(spec[sq_diagram],slices[si].starter)
       && sq_diagram!=sq_rebirth)
     result = solve(slices[si].next1,n);
   else
