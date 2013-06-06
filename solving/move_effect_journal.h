@@ -36,6 +36,8 @@ typedef enum
   move_effect_forget_ghost,
   move_effect_neutral_recoloring_do,
   move_effect_neutral_recoloring_undo,
+  move_effect_half_neutral_deneutralisation,
+  move_effect_half_neutral_neutralisation,
 
   nr_move_effect_types
 } move_effect_type;
@@ -175,7 +177,8 @@ typedef struct
         struct
         {
             square on;
-        } half_neutral_neutralisation;
+            Side side;
+        } half_neutral_phase_change;
         struct
         {
             unsigned int ghost_pos;
@@ -326,6 +329,17 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
  */
 void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
                                                  SquareTransformation transformation);
+
+/* Deneutralise a half-neutral piece
+ * @param on position of the piece to be changed
+ * @param to new side of half-neutral piece
+ */
+void move_effect_journal_do_half_neutral_deneutralisation(square on, Side to);
+
+/* Neutralise a half-neutral piece
+ * @param on position of the piece to be changed
+ */
+void move_effect_journal_do_half_neutral_neutralisation(square on);
 
 /* Add the effects of a capture move to the current move of the current ply
  * @param sq_departure departure square

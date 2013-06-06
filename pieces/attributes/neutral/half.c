@@ -11,61 +11,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static void recolor(Side trait_ply)
-{
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-
-  if (TSTFLAG(spec[sq_arrival],HalfNeutral))
-  {
-    if (TSTFLAG(spec[sq_arrival],Neutral))
-    {
-      piece const deneutralised = trait[nbply]==Black ? -abs(e[sq_arrival]) : abs(e[sq_arrival]);
-
-      Flags deneutralised_spec = spec[sq_arrival];
-      assert(TSTFLAG(deneutralised_spec,White));
-      assert(TSTFLAG(deneutralised_spec,Black));
-      assert(TSTFLAG(deneutralised_spec,Neutral));
-      CLRFLAG(deneutralised_spec,Neutral);
-      CLRFLAG(deneutralised_spec,advers(trait_ply));
-
-      move_effect_journal_do_piece_change(move_effect_reason_half_neutral_deneutralisation,
-                                          sq_arrival,
-                                          deneutralised);
-
-      move_effect_journal_do_flags_change(move_effect_reason_half_neutral_deneutralisation,
-                                          sq_arrival,
-                                          deneutralised_spec);
-
-      if (king_square[advers(trait_ply)]==sq_arrival)
-        move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
-                                                    advers(trait_ply),
-                                                    initsquare);
-    }
-    else
-    {
-      piece const neutralised = neutral_side ? -abs(e[sq_arrival]) : abs(e[sq_arrival]);
-
-      Flags neutralised_spec = spec[sq_arrival];
-      assert(TSTFLAG(neutralised_spec,trait[nbply]));
-      SETFLAG(neutralised_spec,Neutral);
-      SETFLAG(neutralised_spec,advers(trait_ply));
-
-      move_effect_journal_do_piece_change(move_effect_reason_half_neutral_neutralisation,
-                                          sq_arrival,
-                                          neutralised);
-
-      move_effect_journal_do_flags_change(move_effect_reason_half_neutral_neutralisation,
-                                          sq_arrival,
-                                          neutralised_spec);
-
-      if (king_square[trait_ply]==sq_arrival)
-        move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
-                                                    advers(trait_ply),
-                                                    sq_arrival);
-    }
-  }
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -82,13 +27,21 @@ static void recolor(Side trait_ply)
 stip_length_type half_neutral_recolorer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  recolor(slices[si].starter);
+  if (TSTFLAG(spec[sq_arrival],HalfNeutral))
+  {
+    if (TSTFLAG(spec[sq_arrival],Neutral))
+      move_effect_journal_do_half_neutral_deneutralisation(sq_arrival,slices[si].starter);
+    else
+      move_effect_journal_do_half_neutral_neutralisation(sq_arrival);
+  }
+
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

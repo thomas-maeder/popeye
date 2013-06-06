@@ -636,6 +636,8 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
+  assert((e[on]<vide)==(to<vide));
+
   top_elmt->type = move_effect_piece_change;
   top_elmt->reason = reason;
   top_elmt->u.piece_change.on = on;
@@ -928,6 +930,182 @@ static void redo_side_change(move_effect_journal_index_type curr)
   --number_of_pieces[advers(to)][abs(e[on])];
   e[on] = to==White ? abs(e[on]) : -abs(e[on]);
   ++number_of_pieces[to][abs(e[on])];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Deneutralise a half-neutral piece
+ * @param on position of the piece to be changed
+ * @param to new side of half-neutral piece
+ */
+void move_effect_journal_do_half_neutral_deneutralisation(square on, Side to)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(on);
+  TraceEnumerator(Side,to,"");
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_half_neutral_deneutralisation;
+  top_elmt->reason = move_effect_reason_half_neutral_deneutralisation;
+  top_elmt->u.half_neutral_phase_change.on = on;
+  top_elmt->u.half_neutral_phase_change.side = to;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  assert(TSTFLAG(spec[on],White));
+  assert(TSTFLAG(spec[on],Black));
+  assert(TSTFLAG(spec[on],Neutral));
+
+  --number_of_pieces[advers(to)][abs(e[on])];
+  e[on] = to==Black ? -abs(e[on]) : abs(e[on]);
+  CLRFLAG(spec[on],Neutral);
+  CLRFLAG(spec[on],advers(to));
+
+  if (king_square[advers(to)]==on)
+    move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
+                                                advers(to),
+                                                initsquare);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
+{
+  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
+  Side const to = move_effect_journal[curr].u.half_neutral_phase_change.side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  SETFLAG(spec[on],Neutral);
+  SETFLAG(spec[on],advers(to));
+  e[on] = neutral_side==Black ? -abs(e[on]) : abs(e[on]);
+  ++number_of_pieces[advers(to)][abs(e[on])];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
+{
+  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
+  Side const to = move_effect_journal[curr].u.half_neutral_phase_change.side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  --number_of_pieces[advers(to)][abs(e[on])];
+  e[on] = to==Black ? -abs(e[on]) : abs(e[on]);
+  CLRFLAG(spec[on],Neutral);
+  CLRFLAG(spec[on],advers(to));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Neutralise a half-neutral piece
+ * @param on position of the piece to be changed
+ */
+void move_effect_journal_do_half_neutral_neutralisation(square on)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  Side const from = TSTFLAG(spec[on],White) ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(on);
+  TraceEnumerator(Side,from,"");
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_half_neutral_neutralisation;
+  top_elmt->reason = move_effect_reason_half_neutral_neutralisation;
+  top_elmt->u.half_neutral_phase_change.on = on;
+  top_elmt->u.half_neutral_phase_change.side = from;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  SETFLAG(spec[on],Neutral);
+  SETFLAG(spec[on],advers(from));
+  e[on] = neutral_side==Black ? -abs(e[on]) : abs(e[on]);
+  ++number_of_pieces[advers(from)][abs(e[on])];
+
+  if (king_square[from]==on)
+    move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
+                                                advers(from),
+                                                on);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_half_neutral_neutralisation(move_effect_journal_index_type curr)
+{
+  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
+  Side const from = move_effect_journal[curr].u.half_neutral_phase_change.side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  assert(TSTFLAG(spec[on],White));
+  assert(TSTFLAG(spec[on],Black));
+  assert(TSTFLAG(spec[on],Neutral));
+
+  --number_of_pieces[advers(from)][abs(e[on])];
+  e[on] = from==Black ? -abs(e[on]) : abs(e[on]);
+  CLRFLAG(spec[on],Neutral);
+  CLRFLAG(spec[on],advers(from));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_half_neutral_neutralisation(move_effect_journal_index_type curr)
+{
+  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
+  Side const from = move_effect_journal[curr].u.half_neutral_phase_change.side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  SETFLAG(spec[on],Neutral);
+  SETFLAG(spec[on],advers(from));
+  e[on] = neutral_side==Black ? -abs(e[on]) : abs(e[on]);
+  ++number_of_pieces[advers(from)][abs(e[on])];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1421,6 +1599,8 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_forget_ghost:
       case move_effect_neutral_recoloring_do:
       case move_effect_neutral_recoloring_undo:
+      case move_effect_half_neutral_deneutralisation:
+      case move_effect_half_neutral_neutralisation:
         /* nothing */
         break;
 
@@ -1525,6 +1705,14 @@ void redo_move_effects(void)
         /* nothing */
         break;
 
+      case move_effect_half_neutral_deneutralisation:
+        redo_half_neutral_deneutralisation(curr);
+        break;
+
+      case move_effect_half_neutral_neutralisation:
+        redo_half_neutral_neutralisation(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1623,6 +1811,14 @@ void undo_move_effects(void)
 
       case move_effect_neutral_recoloring_undo:
         neutral_initialiser_recolor_retracting();
+        break;
+
+      case move_effect_half_neutral_deneutralisation:
+        undo_half_neutral_deneutralisation(top-1);
+        break;
+
+      case move_effect_half_neutral_neutralisation:
+        undo_half_neutral_neutralisation(top-1);
         break;
 
       default:

@@ -6,7 +6,7 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  stipulation/goals/goals.h pydata.h pyproc.h pymsg.h debugging/trace.h \
  conditions/republican.h solving/solve.h conditions/bgl.h \
  conditions/kobul.h conditions/imitator.h solving/move_effect_journal.h \
- solving/en_passant.h
+ position/pieceid.h solving/en_passant.h
 
 output/plaintext/plaintext.h:
 
@@ -59,6 +59,8 @@ conditions/kobul.h:
 conditions/imitator.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 solving/en_passant.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \

@@ -240,17 +240,6 @@ static void write_flags_change(move_context *context,
                                  move_effect_journal[curr].u.flags_change.to);
       break;
 
-    case move_effect_reason_half_neutral_neutralisation:
-    case move_effect_reason_half_neutral_deneutralisation:
-      if (context->target_square==move_effect_journal[curr].u.flags_change.on)
-      {
-        StdChar('=');
-        WriteSpec(move_effect_journal[curr].u.flags_change.to,
-                  context->moving,
-                  true);
-      }
-      break;
-
     case move_effect_reason_kobul_king:
       WriteSquare(move_effect_journal[curr].u.flags_change.on);
       StdString("=");
@@ -485,6 +474,20 @@ static void write_piece_exchange(move_context *context,
   }
 }
 
+static void write_half_neutral_deneutralisation(move_context *context,
+                                                move_effect_journal_index_type curr)
+{
+  StdChar('=');
+  StdChar(side_shortcut(move_effect_journal[curr].u.half_neutral_phase_change.side));
+  StdChar('h');
+}
+
+static void write_half_neutral_neutralisation(move_context *context,
+                                              move_effect_journal_index_type curr)
+{
+  StdString("=nh");
+}
+
 static void write_imitator_addition(void)
 {
   StdString("=I");
@@ -550,6 +553,14 @@ static void write_other_effects(move_context *context)
 
       case move_effect_imitator_movement:
         write_imitator_movement(context,curr);
+        break;
+
+      case move_effect_half_neutral_deneutralisation:
+        write_half_neutral_deneutralisation(context,curr);
+        break;
+
+      case move_effect_half_neutral_neutralisation:
+        write_half_neutral_neutralisation(context,curr);
         break;
 
       default:
