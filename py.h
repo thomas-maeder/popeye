@@ -235,8 +235,8 @@ typedef struct {
     square arrival;
     square capture;
     square singlebox_type3_promotion_where;
-    piece singlebox_type3_promotion_what;
-    piece current_transmutation;
+    PieNam singlebox_type3_promotion_what;
+    PieNam current_transmutation;
     square auxiliary; /* hopper hurdle, e.p. virtual single step arrival, ...*/
 } move_generation_elmt;
 

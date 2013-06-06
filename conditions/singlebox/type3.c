@@ -72,7 +72,7 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[coup_id].singlebox_type3_promotion_what==vide)
+  if (move_generation_stack[coup_id].singlebox_type3_promotion_what==Empty)
     move_effect_journal_do_null_effect();
   else
     move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
@@ -240,16 +240,17 @@ void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, pie
     while (sequence.promotee!=Empty)
     {
       piece const pi_departing = e[sq];
-      piece const pi_promotee = sequence.promotee;
+      PieNam const walk_promotee = sequence.promotee;
+      piece const pi_promotee = p<0 ? -walk_promotee : walk_promotee;
       numecoup prev_nbcou = current_move[nbply];
       ++nr_latent_promotions;
-      e[sq] = pi_promotee;
+      e[sq] = walk_promotee;
       orig_generate_moves_for_piece(side, sq_departure, sq==sq_departure ? pi_promotee : p);
       e[sq] = pi_departing;
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
         move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = pi_promotee;
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = walk_promotee;
       }
       singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
     }
@@ -262,7 +263,7 @@ void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, pie
     for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {
       move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
-      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = vide;
+      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = Empty;
     }
   }
 }

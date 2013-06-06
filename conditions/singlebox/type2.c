@@ -286,24 +286,6 @@ static void advance_latent_pawn_promotion(void)
   TraceFunctionResultEnd();
 }
 
-static void place_promotee(Side trait_ply)
-{
-  piece const promotee = (trait_ply==Black
-                          ? singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee
-                          : -singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,trait_ply,"");
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
-                                      singlebox_type2_latent_pawn_promotions[nbply].where,
-                                      promotee);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -335,7 +317,9 @@ stip_length_type singlebox_type2_latent_pawn_promoter_solve(slice_index si,
     result = solve(next,n);
   else
   {
-    place_promotee(slices[si].starter);
+    move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
+                                        singlebox_type2_latent_pawn_promotions[nbply].where,
+                                        singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);
     result = solve(next,n);
 
     if (!post_move_iteration_locked[nbply])

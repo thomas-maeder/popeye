@@ -11,10 +11,9 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static piece linechampiece(square sq_arrival)
+static PieNam linechampiece(square sq_arrival)
 {
-  piece const pi_moving = e[sq_arrival];
-  PieNam walk_moving = abs(pi_moving);
+  PieNam walk_moving = abs(e[sq_arrival]);
   PieNam walk_chameleonised = walk_moving;
 
   if (walk_moving==standard_walks[Queen]
@@ -51,7 +50,7 @@ static piece linechampiece(square sq_arrival)
         break;
     }
 
-  return pi_moving<vide ? -walk_chameleonised : walk_chameleonised;
+  return walk_chameleonised;
 }
 
 /* Try to solve in n half-moves.

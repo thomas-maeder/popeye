@@ -41,22 +41,11 @@ stip_length_type protean_pawn_adjuster_solve(slice_index si,
       && (!rex_protean_ex || !TSTFLAG(spec[sq_arrival],Royal)))
   {
     piece const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
-    Flags const spec_moving = move_effect_journal[movement].u.piece_movement.movingspec;
-    piece substitute = -pi_captured;
-    if (TSTFLAG(spec_moving,Black))
-    {
-      if (substitute==pn)
-        substitute = reversepn;
-      else if (substitute==reversepn)
-        substitute = pn;
-    }
-    else
-    {
-      if (substitute==pb)
-        substitute = reversepb;
-      else if (substitute==reversepb)
-        substitute = pb;
-    }
+    PieNam substitute = abs(pi_captured);
+    if (substitute==Pawn)
+      substitute = ReversePawn;
+    else if (substitute==ReversePawn)
+      substitute = Pawn;
 
     move_effect_journal_do_piece_change(move_effect_reason_protean_adjustment,
                                         sq_arrival,

@@ -55,9 +55,7 @@ stip_length_type wormhole_transfered_promoter_solve(slice_index si, stip_length_
   {
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_transfer,
-                                        e[sq_transfer]<vide
-                                        ? -promotion_of_transfered[nbply].promotee
-                                        : promotion_of_transfered[nbply].promotee);
+                                        promotion_of_transfered[nbply].promotee);
 
     result = solve(slices[si].next1,n);
 

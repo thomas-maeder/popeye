@@ -220,7 +220,7 @@ static void write_complete_piece(Flags spec, piece piece, square on)
   WriteSquare(on);
 }
 
-static void write_transformed_piece(Flags spec, piece piece)
+static void write_transformed_piece(Flags spec, PieNam piece)
 {
   WriteSpec(spec,piece,false);
   WritePiece(piece);

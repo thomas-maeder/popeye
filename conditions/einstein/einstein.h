@@ -8,12 +8,12 @@
 /* Decrease the rank of a piece
  * @param p piece whose rank to decrease
  */
-piece einstein_decrease_piece(piece p);
+PieNam einstein_decrease_piece(PieNam p);
 
 /* Increase the rank of a piece
  * @param p piece whose rank to increase
  */
-piece einstein_increase_piece(piece p);
+PieNam einstein_increase_piece(PieNam p);
 
 /* Determine the capturer of the current move (if any)
  * @return departure square of the capturer; initsquare if the current move

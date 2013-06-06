@@ -172,7 +172,7 @@ EXTERN boolean          checkhopim;
 EXTERN piece            sentinelle[nr_sides];
 EXTERN boolean		anyantimars;
 EXTERN square           supertrans[maxply+1];
-EXTERN piece            current_trans_gen;
+EXTERN PieNam           current_trans_gen;
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          dont_generate_castling;
 EXTERN square           takemake_takedeparturesquare;

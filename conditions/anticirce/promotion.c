@@ -45,13 +45,9 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
     result = solve(slices[si].next1,n);
   else
   {
-    square const sq_rebirth = current_anticirce_rebirth_square[nbply];
-    piece const pi_reborn = e[sq_rebirth];
-    piece const promotee = pi_reborn<vide ? -current_promotion_of_reborn_moving[nbply].promotee : current_promotion_of_reborn_moving[nbply].promotee;
-
     move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
-                                        sq_rebirth,
-                                        promotee);
+                                        current_anticirce_rebirth_square[nbply],
+                                        current_promotion_of_reborn_moving[nbply].promotee);
 
     result = solve(slices[si].next1,n);
 

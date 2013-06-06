@@ -51,9 +51,7 @@ stip_length_type circe_promoter_solve(slice_index si, stip_length_type n)
   {
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
                                         sq_rebirth,
-                                        e[sq_rebirth]<vide
-                                        ? -reborn_pawn_promotion_state[nbply].promotee
-                                        : reborn_pawn_promotion_state[nbply].promotee);
+                                        reborn_pawn_promotion_state[nbply].promotee);
 
     result = solve(slices[si].next1,n);
 

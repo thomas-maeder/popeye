@@ -46,12 +46,9 @@ stip_length_type degradierung_degrader_solve(slice_index si,
       && sq_departure!=prev_king_square[Black][nbply]
       && sq_departure!=prev_king_square[White][nbply]
       && TSTFLAG(sq_spec[sq_arrival],double_step))
-  {
-    piece const degraded = slices[si].starter==White ? pb : pn;
     move_effect_journal_do_piece_change(move_effect_reason_degradierung,
                                         sq_arrival,
-                                        degraded);
-  }
+                                        Pawn);
 
   result = solve(slices[si].next1,n);
 

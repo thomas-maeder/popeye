@@ -265,8 +265,6 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, piece p);
 
 extern void   (*generate_moves_for_piece)(Side side, square a, piece b);
 
-piece   champiece(piece p);
-
 void    PrintTime();
 boolean leapcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
 boolean ridcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);

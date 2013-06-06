@@ -107,24 +107,6 @@
 #include "optimisations/hash.h"
 #include "debugging/trace.h"
 
-
-piece champiece(piece pi_arriving)
-{
-  PieNam const walk_arriving = abs(pi_arriving);
-  PieNam walk_chameleonised = walk_arriving;
-
-  if (walk_arriving==standard_walks[Queen])
-    walk_chameleonised = standard_walks[Knight];
-  else if (walk_arriving==standard_walks[Knight])
-    walk_chameleonised = standard_walks[Bishop];
-  else if (walk_arriving==standard_walks[Bishop])
-    walk_chameleonised = standard_walks[Rook];
-  else if (walk_arriving==standard_walks[Rook])
-    walk_chameleonised = standard_walks[Queen];
-
-  return  pi_arriving<vide ? -walk_chameleonised : walk_chameleonised;
-}
-
 square renrank(piece p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
                Side capturer) {

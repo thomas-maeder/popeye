@@ -24,7 +24,6 @@ static void substitute(Side trait_ply)
   {
     PieNam const pi_captured = abs(move_effect_journal[capture].u.piece_removal.removed);
     PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
-    piece const pi_kobul = e[king_pos]<=roin ? -kobul_kind : kobul_kind;
 
     Flags const colour_mask = BIT(White)|BIT(Black)|BIT(Neutral);
     Flags spec_kobul = move_effect_journal[capture].u.piece_removal.removedspec;
@@ -34,7 +33,7 @@ static void substitute(Side trait_ply)
 
     move_effect_journal_do_piece_change(move_effect_reason_kobul_king,
                                         king_pos,
-                                        pi_kobul);
+                                        kobul_kind);
 
     move_effect_journal_do_flags_change(move_effect_reason_kobul_king,
                                         king_pos,

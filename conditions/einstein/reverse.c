@@ -30,8 +30,8 @@ static void adjust(void)
       {
         square const from = move_effect_journal[curr].u.piece_movement.from;
         square const to = move_effect_journal[curr].u.piece_movement.to;
-        piece const einsteined = e[to];
-        piece const substitute = (capturer_origin==from
+        PieNam const einsteined = abs(e[to]);
+        PieNam const substitute = (capturer_origin==from
                                   ? einstein_decrease_piece(einsteined)
                                   : einstein_increase_piece(einsteined));
         if (einsteined!=substitute)

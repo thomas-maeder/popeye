@@ -1,5 +1,6 @@
 #include "pieces/attributes/chameleon.h"
 #include "pydata.h"
+#include "pieces/walks.h"
 #include "conditions/anticirce/promotion.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/promotion.h"
@@ -191,6 +192,22 @@ stip_length_type chameleon_promote_anticirce_reborn_into_solve(slice_index si,
   return result;
 }
 
+static PieNam champiece(PieNam walk_arriving)
+{
+  PieNam walk_chameleonised = walk_arriving;
+
+  if (walk_arriving==standard_walks[Queen])
+    walk_chameleonised = standard_walks[Knight];
+  else if (walk_arriving==standard_walks[Knight])
+    walk_chameleonised = standard_walks[Bishop];
+  else if (walk_arriving==standard_walks[Bishop])
+    walk_chameleonised = standard_walks[Rook];
+  else if (walk_arriving==standard_walks[Rook])
+    walk_chameleonised = standard_walks[Queen];
+
+  return walk_chameleonised;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -218,7 +235,7 @@ stip_length_type chameleon_arriving_adjuster_solve(slice_index si,
   if (TSTFLAG(spec[sq_arrival],Chameleon))
     move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
                                         sq_arrival,
-                                        champiece(e[sq_arrival]));
+                                        champiece(abs(e[sq_arrival])));
 
   result = solve(slices[si].next1,n);
 

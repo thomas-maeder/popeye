@@ -14,60 +14,79 @@
 /* Decrease the rank of a piece
  * @param p piece whose rank to decrease
  */
-piece einstein_decrease_piece(piece p)
+PieNam einstein_decrease_piece(PieNam p)
 {
+  PieNam result = p;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   switch (p)
   {
-  case db:
-    return tb;
-    case dn:
-      return tn;
-    case tb:
-      return fb;
-    case tn:
-      return fn;
-    case fb:
-      return cb;
-    case fn:
-      return cn;
-    case cb:
-      return pb;
-    case cn:
-      return pn;
+    case Queen:
+      result = Rook;
+      break;
+
+    case Rook:
+      result = Bishop;
+      break;
+
+    case Bishop:
+      result = Knight;
+      break;
+
+    case Knight:
+      result = Pawn;
+      break;
+
     default:
       break;
   }
 
-  return p;
+  TraceFunctionExit(__func__);
+  TracePiece(result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Increase the rank of a piece
  * @param p piece whose rank to increase
  */
-piece einstein_increase_piece(piece p)
+PieNam einstein_increase_piece(PieNam p)
 {
-  switch (p) {
-    case pb:
-      return cb;
-    case pn:
-      return cn;
-    case cb:
-      return fb;
-    case cn:
-      return fn;
-    case fb:
-      return tb;
-    case fn:
-      return tn;
-    case tb:
-      return db;
-    case tn:
-      return dn;
+  PieNam result = p;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  switch (p)
+  {
+    case Pawn:
+      result = Knight;
+      break;
+
+    case Knight:
+      result = Bishop;
+      break;
+
+    case Bishop:
+      result = Rook;
+      break;
+
+    case Rook:
+      result = Queen;
+      break;
+
     default:
       break;
   }
 
-  return p;
+  TraceFunctionExit(__func__);
+  TracePiece(result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine the capturer of the current move (if any)
@@ -116,10 +135,10 @@ static void adjust(void)
       {
         square const from = move_effect_journal[curr].u.piece_movement.from;
         square const to = move_effect_journal[curr].u.piece_movement.to;
-        piece const einsteined = e[to];
-        piece const substitute = (capturer_origin==from
-                                  ? einstein_increase_piece(einsteined)
-                                  : einstein_decrease_piece(einsteined));
+        PieNam const einsteined = abs(e[to]);
+        PieNam const substitute = (capturer_origin==from
+                                   ? einstein_increase_piece(einsteined)
+                                   : einstein_decrease_piece(einsteined));
         if (einsteined!=substitute)
           move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
                                               to,substitute);

@@ -624,7 +624,7 @@ static void redo_piece_removal(move_effect_journal_index_type curr)
  */
 void move_effect_journal_do_piece_change(move_effect_reason_type reason,
                                          square on,
-                                         piece to)
+                                         PieNam to)
 {
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
 
@@ -636,12 +636,10 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
-  assert((e[on]<vide)==(to<vide));
-
   top_elmt->type = move_effect_piece_change;
   top_elmt->reason = reason;
   top_elmt->u.piece_change.on = on;
-  top_elmt->u.piece_change.from = e[on];
+  top_elmt->u.piece_change.from = abs(e[on]);
   top_elmt->u.piece_change.to = to;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
@@ -655,12 +653,12 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
   if (TSTFLAG(spec[on],Black))
     --number_of_pieces[Black][abs(e[on])];
 
-  e[on] = to;
+  e[on] = e[on]<vide ? -to : to;
 
   if (TSTFLAG(spec[on],White))
-    ++number_of_pieces[White][abs(to)];
+    ++number_of_pieces[White][abs(e[on])];
   if (TSTFLAG(spec[on],Black))
-    ++number_of_pieces[Black][abs(to)];
+    ++number_of_pieces[Black][abs(e[on])];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -669,7 +667,7 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
 static void undo_piece_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.piece_change.on;
-  piece const from = move_effect_journal[curr].u.piece_change.from;
+  PieNam const from = move_effect_journal[curr].u.piece_change.from;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -679,15 +677,12 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  TraceValue("%d",e[on]);
-  TraceValue("%d\n",from);
-
   if (TSTFLAG(spec[on],White))
     --number_of_pieces[White][abs(e[on])];
   if (TSTFLAG(spec[on],Black))
     --number_of_pieces[Black][abs(e[on])];
 
-  e[on] = from;
+  e[on] = e[on]<vide ? -from : from;
 
   if (TSTFLAG(spec[on],White))
     ++number_of_pieces[White][abs(from)];
@@ -708,7 +703,7 @@ static void undo_piece_change(move_effect_journal_index_type curr)
 static void redo_piece_change(move_effect_journal_index_type curr)
 {
   square const on = move_effect_journal[curr].u.piece_change.on;
-  piece const to = move_effect_journal[curr].u.piece_change.to;
+  PieNam const to = move_effect_journal[curr].u.piece_change.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -723,7 +718,7 @@ static void redo_piece_change(move_effect_journal_index_type curr)
   if (TSTFLAG(spec[on],Black))
     --number_of_pieces[Black][abs(e[on])];
 
-  e[on] = to;
+  e[on] = e[on]<vide ? -to : to;
 
   if (TSTFLAG(spec[on],White))
     ++number_of_pieces[White][abs(to)];

@@ -32,8 +32,9 @@ static void adjust(void)
                 || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement))
         {
           square const to = move_effect_journal[curr].u.piece_movement.to;
-          piece const substitute = einstein_decrease_piece(e[to]);
-          if (e[to]!=substitute)
+          PieNam const substituted = abs(e[to]);
+          PieNam const substitute = einstein_decrease_piece(substituted);
+          if (substituted!=substitute)
             move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
                                                 to,substitute);
         }
@@ -101,7 +102,7 @@ stip_length_type anti_einstein_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_piece[nbply] = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.removed);
+  current_circe_reborn_piece[nbply] = einstein_increase_piece(abs(move_effect_journal[capture].u.piece_removal.removed));
   current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
 
   result = solve(slices[si].next1,n);

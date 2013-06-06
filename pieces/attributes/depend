@@ -152,14 +152,15 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  position/position.h position/board.h utilities/bitmask.h \
  position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
  pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- conditions/anticirce/promotion.h solving/moving_pawn_promotion.h \
- pieces/pawns/promotion.h conditions/circe/circe.h \
- stipulation/slice_type.h conditions/circe/promotion.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move.h solving/post_move_iteration.h \
- solving/move_effect_journal.h position/pieceid.h debugging/trace.h
+ pieces/walks.h conditions/anticirce/promotion.h \
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
+ conditions/circe/circe.h stipulation/slice_type.h \
+ conditions/circe/promotion.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/move.h \
+ solving/post_move_iteration.h solving/move_effect_journal.h \
+ position/pieceid.h debugging/trace.h
 
 pieces/attributes/chameleon.h:
 
@@ -194,6 +195,8 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
+
+pieces/walks.h:
 
 conditions/anticirce/promotion.h:
 

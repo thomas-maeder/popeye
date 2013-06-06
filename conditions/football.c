@@ -153,13 +153,11 @@ stip_length_type football_chess_substitutor_solve(slice_index si,
   else
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    piece const substituted = e[sq_arrival];
-    piece const substitute = substituted<vide ? -current_football_substitution[nbply] : current_football_substitution[nbply];
 
-    if (substitute!=substituted)
+    if (abs(e[sq_arrival])!=current_football_substitution[nbply])
       move_effect_journal_do_piece_change(move_effect_reason_football_chess_substitution,
                                           sq_arrival,
-                                          substitute);
+                                          current_football_substitution[nbply]);
 
     result = solve(slices[si].next1,n);
 

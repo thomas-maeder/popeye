@@ -113,8 +113,8 @@ typedef struct
         struct
         {
             square on;
-            piece from;
-            piece to;
+            PieNam from;
+            PieNam to;
         } piece_change;
         struct
         {
@@ -287,7 +287,7 @@ void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
  */
 void move_effect_journal_do_piece_change(move_effect_reason_type reason,
                                          square on,
-                                         piece to);
+                                         PieNam to);
 
 /* Add exchanging two pieces to the current move of the current ply
  * @param reason reason for exchanging the two pieces

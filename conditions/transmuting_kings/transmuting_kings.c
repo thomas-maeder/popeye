@@ -122,9 +122,9 @@ boolean transmuting_kings_generate_moves(Side side_moving, square sq_departure)
       if (is_king_transmuted)
       {
         result = true;
-        current_trans_gen = -ptrans_opponent;
-        generate_moves_for_piece(side_moving,sq_departure,current_trans_gen);
-        current_trans_gen = vide;
+        current_trans_gen = *ptrans;
+        generate_moves_for_piece(side_moving,sq_departure,ptrans_opponent);
+        current_trans_gen = Empty;
       }
     }
   }

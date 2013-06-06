@@ -48,12 +48,10 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
   else
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    piece const promotee = (e[sq_arrival]<vide
-                            ? -moving_pawn_promotion_state[nbply].promotee
-                            : moving_pawn_promotion_state[nbply].promotee);
 
     move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
-                                        sq_arrival,promotee);
+                                        sq_arrival,
+                                        moving_pawn_promotion_state[nbply].promotee);
 
     result = solve(slices[si].next1,n);
 

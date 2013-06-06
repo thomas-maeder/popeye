@@ -99,7 +99,7 @@ boolean vaulting_kings_generate_moves(Side side, square sq_departure)
       result = true;
       current_trans_gen = *pi_vaulter;
       generate_moves_for_piece(side,sq_departure,*pi_vaulter);
-      current_trans_gen = vide;
+      current_trans_gen = Empty;
     }
   }
 

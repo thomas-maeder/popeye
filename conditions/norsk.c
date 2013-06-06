@@ -54,13 +54,12 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   if (moving_pawn_promotion_state[nbply].promotee==Empty)
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    piece const norsked = e[sq_arrival];
-    PieNam const norsked_to_walk = norsk_walk(abs(norsked));
-    piece const norsked_to = norsked<vide ? -norsked_to_walk : norsked_to_walk;
-    if (norsked!=norsked_to)
+    PieNam const norsked = abs(e[sq_arrival]);
+    PieNam const norsked_to_walk = norsk_walk(norsked);
+    if (norsked!=norsked_to_walk)
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
                                           sq_arrival,
-                                          norsked_to);
+                                          norsked_to_walk);
   }
 
   result = solve(slices[si].next1,n);
