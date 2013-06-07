@@ -36,8 +36,8 @@ void init_opponent_moves_counter()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(legal_move_counter_count[nbply+1]==0);
-  legal_move_counter_interesting[nbply+1] = UINT_MAX;
+  assert(legal_move_counter_count[nbply]==0);
+  legal_move_counter_interesting[nbply] = UINT_MAX;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -53,7 +53,7 @@ int fini_opponent_moves_counter()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  legal_move_counter_count[nbply+1] = 0;
+  legal_move_counter_count[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",result);

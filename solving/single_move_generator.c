@@ -47,11 +47,11 @@ void init_single_move_generator(square sq_departure,
   TraceFunctionParamListEnd();
 
   /* avoid concurrent generations */
-  assert(square_departure[nbply+1]==initsquare);
+  assert(square_departure[nbply]==initsquare);
 
-  square_departure[nbply+1] = sq_departure;
-  square_arrival[nbply+1] = sq_arrival;
-  square_capture[nbply+1] = sq_capture;
+  square_departure[nbply] = sq_departure;
+  square_arrival[nbply] = sq_arrival;
+  square_capture[nbply] = sq_capture;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -74,7 +74,6 @@ stip_length_type single_move_generator_solve(slice_index si,
                                               stip_length_type n)
 {
   stip_length_type result;
-  Side const side_at_move = slices[si].starter;
   slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
@@ -82,13 +81,10 @@ stip_length_type single_move_generator_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nextply();
-  trait[nbply] = side_at_move;
   empile(square_departure[nbply],square_arrival[nbply],square_capture[nbply]);
   result = solve(next,n);
-  finply();
 
-  square_departure[nbply+1] = initsquare;
+  square_departure[nbply] = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

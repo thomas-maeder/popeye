@@ -180,10 +180,10 @@ b) Circe
 
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 #
 
-                        empile:      123651
-                     play_move:       97018
- is_white_king_square_attacked:        7492
- is_black_king_square_attacked:       56929
+                        empile:      113618
+                     play_move:       90572
+ is_white_king_square_attacked:        6496
+ is_black_king_square_attacked:       53544
 Loesung beendet. 
 
 

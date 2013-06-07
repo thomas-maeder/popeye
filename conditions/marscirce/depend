@@ -51,8 +51,8 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move.h solving/en_passant.h \
- pyproc.h solving/move_effect_journal.h conditions/marscirce/marscirce.h \
- debugging/trace.h
+ pyproc.h solving/move_effect_journal.h position/pieceid.h \
+ conditions/marscirce/marscirce.h debugging/trace.h
 
 conditions/marscirce/anti.h:
 
@@ -113,6 +113,8 @@ solving/en_passant.h:
 pyproc.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 conditions/marscirce/marscirce.h:
 

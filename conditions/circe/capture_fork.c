@@ -34,6 +34,7 @@ stip_length_type circe_capture_fork_solve(slice_index si,
   stip_length_type result;
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -45,8 +46,13 @@ stip_length_type circe_capture_fork_solve(slice_index si,
     current_circe_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);
   }
-  else
+  else if (rex_circe || !TSTFLAG(removedspec,Royal))
     result = solve(slices[si].next1,n);
+  else
+  {
+    current_circe_rebirth_square[nbply] = initsquare;
+    result = solve(slices[si].next2,n);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -135,9 +141,6 @@ void stip_insert_rebirth_avoider(slice_index si, slice_type type)
   stip_structure_traversal_override_single(&st,
                                            STMove,
                                            &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STKingCaptureLegalityTester,
-                                           &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(&st,
                                            STLandingAfterCirceRebirthHandler,
                                            &remember_landing);

@@ -100,8 +100,11 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
 
   for (i = current_move[nbply-1]+1, table_index = 0; i<=current_move[nbply]; ++i, ++table_index)
   {
+    nextply();
+    trait[nbply] = slices[si].starter;
     table[table_index].move = move_generation_stack[i];
     table[table_index].nr_opponent_moves = count_opponent_moves(i);
+    finply();
   }
 
   qsort(table, nr_moves, sizeof table[0], &compare_nr_opponent_moves);
