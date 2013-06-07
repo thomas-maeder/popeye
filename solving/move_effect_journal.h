@@ -126,7 +126,7 @@ typedef struct
         struct
         {
             square on;
-            piece added;
+            PieNam added;
             Flags addedspec;
         } piece_addition;
         struct
@@ -183,7 +183,7 @@ typedef struct
         {
             unsigned int ghost_pos;
             square on;
-            piece ghost;
+            PieNam ghost;
             Flags flags;
         } handle_ghost;
     } u;
@@ -253,7 +253,7 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
  */
 void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
                                              square on,
-                                             piece added,
+                                             PieNam added,
                                              Flags addedspec);
 
 /* Add an newly created piece to the current move of the current ply

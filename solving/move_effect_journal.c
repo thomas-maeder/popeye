@@ -243,7 +243,7 @@ static void redo_piece_movement(move_effect_journal_index_type curr)
  */
 void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
                                              square on,
-                                             piece added,
+                                             PieNam added,
                                              Flags addedspec)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
@@ -271,10 +271,10 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
 
   assert(e[on]==vide);
   if (TSTFLAG(addedspec,White))
-    ++number_of_pieces[White][abs(added)];
+    ++number_of_pieces[White][added];
   if (TSTFLAG(addedspec,Black))
-    ++number_of_pieces[Black][abs(added)];
-  e[on] = added;
+    ++number_of_pieces[Black][added];
+  e[on] = TSTFLAG(addedspec,White) ? added : -added;
   spec[on] = addedspec;
   assert(GetPieceId(addedspec)!=NullPieceId);
 
@@ -297,7 +297,7 @@ static void undo_piece_readdition(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  piece const added = curr_elmt->u.piece_addition.added;
+  PieNam const added = curr_elmt->u.piece_addition.added;
   Flags const addedspec = curr_elmt->u.piece_addition.addedspec;
 
   TraceFunctionEntry(__func__);
@@ -308,9 +308,9 @@ static void undo_piece_readdition(move_effect_journal_index_type curr)
 #endif
 
   if (TSTFLAG(addedspec,White))
-    --number_of_pieces[White][abs(added)];
+    --number_of_pieces[White][added];
   if (TSTFLAG(addedspec,Black))
-    --number_of_pieces[Black][abs(added)];
+    --number_of_pieces[Black][added];
   e[on] = vide;
   CLEARFL(spec[on]);
 
@@ -322,7 +322,7 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  piece const added = curr_elmt->u.piece_addition.added;
+  PieNam const added = curr_elmt->u.piece_addition.added;
   Flags const addedspec = curr_elmt->u.piece_addition.addedspec;
 
   TraceFunctionEntry(__func__);
@@ -334,12 +334,12 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
 #endif
 
   if (TSTFLAG(addedspec,White))
-    ++number_of_pieces[White][abs(added)];
+    ++number_of_pieces[White][added];
   if (TSTFLAG(addedspec,Black))
-    ++number_of_pieces[Black][abs(added)];
+    ++number_of_pieces[Black][added];
 
   assert(e[on]==vide);
-  e[on] = added;
+  e[on] = TSTFLAG(addedspec,White) ? added : -added;
   spec[on] = addedspec;
 
   TraceFunctionExit(__func__);

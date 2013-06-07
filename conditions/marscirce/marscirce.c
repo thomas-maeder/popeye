@@ -92,7 +92,7 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
   TraceFunctionParamListEnd();
 
   {
-    square const sq_rebirth = (*marsrenai)(p,
+    square const sq_rebirth = (*marsrenai)(abs(p),
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(side));
@@ -186,7 +186,7 @@ boolean marsechecc(Side side, evalfunction_t *evaluate)
       if (piece_belongs_to_opponent(pos_checking,side)
           && pos_checking!=king_square[side]   /* exclude nK */)
       {
-        piece const pi_checking = e[pos_checking];
+        PieNam const pi_checking = abs(e[pos_checking]);
         Flags const spec_checking = spec[pos_checking];
         square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
         result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);

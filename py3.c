@@ -384,10 +384,10 @@ static boolean echecc_assassin(Side side_in_check)
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
     {
-      piece const p = e[*bnp];
+      PieNam const p = abs(e[*bnp]);
 
-      if (p!=vide
-          && abs(p)!=King && TSTFLAG(spec[*bnp],side_in_check)
+      if (p!=Empty
+          && p!=King && TSTFLAG(spec[*bnp],side_in_check)
           && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check]
           && is_square_attacked(side_checking,*bnp,&validate_observation))
         return true;
@@ -419,7 +419,7 @@ boolean echecc(Side side_in_check)
     return echecc_SAT(side_in_check);
   else if (rex_circe
            && (CondFlag[pwc]
-               || (e[(*circerenai)(e[king_square[side_king_attacked]],
+               || (e[(*circerenai)(abs(e[king_square[side_king_attacked]]),
                                    spec[king_square[side_king_attacked]],
                                    king_square[side_king_attacked],
                                    initsquare,

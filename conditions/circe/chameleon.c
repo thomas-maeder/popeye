@@ -52,11 +52,9 @@ void chameleon_circe_init_implicit(void)
  * @param captured kind of captured piece
  * @return kind of piece to be reborn
  */
-piece chameleon_circe_get_reborn_piece(piece captured)
+PieNam chameleon_circe_get_reborn_piece(PieNam captured)
 {
-  return (captured<vide
-          ? -reborn_pieces[-captured]
-          : reborn_pieces[captured]);
+  return reborn_pieces[captured];
 }
 
 /* Try to solve in n half-moves.

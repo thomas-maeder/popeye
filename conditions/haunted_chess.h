@@ -10,7 +10,7 @@
 typedef struct
 {
     square on;
-    piece ghost;
+    PieNam ghost;
     Flags flags;
 } ghost_record_type;
 

@@ -29,7 +29,7 @@ void antimars_generate_moves(Side side, piece p, square sq_departure)
   TraceFunctionParamListEnd();
 
   {
-    square const sq_rebirth = (*marsrenai)(p,
+    square const sq_rebirth = (*marsrenai)(abs(p),
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(side));
@@ -70,9 +70,9 @@ static square adjust(void)
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  piece const pi_arriving = e[sq_arrival];
+  PieNam const pi_arriving = abs(e[sq_arrival]);
 
-  if (is_pawn(abs(pi_arriving))
+  if (is_pawn(pi_arriving)
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;

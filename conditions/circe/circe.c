@@ -11,10 +11,10 @@
 
 pilecase current_circe_rebirth_square;
 
-piece current_circe_reborn_piece[maxply+1];
+PieNam current_circe_reborn_piece[maxply+1];
 Flags current_circe_reborn_spec[maxply+1];
 
-piece current_circe_relevant_piece[maxply+1];
+PieNam current_circe_relevant_piece[maxply+1];
 Flags current_circe_relevant_spec[maxply+1];
 Side current_circe_relevant_side[maxply+1];
 
@@ -52,7 +52,7 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
    */
   if (rex_circe || !TSTFLAG(removedspec,Royal))
   {
-    current_circe_reborn_piece[nbply] = move_effect_journal[capture].u.piece_removal.removed;
+    current_circe_reborn_piece[nbply] = abs(move_effect_journal[capture].u.piece_removal.removed);
     current_circe_reborn_spec[nbply] = removedspec;
   }
 
@@ -167,7 +167,7 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_circe_reborn_piece[nbply]!=vide
+  if (current_circe_reborn_piece[nbply]!=Empty
       && e[current_circe_rebirth_square[nbply]]==vide)
     move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
                                             current_circe_rebirth_square[nbply],

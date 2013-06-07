@@ -12,7 +12,7 @@
 /* Address of function used to determine the relevant square for finding out
  * whether a piece is immune
  */
-extern square (*immunrenai)(piece, Flags, square, square, square, Side);
+extern square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 
 extern boolean immune_is_rex_inclusive;
 

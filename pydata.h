@@ -120,7 +120,7 @@ EXTERN  boolean  may_exist[PieceCount];
 EXTERN  boolean  promonly[PieceCount];
 EXTERN  boolean  is_football_substitute[PieceCount];
 
-typedef square  (* renaifunc)(piece, Flags, square, square, square, Side);
+typedef square  (* renaifunc)(PieNam, Flags, square, square, square, Side);
 
 EXTERN  renaifunc circerenai, antirenai, marsrenai;
 

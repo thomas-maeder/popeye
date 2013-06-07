@@ -7,7 +7,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-square (*immunrenai)(piece, Flags, square, square, square, Side);
+square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 
 boolean immune_is_rex_inclusive;
 
@@ -25,7 +25,7 @@ static boolean is_capturee_immune(Side side_capturing,
   TraceFunctionParamListEnd();
 
   {
-    square const sq_rebirth = (*immunrenai)(e[sq_capture],spec[sq_capture],
+    square const sq_rebirth = (*immunrenai)(abs(e[sq_capture]),spec[sq_capture],
                                             sq_capture,
                                             sq_departure,
                                             sq_arrival,

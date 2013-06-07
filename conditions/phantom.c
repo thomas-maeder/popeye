@@ -64,7 +64,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
-    square const sq_rebirth = (*marsrenai)(p,
+    square const sq_rebirth = (*marsrenai)(abs(p),
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(side));
@@ -122,11 +122,11 @@ static square adjust(Side trait_ply)
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   if (is_pawn(abs(e[sq_arrival]))
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
+    PieNam const pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_multistep_departure = rennormal(pi_moving,
                                                     spec[sq_arrival],
@@ -226,7 +226,7 @@ boolean phantom_echecc(Side side, evalfunction_t *evaluate)
           && piece_belongs_to_opponent(pos_checking,side)
           && pos_checking!=king_square[side]   /* exclude nK */)
       {
-        piece const pi_checking = e[pos_checking];
+        PieNam const pi_checking = abs(e[pos_checking]);
         Flags const spec_checking = spec[pos_checking];
         square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
         result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);

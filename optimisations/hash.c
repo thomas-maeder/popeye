@@ -1280,12 +1280,12 @@ byte *CommonEncode(byte *bp,
     {
       /* a piece has been captured and can be reborn */
       square const from = move_effect_journal[capture].u.piece_removal.from;
-      piece const removed = move_effect_journal[capture].u.piece_removal.removed;
+      PieNam const removed = abs(move_effect_journal[capture].u.piece_removal.removed);
       Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
       *bp++ = (byte)(from-square_a1);
       if (one_byte_hash)
-        *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[abs(removed)]) << (CHAR_BIT/2));
+        *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[removed]) << (CHAR_BIT/2));
       else
       {
         *bp++ = removed;
@@ -1340,9 +1340,8 @@ byte *CommonEncode(byte *bp,
 
 static byte *LargeEncodePiece(byte *bp, byte *position,
                               int row, int col,
-                              piece p, Flags pspec)
+                              PieNam pienam, Flags pspec)
 {
-  PieNam const pienam = abs(p);
   if (one_byte_hash)
     *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
   else
@@ -1379,8 +1378,8 @@ static void LargeEncode(stip_length_type min_length,
     square curr_square = a_square;
     for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right)
     {
-      piece const p = e[curr_square];
-      if (p!=vide)
+      PieNam const p = abs(e[curr_square]);
+      if (p!=Empty)
         bp = LargeEncodePiece(bp,position,row,col,p,spec[curr_square]);
     }
   }
@@ -1409,9 +1408,8 @@ static void LargeEncode(stip_length_type min_length,
 
 byte *SmallEncodePiece(byte *bp,
                        int row, int col,
-                       piece p, Flags pspec)
+                       PieNam pienam, Flags pspec)
 {
-  PieNam const pienam = abs(p);
   *bp++= (byte)((row<<(CHAR_BIT/2))+col);
   if (one_byte_hash)
     *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
@@ -1444,8 +1442,8 @@ static void SmallEncode(stip_length_type min_length,
     square curr_square= a_square;
     for (col=0; col<nr_files_on_board; col++, curr_square += dir_right)
     {
-      piece const p = e[curr_square];
-      if (p!=vide)
+      PieNam const p = abs(e[curr_square]);
+      if (p!=Empty)
         bp = SmallEncodePiece(bp,row,col,p,spec[curr_square]);
     }
   }

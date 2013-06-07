@@ -10,10 +10,10 @@
 
 extern pilecase current_circe_rebirth_square;
 
-extern piece current_circe_reborn_piece[maxply+1];
+extern PieNam current_circe_reborn_piece[maxply+1];
 extern Flags current_circe_reborn_spec[maxply+1];
 
-extern piece current_circe_relevant_piece[maxply+1];
+extern PieNam current_circe_relevant_piece[maxply+1];
 extern Flags current_circe_relevant_spec[maxply+1];
 extern Side current_circe_relevant_side[maxply+1];
 

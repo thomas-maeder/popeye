@@ -15,7 +15,7 @@
 typedef struct
 {
     char const * closing_sequence;
-    piece moving;
+    PieNam moving;
     Flags non_side_flags;
     square target_square;
 } move_context;
@@ -26,7 +26,7 @@ static void context_open(move_context *context,
 {
   StdString(opening_sequence);
 
-  context->moving = vide;
+  context->moving = Empty;
   context->non_side_flags = 0;
   context->target_square = initsquare;
   context->closing_sequence = closing_sequence;
@@ -50,7 +50,7 @@ static void context_set_target_square(move_context *context, square s)
   context->target_square = s;
 }
 
-static void context_set_moving_piece(move_context *context, piece p)
+static void context_set_moving_piece(move_context *context, PieNam p)
 {
   context->moving = p;
 }
@@ -279,7 +279,6 @@ static void write_side_change(move_context *context,
       StdChar('=');
       StdChar(side_shortcut(move_effect_journal[curr].u.side_change.to));
       context_set_target_square(context,move_effect_journal[curr].u.side_change.on);
-      context_set_moving_piece(context,-context->moving);
       break;
 
     default:

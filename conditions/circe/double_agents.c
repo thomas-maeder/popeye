@@ -32,7 +32,6 @@ stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_piece[nbply] = -current_circe_reborn_piece[nbply];
   spec_change_side(&current_circe_reborn_spec[nbply]);
 
   result = solve(slices[si].next1,n);

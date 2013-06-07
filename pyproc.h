@@ -312,17 +312,17 @@ void    logLngArg(long arg);
 boolean rnsingleboxtype3ech(square departure, square arrival, square capture);
 boolean rbsingleboxtype3ech(square departure, square arrival, square capture);
 
-square renfile(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renrank(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegelfile(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renpwc(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renequipollents(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renequipollents_anti(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rensymmetrie(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renantipoden(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rendiagramm(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square rennormal(piece p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegel(piece p, Flags pspec, square j, square i, square ip, Side camp);
+square renfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renrank(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegelfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renpwc(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents_anti(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rensymmetrie(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renantipoden(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rendiagramm(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rennormal(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegel(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 
 void pyfputs(char const *s, FILE *f);
 
@@ -350,7 +350,7 @@ char	*MakeTimeString(void);
 char *ReadPieces(int cond);
 
 
-square rendiametral(piece p, Flags pspec, square j, square i, square ia, Side camp);
+square rendiametral(PieNam p, Flags pspec, square j, square i, square ia, Side camp);
 
 void LaTeXOpen(void);
 void LaTeXClose(void);

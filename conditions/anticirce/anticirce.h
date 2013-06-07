@@ -4,10 +4,10 @@
 #include "solving/solve.h"
 #include "stipulation/slice_type.h"
 
-extern piece anticirce_current_reborn_piece[maxply+1];
+extern PieNam anticirce_current_reborn_piece[maxply+1];
 extern Flags anticirce_current_reborn_spec[maxply+1];
 
-extern piece anticirce_current_relevant_piece[maxply+1];
+extern PieNam anticirce_current_relevant_piece[maxply+1];
 extern Flags anticirce_current_relevant_spec[maxply+1];
 extern Side anticirce_current_relevant_side[maxply+1];
 

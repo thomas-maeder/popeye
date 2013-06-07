@@ -24,7 +24,7 @@ static boolean avoid_observation_of_rebirthable_king(square sq_observer,
 
   if (sq_observee==king_square[side_observee])
   {
-    square const sq_rebirth = (*circerenai)(e[sq_observee],spec[sq_observee],
+    square const sq_rebirth = (*circerenai)(abs(e[sq_observee]),spec[sq_observee],
                                             sq_observee,sq_observer,sq_landing,
                                             trait[nbply]);
     result = e[sq_rebirth]!=vide && sq_observer!=sq_rebirth;

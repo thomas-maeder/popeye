@@ -56,7 +56,7 @@ byte *CommonEncode(byte *bp,
 
 byte *SmallEncodePiece(byte *bp,
                        int row, int col,
-                       piece p, Flags pspec);
+                       PieNam p, Flags pspec);
 
 /* Try to solve in n half-moves.
  * @param si slice index

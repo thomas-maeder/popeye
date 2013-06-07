@@ -27,8 +27,8 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  piece const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
-  piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+  PieNam const pi_captured = abs(move_effect_journal[capture].u.piece_removal.removed);
+  PieNam const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const prev_rb = prev_king_square[White][nbply];
   square const prev_rn = prev_king_square[Black][nbply];
@@ -43,19 +43,7 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
 
   if (sq_departure!=prev_rn && sq_departure!=prev_rb)
-    /* Circe Clone - new implementation
-    ** captured pieces are reborn as pieces
-    ** of the same type as the capturing piece
-    ** if the latter one is not royal.
-    */
-    /* change type of pieces according to colour */
-    current_circe_reborn_piece[nbply] = ((pi_departing * pi_captured < 0)
-                                         ? -pi_departing
-                                         : pi_departing);
-    /* If it is a pawn give it the pawn-attribut.
-    ** Otherwise delete it - the captured piece may
-    ** have been a pawn, but is not anymore.
-    */
+    current_circe_reborn_piece[nbply] = pi_departing;
   else
     current_circe_reborn_piece[nbply] = pi_captured;
 

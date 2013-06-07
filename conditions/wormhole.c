@@ -173,7 +173,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     result = solve(slices[si].next1,n);
   else
   {
-    piece const added = e[sq_arrival];
+    PieNam const added = abs(e[sq_arrival]);
     Flags const addedspec = spec[sq_arrival];
     move_effect_journal_do_piece_removal(move_effect_reason_wormhole_transfer,
                                          sq_arrival);

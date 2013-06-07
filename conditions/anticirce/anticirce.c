@@ -12,10 +12,10 @@
 #include <assert.h>
 #include <stdlib.h>
 
-piece anticirce_current_reborn_piece[maxply+1];
+PieNam anticirce_current_reborn_piece[maxply+1];
 Flags anticirce_current_reborn_spec[maxply+1];
 
-piece anticirce_current_relevant_piece[maxply+1];
+PieNam anticirce_current_relevant_piece[maxply+1];
 Flags anticirce_current_relevant_spec[maxply+1];
 Side anticirce_current_relevant_side[maxply+1];
 
@@ -64,7 +64,7 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  anticirce_current_reborn_piece[nbply] = e[sq_arrival];
+  anticirce_current_reborn_piece[nbply] = abs(e[sq_arrival]);
   anticirce_current_reborn_spec[nbply] = spec[sq_arrival];
 
   result = solve(slices[si].next1,n);
