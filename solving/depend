@@ -1538,13 +1538,12 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/circe/exchange_by_rebirth_special.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
- conditions/circe/april.h conditions/circe/king_rebirth_avoider.h \
- conditions/circe/turncoats.h conditions/circe/takemake.h \
- conditions/exclusive.h utilities/table.h position/position.h \
- conditions/ohneschach.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/immune.h \
- conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/monochrome.h conditions/bichrome.h \
+ conditions/circe/april.h conditions/circe/turncoats.h \
+ conditions/circe/takemake.h conditions/exclusive.h utilities/table.h \
+ position/position.h conditions/ohneschach.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
+ conditions/patrol.h conditions/monochrome.h conditions/bichrome.h \
  conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h pyproc.h py4.h pieces/vectors.h \
@@ -1780,8 +1779,6 @@ conditions/circe/frischauf.h:
 conditions/circe/super.h:
 
 conditions/circe/april.h:
-
-conditions/circe/king_rebirth_avoider.h:
 
 conditions/circe/turncoats.h:
 

@@ -272,8 +272,6 @@ static char **CondTab;  /* set according to language */
 static char    **ExtraCondTab;
 static char **mummer_strictness_tab;
 
-static nocontactfunc_t *nocontactfunc;
-
 char ChameleonSequence[256];
 
 static  FILE    *LaTeXFile, *SolFile;
@@ -438,24 +436,24 @@ static void WriteConditions(int alignment)
     if (cond == koeko || cond == antikoeko) {
       piece koekop = roib;
       char LocalBuf[4];
-      nocontactfunc = cond==koeko ? &koeko_nocontact : &antikoeko_nocontact;
-      if (*nocontactfunc == noknightcontact)
+      nocontactfunc_t const nocontactfunc = cond==koeko ? koeko_nocontact : antikoeko_nocontact;
+      if (nocontactfunc == noknightcontact)
         koekop= cb;
-      if (*nocontactfunc == nowazircontact)
+      if (nocontactfunc == nowazircontact)
         koekop= vizirb;
-      if (*nocontactfunc == noferscontact)
+      if (nocontactfunc == noferscontact)
         koekop= fersb;
-      if (*nocontactfunc == nodabbabacontact)
+      if (nocontactfunc == nodabbabacontact)
         koekop= dabb;
-      if (*nocontactfunc == noalfilcontact)
+      if (nocontactfunc == noalfilcontact)
         koekop= alfilb;
-      if (*nocontactfunc == nocamelcontact)
+      if (nocontactfunc == nocamelcontact)
         koekop= chb;
-      if (*nocontactfunc == nozebracontact)
+      if (nocontactfunc == nozebracontact)
         koekop= zb;
-      if (*nocontactfunc == nogiraffecontact)
+      if (nocontactfunc == nogiraffecontact)
         koekop= gib;
-      if (*nocontactfunc == noantelopecontact)
+      if (nocontactfunc == noantelopecontact)
         koekop= antilb;
 
       if (koekop == roib)
@@ -4488,6 +4486,8 @@ static char *ParseMaximumPawn(unsigned int *result,
   return end;
 }
 
+static nocontactfunc_t *nocontactfunc_parsed;
+
 static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
   char    *tok=ReadNextTokStr();
 
@@ -4569,34 +4569,34 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
 
       switch (tmp_piece)
       {
-        case roib:
+        case King:
           break;
-        case cb:
-          *nocontactfunc= noknightcontact;
+        case Knight:
+          *nocontactfunc_parsed= noknightcontact;
           break;
-        case vizirb:
-          *nocontactfunc= nowazircontact;
+        case Wesir:
+          *nocontactfunc_parsed= nowazircontact;
           break;
-        case fersb:
-          *nocontactfunc= noferscontact;
+        case Fers:
+          *nocontactfunc_parsed= noferscontact;
           break;
-        case chb:
-          *nocontactfunc= nocamelcontact;
+        case Camel:
+          *nocontactfunc_parsed= nocamelcontact;
           break;
-        case alfilb:
-          *nocontactfunc= noalfilcontact;
+        case Alfil:
+          *nocontactfunc_parsed= noalfilcontact;
           break;
-        case zb:
-          *nocontactfunc= nozebracontact;
+        case Zebra:
+          *nocontactfunc_parsed= nozebracontact;
           break;
-        case dabb:
-          *nocontactfunc= nodabbabacontact;
+        case Dabbaba:
+          *nocontactfunc_parsed= nodabbabacontact;
           break;
-        case gib:
-          *nocontactfunc= nogiraffecontact;
+        case Giraffe:
+          *nocontactfunc_parsed= nogiraffecontact;
           break;
-        case antilb:
-          *nocontactfunc= noantelopecontact;
+        case Antilope:
+          *nocontactfunc_parsed= noantelopecontact;
           break;
         default:
           IoErrorMsg(WrongPieceName,0);
@@ -5499,12 +5499,12 @@ static char *ParseCond(void)
         break;
       case koeko:
         koeko_nocontact= &nokingcontact;
-        nocontactfunc= &koeko_nocontact;
+        nocontactfunc_parsed= &koeko_nocontact;
         tok = ParseVariant(NULL, gpKoeko);
         break;
       case antikoeko:
         antikoeko_nocontact= nokingcontact;
-        nocontactfunc= &antikoeko_nocontact;
+        nocontactfunc_parsed= &antikoeko_nocontact;
         tok = ParseVariant(NULL, gpKoeko);
         break;
       case white_oscillatingKs:

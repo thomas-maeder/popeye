@@ -232,7 +232,6 @@ void copyply(void);
 void finply(void);
 void nextply(void);
 
-boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);
 
 extern boolean(*is_square_attacked)(Side side_attacking,

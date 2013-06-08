@@ -781,15 +781,14 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/circe/parrain.h conditions/circe/volage.h \
  conditions/circe/promotion.h conditions/circe/frischauf.h \
  conditions/circe/super.h conditions/circe/april.h \
- conditions/circe/king_rebirth_avoider.h conditions/circe/turncoats.h \
- conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
- conditions/anticirce/cheylan.h conditions/anticirce/couscous.h \
- conditions/anticirce/anticirce.h conditions/anticirce/promotion.h \
- solving/moving_pawn_promotion.h conditions/anticirce/strict.h \
- conditions/anticirce/relaxed.h conditions/anticirce/super.h \
- conditions/anticirce/magic_square.h conditions/sentinelles.h \
- conditions/duellists.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
+ conditions/circe/turncoats.h conditions/circe/takemake.h \
+ conditions/circe/rex_inclusive.h conditions/anticirce/cheylan.h \
+ conditions/anticirce/couscous.h conditions/anticirce/anticirce.h \
+ conditions/anticirce/promotion.h solving/moving_pawn_promotion.h \
+ conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
+ conditions/anticirce/super.h conditions/anticirce/magic_square.h \
+ conditions/sentinelles.h conditions/duellists.h conditions/ghost_chess.h \
+ conditions/kobul.h conditions/andernach.h conditions/antiandernach.h \
  conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
  conditions/einstein/einstein.h conditions/einstein/reverse.h \
  conditions/einstein/anti.h conditions/einstein/en_passant.h \
@@ -1021,8 +1020,6 @@ conditions/circe/frischauf.h:
 conditions/circe/super.h:
 
 conditions/circe/april.h:
-
-conditions/circe/king_rebirth_avoider.h:
 
 conditions/circe/turncoats.h:
 

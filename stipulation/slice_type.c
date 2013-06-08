@@ -299,7 +299,6 @@
     ENUMERATOR(STCirceCageCageTester),                                  \
     ENUMERATOR(STLandingAfterAnticirceRebirth),                         \
     ENUMERATOR(STCirceParrainDetermineRebirth),                         \
-    ENUMERATOR(STCirceKingRebirthAvoider),                              \
     ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
     ENUMERATOR(STCirceVolageRecolorer),                                 \
     ENUMERATOR(STCirceRebirthPromoter),                                 \

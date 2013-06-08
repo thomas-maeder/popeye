@@ -151,7 +151,6 @@
 #include "conditions/circe/frischauf.h"
 #include "conditions/circe/super.h"
 #include "conditions/circe/april.h"
-#include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/circe/turncoats.h"
 #include "conditions/circe/takemake.h"
 #include "conditions/circe/rex_inclusive.h"
@@ -2453,9 +2452,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     if (CondFlag[couscous])
       stip_insert_couscous_circe(result);
   }
-
-  if (anycirce && !rex_circe)
-    stip_insert_circe_king_rebirth_avoiders(result);
 
   if (anycirce)
   {

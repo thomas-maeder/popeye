@@ -9,6 +9,8 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
+#include "stipulation/temporary_hacks.h"
+#include "solving/single_move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
@@ -32,7 +34,8 @@ static boolean enforce_contact_while_observing(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = !nocontact(sq_observer,sq_landing,sq_observee,&nogridcontact);
+  init_single_move_generator(sq_observer,sq_landing,sq_observee);
+  result = solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

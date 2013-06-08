@@ -31,7 +31,6 @@
 #include "conditions/circe/frischauf.h"
 #include "conditions/circe/super.h"
 #include "conditions/circe/april.h"
-#include "conditions/circe/king_rebirth_avoider.h"
 #include "conditions/circe/turncoats.h"
 #include "conditions/circe/takemake.h"
 #include "conditions/exclusive.h"
@@ -639,10 +638,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STRepublicanType1DeadEnd:
       result = republican_type1_dead_end_solve(si,n);
-      break;
-
-    case STCirceKingRebirthAvoider:
-      result = circe_king_rebirth_avoider_solve(si,n);
       break;
 
     case STCirceCaptureFork:

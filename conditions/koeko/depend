@@ -7,7 +7,8 @@ conditions/koeko/koeko$(OBJ_SUFFIX): conditions/koeko/koeko.c \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/observation.h pyproc.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/observation.h pyproc.h \
+ solving/single_move_generator.h debugging/trace.h
 
 conditions/koeko/koeko.h:
 
@@ -61,9 +62,13 @@ output/mode.h:
 
 stipulation/move.h:
 
+stipulation/temporary_hacks.h:
+
 solving/observation.h:
 
 pyproc.h:
+
+solving/single_move_generator.h:
 
 debugging/trace.h:
 conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
@@ -76,8 +81,9 @@ conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h stipulation/move.h solving/observation.h \
- pyproc.h debugging/trace.h
+ stipulation/help_play/branch.h stipulation/move.h \
+ stipulation/temporary_hacks.h solving/single_move_generator.h \
+ solving/observation.h pyproc.h debugging/trace.h
 
 conditions/koeko/contact_grid.h:
 
@@ -141,6 +147,10 @@ stipulation/help_play/branch.h:
 
 stipulation/move.h:
 
+stipulation/temporary_hacks.h:
+
+solving/single_move_generator.h:
+
 solving/observation.h:
 
 pyproc.h:
@@ -155,7 +165,8 @@ conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/ant
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/observation.h pyproc.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/observation.h pyproc.h \
+ solving/single_move_generator.h debugging/trace.h
 
 conditions/koeko/anti.h:
 
@@ -209,9 +220,13 @@ output/mode.h:
 
 stipulation/move.h:
 
+stipulation/temporary_hacks.h:
+
 solving/observation.h:
 
 pyproc.h:
+
+solving/single_move_generator.h:
 
 debugging/trace.h:
 conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h \
@@ -223,7 +238,8 @@ conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/observation.h pyproc.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/observation.h pyproc.h \
+ solving/single_move_generator.h debugging/trace.h
 
 conditions/koeko/new.h:
 
@@ -277,8 +293,12 @@ output/mode.h:
 
 stipulation/move.h:
 
+stipulation/temporary_hacks.h:
+
 solving/observation.h:
 
 pyproc.h:
+
+solving/single_move_generator.h:
 
 debugging/trace.h:

@@ -336,8 +336,8 @@ Loesung beendet.
 
   1.Lg5-f6 Tg1-g7   2.Lf6-c3 Lc5-b4   3.e7-e5 d5*e6 ep. #
 
-                        empile:     1960552
-                     play_move:     1861739
+                        empile:     2087409
+                     play_move:     1993453
  is_white_king_square_attacked:       32035
  is_black_king_square_attacked:      889678
 Loesung beendet. 
@@ -372,8 +372,8 @@ Loesung beendet.
 
   1.c4*d3 ep. + Kc2-b1   2.e7-e5 f5*e6 ep. #
 
-                        empile:       46333
-                     play_move:       42704
+                        empile:       54224
+                     play_move:       50643
  is_white_king_square_attacked:        1097
  is_black_king_square_attacked:       29541
 Loesung beendet. 
@@ -408,8 +408,8 @@ Loesung beendet.
 
   1.Ke4-f3 Sf4-d5   2.Kf3-f4 Ke6-f5 #
 
-                        empile:        4195
-                     play_move:        4032
+                        empile:        4718
+                     play_move:        4555
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        2611
 Loesung beendet. 
@@ -447,8 +447,8 @@ Loesung beendet.
           2.Lb1-f5 #
 
 
-                        empile:         456
-                     play_move:         341
+                        empile:         647
+                     play_move:         532
  is_white_king_square_attacked:          25
  is_black_king_square_attacked:         172
 Loesung beendet. 
@@ -482,8 +482,8 @@ Loesung beendet.
 
   1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 #
 
-                        empile:      241616
-                     play_move:      244542
+                        empile:      251461
+                     play_move:      255731
  is_white_king_square_attacked:        9729
  is_black_king_square_attacked:       80764
 Loesung beendet. 
@@ -542,8 +542,8 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-                        empile:     2190094
-                     play_move:     1104661
+                        empile:     2521936
+                     play_move:     1393762
  is_white_king_square_attacked:      453385
  is_black_king_square_attacked:      237448
 Loesung beendet. 
@@ -817,8 +817,8 @@ a)
                                                       7...Dg5-a5 #
 
 
-                        empile:      903169
-                     play_move:      434384
+                        empile:      962891
+                     play_move:      494106
  is_white_king_square_attacked:       75960
  is_black_king_square_attacked:      258861
 b) sBf3-->e4
@@ -839,8 +839,8 @@ b) sBf3-->e4
                                                       7...Df6-a1 #
 
 
-                        empile:      884110
-                     play_move:      421893
+                        empile:      931612
+                     play_move:      469395
  is_white_king_square_attacked:       73149
  is_black_king_square_attacked:      253674
 Loesung beendet. 
@@ -874,8 +874,8 @@ Loesung beendet.
 
   1.Ka8*b8   2.Kb8-c8   3.Kc8-d7   4.Kd7-e6   5.Ke6-d5   6.Kd5-c5   7.Kc5-b6   8.Gb7-b5   9.Kb6-b7  10.Kb7-a8 Kd6-c7 =
 
-                        empile:        9364
-                     play_move:        4987
+                        empile:       10696
+                     play_move:        6319
  is_white_king_square_attacked:        1584
  is_black_king_square_attacked:        3058
 Loesung beendet. 

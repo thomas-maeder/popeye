@@ -622,8 +622,8 @@ Loesung beendet.
 
   1...e5*f6 ep.[+sBf7]   2.Lb4-e7 f6*e7[+sLf8]   3.Ta7-d7 e7*f8=D #
 
-                        empile:        2842
-                     play_move:        2944
+                        empile:        3944
+                     play_move:        4250
  is_white_king_square_attacked:         391
  is_black_king_square_attacked:        1589
 Loesung beendet. 

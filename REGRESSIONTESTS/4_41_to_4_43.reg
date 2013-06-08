@@ -135,8 +135,8 @@ solution finished.
   1.Sb8*a6 Ka7-a8[+wPa7]
   1.Sb8*a6 Ka7-b7[+wPb6]
 
-                        empile:           8
-                     play_move:           9
+                        empile:           9
+                     play_move:          10
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:           0
 solution finished. 
