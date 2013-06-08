@@ -439,10 +439,7 @@ static void initPieces(void)
     may_exist[standard_walks[p]] = true;
 
   if (CondFlag[sentinelles])
-  {
-    may_exist[sentinelle[Black]] = true;
-    may_exist[sentinelle[White]] = true;
-  }
+    may_exist[sentinelle] = true;
 
   if (CondFlag[chinoises])
     for (p = Leo; p<=Vao; ++p)

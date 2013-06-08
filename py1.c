@@ -316,8 +316,7 @@ void InitCond(void)
   sentinelles_max_nr_pawns[Black] = 8;
   sentinelles_max_nr_pawns[White] = 8;
   sentinelles_max_nr_pawns_total = 16;
-  sentinelle[White] = pb;
-  sentinelle[Black] = pn;
+  sentinelle = Pawn;
 
   gridvar = grid_normal;
   numgridlines = 0;

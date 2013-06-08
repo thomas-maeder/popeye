@@ -164,12 +164,10 @@ EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
 
 EXTERN  PieNam          orphanpieces[PieceCount];
 
-EXTERN boolean          IsardamB,SentPionAdverse,SentPionNeutral;
-EXTERN boolean          flagparasent;
+EXTERN boolean          IsardamB;
 
 EXTERN boolean          checkhopim;
 
-EXTERN piece            sentinelle[nr_sides];
 EXTERN boolean		anyantimars;
 EXTERN square           supertrans[maxply+1];
 EXTERN PieNam           current_trans_gen;

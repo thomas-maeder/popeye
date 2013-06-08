@@ -264,7 +264,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
  */
 void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
                                            square on,
-                                           piece created,
+                                           PieNam created,
                                            Flags createdspec);
 
 /* Fill the capture gap at the head of each move by no capture

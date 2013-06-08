@@ -248,6 +248,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  Side const added_side = TSTFLAG(addedspec,Neutral) ? neutral_side : (TSTFLAG(addedspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -274,7 +275,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
     ++number_of_pieces[White][added];
   if (TSTFLAG(addedspec,Black))
     ++number_of_pieces[Black][added];
-  e[on] = TSTFLAG(addedspec,White) ? added : -added;
+  e[on] = added_side==White ? added : -added;
   spec[on] = addedspec;
   assert(GetPieceId(addedspec)!=NullPieceId);
 
@@ -324,6 +325,7 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
   square const on = curr_elmt->u.piece_addition.on;
   PieNam const added = curr_elmt->u.piece_addition.added;
   Flags const addedspec = curr_elmt->u.piece_addition.addedspec;
+  Side const added_side = TSTFLAG(addedspec,Neutral) ? neutral_side : (TSTFLAG(addedspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -339,7 +341,7 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
     ++number_of_pieces[Black][added];
 
   assert(e[on]==vide);
-  e[on] = TSTFLAG(addedspec,White) ? added : -added;
+  e[on] = added_side==White ? added : -added;
   spec[on] = addedspec;
 
   TraceFunctionExit(__func__);
@@ -354,11 +356,12 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
  */
 void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
                                            square on,
-                                           piece created,
+                                           PieNam created,
                                            Flags createdspec)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  Side const created_side = TSTFLAG(createdspec,Neutral) ? neutral_side : (TSTFLAG(createdspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -385,7 +388,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
     ++number_of_pieces[White][abs(created)];
   if (TSTFLAG(createdspec,Black))
     ++number_of_pieces[Black][abs(created)];
-  e[on] = created;
+  e[on] = created_side==White ? created : -created;
   spec[on] = createdspec;
   SetPieceId(spec[on],currPieceId++);
 
@@ -438,6 +441,7 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
   square const on = curr_elmt->u.piece_addition.on;
   piece const created = curr_elmt->u.piece_addition.added;
   piece const createdspec = curr_elmt->u.piece_addition.addedspec;
+  Side const created_side = TSTFLAG(createdspec,Neutral) ? neutral_side : (TSTFLAG(createdspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -453,7 +457,7 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
     ++number_of_pieces[Black][abs(created)];
 
   assert(e[on]==vide);
-  e[on] = created;
+  e[on] = created_side==White ? created : -created;
   spec[on] = createdspec;
   SetPieceId(spec[on],currPieceId++);
 

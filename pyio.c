@@ -814,7 +814,7 @@ static void WriteConditions(int alignment)
 
     if (cond == sentinelles) {
       char pawns[7];
-      if (sentinelle[White] == pbb)
+      if (sentinelle == BerolinaPawn)
         strcat(CondLine, " Berolina");
       if (SentPionAdverse) {
         strcat(CondLine, "  ");
@@ -4542,10 +4542,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     else if (type==ParaSent && group==gpSentinelles)
       flagparasent= true;
     else if (type==SentBerolina && group==gpSentinelles)
-    {
-      sentinelle[White] = pbb;
-      sentinelle[Black] = pbn;
-    }
+      sentinelle = BerolinaPawn;
     else if (type==AntiCirTypeCheylan && group==gpAntiCirce)
       *is_variant_set= true;
     else if (type==AntiCirTypeCalvet && group==gpAntiCirce)

@@ -9,6 +9,12 @@
 extern unsigned int sentinelles_max_nr_pawns[nr_sides];
 extern unsigned int sentinelles_max_nr_pawns_total;
 
+extern PieNam sentinelle;
+
+extern boolean SentPionAdverse;
+extern boolean SentPionNeutral;
+extern boolean flagparasent;
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

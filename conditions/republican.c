@@ -168,7 +168,6 @@ void republican_write_diagram_caption(char CondLine[], size_t lineLength)
 static void place_king(Side moving)
 {
   Side const other_side = advers(moving);
-  piece const king_type = other_side==White ? roib : roin;
   Flags king_flags = all_royals_flags|BIT(Royal)|BIT(other_side);
 
   TraceFunctionEntry(__func__);
@@ -177,7 +176,7 @@ static void place_king(Side moving)
 
   move_effect_journal_do_piece_creation(move_effect_reason_republican_king_insertion,
                                         king_placement[nbply],
-                                        king_type,
+                                        King,
                                         king_flags);
 
   TraceFunctionExit(__func__);
