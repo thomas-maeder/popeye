@@ -328,10 +328,10 @@ Initial (Schwarz ->):
   1.f2-f1=G e7-e8=G   2.Gf1-f6 Ge8-c6   3.Gf6*h6 Gc6*h6 a=>b
   1.f2-f1=N e7-e8=N   2.Nf1-d5 Ne8-c4   3.Nd5*b6 Nc4*b6 a=>b
 
-                        empile:   174804952
-                     play_move:   189031997
- is_white_king_square_attacked:      761406
- is_black_king_square_attacked:     9956508
+                        empile:   175870288
+                     play_move:   190183248
+ is_white_king_square_attacked:      762718
+ is_black_king_square_attacked:     9988201
 Loesung beendet. 
 
 

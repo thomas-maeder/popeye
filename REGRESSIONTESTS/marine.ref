@@ -739,10 +739,10 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
   1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
 
-                        empile:    32741880
-                     play_move:    32743203
+                        empile:    32744616
+                     play_move:    32745939
  is_white_king_square_attacked:     2612577
- is_black_king_square_attacked:     1372355
+ is_black_king_square_attacked:     1372461
 solution finished. 
 
 

@@ -2274,8 +2274,8 @@ feature request 2813613: proof games and Cavalier Majeur
 
   1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia
 
-                        empile:     6993553
-                     play_move:     6993553
+                        empile:     6999963
+                     play_move:     6999963
  is_white_king_square_attacked:       15723
  is_black_king_square_attacked:      357929
 solution finished. 

@@ -64,52 +64,91 @@ stip_length_type current_length;
 
 static boolean ProofFairy;
 
+static byte const black_bit = CHAR_BIT/2 - 1;
+
+static void ProofSmallEncodePiece(byte **bp,
+                                  int row, int col,
+                                  PieNam p, Flags flags,
+                                  boolean *even)
+{
+  Side const side =  TSTFLAG(flags,White) ? White : Black;
+  byte encoded = p;
+  assert(!TSTFLAG(flags,Neutral));
+  if (side==Black)
+    encoded |= 1 << black_bit;
+  assert(p < 1 << black_bit);
+  if (*even)
+  {
+    **bp += encoded<<(CHAR_BIT/2);
+    ++*bp;
+  }
+  else
+    **bp = encoded;
+  *even = !*even;
+}
+
+static void ProofLargeEncodePiece(byte **bp,
+                                  int row, int col,
+                                  PieNam p, Flags flags)
+{
+  Flags const side_flags = flags & (BIT(White)|BIT(Black));
+
+  **bp = p;
+  ++*bp;
+
+  **bp = side_flags;
+  ++*bp;
+}
+
 void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
-  byte    *position= hb->cmv.Data;
-  byte    *bp= position+nr_rows_on_board;
-  byte    pieces= 0;
-  int       row, col;
-  square a_square= square_a1;
-  boolean even= false;
-  ghost_index_type gi;
+  byte *position = hb->cmv.Data;
+  byte *bp = position+nr_rows_on_board;
 
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board);
 
-  for (row=0; row<nr_rows_on_board; row++, a_square+= onerow)
   {
-    square curr_square = a_square;
-    for (col=0; col<nr_files_on_board; col++, curr_square+=dir_right)
+    boolean even = false;
+    square a_square= square_a1;
+    unsigned int row;
+    for (row = 0; row<nr_rows_on_board; ++row, a_square += onerow)
     {
-      piece p= e[curr_square];
-      if (p!=vide)
+      square curr_square = a_square;
+      unsigned int col;
+      for (col = 0; col<nr_files_on_board; ++col, curr_square += dir_right)
       {
-        if (even)
-          *bp++ = pieces+(((byte)(p<vide ? 7-p : p))<<(CHAR_BIT/2));
-        else
-          pieces= (byte)(p<vide ? 7-p : p);
-        even= !even;
-        position[row] |= BIT(col);
+        PieNam const p = abs(e[curr_square]);
+        if (p!=Empty)
+        {
+          Flags const flags = spec[curr_square];
+          if (flagfee || TSTFLAG(some_pieces_flags,Neutral))
+            ProofLargeEncodePiece(&bp,row,col,p,flags);
+          else
+            ProofSmallEncodePiece(&bp,row,col,p,flags,&even);
+          position[row] |= BIT(col);
+        }
       }
     }
+
+    if (even)
+      ++bp;
   }
 
-  if (even)
-    *bp++ = pieces+(15<<(CHAR_BIT/2));
-
-
-  for (gi = 0; gi<nr_ghosts; ++gi)
   {
-    square s = (ghosts[gi].on
-                - nr_of_slack_rows_below_board*onerow
-                - nr_of_slack_files_left_of_board);
-    row = s/onerow;
-    col = s%onerow;
-    bp = SmallEncodePiece(bp,
-                          row,col,
-                          ghosts[gi].ghost,ghosts[gi].flags);
+    ghost_index_type gi;
+    for (gi = 0; gi<nr_ghosts; ++gi)
+    {
+      square s = (ghosts[gi].on
+                  - nr_of_slack_rows_below_board*onerow
+                  - nr_of_slack_files_left_of_board);
+      unsigned int const row = s/onerow;
+      unsigned int const col = s%onerow;
+      bp = SmallEncodePiece(bp,
+                            row,col,
+                            ghosts[gi].ghost,ghosts[gi].flags);
+    }
   }
 
   /* Now the rest of the party */
@@ -568,26 +607,38 @@ void ProofSaveTargetPosition(void)
 
 void ProofRestoreTargetPosition(void)
 {
-  unsigned int i;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   king_square[Black] = target.king_square[Black];
   king_square[White] = target.king_square[White];
 
-  for (i = 0; i<maxsquare; ++i)
-    e[i] = target.board[i];
-
-  for (i = 0; i<nr_squares_on_board; ++i)
   {
-    square const square_i = boardnum[i];
-    spec[square_i] = target.spec[square_i];
+    square i;
+    for (i = 0; i<maxsquare; ++i)
+      switch (abs(target.board[i]))
+      {
+        case Empty:
+          empty_square(i);
+          break;
+
+        case Invalid:
+          block_square(i);
+          break;
+
+        default:
+          occupy_square(i,abs(target.board[i]),target.spec[i]);
+          break;
+      }
   }
 
   number_of_imitators = target.inum;
-  for (i = 0; i<number_of_imitators; ++i)
-    isquare[i] = target.isquare[i];
+
+  {
+    unsigned int i;
+    for (i = 0; i<number_of_imitators; ++i)
+      isquare[i] = target.isquare[i];
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
