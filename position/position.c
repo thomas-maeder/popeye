@@ -28,18 +28,18 @@ boolean isBoardReflected;
 Side neutral_side;
 
 /* This is the InitialGameArray */
-piece const PAS[nr_squares_on_board] = {
-  tb,   cb,   fb,   db, roib,   fb,   cb,   tb,
-  pb,   pb,   pb,   pb,   pb,   pb,   pb,   pb,
-  vide, vide, vide, vide, vide, vide, vide, vide,
-  vide, vide, vide, vide, vide, vide, vide, vide,
-  vide, vide, vide, vide, vide, vide, vide, vide,
-  vide, vide, vide, vide, vide, vide, vide, vide,
-  pn,   pn,   pn,   pn,   pn,   pn,   pn,   pn,
-  tn,   cn,   fn,   dn, roin,   fn,   cn,   tn
+PieNam const PAS[nr_squares_on_board] = {
+  Rook, Knight, Bishop, Queen, King,  Bishop,  Knight,  Rook,
+  Pawn, Pawn,   Pawn,   Pawn,  Pawn,  Pawn,    Pawn,    Pawn,
+  Empty, Empty, Empty,  Empty, Empty, Empty,   Empty,   Empty,
+  Empty, Empty, Empty,  Empty, Empty, Empty,   Empty,   Empty,
+  Empty, Empty, Empty,  Empty, Empty, Empty,   Empty,   Empty,
+  Empty, Empty, Empty,  Empty, Empty, Empty,   Empty,   Empty,
+  Pawn, Pawn,   Pawn,   Pawn,  Pawn,  Pawn,    Pawn,    Pawn,
+  Rook, Knight, Bishop, Queen, King,  Bishop,  Knight,  Rook
 };
 
-static Side const PAS_sides[nr_squares_on_board] = {
+Side const PAS_sides[nr_squares_on_board] = {
     White,   White,   White,   White, White,   White,   White,   White,
     White,   White,   White,   White,   White,   White,   White,   White,
     no_side, no_side, no_side, no_side, no_side, no_side, no_side, no_side,
@@ -81,13 +81,15 @@ void initialise_game_array(position *pos)
 
   for (i = 0; i<nr_squares_on_board; ++i)
   {
-    piece const p = PAS[i];
+    PieNam const p = PAS[i];
     square const square_i = boardnum[i];
-    pos->board[square_i] = p;
-    if (p!=vide && p!=obs)
+    if (p==Empty || p==Invalid)
+      pos->board[square_i] = p;
+    else
     {
       Side const side = PAS_sides[i];
-      ++pos->number_of_pieces[side][abs(p)];
+      pos->board[square_i] = side==White ? p : -p;
+      ++pos->number_of_pieces[side][p];
       SETFLAG(pos->spec[square_i],side);
     }
   }

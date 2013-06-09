@@ -239,7 +239,8 @@ typedef struct
 /* Sequence of pieces corresponding to the game array (a1..h1, a2..h2
  * ... a8..h8)
  */
-extern piece const PAS[nr_squares_on_board];
+extern PieNam const PAS[nr_squares_on_board];
+extern Side const PAS_sides[nr_squares_on_board];
 
 /* Initial game position.
  *

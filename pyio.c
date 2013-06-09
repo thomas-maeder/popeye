@@ -6841,15 +6841,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             {
               int i;
               for (i = 0; i<nr_squares_on_board; i++)
-              {
-                piece const p = PAS[i];
-                e[boardnum[i]] = PAS[i];
-                CLEARFL(spec[boardnum[i]]);
-                if (p >= roib)
-                  SETFLAG(spec[boardnum[i]], White);
-                else if (p <= roin)
-                  SETFLAG(spec[boardnum[i]], Black);
-              }
+                occupy_square(boardnum[i],PAS[i],BIT(PAS_sides[i]));
               king_square[White] = square_e1;
               king_square[Black] = square_e8;
             }
