@@ -59,7 +59,7 @@ static void block_first(void)
       black[i].usage = piece_is_unused;
     }
 
-  block_square(to_be_blocked);
+  occupy_square(to_be_blocked,Dummy,BIT(Black));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -88,7 +88,7 @@ void intelligent_stalemate_black_block(square const to_be_blocked[8],
     nr_being_blocked = nr_to_be_blocked;
 
     for (i = 0; i!=nr_to_be_blocked; ++i)
-      block_square(to_be_blocked[i]);
+      occupy_square(to_be_blocked[i],Dummy,BIT(Black));
 
     block_first();
     intelligent_unreserve();

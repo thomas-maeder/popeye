@@ -63,7 +63,7 @@ static void block_next_flight(void)
         black[i].usage = piece_is_unused;
       }
 
-    block_square(to_be_blocked);
+    occupy_square(to_be_blocked,Dummy,BIT(Black));
   }
 
   ++nr_king_flights_to_be_blocked;
