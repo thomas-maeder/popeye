@@ -65,6 +65,7 @@
 #include "conditions/geneva.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
+#include "conditions/imitator.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/single_move_generator.h"

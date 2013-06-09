@@ -109,6 +109,7 @@
 #include "conditions/bgl.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
+#include "conditions/imitator.h"
 #include "options/nontrivial.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"

@@ -150,10 +150,6 @@ EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
 
 EXTERN  boolean         we_generate_exact, there_are_consmoves;
 
-EXTERN  unsigned int   number_of_imitators;       /* aktuelle Anzahl Imitatoren */
-
-EXTERN  imarr           isquare;                /* Imitatorstandfelder */
-
 EXTERN  boolean         anymars;
 EXTERN  boolean         is_phantomchess;
 

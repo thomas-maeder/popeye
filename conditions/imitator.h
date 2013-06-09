@@ -3,11 +3,14 @@
 
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
+#include "position/position.h"
 
 /* This module implements imitators */
 
 extern boolean promotion_of_moving_into_imitator[maxply+1];
 extern square im0;                    /* position of the 1st imitator */
+extern imarr isquare;                 /* Imitatorstandfelder */
+extern unsigned int number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -139,6 +139,7 @@
 #include "conditions/annan.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/vaulting_kings.h"
+#include "conditions/imitator.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -6877,12 +6878,26 @@ void MultiCenter(char *s) {
   }
 }
 
+static boolean is_square_occupied_by_imitator(square s)
+{
+  boolean result = false;
+  unsigned int imi_idx;
+
+  for (imi_idx = 0; imi_idx<number_of_imitators; ++imi_idx)
+    if (s==isquare[imi_idx])
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
+
 void WritePosition()
 {
   int nBlack, nWhite, nNeutr;
   square square, square_a;
   int row, file;
-  piece   p,pp;
   char    HLine1[40];
   char    HLine2[40];
   char    PieCnts[20];
@@ -6915,14 +6930,6 @@ void WritePosition()
   StdString(BorderL);
   StdString(BlankL);
 
-  /* Just for visualizing imitators on the board. */
-  if (CondFlag[imitators])
-  {
-    unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
-      e[isquare[imi_idx]]= -obs;
-  }
-
   for (row=1, square_a = square_a8;
        row<=nr_rows_on_board;
        row++, square_a += dir_down)
@@ -6934,7 +6941,8 @@ void WritePosition()
 
     for (file= 1, square= square_a;
          file <= nr_files_on_board;
-         file++, square += dir_right) {
+         file++, square += dir_right)
+    {
       char *h1= HLine1 + fileWidth*file;
 
       if (CondFlag[gridchess] && !OptFlag[suppressgrid])
@@ -6952,73 +6960,74 @@ void WritePosition()
         }
       }
 
-      p = e[square];
-      pp = abs(p);
-      if (pp < roib)
+      if (is_square_occupied_by_imitator(square))
+        *h1= 'I';
+      else
       {
-        if (p == -obs)
-        {
-          /* this is an imitator ! */
-          *h1= 'I';
-          e[square]= vide; /* "delete" imitator */
-        }
-        else if (p == obs)
+        piece const p = e[square];
+        PieNam const pp = abs(p);
+
+        if (pp == Invalid)
           /* this is a hole ! */
           *h1= ' ';
-        /* else:  the square is empty ! */
-        continue;
-      }
-
-      for (sp= Neutral + 1; sp < PieSpCount; sp++)
-        if (TSTFLAG(spec[square],sp)
-            && !(sp==Royal && (abs(e[square])==King || abs(e[square])==Poseidon)))
+        else if (pp==Empty)
         {
-          AddSquare(ListSpec[sp], square);
-          ++SpecCount[sp];
+          /* nothing */
         }
-
-      if (pp<hunter0b || pp >= (hunter0b + maxnrhuntertypes))
-      {
-        if ((*h1= PieceTab[pp][1]) != ' ')
+        else
         {
-          *h1= UPCASE(*h1);
-          h1--;
+          for (sp= Neutral + 1; sp < PieSpCount; sp++)
+            if (TSTFLAG(spec[square],sp)
+                && !(sp==Royal && (abs(e[square])==King || abs(e[square])==Poseidon)))
+            {
+              AddSquare(ListSpec[sp], square);
+              ++SpecCount[sp];
+            }
+
+          if (pp<Hunter0 || pp>=Hunter0+maxnrhuntertypes)
+          {
+            if ((*h1= PieceTab[pp][1]) != ' ')
+            {
+              *h1= UPCASE(*h1);
+              h1--;
+            }
+            *h1--= UPCASE(PieceTab[pp][0]);
+          }
+          else
+          {
+            char *n1 = HLine2 + (h1-HLine1); /* current position on next1 line */
+
+            unsigned int const hunterIndex = pp-Hunter0;
+            assert(hunterIndex<maxnrhuntertypes);
+
+            *h1-- = '/';
+            if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ')
+            {
+              *h1= UPCASE(*h1);
+              h1--;
+            }
+            *h1--= UPCASE(PieceTab[huntertypes[hunterIndex].away][0]);
+
+            --n1;   /* leave pos. below '/' empty */
+            if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ')
+              *n1= UPCASE(*n1);
+            *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
+          }
+
+          if (TSTFLAG(spec[square], Neutral))
+          {
+            nNeutr++;
+            *h1= '=';
+          }
+          else if (p < 0)
+          {
+            nBlack++;
+            *h1= '-';
+          }
+          else
+            nWhite++;
         }
-        *h1--= UPCASE(PieceTab[pp][0]);
       }
-      else
-      {
-        char *n1 = HLine2 + (h1-HLine1); /* current position on next1 line */
-
-        unsigned int const hunterIndex = pp-Hunter0;
-        assert(hunterIndex<maxnrhuntertypes);
-
-        *h1-- = '/';
-        if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ')
-        {
-          *h1= UPCASE(*h1);
-          h1--;
-        }
-        *h1--= UPCASE(PieceTab[huntertypes[hunterIndex].away][0]);
-
-        --n1;   /* leave pos. below '/' empty */
-        if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ')
-          *n1= UPCASE(*n1);
-        *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
-      }
-
-      if (TSTFLAG(spec[square], Neutral))
-      {
-        nNeutr++;
-        *h1= '=';
-      }
-      else if (p < 0)
-      {
-        nBlack++;
-        *h1= '-';
-      }
-      else
-        nWhite++;
     }
 
     StdString(HLine1);
@@ -7208,7 +7217,6 @@ void LaTeXBeginDiagram(void)
   Flags remspec[PieceCount];
   char ListSpec[PieSpCount][256];
   unsigned int SpecCount[PieSpCount] = { 0 };
-  piece p;
   char    HolesSqList[256] = "";
   square const *bnp;
 
@@ -7409,30 +7417,27 @@ void LaTeXBeginDiagram(void)
     strcat(ActTwinning, "{\\newline}");
   }
 
-  /* Just for visualizing imitators on the board. */
-  if (CondFlag[imitators])
-  {
-    unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
-      e[isquare[imi_idx]]= -obs;
-  }
-
-
   fprintf(LaTeXFile, " \\pieces{");
 
-  for (p= vide; p < derbla; p++)
-    CLEARFL(remspec[p]);
+  {
+    PieNam p;
+    for (p = Empty; p < PieceCount; ++p)
+      CLEARFL(remspec[p]);
+  }
 
   for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] == obs) {
+    if (e[*bnp] == obs)
+    {
       /* holes */
       if (holess)
         strcat(HolesSqList, ", ");
       else
         holess= true;
       AddSquare(HolesSqList, *bnp);
-    } else if (e[*bnp] != vide) {
-      p= abs(e[*bnp]);
+    }
+    else if (e[*bnp] != vide)
+    {
+      PieNam const p = abs(e[*bnp]);
       if (!firstpiece)
         fprintf(LaTeXFile, ", ");
       else
@@ -7445,10 +7450,8 @@ void LaTeXBeginDiagram(void)
               *bnp%onerow-200%onerow+'a',
               *bnp/onerow-200/onerow+'1');
 
-      if (e[*bnp] == -obs) {
-        e[*bnp]= vide;
-      }
-      else if (p>fb && (LaTeXPiecesAbbr[abs(p)] != NULL)) {
+      if (p>Bishop && (LaTeXPiecesAbbr[p] != NULL))
+      {
         fairypieces= true;
 
         if (TSTFLAG(spec[*bnp], Neutral)) {
@@ -7462,9 +7465,10 @@ void LaTeXBeginDiagram(void)
         }
       }
 
-      for (sp= Neutral + 1; sp < PieSpCount; sp++) {
+      for (sp= Neutral + 1; sp < PieSpCount; sp++)
+      {
         if (TSTFLAG(spec[*bnp], sp)
-            && !(sp==Royal && (abs(e[*bnp])==King || abs(e[*bnp])==Poseidon)))
+            && !(sp==Royal && (p==King || p==Poseidon)))
         {
           AddSquare(ListSpec[sp], *bnp);
           ++SpecCount[sp];
@@ -7602,16 +7606,19 @@ void LaTeXBeginDiagram(void)
   }
 
   /* fairy pieces, modified pieces, holes */
-  if (fairypieces || holess || modifiedpieces) {
+  if (fairypieces || holess || modifiedpieces)
+  {
+    PieNam p;
     boolean firstline= true;
 
     fprintf(LaTeXFile, " \\remark{");
-    for (p= fb+1; p < derbla; p++) {
-      int q;
+    for (p = Bishop+1; p < PieceCount; ++p)
+    {
+      PieNam q;
       if (!remspec[p])
         continue;
 
-      for (q= Bishop+1; q < p; q++) {
+      for (q = Bishop+1; q < p; q++) {
         if (remspec[q]
             && LaTeXPiecesAbbr[p][0] == LaTeXPiecesAbbr[q][0]
             && LaTeXPiecesAbbr[p][1] == LaTeXPiecesAbbr[q][1])

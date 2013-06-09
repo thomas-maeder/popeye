@@ -223,7 +223,8 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  py4.h pieces/vectors.h stipulation/goals/goals.h pydata.h pymsg.h \
  conditions/exclusive.h utilities/table.h position/position.h \
  solving/solve.h conditions/madrasi.h conditions/geneva.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h \
+ conditions/koeko/koeko.h conditions/koeko/anti.h conditions/imitator.h \
+ solving/move_effect_journal.h position/pieceid.h \
  stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h solving/en_passant.h pyproc.h \
  solving/observation.h stipulation/temporary_hacks.h pieces/pawns/pawn.h \
@@ -291,6 +292,12 @@ conditions/geneva.h:
 conditions/koeko/koeko.h:
 
 conditions/koeko/anti.h:
+
+conditions/imitator.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 stipulation/has_solution_type.h:
 
@@ -1357,7 +1364,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/geneva.h conditions/koeko/koeko.h conditions/koeko/anti.h \
  conditions/phantom.h conditions/annan.h \
  conditions/transmuting_kings/transmuting_kings.h \
- conditions/vaulting_kings.h options/degenerate_tree.h \
+ conditions/vaulting_kings.h conditions/imitator.h \
+ solving/move_effect_journal.h options/degenerate_tree.h \
  options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
  options/maxsolutions/maxsolutions.h \
@@ -1566,6 +1574,10 @@ conditions/transmuting_kings/transmuting_kings.h:
 
 conditions/vaulting_kings.h:
 
+conditions/imitator.h:
+
+solving/move_effect_journal.h:
+
 options/degenerate_tree.h:
 
 options/nontrivial.h:
@@ -1648,8 +1660,8 @@ pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h position/position.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h \
  conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h position/pieceid.h \
- conditions/vaulting_kings.h position/position.h pieces/walks.h \
- pieces/attributes/neutral/initialiser.h debugging/trace.h
+ conditions/vaulting_kings.h position/position.h conditions/imitator.h \
+ pieces/walks.h pieces/attributes/neutral/initialiser.h debugging/trace.h
 
 py.h:
 
@@ -1736,6 +1748,8 @@ position/pieceid.h:
 conditions/vaulting_kings.h:
 
 position/position.h:
+
+conditions/imitator.h:
 
 pieces/walks.h:
 

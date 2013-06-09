@@ -2613,9 +2613,9 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
- solving/move_effect_journal.h position/pieceid.h pydata.h pyproc.h py4.h \
- py.h pieces/vectors.h stipulation/goals/goals.h pymsg.h \
- pieces/pawns/promotion.h stipulation/pipe.h \
+ solving/move_effect_journal.h position/pieceid.h position/position.h \
+ pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ pymsg.h pieces/pawns/promotion.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h stipulation/proxy.h \
  stipulation/fork.h stipulation/branch.h stipulation/has_solution_type.h \
@@ -2649,6 +2649,8 @@ pylang.h:
 solving/move_effect_journal.h:
 
 position/pieceid.h:
+
+position/position.h:
 
 pydata.h:
 

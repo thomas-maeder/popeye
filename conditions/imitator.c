@@ -21,6 +21,8 @@
 
 boolean promotion_of_moving_into_imitator[maxply+1];
 square im0;                    /* position of the 1st imitator */
+imarr isquare;                 /* Imitatorstandfelder */
+unsigned int number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
