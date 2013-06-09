@@ -84,7 +84,8 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
     for (col=0; col<nr_files_on_board; col++, curr_square+=dir_right)
     {
       piece p= e[curr_square];
-      if (p!=vide) {
+      if (p!=vide)
+      {
         if (even)
           *bp++ = pieces+(((byte)(p<vide ? 7-p : p))<<(CHAR_BIT/2));
         else
@@ -511,11 +512,20 @@ void ProofRestoreStartPosition(void)
   king_square[White] = start.king_square[White];
 
   for (i = 0; i<nr_squares_on_board; ++i)
-  {
-    square const square_i = boardnum[i];
-    e[square_i] = start.board[square_i];
-    spec[square_i] = start.spec[square_i];
-  }
+    switch (abs(start.board[boardnum[i]]))
+    {
+      case Empty:
+        empty_square(boardnum[i]);
+        break;
+
+      case Invalid:
+        block_square(boardnum[i]);
+        break;
+
+      default:
+        occupy_square(boardnum[i],abs(start.board[boardnum[i]]),start.spec[boardnum[i]]);
+        break;
+    }
 
   number_of_imitators = start.inum;
   for (i = 0; i<number_of_imitators; ++i)
@@ -1447,7 +1457,6 @@ static boolean ProofFairyImpossible(void)
 {
   square const *bnp;
   square sq;
-  piece pparr;
   unsigned int   NbrWh, NbrBl;
   unsigned int MovesAvailable = MovesLeft[Black]+MovesLeft[White];
 
@@ -1514,22 +1523,28 @@ static boolean ProofFairyImpossible(void)
         return true;
     }
 
-    if (anyparrain)
-    {
-      move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-      move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-      pparr = move_effect_journal[capture].u.piece_removal.removed;
-    }
-    else
-      pparr = vide;
-
     if (!CondFlag[sentinelles])
     {
       /* note, that we are in the !change_moving_piece section
          too many pawns captured or promoted
       */
-      if (target.number_of_pieces[White][Pawn] > number_of_pieces[White][Pawn]+(pparr==pb)
-          || target.number_of_pieces[Black][Pawn] > number_of_pieces[Black][Pawn]+(pparr==pn))
+      boolean parrain_pawn[nr_sides] = { false, false };
+      if (anyparrain)
+      {
+        move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+        move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+        if (move_effect_journal[capture].u.piece_removal.removed==Pawn)
+        {
+          Flags const removed_spec = move_effect_journal[capture].u.piece_removal.removedspec;
+          if (TSTFLAG(removed_spec,White))
+            parrain_pawn[White] = true;
+          if (TSTFLAG(removed_spec,Black))
+            parrain_pawn[Black] = true;
+        }
+      }
+
+      if (target.number_of_pieces[White][Pawn] > number_of_pieces[White][Pawn]+parrain_pawn[White]
+          || target.number_of_pieces[Black][Pawn] > number_of_pieces[Black][Pawn]+parrain_pawn[Black])
         return true;
     }
 

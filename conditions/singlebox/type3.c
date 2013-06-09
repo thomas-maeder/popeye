@@ -171,11 +171,11 @@ boolean singleboxtype3_is_square_attacked(Side side_checking,
     {
       boolean result;
       ++promotionstried;
-      e[sq] = side_checking==White ? pprom : -pprom;
+      replace_piece(sq,pprom);
       ++number_of_pieces[side_checking][pprom];
       result = is_a_square_attacked(side_checking,sq_target,evaluate);
       --number_of_pieces[side_checking][pprom];
-      e[sq] = side_checking==White ? pb : pn;
+      replace_piece(sq,Pawn);
       if (result)
         return true;
     }
@@ -239,14 +239,14 @@ void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, pie
     assert(promoting_side==side);
     while (sequence.promotee!=Empty)
     {
-      piece const pi_departing = e[sq];
+      PieNam const pi_departing = abs(e[sq]);
       PieNam const walk_promotee = sequence.promotee;
       piece const pi_promotee = p<0 ? -walk_promotee : walk_promotee;
       numecoup prev_nbcou = current_move[nbply];
       ++nr_latent_promotions;
-      e[sq] = walk_promotee;
+      replace_piece(sq,walk_promotee);
       orig_generate_moves_for_piece(side, sq_departure, sq==sq_departure ? pi_promotee : p);
-      e[sq] = pi_departing;
+      replace_piece(sq,pi_departing);
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
         move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;

@@ -15,10 +15,6 @@
 /* This module provides slice type STPiecesNeutralInitialiser
  */
 
-/* Side that the neutral pieces currently belong to
- */
-Side neutral_side;
-
 /* Change the side of the piece on a square so that the piece belongs to the
  * neutral side
  * @param s position of piece whose side to change

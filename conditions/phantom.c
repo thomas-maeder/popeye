@@ -73,19 +73,13 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
     {
       numecoup const start_moves_from_rebirth_square = current_move[nbply];
 
-      spec[sq_rebirth] = spec[sq_departure];
-      e[sq_rebirth] = e[sq_departure];
-
-      e[sq_departure] = vide;
-      spec[sq_departure] = EmptySpec;
+      occupy_square(sq_rebirth,abs(e[sq_departure]),spec[sq_departure]);
+      empty_square(sq_departure);
 
       gen_piece_aux(side,sq_rebirth,abs(p));
 
-      spec[sq_departure] = spec[sq_rebirth];
-      e[sq_departure] = e[sq_rebirth];
-
-      e[sq_rebirth] = vide;
-      spec[sq_rebirth] = EmptySpec;
+      occupy_square(sq_departure,abs(e[sq_rebirth]),spec[sq_rebirth]);
+      empty_square(sq_rebirth);
 
       {
         numecoup top_filtered = start_moves_from_rebirth_square;

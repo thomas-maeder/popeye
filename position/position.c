@@ -2,6 +2,7 @@
 #include "py.h"
 #include "debugging/trace.h"
 
+#include <assert.h>
 #include <stdlib.h>
 
 #define ENUMERATION_TYPENAME Side
@@ -21,6 +22,10 @@ Flags spec[maxsquare+4];
 square king_square[nr_sides];
 boolean areColorsSwapped;
 boolean isBoardReflected;
+
+/* Side that the neutral pieces currently belong to
+ */
+Side neutral_side;
 
 /* This is the InitialGameArray */
 piece const PAS[nr_squares_on_board] = {
@@ -134,4 +139,35 @@ void reflect_position(void)
   }
 
   isBoardReflected = !isBoardReflected;
+}
+
+void empty_square(square s)
+{
+  e[s] = vide;
+  spec[s] = EmptySpec;
+}
+
+void occupy_square(square s, PieNam piece, Flags flags)
+{
+  Side const side = TSTFLAG(flags,Neutral) ? neutral_side : (TSTFLAG(flags,White) ? White : Black);
+  assert(piece!=Empty);
+  assert(piece!=Invalid);
+  e[s] = side==White ? piece : -piece;
+  spec[s] = flags;
+}
+
+void replace_piece(square s, PieNam piece)
+{
+  Flags const flags = spec[s];
+  Side const side = TSTFLAG(flags,Neutral) ? neutral_side : (TSTFLAG(flags,White) ? White : Black);
+  assert(piece!=Empty);
+  assert(piece!=Invalid);
+  e[s] = side==White ? piece : -piece;
+}
+
+void block_square(square s)
+{
+  assert(e[s]==vide || e[s]==obs);
+  e[s] = obs;
+  spec[s] = BorderSpec;
 }

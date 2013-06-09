@@ -59,8 +59,7 @@ static void block_first(void)
       black[i].usage = piece_is_unused;
     }
 
-  e[to_be_blocked] = dummyn;
-  spec[to_be_blocked] = EmptySpec;
+  block_square(to_be_blocked);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -89,13 +88,13 @@ void intelligent_stalemate_black_block(square const to_be_blocked[8],
     nr_being_blocked = nr_to_be_blocked;
 
     for (i = 0; i!=nr_to_be_blocked; ++i)
-      e[to_be_blocked[i]] = dummyn;
+      block_square(to_be_blocked[i]);
 
     block_first();
     intelligent_unreserve();
 
     for (i = 0; i!=nr_to_be_blocked; ++i)
-      e[to_be_blocked[i]] = vide;
+      empty_square(to_be_blocked[i]);
 
     being_blocked = save_being_blocked;
     nr_being_blocked = save_nr_being_blocked;

@@ -78,7 +78,7 @@ void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
                                                                  promotee_type,
                                                                  placed_on))
       {
-        SetPiece(promotee_type,placed_on,placed_flags);
+        occupy_square(placed_on,promotee_type,placed_flags);
         (*go_on)();
         intelligent_unreserve();
       }
@@ -88,7 +88,7 @@ void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
                                                                        promotee_type,
                                                                        placed_on))
     {
-     SetPiece(promotee_type,placed_on,placed_flags);
+     occupy_square(placed_on,promotee_type,placed_flags);
      intelligent_intercept_check_by_black(check_dir,go_on);
      intelligent_unreserve();
     }
@@ -239,7 +239,7 @@ static void place_rider(unsigned int placed_index,
 
   stack_top = &elmt;
 
-  SetPiece(placed_type,placed_on,black[placed_index].flags);
+  occupy_square(placed_on,placed_type,black[placed_index].flags);
 
   switch (how_does_rider_disturb(placed_type,placed_on))
   {
@@ -326,7 +326,7 @@ void intelligent_place_pinned_promoted_black_knight(unsigned int placed_index,
                                                                 Knight,
                                                                 placed_on))
   {
-    SetPiece(Knight,placed_on,placed_flags);
+    occupy_square(placed_on,Knight,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -353,7 +353,7 @@ void intelligent_place_promoted_black_knight(unsigned int placed_index,
                                                                 Knight,
                                                                 placed_on))
   {
-    SetPiece(Knight,placed_on,placed_flags);
+    occupy_square(placed_on,Knight,placed_flags);
     if (DisturbMateDirKnight[placed_on]==0)
       (*go_on)();
     else
@@ -460,7 +460,7 @@ void intelligent_place_pinned_unpromoted_black_pawn(unsigned int placed_index,
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
   {
-    SetPiece(Pawn,placed_on,placed_flags);
+    occupy_square(placed_on,Pawn,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -486,7 +486,7 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
   {
-    SetPiece(Pawn,placed_on,placed_flags);
+    occupy_square(placed_on,Pawn,placed_flags);
 
     switch (DisturbMateDirPawn[placed_on])
     {
@@ -544,7 +544,7 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
                                                     intercepter_type,
                                                     placed_on))
       {
-        SetPiece(intercepter_type,placed_on,placed_flags);
+        occupy_square(placed_on,intercepter_type,placed_flags);
         (*go_on)();
         intelligent_unreserve();
       }
@@ -555,7 +555,7 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
                                                           intercepter_type,
                                                           placed_on))
     {
-      SetPiece(intercepter_type,placed_on,placed_flags);
+      occupy_square(placed_on,intercepter_type,placed_flags);
       intelligent_intercept_check_by_black(check_dir,go_on);
       intelligent_unreserve();
     }
@@ -612,7 +612,7 @@ void intelligent_place_pinned_black_knight(unsigned int placed_index,
                                                    Knight,
                                                    placed_on))
   {
-    SetPiece(Knight,placed_on,placed_flags);
+    occupy_square(placed_on,Knight,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -640,7 +640,7 @@ void intelligent_place_black_knight(unsigned int placed_index,
                                                    Knight,
                                                    placed_on))
   {
-    SetPiece(Knight,placed_on,placed_flags);
+    occupy_square(placed_on,Knight,placed_flags);
     if (DisturbMateDirKnight[placed_on]==0)
       (*go_on)();
     else

@@ -73,8 +73,7 @@ void intelligent_stalemate_white_block(square to_be_blocked)
     intelligent_unreserve();
   }
 
-  e[to_be_blocked] = vide;
-  spec[to_be_blocked] = EmptySpec;
+  empty_square(to_be_blocked);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

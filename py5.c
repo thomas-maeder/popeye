@@ -449,22 +449,16 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
   }
   else
   {
-    e[to] = e[from];
-    spec[to] = spec[from];
-
-    e[from] = vide;
-    CLEARFL(spec[from]);
+    occupy_square(to,abs(e[from]),spec[from]);
+    empty_square(from);
 
     if (king_square[side]!=initsquare)
       king_square[side] = to;
 
     result = !echecc(side);
 
-    e[from] = e[to];
-    spec[from] = spec[to];
-
-    e[to] = vide;
-    CLEARFL(spec[to]);
+    occupy_square(from,abs(e[to]),spec[to]);
+    empty_square(to);
 
     if (king_square[side]!=initsquare)
       king_square[side] = from;

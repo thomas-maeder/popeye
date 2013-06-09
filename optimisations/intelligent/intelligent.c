@@ -47,10 +47,12 @@ typedef unsigned int index_type;
     ENUMERATOR(piece_pins), \
     ENUMERATOR(piece_is_fixed_to_diagram_square), \
     ENUMERATOR(piece_intercepts), \
+    ENUMERATOR(piece_intercepts_check_from_guard), \
     ENUMERATOR(piece_blocks), \
     ENUMERATOR(piece_guards), \
     ENUMERATOR(piece_gives_check), \
     ENUMERATOR(piece_is_missing), \
+    ENUMERATOR(piece_is_captured), \
     ENUMERATOR(piece_is_king)
 
 #define ENUMERATORS piece_usageENUMERATORS
@@ -341,10 +343,7 @@ void solve_target_position(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; bnp++)
-    {
-      e[*bnp] = vide;
-      spec[*bnp] = EmptySpec;
-    }
+      empty_square(*bnp);
   }
 
   {
@@ -408,7 +407,7 @@ static void GenerateBlackKing(void)
         }
       }
 
-      SetPiece(King,*bnp,king_flags);
+      occupy_square(*bnp,King,king_flags);
       king_square[Black] = *bnp;
       black[index_of_king].usage = piece_is_king;
 
@@ -422,8 +421,7 @@ static void GenerateBlackKing(void)
       else
         intelligent_guard_flights();
 
-      e[*bnp] = vide;
-      spec[*bnp] = EmptySpec;
+      empty_square(*bnp);
 
       intelligent_unreserve();
     }
@@ -515,10 +513,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
       square const *bnp;
       for (bnp= boardnum; *bnp!=initsquare; ++bnp)
         if (e[*bnp] != obs)
-        {
-          e[*bnp]= vide;
-          spec[*bnp]= EmptySpec;
-        }
+          empty_square(*bnp);
     }
 
     {

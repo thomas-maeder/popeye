@@ -26,7 +26,7 @@ void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    placed_on))
   {
-    SetPiece(Pawn,placed_on,placed_flags);
+    occupy_square(placed_on,Pawn,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -59,7 +59,7 @@ void intelligent_place_promoted_white_rider(piece promotee_type,
                                                                   promotee_type,
                                                                   placed_on))
   {
-    SetPiece(promotee_type,placed_on,placed_flags);
+    occupy_square(placed_on,promotee_type,placed_flags);
 
     if (dir==0 || e[target]<vide || !is_line_empty(placed_on,target,dir))
       (*go_on)();
@@ -90,7 +90,7 @@ void intelligent_place_promoted_white_knight(unsigned int placed_index,
                                                                 Knight,
                                                                 placed_on))
   {
-    SetPiece(Knight,placed_on,placed_flags);
+    occupy_square(placed_on,Knight,placed_flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -195,7 +195,7 @@ void intelligent_place_white_queen(unsigned int placed_index,
     stack_elmt_type const new_top = { placed_index, placed_on, go_on, stack_top };
     stack_top = &new_top;
 
-    SetPiece(placed_type,placed_on,placed_flags);
+    occupy_square(placed_on,placed_type,placed_flags);
 
     if (dir_ortho==0 || e[target_ortho]<vide || !is_line_empty(placed_on,target_ortho,dir_ortho))
       intercept_queen_diag();
@@ -239,7 +239,7 @@ void intelligent_place_white_rider(unsigned int placed_index,
                                                        placed_type,
                                                        placed_on))
       {
-        SetPiece(placed_type,placed_on,placed_flags);
+        occupy_square(placed_on,placed_type,placed_flags);
         (*go_on)();
         intelligent_unreserve();
       }
@@ -251,7 +251,7 @@ void intelligent_place_white_rider(unsigned int placed_index,
                                                     placed_type,
                                                     placed_on))
       {
-        SetPiece(placed_type,placed_on,placed_flags);
+        occupy_square(placed_on,placed_type,placed_flags);
 
         if (placed_index>index_of_guarding_piece
             || dir==0
@@ -294,7 +294,7 @@ void intelligent_place_white_knight(unsigned int placed_index,
                                                        Knight,
                                                        placed_on))
       {
-        SetPiece(Knight,placed_on,placed_flags);
+        occupy_square(placed_on,Knight,placed_flags);
         (*go_on)();
         intelligent_unreserve();
       }
@@ -306,7 +306,7 @@ void intelligent_place_white_knight(unsigned int placed_index,
                                                     Knight,
                                                     placed_on))
       {
-        SetPiece(Knight,placed_on,placed_flags);
+        occupy_square(placed_on,Knight,placed_flags);
         (*go_on)();
         intelligent_unreserve();
       }

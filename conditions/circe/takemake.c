@@ -21,7 +21,7 @@ static boolean init_rebirth_squares(Side side_reborn)
 {
   boolean result = false;
   square const sq_capture = move_generation_stack[current_move[nbply]].capture;
-  piece const pi_capturing = e[sq_capture];
+  PieNam const pi_capturing = abs(e[sq_capture]);
   Flags const flags_capturing = spec[sq_capture];
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
@@ -29,15 +29,28 @@ static boolean init_rebirth_squares(Side side_reborn)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  e[sq_capture] = move_effect_journal[capture].u.piece_removal.removed;
-  spec[sq_capture] = move_effect_journal[capture].u.piece_removal.removedspec;
+  occupy_square(sq_capture,
+                move_effect_journal[capture].u.piece_removal.removed,
+                move_effect_journal[capture].u.piece_removal.removedspec);
 
   init_single_piece_move_generator(sq_capture);
 
   result = solve(slices[temporary_hack_circe_take_make_rebirth_squares_finder[side_reborn]].next2,length_unspecified)==next_move_has_solution;
 
-  e[sq_capture] = pi_capturing;
-  spec[sq_capture] = flags_capturing;
+  switch (pi_capturing)
+  {
+    case Empty:
+      empty_square(sq_capture);
+      break;
+
+    case Invalid:
+      block_square(sq_capture);
+      break;
+
+    default:
+      occupy_square(sq_capture,pi_capturing,flags_capturing);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

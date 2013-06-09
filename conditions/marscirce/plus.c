@@ -19,19 +19,13 @@ static void generate_additional_captures_from(Side side,
 
   if (from!=sq_departure && e[from]==vide)
   {
-    e[from] = e[sq_departure];
-    spec[from] = spec[sq_departure];
-
-    e[sq_departure] = vide;
-    spec[sq_departure] = EmptySpec;
+    occupy_square(from,abs(e[sq_departure]),spec[sq_departure]);
+    empty_square(sq_departure);
 
     marscirce_generate_captures(side,p,from,sq_departure);
 
-    e[sq_departure]= e[from];
-    spec[sq_departure]= spec[from];
-
-    e[from]= vide;
-    spec[from] = EmptySpec;
+    occupy_square(sq_departure,abs(e[from]),spec[from]);
+    empty_square(from);
   }
 
   TraceFunctionExit(__func__);

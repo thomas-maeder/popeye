@@ -33,10 +33,9 @@ static void place_officer(PieNam officer_type,
       !(index_of_intercepting_piece<index_of_guarding_piece
         && GuardDir[officer_type-Pawn][to_be_intercepted].dir!=0))
   {
-    SetPiece(officer_type,to_be_intercepted,intercepter_flags);
+    occupy_square(to_be_intercepted,officer_type,intercepter_flags);
     intelligent_continue_guarding_flights();
-    e[to_be_intercepted] = vide;
-    spec[to_be_intercepted] = EmptySpec;
+    empty_square(to_be_intercepted);
   }
 
   TraceFunctionExit(__func__);
@@ -145,10 +144,9 @@ static void unpromoted_pawn(square to_be_intercepted,
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
                                                                    to_be_intercepted))
   {
-    SetPiece(pb,to_be_intercepted,intercepter_flags);
+    occupy_square(to_be_intercepted,pb,intercepter_flags);
     intelligent_continue_guarding_flights();
-    e[to_be_intercepted] = vide;
-    spec[to_be_intercepted] = EmptySpec;
+    empty_square(to_be_intercepted);
     intelligent_unreserve();
   }
 

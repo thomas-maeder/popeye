@@ -1280,7 +1280,7 @@ byte *CommonEncode(byte *bp,
     {
       /* a piece has been captured and can be reborn */
       square const from = move_effect_journal[capture].u.piece_removal.from;
-      PieNam const removed = abs(move_effect_journal[capture].u.piece_removal.removed);
+      PieNam const removed = move_effect_journal[capture].u.piece_removal.removed;
       Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
       *bp++ = (byte)(from-square_a1);

@@ -310,7 +310,7 @@ static void place_queen_opposition(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  SetPiece(Queen,guard_from,white[index_of_guarding_piece].flags);
+  occupy_square(guard_from,Queen,white[index_of_guarding_piece].flags);
   if (e[to_be_intercepted]==vide)
   {
     assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
@@ -351,7 +351,7 @@ static void place_rider(piece rider_type, square guard_from)
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
         if (e[guarded]>=vide)
         {
-          SetPiece(rider_type,guard_from,white[index_of_guarding_piece].flags);
+          occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
               && e[guarded]==vide)
           {
@@ -369,7 +369,7 @@ static void place_rider(piece rider_type, square guard_from)
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
         if (e[guarded]>=vide && is_line_empty(guard_from,guarded,dir))
         {
-          SetPiece(rider_type,guard_from,white[index_of_guarding_piece].flags);
+          occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);
           if (CheckDir[rider_type][king_square[Black]-guard_from]!=0)
           {
@@ -415,7 +415,7 @@ static void place_knight(square guard_from)
 
   if (GuardDir[Knight-Pawn][guard_from].dir==guard_dir_guard_uninterceptable)
   {
-    SetPiece(Knight,guard_from,white[index_of_guarding_piece].flags);
+    occupy_square(guard_from,Knight,white[index_of_guarding_piece].flags);
     intelligent_continue_guarding_flights();
   }
 
@@ -440,10 +440,9 @@ static void unpromoted_pawn(square guard_from)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                    guard_from))
   {
-    SetPiece(Pawn,guard_from,pawn_flags);
+    occupy_square(guard_from,Pawn,pawn_flags);
     intelligent_continue_guarding_flights();
-    e[guard_from] = vide;
-    spec[guard_from] = EmptySpec;
+    empty_square(guard_from);
     intelligent_unreserve();
   }
 
@@ -483,7 +482,7 @@ static void promoted_queen(square guard_from)
                                                                  Queen,
                                                                  guard_from))
       {
-        SetPiece(Queen,guard_from,white[index_of_guarding_piece].flags);
+        occupy_square(guard_from,Queen,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
@@ -524,7 +523,7 @@ static void promoted_rook(square guard_from)
                                                                  Rook,
                                                                  guard_from))
       {
-        SetPiece(Rook,guard_from,white[index_of_guarding_piece].flags);
+        occupy_square(guard_from,Rook,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
@@ -566,7 +565,7 @@ static void promoted_bishop(square guard_from)
   {
     if (diff<=4+0)
     {
-      SetPiece(Bishop,guard_from,white[index_of_guarding_piece].flags);
+      occupy_square(guard_from,Bishop,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
     }
     else
@@ -677,7 +676,7 @@ static void queen(square guard_from)
                                                     Queen,
                                                     guard_from))
       {
-        SetPiece(Queen,guard_from,white[index_of_guarding_piece].flags);
+        occupy_square(guard_from,Queen,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
@@ -720,7 +719,7 @@ static void rook(square guard_from)
                                                     Rook,
                                                     guard_from))
       {
-        SetPiece(Rook,guard_from,white[index_of_guarding_piece].flags);
+        occupy_square(guard_from,Rook,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
@@ -764,7 +763,7 @@ static void bishop(square guard_from)
   {
     if (diff<=4+0)
     {
-      SetPiece(Bishop,guard_from,white[index_of_guarding_piece].flags);
+      occupy_square(guard_from,Bishop,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
     }
     else
@@ -838,8 +837,7 @@ static void guard_next_flight(void)
           break;
       }
 
-      e[*bnp] = vide;
-      spec[*bnp] = EmptySpec;
+      empty_square(*bnp);
     }
 
   TraceFunctionExit(__func__);
@@ -900,10 +898,9 @@ static void king()
             && intelligent_reserve_white_king_moves_from_to(comes_from,*bnp))
         {
           king_square[White]= *bnp;
-          SetPiece(King,*bnp,white[index_of_king].flags);
+          occupy_square(*bnp,King,white[index_of_king].flags);
           intelligent_continue_guarding_flights();
-          e[*bnp] = vide;
-          spec[*bnp] = EmptySpec;
+          empty_square(*bnp);
           intelligent_unreserve();
         }
 

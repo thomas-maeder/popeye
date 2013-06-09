@@ -31,7 +31,7 @@ static void pin_by_rider(unsigned int pinner_index,
                                                 pinner_type,
                                                 pin_from))
   {
-    SetPiece(pinner_type,pin_from,white[pinner_index].flags);
+    occupy_square(pin_from,pinner_type,white[pinner_index].flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -64,7 +64,7 @@ static void pin_by_promoted_pawn(unsigned int pinner_index,
                                                              Queen,
                                                              pin_from))
   {
-    SetPiece(Queen,pin_from,white[pinner_index].flags);
+    occupy_square(pin_from,Queen,white[pinner_index].flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -73,7 +73,7 @@ static void pin_by_promoted_pawn(unsigned int pinner_index,
                                                              minor_pinner_type,
                                                              pin_from))
   {
-    SetPiece(minor_pinner_type,pin_from,white[pinner_index].flags);
+    occupy_square(pin_from,minor_pinner_type,white[pinner_index].flags);
     (*go_on)();
     intelligent_unreserve();
   }
@@ -194,8 +194,7 @@ void intelligent_pin_pinnable_black_piece(square piece_pos,
           }
         }
 
-        e[pin_on] = vide;
-        spec[pin_on] = EmptySpec;
+        empty_square(pin_on);
       }
 
       ++nr_reasons_for_staying_empty[pin_on];

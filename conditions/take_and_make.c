@@ -93,9 +93,9 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
   for (; take_current<=take_top; ++take_current)
   {
     square const take_capture = move_generation_stack[take_current].capture;
-    piece const taken = e[take_capture];
+    PieNam const taken = abs(e[take_capture]);
 
-    if (taken==vide)
+    if (taken==Empty)
     {
       ++current_move[nbply];
       move_generation_stack[current_move[nbply]] = move_generation_stack[take_current];
@@ -108,16 +108,11 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       numecoup make_current = current_move[nbply];
       numecoup make_filtered_top = make_current;
 
-      e[take_capture]= vide;
-      spec[take_capture]= EmptySpec;
+      empty_square(take_capture);
+      occupy_square(take_arrival,abs(e[take_departure]),spec[take_departure]);
+      empty_square(take_departure);
 
-      e[take_arrival] = e[take_departure];
-      spec[take_arrival] = spec[take_departure];
-
-      e[take_departure] = vide;
-      spec[take_departure]= EmptySpec;
-
-      gen_piece_aux(advers(moving),take_arrival,abs(taken));
+      gen_piece_aux(advers(moving),take_arrival,taken);
 
       for (++make_current; make_current<=current_move[nbply]; ++make_current)
         if (e[move_generation_stack[make_current].capture]==vide)
@@ -131,14 +126,9 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
       current_move[nbply] = make_filtered_top;
 
-      e[take_departure] = e[take_arrival];
-      spec[take_departure] = spec[take_arrival];
-
-      e[take_arrival] = vide;
-      spec[take_arrival] = EmptySpec;
-
-      e[take_capture] = taken;
-      spec[take_capture] = taken_spec;
+      occupy_square(take_departure,abs(e[take_arrival]),spec[take_arrival]);
+      empty_square(take_arrival);
+      occupy_square(take_capture,taken,taken_spec);
     }
   }
 

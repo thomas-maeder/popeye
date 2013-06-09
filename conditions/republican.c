@@ -34,7 +34,7 @@ enum
 
 static Goal republican_goal = { no_goal, initsquare };
 
-static boolean is_mate_square(Side other_side, piece king_type)
+static boolean is_mate_square(Side other_side)
 {
   boolean result = false;
 
@@ -46,8 +46,7 @@ static boolean is_mate_square(Side other_side, piece king_type)
 
     TraceSquare(king_square[other_side]);TraceText("\n");
 
-    e[king_square[other_side]] = king_type;
-    spec[king_square[other_side]] = BIT(Royal)|BIT(other_side);
+    occupy_square(king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
     if (solve(slices[temporary_hack_mate_tester[other_side]].next2,slack_length)==slack_length)
       result = true;
@@ -69,7 +68,6 @@ static boolean is_mate_square(Side other_side, piece king_type)
 static void advance_mate_square(Side side)
 {
   Side const other_side = advers(side);
-  piece const to_be_placed = other_side==White ? roib : roin;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -80,7 +78,7 @@ static void advance_mate_square(Side side)
   king_square[other_side] =  king_placement[nbply]+1;
   ++number_of_pieces[other_side][King];
   while (king_square[other_side]<=square_h8)
-    if (is_mate_square(other_side,to_be_placed))
+    if (is_mate_square(other_side))
       break;
     else
       ++king_square[other_side];

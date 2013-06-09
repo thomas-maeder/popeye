@@ -33,7 +33,7 @@ stip_length_type anticirce_couscous_determine_relevant_piece_solve(slice_index s
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  anticirce_current_relevant_piece[nbply] = abs(move_effect_journal[capture].u.piece_removal.removed);
+  anticirce_current_relevant_piece[nbply] = move_effect_journal[capture].u.piece_removal.removed;
   anticirce_current_relevant_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
   anticirce_current_relevant_side[nbply] = slices[si].starter;
 

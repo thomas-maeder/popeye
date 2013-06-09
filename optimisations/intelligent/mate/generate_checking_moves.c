@@ -187,7 +187,7 @@ static void by_promoted_rider(unsigned int index_of_checker,
                                                                 promotee_type,
                                                                 check_from))
   {
-    SetPiece(promotee_type,check_from,white[index_of_checker].flags);
+    occupy_square(check_from,promotee_type,white[index_of_checker].flags);
     remember_mating_line(promotee_type,check_from,+1);
     intelligent_guard_flights();
     remember_mating_line(promotee_type,check_from,-1);
@@ -213,7 +213,7 @@ static void by_promoted_knight(unsigned int index_of_checker, square const check
                                                                 Knight,
                                                                 check_from))
   {
-    SetPiece(Knight,check_from,white[index_of_checker].flags);
+    occupy_square(check_from,Knight,white[index_of_checker].flags);
     init_disturb_mate_dir(check_from,king_square[Black]-check_from);
     intelligent_guard_flights();
     fini_disturb_mate_dir();
@@ -273,12 +273,11 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
       && GuardDir[Pawn-Pawn][check_from].dir==guard_dir_check_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,check_from))
   {
-    SetPiece(Pawn,check_from,checker_flags);
+    occupy_square(check_from,Pawn,checker_flags);
     init_disturb_mate_dir(check_from,king_square[Black]-check_from);
     intelligent_guard_flights();
     fini_disturb_mate_dir();
-    e[check_from] = vide;
-    spec[check_from] = EmptySpec;
+    empty_square(check_from);
     intelligent_unreserve();
   }
 
@@ -303,7 +302,7 @@ static void by_rider(unsigned int index_of_checker, square const check_from)
                                                                   checker_type,
                                                                   check_from))
   {
-    SetPiece(checker_type,check_from,checker_flags);
+    occupy_square(check_from,checker_type,checker_flags);
     remember_mating_line(checker_type,check_from,+1);
     intelligent_guard_flights();
     remember_mating_line(checker_type,check_from,-1);
@@ -329,7 +328,7 @@ static void by_knight(unsigned int index_of_checker, square const check_from)
                                                                   Knight,
                                                                   check_from))
   {
-    SetPiece(Knight,check_from,white[index_of_checker].flags);
+    occupy_square(check_from,Knight,white[index_of_checker].flags);
     init_disturb_mate_dir(check_from,king_square[Black]-check_from);
     intelligent_guard_flights();
     fini_disturb_mate_dir();
@@ -380,8 +379,7 @@ void intelligent_mate_generate_checking_moves(void)
               break;
           }
 
-          e[*bnp] = vide;
-          spec[*bnp] = EmptySpec;
+          empty_square(*bnp);
         }
 
       white[index].usage = piece_is_unused;

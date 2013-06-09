@@ -6,6 +6,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -22,40 +23,44 @@ void stip_insert_actuated_revolving_centre(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void occupy(square dest, PieNam pi_src, Flags spec_src)
+{
+  switch (pi_src)
+  {
+    case Empty:
+      empty_square(dest);
+      break;
+
+    case Invalid:
+      block_square(dest);
+      break;
+
+    default:
+      occupy_square(dest,pi_src,spec_src);
+      break;
+  }
+}
+
 static void revolve(void)
 {
-  piece const piece_temp = e[square_d4];
+  PieNam const piece_temp = abs(e[square_d4]);
   Flags const spec_temp = spec[square_d4];
 
-  e[square_d4] = e[square_e4];
-  spec[square_d4] = spec[square_e4];
-
-  e[square_e4] = e[square_e5];
-  spec[square_e4] = spec[square_e5];
-
-  e[square_e5] = e[square_d5];
-  spec[square_e5] = spec[square_d5];
-
-  e[square_d5] = piece_temp;
-  spec[square_d5] = spec_temp;
+  occupy(square_d4,abs(e[square_e4]),spec[square_e4]);
+  occupy(square_e4,abs(e[square_e5]),spec[square_e5]);
+  occupy(square_e5,abs(e[square_d5]),spec[square_d5]);
+  occupy(square_d5,piece_temp,spec_temp);
 }
 
 static void unrevolve(void)
 {
-  piece const piece_temp = e[square_d5];
+  PieNam const piece_temp = abs(e[square_d5]);
   Flags const spec_temp = spec[square_d5];
 
-  e[square_d5] = e[square_e5];
-  spec[square_d5] = spec[square_e5];
-
-  e[square_e5] = e[square_e4];
-  spec[square_e5] = spec[square_e4];
-
-  e[square_e4] = e[square_d4];
-  spec[square_e4] = spec[square_d4];
-
-  e[square_d4] = piece_temp;
-  spec[square_d4] = spec_temp;
+  occupy(square_d5,abs(e[square_e5]),spec[square_e5]);
+  occupy(square_e5,abs(e[square_e4]),spec[square_e4]);
+  occupy(square_e4,abs(e[square_d4]),spec[square_d4]);
+  occupy(square_d4,piece_temp,spec_temp);
 }
 
 /* Apply revolution to one square

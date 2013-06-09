@@ -429,22 +429,19 @@ void InitBoard(void)
 
   for (i= maxsquare-1; i>=0; i--)
   {
-    e[i] = obs;
+    empty_square(i);
+    block_square(i);
     e_ubi[i] = obs;
     e_ubi_mad[i] = obs;
-    spec[i] = BorderSpec;
   }
 
   /* dummy squares for Messigny chess and castling -- must be empty */
-  e[messigny_exchange] = vide;
-  e[kingside_castling] = vide;
-  e[queenside_castling] = vide;
-  CLEARFL(spec[messigny_exchange]);
-  CLEARFL(spec[kingside_castling]);
-  CLEARFL(spec[queenside_castling]);
+  empty_square(messigny_exchange);
+  empty_square(kingside_castling);
+  empty_square(queenside_castling);
 
   for (bnp = boardnum; *bnp; bnp++)
-    e[*bnp] = vide;
+    empty_square(*bnp);
 
   king_square[White] = initsquare;
   king_square[Black] = initsquare;

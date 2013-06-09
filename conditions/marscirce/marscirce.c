@@ -105,19 +105,13 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
 
       if (e[sq_rebirth]==vide)
       {
-        e[sq_rebirth] = e[sq_departure];
-        spec[sq_rebirth] = spec[sq_departure];
-
-        e[sq_departure] = vide;
-        spec[sq_departure] = EmptySpec;
+        occupy_square(sq_rebirth,abs(e[sq_departure]),spec[sq_departure]);
+        empty_square(sq_departure);
 
         marscirce_generate_captures(side,p,sq_rebirth,sq_departure);
 
-        e[sq_departure] = e[sq_rebirth];
-        spec[sq_departure] = spec[sq_rebirth];
-
-        e[sq_rebirth] = vide;
-        spec[sq_rebirth] = EmptySpec;
+        occupy_square(sq_departure,abs(e[sq_rebirth]),spec[sq_rebirth]);
+        empty_square(sq_rebirth);
       }
     }
   }
@@ -136,29 +130,22 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
 boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_rebirth)
 {
   boolean result = false;
-  piece const pi_checking = e[pos_checking];
+  PieNam const pi_checking = abs(e[pos_checking]);
   Flags const spec_checking = spec[pos_checking];
 
   if (e[sq_rebirth]==vide || sq_rebirth==pos_checking)
   {
-    Flags const spec_rebirth = spec[sq_rebirth];
-
-    e[pos_checking] = vide;
-
-    e[sq_rebirth] = pi_checking;
-    spec[sq_rebirth] = spec_checking;
+    empty_square(pos_checking);
+    occupy_square(sq_rebirth,pi_checking,spec_checking);
 
     nextply();
     trait[nbply] = advers(side);
     fromspecificsquare = sq_rebirth;
-    result = (*checkfunctions[abs(pi_checking)])(king_square[side],abs(pi_checking),&eval_fromspecificsquare);
+    result = (*checkfunctions[pi_checking])(king_square[side],pi_checking,&eval_fromspecificsquare);
     finply();
 
-    e[sq_rebirth] = vide;
-    spec[sq_rebirth] = spec_rebirth;
-
-    e[pos_checking] = pi_checking;
-    spec[pos_checking] = spec_checking;
+    empty_square(sq_rebirth);
+    occupy_square(pos_checking,pi_checking,spec_checking);
   }
 
   return result;

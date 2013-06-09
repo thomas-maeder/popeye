@@ -31,8 +31,7 @@ static void white_piece_on(square where_to_intercept, void (*go_on)(void))
       white[i].usage = piece_is_unused;
     }
 
-  e[where_to_intercept]= vide;
-  spec[where_to_intercept]= EmptySpec;
+  empty_square(where_to_intercept);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -177,8 +176,7 @@ static void black_piece_on(square where_to_intercept,
       black[intercepter_index].usage = piece_is_unused;
     }
 
-  e[where_to_intercept] = vide;
-  spec[where_to_intercept] = EmptySpec;
+  empty_square(where_to_intercept);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

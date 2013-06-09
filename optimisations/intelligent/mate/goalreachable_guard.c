@@ -44,8 +44,8 @@ static boolean mate_isGoalReachable(void)
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
-        piece const from_piece = abs(e[from_square]);
-        if (from_piece!=vide && from_piece!=obs)
+        PieNam const from_piece = abs(e[from_square]);
+        if (from_piece!=Empty && from_piece!=Invalid)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
           if (target_position[id].diagram_square!=initsquare)

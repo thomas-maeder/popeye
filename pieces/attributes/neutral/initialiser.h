@@ -8,10 +8,6 @@
  * generation can generate moves capturing neutral pieces
  */
 
-/* Side that the neutral pieces currently belong to
- */
-extern Side neutral_side;
-
 /* Initialise the neutral pieces to belong to the side to be captured in the
  * subsequent move
  * @param captured_side side of pieces to be captured

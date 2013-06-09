@@ -205,6 +205,10 @@ extern square king_square[nr_sides];
 extern boolean areColorsSwapped;
 extern boolean isBoardReflected;
 
+/* Side that the neutral pieces currently belong to
+ */
+extern Side neutral_side;
+
 enum
 {
   BorderSpec = 0,
@@ -252,5 +256,10 @@ void swap_sides(void);
 
 /* Reflect the position at the horizontal central line */
 void reflect_position(void);
+
+void empty_square(square s);
+void block_square(square s);
+void occupy_square(square s, PieNam piece, Flags flags);
+void replace_piece(square s, PieNam piece);
 
 #endif

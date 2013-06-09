@@ -1646,10 +1646,7 @@ static char *ParseSquareList(char *tok,
         move_effect_journal_store_retro_capture(Square,removed,Spec);
       }
       else
-      {
-        spec[Square] = Spec;
-        e[Square] = TSTFLAG(Spec,White) ? Name : -Name;
-      }
+        occupy_square(Square,Name,Spec);
       tok+= 2;
       SquareCnt++;
       continue;
@@ -1751,17 +1748,15 @@ static square NextSquare(square sq)
     return initsquare;
 }
 
-static square SetSquare(square sq, piece p, boolean bw, boolean *neut)
+static void SetSquare(square sq, PieNam p, boolean bw, boolean neut)
 {
-  e[sq]= bw ? -p : p;
-  spec[sq]= bw ? BIT(Black) : BIT(White);
-  if (*neut) {
-    spec[sq]= BIT(Black) | BIT(White) | BIT(Neutral);
-    e[sq] = p;  /* must be 'white' for neutral */
+  if (neut)
+  {
+    occupy_square(sq,p,BIT(Black)|BIT(White)|BIT(Neutral));
     SETFLAG(some_pieces_flags, Neutral);
   }
-  *neut= false;
-  return NextSquare(sq);
+  else
+    occupy_square(sq, p, bw ? BIT(Black) : BIT(White));
 }
 
 static char *ParseForsyth(boolean output)
@@ -1772,8 +1767,8 @@ static char *ParseForsyth(boolean output)
   boolean NeutralFlag= false;
   char *tok = ReadNextCaseSensitiveTokStr();
 
-  for (bnp= boardnum; *bnp; bnp++)
-    e[*bnp]= vide;
+  for (bnp = boardnum; *bnp; bnp++)
+    empty_square(*bnp);
 
   king_square[White] = initsquare;
   king_square[Black] = initsquare;
@@ -1788,25 +1783,22 @@ static char *ParseForsyth(boolean output)
     {
       num= (*tok++) - '0';
       if (isdigit((int)*tok))
-        num += num * 9 + (*tok++) - '0';
+        num += num*9 + (*tok++) - '0';
       for (;num && sq;num--)
-      {
-        e[sq]= vide;
-        spec[sq]= BorderSpec;
-        sq= NextSquare(sq);
-      }
+        sq = NextSquare(sq);
       NeutralFlag= false;
     }
     else if (isalpha((int)*tok))
     {
       PieNam const pc= GetPieNamIndex(tolower(*tok),' ');
-      if (pc>=King) {
-        sq= SetSquare(sq,
-                      pc,
-                      islower((int)InputLine[(tok++)-TokenLine]),
-                      &NeutralFlag);
-        if (NeutralFlag)
-          SETFLAG(some_pieces_flags,Neutral);
+      if (pc>=King)
+      {
+        SetSquare(sq,
+                  pc,
+                  islower((int)InputLine[(tok++)-TokenLine]),
+                  NeutralFlag);
+        NeutralFlag = false;
+        sq = NextSquare(sq);
       }
       else
         tok++;           /* error */
@@ -1822,12 +1814,12 @@ static char *ParseForsyth(boolean output)
         PieNam const pc= GetPieNamIndex(tolower(*(tok+1)), tolower(*(tok+2)));
         if (pc>=King)
         {
-          sq= SetSquare(sq,
-                        pc,
-                        islower((int)InputLine[(tok+1-TokenLine)]),
-                        &NeutralFlag);
-          if (NeutralFlag)
-            SETFLAG(some_pieces_flags,Neutral);
+          SetSquare(sq,
+                    pc,
+                    islower((int)InputLine[(tok+1-TokenLine)]),
+                    NeutralFlag);
+          NeutralFlag = false;
+          sq = NextSquare(sq);
         }
         tok += 3;
       }
@@ -2235,10 +2227,7 @@ static char *ParseGoal(char *tok, slice_index proxy)
           /* used to call InitBoard(), which does much more than the following: */
           int i;
           for (i = 0; i<nr_squares_on_board; i++)
-          {
-            spec[i] = EmptySpec;
-            e[boardnum[i]] = vide;
-          }
+            empty_square(boardnum[i]);
           for (i = 0; i<maxinum; i++)
             isquare[i] = initsquare;
         }
@@ -4326,7 +4315,7 @@ static char *ReadSquares(SquareListContext context)
           break;
 
         case ReadHoles:
-          e[sq]= obs;
+          block_square(sq);
           break;
 
         case ReadEpSquares:
@@ -5800,7 +5789,7 @@ static char *ParseOpt(slice_index root_slice_hook)
 
 static unsigned int TwinNumber;
 
-piece  twin_e[nr_squares_on_board];
+PieNam twin_e[nr_squares_on_board];
 Flags  twin_spec[nr_squares_on_board];
 square twin_rb, twin_rn;
 imarr  twin_isquare;
@@ -5813,8 +5802,8 @@ static void TwinStorePosition(void)
   twin_rn= king_square[Black];
   for (i= 0; i < nr_squares_on_board; i++)
   {
-    twin_e[i]= e[boardnum[i]];
-    twin_spec[i]= spec[boardnum[i]];
+    twin_e[i] = abs(e[boardnum[i]]);
+    twin_spec[i] = spec[boardnum[i]];
   }
 
   for (i= 0; i < maxinum; i++)
@@ -5827,10 +5816,22 @@ static void TwinResetPosition(void)
 
   king_square[White]= twin_rb;
   king_square[Black]= twin_rn;
-  for (i= 0; i < nr_squares_on_board; i++) {
-    e[boardnum[i]]= twin_e[i];
-    spec[boardnum[i]]= twin_spec[i];
-  }
+
+  for (i= 0; i < nr_squares_on_board; i++)
+    switch (twin_e[i])
+    {
+      case Empty:
+        empty_square(boardnum[i]);
+        break;
+
+      case Invalid:
+        block_square(boardnum[i]);
+        break;
+
+      default:
+        occupy_square(boardnum[i],twin_e[i],twin_spec[i]);
+        break;
+    }
 
   for (i= 0; i < maxinum; i++)
     isquare[i]= twin_isquare[i];
@@ -5838,7 +5839,7 @@ static void TwinResetPosition(void)
 
 void transformPosition(SquareTransformation transformation)
 {
-  piece t_e[nr_squares_on_board];
+  PieNam t_e[nr_squares_on_board];
   Flags t_spec[nr_squares_on_board];
   square t_rb, t_rn, sq1, sq2;
   imarr t_isquare;
@@ -5849,7 +5850,7 @@ void transformPosition(SquareTransformation transformation)
   t_rn = king_square[Black];
   for (i = 0; i<nr_squares_on_board; i++)
   {
-    t_e[i] = e[boardnum[i]];
+    t_e[i] = abs(e[boardnum[i]]);
     t_spec[i] = spec[boardnum[i]];
   }
 
@@ -5863,8 +5864,20 @@ void transformPosition(SquareTransformation transformation)
     sq1 = boardnum[i];
     sq2 = transformSquare(sq1,transformation);
 
-    e[sq2] = t_e[i];
-    spec[sq2] = t_spec[i];
+    switch (t_e[i])
+    {
+      case Empty:
+        empty_square(sq2);
+        break;
+
+      case Invalid:
+        block_square(sq2);
+        break;
+
+      default:
+        occupy_square(sq2,t_e[i],t_spec[i]);
+        break;
+    }
 
     if (sq1==t_rb)
       king_square[White] = sq2;
@@ -5951,8 +5964,6 @@ static char *ParseTwinningMove(int indexx)
 {
   square sq1= 0, sq2= 0;
   char *tok;
-  piece p;
-  Flags sp;
 
   /* read the first square */
   while (sq1 == 0)
@@ -6028,52 +6039,74 @@ static char *ParseTwinningMove(int indexx)
     strcat(ActTwinning, GlobalStr);
   }
 
-  /* store the piece in case they are exchanged */
-  p= e[sq2];
-  sp= spec[sq2];
+  {
+    piece const p = abs(e[sq2]);
+    Flags const sp = spec[sq2];
 
-  /* move the piece from sq1 to sq2 */
-  e[sq2]= e[sq1];
-  spec[sq2]= spec[sq1];
+    occupy_square(sq2,abs(e[sq1]),spec[sq1]);
 
-  /* delete the other piece from p or delete sq1 */
-  e[sq1]= indexx == TwinningMove ? vide : p;
-  spec[sq1]= indexx == TwinningMove ? 0 : sp;
+    if (indexx==TwinningMove)
+    {
+      empty_square(sq1);
 
-  /* update king pointer */
-  if (sq1 == king_square[White]) {
-    king_square[White]= sq2;
-  }
-  else if (sq2 == king_square[White]) {
-    king_square[White]= indexx == TwinningExchange ? sq1 : initsquare;
-  }
-  if (sq1 == king_square[Black]) {
-    king_square[Black]= sq2;
-  }
-  else if (sq2 == king_square[Black]) {
-    king_square[Black]= indexx == TwinningExchange ? sq1 : initsquare;
+      if (sq1 == king_square[White])
+        king_square[White]= sq2;
+      else if (sq2 == king_square[White])
+        king_square[White] = initsquare;
+
+      if (sq1 == king_square[Black])
+        king_square[Black]= sq2;
+      else if (sq2 == king_square[Black])
+        king_square[Black]= initsquare;
+    }
+    else
+    {
+      occupy_square(sq1,p,sp);
+
+      if (sq1 == king_square[White])
+        king_square[White]= sq2;
+      else if (sq2 == king_square[White])
+        king_square[White]= sq1;
+
+      if (sq1 == king_square[Black])
+        king_square[Black]= sq2;
+      else if (sq2 == king_square[Black])
+        king_square[Black]= sq1;
+    }
   }
 
-  /* read next1 token */
   return ReadNextTokStr();
 
 } /* ParseTwinningMove */
 
 static void MovePieceFromTo(square from, square to)
 {
-  e[to]= e[from];
-  spec[to]= spec[from];
-  e[from]= vide;
-  CLEARFL(spec[from]);
-  if (from == king_square[White]) {
-    king_square[White]= to;
-  }
-  if (from == king_square[Black]) {
-    king_square[Black]= to;
+  PieNam const piece = abs(e[from]);
+
+  switch (piece)
+  {
+    case Empty:
+      empty_square(to);
+      break;
+
+    case Invalid:
+      block_square(to);
+      empty_square(from);
+      break;
+
+    default:
+      occupy_square(to,piece,spec[from]);
+      empty_square(from);
+      if (from == king_square[White])
+        king_square[White]= to;
+      if (from == king_square[Black])
+        king_square[Black]= to;
+      break;
   }
 } /* MovePieceFromTo */
 
-static char *ParseTwinningShift(void) {
+static char *ParseTwinningShift(void)
+{
   square sq1= 0, sq2= 0;
   square const *bnp;
   char *tok;
@@ -6142,40 +6175,35 @@ static char *ParseTwinningShift(void) {
        || mincol+diffcol <  8
        || maxrank+diffrank > 15
        || minrank+diffrank <  8)
-  {
     ErrorMsg(PieceOutside);
-  }
-  else {
+  else
+  {
     /* move along columns */
-    if (diffrank > 0) {
-      for (c= 8; c <= 15; c++) {
-        for (r= maxrank; r >= minrank; r--) {
+    if (diffrank > 0)
+    {
+      for (c= 8; c <= 15; c++)
+        for (r= maxrank; r >= minrank; r--)
           MovePieceFromTo(onerow*r+c, onerow*(r+diffrank)+c);
-        }
-      }
     }
-    else if (diffrank < 0) {
-      for (c= 8; c <= 15; c++) {
-        for (r= minrank; r <= maxrank; r++) {
+    else if (diffrank < 0)
+    {
+      for (c= 8; c <= 15; c++)
+        for (r= minrank; r <= maxrank; r++)
           MovePieceFromTo(onerow*r+c, onerow*(r+diffrank)+c);
-        }
-      }
     }
 
     /* move along ranks */
-    if (diffcol > 0) {
-      for (c= maxcol; c >= mincol; c--) {
-        for (r= 8; r <= 15; r++) {
+    if (diffcol > 0)
+    {
+      for (c= maxcol; c >= mincol; c--)
+        for (r= 8; r <= 15; r++)
           MovePieceFromTo(onerow*r+c, onerow*r+c+diffcol);
-        }
-      }
     }
-    else if (diffcol < 0) {
-      for (c= mincol; c <= maxcol; c++) {
-        for (r= 8; r <= 15; r++) {
+    else if (diffcol < 0)
+    {
+      for (c= mincol; c <= maxcol; c++)
+        for (r= 8; r <= 15; r++)
           MovePieceFromTo(onerow*r+c, onerow*r+c+diffcol);
-        }
-      }
     }
   }
 
@@ -6238,14 +6266,11 @@ static char *ParseTwinningRemove(void) {
       WriteSpec(spec[sq],e[sq], e[sq]!=vide);
       WritePiece(e[sq]);
       WriteSquare(sq);
-      e[sq]= vide;
-      CLEARFL(spec[sq]);;
-      if (sq == king_square[White]) {
+      empty_square(sq);
+      if (sq == king_square[White])
         king_square[White]= initsquare;
-      }
-      if (sq == king_square[Black]) {
+      if (sq == king_square[Black])
         king_square[Black]= initsquare;
-      }
     }
     tok += 2;
   }
@@ -6253,33 +6278,32 @@ static char *ParseTwinningRemove(void) {
   return ReadNextTokStr();
 } /* ParseTwinningRemove */
 
-static char *ParseTwinningPolish(void) {
-  square const *bnp;
-  square king;
+static char *ParseTwinningPolish(void)
+{
+  {
+    square const king_square_white = king_square[White];
+    king_square[White] = king_square[Black];
+    king_square[Black] = king_square_white;
+  }
 
-  king= king_square[White];
-  king_square[White]= king_square[Black];
-  king_square[Black]= king;
-
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
-      e[*bnp]= -e[*bnp];
-      spec[*bnp]^= BIT(White)+BIT(Black);
-    }
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp]!=vide)
+        occupy_square(*bnp,abs(e[*bnp]),spec[*bnp]^(BIT(White)|BIT(Black)));
   }
 
   StdString(TwinningTab[TwinningPolish]);
 
-  if (LaTeXout) {
+  if (LaTeXout)
     strcat(ActTwinning, TwinningTab[TwinningPolish]);
-  }
 
   return ReadNextTokStr();
 }
 
-static char *ParseTwinningSubstitute(void) {
-  square const *bnp;
-  piece p_old, p_new;
+static char *ParseTwinningSubstitute(void)
+{
+  PieNam p_old, p_new;
   char  *tok;
 
   tok = ReadNextTokStr();
@@ -6320,13 +6344,11 @@ static char *ParseTwinningSubstitute(void) {
   StdString(" ==> ");
   WritePiece(p_new);
 
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] == p_old) {
-      e[*bnp]= p_new;
-    }
-    else if (e[*bnp] == -p_old) {
-      e[*bnp]= -p_new;
-    }
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (abs(e[*bnp])==p_old)
+        replace_piece(*bnp,p_new);
   }
 
   return ReadNextTokStr();
@@ -6930,7 +6952,9 @@ void WritePosition()
         }
       }
 
-      if ((pp= abs(p= e[square])) < roib)
+      p = e[square];
+      pp = abs(p);
+      if (pp < roib)
       {
         if (p == -obs)
         {
@@ -7400,7 +7424,7 @@ void LaTeXBeginDiagram(void)
     CLEARFL(remspec[p]);
 
   for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] == 1) {
+    if (e[*bnp] == obs) {
       /* holes */
       if (holess)
         strcat(HolesSqList, ", ");

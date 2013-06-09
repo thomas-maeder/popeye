@@ -111,15 +111,14 @@ void intelligent_place_white_king(square place_on, void (*go_on)(void))
                                                       place_on))
   {
     king_square[White] = place_on;
-    SetPiece(King,place_on,white[index_of_king].flags);
+    occupy_square(place_on,King,white[index_of_king].flags);
 
     current_direction = vec_queen_start-1;
     go_on_after = go_on;
     continue_intercepting_checks();
 
     king_square[White] = initsquare;
-    e[place_on] = vide;
-    spec[place_on] = EmptySpec;
+    empty_square(place_on);
 
     intelligent_unreserve();
   }

@@ -40,8 +40,7 @@ stip_length_type haan_chess_hole_inserter_solve(slice_index si,
     {
       piece const from = move_effect_journal[curr].u.piece_movement.from;
       if (e[from]==vide)
-        move_effect_journal_do_piece_change(move_effect_journal[curr].reason,
-                                            from,Invalid);
+        move_effect_journal_do_square_block(move_effect_journal[curr].reason,from);
     }
 
   result = solve(slices[si].next1,n);

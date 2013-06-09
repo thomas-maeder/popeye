@@ -174,7 +174,7 @@ void move_effect_journal_do_remember_ghost(void)
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
-  PieNam const removed = abs(move_effect_journal[capture].u.piece_removal.removed);
+  PieNam const removed = move_effect_journal[capture].u.piece_removal.removed;
   Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
   TraceFunctionEntry(__func__);

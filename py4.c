@@ -2401,8 +2401,8 @@ void king_generate_moves(Side side_moving, square sq_departure)
 
 void gen_wh_ply(void)
 {
-  square i, j, z;
-  piece p;
+  unsigned int i;
+  square z = square_a1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2411,16 +2411,21 @@ void gen_wh_ply(void)
      the fastest way to compute (due to compiler-optimizations !)
      V3.14  NG
   */
-  z= square_a1;
   for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z++) {
-      if ((p = e[z]) != vide) {
+  {
+    square j;
+    for (j= nr_files_on_board; j > 0; j--, z++)
+    {
+      piece p = e[z];
+      if (p!=vide)
+      {
         if (TSTFLAG(spec[z], Neutral))
           p = -p;
         if (p > obs)
           generate_moves_for_piece(White,z, p);
       }
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -65,21 +65,18 @@ static boolean exists_redundant_white_piece(void)
       PieceIdType const id = GetPieceId(spec[sq]);
       piece_usage const usage = white[PieceId2index[id]].usage;
       TraceValue("%u",PieceId2index[id]);
+      TraceSquare(*bnp);
       TraceEnumerator(piece_usage,usage,"\n");
       if (usage!=piece_intercepts_check_from_guard && usage!=piece_gives_check)
       {
-        piece const p = e[sq];
+        PieNam const p = abs(e[sq]);
         Flags const sp = spec[sq];
 
-        /* remove piece */
-        e[sq] = vide;
-        spec[sq] = EmptySpec;
+        empty_square(sq);
 
         result = solve(slices[current_start_slice].next2,slack_length)==slack_length;
 
-        /* restore piece */
-        e[sq] = p;
-        spec[sq] = sp;
+        occupy_square(sq,p,sp);
       }
     }
   }
@@ -98,34 +95,39 @@ static square find_king_flight(void)
 {
   square result = initsquare;
   vec_index_type i;
+  Flags const king_spec = spec[king_square[Black]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  e[king_square[Black]] = vide;
+  empty_square(king_square[Black]);
 
   for (i = vec_queen_start; i<=vec_queen_end && result==initsquare; ++i)
   {
     king_square[Black] += vec[i];
 
     {
-      piece const p = e[king_square[Black]];
+      PieNam const p = abs(e[king_square[Black]]);
+      Flags const flags = spec[king_square[Black]];
 
-      if (abs(p)==Invalid || TSTFLAG(spec[king_square[Black]],Black))
+      if (p==Invalid || TSTFLAG(spec[king_square[Black]],Black))
         ; /* 'flight' is off board or blocked - don't bother */
       else
       {
-        e[king_square[Black]] = roin;
+        occupy_square(king_square[Black],King,BIT(Black));
         if (!echecc(Black))
           result = king_square[Black];
-        e[king_square[Black]] = p;
+        if (p==Empty)
+          empty_square(king_square[Black]);
+        else
+          occupy_square(king_square[Black],p,flags);
       }
     }
 
     king_square[Black] -= vec[i];
   }
 
-  e[king_square[Black]] = roin;
+  occupy_square(king_square[Black],King,king_spec);
 
   TraceFunctionExit(__func__);
   TraceSquare(result);

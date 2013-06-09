@@ -48,7 +48,7 @@ static void insert_sentinelle(Side trait_ply)
       if (flagparasent)
       {
         unsigned int prev_nr_other_sentinelles = number_of_pieces[advers(sentinelle_side)][sentinelle];
-        PieNam const pi_captured = abs(move_effect_journal[capture].u.piece_removal.removed);
+        PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
 
         if (pi_captured==sentinelle)
           ++prev_nr_other_sentinelles;

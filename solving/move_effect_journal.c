@@ -58,7 +58,7 @@ void move_effect_journal_reset(void)
   move_effect_journal_index_offset_other_effects = 2;
 
   move_effect_journal[2].type = move_effect_no_piece_removal;
-  move_effect_journal[2].u.piece_removal.removed = vide;
+  move_effect_journal[2].u.piece_removal.removed = Empty;
   CLEARFL(move_effect_journal[2].u.piece_removal.removedspec);
   move_effect_journal_top[0] = 3;
   move_effect_journal_top[1] = 4;
@@ -79,7 +79,7 @@ void move_effect_journal_store_retro_capture(square from,
   move_effect_journal[3].type = move_effect_piece_removal;
   move_effect_journal[3].reason = move_effect_reason_regular_capture;
   move_effect_journal[3].u.piece_removal.from = from;
-  move_effect_journal[3].u.piece_removal.removed = removed;
+  move_effect_journal[3].u.piece_removal.removed = abs(removed);
   move_effect_journal[3].u.piece_removal.removedspec = removedspec;
 }
 
@@ -130,11 +130,8 @@ static void do_movement(square from, square to)
 {
   if (to!=from)
   {
-    e[to] = e[from];
-    spec[to] = spec[from];
-
-    e[from] = vide;
-    CLEARFL(spec[from]);
+    occupy_square(to,abs(e[from]),spec[from]);
+    empty_square(from);
   }
 }
 
@@ -194,11 +191,8 @@ static void undo_piece_movement(move_effect_journal_index_type curr)
 
   if (to!=from)
   {
-    e[from] = e[to];
-    spec[from] = spec[to];
-
-    e[to] = vide;
-    CLEARFL(spec[to]);
+    occupy_square(from,abs(e[to]),spec[to]);
+    empty_square(to);
   }
 
   TraceFunctionExit(__func__);
@@ -224,11 +218,8 @@ static void redo_piece_movement(move_effect_journal_index_type curr)
 
   if (to!=from)
   {
-    e[to] = e[from];
-    spec[to] = spec[from];
-
-    e[from] = vide;
-    CLEARFL(spec[from]);
+    occupy_square(to,abs(e[from]),spec[from]);
+    empty_square(from);
   }
 
   TraceFunctionExit(__func__);
@@ -248,7 +239,6 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
-  Side const added_side = TSTFLAG(addedspec,Neutral) ? neutral_side : (TSTFLAG(addedspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -275,8 +265,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
     ++number_of_pieces[White][added];
   if (TSTFLAG(addedspec,Black))
     ++number_of_pieces[Black][added];
-  e[on] = added_side==White ? added : -added;
-  spec[on] = addedspec;
+  occupy_square(on,added,addedspec);
   assert(GetPieceId(addedspec)!=NullPieceId);
 
   TraceValue("%u",TSTFLAG(addedspec,Royal));
@@ -312,8 +301,8 @@ static void undo_piece_readdition(move_effect_journal_index_type curr)
     --number_of_pieces[White][added];
   if (TSTFLAG(addedspec,Black))
     --number_of_pieces[Black][added];
-  e[on] = vide;
-  CLEARFL(spec[on]);
+
+  empty_square(on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -325,7 +314,6 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
   square const on = curr_elmt->u.piece_addition.on;
   PieNam const added = curr_elmt->u.piece_addition.added;
   Flags const addedspec = curr_elmt->u.piece_addition.addedspec;
-  Side const added_side = TSTFLAG(addedspec,Neutral) ? neutral_side : (TSTFLAG(addedspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -341,8 +329,7 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
     ++number_of_pieces[Black][added];
 
   assert(e[on]==vide);
-  e[on] = added_side==White ? added : -added;
-  spec[on] = addedspec;
+  occupy_square(on,added,addedspec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -361,7 +348,6 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
-  Side const created_side = TSTFLAG(createdspec,Neutral) ? neutral_side : (TSTFLAG(createdspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -385,11 +371,10 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
 
   assert(e[on]==vide);
   if (TSTFLAG(createdspec,White))
-    ++number_of_pieces[White][abs(created)];
+    ++number_of_pieces[White][created];
   if (TSTFLAG(createdspec,Black))
-    ++number_of_pieces[Black][abs(created)];
-  e[on] = created_side==White ? created : -created;
-  spec[on] = createdspec;
+    ++number_of_pieces[Black][created];
+  occupy_square(on,created,createdspec);
   SetPieceId(spec[on],currPieceId++);
 
   TraceValue("%u",TSTFLAG(createdspec,Royal));
@@ -411,7 +396,7 @@ static void undo_piece_creation(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  piece const created = curr_elmt->u.piece_addition.added;
+  PieNam const created = curr_elmt->u.piece_addition.added;
   piece const createdspec = curr_elmt->u.piece_addition.addedspec;
 
   TraceFunctionEntry(__func__);
@@ -422,14 +407,14 @@ static void undo_piece_creation(move_effect_journal_index_type curr)
 #endif
 
   if (TSTFLAG(createdspec,White))
-    --number_of_pieces[White][abs(created)];
+    --number_of_pieces[White][created];
   if (TSTFLAG(createdspec,Black))
-    --number_of_pieces[Black][abs(created)];
+    --number_of_pieces[Black][created];
 
-  e[on] = vide;
   --currPieceId;
   assert(GetPieceId(spec[on])==currPieceId);
-  CLEARFL(spec[on]);
+
+  empty_square(on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -439,9 +424,8 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  piece const created = curr_elmt->u.piece_addition.added;
+  PieNam const created = curr_elmt->u.piece_addition.added;
   piece const createdspec = curr_elmt->u.piece_addition.addedspec;
-  Side const created_side = TSTFLAG(createdspec,Neutral) ? neutral_side : (TSTFLAG(createdspec,White) ? White : Black);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -452,13 +436,12 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
 #endif
 
   if (TSTFLAG(createdspec,White))
-    ++number_of_pieces[White][abs(created)];
+    ++number_of_pieces[White][created];
   if (TSTFLAG(createdspec,Black))
-    ++number_of_pieces[Black][abs(created)];
+    ++number_of_pieces[Black][created];
 
   assert(e[on]==vide);
-  e[on] = created_side==White ? created : -created;
-  spec[on] = createdspec;
+  occupy_square(on,created,createdspec);
   SetPieceId(spec[on],currPieceId++);
 
   TraceFunctionExit(__func__);
@@ -479,7 +462,7 @@ void move_effect_journal_do_no_piece_removal(void)
 
   top_elmt->type = move_effect_no_piece_removal;
   top_elmt->reason = move_effect_no_reason;
-  top_elmt->u.piece_removal.removed = vide;
+  top_elmt->u.piece_removal.removed = Empty;
   CLEARFL(top_elmt->u.piece_removal.removedspec);
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
@@ -509,7 +492,7 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
   top_elmt->type = move_effect_piece_removal;
   top_elmt->reason = reason;
   top_elmt->u.piece_removal.from = from;
-  top_elmt->u.piece_removal.removed = e[from];
+  top_elmt->u.piece_removal.removed = abs(e[from]);
   top_elmt->u.piece_removal.removedspec = spec[from];
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
@@ -534,9 +517,7 @@ static void do_removal(square from)
   if (TSTFLAG(removedspec,Black))
     --number_of_pieces[Black][removed];
 
-  e[from] = vide;
-
-  CLEARFL(spec[from]);
+  empty_square(from);
 }
 
 static void do_king_square_removal(move_effect_reason_type reason,
@@ -579,7 +560,7 @@ void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
 static void undo_piece_removal(move_effect_journal_index_type curr)
 {
   square const from = move_effect_journal[curr].u.piece_removal.from;
-  piece const removed = move_effect_journal[curr].u.piece_removal.removed;
+  PieNam const removed = move_effect_journal[curr].u.piece_removal.removed;
   Flags const removedspec = move_effect_journal[curr].u.piece_removal.removedspec;
 
   TraceFunctionEntry(__func__);
@@ -589,8 +570,7 @@ static void undo_piece_removal(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  e[from] = removed;
-  spec[from] = removedspec;
+  occupy_square(from,removed,removedspec);
 
   if (TSTFLAG(removedspec,White))
     ++number_of_pieces[White][abs(removed)];
@@ -657,7 +637,7 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
   if (TSTFLAG(spec[on],Black))
     --number_of_pieces[Black][abs(e[on])];
 
-  e[on] = e[on]<vide ? -to : to;
+  replace_piece(on,to);
 
   if (TSTFLAG(spec[on],White))
     ++number_of_pieces[White][abs(e[on])];
@@ -686,7 +666,7 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   if (TSTFLAG(spec[on],Black))
     --number_of_pieces[Black][abs(e[on])];
 
-  e[on] = e[on]<vide ? -from : from;
+  replace_piece(on,from);
 
   if (TSTFLAG(spec[on],White))
     ++number_of_pieces[White][abs(from)];
@@ -722,7 +702,7 @@ static void redo_piece_change(move_effect_journal_index_type curr)
   if (TSTFLAG(spec[on],Black))
     --number_of_pieces[Black][abs(e[on])];
 
-  e[on] = e[on]<vide ? -to : to;
+  replace_piece(on,to);
 
   if (TSTFLAG(spec[on],White))
     ++number_of_pieces[White][abs(to)];
@@ -743,7 +723,7 @@ void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
                                            square to)
 {
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
-  piece const pi_to = e[to];
+  PieNam const pi_to = abs(e[to]);
   Flags const spec_pi_to = spec[to];
 
   TraceFunctionEntry(__func__);
@@ -765,11 +745,8 @@ void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
 
   ++move_effect_journal_top[nbply];
 
-  e[to] = e[from];
-  spec[to] = spec[from];
-
-  e[from] = pi_to;
-  spec[from] = spec_pi_to;
+  occupy_square(to,abs(e[from]),spec[from]);
+  occupy_square(from,pi_to,spec_pi_to);
 
   if (TSTFLAG(spec[from],Royal))
   {
@@ -795,7 +772,7 @@ static void undo_piece_exchange(move_effect_journal_index_type curr)
 {
   square const from = move_effect_journal[curr].u.piece_exchange.from;
   square const to = move_effect_journal[curr].u.piece_exchange.to;
-  piece const pi_to = e[to];
+  PieNam const pi_to = abs(e[to]);
   Flags const spec_pi_to = spec[to];
 
   TraceFunctionEntry(__func__);
@@ -806,11 +783,8 @@ static void undo_piece_exchange(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  e[to] = e[from];
-  spec[to] = spec[from];
-
-  e[from] = pi_to;
-  spec[from] = spec_pi_to;
+  occupy_square(to,abs(e[from]),spec[from]);
+  occupy_square(from,pi_to,spec_pi_to);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -821,7 +795,7 @@ static void redo_piece_exchange(move_effect_journal_index_type curr)
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const from = curr_elmt->u.piece_exchange.from;
   square const to = curr_elmt->u.piece_exchange.to;
-  piece const pi_to = e[to];
+  PieNam const pi_to = abs(e[to]);
   Flags const spec_pi_to = spec[to];
 
   TraceFunctionEntry(__func__);
@@ -835,11 +809,8 @@ static void redo_piece_exchange(move_effect_journal_index_type curr)
   TraceSquare(to);
   TraceText("\n");
 
-  e[to] = e[from];
-  spec[to] = spec[from];
-
-  e[from] = pi_to;
-  spec[from] = spec_pi_to;
+  occupy_square(to,abs(e[from]),spec[from]);
+  occupy_square(from,pi_to,spec_pi_to);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1110,6 +1081,74 @@ static void redo_half_neutral_neutralisation(move_effect_journal_index_type curr
   TraceFunctionResultEnd();
 }
 
+/* Complete blocking of a square
+ * @param reason reason for changing the piece's nature
+ * @param on position of the piece to be changed
+ */
+void move_effect_journal_do_square_block(move_effect_reason_type reason,
+                                         square square)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceSquare(square);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_square_block;
+  top_elmt->reason = reason;
+  top_elmt->u.square_block.square = square;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_top[nbply];
+
+  block_square(square);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_square_block(move_effect_journal_index_type curr)
+{
+  square const on = move_effect_journal[curr].u.square_block.square;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  empty_square(on);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void redo_square_block(move_effect_journal_index_type curr)
+{
+  square const on = move_effect_journal[curr].u.square_block.square;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  block_square(on);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Add king square piece_movement to the current move of the current ply
  * @param reason reason for moving the king square
  * @param side whose king square to move
@@ -1325,16 +1364,15 @@ static void redo_flags_change(move_effect_journal_index_type curr)
 
 static void transformBoard(SquareTransformation transformation)
 {
-  piece t_e[nr_squares_on_board];
+  PieNam t_e[nr_squares_on_board];
   Flags t_spec[nr_squares_on_board];
-  square sq1, sq2;
   imarr t_isquare;
   int i;
 
   /* save the position to be mirrored/rotated */
   for (i = 0; i<nr_squares_on_board; i++)
   {
-    t_e[i] = e[boardnum[i]];
+    t_e[i] = abs(e[boardnum[i]]);
     t_spec[i] = spec[boardnum[i]];
   }
 
@@ -1345,20 +1383,27 @@ static void transformBoard(SquareTransformation transformation)
   /* pieces */
   for (i = 0; i<nr_squares_on_board; i++)
   {
-    sq1 = boardnum[i];
-    sq2 = transformSquare(sq1,transformation);
+    square const sq = transformSquare(boardnum[i],transformation);
 
-    e[sq2] = t_e[i];
-    spec[sq2] = t_spec[i];
+    switch (t_e[i])
+    {
+      case Empty:
+        empty_square(sq);
+        break;
+
+      case Invalid:
+        block_square(sq);
+        break;
+
+      default:
+        occupy_square(sq,t_e[i],t_spec[i]);
+        break;
+    }
   }
 
   /* imitators */
   for (i= 0; i<maxinum; i++)
-  {
-    sq1 = t_isquare[i];
-    sq2 = transformSquare(sq1, transformation);
-    isquare[i]= sq2;
-  }
+    isquare[i]= transformSquare(t_isquare[i], transformation);
 }
 
 /* Add transforming the board to the current move of the current ply
@@ -1600,6 +1645,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_neutral_recoloring_undo:
       case move_effect_half_neutral_deneutralisation:
       case move_effect_half_neutral_neutralisation:
+      case move_effect_square_block:
         /* nothing */
         break;
 
@@ -1712,6 +1758,10 @@ void redo_move_effects(void)
         redo_half_neutral_neutralisation(curr);
         break;
 
+      case move_effect_square_block:
+        redo_square_block(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1818,6 +1868,10 @@ void undo_move_effects(void)
 
       case move_effect_half_neutral_neutralisation:
         undo_half_neutral_neutralisation(top-1);
+        break;
+
+      case move_effect_square_block:
+        undo_square_block(top-1);
         break;
 
       default:

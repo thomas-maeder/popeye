@@ -35,8 +35,7 @@ static void place_some_piece_on(square where_to_place)
         black[i].usage = piece_is_unused;
       }
 
-    e[where_to_place] = vide;
-    spec[where_to_place] = EmptySpec;
+    empty_square(where_to_place);
 
     intelligent_unreserve();
   }

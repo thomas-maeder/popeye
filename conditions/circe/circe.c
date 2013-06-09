@@ -47,7 +47,7 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
   /* circe capture fork makes sure of that */
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
-  current_circe_reborn_piece[nbply] = abs(move_effect_journal[capture].u.piece_removal.removed);
+  current_circe_reborn_piece[nbply] = move_effect_journal[capture].u.piece_removal.removed;
   current_circe_reborn_spec[nbply] = removedspec;
 
   result = solve(slices[si].next1,n);

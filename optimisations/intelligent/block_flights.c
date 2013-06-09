@@ -63,8 +63,7 @@ static void block_next_flight(void)
         black[i].usage = piece_is_unused;
       }
 
-    e[to_be_blocked] = dummyn;
-    spec[to_be_blocked] = EmptySpec;
+    block_square(to_be_blocked);
   }
 
   ++nr_king_flights_to_be_blocked;
@@ -169,13 +168,13 @@ void intelligent_find_and_block_flights(void)
       {
         TraceSquare(king_flights_to_be_blocked[i]);
         TraceText("\n");
-        e[king_flights_to_be_blocked[i]] = dummyn;
+        block_square(king_flights_to_be_blocked[i]);
       }
 
       block_planned_flights();
 
       for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
-        e[king_flights_to_be_blocked[i]] = vide;
+        empty_square(king_flights_to_be_blocked[i]);
 
       intelligent_unreserve();
     }
