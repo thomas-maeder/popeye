@@ -263,5 +263,6 @@ void block_square(square s);
 void occupy_square(square s, PieNam piece, Flags flags);
 void replace_piece(square s, PieNam piece);
 boolean is_square_empty(square s);
+PieNam get_walk_of_piece_on_square(square s);
 
 #endif

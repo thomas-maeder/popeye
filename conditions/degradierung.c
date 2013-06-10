@@ -8,8 +8,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
-#include <string.h>
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -32,7 +30,7 @@ stip_length_type degradierung_degrader_solve(slice_index si,
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  PieNam const pi_played = abs(e[sq_arrival]);
+  PieNam const pi_played = get_walk_of_piece_on_square(sq_arrival);
   SquareFlags const double_step = slices[si].starter==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
   TraceFunctionEntry(__func__);

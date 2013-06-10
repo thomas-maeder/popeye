@@ -5,7 +5,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 void pawns_generate_ep_capture_move(Side side,
                                     square sq_departure,
@@ -19,7 +18,7 @@ void pawns_generate_ep_capture_move(Side side,
   TraceSquare(sq_arrival_singlestep);
   TraceFunctionParamListEnd();
 
-  if (abs(e[sq_departure])!=Orphan /* orphans cannot capture ep */
+  if (get_walk_of_piece_on_square(sq_departure)!=Orphan /* orphans cannot capture ep */
       && en_passant_is_capture_possible_to(side,sq_arrival_singlestep))
   {
     square const sq_capture = en_passant_find_capturee();

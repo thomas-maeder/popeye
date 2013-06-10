@@ -10,7 +10,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static void adjust(void)
 {
@@ -32,7 +31,7 @@ static void adjust(void)
                 || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement))
         {
           square const to = move_effect_journal[curr].u.piece_movement.to;
-          PieNam const substituted = abs(e[to]);
+          PieNam const substituted = get_walk_of_piece_on_square(to);
           PieNam const substitute = einstein_decrease_piece(substituted);
           if (substituted!=substitute)
             move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,

@@ -529,7 +529,7 @@ static boolean locate_unique_royal(Side side)
     for (bnp = boardnum; *bnp; ++bnp)
     {
       square const s = *bnp;
-      if (abs(e[s])==King || abs(e[s])==Poseidon)
+      if (get_walk_of_piece_on_square(s)==King || get_walk_of_piece_on_square(s)==Poseidon)
       {
         if (TSTFLAG(spec[s],side))
         {
@@ -1631,8 +1631,8 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(some_pieces_flags,Paralysing)
       || CondFlag[madras] || CondFlag[eiffel]
       || CondFlag[brunner]
-      || (king_square[White] != initsquare && abs(e[king_square[White]]) != King)
-      || (king_square[Black] != initsquare && abs(e[king_square[Black]]) != King)
+      || (king_square[White] != initsquare && get_walk_of_piece_on_square(king_square[White]) != King)
+      || (king_square[Black] != initsquare && get_walk_of_piece_on_square(king_square[Black]) != King)
       || TSTFLAG(some_pieces_flags, Chameleon)
       || CondFlag[einstein]
       || CondFlag[reveinstein]
@@ -1814,19 +1814,19 @@ static boolean verify_position(slice_index si)
   complex_castling_through_flag = CondFlag[imitators];
 
   if (castling_supported) {
-    if ((abs(e[square_e1])== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
+    if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
         && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
       SETCASTLINGFLAGMASK(0,White,k_cancastle);
-    if ((abs(e[square_h1])== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
+    if ((get_walk_of_piece_on_square(square_h1)== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
       SETCASTLINGFLAGMASK(0,White,rh_cancastle);
-    if ((abs(e[square_a1])== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
+    if ((get_walk_of_piece_on_square(square_a1)== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
       SETCASTLINGFLAGMASK(0,White,ra_cancastle);
-    if ((abs(e[square_e8])== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
+    if ((get_walk_of_piece_on_square(square_e8)== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
         && (!CondFlag[dynasty] || number_of_pieces[Black][standard_walks[King]]==1))
       SETCASTLINGFLAGMASK(0,Black,k_cancastle);
-    if ((abs(e[square_h8])== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
+    if ((get_walk_of_piece_on_square(square_h8)== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
       SETCASTLINGFLAGMASK(0,Black,rh_cancastle);
-    if ((abs(e[square_a8])== standard_walks[Rook]) && TSTFLAG(spec[square_a8], Black))
+    if ((get_walk_of_piece_on_square(square_a8)== standard_walks[Rook]) && TSTFLAG(spec[square_a8], Black))
       SETCASTLINGFLAGMASK(0,Black,ra_cancastle);
   }
 

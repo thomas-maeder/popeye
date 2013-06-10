@@ -6,7 +6,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -43,23 +42,23 @@ static void occupy(square dest, PieNam pi_src, Flags spec_src)
 
 static void revolve(void)
 {
-  PieNam const piece_temp = abs(e[square_d4]);
+  PieNam const piece_temp = get_walk_of_piece_on_square(square_d4);
   Flags const spec_temp = spec[square_d4];
 
-  occupy(square_d4,abs(e[square_e4]),spec[square_e4]);
-  occupy(square_e4,abs(e[square_e5]),spec[square_e5]);
-  occupy(square_e5,abs(e[square_d5]),spec[square_d5]);
+  occupy(square_d4,get_walk_of_piece_on_square(square_e4),spec[square_e4]);
+  occupy(square_e4,get_walk_of_piece_on_square(square_e5),spec[square_e5]);
+  occupy(square_e5,get_walk_of_piece_on_square(square_d5),spec[square_d5]);
   occupy(square_d5,piece_temp,spec_temp);
 }
 
 static void unrevolve(void)
 {
-  PieNam const piece_temp = abs(e[square_d5]);
+  PieNam const piece_temp = get_walk_of_piece_on_square(square_d5);
   Flags const spec_temp = spec[square_d5];
 
-  occupy(square_d5,abs(e[square_e5]),spec[square_e5]);
-  occupy(square_e5,abs(e[square_e4]),spec[square_e4]);
-  occupy(square_e4,abs(e[square_d4]),spec[square_d4]);
+  occupy(square_d5,get_walk_of_piece_on_square(square_e5),spec[square_e5]);
+  occupy(square_e5,get_walk_of_piece_on_square(square_e4),spec[square_e4]);
+  occupy(square_e4,get_walk_of_piece_on_square(square_d4),spec[square_d4]);
   occupy(square_d4,piece_temp,spec_temp);
 }
 

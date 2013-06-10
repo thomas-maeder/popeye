@@ -5,7 +5,7 @@
 
 /* This module implements Football Chess */
 
-extern piece current_football_substitution[maxply+1];
+extern PieNam current_football_substitution[maxply+1];
 
 /* Initialise the substitutes' bench for the current twin
  */

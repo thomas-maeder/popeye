@@ -6,7 +6,6 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
 #include <string.h>
 
 static boolean is_not_pawn_make_to_base_line(square sq_departure,
@@ -21,7 +20,7 @@ static boolean is_not_pawn_make_to_base_line(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(is_pawn(abs(e[sq_departure]))
+  result = !(is_pawn(get_walk_of_piece_on_square(sq_departure))
              && ((trait[nbply]==White && sq_arrival<=square_h1)
                  || (trait[nbply]==Black && sq_arrival>=square_a8)));
 
@@ -93,7 +92,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
   for (; take_current<=take_top; ++take_current)
   {
     square const take_capture = move_generation_stack[take_current].capture;
-    PieNam const taken = abs(e[take_capture]);
+    PieNam const taken = get_walk_of_piece_on_square(take_capture);
 
     if (taken==Empty)
     {
@@ -109,7 +108,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       numecoup make_filtered_top = make_current;
 
       empty_square(take_capture);
-      occupy_square(take_arrival,abs(e[take_departure]),spec[take_departure]);
+      occupy_square(take_arrival,get_walk_of_piece_on_square(take_departure),spec[take_departure]);
       empty_square(take_departure);
 
       gen_piece_aux(advers(moving),take_arrival,taken);
@@ -126,7 +125,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
       current_move[nbply] = make_filtered_top;
 
-      occupy_square(take_departure,abs(e[take_arrival]),spec[take_arrival]);
+      occupy_square(take_departure,get_walk_of_piece_on_square(take_arrival),spec[take_arrival]);
       empty_square(take_arrival);
       occupy_square(take_capture,taken,taken_spec);
     }

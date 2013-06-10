@@ -11,7 +11,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 boolean SATCheck;
 boolean StrictSAT[nr_sides][maxply+1];
@@ -36,7 +35,7 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
 {
   stip_length_type result;
   Side const starter = slices[si].starter;
-  PieNam const king_walk = abs(e[king_square[starter]]);
+  PieNam const king_walk = get_walk_of_piece_on_square(king_square[starter]);
   piece const sided_king = starter==White ? king_walk : -king_walk;
 
   TraceFunctionEntry(__func__);

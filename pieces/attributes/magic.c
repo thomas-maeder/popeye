@@ -146,7 +146,7 @@ static void GetRMHopAttackVectors(square from, square to,
   for (k= kend; k>=kanf; k--)
   {
     square const sq_hurdle = to+vec[k];
-    if (abs(e[sq_hurdle])>=roib)
+    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
       vec_index_type const k1 = 2*k;
       piece hopper;
@@ -474,7 +474,7 @@ static void PushMagicViewsByOnePiece(square pos_magic)
   square const *pos_viewed;
 
   for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
-    if (abs(e[*pos_viewed])>obs
+    if (get_walk_of_piece_on_square(*pos_viewed)>Invalid
         && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal)|BIT(Neutral)))
     {
       /* for each non-magic piece

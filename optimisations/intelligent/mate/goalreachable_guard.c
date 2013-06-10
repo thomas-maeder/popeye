@@ -44,7 +44,7 @@ static boolean mate_isGoalReachable(void)
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
-        PieNam const from_piece = abs(e[from_square]);
+        PieNam const from_piece = get_walk_of_piece_on_square(from_square);
         if (from_piece!=Empty && from_piece!=Invalid)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
@@ -108,7 +108,7 @@ static boolean mate_isGoalReachable(void)
         unsigned int time_before;
         unsigned int time_now;
         piece const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
-        piece const pi_arrived = abs(e[sq_arrival]);
+        piece const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
         Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check)

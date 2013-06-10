@@ -10,7 +10,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 PieNam anticirce_current_reborn_piece[maxply+1];
 Flags anticirce_current_reborn_spec[maxply+1];
@@ -64,7 +63,7 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  anticirce_current_reborn_piece[nbply] = abs(e[sq_arrival]);
+  anticirce_current_reborn_piece[nbply] = get_walk_of_piece_on_square(sq_arrival);
   anticirce_current_reborn_spec[nbply] = spec[sq_arrival];
 
   result = solve(slices[si].next1,n);

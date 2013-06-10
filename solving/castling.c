@@ -244,7 +244,7 @@ stip_length_type castling_player_solve(slice_index si, stip_length_type n)
  */
 void enable_castling_rights(square sq_arrival)
 {
-  PieNam const p = abs(e[sq_arrival]);
+  PieNam const p = get_walk_of_piece_on_square(sq_arrival);
   Flags const specs = spec[sq_arrival];
 
   TraceFunctionEntry(__func__);

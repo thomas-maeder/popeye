@@ -97,7 +97,7 @@ static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
                                                         evalfunction_t *evaluate)
 {
   square const sq_departure = sq_crossed-dir_capture;
-  return (abs(e[sq_departure])!=Orphan
+  return (get_walk_of_piece_on_square(sq_departure)!=Orphan
           && (*tester)(sq_departure,sq_crossed,sq_target,p,evaluate));
 }
 

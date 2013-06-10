@@ -8,8 +8,6 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 /* Allocate a STEnPassantRemoveNonReachers slice.
  * @return index of allocated slice
  */
@@ -33,8 +31,8 @@ static boolean is_enpassant_capture(square sq_departure,
                                     square sq_capture)
 {
   boolean result;
-  PieNam pi_moving = abs(e[sq_departure]);
-  PieNam pi_captured = abs(e[sq_capture]);
+  PieNam pi_moving = get_walk_of_piece_on_square(sq_departure);
+  PieNam pi_captured = get_walk_of_piece_on_square(sq_capture);
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);

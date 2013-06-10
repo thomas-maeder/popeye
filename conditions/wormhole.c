@@ -11,7 +11,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 square wormhole_positions[wormholes_capacity];
 static unsigned int nr_wormholes;
@@ -173,7 +172,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     result = solve(slices[si].next1,n);
   else
   {
-    PieNam const added = abs(e[sq_arrival]);
+    PieNam const added = get_walk_of_piece_on_square(sq_arrival);
     Flags const addedspec = spec[sq_arrival];
     move_effect_journal_do_piece_removal(move_effect_reason_wormhole_transfer,
                                          sq_arrival);

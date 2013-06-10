@@ -341,7 +341,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
       if (!is_square_empty(*bnp) && e[*bnp]!=obs)
       {
         WriteSpec(spec[*bnp],e[*bnp],true);
-        WritePiece(abs(e[*bnp]));
+        WritePiece(get_walk_of_piece_on_square(*bnp));
         WriteSquare(*bnp);
         fprintf(stdout," ");
       }

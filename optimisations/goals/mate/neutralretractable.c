@@ -12,7 +12,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 boolean optim_neutralretractable;
 
@@ -250,10 +249,10 @@ static boolean is_move_retractable(numecoup i)
         if (is_square_empty(sq_capture))
           result = true;
       }
-      else if (abs(e[sq_departure])!=Pawn || is_square_empty(sq_capture))
+      else if (get_walk_of_piece_on_square(sq_departure)!=Pawn || is_square_empty(sq_capture))
         result = true;
     }
-    else if (is_square_empty(sq_capture) && abs(e[sq_departure])!=Pawn)
+    else if (is_square_empty(sq_capture) && get_walk_of_piece_on_square(sq_departure)!=Pawn)
       result = true;
   }
 

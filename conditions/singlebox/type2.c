@@ -12,7 +12,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 singlebox_type2_latent_pawn_promotion_type singlebox_type2_latent_pawn_promotions[maxply+1];
 
@@ -228,7 +227,7 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
                                                              Side *side,
                                                              pieces_pawns_promotion_sequence_type *sequence)
 {
-  *side = (is_forwardpawn(abs(e[sq_prom])) ? ForwardPromSq(White,sq_prom) : ReversePromSq(White,sq_prom)) ? White : Black;
+  *side = (is_forwardpawn(get_walk_of_piece_on_square(sq_prom)) ? ForwardPromSq(White,sq_prom) : ReversePromSq(White,sq_prom)) ? White : Black;
   pieces_pawns_initialise_promotion_sequence(sq_prom,sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn

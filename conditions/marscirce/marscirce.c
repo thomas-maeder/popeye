@@ -105,12 +105,12 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
 
       if (is_square_empty(sq_rebirth))
       {
-        occupy_square(sq_rebirth,abs(e[sq_departure]),spec[sq_departure]);
+        occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
         empty_square(sq_departure);
 
         marscirce_generate_captures(side,p,sq_rebirth,sq_departure);
 
-        occupy_square(sq_departure,abs(e[sq_rebirth]),spec[sq_rebirth]);
+        occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
         empty_square(sq_rebirth);
       }
     }
@@ -130,7 +130,7 @@ void marscirce_generate_moves(Side side, piece p, square sq_departure)
 boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_rebirth)
 {
   boolean result = false;
-  PieNam const pi_checking = abs(e[pos_checking]);
+  PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
   Flags const spec_checking = spec[pos_checking];
 
   if (is_square_empty(sq_rebirth) || sq_rebirth==pos_checking)
@@ -173,7 +173,7 @@ boolean marsechecc(Side side, evalfunction_t *evaluate)
       if (piece_belongs_to_opponent(pos_checking,side)
           && pos_checking!=king_square[side]   /* exclude nK */)
       {
-        PieNam const pi_checking = abs(e[pos_checking]);
+        PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
         Flags const spec_checking = spec[pos_checking];
         square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
         result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);

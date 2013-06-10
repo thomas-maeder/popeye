@@ -62,7 +62,7 @@ static boolean stalemate_isGoalReachable(void)
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
-        piece const from_piece = abs(e[from_square]);
+        piece const from_piece = get_walk_of_piece_on_square(from_square);
         if (from_piece!=vide && from_piece!=obs)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
@@ -90,7 +90,7 @@ static boolean stalemate_isGoalReachable(void)
         square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
         piece const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-        piece const pi_arrived = abs(e[sq_arrival]);
+        piece const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
         Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
         unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
                                                                                         pi_departing,

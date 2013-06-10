@@ -19,12 +19,12 @@ static void generate_additional_captures_from(Side side,
 
   if (from!=sq_departure && is_square_empty(from))
   {
-    occupy_square(from,abs(e[sq_departure]),spec[sq_departure]);
+    occupy_square(from,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
     empty_square(sq_departure);
 
     marscirce_generate_captures(side,p,from,sq_departure);
 
-    occupy_square(sq_departure,abs(e[from]),spec[from]);
+    occupy_square(sq_departure,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
   }
 

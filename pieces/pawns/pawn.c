@@ -4,7 +4,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
 {
@@ -24,7 +23,7 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
     else if (anyparrain
              || CondFlag[normalp]
              || CondFlag[circecage]
-             || abs(e[sq_departure])==Orphan /* we are generating for a pawned Orphan! */
+             || get_walk_of_piece_on_square(sq_departure)==Orphan /* we are generating for a pawned Orphan! */
              || TSTFLAG(sq_spec[sq_departure],Wormhole))
       result = 1;
     else
@@ -88,9 +87,9 @@ boolean pawn_test_check(square sq_departure,
 
   TraceValue("%d",e[sq_departure]);
   TraceValue("%d",p);
-  TraceValue("%u",abs(e[sq_departure])==p);
+  TraceValue("%u",get_walk_of_piece_on_square(sq_departure)==p);
   TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
-  result = (abs(e[sq_departure])==p
+  result = (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && evaluate(sq_departure,sq_arrival,sq_capture)
             && imcheck(sq_departure,sq_arrival));

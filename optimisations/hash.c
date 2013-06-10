@@ -1379,7 +1379,7 @@ static void LargeEncode(stip_length_type min_length,
     square curr_square = a_square;
     for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right)
     {
-      PieNam const p = abs(e[curr_square]);
+      PieNam const p = get_walk_of_piece_on_square(curr_square);
       if (p!=Empty)
         bp = LargeEncodePiece(bp,position,row,col,p,spec[curr_square]);
     }
@@ -1443,7 +1443,7 @@ static void SmallEncode(stip_length_type min_length,
     square curr_square= a_square;
     for (col=0; col<nr_files_on_board; col++, curr_square += dir_right)
     {
-      PieNam const p = abs(e[curr_square]);
+      PieNam const p = get_walk_of_piece_on_square(curr_square);
       if (p!=Empty)
         bp = SmallEncodePiece(bp,row,col,p,spec[curr_square]);
     }

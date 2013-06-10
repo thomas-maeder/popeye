@@ -5,8 +5,6 @@
 
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 /* Determine whether a particular piece of the moving side is observed
  * @param sq position of the piece
  * @return true iff the piece occupying square sq is observed by the opponent
@@ -24,7 +22,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
     result = false;
   else
   {
-    PieNam const p = abs(e[sq]);
+    PieNam const p = get_walk_of_piece_on_square(sq);
     Side const observing_side = advers(observed_side);
 
     if (TSTFLAG(some_pieces_flags,Neutral))
@@ -66,7 +64,7 @@ boolean madrasi_can_piece_move(square sq)
     result = true;
   else
   {
-    PieNam const candidate = abs(e[sq]);
+    PieNam const candidate = get_walk_of_piece_on_square(sq);
 
     trait[nbply] = advers(trait[nbply]);
     result = (number_of_pieces[trait[nbply]][candidate]==0

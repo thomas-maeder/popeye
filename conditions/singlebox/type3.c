@@ -200,7 +200,7 @@ static square find_next_latent_pawn(square sq, Side side)
       sq += dir_right;
 
     {
-      PieNam const walk_promotee = abs(e[sq]);
+      PieNam const walk_promotee = get_walk_of_piece_on_square(sq);
       if (is_pawn(walk_promotee)
           && TSTFLAG(spec[sq],side)
           && (is_forwardpawn(walk_promotee)
@@ -239,7 +239,7 @@ void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, pie
     assert(promoting_side==side);
     while (sequence.promotee!=Empty)
     {
-      PieNam const pi_departing = abs(e[sq]);
+      PieNam const pi_departing = get_walk_of_piece_on_square(sq);
       PieNam const walk_promotee = sequence.promotee;
       piece const pi_promotee = p<0 ? -walk_promotee : walk_promotee;
       numecoup prev_nbcou = current_move[nbply];

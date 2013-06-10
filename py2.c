@@ -250,7 +250,7 @@ boolean rmhopech(square sq_king,
     TraceSquare(sq_hurdle);
     TracePiece(e[sq_hurdle]);
     TraceText("\n");
-    if (abs(e[sq_hurdle])>=King)
+    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
       vec_index_type k1 = 2*k;
       piece hopper;
@@ -320,7 +320,7 @@ boolean rcsech(square  sq_king,
       sq_departure+= k;
   }
 
-  if (abs(e[sq_departure])==p
+  if (get_walk_of_piece_on_square(sq_departure)==p
       && TSTFLAG(spec[sq_departure],trait[nbply])
       && evaluate(sq_departure,sq_arrival,sq_capture))
     return true;
@@ -334,7 +334,7 @@ boolean rcsech(square  sq_king,
       sq_departure+= k;
   }
 
-  if (abs(e[sq_departure])==p
+  if (get_walk_of_piece_on_square(sq_departure)==p
       && TSTFLAG(spec[sq_departure],trait[nbply])
       && evaluate(sq_departure,sq_arrival,sq_capture))
     return true;
@@ -360,7 +360,7 @@ boolean rcspech(square  sq_king,
       sq_departure+= vec[k];
   }
 
-  if (abs(e[sq_departure])==p
+  if (get_walk_of_piece_on_square(sq_departure)==p
       && TSTFLAG(spec[sq_departure],trait[nbply])
       && evaluate(sq_departure,sq_arrival,sq_capture))
     return true;
@@ -518,7 +518,7 @@ boolean rrefcech(square sq_king,
             return true;
         }
       }
-      else if (abs(e[sq_departure])==p
+      else if (get_walk_of_piece_on_square(sq_departure)==p
                && TSTFLAG(spec[sq_departure],trait[nbply])
                && evaluate(sq_departure,sq_king,sq_king))
         return true;
@@ -526,7 +526,7 @@ boolean rrefcech(square sq_king,
     else
       for (k= vec_knight_start; k <= vec_knight_end; k++) {
         sq_departure= i1+vec[k];
-        if (abs(e[sq_departure])==p
+        if (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && evaluate(sq_departure,sq_king,sq_king))
           return true;
@@ -559,7 +559,7 @@ static boolean rrefnech(square sq_king,
         break;
       }
     }
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
       return true;
@@ -591,7 +591,7 @@ boolean nequicheck(square   sq_king,
       sq_departure= sq_hurdle-vector;
 
       if (!is_square_empty(sq_hurdle)
-          && abs(e[sq_departure])==p
+          && get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_king!=sq_departure
           && evaluate(sq_departure,sq_king,sq_king)
@@ -633,7 +633,7 @@ boolean norixcheck(square   sq_king,
 
       if (queenlike
           && !is_square_empty(sq_hurdle)
-          && abs(e[sq_departure])==p
+          && get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_king!=sq_departure
           && evaluate(sq_departure,sq_king,sq_king)
@@ -661,7 +661,7 @@ boolean equifracheck(square sq_king,
     sq_hurdle= sq_king+vector;
     if (!is_square_empty(sq_hurdle)
         && e[sq_hurdle]!=obs
-        && abs(e[sq_departure])==p
+        && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && sq_king!=sq_departure
         && evaluate(sq_departure,sq_king,sq_king))
@@ -851,12 +851,12 @@ static boolean doublehoppercheck(square sq_king,
 
   for (k=vec_end; k>=vec_start; k--) {
     sq_hurdle2= sq_king+vec[k];
-    if (abs(e[sq_hurdle2])>=roib) {
+    if (get_walk_of_piece_on_square(sq_hurdle2)>=King) {
       sq_hurdle2+= vec[k];
       while (is_square_empty(sq_hurdle2)) {
         for (k1= vec_end; k1>=vec_start; k1--) {
           sq_hurdle1= sq_hurdle2+vec[k1];
-          if (abs(e[sq_hurdle1]) >= roib)
+          if (get_walk_of_piece_on_square(sq_hurdle1) >= King)
           {
             finligne(sq_hurdle1,vec[k1],double_hopper,sq_departure);
             if (abs(double_hopper)==p
@@ -981,7 +981,7 @@ boolean detect_rosecheck_on_line(square sq_king,
                                  numvec delta_k,
                                  evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
-  return (abs(e[sq_departure])==p
+  return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure!=sq_king /* pieces don't give check to themselves */
           && evaluate(sq_departure,sq_king,sq_king));
@@ -1027,7 +1027,7 @@ boolean detect_roselioncheck_on_line(square sq_king,
     }
 #endif
 
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && sq_departure!=sq_king /* pieces don't give check to themselves */
         && evaluate(sq_departure,sq_king,sq_king))
@@ -1062,7 +1062,7 @@ boolean detect_rosehoppercheck_on_line(square sq_king,
                                        numvec delta_k,
                                        evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
-  return (abs(e[sq_departure])==p
+  return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure!=sq_king
           && evaluate(sq_departure,sq_king,sq_king));
@@ -1102,7 +1102,7 @@ boolean detect_roselocustcheck_on_line(square sq_king,
                                        numvec delta_k,
                                        evalfunction_t *evaluate) {
   square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
-  return (abs(e[sq_departure])==p
+  return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure!=sq_king
           && evaluate(sq_departure,sq_arrival,sq_king));
@@ -1143,7 +1143,7 @@ boolean maocheck(square sq_king,
 
   if (is_square_empty(sq_king+dir_up+dir_right)) {
     sq_departure= sq_king+dir_up+2*dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1152,7 +1152,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_up+dir_right);
     }
     sq_departure= sq_king+2*dir_up+dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1164,7 +1164,7 @@ boolean maocheck(square sq_king,
 
   if (is_square_empty(sq_king+dir_down+dir_left)) {
     sq_departure= sq_king+dir_down+2*dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1173,7 +1173,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_down+dir_left);
     }
     sq_departure= sq_king+2*dir_down+dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1185,7 +1185,7 @@ boolean maocheck(square sq_king,
 
   if (is_square_empty(sq_king+dir_up+dir_left)) {
     sq_departure= sq_king+dir_up+2*dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1194,7 +1194,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_up+dir_left);
     }
     sq_departure= sq_king+2*dir_up+dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1206,7 +1206,7 @@ boolean maocheck(square sq_king,
 
   if (is_square_empty(sq_king+dir_down+dir_right)) {
     sq_departure= sq_king+2*dir_down+dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])) {
       if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_right,
@@ -1214,7 +1214,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_down+dir_right);
     }
     sq_departure= sq_king+dir_down+2*dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])) {
       if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_right,
@@ -1234,14 +1234,14 @@ boolean moacheck(square sq_king,
 
   if (is_square_empty(sq_king+dir_up)) {
     sq_departure= sq_king+2*dir_up+dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_up+dir_left, sq_king, sq_king+dir_up);
     }
     sq_departure= sq_king+2*dir_up+dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1250,14 +1250,14 @@ boolean moacheck(square sq_king,
   }
   if (is_square_empty(sq_king+dir_down)) {
     sq_departure= sq_king+2*dir_down+dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+2*dir_down+dir_right, sq_king, sq_king+dir_down);
     }
     sq_departure= sq_king+2*dir_down+dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1266,14 +1266,14 @@ boolean moacheck(square sq_king,
   }
   if (is_square_empty(sq_king+dir_right)) {
     sq_departure= sq_king+dir_up+2*dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_up+2*dir_right, sq_king, sq_king+dir_right);
     }
     sq_departure= sq_king+dir_down+2*dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1282,14 +1282,14 @@ boolean moacheck(square sq_king,
   }
   if (is_square_empty(sq_king+dir_left)) {
     sq_departure= sq_king+dir_down+2*dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
         return maooaimcheck(sq_king+dir_down+2*dir_left, sq_king, sq_king+dir_left);
     }
     sq_departure= sq_king+dir_up+2*dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
       if (evaluate(sq_departure,sq_king,sq_king))
@@ -1512,7 +1512,7 @@ boolean kangoucheck(square  sq_king,
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
     square sq_hurdle= sq_king+vec[k];
-    if (abs(e[sq_hurdle])>=roib)
+    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
       piece p1;
       finligne(sq_hurdle,vec[k],p1,sq_hurdle);
@@ -1542,7 +1542,7 @@ boolean kanglioncheck(square  sq_king,
     piece p1;
     square sq_hurdle;
     finligne(sq_king,vec[k],p1,sq_hurdle);
-    if (abs(e[sq_hurdle])>=roib)
+    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
       finligne(sq_hurdle,vec[k],p1,sq_hurdle);
       if (p1!=obs)
@@ -1884,8 +1884,8 @@ boolean equicheck(square    sq_king,
 
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {      /* 2,4; 2,6; 4,6; */
     square const sq_departure= sq_king+2*vec[k];
-    if (abs(e[sq_king+vec[k]])>=roib
-        && abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_king+vec[k])>=King
+        && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king)
         && (!checkhopim || hopimok(sq_departure,sq_king,sq_departure-vec[k],-vec[k],-vec[k])))
@@ -1921,8 +1921,8 @@ boolean equiengcheck(square sq_king,
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {      /* 2,4; 2,6; 4,6; */
     square const sq_departure = sq_king-vec[k];
     square const sq_hurdle = sq_king+vec[k];
-    if (abs(e[sq_hurdle])>=roib
-        && abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_hurdle)>=King
+        && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
       return true;
@@ -1947,7 +1947,7 @@ boolean catcheck(square sq_king,
       {
         {
           square const sq_departure= middle_square+mixhopdata[3][k-60];
-          if (abs(e[sq_departure])==p
+          if (get_walk_of_piece_on_square(sq_departure)==p
               && TSTFLAG(spec[sq_departure],trait[nbply])
               && evaluate(sq_departure,sq_king,sq_king))
             return true;
@@ -1955,7 +1955,7 @@ boolean catcheck(square sq_king,
 
         {
           square const sq_departure= middle_square+mixhopdata[3][k-56];
-          if (abs(e[sq_departure])==p
+          if (get_walk_of_piece_on_square(sq_departure)==p
               && TSTFLAG(spec[sq_departure],trait[nbply])
               && evaluate(sq_departure,sq_king,sq_king))
             return true;
@@ -2103,7 +2103,7 @@ static boolean maooaridercheck(square  sq_king,
   }
 
   return (is_square_empty(middle_square)
-          && abs(e[sq_departure])==p
+          && get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king));
 }
@@ -2186,7 +2186,7 @@ static boolean maooariderlioncheck(square  sq_king,
     sq_departure+= sec;
   }
   if (!is_square_empty(middle_square)
-      && abs(e[sq_departure])==p
+      && get_walk_of_piece_on_square(sq_departure)==p
       && TSTFLAG(spec[sq_departure],trait[nbply])
       && evaluate(sq_departure,sq_king,sq_king))
     return true;
@@ -2203,7 +2203,7 @@ static boolean maooariderlioncheck(square  sq_king,
       sq_departure+= sec;
     }
     if (is_square_empty(middle_square)
-        && abs(e[sq_departure])==p
+        && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
       return true;
@@ -2400,7 +2400,7 @@ boolean querquisitecheck(square sq_king,
   {
     square const sq_departure= sq_king+vec[k];
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && (file_departure==file_knight_queenside
             || file_departure==file_knight_kingside)
@@ -2413,7 +2413,7 @@ boolean querquisitecheck(square sq_king,
   {
     square const sq_departure= sq_king+vec[k];
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && file_departure==file_king
         && evaluate(sq_departure,sq_king,sq_king)
@@ -2478,7 +2478,7 @@ boolean pchincheck(square sq_king,
   numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
   sq_departure= sq_king+dir_backward;
-  if (abs(e[sq_departure])==p
+  if (get_walk_of_piece_on_square(sq_departure)==p
       && TSTFLAG(spec[sq_departure],trait[nbply])
       && evaluate(sq_departure,sq_king,sq_king))
     return true;
@@ -2489,13 +2489,13 @@ boolean pchincheck(square sq_king,
   if ((sq_king*2<(square_h8+square_a1)) == (trait[nbply]==Black))
   {
     sq_departure= sq_king+dir_right;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
       return true;
 
     sq_departure= sq_king+dir_left;
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
       return true;

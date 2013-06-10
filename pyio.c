@@ -4419,7 +4419,7 @@ static char *ReadFrischAufSquares(void)
         break;
       else
       {
-        if (is_square_empty(sq) || e[sq]==obs || is_pawn(abs(e[sq])))
+        if (is_square_empty(sq) || e[sq]==obs || is_pawn(get_walk_of_piece_on_square(sq)))
           Message(NoFrischAufPromPiece);
         else
         {
@@ -5803,7 +5803,7 @@ static void TwinStorePosition(void)
   twin_rn= king_square[Black];
   for (i= 0; i < nr_squares_on_board; i++)
   {
-    twin_e[i] = abs(e[boardnum[i]]);
+    twin_e[i] = get_walk_of_piece_on_square(boardnum[i]);
     twin_spec[i] = spec[boardnum[i]];
   }
 
@@ -5851,7 +5851,7 @@ void transformPosition(SquareTransformation transformation)
   t_rn = king_square[Black];
   for (i = 0; i<nr_squares_on_board; i++)
   {
-    t_e[i] = abs(e[boardnum[i]]);
+    t_e[i] = get_walk_of_piece_on_square(boardnum[i]);
     t_spec[i] = spec[boardnum[i]];
   }
 
@@ -6041,10 +6041,10 @@ static char *ParseTwinningMove(int indexx)
   }
 
   {
-    piece const p = abs(e[sq2]);
+    piece const p = get_walk_of_piece_on_square(sq2);
     Flags const sp = spec[sq2];
 
-    occupy_square(sq2,abs(e[sq1]),spec[sq1]);
+    occupy_square(sq2,get_walk_of_piece_on_square(sq1),spec[sq1]);
 
     if (indexx==TwinningMove)
     {
@@ -6082,7 +6082,7 @@ static char *ParseTwinningMove(int indexx)
 
 static void MovePieceFromTo(square from, square to)
 {
-  PieNam const piece = abs(e[from]);
+  PieNam const piece = get_walk_of_piece_on_square(from);
 
   switch (piece)
   {
@@ -6240,7 +6240,7 @@ static char *ParseTwinningRemove(void) {
   while (*tok) {
     sq= SquareNum(tok[0], tok[1]);
 
-    if (abs(e[sq]) < King) {
+    if (get_walk_of_piece_on_square(sq) < King) {
       WriteSquare(sq);
       StdString(": ");
       Message(NothingToRemove);
@@ -6288,7 +6288,7 @@ static char *ParseTwinningPolish(void)
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
       if (!TSTFLAG(spec[*bnp], Neutral) && !is_square_empty(*bnp))
-        occupy_square(*bnp,abs(e[*bnp]),spec[*bnp]^(BIT(White)|BIT(Black)));
+        occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),spec[*bnp]^(BIT(White)|BIT(Black)));
   }
 
   StdString(TwinningTab[TwinningPolish]);
@@ -6345,7 +6345,7 @@ static char *ParseTwinningSubstitute(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (abs(e[*bnp])==p_old)
+      if (get_walk_of_piece_on_square(*bnp)==p_old)
         replace_piece(*bnp,p_new);
   }
 
@@ -6967,7 +6967,7 @@ void WritePosition()
         {
           for (sp= Neutral + 1; sp < PieSpCount; sp++)
             if (TSTFLAG(spec[square],sp)
-                && !(sp==Royal && (abs(e[square])==King || abs(e[square])==Poseidon)))
+                && !(sp==Royal && (get_walk_of_piece_on_square(square)==King || get_walk_of_piece_on_square(square)==Poseidon)))
             {
               AddSquare(ListSpec[sp], square);
               ++SpecCount[sp];
@@ -7426,7 +7426,7 @@ void LaTeXBeginDiagram(void)
     }
     else if (!is_square_empty(*bnp))
     {
-      PieNam const p = abs(e[*bnp]);
+      PieNam const p = get_walk_of_piece_on_square(*bnp);
       if (!firstpiece)
         fprintf(LaTeXFile, ", ");
       else

@@ -42,12 +42,12 @@ void antimars_generate_moves(Side side, piece p, square sq_departure)
 
       if (is_square_empty(sq_rebirth))
       {
-        occupy_square(sq_rebirth,abs(e[sq_departure]),spec[sq_departure]);
+        occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
         empty_square(sq_departure);
 
         marscirce_generate_non_captures(side,p,sq_rebirth,sq_departure);
 
-        occupy_square(sq_departure,abs(e[sq_rebirth]),spec[sq_rebirth]);
+        occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
         empty_square(sq_rebirth);
       }
     }
@@ -64,7 +64,7 @@ static square adjust(void)
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  PieNam const pi_arriving = abs(e[sq_arrival]);
+  PieNam const pi_arriving = get_walk_of_piece_on_square(sq_arrival);
 
   if (is_pawn(pi_arriving)
       && move_effect_journal[capture].type==move_effect_no_piece_removal)

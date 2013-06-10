@@ -505,7 +505,7 @@ boolean leapcheck(square sq_king,
   for (k= kanf; k<=kend; k++)
   {
     square const sq_departure= sq_king+vec[k];
-    if (abs(e[sq_departure])==p
+    if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king)
         && imcheck(sq_departure,sq_king))
@@ -528,14 +528,14 @@ boolean leapleapcheck(square     sq_king,
   for (k= kanf; k<= kend; k++)
   {
     square const sq_hurdle= sq_king + vec[k];
-    if ((hurdletype==0 && abs(e[sq_hurdle])>obs && TSTFLAG(spec[sq_hurdle],advers(trait[nbply])))
-        || (hurdletype ==1 && abs(e[sq_hurdle])>obs))
+    if ((hurdletype==0 && get_walk_of_piece_on_square(sq_hurdle)>Invalid && TSTFLAG(spec[sq_hurdle],advers(trait[nbply])))
+        || (hurdletype ==1 && get_walk_of_piece_on_square(sq_hurdle)>Invalid))
     {
       vec_index_type k1;
       for (k1= kanf; k1<= kend; k1++)
       {
         square const sq_departure = sq_hurdle + vec[k1];
-        if (abs(e[sq_departure])==p
+        if (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && sq_departure!=sq_king
             && (*evaluate)(sq_departure,sq_king,sq_king)
@@ -698,7 +698,7 @@ boolean marine_leaper_check(square sq_king,
     square const sq_arrival = sq_king-vec[k];
     square const sq_departure = sq_king+vec[k];
     if (is_square_empty(sq_arrival)
-        && abs(e[sq_departure])==p
+        && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_arrival,sq_king))
       return true;
@@ -722,7 +722,7 @@ static boolean marine_pawn_test_check(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = (abs(e[sq_departure])==p
+  result = (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && is_square_empty(sq_arrival)
             && evaluate(sq_departure,sq_arrival,sq_capture));
@@ -859,7 +859,7 @@ static void locate_observees(PieNam walk, square pos_observees[])
   square const *bnp;
 
   for (bnp = boardnum; current<number_of_pieces[trait[nbply]][walk]; ++bnp)
-    if (abs(e[*bnp])==walk && TSTFLAG(spec[*bnp],trait[nbply]))
+    if (get_walk_of_piece_on_square(*bnp)==walk && TSTFLAG(spec[*bnp],trait[nbply]))
     {
       pos_observees[current] = *bnp;
       ++current;

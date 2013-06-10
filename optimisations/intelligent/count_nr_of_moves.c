@@ -596,16 +596,16 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
       if (MovesLeft[White]<=6)
       {
         /* immediate double step is required if this pawn is to promote */
-        if (abs(e[from_square+dir_up])==Pawn && TSTFLAG(spec[from_square+dir_up],Black)
-            && (abs(e[from_square+dir_left])==King || !TSTFLAG(spec[from_square+dir_left],White))
-            && (abs(e[from_square+dir_right])==King || !TSTFLAG(spec[from_square+dir_right],White)))
+        if (get_walk_of_piece_on_square(from_square+dir_up)==Pawn && TSTFLAG(spec[from_square+dir_up],Black)
+            && (get_walk_of_piece_on_square(from_square+dir_left)==King || !TSTFLAG(spec[from_square+dir_left],White))
+            && (get_walk_of_piece_on_square(from_square+dir_right)==King || !TSTFLAG(spec[from_square+dir_right],White)))
           /* Black can't immediately get rid of block on 3rd row
            * -> no immediate double step possible */
           ++result;
 
-        else if (abs(e[from_square+2*dir_up])==Pawn && TSTFLAG(spec[from_square+2*dir_up],Black)
-                 && (abs(e[from_square+dir_up+dir_left])==King || !TSTFLAG(spec[from_square+dir_up+dir_left],White))
-                 && (abs(e[from_square+dir_up+dir_right])==King || !TSTFLAG(spec[from_square+dir_up+dir_right],White))
+        else if (get_walk_of_piece_on_square(from_square+2*dir_up)==Pawn && TSTFLAG(spec[from_square+2*dir_up],Black)
+                 && (get_walk_of_piece_on_square(from_square+dir_up+dir_left)==King || !TSTFLAG(spec[from_square+dir_up+dir_left],White))
+                 && (get_walk_of_piece_on_square(from_square+dir_up+dir_right)==King || !TSTFLAG(spec[from_square+dir_up+dir_right],White))
                  && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_left)
                  && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_right))
           /* Black can't immediately get rid of block on 4th row

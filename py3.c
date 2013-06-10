@@ -169,7 +169,7 @@ boolean rcardech(square intermediate_square,
 
     if (k1<=4) {
       sq_departure+= vec[k1];
-      if (abs(e[sq_departure])==p
+      if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply]))
       {
         if (evaluate(sq_departure,sq_king,sq_king))
@@ -360,7 +360,7 @@ static boolean echecc_extinction(Side side_in_check)
     {
       square const *bnp;
       for (bnp  = boardnum; *bnp; ++bnp)
-        if (abs(e[*bnp])==p && TSTFLAG(spec[*bnp],side_in_check))
+        if (get_walk_of_piece_on_square(*bnp)==p && TSTFLAG(spec[*bnp],side_in_check))
           break;
 
       if (is_square_attacked(side_checking,*bnp,&validate_observation))
@@ -384,7 +384,7 @@ static boolean echecc_assassin(Side side_in_check)
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
     {
-      PieNam const p = abs(e[*bnp]);
+      PieNam const p = get_walk_of_piece_on_square(*bnp);
 
       if (p!=Empty
           && p!=King && TSTFLAG(spec[*bnp],side_in_check)
@@ -419,7 +419,7 @@ boolean echecc(Side side_in_check)
     return echecc_SAT(side_in_check);
   else if (rex_circe
            && (CondFlag[pwc]
-               || (e[(*circerenai)(abs(e[king_square[side_king_attacked]]),
+               || (e[(*circerenai)(get_walk_of_piece_on_square(king_square[side_king_attacked]),
                                    spec[king_square[side_king_attacked]],
                                    king_square[side_king_attacked],
                                    initsquare,
@@ -514,7 +514,7 @@ static boolean skycharcheck(PieNam p,
                             square sq_arrival2,
                             evalfunction_t *evaluate)
 {
-  if (abs(e[chp])==p && TSTFLAG(sq_spec[chp],trait[nbply]))
+  if (get_walk_of_piece_on_square(chp)==p && TSTFLAG(sq_spec[chp],trait[nbply]))
   {
     if (is_square_empty(sq_arrival1)
         && evaluate(chp,sq_arrival1,sq_king)) {

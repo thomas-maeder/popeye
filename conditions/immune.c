@@ -25,7 +25,7 @@ static boolean is_capturee_immune(Side side_capturing,
   TraceFunctionParamListEnd();
 
   {
-    square const sq_rebirth = (*immunrenai)(abs(e[sq_capture]),spec[sq_capture],
+    square const sq_rebirth = (*immunrenai)(get_walk_of_piece_on_square(sq_capture),spec[sq_capture],
                                             sq_capture,
                                             sq_departure,
                                             sq_arrival,

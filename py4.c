@@ -120,7 +120,7 @@ int len_max(square sq_departure, square sq_arrival, square sq_capture)
     return 25;
 
   default:  /* "ordinary move" */
-    switch (abs(e[sq_departure])) {
+    switch (get_walk_of_piece_on_square(sq_departure)) {
 
     case Mao:    /* special MAO move.*/
       return 6;
@@ -705,7 +705,8 @@ static void gchinleap(square sq_departure,
   {
     square sq_arrival= sq_departure + vec[k];
 
-    if (abs(e[sq_arrival])>=roib) {
+    if (get_walk_of_piece_on_square(sq_arrival)>=King)
+    {
       sq_arrival += vec[k];
       if (piece_belongs_to_opponent(sq_arrival,camp))
         empile(sq_departure,sq_arrival,sq_arrival);
@@ -1261,7 +1262,7 @@ static void gequi(square sq_departure, Side camp)
   {
     square const sq_hurdle= sq_departure+vec[k];
     square const sq_arrival= sq_departure + 2*vec[k];
-    if (abs(e[sq_hurdle])>=King
+    if (get_walk_of_piece_on_square(sq_hurdle)>=King
         && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
         && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
     {
@@ -1307,7 +1308,7 @@ static void gequiapp(square sq_departure, Side camp)
   {
     square const sq_arrival = sq_departure + vec[k];
     square const sq_hurdle1 = sq_departure+2*vec[k];
-    if (abs(e[sq_hurdle1])>=King
+    if (get_walk_of_piece_on_square(sq_hurdle1)>=King
         && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
@@ -2399,7 +2400,7 @@ void king_generate_moves(Side side_moving, square sq_departure)
       for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
         if (pos_partner!=sq_departure
             && TSTFLAG(spec[pos_partner],side_moving)
-            && !is_pawn(abs(e[pos_partner]))) /* not sure if "castling" with Ps forbidden */
+            && !is_pawn(get_walk_of_piece_on_square(pos_partner))) /* not sure if "castling" with Ps forbidden */
           empile(sq_departure,pos_partner,platzwechsel_rochade);
     }
   }
@@ -2453,7 +2454,7 @@ void gen_piece_aux(Side side, square sq_departure, PieNam p)
     {
       boolean const save_castling_supported = castling_supported;
       castling_supported = false;
-      piece_generate_moves(side,sq_departure,abs(e[annaniser_pos]));
+      piece_generate_moves(side,sq_departure,get_walk_of_piece_on_square(annaniser_pos));
       castling_supported = save_castling_supported;
     }
     else
@@ -2499,7 +2500,7 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
       Side const opponent = advers(side);
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
-        if (TSTFLAG(spec[*bnp],opponent) && abs(e[*bnp])==walk)
+        if (TSTFLAG(spec[*bnp],opponent) && get_walk_of_piece_on_square(*bnp)==walk)
           empile(sq_departure,*bnp,messigny_exchange);
     }
   }
@@ -2634,7 +2635,7 @@ static void genleapleap(square sq_departure,
   {
     square const sq_hurdle = sq_departure + vec[k];
     if ((hurdletype==0 && piece_belongs_to_opponent(sq_hurdle,camp))
-        || (hurdletype==1 && abs(e[sq_hurdle])>=roib))
+        || (hurdletype==1 && get_walk_of_piece_on_square(sq_hurdle)>=King))
     {
       vec_index_type k1;
       for (k1= kanf; k1 <= kend; k1++)

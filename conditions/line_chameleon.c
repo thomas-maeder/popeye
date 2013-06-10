@@ -9,11 +9,10 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static PieNam linechampiece(square sq_arrival)
 {
-  PieNam walk_moving = abs(e[sq_arrival]);
+  PieNam walk_moving = get_walk_of_piece_on_square(sq_arrival);
   PieNam walk_chameleonised = walk_moving;
 
   if (walk_moving==standard_walks[Queen]

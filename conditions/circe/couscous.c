@@ -30,7 +30,7 @@ stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_relevant_piece[nbply] = abs(e[sq_arrival]);
+  current_circe_relevant_piece[nbply] = get_walk_of_piece_on_square(sq_arrival);
   current_circe_relevant_spec[nbply] = spec[sq_arrival];
   current_circe_relevant_side[nbply] = advers(slices[si].starter);
 

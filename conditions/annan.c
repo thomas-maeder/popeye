@@ -2,7 +2,6 @@
 #include "position/position.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 annan_type_type annan_type;
 
@@ -54,9 +53,9 @@ boolean annan_is_square_attacked(Side side_attacking,
           && annanises(side_attacking,pos_annaniser,pos_annanised))
       {
         annan_sq[annan_cnt] = pos_annanised;
-        annan_p[annan_cnt] = abs(e[pos_annanised]);
+        annan_p[annan_cnt] = get_walk_of_piece_on_square(pos_annanised);
         ++annan_cnt;
-        replace_piece(pos_annanised,abs(e[pos_annaniser]));
+        replace_piece(pos_annanised,get_walk_of_piece_on_square(pos_annaniser));
       }
     }
   }

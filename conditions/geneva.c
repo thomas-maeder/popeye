@@ -25,7 +25,7 @@ static boolean is_capture_legal(Side side_capturing,
 
   if (rex_geneva || sq_departure!=king_square[side_capturing])
   {
-    square const sq_rebirth = rennormal(abs(e[sq_departure]),spec[sq_departure],
+    square const sq_rebirth = rennormal(get_walk_of_piece_on_square(sq_departure),spec[sq_departure],
                                         sq_departure,sq_departure,sq_arrival,
                                         side_capturee);
     result = is_square_empty(sq_rebirth);

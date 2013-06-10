@@ -51,7 +51,6 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>  /* H.D. 10.02.93 prototype fuer exit */
 #include <string.h>
 
 #if defined(DOS)
@@ -449,7 +448,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
   }
   else
   {
-    occupy_square(to,abs(e[from]),spec[from]);
+    occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
 
     if (king_square[side]!=initsquare)
@@ -457,7 +456,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
 
     result = !echecc(side);
 
-    occupy_square(from,abs(e[to]),spec[to]);
+    occupy_square(from,get_walk_of_piece_on_square(to),spec[to]);
     empty_square(to);
 
     if (king_square[side]!=initsquare)

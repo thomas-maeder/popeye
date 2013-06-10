@@ -12,7 +12,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static PieNam norsk_walk(PieNam p)
 {
@@ -54,7 +53,7 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   if (moving_pawn_promotion_state[nbply].promotee==Empty)
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    PieNam const norsked = abs(e[sq_arrival]);
+    PieNam const norsked = get_walk_of_piece_on_square(sq_arrival);
     PieNam const norsked_to_walk = norsk_walk(norsked);
     if (norsked!=norsked_to_walk)
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
@@ -85,7 +84,7 @@ static boolean is_not_illegal_capture(square sq_departure,
   result = !(!is_square_empty(sq_capture)
              && (sq_departure==king_square[White]
                  || sq_departure==king_square[Black]
-                 || abs(e[sq_capture])!=abs(e[sq_departure])));
+                 || get_walk_of_piece_on_square(sq_capture)!=get_walk_of_piece_on_square(sq_departure)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

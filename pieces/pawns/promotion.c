@@ -4,7 +4,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 PieNam pieces_pawns_promotee_chain[pieces_pawns_nr_promotee_chains][PieceCount];
 
@@ -85,7 +84,7 @@ void pieces_pawns_initialise_promotion_sequence(square sq_arrival,
    */
   if (is_square_occupied_by_promotable_pawn(sq_arrival)!=no_side)
   {
-    PieNam const walk_moving = abs(e[sq_arrival]);
+    PieNam const walk_moving = get_walk_of_piece_on_square(sq_arrival);
     sequence->selector = (walk_moving==MarinePawn
                           ? pieces_pawns_promotee_chain_marine
                           : pieces_pawns_promotee_chain_orthodox);
@@ -114,7 +113,7 @@ void pieces_pawns_continue_promotion_sequence(pieces_pawns_promotion_sequence_ty
 Side is_square_occupied_by_promotable_pawn(square square_reached)
 {
   Side result = no_side;
-  PieNam const walk_moving = abs(e[square_reached]);
+  PieNam const walk_moving = get_walk_of_piece_on_square(square_reached);
 
   TraceFunctionEntry(__func__);
   TraceSquare(square_reached);

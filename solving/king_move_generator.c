@@ -6,7 +6,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Allocate a STKingMoveGenerator slice.
  * @return index of allocated slice
@@ -33,7 +32,7 @@ void generate_king_moves(Side side)
 {
   if (king_square[side]!=initsquare)
   {
-    PieNam const king_walk = abs(e[king_square[side]]);
+    PieNam const king_walk = get_walk_of_piece_on_square(king_square[side]);
     piece const sided_king = side==White ? king_walk : -king_walk;
     generate_moves_for_piece(side,king_square[side],sided_king);
   }

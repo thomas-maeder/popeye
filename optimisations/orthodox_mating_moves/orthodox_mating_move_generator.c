@@ -46,7 +46,7 @@ static boolean IsABattery(square KingSquare,
     EndOfLine(FrontSquare, -Direction,sq_rear);
 
     {
-      PieNam const pi_rear = abs(e[sq_rear]);
+      PieNam const pi_rear = get_walk_of_piece_on_square(sq_rear);
       if ((pi_rear==RearPiece1 || pi_rear==RearPiece2)
           && TSTFLAG(spec[sq_rear],side))
         return true;

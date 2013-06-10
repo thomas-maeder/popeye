@@ -10,7 +10,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Place any black piece on some square
  * @param placed_on where to place any black piece
@@ -68,7 +67,7 @@ static boolean exists_redundant_white_piece(void)
       TraceEnumerator(piece_usage,usage,"\n");
       if (usage!=piece_intercepts_check_from_guard && usage!=piece_gives_check)
       {
-        PieNam const p = abs(e[sq]);
+        PieNam const p = get_walk_of_piece_on_square(sq);
         Flags const sp = spec[sq];
 
         empty_square(sq);
@@ -106,7 +105,7 @@ static square find_king_flight(void)
     king_square[Black] += vec[i];
 
     {
-      PieNam const p = abs(e[king_square[Black]]);
+      PieNam const p = get_walk_of_piece_on_square(king_square[Black]);
       Flags const flags = spec[king_square[Black]];
 
       if (p==Invalid || TSTFLAG(spec[king_square[Black]],Black))

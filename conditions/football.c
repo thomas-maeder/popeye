@@ -10,9 +10,8 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
-piece current_football_substitution[maxply+1];
+PieNam current_football_substitution[maxply+1];
 
 static PieNam const *bench[maxply+1];
 
@@ -68,7 +67,7 @@ static PieNam const *get_bench(void)
   if (sq_arrival!=king_square[Black] && sq_arrival!=king_square[White]
       && (sq_arrival%onerow==left_file || sq_arrival%onerow==right_file))
   {
-    PieNam const p = abs(e[sq_arrival]);
+    PieNam const p = get_walk_of_piece_on_square(sq_arrival);
     PieNam tmp = next_football_substitute[Empty];
 
     /* ensure moving piece is on list to allow null (= non-) substitutions */
@@ -98,7 +97,7 @@ static void init_substitution(void)
   TraceFunctionParamListEnd();
 
   bench[nbply] = get_bench();
-  current_football_substitution[nbply] = bench[nbply]==0 ? vide : bench[nbply][vide];
+  current_football_substitution[nbply] = bench[nbply]==0 ? Empty : bench[nbply][vide];
   TracePiece(current_football_substitution[nbply]);TraceText("\n");
 
   TraceFunctionExit(__func__);
@@ -114,7 +113,7 @@ static boolean advance_substitution(void)
 
   current_football_substitution[nbply] = bench[nbply][current_football_substitution[nbply]];
   TracePiece(current_football_substitution[nbply]);TraceText("\n");
-  result = current_football_substitution[nbply]!=vide;
+  result = current_football_substitution[nbply]!=Empty;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -148,13 +147,13 @@ stip_length_type football_chess_substitutor_solve(slice_index si,
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
     init_substitution();
 
-  if (current_football_substitution[nbply]==vide)
+  if (current_football_substitution[nbply]==Empty)
     result = solve(slices[si].next1,n);
   else
   {
     square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
-    if (abs(e[sq_arrival])!=current_football_substitution[nbply])
+    if (get_walk_of_piece_on_square(sq_arrival)!=current_football_substitution[nbply])
       move_effect_journal_do_piece_change(move_effect_reason_football_chess_substitution,
                                           sq_arrival,
                                           current_football_substitution[nbply]);

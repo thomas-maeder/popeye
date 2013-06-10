@@ -14,7 +14,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 boolean promotion_of_moving_into_chameleon[maxply+1];
 boolean promotion_of_circe_reborn_into_chameleon[maxply+1];
@@ -235,7 +234,7 @@ stip_length_type chameleon_arriving_adjuster_solve(slice_index si,
   if (TSTFLAG(spec[sq_arrival],Chameleon))
     move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
                                         sq_arrival,
-                                        champiece(abs(e[sq_arrival])));
+                                        champiece(get_walk_of_piece_on_square(sq_arrival)));
 
   result = solve(slices[si].next1,n);
 

@@ -178,3 +178,8 @@ boolean is_square_empty(square s)
 {
   return e[s]==vide;
 }
+
+PieNam get_walk_of_piece_on_square(square s)
+{
+  return abs(e[s]);
+}

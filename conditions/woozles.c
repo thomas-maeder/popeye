@@ -87,7 +87,7 @@ static boolean aux_wh(square sq_departure,
   if (validate_observation_geometry(sq_departure,sq_arrival,sq_capture))
   {
     Side const side_woozled = trait[parent_ply[nbply]];
-    PieNam const p = abs(e[sq_woo_from]);
+    PieNam const p = get_walk_of_piece_on_square(sq_woo_from);
     if (number_of_pieces[side_woozled][p]>0)
     {
       Side save_trait = trait[nbply];
