@@ -30,10 +30,10 @@ void restore_castling_rights(square sq_arrival)
 {
   if (castling_supported)
   {
-    piece const pi_arrived = e[sq_arrival];
+    PieNam const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
     Flags const spec_arrived = spec[sq_arrival];
 
-    if (abs(pi_arrived)==standard_walks[Rook])
+    if (pi_arrived==standard_walks[Rook])
     {
       if (TSTFLAG(spec_arrived, White)) {
         if (sq_arrival==square_h1)
@@ -53,7 +53,7 @@ void restore_castling_rights(square sq_arrival)
       }
     }
 
-    else if (abs(pi_arrived)==standard_walks[King]) {
+    else if (pi_arrived==standard_walks[King]) {
       if (TSTFLAG(spec_arrived, White)
           && sq_arrival==square_e1
           && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))

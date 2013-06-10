@@ -373,7 +373,7 @@ static void simple_rider_indirectly_approach_king(square sq_departure,
   {
     numvec const dir = vec[vec_index];
     square sq_arrival = sq_departure+dir;
-    if (e[sq_arrival]!=obs
+    if (!is_square_blocked(sq_arrival)
         && move_diff_code[abs(sq_arrival-sq_king)]<OriginalDistance)
     {
       /* The rider must move closer to the king! */

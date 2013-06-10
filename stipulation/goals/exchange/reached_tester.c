@@ -63,7 +63,7 @@ stip_length_type goal_exchange_reached_tester_solve(slice_index si, stip_length_
   assert(current_move[nbply]!=nil_coup);
 
   if (GetPositionInDiagram(spec[sq_diagram])==sq_arrival
-      && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
+      && TSTFLAG(spec[sq_diagram],just_moved)
       && sq_diagram!=sq_arrival)
     result = solve(slices[si].next1,n);
   else
