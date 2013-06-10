@@ -57,7 +57,7 @@ static void front_check_by_rider_via(unsigned int index_of_checker,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-    if (e[*bnp]==vide)
+    if (is_square_empty(*bnp))
     {
       int const dir = CheckDir[checker_type][king_square[Black]-*bnp];
       if (dir!=0
@@ -96,7 +96,7 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-    if (e[*bnp]==vide
+    if (is_square_empty(*bnp)
         && CheckDir[Knight][king_square[Black]-*bnp]!=0
         && intelligent_reserve_front_check_by_officer(checker_origin,
                                                       via,
@@ -134,7 +134,7 @@ static void front_check_by_promotee_rider(unsigned int index_of_checker,
   {
     numvec const dir = vec[i];
     square to_square;
-    for (to_square = via+dir; e[to_square]==vide; to_square += dir)
+    for (to_square = via+dir; is_square_empty(to_square); to_square += dir)
     {
       int const check_dir = CheckDir[promotee_type][king_square[Black]-to_square];
       if (check_dir!=0)
@@ -173,7 +173,7 @@ static void front_check_by_promotee_knight(unsigned int index_of_checker,
   for (i = vec_knight_start; i<=vec_knight_end; ++i)
   {
     square const to_square = via+vec[i];
-    if (e[to_square]==vide
+    if (is_square_empty(to_square)
         && CheckDir[Knight][king_square[Black]-to_square]!=0)
     {
       TraceSquare(to_square);TracePiece(e[to_square]);TraceText("\n");
@@ -241,7 +241,7 @@ static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  if (e[check_square]==vide
+  if (is_square_empty(check_square)
       && intelligent_reserve_front_check_by_pawn_with_capture(white[index_of_checker].diagram_square,
                                                               via,
                                                               check_square))
@@ -268,7 +268,7 @@ static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_
   TraceValue("%d",dir);
   TraceFunctionParamListEnd();
 
-  if (e[check_from]==vide
+  if (is_square_empty(check_from)
       && intelligent_reserve_front_check_by_pawn_without_capture(white[index_of_checker].diagram_square,
                                                                  via))
   {
@@ -302,7 +302,7 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
   TraceValue("%d",dir);
   TraceFunctionParamListEnd();
 
-  if (e[check_from]==vide
+  if (is_square_empty(check_from)
       && intelligent_reserve_front_check_by_pawn_with_capture(white[index_of_checker].diagram_square,
                                                               via,
                                                               check_from))
@@ -458,10 +458,10 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
   {
     int const dir = vec[k];
     TraceValue("%u",k);TraceValue("%d\n",dir);
-    if (e[king_square[Black]+dir]==vide)
+    if (is_square_empty(king_square[Black]+dir))
     {
       square rear_pos;
-      for (rear_pos = king_square[Black]+2*dir; e[rear_pos]==vide; rear_pos += dir)
+      for (rear_pos = king_square[Black]+2*dir; is_square_empty(rear_pos); rear_pos += dir)
         if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_checker,
                                                                       rear_pos)
             && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_checker].diagram_square,
@@ -531,10 +531,10 @@ static void rear_check_by_rider(unsigned int index_of_checker,
   {
     int const dir = vec[k];
     TraceValue("%u",k);TraceValue("%d\n",dir);
-    if (e[king_square[Black]+dir]==vide)
+    if (is_square_empty(king_square[Black]+dir))
     {
       square rear_pos;
-      for (rear_pos = king_square[Black]+2*dir; e[rear_pos]==vide; rear_pos += dir)
+      for (rear_pos = king_square[Black]+2*dir; is_square_empty(rear_pos); rear_pos += dir)
         if (intelligent_reserve_officer_moves_from_to(White,
                                                       checker_origin,
                                                       checker_type,
@@ -665,7 +665,7 @@ static void en_passant_orthogonal_check(int dir_vertical)
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  for (check_from = via_capturer+dir_vertical; e[check_from]==vide; check_from += dir_vertical)
+  for (check_from = via_capturer+dir_vertical; is_square_empty(check_from); check_from += dir_vertical)
   {
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
@@ -777,7 +777,7 @@ static void en_passant_diagonal_check(square via_capturee, int dir_vertical)
   TraceFunctionParam("%d",dir_diagonal);
   TraceFunctionParamListEnd();
 
-  for (check_from = via_capturee+dir_diagonal; e[check_from]==vide; check_from += dir_diagonal)
+  for (check_from = via_capturee+dir_diagonal; is_square_empty(check_from); check_from += dir_diagonal)
   {
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
@@ -845,7 +845,7 @@ static void en_passant_select_capturee(square via_capturee, int dir_vertical)
   TraceFunctionParamListEnd();
 
   TracePiece(e[via_capturee]);TraceText("\n");
-  if (e[via_capturee]==vide)
+  if (is_square_empty(via_capturee))
   {
     square const capturee_origin = via_capturee+2*dir_up;
     unsigned int const index_capturee = enpassant_find_capturee(capturee_origin);
@@ -877,7 +877,7 @@ static void en_passant(square king_row_start, square king_row_end,
   if (king_row_start<=king_square[Black] && king_square[Black]<=king_row_end)
   {
     square const via_capturer = king_square[Black]+dir_vertical;
-    if (e[via_capturer]==vide)
+    if (is_square_empty(via_capturer))
     {
       unsigned int capturer_index;
 

@@ -1603,7 +1603,7 @@ static char *ParseSquareList(char *tok,
     square const Square = SquareNum(*tok,tok[1]);
     if (tok[0]!=0 && tok[1]!=0 && Square!=initsquare)
     {
-      if (e[Square] != vide)
+      if (!is_square_empty(Square))
       {
         if (!echo)
         {
@@ -1622,7 +1622,7 @@ static char *ParseSquareList(char *tok,
         if (LaTeXout) {
           sprintf(GlobalStr,
                   "%s\\%c%s %c%c",
-                  e[Square] == vide ? "+" : "",
+                  is_square_empty(Square) ? "+" : "",
                   TSTFLAG(Spec, Neutral)
                   ? 'n'
                   : TSTFLAG(Spec, White) ? 'w' : 's',
@@ -1631,7 +1631,7 @@ static char *ParseSquareList(char *tok,
                   '1'-nr_of_slack_rows_below_board+Square/onerow);
           strcat(ActTwinning, GlobalStr);
         }
-        if (e[Square] == vide)
+        if (is_square_empty(Square))
           StdChar(echo);
         WriteSpec(Spec,Name, Name!=Empty);
         WritePiece(Name);
@@ -4419,7 +4419,7 @@ static char *ReadFrischAufSquares(void)
         break;
       else
       {
-        if (e[sq]==vide || e[sq]==obs || is_pawn(abs(e[sq])))
+        if (is_square_empty(sq) || e[sq]==obs || is_pawn(abs(e[sq])))
           Message(NoFrischAufPromPiece);
         else
         {
@@ -6009,12 +6009,12 @@ static char *ParseTwinningMove(int indexx)
     strcat(ActTwinning, GlobalStr);
   }
 
-  WriteSpec(spec[sq1],e[sq1], e[sq1]!=vide);
+  WriteSpec(spec[sq1],e[sq1],!is_square_empty(sq1));
   WritePiece(e[sq1]);
   WriteSquare(sq1);
   if (indexx == TwinningExchange) {
     StdString("<-->");
-    WriteSpec(spec[sq2],e[sq2], e[sq2]!=vide);
+    WriteSpec(spec[sq2], e[sq2],!is_square_empty(sq2));
     WritePiece(e[sq2]);
     if (LaTeXout) {
       strcat(ActTwinning, "{\\lra}");
@@ -6156,21 +6156,18 @@ static char *ParseTwinningShift(void)
   mincol= onerow-1;
   maxcol= 0;
 
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] != vide) {
-      if (*bnp/onerow < minrank) {
+  for (bnp= boardnum; *bnp; bnp++)
+    if (!is_square_empty(*bnp))
+    {
+      if (*bnp/onerow < minrank)
         minrank= *bnp/onerow;
-      }
-      if (*bnp/onerow > maxrank) {
+      if (*bnp/onerow > maxrank)
         maxrank= *bnp/onerow;
-      }
-      if (*bnp%onerow < mincol) {
+      if (*bnp%onerow < mincol)
         mincol= *bnp%onerow;
-      }
-      if (*bnp%onerow > maxcol) {
+      if (*bnp%onerow > maxcol)
         maxcol= *bnp%onerow;
-      }
-    }    }
+    }
 
   if ( maxcol+diffcol > 15
        || mincol+diffcol <  8
@@ -6264,7 +6261,7 @@ static char *ParseTwinningRemove(void) {
       }
 
       StdString(" -");
-      WriteSpec(spec[sq],e[sq], e[sq]!=vide);
+      WriteSpec(spec[sq], e[sq],!is_square_empty(sq));
       WritePiece(e[sq]);
       WriteSquare(sq);
       empty_square(sq);
@@ -6290,7 +6287,7 @@ static char *ParseTwinningPolish(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp]!=vide)
+      if (!TSTFLAG(spec[*bnp], Neutral) && !is_square_empty(*bnp))
         occupy_square(*bnp,abs(e[*bnp]),spec[*bnp]^(BIT(White)|BIT(Black)));
   }
 
@@ -7427,7 +7424,7 @@ void LaTeXBeginDiagram(void)
         holess= true;
       AddSquare(HolesSqList, *bnp);
     }
-    else if (e[*bnp] != vide)
+    else if (!is_square_empty(*bnp))
     {
       PieNam const p = abs(e[*bnp]);
       if (!firstpiece)

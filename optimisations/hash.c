@@ -1166,7 +1166,7 @@ static unsigned int TellLargeEncodePosLeng(void)
   TraceFunctionParamListEnd();
 
   for (bnp= boardnum; *bnp; bnp++)
-    if (e[*bnp] != vide)
+    if (!is_square_empty(*bnp))
     {
       len += bytes_per_piece;
       nbr_p++;  /* count no. of pieces and holes */
@@ -1200,7 +1200,7 @@ static unsigned int TellSmallEncodePosLeng(void)
     /* piece    p;
     ** Flags    pspec;
     */
-    if (e[*bnp] != vide)
+    if (!is_square_empty(*bnp))
     {
       len += 1 + bytes_per_piece;
       nbr_p++;            /* count no. of pieces and holes */

@@ -103,7 +103,7 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
     if (wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_arrival)
       /* wormhole is arrival square - we transfer *from* here! */
       skip_wormhole();
-    else if (e[wormhole_positions[wormhole_next_transfer[nbply]-1]]!=vide)
+    else if (!is_square_empty(wormhole_positions[wormhole_next_transfer[nbply]-1]))
       /* wormhole is occupied */
       skip_wormhole();
     else
@@ -224,7 +224,7 @@ static boolean avoid_observation_if_no_wormhole_empty(square sq_observer,
     for (i = 0; i!=nr_wormholes; ++i)
     {
       square const pos = wormhole_positions[i];
-      if (pos!=sq_landing && e[pos]==vide)
+      if (pos!=sq_landing && is_square_empty(pos))
       {
         result = true;
         break;

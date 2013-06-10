@@ -28,7 +28,7 @@ static square next_rebirth_square(square beyond_prev_rebirth_square)
   /* TODO simplify relation to Cheylan type */
   e[sq_capture] = vide;
 
-  while (e[result]!=vide && result<=square_h8)
+  while (!is_square_empty(result) && result<=square_h8)
     ++result;
 
   e[sq_capture] = pi_captured;

@@ -85,7 +85,7 @@ stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
   take_make_circe_current_rebirth_square_index[nbply-1] = take_make_circe_current_rebirth_square_index[nbply-2];
 
   for (i = current_move[nbply]; i>current_move[nbply-1]; --i)
-    if (e[move_generation_stack[i].capture]==vide)
+    if (is_square_empty(move_generation_stack[i].capture))
     {
       ++take_make_circe_current_rebirth_square_index[nbply-1];
       rebirth_square[take_make_circe_current_rebirth_square_index[nbply-1]] = move_generation_stack[i].arrival;

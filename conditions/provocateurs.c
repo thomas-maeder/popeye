@@ -61,7 +61,7 @@ static boolean is_not_unprovoked_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = e[sq_capture]==vide || is_piece_provoked_on(sq_departure);
+  result = is_square_empty(sq_capture) || is_piece_provoked_on(sq_departure);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

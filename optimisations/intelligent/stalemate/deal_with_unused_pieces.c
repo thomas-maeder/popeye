@@ -55,7 +55,7 @@ static void place_some_piece(void)
   TraceFunctionParamListEnd();
 
   for (bnp = where_to_start_placing_black_pieces; *bnp; ++bnp)
-    if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0)
+    if (is_square_empty(*bnp) && nr_reasons_for_staying_empty[*bnp]==0)
     {
       where_to_start_placing_black_pieces = bnp;
       place_some_piece_on(*bnp);
@@ -98,7 +98,7 @@ void intelligent_stalemate_deal_with_unused_pieces(void)
         && white[index_of_king].diagram_square!=square_e1
         && intelligent_get_nr_remaining_moves(White)==0)
     {
-      if (e[white[index_of_king].diagram_square]==vide
+      if (is_square_empty(white[index_of_king].diagram_square)
           && nr_reasons_for_staying_empty[white[index_of_king].diagram_square]==0)
         fix_white_king_on_diagram_square();
     }

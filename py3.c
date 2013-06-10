@@ -175,7 +175,7 @@ boolean rcardech(square intermediate_square,
         if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
-      else if (e[sq_departure]==vide) {
+      else if (is_square_empty(sq_departure)) {
         k1= 5;
         while (vec[k1]!=k)
           k1++;
@@ -516,12 +516,12 @@ static boolean skycharcheck(PieNam p,
 {
   if (abs(e[chp])==p && TSTFLAG(sq_spec[chp],trait[nbply]))
   {
-    if (e[sq_arrival1]==vide
+    if (is_square_empty(sq_arrival1)
         && evaluate(chp,sq_arrival1,sq_king)) {
       return  true;
     }
 
-    if (e[sq_arrival2]==vide
+    if (is_square_empty(sq_arrival2)
         && evaluate(chp,sq_arrival2,sq_king)) {
       return  true;
     }

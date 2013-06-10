@@ -48,7 +48,7 @@ static boolean is_enpassant_capture(square sq_departure,
   if (pi_captured>=Hunter0)
     pi_captured = huntertypes[pi_captured-Hunter0].away;
 
-  result = is_pawn(pi_moving) && is_pawn(pi_captured) && e[sq_arrival]==vide;
+  result = is_pawn(pi_moving) && is_pawn(pi_captured) && is_square_empty(sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -42,7 +42,7 @@ static int find_interceptable_check_dir(PieNam rider_type, square placed_on)
     {
       square s;
       for (s = placed_on+result; s!=king_pos; s += result)
-        if (e[s]!=vide)
+        if (!is_square_empty(s))
         {
           result = 0;
           break;
@@ -498,8 +498,8 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
       case disturbance_by_pawn_interception_double:
       {
         square const target = placed_on+2*dir_down;
-        assert(e[target]==vide);
-        if (e[placed_on+dir_down]==vide)
+        assert(is_square_empty(target));
+        if (is_square_empty(placed_on+dir_down))
         {
           intelligent_intercept_black_move(placed_on,target,go_on);
           intelligent_pin_black_piece(placed_on,go_on);

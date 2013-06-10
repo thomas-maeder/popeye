@@ -179,7 +179,7 @@ void intelligent_pin_pinnable_black_piece(square piece_pos,
 
     remember_to_keep_rider_line_open(king_square[Black],piece_pos,pin_dir,+1);
 
-    for (pin_on = piece_pos+pin_dir; e[pin_on]==vide; pin_on += pin_dir)
+    for (pin_on = piece_pos+pin_dir; is_square_empty(pin_on); pin_on += pin_dir)
     {
       if (nr_reasons_for_staying_empty[pin_on]==0)
       {

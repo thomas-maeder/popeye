@@ -151,7 +151,7 @@ void remember_to_keep_rider_line_open(square from, square to,
 
   for (s = from+dir; s!=to; s+=dir)
   {
-    assert(e[s]==vide);
+    assert(is_square_empty(s));
     nr_reasons_for_staying_empty[s] += delta;
   }
 
@@ -176,7 +176,7 @@ boolean is_line_empty(square start, square end, int dir)
   TraceFunctionParamListEnd();
 
   for (s = start+dir; s!=end; s += dir)
-    if (e[s]!=vide)
+    if (!is_square_empty(s))
     {
       result = false;
       break;
@@ -222,7 +222,7 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
   square const *bnp;
 
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
-    if (e[*bnp]!=vide)
+    if (!is_square_empty(*bnp))
     {
       Flags const sp = spec[*bnp];
       PieceIdType const id = GetPieceId(sp);

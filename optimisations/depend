@@ -155,8 +155,8 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c py.h utilities/boolean.h \
  solving/avoid_unsolvable.h solving/castling.h solving/en_passant.h \
  conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h position/pieceid.h conditions/imitator.h \
- options/nontrivial.h stipulation/branch.h platform/maxtime.h \
- platform/maxmem.h debugging/trace.h
+ position/position.h options/nontrivial.h stipulation/branch.h \
+ platform/maxtime.h platform/maxmem.h debugging/trace.h
 
 py.h:
 
@@ -249,6 +249,8 @@ solving/move_effect_journal.h:
 position/pieceid.h:
 
 conditions/imitator.h:
+
+position/position.h:
 
 options/nontrivial.h:
 

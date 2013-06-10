@@ -53,7 +53,7 @@ static void white_piece(square from, square to, void (*go_on)(void))
 
   for (intercept_on = from+dir; intercept_on!=to; intercept_on += dir)
   {
-    assert(e[intercept_on]==vide);
+    assert(is_square_empty(intercept_on));
     if (nr_reasons_for_staying_empty[intercept_on]==0)
       white_piece_on(intercept_on,go_on);
   }
@@ -113,7 +113,7 @@ static void black_piece(square from, square to, void (*go_on)(void))
 
   for (intercept_on = start; intercept_on!=to; intercept_on += dir)
   {
-    assert(e[intercept_on]==vide);
+    assert(is_square_empty(intercept_on));
     if (nr_reasons_for_staying_empty[intercept_on]==0
         && *where_to_start_placing_black_pieces<=intercept_on)
       black_piece_on(intercept_on,is_diagonal,go_on);

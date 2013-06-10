@@ -338,7 +338,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
   {
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-      if (e[*bnp]!=vide && e[*bnp]!=obs)
+      if (!is_square_empty(*bnp) && e[*bnp]!=obs)
       {
         WriteSpec(spec[*bnp],e[*bnp],true);
         WritePiece(abs(e[*bnp]));

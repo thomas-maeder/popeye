@@ -432,7 +432,7 @@ static boolean are_squares_empty(square from, square to, int direction)
 {
   square s;
   for (s = from+direction; s!=to; s += direction)
-    if (e[s]!=vide)
+    if (!is_square_empty(s))
       return false;
 
   return true;
@@ -507,7 +507,6 @@ void generate_castling(Side side)
 void gen_bl_ply(void)
 {
   square i, j, z;
-  piece p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -516,8 +515,11 @@ void gen_bl_ply(void)
   /* fastest way to compute (due to compiler-optimizations !) */
   z= square_h8;
   for (i= nr_rows_on_board; i > 0; i--, z-= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z--) {
-      if ((p = e[z]) != vide) {
+    for (j= nr_files_on_board; j > 0; j--, z--)
+    {
+      if (!is_square_empty(z))
+      {
+        piece p = e[z];
         if (TSTFLAG(spec[z], Neutral))
           p = -p;
         if (p < vide)

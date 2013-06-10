@@ -25,7 +25,7 @@ static boolean check_from_direction(int dir)
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  while (e[curr]==vide)
+  while (is_square_empty(curr))
     curr -= dir;
 
   result = e[curr]==dn || e[curr]==(is_diagonal ? fn : tn);

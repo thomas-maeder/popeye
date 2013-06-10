@@ -55,7 +55,7 @@ void initialise_neutrals(Side captured_side)
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
     {
-      if (e[*bnp]!=vide)
+      if (!is_square_empty(*bnp))
       {
         TraceSquare(*bnp);
         TraceValue("%d",e[*bnp]);

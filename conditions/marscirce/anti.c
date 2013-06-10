@@ -40,7 +40,7 @@ void antimars_generate_moves(Side side, piece p, square sq_departure)
     {
       marscirce_generate_captures(side,p,sq_departure,sq_departure);
 
-      if (e[sq_rebirth]==vide)
+      if (is_square_empty(sq_rebirth))
       {
         occupy_square(sq_rebirth,abs(e[sq_departure]),spec[sq_departure]);
         empty_square(sq_departure);

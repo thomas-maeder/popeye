@@ -30,7 +30,7 @@ static boolean is_capturee_immune(Side side_capturing,
                                             sq_departure,
                                             sq_arrival,
                                             side_capturing);
-    result = sq_rebirth!=sq_departure && e[sq_rebirth]!=vide;
+    result = sq_rebirth!=sq_departure && !is_square_empty(sq_rebirth);
   }
 
   TraceFunctionExit(__func__);
@@ -77,7 +77,7 @@ static boolean is_not_capture_of_immune(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  if (e[sq_capture]==vide)
+  if (is_square_empty(sq_capture))
     result = true;
   else
     result = !is_capturee_immune(trait[nbply],sq_departure,sq_arrival,sq_capture);

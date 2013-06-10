@@ -62,7 +62,7 @@ stip_length_type orthodox_mating_king_contact_generator_solve(slice_index si,
     for (k = vec_queen_start; k<=vec_queen_end; k++)
     {
       square const sq_arrival = sq_departure+vec[k];
-      if ((e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],mated))
+      if ((is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],mated))
           && move_diff_code[abs(sq_mated_king-sq_arrival)]<=1+1)
         empile(sq_departure,sq_arrival,sq_arrival);
     }

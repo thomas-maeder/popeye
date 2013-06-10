@@ -69,7 +69,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
                                            sq_departure,initsquare,initsquare,
                                            advers(side));
 
-    if (sq_rebirth!=sq_departure && e[sq_rebirth] == vide)
+    if (sq_rebirth!=sq_departure && is_square_empty(sq_rebirth))
     {
       numecoup const start_moves_from_rebirth_square = current_move[nbply];
 

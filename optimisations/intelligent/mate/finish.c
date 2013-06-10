@@ -35,8 +35,7 @@ static void place_any_black_piece_on(square placed_on)
         black[placed_index].usage = piece_is_unused;
       }
 
-    e[placed_on]= vide;
-    spec[placed_on]= EmptySpec;
+    empty_square(placed_on);
 
     intelligent_unreserve();
   }
@@ -144,7 +143,7 @@ static void fix_white_king_on_diagram_square(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (e[king_diagram_square]==vide
+  if (is_square_empty(king_diagram_square)
       && nr_reasons_for_staying_empty[king_diagram_square]==0)
   {
 #if !defined(NDEBUG)
@@ -189,7 +188,7 @@ void intelligent_mate_test_target_position(void)
       else if (!exists_redundant_white_piece())
         solve_target_position();
     }
-    else if (e[flight]==vide)
+    else if (is_square_empty(flight))
       place_any_black_piece_on(flight);
   }
 

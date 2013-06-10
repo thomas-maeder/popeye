@@ -109,7 +109,7 @@ void swap_sides(void)
   king_square[Black] = save_white_king_square==initsquare ? initsquare : save_white_king_square;
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (!TSTFLAG(spec[*bnp],Neutral) && e[*bnp]!=vide)
+    if (!TSTFLAG(spec[*bnp],Neutral) && !is_square_empty(*bnp))
     {
       e[*bnp] = -e[*bnp];
       spec[*bnp]^= BIT(White)+BIT(Black);
@@ -169,7 +169,12 @@ void replace_piece(square s, PieNam piece)
 
 void block_square(square s)
 {
-  assert(e[s]==vide || e[s]==obs);
+  assert(is_square_empty(s) || e[s]==obs);
   e[s] = obs;
   spec[s] = BorderSpec;
+}
+
+boolean is_square_empty(square s)
+{
+  return e[s]==vide;
 }

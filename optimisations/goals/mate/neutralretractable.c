@@ -247,13 +247,13 @@ static boolean is_move_retractable(numecoup i)
     {
       if (king_square[White]==sq_departure)
       {
-        if (e[sq_capture]==vide)
+        if (is_square_empty(sq_capture))
           result = true;
       }
-      else if (abs(e[sq_departure])!=Pawn || e[sq_capture]==vide)
+      else if (abs(e[sq_departure])!=Pawn || is_square_empty(sq_capture))
         result = true;
     }
-    else if (e[sq_capture]==vide && abs(e[sq_departure])!=Pawn)
+    else if (is_square_empty(sq_capture) && abs(e[sq_departure])!=Pawn)
       result = true;
   }
 

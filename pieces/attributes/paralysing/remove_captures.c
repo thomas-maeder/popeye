@@ -16,7 +16,7 @@ static boolean is_not_capture_by_paralysing(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = e[sq_capture]==vide || !TSTFLAG(spec[sq_departure],Paralysing);
+  result = is_square_empty(sq_capture) || !TSTFLAG(spec[sq_departure],Paralysing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

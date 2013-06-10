@@ -52,7 +52,7 @@ pieces/pawns/pawns$(OBJ_SUFFIX): pieces/pawns/pawns.c pieces/pawns/pawns.h \
  utilities/enumeration.h py.h utilities/boolean.h position/position.h \
  pylang.h solving/en_passant.h pyproc.h py4.h py.h pieces/vectors.h \
  stipulation/goals/goals.h solving/solve.h solving/move_effect_journal.h \
- pydata.h pyproc.h debugging/trace.h
+ position/pieceid.h pydata.h pyproc.h debugging/trace.h
 
 pieces/pawns/pawns.h:
 
@@ -93,6 +93,8 @@ stipulation/goals/goals.h:
 solving/solve.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 pydata.h:
 

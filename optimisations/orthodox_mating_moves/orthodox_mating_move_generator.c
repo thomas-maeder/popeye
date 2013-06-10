@@ -118,7 +118,7 @@ static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_k
   numvec const dir_forward = side==White ? dir_up : dir_down;
   square const sq_arrival_singlestep = sq_departure+dir_forward;
 
-  if (e[sq_arrival_singlestep]==vide)
+  if (is_square_empty(sq_arrival_singlestep))
   {
     if (dir_battery!=0
         || sq_arrival_singlestep+dir_forward+dir_left == sq_king
@@ -133,7 +133,7 @@ static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_k
       if (TSTFLAG(sq_spec[sq_departure],double_step))
       {
         square const sq_arrival_doublestep = sq_arrival_singlestep+dir_forward;
-        if (e[sq_arrival_doublestep]==vide
+        if (is_square_empty(sq_arrival_doublestep)
             && (dir_battery!=0
                 || sq_arrival_doublestep+dir_forward+dir_left==sq_king
                 || sq_arrival_doublestep+dir_forward+dir_right==sq_king))
@@ -148,7 +148,7 @@ static void pawn_capture(square sq_departure, Side side, numvec dir_battery, squ
   numvec const dir_forward = side==White ? dir_up : dir_down;
   square const sq_arrival = sq_departure+dir_forward+leftright;
 
-  if (e[sq_arrival]!=vide && piece_belongs_to_opponent(sq_arrival,side))
+  if (!is_square_empty(sq_arrival) && piece_belongs_to_opponent(sq_arrival,side))
     if (dir_battery!=0
         || sq_arrival+dir_forward+dir_left == sq_king
         || sq_arrival+dir_forward+dir_right == sq_king
@@ -207,7 +207,7 @@ static void king_nonneutral(square sq_departure, square sq_king, Side side)
       if (abs(dir)!=abs_dir_battery)
       {
         square const sq_arrival = sq_departure+dir;
-        if ((e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,side))
+        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
             && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
           empile(sq_departure,sq_arrival,sq_arrival);
       }
@@ -257,7 +257,7 @@ static void knight(square sq_departure, square sq_king, Side side)
       for (vec_index = vec_knight_start; vec_index<=vec_knight_end; ++vec_index)
       {
         square const sq_arrival = sq_departure+vec[vec_index];
-        if (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,side))
+        if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
           if (abs_dir_battery!=0 || CheckDir[Knight][sq_arrival-sq_king]!=0)
             empile(sq_departure,sq_arrival,sq_arrival);
       }
@@ -319,7 +319,7 @@ static void queen(square sq_departure, square sq_king, Side side)
     numvec const dir = vec[vec_index];
 
     square sq_arrival;
-    for (sq_arrival = sq_departure+dir; e[sq_arrival]==vide; sq_arrival += dir)
+    for (sq_arrival = sq_departure+dir; is_square_empty(sq_arrival); sq_arrival += dir)
       queen_try_moving_to(sq_departure,sq_king,sq_arrival);
 
     if (piece_belongs_to_opponent(sq_arrival,side))
@@ -341,7 +341,7 @@ static void simple_rider_fire_battery(square sq_departure,
     numvec const dir = vec[vec_index];
     square sq_arrival;
 
-    for (sq_arrival = sq_departure+dir; e[sq_arrival]==vide; sq_arrival += dir)
+    for (sq_arrival = sq_departure+dir; is_square_empty(sq_arrival); sq_arrival += dir)
       empile(sq_departure,sq_arrival,sq_arrival);
 
     if (piece_belongs_to_opponent(sq_arrival,side))
@@ -378,7 +378,7 @@ static void simple_rider_indirectly_approach_king(square sq_departure,
     {
       /* The rider must move closer to the king! */
       numvec dir_to_king = CheckDir[rider_walk][sq_king-sq_arrival];
-      while (dir_to_king==0 && e[sq_arrival]==vide)
+      while (dir_to_king==0 && is_square_empty(sq_arrival))
       {
         sq_arrival += dir;
         dir_to_king = CheckDir[rider_walk][sq_king-sq_arrival];
@@ -386,7 +386,7 @@ static void simple_rider_indirectly_approach_king(square sq_departure,
 
       /* We are at the end of the line or in checking distance */
       if (dir_to_king!=0
-          && (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,side)))
+          && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side)))
         rider_try_moving_to(sq_departure,sq_king,sq_arrival,dir_to_king);
     }
   }

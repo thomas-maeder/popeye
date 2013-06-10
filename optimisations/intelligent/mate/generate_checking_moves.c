@@ -32,13 +32,13 @@ static void init_disturb_mate_rider_onedir(square target, int dir, unsigned int 
 
   assert(index<nr_DisturbMateDirRider);
 
-  for (s = target+2*dir; e[s]==vide; s += dir)
+  for (s = target+2*dir; is_square_empty(s); s += dir)
   {
     DisturbMateDirRider[index][s].dir = -dir;
     DisturbMateDirRider[index][s].target = target;
   }
 
-  for (s = target-2*dir; e[s]==vide; s -= dir)
+  for (s = target-2*dir; is_square_empty(s); s -= dir)
   {
     DisturbMateDirRider[index][s].dir = dir;
     DisturbMateDirRider[index][s].target = target;
@@ -355,7 +355,7 @@ void intelligent_mate_generate_checking_moves(void)
       white[index].usage = piece_gives_check;
 
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-        if (e[*bnp]==vide)
+        if (is_square_empty(*bnp))
         {
           switch (white[index].type)
           {

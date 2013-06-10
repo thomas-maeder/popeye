@@ -39,7 +39,7 @@ static boolean move_is_legal(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (e[sq_observee]==vide)
+  if (is_square_empty(sq_observee))
     result = true;
   else
     result = avoid_observing_guarded(sq_observer,sq_landing,sq_observee);

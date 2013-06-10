@@ -260,7 +260,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
 
   ++move_effect_journal_top[nbply];
 
-  assert(e[on]==vide);
+  assert(is_square_empty(on));
   if (TSTFLAG(addedspec,White))
     ++number_of_pieces[White][added];
   if (TSTFLAG(addedspec,Black))
@@ -328,7 +328,7 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
   if (TSTFLAG(addedspec,Black))
     ++number_of_pieces[Black][added];
 
-  assert(e[on]==vide);
+  assert(is_square_empty(on));
   occupy_square(on,added,addedspec);
 
   TraceFunctionExit(__func__);
@@ -369,7 +369,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
 
   ++move_effect_journal_top[nbply];
 
-  assert(e[on]==vide);
+  assert(is_square_empty(on));
   if (TSTFLAG(createdspec,White))
     ++number_of_pieces[White][created];
   if (TSTFLAG(createdspec,Black))
@@ -440,7 +440,7 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
   if (TSTFLAG(createdspec,Black))
     ++number_of_pieces[Black][created];
 
-  assert(e[on]==vide);
+  assert(is_square_empty(on));
   occupy_square(on,created,createdspec);
   SetPieceId(spec[on],currPieceId++);
 
@@ -510,7 +510,7 @@ static void do_removal(square from)
   PieNam const removed = abs(e[from]);
   Flags const removedspec = spec[from];
 
-  assert(e[from]!=vide);
+  assert(!is_square_empty(from));
 
   if (TSTFLAG(removedspec,White))
     --number_of_pieces[White][removed];

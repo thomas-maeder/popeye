@@ -306,13 +306,13 @@ static void gemaooarider(square sq_departure,
 {
   square middle= sq_departure+tomiddle;
   square sq_arrival= sq_departure+todest;
-  while (e[middle]==vide
-         && e[sq_arrival]==vide
+  while (is_square_empty(middle)
+         && is_square_empty(sq_arrival)
          && empile(sq_departure,sq_arrival,sq_arrival)) {
     middle += todest;
     sq_arrival += todest;
   }
-  if (e[middle]==vide && piece_belongs_to_opponent(sq_arrival,camp))
+  if (is_square_empty(middle) && piece_belongs_to_opponent(sq_arrival,camp))
     empile(sq_departure,sq_arrival,sq_arrival);
 }
 
@@ -346,24 +346,24 @@ static void gemaooariderlion(square sq_departure,
   square middle= sq_departure + tomiddle;
   square sq_arrival= sq_departure+todest;
 
-  while (e[middle]==vide && e[sq_arrival]==vide) {
+  while (is_square_empty(middle) && is_square_empty(sq_arrival)) {
     middle += todest;
     sq_arrival += todest;
   }
   if (e[middle] != obs && e[sq_arrival] != obs) {
-    if (e[middle]!=vide
-        && (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp)))
+    if (!is_square_empty(middle)
+        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
       empile(sq_departure,sq_arrival,sq_arrival);
-    if (e[middle]==vide || e[sq_arrival]==vide) {
+    if (is_square_empty(middle) || is_square_empty(sq_arrival)) {
       middle += todest;
       sq_arrival += todest;
-      while (e[middle]==vide && e[sq_arrival]==vide
+      while (is_square_empty(middle) && is_square_empty(sq_arrival)
              && empile(sq_departure,sq_arrival,sq_arrival)) {
         middle += todest;
         sq_arrival += todest;
       }
     }
-    if (e[middle]==vide && piece_belongs_to_opponent(sq_arrival,camp))
+    if (is_square_empty(middle) && piece_belongs_to_opponent(sq_arrival,camp))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -401,7 +401,7 @@ void leaper_generate_moves(Side side, square sq_departure,
   for (k= kbeg; k<= kend; ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
-    if (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,side))
+    if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -417,7 +417,7 @@ square generate_moves_on_line_segment(square sq_departure,
   TraceSquare(sq_base);
   TraceFunctionParamListEnd();
 
-  while (e[sq_arrival]==vide && empile(sq_departure,sq_arrival,sq_arrival))
+  while (is_square_empty(sq_arrival) && empile(sq_departure,sq_arrival,sq_arrival))
     sq_arrival += vec[k];
 
   TraceFunctionExit(__func__);
@@ -462,11 +462,11 @@ static void bouncer_generate_moves(Side side,
       square const bounce_to = 2*sq_departure-bounce_where;
 
       square sq_arrival = sq_departure-vec[k];
-      while (sq_arrival!=bounce_to && e[sq_arrival]==vide)
+      while (sq_arrival!=bounce_to && is_square_empty(sq_arrival))
         sq_arrival -= vec[k];
 
       if (sq_arrival==bounce_to
-          && (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,side)))
+          && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side)))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -501,7 +501,7 @@ void geriderhopper(square sq_departure,
         int ran_up= run_up;
         while (--ran_up) {
           sq_hurdle += vec[k];
-          if (e[sq_hurdle]!=vide)
+          if (!is_square_empty(sq_hurdle))
             break;
         }
         if (ran_up) {
@@ -535,7 +535,7 @@ void geriderhopper(square sq_departure,
           int jumped= jump;
           while (--jumped) {
             sq_arrival+= vec[k];
-            if (e[sq_arrival]!=vide)
+            if (!is_square_empty(sq_arrival))
               break;
           }
           if (jumped) {
@@ -544,7 +544,7 @@ void geriderhopper(square sq_departure,
           }
         }
         sq_arrival+= vec[k];
-        if ((piece_belongs_to_opponent(sq_arrival,camp) || (e[sq_arrival]==vide))
+        if ((piece_belongs_to_opponent(sq_arrival,camp) || (is_square_empty(sq_arrival)))
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -555,7 +555,7 @@ void geriderhopper(square sq_departure,
         /* jump of flexible length */
         /* lion, contragrashopper type */
         sq_arrival+= vec[k];
-        while (e[sq_arrival]==vide) {
+        while (is_square_empty(sq_arrival)) {
           if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
@@ -624,7 +624,7 @@ static void gmhop(square   sq_departure,
 
       {
         square const sq_arrival= sq_hurdle+mixhopdata[m][k1];
-        if ((e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp))
+        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1])))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -634,7 +634,7 @@ static void gmhop(square   sq_departure,
 
       {
         square const sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
-        if ((e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp))
+        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1])))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -652,7 +652,7 @@ void generate_locust_capture(square sq_departure, square sq_capture,
   if (piece_belongs_to_opponent(sq_capture,camp))
   {
     square const sq_arrival= sq_capture+vec[k];
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
       empile(sq_departure,sq_arrival,sq_capture);
   }
 }
@@ -710,7 +710,7 @@ static void gchinleap(square sq_departure,
       if (piece_belongs_to_opponent(sq_arrival,camp))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
-    else if (e[sq_arrival] == vide)
+    else if (is_square_empty(sq_arrival))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -735,12 +735,12 @@ static void gnequi(square sq_departure, Side camp)
 
       sq_hurdle= coin+delta_horiz+delta_vert;
 
-      if (e[sq_hurdle]!=vide) {
+      if (!is_square_empty(sq_hurdle)) {
 
         vector= sq_hurdle-sq_departure;
         sq_arrival= sq_hurdle+vector;
 
-        if ((e[sq_arrival]==vide
+        if ((is_square_empty(sq_arrival)
              || piece_belongs_to_opponent(sq_arrival,camp))
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
         {
@@ -813,12 +813,12 @@ static void gnorix(square sq_departure, Side camp)
 		|| (delta % (onerow + dir_right) == 0)
 		|| (delta % (onerow + dir_left) == 0);
 
-      if (queenlike && e[sq_hurdle]!=vide) {
+      if (queenlike && !is_square_empty(sq_hurdle)) {
 
         vector= sq_hurdle-sq_departure;
         sq_arrival= sq_hurdle+vector;
 
-        if ((e[sq_arrival]==vide
+        if ((is_square_empty(sq_arrival)
              || piece_belongs_to_opponent(sq_arrival,camp))
             && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
         {
@@ -852,8 +852,8 @@ static void gnequiapp(square sq_departure, Side camp)
       sq_hurdle= sq_arrival+vector;
 
       if (sq_arrival!=sq_departure
-          && e[sq_hurdle]!=vide
-          && (e[sq_arrival]==vide
+          && !is_square_empty(sq_hurdle)
+          && (is_square_empty(sq_arrival)
               || piece_belongs_to_opponent(sq_arrival,camp)))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
@@ -875,7 +875,7 @@ static void gkang(square sq_departure, Side camp)
       if (hurdle!=obs)
       {
         sq_arrival+= vec[k];
-        if (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp))
+        if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
           empile(sq_departure,sq_arrival,sq_arrival);
       }
     }
@@ -897,8 +897,12 @@ static void gkanglion(square sq_departure, Side camp)
       finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
       if (hurdle!=obs)
       {
-        while (e[sq_arrival+= vec[k]] == vide)
+        sq_arrival += vec[k];
+        while (is_square_empty(sq_arrival))
+        {
           empile(sq_departure,sq_arrival,sq_arrival);
+          sq_arrival += vec[k];
+        }
         if (piece_belongs_to_opponent(sq_arrival,camp))
           empile(sq_departure,sq_arrival,sq_arrival);
       }
@@ -967,10 +971,10 @@ static void gcsp(square sq_departure,
 {
   square sq_arrival= sq_departure+vec[k1];
 
-  while (e[sq_arrival]==vide) {
+  while (is_square_empty(sq_arrival)) {
     empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= vec[k2];
-    if (e[sq_arrival]==vide) {
+    if (is_square_empty(sq_arrival)) {
       empile(sq_departure,sq_arrival,sq_arrival);
       sq_arrival+= vec[k1];
     }
@@ -1020,7 +1024,7 @@ static void grfou(square   orig_departure,
   if (e[sq_arrival]==obs)
     return;
 
-  while (e[sq_arrival]==vide)
+  while (is_square_empty(sq_arrival))
   {
     empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k;
@@ -1052,7 +1056,7 @@ static void gcard(square   orig_departure,
   square sq_departure= orig_departure;
   square sq_arrival= in+k;
 
-  while (e[sq_arrival]==vide)
+  while (is_square_empty(sq_arrival))
   {
     empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k;
@@ -1071,7 +1075,7 @@ static void gcard(square   orig_departure,
       sq_arrival+= vec[k1];
       if (piece_belongs_to_opponent(sq_arrival,camp))
         empile(sq_departure,sq_arrival,sq_arrival);
-      else if (e[sq_arrival]==vide)
+      else if (is_square_empty(sq_arrival))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         k1= 5;
@@ -1100,7 +1104,7 @@ static void grefc(square orig_departure,
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     square const sq_arrival = step_departure+vec[k];
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
     {
       empile(sq_departure,sq_arrival,sq_arrival);
       if (x>0 && !NoEdge(sq_arrival))
@@ -1194,16 +1198,18 @@ static void grefn(square orig_departure,
 
   for (k= vec_knight_start; k<=vec_knight_end; k++)
   {
-    square sq_arrival = step_departure;
+    square sq_arrival = step_departure+vec[k];
 
-    while (e[sq_arrival+=vec[k]]==vide)
+    while (is_square_empty(sq_arrival))
     {
       empile(sq_departure,sq_arrival,sq_arrival);
-      if (!NoEdge(sq_arrival) &&
-          !traversed(sq_arrival)) {
+      if (!NoEdge(sq_arrival) && !traversed(sq_arrival))
+      {
         grefn(orig_departure,sq_arrival,camp);
         break;
       }
+      else
+        sq_arrival += vec[k];
     }
 
     if (piece_belongs_to_opponent(sq_arrival,camp))
@@ -1256,7 +1262,7 @@ static void gequi(square sq_departure, Side camp)
     square const sq_hurdle= sq_departure+vec[k];
     square const sq_arrival= sq_departure + 2*vec[k];
     if (abs(e[sq_hurdle])>=King
-        && (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp))
+        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
         && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
     {
       empile(sq_departure,sq_arrival,sq_arrival);
@@ -1302,7 +1308,7 @@ static void gequiapp(square sq_departure, Side camp)
     square const sq_arrival = sq_departure + vec[k];
     square const sq_hurdle1 = sq_departure+2*vec[k];
     if (abs(e[sq_hurdle1])>=King
-        && (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp)))
+        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -1318,7 +1324,7 @@ static void gcat(square sq_departure, Side camp)
       empile(sq_departure,sq_arrival,sq_arrival);
     else
     {
-      while (e[sq_arrival]==vide)
+      while (is_square_empty(sq_arrival))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         sq_arrival+= mixhopdata[3][k];
@@ -1336,12 +1342,12 @@ static void gmaooa(square  sq_departure,
             square  arrival2,
             Side camp)
 {
-  if (e[pass] == vide) {
-    if (e[arrival1]==vide || piece_belongs_to_opponent(arrival1,camp))
+  if (is_square_empty(pass)) {
+    if (is_square_empty(arrival1) || piece_belongs_to_opponent(arrival1,camp))
       if (maooaimcheck(sq_departure,arrival1,pass))
         empile(sq_departure,arrival1,arrival1);
 
-    if (e[arrival2]==vide || piece_belongs_to_opponent(arrival2,camp))
+    if (is_square_empty(arrival2) || piece_belongs_to_opponent(arrival2,camp))
       if (maooaimcheck(sq_departure,arrival2,pass))
         empile(sq_departure,arrival2,arrival2);
   }
@@ -1420,7 +1426,7 @@ static void gdoublehopper(square sq_departure, Side camp,
     if (hurdle!=obs)
     {
       square const past_sq_hurdle= sq_hurdle+vec[k];
-      if (e[past_sq_hurdle]==vide)
+      if (is_square_empty(past_sq_hurdle))
       {
         vec_index_type k1;
         for (k1=vec_end; k1>=vec_start; k1--)
@@ -1429,7 +1435,7 @@ static void gdoublehopper(square sq_departure, Side camp,
           if (hurdle!=obs)
           {
             square const sq_arrival= sq_hurdle+vec[k1];
-            if (e[sq_arrival]==vide || piece_belongs_to_opponent(sq_arrival,camp))
+            if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
               empile(sq_departure,sq_arrival,sq_arrival);
           }
         }
@@ -1463,7 +1469,7 @@ static void gen_sp_nocaptures(square sq_departure, numvec dir)
   square sq_arrival= sq_departure+dir;
 
   /* it can move from first rank */
-  for (; e[sq_arrival]==vide; sq_arrival+= dir)
+  for (; is_square_empty(sq_arrival); sq_arrival+= dir)
     empile(sq_departure,sq_arrival,sq_arrival);
 }
 
@@ -1491,7 +1497,7 @@ void chinese_pawn_generate_moves(Side side, square sq_departure)
   {
     int const dir_forward = side==White ? dir_up : dir_down;
     square const sq_arrival = sq_departure+dir_forward;
-    if (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent))
+    if (is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],opponent))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
 
@@ -1499,12 +1505,12 @@ void chinese_pawn_generate_moves(Side side, square sq_departure)
   {
     {
       square const sq_arrival = sq_departure+dir_right;
-      if (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent))
+      if (is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],opponent))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
     {
       square const sq_arrival = sq_departure+dir_left;
-      if (e[sq_arrival]==vide || TSTFLAG(spec[sq_arrival],opponent))
+      if (is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],opponent))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -2536,7 +2542,7 @@ void gedgeh(square sq_departure, Side camp) {
 
   for (k= vec_queen_end; k >=vec_queen_start; k--) {
     square sq_arrival= sq_departure+vec[k];
-    while (e[sq_arrival]==vide)
+    while (is_square_empty(sq_arrival))
     {
       if (NoEdge(sq_arrival)!=NoEdge(sq_departure))
         empile(sq_departure,sq_arrival,sq_arrival);
@@ -2551,8 +2557,9 @@ void gedgeh(square sq_departure, Side camp) {
 
 static void geskylchar(square sq_departure, square sq_arrival, square sq_capture,
                 Side camp) {
-  if (e[sq_arrival] == vide) {
-    if (e[sq_capture]==vide)
+  if (is_square_empty(sq_arrival))
+  {
+    if (is_square_empty(sq_capture))
       empile(sq_departure,sq_arrival,sq_arrival);
     else if (piece_belongs_to_opponent(sq_capture,camp))
       empile(sq_departure,sq_arrival,sq_capture);

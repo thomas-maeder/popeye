@@ -37,7 +37,7 @@ static void play_move(Side side)
 
   assert(sq_arrival!=nullsquare);
 
-  if (e[sq_capture]==vide)
+  if (is_square_empty(sq_capture))
   {
     move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
@@ -46,7 +46,7 @@ static void play_move(Side side)
   else
   {
     square const sq_auxiliary = move_gen_top->auxiliary;
-    boolean const is_ep = (e[sq_auxiliary]==vide
+    boolean const is_ep = (is_square_empty(sq_auxiliary)
                            && en_passant_is_capture_possible_to(side,sq_auxiliary));
     move_effect_reason_type const removal_reason = (is_ep
                                                     ? move_effect_reason_ep_capture

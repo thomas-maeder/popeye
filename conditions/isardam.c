@@ -89,7 +89,7 @@ static boolean find_illegal_observation(void)
     int j;
     square z = square_h;
     for (j = nr_files_on_board; j>0; j--, z += dir_left)
-      if (e[z]!=vide
+      if (!is_square_empty(z)
           && (is_piece_illegally_observed(White,z)
               || is_piece_illegally_observed(Black,z)))
       {

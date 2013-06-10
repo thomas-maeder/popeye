@@ -262,5 +262,6 @@ void empty_square(square s);
 void block_square(square s);
 void occupy_square(square s, PieNam piece, Flags flags);
 void replace_piece(square s, PieNam piece);
+boolean is_square_empty(square s);
 
 #endif

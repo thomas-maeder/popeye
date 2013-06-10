@@ -73,7 +73,7 @@ static boolean advance_rebirth_square(void)
       result = false;
       break;
     }
-  } while (e[current_circe_rebirth_square[nbply]]!=vide);
+  } while (!is_square_empty(current_circe_rebirth_square[nbply]));
 
   is_rebirth_square_dirty[nbply] = false;
 

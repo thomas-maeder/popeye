@@ -50,7 +50,7 @@ void white_piece(int dir_from_rider, void (*go_on)(void))
   TraceFunctionParamListEnd();
 
   for (where_to_intercept = king_square[White]-dir_from_rider;
-       e[where_to_intercept]==vide;
+       is_square_empty(where_to_intercept);
        where_to_intercept -= dir_from_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
       white_piece_on(where_to_intercept,go_on);
@@ -197,7 +197,7 @@ static void black_piece(int dir_to_rider, void (*go_on)(void))
   TraceFunctionParamListEnd();
 
   for (where_to_intercept = start;
-       e[where_to_intercept]==vide;
+       is_square_empty(where_to_intercept);
        where_to_intercept -= dir_to_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0
         && *where_to_start_placing_black_pieces<=where_to_intercept)

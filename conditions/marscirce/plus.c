@@ -17,7 +17,7 @@ static void generate_additional_captures_from(Side side,
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (from!=sq_departure && e[from]==vide)
+  if (from!=sq_departure && is_square_empty(from))
   {
     occupy_square(from,abs(e[sq_departure]),spec[sq_departure]);
     empty_square(sq_departure);

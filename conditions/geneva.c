@@ -28,7 +28,7 @@ static boolean is_capture_legal(Side side_capturing,
     square const sq_rebirth = rennormal(abs(e[sq_departure]),spec[sq_departure],
                                         sq_departure,sq_departure,sq_arrival,
                                         side_capturee);
-    result = e[sq_rebirth]==vide;
+    result = is_square_empty(sq_rebirth);
   }
   else
     result = true;
@@ -51,7 +51,7 @@ static boolean is_not_illegal_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  if (e[sq_capture]==vide)
+  if (is_square_empty(sq_capture))
     result = true;
   else
     result = is_capture_legal(trait[nbply],sq_departure,sq_arrival,sq_capture);

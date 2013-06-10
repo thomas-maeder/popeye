@@ -95,7 +95,7 @@ void GetRoseHopperAttackVectors(square from, square to)
   for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
     square const sq_hurdle= to+vec[vec_index_start];
-    if (e[sq_hurdle]!=vide && e[sq_hurdle]!=obs)
+    if (!is_square_empty(sq_hurdle) && e[sq_hurdle]!=obs)
     {
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
@@ -120,7 +120,7 @@ void GetRoseLocustAttackVectors(square from, square to)
   for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
     square const sq_arrival= to-vec[vec_index_start];
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
     {
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
@@ -233,10 +233,10 @@ static void GetZigZagAttackVectors(square from, square to,
   square sq_arrival= to;
   square sq_capture= to;
 
-  while (e[sq_departure] == vide)
+  while (is_square_empty(sq_departure))
   {
     sq_departure+= k1;
-    if (e[sq_departure] != vide)
+    if (!is_square_empty(sq_departure))
       break;
     else
       sq_departure+= k;
@@ -247,10 +247,10 @@ static void GetZigZagAttackVectors(square from, square to,
     PushMagicView(to, from, vec[500+k] );
 
   sq_departure = to+k;
-  while (e[sq_departure]==vide)
+  while (is_square_empty(sq_departure))
   {
     sq_departure-= k1;
-    if (e[sq_departure]!=vide)
+    if (!is_square_empty(sq_departure))
       break;
     else
       sq_departure+= k;

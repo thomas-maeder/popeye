@@ -36,7 +36,7 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
 
   if (current_circe_rebirth_square[nbply]==initsquare)
     result = solve(slices[si].next1,n);
-  else if (e[current_circe_rebirth_square[nbply]]==vide)
+  else if (is_square_empty(current_circe_rebirth_square[nbply]))
   {
     move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
                                             current_circe_rebirth_square[nbply],

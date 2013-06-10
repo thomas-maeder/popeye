@@ -86,7 +86,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/pipe.h solving/castling.h \
- solving/en_passant.h solving/move_effect_journal.h debugging/trace.h
+ solving/en_passant.h solving/move_effect_journal.h position/pieceid.h \
+ debugging/trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -149,6 +150,8 @@ solving/castling.h:
 solving/en_passant.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \

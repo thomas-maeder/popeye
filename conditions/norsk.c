@@ -82,7 +82,7 @@ static boolean is_not_illegal_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(e[sq_capture]!=vide
+  result = !(!is_square_empty(sq_capture)
              && (sq_departure==king_square[White]
                  || sq_departure==king_square[Black]
                  || abs(e[sq_capture])!=abs(e[sq_departure])));

@@ -56,7 +56,7 @@ static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
   TraceFunctionParamListEnd();
 
   for (where_to_intercept = target-dir_from_rider;
-       e[where_to_intercept]==vide;
+       is_square_empty(where_to_intercept);
        where_to_intercept -= dir_from_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0
       /* avoid testing the same position twice */
@@ -145,7 +145,7 @@ static void white_king(square target,
   white[index_of_king].usage = piece_intercepts;
 
   for (where_to_intercept = target-dir_from_rider;
-       e[where_to_intercept]==vide;
+       is_square_empty(where_to_intercept);
        where_to_intercept -= dir_from_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
       intelligent_place_white_king(where_to_intercept,go_on);
@@ -240,7 +240,7 @@ static void white_piece(square target, int dir_from_rider, void (*go_on)(void))
   TraceFunctionParamListEnd();
 
   for (where_to_intercept = start;
-       e[where_to_intercept]==vide;
+       is_square_empty(where_to_intercept);
        where_to_intercept -= dir_from_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
       white_piece_on(where_to_intercept,is_diagonal,go_on);

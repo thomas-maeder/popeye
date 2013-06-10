@@ -53,13 +53,13 @@ void marine_knight_generate_moves(Side side, square sq_departure)
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
       empile(sq_departure,sq_arrival,sq_arrival);
     else if (piece_belongs_to_opponent(sq_arrival,side))
     {
       square const sq_capture = sq_arrival;
       sq_arrival += vec[k];
-      if (e[sq_arrival]==vide)
+      if (is_square_empty(sq_arrival))
         empile(sq_departure,sq_arrival,sq_capture);
     }
   }
@@ -84,13 +84,13 @@ void poseidon_generate_moves(Side side, square sq_departure)
   for (k = vec_queen_start; k<=vec_queen_end; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
       empile(sq_departure,sq_arrival,sq_arrival);
     else if (piece_belongs_to_opponent(sq_arrival,side))
     {
       square const sq_capture = sq_arrival;
       sq_arrival += vec[k];
-      if (e[sq_arrival]==vide)
+      if (is_square_empty(sq_arrival))
         empile(sq_departure,sq_arrival,sq_capture);
     }
   }
@@ -113,7 +113,7 @@ static void marine_pawn_generate_capture(Side side, square sq_departure, int dir
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  if (e[sq_arrival]==vide)
+  if (is_square_empty(sq_arrival))
   {
     if (piece_belongs_to_opponent(sq_capture,side))
       empile(sq_departure,sq_arrival,sq_capture);

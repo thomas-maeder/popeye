@@ -51,7 +51,7 @@ static void change_observed(square observer_pos)
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (e[*bnp]!=vide
+    if (!is_square_empty(*bnp)
         && *bnp!=king_square[Black]
         && *bnp!=king_square[White]
         && *bnp!=observer_pos

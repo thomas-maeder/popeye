@@ -42,7 +42,7 @@ static void init_guard_dirs_rider(PieNam guarder,
   else
   {
     square s;
-    for (s = start; e[s]==vide; s += dir)
+    for (s = start; is_square_empty(s); s += dir)
     {
       GuardDir[guarder-Pawn][s].dir = -dir;
       GuardDir[guarder-Pawn][s].target = flight;
@@ -57,7 +57,7 @@ static void init_guard_dirs_queen(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
     {
       unsigned int j;
       for (j = vec_queen_start; j<=vec_queen_end; ++j)
@@ -69,7 +69,7 @@ static void init_guard_dirs_queen(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
       init_guard_dirs_leaper(Queen,
                              flight,
                              vec_queen_start,vec_queen_end,
@@ -89,7 +89,7 @@ static void init_guard_dirs_rook(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
     {
       vec_index_type j;
       for (j = vec_rook_start; j<=vec_rook_end; ++j)
@@ -101,7 +101,7 @@ static void init_guard_dirs_rook(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
       init_guard_dirs_leaper(Rook,
                              flight,
                              vec_rook_start,vec_rook_end,
@@ -121,7 +121,7 @@ static void init_guard_dirs_bishop(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
     {
       vec_index_type j;
       for (j = vec_bishop_start; j<=vec_bishop_end; ++j)
@@ -133,7 +133,7 @@ static void init_guard_dirs_bishop(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
       init_guard_dirs_leaper(Bishop,
                              flight,
                              vec_bishop_start,vec_bishop_end,
@@ -153,7 +153,7 @@ static void init_guard_dirs_knight(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
       init_guard_dirs_leaper(Knight,
                              flight,
                              vec_knight_start,vec_knight_end,
@@ -181,7 +181,7 @@ static void init_guard_dirs_pawn(square black_king_pos)
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
-    if (e[flight]==vide)
+    if (is_square_empty(flight))
       init_guard_dir_pawn(flight,guard_dir_guard_uninterceptable);
   }
 
@@ -262,7 +262,7 @@ static void fix_white_king_on_diagram_square(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (e[king_diagram_square]==vide
+  if (is_square_empty(king_diagram_square)
       && nr_reasons_for_staying_empty[king_diagram_square]==0)
   {
     white[index_of_king].usage = piece_is_fixed_to_diagram_square;
@@ -311,13 +311,12 @@ static void place_queen_opposition(square guard_from)
   TraceFunctionParamListEnd();
 
   occupy_square(guard_from,Queen,white[index_of_guarding_piece].flags);
-  if (e[to_be_intercepted]==vide)
+  if (is_square_empty(to_be_intercepted))
   {
     assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
     intercept_check_on_guarded_square(to_be_intercepted);
     intelligent_intercept_orthogonal_check_by_pin(to_be_intercepted);
-    e[to_be_intercepted]= vide;
-    spec[to_be_intercepted]= EmptySpec;
+    empty_square(to_be_intercepted);
   }
   else
     /* there is already a guard between queen and king */
@@ -353,7 +352,7 @@ static void place_rider(piece rider_type, square guard_from)
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
-              && e[guarded]==vide)
+              && is_square_empty(guarded))
           {
             assert(nr_reasons_for_staying_empty[guarded]==0);
             intercept_check_on_guarded_square(guarded);
@@ -373,7 +372,7 @@ static void place_rider(piece rider_type, square guard_from)
           remember_to_keep_guard_line_open(guard_from,guarded,+1);
           if (CheckDir[rider_type][king_square[Black]-guard_from]!=0)
           {
-            if (e[guarded]==vide)
+            if (is_square_empty(guarded))
             {
               assert(nr_reasons_for_staying_empty[guarded]==0);
               intercept_check_on_guarded_square(guarded);
@@ -807,7 +806,7 @@ static void guard_next_flight(void)
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
-    if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0)
+    if (is_square_empty(*bnp) && nr_reasons_for_staying_empty[*bnp]==0)
     {
       switch (white[index_of_guarding_piece].type)
       {
@@ -892,7 +891,7 @@ static void king()
       white[index_of_king].usage = piece_guards;
 
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-        if (e[*bnp]==vide
+        if (is_square_empty(*bnp)
             && nr_reasons_for_staying_empty[*bnp]==0
             && white_king_guards_flight(*bnp)
             && intelligent_reserve_white_king_moves_from_to(comes_from,*bnp))

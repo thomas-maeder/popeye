@@ -577,7 +577,7 @@ boolean riderhoppercheck(square  sq_king,
         int jumped= jump;
         while (--jumped) {
           sq_hurdle+= vec[k];
-          if (e[sq_hurdle]!=vide)
+          if (!is_square_empty(sq_hurdle))
             break;
         }
 
@@ -599,7 +599,7 @@ boolean riderhoppercheck(square  sq_king,
           int ran_up= run_up;
           while (--ran_up) {
             sq_hurdle+= vec[k];
-            if (e[sq_hurdle]!=vide)
+            if (!is_square_empty(sq_hurdle))
               break;
           }
           if (ran_up)
@@ -672,7 +672,7 @@ boolean marine_rider_check(square   sq_king,
   for (k= kanf; k<= kend; k++)
   {
     square const sq_arrival= sq_king-vec[k];
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
     {
       piece marine;
       square sq_departure;
@@ -697,7 +697,7 @@ boolean marine_leaper_check(square sq_king,
   {
     square const sq_arrival = sq_king-vec[k];
     square const sq_departure = sq_king+vec[k];
-    if (e[sq_arrival]==vide
+    if (is_square_empty(sq_arrival)
         && abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_arrival,sq_king))
@@ -724,7 +724,7 @@ static boolean marine_pawn_test_check(square sq_departure,
 
   result = (abs(e[sq_departure])==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && e[sq_arrival]==vide
+            && is_square_empty(sq_arrival)
             && evaluate(sq_departure,sq_arrival,sq_capture));
 
   TraceFunctionExit(__func__);

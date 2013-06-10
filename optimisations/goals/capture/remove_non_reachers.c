@@ -36,7 +36,7 @@ static boolean is_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = e[sq_capture]!=vide;
+  result = !is_square_empty(sq_capture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

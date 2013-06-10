@@ -75,7 +75,7 @@ void pawns_generate_nocapture_moves(square sq_departure, numvec dir, int steps)
     TraceSquare(sq_arrival);
     TracePiece(e[sq_arrival]);
     TraceText("\n");
-    if (e[sq_arrival]==vide && empile(sq_departure,sq_arrival,sq_arrival))
+    if (is_square_empty(sq_arrival) && empile(sq_departure,sq_arrival,sq_arrival))
       sq_arrival+= dir;
     else
       break;

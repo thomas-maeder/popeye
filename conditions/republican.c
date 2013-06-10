@@ -38,7 +38,7 @@ static boolean is_mate_square(Side other_side)
 {
   boolean result = false;
 
-  if (e[king_square[other_side]]==vide)
+  if (is_square_empty(king_square[other_side]))
   {
     TraceFunctionEntry(__func__);
     TraceEnumerator(Side,other_side,"");
@@ -51,8 +51,7 @@ static boolean is_mate_square(Side other_side)
     if (solve(slices[temporary_hack_mate_tester[other_side]].next2,slack_length)==slack_length)
       result = true;
 
-    CLEARFL(spec[king_square[other_side]]);
-    e[king_square[other_side]] = vide;
+    empty_square(king_square[other_side]);
 
     TraceFunctionExit(__func__);
     TraceFunctionResult("%u",result);

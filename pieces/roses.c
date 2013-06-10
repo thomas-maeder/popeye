@@ -23,7 +23,7 @@ static square generate_moves_on_circle_segment(square sq_departure,
     sq_arrival += vec[vec_index_start+*rotation];
     *rotation += direction;
   } while (sq_arrival!=sq_base
-           && e[sq_arrival]==vide
+           && is_square_empty(sq_arrival)
            && empile(sq_departure,sq_arrival,sq_arrival));
 
   TraceFunctionExit(__func__);
@@ -40,7 +40,7 @@ square fin_circle_line(square sq_departure,
   do {
     sq_result += vec[vec_index_start+*rotation];
     *rotation += direction;
-  } while (e[sq_result]==vide);
+  } while (is_square_empty(sq_result));
 
   return sq_result;
 }
@@ -188,7 +188,7 @@ static void rosehopper_genrerate_circle(Side side,
   if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs)
   {
     square sq_arrival= sq_hurdle+vec[vec_index_start+rotation];
-    if (e[sq_arrival]==vide
+    if (is_square_empty(sq_arrival)
         || (sq_arrival!=sq_departure && piece_belongs_to_opponent(sq_arrival,side)))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
@@ -221,7 +221,7 @@ static void roselocust_generate_circle(Side side,
   if (sq_capture!=sq_departure && e[sq_capture]!=obs && piece_belongs_to_opponent(sq_capture,side))
   {
     square sq_arrival = sq_capture+vec[vec_index_start+rotation];
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
       empile(sq_departure,sq_arrival,sq_capture);
   }
 }

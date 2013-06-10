@@ -31,7 +31,7 @@ static void insert_sentinelle(Side trait_ply)
 
   if (!TSTFLAGMASK(sq_spec[sq_departure],prom_square)
       && !is_pawn(abs(pi_departing))
-      && e[sq_departure]==vide)
+      && is_square_empty(sq_departure))
   {
     if (SentPionNeutral && TSTFLAG(spec_pi_moving,Neutral))
     {

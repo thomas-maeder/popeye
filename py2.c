@@ -94,7 +94,7 @@ boolean imok(square i, square j)
   for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
   {
     square const j2 = isquare[imi_idx-1]+diff;
-    if (j2!=i && e[j2]!=vide)
+    if (j2!=i && !is_square_empty(j2))
       return false;
   }
 
@@ -184,7 +184,7 @@ boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
       /* Are the squares the imitators have to hop over occupied? */
       unsigned int imi_idx;
       for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
-        if (e[isquare[imi_idx-1]+k-i]==vide)
+        if (is_square_empty(isquare[imi_idx-1]+k-i))
         {
           result = false;
           break;
@@ -326,9 +326,9 @@ boolean rcsech(square  sq_king,
     return true;
 
   sq_departure = sq_king+k;
-  while (e[sq_departure]==vide) {
+  while (is_square_empty(sq_departure)) {
     sq_departure-= k1;
-    if (e[sq_departure]!=vide)
+    if (!is_square_empty(sq_departure))
       break;
     else
       sq_departure+= k;
@@ -512,7 +512,7 @@ boolean rrefcech(square sq_king,
   for (k= vec_knight_start; k <= vec_knight_end; k++)
     if (x) {
       sq_departure= i1+vec[k];
-      if (e[sq_departure]==vide) {
+      if (is_square_empty(sq_departure)) {
         if (!NoEdge(sq_departure)) {
           if (rrefcech(sq_king,sq_departure,x-1,p,evaluate))
             return true;
@@ -590,7 +590,7 @@ boolean nequicheck(square   sq_king,
       vector= sq_king-sq_hurdle;
       sq_departure= sq_hurdle-vector;
 
-      if (e[sq_hurdle]!=vide
+      if (!is_square_empty(sq_hurdle)
           && abs(e[sq_departure])==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_king!=sq_departure
@@ -632,7 +632,7 @@ boolean norixcheck(square   sq_king,
       sq_departure= sq_hurdle-vector;
 
       if (queenlike
-          && e[sq_hurdle]!=vide
+          && !is_square_empty(sq_hurdle)
           && abs(e[sq_departure])==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_king!=sq_departure
@@ -659,7 +659,7 @@ boolean equifracheck(square sq_king,
     sq_departure= *bnp;
     vector= sq_king-sq_departure;
     sq_hurdle= sq_king+vector;
-    if (e[sq_hurdle]!=vide
+    if (!is_square_empty(sq_hurdle)
         && e[sq_hurdle]!=obs
         && abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
@@ -853,7 +853,7 @@ static boolean doublehoppercheck(square sq_king,
     sq_hurdle2= sq_king+vec[k];
     if (abs(e[sq_hurdle2])>=roib) {
       sq_hurdle2+= vec[k];
-      while (e[sq_hurdle2]==vide) {
+      while (is_square_empty(sq_hurdle2)) {
         for (k1= vec_end; k1>=vec_start; k1--) {
           sq_hurdle1= sq_hurdle2+vec[k1];
           if (abs(e[sq_hurdle1]) >= roib)
@@ -1077,7 +1077,7 @@ boolean rosehoppercheck(square  sq_king,
 
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
     sq_hurdle= sq_king+vec[k];
-    if (e[sq_hurdle]!=vide && e[sq_hurdle]!=obs) {
+    if (!is_square_empty(sq_hurdle) && e[sq_hurdle]!=obs) {
       /* k1==0 (and the equivalent
        * vec_knight_end-vec_knight_start+1) were already used for
        * sq_hurdle! */
@@ -1117,7 +1117,7 @@ boolean roselocustcheck(square  sq_king,
 
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
     sq_arrival= sq_king-vec[k];
-    if (e[sq_arrival]==vide) {
+    if (is_square_empty(sq_arrival)) {
       /* k1==0 (and the equivalent
        * vec_knight_end-vec_knight_start+1) were already used for
        * sq_hurdle! */
@@ -1141,7 +1141,7 @@ boolean maocheck(square sq_king,
 {
   square sq_departure;
 
-  if (e[sq_king+dir_up+dir_right]==vide) {
+  if (is_square_empty(sq_king+dir_up+dir_right)) {
     sq_departure= sq_king+dir_up+2*dir_right;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -1162,7 +1162,7 @@ boolean maocheck(square sq_king,
     }
   }
 
-  if (e[sq_king+dir_down+dir_left]==vide) {
+  if (is_square_empty(sq_king+dir_down+dir_left)) {
     sq_departure= sq_king+dir_down+2*dir_left;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -1183,7 +1183,7 @@ boolean maocheck(square sq_king,
     }
   }
 
-  if (e[sq_king+dir_up+dir_left]==vide) {
+  if (is_square_empty(sq_king+dir_up+dir_left)) {
     sq_departure= sq_king+dir_up+2*dir_left;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -1204,7 +1204,7 @@ boolean maocheck(square sq_king,
     }
   }
 
-  if (e[sq_king+dir_down+dir_right]==vide) {
+  if (is_square_empty(sq_king+dir_down+dir_right)) {
     sq_departure= sq_king+2*dir_down+dir_right;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply])) {
@@ -1232,7 +1232,7 @@ boolean moacheck(square sq_king,
 {
   square sq_departure;
 
-  if (e[sq_king+dir_up]==vide) {
+  if (is_square_empty(sq_king+dir_up)) {
     sq_departure= sq_king+2*dir_up+dir_left;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -1248,7 +1248,7 @@ boolean moacheck(square sq_king,
         return maooaimcheck(sq_king+2*dir_up+dir_right, sq_king, sq_king+dir_up);
     }
   }
-  if (e[sq_king+dir_down]==vide) {
+  if (is_square_empty(sq_king+dir_down)) {
     sq_departure= sq_king+2*dir_down+dir_right;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -1264,7 +1264,7 @@ boolean moacheck(square sq_king,
         return maooaimcheck(sq_king+2*dir_down+dir_left, sq_king, sq_king+dir_down);
     }
   }
-  if (e[sq_king+dir_right]==vide) {
+  if (is_square_empty(sq_king+dir_right)) {
     sq_departure= sq_king+dir_up+2*dir_right;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -1280,7 +1280,7 @@ boolean moacheck(square sq_king,
         return maooaimcheck(sq_king+dir_down+2*dir_right, sq_king, sq_king+dir_right);
     }
   }
-  if (e[sq_king+dir_left]==vide) {
+  if (is_square_empty(sq_king+dir_left)) {
     sq_departure= sq_king+dir_down+2*dir_left;
     if (abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -1943,7 +1943,7 @@ boolean catcheck(square sq_king,
     for (k= vec_dabbaba_start; k<=vec_dabbaba_end; k++)
     {
       square middle_square= sq_king+vec[k];
-      while (e[middle_square]==vide)
+      while (is_square_empty(middle_square))
       {
         {
           square const sq_departure= middle_square+mixhopdata[3][k-60];
@@ -2096,13 +2096,13 @@ static boolean maooaridercheck(square  sq_king,
   square sq_departure= sq_king+sec;
 
   middle_square = sq_king+fir;
-  while (e[middle_square]==vide && e[sq_departure]==vide)
+  while (is_square_empty(middle_square) && is_square_empty(sq_departure))
   {
     middle_square+= sec;
     sq_departure+= sec;
   }
 
-  return (e[middle_square]==vide
+  return (is_square_empty(middle_square)
           && abs(e[sq_departure])==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king));
@@ -2180,12 +2180,12 @@ static boolean maooariderlioncheck(square  sq_king,
 
   square sq_departure= sq_king+sec;
 
-  while (e[middle_square]==vide && e[sq_departure]==vide)
+  while (is_square_empty(middle_square) && is_square_empty(sq_departure))
   {
     middle_square+= sec;
     sq_departure+= sec;
   }
-  if (e[middle_square]!=vide
+  if (!is_square_empty(middle_square)
       && abs(e[sq_departure])==p
       && TSTFLAG(spec[sq_departure],trait[nbply])
       && evaluate(sq_departure,sq_king,sq_king))
@@ -2193,16 +2193,16 @@ static boolean maooariderlioncheck(square  sq_king,
 
   if (e[middle_square]!=obs
       && e[sq_departure]!=obs
-      && (e[middle_square]==vide || e[sq_departure]==vide))
+      && (is_square_empty(middle_square) || is_square_empty(sq_departure)))
   {
     middle_square+= sec;
     sq_departure+= sec;
-    while (e[middle_square]==vide && e[sq_departure]==vide)
+    while (is_square_empty(middle_square) && is_square_empty(sq_departure))
     {
       middle_square+= sec;
       sq_departure+= sec;
     }
-    if (e[middle_square]==vide
+    if (is_square_empty(middle_square)
         && abs(e[sq_departure])==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))

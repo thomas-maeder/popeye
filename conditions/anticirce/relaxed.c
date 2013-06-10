@@ -37,7 +37,7 @@ stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
   move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
                                        sq_arrival);
 
-  if (e[current_anticirce_rebirth_square[nbply]]==vide)
+  if (is_square_empty(current_anticirce_rebirth_square[nbply]))
     move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
                                             current_anticirce_rebirth_square[nbply],
                                             anticirce_current_reborn_piece[nbply],

@@ -45,7 +45,7 @@ static boolean is_not_supported_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  if (e[sq_capture]==vide)
+  if (is_square_empty(sq_capture))
     result = true;
   else
     result = is_capture_not_supported(sq_departure,sq_arrival,sq_capture);

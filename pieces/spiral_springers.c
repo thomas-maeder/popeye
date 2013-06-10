@@ -8,11 +8,11 @@ static void generate_leg(Side side, square sq_departure,
 {
   square sq_arrival = sq_departure+zig;
 
-  while (e[sq_arrival]==vide)
+  while (is_square_empty(sq_arrival))
   {
     empile(sq_departure,sq_arrival,sq_arrival);
     sq_arrival += zag;
-    if (e[sq_arrival]==vide)
+    if (is_square_empty(sq_arrival))
     {
       empile(sq_departure,sq_arrival,sq_arrival);
       sq_arrival += zig;
