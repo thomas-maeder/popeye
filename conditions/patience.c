@@ -14,19 +14,22 @@ static square sqdep[maxply+1];
 
 static boolean patience_legal()
 {
-  square bl_last_vacated= initsquare, wh_last_vacated= initsquare;
-  ply nply;
+  square bl_last_vacated = initsquare;
+  square wh_last_vacated = initsquare;
+  ply ply;
   /* n.b. inventor rules that R squares are forbidden after
      castling but not yet implemented */
 
-  for (nply= nbply - 1 ; nply > 1 && !bl_last_vacated ; nply--)
-    if (trait[nply] == Black)
-      bl_last_vacated= sqdep[nply];
-  for (nply= nbply - 1 ; nply > 1 && !wh_last_vacated ; nply--)
-    if (trait[nply] == White)
-      wh_last_vacated= sqdep[nply];
-  return !((wh_last_vacated && e[wh_last_vacated]) ||
-           (bl_last_vacated && e[bl_last_vacated]));
+  for (ply = nbply-1; ply>1 && !bl_last_vacated; --ply)
+    if (trait[ply]==Black)
+      bl_last_vacated = sqdep[ply];
+
+  for (ply = nbply-1; ply>1 && !wh_last_vacated; --ply)
+    if (trait[ply]==White)
+      wh_last_vacated = sqdep[ply];
+
+  return ((wh_last_vacated==initsquare || is_square_empty(wh_last_vacated))
+          && (bl_last_vacated==initsquare || is_square_empty(bl_last_vacated)));
 }
 
 /* Instrument a stipulation

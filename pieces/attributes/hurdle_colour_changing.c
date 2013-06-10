@@ -13,10 +13,9 @@
 static void update_hurdle_colour(void)
 {
   square const sq_hurdle = move_generation_stack[current_move[nbply]].auxiliary;
-  piece const pi_hurdle = e[sq_hurdle];
+  PieNam const pi_hurdle = get_walk_of_piece_on_square(sq_hurdle);
 
-  if (abs(pi_hurdle)>King
-      && !TSTFLAG(spec[sq_hurdle],Neutral))
+  if (pi_hurdle>King && !TSTFLAG(spec[sq_hurdle],Neutral))
     move_effect_journal_do_side_change(move_effect_reason_hurdle_colour_changing,
                                        sq_hurdle);
 }

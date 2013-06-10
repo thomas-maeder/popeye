@@ -7,9 +7,9 @@
 
 #include <stdlib.h>
 
-static piece get_paralyser(piece p)
+static PieNam get_paralyser(PieNam p)
 {
-  piece result = vide;
+  PieNam result = Empty;
 
   TraceFunctionEntry(__func__);
   TracePiece(p);
@@ -17,44 +17,24 @@ static piece get_paralyser(piece p)
 
   switch (p)
   {
-    case pb:
-      result = dn;
+    case Pawn:
+      result = Queen;
       break;
 
-    case db:
-      result = tn;
+    case Queen:
+      result = Rook;
       break;
 
-    case tb:
-      result = fn;
+    case Rook:
+      result = Bishop;
       break;
 
-    case fb:
-      result = cn;
+    case Bishop:
+      result = Knight;
       break;
 
-    case cb:
-      result = pn;
-      break;
-
-    case pn:
-      result = db;
-      break;
-
-    case dn:
-      result = tb;
-      break;
-
-    case tn:
-      result = fb;
-      break;
-
-    case fn:
-      result = cb;
-      break;
-
-    case cn:
-      result = pb;
+    case Knight:
+      result = Pawn;
       break;
 
     default:
@@ -73,29 +53,26 @@ static piece get_paralyser(piece p)
  */
 boolean eiffel_can_piece_move(square sq)
 {
-  piece p = e[sq];
+  PieNam const p = get_walk_of_piece_on_square(sq);
   boolean result = true;
-  piece eiffel_piece;
+  PieNam eiffel_piece;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq],Neutral))
-    p = -p;
-
   eiffel_piece = get_paralyser(p);
 
-  if (eiffel_piece!=vide)
+  if (eiffel_piece!=Empty)
   {
     Side const eiffel_side = advers(trait[nbply]);
-    if (number_of_pieces[eiffel_side][abs(eiffel_piece)]>0)
+    if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       nextply();
       trait[nbply] = eiffel_side;
-      result = !(*checkfunctions[abs(eiffel_piece)])(sq,
-                                                     abs(eiffel_piece),
-                                                     &validate_observation_geometry);
+      result = !(*checkfunctions[eiffel_piece])(sq,
+                                                eiffel_piece,
+                                                &validate_observation_geometry);
       finply();
     }
   }
@@ -110,9 +87,9 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
                                               square sq_landing,
                                               square sq_observee)
 {
-  piece const p = e[sq_observer];
+  PieNam const p = get_walk_of_piece_on_square(sq_observer);
   boolean result = true;
-  piece eiffel_piece;
+  PieNam eiffel_piece;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -125,16 +102,16 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
 
   eiffel_piece = get_paralyser(p);
 
-  if (eiffel_piece!=vide)
+  if (eiffel_piece!=Empty)
   {
     Side const eiffel_side = advers(trait[nbply]);
-    if (number_of_pieces[eiffel_side][abs(eiffel_piece)]>0)
+    if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       nextply();
       trait[nbply] = eiffel_side;
-      result = !(*checkfunctions[abs(eiffel_piece)])(sq_observer,
-                                                     abs(eiffel_piece),
-                                                     &validate_observation_geometry);
+      result = !(*checkfunctions[eiffel_piece])(sq_observer,
+                                                eiffel_piece,
+                                                &validate_observation_geometry);
       finply();
     }
   }

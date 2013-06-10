@@ -98,7 +98,7 @@ static void rao_generate_circle(Side side,
 
   square sq_hurdle = generate_moves_on_circle_segment(sq_departure,sq_departure,
                                                       vec_index_start,&rotation,direction);
-  if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs)
+  if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
   {
     square const sq_arrival = fin_circle_line(sq_hurdle,vec_index_start,&rotation,direction);
     if (sq_arrival!=sq_departure && piece_belongs_to_opponent(sq_arrival,side))
@@ -130,7 +130,7 @@ static void roselion_generate_circle(Side side,
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
   square sq_hurdle = fin_circle_line(sq_departure,vec_index_start,&rotation,direction);
-  if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs)
+  if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
   {
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
     /* cf. issue 1747928 */
@@ -185,7 +185,7 @@ static void rosehopper_genrerate_circle(Side side,
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
   square sq_hurdle= fin_circle_line(sq_departure,vec_index_start,&rotation,direction);
-  if (sq_hurdle!=sq_departure && e[sq_hurdle]!=obs)
+  if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
   {
     square sq_arrival= sq_hurdle+vec[vec_index_start+rotation];
     if (is_square_empty(sq_arrival)
@@ -218,7 +218,7 @@ static void roselocust_generate_circle(Side side,
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
   square sq_capture= fin_circle_line(sq_departure,vec_index_start,&rotation,direction);
-  if (sq_capture!=sq_departure && e[sq_capture]!=obs && piece_belongs_to_opponent(sq_capture,side))
+  if (sq_capture!=sq_departure && !is_square_blocked(sq_capture) && piece_belongs_to_opponent(sq_capture,side))
   {
     square sq_arrival = sq_capture+vec[vec_index_start+rotation];
     if (is_square_empty(sq_arrival))

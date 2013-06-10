@@ -20,11 +20,8 @@ static post_move_iteration_id_type prev_post_move_iteration_id_promotion[maxply+
 
 square next_latent_pawn(square s, Side c)
 {
-  piece pawn;
-  int  i, delta;
-
-  pawn=  c==White ? pb : pn;
-  delta= c==White ?+dir_left :+dir_right;
+  numvec const delta= c==White ?+dir_left :+dir_right;
+  int  i;
 
   if (s==initsquare)
   {
@@ -38,7 +35,7 @@ square next_latent_pawn(square s, Side c)
   }
 
   for (; i<8; ++i, s+=delta)
-    if (e[s]==pawn)
+    if (TSTFLAG(spec[s],c) && get_walk_of_piece_on_square(s)==Pawn)
       return s;
 
   return initsquare;

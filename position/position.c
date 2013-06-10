@@ -179,6 +179,11 @@ boolean is_square_empty(square s)
   return e[s]==vide;
 }
 
+boolean is_square_blocked(square s)
+{
+  return e[s]==obs;
+}
+
 PieNam get_walk_of_piece_on_square(square s)
 {
   return abs(e[s]);

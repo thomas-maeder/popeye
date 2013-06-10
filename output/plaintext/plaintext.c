@@ -139,10 +139,10 @@ static void write_castling(move_effect_journal_index_type movement)
 
 static void write_exchange(move_effect_journal_index_type movement)
 {
-  WritePiece(e[move_effect_journal[movement].u.piece_exchange.from]);
+  WritePiece(get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.from));
   WriteSquare(move_effect_journal[movement].u.piece_exchange.to);
   StdString("<->");
-  WritePiece(e[move_effect_journal[movement].u.piece_exchange.to]);
+  WritePiece(get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.to));
   WriteSquare(move_effect_journal[movement].u.piece_exchange.from);
 }
 
@@ -460,10 +460,10 @@ static void write_piece_exchange(move_context *context,
 
     case move_effect_reason_oscillating_kings:
       next_context(context,"[","]");
-      WritePiece(e[move_effect_journal[curr].u.piece_exchange.from]);
+      WritePiece(get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
       WriteSquare(move_effect_journal[curr].u.piece_exchange.to);
       StdString("<->");
-      WritePiece(e[move_effect_journal[curr].u.piece_exchange.to]);
+      WritePiece(get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.to));
       WriteSquare(move_effect_journal[curr].u.piece_exchange.from);
       break;
 

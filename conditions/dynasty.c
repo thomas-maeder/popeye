@@ -20,10 +20,9 @@ static void update_king_square(Side side)
   {
     if (king_square[side]==initsquare)
     {
-      piece const king_type = side==White ? roib : roin;
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
-        if (e[*bnp]==king_type)
+        if (TSTFLAG(spec[*bnp],side) && get_walk_of_piece_on_square(*bnp)==King)
         {
           Flags flags = spec[*bnp];
           SETFLAG(flags,Royal);

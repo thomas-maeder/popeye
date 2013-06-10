@@ -70,14 +70,14 @@ stip_length_type line_chameleon_arriving_adjuster_solve(slice_index si,
 {
   stip_length_type result;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  piece const substitute = linechampiece(sq_arrival);
+  PieNam const substitute = linechampiece(sq_arrival);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (e[sq_arrival]!=substitute)
+  if (get_walk_of_piece_on_square(sq_arrival)!=substitute)
     move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
                                         sq_arrival,
                                         substitute);
