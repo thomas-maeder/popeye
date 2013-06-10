@@ -20,7 +20,7 @@ typedef struct
 {
     square  from;
     square  to;
-    piece   prom;
+    PieNam   prom;
 } simplified_move_type;
 
 static simplified_move_type **stored_solutions;
@@ -104,7 +104,7 @@ static void store_solution(void)
       simplified_move_type * const elmt = *sol + cp;
       elmt->from = move_generation_stack[current_move[cp]].departure;
       elmt->to = move_generation_stack[current_move[cp]].arrival;
-      elmt->prom = e[elmt->to];
+      elmt->prom = get_walk_of_piece_on_square(elmt->to);
     }
   }
 
@@ -138,7 +138,7 @@ static boolean is_duplicate_solution(void)
         simplified_move_type * const elmt = (*sol)+cp;
         found = (elmt->from==move_generation_stack[current_move[cp]].departure
                  && elmt->to==move_generation_stack[current_move[cp]].arrival
-                 && elmt->prom==e[move_generation_stack[current_move[cp]].arrival]);
+                 && elmt->prom==get_walk_of_piece_on_square(move_generation_stack[current_move[cp]].arrival));
       }
     }
   }

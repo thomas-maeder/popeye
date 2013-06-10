@@ -61,7 +61,7 @@ void intelligent_place_promoted_white_rider(piece promotee_type,
   {
     occupy_square(placed_on,promotee_type,placed_flags);
 
-    if (dir==0 || e[target]<vide || !is_line_empty(placed_on,target,dir))
+    if (dir==0 || TSTFLAG(spec[target],Black) || !is_line_empty(placed_on,target,dir))
       (*go_on)();
     else
       intelligent_intercept_guard_by_white(target,dir,go_on);
@@ -159,7 +159,7 @@ static void intercept_queen_diag(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (dir_diag==0 || e[target_diag]<vide || !is_line_empty(placed_on,target_diag,dir_diag))
+  if (dir_diag==0 || TSTFLAG(spec[target_diag],Black) || !is_line_empty(placed_on,target_diag,dir_diag))
     (*stack_top->go_on)();
   else
     intelligent_intercept_guard_by_white(target_diag,dir_diag,stack_top->go_on);
@@ -197,7 +197,7 @@ void intelligent_place_white_queen(unsigned int placed_index,
 
     occupy_square(placed_on,placed_type,placed_flags);
 
-    if (dir_ortho==0 || e[target_ortho]<vide || !is_line_empty(placed_on,target_ortho,dir_ortho))
+    if (dir_ortho==0 || TSTFLAG(spec[target_ortho],Black) || !is_line_empty(placed_on,target_ortho,dir_ortho))
       intercept_queen_diag();
     else
       intelligent_intercept_guard_by_white(target_ortho,dir_ortho,&intercept_queen_diag);
@@ -255,7 +255,7 @@ void intelligent_place_white_rider(unsigned int placed_index,
 
         if (placed_index>index_of_guarding_piece
             || dir==0
-            || e[target]<vide
+            || TSTFLAG(spec[target],Black)
             || !is_line_empty(placed_on,target,dir))
           (*go_on)();
         else

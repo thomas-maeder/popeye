@@ -122,7 +122,7 @@ static void rider_placed(void)
   else
   {
     int const check_diff = king_square[White]-save_top->placed_on;
-    int const check_dir = CheckDir[-e[save_top->placed_on]][check_diff];
+    int const check_dir = CheckDir[get_walk_of_piece_on_square(save_top->placed_on)][check_diff];
     assert(check_dir!=check_diff);
     if (check_dir!=0
         && is_line_empty(save_top->placed_on,king_square[White],check_dir))

@@ -28,7 +28,13 @@ static boolean check_from_direction(int dir)
   while (is_square_empty(curr))
     curr -= dir;
 
-  result = e[curr]==dn || e[curr]==(is_diagonal ? fn : tn);
+  if (TSTFLAG(spec[curr],Black))
+  {
+    PieNam const checker = get_walk_of_piece_on_square(curr);
+    result = checker==Queen || checker==(is_diagonal ? Bishop : Rook);
+  }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

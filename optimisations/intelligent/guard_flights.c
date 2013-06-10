@@ -348,7 +348,7 @@ static void place_rider(piece rider_type, square guard_from)
       case guard_dir_guard_uninterceptable:
       {
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
-        if (e[guarded]>=vide)
+        if (!TSTFLAG(spec[guarded],Black))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
@@ -366,7 +366,7 @@ static void place_rider(piece rider_type, square guard_from)
       default:
       {
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
-        if (e[guarded]>=vide && is_line_empty(guard_from,guarded,dir))
+        if (!TSTFLAG(spec[guarded],Black) && is_line_empty(guard_from,guarded,dir))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);

@@ -581,7 +581,8 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
 
   if (MovesLeft[White]==5
       && from_square<=square_h2
-      && (e[from_square+dir_up]>vide || e[from_square+2*dir_up]>vide))
+      && (TSTFLAG(spec[from_square+dir_up],White)
+          || TSTFLAG(spec[from_square+2*dir_up],White)))
     /* pawn can't reach the promotion square */
     result = maxply+1;
   else

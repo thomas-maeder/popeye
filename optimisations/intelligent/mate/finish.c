@@ -58,7 +58,7 @@ static boolean exists_redundant_white_piece(void)
   for (bnp = boardnum; !result && *bnp!=initsquare; bnp++)
   {
     square const sq = *bnp;
-    if (sq!=king_square[White] && e[sq]>obs)
+    if (sq!=king_square[White] && TSTFLAG(spec[sq],White))
     {
       PieceIdType const id = GetPieceId(spec[sq]);
       piece_usage const usage = white[PieceId2index[id]].usage;

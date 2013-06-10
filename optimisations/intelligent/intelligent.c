@@ -90,7 +90,7 @@ static stip_length_type nr_of_moves;
 typedef struct
 {
   Flags       spec[nr_squares_on_board];
-  piece       e[nr_squares_on_board];
+  PieNam      e[nr_squares_on_board];
   square      rn_sic, rb_sic;
 } stored_position_type;
 
@@ -105,7 +105,7 @@ static void StorePosition(stored_position_type *store)
     unsigned int i;
     for (i = 0; i<nr_squares_on_board; i++)
     {
-      store->e[i] = e[boardnum[i]];
+      store->e[i] = get_walk_of_piece_on_square(boardnum[i]);
       store->spec[i] = spec[boardnum[i]];
     }
   }
@@ -128,12 +128,23 @@ static void ResetPosition(stored_position_type const *store)
   {
     unsigned int i;
     for (i = 0; i<nr_squares_on_board; i++)
-    {
-      Side const side = TSTFLAG(store->spec[i],White) ? White : Black;
-      ++number_of_pieces[side][abs(store->e[i])];
-      e[boardnum[i]] = store->e[i];
-      spec[boardnum[i]]= store->spec[i];
-    }
+      switch (store->e[i])
+      {
+        case Empty:
+          empty_square(boardnum[i]);
+          break;
+
+        case Invalid:
+          block_square(boardnum[i]);
+          break;
+
+        default:
+        {
+          Side const side = TSTFLAG(store->spec[i],White) ? White : Black;
+          ++number_of_pieces[side][store->e[i]];
+          occupy_square(boardnum[i],store->e[i],store->spec[i]);
+        }
+      }
   }
 }
 
@@ -309,12 +320,12 @@ void solve_target_position(void)
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; bnp++)
     {
-      piece const type = e[*bnp];
-      if (type!=vide && type!=obs)
+      PieNam const type = get_walk_of_piece_on_square(*bnp);
+      if (type!=Empty && type!=Invalid)
       {
         Flags const flags = spec[*bnp];
         PieceIdType const id = GetPieceId(flags);
-        target_position[id].type = abs(type);
+        target_position[id].type = type;
         target_position[id].flags = flags;
         target_position[id].diagram_square = *bnp;
 #if defined(DETAILS)
@@ -350,10 +361,9 @@ void solve_target_position(void)
     PieceIdType id;
     for (id = 0; id<=MaxPieceId; ++id)
       if (target_position[id].diagram_square != initsquare)
-      {
-        e[target_position[id].diagram_square] = TSTFLAG(target_position[id].flags,White) ? target_position[id].type : -target_position[id].type;
-        spec[target_position[id].diagram_square] = target_position[id].flags;
-      }
+        occupy_square(target_position[id].diagram_square,
+                      target_position[id].type,
+                      target_position[id].flags);
   }
 
   {
@@ -392,7 +402,7 @@ static void GenerateBlackKing(void)
                                 MaxPiece[White],MaxPiece[Black]-1);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
-    if (e[*bnp]!=obs
+    if (is_square_empty(*bnp) /* *bnp isn't a hole*/
         && intelligent_reserve_black_king_moves_from_to(black[index_of_king].diagram_square,
                                                         *bnp))
     {
@@ -480,20 +490,20 @@ void IntelligentRegulargoal_types(stip_length_type n)
       nextply();
 
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-        if (king_square[White]!=*bnp && e[*bnp]>obs)
+        if (king_square[White]!=*bnp && TSTFLAG(spec[*bnp],White))
         {
           white[MaxPiece[White]].type = get_walk_of_piece_on_square(*bnp);
           white[MaxPiece[White]].flags = spec[*bnp];
           white[MaxPiece[White]].diagram_square = *bnp;
           white[MaxPiece[White]].usage = piece_is_unused;
-          if (e[*bnp]==pb)
+          if (get_walk_of_piece_on_square(*bnp)==Pawn)
             moves_to_white_prom[MaxPiece[White]] = intelligent_count_moves_to_white_promotion(*bnp);
           PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[White];
           ++MaxPiece[White];
         }
 
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-        if (king_square[Black]!=*bnp && e[*bnp]<vide)
+        if (king_square[Black]!=*bnp && TSTFLAG(spec[*bnp],Black))
         {
           black[MaxPiece[Black]].type = get_walk_of_piece_on_square(*bnp);
           black[MaxPiece[Black]].flags = spec[*bnp];
@@ -512,7 +522,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
     {
       square const *bnp;
       for (bnp= boardnum; *bnp!=initsquare; ++bnp)
-        if (e[*bnp] != obs)
+        if (get_walk_of_piece_on_square(*bnp)!=Invalid)
           empty_square(*bnp);
     }
 
