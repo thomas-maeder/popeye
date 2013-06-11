@@ -165,20 +165,18 @@ typedef enum
   MagicSq,            /*  0 */
   WhForcedSq,         /*  1 */
   BlForcedSq,         /*  2 */
-  WhConsForcedSq,     /*  3 */
-  BlConsForcedSq,     /*  4 */
-  NoEdgeSq,           /*  5 */
-  SqColor,            /*  6 */
-  WhPromSq,           /*  7 */
-  BlPromSq,           /*  8 */
-  WhBaseSq,           /*  9 */
-  BlBaseSq,           /* 10 */
-  WhPawnDoublestepSq, /* 11 */
-  BlPawnDoublestepSq, /* 12 */
-  CapturableByWhPawnSq, /* 13 */
-  CapturableByBlPawnSq, /* 14 */
-  Wormhole,           /* 15 */
-  Grid,               /* 16 */
+  NoEdgeSq,           /*  3 */
+  SqColor,            /*  4 */
+  WhPromSq,           /*  5 */
+  BlPromSq,           /*  6 */
+  WhBaseSq,           /*  7 */
+  BlBaseSq,           /*  8 */
+  WhPawnDoublestepSq, /*  9 */
+  BlPawnDoublestepSq, /* 10 */
+  CapturableByWhPawnSq, /* 11 */
+  CapturableByBlPawnSq, /* 12 */
+  Wormhole,           /* 13 */
+  Grid,               /* 14 */
 
   nrSquareFlags
 } SquareFlags;

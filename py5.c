@@ -503,38 +503,7 @@ void generate_castling(Side side)
   TraceFunctionResultEnd();
 }
 
-static void gen_ply(Side side)
-{
-  unsigned int i;
-  square square_a = side==White ? square_a1 : square_h8;
-  numvec const next_row = side==White ? onerow : -onerow;
-  numvec const next_file = side==White ? dir_right : dir_left;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  /* Don't try to "optimize" by hand. The double-loop is tested as
-     the fastest way to compute (due to compiler-optimizations !)
-     V3.14  NG
-  */
-  for (i = nr_rows_on_board; i>0; i--, square_a += next_row)
-  {
-    square j;
-    square z = square_a;
-    for (j = nr_files_on_board; j>0; j--, z += next_file)
-      if (TSTFLAG(spec[z],side))
-        generate_moves_for_piece(side,z,get_walk_of_piece_on_square(z));
-  }
-
-  if (side==Black && CondFlag[schwarzschacher])
-    empile(nullsquare, nullsquare, nullsquare);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void genmove(Side camp)
+void genmove(Side side)
 {
   /* TODO hide away in one module per platform */
   /* Abbruch waehrend der gesammten Laufzeit mit <ESC> */
@@ -579,36 +548,33 @@ void genmove(Side camp)
 #endif /* STOP_ON_ESC */
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,camp,"");
+  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  trait[nbply]= camp;
-  we_generate_exact = false;
-
-  if (mummer_strictness[camp]>mummer_strictness_regular)
   {
-    Cond const forced_square = camp==White ? whforsqu : blforsqu;
-    Cond const consequent_forced_square = camp==White ? whconforsqu : blconforsqu;
+    unsigned int i;
+    square square_a = side==White ? square_a1 : square_h8;
+    numvec const next_row = side==White ? onerow : -onerow;
+    numvec const next_file = side==White ? dir_right : dir_left;
 
-    we_generate_exact = true;
-    there_are_consmoves = false;
-    gen_ply(camp);
+    trait[nbply]= side;
 
-    if (CondFlag[forced_square] && CondFlag[consequent_forced_square]
-        && !there_are_consmoves) {
-      /* There are no consequent moves.
-      ** Now let's look for ``normal'' forced moves,
-      ** but first reset current_move[nbply] etc.
-      */
-      we_generate_exact = false;
-      finply();
-      nextply();
-      gen_ply(camp);
+    /* Don't try to "optimize" by hand. The double-loop is tested as
+       the fastest way to compute (due to compiler-optimizations !)
+       V3.14  NG
+    */
+    for (i = nr_rows_on_board; i>0; i--, square_a += next_row)
+    {
+      square j;
+      square z = square_a;
+      for (j = nr_files_on_board; j>0; j--, z += next_file)
+        if (TSTFLAG(spec[z],side))
+          generate_moves_for_piece(side,z,get_walk_of_piece_on_square(z));
     }
-    we_generate_exact = false;
+
+    if (side==Black && CondFlag[schwarzschacher])
+      empile(nullsquare, nullsquare, nullsquare);
   }
-  else
-    gen_ply(camp);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

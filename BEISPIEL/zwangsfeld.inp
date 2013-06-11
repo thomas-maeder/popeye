@@ -1,0 +1,43 @@
+anfang
+
+protokoll zwangsfeld.out
+
+autor James Quah & Juraj L\"orinc
+Quelle Cyclone
+steine weiss kf1 tb6f2 lc7 bb7c5 ne3g6g8 crd5e1
+       schwarz ka5 ta2 ld6e8 ba3c2d7 nb2
+forderung #2
+bedingung patrouille circeparrain weisseszwangsfeld f4
+option vari
+
+weiter
+
+autor Norbert Geissler
+Quelle Probleemblad V-VI 1996, Utrecht-M\"unchen, 6. Platz
+steine weiss bc7 schwarz kd3
+forderung h#2
+bedingung schwarzeskonsequenteszwangsfeld e8
+option ohnewk
+nullstellung versetze d3 b6
+zwilling bedingung schwarzeskonsequenteszwangsfeld b3
+zwilling bedingung schwarzeskonsequenteszwangsfeld g6
+zwilling ferner versetze c7 b7
+
+weiter
+
+autor Peter R\"osler, Norbert Geissler
+quelle Probleemblad III-IV 1996, Utrecht-M\"unchen
+steine weiss koeniglich be2 schwarz koeniglich bb7
+forderung ==7
+bedingung weisseskonsequenteszwangsfeld b5c3e1e5f7f8g8h6h7 schwarzeskonsequenteszwangsfeld b5c3e1e5f7f8g8h6h7
+option varianten ohnedrohung
+
+weiter
+
+autor Kurt Ewald
+quelle feenschach 1995
+steine weiss kc6 tf3 schwarz kf4 ta4
+forderung h#6
+bedingung weisseskonsequenteszwangsfeld f1f3
+
+ende

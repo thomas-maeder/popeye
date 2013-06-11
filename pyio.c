@@ -620,7 +620,8 @@ static void WriteConditions(int alignment)
         }
       }
     }
-    if (cond == whforsqu) {
+    if (cond == whforsqu || cond == whconforsqu)
+    {
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], WhForcedSq)) {
@@ -628,28 +629,10 @@ static void WriteConditions(int alignment)
         }
       }
     }
-    if (cond == blforsqu) {
+    if (cond == blforsqu || cond == blconforsqu) {
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], BlForcedSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-
-    if (cond == whconforsqu) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhConsForcedSq)) {
-          AddSquare(CondLine, i);
-        }
-      }
-    }
-
-    if (cond == blconforsqu) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlConsForcedSq)) {
           AddSquare(CondLine, i);
         }
       }
@@ -5043,10 +5026,10 @@ static char *ParseCond(void)
         ReadSquares(BlForcedSq);
         break;
       case whconforsqu:
-        ReadSquares(WhConsForcedSq);
+        ReadSquares(WhForcedSq);
         break;
       case blconforsqu:
-        ReadSquares(BlConsForcedSq);
+        ReadSquares(BlForcedSq);
         break;
 
         /* different types of circe */

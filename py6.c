@@ -1214,7 +1214,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[blforsqu]
-      && !mummer_set_length_measurer(Black,&len_whforcedsquare))
+      && !mummer_set_length_measurer(Black,&len_blforcedsquare))
   {
     VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
     return false;
@@ -1227,7 +1227,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[blconforsqu]
-      && !mummer_set_length_measurer(Black,&len_whforcedsquare))
+      && !mummer_set_length_measurer(Black,&len_blforcedsquare))
   {
     VerifieMsg(TwoMummerCond);
     return false;

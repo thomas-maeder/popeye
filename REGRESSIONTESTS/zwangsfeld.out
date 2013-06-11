@@ -1,0 +1,217 @@
+
+     James Quah & Juraj L\"orinc
+               Cyclone
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -L   .   N   .   8
+|                                   |
+7   .   B   L  -B   .   .   .   .   7
+|                                   |
+6   .   T   .  -L   .   .   N   .   6
+|                                   |
+5  -K   .   B  CR   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   N   .   .   .   3
+|                                   |
+2  -T  -N  -B   .   .   T   .   .   2
+|                                   |
+1   .   .   .   .  CR   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         11 + 8
+           PatrouilleSchach
+             CirceParrain
+         WeissesZwangsfeld f4
+
+   1.Ng6-f4 ! Drohung:
+          2.b7-b8=CR #
+      1...Nb2*f4
+          2.CRe1*f4[+wNg7] #
+      1...Ld6*f4
+          2.Tf2*f4[+wNf6] #
+
+   1.Tf2-f4 ! Drohung:
+          2.b7-b8=CR #
+      1...Nb2*f4
+          2.Ng6*f4[+wTe2] #
+      1...Ld6*f4
+          2.CRe1*f4[+wTg7] #
+
+   1.CRe1-f4 ! Drohung:
+          2.b7-b8=CR #
+      1...Nb2*f4
+          2.Tf2*f4[+wCRf6] #
+      1...Ld6*f4
+          2.Ng6*f4[+wCRe2] #
+
+
+                        empile:       14884
+                     play_move:        8980
+ is_white_king_square_attacked:        2524
+ is_black_king_square_attacked:       23566
+Loesung beendet. 
+
+
+
+           Norbert Geissler
+Probleemblad V-VI 1996, Utrecht-M\"unchen, 6. Platz
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   B   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         1 + 1
+  SchwarzesKonsequentesZwangsfeld e8
+
+NullStellung
+
+a) sKd3-->b6
+
+  1.Kb6-c6 c7-c8=T +   2.Kc6-d7 Tc8-d8 #
+
+                        empile:        1641
+                     play_move:         971
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:         944
+b) SchwarzesKonsequentesZwangsfeld b3
+
+  1.Kd3-d4 c7-c8=L   2.Kd4-c4 Lc8-e6 #
+
+                        empile:        2283
+                     play_move:        1235
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1204
+c) SchwarzesKonsequentesZwangsfeld g6
+
+  1.Kd3-e4 c7-c8=S   2.Ke4-f5 Sc8-e7 #
+
+                        empile:        2763
+                     play_move:        1565
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1534
++d) wBc7-->b7
+
+  1.Kd3-e4 b7-b8=D   2.Ke4-f5 Db8-b1 #
+
+                        empile:        2506
+                     play_move:        1464
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:        1433
+Loesung beendet. 
+
+
+
+   Peter R\"osler, Norbert Geissler
+Probleemblad III-IV 1996, Utrecht-M\"unchen
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -B   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ==7                         1 + 1
+           Koeniglich b7 e2
+WeissesKonsequentesZwangsfeld e1 c3 b5 e5 h6 f7 h7 f8 g8
+SchwarzesKonsequentesZwangsfeld e1 c3 b5 e5 h6 f7 h7 f8 g8
+
+   1.kBe2-e3 !
+      1...kBb7-b5
+          2.kBe3-e4
+              2...kBb5-b4
+                  3.kBe4-e5
+                      3...kBb4-b3
+                          4.kBe5-e6
+                              4...kBb3-b2
+                                  5.kBe6-e7
+                                      5...kBb2-b1=kD
+                                          6.kBe7-e8=kD
+                                              6...kDb1-h7
+                                                  7.kDe8-f8 ==
+                                      5...kBb2-b1=kS
+                                          6.kBe7-e8=kS
+                                              6...kSb1-c3
+                                                  7.kSe8-c7 ==
+                                      5...kBb2-b1=kT
+                                          6.kBe7-e8=kT
+                                              6...kTb1-b5
+                                                  7.kTe8-e1 ==
+                                      5...kBb2-b1=kL
+                                          6.kBe7-e8=kL
+                                              6...kLb1-h7
+                                                  7.kLe8-f7 ==
+
+
+                        empile:        4573
+                     play_move:         551
+ is_white_king_square_attacked:         425
+ is_black_king_square_attacked:         163
+Loesung beendet. 
+
+
+
+              Kurt Ewald
+           feenschach 1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   K   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -T   .   .   .   .  -K   .   .   4
+|                                   |
+3   .   .   .   .   .   T   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6                         2 + 2
+ WeissesKonsequentesZwangsfeld f1 f3
+
+  1.Ta4-a2 Tf3-f1   2.Ta2-f2 Kc6-d5   3.Kf4-g3 Kd5-e4   4.Tf2-h2 Tf1-f3   5.Kg3-g2 Tf3-f1   6.Kg2-h1 Ke4-f3 #
+
+                        empile:    27957871
+                     play_move:     7838709
+ is_white_king_square_attacked:     1127262
+ is_black_king_square_attacked:     6976849
+Loesung beendet. 
+
+

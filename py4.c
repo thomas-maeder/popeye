@@ -215,36 +215,38 @@ int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture)
     return true;
 }
 
-int len_whforcedsquare(square sq_departure,
-                       square sq_arrival,
-                       square sq_capture) {
-  if (we_generate_exact)
-  {
-    if (TSTFLAG(sq_spec[sq_arrival], WhConsForcedSq))
-    {
-      there_are_consmoves = true;
-      return 1;
-    }
-    else
-      return 0;
-  }
-  else
-    return (TSTFLAG(sq_spec[sq_arrival], WhForcedSq));
+int len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture)
+{
+  int const result = TSTFLAG(sq_spec[sq_arrival],WhForcedSq);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%x\n",sq_spec[sq_arrival]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
-int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture) {
-  if (we_generate_exact) {
-    if (TSTFLAG(sq_spec[sq_arrival], BlConsForcedSq)) {
-      there_are_consmoves = true;
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  }
-  else {
-    return (TSTFLAG(sq_spec[sq_arrival], BlForcedSq));
-  }
+int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture)
+{
+  int const result = TSTFLAG(sq_spec[sq_arrival],BlForcedSq);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 int len_schwarzschacher(square sq_departure, square sq_arrival, square sq_capture)
