@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 static void generate_additional_captures_from(Side side,
-                                              piece p,
+                                              PieNam p,
                                               square from,
                                               square sq_departure)
 {
@@ -39,7 +39,7 @@ static void generate_additional_captures_from(Side side,
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void plus_generate_moves(Side side, piece p, square sq_departure)
+void plus_generate_moves(Side side, PieNam p, square sq_departure)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -47,7 +47,7 @@ void plus_generate_moves(Side side, piece p, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_departure,abs(p));
+  gen_piece_aux(side,sq_departure,p);
 
   if (sq_departure==square_d4
       || sq_departure==square_e4

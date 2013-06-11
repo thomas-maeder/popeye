@@ -16,7 +16,7 @@ extern boolean phantom_chess_rex_inclusive;
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not have that walk
  */
-void phantom_chess_generate_moves(Side side, piece p, square sq_departure);
+void phantom_chess_generate_moves(Side side, PieNam p, square sq_departure);
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -14,7 +14,7 @@
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not have that walk
  */
-void plus_generate_moves(Side side, piece p, square sq_departure);
+void plus_generate_moves(Side side, PieNam p, square sq_departure);
 
 /* Determine whether a specific side is in check in Echecs Plus
  * @param side the side

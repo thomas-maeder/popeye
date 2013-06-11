@@ -2418,20 +2418,12 @@ void gen_wh_ply(void)
      the fastest way to compute (due to compiler-optimizations !)
      V3.14  NG
   */
-  for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
+  for (i = nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
   {
     square j;
-    for (j= nr_files_on_board; j > 0; j--, z++)
-    {
-      piece p = e[z];
-      if (p!=vide)
-      {
-        if (TSTFLAG(spec[z], Neutral))
-          p = -p;
-        if (p > obs)
-          generate_moves_for_piece(White,z, p);
-      }
-    }
+    for (j = nr_files_on_board; j > 0; j--, z++)
+      if (TSTFLAG(spec[z],White))
+        generate_moves_for_piece(White,z,get_walk_of_piece_on_square(z));
   }
 
   TraceFunctionExit(__func__);
@@ -2467,7 +2459,7 @@ void gen_piece_aux(Side side, square sq_departure, PieNam p)
   TraceFunctionResultEnd();
 }
 
-void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
+void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -2492,15 +2484,14 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
     else if (anyantimars)
       antimars_generate_moves(side,p,sq_departure);
     else
-      gen_piece_aux(side,sq_departure,abs(p));
+      gen_piece_aux(side,sq_departure,p);
 
     if (CondFlag[messigny] && !(king_square[side]==sq_departure && rex_mess_ex))
     {
-      PieNam const walk = abs(p);
       Side const opponent = advers(side);
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
-        if (TSTFLAG(spec[*bnp],opponent) && get_walk_of_piece_on_square(*bnp)==walk)
+        if (TSTFLAG(spec[*bnp],opponent) && get_walk_of_piece_on_square(*bnp)==p)
           empile(sq_departure,*bnp,messigny_exchange);
     }
   }
@@ -2509,7 +2500,7 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, piece p)
   TraceFunctionResultEnd();
 }
 
-void (*generate_moves_for_piece)(Side side, square z, piece p) = &orig_generate_moves_for_piece;
+void (*generate_moves_for_piece)(Side side, square z, PieNam p) = &orig_generate_moves_for_piece;
 
 void gorph(square sq_departure, Side camp)
 {
@@ -2519,7 +2510,7 @@ void gorph(square sq_departure, Side camp)
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
         && orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
-      generate_moves_for_piece(camp,sq_departure, camp == White ? *orphan_observer : -*orphan_observer);
+      generate_moves_for_piece(camp,sq_departure,*orphan_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
@@ -2532,7 +2523,7 @@ void gfriend(square i, Side camp)
   for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
     if (number_of_pieces[camp][*friend_observer]>0
         && find_next_friend_in_chain(i,*friend_observer,Friend,&validate_observation))
-      generate_moves_for_piece(camp, i, camp==White ? *friend_observer : -*friend_observer);
+      generate_moves_for_piece(camp, i,*friend_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }

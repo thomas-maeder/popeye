@@ -224,7 +224,7 @@ static square find_next_latent_pawn(square sq, Side side)
  * @param sq_departure departure square of the moves
  * @param p walk and side of the piece
  */
-void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, piece p)
+void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, PieNam p)
 {
   numecoup save_nbcou = current_move[nbply];
   unsigned int nr_latent_promotions = 0;
@@ -240,17 +240,15 @@ void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, pie
     while (sequence.promotee!=Empty)
     {
       PieNam const pi_departing = get_walk_of_piece_on_square(sq);
-      PieNam const walk_promotee = sequence.promotee;
-      piece const pi_promotee = p<0 ? -walk_promotee : walk_promotee;
       numecoup prev_nbcou = current_move[nbply];
       ++nr_latent_promotions;
-      replace_piece(sq,walk_promotee);
-      orig_generate_moves_for_piece(side, sq_departure, sq==sq_departure ? pi_promotee : p);
+      replace_piece(sq,sequence.promotee);
+      orig_generate_moves_for_piece(side, sq_departure, sq==sq_departure ? sequence.promotee : p);
       replace_piece(sq,pi_departing);
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
         move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = walk_promotee;
+        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = sequence.promotee;
       }
       singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
     }

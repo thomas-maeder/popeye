@@ -447,14 +447,14 @@ static void generate_move_reaching_goal()
       int j;
       for (j = nr_files_on_board; j>0; j--, sq_departure += dir_right)
       {
-        piece const p = e[sq_departure];
-        if (p!=vide && TSTFLAG(spec[sq_departure],side_at_move))
+        PieNam const p = get_walk_of_piece_on_square(sq_departure);
+        if (p!=Empty && TSTFLAG(spec[sq_departure],side_at_move))
         {
           if (CondFlag[gridchess]
               && !GridLegal(sq_departure,OpponentsKing))
             generate_moves_for_piece(side_at_move,sq_departure,p);
           else
-            switch (abs(p))
+            switch (p)
             {
               case King:
                 king(sq_departure,OpponentsKing,side_at_move);
@@ -478,6 +478,10 @@ static void generate_move_reaching_goal()
 
               case Bishop:
                 bishop(sq_departure,OpponentsKing,side_at_move);
+                break;
+
+              default:
+                /* avoid compiler warning */
                 break;
             }
         }

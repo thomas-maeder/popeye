@@ -31,11 +31,9 @@ slice_index alloc_king_move_generator_slice(void)
 void generate_king_moves(Side side)
 {
   if (king_square[side]!=initsquare)
-  {
-    PieNam const king_walk = get_walk_of_piece_on_square(king_square[side]);
-    piece const sided_king = side==White ? king_walk : -king_walk;
-    generate_moves_for_piece(side,king_square[side],sided_king);
-  }
+    generate_moves_for_piece(side,
+                             king_square[side],
+                             get_walk_of_piece_on_square(king_square[side]));
 }
 
 /* Try to solve in n half-moves.

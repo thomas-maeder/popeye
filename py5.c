@@ -515,16 +515,9 @@ void gen_bl_ply(void)
   z= square_h8;
   for (i= nr_rows_on_board; i > 0; i--, z-= onerow-nr_files_on_board)
     for (j= nr_files_on_board; j > 0; j--, z--)
-    {
-      if (!is_square_empty(z))
-      {
-        piece p = e[z];
-        if (TSTFLAG(spec[z], Neutral))
-          p = -p;
-        if (p < vide)
-          generate_moves_for_piece(Black,z, p);
-      }
-    }
+      if (TSTFLAG(spec[z],Black))
+        generate_moves_for_piece(Black,z,get_walk_of_piece_on_square(z));
+
   if (CondFlag[schwarzschacher])
     empile(nullsquare, nullsquare, nullsquare);
 

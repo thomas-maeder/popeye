@@ -20,7 +20,7 @@
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void antimars_generate_moves(Side side, piece p, square sq_departure)
+void antimars_generate_moves(Side side, PieNam p, square sq_departure)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -29,13 +29,13 @@ void antimars_generate_moves(Side side, piece p, square sq_departure)
   TraceFunctionParamListEnd();
 
   {
-    square const sq_rebirth = (*marsrenai)(abs(p),
+    square const sq_rebirth = (*marsrenai)(p,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(side));
 
     if (sq_rebirth==sq_departure)
-      gen_piece_aux(side,sq_departure,abs(p));
+      gen_piece_aux(side,sq_departure,p);
     else
     {
       marscirce_generate_captures(side,p,sq_departure,sq_departure);

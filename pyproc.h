@@ -260,9 +260,9 @@ boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 boolean rubiech(square sq, square sqtest, PieNam p,  echiquier e_ub, evalfunction_t *evaluate );
 
-void orig_generate_moves_for_piece(Side side, square sq_departure, piece p);
+void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p);
 
-extern void   (*generate_moves_for_piece)(Side side, square a, piece b);
+extern void   (*generate_moves_for_piece)(Side side, square a, PieNam b);
 
 void    PrintTime();
 boolean leapcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);

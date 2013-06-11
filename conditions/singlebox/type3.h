@@ -55,6 +55,6 @@ boolean singleboxtype3_is_square_attacked(Side side_in_check,
  * @param sq_departure departure square of the moves
  * @param p walk and side of the piece
  */
-void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, piece p);
+void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, PieNam p);
 
 #endif

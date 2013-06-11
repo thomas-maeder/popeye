@@ -41,33 +41,13 @@ static boolean advance_departure_square(Side side,
       break;
     else
     {
-      piece p = e[sq_departure];
-      TraceSquare(sq_departure);
-      TracePiece(abs(p));
-      TraceText("\n");
       ++*next_square_to_try;
-      if (p!=vide)
+      if (TSTFLAG(spec[sq_departure],side) && sq_departure!=king_square[side])
       {
-        if (TSTFLAG(spec[sq_departure],Neutral))
-          p = -p;
-
-        TraceEnumerator(Side,side,"\n");
-        if (side==White)
-        {
-          if (p>obs && sq_departure!=king_square[side])
-          {
-            generate_moves_for_piece(side,sq_departure,p);
-            return true;
-          }
-        }
-        else
-        {
-          if (p<vide && sq_departure!=king_square[side])
-          {
-            generate_moves_for_piece(side,sq_departure,p);
-            return true;
-          }
-        }
+        generate_moves_for_piece(side,
+                                 sq_departure,
+                                 get_walk_of_piece_on_square(sq_departure));
+        return true;
       }
     }
   }

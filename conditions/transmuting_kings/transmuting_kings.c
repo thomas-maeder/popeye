@@ -105,7 +105,6 @@ boolean transmuting_kings_generate_moves(Side side_moving, square sq_departure)
 
   for (ptrans = transmpieces[side_moving]; *ptrans!=Empty; ++ptrans)
   {
-    piece const ptrans_opponent = side_moving==White ? -*ptrans : *ptrans;
     Side const side_transmuting = advers(side_moving);
 
     if (number_of_pieces[side_transmuting][*ptrans]>0)
@@ -123,7 +122,7 @@ boolean transmuting_kings_generate_moves(Side side_moving, square sq_departure)
       {
         result = true;
         current_trans_gen = *ptrans;
-        generate_moves_for_piece(side_moving,sq_departure,ptrans_opponent);
+        generate_moves_for_piece(side_moving,sq_departure,*ptrans);
         current_trans_gen = Empty;
       }
     }

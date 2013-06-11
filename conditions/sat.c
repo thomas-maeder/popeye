@@ -36,7 +36,6 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
   stip_length_type result;
   Side const starter = slices[si].starter;
   PieNam const king_walk = get_walk_of_piece_on_square(king_square[starter]);
-  piece const sided_king = starter==White ? king_walk : -king_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -48,7 +47,7 @@ stip_length_type sat_flight_moves_generator_solve(slice_index si,
   trait[nbply]= starter;
 
   dont_generate_castling= true;
-  generate_moves_for_piece(starter,king_square[starter],sided_king);
+  generate_moves_for_piece(starter,king_square[starter],king_walk);
   dont_generate_castling = false;
 
   result = solve(slices[si].next1,n);

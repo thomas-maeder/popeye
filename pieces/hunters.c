@@ -44,8 +44,8 @@ static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
   TraceFunctionParamListEnd();
 
   while (s<=current_move[nbply])
-    if ((u==DOWN && move_generation_stack[s].arrival-sq_departure>-8)
-        || (u==UP && move_generation_stack[s].arrival-sq_departure<8))
+    if ((u==DOWN && move_generation_stack[s].arrival-sq_departure>-nr_files_on_board)
+        || (u==UP && move_generation_stack[s].arrival-sq_departure<nr_files_on_board))
     {
       memmove(move_generation_stack+s,
               move_generation_stack+s+1,
@@ -59,7 +59,7 @@ static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
   TraceFunctionResultEnd();
 }
 
-static void generate_one_dir(Side side, square sq_departure, piece part, UPDOWN updown)
+static void generate_one_dir(Side side, square sq_departure, PieNam part, UPDOWN updown)
 {
   numecoup const savenbcou = current_move[nbply];
   generate_moves_for_piece(side,sq_departure,part);
@@ -89,8 +89,8 @@ void hunter_generate_moves(Side side, square sq_departure, PieNam walk)
     }
     else
     {
-      generate_one_dir(side,sq_departure,-huntertype->away,DOWN);
-      generate_one_dir(side,sq_departure,-huntertype->home,UP);
+      generate_one_dir(side,sq_departure,huntertype->away,DOWN);
+      generate_one_dir(side,sq_departure,huntertype->home,UP);
     }
   }
 
@@ -100,12 +100,12 @@ void hunter_generate_moves(Side side, square sq_departure, PieNam walk)
 
 void rook_hunter_generate_moves(Side side, square sq_departure)
 {
-  generate_one_dir(side, sq_departure, side==White ? fb : fn, DOWN);
-  generate_one_dir(side, sq_departure, side==White ? tb : tn, UP);
+  generate_one_dir(side,sq_departure,Bishop,DOWN);
+  generate_one_dir(side,sq_departure,Rook,UP);
 }
 
 void bishop_hunter_generate_moves(Side side, square sq_departure)
 {
-  generate_one_dir(side, sq_departure, side==White ? tb : tn, DOWN);
-  generate_one_dir(side, sq_departure, side==White ? fb : fn, UP);
+  generate_one_dir(side,sq_departure,Rook,DOWN);
+  generate_one_dir(side,sq_departure,Bishop,UP);
 }

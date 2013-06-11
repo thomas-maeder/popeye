@@ -54,7 +54,7 @@ slice_index alloc_single_piece_move_generator_slice(void)
  *            n+3 no solution found in next branch
  */
 stip_length_type single_piece_move_generator_solve(slice_index si,
-                                                    stip_length_type n)
+                                                   stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
@@ -70,14 +70,9 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
 
   TraceValue("%u\n",current_move[nbply]);
 
-  {
-    piece p = e[square_departure];
-
-    if (TSTFLAG(spec[square_departure],Neutral))
-      p = -p;
-
-    generate_moves_for_piece(side_at_move,square_departure,p);
-  }
+  generate_moves_for_piece(side_at_move,
+                           square_departure,
+                           get_walk_of_piece_on_square(square_departure));
 
   square_departure = initsquare;
 

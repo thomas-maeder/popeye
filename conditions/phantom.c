@@ -50,7 +50,7 @@ static boolean is_regular_arrival(square sq_arrival,
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
+void phantom_chess_generate_moves(Side side, PieNam p, square sq_departure)
 {
   numecoup const start_regular_moves = current_move[nbply];
 
@@ -60,11 +60,11 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_departure,abs(p));
+  gen_piece_aux(side,sq_departure,p);
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
-    square const sq_rebirth = (*marsrenai)(abs(p),
+    square const sq_rebirth = (*marsrenai)(p,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(side));
@@ -76,7 +76,7 @@ void phantom_chess_generate_moves(Side side, piece p, square sq_departure)
       occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
       empty_square(sq_departure);
 
-      gen_piece_aux(side,sq_rebirth,abs(p));
+      gen_piece_aux(side,sq_rebirth,p);
 
       occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
       empty_square(sq_rebirth);
