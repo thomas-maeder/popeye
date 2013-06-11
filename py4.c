@@ -2406,30 +2406,6 @@ void king_generate_moves(Side side_moving, square sq_departure)
   }
 }
 
-void gen_wh_ply(void)
-{
-  unsigned int i;
-  square z = square_a1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  /* Don't try to "optimize" by hand. The double-loop is tested as
-     the fastest way to compute (due to compiler-optimizations !)
-     V3.14  NG
-  */
-  for (i = nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
-  {
-    square j;
-    for (j = nr_files_on_board; j > 0; j--, z++)
-      if (TSTFLAG(spec[z],White))
-        generate_moves_for_piece(White,z,get_walk_of_piece_on_square(z));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 void gen_piece_aux(Side side, square sq_departure, PieNam p)
 {
   TraceFunctionEntry(__func__);

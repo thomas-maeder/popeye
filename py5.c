@@ -503,27 +503,36 @@ void generate_castling(Side side)
   TraceFunctionResultEnd();
 }
 
-void gen_bl_ply(void)
+static void gen_ply(Side side)
 {
-  square i, j, z;
+  unsigned int i;
+  square square_a = side==White ? square_a1 : square_h8;
+  numvec const next_row = side==White ? onerow : -onerow;
+  numvec const next_file = side==White ? dir_right : dir_left;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  /* Don't try to "optimize" by hand. The double-loop is tested as the  */
-  /* fastest way to compute (due to compiler-optimizations !) */
-  z= square_h8;
-  for (i= nr_rows_on_board; i > 0; i--, z-= onerow-nr_files_on_board)
-    for (j= nr_files_on_board; j > 0; j--, z--)
-      if (TSTFLAG(spec[z],Black))
-        generate_moves_for_piece(Black,z,get_walk_of_piece_on_square(z));
+  /* Don't try to "optimize" by hand. The double-loop is tested as
+     the fastest way to compute (due to compiler-optimizations !)
+     V3.14  NG
+  */
+  for (i = nr_rows_on_board; i>0; i--, square_a += next_row)
+  {
+    square j;
+    square z = square_a;
+    for (j = nr_files_on_board; j>0; j--, z += next_file)
+      if (TSTFLAG(spec[z],side))
+        generate_moves_for_piece(side,z,get_walk_of_piece_on_square(z));
+  }
 
-  if (CondFlag[schwarzschacher])
+  if (side==Black && CondFlag[schwarzschacher])
     empile(nullsquare, nullsquare, nullsquare);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* gen_bl_ply */
+}
 
 void genmove(Side camp)
 {
@@ -576,56 +585,31 @@ void genmove(Side camp)
   trait[nbply]= camp;
   we_generate_exact = false;
 
-  /* exact and consequent maximummers */
-  if (camp == White)
+  if (mummer_strictness[camp]>mummer_strictness_regular)
   {
-    /* let's first generate consequent moves */
-    if (mummer_strictness[White]>mummer_strictness_regular)
-    {
-      we_generate_exact = true;
-      there_are_consmoves = false;
-      gen_wh_ply();
-      if (CondFlag[whforsqu] && CondFlag[whconforsqu]
-          && !there_are_consmoves) {
-        /* There are no consequent moves.
-        ** Now let's look for ``normal'' forced moves,
-        ** but first reset current_move[nbply] etc.
-        */
-        we_generate_exact = false;
-        finply();
-        nextply();
-        gen_wh_ply();
-      }
+    Cond const forced_square = camp==White ? whforsqu : blforsqu;
+    Cond const consequent_forced_square = camp==White ? whconforsqu : blconforsqu;
+
+    we_generate_exact = true;
+    there_are_consmoves = false;
+    gen_ply(camp);
+
+    if (CondFlag[forced_square] && CondFlag[consequent_forced_square]
+        && !there_are_consmoves) {
+      /* There are no consequent moves.
+      ** Now let's look for ``normal'' forced moves,
+      ** but first reset current_move[nbply] etc.
+      */
       we_generate_exact = false;
+      finply();
+      nextply();
+      gen_ply(camp);
     }
-    else
-      gen_wh_ply();
+    we_generate_exact = false;
   }
   else
-  {
-    /* let's first generate consequent moves */
-    if (mummer_strictness[Black]>mummer_strictness_regular)
-    {
-      we_generate_exact = true;
-      there_are_consmoves = false;
-      gen_bl_ply();
-      if (CondFlag[blforsqu] && CondFlag[blconforsqu]
-          && !there_are_consmoves) {
-        /* There are no consequent moves.
-        ** Now let's look for ``normal'' forced moves,
-        ** but first reset current_move[nbply] etc.
-        */
-        we_generate_exact = false;
-        finply();
-        nextply();
-        gen_bl_ply();
-      }
-      we_generate_exact = false;
-    }
-    else
-      gen_bl_ply();
-  }
+    gen_ply(camp);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* genmove(camp) */
+}

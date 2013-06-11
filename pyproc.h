@@ -219,8 +219,6 @@ boolean echecc(Side a);
 
 boolean eval_ortho(square departure, square arrival, square capture);
 
-void    gen_wh_ply(void);
-void    gen_bl_ply(void);
 void    genmove(Side a);
 
 void    king_generate_moves(Side side, square sq_departure);
