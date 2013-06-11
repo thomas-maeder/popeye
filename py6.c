@@ -1334,7 +1334,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[bichro] || CondFlag[monochro])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  is_square_attacked = &is_a_square_attacked;
+  is_square_attacked = &is_square_observed;
 
   if ((CondFlag[koeko]
        || CondFlag[newkoeko]

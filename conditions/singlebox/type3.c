@@ -173,7 +173,7 @@ boolean singleboxtype3_is_square_attacked(Side side_checking,
       ++promotionstried;
       replace_piece(sq,pprom);
       ++number_of_pieces[side_checking][pprom];
-      result = is_a_square_attacked(side_checking,sq_target,evaluate);
+      result = is_square_observed(side_checking,sq_target,evaluate);
       --number_of_pieces[side_checking][pprom];
       replace_piece(sq,Pawn);
       if (result)
@@ -181,7 +181,7 @@ boolean singleboxtype3_is_square_attacked(Side side_checking,
     }
   }
 
-  return promotionstried==0 && is_a_square_attacked(side_checking,sq_target,evaluate);
+  return promotionstried==0 && is_square_observed(side_checking,sq_target,evaluate);
 }
 
 static square find_next_latent_pawn(square sq, Side side)

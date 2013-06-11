@@ -61,7 +61,7 @@ boolean central_can_piece_move_from(square sq_departure)
   if (sq_departure==king_square[trait[nbply]])
     result = true;
   else
-    result = is_square_attacked(trait[nbply],sq_departure,&central_test_supporter);
+    result = is_square_observed(trait[nbply],sq_departure,&central_test_supporter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

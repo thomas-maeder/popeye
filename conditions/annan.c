@@ -60,7 +60,7 @@ boolean annan_is_square_attacked(Side side_attacking,
     }
   }
 
-  result= is_a_square_attacked(side_attacking,sq_target,evaluate);
+  result= is_square_observed(side_attacking,sq_target,evaluate);
 
   while (annan_cnt--)
     replace_piece(annan_sq[annan_cnt],annan_p[annan_cnt]);

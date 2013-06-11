@@ -18,7 +18,7 @@ static boolean avoid_observation_of_shielded(square sq_observer,
   if ((sq_observer==king_square[Black] && sq_observee==king_square[White])
       || (sq_observer==king_square[White] && sq_observee==king_square[Black]))
     /* won't work for locust Ks etc.*/
-    result = !is_square_attacked(advers(trait[nbply]),sq_observee,&validate_observer);
+    result = !is_square_observed(advers(trait[nbply]),sq_observee,&validate_observer);
   else
     result = true;
 

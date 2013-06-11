@@ -307,9 +307,9 @@ static boolean does_observe_square_impl(square sq_target,
 DEFINE_COUNTER(is_white_king_square_attacked)
 DEFINE_COUNTER(is_black_king_square_attacked)
 
-boolean is_a_square_attacked(Side side_checking,
-                             square sq_target,
-                             evalfunction_t *evaluate)
+boolean is_square_observed(Side side_checking,
+                           square sq_target,
+                           evalfunction_t *evaluate)
 {
   boolean result;
   Side const side_in_check = advers(side_checking);

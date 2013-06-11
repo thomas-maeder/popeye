@@ -45,7 +45,7 @@ boolean patrol_is_supported(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  result = is_a_square_attacked(trait[nbply],sq_departure,&validate_observer);
+  result = is_square_observed(trait[nbply],sq_departure,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

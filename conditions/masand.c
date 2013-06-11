@@ -34,7 +34,7 @@ static boolean observed(square on_this, square by_that)
   TraceFunctionParamListEnd();
 
   fromspecificsquare = by_that;
-  result = is_a_square_attacked(trait[nbply],on_this,eval_fromspecificsquare);
+  result = is_square_observed(trait[nbply],on_this,eval_fromspecificsquare);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
