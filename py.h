@@ -708,10 +708,6 @@ typedef unsigned int slice_index;
 #define shopcheck(sq, ka, ke, p, ev)     riderhoppercheck(sq, ka, ke, p, 1, 1, ev)
 #define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
-#define EndOfLine(from,dir,end)  {end = (from); \
-    do (end)+= (dir);                           \
-    while (e[(end)] == vide);}
-
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
   (numgridlines && CrossesGridLines((sq1), (sq2))))
 

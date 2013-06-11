@@ -231,7 +231,6 @@ boolean rmhopech(square sq_king,
    */
 
   vec_index_type k;
-  square sq_departure;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -253,34 +252,39 @@ boolean rmhopech(square sq_king,
     if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
       vec_index_type k1 = 2*k;
-      piece hopper;
-      numvec v1 = mixhopdata[angle][k1];
 
-      finligne(sq_hurdle,v1,hopper,sq_departure);
-      TraceSquare(sq_departure);
-      TracePiece(hopper);
-      TraceValue("%d\n",v1);
-      if (abs(hopper)==p && TSTFLAG(spec[sq_departure],trait[nbply]))
       {
-        if (evaluate(sq_departure,sq_king,sq_king)
-            && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
+        numvec const v1 = mixhopdata[angle][k1];
+        square const sq_departure = find_end_of_line(sq_hurdle,v1);
+        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
+        TraceSquare(sq_departure);
+        TracePiece(hopper);
+        TraceValue("%d\n",v1);
+        if (hopper==p && TSTFLAG(spec[sq_departure],trait[nbply]))
         {
-          result = true;
-          break;
+          if (evaluate(sq_departure,sq_king,sq_king)
+              && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
+          {
+            result = true;
+            break;
+          }
         }
       }
 
-      v1 = mixhopdata[angle][k1-1];
-      finligne(sq_hurdle,v1,hopper,sq_departure);
-      TraceSquare(sq_departure);
-      TracePiece(hopper);
-      TraceValue("%d\n",v1);
-      if (abs(hopper)==p && TSTFLAG(spec[sq_departure],trait[nbply])) {
-        if (evaluate(sq_departure,sq_king,sq_king)
-            && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
-        {
-          result = true;
-          break;
+      {
+        numvec const v1 = mixhopdata[angle][k1-1];
+        square const sq_departure = find_end_of_line(sq_hurdle,v1);
+        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
+        TraceSquare(sq_departure);
+        TracePiece(hopper);
+        TraceValue("%d\n",v1);
+        if (hopper==p && TSTFLAG(spec[sq_departure],trait[nbply])) {
+          if (evaluate(sq_departure,sq_king,sq_king)
+              && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
+          {
+            result = true;
+            break;
+          }
         }
       }
     }
@@ -842,30 +846,30 @@ static boolean doublehoppercheck(square sq_king,
                                  vec_index_type vec_start, vec_index_type vec_end,
                                  evalfunction_t *evaluate)
 {
-  piece double_hopper;
-  square    sq_hurdle2, sq_hurdle1;
   vec_index_type k;
-  vec_index_type k1;
 
-  square sq_departure;
-
-  for (k=vec_end; k>=vec_start; k--) {
-    sq_hurdle2= sq_king+vec[k];
-    if (get_walk_of_piece_on_square(sq_hurdle2)>=King) {
-      sq_hurdle2+= vec[k];
-      while (is_square_empty(sq_hurdle2)) {
-        for (k1= vec_end; k1>=vec_start; k1--) {
-          sq_hurdle1= sq_hurdle2+vec[k1];
-          if (get_walk_of_piece_on_square(sq_hurdle1) >= King)
+  for (k=vec_end; k>=vec_start; k--)
+  {
+    square sq_hurdle2 = sq_king+vec[k];
+    if (!is_square_empty(sq_hurdle2) && !is_square_blocked(sq_hurdle2))
+    {
+      square sq_intermediate;
+      for (sq_intermediate = sq_hurdle2+vec[k]; is_square_empty(sq_intermediate); sq_intermediate += vec[k])
+      {
+        vec_index_type k1;
+        for (k1 = vec_end; k1>=vec_start; k1--)
+        {
+          square const sq_hurdle1 = sq_intermediate+vec[k1];
+          if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
           {
-            finligne(sq_hurdle1,vec[k1],double_hopper,sq_departure);
-            if (abs(double_hopper)==p
+            square const sq_departure = find_end_of_line(sq_hurdle1,vec[k1]);
+            PieNam const double_hopper = get_walk_of_piece_on_square(sq_departure);
+            if (double_hopper==p
                 && TSTFLAG(spec[sq_departure],trait[nbply])
                 && evaluate(sq_departure,sq_king,sq_king))
               return true;
           }
         }
-        sq_hurdle2+= vec[k];
       }
     }
   }
@@ -1351,15 +1355,14 @@ boolean bspawncheck(square  sq_king,
                     PieNam p,
                     evalfunction_t *evaluate)
 {
-  piece   p1;
-  square sq_departure;
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
-  numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
   if (!TSTFLAG(sq_spec[sq_king],base))
   {
-    finligne(sq_king,dir_backward,p1,sq_departure);
-    if (abs(p1)==p
+    numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+    square const sq_departure = find_end_of_line(sq_king,dir_backward);
+    PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+    if (p1==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
       return true;
@@ -1373,23 +1376,28 @@ boolean spawncheck(square   sq_king,
                    evalfunction_t *evaluate)
 {
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
-  numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
   if (!TSTFLAG(sq_spec[sq_king],base))
   {
-    square sq_departure;
-    piece p1;
-    finligne(sq_king,dir_backward+dir_left,p1,sq_departure);
-    if (abs(p1)==p
-        && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_king,sq_king))
-      return true;
+    numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
-    finligne(sq_king,dir_backward+dir_right,p1,sq_departure);
-    if (abs(p1)==p
-        && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_king,sq_king))
-      return true;
+    {
+      square const sq_departure = find_end_of_line(sq_king,dir_backward+dir_left);
+      PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+      if (p1==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_king,sq_king))
+        return true;
+    }
+
+    {
+      square const sq_departure = find_end_of_line(sq_king,dir_backward+dir_right);
+      PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+      if (p1==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_king,sq_king))
+        return true;
+    }
   }
 
   return false;
@@ -1511,16 +1519,15 @@ boolean kangoucheck(square  sq_king,
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    square sq_hurdle= sq_king+vec[k];
-    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
+    square const sq_hurdle1 = sq_king+vec[k];
+    if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
     {
-      piece p1;
-      finligne(sq_hurdle,vec[k],p1,sq_hurdle);
-      if (p1!=obs)
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+      if (!is_square_blocked(sq_hurdle2))
       {
-        square sq_departure;
-        finligne(sq_hurdle,vec[k],p1,sq_departure);
-        if (abs(p1)==p
+        square const sq_departure = find_end_of_line(sq_hurdle2,vec[k]);
+        PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+        if (p1==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && evaluate(sq_departure,sq_king,sq_king))
           return true;
@@ -1537,19 +1544,17 @@ boolean kanglioncheck(square  sq_king,
 {
   vec_index_type k;
 
-  for (k= vec_queen_end; k>=vec_queen_start; k--)
+  for (k = vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece p1;
-    square sq_hurdle;
-    finligne(sq_king,vec[k],p1,sq_hurdle);
-    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
+    square const sq_hurdle1 = find_end_of_line(sq_king,vec[k]);
+    if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
     {
-      finligne(sq_hurdle,vec[k],p1,sq_hurdle);
-      if (p1!=obs)
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+      if (!is_square_blocked(sq_hurdle2))
       {
-        square sq_departure;
-        finligne(sq_hurdle,vec[k],p1,sq_departure);
-        if (abs(p1)==p
+        square const sq_departure = find_end_of_line(sq_hurdle2,vec[k]);
+        PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+        if (p1==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && evaluate(sq_departure,sq_king,sq_king))
           return true;
@@ -1567,19 +1572,17 @@ boolean rabbitcheck(square  sq_king,
   /* 2 hurdle lion */
   vec_index_type k;
 
-  for (k= vec_queen_end; k>=vec_queen_start; k--)
+  for (k = vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece p1;
-    square sq_hurdle;
-    finligne(sq_king,vec[k],p1,sq_hurdle);
-    if (abs(p1)>=roib)
+    square const sq_hurdle1 = find_end_of_line(sq_king,vec[k]);
+    if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
     {
-      finligne(sq_hurdle,vec[k],p1,sq_hurdle);
-      if (p1!=obs)
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+      if (!is_square_blocked(sq_hurdle2))
       {
-        square sq_departure;
-        finligne(sq_hurdle,vec[k],p1,sq_departure);
-        if (abs(p1)==p
+        square const sq_departure = find_end_of_line(sq_hurdle2,vec[k]);
+        PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+        if (p1==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && evaluate(sq_departure,sq_king,sq_king))
           return true;
@@ -1597,25 +1600,23 @@ boolean bobcheck(square sq_king,
   /* 4 hurdle lion */
   numvec  k;
 
-  for (k= vec_queen_end; k>=vec_queen_start; k--)
+  for (k = vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece p1;
-    square sq_hurdle;
-    finligne(sq_king,vec[k],p1,sq_hurdle);
-    if (abs(p1)>=roib)
+    square const sq_hurdle1 = find_end_of_line(sq_king,vec[k]);
+    if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
     {
-      finligne(sq_hurdle,vec[k],p1,sq_hurdle);
-      if (p1!=obs)
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+      if (!is_square_blocked(sq_hurdle2))
       {
-        finligne(sq_hurdle,vec[k],p1,sq_hurdle);
-        if (p1!=obs)
+        square const sq_hurdle3 = find_end_of_line(sq_hurdle2,vec[k]);
+        if (!is_square_blocked(sq_hurdle3))
         {
-          finligne(sq_hurdle,vec[k],p1,sq_hurdle);
-          if (p1!=obs)
+          square const sq_hurdle4 = find_end_of_line(sq_hurdle3,vec[k]);
+          if (!is_square_blocked(sq_hurdle4))
           {
-            square sq_departure;
-            finligne(sq_hurdle,vec[k],p1,sq_departure);
-            if (abs(p1)==p
+            square const sq_departure = find_end_of_line(sq_hurdle4,vec[k]);
+            PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+            if (p1==p
                 && TSTFLAG(spec[sq_departure],trait[nbply])
                 && evaluate(sq_departure,sq_king,sq_king))
               return true;
@@ -1867,13 +1868,12 @@ boolean equicheck(square    sq_king,
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece p1;
-    square sq_hurdle;
-    finligne(sq_king,vec[k],p1,sq_hurdle);
-    if (p1!=obs) {
-      square sq_departure;
-      finligne(sq_hurdle,vec[k],p1,sq_departure);
-      if (abs(p1)==p
+    square const sq_hurdle = find_end_of_line(sq_king,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
+    {
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[k]);
+      PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+      if (p1==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
           && evaluate(sq_departure,sq_king,sq_king)
@@ -1882,9 +1882,10 @@ boolean equicheck(square    sq_king,
     }
   }
 
-  for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {      /* 2,4; 2,6; 4,6; */
-    square const sq_departure= sq_king+2*vec[k];
-    if (get_walk_of_piece_on_square(sq_king+vec[k])>=King
+  for (k = vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)      /* 2,4; 2,6; 4,6; */
+  {
+    square const sq_departure = sq_king+2*vec[k];
+    if (!is_square_empty(sq_king+vec[k]) && !is_square_blocked(sq_king+vec[k])
         && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king)
@@ -1901,16 +1902,14 @@ boolean equiengcheck(square sq_king,
 {
   vec_index_type k;
 
-  for (k= vec_queen_end; k>=vec_queen_start; k--)
+  for (k = vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece p1;
-    square sq_hurdle;
-    finligne(sq_king,vec[k],p1,sq_hurdle);
-    if (p1!=obs)
+    square const sq_hurdle = find_end_of_line(sq_king,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
     {
-      square sq_departure;
-      finligne(sq_king,-vec[k],p1,sq_departure);
-      if (abs(p1)==p
+      square const sq_departure = find_end_of_line(sq_king,-vec[k]);
+      PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+      if (p1==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure-sq_king==sq_king-sq_hurdle
           && evaluate(sq_departure,sq_king,sq_king))
@@ -1918,10 +1917,11 @@ boolean equiengcheck(square sq_king,
     }
   }
 
-  for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {      /* 2,4; 2,6; 4,6; */
+  for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)      /* 2,4; 2,6; 4,6; */
+  {
     square const sq_departure = sq_king-vec[k];
     square const sq_hurdle = sq_king+vec[k];
-    if (get_walk_of_piece_on_square(sq_hurdle)>=King
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle)
         && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
@@ -2072,10 +2072,9 @@ boolean edgehcheck(square   sq_king,
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece p1;
-    square sq_departure;
-    finligne(sq_king,vec[k],p1,sq_departure);
-    if (abs(p1)==p
+    square const sq_departure = find_end_of_line(sq_king,vec[k]);
+    PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+    if (p1==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && NoEdge(sq_king)!=NoEdge(sq_departure)
         && evaluate(sq_departure,sq_king,sq_king))
@@ -2296,14 +2295,12 @@ boolean orixcheck(square sq_king,
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece p1;
-    square sq_hurdle;
-    finligne(sq_king,vec[k],p1,sq_hurdle);
-    if (p1!=obs)
+    square const sq_hurdle = find_end_of_line(sq_king,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
     {
-      square sq_departure;
-      finligne(sq_hurdle,vec[k],p1,sq_departure);
-      if (abs(p1)==p
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[k]);
+      PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+      if (p1==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
           && evaluate(sq_departure,sq_king,sq_king)
@@ -2362,38 +2359,32 @@ boolean querquisitecheck(square sq_king,
 
   for (k= vec_rook_start; k<=vec_rook_end; k++)
   {
-    piece p1;
-    square sq_departure;
-    finligne(sq_king,vec[k],p1,sq_departure);
-    {
-      int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
-      if ((file_departure==file_rook_queenside
-           || file_departure==file_queen
-           || file_departure==file_rook_kingside)
-          && abs(p1)==p
-          && TSTFLAG(spec[sq_departure],trait[nbply])
-          && evaluate(sq_departure,sq_king,sq_king)
-          && ridimcheck(sq_departure,sq_king,vec[k]))
-        return true;
-    }
+    square const sq_departure = find_end_of_line(sq_king,vec[k]);
+    PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+    int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
+    if ((file_departure==file_rook_queenside
+         || file_departure==file_queen
+         || file_departure==file_rook_kingside)
+        && p1==p
+        && TSTFLAG(spec[sq_departure],trait[nbply])
+        && evaluate(sq_departure,sq_king,sq_king)
+        && ridimcheck(sq_departure,sq_king,vec[k]))
+      return true;
   }
 
   for (k= vec_bishop_start; k<=vec_bishop_end; k++)
   {
-    piece p1;
-    square sq_departure;
-    finligne(sq_king,vec[k],p1,sq_departure);
-    {
-      int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
-      if ((file_departure==file_bishop_queenside
-           || file_departure==file_queen
-           || file_departure==file_bishop_kingside)
-          && abs(p1)==p
-          && TSTFLAG(spec[sq_departure],trait[nbply])
-          && evaluate(sq_departure,sq_king,sq_king)
-          && ridimcheck(sq_departure,sq_king,vec[k]))
-        return true;
-    }
+    square sq_departure = find_end_of_line(sq_king,vec[k]);
+    PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+    int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
+    if ((file_departure==file_bishop_queenside
+         || file_departure==file_queen
+         || file_departure==file_bishop_kingside)
+        && p1==p
+        && TSTFLAG(spec[sq_departure],trait[nbply])
+        && evaluate(sq_departure,sq_king,sq_king)
+        && ridimcheck(sq_departure,sq_king,vec[k]))
+      return true;
   }
 
   for (k= vec_knight_start; k<=vec_knight_end; k++)
@@ -2433,14 +2424,11 @@ static boolean bouncerfamilycheck(square sq_king,
 
   for (k= kend; k>=kbeg; k--)
   {
-    piece p1;
-    square sq_departure;
-    piece p2;
-    square sq_hurdle;
-    finligne(sq_king,vec[k],p1,sq_departure);
-    finligne(sq_departure,vec[k],p2,sq_hurdle);  /* p2 can be obs - bounces off edges */
+    square const sq_departure = find_end_of_line(sq_king,vec[k]);
+    PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
     if (sq_departure-sq_king==sq_hurdle-sq_departure
-        && abs(p1)==p
+        && p1==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
       return true;

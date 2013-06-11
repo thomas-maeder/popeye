@@ -149,19 +149,23 @@ static void GetRMHopAttackVectors(square from, square to,
     if (get_walk_of_piece_on_square(sq_hurdle)>=King)
     {
       vec_index_type const k1 = 2*k;
-      piece hopper;
-      square sq_departure;
-      finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
-      if (hopper==e[from])
+
       {
-        if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagicView(to, from, vec[k] );
+        square const sq_departure = find_end_of_line(sq_hurdle,mixhopdata[angle][k1]);
+        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
+        if (hopper==get_walk_of_piece_on_square(from)
+            && TSTFLAG(spec[sq_departure],trait[nbply])
+            && eval_fromspecificsquare(sq_departure,to,to))
+          PushMagicView(to,from,vec[k]);
       }
-      finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
-      if (hopper==e[from])
+
       {
-        if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagicView(to, from, vec[k] );
+        square const sq_departure = find_end_of_line(sq_hurdle,mixhopdata[angle][k1-1]);
+        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
+        if (hopper==get_walk_of_piece_on_square(from)
+            && TSTFLAG(spec[sq_departure],trait[nbply])
+            && eval_fromspecificsquare(sq_departure,to,to))
+          PushMagicView(to,from,vec[k]);
       }
     }
   }

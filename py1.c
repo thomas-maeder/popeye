@@ -629,9 +629,7 @@ boolean ridcheck(square sq_king,
 {
   /* detect "check" of rider p */
   boolean result = false;
-  piece rider;
   vec_index_type k;
-  square sq_departure;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_king);
@@ -639,13 +637,14 @@ boolean ridcheck(square sq_king,
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,trait[nbply],"\n");
-  for (k= kanf; k<= kend; k++)
+  for (k = kanf; k<= kend; k++)
   {
-    finligne(sq_king,vec[k],rider,sq_departure);
+    square const sq_departure = find_end_of_line(sq_king,vec[k]);
+    PieNam const rider = get_walk_of_piece_on_square(sq_departure);
     TraceSquare(sq_departure);
     TracePiece(rider);
     TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
-    if (abs(rider)==p
+    if (rider==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
@@ -674,10 +673,9 @@ boolean marine_rider_check(square   sq_king,
     square const sq_arrival= sq_king-vec[k];
     if (is_square_empty(sq_arrival))
     {
-      piece marine;
-      square sq_departure;
-      finligne(sq_king,vec[k],marine,sq_departure);
-      if (abs(marine)==p
+      square const sq_departure = find_end_of_line(sq_king,vec[k]);
+      PieNam const marine = get_walk_of_piece_on_square(sq_departure);
+      if (marine==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_arrival,sq_king))
         return true;

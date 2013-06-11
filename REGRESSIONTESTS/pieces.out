@@ -1428,3 +1428,137 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+             Erich Bartel
+         Problemkiste V/2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   B   .   .   .   .   .   .   2
+|                                   |
+1  EL  HA   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-!=16                    4 + 0
+         AlphabetischesSchach
+
+a) 
+
+  1.ELa1-c2   2.a2-a4   3.a4-a5   4.a5-a6   5.a6-a7   6.a7-a8=HA   7.b2-b4   8.HAb1-b3   9.b4-b5  10.HAb3-b4  11.b5-b6  12.HAb4-b5  13.b6-b7  14.HAb5-b6  15.b7-b8=HA  16.HAb6-b7 !=
+
+                        empile:      716733
+                     play_move:      143472
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) wADa1 
+
+  1.ADa1-c1   2.a2-a4   3.a4-a5   4.a5-a6   5.a6-a7   6.a7-a8=HA   7.b2-b4   8.HAb1-b3   9.b4-b5  10.HAb3-b4  11.b5-b6  12.HAb4-b5  13.b6-b7  14.HAb5-b6  15.b7-b8=HA  16.HAb6-b7 !=
+
+                        empile:      626865
+                     play_move:      120453
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+Loesung beendet. 
+
+
+
+           Diyan Kostadinov
+     http://kobulchess.com/ 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   G   8
+|                                   |
+7  -L   .   .   .  -D   .   .   .   7
+|                                   |
+6  -L   B   .   .   .   .   .   .   6
+|                                   |
+5  LI  -B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -T   .   .  -B   .   .   .   2
+|                                   |
+1  LK   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#2.5                      5 + 7
+            HalbNeutral h8
+
+a) 
+
+  1...De7-f7   2.LIa5-d8 + La6-b7   3.hGh8-c8=nh + nhGc8-e8=sh #
+
+                        empile:      278209
+                     play_move:      116808
+ is_white_king_square_attacked:      105401
+ is_black_king_square_attacked:       69487
+b) whGh8-->h1
+
+  1...De7-f8   2.LIa5-d5 + La7-b8   3.hGh1-c6=nh + nhGc6-e4=sh #
+
+                        empile:      291485
+                     play_move:      133468
+ is_white_king_square_attacked:      121216
+ is_black_king_square_attacked:       74979
+Loesung beendet. 
+
+
+
+               Per Olin
+    FIDE- Olympiaturnier 2012, Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -G   .   8
+|                                   |
+7   .   .   .   .   .  -G   .   .   7
+|                                   |
+6  -G   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -K   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   K   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#6                     2 + 4
+
+a) 
+
+  1.Kb5-a4   2.Ga6-a3   3.Ka4-b3   4.Gf7-a2   5.Ga2-a4   6.Gg8-a2 Th1-b1 #
+
+                        empile:      267359
+                     play_move:      214278
+ is_white_king_square_attacked:       23103
+ is_black_king_square_attacked:      214278
+b) sDGa6 sDGf7 sDGg8 
+
+  1.Kb5-c6   2.DGa6-d2   3.Kc6-d5   4.DGd2-d6   5.DGg8-c6   6.DGf7-e6 Th1-h5 #
+
+                        empile:      343822
+                     play_move:      275416
+ is_white_king_square_attacked:       26442
+ is_black_king_square_attacked:      275416
+Loesung beendet. 
+
+

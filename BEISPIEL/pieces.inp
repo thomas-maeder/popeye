@@ -342,4 +342,31 @@ quelle mpk-Bl"atter I/2013
 steine weiss kd4 schwarz kf6 neutral rdb2b5c2d5e1e8g3
 forderung h#2.5
 
+weiteresproblem
+
+autor Erich Bartel
+quelle Problemkiste V/2010
+steine weiss hab1 ela1 ba2b2
+forderung ser-!=16
+bedingung alphabet
+option ohnewk ohnesk
+zwilling hinzuf weiss ada1
+
+weiteresproblem
+
+autor Diyan Kostadinov
+quelle http://kobulchess.com/ 2013
+steine weiss ke1 bb6 lia5 lka1 weiss halbneutral gh8
+       schwarz ka8 de7 tb2 la6a7 bb5e2
+forderung hs#2.5
+zwilling versetze h8 h1
+
+weiteresproblem
+
+autor Per Olin
+quelle FIDE- Olympiaturnier 2012, Lob
+steine weiss kd3 th1 schwarz kb5 ga6f7g8
+forderung ser-h#6
+zwilling hinzufuegen schwarz dga6f7g8
+
 endeproblem

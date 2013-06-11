@@ -3,6 +3,7 @@
 
 #include "position/board.h"
 #include "position/piece.h"
+#include "pieces/vectors.h"
 #include "utilities/boolean.h"
 
 /* Declarations of types and functions related to chess positions
@@ -265,5 +266,6 @@ void replace_piece(square s, PieNam piece);
 boolean is_square_empty(square s);
 boolean is_square_blocked(square s);
 PieNam get_walk_of_piece_on_square(square s);
+square find_end_of_line(square from, numvec dir);
 
 #endif

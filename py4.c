@@ -456,21 +456,16 @@ static void bouncer_generate_moves(Side side,
   vec_index_type  k;
   for (k = kend; k>=kbeg; k--)
   {
-    piece   p1;
-    square  bounce_where;
-    finligne(sq_departure,vec[k],p1,bounce_where);
+    square const bounce_where = find_end_of_line(sq_departure,vec[k]);
+    square const bounce_to = 2*sq_departure-bounce_where;
 
-    {
-      square const bounce_to = 2*sq_departure-bounce_where;
+    square sq_arrival = sq_departure-vec[k];
+    while (sq_arrival!=bounce_to && is_square_empty(sq_arrival))
+      sq_arrival -= vec[k];
 
-      square sq_arrival = sq_departure-vec[k];
-      while (sq_arrival!=bounce_to && is_square_empty(sq_arrival))
-        sq_arrival -= vec[k];
-
-      if (sq_arrival==bounce_to
-          && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side)))
-        empile(sq_departure,sq_arrival,sq_arrival);
-    }
+    if (sq_arrival==bounce_to
+        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side)))
+      empile(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -583,12 +578,10 @@ static void ghamst(square sq_departure)
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece hurdle;
-    square sq_arrival;
-    finligne(sq_departure,vec[k],hurdle,sq_arrival);
-    if (hurdle!=obs)
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
     {
-      sq_arrival-= vec[k];
+      square const sq_arrival = sq_hurdle-vec[k];
       if (sq_arrival!=sq_departure)
         empile(sq_departure,sq_arrival,sq_arrival);
     }
@@ -616,11 +609,8 @@ static void gmhop(square   sq_departure,
 
   for (k = kend; k>=kanf; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-
-    if (hurdle!=obs)
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
     {
       vec_index_type const k1 = 2*k;
 
@@ -666,12 +656,10 @@ static void glocust(square sq_departure,
   vec_index_type k;
   for (k= kbeg; k <= kend; k++)
   {
-    piece hurdle;
-    square sq_capture;
-    finligne(sq_departure,vec[k],hurdle,sq_capture);
+    square const sq_capture = find_end_of_line(sq_departure,vec[k]);
     generate_locust_capture(sq_departure,sq_capture,k,camp);
   }
-} /* glocust */
+}
 
 static void gchin(square sq_departure,
                   vec_index_type kbeg, vec_index_type kend,
@@ -681,16 +669,14 @@ static void gchin(square sq_departure,
 
   vec_index_type k;
 
-  for (k= kbeg; k<=kend; k++)
+  for (k = kbeg; k<=kend; k++)
   {
-    square sq_arrival = generate_moves_on_line_segment(sq_departure,sq_departure,k);
-
-    if (e[sq_arrival]!=obs)
+    square sq_hurdle = generate_moves_on_line_segment(sq_departure,sq_departure,k);
+    if (!is_square_blocked(sq_hurdle))
     {
-      piece   hurdle;
-      finligne(sq_arrival,vec[k],hurdle,sq_arrival);
-      if (piece_belongs_to_opponent(sq_arrival,camp))
-        empile(sq_departure,sq_arrival,sq_arrival);
+      square const sq_capture = find_end_of_line(sq_hurdle,vec[k]);
+      if (piece_belongs_to_opponent(sq_capture,camp))
+        empile(sq_departure,sq_capture,sq_capture);
     }
   }
 }
@@ -756,35 +742,27 @@ static void gnequi(square sq_departure, Side camp)
 
 static void gorix(square sq_departure, Side camp)
 {
-  /* Orix */
   vec_index_type  k;
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs)
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
     {
-      piece at_end_of_line;
-      square end_of_line;
-      finligne(sq_hurdle,vec[k],at_end_of_line,end_of_line);
+      square const sq_end_of_line = find_end_of_line(sq_hurdle,vec[k]);
+      square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
+      if (abs(sq_end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure)
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
       {
-        square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
-        if (abs(end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure)
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
-        {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-        }
-        else if (abs(end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
-                 && piece_belongs_to_opponent(end_of_line,camp)
-                 && (!checkhopim || hopimok(sq_departure,end_of_line,sq_hurdle,vec[k],vec[k])))
-        {
-          square const sq_arrival= end_of_line;
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-        }
+        empile(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+      }
+      else if (abs(sq_end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
+               && piece_belongs_to_opponent(sq_end_of_line,camp)
+               && (!checkhopim || hopimok(sq_departure,sq_end_of_line,sq_hurdle,vec[k],vec[k])))
+      {
+        empile(sq_departure,sq_end_of_line,sq_end_of_line);
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
       }
     }
   }
@@ -868,17 +846,15 @@ static void gkang(square sq_departure, Side camp)
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs)
+    square const sq_hurdle1 = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle1))
     {
-      square sq_arrival;
-      finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
-      if (hurdle!=obs)
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+      if (!is_square_blocked(sq_hurdle2))
       {
-        sq_arrival+= vec[k];
-        if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
+        square const sq_arrival = sq_hurdle2+vec[k];
+        if (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival,camp))
           empile(sq_departure,sq_arrival,sq_arrival);
       }
     }
@@ -889,18 +865,15 @@ static void gkanglion(square sq_departure, Side camp)
 {
   vec_index_type k;
 
-  for (k= vec_queen_end; k>=vec_queen_start; k--)
+  for (k = vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs)
+    square const sq_hurdle1 = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle1))
     {
-      square sq_arrival;
-      finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
-      if (hurdle!=obs)
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+      if (!is_square_blocked(sq_hurdle2))
       {
-        sq_arrival += vec[k];
+        square sq_arrival = sq_hurdle2+vec[k];
         while (is_square_empty(sq_arrival))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -919,48 +892,45 @@ static void grabbit(square sq_departure, Side camp)
 
   for (k= vec_queen_end; k >=vec_queen_start; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs)
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
     {
-      square sq_arrival;
-      finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
-      if (hurdle!=obs)
+      square sq_arrival = find_end_of_line(sq_hurdle,vec[k]);
+      if (!is_square_blocked(sq_arrival))
       {
-        sq_arrival= generate_moves_on_line_segment(sq_departure,sq_arrival,k);
-        if (piece_belongs_to_opponent(sq_arrival,camp))
-          empile(sq_departure,sq_arrival,sq_arrival);
+        square const sq_capture = generate_moves_on_line_segment(sq_departure,
+                                                                 sq_arrival,
+                                                                 k);
+        if (piece_belongs_to_opponent(sq_capture,camp))
+          empile(sq_departure,sq_capture,sq_capture);
       }
     }
   }
 }
 
-static void gbob(square sq_departure, Side camp) {
+static void gbob(square sq_departure, Side camp)
+{
   vec_index_type k;
 
-  for (k= vec_queen_end; k>=vec_queen_start; k--)
+  for (k = vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs)
+    square const sq_hurdle1 = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle1))
     {
-      finligne(sq_hurdle,vec[k],hurdle,sq_hurdle);
-      if (hurdle!=obs)
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+      if (!is_square_blocked(sq_hurdle2))
       {
-        finligne(sq_hurdle,vec[k],hurdle,sq_hurdle);
-        if (hurdle!=obs)
+        square const sq_hurdle3 = find_end_of_line(sq_hurdle2,vec[k]);
+        if (!is_square_blocked(sq_hurdle3))
         {
-          square sq_arrival;
-          finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
-          if (hurdle!=obs)
+          square const sq_arrival = find_end_of_line(sq_hurdle3,vec[k]);
+          if (!is_square_blocked(sq_arrival))
           {
-            sq_arrival= generate_moves_on_line_segment(sq_departure,
-                                                       sq_arrival,
-                                                       k);
-            if (piece_belongs_to_opponent(sq_arrival,camp))
-              empile(sq_departure,sq_arrival,sq_arrival);
+            square const sq_capture = generate_moves_on_line_segment(sq_departure,
+                                                                     sq_arrival,
+                                                                     k);
+            if (piece_belongs_to_opponent(sq_capture,camp))
+              empile(sq_departure,sq_capture,sq_capture);
           }
         }
       }
@@ -1222,39 +1192,33 @@ static void grefn(square orig_departure,
 
 static void gequi(square sq_departure, Side camp)
 {
-  /* Equihopper */
   vec_index_type  k;
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs)
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle))
     {
-      square  end_of_line;
-      finligne(sq_hurdle,vec[k],hurdle,end_of_line);
+      square const end_of_line = find_end_of_line(sq_hurdle,vec[k]);
+      int const dist_hurdle_end = abs(end_of_line-sq_hurdle);
+      int const dist_hurdle_dep = abs(sq_hurdle-sq_departure);
+      if (dist_hurdle_end>dist_hurdle_dep)
       {
-        int const dist_hurdle_end= abs(end_of_line-sq_hurdle);
-        int const dist_hurdle_dep= abs(sq_hurdle-sq_departure);
-        if (dist_hurdle_end>dist_hurdle_dep)
+        square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
+        if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
         {
-          square const sq_arrival= sq_hurdle+sq_hurdle-sq_departure;
-          if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
-          {
-            empile(sq_departure,sq_arrival,sq_arrival);
-            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-          }
+          empile(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
         }
-        else if (dist_hurdle_end==dist_hurdle_dep)
+      }
+      else if (dist_hurdle_end==dist_hurdle_dep)
+      {
+        square const sq_arrival = end_of_line;
+        if (piece_belongs_to_opponent(sq_arrival,camp)
+            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
         {
-          square const sq_arrival= end_of_line;
-          if (piece_belongs_to_opponent(sq_arrival,camp)
-              && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
-          {
-            empile(sq_departure,sq_arrival,sq_arrival);
-            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-          }
+          empile(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
         }
       }
     }
@@ -1281,10 +1245,8 @@ static void gequiapp(square sq_departure, Side camp)
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
-    piece hurdle1;
-    square sq_hurdle1;
-    finligne(sq_departure,vec[k],hurdle1,sq_hurdle1);
-    if (hurdle1!=obs)
+    square const sq_hurdle1 = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle1))
     {
       square const sq_arrival= (sq_hurdle1+sq_departure)/2;
       if (!((sq_hurdle1/onerow+sq_departure/onerow)%2
@@ -1292,10 +1254,8 @@ static void gequiapp(square sq_departure, Side camp)
         empile(sq_departure,sq_arrival,sq_arrival);
 
       {
-        piece hurdle2;
-        square sq_hurdle2;
-        finligne(sq_hurdle1,vec[k],hurdle2,sq_hurdle2);
-        if (hurdle2!=obs
+        square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
+        if (!is_square_blocked(sq_hurdle2)
             && abs(sq_hurdle2-sq_hurdle1)==abs(sq_hurdle1-sq_departure)
             && piece_belongs_to_opponent(sq_hurdle1,camp))
         {
@@ -1423,22 +1383,21 @@ static void gdoublehopper(square sq_departure, Side camp,
   vec_index_type k;
   for (k = vec_end; k>=vec_start; k--)
   {
-    piece hurdle;
-    square sq_hurdle;
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs)
+    square const sq_hurdle1 = find_end_of_line(sq_departure,vec[k]);
+    if (!is_square_blocked(sq_hurdle1))
     {
-      square const past_sq_hurdle= sq_hurdle+vec[k];
-      if (is_square_empty(past_sq_hurdle))
+      square const past_sq_hurdle1 = sq_hurdle1+vec[k];
+      if (is_square_empty(past_sq_hurdle1))
       {
         vec_index_type k1;
-        for (k1=vec_end; k1>=vec_start; k1--)
+        for (k1 = vec_end; k1>=vec_start; k1--)
         {
-          finligne(past_sq_hurdle,vec[k1],hurdle,sq_hurdle);
-          if (hurdle!=obs)
+          square const sq_hurdle2 = find_end_of_line(past_sq_hurdle1,vec[k1]);
+          if (!is_square_blocked(sq_hurdle2))
           {
-            square const sq_arrival= sq_hurdle+vec[k1];
-            if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
+            square const sq_arrival = sq_hurdle2+vec[k1];
+            if (is_square_empty(sq_arrival)
+                || piece_belongs_to_opponent(sq_arrival,camp))
               empile(sq_departure,sq_arrival,sq_arrival);
           }
         }
@@ -1480,12 +1439,9 @@ static void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
   /* generates capturing moves of a super pawn of colour camp in
      direction dir.  */
 
-  piece   hurdle;
-
-  square sq_arrival;
+  square const sq_arrival = find_end_of_line(sq_departure,dir);
 
   /* it can move from first rank */
-  finligne(sq_departure,dir,hurdle,sq_arrival);
   if (piece_belongs_to_opponent(sq_arrival,camp))
     empile(sq_departure,sq_arrival,sq_arrival);
 }
@@ -2381,12 +2337,13 @@ void king_generate_moves(Side side_moving, square sq_departure)
     {
       square const sq_passed = sq_departure+vec[k];
       square const sq_arrival = sq_passed+vec[k];
-      square sq_castler;
-      piece p;
+      square const sq_castler = find_end_of_line(sq_departure,vec[k]);
 
-      finligne(sq_departure,vec[k],p,sq_castler);
-      if (sq_castler!=sq_passed && sq_castler!=sq_arrival && p!=obs
-          && castling_is_intermediate_king_move_legal(side_moving,sq_departure,sq_passed))
+      if (sq_castler!=sq_passed && sq_castler!=sq_arrival
+          && !is_square_blocked(sq_castler)
+          && castling_is_intermediate_king_move_legal(side_moving,
+                                                      sq_departure,
+                                                      sq_passed))
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }

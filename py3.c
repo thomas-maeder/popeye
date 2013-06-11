@@ -99,48 +99,49 @@ boolean rrfouech(square intermediate_square,
                  int    x,
                  evalfunction_t *evaluate)
 {
-  numvec k1;
-  piece p1;
-
-  square sq_departure;
-
-  if (e[intermediate_square+k] == obs)
+  if (is_square_blocked(intermediate_square+k))
     return false;
-
-  finligne(intermediate_square,k,p1,sq_departure);
-  if (abs(p1)==p && TSTFLAG(spec[sq_departure],trait[nbply]))
+  else
   {
-    if (evaluate(sq_departure,sq_king,sq_king))
-      return true;
+    numvec k1;
+    square const sq_reflection = find_end_of_line(intermediate_square,k);
+    PieNam const p1 = get_walk_of_piece_on_square(sq_reflection);
+
+    if (p1==p && TSTFLAG(spec[sq_reflection],trait[nbply]))
+    {
+      if (evaluate(sq_reflection,sq_king,sq_king))
+        return true;
+    }
+    else if (x && p1==Invalid)
+    {
+      square const sq_departure = sq_reflection-k;
+
+      k1= 5;
+      while (vec[k1]!=k)
+        k1++;
+
+      k1 *= 2;
+      if (rrfouech(sq_departure,
+                   sq_king,
+                   mixhopdata[1][k1],
+                   p,
+                   x-1,
+                   evaluate))
+
+        return true;
+
+      k1--;
+      if (rrfouech(sq_departure,
+                   sq_king,
+                   mixhopdata[1][k1],
+                   p,
+                   x-1,
+                   evaluate))
+        return true;
+    }
+
+    return false;
   }
-  else if (x && p1==obs)
-  {
-    sq_departure-= k;
-    k1= 5;
-    while (vec[k1]!=k)
-      k1++;
-
-    k1*= 2;
-    if (rrfouech(sq_departure,
-                 sq_king,
-                 mixhopdata[1][k1],
-                 p,
-                 x-1,
-                 evaluate))
-
-      return true;
-
-    k1--;
-    if (rrfouech(sq_departure,
-                 sq_king,
-                 mixhopdata[1][k1],
-                 p,
-                 x-1,
-                 evaluate))
-      return true;
-  }
-
-  return false;
 }
 
 boolean rcardech(square intermediate_square,
@@ -150,37 +151,37 @@ boolean rcardech(square intermediate_square,
                  int    x,
                  evalfunction_t *evaluate)
 {
-  numvec k1;
-  piece p1;
+  square sq_departure = find_end_of_line(intermediate_square,k);
+  PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
 
-  square sq_departure;
-
-  finligne(intermediate_square,k,p1,sq_departure);
-  if (abs(p1)==p && TSTFLAG(spec[sq_departure],trait[nbply]))
+  if (p1==p && TSTFLAG(spec[sq_departure],trait[nbply]))
   {
     if (evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
-  else if (x && p1==obs)
+  else if (x && is_square_blocked(sq_departure))
   {
-    for (k1= 1; k1<=4; k1++)
-      if (e[sq_departure+vec[k1]]!=obs)
+    numvec k1;
+    for (k1 = 1; k1<=4; k1++)
+      if (!is_square_blocked(sq_departure+vec[k1]))
         break;
 
-    if (k1<=4) {
-      sq_departure+= vec[k1];
+    if (k1<=4)
+    {
+      sq_departure += vec[k1];
       if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply]))
       {
         if (evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
-      else if (is_square_empty(sq_departure)) {
+      else if (is_square_empty(sq_departure))
+      {
         k1= 5;
         while (vec[k1]!=k)
           k1++;
         k1*= 2;
-        if (e[sq_departure+mixhopdata[1][k1]]==obs)
+        if (is_square_blocked(sq_departure+mixhopdata[1][k1]))
           k1--;
         if (rcardech(sq_departure,
                      sq_king,
@@ -203,8 +204,6 @@ boolean (*is_square_attacked)(Side side_attacking,
 static boolean does_observe_square_impl(square sq_target,
                                         evalfunction_t *evaluate)
 {
-  piece p;
-  square sq_departure;
   Side const side_checking = trait[nbply];
   Side const side_in_check = advers(side_checking);
 
@@ -264,8 +263,9 @@ static boolean does_observe_square_impl(square sq_target,
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
     {
-      finligne(sq_target,vec[k],p,sq_departure);
-      if ((abs(p)==Rook || abs(p)==Queen) && TSTFLAG(spec[sq_departure],side_checking)
+      square const sq_departure = find_end_of_line(sq_target,vec[k]);
+      PieNam const p = get_walk_of_piece_on_square(sq_departure);
+      if ((p==Rook || p==Queen) && TSTFLAG(spec[sq_departure],side_checking)
           && evaluate(sq_departure,sq_target,sq_target))
         if (ridimcheck(sq_departure,sq_target,vec[k]))
           return true;
@@ -276,9 +276,11 @@ static boolean does_observe_square_impl(square sq_target,
       || number_of_pieces[side_checking][Bishop]>0)
   {
     vec_index_type k;
-    for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
-      finligne(sq_target,vec[k],p,sq_departure);
-      if ((abs(p)==Bishop || abs(p)==Queen) && TSTFLAG(spec[sq_departure],side_checking)
+    for (k= vec_bishop_start; k<=vec_bishop_end; k++)
+    {
+      square const sq_departure = find_end_of_line(sq_target,vec[k]);
+      PieNam const p = get_walk_of_piece_on_square(sq_departure);
+      if ((p==Bishop || p==Queen) && TSTFLAG(spec[sq_departure],side_checking)
           && evaluate(sq_departure,sq_target,sq_target))
         if (ridimcheck(sq_departure,sq_target,vec[k]))
           return true;

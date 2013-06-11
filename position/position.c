@@ -188,3 +188,15 @@ PieNam get_walk_of_piece_on_square(square s)
 {
   return abs(e[s]);
 }
+
+square find_end_of_line(square from, numvec dir)
+{
+  square result = from;
+  do
+  {
+    result += dir;
+  }
+  while (is_square_empty(result));
+
+  return result;
+}

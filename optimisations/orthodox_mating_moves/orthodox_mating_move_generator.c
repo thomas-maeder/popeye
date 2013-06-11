@@ -38,19 +38,14 @@ static boolean IsABattery(square KingSquare,
                           PieNam RearPiece1,
                           PieNam RearPiece2)
 {
-  square sq_target;
-  EndOfLine(FrontSquare, Direction, sq_target);
+  square const sq_target = find_end_of_line(FrontSquare,Direction);
   if (sq_target==KingSquare)
   {
-    square sq_rear;
-    EndOfLine(FrontSquare, -Direction,sq_rear);
-
-    {
-      PieNam const pi_rear = get_walk_of_piece_on_square(sq_rear);
-      if ((pi_rear==RearPiece1 || pi_rear==RearPiece2)
-          && TSTFLAG(spec[sq_rear],side))
-        return true;
-    }
+    square const sq_rear = find_end_of_line(FrontSquare,-Direction);
+    PieNam const pi_rear = get_walk_of_piece_on_square(sq_rear);
+    if ((pi_rear==RearPiece1 || pi_rear==RearPiece2)
+        && TSTFLAG(spec[sq_rear],side))
+      return true;
   }
 
   return false;
@@ -280,7 +275,7 @@ static void rider_try_moving_to(square sq_departure, square sq_king,
   TraceValue("%d",dir_to_king);
   TraceFunctionParamListEnd();
 
-  EndOfLine(sq_arrival,dir_to_king,sq_target);
+  sq_target = find_end_of_line(sq_arrival,dir_to_king);
   if (sq_target==sq_king)
     empile(sq_departure,sq_arrival,sq_arrival);
 
@@ -354,8 +349,7 @@ static void simple_rider_directly_approach_king(square sq_departure,
                                                 Side side,
                                                 numvec dir_to_king)
 {
-  square sq_arrival;
-  EndOfLine(sq_departure,dir_to_king,sq_arrival);
+  square const sq_arrival = find_end_of_line(sq_departure,dir_to_king);
   if (piece_belongs_to_opponent(sq_arrival,side))
     rider_try_moving_to(sq_departure,sq_king,sq_arrival,dir_to_king);
 }
