@@ -29,10 +29,10 @@ typedef enum
   rose_rotation_clockwise = +1
 } rose_rotation_direction;
 
-square fin_circle_line(square sq_departure,
-                       vec_index_type vec_index_start,
-                       vec_index_type *rotation,
-                       rose_rotation_direction direction);
+square find_end_of_circle_line(square sq_departure,
+                               vec_index_type vec_index_start,
+                               vec_index_type *rotation,
+                               rose_rotation_direction direction);
 
 void rose_generate_moves(Side side, square sq_departure,
                          vec_index_type vec_range_start, vec_index_type vec_range_end);

@@ -1126,7 +1126,7 @@ boolean detect_rosecheck_on_line(square sq_king,
                                  vec_index_type k, vec_index_type k1,
                                  numvec delta_k,
                                  evalfunction_t *evaluate) {
-  square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
+  square sq_departure= find_end_of_circle_line(sq_king,k,&k1,delta_k);
   return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure!=sq_king /* pieces don't give check to themselves */
@@ -1157,10 +1157,10 @@ boolean detect_roselioncheck_on_line(square sq_king,
                                      vec_index_type k, vec_index_type k1,
                                      numvec delta_k,
                                      evalfunction_t *evaluate) {
-  square sq_hurdle= fin_circle_line(sq_king,k,&k1,delta_k);
+  square sq_hurdle= find_end_of_circle_line(sq_king,k,&k1,delta_k);
   if (sq_hurdle!=sq_king && e[sq_hurdle]!=obs)
   {
-    square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
+    square sq_departure= find_end_of_circle_line(sq_hurdle,k,&k1,delta_k);
 
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
     /* cf. issue 1747928 */
@@ -1207,7 +1207,7 @@ boolean detect_rosehoppercheck_on_line(square sq_king,
                                        vec_index_type k, vec_index_type k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate) {
-  square sq_departure= fin_circle_line(sq_hurdle,k,&k1,delta_k);
+  square sq_departure= find_end_of_circle_line(sq_hurdle,k,&k1,delta_k);
   return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure!=sq_king
@@ -1247,7 +1247,7 @@ boolean detect_roselocustcheck_on_line(square sq_king,
                                        vec_index_type k, vec_index_type k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate) {
-  square sq_departure= fin_circle_line(sq_king,k,&k1,delta_k);
+  square sq_departure= find_end_of_circle_line(sq_king,k,&k1,delta_k);
   return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure!=sq_king

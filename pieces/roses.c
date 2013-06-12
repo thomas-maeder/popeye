@@ -32,9 +32,9 @@ static square generate_moves_on_circle_segment(square sq_departure,
   return sq_arrival;
 }
 
-square fin_circle_line(square sq_departure,
-                       vec_index_type vec_index_start, vec_index_type *rotation,
-                       rose_rotation_direction direction)
+square find_end_of_circle_line(square sq_departure,
+                               vec_index_type vec_index_start, vec_index_type *rotation,
+                               rose_rotation_direction direction)
 {
   square sq_result= sq_departure;
   do {
@@ -100,7 +100,7 @@ static void rao_generate_circle(Side side,
                                                       vec_index_start,&rotation,direction);
   if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
   {
-    square const sq_arrival = fin_circle_line(sq_hurdle,vec_index_start,&rotation,direction);
+    square const sq_arrival = find_end_of_circle_line(sq_hurdle,vec_index_start,&rotation,direction);
     if (sq_arrival!=sq_departure && piece_belongs_to_opponent(sq_arrival,side))
       empile(sq_departure,sq_arrival,sq_arrival);
   }
@@ -129,7 +129,7 @@ static void roselion_generate_circle(Side side,
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
-  square sq_hurdle = fin_circle_line(sq_departure,vec_index_start,&rotation,direction);
+  square sq_hurdle = find_end_of_circle_line(sq_departure,vec_index_start,&rotation,direction);
   if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
   {
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
@@ -184,7 +184,7 @@ static void rosehopper_genrerate_circle(Side side,
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
-  square sq_hurdle= fin_circle_line(sq_departure,vec_index_start,&rotation,direction);
+  square sq_hurdle= find_end_of_circle_line(sq_departure,vec_index_start,&rotation,direction);
   if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
   {
     square sq_arrival= sq_hurdle+vec[vec_index_start+rotation];
@@ -217,7 +217,7 @@ static void roselocust_generate_circle(Side side,
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
-  square sq_capture= fin_circle_line(sq_departure,vec_index_start,&rotation,direction);
+  square sq_capture= find_end_of_circle_line(sq_departure,vec_index_start,&rotation,direction);
   if (sq_capture!=sq_departure && !is_square_blocked(sq_capture) && piece_belongs_to_opponent(sq_capture,side))
   {
     square sq_arrival = sq_capture+vec[vec_index_start+rotation];
