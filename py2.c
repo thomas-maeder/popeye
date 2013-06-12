@@ -806,6 +806,128 @@ boolean ncheck(square    sq_king,
   return ridcheck(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
+static boolean riderhoppercheck(square  sq_king,
+                                vec_index_type kanf, vec_index_type kend,
+                                PieNam p,
+                                int     run_up,
+                                int     jump,
+                                evalfunction_t *evaluate)
+{
+  /* detect "check" of a generalised rider-hopper p that runs up
+     run_up squares and jumps jump squares. 0 indicates an
+     potentially infinite run_up or jump.
+     examples:  grasshopper:         run_up: 0   jump: 1
+     grasshopper2:      run_up: 0    jump: 2
+     contragrasshopper: run_up: 1    jump: 0
+     lion:           run_up: 0   jump: 0
+  ********/
+
+  piece hurdle, hopper;
+  square sq_hurdle;
+  vec_index_type k;
+
+  square sq_departure;
+
+  for (k= kanf; k <= kend; k++) {
+    if (jump) {
+      sq_hurdle= sq_king;
+      if (jump>1) {
+        int jumped= jump;
+        while (--jumped) {
+          sq_hurdle+= vec[k];
+          if (!is_square_empty(sq_hurdle))
+            break;
+        }
+
+        if (jumped)
+          continue;
+      }
+      sq_hurdle+= vec[k];
+      hurdle= e[sq_hurdle];
+    }
+    else
+      /* e.g. lion, contragrashopper */
+      finligne(sq_king,vec[k],hurdle,sq_hurdle);
+
+    if (abs(hurdle)>=roib) {
+      if (run_up) {
+        /* contragrashopper */
+        sq_departure= sq_hurdle;
+        if (run_up>1) {
+          int ran_up= run_up;
+          while (--ran_up) {
+            sq_hurdle+= vec[k];
+            if (!is_square_empty(sq_hurdle))
+              break;
+          }
+          if (ran_up)
+            continue;
+        }
+        sq_departure+= vec[k];
+        hopper= e[sq_departure];
+      }
+      else
+        /* grashopper, lion */
+        finligne(sq_hurdle,vec[k],hopper,sq_departure);
+
+      if (abs(hopper)==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_king,sq_king)
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+        return true;
+    }
+  }
+  return false;
+} /* end of riderhoppercheck */
+
+static boolean rhopcheck(square  sq_king,
+                         vec_index_type kanf, vec_index_type kend,
+                         PieNam p,
+                         evalfunction_t *evaluate)
+{
+  return riderhoppercheck(sq_king, kanf, kend, p, 0, 1, evaluate);
+}
+
+static boolean lrhopcheck(square  sq_king,
+                          vec_index_type kanf, vec_index_type kend,
+                          PieNam p,
+                          evalfunction_t *evaluate)
+{
+  return riderhoppercheck(sq_king, kanf, kend, p, 0, 0, evaluate);
+}
+
+static boolean crhopcheck(square  sq_king,
+                          vec_index_type kanf, vec_index_type kend,
+                          PieNam p,
+                          evalfunction_t *evaluate)
+{
+  return riderhoppercheck(sq_king, kanf, kend, p, 1, 0, evaluate);
+}
+
+static boolean rhop2check(square  sq_king,
+                          vec_index_type kanf, vec_index_type kend,
+                          PieNam p,
+                          evalfunction_t *evaluate)
+{
+  return riderhoppercheck(sq_king, kanf, kend, p, 0, 2, evaluate);
+}
+
+static boolean rhop3check(square  sq_king,
+                          vec_index_type kanf, vec_index_type kend,
+                          PieNam p,
+                          evalfunction_t *evaluate)
+{
+  return riderhoppercheck(sq_king, kanf, kend, p, 0, 3, evaluate);
+}
+
+static boolean shopcheck(square  sq_king,
+                          vec_index_type kanf, vec_index_type kend,
+                          PieNam p,
+                          evalfunction_t *evaluate)
+{
+  return riderhoppercheck(sq_king, kanf, kend, p, 1, 1, evaluate);
+}
+
 boolean scheck(square    sq_king,
                PieNam p,
                evalfunction_t *evaluate)

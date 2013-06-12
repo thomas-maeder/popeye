@@ -336,10 +336,6 @@ void    gecharybdis(square i, Side camp);
 int len_whforcedsquare(square departure, square arrival, square capture);
 int len_blforcedsquare(square departure, square arrival, square capture);
 
-boolean riderhoppercheck(square i, vec_index_type kanf, vec_index_type kend, PieNam p,
-                         int run_up, int jump,
-                         evalfunction_t *evaluate);
-
 void	pyInitSignal(void);
 void	InitCond(void);
 char	*MakeTimeString(void);
