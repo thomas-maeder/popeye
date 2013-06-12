@@ -469,109 +469,6 @@ static void bouncer_generate_moves(Side side,
   }
 }
 
-void geriderhopper(square sq_departure,
-                   vec_index_type kbeg, vec_index_type kend,
-                   int run_up,
-                   int jump,
-                   Side  camp)
-{
-  /* generate rider-hopper moves from vec[kbeg] to vec[kend] */
-
-  piece   hurdle;
-  square  sq_hurdle;
-
-  square sq_arrival;
-
-  vec_index_type k;
-  for (k= kbeg; k <= kend; k++)
-  {
-    if (run_up)
-    {
-      /* run up of fixed length */
-      /* contragrashopper type */
-      sq_hurdle= sq_departure;
-      if (run_up>1) {
-        /* The run up is longer.
-           Check if there is an obstacle between the hopper
-           and the hurdle
-        */
-        int ran_up= run_up;
-        while (--ran_up) {
-          sq_hurdle += vec[k];
-          if (!is_square_empty(sq_hurdle))
-            break;
-        }
-        if (ran_up) {
-          /* there is an obstacle -> next line */
-          continue;
-        }
-      }
-      sq_hurdle+= vec[k];
-      hurdle= e[sq_hurdle];
-      if (hurdle==vide) {
-        /* there is no hurdle -> next line */
-        continue;
-      }
-    }
-    else
-      /* run up of flexible length
-       * lion, grashopper type
-       */
-      finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-
-    if (hurdle!=obs) {
-      sq_arrival= sq_hurdle;
-      if (jump) {
-        /* jump of fixed length */
-        /* grashopper or grashopper-2 type */
-        if (jump>1) {
-          /* The jump up is a longer one.
-             Check if there is an obstacle between
-             the hurdle and the target square
-          */
-          int jumped= jump;
-          while (--jumped) {
-            sq_arrival+= vec[k];
-            if (!is_square_empty(sq_arrival))
-              break;
-          }
-          if (jumped) {
-            /* there is an obstacle -> next line */
-            continue;
-          }
-        }
-        sq_arrival+= vec[k];
-        if ((piece_belongs_to_opponent(sq_arrival,camp) || (is_square_empty(sq_arrival)))
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
-        {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-        }
-      }
-      else {
-        /* jump of flexible length */
-        /* lion, contragrashopper type */
-        sq_arrival+= vec[k];
-        while (is_square_empty(sq_arrival)) {
-          if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
-          {
-            empile(sq_departure,sq_arrival,sq_arrival);
-            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-          }
-          sq_arrival+= vec[k];
-        }
-
-        if (piece_belongs_to_opponent(sq_arrival,camp)
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
-        {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-        }
-      }
-    }
-  }
-}
-
 static void ghamst(square sq_departure)
 {
   vec_index_type k;
@@ -1475,6 +1372,171 @@ void chinese_pawn_generate_moves(Side side, square sq_departure)
   }
 }
 
+static void lions_generate_moves(square sq_departure,
+                                 vec_index_type kbeg, vec_index_type kend,
+                                 Side  camp)
+{
+  vec_index_type k;
+  for (k = kbeg; k<=kend; ++k)
+  {
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+
+    if (!is_square_blocked(sq_hurdle))
+    {
+      square sq_arrival = sq_hurdle+vec[k];
+      while (is_square_empty(sq_arrival))
+      {
+        if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
+        {
+          empile(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        }
+        sq_arrival += vec[k];
+      }
+
+      if (piece_belongs_to_opponent(sq_arrival,camp)
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+      {
+        empile(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+      }
+    }
+  }
+}
+
+static void hoppers_generate_moves(square sq_departure,
+                                   vec_index_type kbeg, vec_index_type kend,
+                                   Side  camp)
+{
+  vec_index_type k;
+  for (k = kbeg; k<=kend; ++k)
+  {
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+
+    if (!is_square_blocked(sq_hurdle))
+    {
+      square const sq_arrival = sq_hurdle+vec[k];
+      if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+      {
+        empile(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+      }
+    }
+  }
+}
+
+static void contra_grasshopper_generate_moves(square sq_departure,
+                                              vec_index_type kbeg, vec_index_type kend,
+                                              Side  camp)
+{
+  vec_index_type k;
+  for (k = kbeg; k<=kend; ++k)
+  {
+    square const sq_hurdle = sq_departure+vec[k];
+    if (!is_square_empty(sq_hurdle))
+    {
+      if (!is_square_blocked(sq_hurdle))
+      {
+        square sq_arrival = sq_hurdle+vec[k];
+        while (is_square_empty(sq_arrival))
+        {
+          if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
+          {
+            empile(sq_departure,sq_arrival,sq_arrival);
+            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          }
+          sq_arrival+= vec[k];
+        }
+
+        if (piece_belongs_to_opponent(sq_arrival,camp)
+            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+        {
+          empile(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        }
+      }
+    }
+  }
+}
+
+static square grasshoppers_n_find_target(square sq_hurdle,
+                                         numvec dir,
+                                         unsigned int dist_hurdle_target)
+{
+  square result = sq_hurdle;
+
+  unsigned int dist_remaining = dist_hurdle_target;
+  while (--dist_remaining)
+  {
+    result += dir;
+    if (!is_square_empty(result))
+      return initsquare;
+  }
+
+  result += dir;
+
+  return result;
+}
+
+static void grasshoppers_n_generate_moves(square sq_departure,
+                                          vec_index_type kbeg, vec_index_type kend,
+                                          unsigned int dist_hurdle_target,
+                                          Side  camp)
+{
+  vec_index_type k;
+  for (k = kbeg; k<=kend; ++k)
+  {
+    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
+
+    if (!is_square_blocked(sq_hurdle))
+    {
+      square const sq_arrival = grasshoppers_n_find_target(sq_hurdle,vec[k],dist_hurdle_target);
+      if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+      {
+        empile(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+      }
+    }
+  }
+}
+
+static void gerhop2(square sq_departure,
+                    vec_index_type kbeg, vec_index_type kend,
+                    Side camp)
+{
+  grasshoppers_n_generate_moves(sq_departure, kbeg, kend, 2, camp);
+}
+
+static void gerhop3(square sq_departure,
+                    vec_index_type kbeg, vec_index_type kend,
+                    Side camp)
+{
+  grasshoppers_n_generate_moves(sq_departure, kbeg, kend, 3, camp);
+}
+
+static void leaper_hoppers_generate_moves(square sq_departure,
+                                          vec_index_type kbeg, vec_index_type kend,
+                                          Side camp)
+{
+  vec_index_type k;
+  for (k = kbeg; k<=kend; ++k)
+  {
+    square const sq_hurdle = sq_departure+vec[k];
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
+      square const sq_arrival = sq_hurdle+vec[k];
+      if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
+          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+      {
+        empile(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+      }
+    }
+  }
+}
+
 void piece_generate_moves(Side side, square sq_departure, PieNam p)
 {
   switch (p)
@@ -1772,7 +1834,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       return;
 
     case KnightHopper:
-      geshop(sq_departure, vec_knight_start, vec_knight_end, side);
+      leaper_hoppers_generate_moves(sq_departure, vec_knight_start, vec_knight_end, side);
       return;
 
     case SpiralSpringer:
@@ -1837,7 +1899,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, side);
       gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, side);
       gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, side);
-      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
       ghamst(sq_departure);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
@@ -1943,48 +2005,48 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       return;
 
     case Grasshopper:
-      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
       return;
 
     case Lion:
-      gelrhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      lions_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
       return;
 
     case NightriderHopper:
-      gerhop(sq_departure, vec_knight_start,vec_knight_end, side);
+      hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end, side);
       return;
 
     case CamelHopper:
-      gerhop(sq_departure, vec_chameau_start,vec_chameau_end, side);
+      hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end, side);
       return;
 
     case ZebraHopper:
-      gerhop(sq_departure, vec_zebre_start,vec_zebre_end, side);
+      hoppers_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end, side);
       return;
 
     case GnuHopper:
-      gerhop(sq_departure, vec_chameau_start,vec_chameau_end, side);
-      gerhop(sq_departure, vec_knight_start,vec_knight_end, side);
+      hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end, side);
+      hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end, side);
       return;
 
     case RookLion:
-      gelrhop(sq_departure, vec_rook_start,vec_rook_end, side);
+      lions_generate_moves(sq_departure, vec_rook_start,vec_rook_end, side);
       return;
 
     case BishopLion:
-      gelrhop(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      lions_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, side);
       return;
 
     case RookHopper:
-      gerhop(sq_departure, vec_rook_start,vec_rook_end, side);
+      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, side);
       return;
 
     case BishopHopper:
-      gerhop(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, side);
       return;
 
     case ContraGras:
-      gecrhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      contra_grasshopper_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
       return;
 
     case RoseLion:
@@ -2008,7 +2070,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       return;
 
     case KingHopper:
-      geshop(sq_departure, vec_queen_start,vec_queen_end, side);
+      leaper_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
       return;
 
     case DoubleGras:
@@ -2033,7 +2095,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
 
     case Gral:
       leaper_generate_moves(side,sq_departure, vec_alfil_start,vec_alfil_end);
-      gerhop(sq_departure, vec_rook_start,vec_rook_end, side);      /* rookhopper */
+      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, side);      /* rookhopper */
       return;
 
     case RookMoose:
@@ -2086,11 +2148,11 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
 
     case Scorpion:
       leaper_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end); /* eking */
-      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);     /* grashopper */
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);     /* grashopper */
       return;
 
     case NightRiderLion:
-      gelrhop(sq_departure, vec_knight_start,vec_knight_end, side);
+      lions_generate_moves(sq_departure, vec_knight_start,vec_knight_end, side);
       return;
 
     case MaoRiderLion:
@@ -2103,7 +2165,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
 
     case Dolphin:
       gkang(sq_departure, side);
-      gerhop(sq_departure, vec_queen_start,vec_queen_end, side);
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
       return;
 
     case Rabbit:
@@ -2312,7 +2374,7 @@ void king_generate_moves(Side side_moving, square sq_departure)
     }
 
     if (CondFlag[sting])
-      gerhop(sq_departure,vec_queen_start,vec_queen_end,side_moving);
+      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end,side_moving);
 
     leaper_generate_moves(side_moving,sq_departure,vec_queen_start,vec_queen_end);
 
@@ -2322,7 +2384,7 @@ void king_generate_moves(Side side_moving, square sq_departure)
   else
   {
     if (CondFlag[sting])
-      gerhop(sq_departure,vec_queen_start,vec_queen_end,side_moving);
+      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end,side_moving);
 
     leaper_generate_moves(side_moving,sq_departure,vec_queen_start,vec_queen_end);
   }

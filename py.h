@@ -687,19 +687,7 @@ typedef unsigned int slice_index;
 
 #define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))
 
-#define finligne(i,k,p,sq)      do {register int kk= (k); (sq)= (i); while (e[(sq)+=(kk)]==vide); p= e[(sq)];} while (0)
-
 #define piece_belongs_to_opponent(sq,camp)    TSTFLAG(spec[(sq)],advers(camp))
-
-#define gelrhop(sq, ka, ke, camp)       geriderhopper(sq, ka, ke, 0, 0, camp)
-#define gerhop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 0, 1, camp)
-#define gecrhop(sq, ka, ke, camp)       geriderhopper(sq, ka, ke, 1, 0, camp)
-
-#define gerhop2(sq, ka, ke, camp)      geriderhopper(sq, ka, ke, 0, 2, camp)
-
-#define gerhop3(sq, ka, ke, camp)      geriderhopper(sq, ka, ke, 0, 3, camp)
-
-#define geshop(sq, ka, ke, camp)        geriderhopper(sq, ka, ke, 1, 1, camp)
 
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
   (numgridlines && CrossesGridLines((sq1), (sq2))))

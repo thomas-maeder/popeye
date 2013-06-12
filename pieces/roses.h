@@ -29,7 +29,6 @@ typedef enum
   rose_rotation_clockwise = +1
 } rose_rotation_direction;
 
-/* analogon to finligne() for circle  lines */
 square fin_circle_line(square sq_departure,
                        vec_index_type vec_index_start,
                        vec_index_type *rotation,
