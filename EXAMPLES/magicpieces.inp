@@ -74,4 +74,11 @@ pieces white ke1 pb2
        black magic gd1
 stip h001
 
+next
+
+title an example for cross-eyed magic pieces
+pieces white magic btd4g1 black pg7
+stip ~1
+option nowk nobk
+
 end

@@ -220,7 +220,8 @@ void GetMargueriteAttackVectors(square from, square to)
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
-  if (scheck(to, e[from], eval_fromspecificsquare)) {
+  if (scheck(to, get_walk_of_piece_on_square(from), eval_fromspecificsquare))
+  {
     numvec attackVec;
     if (to < from)
       attackVec = move_vec_code[from - to];
@@ -239,32 +240,48 @@ static void GetZigZagAttackVectors(square from, square to,
   square sq_arrival= to;
   square sq_capture= to;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceSquare(to);
+  TraceFunctionParam("%d",k);
+  TraceFunctionParam("%d",k1);
+  TraceFunctionParamListEnd();
+
   while (is_square_empty(sq_departure))
   {
-    sq_departure+= k1;
-    if (!is_square_empty(sq_departure))
-      break;
+    sq_departure += k1;
+    if (is_square_empty(sq_departure))
+      sq_departure += k;
     else
-      sq_departure+= k;
+      break;
   }
 
-  if (e[sq_departure]==e[from]
-      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagicView(to, from, vec[500+k] );
+  if (sq_departure==from)
+  {
+    fromspecificsquare = from;
+    if (eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
+      PushMagicView(to, from, 500+k );
+  }
 
   sq_departure = to+k;
   while (is_square_empty(sq_departure))
   {
-    sq_departure-= k1;
-    if (!is_square_empty(sq_departure))
-      break;
+    sq_departure -= k1;
+    if (is_square_empty(sq_departure))
+      sq_departure += k;
     else
-      sq_departure+= k;
+      break;
   }
 
-  if (e[sq_departure]==e[from]
-      && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagicView(to, from, vec[400+k] );
+  if (sq_departure==from)
+  {
+    fromspecificsquare = from;
+    if (eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
+      PushMagicView(to, from, 400+k );
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void GetBoyscoutAttackVectors(square from, square to)
@@ -479,6 +496,10 @@ static void PushMagicViewsByOnePiece(square pos_magic)
   PieNam const pi_magic = get_walk_of_piece_on_square(pos_magic);
   square const *pos_viewed;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(pos_magic);
+  TraceFunctionParamListEnd();
+
   for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
     if (get_walk_of_piece_on_square(*pos_viewed)>Invalid
         && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal)|BIT(Neutral)))
@@ -486,7 +507,6 @@ static void PushMagicViewsByOnePiece(square pos_magic)
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
       if (crosseyed_views_functions[pi_magic]!=0)
-        /* call special function to push all views by cross-eyed pieces */
         (*crosseyed_views_functions[pi_magic])(pos_magic,*pos_viewed);
       else
       {
@@ -506,6 +526,9 @@ static void PushMagicViewsByOnePiece(square pos_magic)
         }
       }
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* avoid unnecessary recursion if checkfunction has to play the observation */
