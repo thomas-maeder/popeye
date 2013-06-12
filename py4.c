@@ -352,7 +352,7 @@ static void gemaooariderlion(square sq_departure,
     middle += todest;
     sq_arrival += todest;
   }
-  if (e[middle] != obs && e[sq_arrival] != obs) {
+  if (!is_square_blocked(middle) && !is_square_blocked(sq_arrival)) {
     if (!is_square_empty(middle)
         && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
       empile(sq_departure,sq_arrival,sq_arrival);
@@ -891,7 +891,7 @@ static void grfou(square   orig_departure,
   square sq_departure= orig_departure;
   square sq_arrival= in+k;
 
-  if (e[sq_arrival]==obs)
+  if (is_square_blocked(sq_arrival))
     return;
 
   while (is_square_empty(sq_arrival))
@@ -902,7 +902,7 @@ static void grfou(square   orig_departure,
 
   if (piece_belongs_to_opponent(sq_arrival,camp))
     empile(sq_departure,sq_arrival,sq_arrival);
-  else if (x && e[sq_arrival]==obs)
+  else if (x && is_square_blocked(sq_arrival))
   {
     sq_arrival-= k;
     k1= 5;
@@ -934,10 +934,10 @@ static void gcard(square   orig_departure,
 
   if (piece_belongs_to_opponent(sq_arrival,camp))
     empile(sq_departure,sq_arrival,sq_arrival);
-  else if (x && e[sq_arrival]==obs)
+  else if (x && is_square_blocked(sq_arrival))
   {
     for (k1= 1; k1<=4; k1++)
-      if (e[sq_arrival+vec[k1]]!=obs)
+      if (!is_square_blocked(sq_arrival+vec[k1]))
         break;
 
     if (k1<=4)
@@ -952,7 +952,7 @@ static void gcard(square   orig_departure,
         while (vec[k1]!=k)
           k1++;
         k1*= 2;
-        if (e[sq_arrival+mixhopdata[1][k1]]==obs)
+        if (is_square_blocked(sq_arrival+mixhopdata[1][k1]))
           k1--;
 
         gcard(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp);
@@ -2629,7 +2629,9 @@ static void genleapleap(square sq_departure,
       for (k1= kanf; k1 <= kend; k1++)
       {
         square const sq_arrival = (leaf ? sq_departure : sq_hurdle) + vec[k1];
-        if ((sq_arrival != sq_hurdle) && (e[sq_arrival] == vide || piece_belongs_to_opponent(sq_arrival,camp)))
+        if (sq_arrival!=sq_hurdle
+            && (is_square_empty(sq_arrival)
+                || piece_belongs_to_opponent(sq_arrival,camp)))
           empile(sq_departure, sq_arrival, sq_arrival);
       }
     }

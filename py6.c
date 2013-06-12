@@ -483,19 +483,16 @@ static void countPieces(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; ++bnp)
-    {
-      piece const p = e[*bnp];
-
-      if (p!=vide)
+      if (!is_square_empty(*bnp))
       {
-        exist[abs(p)] = true;
-        may_exist[abs(p)] = true;
+        PieNam const p = get_walk_of_piece_on_square(*bnp);
+        exist[p] = true;
+        may_exist[p] = true;
         if (TSTFLAG(spec[*bnp],White))
-          ++number_of_pieces[White][abs(p)];
+          ++number_of_pieces[White][p];
         if (TSTFLAG(spec[*bnp],Black))
-          ++number_of_pieces[Black][abs(p)];
+          ++number_of_pieces[Black][p];
       }
-    }
   }
 
   if (exist[MarinePawn]>0)
@@ -578,11 +575,11 @@ static boolean locate_royals(void)
       for (bnp = boardnum; *bnp; ++bnp)
       {
         square const s = *bnp;
-        piece const p = e[s];
         assert(!TSTFLAG(spec[s],Royal));
-        if (abs(p)==King)
+        assert(!TSTFLAG(spec[s],Neutral));
+        if (get_walk_of_piece_on_square(s)==King)
         {
-          Side const king_side = p==roib ? White : Black;
+          Side const king_side = TSTFLAG(spec[s],White) ? White : Black;
           CLRFLAGMASK(spec[s],all_pieces_flags);
           SETFLAGMASK(spec[s],all_royals_flags);
           if (number_of_pieces[king_side][King]==1)
@@ -648,10 +645,9 @@ static boolean initialise_piece_flags(void)
     square const *bnp;
     currPieceId = MinPieceId;
     for (bnp = boardnum; *bnp; ++bnp)
-    {
-      piece const p = e[*bnp];
-      if (p!=vide)
+      if (!is_square_empty(*bnp))
       {
+        PieNam const p = get_walk_of_piece_on_square(*bnp);
         SETFLAGMASK(spec[*bnp],all_pieces_flags);
 
         assert(currPieceId<=MaxPieceId);
@@ -659,14 +655,13 @@ static boolean initialise_piece_flags(void)
         SavePositionInDiagram(spec[*bnp],*bnp);
 
         if (TSTFLAG(spec[*bnp],ColourChange)
-            && !is_simplehopper(abs(p)))
+            && !is_simplehopper(p))
         {
           /* relies on imitators already having been implemented */
           CLRFLAG(spec[*bnp],ColourChange);
           ErrorMsg(ColourChangeRestricted);
         }
       }
-    }
 
     if (OptFlag[lastcapture] && move_effect_journal[3].type==move_effect_piece_removal)
       SetPieceId(move_effect_journal[3].u.piece_removal.removedspec,currPieceId++);
@@ -1297,8 +1292,12 @@ static boolean verify_position(slice_index si)
       /* disallowed because of the call to (*circerenai) in echecc would require
        * knowledge of the departure square. Other forms now allowed
        */
-      if (((! OptFlag[sansrb]) && king_square[White]!=initsquare && (e[king_square[White]] != roib))
-          || ((! OptFlag[sansrn]) && king_square[Black]!=initsquare && (e[king_square[Black]] != roin)))
+      if ((!OptFlag[sansrb]
+           && king_square[White]!=initsquare
+           && get_walk_of_piece_on_square(king_square[White])!=King)
+          || (!OptFlag[sansrn]
+              && king_square[Black]!=initsquare
+              && get_walk_of_piece_on_square(king_square[Black])!=King))
       {
         VerifieMsg(RoyalPWCRexCirce);
         return false;
@@ -1725,10 +1724,12 @@ static boolean verify_position(slice_index si)
 
   if ((calc_reflective_king[White]
        && king_square[White] != initsquare
-       && (e[king_square[White]] != roib || CondFlag[sting]))
+       && (get_walk_of_piece_on_square(king_square[White])!=King
+           || CondFlag[sting]))
       || (calc_reflective_king[Black]
           && king_square[Black] != initsquare
-          && (e[king_square[Black]] != roin || CondFlag[sting])))
+          && (get_walk_of_piece_on_square(king_square[Black])!=King
+              || CondFlag[sting])))
   {
     VerifieMsg(TransmRoyalPieces);
     return false;

@@ -230,8 +230,6 @@ void copyply(void);
 void finply(void);
 void nextply(void);
 
-boolean nogridcontact(square a);
-
 extern boolean(*is_square_attacked)(Side side_attacking,
                                     square sq_target,
                                     evalfunction_t *evaluate);

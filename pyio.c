@@ -4402,7 +4402,7 @@ static char *ReadFrischAufSquares(void)
         break;
       else
       {
-        if (is_square_empty(sq) || e[sq]==obs || is_pawn(get_walk_of_piece_on_square(sq)))
+        if (is_square_empty(sq) || is_square_blocked(sq) || is_pawn(get_walk_of_piece_on_square(sq)))
           Message(NoFrischAufPromPiece);
         else
         {
@@ -5971,7 +5971,7 @@ static char *ParseTwinningMove(int indexx)
     }
   }
 
-  if (e[sq1] == vide)
+  if (is_square_empty(sq1))
   {
     WriteSquare(sq1);
     StdString(": ");
@@ -6934,71 +6934,66 @@ void WritePosition()
 
       if (is_square_occupied_by_imitator(square))
         *h1= 'I';
+      else if (is_square_blocked(square))
+        /* this is a hole ! */
+        *h1= ' ';
+      else if (is_square_empty(square))
+      {
+        /* nothing */
+      }
       else
       {
-        piece const p = e[square];
-        PieNam const pp = abs(p);
+        PieNam const pp = get_walk_of_piece_on_square(square);
+        for (sp= Neutral + 1; sp < PieSpCount; sp++)
+          if (TSTFLAG(spec[square],sp)
+              && !(sp==Royal && (pp==King || pp==Poseidon)))
+          {
+            AddSquare(ListSpec[sp], square);
+            ++SpecCount[sp];
+          }
 
-        if (pp == Invalid)
-          /* this is a hole ! */
-          *h1= ' ';
-        else if (pp==Empty)
+        if (pp<Hunter0 || pp>=Hunter0+maxnrhuntertypes)
         {
-          /* nothing */
+          if ((*h1= PieceTab[pp][1]) != ' ')
+          {
+            *h1= UPCASE(*h1);
+            h1--;
+          }
+          *h1--= UPCASE(PieceTab[pp][0]);
         }
         else
         {
-          for (sp= Neutral + 1; sp < PieSpCount; sp++)
-            if (TSTFLAG(spec[square],sp)
-                && !(sp==Royal && (get_walk_of_piece_on_square(square)==King || get_walk_of_piece_on_square(square)==Poseidon)))
-            {
-              AddSquare(ListSpec[sp], square);
-              ++SpecCount[sp];
-            }
+          char *n1 = HLine2 + (h1-HLine1); /* current position on next1 line */
 
-          if (pp<Hunter0 || pp>=Hunter0+maxnrhuntertypes)
+          unsigned int const hunterIndex = pp-Hunter0;
+          assert(hunterIndex<maxnrhuntertypes);
+
+          *h1-- = '/';
+          if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ')
           {
-            if ((*h1= PieceTab[pp][1]) != ' ')
-            {
-              *h1= UPCASE(*h1);
-              h1--;
-            }
-            *h1--= UPCASE(PieceTab[pp][0]);
+            *h1= UPCASE(*h1);
+            h1--;
           }
-          else
-          {
-            char *n1 = HLine2 + (h1-HLine1); /* current position on next1 line */
+          *h1--= UPCASE(PieceTab[huntertypes[hunterIndex].away][0]);
 
-            unsigned int const hunterIndex = pp-Hunter0;
-            assert(hunterIndex<maxnrhuntertypes);
-
-            *h1-- = '/';
-            if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ')
-            {
-              *h1= UPCASE(*h1);
-              h1--;
-            }
-            *h1--= UPCASE(PieceTab[huntertypes[hunterIndex].away][0]);
-
-            --n1;   /* leave pos. below '/' empty */
-            if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ')
-              *n1= UPCASE(*n1);
-            *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
-          }
-
-          if (TSTFLAG(spec[square], Neutral))
-          {
-            nNeutr++;
-            *h1= '=';
-          }
-          else if (p < 0)
-          {
-            nBlack++;
-            *h1= '-';
-          }
-          else
-            nWhite++;
+          --n1;   /* leave pos. below '/' empty */
+          if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ')
+            *n1= UPCASE(*n1);
+          *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
         }
+
+        if (TSTFLAG(spec[square], Neutral))
+        {
+          nNeutr++;
+          *h1= '=';
+        }
+        else if (TSTFLAG(spec[square],Black))
+        {
+          nBlack++;
+          *h1= '-';
+        }
+        else
+          nWhite++;
       }
     }
 
@@ -7398,7 +7393,7 @@ void LaTeXBeginDiagram(void)
   }
 
   for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] == obs)
+    if (is_square_blocked(*bnp))
     {
       /* holes */
       if (holess)

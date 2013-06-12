@@ -85,106 +85,117 @@ boolean eval_ortho(square sq_departure, square sq_arrival, square sq_capture) {
   return true;
 }
 
-boolean imok(square i, square j)
+boolean imok(square sq_departure, square sq_arrival)
 {
-  /* move i->j ok? */
   unsigned int imi_idx;
-  int const diff = j-i;
+  int const diff = sq_arrival-sq_departure;
 
   for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
   {
     square const j2 = isquare[imi_idx-1]+diff;
-    if (j2!=i && !is_square_empty(j2))
+    if (j2!=sq_departure && !is_square_empty(j2))
       return false;
   }
 
   return true;
 }
 
-boolean maooaimok(square i, square j, square pass) {
+boolean maooaimok(square sq_departure, square sq_arrival, square pass)
+{
   boolean ret;
-  piece p= e[i];
-  e[i]= vide;
-  ret= imok(i, pass) && imok(i, j);
-  e[i]= p;
+  PieNam const p = get_walk_of_piece_on_square(sq_departure);
+  Flags const flags = spec[sq_departure];
+
+  empty_square(sq_departure);
+
+  ret = imok(sq_departure,pass) && imok(sq_departure,sq_arrival);
+
+  occupy_square(sq_departure,p,flags);
+
   return ret;
 }
 
-boolean ridimok(square i, square j, numvec diff) {
-  /* move i->j in steps of diff ok? */
-  square  i2= i;
+boolean ridimok(square sq_departure, square sq_arrival, numvec diff)
+{
+  square  i2= sq_departure;
   boolean ret;
-  piece   p= e[i];
+  PieNam const p = get_walk_of_piece_on_square(sq_departure);
+  Flags const flags = spec[sq_departure];
 
-  e[i]= vide;/* an imitator might be disturbed by the moving rider! */
+  empty_square(sq_departure);/* an imitator might be disturbed by the moving rider! */
+
   do {
-    i2-= diff;
-  } while (imok(i, i2) && (i2 != j));
+    i2 -= diff;
+  } while (imok(sq_departure, i2) && (i2 != sq_arrival));
 
-  ret= (i2 == j) && imok (i, j);
-  e[i]= p;           /* only after the last call of imok! */
+  ret= i2==sq_arrival && imok(sq_departure,sq_arrival);
+
+  occupy_square(sq_departure,p,flags);
+
   return ret;
 }
 
-boolean castlingimok(square i, square j) {
-  piece p= e[i];
+boolean castlingimok(square sq_departure, square sq_arrival)
+{
   boolean ret= false;
+  PieNam const p = get_walk_of_piece_on_square(sq_departure);
+  Flags const flags = spec[sq_departure];
+
   /* I think this should work - clear the K, and move the Is, but don't clear the rook. */
   /* If the Is crash into the R, the move would be illegal as the K moves first.        */
   /* The only other test here is for long castling when the Is have to be clear to move */
   /* one step right (put K back first)as well as two steps left.                        */
   /* But there won't be an I one sq to the left of a1 (a8) so no need to clear the R    */
 
-  switch (j-i)
+  switch (sq_arrival-sq_departure)
   {
     case 2*dir_right:  /* 00 - can short-circuit here (only follow K, if ok rest will be ok) */
-      e[i]= vide;
-      ret= imok(i, i+dir_right) && imok(i, i+2*dir_right);
-      e[i]= p;
+      empty_square(sq_departure);
+      ret= imok(sq_departure, sq_departure+dir_right) && imok(sq_departure, sq_departure+2*dir_right);
+      occupy_square(sq_departure,p,flags);
       break;
 
     case 2*dir_left:  /* 000 - follow K, (and move K as well), then follow R */
-      e[i]= vide;
-      ret= imok(i, i+dir_left) && imok(i, i+2*dir_left);
-      e[i+2*dir_left]= p;
-      ret= ret && imok(i, i+dir_left) && imok (i, i) && imok(i, i+dir_right);
-      e[i+2*dir_left]= vide;
-      e[i]= p;
+      empty_square(sq_departure);
+      ret= imok(sq_departure, sq_departure+dir_left) && imok(sq_departure, sq_departure+2*dir_left);
+      occupy_square(sq_departure+2*dir_left,p,flags);
+      ret= ret && imok(sq_departure, sq_departure+dir_left) && imok (sq_departure, sq_departure) && imok(sq_departure, sq_departure+dir_right);
+      empty_square(sq_departure+2*dir_left);
+      occupy_square(sq_departure,p,flags);
       break;
   }
   return ret;
 }
 
-
-
-boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
+boolean hopimok(square sq_departure, square sq_arrival, square sq_hurdle, numvec diff, numvec diff1)
 {
-  /* hop i->j hopping over k in steps of diff ok? */
+  /* hop sq_departure->sq_arrival hopping over sq_hurdle in steps of diff ok? */
 
   if (CondFlag[imitators])
   {
-    square i2 = i;
-    piece const p = e[i];
+    square i2 = sq_departure;
+    PieNam const p = get_walk_of_piece_on_square(sq_departure);
+    Flags const flags = spec[sq_departure];
     boolean result = true;
 
     /* an imitator might be disturbed by the moving hopper! */
-    e[i] = vide;
+    empty_square(sq_departure);
 
     /* Are the lines from the imitators to the square to hop over free?
      */
     do
     {
       i2 += diff;
-    } while (imok(i,i2) && i2!=k);
+    } while (imok(sq_departure,i2) && i2!=sq_hurdle);
 
-    result = i2==k;
+    result = i2==sq_hurdle;
 
     if (result)
     {
       /* Are the squares the imitators have to hop over occupied? */
       unsigned int imi_idx;
       for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
-        if (is_square_empty(isquare[imi_idx-1]+k-i))
+        if (is_square_empty(isquare[imi_idx-1]+sq_hurdle-sq_departure))
         {
           result = false;
           break;
@@ -195,18 +206,17 @@ boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
       do
       {
         i2 += diff1;
-      } while (imok(i,i2) && i2!=j);
+      } while (imok(sq_departure,i2) && i2!=sq_arrival);
 
-    result = result && i2==j && imok(i,j);
+    result = result && i2==sq_arrival && imok(sq_departure,sq_arrival);
 
-    e[i] = p;
+    occupy_square(sq_departure,p,flags);
 
     return result;
   }
   else
     return true;
 }
-
 
 boolean rmhopech(square sq_king,
                  vec_index_type kend, vec_index_type kanf,
@@ -312,16 +322,17 @@ boolean rcsech(square  sq_king,
    *          DiagonalSpiralspringer  15 to 16    I 27 - ik
    */
 
-  square sq_departure= sq_king+k;
-  square sq_arrival= sq_king;
-  square sq_capture= sq_king;
+  square sq_departure = sq_king+k;
+  square sq_arrival = sq_king;
+  square sq_capture = sq_king;
 
-  while (e[sq_departure] == vide) {
-    sq_departure+= k1;
-    if (e[sq_departure] != vide)
+  while (is_square_empty(sq_departure))
+  {
+    sq_departure += k1;
+    if (!is_square_empty(sq_departure))
       break;
     else
-      sq_departure+= k;
+      sq_departure += k;
   }
 
   if (get_walk_of_piece_on_square(sq_departure)==p
@@ -352,13 +363,13 @@ boolean rcspech(square  sq_king,
                PieNam p,
                evalfunction_t *evaluate)
 {
-  square sq_departure= sq_king+vec[k];
-  square sq_arrival= sq_king;
-  square sq_capture= sq_king;
+  square sq_departure = sq_king+vec[k];
+  square sq_arrival = sq_king;
+  square sq_capture = sq_king;
 
-  while (e[sq_departure] == vide) {
-    sq_departure+= vec[k1];
-    if (e[sq_departure] != vide)
+  while (is_square_empty(sq_departure)) {
+    sq_departure += vec[k1];
+    if (!is_square_empty(sq_departure))
       break;
     else
       sq_departure+= vec[k];
@@ -546,15 +557,13 @@ static boolean rrefnech(square sq_king,
 {
   vec_index_type k;
 
-  square sq_departure;
-
   if (!NoEdge(i1))
     settraversed(i1);
 
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    sq_departure= i1;
+    square sq_departure = i1+vec[k];
 
-    while (e[sq_departure+=vec[k]]==vide)
+    while (is_square_empty(sq_departure))
     {
       if (!NoEdge(sq_departure) &&
           !traversed(sq_departure)) {
@@ -562,7 +571,9 @@ static boolean rrefnech(square sq_king,
           return true;
         break;
       }
+      sq_departure += vec[k];
     }
+
     if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king))
@@ -664,7 +675,7 @@ boolean equifracheck(square sq_king,
     vector= sq_king-sq_departure;
     sq_hurdle= sq_king+vector;
     if (!is_square_empty(sq_hurdle)
-        && e[sq_hurdle]!=obs
+        && !is_square_blocked(sq_hurdle)
         && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && sq_king!=sq_departure
@@ -1158,7 +1169,7 @@ boolean detect_roselioncheck_on_line(square sq_king,
                                      numvec delta_k,
                                      evalfunction_t *evaluate) {
   square sq_hurdle= find_end_of_circle_line(sq_king,k,&k1,delta_k);
-  if (sq_hurdle!=sq_king && e[sq_hurdle]!=obs)
+  if (sq_hurdle!=sq_king && !is_square_blocked(sq_hurdle))
   {
     square sq_departure= find_end_of_circle_line(sq_hurdle,k,&k1,delta_k);
 
@@ -1223,7 +1234,8 @@ boolean rosehoppercheck(square  sq_king,
 
   for (k= vec_knight_start; k <= vec_knight_end; k++) {
     sq_hurdle= sq_king+vec[k];
-    if (!is_square_empty(sq_hurdle) && e[sq_hurdle]!=obs) {
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
       /* k1==0 (and the equivalent
        * vec_knight_end-vec_knight_start+1) were already used for
        * sq_hurdle! */
@@ -2332,8 +2344,8 @@ static boolean maooariderlioncheck(square  sq_king,
       && evaluate(sq_departure,sq_king,sq_king))
     return true;
 
-  if (e[middle_square]!=obs
-      && e[sq_departure]!=obs
+  if (!is_square_blocked(middle_square)
+      && !is_square_blocked(sq_departure)
       && (is_square_empty(middle_square) || is_square_empty(sq_departure)))
   {
     middle_square+= sec;

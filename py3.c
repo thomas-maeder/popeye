@@ -421,13 +421,12 @@ boolean echecc(Side side_in_check)
     return echecc_SAT(side_in_check);
   else if (rex_circe
            && (CondFlag[pwc]
-               || (e[(*circerenai)(get_walk_of_piece_on_square(king_square[side_king_attacked]),
+               || is_square_empty((*circerenai)(get_walk_of_piece_on_square(king_square[side_king_attacked]),
                                    spec[king_square[side_king_attacked]],
                                    king_square[side_king_attacked],
                                    initsquare,
                                    initsquare,
-                                   side_attacking_king)]
-                   == vide)))
+                                   side_attacking_king))))
     result = false;
   else
   {

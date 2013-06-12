@@ -43,6 +43,21 @@ static boolean enforce_contact_while_observing(square sq_observer,
   return result;
 }
 
+static boolean nogridcontact(square sq_arrival)
+{
+  vec_index_type k;
+
+  for (k = vec_queen_end; k>=vec_queen_start; k--)
+  {
+    square const sq_candidate = sq_arrival+vec[k];
+    if (!is_square_empty(sq_candidate) && !is_square_blocked(sq_candidate)
+        && GridLegal(sq_candidate,sq_arrival))
+      return false;
+  }
+
+  return true;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

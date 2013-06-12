@@ -684,38 +684,20 @@ boolean marine_ship_check(square sq_king,
   return marine_pawn_check(sq_king,p,evaluate) || tritoncheck(sq_king,p,evaluate);
 }
 
-boolean nogridcontact(square j)
-{
-  square  j1;
-  numvec  k;
-  piece   p;
-
-  for (k= 8; k > 0; k--) {
-    p= e[j1= j + vec[k]];
-    if (p != vide && p != obs && GridLegal(j1, j)) {
-      return false;
-    }
-  }
-  return true;
-}
-
 static boolean noleapcontact(square sq_arrival, vec_index_type kanf, vec_index_type kend)
 {
   boolean result = true;
-
   vec_index_type k;
+
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
-  for (k= kanf; k <= kend; k++)
+
+  for (k = kanf; k<=kend; ++k)
   {
-    piece const p = e[sq_arrival+vec[k]];
-    /* this is faster than a call to abs() */
-    if (p!=obs && p!=vide)
+    square const sq_candidate = sq_arrival+vec[k];
+    if (!is_square_empty(sq_candidate) && !is_square_blocked(sq_candidate))
     {
-      TraceSquare(sq_arrival+vec[k]);
-      TracePiece(e[sq_arrival+vec[k]]);
-      TraceText("\n");
       result = false;
       break;
     }
