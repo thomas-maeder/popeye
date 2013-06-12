@@ -806,161 +806,162 @@ boolean ncheck(square    sq_king,
   return ridcheck(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
-static boolean riderhoppercheck(square  sq_king,
-                                vec_index_type kanf, vec_index_type kend,
-                                PieNam p,
-                                int     run_up,
-                                int     jump,
-                                evalfunction_t *evaluate)
+static boolean rider_hoppers_check(square  sq_king,
+                                   vec_index_type kanf, vec_index_type kend,
+                                   PieNam p,
+                                   evalfunction_t *evaluate)
 {
-  /* detect "check" of a generalised rider-hopper p that runs up
-     run_up squares and jumps jump squares. 0 indicates an
-     potentially infinite run_up or jump.
-     examples:  grasshopper:         run_up: 0   jump: 1
-     grasshopper2:      run_up: 0    jump: 2
-     contragrasshopper: run_up: 1    jump: 0
-     lion:           run_up: 0   jump: 0
-  ********/
-
-  piece hurdle, hopper;
-  square sq_hurdle;
   vec_index_type k;
 
-  square sq_departure;
+  for (k = kanf; k<=kend; k++)
+  {
+    square const sq_hurdle = sq_king+vec[k];
 
-  for (k= kanf; k <= kend; k++) {
-    if (jump) {
-      sq_hurdle= sq_king;
-      if (jump>1) {
-        int jumped= jump;
-        while (--jumped) {
-          sq_hurdle+= vec[k];
-          if (!is_square_empty(sq_hurdle))
-            break;
-        }
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[k]);
 
-        if (jumped)
-          continue;
-      }
-      sq_hurdle+= vec[k];
-      hurdle= e[sq_hurdle];
-    }
-    else
-      /* e.g. lion, contragrashopper */
-      finligne(sq_king,vec[k],hurdle,sq_hurdle);
-
-    if (abs(hurdle)>=roib) {
-      if (run_up) {
-        /* contragrashopper */
-        sq_departure= sq_hurdle;
-        if (run_up>1) {
-          int ran_up= run_up;
-          while (--ran_up) {
-            sq_hurdle+= vec[k];
-            if (!is_square_empty(sq_hurdle))
-              break;
-          }
-          if (ran_up)
-            continue;
-        }
-        sq_departure+= vec[k];
-        hopper= e[sq_departure];
-      }
-      else
-        /* grashopper, lion */
-        finligne(sq_hurdle,vec[k],hopper,sq_departure);
-
-      if (abs(hopper)==p
+      if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king)
           && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
         return true;
     }
   }
+
   return false;
-} /* end of riderhoppercheck */
-
-static boolean rhopcheck(square  sq_king,
-                         vec_index_type kanf, vec_index_type kend,
-                         PieNam p,
-                         evalfunction_t *evaluate)
-{
-  return riderhoppercheck(sq_king, kanf, kend, p, 0, 1, evaluate);
 }
 
-static boolean lrhopcheck(square  sq_king,
-                          vec_index_type kanf, vec_index_type kend,
-                          PieNam p,
-                          evalfunction_t *evaluate)
+static boolean lions_check(square  sq_king,
+                                  vec_index_type kanf, vec_index_type kend,
+                                  PieNam p,
+                                  evalfunction_t *evaluate)
 {
-  return riderhoppercheck(sq_king, kanf, kend, p, 0, 0, evaluate);
+  vec_index_type k;
+
+  for (k = kanf; k <= kend; k++)
+  {
+    square const sq_hurdle = find_end_of_line(sq_king,vec[k]);
+
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[k]);
+
+      if (get_walk_of_piece_on_square(sq_departure)==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_king,sq_king)
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+        return true;
+    }
+  }
+
+  return false;
 }
 
-static boolean crhopcheck(square  sq_king,
-                          vec_index_type kanf, vec_index_type kend,
-                          PieNam p,
-                          evalfunction_t *evaluate)
+static boolean leaper_hoppers_check(square  sq_king,
+                                    vec_index_type kanf, vec_index_type kend,
+                                    PieNam p,
+                                    evalfunction_t *evaluate)
 {
-  return riderhoppercheck(sq_king, kanf, kend, p, 1, 0, evaluate);
-}
+  vec_index_type k;
 
-static boolean rhop2check(square  sq_king,
-                          vec_index_type kanf, vec_index_type kend,
-                          PieNam p,
-                          evalfunction_t *evaluate)
-{
-  return riderhoppercheck(sq_king, kanf, kend, p, 0, 2, evaluate);
-}
+  for (k = kanf; k <= kend; k++)
+  {
+    square const sq_hurdle = sq_king+vec[k];
 
-static boolean rhop3check(square  sq_king,
-                          vec_index_type kanf, vec_index_type kend,
-                          PieNam p,
-                          evalfunction_t *evaluate)
-{
-  return riderhoppercheck(sq_king, kanf, kend, p, 0, 3, evaluate);
-}
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
+      square const sq_departure = sq_hurdle+vec[k];
 
-static boolean shopcheck(square  sq_king,
-                          vec_index_type kanf, vec_index_type kend,
-                          PieNam p,
-                          evalfunction_t *evaluate)
-{
-  return riderhoppercheck(sq_king, kanf, kend, p, 1, 1, evaluate);
+      if (get_walk_of_piece_on_square(sq_departure)==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_king,sq_king)
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+        return true;
+    }
+  }
+
+  return false;
 }
 
 boolean scheck(square    sq_king,
                PieNam p,
                evalfunction_t *evaluate)
 {
-  return rhopcheck(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
+  return rider_hoppers_check(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean grasshop2check(square    sq_king,
+static square grasshoppers_n_find_hurdle(square sq_target,
+                                         numvec dir,
+                                         unsigned int dist_hurdle_target)
+{
+  square result = sq_target;
+  unsigned int dist_remaining = dist_hurdle_target;
+  while (--dist_remaining>0)
+  {
+    result += dir;
+    if (!is_square_empty(result))
+      return initsquare;
+  }
+
+  result += dir;
+
+  return result;
+}
+
+static boolean grasshoppers_n_check(square  sq_king,
+                                    vec_index_type kanf, vec_index_type kend,
+                                    PieNam p,
+                                    unsigned int dist_hurdle_target,
+                                    evalfunction_t *evaluate)
+{
+  vec_index_type k;
+
+  for (k = kanf; k <= kend; k++)
+  {
+    square const sq_hurdle = grasshoppers_n_find_hurdle(sq_king,vec[k],dist_hurdle_target);
+
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[k]);
+
+      if (get_walk_of_piece_on_square(sq_departure)==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_king,sq_king)
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+        return true;
+    }
+  }
+
+  return false;
+}
+
+boolean grasshop2check(square sq_king,
                        PieNam p,
                        evalfunction_t *evaluate)
 {
-  return rhop2check(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
+  return grasshoppers_n_check(sq_king, vec_queen_start, vec_queen_end, p, 2, evaluate);
 }
 
-boolean grasshop3check(square    sq_king,
+boolean grasshop3check(square sq_king,
                        PieNam p,
                        evalfunction_t *evaluate)
 {
-  return rhop3check(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
+  return grasshoppers_n_check(sq_king, vec_queen_start, vec_queen_end, p, 3, evaluate);
 }
 
 boolean kinghopcheck(square    sq_king,
                      PieNam p,
                      evalfunction_t *evaluate)
 {
-  return shopcheck(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
+  return leaper_hoppers_check(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
 boolean knighthoppercheck(square    sq_king,
                           PieNam p,
                           evalfunction_t *evaluate)
 {
-  return shopcheck(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
+  return leaper_hoppers_check(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
 static boolean doublehoppercheck(square sq_king,
@@ -1026,7 +1027,26 @@ boolean contragrascheck(square    sq_king,
                         PieNam p,
                         evalfunction_t *evaluate)
 {
-  return crhopcheck(sq_king, vec_queen_start, vec_queen_end, p, evaluate);
+  vec_index_type k;
+
+  for (k = vec_queen_start; k<=vec_queen_end; k++)
+  {
+    square const sq_hurdle = find_end_of_line(sq_king,vec[k]);
+
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
+      /* contragrashopper or grasshopper/lion?*/
+      square const sq_departure = sq_hurdle+vec[k];
+
+      if (get_walk_of_piece_on_square(sq_departure)==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_king,sq_king)
+          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+        return true;
+    }
+  }
+
+  return false;
 }
 
 boolean nightlocustcheck(square    sq_king,
@@ -1075,28 +1095,28 @@ boolean nightriderlioncheck(square    sq_king,
                             PieNam p,
                             evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
+  return lions_check(sq_king, vec_knight_start, vec_knight_end, p, evaluate);
 }
 
 boolean lioncheck(square    sq_king,
                   PieNam p,
                   evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
+  return lions_check(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
 boolean t_lioncheck(square    sq_king,
                     PieNam p,
                     evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
+  return lions_check(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
 boolean f_lioncheck(square    sq_king,
                     PieNam p,
                     evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return lions_check(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
 /* see comment in py4.c on how rose and rose based pieces are
@@ -1430,28 +1450,28 @@ boolean paocheck(square    sq_king,
                  PieNam p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
+  return lions_check(sq_king, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
 boolean vaocheck(square    sq_king,
                  PieNam p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return lions_check(sq_king, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
 boolean naocheck(square    sq_king,
                  PieNam p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate);
+  return lions_check(sq_king, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
 boolean leocheck(square    sq_king,
                  PieNam p,
                  evalfunction_t *evaluate)
 {
-  return lrhopcheck(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
+  return lions_check(sq_king, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
 boolean berolina_pawn_check(square sq_king,
@@ -1901,7 +1921,7 @@ boolean nsautcheck(square    sq_king,
                    PieNam p,
                    evalfunction_t *evaluate)
 {
-  return rhopcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate);
+  return rider_hoppers_check(sq_king, vec_knight_start,vec_knight_end, p, evaluate);
 }
 
 boolean camridcheck(square    sq_king,
@@ -1930,22 +1950,22 @@ boolean camhopcheck(square    sq_king,
                     PieNam p,
                     evalfunction_t *evaluate)
 {
-  return rhopcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return rider_hoppers_check(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
 boolean zebhopcheck(square    sq_king,
                     PieNam p,
                     evalfunction_t *evaluate)
 {
-  return rhopcheck(sq_king, vec_zebre_start, vec_zebre_end, p, evaluate);
+  return rider_hoppers_check(sq_king, vec_zebre_start, vec_zebre_end, p, evaluate);
 }
 
 boolean gnuhopcheck(square    sq_king,
                     PieNam p,
                     evalfunction_t *evaluate)
 {
-  return  rhopcheck(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
-      || rhopcheck(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
+  return  rider_hoppers_check(sq_king, vec_knight_start,vec_knight_end, p, evaluate)
+      || rider_hoppers_check(sq_king, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
 boolean dcscheck(square    sq_king,
@@ -2399,14 +2419,14 @@ boolean r_hopcheck(square    i,
                    PieNam p,
                    evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+  return rider_hoppers_check(i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
 boolean b_hopcheck(square    i,
                    PieNam p,
                    evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_bishop_start,vec_bishop_end, p, evaluate);
+  return rider_hoppers_check(i, vec_bishop_start,vec_bishop_end, p, evaluate);
 }
 
 boolean orixcheck(square sq_king,
@@ -2453,7 +2473,7 @@ boolean gralcheck(square    i,
                   evalfunction_t *evaluate)
 {
   return leapcheck(i, vec_alfil_start, vec_alfil_end, p, evaluate)
-      || rhopcheck(i, vec_rook_start,vec_rook_end, p, evaluate);
+      || rider_hoppers_check(i, vec_rook_start,vec_rook_end, p, evaluate);
 }
 
 
@@ -2462,14 +2482,14 @@ boolean scorpioncheck(square    i,
                       evalfunction_t *evaluate)
 {
   return  leapcheck(i, vec_queen_start,vec_queen_end, p, evaluate)
-      || rhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate);
+      || rider_hoppers_check(i, vec_queen_start,vec_queen_end, p, evaluate);
 }
 
 boolean dolphincheck(square    i,
                      PieNam p,
                      evalfunction_t *evaluate)
 {
-  return  rhopcheck(i, vec_queen_start,vec_queen_end, p, evaluate)
+  return  rider_hoppers_check(i, vec_queen_start,vec_queen_end, p, evaluate)
       || kangoucheck(i, p, evaluate);
 }
 
