@@ -88,9 +88,9 @@ static boolean stalemate_isGoalReachable(void)
       if (target_position[id].diagram_square!=initsquare)
       {
         square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-        piece const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
+        PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-        piece const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
+        PieNam const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
         Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
         unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
                                                                                         pi_departing,

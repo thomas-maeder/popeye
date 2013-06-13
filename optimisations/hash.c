@@ -1332,8 +1332,8 @@ byte *CommonEncode(byte *bp,
   {
     move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
-    *bp++ = (byte)(nbply>=2 ? pi_departing : vide);
+    *bp++ = (byte)(nbply>=2 ? move_effect_journal[movement].u.piece_movement.moving : vide);
+    *bp++ = trait[nbply];
   }
 
   return bp;

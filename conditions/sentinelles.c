@@ -25,12 +25,12 @@ static void insert_sentinelle(Side trait_ply)
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  piece const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+  PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
   SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);
 
   if (!TSTFLAGMASK(sq_spec[sq_departure],prom_square)
-      && !is_pawn(abs(pi_departing))
+      && !is_pawn(pi_departing)
       && is_square_empty(sq_departure))
   {
     if (SentPionNeutral && TSTFLAG(spec_pi_moving,Neutral))

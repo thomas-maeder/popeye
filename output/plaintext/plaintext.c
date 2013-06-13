@@ -77,8 +77,7 @@ static void write_capture(move_context *context,
   if (WriteSpec(move_effect_journal[movement].u.piece_movement.movingspec,
                 move_effect_journal[movement].u.piece_movement.moving,
                 false)
-      || (move_effect_journal[movement].u.piece_movement.moving!=pb
-          && move_effect_journal[movement].u.piece_movement.moving!=pn))
+      || move_effect_journal[movement].u.piece_movement.moving!=Pawn)
     WritePiece(move_effect_journal[movement].u.piece_movement.moving);
 
   WriteSquare(move_effect_journal[movement].u.piece_movement.from);
@@ -107,8 +106,7 @@ static void write_no_capture(move_context *context,
   if (WriteSpec(move_effect_journal[movement].u.piece_movement.movingspec,
                 move_effect_journal[movement].u.piece_movement.moving,
                 false)
-      || (move_effect_journal[movement].u.piece_movement.moving!=pb
-          && move_effect_journal[movement].u.piece_movement.moving!=pn))
+      || move_effect_journal[movement].u.piece_movement.moving!=Pawn)
     WritePiece(move_effect_journal[movement].u.piece_movement.moving);
 
   WriteSquare(move_effect_journal[movement].u.piece_movement.from);

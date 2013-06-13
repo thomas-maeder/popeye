@@ -178,7 +178,7 @@ square en_passant_find_potential(square sq_multistep_departure)
   square result = initsquare;
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  PieNam pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
+  PieNam pi_moving = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
@@ -257,7 +257,7 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  PieNam pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
+  PieNam pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

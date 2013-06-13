@@ -120,7 +120,7 @@ static square adjust(Side trait_ply)
   if (is_pawn(get_walk_of_piece_on_square(sq_arrival))
       && move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
-    PieNam const pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
+    PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
     square const sq_multistep_departure = rennormal(pi_moving,
                                                     spec[sq_arrival],

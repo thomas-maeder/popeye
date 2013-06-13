@@ -107,8 +107,8 @@ static boolean mate_isGoalReachable(void)
       {
         unsigned int time_before;
         unsigned int time_now;
-        piece const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
-        piece const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
+        PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+        PieNam const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
         Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check)

@@ -111,7 +111,7 @@ static void push_movement_elmt(move_effect_reason_type reason,
 
   top_elmt->type = move_effect_piece_movement;
   top_elmt->reason = reason;
-  top_elmt->u.piece_movement.moving = e[from];
+  top_elmt->u.piece_movement.moving = get_walk_of_piece_on_square(from);
   top_elmt->u.piece_movement.movingspec = spec[from];
   top_elmt->u.piece_movement.from = from;
   top_elmt->u.piece_movement.to = to;

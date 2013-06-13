@@ -30,8 +30,8 @@ boolean disparate_can_piece_move(square sq)
     }
     else
     {
-      piece const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
-      if (get_walk_of_piece_on_square(sq)==abs(pi_parent_moving))
+      PieNam const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
+      if (get_walk_of_piece_on_square(sq)==pi_parent_moving)
         result = false;
     }
   }

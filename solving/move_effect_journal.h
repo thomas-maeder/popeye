@@ -119,7 +119,7 @@ typedef struct
         } piece_change;
         struct
         {
-            piece moving;
+            PieNam moving;
             Flags movingspec;
             square from;
             square to;
