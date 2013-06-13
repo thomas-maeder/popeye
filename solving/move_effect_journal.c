@@ -846,11 +846,8 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
 
   ++move_effect_journal_top[nbply];
 
-  CLRFLAG(spec[on],advers(to));
-  SETFLAG(spec[on],to);
-
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  e[on] = to==White ? get_walk_of_piece_on_square(on) : -get_walk_of_piece_on_square(on);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]^(BIT(White)|BIT(Black)));
   ++number_of_pieces[to][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
@@ -870,11 +867,8 @@ static void undo_side_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  CLRFLAG(spec[on],advers(from));
-  SETFLAG(spec[on],from);
-
   --number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
-  e[on] = from==White ? get_walk_of_piece_on_square(on) : -get_walk_of_piece_on_square(on);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]^(BIT(White)|BIT(Black)));
   ++number_of_pieces[from][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
@@ -894,11 +888,8 @@ static void redo_side_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  CLRFLAG(spec[on],advers(to));
-  SETFLAG(spec[on],to);
-
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  e[on] = to==White ? get_walk_of_piece_on_square(on) : -get_walk_of_piece_on_square(on);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]^(BIT(White)|BIT(Black)));
   ++number_of_pieces[to][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
@@ -936,9 +927,7 @@ void move_effect_journal_do_half_neutral_deneutralisation(square on, Side to)
   assert(TSTFLAG(spec[on],Neutral));
 
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  e[on] = to==Black ? -get_walk_of_piece_on_square(on) : get_walk_of_piece_on_square(on);
-  CLRFLAG(spec[on],Neutral);
-  CLRFLAG(spec[on],advers(to));
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~(BIT(Neutral)|BIT(advers(to))));
 
   if (king_square[advers(to)]==on)
     move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
@@ -962,9 +951,7 @@ static void undo_half_neutral_deneutralisation(move_effect_journal_index_type cu
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  SETFLAG(spec[on],Neutral);
-  SETFLAG(spec[on],advers(to));
-  e[on] = neutral_side==Black ? -get_walk_of_piece_on_square(on) : get_walk_of_piece_on_square(on);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(Neutral)|BIT(advers(to)));
   ++number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
@@ -985,9 +972,7 @@ static void redo_half_neutral_deneutralisation(move_effect_journal_index_type cu
 #endif
 
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  e[on] = to==Black ? -get_walk_of_piece_on_square(on) : get_walk_of_piece_on_square(on);
-  CLRFLAG(spec[on],Neutral);
-  CLRFLAG(spec[on],advers(to));
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~(BIT(Neutral)|BIT(advers(to))));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1019,9 +1004,7 @@ void move_effect_journal_do_half_neutral_neutralisation(square on)
 
   ++move_effect_journal_top[nbply];
 
-  SETFLAG(spec[on],Neutral);
-  SETFLAG(spec[on],advers(from));
-  e[on] = neutral_side==Black ? -get_walk_of_piece_on_square(on) : get_walk_of_piece_on_square(on);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(Neutral)|BIT(advers(from)));
   ++number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
 
   if (king_square[from]==on)
@@ -1051,9 +1034,7 @@ static void undo_half_neutral_neutralisation(move_effect_journal_index_type curr
   assert(TSTFLAG(spec[on],Neutral));
 
   --number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
-  e[on] = from==Black ? -get_walk_of_piece_on_square(on) : get_walk_of_piece_on_square(on);
-  CLRFLAG(spec[on],Neutral);
-  CLRFLAG(spec[on],advers(from));
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~(BIT(Neutral)|BIT(advers(from))));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1072,9 +1053,7 @@ static void redo_half_neutral_neutralisation(move_effect_journal_index_type curr
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  SETFLAG(spec[on],Neutral);
-  SETFLAG(spec[on],advers(from));
-  e[on] = neutral_side==Black ? -get_walk_of_piece_on_square(on) : get_walk_of_piece_on_square(on);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(Neutral)|BIT(advers(from)));
   ++number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
