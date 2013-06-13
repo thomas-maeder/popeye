@@ -159,10 +159,10 @@ solution finished.
   1.nRg6-g8 nBa5-c7 +   2.nRg8-a8 g5*h4 +   3.nBc7-b8 nRa8*b8 #
   1.nBa5-c3 nRg6-b6 +   2.nBc3-a1 g5*f4 +   3.nRb6-b2 nBa1*b2 #
 
-                        empile:    18579895
-                     play_move:     7281877
- is_white_king_square_attacked:     7106281
- is_black_king_square_attacked:     4233822
+                        empile:    17428942
+                     play_move:     6881251
+ is_white_king_square_attacked:     6707605
+ is_black_king_square_attacked:     4000039
 solution finished. 
 
 
