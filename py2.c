@@ -1718,34 +1718,6 @@ boolean kanglioncheck(square  sq_king,
   return false;
 }
 
-boolean rabbitcheck(square  sq_king,
-                    PieNam p,
-                    evalfunction_t *evaluate)
-{
-  /* 2 hurdle lion */
-  vec_index_type k;
-
-  for (k = vec_queen_end; k>=vec_queen_start; k--)
-  {
-    square const sq_hurdle1 = find_end_of_line(sq_king,vec[k]);
-    if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
-    {
-      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
-      if (!is_square_blocked(sq_hurdle2))
-      {
-        square const sq_departure = find_end_of_line(sq_hurdle2,vec[k]);
-        PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
-        if (p1==p
-            && TSTFLAG(spec[sq_departure],trait[nbply])
-            && evaluate(sq_departure,sq_king,sq_king))
-          return true;
-      }
-    }
-  }
-
-  return false;
-}
-
 boolean bobcheck(square sq_king,
                  PieNam p,
                  evalfunction_t *evaluate)

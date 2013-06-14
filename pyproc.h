@@ -167,8 +167,6 @@ checkfunction_t princcheck;
 checkfunction_t querquisitecheck;
 checkfunction_t querquisitecheck;
 checkfunction_t r_hopcheck;
-checkfunction_t rabbitcheck;
-checkfunction_t rabbitcheck;
 checkfunction_t rccinqcheck;
 checkfunction_t refccheck;
 checkfunction_t refncheck;

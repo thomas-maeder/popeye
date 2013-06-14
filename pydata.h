@@ -1755,7 +1755,7 @@ void enforce_piecename_uniqueness(void);
 /*115 */        moariderlioncheck,
 /*116 */        friendcheck,
 /*117 */        dolphincheck,
-/*118 */        rabbitcheck,
+/*118 */        kanglioncheck,
 /*119 */        bobcheck,
 /*120 */	equiengcheck,
 /*121 */	equifracheck,
