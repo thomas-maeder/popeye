@@ -84,7 +84,7 @@ static boolean ubiubi_check_recursive(square intermediate_square,
       }
       else
       {
-        if (abs(e[sq_departure])==p
+        if (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && evaluate(sq_departure,sq_king,sq_king))
           return true;
