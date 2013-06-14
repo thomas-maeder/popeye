@@ -9,7 +9,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Place a white officer to intercept a check to the black king
  * @param officer_type type of officer

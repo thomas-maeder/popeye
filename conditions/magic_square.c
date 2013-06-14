@@ -8,7 +8,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 magic_square_type_type magic_square_type;
 

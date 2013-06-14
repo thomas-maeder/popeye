@@ -9,7 +9,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
 
@@ -572,9 +571,9 @@ static void undo_piece_removal(move_effect_journal_index_type curr)
   occupy_square(from,removed,removedspec);
 
   if (TSTFLAG(removedspec,White))
-    ++number_of_pieces[White][abs(removed)];
+    ++number_of_pieces[White][removed];
   if (TSTFLAG(removedspec,Black))
-    ++number_of_pieces[Black][abs(removed)];
+    ++number_of_pieces[Black][removed];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -668,9 +667,9 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   replace_piece(on,from);
 
   if (TSTFLAG(spec[on],White))
-    ++number_of_pieces[White][abs(from)];
+    ++number_of_pieces[White][from];
   if (TSTFLAG(spec[on],Black))
-    ++number_of_pieces[Black][abs(from)];
+    ++number_of_pieces[Black][from];
 
   TraceValue("%d",GetPieceId(spec[on]));
   TraceValue("%d",TSTFLAG(spec[on],White));
@@ -704,9 +703,9 @@ static void redo_piece_change(move_effect_journal_index_type curr)
   replace_piece(on,to);
 
   if (TSTFLAG(spec[on],White))
-    ++number_of_pieces[White][abs(to)];
+    ++number_of_pieces[White][to];
   if (TSTFLAG(spec[on],Black))
-    ++number_of_pieces[Black][abs(to)];
+    ++number_of_pieces[Black][to];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

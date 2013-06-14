@@ -7,7 +7,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 #include <string.h>
 
 /* Allocate a STKillerMovePrioriser slice.

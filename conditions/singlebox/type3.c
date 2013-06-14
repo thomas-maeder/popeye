@@ -12,7 +12,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Determine whether the move just played is legal according to Singlebox Type 3
  * @return true iff the move is legal

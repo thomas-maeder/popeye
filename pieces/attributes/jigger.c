@@ -8,8 +8,6 @@
 #include "solving/single_move_generator.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 static boolean maintain_contact_while_observing(square sq_observer,
                                                 square sq_landing,
                                                 square sq_observee)

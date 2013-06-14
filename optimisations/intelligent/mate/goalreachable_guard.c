@@ -11,7 +11,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static unsigned int OpeningsRequired[maxply+1];
 

@@ -4,8 +4,6 @@
 
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 static PieNam get_paralyser(PieNam p)
 {
   PieNam result = Empty;

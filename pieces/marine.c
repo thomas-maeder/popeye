@@ -7,7 +7,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Generate moves for a marine rider
  * @param side side for which to generate moves

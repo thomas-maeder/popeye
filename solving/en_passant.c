@@ -10,7 +10,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 square en_passant_multistep_over[2][maxply+1];
 

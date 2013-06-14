@@ -11,7 +11,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 pieces_pawns_promotion_sequence_type moving_pawn_promotion_state[maxply+1];
 

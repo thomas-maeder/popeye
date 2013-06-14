@@ -60,7 +60,6 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 boolean rrfouech(square intermediate_square,
                  square sq_king,

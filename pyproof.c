@@ -854,7 +854,7 @@ static void OfficerMovesFromTo(PieNam p,
     *moves= 0;
     return;
   }
-  switch (abs(p))
+  switch (p)
   {
     case Knight:
       *moves= ProofKnightMoves[abs(sqdiff)];

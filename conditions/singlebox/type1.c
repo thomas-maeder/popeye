@@ -13,7 +13,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
                                                       square sq_landing,

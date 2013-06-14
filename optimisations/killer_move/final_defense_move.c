@@ -12,7 +12,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static void stop_copying(slice_index si, stip_structure_traversal *st)
 {

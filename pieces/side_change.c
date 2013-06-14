@@ -2,7 +2,6 @@
 #include "pydata.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Change the side of some piece specs
  * @param spec address of piece specs where to change the side

@@ -7,7 +7,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Allocate a STNonKingMoveGenerator slice.
  * @return index of allocated slice

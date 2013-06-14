@@ -2,8 +2,6 @@
 #include "pyproc.h"
 #include "pydata.h"
 
-#include <stdlib.h>
-
 typedef enum
 {
   ubiubi_empty,

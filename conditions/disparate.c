@@ -4,8 +4,6 @@
 #include "pydata.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 /* Can a piece on a particular square can move according to Disparate chess?
  * @param sq position of piece
  * @return true iff the piece can move according to Disparate chess

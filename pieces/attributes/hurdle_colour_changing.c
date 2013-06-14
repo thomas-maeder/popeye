@@ -8,7 +8,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static void update_hurdle_colour(void)
 {

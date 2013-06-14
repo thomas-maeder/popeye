@@ -74,7 +74,6 @@ void hunter_generate_moves(Side side, square sq_departure, PieNam walk)
   TracePiece(walk);
   TraceFunctionParamListEnd();
 
-  /*   PieNam const walk = abs(p);  */
   assert(walk>=Hunter0);
   assert(walk<Hunter0+maxnrhuntertypes);
 

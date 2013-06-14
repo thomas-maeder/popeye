@@ -3,8 +3,6 @@
 #include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 static void generate_additional_captures_from(Side side,
                                               PieNam p,
                                               square from,

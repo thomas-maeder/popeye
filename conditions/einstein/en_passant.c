@@ -9,7 +9,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Adjust en passant possibilities of the following move after a non-capturing
  * move
@@ -21,7 +20,7 @@ static boolean adjust_ep_squares2(square sq_multistep_departure)
   boolean result;
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  PieNam const pi_moving = abs(move_effect_journal[movement].u.piece_movement.moving);
+  PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   switch (pi_moving)
   {

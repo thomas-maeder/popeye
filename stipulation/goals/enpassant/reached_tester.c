@@ -8,7 +8,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* This module provides functionality dealing with slices that detect
  * whether a enpassant goal has just been reached

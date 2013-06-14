@@ -8,7 +8,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Let the arriving piece of a move assume a side
  * @param side side to assume

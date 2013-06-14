@@ -8,7 +8,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static void remember_to_keep_checking_line_open(square from, square to,
                                                 PieNam type, int delta)

@@ -28,7 +28,7 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
-  PieNam const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
+  PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const prev_rb = prev_king_square[White][nbply];
   square const prev_rn = prev_king_square[Black][nbply];

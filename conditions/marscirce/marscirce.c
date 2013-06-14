@@ -2,8 +2,6 @@
 #include "pydata.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 /* Generate non-capturing moves
  * @param side side for which to generate moves
  * @param p walk according to which to generate moves

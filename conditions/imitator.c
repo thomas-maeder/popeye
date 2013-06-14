@@ -17,7 +17,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 boolean promotion_of_moving_into_imitator[maxply+1];
 square im0;                    /* position of the 1st imitator */

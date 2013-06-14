@@ -37,7 +37,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 typedef unsigned int index_type;

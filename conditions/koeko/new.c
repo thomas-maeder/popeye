@@ -8,8 +8,6 @@
 #include "solving/single_move_generator.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 static boolean contact_before_move[maxply+1];
 
 /* Validate an observation according to Patrol Chess

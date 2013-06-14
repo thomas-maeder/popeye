@@ -15,7 +15,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 castling_flag_type castling_flag[maxply+2];
 

@@ -9,7 +9,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Intercept a check to the white king with a white piece on some square
  * @param where_to_intercept where to intercept

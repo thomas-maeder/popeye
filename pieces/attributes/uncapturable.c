@@ -6,8 +6,6 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 static boolean is_not_capture_of_uncapturable(square sq_departure,
                                               square sq_arrival,
                                               square sq_capture)

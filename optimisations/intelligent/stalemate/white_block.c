@@ -8,7 +8,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* Block a black pawn with a white piece
  * @param to_be_blocked where to block the pawn

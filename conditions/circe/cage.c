@@ -12,7 +12,6 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static post_move_iteration_id_type prev_post_move_iteration_id_no_cage[maxply+1];
 

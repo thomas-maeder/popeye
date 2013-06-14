@@ -8,8 +8,6 @@
 #include "solving/single_move_generator.h"
 #include "debugging/trace.h"
 
-#include <stdlib.h>
-
 nocontactfunc_t antikoeko_nocontact;
 
 
