@@ -7,11 +7,11 @@ utilities/boolean.h:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
  platform/maxtime.h utilities/boolean.h pymsg.h pylang.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/enumeration.h pydata.h \
+ utilities/bitmask.h pieces/vectors.h utilities/enumeration.h pydata.h \
  pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  optimisations/hash.h DHT/dhtbcmem.h solving/solve.h \
  solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
- solving/move_effect_journal.h
+ solving/move_effect_journal.h position/pieceid.h
 
 platform/maxtime_impl.h:
 
@@ -33,7 +33,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/enumeration.h:
 
@@ -60,6 +60,8 @@ solving/moving_pawn_promotion.h:
 pieces/pawns/promotion.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/pytime.h
 
 platform/pytime.h:

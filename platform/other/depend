@@ -1,7 +1,0 @@
-platform/other/pytime$(OBJ_SUFFIX): platform/other/pytime.c
-platform/other/beep$(OBJ_SUFFIX): platform/other/beep.c platform/beep.h \
- utilities/boolean.h
-
-platform/beep.h:
-
-utilities/boolean.h:

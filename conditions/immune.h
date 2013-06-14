@@ -4,7 +4,6 @@
 /* This module implements the condition Immune Chess */
 
 #include "utilities/boolean.h"
-#include "position/piece.h"
 #include "position/board.h"
 #include "position/position.h"
 #include "py.h"

@@ -72,13 +72,13 @@ void move_effect_journal_reset(void)
  * @param removedspec flags of that piece
  */
 void move_effect_journal_store_retro_capture(square from,
-                                             piece removed,
+                                             PieNam removed,
                                              Flags removedspec)
 {
   move_effect_journal[3].type = move_effect_piece_removal;
   move_effect_journal[3].reason = move_effect_reason_regular_capture;
   move_effect_journal[3].u.piece_removal.from = from;
-  move_effect_journal[3].u.piece_removal.removed = abs(removed);
+  move_effect_journal[3].u.piece_removal.removed = removed;
   move_effect_journal[3].u.piece_removal.removedspec = removedspec;
 }
 
@@ -396,7 +396,7 @@ static void undo_piece_creation(move_effect_journal_index_type curr)
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
   PieNam const created = curr_elmt->u.piece_addition.added;
-  piece const createdspec = curr_elmt->u.piece_addition.addedspec;
+  Flags const createdspec = curr_elmt->u.piece_addition.addedspec;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -424,7 +424,7 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
   PieNam const created = curr_elmt->u.piece_addition.added;
-  piece const createdspec = curr_elmt->u.piece_addition.addedspec;
+  Flags const createdspec = curr_elmt->u.piece_addition.addedspec;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);

@@ -2,7 +2,7 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  pieces/attributes/kamikaze/kamikaze.c \
  pieces/attributes/kamikaze/kamikaze.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -13,7 +13,7 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h solving/move_effect_journal.h \
- debugging/trace.h
+ position/pieceid.h debugging/trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
@@ -29,7 +29,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -82,5 +82,7 @@ conditions/anticirce/exchange_special.h:
 conditions/anticirce/exchange_filter.h:
 
 solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:

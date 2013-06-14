@@ -79,14 +79,14 @@ stip_length_type einstein_en_passant_adjuster_solve(slice_index si, stip_length_
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+  PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_pawn(abs(pi_moving))
+  if (is_pawn(pi_moving)
       && move_effect_journal[capture].type==move_effect_no_piece_removal
       && adjust_ep_squares2(move_effect_journal[movement].u.piece_movement.from))
   {

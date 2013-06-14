@@ -2,7 +2,7 @@ optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
  optimisations/killer_move/killer_move.c \
  optimisations/killer_move/killer_move.h stipulation/slice.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h solving/solve.h stipulation/battle_play/branch.h \
@@ -25,7 +25,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -66,7 +66,7 @@ optimisations/killer_move/collector$(OBJ_SUFFIX): \
  optimisations/killer_move/collector.c \
  optimisations/killer_move/collector.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -90,7 +90,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -139,7 +139,7 @@ optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.c \
  optimisations/killer_move/final_defense_move.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
  pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
@@ -164,7 +164,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -221,7 +221,7 @@ optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  optimisations/killer_move/prioriser.c \
  optimisations/killer_move/prioriser.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -244,7 +244,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 

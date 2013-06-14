@@ -65,13 +65,13 @@ void initialise_game_array(position *pos)
    */
   for (i = 0; i<maxsquare+4; ++i)
   {
-    pos->board[i] = obs;
+    pos->board[i] = Invalid;
     pos->spec[i] = BorderSpec;
   }
 
   for (bnp = boardnum; *bnp; bnp++)
   {
-    pos->board[*bnp] = vide;
+    pos->board[*bnp] = Empty;
     CLEARFL(pos->spec[*bnp]);
   }
 
@@ -84,7 +84,7 @@ void initialise_game_array(position *pos)
     else
     {
       Side const side = PAS_sides[i];
-      pos->board[square_i] = side==White ? p : -p;
+      pos->board[square_i] = p;
       ++pos->number_of_pieces[side][p];
       SETFLAG(pos->spec[square_i],side);
     }
@@ -123,7 +123,7 @@ void reflect_position(void)
   {
     square const sq_reflected = transformSquare(*bnp,mirra1a8);
 
-    piece const p = e[sq_reflected];
+    PieNam const p = e[sq_reflected];
     Flags const sp = spec[sq_reflected];
 
     e[sq_reflected] = e[*bnp];
@@ -138,7 +138,7 @@ void reflect_position(void)
 
 void empty_square(square s)
 {
-  e[s] = vide;
+  e[s] = Empty;
   spec[s] = EmptySpec;
 }
 
@@ -152,7 +152,6 @@ void occupy_square(square s, PieNam piece, Flags flags)
 
 void replace_piece(square s, PieNam piece)
 {
-  Flags const flags = spec[s];
   assert(piece!=Empty);
   assert(piece!=Invalid);
   e[s] = piece;
@@ -160,19 +159,19 @@ void replace_piece(square s, PieNam piece)
 
 void block_square(square s)
 {
-  assert(is_square_empty(s) || e[s]==obs);
-  e[s] = obs;
+  assert(is_square_empty(s) || e[s]==Invalid);
+  e[s] = Invalid;
   spec[s] = BorderSpec;
 }
 
 boolean is_square_empty(square s)
 {
-  return e[s]==vide;
+  return e[s]==Empty;
 }
 
 boolean is_square_blocked(square s)
 {
-  return e[s]==obs;
+  return e[s]==Invalid;
 }
 
 PieNam get_walk_of_piece_on_square(square s)

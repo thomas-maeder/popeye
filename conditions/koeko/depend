@@ -1,9 +1,8 @@
 conditions/koeko/koeko$(OBJ_SUFFIX): conditions/koeko/koeko.c \
  conditions/koeko/koeko.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h pieces/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
@@ -24,8 +23,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -77,14 +74,13 @@ debugging/trace.h:
 conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  conditions/koeko/contact_grid.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h pieces/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h conditions/circe/circe.h \
- stipulation/slice_type.h pydata.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ conditions/circe/circe.h stipulation/slice_type.h pydata.h pyproc.h \
+ py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
  stipulation/temporary_hacks.h solving/single_move_generator.h \
  solving/observation.h pyproc.h debugging/trace.h
@@ -102,8 +98,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -164,7 +158,7 @@ pyproc.h:
 debugging/trace.h:
 conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/anti.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
  py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
@@ -187,8 +181,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -239,7 +231,7 @@ solving/single_move_generator.h:
 debugging/trace.h:
 conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
  py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
@@ -262,8 +254,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 

@@ -2,7 +2,7 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  options/stoponshortsolutions/stoponshortsolutions.c \
  options/stoponshortsolutions/stoponshortsolutions.h utilities/boolean.h \
  stipulation/slice.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  options/stoponshortsolutions/initialiser.h solving/solve.h \
  options/stoponshortsolutions/filter.h stipulation/stipulation.h \
@@ -26,7 +26,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/enumeration.h:
 
@@ -59,7 +59,7 @@ options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
  options/stoponshortsolutions/initialiser.c \
  options/stoponshortsolutions/initialiser.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
  solving/solve.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
@@ -78,7 +78,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -111,7 +111,7 @@ options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
  options/stoponshortsolutions/filter.c \
  options/stoponshortsolutions/filter.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
@@ -133,7 +133,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 

@@ -2,7 +2,7 @@ optimisations/goals/target/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/target/remove_non_reachers.c \
  optimisations/goals/target/remove_non_reachers.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -25,7 +25,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 

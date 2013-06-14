@@ -2,6 +2,6 @@
 #
 SRC_CFILES = position.c board.c pieceid.c
          
-INCLUDES = position.h board.h piece.h pieceid.h
+INCLUDES = position.h board.h pieceid.h
 
 include makefile.rules $(CURRPWD)depend

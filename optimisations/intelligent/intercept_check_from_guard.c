@@ -144,7 +144,7 @@ static void unpromoted_pawn(square to_be_intercepted,
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
                                                                    to_be_intercepted))
   {
-    occupy_square(to_be_intercepted,pb,intercepter_flags);
+    occupy_square(to_be_intercepted,Pawn,intercepter_flags);
     intelligent_continue_guarding_flights();
     empty_square(to_be_intercepted);
     intelligent_unreserve();

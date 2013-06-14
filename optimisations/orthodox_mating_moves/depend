@@ -2,7 +2,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.c \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -26,7 +26,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -79,7 +79,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
  py4.h py.h pieces/vectors.h stipulation/goals/goals.h pyproc.h \
  pieces/pawns/promotion.h stipulation/stipulation.h stipulation/slice.h \
@@ -103,7 +103,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -158,7 +158,7 @@ optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/king_contact_move_generator.c \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pydata.h pyproc.h \
  py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
@@ -182,7 +182,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 

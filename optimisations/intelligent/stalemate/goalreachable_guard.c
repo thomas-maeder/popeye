@@ -62,13 +62,13 @@ static boolean stalemate_isGoalReachable(void)
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
-        piece const from_piece = get_walk_of_piece_on_square(from_square);
-        if (from_piece!=vide && from_piece!=obs)
+        if (!is_square_empty(from_square) && !is_square_blocked(from_square))
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
           if (target_position[id].diagram_square!=initsquare)
           {
             Side const from_side = TSTFLAG(spec[from_square],White) ? White : Black;
+            PieNam const from_piece = get_walk_of_piece_on_square(from_square);
             MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_side,
                                                                                               from_piece,
                                                                                               from_square,

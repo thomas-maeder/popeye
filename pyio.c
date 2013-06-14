@@ -435,29 +435,29 @@ static void WriteConditions(int alignment)
     }
 
     if (cond == koeko || cond == antikoeko) {
-      piece koekop = roib;
+      PieNam koekop = King;
       char LocalBuf[4];
       nocontactfunc_t const nocontactfunc = cond==koeko ? koeko_nocontact : antikoeko_nocontact;
       if (nocontactfunc == noknightcontact)
-        koekop= cb;
+        koekop= Knight;
       if (nocontactfunc == nowazircontact)
-        koekop= vizirb;
+        koekop= Wesir;
       if (nocontactfunc == noferscontact)
-        koekop= fersb;
+        koekop= Fers;
       if (nocontactfunc == nodabbabacontact)
-        koekop= dabb;
+        koekop= Dabbaba;
       if (nocontactfunc == noalfilcontact)
-        koekop= alfilb;
+        koekop= Alfil;
       if (nocontactfunc == nocamelcontact)
-        koekop= chb;
+        koekop= Camel;
       if (nocontactfunc == nozebracontact)
-        koekop= zb;
+        koekop= Zebra;
       if (nocontactfunc == nogiraffecontact)
-        koekop= gib;
+        koekop= Giraffe;
       if (nocontactfunc == noantelopecontact)
-        koekop= antilb;
+        koekop= Antilope;
 
-      if (koekop == roib)
+      if (koekop == King)
         strcpy(LocalBuf, "");
       else if (PieceTab[koekop][1] != ' ')
         sprintf(LocalBuf, "%c%c-",
@@ -583,8 +583,8 @@ static void WriteConditions(int alignment)
     if (cond == april) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf...*/
       char LocalBuf[4];
-      piece pp;
-      for (pp= vide; pp!=derbla; ++pp)
+      PieNam pp;
+      for (pp = Empty; pp!=PieceCount; ++pp)
         if (is_april_kind[pp]) {
           if (PieceTab[pp][1] != ' ')
             sprintf(LocalBuf, " %c%c",
@@ -1558,9 +1558,8 @@ static char *ParseLaTeXPieces(char *tok) {
   return tok;
 }
 
-static char *LaTeXPiece(piece p) {
-  PieNam const Name= abs(p);
-
+static char *LaTeXPiece(PieNam Name)
+{
   if (Name > Bishop) {
     if (LaTeXPiecesAbbr[Name] == NULL) {
       ErrorMsg(UndefLatexPiece);
@@ -1625,10 +1624,7 @@ static char *ParseSquareList(char *tok,
         Spec |= BIT(Black) + BIT(White);
       }
       if (echo==1)
-      {
-        piece const removed = TSTFLAG(Spec,White) ? Name : -Name;
-        move_effect_journal_store_retro_capture(Square,removed,Spec);
-      }
+        move_effect_journal_store_retro_capture(Square,Name,Spec);
       else
         occupy_square(Square,Name,Spec);
       tok+= 2;
@@ -4522,7 +4518,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
       *is_variant_set= false;
     else if (type==Neighbour && group==gpKoeko)
     {
-      piece tmp_piece;
+      PieNam tmp_piece;
       tok = ReadNextTokStr();
       switch (strlen(tok))
       {
@@ -5566,8 +5562,8 @@ static void ReadMutuallyExclusiveCastling(void)
   {
     square const white_rook_square = SquareNum(tok[0],tok[1]);
     square const black_rook_square = SquareNum(tok[2],tok[3]);
-    if (game_array.board[white_rook_square]==tb
-        && game_array.board[black_rook_square]==tn)
+    if (game_array.board[white_rook_square]==Rook
+        && game_array.board[black_rook_square]==Rook)
     {
       square const white_castling = (white_rook_square==square_a1
                                      ? queenside_castling
@@ -6024,7 +6020,7 @@ static char *ParseTwinningMove(int indexx)
   }
 
   {
-    piece const p = get_walk_of_piece_on_square(sq2);
+    PieNam const p = get_walk_of_piece_on_square(sq2);
     Flags const sp = spec[sq2];
 
     occupy_square(sq2,get_walk_of_piece_on_square(sq1),spec[sq1]);
@@ -6507,8 +6503,9 @@ static char *ParseTwinning(slice_index root_slice_hook)
 /***** twinning *****  end  *****/
 
 /* new conditions: PromOnly, AprilChess */
-char *ReadPieces(int condition) {
-  piece tmp_piece;
+char *ReadPieces(int condition)
+{
+  PieNam tmp_piece;
   char  *tok;
   boolean   piece_read= false;
 

@@ -82,7 +82,7 @@ static void ReDrawBoard(int sig)
   {
     move_effect_journal_index_type const top = move_effect_journal_top[pl-2];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    piece const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+    PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
     WritePiece(pi_moving);
     WriteSquare(move_generation_stack[current_move[pl]].departure);
     StdChar('-');

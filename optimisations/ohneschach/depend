@@ -2,7 +2,7 @@ optimisations/ohneschach/non_checking_first$(OBJ_SUFFIX): \
  optimisations/ohneschach/non_checking_first.c \
  optimisations/ohneschach/non_checking_first.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -25,7 +25,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -72,7 +72,7 @@ optimisations/ohneschach/redundant_immobility_tests$(OBJ_SUFFIX): \
  optimisations/ohneschach/redundant_immobility_tests.c \
  optimisations/ohneschach/redundant_immobility_tests.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -93,7 +93,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -142,7 +142,7 @@ optimisations/ohneschach/immobility_tests_help$(OBJ_SUFFIX): \
  optimisations/ohneschach/immobility_tests_help.c \
  optimisations/ohneschach/immobility_tests_help.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -165,7 +165,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -210,7 +210,7 @@ optimisations/ohneschach/stop_if_check$(OBJ_SUFFIX): \
  optimisations/ohneschach/stop_if_check.c \
  optimisations/ohneschach/stop_if_check.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -232,7 +232,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 

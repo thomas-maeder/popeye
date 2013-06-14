@@ -1,7 +1,6 @@
 #if !defined(OPTIMISATION_INTELLIGENT_PLACE_BLACK_PIECE_H)
 #define OPTIMISATION_INTELLIGENT_PLACE_BLACK_PIECE_H
 
-#include "position/piece.h"
 #include "position/board.h"
 #include "position/position.h"
 

@@ -51,7 +51,7 @@ static void pin_by_promoted_pawn(unsigned int pinner_index,
                                  boolean is_pin_on_diagonal,
                                  void (*go_on)(void))
 {
-  piece const minor_pinner_type = is_pin_on_diagonal ? Bishop : Rook;
+  PieNam const minor_pinner_type = is_pin_on_diagonal ? Bishop : Rook;
   square const pinner_comes_from = white[pinner_index].diagram_square;
 
   TraceFunctionEntry(__func__);

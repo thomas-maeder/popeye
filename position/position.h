@@ -2,42 +2,16 @@
 #define POSITION_POSITION_H
 
 #include "position/board.h"
-#include "position/piece.h"
 #include "pieces/vectors.h"
 #include "utilities/boolean.h"
 
 /* Declarations of types and functions related to chess positions
  */
 
-/* Array containing an element for each square plus many slack square
- * for making move generation easier
- */
-typedef piece echiquier[maxsquare+4];
-
-/* Set of flags representing characteristics of pieces (e.g. being
- * Neutral, or being Uncapturable)
- */
-typedef unsigned long Flags;
-
-/* Some useful symbols for dealing with these flags
- */
-
-/* Enumeration type for the two sides which move, deliver mate etc.
- */
-
-#include "position/board.h"
-
-#define ENUMERATION_TYPENAME Side
-#define ENUMERATORS \
-  ENUMERATOR(White), \
-    ENUMERATOR(Black), \
-                       \
-    ENUMERATOR(nr_sides), \
-    ASSIGNED_ENUMERATOR(no_side = nr_sides)
-
-#define ENUMERATION_DECLARE
-
-#include "utilities/enumeration.h"
+enum
+{
+  maxnrhuntertypes = 10
+};
 
 /* TODO reduce to 1 piece kind enumeration type */
 typedef enum
@@ -199,6 +173,36 @@ typedef enum
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;
+
+/* Array containing an element for each square plus many slack square
+ * for making move generation easier
+ */
+typedef PieNam echiquier[maxsquare+4];
+
+/* Set of flags representing characteristics of pieces (e.g. being
+ * Neutral, or being Uncapturable)
+ */
+typedef unsigned long Flags;
+
+/* Some useful symbols for dealing with these flags
+ */
+
+/* Enumeration type for the two sides which move, deliver mate etc.
+ */
+
+#include "position/board.h"
+
+#define ENUMERATION_TYPENAME Side
+#define ENUMERATORS \
+  ENUMERATOR(White), \
+    ENUMERATOR(Black), \
+                       \
+    ENUMERATOR(nr_sides), \
+    ASSIGNED_ENUMERATOR(no_side = nr_sides)
+
+#define ENUMERATION_DECLARE
+
+#include "utilities/enumeration.h"
 
 extern echiquier e;
 extern Flags spec[maxsquare+4];

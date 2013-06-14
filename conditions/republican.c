@@ -306,7 +306,7 @@ stip_length_type republican_king_placer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (king_square[advers(slices[si].starter)]==vide)
+  if (king_square[advers(slices[si].starter)]==initsquare)
   {
     determine_king_placement(slices[si].starter);
 

@@ -161,7 +161,7 @@ boolean singleboxtype3_is_square_attacked(Side side_checking,
   square sq;
 
   for (sq = next_latent_pawn(initsquare,side_checking);
-       sq!=vide;
+       sq!=initsquare;
        sq = next_latent_pawn(sq,side_checking))
   {
     PieNam pprom;

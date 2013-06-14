@@ -6,7 +6,7 @@ utilities/enumeration.h:
 output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  utilities/enumeration.h stipulation/slice.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/boolean.h pylang.h stipulation/slice_type.h \
+ pieces/vectors.h utilities/boolean.h pylang.h stipulation/slice_type.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h stipulation/pipe.h \
  solving/solve.h stipulation/branch.h \
@@ -32,7 +32,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 

@@ -1332,7 +1332,7 @@ byte *CommonEncode(byte *bp,
   {
     move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    *bp++ = (byte)(nbply>=2 ? move_effect_journal[movement].u.piece_movement.moving : vide);
+    *bp++ = (byte)(nbply>=2 ? move_effect_journal[movement].u.piece_movement.moving : Empty);
     *bp++ = trait[nbply];
   }
 
@@ -1665,7 +1665,7 @@ static void inithash(slice_index si)
   }
 
   if (CondFlag[haanerchess])
-    piece_nbr[obs]= j++;
+    piece_nbr[Invalid]= j++;
 
   one_byte_hash = j<(1<<(CHAR_BIT/2)) && some_pieces_flags<(1<<(CHAR_BIT/2));
 

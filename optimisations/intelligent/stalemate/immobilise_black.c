@@ -257,7 +257,7 @@ stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  piece const pi_departing = abs(move_effect_journal[movement].u.piece_movement.moving);
+  PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

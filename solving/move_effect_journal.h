@@ -232,7 +232,7 @@ void move_effect_journal_reset(void);
  * @param removedspec flags of that piece
  */
 void move_effect_journal_store_retro_capture(square from,
-                                             piece removed,
+                                             PieNam removed,
                                              Flags removedspec);
 
 /* Reset the stored retro capture

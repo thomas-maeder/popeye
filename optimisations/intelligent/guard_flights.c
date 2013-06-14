@@ -330,7 +330,7 @@ static void place_queen_opposition(square guard_from)
  * @param rider_type type of rider
  * @param guard_from from what square should the rider guard
  */
-static void place_rider(piece rider_type, square guard_from)
+static void place_rider(PieNam rider_type, square guard_from)
 {
   TraceFunctionEntry(__func__);
   TracePiece(rider_type);

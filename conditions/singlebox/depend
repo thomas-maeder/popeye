@@ -1,7 +1,7 @@
 conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  conditions/singlebox/type1.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
  pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h pydata.h \
  pyproc.h pieces/walks.h pieces/pawns/promotion.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
@@ -24,7 +24,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -80,7 +80,7 @@ debugging/trace.h:
 conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  conditions/singlebox/type2.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
  pieces/pawns/promotion.h pydata.h pyproc.h py4.h py.h pieces/vectors.h \
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
@@ -104,7 +104,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -160,7 +160,7 @@ debugging/trace.h:
 conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  conditions/singlebox/type3.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- position/piece.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
  pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h pydata.h \
  pyproc.h pieces/pawns/promotion.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
@@ -184,7 +184,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 

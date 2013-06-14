@@ -36,7 +36,7 @@ boolean annan_is_square_attacked(Side side_attacking,
 {
   numvec const dir_annaniser = side_attacking==White ? dir_down : dir_up;
   square annan_sq[nr_squares_on_board];
-  piece annan_p[nr_squares_on_board];
+  PieNam annan_p[nr_squares_on_board];
   int annan_cnt = 0;
   boolean result;
   unsigned int i;

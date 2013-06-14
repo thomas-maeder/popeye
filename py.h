@@ -240,11 +240,6 @@ typedef struct {
     square auxiliary; /* hopper hurdle, e.p. virtual single step arrival, ...*/
 } move_generation_elmt;
 
-typedef struct {
-  square square;
-  piece pc;
-} change_rec;
-
 /* These are definitions to implement arrays with lower index != 0
 ** as they are common in PASCAL. The arrays zzza? are defined in
 ** pydata.h                                                     ElB

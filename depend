@@ -1,5 +1,5 @@
 pydata$(OBJ_SUFFIX): pydata.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pyproc.h py4.h \
  pieces/vectors.h stipulation/goals/goals.h py.h pydata.h
 
@@ -12,8 +12,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -35,7 +33,7 @@ py.h:
 
 pydata.h:
 py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pymsg.h py1.h \
  pyproc.h py4.h pieces/vectors.h stipulation/goals/goals.h py.h pydata.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
@@ -73,8 +71,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -216,7 +212,7 @@ utilities/table.h:
 
 debugging/trace.h:
 py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/stipulation.h py.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
@@ -240,8 +236,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -321,7 +315,7 @@ pieces/roses.h:
 
 debugging/trace.h:
 py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pyproc.h py4.h \
  pieces/vectors.h stipulation/goals/goals.h py.h pydata.h \
  pieces/pawns/pawn.h pyproc.h position/position.h pieces/hunters.h \
@@ -347,8 +341,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -430,7 +422,7 @@ debugging/trace.h:
 
 debugging/measure.h:
 py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/stipulation.h py.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
@@ -463,8 +455,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -588,7 +578,7 @@ debugging/trace.h:
 
 debugging/measure.h:
 py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/stipulation.h py.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
@@ -623,8 +613,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -752,7 +740,7 @@ DHT/dhtbcmem.h:
 
 debugging/trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h py1.h pyproc.h \
  py4.h pieces/vectors.h stipulation/goals/goals.h py.h pydata.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
@@ -863,8 +851,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -1310,7 +1296,7 @@ debugging/trace.h:
 
 debugging/measure.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pyproc.h py4.h \
  pieces/vectors.h stipulation/goals/goals.h py.h pydata.h pymsg.h \
  solving/solve.h solving/castling.h stipulation/slice_type.h \
@@ -1377,8 +1363,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -1600,7 +1584,7 @@ platform/maxmem.h:
 
 debugging/trace.h:
 pymsg$(OBJ_SUFFIX): pymsg.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pyproc.h py4.h \
  pieces/vectors.h stipulation/goals/goals.h py.h pydata.h pymsg.h \
  platform/pytime.h pyallmsg.h
@@ -1614,8 +1598,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -1646,7 +1628,7 @@ pylang$(OBJ_SUFFIX): pylang.c pylang.h
 
 pylang.h:
 pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/stipulation.h py.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
@@ -1670,8 +1652,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 
@@ -1755,16 +1735,14 @@ pieces/walks.h:
 
 debugging/trace.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \
- utilities/bitmask.h position/piece.h pieces/vectors.h \
- utilities/boolean.h utilities/enumeration.h
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
+ utilities/enumeration.h
 
 position/position.h:
 
 position/board.h:
 
 utilities/bitmask.h:
-
-position/piece.h:
 
 pieces/vectors.h:
 

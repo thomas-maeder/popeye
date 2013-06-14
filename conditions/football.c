@@ -80,7 +80,7 @@ static PieNam const *get_bench(void)
       /* add moving piece to head-of-list if not already part of standard set */
       if (!is_football_substitute[p])
       {
-        next_football_substitute[p] = next_football_substitute[vide];
+        next_football_substitute[p] = next_football_substitute[Empty];
         next_football_substitute[Empty] = p;
       }
     }
@@ -97,7 +97,7 @@ static void init_substitution(void)
   TraceFunctionParamListEnd();
 
   bench[nbply] = get_bench();
-  current_football_substitution[nbply] = bench[nbply]==0 ? Empty : bench[nbply][vide];
+  current_football_substitution[nbply] = bench[nbply]==0 ? Empty : bench[nbply][Empty];
   TracePiece(current_football_substitution[nbply]);TraceText("\n");
 
   TraceFunctionExit(__func__);

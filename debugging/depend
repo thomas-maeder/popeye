@@ -1,6 +1,6 @@
 debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h pyproc.h \
  py4.h py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pieces/vectors.h \
  stipulation/goals/goals.h py.h pydata.h pyproc.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
@@ -25,7 +25,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
@@ -68,7 +68,7 @@ output/plaintext/plaintext.h:
 stipulation/move.h:
 debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pyproc.h py4.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h position/piece.h utilities/boolean.h \
+ utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pieces/vectors.h \
  stipulation/goals/goals.h py.h pydata.h pyproc.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
@@ -92,7 +92,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-position/piece.h:
+pieces/vectors.h:
 
 utilities/boolean.h:
 
