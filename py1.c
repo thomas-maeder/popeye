@@ -776,16 +776,15 @@ static void isolate_observee(PieNam walk, square const pos_observees[], unsigned
 
   for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][walk]; ++orphan_id)
     if (orphan_id!=isolated_observee)
-      e[pos_observees[orphan_id]] = dummyb;
+      occupy_square(pos_observees[orphan_id],Dummy,spec[pos_observees[orphan_id]]);
 }
 
 static void restore_observees(PieNam walk, square const pos_observees[])
 {
   unsigned int orphan_id;
-  piece const observee_type = trait[nbply]==White ? walk : -walk;
 
   for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][walk]; ++orphan_id)
-    e[pos_observees[orphan_id]] = observee_type;
+    occupy_square(pos_observees[orphan_id],walk,spec[pos_observees[orphan_id]]);
 }
 
 static boolean find_next_orphan_in_chain(square sq_target,
@@ -833,9 +832,8 @@ boolean orphan_find_observation_chain(square sq_target,
     result = false;
   else
   {
-    piece const orphan_type = e[sq_target];
     --number_of_pieces[advers(trait[nbply])][Orphan];
-    e[sq_target] = dummyb;
+    occupy_square(sq_target,Dummy,spec[sq_target]);
 
     {
       square pos_orphans[63];
@@ -846,7 +844,7 @@ boolean orphan_find_observation_chain(square sq_target,
                                          evaluate);
     }
 
-    e[sq_target] = orphan_type;
+    occupy_square(sq_target,Orphan,spec[sq_target]);
     ++number_of_pieces[advers(trait[nbply])][Orphan];
   }
 
@@ -903,10 +901,8 @@ boolean find_next_friend_in_chain(square sq_target,
     {
       unsigned int k;
       square pos_remaining_friends[63];
-      piece const save_friend = e[sq_target];
 
-      e[sq_target] = dummyb;
-
+      occupy_square(sq_target,Dummy,spec[sq_target]);
       locate_observees(Friend,pos_remaining_friends);
 
       for (k = 0; k<number_of_pieces[trait[nbply]][friend_type]; k++)
@@ -925,7 +921,7 @@ boolean find_next_friend_in_chain(square sq_target,
         }
       }
 
-      e[sq_target] = save_friend;
+      occupy_square(sq_target,Friend,spec[sq_target]);
     }
 
     ++number_of_pieces[trait[nbply]][Friend];
