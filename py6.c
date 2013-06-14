@@ -2008,7 +2008,7 @@ static boolean verify_position(slice_index si)
   return true;
 }
 
-boolean WriteSpec(Flags sp, piece p, boolean printcolours)
+boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
 {
   boolean ret = false;
   PieSpec spname;
@@ -2035,7 +2035,7 @@ boolean WriteSpec(Flags sp, piece p, boolean printcolours)
     if ((spname!=Volage || !CondFlag[volage])
         && (spname!=Patrol || !CondFlag[patrouille])
         && (spname!=Beamtet || !CondFlag[beamten])
-        && (spname!=Royal || (abs(p)!=King && abs(p)!=Poseidon))
+        && (spname!=Royal || (p!=King && p!=Poseidon))
         && TSTFLAG(sp, spname))
     {
       StdChar(tolower(*PieSpString[UserLanguage][spname]));

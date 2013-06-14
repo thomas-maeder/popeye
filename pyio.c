@@ -5986,26 +5986,26 @@ static char *ParseTwinningMove(int indexx)
             TSTFLAG(spec[sq1], Neutral)
             ? 'n'
             : TSTFLAG(spec[sq1], White) ? 'w' : 's',
-            LaTeXPiece(e[sq1]),
+            LaTeXPiece(get_walk_of_piece_on_square(sq1)),
             'a'-nr_files_on_board+sq1%onerow,
             '1'-nr_rows_on_board+sq1/onerow);
     strcat(ActTwinning, GlobalStr);
   }
 
-  WriteSpec(spec[sq1],e[sq1],!is_square_empty(sq1));
-  WritePiece(e[sq1]);
+  WriteSpec(spec[sq1],get_walk_of_piece_on_square(sq1),!is_square_empty(sq1));
+  WritePiece(get_walk_of_piece_on_square(sq1));
   WriteSquare(sq1);
   if (indexx == TwinningExchange) {
     StdString("<-->");
-    WriteSpec(spec[sq2], e[sq2],!is_square_empty(sq2));
-    WritePiece(e[sq2]);
+    WriteSpec(spec[sq2], get_walk_of_piece_on_square(sq2),!is_square_empty(sq2));
+    WritePiece(get_walk_of_piece_on_square(sq2));
     if (LaTeXout) {
       strcat(ActTwinning, "{\\lra}");
       sprintf(GlobalStr, "\\%c%s ",
               TSTFLAG(spec[sq2], Neutral)
               ? 'n'
               : TSTFLAG(spec[sq2], White) ? 'w' : 's',
-              LaTeXPiece(e[sq2]));
+              LaTeXPiece(get_walk_of_piece_on_square(sq2)));
       strcat(ActTwinning, GlobalStr);
     }
   }
@@ -6236,7 +6236,7 @@ static char *ParseTwinningRemove(void) {
                ? "\\n"
                : TSTFLAG(spec[sq], White) ? "\\w" : "\\s");
         strcat(ActTwinning,
-               LaTeXPiece(e[sq]));
+               LaTeXPiece(get_walk_of_piece_on_square(sq)));
         sprintf(GlobalStr, " %c%c",
                 'a'-nr_files_on_board+sq%onerow,
                 '1'-nr_rows_on_board+sq/onerow);
@@ -6244,8 +6244,8 @@ static char *ParseTwinningRemove(void) {
       }
 
       StdString(" -");
-      WriteSpec(spec[sq], e[sq],!is_square_empty(sq));
-      WritePiece(e[sq]);
+      WriteSpec(spec[sq], get_walk_of_piece_on_square(sq),!is_square_empty(sq));
+      WritePiece(get_walk_of_piece_on_square(sq));
       WriteSquare(sq);
       empty_square(sq);
       if (sq == king_square[White])
@@ -7633,18 +7633,17 @@ void LaTeXBeginDiagram(void)
 } /* LaTeXBeginDiagram */
 /**** LaTeX output ***** end *****/
 
-void WritePiece(piece p) {
-  char p1;
-  PieNam const pnam = abs(p);
-
-  if (pnam<Hunter0 || pnam >= (Hunter0 + maxnrhuntertypes)) {
-    StdChar(UPCASE(PieceTab[pnam][0]));
-    if ((p1= PieceTab[pnam][1]) != ' ') {
+void WritePiece(PieNam p) {
+  if (p<Hunter0 || p>= (Hunter0 + maxnrhuntertypes))
+  {
+    char const p1 = PieceTab[p][1];
+    StdChar(UPCASE(PieceTab[p][0]));
+    if (p1!=' ')
       StdChar(UPCASE(p1));
-    }
   }
-  else {
-    unsigned int const i = pnam-Hunter0;
+  else
+  {
+    unsigned int const i = p-Hunter0;
     assert(i<maxnrhuntertypes);
     WritePiece(huntertypes[i].away);
     StdChar('/');

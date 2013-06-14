@@ -54,8 +54,8 @@ void    CloseInput(void);
 void    MultiCenter(char *s);
 void    WritePosition(void);
 void    WriteSquare(square a);
-void    WritePiece(piece p);
-boolean WriteSpec(Flags pspec, piece p, boolean printcolours);
+void    WritePiece(PieNam p);
+boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
 void    WriteGrid(void);
 
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);

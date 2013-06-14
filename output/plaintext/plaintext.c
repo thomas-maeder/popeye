@@ -211,7 +211,7 @@ static void write_regular_move(move_context *context)
   }
 }
 
-static void write_complete_piece(Flags spec, piece piece, square on)
+static void write_complete_piece(Flags spec, PieNam piece, square on)
 {
   WriteSpec(spec,piece,true);
   WritePiece(piece);
