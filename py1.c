@@ -478,9 +478,6 @@ void InitAlways(void) {
   reset_tables();
   dont_generate_castling = false;
 
-  takemake_takedeparturesquare= initsquare;
-  takemake_takecapturesquare= initsquare;
-
   reset_max_nr_solutions_per_target_position();
 
   king_capture_avoiders_reset();
