@@ -73,7 +73,6 @@
 #include "solving/observation.h"
 #include "stipulation/temporary_hacks.h"
 #include "pieces/pawns/pawn.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/roses.h"
 #include "debugging/trace.h"
 

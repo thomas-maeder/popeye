@@ -92,7 +92,6 @@
 #include "conditions/vaulting_kings.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/pawns/pawns.h"
 #include "pieces/pawns/pawn.h"
 #include "pieces/hunters.h"

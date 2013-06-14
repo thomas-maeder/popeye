@@ -1,5 +1,4 @@
 #include "conditions/madrasi.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "pydata.h"
 #include "solving/observation.h"
 
@@ -25,9 +24,6 @@ boolean madrasi_is_moving_piece_observed(square sq)
     PieNam const p = get_walk_of_piece_on_square(sq);
     Side const observing_side = advers(observed_side);
 
-    if (TSTFLAG(some_pieces_flags,Neutral))
-      initialise_neutrals(advers(neutral_side));
-
     if (number_of_pieces[observing_side][p]==0)
       result = false;
     else
@@ -37,9 +33,6 @@ boolean madrasi_is_moving_piece_observed(square sq)
       result = (*checkfunctions[p])(sq,p,&validate_observation_geometry);
       finply();
     }
-
-    if (TSTFLAG(spec[sq],Neutral))
-      initialise_neutrals(advers(neutral_side));
   }
 
   TraceFunctionExit(__func__);

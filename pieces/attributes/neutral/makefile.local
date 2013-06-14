@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = initialiser.c half.c
-INCLUDES = initialiser.h half.h
+SRC_CFILES = half.c
+INCLUDES = half.h
 
 include makefile.rules $(CURRPWD)depend

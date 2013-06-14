@@ -1,5 +1,4 @@
 #include "conditions/disparate.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "solving/observation.h"
 #include "solving/move_effect_journal.h"
 #include "pydata.h"

@@ -1,6 +1,5 @@
 #include "pieces/attributes/neutral/half.h"
 #include "pydata.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

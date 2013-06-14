@@ -4,7 +4,6 @@
 #include "pyproc.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -31,9 +30,6 @@ slice_index alloc_non_king_move_generator_slice(void)
 static boolean advance_departure_square(Side side,
                                         square const **next_square_to_try)
 {
-  if (TSTFLAG(some_pieces_flags,Neutral))
-    initialise_neutrals(advers(side));
-
   while (true)
   {
     square const sq_departure = **next_square_to_try;

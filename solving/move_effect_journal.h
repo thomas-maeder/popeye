@@ -34,8 +34,6 @@ typedef enum
   move_effect_imitator_movement,
   move_effect_remember_ghost,
   move_effect_forget_ghost,
-  move_effect_neutral_recoloring_do,
-  move_effect_neutral_recoloring_undo,
   move_effect_half_neutral_deneutralisation,
   move_effect_half_neutral_neutralisation,
   move_effect_square_block,

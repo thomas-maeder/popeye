@@ -206,10 +206,6 @@ extern square king_square[nr_sides];
 extern boolean areColorsSwapped;
 extern boolean isBoardReflected;
 
-/* Side that the neutral pieces currently belong to
- */
-extern Side neutral_side;
-
 enum
 {
   BorderSpec = 0,

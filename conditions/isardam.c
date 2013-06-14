@@ -6,7 +6,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/madrasi.h"
 #include "solving/single_move_generator.h"
 #include "solving/observation.h"

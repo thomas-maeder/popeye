@@ -1,5 +1,4 @@
 #include "conditions/eiffel.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "solving/observation.h"
 #include "pydata.h"
 
@@ -97,9 +96,6 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(some_pieces_flags,Neutral))
-    initialise_neutrals(advers(neutral_side));
-
   eiffel_piece = get_paralyser(p);
 
   if (eiffel_piece!=Empty)
@@ -115,9 +111,6 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
       finply();
     }
   }
-
-  if (TSTFLAG(spec[sq_observer],Neutral))
-    initialise_neutrals(advers(neutral_side));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

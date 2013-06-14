@@ -3,7 +3,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/has_solution_type.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 

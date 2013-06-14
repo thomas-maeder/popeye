@@ -168,7 +168,6 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "pieces/attributes/paralysing/remove_captures.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/hurdle_colour_changing.h"
 #include "pieces/attributes/magic.h"
@@ -1345,18 +1344,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STPatienceChessLegalityTester:
       result = patience_chess_legality_tester_solve(si,n);
-      break;
-
-    case STPiecesNeutralInitialiser:
-      result = neutral_initialiser_solve(si,n);
-      break;
-
-    case STPiecesNeutralRetractingRecolorer:
-      result = neutral_retracting_recolorer_solve(si,n);
-      break;
-
-    case STPiecesNeutralReplayingRecolorer:
-      result = neutral_replaying_recolorer_solve(si,n);
       break;
 
     case STSATFlightMoveGenerator:

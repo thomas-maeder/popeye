@@ -61,7 +61,6 @@
 #include "options/maxflightsquares.h"
 #include "stipulation/stipulation.h"
 #include "pieces/hunters.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/attributes/magic.h"
 #include "position/pieceid.h"
 #include "platform/maxtime.h"
@@ -476,7 +475,6 @@ void InitAlways(void) {
     pwcprom[i] = false;
   }
 
-  initialise_neutrals(White);
   reset_tables();
   dont_generate_castling = false;
 

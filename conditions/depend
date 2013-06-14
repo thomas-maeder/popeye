@@ -537,10 +537,9 @@ debugging/trace.h:
 conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h \
  utilities/boolean.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
- utilities/enumeration.h pylang.h pieces/attributes/neutral/initialiser.h \
- solving/solve.h pydata.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h solving/observation.h pyproc.h \
- debugging/trace.h
+ utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ pieces/vectors.h stipulation/goals/goals.h solving/observation.h \
+ pyproc.h debugging/trace.h
 
 conditions/madrasi.h:
 
@@ -563,10 +562,6 @@ pieces/vectors.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-pieces/attributes/neutral/initialiser.h:
-
-solving/solve.h:
 
 pydata.h:
 
@@ -594,9 +589,8 @@ conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move.h stipulation/temporary_hacks.h \
- pieces/attributes/neutral/initialiser.h conditions/madrasi.h \
- solving/single_move_generator.h solving/observation.h pyproc.h \
- debugging/trace.h
+ conditions/madrasi.h solving/single_move_generator.h \
+ solving/observation.h pyproc.h debugging/trace.h
 
 conditions/isardam.h:
 
@@ -656,8 +650,6 @@ stipulation/move.h:
 
 stipulation/temporary_hacks.h:
 
-pieces/attributes/neutral/initialiser.h:
-
 conditions/madrasi.h:
 
 solving/single_move_generator.h:
@@ -670,10 +662,10 @@ debugging/trace.h:
 conditions/disparate$(OBJ_SUFFIX): conditions/disparate.c conditions/disparate.h \
  utilities/boolean.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
- utilities/enumeration.h pylang.h pieces/attributes/neutral/initialiser.h \
- solving/solve.h solving/observation.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h solving/move_effect_journal.h \
- position/pieceid.h pydata.h pyproc.h debugging/trace.h
+ utilities/enumeration.h pylang.h solving/observation.h pyproc.h py4.h \
+ py.h pieces/vectors.h stipulation/goals/goals.h \
+ solving/move_effect_journal.h solving/solve.h position/pieceid.h \
+ pydata.h pyproc.h debugging/trace.h
 
 conditions/disparate.h:
 
@@ -697,10 +689,6 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pieces/attributes/neutral/initialiser.h:
-
-solving/solve.h:
-
 solving/observation.h:
 
 pyproc.h:
@@ -715,6 +703,8 @@ stipulation/goals/goals.h:
 
 solving/move_effect_journal.h:
 
+solving/solve.h:
+
 position/pieceid.h:
 
 pydata.h:
@@ -725,9 +715,8 @@ debugging/trace.h:
 conditions/eiffel$(OBJ_SUFFIX): conditions/eiffel.c conditions/eiffel.h \
  utilities/boolean.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
- utilities/enumeration.h pylang.h pieces/attributes/neutral/initialiser.h \
- solving/solve.h solving/observation.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h pydata.h pyproc.h \
+ utilities/enumeration.h pylang.h solving/observation.h pyproc.h py4.h \
+ py.h pieces/vectors.h stipulation/goals/goals.h pydata.h pyproc.h \
  debugging/trace.h
 
 conditions/eiffel.h:
@@ -751,10 +740,6 @@ pieces/vectors.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-pieces/attributes/neutral/initialiser.h:
-
-solving/solve.h:
 
 solving/observation.h:
 
@@ -1297,8 +1282,8 @@ conditions/sentinelles$(OBJ_SUFFIX): conditions/sentinelles.c \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- stipulation/has_solution_type.h pieces/attributes/neutral/initialiser.h \
- solving/move_effect_journal.h position/pieceid.h debugging/trace.h
+ stipulation/has_solution_type.h solving/move_effect_journal.h \
+ position/pieceid.h debugging/trace.h
 
 conditions/sentinelles.h:
 
@@ -1353,8 +1338,6 @@ output/mode.h:
 stipulation/move.h:
 
 stipulation/has_solution_type.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 solving/move_effect_journal.h:
 
@@ -1437,7 +1420,7 @@ conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/has_solution_type.h stipulation/move.h \
- pieces/attributes/neutral/initialiser.h debugging/trace.h
+ debugging/trace.h
 
 conditions/haunted_chess.h:
 
@@ -1498,8 +1481,6 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:
 conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
@@ -1586,8 +1567,8 @@ conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h solving/sol
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move.h pieces/attributes/neutral/initialiser.h \
- solving/move_effect_journal.h position/pieceid.h debugging/trace.h
+ stipulation/move.h solving/move_effect_journal.h position/pieceid.h \
+ debugging/trace.h
 
 conditions/kobul.h:
 
@@ -1642,8 +1623,6 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 solving/move_effect_journal.h:
 

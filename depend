@@ -47,8 +47,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  options/movenumbers.h options/maxflightsquares.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- pieces/hunters.h position/position.h \
- pieces/attributes/neutral/initialiser.h pieces/attributes/magic.h \
+ pieces/hunters.h position/position.h pieces/attributes/magic.h \
  position/pieceid.h platform/maxtime.h solving/move_effect_journal.h \
  solving/battle_play/try.h utilities/table.h solving/castling.h \
  solving/en_passant.h pyproc.h solving/moving_pawn_promotion.h \
@@ -141,8 +140,6 @@ pieces/hunters.h:
 
 position/position.h:
 
-pieces/attributes/neutral/initialiser.h:
-
 pieces/attributes/magic.h:
 
 position/pieceid.h:
@@ -232,7 +229,7 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h solving/en_passant.h pyproc.h \
  solving/observation.h stipulation/temporary_hacks.h pieces/pawns/pawn.h \
- pieces/attributes/neutral/initialiser.h pieces/roses.h debugging/trace.h
+ pieces/roses.h debugging/trace.h
 
 py.h:
 
@@ -320,8 +317,6 @@ stipulation/temporary_hacks.h:
 
 pieces/pawns/pawn.h:
 
-pieces/attributes/neutral/initialiser.h:
-
 pieces/roses.h:
 
 debugging/trace.h:
@@ -331,8 +326,7 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  pieces/vectors.h stipulation/goals/goals.h py.h pydata.h \
  pieces/pawns/pawn.h pyproc.h position/position.h pieces/hunters.h \
  pieces/attributes/paralysing/paralysing.h stipulation/slice.h \
- stipulation/slice_type.h pieces/attributes/neutral/initialiser.h \
- solving/solve.h conditions/sat.h \
+ stipulation/slice_type.h conditions/sat.h solving/solve.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/pawns/promotion.h conditions/magic_square.h conditions/immune.h \
@@ -390,11 +384,9 @@ stipulation/slice.h:
 
 stipulation/slice_type.h:
 
-pieces/attributes/neutral/initialiser.h:
+conditions/sat.h:
 
 solving/solve.h:
-
-conditions/sat.h:
 
 conditions/ultraschachzwang/legality_tester.h:
 
@@ -457,8 +449,7 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/marscirce/plus.h conditions/annan.h conditions/wormhole.h \
  conditions/vaulting_kings.h position/position.h \
  conditions/transmuting_kings/transmuting_kings.h \
- pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/neutral/initialiser.h pieces/pawns/pawns.h \
+ pieces/attributes/paralysing/paralysing.h pieces/pawns/pawns.h \
  pieces/pawns/pawn.h pieces/hunters.h pieces/roses.h \
  pieces/spiral_springers.h pieces/marine.h pieces/ubiubi.h \
  debugging/trace.h debugging/measure.h
@@ -579,8 +570,6 @@ conditions/transmuting_kings/transmuting_kings.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
-pieces/attributes/neutral/initialiser.h:
-
 pieces/pawns/pawns.h:
 
 pieces/pawns/pawn.h:
@@ -621,8 +610,7 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  conditions/phantom.h conditions/marscirce/marscirce.h \
  conditions/marscirce/anti.h conditions/marscirce/plus.h \
  conditions/annan.h pieces/walks.h \
- pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/neutral/initialiser.h pieces/pawns/pawn.h \
+ pieces/attributes/paralysing/paralysing.h pieces/pawns/pawn.h \
  position/position.h position/pieceid.h optimisations/hash.h \
  DHT/dhtbcmem.h debugging/trace.h
 
@@ -752,8 +740,6 @@ pieces/walks.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
-pieces/attributes/neutral/initialiser.h:
-
 pieces/pawns/pawn.h:
 
 position/position.h:
@@ -841,8 +827,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  solving/play_suppressor.h solving/castling.h solving/en_passant.h \
  solving/move_generator.h solving/post_move_iteration.h pieces/walks.h \
  pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/kamikaze/kamikaze.h \
- pieces/attributes/neutral/initialiser.h pieces/attributes/neutral/half.h \
+ pieces/attributes/kamikaze/kamikaze.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
  pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
  pieces/pawns/promotion.h pieces/hunters.h conditions/amu/mate_filter.h \
@@ -1244,8 +1229,6 @@ pieces/attributes/magic.h:
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/kamikaze/kamikaze.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 pieces/attributes/neutral/half.h:
 
@@ -1676,7 +1659,7 @@ pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h position/position.h \
  conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h position/pieceid.h \
  conditions/vaulting_kings.h position/position.h conditions/imitator.h \
- pieces/walks.h pieces/attributes/neutral/initialiser.h debugging/trace.h
+ pieces/walks.h debugging/trace.h
 
 py.h:
 
@@ -1769,8 +1752,6 @@ position/position.h:
 conditions/imitator.h:
 
 pieces/walks.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \

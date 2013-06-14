@@ -96,7 +96,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/goals/goals.h output/mode.h conditions/imitator.h \
  position/position.h conditions/actuated_revolving_centre.h \
  conditions/haunted_chess.h pieces/attributes/neutral/half.h \
- pieces/attributes/neutral/initialiser.h debugging/trace.h
+ debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -159,8 +159,6 @@ conditions/actuated_revolving_centre.h:
 conditions/haunted_chess.h:
 
 pieces/attributes/neutral/half.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
@@ -573,8 +571,7 @@ solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c 
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h pyproc.h \
- stipulation/has_solution_type.h stipulation/pipe.h \
- pieces/attributes/neutral/initialiser.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/pipe.h debugging/trace.h
 
 solving/non_king_move_generator.h:
 
@@ -631,8 +628,6 @@ pyproc.h:
 stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 debugging/trace.h:
 solving/single_piece_move_generator$(OBJ_SUFFIX): \
@@ -1684,7 +1679,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
  output/mode.h pieces/attributes/paralysing/stalemate_special.h \
  pieces/attributes/paralysing/remove_captures.h \
- pieces/attributes/neutral/initialiser.h pieces/attributes/neutral/half.h \
+ pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/magic.h \
  pieces/attributes/chameleon.h pieces/attributes/jigger.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
@@ -2132,8 +2127,6 @@ output/mode.h:
 pieces/attributes/paralysing/stalemate_special.h:
 
 pieces/attributes/paralysing/remove_captures.h:
-
-pieces/attributes/neutral/initialiser.h:
 
 pieces/attributes/neutral/half.h:
 

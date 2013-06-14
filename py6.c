@@ -256,7 +256,6 @@
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/hurdle_colour_changing.h"
 #include "pieces/attributes/chameleon.h"
@@ -2733,9 +2732,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_optimise_with_killer_moves(result);
 
   stip_insert_output_slices(result);
-
-  if (TSTFLAG(some_pieces_flags,Neutral))
-    stip_insert_neutral_initialisers(result);
 
   if (OptFlag[solmenaces]
       && !stip_insert_maxthreatlength_guards(result))

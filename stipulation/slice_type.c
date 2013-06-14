@@ -235,9 +235,6 @@
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesParalysingRemoveCaptures),                     \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
-    ENUMERATOR(STPiecesNeutralInitialiser),                           \
-    ENUMERATOR(STPiecesNeutralRetractingRecolorer),                   \
-    ENUMERATOR(STPiecesNeutralReplayingRecolorer),                    \
     ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
     ENUMERATOR(STImmobilityTester),                                   \
     ENUMERATOR(STOpponentMovesCounterFork),                           \

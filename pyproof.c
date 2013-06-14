@@ -42,7 +42,6 @@
 #include "conditions/imitator.h"
 #include "position/position.h"
 #include "pieces/walks.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "debugging/trace.h"
 
 
@@ -582,10 +581,6 @@ static boolean compareProofPieces(void)
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",ProofNbrAllPieces);
-
-  /* make sure that neutral pieces belong to the same side they belonged to
-   * when we saved the target position */
-  initialise_neutrals(White);
 
   for (i = 0; i<ProofNbrAllPieces; ++i)
   {

@@ -23,10 +23,6 @@ square king_square[nr_sides];
 boolean areColorsSwapped;
 boolean isBoardReflected;
 
-/* Side that the neutral pieces currently belong to
- */
-Side neutral_side;
-
 /* This is the InitialGameArray */
 PieNam const PAS[nr_squares_on_board] = {
   Rook, Knight, Bishop, Queen, King,  Bishop,  Knight,  Rook,
@@ -110,10 +106,7 @@ void swap_sides(void)
 
   for (bnp = boardnum; *bnp; bnp++)
     if (!TSTFLAG(spec[*bnp],Neutral) && !is_square_empty(*bnp))
-    {
-      e[*bnp] = -e[*bnp];
       spec[*bnp]^= BIT(White)+BIT(Black);
-    }
 
   areColorsSwapped = !areColorsSwapped;
 }
@@ -151,20 +144,18 @@ void empty_square(square s)
 
 void occupy_square(square s, PieNam piece, Flags flags)
 {
-  Side const side = TSTFLAG(flags,Neutral) ? neutral_side : (TSTFLAG(flags,White) ? White : Black);
   assert(piece!=Empty);
   assert(piece!=Invalid);
-  e[s] = side==White ? piece : -piece;
+  e[s] = piece;
   spec[s] = flags;
 }
 
 void replace_piece(square s, PieNam piece)
 {
   Flags const flags = spec[s];
-  Side const side = TSTFLAG(flags,Neutral) ? neutral_side : (TSTFLAG(flags,White) ? White : Black);
   assert(piece!=Empty);
   assert(piece!=Invalid);
-  e[s] = side==White ? piece : -piece;
+  e[s] = piece;
 }
 
 void block_square(square s)

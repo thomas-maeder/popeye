@@ -39,7 +39,6 @@
 #include "pieces/pawns/pawn.h"
 #include "pieces/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
-#include "pieces/attributes/neutral/initialiser.h"
 #include "conditions/sat.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
@@ -303,17 +302,7 @@ boolean is_square_observed(Side side_checking,
 
   nextply();
   trait[nbply] = side_checking;
-
-  if (TSTFLAG(some_pieces_flags,Neutral))
-  {
-    Side const neutcoul_save = neutral_side;
-    initialise_neutrals(side_checking);
-    result = does_observe_square_impl(sq_target,evaluate);
-    initialise_neutrals(neutcoul_save);
-  }
-  else
-    result = does_observe_square_impl(sq_target,evaluate);
-
+  result = does_observe_square_impl(sq_target,evaluate);
   finply();
 
   TraceFunctionExit(__func__);
@@ -401,8 +390,6 @@ boolean echecc(Side side_in_check)
     result = false;
   else
   {
-    if (TSTFLAG(some_pieces_flags,Neutral))
-      initialise_neutrals(side_attacking_king);
     if (CondFlag[circeassassin] && echecc_assassin(side_king_attacked))
       result = true;
     else if (CondFlag[bicolores])
