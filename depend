@@ -460,8 +460,8 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/neutral/initialiser.h pieces/pawns/pawns.h \
  pieces/pawns/pawn.h pieces/hunters.h pieces/roses.h \
- pieces/spiral_springers.h pieces/marine.h debugging/trace.h \
- debugging/measure.h
+ pieces/spiral_springers.h pieces/marine.h pieces/ubiubi.h \
+ debugging/trace.h debugging/measure.h
 
 py.h:
 
@@ -592,6 +592,8 @@ pieces/roses.h:
 pieces/spiral_springers.h:
 
 pieces/marine.h:
+
+pieces/ubiubi.h:
 
 debugging/trace.h:
 

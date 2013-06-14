@@ -278,3 +278,46 @@ py.h:
 pyproc.h:
 
 debugging/trace.h:
+pieces/ubiubi$(OBJ_SUFFIX): pieces/ubiubi.c pieces/ubiubi.h position/position.h \
+ position/board.h utilities/bitmask.h position/piece.h pieces/vectors.h \
+ utilities/boolean.h utilities/enumeration.h pyproc.h py4.h py.h \
+ utilities/boolean.h position/position.h pylang.h pieces/vectors.h \
+ stipulation/goals/goals.h py.h pydata.h pyproc.h
+
+pieces/ubiubi.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/piece.h:
+
+pieces/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+pydata.h:
+
+pyproc.h:

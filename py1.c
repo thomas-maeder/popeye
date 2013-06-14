@@ -431,8 +431,6 @@ void InitBoard(void)
   {
     empty_square(i);
     block_square(i);
-    e_ubi[i] = obs;
-    e_ubi_mad[i] = obs;
   }
 
   /* dummy squares for Messigny chess and castling -- must be empty */

@@ -99,6 +99,7 @@
 #include "pieces/roses.h"
 #include "pieces/spiral_springers.h"
 #include "pieces/marine.h"
+#include "pieces/ubiubi.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -853,31 +854,6 @@ static void gcsp(square sq_departure,
   }
   if (piece_belongs_to_opponent(sq_arrival,camp))
     empile(sq_departure,sq_arrival,sq_arrival);
-}
-
-static void gubi(square orig_departure,
-                 square step_departure,
-                 Side camp)
-{
-  vec_index_type k;
-
-  square sq_departure = orig_departure;
-
-  e_ubi[step_departure]= obs;
-
-  for (k= vec_knight_start; k<=vec_knight_end; k++)
-  {
-    square const sq_arrival = step_departure+vec[k];
-    if (e_ubi[sq_arrival]==vide)
-    {
-      empile(sq_departure,sq_arrival,sq_arrival);
-      gubi(orig_departure,sq_arrival,camp);
-    }
-    else if (camp==White ? e_ubi[sq_arrival]<=roin : e_ubi[sq_arrival]>=roib)
-      empile(sq_departure,sq_arrival,sq_arrival);
-
-    e_ubi[sq_arrival]= obs;
-  }
 }
 
 static void grfou(square   orig_departure,
@@ -1859,10 +1835,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
 
     case UbiUbi:
     {
-      square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++)
-        e_ubi[*bnp]= e[*bnp];
-      gubi(sq_departure, sq_departure, side);
+      ubiubi_generate_moves(sq_departure,side);
       return;
     }
 

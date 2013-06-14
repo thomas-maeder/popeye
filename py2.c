@@ -1783,26 +1783,6 @@ boolean bobcheck(square sq_king,
   return false;
 }
 
-boolean ubicheck(square    sq_king,
-                 PieNam p,
-                 evalfunction_t *evaluate)
-{
-  square const *bnp;
-
-  if (CondFlag[madras])
-  {
-    for (bnp= boardnum; *bnp; bnp++)
-      e_ubi_mad[*bnp]= e[*bnp];
-    return rubiech(sq_king, sq_king, p, e_ubi_mad, evaluate);
-  }
-  else
-  {
-    for (bnp= boardnum; *bnp; bnp++)
-      e_ubi[*bnp]= e[*bnp];
-    return rubiech(sq_king, sq_king, p, e_ubi, evaluate);
-  }
-}
-
 boolean moosecheck(square    sq_king,
                    PieNam p,
                    evalfunction_t *evaluate)

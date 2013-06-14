@@ -89,8 +89,6 @@ EXTERN char versionString[100];
 
 EXTERN square royal_square[nr_sides];
 
-EXTERN echiquier e_ubi, e_ubi_mad;
-
 EXTERN  square          ppridia[maxply + 1];
 
 EXTERN square prev_king_square[nr_sides][maxply+1];
@@ -1682,7 +1680,7 @@ void enforce_piecename_uniqueness(void);
 /* 35 */        dragoncheck,
 /* 36 */        kangoucheck,
 /* 37 */        cscheck,
-/* 38 */        ubicheck,
+/* 38 */        ubiubi_check,
 /* 39 */        nevercheck,	/* hamster cannot check */
 /* 40 */        moosecheck,
 /* 41 */        eaglecheck,

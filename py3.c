@@ -63,35 +63,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-boolean rubiech(square  intermediate_square,
-                square  sq_king,
-                PieNam p,
-                echiquier e_ub,
-                evalfunction_t *evaluate)
-{
-  vec_index_type k;
-
-  e_ub[intermediate_square]= obs;
-  for (k= vec_knight_start; k<=vec_knight_end; k++)
-  {
-    square const sq_departure= intermediate_square+vec[k];
-    if (e_ub[sq_departure]==vide)
-    {
-      if (rubiech(sq_departure,sq_king,p,e_ub,evaluate))
-        return true;
-    }
-    else
-    {
-      if (abs(e_ub[sq_departure])==p
-          && TSTFLAG(spec[sq_departure],trait[nbply])
-          && evaluate(sq_departure,sq_king,sq_king))
-        return true;
-    }
-  }
-
-  return false;
-}
-
 boolean rrfouech(square intermediate_square,
                  square sq_king,
                  numvec k,

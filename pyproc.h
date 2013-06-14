@@ -193,7 +193,7 @@ checkfunction_t skyllacheck;
 checkfunction_t sparrcheck;
 checkfunction_t spawncheck;
 checkfunction_t tritoncheck;
-checkfunction_t ubicheck;
+checkfunction_t ubiubi_check;
 checkfunction_t vaocheck;
 checkfunction_t vizircheck;
 checkfunction_t warancheck;
@@ -254,7 +254,6 @@ boolean rmhopech(square a, vec_index_type kend, vec_index_type kanf, angle_t ang
 
 boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
-boolean rubiech(square sq, square sqtest, PieNam p,  echiquier e_ub, evalfunction_t *evaluate );
 
 void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p);
 
