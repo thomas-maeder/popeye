@@ -1146,3 +1146,38 @@ Popeye has always wrongly allowed queen-side castling in Monochrome Chess
 solution finished. 
 
 
+
+ 4.63 didn't support Chamaelon Chess
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   K   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P  -P   .   .   .   2
+|                                   |
+1  -K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2.5                       2 + 3
+            ChameleonChess
+              MarsCirce
+
+  1...Kd8*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8*b2=R =
+
+                        empile:      295088
+                     play_move:       71545
+ is_white_king_square_attacked:       38807
+ is_black_king_square_attacked:       61072
+solution finished. 
+
+

@@ -244,10 +244,11 @@ stip_length_type chameleon_arriving_adjuster_solve(slice_index si,
   return result;
 }
 
-/* Instrument a stipulation
+/* Instrument the solving machinery for solving problems with some
+ * chameleon pieces
  * @param si identifies root slice of stipulation
  */
-void stip_insert_chameleon(slice_index si)
+void chameleon_initialse_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -261,6 +262,58 @@ void stip_insert_chameleon(slice_index si)
 
   if (anyanticirprom)
     stip_instrument_moves(si,STPromoteAnticirceRebornIntoChameleon);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type chameleon_chess_arriving_adjuster_solve(slice_index si,
+                                                         stip_length_type n)
+{
+  stip_length_type result;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
+                                      sq_arrival,
+                                      champiece(get_walk_of_piece_on_square(sq_arrival)));
+
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Instrument the solving machinery for solving problems with the condition
+ * Chameleon Chess
+ * @param si identifies root slice of stipulation
+ */
+void chameleon_chess_initialse_solving(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_instrument_moves(si,STChameleonChessArrivingAdjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

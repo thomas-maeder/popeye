@@ -2550,8 +2550,11 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[degradierung])
     stip_insert_degradierung(result);
 
+  if (CondFlag[chamchess])
+    chameleon_chess_initialse_solving(result);
+
   if (TSTFLAG(some_pieces_flags,Chameleon))
-    stip_insert_chameleon(result);
+    chameleon_initialse_solving(result);
 
   if (CondFlag[frischauf])
     stip_insert_frischauf_promotee_markers(result);

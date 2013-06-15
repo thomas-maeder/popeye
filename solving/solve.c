@@ -836,6 +836,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = chameleon_arriving_adjuster_solve(si,n);
       break;
 
+    case STChameleonChessArrivingAdjuster:
+      result = chameleon_chess_arriving_adjuster_solve(si,n);
+      break;
+
     case STLineChameleonArrivingAdjuster:
       result = line_chameleon_arriving_adjuster_solve(si,n);
       break;

@@ -232,4 +232,11 @@ stip ~1
 cond monochr
 option nobk
 
+next
+
+title 4.63 didn't support Chamaelon Chess
+pieces white kd8 pb7 black ka1 pd2e2
+stipulation h=2.5
+condition chameleonchess marscirce
+
 end

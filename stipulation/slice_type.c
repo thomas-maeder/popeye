@@ -343,6 +343,7 @@
     ENUMERATOR(STPromoteCirceRebornIntoChameleon),                      \
     ENUMERATOR(STPromoteAnticirceRebornIntoChameleon),                  \
     ENUMERATOR(STChameleonArrivingAdjuster),                            \
+    ENUMERATOR(STChameleonChessArrivingAdjuster),                       \
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
     ENUMERATOR(STPhantomChessEnPassantAdjuster),                        \
