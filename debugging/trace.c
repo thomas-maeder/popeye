@@ -258,7 +258,7 @@ static void remember_regular_piece(PieNam pnam)
 }
 #endif
 
-void TracePieceImpl(char const *prefix, piece p)
+void TracePieceImpl(char const *prefix, PieNam p)
 {
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
@@ -295,10 +295,10 @@ void TracePieceImpl(char const *prefix, piece p)
   if (level<=max_level)
   {
     fprintf(stdout,"%s",prefix);
-    if (p==vide)
-      printf("vide");
-    else if (p==obs)
-      printf("obs");
+    if (p==Empty)
+      printf("Empty");
+    else if (p==Invalid)
+      printf("Invalid");
     else
       WritePiece(p);
     fflush(stdout);
@@ -338,7 +338,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
   {
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-      if (!is_square_empty(*bnp) && e[*bnp]!=obs)
+      if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
         WriteSpec(spec[*bnp],e[*bnp],true);
         WritePiece(get_walk_of_piece_on_square(*bnp));

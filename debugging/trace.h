@@ -78,7 +78,7 @@ void TraceSquareImpl(char const *prefix, square s);
 #define TraceSquare(name) \
   TraceSquareImpl(" " #name ":", name)
 
-void TracePieceImpl(char const *prefix, piece p);
+void TracePieceImpl(char const *prefix, PieNam p);
 
 /* Trace a piece
  */
