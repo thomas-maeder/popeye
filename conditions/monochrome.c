@@ -19,7 +19,10 @@ static boolean is_move_monochrome(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = SquareCol(sq_departure)==SquareCol(sq_arrival);
+  if (sq_capture==queenside_castling)
+    result = false;
+  else
+    result = SquareCol(sq_departure)==SquareCol(sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

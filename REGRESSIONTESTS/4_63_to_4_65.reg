@@ -1101,3 +1101,48 @@ solution finished.
 solution finished. 
 
 
+
+Popeye has always wrongly allowed queen-side castling in Monochrome Chess
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 0
+            MonochromChess
+
+   1.Ke1-f2 !
+
+   1.Ke1-d2 !
+
+   1.Ra1-a7 !
+
+   1.Ra1-a5 !
+
+   1.Ra1-a3 !
+
+   1.Ra1-c1 !
+
+
+                        empile:          16
+                     play_move:           6
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

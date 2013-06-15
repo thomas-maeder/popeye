@@ -224,4 +224,12 @@ pieces neutral ned4
 stip ~1
 option nowk nobk
 
+next
+
+title Popeye has always wrongly allowed queen-side castling in Monochrome Chess
+pieces white ke1 ra1
+stip ~1
+cond monochr
+option nobk
+
 end
