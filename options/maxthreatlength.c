@@ -11,6 +11,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 static stip_length_type max_len_threat;
 
