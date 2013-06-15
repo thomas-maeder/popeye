@@ -603,28 +603,30 @@ static void gchinleap(square sq_departure,
 
 static void gnequi(square sq_departure, Side camp)
 {
-  /* Non-Stop-Equihopper */
-  square sq_hurdle;
-  square sq_arrival;
-  numvec delta_horiz, delta_vert;
-  numvec vector;
+  square const coin = coinequis(sq_departure);
+  numvec delta_horiz;
 
-  square const coin= coinequis(sq_departure);
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceEnumerator(Side,camp,"");
+  TraceFunctionParamListEnd();
 
   for (delta_horiz= 3*dir_right;
        delta_horiz!=dir_left;
        delta_horiz+= dir_left)
-
+  {
+    numvec delta_vert;
     for (delta_vert= 3*dir_up;
          delta_vert!=dir_down;
-         delta_vert+= dir_down) {
+         delta_vert+= dir_down)
+    {
+      square const sq_hurdle = coin+delta_horiz+delta_vert;
 
-      sq_hurdle= coin+delta_horiz+delta_vert;
-
-      if (!is_square_empty(sq_hurdle)) {
-
-        vector= sq_hurdle-sq_departure;
-        sq_arrival= sq_hurdle+vector;
+      if (sq_hurdle!=sq_departure /* prevent nNE from capturing itself */
+          && !is_square_empty(sq_hurdle))
+      {
+        numvec const vector = sq_hurdle-sq_departure;
+        square const sq_arrival = sq_hurdle+vector;
 
         if ((is_square_empty(sq_arrival)
              || piece_belongs_to_opponent(sq_arrival,camp))
@@ -635,6 +637,10 @@ static void gnequi(square sq_departure, Side camp)
         }
       }
     }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void gorix(square sq_departure, Side camp)

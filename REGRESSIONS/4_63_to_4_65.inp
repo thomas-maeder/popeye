@@ -217,4 +217,11 @@ stip h~1
 option nowk nobk
 twin add black royal pe7
 
+next
+
+title 4.63 allowed neutral Nonstop-Equihoppers to capture themselves
+pieces neutral ned4
+stip ~1
+option nowk nobk
+
 end
