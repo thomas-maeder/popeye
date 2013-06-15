@@ -1,5 +1,6 @@
 #include "conditions/magic_square.h"
 #include "pydata.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -14,7 +15,8 @@ magic_square_type_type magic_square_type;
 static void side_change_if_magic(square on, Flags changedspec)
 {
   if (TSTFLAG(sq_spec[on],MagicSq)
-      && !TSTFLAGMASK(changedspec,BIT(Royal)|BIT(Neutral))
+      && !TSTFLAG(changedspec,Royal)
+      && !is_piece_neutral(changedspec)
       && !is_square_empty(on)
       && GetPieceId(changedspec)==GetPieceId(spec[on]))
     move_effect_journal_do_side_change(move_effect_reason_magic_square,on);

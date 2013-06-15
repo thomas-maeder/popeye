@@ -1,5 +1,6 @@
 #include "position/position.h"
 #include "py.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -104,7 +105,7 @@ void swap_sides(void)
   king_square[Black] = save_white_king_square==initsquare ? initsquare : save_white_king_square;
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (!TSTFLAG(spec[*bnp],Neutral) && !is_square_empty(*bnp))
+    if (!is_piece_neutral(spec[*bnp]) && !is_square_empty(*bnp))
       spec[*bnp]^= BIT(White)+BIT(Black);
 
   areColorsSwapped = !areColorsSwapped;

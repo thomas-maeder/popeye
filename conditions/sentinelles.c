@@ -1,5 +1,6 @@
 #include "conditions/sentinelles.h"
 #include "pydata.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/has_solution_type.h"
@@ -31,7 +32,7 @@ static void insert_sentinelle(Side trait_ply)
       && !is_pawn(pi_departing)
       && is_square_empty(sq_departure))
   {
-    if (SentPionNeutral && TSTFLAG(spec_pi_moving,Neutral))
+    if (SentPionNeutral && is_piece_neutral(spec_pi_moving))
     {
       Flags const sentinelle_spec = all_pieces_flags|BIT(White)|BIT(Black)|BIT(Neutral);
       move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,

@@ -1,5 +1,6 @@
 #include "pieces/attributes/neutral/half.h"
 #include "pydata.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -34,7 +35,7 @@ stip_length_type half_neutral_recolorer_solve(slice_index si, stip_length_type n
 
   if (TSTFLAG(spec[sq_arrival],HalfNeutral))
   {
-    if (TSTFLAG(spec[sq_arrival],Neutral))
+    if (is_piece_neutral(spec[sq_arrival]))
       move_effect_journal_do_half_neutral_deneutralisation(sq_arrival,slices[si].starter);
     else
       move_effect_journal_do_half_neutral_neutralisation(sq_arrival);

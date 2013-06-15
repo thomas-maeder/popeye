@@ -76,6 +76,7 @@
 #include "stipulation/pipe.h"
 #include "output/output.h"
 #include "pieces/hunters.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -1605,7 +1606,7 @@ static char *ParseSquareList(char *tok,
           sprintf(GlobalStr,
                   "%s\\%c%s %c%c",
                   is_square_empty(Square) ? "+" : "",
-                  TSTFLAG(Spec, Neutral)
+                  is_piece_neutral(Spec)
                   ? 'n'
                   : TSTFLAG(Spec, White) ? 'w' : 's',
                   LaTeXPiece(Name),
@@ -1620,7 +1621,7 @@ static char *ParseSquareList(char *tok,
         WriteSquare(Square);
         StdChar(' ');
       }
-      if (TSTFLAG(Spec, Neutral)) {
+      if (is_piece_neutral(Spec)) {
         Spec |= BIT(Black) + BIT(White);
       }
       if (echo==1)
@@ -5979,7 +5980,7 @@ static char *ParseTwinningMove(int indexx)
   if (LaTeXout)
   {
     sprintf(GlobalStr, "\\%c%s %c%c",
-            TSTFLAG(spec[sq1], Neutral)
+            is_piece_neutral(spec[sq1])
             ? 'n'
             : TSTFLAG(spec[sq1], White) ? 'w' : 's',
             LaTeXPiece(get_walk_of_piece_on_square(sq1)),
@@ -5998,7 +5999,7 @@ static char *ParseTwinningMove(int indexx)
     if (LaTeXout) {
       strcat(ActTwinning, "{\\lra}");
       sprintf(GlobalStr, "\\%c%s ",
-              TSTFLAG(spec[sq2], Neutral)
+              is_piece_neutral(spec[sq2])
               ? 'n'
               : TSTFLAG(spec[sq2], White) ? 'w' : 's',
               LaTeXPiece(get_walk_of_piece_on_square(sq2)));
@@ -6228,7 +6229,7 @@ static char *ParseTwinningRemove(void) {
       if (LaTeXout) {
         strcat(ActTwinning, " --");
         strcat(ActTwinning,
-               TSTFLAG(spec[sq], Neutral)
+               is_piece_neutral(spec[sq])
                ? "\\n"
                : TSTFLAG(spec[sq], White) ? "\\w" : "\\s");
         strcat(ActTwinning,
@@ -6266,7 +6267,7 @@ static char *ParseTwinningPolish(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (!TSTFLAG(spec[*bnp], Neutral) && !is_square_empty(*bnp))
+      if (!is_piece_neutral(spec[*bnp]) && !is_square_empty(*bnp))
         occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),spec[*bnp]^(BIT(White)|BIT(Black)));
   }
 
@@ -6979,7 +6980,7 @@ void WritePosition()
           *n1 = UPCASE(PieceTab[huntertypes[hunterIndex].home][0]);
         }
 
-        if (TSTFLAG(spec[square], Neutral))
+        if (is_piece_neutral(spec[square]))
         {
           nNeutr++;
           *h1= '=';
@@ -7408,7 +7409,7 @@ void LaTeXBeginDiagram(void)
         firstpiece= false;
 
       fprintf(LaTeXFile, "%c%s%c%c",
-              TSTFLAG(spec[*bnp], Neutral) ? 'n' :
+              is_piece_neutral(spec[*bnp]) ? 'n' :
               TSTFLAG(spec[*bnp], White)   ? 'w' : 's',
               LaTeXPiece(p),
               *bnp%onerow-200%onerow+'a',
@@ -7418,7 +7419,7 @@ void LaTeXBeginDiagram(void)
       {
         fairypieces= true;
 
-        if (TSTFLAG(spec[*bnp], Neutral)) {
+        if (is_piece_neutral(spec[*bnp])) {
           SETFLAG(remspec[p], Neutral);
         }
         else if (TSTFLAG(spec[*bnp], White)) {
@@ -7601,7 +7602,7 @@ void LaTeXBeginDiagram(void)
         fprintf(LaTeXFile, "\\w%s ", LaTeXPiecesAbbr[p]);
       if (TSTFLAG(remspec[p], Black))
         fprintf(LaTeXFile, "\\s%s ", LaTeXPiecesAbbr[p]);
-      if (TSTFLAG(remspec[p], Neutral))
+      if (is_piece_neutral(remspec[p]))
         fprintf(LaTeXFile, "\\n%s ", LaTeXPiecesAbbr[p]);
       fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
       firstline= false;

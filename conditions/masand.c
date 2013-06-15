@@ -1,5 +1,6 @@
 #include "conditions/masand.h"
 #include "pydata.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -56,7 +57,7 @@ static void change_observed(square observer_pos)
         && *bnp!=king_square[White]
         && *bnp!=observer_pos
         && observed(*bnp,observer_pos)
-        && !TSTFLAG(spec[*bnp],Neutral))
+        && !is_piece_neutral(spec[*bnp]))
       move_effect_journal_do_side_change(move_effect_reason_masand,*bnp);
 
   TraceFunctionExit(__func__);

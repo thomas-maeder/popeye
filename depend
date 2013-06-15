@@ -815,7 +815,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  solving/play_suppressor.h solving/castling.h solving/en_passant.h \
  solving/move_generator.h solving/post_move_iteration.h pieces/walks.h \
  pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/kamikaze/kamikaze.h pieces/attributes/neutral/half.h \
+ pieces/attributes/kamikaze/kamikaze.h \
+ pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
  pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
  pieces/pawns/promotion.h pieces/hunters.h conditions/amu/mate_filter.h \
@@ -1216,6 +1217,8 @@ pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/kamikaze/kamikaze.h:
 
+pieces/attributes/neutral/neutral.h:
+
 pieces/attributes/neutral/half.h:
 
 pieces/attributes/hurdle_colour_changing.h:
@@ -1303,8 +1306,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  solving/solve.h pyproof.h stipulation/slice.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h output/output.h output/mode.h pieces/hunters.h \
- position/position.h stipulation/has_solution_type.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/branch.h stipulation/move_inverter.h \
+ position/position.h pieces/attributes/neutral/neutral.h \
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/move_inverter.h \
  stipulation/if_then_else.h stipulation/boolean/or.h \
  stipulation/boolean/and.h stipulation/boolean/not.h \
  stipulation/boolean/true.h stipulation/goals/reached_tester.h \
@@ -1413,6 +1417,8 @@ output/mode.h:
 pieces/hunters.h:
 
 position/position.h:
+
+pieces/attributes/neutral/neutral.h:
 
 stipulation/has_solution_type.h:
 
@@ -1641,7 +1647,7 @@ pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h position/position.h \
  conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h position/pieceid.h \
  conditions/vaulting_kings.h position/position.h conditions/imitator.h \
- pieces/walks.h debugging/trace.h
+ pieces/attributes/neutral/neutral.h pieces/walks.h debugging/trace.h
 
 py.h:
 
@@ -1730,6 +1736,8 @@ conditions/vaulting_kings.h:
 position/position.h:
 
 conditions/imitator.h:
+
+pieces/attributes/neutral/neutral.h:
 
 pieces/walks.h:
 

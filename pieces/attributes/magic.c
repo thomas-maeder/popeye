@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pieces/roses.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -501,7 +502,8 @@ static void PushMagicViewsByOnePiece(square pos_magic)
 
   for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
     if (get_walk_of_piece_on_square(*pos_viewed)>Invalid
-        && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal)|BIT(Neutral)))
+        && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal))
+        && !is_piece_neutral(spec[*pos_viewed]))
     {
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
@@ -633,7 +635,7 @@ static void ChangeMagic(void)
     /* only change if viewee suffers odd-no. new views */
     if (count_changed_views(*bnp)%2==1)
     {
-      assert(!TSTFLAG(spec[*bnp],Neutral));
+      assert(!is_piece_neutral(spec[*bnp]));
       move_effect_journal_do_side_change(move_effect_reason_magic_piece,*bnp);
     }
 

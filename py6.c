@@ -256,6 +256,7 @@
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
 #include "pieces/attributes/hurdle_colour_changing.h"
 #include "pieces/attributes/chameleon.h"
@@ -575,7 +576,7 @@ static boolean locate_royals(void)
       {
         square const s = *bnp;
         assert(!TSTFLAG(spec[s],Royal));
-        assert(!TSTFLAG(spec[s],Neutral));
+        assert(!is_piece_neutral(spec[s]));
         if (get_walk_of_piece_on_square(s)==King)
         {
           Side const king_side = TSTFLAG(spec[s],White) ? White : Black;
@@ -1016,7 +1017,7 @@ static boolean verify_position(slice_index si)
 
   /* otherwise, the optimisation would be correct, too, but we
    * wouldn't care */
-  optim_neutralretractable = TSTFLAG(some_pieces_flags,Neutral);
+  optim_neutralretractable = is_piece_neutral(some_pieces_flags);
 
   if (CondFlag[sting])
   {
@@ -1070,7 +1071,7 @@ static boolean verify_position(slice_index si)
       VerifieMsg(CirceAndDummy);
       return false;
     }
-    if (TSTFLAG(some_pieces_flags, Neutral)
+    if (is_piece_neutral(some_pieces_flags)
         || CondFlag[volage] || TSTFLAG(some_pieces_flags,Volage))
     {
       optim_neutralretractable = false;
@@ -1312,7 +1313,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[masand]
       || TSTFLAG(some_pieces_flags,Magic))
   {
-    if (TSTFLAG(some_pieces_flags, Neutral))
+    if (is_piece_neutral(some_pieces_flags))
     {
       VerifieMsg(TooFairyForNeutral);
       return false;
@@ -1339,7 +1340,7 @@ static boolean verify_position(slice_index si)
        || CondFlag[antikoeko]
        || TSTFLAG(some_pieces_flags, Jigger))
       && anycirce
-      && TSTFLAG(some_pieces_flags, Neutral))
+      && is_piece_neutral(some_pieces_flags))
   {
     VerifieMsg(TooFairyForNeutral);
     return false;
@@ -1455,7 +1456,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[circeassassin]) {
-    if (TSTFLAG(some_pieces_flags,Neutral) /* Neutrals not implemented */
+    if (is_piece_neutral(some_pieces_flags) /* Neutrals not implemented */
         || CondFlag[bicolores])             /* others? */
     {
       VerifieMsg(AssassinandOthers);
@@ -1516,7 +1517,7 @@ static boolean verify_position(slice_index si)
 
   if (mummer_strictness[White]==mummer_strictness_ultra && !CondFlag[whcapt])
   {
-    if (TSTFLAG(some_pieces_flags, Neutral))
+    if (is_piece_neutral(some_pieces_flags))
     {
       VerifieMsg(TooFairyForNeutral);
       return false;
@@ -1525,7 +1526,7 @@ static boolean verify_position(slice_index si)
 
   if (mummer_strictness[Black]==mummer_strictness_ultra && !CondFlag[blcapt])
   {
-    if (TSTFLAG(some_pieces_flags, Neutral))
+    if (is_piece_neutral(some_pieces_flags))
     {
       VerifieMsg(TooFairyForNeutral);
       return false;
@@ -1738,7 +1739,7 @@ static boolean verify_position(slice_index si)
        || may_exist[Friend]
        || calc_reflective_king[White]
        || calc_reflective_king[Black])
-      && TSTFLAG(some_pieces_flags, Neutral))
+      && is_piece_neutral(some_pieces_flags))
   {
     VerifieMsg(TooFairyForNeutral);
     return false;
@@ -1911,7 +1912,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (mummer_strictness[White]!=mummer_strictness_none /* counting opponents moves not useful */
-      || TSTFLAG(some_pieces_flags, Neutral)
+      || is_piece_neutral(some_pieces_flags)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
@@ -1933,7 +1934,7 @@ static boolean verify_position(slice_index si)
     disable_countnropponentmoves_defense_move_optimisation(White);
 
   if (mummer_strictness[Black]!=mummer_strictness_none /* counting opponents moves not useful */
-      || TSTFLAG(some_pieces_flags, Neutral)
+      || is_piece_neutral(some_pieces_flags)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
@@ -2012,7 +2013,7 @@ boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
   boolean ret = false;
   PieSpec spname;
 
-  if (printcolours && !TSTFLAG(sp, Neutral))
+  if (printcolours && !is_piece_neutral(sp))
   {
     if (areColorsSwapped)
     {

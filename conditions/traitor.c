@@ -1,5 +1,6 @@
 #include "conditions/traitor.h"
 #include "pydata.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -34,7 +35,7 @@ stip_length_type traitor_side_changer_solve(slice_index si, stip_length_type n)
 
   if (slices[si].starter==Black
       && sq_arrival<=square_h4
-      && !TSTFLAG(spec[sq_arrival],Neutral))
+      && !is_piece_neutral(spec[sq_arrival]))
     move_effect_journal_do_side_change(move_effect_reason_traitor_defection,
                                        sq_arrival);
 

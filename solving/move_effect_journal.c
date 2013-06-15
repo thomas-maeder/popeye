@@ -4,6 +4,7 @@
 #include "conditions/imitator.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
 #include "position/pieceid.h"
 #include "debugging/trace.h"
@@ -674,7 +675,7 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   TraceValue("%d",GetPieceId(spec[on]));
   TraceValue("%d",TSTFLAG(spec[on],White));
   TraceValue("%d",TSTFLAG(spec[on],Black));
-  TraceValue("%d",TSTFLAG(spec[on],Neutral));
+  TraceValue("%d",is_piece_neutral(spec[on]));
   TraceValue("%d",TSTFLAG(spec[on],HalfNeutral));
   TraceValue("%d\n",e[on]);
 
@@ -829,7 +830,7 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
   TraceEnumerator(Side,to,"");
   TraceFunctionParamListEnd();
 
-  assert(!TSTFLAG(spec[on],Neutral));
+  assert(!is_piece_neutral(spec[on]));
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
@@ -922,7 +923,7 @@ void move_effect_journal_do_half_neutral_deneutralisation(square on, Side to)
 
   assert(TSTFLAG(spec[on],White));
   assert(TSTFLAG(spec[on],Black));
-  assert(TSTFLAG(spec[on],Neutral));
+  assert(is_piece_neutral(spec[on]));
 
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
   occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~(BIT(Neutral)|BIT(advers(to))));
@@ -1029,7 +1030,7 @@ static void undo_half_neutral_neutralisation(move_effect_journal_index_type curr
 
   assert(TSTFLAG(spec[on],White));
   assert(TSTFLAG(spec[on],Black));
-  assert(TSTFLAG(spec[on],Neutral));
+  assert(is_piece_neutral(spec[on]));
 
   --number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
   occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~(BIT(Neutral)|BIT(advers(from))));

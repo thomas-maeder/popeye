@@ -41,6 +41,7 @@
 #include "conditions/vaulting_kings.h"
 #include "conditions/imitator.h"
 #include "position/position.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks.h"
 #include "debugging/trace.h"
 
@@ -97,7 +98,7 @@ static void ProofSmallEncodePiece(byte **bp,
 {
   Side const side =  TSTFLAG(flags,White) ? White : Black;
   byte encoded = p;
-  assert(!TSTFLAG(flags,Neutral));
+  assert(!is_piece_neutral(flags));
   if (side==Black)
     encoded |= 1 << black_bit;
   assert(p < 1 << black_bit);
@@ -147,7 +148,7 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
         if (p!=Empty)
         {
           Flags const flags = spec[curr_square];
-          if (flagfee || TSTFLAG(some_pieces_flags,Neutral))
+          if (flagfee || is_piece_neutral(some_pieces_flags))
             ProofLargeEncodePiece(&bp,row,col,p,flags);
           else
             ProofSmallEncodePiece(&bp,row,col,p,flags,&even);

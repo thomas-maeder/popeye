@@ -1,5 +1,6 @@
 #include "pieces/attributes/hurdle_colour_changing.h"
 #include "pydata.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -14,7 +15,7 @@ static void update_hurdle_colour(void)
   square const sq_hurdle = move_generation_stack[current_move[nbply]].auxiliary;
   PieNam const pi_hurdle = get_walk_of_piece_on_square(sq_hurdle);
 
-  if (pi_hurdle>King && !TSTFLAG(spec[sq_hurdle],Neutral))
+  if (pi_hurdle>King && !is_piece_neutral(spec[sq_hurdle]))
     move_effect_journal_do_side_change(move_effect_reason_hurdle_colour_changing,
                                        sq_hurdle);
 }

@@ -1,6 +1,7 @@
 #include "optimisations/goals/mate/neutralretractable.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -237,7 +238,7 @@ static boolean is_move_retractable(numecoup i)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_departure],Neutral))
+  if (is_piece_neutral(spec[sq_departure]))
   {
      /* TODO can we optimise like this when we are not generating goal
       * reaching moves?
