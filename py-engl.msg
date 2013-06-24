@@ -34,7 +34,7 @@
  33= input-error:
  34= wrong or missing PieceName - ignored
  35= PieceSpecification not uniq
- 36= only one out of White, Black or Neutral may be specified - ignored
+ 36= 
  37= could not recognize condition
  38= option not uniq - ignored
  39= wrong integer

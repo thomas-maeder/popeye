@@ -191,7 +191,7 @@ title versions up to 4.63 didn't allow hunters to capture or be captured ep
 pieces white p/be5 black p/bd7
 stip hep1
 option nowk nobk
-twin add royal black p/bd7
+twin add black royal p/bd7
 
 next
 

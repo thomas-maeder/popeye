@@ -8,7 +8,7 @@ forderung       #2
 bedingung       spiegelcirce
 steine               weiss   kd1
                      schwarz sd7d2 bg6 gb5b4h2 kd3
-       paralysierend weiss   bb7 tc3
+       weiss paralysierend  bb7 tc3
 option varianten widerlegung 1
 
 weiteresproblem
@@ -16,20 +16,20 @@ weiteresproblem
 autor           Marco Bonavoglia
 quelle          3. ehr. Erw., 41. feenschach-TT 1984
 forderung       h#2
-steine               weiss   kd6
-                     schwarz kd4
-       paralysierend weiss   bd7
-       paralysierend schwarz th4
+steine weiss   kd6
+       schwarz kd4
+       weiss paralysierend  bd7
+       schwarz paralysierend th4
 
 weiteresproblem
 
 autor           Claude Wiedenhoff
 quelle          1. Preis, 41. feenschach-TT 1984
 forderung       #2
-steine               weiss   dc8 kg5 tb4
-                     schwarz ba6a5h5 kd6 te5 lf1
-       paralysierend weiss   be7 sc6c4 la3
-       paralysierend schwarz th8
+steine weiss   dc8 kg5 tb4
+       schwarz ba6a5h5 kd6 te5 lf1
+       weiss paralysierend  be7 sc6c4 la3
+       schwarz paralysierend th8
 option          varianten
 
 weiteresproblem
@@ -39,8 +39,8 @@ quelle          5. ehr. Erw., 41. feenschach-TT 1984
 forderung       #2
 steine               weiss   lb8 sh8 bf7
                      schwarz sg8 bd7g5h5 ke7 tf4 dh3
-       paralysierend weiss   df8 tc6d1 ka3 lh1
-       paralysierend schwarz tb4 lb3b2 sg2
+       weiss paralysierend   df8 tc6d1 ka3 lh1
+       schwarz paralysierend tb4 lb3b2 sg2
 option          varianten widerlegung 1
 
 weiteresproblem
@@ -51,8 +51,8 @@ forderung       #2
 bedingung       circe
 steine               weiss   df6 be5 sb3
                      schwarz lh6 td5 bf4h3b2e2 kf3
-       paralysierend weiss   ld8 tf8 sc5 kf2
-       paralysierend schwarz dc7 la6 ta2 sg2 bf7g6
+       weiss paralysierend   ld8 tf8 sc5 kf2
+       schwarz paralysierend dc7 la6 ta2 sg2 bf7g6
 option          varianten
 
 zwilling bedingung platzwechselcirce
@@ -61,7 +61,7 @@ weiter
 
 titel Demonstrationsbeispiel für die spezielle Patt-Regel
 steine weiss ta1
-       paralysierend weiss ka7
+       weiss paralysierend ka7
        schwarz ka8 bc6
 forderung =1
 
@@ -70,7 +70,7 @@ weiter
 titel Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 steine weiss kc2 bd2
        schwarz bc4e4
-       paralysierend schwarz th3
+       schwarz paralysierend th3
 forderung !=1
 
 endeproblem

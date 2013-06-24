@@ -622,8 +622,7 @@ typedef enum
  */
 typedef enum
 {
-  Neutral = nr_sides,
-  Royal,
+  Royal = nr_sides,
   Kamikaze,
   Paralysing,
   Chameleon,
@@ -673,9 +672,6 @@ typedef unsigned int slice_index;
 
 #define encore()        (current_move[nbply] > current_move[nbply-1])
 #define advers(camp)    ((camp) ? White : Black)
-
-#define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))
-#define SETCOLOR(a,b)   (a)=((a)&~COLORFLAGS)+((b)&COLORFLAGS)
 
 #define imcheck(i, j) (!CondFlag[imitators] || imok((i), (j)))
 #define ridimcheck(sq, j, diff) (!CondFlag[imitators] || ridimok((sq), (j), (diff)))

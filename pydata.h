@@ -1373,7 +1373,35 @@ void enforce_piecename_uniqueness(void);
 #endif
 
 #if defined(WE_ARE_EXTERN)
-	extern  char    *PieSpString[LanguageCount][PieSpCount];
+  extern char *ColorString[LanguageCount][nr_colors];
+  extern char **ColorTab;
+#else
+  char    **ColorTab;
+  char    *ColorString[LanguageCount][nr_colors] =
+  {
+    {
+       /* French */
+      "Blanc",
+      "Noir",
+      "Neutre"
+    },
+    {
+      /* German */
+      "Weiss",
+      "Schwarz",
+      "Neutral"
+    },
+    {
+      /* English */
+      "White",
+      "Black",
+      "Neutral"
+    }
+  };
+#endif
+
+#if defined(WE_ARE_EXTERN)
+	extern  char    *PieSpString[LanguageCount][PieSpCount-nr_sides];
 	extern  char    **PieSpTab;
 	extern  Flags   some_pieces_flags;
   extern  Flags   all_pieces_flags;
@@ -1383,12 +1411,10 @@ void enforce_piecename_uniqueness(void);
   Flags   all_pieces_flags;
   Flags   all_royals_flags;
 	char    **PieSpTab;
-	char    *PieSpString[LanguageCount][PieSpCount] = {
+	char    *PieSpString[LanguageCount][PieSpCount-nr_sides] =
 	{
-/* French */
-      "Blanc",
-      "Noir",
-      "Neutre",
+    {
+      /* French */
       "Royale",
       "Kamikaze",
       "Paralysante",
@@ -1402,11 +1428,9 @@ void enforce_piecename_uniqueness(void);
       "Magique",
       "Imprenable",
       "Patrouille"
-	},{
+    },
+    {
       /* German */
-      "Weiss",
-      "Schwarz",
-      "Neutral",
       "Koeniglich",
       "Kamikaze",
       "Paralysierend",
@@ -1419,12 +1443,10 @@ void enforce_piecename_uniqueness(void);
       "Proteisch",
       "Magisch",
       "Unschlagbar",
-      "Patrouille",
-	},{
+      "Patrouille"
+    },
+    {
       /* English */
-      "White",
-      "Black",
-      "Neutral",
       "Royal",
       "Kamikaze",
       "Paralysing",
@@ -1438,8 +1460,8 @@ void enforce_piecename_uniqueness(void);
       "Magic",
       "Uncapturable",
       "Patrol"
-	}
-	};
+    }
+  };
 #endif
 
 #if defined(WE_ARE_EXTERN)

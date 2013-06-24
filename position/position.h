@@ -13,7 +13,6 @@ enum
   maxnrhuntertypes = 10
 };
 
-/* TODO reduce to 1 piece kind enumeration type */
 typedef enum
 {
   Empty,                   /* 0 */
@@ -203,6 +202,18 @@ typedef unsigned long Flags;
 #define ENUMERATION_DECLARE
 
 #include "utilities/enumeration.h"
+
+typedef enum
+{
+  color_white,
+  color_black,
+  color_neutral,
+
+  nr_colors
+} Colors;
+
+#define COLORFLAGS      (BIT(color_black)+BIT(color_white)+BIT(color_neutral))
+#define SETCOLOR(a,b)   (a)=((a)&~COLORFLAGS)+((b)&COLORFLAGS)
 
 extern echiquier e;
 extern Flags spec[maxsquare+4];

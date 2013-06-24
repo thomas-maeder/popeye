@@ -1463,6 +1463,7 @@ static void ReadBeginSpec(void)
         mummer_strictness_tab = &(mummer_strictness_string[UserLanguage][0]);
         PieceTab= PieNamString[UserLanguage];
         PieSpTab= PieSpString[UserLanguage];
+        ColorTab= ColorString[UserLanguage];
         InitMsgTab(UserLanguage);
         return;
       }
@@ -1572,9 +1573,9 @@ static char *LaTeXPiece(PieNam Name)
 } /* LaTeXPiece */
 
 static char *ParseSquareList(char *tok,
-                             PieNam Name,
-                             Flags Spec,
-                             char echo)
+                                PieNam Name,
+                                Flags Spec,
+                                char echo)
 {
   /* We interprete the tokenString as SquareList
      If we return always the next1 tokenstring
@@ -1620,9 +1621,6 @@ static char *ParseSquareList(char *tok,
         WritePiece(Name);
         WriteSquare(Square);
         StdChar(' ');
-      }
-      if (is_piece_neutral(Spec)) {
-        Spec |= NeutralMask;
       }
       if (echo==1)
         move_effect_journal_store_retro_capture(Square,Name,Spec);
@@ -1817,63 +1815,72 @@ static char *ParseForsyth(boolean output)
   return ReadNextTokStr();
 }
 
-static char *ParsePieSpec(char echo)
+static Flags ParseColor(char *tok, boolean color_is_mandatory)
 {
-  /* We read the PieceSpecifikation.
-  ** The first token we cannot interprete as PieceSpec
-  ** When a color specification was suplied we try to
-  ** parse the following MenList.
-  ** If no ColorSpec is given, and we had already one, we return
-  ** the token, to the caller.
-  */
-  Flags   PieSpFlags;
-  int     SpecCnt= 0;
-  char    *tok;
-  Flags const ColorBits = (BIT(White) | BIT(Black) | BIT(Neutral));
+  Colors const color = GetUniqIndex(nr_colors,ColorTab,tok);
+  if (color==nr_colors)
+  {
+    if (color_is_mandatory)
+      IoErrorMsg(NoColorSpec,0);
+    return 0;
+  }
+  else if (color>nr_colors)
+  {
+    IoErrorMsg(PieSpecNotUniq,0);
+    return 0;
+  }
+  else if (color==color_neutral)
+    return NeutralMask;
+  else
+    return BIT(color);
+}
 
-  tok = ReadNextTokStr();
+static char *ParsePieceFlags(Flags *flags)
+{
+  char *tok;
+
   while (true)
   {
-    CLEARFL(PieSpFlags);
-    while (true)
+    tok = ReadNextTokStr();
+
     {
-      PieSpec const ps = GetUniqIndex(PieSpCount,PieSpTab,tok);
-      if (ps==PieSpCount)
+      PieSpec const ps = GetUniqIndex(PieSpCount-nr_sides,PieSpTab,tok);
+      if (ps==PieSpCount-nr_sides)
         break;
-      else if (ps>PieSpCount)
+      else if (ps>PieSpCount-nr_sides)
         IoErrorMsg(PieSpecNotUniq,0);
       else
-      {
-        Flags const TmpFlg = PieSpFlags&ColorBits;
-        if ((TmpFlg&BIT(ps)) && TmpFlg!=(Flags)BIT(ps))
-          IoErrorMsg(WBNAllowed,0);
-        else if (ps==Neutral)
-        {
-          SETFLAGMASK(PieSpFlags,NeutralMask);
-          SETFLAGMASK(some_pieces_flags,NeutralMask);
-        }
-        else
-        {
-          SETFLAG(PieSpFlags,ps);
-          if (!(ColorBits&BIT(ps)))
-            SETFLAG(some_pieces_flags,ps);
-        }
-      }
-
-      tok = ReadNextTokStr();
+        SETFLAG(*flags,ps+nr_sides);
     }
+  }
 
-    if (PieSpFlags & ColorBits)
-    {
-      tok = PrsPieNam(tok,PieSpFlags,echo);
-      SpecCnt++;
-    }
+  return tok;
+}
+
+static char *ParsePieces(char echo)
+{
+  int nr_groups = 0;
+  char *tok = ReadNextTokStr();
+  while (true)
+  {
+    Flags PieSpFlags = ParseColor(tok,nr_groups==0);
+    if (PieSpFlags==0)
+      break;
     else
     {
-      if (SpecCnt)
-        break;
-      IoErrorMsg(NoColorSpec,0);
-      tok = ReadNextTokStr();
+      ++nr_groups;
+
+      if (is_piece_neutral(PieSpFlags))
+        SETFLAGMASK(some_pieces_flags,NeutralMask);
+
+      {
+        Flags nonColorFlags = 0;
+        tok = ParsePieceFlags(&nonColorFlags);
+        PieSpFlags |= nonColorFlags;
+        some_pieces_flags |= nonColorFlags;
+      }
+
+      tok = PrsPieNam(tok,PieSpFlags,echo);
     }
   }
 
@@ -3114,7 +3121,7 @@ static char *ParseStructuredStip_skip_whitespace(char *tok)
 Side ParseStructuredStip_starter(char *tok)
 {
   Side result = no_side;
-  PieSpec ps;
+  Side ps;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -3122,11 +3129,11 @@ Side ParseStructuredStip_starter(char *tok)
 
   /* We don't make any unsafe assumptions here; PieSpec enumerators
    * are initialised in terms of nr_sides */
-  ps = GetUniqIndex(nr_sides,PieSpTab,tok);
-  if ((Side)ps>nr_sides)
+  ps = GetUniqIndex(nr_sides,ColorTab,tok);
+  if (ps>nr_sides)
     IoErrorMsg(PieSpecNotUniq,0);
-  else if ((Side)ps<nr_sides)
-    result = (Side)ps;
+  else if (ps<nr_sides)
+    result = ps;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(Side,result,"");
@@ -5749,7 +5756,7 @@ static char *ParseOpt(slice_index root_slice_hook)
         break;
 
       case lastcapture:
-        tok = ParsePieSpec(1);
+        tok = ParsePieces(1);
         break;
 
       case mutuallyexclusivecastling:
@@ -6474,7 +6481,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
         }
         break;
       case TwinningAdd:
-        tok = ParsePieSpec('+');
+        tok = ParsePieces('+');
         break;
       case TwinningCond:
         InitCond();
@@ -6743,7 +6750,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case PieceToken:
-            tok = ParsePieSpec('\0');
+            tok = ParsePieces('\0');
             break;
 
           case CondToken:
@@ -6877,8 +6884,8 @@ void WritePosition()
   char    PieCnts[20];
   char    StipOptStr[40];
   PieSpec sp;
-  char    ListSpec[PieSpCount][256];
-  unsigned int SpecCount[PieSpCount] = { 0 };
+  char    ListSpec[PieSpCount-nr_sides][256];
+  unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
   FILE    *OrigSolFile= SolFile;
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
@@ -6889,8 +6896,8 @@ void WritePosition()
 
   SolFile= NULL;
 
-  for (sp= Royal; sp<PieSpCount; ++sp)
-    strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);
+  for (sp = nr_sides; sp<PieSpCount; ++sp)
+    strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
 
   StdChar('\n');
   MultiCenter(ActAuthor);
@@ -6945,12 +6952,12 @@ void WritePosition()
       else
       {
         PieNam const pp = get_walk_of_piece_on_square(square);
-        for (sp= Royal; sp<PieSpCount; ++sp)
+        for (sp= nr_sides; sp<PieSpCount; ++sp)
           if (TSTFLAG(spec[square],sp)
               && !(sp==Royal && (pp==King || pp==Poseidon)))
           {
-            AddSquare(ListSpec[sp], square);
-            ++SpecCount[sp];
+            AddSquare(ListSpec[sp-nr_sides], square);
+            ++SpecCount[sp-nr_sides];
           }
 
         if (pp<Hunter0 || pp>=Hunter0+maxnrhuntertypes)
@@ -7033,15 +7040,15 @@ void WritePosition()
     StdString(GlobalStr);
   }
 
-  if (SpecCount[Royal]>0)
-    CenterLine(ListSpec[Royal]);
+  if (SpecCount[Royal-nr_sides]>0)
+    CenterLine(ListSpec[Royal-nr_sides]);
 
   for (sp = Royal+1; sp<PieSpCount; sp++)
     if (TSTFLAG(some_pieces_flags,sp))
       if (!(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
           && !(sp==Beamtet && CondFlag[beamten]))
-        CenterLine(ListSpec[sp]);
+        CenterLine(ListSpec[sp-nr_sides]);
 
   WriteConditions(WCcentered);
 
@@ -7183,13 +7190,13 @@ void LaTeXBeginDiagram(void)
     modifiedpieces=false;
   PieSpec sp;
   boolean is_piece_on_side[PieceCount][nr_sides+1];
-  char ListSpec[PieSpCount][256];
-  unsigned int SpecCount[PieSpCount] = { 0 };
+  char ListSpec[PieSpCount-nr_sides][256];
+  unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
   char    HolesSqList[256] = "";
   square const *bnp;
 
   for (sp= Royal; sp<PieSpCount; ++sp)
-    strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);
+    strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
 
   fprintf(LaTeXFile, "\\begin{diagram}%%\n");
 
@@ -7437,13 +7444,13 @@ void LaTeXBeginDiagram(void)
         }
       }
 
-      for (sp= Royal; sp<PieSpCount; ++sp)
+      for (sp= nr_sides; sp<PieSpCount; ++sp)
       {
         if (TSTFLAG(spec[*bnp], sp)
             && !(sp==Royal && (p==King || p==Poseidon)))
         {
-          AddSquare(ListSpec[sp], *bnp);
-          ++SpecCount[sp];
+          AddSquare(ListSpec[sp-nr_sides], *bnp);
+          ++SpecCount[sp-nr_sides];
         }
       }
     }
@@ -7458,8 +7465,8 @@ void LaTeXBeginDiagram(void)
     fprintf(LaTeXFile, "%s}%%\n", HolesSqList);
   }
 
-  for (sp= Royal; sp<PieSpCount; ++sp)
-    if (SpecCount[sp]>0
+  for (sp= nr_sides; sp<PieSpCount; ++sp)
+    if (SpecCount[sp-nr_sides]>0
         && !(sp==Patrol && CondFlag[patrouille])
         && !(sp==Volage && CondFlag[volage])
         && !(sp==Beamtet && CondFlag[beamten]))
@@ -7618,12 +7625,12 @@ void LaTeXBeginDiagram(void)
 
     if (modifiedpieces)
     {
-      for (sp = Royal; sp<PieSpCount; ++sp)
-        if (SpecCount[sp]>0)
+      for (sp = nr_sides; sp<PieSpCount; ++sp)
+        if (SpecCount[sp-nr_sides]>0)
         {
           if (!firstline)
             fprintf(LaTeXFile, "{\\newline}\n    ");
-          fprintf(LaTeXFile, "%s\n", ListSpec[sp]);
+          fprintf(LaTeXFile, "%s\n", ListSpec[sp-nr_sides]);
           firstline= false;
         }
     }

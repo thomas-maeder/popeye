@@ -12,8 +12,8 @@ bedingung    circe
 
 steine  weiss    kh2
         schwarz    kd7
-        kamikaze     weiss    dh1 ta8c8 lb4d3 sc6
-        kamikaze    schwarz    ta3 lg4 ba7b3d2e2e5e6
+        weiss kamikaze   dh1 ta8c8 lb4d3 sc6
+        schwarz kamikaze   ta3 lg4 ba7b3d2e2e5e6
 
 weiteresproblem
 
@@ -27,8 +27,8 @@ bedingung    circe
 
 steine  weiss    kc4
         schwarz ka3
-        kamikaze     weiss    te8 lb1 sc1 bb7c7e5f7g7h2
-        kamikaze    schwarz    ba4b2c2c5c6e6h3
+        weiss kamikaze    te8 lb1 sc1 bb7c7e5f7g7h2
+        schwarz kamikaze   ba4b2c2c5c6e6h3
 
 weiteresproblem
 
@@ -41,8 +41,8 @@ bedingung     circe rexinklusive
 
 steine  weiss    ke8
         schwarz ka1
-        kamikaze    weiss    tc3 lh7h8 bb3c2c4e6
-        kamikaze    schwarz dh6 lh5 sg6 ba2a3c5e7f5g4g5h3
+        weiss kamikaze   tc3 lh7h8 bb3c2c4e6
+        schwarz kamikaze dh6 lh5 sg6 ba2a3c5e7f5g4g5h3
 
 weiteresproblem
 
@@ -57,8 +57,8 @@ bedingung     circe
 
 steine  weiss    kg4
         schwarz ka1
-        kamikaze    weiss    df5 tc2h5 lh2 sf3 bb6d6e6f7g5
-        kamikaze     schwarz    dh7 lb1 ba2a4b7d4g7
+        weiss kamikaze   df5 tc2h5 lh2 sf3 bb6d6e6f7g5
+        schwarz kamikaze   dh7 lb1 ba2a4b7d4g7
 
 weiteresproblem
 

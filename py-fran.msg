@@ -34,7 +34,7 @@
  33= erreur d'entree:
  34= piece inconnue ou il manque une piece - ignoree
  35= specification de piece pas unique
- 36= on peut specifier seulement un de blanc, noir ou neutre - ignoree
+ 36= 
  37= condition inconnue
  38= option pas unique - ignoree
  39= numero incorrecte

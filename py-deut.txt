@@ -800,7 +800,7 @@ aufwendiger ist das Kommando
 	Schwarz
 	Neutral
 
-	Optional koennen auch noch:
+	Anschliessend konnen optional auch noch:
 
 	Chamaeleon
 	Jigger

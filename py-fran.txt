@@ -780,7 +780,7 @@ suivante est un peu plus compliquee:
 	Noir
 	Neutre
 
-	On peut ajouter 
+	On peut alors ajouter 
 
 	Chameleon
 	Jigger

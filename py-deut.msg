@@ -65,7 +65,7 @@
  33= Eingabe-Fehler:
  34= Falsche oder fehlende Steinbezeichnung - wird ignoriert
  35= Steinbezeichnung nicht eindeutig
- 36= Nur eine Angabe von Weiss, Schwarz oder Neutral ist erlaubt - ignoriert
+ 36= 
  37= Bedingung nicht erkannt
  38= Option nicht eindeutig - ignoriert
  39= Keine oder falsche Zahlenangabe

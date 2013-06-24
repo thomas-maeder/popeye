@@ -568,7 +568,7 @@ void ProofWriteStartPosition(slice_index start)
   char InitialLine[40];
   sprintf(InitialLine,
           "\nInitial (%s ->):\n",
-          PieSpString[UserLanguage][slices[start].starter]);
+          ColorString[UserLanguage][slices[start].starter]);
   StdString(InitialLine);
   WritePosition();
 }
@@ -1370,21 +1370,18 @@ static boolean ProofFairyImpossible(void)
   /* find a solution ... */
   MovesAvailable *= 2;
 
+  for (bnp = boardnum; *bnp; bnp++)
   {
-    Flags const side_flags = BIT(White)|BIT(Black)|BIT(Neutral);
-    for (bnp = boardnum; *bnp; bnp++)
+    PieNam const p = target.board[*bnp];
+    if (p!=Empty)
     {
-      PieNam const p = target.board[*bnp];
-      if (p!=Empty)
+      if (p!=get_walk_of_piece_on_square(*bnp)
+          || (target.spec[*bnp]&COLORFLAGS)!=(spec[*bnp]&COLORFLAGS))
       {
-        if (p!=get_walk_of_piece_on_square(*bnp)
-            || (target.spec[*bnp]&side_flags)!=(spec[*bnp]&side_flags))
-        {
-          if (MovesAvailable==0)
-            return true;
-          else
-            --MovesAvailable;
-        }
+        if (MovesAvailable==0)
+          return true;
+        else
+          --MovesAvailable;
       }
     }
   }

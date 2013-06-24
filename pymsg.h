@@ -74,7 +74,7 @@ typedef enum
   InputError                                        = 33,
   WrongPieceName                                    = 34,
   PieSpecNotUniq                                    = 35,
-  WBNAllowed                                        = 36,
+  Unused2                                           = 36,
   UnrecCondition                                    = 37,
   OptNotUniq                                        = 38,
   WrongInt                                          = 39,
