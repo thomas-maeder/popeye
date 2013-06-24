@@ -286,7 +286,7 @@ simples:
 	EchecsMarins
 	EchecsUltramarins
 
-	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
+	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 
 	"...CaseForce..." il faut entrer les cases ou se trouvent les 
 	imitators, les cases magiques, les trous ou les pieces promues 
@@ -794,6 +794,7 @@ suivante est un peu plus compliquee:
 	Protee
 	Magique
 	Imprenable
+	FrischAuf
 
 	Suit la liste des pieces comme d'habitude: type de la piece suivi par
 	une liste de cases ou se trouve une telle piece. On peut toujours

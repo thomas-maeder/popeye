@@ -289,7 +289,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	UltramarineChess
 
 	After the conditions Imitator, MagicSquare, Hole,
-	FrischaufCirce, WhitePromSquares, BlackPromSquares or one of
+	WhitePromSquares, BlackPromSquares or one of
 	the ForcedSquares, list the squares on which the imitators are
 	to be placed, where the special squares are located, where
 	promoted pieces (FrischaufCirce) are located, or where the
@@ -783,6 +783,7 @@ sstipulation). A little bit more elaborate is the command
 	Protean
 	Magic
 	Uncapturable
+	FrischAuf
 
 	may be given. All the pieces given after this will have these
 	attributes.  After this specification follows the list of

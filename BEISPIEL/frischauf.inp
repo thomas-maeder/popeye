@@ -13,9 +13,10 @@ weiter
 titel Frischauf-Circe mit Angabe von Retro-Information
 autor Hans Heinrich Schmitz
 quelle feenschach VI-IX 1990
-steine weiss kh2 la8g1 sf2
+steine weiss kh2 lg1 sf2
+       weiss frischauf la8
        schwarz ke3 lb7 sd4h1 be2h3h4
-bedingung frischauf a8
+bedingung frischauf
 forderung h#2
 
 ende

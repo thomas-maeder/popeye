@@ -293,7 +293,7 @@ Kommandos:
 	UltramarinesSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
-	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines
+	UWFeldWeiss, UWFeldSchwarz oder irgendeines
 	Zwangsfeldes sind die Felder einzugeben, auf denen die
 	Imitatoren in der Diagrammstellung stehen bzw. wo die
 	magischen Felder oder Loecher sind, bzw. welche Figuren
@@ -814,6 +814,7 @@ aufwendiger ist das Kommando
 	Proteisch
 	Magisch
 	Unschlagbar
+	FrischAuf
 
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 

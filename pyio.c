@@ -1572,15 +1572,52 @@ static char *LaTeXPiece(PieNam Name)
     return LaTeXStdPie[Name];
 } /* LaTeXPiece */
 
+static void signal_overwritten_square(square Square)
+{
+  WriteSquare(Square);
+  StdChar(' ');
+  Message(OverwritePiece);
+}
+
+static void echo_added_piece(Flags Spec, PieNam Name, square Square)
+{
+  if (LaTeXout) {
+    sprintf(GlobalStr,
+            "%s\\%c%s %c%c",
+            is_square_empty(Square) ? "+" : "",
+            is_piece_neutral(Spec)
+            ? 'n'
+            : TSTFLAG(Spec, White) ? 'w' : 's',
+            LaTeXPiece(Name),
+            'a'-nr_of_slack_files_left_of_board+Square%onerow,
+            '1'-nr_of_slack_rows_below_board+Square/onerow);
+    strcat(ActTwinning, GlobalStr);
+  }
+
+  if (is_square_empty(Square))
+    StdChar('+');
+
+  WriteSpec(Spec,Name, Name!=Empty);
+  WritePiece(Name);
+  WriteSquare(Square);
+  StdChar(' ');
+}
+
+typedef enum
+{
+  piece_addition_initial,
+  piece_addition_twinning
+} piece_addition_type;
+
 static char *ParseSquareList(char *tok,
                                 PieNam Name,
                                 Flags Spec,
-                                char echo)
+                                piece_addition_type type)
 {
-  /* We interprete the tokenString as SquareList
+  /* We interpret the tokenString as SquareList
      If we return always the next1 tokenstring
   */
-  int SquareCnt= 0;
+  unsigned int SquareCnt = 0;
 
   while (true)
   {
@@ -1589,66 +1626,47 @@ static char *ParseSquareList(char *tok,
     {
       if (!is_square_empty(Square))
       {
-        if (!echo)
-        {
-          WriteSquare(Square);
-          StdChar(' ');
-          Message(OverwritePiece);
-        }
-        if (Square == king_square[White])
-          king_square[White]= initsquare;
-        if (Square == king_square[Black])
-          king_square[Black]= initsquare;
+        if (type==piece_addition_initial)
+          signal_overwritten_square(Square);
+
+        if (Square==king_square[White])
+          king_square[White] = initsquare;
+        if (Square==king_square[Black])
+          king_square[Black] = initsquare;
       }
-      /* echo the piece if desired -- twinning */
-      if (echo == '+')
-      {
-        if (LaTeXout) {
-          sprintf(GlobalStr,
-                  "%s\\%c%s %c%c",
-                  is_square_empty(Square) ? "+" : "",
-                  is_piece_neutral(Spec)
-                  ? 'n'
-                  : TSTFLAG(Spec, White) ? 'w' : 's',
-                  LaTeXPiece(Name),
-                  'a'-nr_of_slack_files_left_of_board+Square%onerow,
-                  '1'-nr_of_slack_rows_below_board+Square/onerow);
-          strcat(ActTwinning, GlobalStr);
-        }
-        if (is_square_empty(Square))
-          StdChar(echo);
-        WriteSpec(Spec,Name, Name!=Empty);
-        WritePiece(Name);
-        WriteSquare(Square);
-        StdChar(' ');
-      }
-      if (echo==1)
-        move_effect_journal_store_retro_capture(Square,Name,Spec);
-      else
-        occupy_square(Square,Name,Spec);
-      tok+= 2;
-      SquareCnt++;
-      continue;
+
+      if (type==piece_addition_twinning)
+        echo_added_piece(Spec,Name,Square);
+
+      occupy_square(Square,Name,Spec);
+      tok += 2;
+      ++SquareCnt;
     }
-    if (SquareCnt)
+    else if (SquareCnt==0)
     {
-      if (*tok || (echo == 1 && SquareCnt != 1))
+      ErrorMsg(MissngSquareList);
+      tok = ReadNextTokStr();
+    }
+    else
+    {
+      if (tok[0]!=0)
         ErrorMsg(WrongSquareList);
       break;
     }
-    ErrorMsg(MissngSquareList);
-    tok = ReadNextTokStr();
   }
 
   return ReadNextTokStr();
 }
 
-static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam) {
-  if (onechar) {
+static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam)
+{
+  if (onechar)
+  {
     *pienam= GetPieNamIndex(*tok,' ');
     tok++;
   }
-  else {
+  else
+  {
     *pienam= GetPieNamIndex(*tok,tok[1]);
     tok+= 2;
   }
@@ -1656,55 +1674,60 @@ static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam) {
   return tok;
 }
 
-static char *PrsPieNam(char *tok, Flags Spec, char echo)
+static char *ParsePieceName(char *tok, PieNam *name)
+{
+  size_t len_token;
+  char const * const hunterseppos = strchr(tok,hunterseparator);
+  if (hunterseppos!=0 && hunterseppos-tok<=2)
+  {
+    PieNam away, home;
+    tok = PrsPieShortcut((hunterseppos-tok)%2==1,tok,&away);
+    ++tok; /* skip slash */
+    len_token = strlen(tok);
+    tok = PrsPieShortcut(len_token%2==1,tok,&home);
+    *name = hunter_make_type(away,home);
+    if (*name==Invalid)
+      IoErrorMsg(HunterTypeLimitReached,maxnrhuntertypes);
+  }
+  else
+  {
+    len_token = strlen(tok);
+    tok = PrsPieShortcut(len_token%2==1,tok,name);
+  }
+
+  return tok;
+}
+
+static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type type)
 {
   /* We read from tok the name of the piece */
   int     NameCnt= 0;
   char    *btok;
-  PieNam  Name;
-  size_t  l;
 
   while (true)
   {
-    char const * const hunterseppos = strchr(tok,hunterseparator);
+    PieNam Name;
     btok = tok; /* Save it, if we want to return it */
-    if (hunterseppos!=0 && hunterseppos-tok<=2)
-    {
-      PieNam away, home;
-      tok = PrsPieShortcut((hunterseppos-tok)%2==1,tok,&away);
-      ++tok; /* skip slash */
-      l= strlen(tok);
-      tok = PrsPieShortcut(l%2==1,tok,&home);
-      Name = hunter_make_type(away,home);
-      if (Name==Invalid)
-        IoErrorMsg(HunterTypeLimitReached,maxnrhuntertypes);
-    }
-    else
-    {
-      l = strlen(tok);
-      tok = PrsPieShortcut(l%2==1,tok,&Name);
-    }
+    tok = ParsePieceName(tok,&Name);
 
     if (Name>=King)
     {
-      if (l >= 3 && !strchr("12345678",tok[1]))
+      if (strchr("12345678",tok[1])==0)
         break;
-      /* We return here not the next1 tokenstring
-      ** since this string is not a Men/Squarelist
-      ** and therefore deserves processing by
-      ** ParsePieSpec
-      */
+      /* We have read a character (pair) that is a piece name short cut, but tok
+       * isn't a piecename squarelist squence.
+       * E.g. tok=="Black"; we have read 'B' for Bauer or Bishop, but "lack"
+       * isn't a list of squares.
+       */
       NameCnt++;
-      if (!*tok)
+      if (*tok==0)
         tok = ReadNextTokStr();
-      tok = ParseSquareList(tok, Name, Spec, echo);
+      tok = ParseSquareList(tok, Name, Spec, type);
       /* undocumented feature: "royal" only applies to the immediately next
        * piece indication because there can be at most 1 royal piece per side
        */
       CLRFLAG(Spec,Royal);
     }
-    else if (hunterseppos!=0)
-      tok = ReadNextTokStr();
     else if (NameCnt>0)
       return btok;
     else
@@ -1857,7 +1880,43 @@ static char *ParsePieceFlags(Flags *flags)
   return tok;
 }
 
-static char *ParsePieces(char echo)
+static char *ParseSquareLastCapture(char *tok, PieNam Name, Flags Spec)
+{
+  square const Square = SquareNum(*tok,tok[1]);
+  if (Square==initsquare || tok[2]!=0)
+  {
+    ErrorMsg(WrongSquareList);
+    return tok;
+  }
+  else
+  {
+    move_effect_journal_store_retro_capture(Square,Name,Spec);
+    return ReadNextTokStr();
+  }
+}
+
+static char *ParsePieceNameAndSquareLastCapture(char *tok, Flags Spec)
+{
+  PieNam Name;
+
+  tok = ParsePieceName(tok,&Name);
+
+  if (Name>=King)
+  {
+    if (tok[0]==0)
+      tok = ReadNextTokStr();
+    tok = ParseSquareLastCapture(tok,Name,Spec);
+  }
+  else
+  {
+    IoErrorMsg(WrongPieceName,0);
+    tok = ReadNextTokStr();
+  }
+
+  return tok;
+}
+
+static char *ParseLastCapturedPiece(void)
 {
   int nr_groups = 0;
   char *tok = ReadNextTokStr();
@@ -1880,12 +1939,43 @@ static char *ParsePieces(char echo)
         some_pieces_flags |= nonColorFlags;
       }
 
-      tok = PrsPieNam(tok,PieSpFlags,echo);
+      tok = ParsePieceNameAndSquareLastCapture(tok,PieSpFlags);
     }
   }
 
   return tok;
 }
+
+static char *ParsePieces(piece_addition_type type)
+{
+  int nr_groups = 0;
+  char *tok = ReadNextTokStr();
+  while (true)
+  {
+    Flags PieSpFlags = ParseColor(tok,nr_groups==0);
+    if (PieSpFlags==0)
+      break;
+    else
+    {
+      ++nr_groups;
+
+      if (is_piece_neutral(PieSpFlags))
+        SETFLAGMASK(some_pieces_flags,NeutralMask);
+
+      {
+        Flags nonColorFlags = 0;
+        tok = ParsePieceFlags(&nonColorFlags);
+        PieSpFlags |= nonColorFlags;
+        some_pieces_flags |= nonColorFlags;
+      }
+
+      tok = ParsePieceNameAndSquares(tok,PieSpFlags,type);
+    }
+  }
+
+  return tok;
+}
+
 /* map input strings to goals */
 typedef struct
 {
@@ -4397,37 +4487,6 @@ static char *ReadSquares(SquareListContext context)
   return tok;
 } /* ReadSquares */
 
-static char *ReadFrischAufSquares(void)
-{
-  char *tok = ReadNextTokStr();
-
-  size_t const l = strlen(tok);
-  if (l%2==0)
-    while (*tok)
-    {
-      square const sq = SquareNum(*tok,tok[1]);
-      if (sq==initsquare)
-        break;
-      else
-      {
-        if (is_square_empty(sq) || is_square_blocked(sq) || is_pawn(get_walk_of_piece_on_square(sq)))
-          Message(NoFrischAufPromPiece);
-        else
-        {
-          SETFLAG(spec[sq],FrischAuf);
-          SETFLAG(some_pieces_flags,FrischAuf);
-        }
-
-        tok += 2;
-      }
-    }
-
-  if (*tok==0)
-    tok = ReadNextTokStr();
-
-  return tok;
-}
-
 static char *ParseRex(boolean *rex, Cond what)
 {
   char *tok = ReadNextTokStr();
@@ -5265,9 +5324,6 @@ static char *ParseCond(void)
 
     switch (indexx)
     {
-      case frischauf:
-        tok = ReadFrischAufSquares();
-        break;
       case messigny:
         tok = ParseRex(&rex_mess_ex, rexexcl);
         break;
@@ -5756,7 +5812,7 @@ static char *ParseOpt(slice_index root_slice_hook)
         break;
 
       case lastcapture:
-        tok = ParsePieces(1);
+        tok = ParseLastCapturedPiece();
         break;
 
       case mutuallyexclusivecastling:
@@ -6481,7 +6537,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
         }
         break;
       case TwinningAdd:
-        tok = ParsePieces('+');
+        tok = ParsePieces(piece_addition_twinning);
         break;
       case TwinningCond:
         InitCond();
@@ -6750,7 +6806,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case PieceToken:
-            tok = ParsePieces('\0');
+            tok = ParsePieces(piece_addition_initial);
             break;
 
           case CondToken:
