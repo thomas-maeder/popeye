@@ -1622,7 +1622,7 @@ static char *ParseSquareList(char *tok,
         StdChar(' ');
       }
       if (is_piece_neutral(Spec)) {
-        Spec |= BIT(Black) + BIT(White);
+        Spec |= NeutralMask;
       }
       if (echo==1)
         move_effect_journal_store_retro_capture(Square,Name,Spec);
@@ -1733,8 +1733,8 @@ static void SetSquare(square sq, PieNam p, boolean bw, boolean neut)
 {
   if (neut)
   {
-    occupy_square(sq,p,BIT(Black)|BIT(White)|BIT(Neutral));
-    SETFLAGMASK(some_pieces_flags, BIT(Black)|BIT(White)|BIT(Neutral));
+    occupy_square(sq,p,NeutralMask);
+    SETFLAGMASK(some_pieces_flags,NeutralMask);
   }
   else
     occupy_square(sq, p, bw ? BIT(Black) : BIT(White));
@@ -1845,22 +1845,18 @@ static char *ParsePieSpec(char echo)
       else
       {
         Flags const TmpFlg = PieSpFlags&ColorBits;
-        if (TmpFlg
-            && (TmpFlg & BIT(ps))
-            && (TmpFlg != (Flags)BIT(ps)))
+        if ((TmpFlg&BIT(ps)) && TmpFlg!=(Flags)BIT(ps))
           IoErrorMsg(WBNAllowed,0);
+        else if (ps==Neutral)
+        {
+          SETFLAGMASK(PieSpFlags,NeutralMask);
+          SETFLAGMASK(some_pieces_flags,NeutralMask);
+        }
         else
         {
           SETFLAG(PieSpFlags,ps);
-
           if (!(ColorBits&BIT(ps)))
             SETFLAG(some_pieces_flags,ps);
-
-          if (ps==Neutral)
-          {
-            SETFLAGMASK(PieSpFlags,BIT(White)|BIT(Black));
-            SETFLAGMASK(some_pieces_flags,BIT(White)|BIT(Black));
-          }
         }
       }
 
@@ -6893,7 +6889,7 @@ void WritePosition()
 
   SolFile= NULL;
 
-  for (sp= Neutral; sp < PieSpCount; sp++)
+  for (sp= Royal; sp<PieSpCount; ++sp)
     strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);
 
   StdChar('\n');
@@ -6901,7 +6897,6 @@ void WritePosition()
   MultiCenter(ActOrigin);
   MultiCenter(ActAward);
   MultiCenter(ActTitle);
-
 
   nBlack= nWhite= nNeutr= 0;
   StdChar('\n');
@@ -6950,7 +6945,7 @@ void WritePosition()
       else
       {
         PieNam const pp = get_walk_of_piece_on_square(square);
-        for (sp= Neutral + 1; sp < PieSpCount; sp++)
+        for (sp= Royal; sp<PieSpCount; ++sp)
           if (TSTFLAG(spec[square],sp)
               && !(sp==Royal && (pp==King || pp==Poseidon)))
           {
@@ -7193,7 +7188,7 @@ void LaTeXBeginDiagram(void)
   char    HolesSqList[256] = "";
   square const *bnp;
 
-  for (sp= Neutral; sp < PieSpCount; sp++)
+  for (sp= Royal; sp<PieSpCount; ++sp)
     strcpy(ListSpec[sp], PieSpString[UserLanguage][sp]);
 
   fprintf(LaTeXFile, "\\begin{diagram}%%\n");
@@ -7442,7 +7437,7 @@ void LaTeXBeginDiagram(void)
         }
       }
 
-      for (sp= Neutral + 1; sp < PieSpCount; sp++)
+      for (sp= Royal; sp<PieSpCount; ++sp)
       {
         if (TSTFLAG(spec[*bnp], sp)
             && !(sp==Royal && (p==King || p==Poseidon)))
@@ -7463,7 +7458,7 @@ void LaTeXBeginDiagram(void)
     fprintf(LaTeXFile, "%s}%%\n", HolesSqList);
   }
 
-  for (sp= Neutral + 1; sp < PieSpCount; sp++)
+  for (sp= Royal; sp<PieSpCount; ++sp)
     if (SpecCount[sp]>0
         && !(sp==Patrol && CondFlag[patrouille])
         && !(sp==Volage && CondFlag[volage])
@@ -7486,7 +7481,6 @@ void LaTeXBeginDiagram(void)
     boolean entry=false;
     switch (gridvar)
     {
-
       case grid_normal:
         fprintf(LaTeXFile, " \\stdgrid%%\n");
         break;
@@ -7624,7 +7618,7 @@ void LaTeXBeginDiagram(void)
 
     if (modifiedpieces)
     {
-      for (sp= Neutral + 1; sp < PieSpCount; sp++)
+      for (sp = Royal; sp<PieSpCount; ++sp)
         if (SpecCount[sp]>0)
         {
           if (!firstline)

@@ -34,7 +34,7 @@ static void insert_sentinelle(Side trait_ply)
   {
     if (SentPionNeutral && is_piece_neutral(spec_pi_moving))
     {
-      Flags const sentinelle_spec = all_pieces_flags|BIT(White)|BIT(Black)|BIT(Neutral);
+      Flags const sentinelle_spec = all_pieces_flags|NeutralMask;
       move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,
                                             sq_departure,
                                             sentinelle,

@@ -5,7 +5,7 @@
 
 #include "position/position.h"
 
-//#define is_piece_neutral(spec) TSTFLAG((spec),Neutral)
-#define is_piece_neutral(spec) (TSTFLAGMASK((spec),BIT(White)|BIT(Black))==(BIT(White)|BIT(Black)))
+#define NeutralMask (BIT(White)|BIT(Black))
+#define is_piece_neutral(spec) (TSTFLAGMASK((spec),NeutralMask)==NeutralMask)
 
 #endif

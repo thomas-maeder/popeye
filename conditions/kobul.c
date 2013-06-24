@@ -23,7 +23,7 @@ static void substitute(Side trait_ply)
     PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
     PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
 
-    Flags const colour_mask = BIT(White)|BIT(Black)|BIT(Neutral);
+    Flags const colour_mask = BIT(White)|BIT(Black);
     Flags spec_kobul = move_effect_journal[capture].u.piece_removal.removedspec;
 
     SETFLAG(spec_kobul,Royal);

@@ -948,7 +948,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (TSTFLAG(some_pieces_flags, HalfNeutral))
-    SETFLAGMASK(some_pieces_flags, BIT(White)|BIT(Black));
+    SETFLAGMASK(some_pieces_flags,NeutralMask);
 
   if (CondFlag[republican] && !republican_verifie_position(si))
     return false;
@@ -2013,35 +2013,40 @@ boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
   boolean ret = false;
   PieSpec spname;
 
-  if (printcolours && !is_piece_neutral(sp))
+  if (is_piece_neutral(sp))
+  {
+    StdChar(tolower(PieSpString[UserLanguage][Neutral][0]));
+    ret = true;
+  }
+  else if (printcolours)
   {
     if (areColorsSwapped)
     {
       if (TSTFLAG(sp,White))
-        StdChar(tolower(*PieSpString[UserLanguage][Black]));
+        StdChar(tolower(PieSpString[UserLanguage][Black][0]));
       if (TSTFLAG(sp,Black))
-        StdChar(tolower(*PieSpString[UserLanguage][White]));
+        StdChar(tolower(PieSpString[UserLanguage][White][0]));
     }
     else
     {
       if (TSTFLAG(sp,White))
-        StdChar(tolower(*PieSpString[UserLanguage][White]));
+        StdChar(tolower(PieSpString[UserLanguage][White][0]));
       if (TSTFLAG(sp,Black))
-        StdChar(tolower(*PieSpString[UserLanguage][Black]));
+        StdChar(tolower(PieSpString[UserLanguage][Black][0]));
     }
   }
 
-  for (spname = Neutral; spname < PieSpCount; spname++) {
+  for (spname = Royal; spname<PieSpCount; ++spname)
     if ((spname!=Volage || !CondFlag[volage])
         && (spname!=Patrol || !CondFlag[patrouille])
         && (spname!=Beamtet || !CondFlag[beamten])
         && (spname!=Royal || (p!=King && p!=Poseidon))
         && TSTFLAG(sp, spname))
     {
-      StdChar(tolower(*PieSpString[UserLanguage][spname]));
+      StdChar(tolower(PieSpString[UserLanguage][spname][0]));
       ret = true;
     }
-  }
+
   return ret;
 }
 

@@ -16,7 +16,7 @@ typedef struct
 {
     char const * closing_sequence;
     PieNam moving;
-    Flags non_side_flags;
+    Flags flags;
     square target_square;
 } move_context;
 
@@ -27,7 +27,7 @@ static void context_open(move_context *context,
   StdString(opening_sequence);
 
   context->moving = Empty;
-  context->non_side_flags = 0;
+  context->flags = 0;
   context->target_square = initsquare;
   context->closing_sequence = closing_sequence;
 }
@@ -55,17 +55,16 @@ static void context_set_moving_piece(move_context *context, PieNam p)
   context->moving = p;
 }
 
-static void context_set_non_side_flags(move_context *context, Flags flags)
+static void context_set_flags(move_context *context, Flags flags)
 {
-  Flags const side_flag_mask = BIT(White)|BIT(Black);
-  context->non_side_flags = flags&~side_flag_mask;
+  context->flags = flags;
 }
 
 static void context_set_from_piece_movement(move_context *context, move_effect_journal_index_type movement)
 {
   context_set_target_square(context,move_effect_journal[movement].u.piece_movement.to);
   context_set_moving_piece(context,move_effect_journal[movement].u.piece_movement.moving);
-  context_set_non_side_flags(context,move_effect_journal[movement].u.piece_movement.movingspec);
+  context_set_flags(context,move_effect_journal[movement].u.piece_movement.movingspec);
 }
 
 static void write_capture(move_context *context,
@@ -234,7 +233,7 @@ static void write_flags_change(move_context *context,
       WriteSpec(move_effect_journal[curr].u.flags_change.to,
                 context->moving,
                 false);
-      context_set_non_side_flags(context,
+      context_set_flags(context,
                                  move_effect_journal[curr].u.flags_change.to);
       break;
 
@@ -285,7 +284,7 @@ static void write_side_change(move_context *context,
 }
 
 static void write_piece_change(move_context *context,
-                               move_effect_journal_index_type curr)
+                                   move_effect_journal_index_type curr)
 {
   switch (move_effect_journal[curr].reason)
   {
@@ -301,7 +300,7 @@ static void write_piece_change(move_context *context,
           !=move_effect_journal[curr].u.piece_change.from)
       {
         StdChar('=');
-        write_transformed_piece(context->non_side_flags,
+        write_transformed_piece(context->flags,
                                 move_effect_journal[curr].u.piece_change.to);
       }
       break;
@@ -401,7 +400,7 @@ static void write_piece_addition(move_context *context,
                             move_effect_journal[curr].u.piece_addition.on);
   context_set_moving_piece(context,
                            move_effect_journal[curr].u.piece_addition.added);
-  context_set_non_side_flags(context,
+  context_set_flags(context,
                              move_effect_journal[curr].u.piece_addition.addedspec);
 }
 
