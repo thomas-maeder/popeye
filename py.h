@@ -635,12 +635,10 @@ typedef enum
   Magic,
   Uncapturable,
   Patrol,
+  FrischAuf,
 
   PieSpCount
 } PieSpec;
-
-/* not part of PieSpec because PieSpCount must be <16 in pyhash.c ...*/
-#define FrischAuf PieSpCount
 
 typedef Side pileside[maxply+1];
 

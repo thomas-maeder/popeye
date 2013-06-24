@@ -1427,7 +1427,8 @@ void enforce_piecename_uniqueness(void);
       "Protee",
       "Magique",
       "Imprenable",
-      "Patrouille"
+      "Patrouille",
+      "Frischauf"
     },
     {
       /* German */
@@ -1443,7 +1444,8 @@ void enforce_piecename_uniqueness(void);
       "Proteisch",
       "Magisch",
       "Unschlagbar",
-      "Patrouille"
+      "Patrouille",
+      "Frischauf"
     },
     {
       /* English */
@@ -1459,7 +1461,8 @@ void enforce_piecename_uniqueness(void);
       "Protean",
       "Magic",
       "Uncapturable",
-      "Patrol"
+      "Patrol",
+      "Frischauf"
     }
   };
 #endif
