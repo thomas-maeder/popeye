@@ -1734,7 +1734,7 @@ static void SetSquare(square sq, PieNam p, boolean bw, boolean neut)
   if (neut)
   {
     occupy_square(sq,p,BIT(Black)|BIT(White)|BIT(Neutral));
-    SETFLAG(some_pieces_flags, Neutral);
+    SETFLAGMASK(some_pieces_flags, BIT(Black)|BIT(White)|BIT(Neutral));
   }
   else
     occupy_square(sq, p, bw ? BIT(Black) : BIT(White));
@@ -1852,7 +1852,15 @@ static char *ParsePieSpec(char echo)
         else
         {
           SETFLAG(PieSpFlags,ps);
-          SETFLAG(some_pieces_flags,ps);
+
+          if (!(ColorBits&BIT(ps)))
+            SETFLAG(some_pieces_flags,ps);
+
+          if (ps==Neutral)
+          {
+            SETFLAGMASK(PieSpFlags,BIT(White)|BIT(Black));
+            SETFLAGMASK(some_pieces_flags,BIT(White)|BIT(Black));
+          }
         }
       }
 
@@ -7179,7 +7187,7 @@ void LaTeXBeginDiagram(void)
   boolean firstpiece= true, fairypieces= false, holess= false,
     modifiedpieces=false;
   PieSpec sp;
-  Flags remspec[PieceCount];
+  boolean is_piece_on_side[PieceCount][nr_sides+1];
   char ListSpec[PieSpCount][256];
   unsigned int SpecCount[PieSpCount] = { 0 };
   char    HolesSqList[256] = "";
@@ -7387,7 +7395,11 @@ void LaTeXBeginDiagram(void)
   {
     PieNam p;
     for (p = Empty; p < PieceCount; ++p)
-      CLEARFL(remspec[p]);
+    {
+      is_piece_on_side[p][White] = false;
+      is_piece_on_side[p][Black] = false;
+      is_piece_on_side[p][nr_sides] = false;
+    }
   }
 
   for (bnp= boardnum; *bnp; bnp++) {
@@ -7420,13 +7432,13 @@ void LaTeXBeginDiagram(void)
         fairypieces= true;
 
         if (is_piece_neutral(spec[*bnp])) {
-          SETFLAG(remspec[p], Neutral);
+          is_piece_on_side[p][nr_sides] = true;
         }
         else if (TSTFLAG(spec[*bnp], White)) {
-          SETFLAG(remspec[p], White);
+          is_piece_on_side[p][White] = true;
         }
         else {
-          SETFLAG(remspec[p], Black);
+          is_piece_on_side[p][Black] = true;
         }
       }
 
@@ -7580,32 +7592,34 @@ void LaTeXBeginDiagram(void)
     for (p = Bishop+1; p < PieceCount; ++p)
     {
       PieNam q;
-      if (!remspec[p])
-        continue;
-
-      for (q = Bishop+1; q < p; q++) {
-        if (remspec[q]
-            && LaTeXPiecesAbbr[p][0] == LaTeXPiecesAbbr[q][0]
-            && LaTeXPiecesAbbr[p][1] == LaTeXPiecesAbbr[q][1])
-        {
-          fprintf(stderr, "+++ Warning: "
-                  "double representation '%s' for %s and %s\n",
-                  LaTeXPiecesAbbr[q],
-                  LaTeXPiecesFull[p], LaTeXPiecesFull[q]);
+      if (is_piece_on_side[p][White] || is_piece_on_side[p][Black] || is_piece_on_side[p][nr_sides])
+      {
+        for (q = Bishop+1; q < p; q++) {
+          if ((is_piece_on_side[q][White]
+               || is_piece_on_side[q][Black]
+               || is_piece_on_side[q][nr_sides])
+              && LaTeXPiecesAbbr[p][0] == LaTeXPiecesAbbr[q][0]
+              && LaTeXPiecesAbbr[p][1] == LaTeXPiecesAbbr[q][1])
+          {
+            fprintf(stderr, "+++ Warning: "
+                    "double representation '%s' for %s and %s\n",
+                    LaTeXPiecesAbbr[q],
+                    LaTeXPiecesFull[p], LaTeXPiecesFull[q]);
+          }
         }
-      }
 
-      if (!firstline)
-        fprintf(LaTeXFile, "{\\newline}\n    ");
-      fprintf(LaTeXFile, "\\mbox{");
-      if (TSTFLAG(remspec[p], White))
-        fprintf(LaTeXFile, "\\w%s ", LaTeXPiecesAbbr[p]);
-      if (TSTFLAG(remspec[p], Black))
-        fprintf(LaTeXFile, "\\s%s ", LaTeXPiecesAbbr[p]);
-      if (is_piece_neutral(remspec[p]))
-        fprintf(LaTeXFile, "\\n%s ", LaTeXPiecesAbbr[p]);
-      fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
-      firstline= false;
+        if (!firstline)
+          fprintf(LaTeXFile, "{\\newline}\n    ");
+        fprintf(LaTeXFile, "\\mbox{");
+        if (is_piece_on_side[p][White])
+          fprintf(LaTeXFile, "\\w%s ", LaTeXPiecesAbbr[p]);
+        if (is_piece_on_side[p][ Black])
+          fprintf(LaTeXFile, "\\s%s ", LaTeXPiecesAbbr[p]);
+        if (is_piece_on_side[p][nr_sides])
+          fprintf(LaTeXFile, "\\n%s ", LaTeXPiecesAbbr[p]);
+        fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
+        firstline= false;
+      }
     }
 
     if (modifiedpieces)

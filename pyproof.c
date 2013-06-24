@@ -1700,7 +1700,7 @@ slice_type proof_make_goal_reachable_type(void)
    */
   TraceValue("%u\n",flagfee);
   if (flagfee
-      || (some_pieces_flags&(~(BIT(White)+BIT(Black)+BIT(Royal))))
+      || (some_pieces_flags&~BIT(Royal))
       || CondFlag[masand])
     result  = no_slice_type;
   else if (ProofFairy)

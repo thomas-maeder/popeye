@@ -948,7 +948,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (TSTFLAG(some_pieces_flags, HalfNeutral))
-    SETFLAG(some_pieces_flags, Neutral);
+    SETFLAGMASK(some_pieces_flags, BIT(White)|BIT(Black));
 
   if (CondFlag[republican] && !republican_verifie_position(si))
     return false;
