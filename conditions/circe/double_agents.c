@@ -3,7 +3,8 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "pieces/side_change.h"
+#include "pieces/attributes/neutral/neutral.h"
+#include "position/position.h"
 #include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
@@ -32,7 +33,8 @@ stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  spec_change_side(&current_circe_reborn_spec[nbply]);
+  if (!is_piece_neutral(current_circe_reborn_spec[nbply]))
+    piece_change_side(&current_circe_reborn_spec[nbply]);
 
   result = solve(slices[si].next1,n);
 

@@ -106,7 +106,7 @@ void swap_sides(void)
 
   for (bnp = boardnum; *bnp; bnp++)
     if (!is_piece_neutral(spec[*bnp]) && !is_square_empty(*bnp))
-      spec[*bnp]^= BIT(White)+BIT(Black);
+      piece_change_side(&spec[*bnp]);
 
   areColorsSwapped = !areColorsSwapped;
 }
@@ -134,6 +134,14 @@ void reflect_position(void)
   }
 
   isBoardReflected = !isBoardReflected;
+}
+
+/* Change the side of some piece specs
+ * @param spec address of piece specs where to change the side
+ */
+void piece_change_side(Flags *spec)
+{
+  *spec ^= BIT(Black)|BIT(White);
 }
 
 void empty_square(square s)

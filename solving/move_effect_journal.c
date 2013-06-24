@@ -846,7 +846,8 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
   ++move_effect_journal_top[nbply];
 
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]^(BIT(White)|BIT(Black)));
+  piece_change_side(&spec[on]);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]);
   ++number_of_pieces[to][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
@@ -867,7 +868,8 @@ static void undo_side_change(move_effect_journal_index_type curr)
 #endif
 
   --number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]^(BIT(White)|BIT(Black)));
+  piece_change_side(&spec[on]);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]);
   ++number_of_pieces[from][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
@@ -888,7 +890,8 @@ static void redo_side_change(move_effect_journal_index_type curr)
 #endif
 
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]^(BIT(White)|BIT(Black)));
+  piece_change_side(&spec[on]);
+  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]);
   ++number_of_pieces[to][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);

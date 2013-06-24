@@ -116,12 +116,10 @@ static void ProofLargeEncodePiece(byte **bp,
                                   int row, int col,
                                   PieNam p, Flags flags)
 {
-  Flags const side_flags = flags & (BIT(White)|BIT(Black));
-
   **bp = p;
   ++*bp;
 
-  **bp = side_flags;
+  **bp = flags&COLORFLAGS;
   ++*bp;
 }
 

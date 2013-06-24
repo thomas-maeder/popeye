@@ -6335,7 +6335,11 @@ static char *ParseTwinningPolish(void)
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
       if (!is_piece_neutral(spec[*bnp]) && !is_square_empty(*bnp))
-        occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),spec[*bnp]^(BIT(White)|BIT(Black)));
+      {
+        Flags flags = spec[*bnp];
+        piece_change_side(&flags);
+        occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),flags);
+      }
   }
 
   StdString(TwinningTab[TwinningPolish]);
