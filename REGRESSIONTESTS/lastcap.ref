@@ -1,0 +1,59 @@
+
+           Stephen Emmerson
+             Unpublished
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -P   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   Q   .   .   2
+|                                   |
+1   K   .  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 3
+             ParrainCirce
+
+   1.Qf2-e2[+wBf4] # !
+
+
+                        empile:          83
+                     play_move:          64
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:          65
+solution finished. 
+
+
+
+   1.Qf2-c5[+wRd7] # !
+
+
+                        empile:          78
+                     play_move:          58
+ is_white_king_square_attacked:          12
+ is_black_king_square_attacked:          59
+solution finished. 
+
+
+TO DO twin opt lastcap re4
+
+   1.Qf2-d2[+wSe4] # !
+
+
+                        empile:          75
+                     play_move:          60
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          61
+solution finished. 
+
+
