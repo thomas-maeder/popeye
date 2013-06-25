@@ -2,11 +2,8 @@
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
-
-#include <assert.h>
 
 /* Allocate a STUltraschachzwangLegalityTester slice.
  * @return index of allocated slice
@@ -43,22 +40,16 @@ stip_length_type ultraschachzwang_legality_tester_solve(slice_index si,
                                                          stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if ((CondFlag[blackultraschachzwang]
-       && trait[nbply]==Black
-       && !echecc(White))
-      || (CondFlag[whiteultraschachzwang]
-          && trait[nbply]==White
-          && !echecc(Black)))
-    result = previous_move_is_illegal;
+  if (echecc(advers(trait[nbply])))
+    result = solve(slices[si].next1,n);
   else
-    result = solve(next,n);
+    result = previous_move_is_illegal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

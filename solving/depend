@@ -1544,7 +1544,6 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
  conditions/patrol.h conditions/monochrome.h conditions/bichrome.h \
- conditions/ultraschachzwang/goal_filter.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h pyproc.h py4.h pieces/vectors.h \
  stipulation/goals/goals.h conditions/singlebox/type2.h \
@@ -1807,8 +1806,6 @@ conditions/patrol.h:
 conditions/monochrome.h:
 
 conditions/bichrome.h:
-
-conditions/ultraschachzwang/goal_filter.h:
 
 conditions/ultraschachzwang/legality_tester.h:
 

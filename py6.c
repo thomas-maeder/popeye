@@ -2340,7 +2340,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[whiteultraschachzwang]
       || CondFlag[blackultraschachzwang])
-    stip_insert_ultraschachzwang_goal_filters(result);
+    ultraschachzwang_initialise_solving(result);
 
   if (CondFlag[ohneschach])
   {

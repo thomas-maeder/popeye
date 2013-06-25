@@ -43,7 +43,6 @@
 #include "conditions/patrol.h"
 #include "conditions/monochrome.h"
 #include "conditions/bichrome.h"
-#include "conditions/ultraschachzwang/goal_filter.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
@@ -1155,10 +1154,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STAmuMateFilter:
       result = amu_mate_filter_solve(si,n);
-      break;
-
-    case STUltraschachzwangGoalFilter:
-      result = ultraschachzwang_goal_filter_solve(si,n);
       break;
 
     case STCirceSteingewinnFilter:

@@ -65,7 +65,6 @@ static slice_index const goal_slice_rank_order[] =
   STExclusiveChessGoalReachingMoveCounterSelfCheckGuard,
   STNot,
   STAmuMateFilter,
-  STUltraschachzwangGoalFilter,
   STGoalMateReachedTester,
   STGoalStalemateReachedTester,
   STGoalDoubleStalemateReachedTester,
