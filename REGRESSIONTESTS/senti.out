@@ -188,3 +188,69 @@ Andernach TT 2000, 4. ehrende Erwähnung
 Loesung beendet. 
 
 
+
+   Test fuer Sentinelles PionNeutre
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  =S   .   .   .   .   .   .   S   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                     1 + 0 + 1n
+             Sentinelles
+
+a) 
+
+   1.Sh2-f1[+wBh2] !
+
+   1.Sh2-g4[+wBh2] !
+
+   1.Sh2-f3[+wBh2] !
+
+   1.nSa2-c1[+wBa2] !
+
+   1.nSa2-c3[+wBa2] !
+
+   1.nSa2-b4[+wBa2] !
+
+
+                        empile:           6
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) Sentinelles  PionNeutre
+
+   1.Sh2-f1[+wBh2] !
+
+   1.Sh2-g4[+wBh2] !
+
+   1.Sh2-f3[+wBh2] !
+
+   1.nSa2-c1[+nBa2] !
+
+   1.nSa2-c3[+nBa2] !
+
+   1.nSa2-b4[+nBa2] !
+
+
+                        empile:           6
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+Loesung beendet. 
+
+

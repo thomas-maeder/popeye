@@ -42,4 +42,14 @@ option          satz varianten
 steine          weiss ka3 dd8 ta5 lg6h8 sb8 be3g4
                 schwarz ke6 df3 tf2h5 lh1 sf8 bd2d3e5
 
-endeproblem
+weiteresproblem
+
+titel Test fuer Sentinelles PionNeutre
+steine weiss sh2 neutral sa2
+forderung ~1
+bedingung sentinelles
+option ohnewk ohnesk
+zwilling bedingung sentinelles pionneutre
+
+end
+
