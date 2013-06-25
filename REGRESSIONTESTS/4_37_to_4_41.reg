@@ -106,8 +106,8 @@ reported P.Raican (orig. M.Caillaud??)
 
                         empile:      137715
                      play_move:      137715
- is_white_king_square_attacked:       13022
- is_black_king_square_attacked:       15852
+ is_white_king_square_attacked:        6494
+ is_black_king_square_attacked:        7905
 solution finished. 
 
 

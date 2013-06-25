@@ -40,18 +40,24 @@ void marscirce_generate_moves(Side side, PieNam p, square sq_departure);
 
 /* Determine whether a specific piece delivers check to a specific side from a
  * specific rebirth square
- * @param side potentially in check
+ * @param side_observing potentially observing
  * @param pos_checking potentially delivering check ...
  * @param sq_rebrirth ... from this square
  * @note the piece on pos_checking must belong to advers(side)
  */
-boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_rebirth);
+boolean mars_is_square_observed_by(Side side_observing,
+                                   square pos_checking,
+                                   square sq_rebirth,
+                                   square sq_target,
+                                   evalfunction_t *evaluate);
 
-/* Determine whether a specific side is in check in Mars Circe
- * @param side the side
- * @param evaluate filter for king capturing moves
+/* Determine whether a side observes a specific square
+ * @param side_observing the side
+ * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean marsechecc(Side side, evalfunction_t *evaluate);
+boolean marscirce_is_square_observed(Side side_observing,
+                   square sq_target,
+                   evalfunction_t *evaluate);
 
 #endif

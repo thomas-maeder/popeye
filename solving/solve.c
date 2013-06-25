@@ -1361,8 +1361,16 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = hurdle_colour_changer_solve(si,n);
       break;
 
-    case STKingOscillator:
-      result = king_oscillator_solve(si,n);
+    case STOscillatingKingsTypeA:
+      result = oscillating_kings_type_a_solve(si,n);
+      break;
+
+    case STOscillatingKingsTypeB:
+      result = oscillating_kings_type_b_solve(si,n);
+      break;
+
+    case STOscillatingKingsTypeC:
+      result = oscillating_kings_type_c_solve(si,n);
       break;
 
     case STPlaySuppressor:

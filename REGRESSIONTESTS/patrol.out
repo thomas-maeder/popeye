@@ -38,8 +38,8 @@
 
                         empile:       21625
                      play_move:        9813
- is_white_king_square_attacked:        5004
- is_black_king_square_attacked:       20903
+ is_white_king_square_attacked:        1029
+ is_black_king_square_attacked:        9816
 Loesung beendet. 
 
 
@@ -168,8 +168,8 @@ F1291, The Problemist 14/1-2, 1-3/1992
 
                         empile:       38565
                      play_move:       24864
- is_white_king_square_attacked:       12080
- is_black_king_square_attacked:       63710
+ is_white_king_square_attacked:        1244
+ is_black_king_square_attacked:       24867
 Loesung beendet. 
 
 
@@ -212,8 +212,8 @@ Loesung beendet.
 
                         empile:        4752
                      play_move:        2253
- is_white_king_square_attacked:        1245
- is_black_king_square_attacked:        4512
+ is_white_king_square_attacked:         253
+ is_black_king_square_attacked:        2256
 Loesung beendet. 
 
 

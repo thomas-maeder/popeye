@@ -21,7 +21,12 @@ extern boolean OscillatingKingsTypeC[nr_sides];
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type king_oscillator_solve(slice_index si, stip_length_type n);
+stip_length_type oscillating_kings_type_a_solve(slice_index si,
+                                                    stip_length_type n);
+stip_length_type oscillating_kings_type_b_solve(slice_index si,
+                                                    stip_length_type n);
+stip_length_type oscillating_kings_type_c_solve(slice_index si,
+                                                    stip_length_type n);
 
 /* Instrument a stipulation for Oscillating Kings
  * @param si identifies root slice of stipulation

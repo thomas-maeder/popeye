@@ -818,7 +818,7 @@ conditions/masand$(OBJ_SUFFIX): conditions/masand.c conditions/masand.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/move.h solving/move_effect_journal.h position/pieceid.h \
- debugging/trace.h
+ solving/observation.h pyproc.h debugging/trace.h
 
 conditions/masand.h:
 
@@ -879,6 +879,10 @@ stipulation/move.h:
 solving/move_effect_journal.h:
 
 position/pieceid.h:
+
+solving/observation.h:
+
+pyproc.h:
 
 debugging/trace.h:
 conditions/dynasty$(OBJ_SUFFIX): conditions/dynasty.c conditions/dynasty.h \

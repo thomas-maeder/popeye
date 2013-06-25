@@ -31,7 +31,7 @@ a)
 
                         empile:           4
                      play_move:           3
- is_white_king_square_attacked:           4
+ is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
 b) bSc1 
 
@@ -44,7 +44,7 @@ b) bSc1
 
                         empile:           4
                      play_move:           4
- is_white_king_square_attacked:           6
+ is_white_king_square_attacked:           0
  is_black_king_square_attacked:           9
 solution finished. 
 

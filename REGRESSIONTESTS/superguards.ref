@@ -48,8 +48,8 @@
 
                         empile:        1690
                      play_move:         963
- is_white_king_square_attacked:         640
- is_black_king_square_attacked:        1427
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         966
 solution finished. 
 
 
@@ -84,8 +84,8 @@ solution finished.
 
                         empile:      350670
                      play_move:      293001
- is_white_king_square_attacked:       91417
- is_black_king_square_attacked:      303216
+ is_white_king_square_attacked:       20777
+ is_black_king_square_attacked:      292339
 solution finished. 
 
 
@@ -122,8 +122,8 @@ solution finished.
 
                         empile:       25931
                      play_move:       23546
- is_white_king_square_attacked:       17177
- is_black_king_square_attacked:       14790
+ is_white_king_square_attacked:       13561
+ is_black_king_square_attacked:       10849
 solution finished. 
 
 
@@ -158,8 +158,8 @@ solution finished.
 
                         empile:      490967
                      play_move:      457001
- is_white_king_square_attacked:       92036
- is_black_king_square_attacked:      467797
+ is_white_king_square_attacked:       10922
+ is_black_king_square_attacked:      456222
 solution finished. 
 
 
@@ -203,8 +203,8 @@ solution finished.
 
                         empile:        5822
                      play_move:        3283
- is_white_king_square_attacked:        2320
- is_black_king_square_attacked:        3560
+ is_white_king_square_attacked:         202
+ is_black_king_square_attacked:        3286
 solution finished. 
 
 
@@ -239,8 +239,8 @@ S.K. Balasubramanian & K. Seetharaman
 
                         empile:       20603
                      play_move:       18344
- is_white_king_square_attacked:        4272
- is_black_king_square_attacked:       18816
+ is_white_king_square_attacked:        1023
+ is_black_king_square_attacked:       18193
 solution finished. 
 
 

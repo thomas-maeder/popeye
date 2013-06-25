@@ -107,8 +107,8 @@
 
                         empile:       14932
                      play_move:        4930
- is_white_king_square_attacked:        4087
- is_black_king_square_attacked:        8377
+ is_white_king_square_attacked:         432
+ is_black_king_square_attacked:        4883
 Loesung beendet. 
 
 
@@ -143,8 +143,8 @@ Loesung beendet.
 
                         empile:       17226
                      play_move:       18125
- is_white_king_square_attacked:        6208
- is_black_king_square_attacked:       19686
+ is_white_king_square_attacked:        1283
+ is_black_king_square_attacked:       17973
 Loesung beendet. 
 
 
@@ -192,8 +192,8 @@ Loesung beendet.
 
                         empile:        6172
                      play_move:        2014
- is_white_king_square_attacked:        1481
- is_black_king_square_attacked:        3254
+ is_white_king_square_attacked:         180
+ is_black_king_square_attacked:        2017
 Loesung beendet. 
 
 
@@ -248,8 +248,8 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
 
                         empile:       15489
                      play_move:        3099
- is_white_king_square_attacked:        3881
- is_black_king_square_attacked:        6640
+ is_white_king_square_attacked:         197
+ is_black_king_square_attacked:        3069
 Loesung beendet. 
 
 
@@ -296,8 +296,8 @@ a)
 
                         empile:        7373
                      play_move:        2539
- is_white_king_square_attacked:        2520
- is_black_king_square_attacked:        4559
+ is_white_king_square_attacked:         160
+ is_black_king_square_attacked:        2542
 b) PlatzwechselCirce
 
    1.Df6-g5 ! Drohung:
@@ -314,8 +314,8 @@ b) PlatzwechselCirce
 
                         empile:        7399
                      play_move:        2529
- is_white_king_square_attacked:        2522
- is_black_king_square_attacked:        4530
+ is_white_king_square_attacked:         154
+ is_black_king_square_attacked:        2532
 Loesung beendet. 
 
 
@@ -349,8 +349,8 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
 
                         empile:         116
                      play_move:          29
- is_white_king_square_attacked:          35
- is_black_king_square_attacked:         113
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:          29
 Loesung beendet. 
 
 
@@ -385,8 +385,8 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 
                         empile:         170
                      play_move:          16
- is_white_king_square_attacked:          43
- is_black_king_square_attacked:           1
+ is_white_king_square_attacked:          15
+ is_black_king_square_attacked:           0
 Loesung beendet. 
 
 

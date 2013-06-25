@@ -32,8 +32,8 @@ piece is of the same colour as the king to be mated
 
                         empile:       76524
                      play_move:       65793
- is_white_king_square_attacked:       64317
- is_black_king_square_attacked:       67932
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -68,8 +68,8 @@ caused all kinds of trouble, including this shortie not being solved.
 
                         empile:          40
                      play_move:          40
- is_white_king_square_attacked:           4
- is_black_king_square_attacked:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
@@ -1333,7 +1333,7 @@ there is no solution, but 4.51 gave 1.Qb2#
 
                         empile:           5
                      play_move:           5
- is_white_king_square_attacked:           5
+ is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
 solution finished. 
 

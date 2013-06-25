@@ -1003,8 +1003,8 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
 
                         empile:       13970
                      play_move:        8779
- is_white_king_square_attacked:       13234
- is_black_king_square_attacked:        9936
+ is_white_king_square_attacked:        7409
+ is_black_king_square_attacked:        1624
 Loesung beendet. 
 
 

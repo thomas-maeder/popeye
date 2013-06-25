@@ -342,8 +342,8 @@ support on wormhole even if all wormholes are blocked
 
                         empile:          41
                      play_move:          37
- is_white_king_square_attacked:           4
- is_black_king_square_attacked:          66
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          38
 solution finished. 
 
 

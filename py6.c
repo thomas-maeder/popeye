@@ -182,7 +182,9 @@
 #include "conditions/tibet.h"
 #include "conditions/degradierung.h"
 #include "conditions/phantom.h"
+#include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
+#include "conditions/marscirce/plus.h"
 #include "conditions/line_chameleon.h"
 #include "conditions/haan.h"
 #include "conditions/castling_chess.h"
@@ -1504,7 +1506,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
   {
-    is_square_attacked = &singleboxtype3_is_square_attacked;
+    is_king_square_attacked = &singleboxtype3_is_king_square_attacked;
     generate_moves_for_piece = &singleboxtype3_generate_moves_for_piece;
   }
 
@@ -1696,7 +1698,6 @@ static boolean verify_position(slice_index si)
     checkpieces[check_piece_index] = Empty;
   }
 
-
   {
     unsigned int op = 0;
     PieNam p;
@@ -1786,6 +1787,13 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
     is_square_attacked = &annan_is_square_attacked;
   }
+
+  if (CondFlag[plus])
+    is_square_attacked = &plus_is_square_observed;
+  else if (anymars)
+    is_square_attacked = &marscirce_is_square_observed;
+  else if (CondFlag[phantom])
+    is_square_attacked = &phantom_is_square_observed;
 
   if (CondFlag[losingchess])
   {

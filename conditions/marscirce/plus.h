@@ -16,11 +16,13 @@
  */
 void plus_generate_moves(Side side, PieNam p, square sq_departure);
 
-/* Determine whether a specific side is in check in Echecs Plus
- * @param side the side
- * @param evaluate filter for king capturing moves
+/* Determine whether a side observes a specific square
+ * @param side_observing the side
+ * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean plusechecc(Side side, evalfunction_t *evaluate);
+boolean plus_is_square_observed(Side side_observing,
+                                square sq_target,
+                                evalfunction_t *evaluate);
 
 #endif

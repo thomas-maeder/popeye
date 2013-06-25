@@ -244,7 +244,9 @@
     ENUMERATOR(STStrictSATUpdater), \
     ENUMERATOR(STDynastyKingSquareUpdater), \
     ENUMERATOR(STHurdleColourChanger), \
-    ENUMERATOR(STKingOscillator), \
+    ENUMERATOR(STOscillatingKingsTypeA), \
+    ENUMERATOR(STOscillatingKingsTypeB), \
+    ENUMERATOR(STOscillatingKingsTypeC), \
     ENUMERATOR(STMovingPawnToImitatorPromoter),                        \
     /* other slices related to fairy chess */                         \
     ENUMERATOR(STExclusiveChessExclusivityDetector),                  \

@@ -152,35 +152,35 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   return result;
 }
 
-boolean singleboxtype3_is_square_attacked(Side side_checking,
-                                          square sq_target,
-                                          evalfunction_t *evaluate)
+boolean singleboxtype3_is_king_square_attacked(Side side_king_attacked)
 {
   unsigned int promotionstried = 0;
+  Side const side_attacking = advers(side_king_attacked);
   square sq;
 
-  for (sq = next_latent_pawn(initsquare,side_checking);
+  for (sq = next_latent_pawn(initsquare,side_attacking);
        sq!=initsquare;
-       sq = next_latent_pawn(sq,side_checking))
+       sq = next_latent_pawn(sq,side_attacking))
   {
     PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,side_checking);
+    for (pprom = next_singlebox_prom(Empty,side_attacking);
          pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,side_checking))
+         pprom = next_singlebox_prom(pprom,side_attacking))
     {
       boolean result;
       ++promotionstried;
       replace_piece(sq,pprom);
-      ++number_of_pieces[side_checking][pprom];
-      result = is_square_observed(side_checking,sq_target,evaluate);
-      --number_of_pieces[side_checking][pprom];
+      ++number_of_pieces[side_attacking][pprom];
+      result = is_king_square_attacked_default(side_king_attacked);
+      --number_of_pieces[side_attacking][pprom];
       replace_piece(sq,Pawn);
       if (result)
         return true;
     }
   }
 
-  return promotionstried==0 && is_square_observed(side_checking,sq_target,evaluate);
+  return (promotionstried==0
+          && is_king_square_attacked_default(side_king_attacked));
 }
 
 static square find_next_latent_pawn(square sq, Side side)

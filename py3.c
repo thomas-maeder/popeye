@@ -174,17 +174,6 @@ static boolean does_observe_square_impl(square sq_target,
                                         evalfunction_t *evaluate)
 {
   Side const side_checking = trait[nbply];
-  Side const side_in_check = advers(side_checking);
-
-  if (CondFlag[plus])
-    return plusechecc(side_in_check,evaluate);
-  else if (CondFlag[phantom])
-  {
-    if (phantom_echecc(side_in_check,evaluate))
-      return true;
-  }
-  else if (anymars)
-    return marsechecc(side_in_check,evaluate);
 
   if (number_of_pieces[side_checking][King]>0)
   {
@@ -212,7 +201,7 @@ static boolean does_observe_square_impl(square sq_target,
       }
     }
     else if (CondFlag[sting]
-        && (*checkfunctions[Grasshopper])(sq_target, King, evaluate))
+             && (*checkfunctions[Grasshopper])(sq_target, King, evaluate))
       return true;
     else if (roicheck(sq_target,King,evaluate))
       return true;
@@ -275,29 +264,16 @@ static boolean does_observe_square_impl(square sq_target,
     return false;
 }
 
-DEFINE_COUNTER(is_white_king_square_attacked)
-DEFINE_COUNTER(is_black_king_square_attacked)
-
 boolean is_square_observed(Side side_checking,
                            square sq_target,
                            evalfunction_t *evaluate)
 {
   boolean result;
-  Side const side_in_check = advers(side_checking);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_in_check,"");
+  TraceEnumerator(Side,side_checking,"");
   TraceSquare(sq_target);
   TraceFunctionParamListEnd();
-
-  if (side_in_check==White)
-  {
-    INCREMENT_COUNTER(is_white_king_square_attacked);
-  }
-  else
-  {
-    INCREMENT_COUNTER(is_black_king_square_attacked);
-  }
 
   nextply();
   trait[nbply] = side_checking;
@@ -366,6 +342,27 @@ static boolean echecc_bicolores(Side side_in_check)
           || is_square_attacked(side_in_check,king_square[side_in_check],&validate_observation));
 }
 
+DEFINE_COUNTER(is_white_king_square_attacked)
+DEFINE_COUNTER(is_black_king_square_attacked)
+
+boolean is_king_square_attacked_default(Side side_king_attacked)
+{
+  if (side_king_attacked==White)
+  {
+    INCREMENT_COUNTER(is_white_king_square_attacked);
+  }
+  else
+  {
+    INCREMENT_COUNTER(is_black_king_square_attacked);
+  }
+
+  return is_square_attacked(advers(side_king_attacked),
+                            king_square[side_king_attacked],
+                            &validate_observation);
+}
+
+boolean (*is_king_square_attacked)(Side side_king_attacked) = &is_king_square_attacked_default;
+
 boolean echecc(Side side_in_check)
 {
   boolean result;
@@ -387,17 +384,14 @@ boolean echecc(Side side_in_check)
                                    initsquare,
                                    side_attacking_king))))
     result = false;
+  else if (CondFlag[circeassassin] && echecc_assassin(side_king_attacked))
+    result = true;
+  else if (CondFlag[bicolores])
+    result = echecc_bicolores(side_king_attacked);
+  else if (CondFlag[antikings])
+    result = !is_king_square_attacked(side_king_attacked);
   else
-  {
-    if (CondFlag[circeassassin] && echecc_assassin(side_king_attacked))
-      result = true;
-    else if (CondFlag[bicolores])
-      result = echecc_bicolores(side_king_attacked);
-    else
-      result = CondFlag[antikings]!=is_square_attacked(side_attacking_king,
-                                                       king_square[side_king_attacked],
-                                                       &validate_observation);
-  }
+    result = is_king_square_attacked(side_king_attacked);
 
   return result;
 }

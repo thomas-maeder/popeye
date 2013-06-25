@@ -41,7 +41,40 @@ static void perform_oscillation(void)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type king_oscillator_solve(slice_index si, stip_length_type n)
+stip_length_type oscillating_kings_type_a_solve(slice_index si,
+                                                    stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  perform_oscillation();
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type oscillating_kings_type_b_solve(slice_index si,
+                                                    stip_length_type n)
 {
   Side const starter = slices[si].starter;
   stip_length_type result;
@@ -51,15 +84,48 @@ stip_length_type king_oscillator_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (OscillatingKingsTypeB[starter] && echecc(starter))
+  if (echecc(starter))
     result = previous_move_is_illegal;
   else
   {
-    if (!OscillatingKingsTypeC[starter] || echecc(advers(starter)))
-      perform_oscillation();
-
+    perform_oscillation();
     result = solve(slices[si].next1,n);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type oscillating_kings_type_c_solve(slice_index si,
+                                                    stip_length_type n)
+{
+  Side const starter = slices[si].starter;
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (echecc(advers(starter)))
+    perform_oscillation();
+
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -80,8 +146,18 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   if (CondFlag[cond])
   {
-    slice_index const prototype = alloc_pipe(STKingOscillator);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_type type;
+    if (OscillatingKingsTypeB[starter])
+      type = STOscillatingKingsTypeB;
+    else if (OscillatingKingsTypeC[starter])
+      type = STOscillatingKingsTypeC;
+    else
+      type = STOscillatingKingsTypeA;
+
+    {
+      slice_index const prototype = alloc_pipe(type);
+      branch_insert_slices_contextual(si,st->context,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);

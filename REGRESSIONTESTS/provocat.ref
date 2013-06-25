@@ -28,8 +28,8 @@
 
                         empile:        3246
                      play_move:        1510
- is_white_king_square_attacked:        1055
- is_black_king_square_attacked:        1554
+ is_white_king_square_attacked:         666
+ is_black_king_square_attacked:        1351
 solution finished. 
 
 
@@ -64,8 +64,8 @@ solution finished.
 
                         empile:    50234926
                      play_move:    36586520
- is_white_king_square_attacked:    15438267
- is_black_king_square_attacked:    38454091
+ is_white_king_square_attacked:     2626182
+ is_black_king_square_attacked:    36401700
 solution finished. 
 
 

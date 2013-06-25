@@ -33,7 +33,7 @@ a white piece that prevents a guarding piece from giving check
                         empile:     1375055
                      play_move:     1403390
  is_white_king_square_attacked:       37992
- is_black_king_square_attacked:      409223
+ is_black_king_square_attacked:      141357
 solution finished. 
 
 
@@ -72,7 +72,7 @@ the one that would give check without it
                         empile:     1372630
                      play_move:     1401944
  is_white_king_square_attacked:       37801
- is_black_king_square_attacked:      409877
+ is_black_king_square_attacked:      141281
 solution finished. 
 
 
@@ -105,7 +105,7 @@ don't miss double checks with promoted front piece ...
                         empile:       10119
                      play_move:       10498
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       33085
+ is_black_king_square_attacked:         939
 solution finished. 
 
 
@@ -138,7 +138,7 @@ solution finished.
                         empile:       42224
                      play_move:       42219
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       41607
+ is_black_king_square_attacked:        3666
 solution finished. 
 
 

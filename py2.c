@@ -70,7 +70,6 @@
 #include "solving/solve.h"
 #include "solving/single_move_generator.h"
 #include "solving/en_passant.h"
-#include "solving/observation.h"
 #include "stipulation/temporary_hacks.h"
 #include "pieces/pawns/pawn.h"
 #include "pieces/roses.h"
@@ -2599,6 +2598,7 @@ boolean pchincheck(square sq_king,
 
 
 square fromspecificsquare;
+evalfunction_t *eval_fromspecificsquare_next;
 
 boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square sq_capture)
 {
@@ -2611,7 +2611,7 @@ boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square s
   TraceFunctionParamListEnd();
 
   result = (sq_departure==fromspecificsquare
-            && validate_observation(sq_departure,sq_arrival,sq_capture));
+            && (*eval_fromspecificsquare_next)(sq_departure,sq_arrival,sq_capture));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

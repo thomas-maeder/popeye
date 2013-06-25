@@ -135,8 +135,8 @@
 
                         empile:        5752
                      play_move:        4897
- is_white_king_square_attacked:         995
- is_black_king_square_attacked:        8333
+ is_white_king_square_attacked:         308
+ is_black_king_square_attacked:        4123
 Loesung beendet. 
 
 
@@ -197,8 +197,8 @@ Loesung beendet.
 
                         empile:       27814
                      play_move:       15999
- is_white_king_square_attacked:        8288
- is_black_king_square_attacked:       19423
+ is_white_king_square_attacked:         677
+ is_black_king_square_attacked:       11035
 Loesung beendet. 
 
 
@@ -232,8 +232,8 @@ Beispiel fuer Mehrfachbeobachung durch den selben Stein
 
                         empile:          39
                      play_move:          25
- is_white_king_square_attacked:           5
- is_black_king_square_attacked:          46
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          26
 Loesung beendet. 
 
 

@@ -27,7 +27,7 @@
                         empile:       34585
                      play_move:       35413
  is_white_king_square_attacked:        1367
- is_black_king_square_attacked:       86297
+ is_black_king_square_attacked:        2430
 solution finished. 
 
 
@@ -60,7 +60,7 @@ solution finished.
                         empile:         103
                      play_move:         103
  is_white_king_square_attacked:           4
- is_black_king_square_attacked:        2666
+ is_black_king_square_attacked:          33
 solution finished. 
 
 
@@ -93,7 +93,7 @@ double check by en passant capture from above
                         empile:         278
                      play_move:         269
  is_white_king_square_attacked:          13
- is_black_king_square_attacked:        6019
+ is_black_king_square_attacked:          42
 solution finished. 
 
 
@@ -126,7 +126,7 @@ double check by en passant capture from below
                         empile:         720
                      play_move:         647
  is_white_king_square_attacked:          40
- is_black_king_square_attacked:        8566
+ is_black_king_square_attacked:         121
 solution finished. 
 
 
@@ -159,7 +159,7 @@ interception of a defending pawn by a piece that doesn't guard
                         empile:         110
                      play_move:          99
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         278
+ is_black_king_square_attacked:          63
 solution finished. 
 
 
@@ -192,7 +192,7 @@ guard with check -> selfpin with check -> selfpin with guard by s
                         empile:         125
                      play_move:         106
  is_white_king_square_attacked:          13
- is_black_king_square_attacked:         498
+ is_black_king_square_attacked:          90
 solution finished. 
 
 
@@ -225,7 +225,7 @@ guard with check -> selfpin with check -> selfpin with guard by b
                         empile:          25
                      play_move:          23
  is_white_king_square_attacked:           3
- is_black_king_square_attacked:         323
+ is_black_king_square_attacked:          21
 solution finished. 
 
 
@@ -259,7 +259,7 @@ in mate stipulations, it makes sense to pin a queen or rook by a
                         empile:          24
                      play_move:          21
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          84
+ is_black_king_square_attacked:          17
 solution finished. 
 
 

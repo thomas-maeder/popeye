@@ -224,8 +224,8 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  solving/move_effect_journal.h position/pieceid.h \
  stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h solving/en_passant.h pyproc.h \
- solving/observation.h stipulation/temporary_hacks.h pieces/pawns/pawn.h \
- pieces/roses.h debugging/trace.h
+ stipulation/temporary_hacks.h pieces/pawns/pawn.h pieces/roses.h \
+ debugging/trace.h
 
 py.h:
 
@@ -304,8 +304,6 @@ solving/single_move_generator.h:
 solving/en_passant.h:
 
 pyproc.h:
-
-solving/observation.h:
 
 stipulation/temporary_hacks.h:
 
@@ -784,7 +782,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/einstein/anti.h conditions/einstein/en_passant.h \
  conditions/traitor.h conditions/volage.h conditions/magic_square.h \
  conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
- conditions/marscirce/anti.h conditions/line_chameleon.h \
+ conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
+ conditions/marscirce/plus.h conditions/line_chameleon.h \
  conditions/haan.h conditions/castling_chess.h \
  conditions/exchange_castling.h conditions/transmuting_kings/super.h \
  conditions/amu/attack_counter.h conditions/imitator.h \
@@ -1073,7 +1072,11 @@ conditions/degradierung.h:
 
 conditions/phantom.h:
 
+conditions/marscirce/marscirce.h:
+
 conditions/marscirce/anti.h:
+
+conditions/marscirce/plus.h:
 
 conditions/line_chameleon.h:
 

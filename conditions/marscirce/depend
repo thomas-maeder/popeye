@@ -3,7 +3,8 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h pydata.h pyproc.h debugging/trace.h
+ stipulation/goals/goals.h pydata.h pyproc.h solving/observation.h \
+ debugging/trace.h
 
 conditions/marscirce/marscirce.h:
 
@@ -40,6 +41,8 @@ stipulation/goals/goals.h:
 pydata.h:
 
 pyproc.h:
+
+solving/observation.h:
 
 debugging/trace.h:
 conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \

@@ -432,7 +432,7 @@ solution finished.
                         empile:         510
                      play_move:         543
  is_white_king_square_attacked:          11
- is_black_king_square_attacked:         640
+ is_black_king_square_attacked:         367
 solution finished. 
 
 
@@ -466,7 +466,7 @@ intelligent mode bug: did not find mates ...
                         empile:          74
                      play_move:          74
  is_white_king_square_attacked:           5
- is_black_king_square_attacked:         214
+ is_black_king_square_attacked:          32
 solution finished. 
 
 
@@ -500,7 +500,7 @@ option start in intelligent mode
                         empile:       68202
                      play_move:       68202
  is_white_king_square_attacked:        4103
- is_black_king_square_attacked:        4697
+ is_black_king_square_attacked:        4597
 solution finished. 
 
 

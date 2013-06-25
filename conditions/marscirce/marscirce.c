@@ -1,5 +1,6 @@
 #include "conditions/marscirce/marscirce.h"
 #include "pydata.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 /* Generate non-capturing moves
@@ -124,61 +125,75 @@ void marscirce_generate_moves(Side side, PieNam p, square sq_departure)
 
 /* Determine whether a specific piece delivers check to a specific side from a
  * specific rebirth square
- * @param side potentially in check
+ * @param side_observing potentially observing
  * @param pos_checking potentially delivering check ...
  * @param sq_rebrirth ... from this square
  * @note the piece on pos_checking must belong to advers(side)
  */
-boolean mars_does_piece_deliver_check(Side side, square pos_checking, square sq_rebirth)
+boolean mars_is_square_observed_by(Side side_observing,
+                                      square pos_observer,
+                                      square sq_rebirth,
+                                      square sq_target,
+                                      evalfunction_t *evaluate)
 {
   boolean result = false;
-  PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
-  Flags const spec_checking = spec[pos_checking];
 
-  if (is_square_empty(sq_rebirth) || sq_rebirth==pos_checking)
+  if (is_square_empty(sq_rebirth) || sq_rebirth==pos_observer)
   {
-    empty_square(pos_checking);
+    Side const side_observed = advers(side_observing);
+    PieNam const pi_checking = get_walk_of_piece_on_square(pos_observer);
+    Flags const spec_checking = spec[pos_observer];
+    square const save_fromspecificsquare = fromspecificsquare;
+    evalfunction_t * const save_eval_fromspecificsquare_next = eval_fromspecificsquare_next;
+
+    empty_square(pos_observer);
     occupy_square(sq_rebirth,pi_checking,spec_checking);
 
     nextply();
-    trait[nbply] = advers(side);
+    trait[nbply] = side_observing;
     fromspecificsquare = sq_rebirth;
-    result = (*checkfunctions[pi_checking])(king_square[side],pi_checking,&eval_fromspecificsquare);
+    eval_fromspecificsquare_next = &validate_observation;
+    result = (*checkfunctions[pi_checking])(sq_target,pi_checking,&eval_fromspecificsquare);
+    eval_fromspecificsquare_next = save_eval_fromspecificsquare_next;
+    fromspecificsquare = save_fromspecificsquare;
     finply();
 
     empty_square(sq_rebirth);
-    occupy_square(pos_checking,pi_checking,spec_checking);
+    occupy_square(pos_observer,pi_checking,spec_checking);
   }
 
   return result;
 }
 
-/* Determine whether a specific side is in check in Mars Circe
- * @param side the side
- * @param evaluate filter for king capturing moves
+/* Determine whether a side observes a specific square
+ * @param side_observing the side
+ * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean marsechecc(Side side, evalfunction_t *evaluate)
+boolean marscirce_is_square_observed(Side side_observing,
+                                     square sq_target,
+                                     evalfunction_t *evaluate)
 {
   int i,j;
   square square_h = square_h8;
   boolean result = false;
+  Side const side_observed = advers(side_observing);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side_observing,"");
   TraceFunctionParamListEnd();
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
   {
     square pos_checking = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
-      if (piece_belongs_to_opponent(pos_checking,side)
-          && pos_checking!=king_square[side]   /* exclude nK */)
+      if (piece_belongs_to_opponent(pos_checking,side_observed)
+          && pos_checking!=king_square[side_observed]   /* exclude nK */)
       {
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
         Flags const spec_checking = spec[pos_checking];
-        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
-        result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);
+        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side_observed);
+        result = mars_is_square_observed_by(side_observing,pos_checking,sq_rebirth,sq_target,evaluate);
       }
   }
 

@@ -98,7 +98,7 @@ recent Popeye versions didn't find this any more
                         empile:         161
                      play_move:         176
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:         151
+ is_black_king_square_attacked:         142
 solution finished. 
 
 
@@ -1199,8 +1199,8 @@ Until 4.61, Patrouille and paralysing pieces didn't go well together
 
                         empile:           2
                      play_move:           2
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           3
 solution finished. 
 
 

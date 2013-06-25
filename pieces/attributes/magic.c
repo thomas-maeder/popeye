@@ -9,6 +9,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -236,9 +237,9 @@ static void GetZigZagAttackVectors(square from, square to,
                                    numvec  k,
                                    numvec  k1)
 {
-  square sq_departure= to+k;
-  square sq_arrival= to;
-  square sq_capture= to;
+  square sq_departure = to+k;
+  square sq_arrival = to;
+  square sq_capture = to;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from);
@@ -256,12 +257,9 @@ static void GetZigZagAttackVectors(square from, square to,
       break;
   }
 
-  if (sq_departure==from)
-  {
-    fromspecificsquare = from;
-    if (eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-      PushMagicView(to, from, 500+k );
-  }
+  if (sq_departure==from
+      && validate_observation(sq_departure,sq_arrival,sq_capture))
+    PushMagicView(to, from, 500+k );
 
   sq_departure = to+k;
   while (is_square_empty(sq_departure))
@@ -273,12 +271,9 @@ static void GetZigZagAttackVectors(square from, square to,
       break;
   }
 
-  if (sq_departure==from)
-  {
-    fromspecificsquare = from;
-    if (eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-      PushMagicView(to, from, 400+k );
-  }
+  if (sq_departure==from
+      && validate_observation(sq_departure,sq_arrival,sq_capture))
+    PushMagicView(to, from, 400+k );
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -505,14 +500,17 @@ static void PushMagicViewsByOnePiece(square pos_magic)
         && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal))
         && !is_piece_neutral(spec[*pos_viewed]))
     {
+      square const save_fromspecificsquare = fromspecificsquare;
+      evalfunction_t * const save_eval_fromspecificsquare_next = eval_fromspecificsquare_next;
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
+      fromspecificsquare = pos_magic;
+      eval_fromspecificsquare_next = &validate_observation;
       if (crosseyed_views_functions[pi_magic]!=0)
         (*crosseyed_views_functions[pi_magic])(pos_magic,*pos_viewed);
       else
       {
-        /* piece is not cross-eyed - use regular check function */
-        fromspecificsquare = pos_magic;
+       /* piece is not cross-eyed - use regular check function */
         if ((*checkfunctions[pi_magic])(*pos_viewed,
                                         pi_magic,
                                         eval_fromspecificsquare))
@@ -526,6 +524,8 @@ static void PushMagicViewsByOnePiece(square pos_magic)
             PushMagicView(*pos_viewed,pos_magic,vec_viewed_to_magic);
         }
       }
+      eval_fromspecificsquare_next = save_eval_fromspecificsquare_next;
+      fromspecificsquare = save_fromspecificsquare;
     }
 
   TraceFunctionExit(__func__);

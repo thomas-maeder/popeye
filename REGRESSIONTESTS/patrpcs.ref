@@ -30,8 +30,8 @@ also solves as patrol condition
 
                         empile:       60529
                      play_move:       34779
- is_white_king_square_attacked:       28588
- is_black_king_square_attacked:       28865
+ is_white_king_square_attacked:       25441
+ is_black_king_square_attacked:       20349
 solution finished. 
 
 
@@ -97,8 +97,8 @@ solution finished.
 
                         empile:       51494
                      play_move:       29066
- is_white_king_square_attacked:        5984
- is_black_king_square_attacked:       49710
+ is_white_king_square_attacked:         949
+ is_black_king_square_attacked:       28951
 solution finished. 
 
 

@@ -32,8 +32,8 @@
 
                         empile:       17227
                      play_move:       10106
- is_white_king_square_attacked:       11739
- is_black_king_square_attacked:       23499
+ is_white_king_square_attacked:       10117
+ is_black_king_square_attacked:       13056
 solution finished. 
 
 
@@ -79,8 +79,8 @@ solution finished.
 
                         empile:    42388005
                      play_move:    17847230
- is_white_king_square_attacked:    29157967
- is_black_king_square_attacked:    22716810
+ is_white_king_square_attacked:    28053107
+ is_black_king_square_attacked:    17910255
 solution finished. 
 
 
@@ -124,8 +124,8 @@ solution finished.
 
                         empile:        5603
                      play_move:        4249
- is_white_king_square_attacked:       11700
- is_black_king_square_attacked:        8904
+ is_white_king_square_attacked:        4063
+ is_black_king_square_attacked:        4812
 solution finished. 
 
 
@@ -245,8 +245,8 @@ solution finished.
 
                         empile:       15322
                      play_move:       13070
- is_white_king_square_attacked:       50778
- is_black_king_square_attacked:       26493
+ is_white_king_square_attacked:       13100
+ is_black_king_square_attacked:       13703
 solution finished. 
 
 
@@ -351,8 +351,8 @@ solution finished.
 
                         empile:        9100
                      play_move:        5933
- is_white_king_square_attacked:        8091
- is_black_king_square_attacked:       17361
+ is_white_king_square_attacked:        5965
+ is_black_king_square_attacked:        7114
 solution finished. 
 
 
@@ -392,8 +392,8 @@ solution finished.
 
                         empile:        3698
                      play_move:        1765
- is_white_king_square_attacked:        3664
- is_black_king_square_attacked:        3573
+ is_white_king_square_attacked:        1766
+ is_black_king_square_attacked:        2163
 solution finished. 
 
 
@@ -462,8 +462,8 @@ solution finished.
 
                         empile:        9027
                      play_move:        6054
- is_white_king_square_attacked:       15603
- is_black_king_square_attacked:       16811
+ is_white_king_square_attacked:        6069
+ is_black_king_square_attacked:        6680
 solution finished. 
 
 

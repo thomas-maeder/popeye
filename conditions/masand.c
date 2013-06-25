@@ -6,6 +6,7 @@
 #include "stipulation/structure_traversal.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -28,6 +29,8 @@ void stip_insert_masand(slice_index si)
 static boolean observed(square on_this, square by_that)
 {
   boolean result;
+  square const save_fromspecificsquare = fromspecificsquare;
+  evalfunction_t * const save_eval_fromspecificsquare_next = eval_fromspecificsquare_next;
 
   TraceFunctionEntry(__func__);
   TraceSquare(on_this);
@@ -35,7 +38,10 @@ static boolean observed(square on_this, square by_that)
   TraceFunctionParamListEnd();
 
   fromspecificsquare = by_that;
-  result = is_square_observed(trait[nbply],on_this,eval_fromspecificsquare);
+  eval_fromspecificsquare_next = &validate_observation;
+  result = is_square_observed(trait[nbply],on_this,&eval_fromspecificsquare);
+  eval_fromspecificsquare_next = save_eval_fromspecificsquare_next;
+  fromspecificsquare = save_fromspecificsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

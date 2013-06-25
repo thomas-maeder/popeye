@@ -194,37 +194,38 @@ void stip_insert_phantom_en_passant_adjusters(slice_index si)
 }
 
 /* Determine whether a specific side is in check in Phantom Chess
- * @param side the side
- * @param evaluate filter for king capturing moves
+ * @param side_in_check the side
  * @return true iff side is in check
  */
-boolean phantom_echecc(Side side, evalfunction_t *evaluate)
+boolean phantom_is_square_observed(Side side_observing,
+                                   square sq_target,
+                                   evalfunction_t *evaluate)
 {
   int i,j;
+  Side const side_observed = advers(side_observing);
   square square_h = square_h8;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side_observing,"");
   TraceFunctionParamListEnd();
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
   {
     square pos_checking = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
-      /* in marscirce the kings are included */
-      /* in phantomchess the kings are not included, but with rex
-         inclusif they are */
       if ((!TSTFLAG(spec[pos_checking],Royal) || phantom_chess_rex_inclusive)
-          && piece_belongs_to_opponent(pos_checking,side)
-          && pos_checking!=king_square[side]   /* exclude nK */)
+          && piece_belongs_to_opponent(pos_checking,side_observed)
+          && pos_checking!=king_square[side_observed]   /* exclude nK */)
       {
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
         Flags const spec_checking = spec[pos_checking];
-        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side);
-        result = mars_does_piece_deliver_check(side,pos_checking,sq_rebirth);
+        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side_observed);
+        result = mars_is_square_observed_by(side_observing,pos_checking,sq_rebirth,sq_target,evaluate);
       }
   }
+
+  result = result || is_square_observed(side_observing,sq_target,evaluate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

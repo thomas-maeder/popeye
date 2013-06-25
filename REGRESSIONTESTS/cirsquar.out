@@ -329,8 +329,8 @@ Loesung beendet.
 
                         empile:        4903
                      play_move:        1405
- is_white_king_square_attacked:        2148
- is_black_king_square_attacked:        2884
+ is_white_king_square_attacked:         224
+ is_black_king_square_attacked:        1388
 Loesung beendet. 
 
 

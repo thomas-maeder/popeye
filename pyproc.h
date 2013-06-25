@@ -228,13 +228,17 @@ void copyply(void);
 void finply(void);
 void nextply(void);
 
+boolean is_square_observed(Side side_observing,
+                           square sq_target,
+                           evalfunction_t *evaluate);
+
 extern boolean(*is_square_attacked)(Side side_attacking,
                                     square sq_target,
                                     evalfunction_t *evaluate);
 
-boolean is_square_observed(Side side_in_check,
-                           square sq_target,
-                           evalfunction_t *evaluate);
+boolean is_king_square_attacked_default(Side side_king_attacked);
+
+extern boolean (*is_king_square_attacked)(Side side_king_attacked);
 
 boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 boolean rcsech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
@@ -398,6 +402,7 @@ boolean detect_roselocustcheck_on_line(square sq_king,
                                        evalfunction_t *evaluate);
 
 extern square fromspecificsquare;
+evalfunction_t *eval_fromspecificsquare_next;
 
 boolean eval_fromspecificsquare(square departure, square arrival, square capture);
 

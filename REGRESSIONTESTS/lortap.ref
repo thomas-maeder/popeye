@@ -39,8 +39,8 @@
 
                         empile:        2040
                      play_move:        1251
- is_white_king_square_attacked:         473
- is_black_king_square_attacked:        2240
+ is_white_king_square_attacked:         160
+ is_black_king_square_attacked:        1254
 solution finished. 
 
 
@@ -72,8 +72,8 @@ solution finished.
 
                         empile:      457976
                      play_move:      423977
- is_white_king_square_attacked:       79049
- is_black_king_square_attacked:      440256
+ is_white_king_square_attacked:       46114
+ is_black_king_square_attacked:      398818
 solution finished. 
 
 
@@ -107,16 +107,16 @@ a)
 
                         empile:       68848
                      play_move:       60000
- is_white_king_square_attacked:        8308
- is_black_king_square_attacked:       79638
+ is_white_king_square_attacked:        2868
+ is_black_king_square_attacked:       59445
 b) Patrouille
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 #
 
                         empile:      135127
                      play_move:      102643
- is_white_king_square_attacked:        9804
- is_black_king_square_attacked:      154241
+ is_white_king_square_attacked:        3031
+ is_black_king_square_attacked:      101485
 solution finished. 
 
 
@@ -149,8 +149,8 @@ solution finished.
 
                         empile:      130726
                      play_move:      107902
- is_white_king_square_attacked:       10313
- is_black_king_square_attacked:      125048
+ is_white_king_square_attacked:        7904
+ is_black_king_square_attacked:      107518
 solution finished. 
 
 
@@ -191,8 +191,8 @@ b) Lortap
 
                         empile:      242673
                      play_move:      163551
- is_white_king_square_attacked:       26344
- is_black_king_square_attacked:      250538
+ is_white_king_square_attacked:       18374
+ is_black_king_square_attacked:      163082
 solution finished. 
 
 
@@ -233,16 +233,16 @@ b) Lortap
 
                         empile:       64577
                      play_move:       46244
- is_white_king_square_attacked:        8079
- is_black_king_square_attacked:       58783
+ is_white_king_square_attacked:        3924
+ is_black_king_square_attacked:       46004
 c) Patrouille
 
   1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 #
 
                         empile:       73338
                      play_move:       56832
- is_white_king_square_attacked:        6408
- is_black_king_square_attacked:       76056
+ is_white_king_square_attacked:        2981
+ is_black_king_square_attacked:       56526
 solution finished. 
 
 
@@ -276,8 +276,8 @@ solution finished.
 
                         empile:      157738
                      play_move:       95570
- is_white_king_square_attacked:       25292
- is_black_king_square_attacked:      189563
+ is_white_king_square_attacked:       10653
+ is_black_king_square_attacked:       95314
 solution finished. 
 
 
@@ -322,8 +322,8 @@ solution finished.
 
                         empile:      286013
                      play_move:      119939
- is_white_king_square_attacked:       32231
- is_black_king_square_attacked:      146149
+ is_white_king_square_attacked:       26260
+ is_black_king_square_attacked:      108761
 solution finished. 
 
 
@@ -356,8 +356,8 @@ solution finished.
 
                         empile:         413
                      play_move:         381
- is_white_king_square_attacked:          90
- is_black_king_square_attacked:         432
+ is_white_king_square_attacked:          35
+ is_black_king_square_attacked:         294
 solution finished. 
 
 
@@ -401,8 +401,8 @@ solution finished.
 
                         empile:        5044
                      play_move:        3513
- is_white_king_square_attacked:         762
- is_black_king_square_attacked:        4636
+ is_white_king_square_attacked:         377
+ is_black_king_square_attacked:        2756
 solution finished. 
 
 
@@ -434,8 +434,8 @@ solution finished.
 
                         empile:         440
                      play_move:         432
- is_white_king_square_attacked:          31
- is_black_king_square_attacked:          24
+ is_white_king_square_attacked:          20
+ is_black_king_square_attacked:          19
 solution finished. 
 
 
@@ -469,8 +469,8 @@ solution finished.
 
                         empile:          90
                      play_move:          84
- is_white_king_square_attacked:          85
- is_black_king_square_attacked:         140
+ is_white_king_square_attacked:          15
+ is_black_king_square_attacked:          84
 solution finished. 
 
 

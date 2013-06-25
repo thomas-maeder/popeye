@@ -64,7 +64,7 @@ Patrol support even if rebirth square is occupied
                         empile:           4
                      play_move:           1
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           1
+ is_black_king_square_attacked:           0
 solution finished. 
 
 
