@@ -7,7 +7,7 @@
  * suspends Ultraschachzwang when testing for mate.
  */
 
-/* Instrument a stipulation with Ultraschachzwang mate filter slices
+/* Instrument the solving machinery with Ultraschachzwang
  * @param si root of branch to be instrumented
  */
 void ultraschachzwang_initialise_solving(slice_index si);
