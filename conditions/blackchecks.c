@@ -53,25 +53,30 @@ static void insert_landing(slice_index si, stip_structure_traversal *st)
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const landing = st->param;
-  slice_index const save_landing = *landing;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *landing = no_slice;
-  insert_landing(si,st);
-
-  stip_traverse_structure_children(si,st);
-
-  insert_null_move_handler(si,st);
-  *landing = save_landing;
-
+  if (slices[si].starter==Black)
   {
-    slice_index const prototype = alloc_pipe(STBlackChecks);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_index * const landing = st->param;
+    slice_index const save_landing = *landing;
+
+    *landing = no_slice;
+    insert_landing(si,st);
+
+    stip_traverse_structure_children(si,st);
+
+    insert_null_move_handler(si,st);
+    *landing = save_landing;
+
+    {
+      slice_index const prototype = alloc_pipe(STBlackChecks);
+      branch_insert_slices_contextual(si,st->context,&prototype,1);
+    }
   }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -94,10 +99,10 @@ static void remember_landing(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
+/* Instrument the solving machinery for BlackChecks
  * @param si identifies root slice of stipulation
  */
-void stip_insert_blackchecks(slice_index si)
+void blackchecks_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
   slice_index landing = no_slice;
@@ -133,19 +138,17 @@ void stip_insert_blackchecks(slice_index si)
 stip_length_type blackchecks_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[current_move[nbply]].arrival==nullsquare)
-    result = solve(next,n);
-  else if (slices[si].starter==Black && !echecc(White))
-    result = previous_move_is_illegal;
+  if (move_generation_stack[current_move[nbply]].arrival==nullsquare
+      || echecc(White))
+    result = solve(slices[si].next1,n);
   else
-    result = solve(next,n);
+    result = previous_move_is_illegal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,12 +1,14 @@
 #if !defined(CONDITIONS_BLACKCHECKS_H)
 #define CONDITIONS_BLACKCHECKS_H
 
+/* This module implements the fairy condition Black Checks */
+
 #include "solving/solve.h"
 
-/* Instrument a stipulation
+/* Instrument the solving machinery for Black Checks
  * @param si identifies root slice of stipulation
  */
-void stip_insert_blackchecks(slice_index si);
+void blackchecks_initialise_solving(slice_index si);
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -2402,7 +2402,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_strict_sat(result);
 
   if (CondFlag[schwarzschacher])
-    stip_insert_blackchecks(result);
+    blackchecks_initialise_solving(result);
 
   if (CondFlag[masand])
     stip_insert_masand(result);
