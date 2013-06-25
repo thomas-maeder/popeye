@@ -56,8 +56,8 @@ static void change_observed(square observer_pos)
         && *bnp!=king_square[Black]
         && *bnp!=king_square[White]
         && *bnp!=observer_pos
-        && observed(*bnp,observer_pos)
-        && !is_piece_neutral(spec[*bnp]))
+        && !is_piece_neutral(spec[*bnp])
+        && observed(*bnp,observer_pos))
       move_effect_journal_do_side_change(move_effect_reason_masand,*bnp);
 
   TraceFunctionExit(__func__);
