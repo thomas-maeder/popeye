@@ -100,29 +100,17 @@ static square find_king_flight(void)
 
   empty_square(king_square[Black]);
 
-  for (i = vec_queen_start; i<=vec_queen_end && result==initsquare; ++i)
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
-    king_square[Black] += vec[i];
+    square const flight = king_square[Black]+vec[i];
 
+    if (!is_square_blocked(flight)
+        && !TSTFLAG(spec[flight],Black)
+        && !is_square_observed(White,flight,eval_ortho))
     {
-      PieNam const p = get_walk_of_piece_on_square(king_square[Black]);
-      Flags const flags = spec[king_square[Black]];
-
-      if (p==Invalid || TSTFLAG(spec[king_square[Black]],Black))
-        ; /* 'flight' is off board or blocked - don't bother */
-      else
-      {
-        occupy_square(king_square[Black],King,BIT(Black));
-        if (!echecc(Black))
-          result = king_square[Black];
-        if (p==Empty)
-          empty_square(king_square[Black]);
-        else
-          occupy_square(king_square[Black],p,flags);
-      }
+      result = flight;
+      break;
     }
-
-    king_square[Black] -= vec[i];
   }
 
   occupy_square(king_square[Black],King,king_spec);
