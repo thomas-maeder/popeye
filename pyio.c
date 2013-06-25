@@ -7103,9 +7103,10 @@ void WritePosition()
   if (SpecCount[Royal-nr_sides]>0)
     CenterLine(ListSpec[Royal-nr_sides]);
 
-  for (sp = Royal+1; sp<PieSpCount; sp++)
+  for (sp = nr_sides; sp<PieSpCount; sp++)
     if (TSTFLAG(some_pieces_flags,sp))
-      if (!(sp==Patrol && CondFlag[patrouille])
+      if (sp!=Royal
+          && !(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
           && !(sp==Beamtet && CondFlag[beamten]))
         CenterLine(ListSpec[sp-nr_sides]);
@@ -7255,7 +7256,7 @@ void LaTeXBeginDiagram(void)
   char    HolesSqList[256] = "";
   square const *bnp;
 
-  for (sp= Royal; sp<PieSpCount; ++sp)
+  for (sp= nr_sides; sp<PieSpCount; ++sp)
     strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
 
   fprintf(LaTeXFile, "\\begin{diagram}%%\n");
