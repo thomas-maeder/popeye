@@ -266,7 +266,7 @@ Loesung beendet.
                         empile:          74
                      play_move:          74
  is_white_king_square_attacked:           5
- is_black_king_square_attacked:         214
+ is_black_king_square_attacked:          32
 Loesung beendet. 
 
 
@@ -1418,7 +1418,7 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
                         empile:      414343
                      play_move:      413939
  is_white_king_square_attacked:       29487
- is_black_king_square_attacked:       52090
+ is_black_king_square_attacked:       39377
 Loesung beendet. 
 
 
@@ -1453,7 +1453,7 @@ h#8 1.0;1.1;...
                         empile:     2792745
                      play_move:     2792745
  is_white_king_square_attacked:      154076
- is_black_king_square_attacked:      287200
+ is_black_king_square_attacked:      271897
 Loesung beendet. 
 
 
