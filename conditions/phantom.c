@@ -197,11 +197,10 @@ void stip_insert_phantom_en_passant_adjusters(slice_index si)
  * @param side_in_check the side
  * @return true iff side is in check
  */
-boolean phantom_is_square_observed(Side side_observing,
-                                   square sq_target,
-                                   evalfunction_t *evaluate)
+boolean phantom_is_square_observed(square sq_target, evalfunction_t *evaluate)
 {
   int i,j;
+  Side const side_observing = trait[nbply];
   Side const side_observed = advers(side_observing);
   square square_h = square_h8;
   boolean result = false;
@@ -221,11 +220,11 @@ boolean phantom_is_square_observed(Side side_observing,
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
         Flags const spec_checking = spec[pos_checking];
         square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side_observed);
-        result = mars_is_square_observed_by(side_observing,pos_checking,sq_rebirth,sq_target,evaluate);
+        result = mars_is_square_observed_by(pos_checking,sq_rebirth,sq_target,evaluate);
       }
   }
 
-  result = result || is_square_observed(side_observing,sq_target,evaluate);
+  result = result || is_square_observed(sq_target,evaluate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

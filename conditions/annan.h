@@ -25,8 +25,6 @@ extern annan_type_type annan_type;
  */
 boolean annanises(Side side, square rear, square front);
 
-boolean annan_is_square_attacked(Side side_in_check,
-                                 square sq_target,
-                                 evalfunction_t *evaluate);
+boolean annan_is_square_attacked(square sq_target, evalfunction_t *evaluate);
 
 #endif

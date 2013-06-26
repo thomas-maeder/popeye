@@ -125,22 +125,19 @@ void marscirce_generate_moves(Side side, PieNam p, square sq_departure)
 
 /* Determine whether a specific piece delivers check to a specific side from a
  * specific rebirth square
- * @param side_observing potentially observing
  * @param pos_checking potentially delivering check ...
  * @param sq_rebrirth ... from this square
  * @note the piece on pos_checking must belong to advers(side)
  */
-boolean mars_is_square_observed_by(Side side_observing,
-                                      square pos_observer,
-                                      square sq_rebirth,
-                                      square sq_target,
-                                      evalfunction_t *evaluate)
+boolean mars_is_square_observed_by(square pos_observer,
+                                   square sq_rebirth,
+                                   square sq_target,
+                                   evalfunction_t *evaluate)
 {
   boolean result = false;
 
   if (is_square_empty(sq_rebirth) || sq_rebirth==pos_observer)
   {
-    Side const side_observed = advers(side_observing);
     PieNam const pi_checking = get_walk_of_piece_on_square(pos_observer);
     Flags const spec_checking = spec[pos_observer];
     square const save_fromspecificsquare = fromspecificsquare;
@@ -149,14 +146,11 @@ boolean mars_is_square_observed_by(Side side_observing,
     empty_square(pos_observer);
     occupy_square(sq_rebirth,pi_checking,spec_checking);
 
-    nextply();
-    trait[nbply] = side_observing;
     fromspecificsquare = sq_rebirth;
     eval_fromspecificsquare_next = &validate_observation;
     result = (*checkfunctions[pi_checking])(sq_target,pi_checking,&eval_fromspecificsquare);
     eval_fromspecificsquare_next = save_eval_fromspecificsquare_next;
     fromspecificsquare = save_fromspecificsquare;
-    finply();
 
     empty_square(sq_rebirth);
     occupy_square(pos_observer,pi_checking,spec_checking);
@@ -170,13 +164,12 @@ boolean mars_is_square_observed_by(Side side_observing,
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean marscirce_is_square_observed(Side side_observing,
-                                     square sq_target,
-                                     evalfunction_t *evaluate)
+boolean marscirce_is_square_observed(square sq_target, evalfunction_t *evaluate)
 {
   int i,j;
   square square_h = square_h8;
   boolean result = false;
+  Side const side_observing = trait[nbply];
   Side const side_observed = advers(side_observing);
 
   TraceFunctionEntry(__func__);
@@ -193,7 +186,7 @@ boolean marscirce_is_square_observed(Side side_observing,
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
         Flags const spec_checking = spec[pos_checking];
         square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side_observed);
-        result = mars_is_square_observed_by(side_observing,pos_checking,sq_rebirth,sq_target,evaluate);
+        result = mars_is_square_observed_by(pos_checking,sq_rebirth,sq_target,evaluate);
       }
   }
 

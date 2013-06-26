@@ -131,7 +131,14 @@ boolean is_piece_paralysed_on(square s)
   if (paralysis_suspended)
     result = false;
   else
-    result = is_square_attacked(advers(trait[nbply]),s,&validate_paralyser);
+  {
+    nextply();
+    trait[nbply] = advers(trait[parent_ply[nbply]]);
+
+    result = is_square_attacked(s,&validate_paralyser);
+
+    finply();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

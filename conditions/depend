@@ -4012,7 +4012,7 @@ conditions/annan$(OBJ_SUFFIX): conditions/annan.c conditions/annan.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h position/position.h
+ stipulation/goals/goals.h pydata.h pyproc.h position/position.h
 
 conditions/annan.h:
 
@@ -4043,6 +4043,10 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
+
+pydata.h:
+
+pyproc.h:
 
 position/position.h:
 conditions/shielded_kings$(OBJ_SUFFIX): conditions/shielded_kings.c \

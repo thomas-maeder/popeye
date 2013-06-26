@@ -101,6 +101,9 @@ static void plan_blocks_of_flights(void)
 
   nr_available_blockers = intelligent_get_nr_reservable_masses(Black);
 
+  nextply();
+  trait[nbply] = White;
+
   assert(get_walk_of_piece_on_square(king_square[Black])==King);
   empty_square(king_square[Black]);
 
@@ -111,7 +114,7 @@ static void plan_blocks_of_flights(void)
     if (get_walk_of_piece_on_square(flight)==Invalid
         || TSTFLAG(spec[flight],Black))
       ; /* 'flight' is off board or blocked - don't bother */
-    else if (!is_square_observed(White,flight,&eval_ortho))
+    else if (!is_square_observed(flight,&eval_ortho))
     {
       if (TSTFLAG(spec[flight],White)
           || nr_king_flights_to_be_blocked==nr_available_blockers)
@@ -129,6 +132,8 @@ static void plan_blocks_of_flights(void)
   }
 
   occupy_square(king_square[Black],King,king_square_flags);
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

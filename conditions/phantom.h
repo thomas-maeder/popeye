@@ -43,8 +43,6 @@ void stip_insert_phantom_en_passant_adjusters(slice_index si);
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean phantom_is_square_observed(Side side_in_check,
-                                   square sq_target,
-                                   evalfunction_t *evaluate);
+boolean phantom_is_square_observed(square sq_target, evalfunction_t *evaluate);
 
 #endif

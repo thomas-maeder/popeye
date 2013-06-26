@@ -15,7 +15,13 @@ boolean beamten_is_observed(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  result = is_square_attacked(advers(trait[nbply]),sq_departure,&validate_observer);
+
+  nextply();
+  trait[nbply] = advers(trait[parent_ply[nbply]]);
+
+  result = is_square_attacked(sq_departure,&validate_observer);
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

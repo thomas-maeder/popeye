@@ -98,6 +98,9 @@ static square find_king_flight(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  nextply();
+  trait[nbply] = White;
+
   empty_square(king_square[Black]);
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
@@ -106,7 +109,7 @@ static square find_king_flight(void)
 
     if (!is_square_blocked(flight)
         && !TSTFLAG(spec[flight],Black)
-        && !is_square_observed(White,flight,eval_ortho))
+        && !is_square_observed(flight,eval_ortho))
     {
       result = flight;
       break;
@@ -114,6 +117,8 @@ static square find_king_flight(void)
   }
 
   occupy_square(king_square[Black],King,king_spec);
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceSquare(result);

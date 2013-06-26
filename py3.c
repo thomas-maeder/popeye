@@ -166,12 +166,9 @@ boolean rcardech(square intermediate_square,
   return false;
 }
 
-boolean (*is_square_attacked)(Side side_attacking,
-                              square sq_target,
-                              evalfunction_t *evaluate);
+boolean (*is_square_attacked)(square sq_target, evalfunction_t *evaluate);
 
-static boolean does_observe_square_impl(square sq_target,
-                                        evalfunction_t *evaluate)
+boolean is_square_observed(square sq_target, evalfunction_t *evaluate)
 {
   Side const side_checking = trait[nbply];
 
@@ -264,34 +261,16 @@ static boolean does_observe_square_impl(square sq_target,
     return false;
 }
 
-boolean is_square_observed(Side side_checking,
-                           square sq_target,
-                           evalfunction_t *evaluate)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_checking,"");
-  TraceSquare(sq_target);
-  TraceFunctionParamListEnd();
-
-  nextply();
-  trait[nbply] = side_checking;
-  result = does_observe_square_impl(sq_target,evaluate);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean echecc_extinction(Side side_in_check)
 {
   Side const side_checking = advers(side_in_check);
   boolean result = false;
 
   PieNam p;
+
+  nextply();
+  trait[nbply] = side_checking;
+
   for (p = King; p<PieceCount; ++p)
     if (exist[p] && number_of_pieces[side_in_check][p]==1)
     {
@@ -300,22 +279,28 @@ static boolean echecc_extinction(Side side_in_check)
         if (get_walk_of_piece_on_square(*bnp)==p && TSTFLAG(spec[*bnp],side_in_check))
           break;
 
-      if (is_square_attacked(side_checking,*bnp,&validate_observation))
+      if (is_square_attacked(*bnp,&validate_observation))
       {
         result = true;
         break;
       }
     }
 
+  finply();
+
   return result;
 }
 
 static boolean echecc_assassin(Side side_in_check)
 {
+  boolean result = false;
   Side const side_checking = advers(side_in_check);
 
-  if (is_square_attacked(side_checking,king_square[side_in_check],&validate_observation))
-    return true;
+  nextply();
+  trait[nbply] = side_checking;
+
+  if (is_square_attacked(king_square[side_in_check],&validate_observation))
+    result = true;
   else
   {
     square const *bnp;
@@ -326,20 +311,38 @@ static boolean echecc_assassin(Side side_in_check)
       if (p!=Empty
           && p!=King && TSTFLAG(spec[*bnp],side_in_check)
           && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check]
-          && is_square_attacked(side_checking,*bnp,&validate_observation))
-        return true;
+          && is_square_attacked(*bnp,&validate_observation))
+      {
+        result = true;
+        break;
+      }
     }
   }
 
-  return false;
+  finply();
+
+  return result;
 }
 
 static boolean echecc_bicolores(Side side_in_check)
 {
+  boolean result;
   Side const side_checking = advers(side_in_check);
 
-  return (is_square_attacked(side_checking,king_square[side_in_check],&validate_observation)
-          || is_square_attacked(side_in_check,king_square[side_in_check],&validate_observation));
+  nextply();
+  trait[nbply] = side_checking;
+
+  if (is_square_attacked(king_square[side_in_check],&validate_observation))
+    result = true;
+  else
+  {
+    trait[nbply] = side_in_check;
+    result = is_square_attacked(king_square[side_in_check],&validate_observation);
+  }
+
+  finply();
+
+  return result;
 }
 
 DEFINE_COUNTER(is_white_king_square_attacked)
@@ -347,6 +350,8 @@ DEFINE_COUNTER(is_black_king_square_attacked)
 
 boolean is_king_square_attacked_default(Side side_king_attacked)
 {
+  boolean result;
+
   if (side_king_attacked==White)
   {
     INCREMENT_COUNTER(is_white_king_square_attacked);
@@ -356,9 +361,14 @@ boolean is_king_square_attacked_default(Side side_king_attacked)
     INCREMENT_COUNTER(is_black_king_square_attacked);
   }
 
-  return is_square_attacked(advers(side_king_attacked),
-                            king_square[side_king_attacked],
-                            &validate_observation);
+  nextply();
+  trait[nbply] = advers(side_king_attacked);
+
+  result = is_square_attacked(king_square[side_king_attacked],&validate_observation);
+
+  finply();
+
+  return result;
 }
 
 boolean (*is_king_square_attacked)(Side side_king_attacked) = &is_king_square_attacked_default;

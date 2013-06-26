@@ -1,4 +1,5 @@
 #include "conditions/annan.h"
+#include "pydata.h"
 #include "position/position.h"
 
 #include <assert.h>
@@ -30,10 +31,9 @@ boolean annanises(Side side, square rear, square front)
     return false;
 }
 
-boolean annan_is_square_attacked(Side side_attacking,
-                                 square sq_target,
-                                 evalfunction_t *evaluate)
+boolean annan_is_square_attacked(square sq_target, evalfunction_t *evaluate)
 {
+  Side const side_attacking = trait[nbply];
   numvec const dir_annaniser = side_attacking==White ? dir_down : dir_up;
   square annan_sq[nr_squares_on_board];
   PieNam annan_p[nr_squares_on_board];
@@ -60,7 +60,7 @@ boolean annan_is_square_attacked(Side side_attacking,
     }
   }
 
-  result= is_square_observed(side_attacking,sq_target,evaluate);
+  result= is_square_observed(sq_target,evaluate);
 
   while (annan_cnt--)
     replace_piece(annan_sq[annan_cnt],annan_p[annan_cnt]);

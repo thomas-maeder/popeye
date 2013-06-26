@@ -21,8 +21,6 @@ void plus_generate_moves(Side side, PieNam p, square sq_departure);
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean plus_is_square_observed(Side side_observing,
-                                square sq_target,
-                                evalfunction_t *evaluate);
+boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate);
 
 #endif

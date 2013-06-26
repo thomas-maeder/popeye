@@ -25,7 +25,7 @@ static boolean is_capture_not_supported(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = !is_square_attacked(trait[nbply],sq_observer,&validate_observer);
+  result = !is_square_attacked(sq_observer,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

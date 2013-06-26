@@ -39,7 +39,7 @@ static boolean observed(square on_this, square by_that)
 
   fromspecificsquare = by_that;
   eval_fromspecificsquare_next = &validate_observation;
-  result = is_square_attacked(trait[nbply],on_this,&eval_fromspecificsquare);
+  result = is_square_attacked(on_this,&eval_fromspecificsquare);
   eval_fromspecificsquare_next = save_eval_fromspecificsquare_next;
   fromspecificsquare = save_fromspecificsquare;
 

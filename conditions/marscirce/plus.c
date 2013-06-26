@@ -67,11 +67,10 @@ void plus_generate_moves(Side side, PieNam p, square sq_departure)
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean plus_is_square_observed(Side side_observing,
-                                square sq_target,
-                                evalfunction_t *evaluate)
+boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate)
 {
   int i,j;
+  Side const side_observing = trait[nbply];
   Side const side_observed = advers(side_observing);
   square square_h = square_h8;
   boolean result = false;
@@ -88,12 +87,12 @@ boolean plus_is_square_observed(Side side_observing,
           && pos_checking!=sq_target) /* exclude nK */
       {
         if (pos_checking==square_d4 || pos_checking==square_d5 || pos_checking==square_e4 || pos_checking==square_e5)
-          result = (mars_is_square_observed_by(side_observing,pos_checking,square_d4,sq_target,evaluate)
-                    || mars_is_square_observed_by(side_observing,pos_checking,square_d5,sq_target,evaluate)
-                    || mars_is_square_observed_by(side_observing,pos_checking,square_e4,sq_target,evaluate)
-                    || mars_is_square_observed_by(side_observing,pos_checking,square_e5,sq_target,evaluate));
+          result = (mars_is_square_observed_by(pos_checking,square_d4,sq_target,evaluate)
+                    || mars_is_square_observed_by(pos_checking,square_d5,sq_target,evaluate)
+                    || mars_is_square_observed_by(pos_checking,square_e4,sq_target,evaluate)
+                    || mars_is_square_observed_by(pos_checking,square_e5,sq_target,evaluate));
         else
-          result = mars_is_square_observed_by(side_observing,pos_checking,pos_checking,sq_target,evaluate);
+          result = mars_is_square_observed_by(pos_checking,pos_checking,sq_target,evaluate);
       }
   }
 
