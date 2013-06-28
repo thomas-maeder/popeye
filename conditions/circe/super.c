@@ -115,7 +115,9 @@ stip_length_type supercirce_rebirth_handler_solve(slice_index si,
     result = previous_move_is_illegal;
   else
   {
+    current_circe_rebirth_reason[nbply] = move_effect_reason_supercirce_rebirth;
     result = solve(slices[si].next1,n);
+    current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
     if (!post_move_iteration_locked[nbply])
     {

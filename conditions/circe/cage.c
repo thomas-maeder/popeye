@@ -47,7 +47,9 @@ stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
       result = solve(slices[si].next2,n);
     else
     {
+      current_circe_rebirth_reason[nbply] = move_effect_reason_supercirce_rebirth;
       result = solve(slices[si].next1,n);
+      current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
       if (!post_move_iteration_locked[nbply]
           && current_circe_rebirth_square[nbply]==initsquare

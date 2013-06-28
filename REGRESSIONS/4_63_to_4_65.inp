@@ -239,4 +239,36 @@ pieces white kd8 pb7 black ka1 pd2e2
 stipulation h=2.5
 condition chameleonchess marscirce
 
+next
+
+title 4.63 gave all captures h4*g3 as refutations
+pieces white rh3 pg3 black ph4 sh8
+stip zg22
+condition supercirce
+option try vari nowk nobk
+
+next
+
+title 4.63 gave all captures h4*g3 as refutations
+pieces white rh3 pg3 black ph4 sh8
+stip zg22
+condition cagecirce
+option try vari nowk nobk
+
+next
+
+title 4.63 gave all captures g5*h4 as refutations of 1.Rh2?
+pieces white rh3 sh4 black pg5 sh8
+stip zf22
+condition circetake
+option try vari nowk nobk
+
+next
+
+title 4.63 gave all captures g5*h4 as refutations
+pieces white rh3 bh4 black pg5 sh8
+stip zg22
+condition aprilchess b
+option try vari
+
 end

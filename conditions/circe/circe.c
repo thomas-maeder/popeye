@@ -18,6 +18,8 @@ PieNam current_circe_relevant_piece[maxply+1];
 Flags current_circe_relevant_spec[maxply+1];
 Side current_circe_relevant_side[maxply+1];
 
+move_effect_reason_type current_circe_rebirth_reason[maxply+1];
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -124,6 +126,7 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
 
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
+  current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
   current_circe_rebirth_square[nbply] = (*circerenai)(current_circe_relevant_piece[nbply],
                                                       current_circe_relevant_spec[nbply],
                                                       sq_capture,
@@ -132,6 +135,7 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
                                                       current_circe_relevant_side[nbply]);
 
   result = solve(slices[si].next1,n);
+  current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -163,10 +167,13 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
 
   if (current_circe_reborn_piece[nbply]!=Empty
       && is_square_empty(current_circe_rebirth_square[nbply]))
-    move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
+  {
+    assert(current_circe_rebirth_reason[nbply]!=move_effect_no_reason);
+    move_effect_journal_do_piece_readdition(current_circe_rebirth_reason[nbply],
                                             current_circe_rebirth_square[nbply],
                                             current_circe_reborn_piece[nbply],
                                             current_circe_reborn_spec[nbply]);
+  }
   else
     current_circe_rebirth_square[nbply] = initsquare;
 

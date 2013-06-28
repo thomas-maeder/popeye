@@ -1181,3 +1181,163 @@ solution finished.
 solution finished. 
 
 
+
+4.63 gave all captures h4*g3 as refutations
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   P   R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zg22                        2 + 2
+              SuperCirce
+
+   1.Rh3-h2 ? threat:
+          2.Rh2-g2 z
+    but
+      1...h4*g3[+wPg2] !
+
+
+                        empile:        8342
+                     play_move:         952
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+4.63 gave all captures h4*g3 as refutations
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   P   R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zg22                        2 + 2
+              CageCirce
+
+   1.Rh3-h2 ? threat:
+          2.Rh2-g2 z
+    but
+      1...h4*g3[+wPg2] !
+
+
+                        empile:        2216
+                     play_move:         473
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+4.63 gave all captures g5*h4 as refutations of 1.Rh2?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   S   4
+|                                   |
+3   .   .   .   .   .   .   .   R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zf22                        2 + 2
+            CirceTake&Make
+
+   1.Rh3-h2 ? threat:
+          2.Rh2-f2 z
+    but
+      1...g5*h4[+wSg2] !
+
+   1.Rh3-f3 ! threat:
+          2.Rf3-f2 z
+
+
+                        empile:         978
+                     play_move:          94
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+both sides need a kingboth sides need a king
+4.63 gave all captures g5*h4 as refutations
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .   R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zg22                        2 + 2
+             AprilChess B
+
+   1.Rh3-h2 ? threat:
+          2.Rh2-g2 z
+    but
+      1...g5*h4[+wBg2] !
+
+   1.Rh3-g3 ? threat:
+          2.Rg3-g2 z
+    but
+      1...g5*h4[+wBg2] !
+
+
+                        empile:        5558
+                     play_move:         683
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

@@ -127,8 +127,9 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   else
   {
     current_circe_rebirth_square[nbply] = rebirth_square[take_make_circe_current_rebirth_square_index[nbply]];
-
+    current_circe_rebirth_reason[nbply] = move_effect_reason_supercirce_rebirth;
     result = solve(slices[si].next1,n);
+    current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
     if (!post_move_iteration_locked[nbply])
     {

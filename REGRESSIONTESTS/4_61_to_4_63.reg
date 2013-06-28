@@ -908,10 +908,10 @@ f*g7[S->h5] S*g7[P->f6] f*g7[S->h5] ...
             ExclusiveChess
 
 
-                        empile:      100854
-                     play_move:      250737
- is_white_king_square_attacked:      212683
- is_black_king_square_attacked:       75024
+                        empile:      100954
+                     play_move:      212300
+ is_white_king_square_attacked:      187095
+ is_black_king_square_attacked:       49436
 solution finished. 
 
 
