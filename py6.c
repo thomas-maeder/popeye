@@ -2011,6 +2011,8 @@ static boolean verify_position(slice_index si)
   if (mummer_strictness[White]!=mummer_strictness_none)
     disable_orthodox_mating_move_optimisation(White);
 
+  eval_fromspecificsquare_next = &validate_observation;
+
   move_effect_journal_reset();
 
   return true;

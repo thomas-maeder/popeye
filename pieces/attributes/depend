@@ -165,12 +165,12 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  pieces/walks.h conditions/anticirce/promotion.h \
  solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
  conditions/circe/circe.h stipulation/slice_type.h \
+ solving/move_effect_journal.h position/pieceid.h \
  conditions/circe/promotion.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/branch.h stipulation/move.h \
- solving/post_move_iteration.h solving/move_effect_journal.h \
- position/pieceid.h debugging/trace.h
+ solving/post_move_iteration.h debugging/trace.h
 
 pieces/attributes/chameleon.h:
 
@@ -218,6 +218,10 @@ conditions/circe/circe.h:
 
 stipulation/slice_type.h:
 
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
 conditions/circe/promotion.h:
 
 stipulation/stipulation.h:
@@ -239,10 +243,6 @@ stipulation/branch.h:
 stipulation/move.h:
 
 solving/post_move_iteration.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 debugging/trace.h:
 pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \

@@ -501,11 +501,9 @@ static void PushMagicViewsByOnePiece(square pos_magic)
         && !is_piece_neutral(spec[*pos_viewed]))
     {
       square const save_fromspecificsquare = fromspecificsquare;
-      evalfunction_t * const save_eval_fromspecificsquare_next = eval_fromspecificsquare_next;
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
       fromspecificsquare = pos_magic;
-      eval_fromspecificsquare_next = &validate_observation;
       if (crosseyed_views_functions[pi_magic]!=0)
         (*crosseyed_views_functions[pi_magic])(pos_magic,*pos_viewed);
       else
@@ -524,7 +522,6 @@ static void PushMagicViewsByOnePiece(square pos_magic)
             PushMagicView(*pos_viewed,pos_magic,vec_viewed_to_magic);
         }
       }
-      eval_fromspecificsquare_next = save_eval_fromspecificsquare_next;
       fromspecificsquare = save_fromspecificsquare;
     }
 

@@ -271,4 +271,12 @@ stip zg22
 condition aprilchess b
 option try vari
 
+next
+
+title 4.63 crashed
+pieces white se4 sf7 black ph6
+stip x1
+condition plus patrouille
+option nowk nobk
+
 end

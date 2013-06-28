@@ -3736,7 +3736,8 @@ conditions/nopromotion$(OBJ_SUFFIX): conditions/nopromotion.c \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/pipe.h solving/solve.h \
- stipulation/branch.h conditions/circe/circe.h debugging/trace.h
+ stipulation/branch.h conditions/circe/circe.h \
+ solving/move_effect_journal.h position/pieceid.h debugging/trace.h
 
 conditions/nopromotion.h:
 
@@ -3795,6 +3796,10 @@ solving/solve.h:
 stipulation/branch.h:
 
 conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 conditions/geneva$(OBJ_SUFFIX): conditions/geneva.c conditions/geneva.h \

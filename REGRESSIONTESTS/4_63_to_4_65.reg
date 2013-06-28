@@ -187,8 +187,8 @@ solution finished.
               HalfDuplex
 
 
-                        empile:         290
-                     play_move:         273
+                        empile:         218
+                     play_move:         216
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:           6
 solution finished. 
@@ -1336,6 +1336,42 @@ both sides need a kingboth sides need a king
 
                         empile:        5558
                      play_move:         683
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+             4.63 crashed
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   S   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   S   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          2 + 1
+              Patrouille
+              PlusChess
+
+   1.Sf7*h6 x !
+
+
+                        empile:          37
+                     play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

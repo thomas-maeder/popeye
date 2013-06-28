@@ -141,15 +141,12 @@ boolean mars_is_square_observed_by(square pos_observer,
     PieNam const pi_checking = get_walk_of_piece_on_square(pos_observer);
     Flags const spec_checking = spec[pos_observer];
     square const save_fromspecificsquare = fromspecificsquare;
-    evalfunction_t * const save_eval_fromspecificsquare_next = eval_fromspecificsquare_next;
 
     empty_square(pos_observer);
     occupy_square(sq_rebirth,pi_checking,spec_checking);
 
     fromspecificsquare = sq_rebirth;
-    eval_fromspecificsquare_next = &validate_observation;
     result = (*checkfunctions[pi_checking])(sq_target,pi_checking,&eval_fromspecificsquare);
-    eval_fromspecificsquare_next = save_eval_fromspecificsquare_next;
     fromspecificsquare = save_fromspecificsquare;
 
     empty_square(sq_rebirth);
