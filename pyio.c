@@ -5138,7 +5138,6 @@ static char *ParseCond(void)
         anycirce= true;
         break;
       case supercirce:
-      case april:
       case circecage:
         circerenai= 0;
         anycirprom= true;
@@ -5530,6 +5529,12 @@ static char *ParseCond(void)
         break;
       case april:
         tok = ReadPieces(april);
+        if (CondFlag[april])
+        {
+          circerenai= 0;
+          anycirprom= true;
+          anycirce= true;
+        }
         break;
       case koeko:
         koeko_nocontact= &nokingcontact;
