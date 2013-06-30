@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pieces/roses.h"
+#include "pieces/angle/angles.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
 #include "stipulation/stipulation.h"
@@ -152,7 +153,7 @@ static void GetRMHopAttackVectors(square from, square to,
       vec_index_type const k1 = 2*k;
 
       {
-        square const sq_departure = find_end_of_line(sq_hurdle,mixhopdata[angle][k1]);
+        square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1]);
         PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
         if (hopper==get_walk_of_piece_on_square(from)
             && TSTFLAG(spec[sq_departure],trait[nbply])
@@ -161,7 +162,7 @@ static void GetRMHopAttackVectors(square from, square to,
       }
 
       {
-        square const sq_departure = find_end_of_line(sq_hurdle,mixhopdata[angle][k1-1]);
+        square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1-1]);
         PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
         if (hopper==get_walk_of_piece_on_square(from)
             && TSTFLAG(spec[sq_departure],trait[nbply])

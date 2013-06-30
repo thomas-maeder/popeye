@@ -158,8 +158,6 @@ EXTERN  PieNam          orphanpieces[PieceCount];
 
 EXTERN boolean          IsardamB;
 
-EXTERN boolean          checkhopim;
-
 EXTERN boolean		anyantimars;
 EXTERN square           supertrans[maxply+1];
 EXTERN PieNam           current_trans_gen;

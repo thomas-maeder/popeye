@@ -361,7 +361,6 @@ void InitCond(void)
   memset((char *) promonly, 0, sizeof(promonly));
   memset((char *) is_football_substitute, 0, sizeof(promonly));
   memset((char *) is_april_kind,0,sizeof(is_april_kind));
-  checkhopim = false;
   koeko_nocontact= nokingcontact;
   antikoeko_nocontact= nokingcontact;
   OscillatingKingsTypeB[White]= false;

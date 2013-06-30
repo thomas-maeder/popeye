@@ -39,6 +39,7 @@
 #include "pieces/pawns/pawn.h"
 #include "pieces/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pieces/angle/angles.h"
 #include "conditions/sat.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
@@ -92,7 +93,7 @@ boolean rrfouech(square intermediate_square,
       k1 *= 2;
       if (rrfouech(sq_departure,
                    sq_king,
-                   mixhopdata[1][k1],
+                   angle_vectors[angle_90][k1],
                    p,
                    x-1,
                    evaluate))
@@ -102,7 +103,7 @@ boolean rrfouech(square intermediate_square,
       k1--;
       if (rrfouech(sq_departure,
                    sq_king,
-                   mixhopdata[1][k1],
+                   angle_vectors[angle_90][k1],
                    p,
                    x-1,
                    evaluate))
@@ -150,11 +151,11 @@ boolean rcardech(square intermediate_square,
         while (vec[k1]!=k)
           k1++;
         k1*= 2;
-        if (is_square_blocked(sq_departure+mixhopdata[1][k1]))
+        if (is_square_blocked(sq_departure+angle_vectors[angle_90][k1]))
           k1--;
         if (rcardech(sq_departure,
                      sq_king,
-                     mixhopdata[1][k1],
+                     angle_vectors[angle_90][k1],
                      p,
                      x-1,
                      evaluate))

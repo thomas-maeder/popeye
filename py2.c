@@ -73,6 +73,8 @@
 #include "stipulation/temporary_hacks.h"
 #include "pieces/pawns/pawn.h"
 #include "pieces/roses.h"
+#include "pieces/angle/angles.h"
+#include "pieces/angle/hoppers.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -113,7 +115,7 @@ boolean maooaimok(square sq_departure, square sq_arrival, square pass)
   return ret;
 }
 
-boolean ridimok(square sq_departure, square sq_arrival, numvec diff)
+boolean ridimok(square sq_departure, square sq_arrival, numvec vec_arrival_departure)
 {
   square  i2= sq_departure;
   boolean ret;
@@ -122,8 +124,9 @@ boolean ridimok(square sq_departure, square sq_arrival, numvec diff)
 
   empty_square(sq_departure);/* an imitator might be disturbed by the moving rider! */
 
-  do {
-    i2 -= diff;
+  do
+  {
+    i2 -= vec_arrival_departure;
   } while (imok(sq_departure, i2) && (i2 != sq_arrival));
 
   ret= i2==sq_arrival && imok(sq_departure,sq_arrival);
@@ -165,10 +168,8 @@ boolean castlingimok(square sq_departure, square sq_arrival)
   return ret;
 }
 
-boolean hopimok(square sq_departure, square sq_arrival, square sq_hurdle, numvec diff, numvec diff1)
+boolean hoppers_imok(square sq_departure, square sq_arrival, square sq_hurdle, numvec vec_arrival_depature)
 {
-  /* hop sq_departure->sq_arrival hopping over sq_hurdle in steps of diff ok? */
-
   if (CondFlag[imitators])
   {
     square i2 = sq_departure;
@@ -183,7 +184,7 @@ boolean hopimok(square sq_departure, square sq_arrival, square sq_hurdle, numvec
      */
     do
     {
-      i2 += diff;
+      i2 += vec_arrival_depature;
     } while (imok(sq_departure,i2) && i2!=sq_hurdle);
 
     result = i2==sq_hurdle;
@@ -203,7 +204,7 @@ boolean hopimok(square sq_departure, square sq_arrival, square sq_hurdle, numvec
     if (result)
       do
       {
-        i2 += diff1;
+        i2 += vec_arrival_depature;
       } while (imok(sq_departure,i2) && i2!=sq_arrival);
 
     result = result && i2==sq_arrival && imok(sq_departure,sq_arrival);
@@ -216,92 +217,53 @@ boolean hopimok(square sq_departure, square sq_arrival, square sq_hurdle, numvec
     return true;
 }
 
-boolean rmhopech(square sq_king,
-                 vec_index_type kend, vec_index_type kanf,
-                 angle_t angle,
-                 PieNam p,
-                 evalfunction_t *evaluate)
+boolean angle_hoppers_imok(square sq_departure, square sq_arrival, square sq_hurdle, numvec vec_departure_hurdle, numvec vec_hurdle_arrival)
 {
-  /* ATTENTION:
-   *    angle==angle_45:  moose    45 degree hopper
-   *    angle==angle_90:  eagle    90 degree hopper
-   *    angle==angle_135: sparrow 135 degree hopper
-   *
-   *    kend==vec_queen_end, kanf==vec_queen_start: all types (moose,
-   *                                                eagle, sparrow)
-   *    kend==vec_bishop_end, kanf==vec_bishop_start:
-   *        types arriving diagonally (rookmoose, rooksparrow, bishopeagle)
-   *    kend==vec_rook_end, kanf==vec_rook_start: diagonal types
-   *        types arriving orthogonally (bishopmoose, bishopsparrow, rookeagle)
-   *
-   *    YES, this is definitely different to generating their moves ...
-   *                                     NG
-   */
-
-  vec_index_type k;
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_king);
-  TraceFunctionParam ("%u",kend);
-  TraceFunctionParam ("%u",kanf);
-  TraceFunctionParam ("%u",angle);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  for (k = kend; k>=kanf; --k)
+  if (CondFlag[imitators])
   {
-    numvec const v = vec[k];
-    square const sq_hurdle = sq_king+v;
-    TraceValue("%d",v);
-    TraceSquare(sq_hurdle);
-    TracePiece(e[sq_hurdle]);
-    TraceText("\n");
-    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
+    square i2 = sq_departure;
+    PieNam const p = get_walk_of_piece_on_square(sq_departure);
+    Flags const flags = spec[sq_departure];
+    boolean result = true;
+
+    /* an imitator might be disturbed by the moving hopper! */
+    empty_square(sq_departure);
+
+    /* Are the lines from the imitators to the square to hop over free?
+     */
+    do
     {
-      vec_index_type k1 = 2*k;
+      i2 += vec_departure_hurdle;
+    } while (imok(sq_departure,i2) && i2!=sq_hurdle);
 
-      {
-        numvec const v1 = mixhopdata[angle][k1];
-        square const sq_departure = find_end_of_line(sq_hurdle,v1);
-        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
-        TraceSquare(sq_departure);
-        TracePiece(hopper);
-        TraceValue("%d\n",v1);
-        if (hopper==p && TSTFLAG(spec[sq_departure],trait[nbply]))
+    result = i2==sq_hurdle;
+
+    if (result)
+    {
+      /* Are the squares the imitators have to hop over occupied? */
+      unsigned int imi_idx;
+      for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
+        if (is_square_empty(isquare[imi_idx-1]+sq_hurdle-sq_departure))
         {
-          if (evaluate(sq_departure,sq_king,sq_king)
-              && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
-          {
-            result = true;
-            break;
-          }
+          result = false;
+          break;
         }
-      }
-
-      {
-        numvec const v1 = mixhopdata[angle][k1-1];
-        square const sq_departure = find_end_of_line(sq_hurdle,v1);
-        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
-        TraceSquare(sq_departure);
-        TracePiece(hopper);
-        TraceValue("%d\n",v1);
-        if (hopper==p && TSTFLAG(spec[sq_departure],trait[nbply])) {
-          if (evaluate(sq_departure,sq_king,sq_king)
-              && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-v1,-v)))
-          {
-            result = true;
-            break;
-          }
-        }
-      }
     }
-  }
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+    if (result)
+      do
+      {
+        i2 += vec_hurdle_arrival;
+      } while (imok(sq_departure,i2) && i2!=sq_arrival);
+
+    result = result && i2==sq_arrival && imok(sq_departure,sq_arrival);
+
+    occupy_square(sq_departure,p,flags);
+
+    return result;
+  }
+  else
+    return true;
 }
 
 boolean rcsech(square  sq_king,
@@ -608,25 +570,21 @@ boolean nequicheck(square   sq_king,
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_king!=sq_departure
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,vector,vector)))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,vector))
         return true;
     }
 
   return false;
 }
 
-boolean norixcheck(square   sq_king,
+boolean norixcheck(square sq_king,
                    PieNam p,
                    evalfunction_t *evaluate)
 {
   /* check by non-stop orix? */
-  numvec delta_horiz, delta_vert, delta;
-  numvec vector;
-  square sq_hurdle;
-  square sq_departure;
-  boolean queenlike;
+  numvec delta_horiz, delta_vert;
 
-  square const coin= coinequis(sq_king);
+  square const coin = coinequis(sq_king);
 
   for (delta_horiz= 3*dir_right;
        delta_horiz!=dir_left;
@@ -634,15 +592,16 @@ boolean norixcheck(square   sq_king,
 
     for (delta_vert= 3*dir_up;
          delta_vert!=dir_down;
-         delta_vert+= dir_down) {
-      sq_hurdle= coin+delta_horiz+delta_vert;
-      vector= sq_king-sq_hurdle;
-      delta= abs(vector);
-      queenlike= (delta <= 3*dir_right)
-                  || (delta % onerow == 0)
-		|| (delta % (onerow + dir_right) == 0)
-		|| (delta % (onerow + dir_left) == 0);
-      sq_departure= sq_hurdle-vector;
+         delta_vert+= dir_down)
+    {
+      square const sq_hurdle= coin+delta_horiz+delta_vert;
+      numvec const vector = sq_king-sq_hurdle;
+      numvec const delta = abs(vector);
+      boolean const queenlike = (delta <= 3*dir_right)
+                                 || (delta % onerow == 0)
+                                 || (delta % (onerow + dir_right) == 0)
+                                 || (delta % (onerow + dir_left) == 0);
+      square const sq_departure = sq_hurdle-vector;
 
       if (queenlike
           && !is_square_empty(sq_hurdle)
@@ -650,7 +609,7 @@ boolean norixcheck(square   sq_king,
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_king!=sq_departure
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,vector,vector)))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,vector))
         return true;
     }
 
@@ -833,7 +792,7 @@ static boolean rider_hoppers_check(square  sq_king,
       if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
   }
@@ -859,7 +818,7 @@ static boolean lions_check(square  sq_king,
       if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
   }
@@ -885,7 +844,7 @@ static boolean leaper_hoppers_check(square  sq_king,
       if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
   }
@@ -937,7 +896,7 @@ static boolean grasshoppers_n_check(square  sq_king,
       if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
   }
@@ -1050,7 +1009,7 @@ boolean contragrascheck(square    sq_king,
       if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
   }
@@ -1757,21 +1716,21 @@ boolean moosecheck(square    sq_king,
                    PieNam p,
                    evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_queen_end,vec_queen_start, angle_45, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_queen_start,vec_queen_end, angle_45, p, evaluate);
 }
 
 boolean eaglecheck(square    sq_king,
                    PieNam p,
                    evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_queen_end,vec_queen_start, angle_90, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_queen_start,vec_queen_end, angle_90, p, evaluate);
 }
 
 boolean sparrcheck(square    sq_king,
                    PieNam p,
                    evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_queen_end,vec_queen_start, angle_135, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_queen_start,vec_queen_end, angle_135, p, evaluate);
 }
 
 boolean margueritecheck(square    sq_king,
@@ -1796,14 +1755,14 @@ boolean rookmoosecheck(square    sq_king,
                        evalfunction_t *evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
-  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_bishop_start,vec_bishop_end, angle_45, p, evaluate);
 }
 
 boolean rookeaglecheck(square    sq_king,
                        PieNam p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_90, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_rook_start,vec_rook_end, angle_90, p, evaluate);
 }
 
 boolean rooksparrcheck(square    sq_king,
@@ -1811,7 +1770,7 @@ boolean rooksparrcheck(square    sq_king,
                        evalfunction_t *evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
-  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_bishop_start,vec_bishop_end, angle_135, p, evaluate);
 }
 
 boolean bishopmoosecheck(square    sq_king,
@@ -1819,14 +1778,14 @@ boolean bishopmoosecheck(square    sq_king,
                          evalfunction_t *evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
-  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_rook_start,vec_rook_end, angle_45, p, evaluate);
 }
 
 boolean bishopeaglecheck(square    sq_king,
                          PieNam p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(sq_king, vec_bishop_end,vec_bishop_start, angle_90, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_bishop_start,vec_bishop_end, angle_90, p, evaluate);
 }
 
 boolean bishopsparrcheck(square    sq_king,
@@ -1834,7 +1793,7 @@ boolean bishopsparrcheck(square    sq_king,
                          evalfunction_t *evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
-  return rmhopech(sq_king, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
+  return angle_hoppers_is_square_observed(sq_king, vec_rook_start,vec_rook_end, angle_135, p, evaluate);
 }
 
 boolean archcheck(square    sq_king,
@@ -1981,7 +1940,7 @@ boolean equicheck(square    sq_king,
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
   }
@@ -1993,7 +1952,7 @@ boolean equicheck(square    sq_king,
         && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && evaluate(sq_departure,sq_king,sq_king)
-        && (!checkhopim || hopimok(sq_departure,sq_king,sq_departure-vec[k],-vec[k],-vec[k])))
+        && hoppers_imok(sq_departure,sq_king,sq_departure-vec[k],-vec[k]))
       return true;
   }
 
@@ -2050,7 +2009,7 @@ boolean catcheck(square sq_king,
       while (is_square_empty(middle_square))
       {
         {
-          square const sq_departure= middle_square+mixhopdata[3][k-60];
+          square const sq_departure= middle_square+cat_vectors[k-60];
           if (get_walk_of_piece_on_square(sq_departure)==p
               && TSTFLAG(spec[sq_departure],trait[nbply])
               && evaluate(sq_departure,sq_king,sq_king))
@@ -2058,7 +2017,7 @@ boolean catcheck(square sq_king,
         }
 
         {
-          square const sq_departure= middle_square+mixhopdata[3][k-56];
+          square const sq_departure= middle_square+cat_vectors[k-56];
           if (get_walk_of_piece_on_square(sq_departure)==p
               && TSTFLAG(spec[sq_departure],trait[nbply])
               && evaluate(sq_departure,sq_king,sq_king))
@@ -2408,7 +2367,7 @@ boolean orixcheck(square sq_king,
           && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_departure-sq_hurdle==sq_hurdle-sq_king
           && evaluate(sq_departure,sq_king,sq_king)
-          && (!checkhopim || hopimok(sq_departure,sq_king,sq_hurdle,-vec[k],-vec[k])))
+          && hoppers_imok(sq_departure,sq_king,sq_hurdle,-vec[k]))
         return true;
     }
   }

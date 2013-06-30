@@ -1,49 +1,19 @@
 #include "pieces/vectors.h"
 #include "position/board.h"
 
-/* This are the vectors for hoppers which change directions after the hurdle */
-/* and for the CAT (a special concatenation of knight and dabbabba-rider)    */
-numvec const mixhopdata[4][17] = {
-  /* moose     45 */ { 0,
-                       dir_down+dir_right,   dir_up+dir_right,
-                       dir_up+dir_left,      dir_up+dir_right,
-                       dir_up+dir_left,      dir_down+dir_left,
-                       dir_down+dir_right,   dir_down+dir_left,
-                       dir_left,             dir_up,
-                       dir_right,            dir_up,
-                       dir_right,            dir_down,
-                       dir_left,             dir_down
-  },
-  /* eagle     90 */ { 0,
-                       dir_up,               dir_down,
-                       dir_right,            dir_left,
-                       dir_up,               dir_down,
-                       dir_right,            dir_left,
-                       dir_up+dir_right,     dir_down+dir_left,
-                       dir_up+dir_left,      dir_down+dir_right,
-                       dir_up+dir_right,     dir_down+dir_left,
-                       dir_up+dir_left,      dir_down+dir_right
-  },
-  /* sparrow  135 */ { 0,
-                       dir_up+dir_left,      dir_down+dir_left,
-                       dir_down+dir_right,   dir_down+dir_left,
-                       dir_down+dir_right,   dir_up+dir_right,
-                       dir_up+dir_left,      dir_up+dir_right,
-                       dir_right,            dir_down,
-                       dir_left,             dir_down,
-                       dir_left,             dir_up,
-                       dir_right,            dir_up
-  },
-  /* CAT          */ { 0,
-                       dir_down+2*dir_right, 2*dir_up+dir_left,
-                       dir_up+2*dir_left,    2*dir_down+dir_right,
-                       dir_up+2*dir_right,   2*dir_up+dir_right,
-                       dir_down+2*dir_left,  2*dir_down+dir_left,
-                       2*dir_left,           2*dir_up,
-                       2*dir_up,             2*dir_right,
-                       2*dir_right,          2*dir_down,
-                       2*dir_down,           2*dir_left
-  }
+/* This are the vectors for the CAT (a special concatenation of knight and
+ * dabbabba-rider)
+ */
+numvec const cat_vectors[17] =
+{ 0,
+  dir_down+2*dir_right, 2*dir_up+dir_left,
+  dir_up+2*dir_left,    2*dir_down+dir_right,
+  dir_up+2*dir_right,   2*dir_up+dir_right,
+  dir_down+2*dir_left,  2*dir_down+dir_left,
+  2*dir_left,           2*dir_up,
+  2*dir_up,             2*dir_right,
+  2*dir_right,          2*dir_down,
+  2*dir_down,           2*dir_left
 };
 
 /* don't try to delete something like "duplicates" or change

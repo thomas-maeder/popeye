@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = angles.c hoppers.c
+
+INCLUDES = angles.h hoppers.h
+
+include makefile.rules $(CURRPWD)depend

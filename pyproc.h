@@ -240,15 +240,7 @@ boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfuncti
 boolean rcsech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
 boolean rcspech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
 void    restaure(void);
-boolean ridimok(square i, square j, int diff);
-
-typedef enum {
-  angle_45,
-  angle_90,
-  angle_135
-} angle_t;
-
-boolean rmhopech(square a, vec_index_type kend, vec_index_type kanf, angle_t angle, PieNam p, evalfunction_t *evaluate);
+boolean ridimok(square i, square j, int vec_arrival_departure);
 
 boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
@@ -318,7 +310,8 @@ square renspiegel(PieNam p, Flags pspec, square j, square i, square ip, Side cam
 
 void pyfputs(char const *s, FILE *f);
 
-boolean hopimok(square i, square j, square k, numvec d, numvec d1);
+boolean hoppers_imok(square sq_departure, square sq_arrival, square sq_hurdle, numvec vec_arrival_depature);
+boolean angle_hoppers_imok(square sq_departure, square sq_arrival, square sq_hurdle, numvec vec_departure_hurdle, numvec vec_hurdle_arrival);
 boolean is_king(PieNam p);
 boolean is_pawn(PieNam p);
 boolean is_forwardpawn(PieNam p);

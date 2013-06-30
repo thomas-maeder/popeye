@@ -1,0 +1,56 @@
+pieces/angle/angles$(OBJ_SUFFIX): pieces/angle/angles.c pieces/angle/angles.h \
+ pieces/vectors.h position/board.h utilities/bitmask.h
+
+pieces/angle/angles.h:
+
+pieces/vectors.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+pieces/angle/hoppers$(OBJ_SUFFIX): pieces/angle/hoppers.c pieces/angle/hoppers.h \
+ pieces/angle/angles.h pieces/vectors.h position/board.h \
+ utilities/bitmask.h position/position.h utilities/boolean.h \
+ utilities/enumeration.h pyproc.h py4.h py.h utilities/boolean.h \
+ position/position.h pylang.h pieces/vectors.h stipulation/goals/goals.h \
+ py.h debugging/trace.h pydata.h pyproc.h
+
+pieces/angle/hoppers.h:
+
+pieces/angle/angles.h:
+
+pieces/vectors.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/position.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:

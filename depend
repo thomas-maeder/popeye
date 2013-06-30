@@ -225,6 +225,7 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h solving/en_passant.h pyproc.h \
  stipulation/temporary_hacks.h pieces/pawns/pawn.h pieces/roses.h \
+ pieces/angle/angles.h pieces/angle/hoppers.h pieces/angle/angles.h \
  debugging/trace.h
 
 py.h:
@@ -311,6 +312,12 @@ pieces/pawns/pawn.h:
 
 pieces/roses.h:
 
+pieces/angle/angles.h:
+
+pieces/angle/hoppers.h:
+
+pieces/angle/angles.h:
+
 debugging/trace.h:
 py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/vectors.h \
@@ -318,8 +325,8 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  pieces/vectors.h stipulation/goals/goals.h py.h pydata.h \
  pieces/pawns/pawn.h pyproc.h position/position.h pieces/hunters.h \
  pieces/attributes/paralysing/paralysing.h stipulation/slice.h \
- stipulation/slice_type.h conditions/sat.h solving/solve.h \
- conditions/ultraschachzwang/legality_tester.h \
+ stipulation/slice_type.h pieces/angle/angles.h conditions/sat.h \
+ solving/solve.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/pawns/promotion.h conditions/magic_square.h conditions/immune.h \
  conditions/phantom.h conditions/marscirce/marscirce.h \
@@ -373,6 +380,8 @@ pieces/attributes/paralysing/paralysing.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
+
+pieces/angle/angles.h:
 
 conditions/sat.h:
 
@@ -442,6 +451,7 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  pieces/attributes/paralysing/paralysing.h pieces/pawns/pawns.h \
  pieces/pawns/pawn.h pieces/hunters.h pieces/roses.h \
  pieces/spiral_springers.h pieces/marine.h pieces/ubiubi.h \
+ pieces/angle/angles.h pieces/angle/hoppers.h pieces/angle/angles.h \
  debugging/trace.h debugging/measure.h
 
 py.h:
@@ -571,6 +581,12 @@ pieces/spiral_springers.h:
 pieces/marine.h:
 
 pieces/ubiubi.h:
+
+pieces/angle/angles.h:
+
+pieces/angle/hoppers.h:
+
+pieces/angle/angles.h:
 
 debugging/trace.h:
 

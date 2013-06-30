@@ -99,6 +99,8 @@
 #include "pieces/spiral_springers.h"
 #include "pieces/marine.h"
 #include "pieces/ubiubi.h"
+#include "pieces/angle/angles.h"
+#include "pieces/angle/hoppers.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -485,55 +487,6 @@ static void ghamst(square sq_departure)
   }
 }
 
-static void gmhop(square   sq_departure,
-                  vec_index_type kanf, vec_index_type kend,
-                  int m,
-                  Side camp)
-{
-  vec_index_type k;
-
-  /* ATTENTION:
-   *    m == 0: moose    45 degree hopper
-   *    m == 1: eagle    90 degree hopper
-   *    m == 2: sparrow 135 degree hopper
-   *
-   *    kend == 8, kanf == 1: queen types  (moose, eagle, sparrow)
-   *    kend == 8, kanf == 5: bishop types
-   *                  (bishopmoose, bishopeagle, bishopsparrow)
-   *    kend == 4, kanf == 1: rook types
-   *                  (rookmoose, rookeagle, rooksparrow)
-   */
-
-  for (k = kend; k>=kanf; k--)
-  {
-    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
-    if (!is_square_blocked(sq_hurdle))
-    {
-      vec_index_type const k1 = 2*k;
-
-      {
-        square const sq_arrival= sq_hurdle+mixhopdata[m][k1];
-        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1])))
-        {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-        }
-      }
-
-      {
-        square const sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
-        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1])))
-        {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-        }
-      }
-    }
-  }
-}
-
 void generate_locust_capture(square sq_departure, square sq_capture,
                              vec_index_type k,
                              Side camp)
@@ -630,7 +583,7 @@ static void gnequi(square sq_departure, Side camp)
 
         if ((is_square_empty(sq_arrival)
              || piece_belongs_to_opponent(sq_arrival,camp))
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
+            && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vector))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -655,14 +608,14 @@ static void gorix(square sq_departure, Side camp)
       square const sq_end_of_line = find_end_of_line(sq_hurdle,vec[k]);
       square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
       if (abs(sq_end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure)
-          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
       }
       else if (abs(sq_end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
                && piece_belongs_to_opponent(sq_end_of_line,camp)
-               && (!checkhopim || hopimok(sq_departure,sq_end_of_line,sq_hurdle,vec[k],vec[k])))
+               && hoppers_imok(sq_departure,sq_end_of_line,sq_hurdle,vec[k]))
       {
         empile(sq_departure,sq_end_of_line,sq_end_of_line);
         move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -704,7 +657,7 @@ static void gnorix(square sq_departure, Side camp)
 
         if ((is_square_empty(sq_arrival)
              || piece_belongs_to_opponent(sq_arrival,camp))
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vector,vector)))
+            && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vector))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -890,9 +843,9 @@ static void grfou(square   orig_departure,
     while (vec[k1]!=k)
       k1++;
     k1*= 2;
-    grfou(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp);
+    grfou(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1,camp);
     k1--;
-    grfou(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp);
+    grfou(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1,camp);
   }
 }
 
@@ -933,10 +886,10 @@ static void gcard(square   orig_departure,
         while (vec[k1]!=k)
           k1++;
         k1*= 2;
-        if (is_square_blocked(sq_arrival+mixhopdata[1][k1]))
+        if (is_square_blocked(sq_arrival+angle_vectors[angle_90][k1]))
           k1--;
 
-        gcard(orig_departure,sq_arrival,mixhopdata[1][k1],x-1,camp);
+        gcard(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1,camp);
       }
     }
   }
@@ -1083,7 +1036,7 @@ static void gequi(square sq_departure, Side camp)
       if (dist_hurdle_end>dist_hurdle_dep)
       {
         square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
-        if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
+        if (hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1093,7 +1046,7 @@ static void gequi(square sq_departure, Side camp)
       {
         square const sq_arrival = end_of_line;
         if (piece_belongs_to_opponent(sq_arrival,camp)
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+            && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1108,7 +1061,7 @@ static void gequi(square sq_departure, Side camp)
     square const sq_arrival= sq_departure + 2*vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle)>=King
         && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
-        && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+        && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
     {
       empile(sq_departure,sq_arrival,sq_arrival);
       move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1168,7 +1121,7 @@ static void gcat(square sq_departure, Side camp)
       while (is_square_empty(sq_arrival))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
-        sq_arrival+= mixhopdata[3][k];
+        sq_arrival+= cat_vectors[k];
       }
 
       if (piece_belongs_to_opponent(sq_arrival,camp))
@@ -1367,7 +1320,7 @@ static void lions_generate_moves(square sq_departure,
       square sq_arrival = sq_hurdle+vec[k];
       while (is_square_empty(sq_arrival))
       {
-        if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
+        if (hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1376,7 +1329,7 @@ static void lions_generate_moves(square sq_departure,
       }
 
       if (piece_belongs_to_opponent(sq_arrival,camp)
-          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1398,7 +1351,7 @@ static void hoppers_generate_moves(square sq_departure,
     {
       square const sq_arrival = sq_hurdle+vec[k];
       if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
-          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1422,7 +1375,7 @@ static void contra_grasshopper_generate_moves(square sq_departure,
         square sq_arrival = sq_hurdle+vec[k];
         while (is_square_empty(sq_arrival))
         {
-          if (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k]))
+          if (hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
           {
             empile(sq_departure,sq_arrival,sq_arrival);
             move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1431,7 +1384,7 @@ static void contra_grasshopper_generate_moves(square sq_departure,
         }
 
         if (piece_belongs_to_opponent(sq_arrival,camp)
-            && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+            && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
         {
           empile(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1474,7 +1427,7 @@ static void grasshoppers_n_generate_moves(square sq_departure,
     {
       square const sq_arrival = grasshoppers_n_find_target(sq_hurdle,vec[k],dist_hurdle_target);
       if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
-          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1509,7 +1462,7 @@ static void leaper_hoppers_generate_moves(square sq_departure,
     {
       square const sq_arrival = sq_hurdle+vec[k];
       if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
-          && (!checkhopim || hopimok(sq_departure,sq_arrival,sq_hurdle,vec[k],vec[k])))
+          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
       {
         empile(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
@@ -1847,7 +1800,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Elk:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45, side);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -1856,7 +1809,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Eagle:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90, side);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -1865,7 +1818,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Sparrow:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135, side);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -1874,9 +1827,9 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Marguerite:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_queen_start,vec_queen_end, 0, side);
-      gmhop(sq_departure, vec_queen_start,vec_queen_end, 1, side);
-      gmhop(sq_departure, vec_queen_start,vec_queen_end, 2, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135, side);
       hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
       ghamst(sq_departure);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
@@ -2079,20 +2032,20 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case RookMoose:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_rook_start,vec_rook_end, 0, side);
+      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_45, side);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
 
     case RookEagle:
-      gmhop(sq_departure, vec_rook_start,vec_rook_end, 1, side);
+      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_90, side);
       return;
 
     case RookSparrow:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_rook_start,vec_rook_end, 2, side);
+      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_135, side);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -2101,20 +2054,20 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case BishopMoose:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 0, side);
+      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_45, side);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
 
     case BishopEagle:
-      gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 1, side);
+      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_90, side);
       return;
 
     case BishopSparrow:
     {
       numecoup const save_current_move = current_move[nbply];
-      gmhop(sq_departure, vec_bishop_start,vec_bishop_end, 2, side);
+      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_135, side);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;

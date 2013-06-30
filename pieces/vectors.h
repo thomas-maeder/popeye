@@ -3,7 +3,7 @@
 
 typedef int numvec;
 
-extern  numvec const mixhopdata[4][17];
+extern numvec const cat_vectors[17];
 
 enum
 {

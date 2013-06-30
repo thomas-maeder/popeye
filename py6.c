@@ -1768,11 +1768,9 @@ static boolean verify_position(slice_index si)
 
   if (TSTFLAG(some_pieces_flags, ColourChange))
   {
-    checkhopim = true;
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
-  checkhopim |= CondFlag[imitators];
 
   if (CondFlag[sentinelles])
   {
