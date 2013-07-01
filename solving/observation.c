@@ -3,6 +3,8 @@
 
 #include <assert.h>
 
+boolean (*next_observation_validator)(square sq_observer, square sq_landing, square sq_observee) = &validate_observation;
+
 enum
 {
   observation_validators_capacity = 10
@@ -117,7 +119,7 @@ boolean validate_observer(square sq_observer,
 
   TraceValue("%u\n",nr_observer_validators);
 
-  eval_fromspecificsquare_next = &validate_observation_geometry;
+  next_observation_validator = &validate_observation_geometry;
 
   for (i = 0; i!=nr_observer_validators; ++i)
     if (!(*observer_validators[i])(sq_observer,sq_landing,sq_observee))
@@ -126,7 +128,7 @@ boolean validate_observer(square sq_observer,
       break;
     }
 
-  eval_fromspecificsquare_next = &validate_observer;
+  next_observation_validator = &validate_observer;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -192,7 +194,7 @@ boolean validate_observation(square sq_observer,
 
   TraceValue("%u\n",nr_observation_validators);
 
-  eval_fromspecificsquare_next = &validate_observer;
+  next_observation_validator = &validate_observer;
 
   for (i = 0; i!=nr_observation_validators; ++i)
     if (!(*observation_validators[i])(sq_observer,sq_landing,sq_observee))
@@ -201,7 +203,7 @@ boolean validate_observation(square sq_observer,
       break;
     }
 
-  eval_fromspecificsquare_next = &validate_observation;
+  next_observation_validator = &validate_observation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

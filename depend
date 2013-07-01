@@ -224,9 +224,9 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  solving/move_effect_journal.h position/pieceid.h \
  stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h solving/en_passant.h pyproc.h \
- stipulation/temporary_hacks.h pieces/pawns/pawn.h pieces/roses.h \
- pieces/angle/angles.h pieces/angle/hoppers.h pieces/angle/angles.h \
- debugging/trace.h
+ solving/observation.h stipulation/temporary_hacks.h pieces/pawns/pawn.h \
+ pieces/roses.h pieces/angle/angles.h pieces/angle/hoppers.h \
+ pieces/angle/angles.h debugging/trace.h
 
 py.h:
 
@@ -305,6 +305,8 @@ solving/single_move_generator.h:
 solving/en_passant.h:
 
 pyproc.h:
+
+solving/observation.h:
 
 stipulation/temporary_hacks.h:
 

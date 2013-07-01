@@ -18,6 +18,7 @@
  *   * ...
  */
 
+extern boolean (*next_observation_validator)(square sq_observer, square sq_landing, square sq_observee);
 
 /* Forget about the observation validators registered in a previous round of
  * solving.

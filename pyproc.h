@@ -390,7 +390,6 @@ boolean detect_roselocustcheck_on_line(square sq_king,
                                        evalfunction_t *evaluate);
 
 extern square fromspecificsquare;
-evalfunction_t *eval_fromspecificsquare_next;
 
 boolean eval_fromspecificsquare(square departure, square arrival, square capture);
 
