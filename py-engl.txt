@@ -320,6 +320,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	After the RepublicanChess condition, "Type1" or "Type2" can
 	be indicated; Type2 is the default.
 
+	After the list of magic square, "Type1" or "Type2" can
+	be indicated; Type1 is the default.
+
 	After the Sentinelles condition "PionAdvers", "PionNeutre",
 	"ParaSentinelles", or "Berolina" can be entered, and also
 	"MaximumWhite", "MaximumBlack" or "MaximumTotal" followed by a

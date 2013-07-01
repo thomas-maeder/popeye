@@ -328,6 +328,9 @@ Kommandos:
 	Nach der Bedingung Republikanerscahch kann wahlweise
 	"Typ1" oder "Typ2" angegeben werden. Typ2 ist die Vorgabe.
 
+	Nach der Liste der magischen Felder wahlweise "Typ1" oder
+	"Typ2" angegeben werden. Typ1 ist die Vorgabe.
+
 	Nach der Sentinelles Bedingung kann wahlweise noch
 	"PionAdvers", "PionNeutre", "ParaSentinelles" oder "Berolina"
 	angegeben werden, sowie "MaximumWeiss", "MaximumSchwarz" oder

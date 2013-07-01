@@ -317,6 +317,9 @@ simples:
 	Pour la condition EchecsRepublicain, on peut indiquer s'il s'agit du
 	Type1 ou du Type2. Type2 est utilise si le type n'est pas indique.
 
+	Apres la liste des cases magiques, on peut indiquer s'il s'agit du
+	Type1 ou du Type2. Type1 est utilise si le type n'est pas indique.
+
 	Pour la condition Sentinelles, on peut indiquer s'il s'agit du
 	type "PionAdvers", "PionNeutre", "ParaSentinelles" ou
 	"Berolina", de meme que "MaximumBlanc", "MaximumNoir" ou
