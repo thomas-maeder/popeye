@@ -25,13 +25,13 @@ static void utiubi_generate_moves_recursive(square orig_departure,
       switch (traversal_state[sq_arrival])
       {
         case ubiubi_empty:
-          empile(orig_departure,sq_arrival,sq_arrival);
+          add_to_move_generation_stack(orig_departure,sq_arrival,sq_arrival);
           traversal_state[sq_arrival] = ubiubi_taboo;
           utiubi_generate_moves_recursive(orig_departure,sq_arrival,side,traversal_state);
           break;
 
         case ubiubi_opposibe:
-          empile(orig_departure,sq_arrival,sq_arrival);
+          add_to_move_generation_stack(orig_departure,sq_arrival,sq_arrival);
           traversal_state[sq_arrival] = ubiubi_taboo;
           break;
 

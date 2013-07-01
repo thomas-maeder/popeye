@@ -26,7 +26,7 @@
   1.b3-b5 c5*b6 ep. #
   1.b3-b6 c5*b6 #
 
-                        empile:          58
+  add_to_move_generation_stack:          58
                      play_move:          27
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          27
@@ -95,7 +95,7 @@ solution finished.
       1...Sd1*e3 !
 
 
-                        empile:        5559
+  add_to_move_generation_stack:        5559
                      play_move:        1509
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1498

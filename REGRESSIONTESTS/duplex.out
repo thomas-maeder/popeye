@@ -29,7 +29,7 @@
 
   1.Kf1*f2[+sBf1=S] Tb8*b1[+wBb8=T]   2.Tb8*g8[+sLb8] Lb8-a7 #
 
-                        empile:       20748
+  add_to_move_generation_stack:       20748
                      play_move:       11421
  is_white_king_square_attacked:        6118
  is_black_king_square_attacked:        7591
@@ -67,7 +67,7 @@ Loesung beendet.
 
   1.WAg1-e2 KNb1-c3 +   2.Kd3-d4 Kb5-c5 #
 
-                        empile:       15717
+  add_to_move_generation_stack:       15717
                      play_move:       14606
  is_white_king_square_attacked:        2849
  is_black_king_square_attacked:        2053
@@ -105,7 +105,7 @@ Loesung beendet.
 
   1.Ka6-a5 c4-c3   2.Nb1*c3[+sBb1=D] Db1-b5 #
 
-                        empile:        3908
+  add_to_move_generation_stack:        3908
                      play_move:        3710
  is_white_king_square_attacked:        1870
  is_black_king_square_attacked:        2475
@@ -143,7 +143,7 @@ Loesung beendet.
 
   1.nBe7-e8=nT   2.nTe8-e1   3.nTe1-f1 + nBg2*f1=nL[+nTa8] #
 
-                        empile:      396389
+  add_to_move_generation_stack:      396389
                      play_move:      280330
  is_white_king_square_attacked:      149023
  is_black_king_square_attacked:      171664
@@ -180,7 +180,7 @@ Loesung beendet.
 
   1.Kc8-d7 Ka8-b8   2.Kd7-c6 Kb8-c8   3.b6*a7 Kc8-d8   4.Kc6-b7 Kd8-d7   5.Kb7-a8 Kd7-c7 =
 
-                        empile:       16498
+  add_to_move_generation_stack:       16498
                      play_move:        6562
  is_white_king_square_attacked:        4948
  is_black_king_square_attacked:        2975
@@ -219,7 +219,7 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-h8=S   7.Sh8-g6=D   8.Dg6-b1=S   9.Sb1-a3=D  10.Da3-f8=S  11.Sf8-d7=D #
 
-                        empile:        1686
+  add_to_move_generation_stack:        1686
                      play_move:        1149
  is_white_king_square_attacked:         257
  is_black_king_square_attacked:        1064
@@ -256,7 +256,7 @@ II, Rex Multiplex 19, VII-IX/1986, S. 641
 
   1.b6*a7 kLa8-c6   2.Kc8-c7 + kLc6-b5   3.Kc7-b8 kLb5-a6 ==
 
-                        empile:      361203
+  add_to_move_generation_stack:      361203
                      play_move:      125334
  is_white_king_square_attacked:       10790
  is_black_king_square_attacked:      114672
@@ -292,7 +292,7 @@ F925 (Version), The Problemist, I/1987, S. 257
 
   1.Kc8-d7 Ka8-b8   2.Kd7-d6 Kb8-b7   3.Kd6-c5 a7*b6 #
 
-                        empile:        4368
+  add_to_move_generation_stack:        4368
                      play_move:        4379
  is_white_king_square_attacked:        4072
  is_black_king_square_attacked:         635
@@ -330,7 +330,7 @@ a)
 
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b4 =
 
-                        empile:        2860
+  add_to_move_generation_stack:        2860
                      play_move:        2394
  is_white_king_square_attacked:        2305
  is_black_king_square_attacked:        1094
@@ -338,7 +338,7 @@ b) wkCAc8
 
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b3 =
 
-                        empile:        3800
+  add_to_move_generation_stack:        3800
                      play_move:        2619
  is_white_king_square_attacked:        2517
  is_black_king_square_attacked:        1514
@@ -346,7 +346,7 @@ c) wkGIc8
 
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b2 =
 
-                        empile:        3943
+  add_to_move_generation_stack:        3943
                      play_move:        2743
  is_white_king_square_attacked:        2641
  is_black_king_square_attacked:        1574
@@ -381,7 +381,7 @@ Loesung beendet.
 
   1.a7*b6   2.Ka8-a7   3.Ka7-a6   4.Ka6-b5   5.Kb5-c4   6.Kc4-d3 z
 
-                        empile:         433
+  add_to_move_generation_stack:         433
                      play_move:         205
  is_white_king_square_attacked:         113
  is_black_king_square_attacked:         205
@@ -418,7 +418,7 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=T   6.Ta1-a7   7.Ta7-b7 =
 
-                        empile:        2108
+  add_to_move_generation_stack:        2108
                      play_move:        2088
  is_white_king_square_attacked:        1936
  is_black_king_square_attacked:         952
@@ -457,7 +457,7 @@ a)
    1.kGa8-a6 = !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           2
@@ -468,7 +468,7 @@ b) exact-=2
           2.kGd8-a5 =
 
 
-                        empile:           9
+  add_to_move_generation_stack:           9
                      play_move:           8
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           6
@@ -481,7 +481,7 @@ c) exact-=3
                   3.kGf8-h8 =
 
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:          16
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:          12
@@ -532,7 +532,7 @@ Loesung beendet.
                                                           8.Db1-c2 #
 
 
-                        empile:        1026
+  add_to_move_generation_stack:        1026
                      play_move:         944
  is_white_king_square_attacked:         459
  is_black_king_square_attacked:         519
@@ -568,7 +568,7 @@ Loesung beendet.
 
   1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 +
 
-                        empile:        3846
+  add_to_move_generation_stack:        3846
                      play_move:        3846
  is_white_king_square_attacked:         543
  is_black_king_square_attacked:         539
@@ -604,7 +604,7 @@ Loesung beendet.
 
   1.Se2-c1   2.Kd3-e2   3.Sc1-d3
 
-                        empile:        3846
+  add_to_move_generation_stack:        3846
                      play_move:        3846
  is_white_king_square_attacked:         539
  is_black_king_square_attacked:         543

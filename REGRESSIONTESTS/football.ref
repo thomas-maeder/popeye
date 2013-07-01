@@ -29,7 +29,7 @@
           2.Be4-a8=R #
 
 
-                        empile:        1192
+  add_to_move_generation_stack:        1192
                      play_move:         921
  is_white_king_square_attacked:          90
  is_black_king_square_attacked:         924
@@ -65,7 +65,7 @@ a)
 
   1.Rb7-h7=B Rb5-a5=B   2.Bh7-e4 Ba5*b6 #
 
-                        empile:     1241301
+  add_to_move_generation_stack:     1241301
                      play_move:     1299522
  is_white_king_square_attacked:       95955
  is_black_king_square_attacked:     1298139
@@ -73,7 +73,7 @@ b) bSc3-->e4
 
   1.Bd1-a4=S Bg3-h2=S   2.Sa4-c3 Sh2*f3 #
 
-                        empile:     1102516
+  add_to_move_generation_stack:     1102516
                      play_move:     1123261
  is_white_king_square_attacked:       85155
  is_black_king_square_attacked:     1121962
@@ -81,7 +81,7 @@ c) wKh8-->g8
 
   1.Sf3*h4=R Sb4-a2=R   2.Rh4-e4 Ra2-d2 #
 
-                        empile:      989248
+  add_to_move_generation_stack:      989248
                      play_move:     1131083
  is_white_king_square_attacked:       83893
  is_black_king_square_attacked:     1129602
@@ -115,7 +115,7 @@ solution finished.
 
   1.Bf7-h5=R Bf6-h8=R   2.Be7-h4=R Bg8-h7=R #
 
-                        empile:      143185
+  add_to_move_generation_stack:      143185
                      play_move:      132983
  is_white_king_square_attacked:        8368
  is_black_king_square_attacked:      132537

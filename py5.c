@@ -488,13 +488,13 @@ void generate_castling(Side side)
       if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
           && are_squares_empty(square_e,square_h,dir_right)
           && castling_is_intermediate_king_move_legal(side,square_e,square_f))
-        empile(square_e,square_g,kingside_castling);
+        add_to_move_generation_stack(square_e,square_g,kingside_castling);
 
       /* 0-0-0 */
       if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
           && are_squares_empty(square_e,square_a,dir_left)
           && castling_is_intermediate_king_move_legal(side,square_e,square_d))
-        empile(square_e,square_c,queenside_castling);
+        add_to_move_generation_stack(square_e,square_c,queenside_castling);
     }
   }
 
@@ -572,7 +572,7 @@ void genmove(Side side)
     }
 
     if (side==Black && CondFlag[schwarzschacher])
-      empile(nullsquare, nullsquare, nullsquare);
+      add_to_move_generation_stack(nullsquare, nullsquare, nullsquare);
   }
 
   TraceFunctionExit(__func__);

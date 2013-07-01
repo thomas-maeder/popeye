@@ -133,7 +133,7 @@
       1...Dc4*c2 !
 
 
-                        empile:        5752
+  add_to_move_generation_stack:        5752
                      play_move:        4897
  is_white_king_square_attacked:         308
  is_black_king_square_attacked:        4123
@@ -195,7 +195,7 @@ Loesung beendet.
       1...VAg1*c5 !
 
 
-                        empile:       27814
+  add_to_move_generation_stack:       27814
                      play_move:       15999
  is_white_king_square_attacked:         677
  is_black_king_square_attacked:       11035
@@ -230,7 +230,7 @@ Beispiel fuer Mehrfachbeobachung durch den selben Stein
    1.e7-e8=D # !
 
 
-                        empile:          39
+  add_to_move_generation_stack:          39
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          26

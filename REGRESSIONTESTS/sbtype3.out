@@ -24,7 +24,7 @@ Seite der latenten Bauern entscheidet welchen umzuwandeln -> f2*e1 w"are Selbsts
      NurPartiesatzSteine    Typ3
 
 
-                        empile:         151
+  add_to_move_generation_stack:         151
                      play_move:         151
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:         149
@@ -57,7 +57,7 @@ Seite der latenten Bauern entscheidet welchen umzuwandeln -> f7*e8 w"are Selbsts
      NurPartiesatzSteine    Typ3
 
 
-                        empile:          21
+  add_to_move_generation_stack:          21
                      play_move:          23
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          22
@@ -96,7 +96,7 @@ Loesung beendet.
    1.Se3*g2 + !
 
 
-                        empile:          15
+  add_to_move_generation_stack:          15
                      play_move:          15
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:          16
@@ -130,7 +130,7 @@ Loesung beendet.
 
   1.g5*f4 [a8=S]Tg6*g1 +
 
-                        empile:         286
+  add_to_move_generation_stack:         286
                      play_move:         286
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:         286
@@ -164,7 +164,7 @@ Seite der Bauern entscheidet welchen umzuwandeln -> Ta1 kann nicht schlagen
 
   1.a4-a3 Lc8-d7 #
 
-                        empile:          87
+  add_to_move_generation_stack:          87
                      play_move:          78
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:          80
@@ -201,7 +201,7 @@ Loesung beendet.
    1.[e8=S]Dd8-d5 # !
 
 
-                        empile:         251
+  add_to_move_generation_stack:         251
                      play_move:         187
  is_white_king_square_attacked:          24
  is_black_king_square_attacked:         190
@@ -258,7 +258,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Db2-d2 #
 
 
-                        empile:        9590
+  add_to_move_generation_stack:        9590
                      play_move:        6386
  is_white_king_square_attacked:         776
  is_black_king_square_attacked:        6213
@@ -332,7 +332,7 @@ Loesung beendet.
       1...d5*e4 !
 
 
-                        empile:      329570
+  add_to_move_generation_stack:      329570
                      play_move:      238823
  is_white_king_square_attacked:       16332
  is_black_king_square_attacked:      220696

@@ -28,7 +28,7 @@
                Isardam
 
 
-                        empile:         100
+  add_to_move_generation_stack:         100
                      play_move:          86
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:          55
@@ -67,7 +67,7 @@ solution finished.
    1.MAa8-b6 !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -104,7 +104,7 @@ reported P.Raican (orig. M.Caillaud??)
 
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3[+wPa2]   3.b2-b4 Sg8-e7 dia
 
-                        empile:      137715
+  add_to_move_generation_stack:      137715
                      play_move:      137715
  is_white_king_square_attacked:        6494
  is_black_king_square_attacked:        7905
@@ -141,7 +141,7 @@ reported P.Raican (orig. M.Caillaud??)
 
   1.Sg1-h3 d7-d5   2.Sh3-f4 Qd8-d6   3.Sf4*d5 Qd6-d8[+bPd7]   4.Sd5-b6 dia
 
-                        empile:     5714103
+  add_to_move_generation_stack:     5714103
                      play_move:     5715111
  is_white_king_square_attacked:      380553
  is_black_king_square_attacked:      302617
@@ -178,7 +178,7 @@ solution finished.
 
   1...Bg7-a1 #
 
-                        empile:          34
+  add_to_move_generation_stack:          34
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
@@ -238,7 +238,7 @@ moves in Maximummer+Imitator problems
                                               6...Rc8-c5[If1] #
 
 
-                        empile:       79105
+  add_to_move_generation_stack:       89246
                      play_move:       36559
  is_white_king_square_attacked:       14365
  is_black_king_square_attacked:       29696

@@ -26,7 +26,7 @@
    1.0-0-0 !
 
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:           1
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
@@ -59,7 +59,7 @@ no castling with king landing in hole
              HaanerChess
 
 
-                        empile:          13
+  add_to_move_generation_stack:          13
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -92,7 +92,7 @@ no castling with rook landing in hole
              HaanerChess
 
 
-                        empile:          13
+  add_to_move_generation_stack:          13
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -125,7 +125,7 @@ no castling with rook moving over hole
              HaanerChess
 
 
-                        empile:          12
+  add_to_move_generation_stack:          12
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
@@ -158,7 +158,7 @@ no castling with king moving over new hole
              HaanerChess
 
 
-                        empile:          44
+  add_to_move_generation_stack:          44
                      play_move:           3
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
@@ -191,7 +191,7 @@ no castling with rook moving over new hole
              HaanerChess
 
 
-                        empile:          34
+  add_to_move_generation_stack:          34
                      play_move:           3
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
@@ -224,7 +224,7 @@ solution finished.
              HaanerChess
 
 
-                        empile:          11
+  add_to_move_generation_stack:          11
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          12

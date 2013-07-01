@@ -124,10 +124,58 @@ schw cham lc6
 
 weiter
 
-beme test-beispiel für issue 1870463
+beme test-beispiel f\"ur issue 1870463
 steine weiss ka5 bb6d6 schwarz ke8 ta8 ba6b7e6e7
 bedingung imi f4 schwarzerla
 forderung h~1
 zwilling bedingung schwarzerla
+
+weiter
+
+titel Test fuer Huepfer
+steine weiss ga3 bf3 schwarz ba2b2a5b4c3f4f7g6h7h5
+forderung ~1
+bedingung imitator f5
+option ohnewk ohnesk
+
+weiter
+
+titel Test fuer Koenigshuepfer
+steine weiss kha3 bh2 schwarz sf1 ba4b4a2f3f4g2g3
+forderung ~1
+bedingung imitator f2
+option ohnewk ohnesk
+
+weiter
+
+titel Test fuer Equihopper
+steine weiss eqa3 bf2 schwarz ba2b2a5b4c3f3f6g5h6h4
+forderung ~1
+bedingung imitator f4
+option ohnewk ohnesk
+
+weiter
+
+titel Test fuer Nonstop-Equihopper
+steine weiss nea3 ba4f2f5 schwarz ba2b2a5b4c3f3f6g5h6h4
+forderung ~1
+bedingung imitator f4
+option ohnewk ohnesk
+
+weiter
+
+titel Test fuer Elch
+steine weiss elb3 bg6 schwarz bb2b5c4d3e2f3f5f6g5g7h4
+forderung ~1
+bedingung imitator f4
+option ohnewk ohnesk
+
+weiter
+
+titel Test fuer Mao
+steine weiss maa3 schwarz bf3h3
+forderung ~1
+bedingung imitator f2
+option ohnewk ohnesk
 
 endeproblem

@@ -72,7 +72,7 @@
       1...Kd1*c2 !
 
 
-                        empile:        5924
+  add_to_move_generation_stack:        5924
                      play_move:        3396
  is_white_king_square_attacked:         722
  is_black_king_square_attacked:        3182

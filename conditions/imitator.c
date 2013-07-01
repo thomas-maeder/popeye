@@ -25,6 +25,482 @@ unsigned int number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
+static numecoup skip_over_remainder_of_line(numecoup i,
+                                            square sq_departure,
+                                            square sq_next_arrival,
+                                            numvec diff)
+{
+  do
+  {
+    ++i;
+    sq_next_arrival += diff;
+  }
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure
+         && move_generation_stack[i].arrival==sq_next_arrival);
+
+  return i;
+}
+
+static numecoup remove_illegal_moves_by_same_rider_on_line(numecoup i,
+                                                           numvec diff,
+                                                           numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+  square sq_next_arrival = sq_departure+diff;
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure
+         && move_generation_stack[i].arrival==sq_next_arrival)
+    if (imok(sq_departure,sq_next_arrival))
+    {
+      ++*new_top;
+      move_generation_stack[*new_top] = move_generation_stack[i];
+      ++i;
+      sq_next_arrival += diff;
+    }
+    else
+    {
+      i = skip_over_remainder_of_line(i,sq_departure,sq_next_arrival,diff);
+      break;
+    }
+
+  return i;
+}
+
+static numecoup remove_illegal_moves_by_same_rider(numecoup i, numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure)
+  {
+    square const sq_arrival = move_generation_stack[i].arrival;
+    numvec const diff = sq_arrival-sq_departure;
+    i = remove_illegal_moves_by_same_rider_on_line(i,diff,new_top);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static boolean is_imitator_line_clear(unsigned int i,
+                                      numvec diff_start,
+                                      numvec diff,
+                                      numvec diff_end)
+{
+  square const sq_end = isquare[i]+diff_end;
+  square sq_curr;
+
+  for (sq_curr = isquare[i]+diff_start; sq_curr!=sq_end; sq_curr += diff)
+    if (!is_square_empty(sq_curr))
+      return false;
+
+  return true;
+}
+
+static boolean are_all_imitator_lines_clear(numvec diff_start,
+                                            numvec diff,
+                                            numvec diff_end)
+{
+  unsigned int i;
+
+  for (i = 0; i!=number_of_imitators; ++i)
+    if (!is_imitator_line_clear(i,diff_start,diff,diff_end))
+      return false;
+
+  return true;
+}
+
+static boolean have_all_imitators_hurdle(numvec diff_hurdle)
+{
+  unsigned int i;
+
+  for (i = 0; i!=number_of_imitators; ++i)
+  {
+    square const sq_hurdle = isquare[i]+diff_hurdle;
+    if (is_square_empty(sq_hurdle) || is_square_blocked(sq_hurdle))
+      return false;
+  }
+
+  return true;
+}
+
+static numecoup remove_illegal_moves_by_same_equihopper(numecoup i, numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure)
+  {
+    square const sq_arrival = move_generation_stack[i].arrival;
+    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
+    numvec const diff = vec[move_generation_stack[i].auxiliary.hopper.vec_index];
+    numvec const diff_hurdle = sq_hurdle-sq_departure;
+    numvec const diff_arrival = sq_arrival-sq_departure;
+
+    if (have_all_imitators_hurdle(diff_hurdle)
+        && are_all_imitator_lines_clear(diff,diff,diff_hurdle)
+        && are_all_imitator_lines_clear(diff_hurdle+diff,diff,diff_arrival)
+        && imok(sq_departure,sq_arrival))
+    {
+      ++*new_top;
+      move_generation_stack[*new_top] = move_generation_stack[i];
+    }
+
+    ++i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static numecoup remove_illegal_moves_by_same_nonstop_equihopper(numecoup i, numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure)
+  {
+    square const sq_arrival = move_generation_stack[i].arrival;
+    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
+    numvec const diff_hurdle = sq_hurdle-sq_departure;
+
+    if (have_all_imitators_hurdle(diff_hurdle)
+        && imok(sq_departure,sq_arrival))
+    {
+      ++*new_top;
+      move_generation_stack[*new_top] = move_generation_stack[i];
+    }
+
+    ++i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static numecoup remove_illegal_moves_by_same_hopper(numecoup i, numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure)
+  {
+    square const sq_arrival = move_generation_stack[i].arrival;
+    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
+    numvec const diff = vec[move_generation_stack[i].auxiliary.hopper.vec_index];
+    numvec const diff_hurdle = sq_hurdle-sq_departure;
+
+    if (have_all_imitators_hurdle(diff_hurdle)
+        && are_all_imitator_lines_clear(diff,diff,diff_hurdle)
+        && imok(sq_departure,sq_arrival))
+    {
+      ++*new_top;
+      move_generation_stack[*new_top] = move_generation_stack[i];
+    }
+
+    ++i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static numecoup remove_illegal_moves_by_same_mao(numecoup i, numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure)
+  {
+    square const sq_arrival = move_generation_stack[i].arrival;
+    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
+
+    if (imok(sq_departure,sq_hurdle) && imok(sq_departure,sq_arrival))
+    {
+      ++*new_top;
+      move_generation_stack[*new_top] = move_generation_stack[i];
+    }
+
+    ++i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static numecoup remove_illegal_moves_by_same_king(numecoup i, numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure)
+  {
+    square const sq_arrival = move_generation_stack[i].arrival;
+    square const sq_capture = move_generation_stack[i].capture;
+
+    TraceSquare(sq_arrival);TraceText("\n");
+
+    if (sq_capture==kingside_castling || sq_capture==queenside_castling)
+    {
+      if (castlingimok(sq_departure,sq_arrival))
+      {
+        TraceText("accepting castling\n");
+        ++*new_top;
+        move_generation_stack[*new_top] = move_generation_stack[i];
+      }
+    }
+    else
+    {
+      if (imok(sq_departure,sq_arrival))
+      {
+        TraceText("accepting regular move\n");
+        ++*new_top;
+        move_generation_stack[*new_top] = move_generation_stack[i];
+      }
+    }
+
+    ++i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static numecoup accept_all_moves_by_same_piece(numecoup i, numecoup *new_top)
+{
+  square const sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply]
+         && move_generation_stack[i].departure==sq_departure)
+  {
+    ++*new_top;
+    move_generation_stack[*new_top] = move_generation_stack[i];
+    ++i;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static numecoup remove_illegal_moves_by_same_piece(numecoup i, numecoup *new_top)
+{
+  numecoup result = i;
+  square sq_departure = move_generation_stack[i].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_departure);TraceText("\n");
+
+  switch (get_walk_of_piece_on_square(sq_departure))
+  {
+    case King:
+      result = remove_illegal_moves_by_same_king(i,new_top);
+      break;
+
+    case ErlKing:
+    case Knight:
+    case Wesir:
+    case Dabbaba:
+    case Fers:
+    case Alfil:
+    case Bucephale:
+    case Giraffe:
+    case Camel:
+    case Zebra:
+    case Okapi:
+    case Bison:
+    case Gnu:
+    case Antilope:
+    case Squirrel:
+    case RootFiftyLeaper:
+    case Leap15:
+    case Leap16:
+    case Leap24:
+    case Leap25:
+    case Leap35:
+    case Leap36:
+    case Leap37:
+
+    case Queen:
+    case Rook:
+    case Bishop:
+    case NightRider:
+    case Elephant:
+    case Waran:
+    case Camelrider:
+    case Zebrarider:
+    case Gnurider:
+    case Amazone:
+    case Empress:
+    case Princess:
+    case RookHunter:
+    case BishopHunter:
+    case WesirRider:
+    case FersRider:
+
+    case Pawn:
+    case BerolinaPawn:
+    case ReversePawn:
+
+    case Dragon:
+    case Ship:
+    case Gryphon:
+    case Querquisite:
+      result = remove_illegal_moves_by_same_rider(i,new_top);
+      break;
+
+    case Grasshopper:
+    case NightriderHopper:
+    case CamelHopper:
+    case ZebraHopper:
+    case GnuHopper:
+    case RookHopper:
+    case BishopHopper:
+    case KingHopper:
+    case KnightHopper:
+    case Elk:
+    case RookMoose:
+    case BishopMoose:
+    case Eagle:
+    case RookEagle:
+    case BishopEagle:
+    case Sparrow:
+    case RookSparrow:
+    case BishopSparrow:
+      result = remove_illegal_moves_by_same_hopper(i,new_top);
+      break;
+
+    case Mao:
+    case Moa:
+      result = remove_illegal_moves_by_same_mao(i,new_top);
+      break;
+
+    case EquiHopper:
+    case GrassHopper2:
+    case GrassHopper3:
+    case Orix:
+      result = remove_illegal_moves_by_same_equihopper(i,new_top);
+      break;
+
+    case NonStopEquihopper:
+    case NonStopOrix:
+      result = remove_illegal_moves_by_same_nonstop_equihopper(i,new_top);
+      break;
+
+    default:
+      result = accept_all_moves_by_same_piece(i,new_top);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void remove_illegal_moves(void)
+{
+  numecoup i = current_move[nbply-1]+1;
+  numecoup new_top = current_move[nbply-1];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  while (i<=current_move[nbply])
+    i = remove_illegal_moves_by_same_piece(i,&new_top);
+
+  current_move[nbply] = new_top;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type imitator_remove_illegal_moves_solve(slice_index si,
+                                                     stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  remove_illegal_moves();
+
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void move_imitators(int delta)
 {
   unsigned int i;
@@ -390,12 +866,37 @@ static void insert_promoters(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void insert_remover(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STImitatorRemoveIllegalMoves);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument slices with move tracers
  */
 void stip_insert_imitator(slice_index si)
 {
+  stip_structure_traversal st;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STDoneGeneratingMoves,
+                                           &insert_remover);
+  stip_traverse_structure(si,&st);
 
   if (!CondFlag[noiprom])
     insert_promoters(si);

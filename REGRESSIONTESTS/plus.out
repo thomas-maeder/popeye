@@ -43,7 +43,7 @@ Rex Multiplex 42-43 (Phénix 22-23), IX 1993, S. 2204-2206
           2.Le5*b7 #
 
 
-                        empile:        8295
+  add_to_move_generation_stack:        8295
                      play_move:        3355
  is_white_king_square_attacked:         444
  is_black_king_square_attacked:        3358
@@ -78,7 +78,7 @@ Loesung beendet.
 
   1.Dc8-c1 Kh5-g6   2.Kh3-g4 Kg6-f7   3.Kg4-f5 Kf7-e8   4.Kf5-e6 d2-d4 #
 
-                        empile:     1192354
+  add_to_move_generation_stack:     1192354
                      play_move:     1065277
  is_white_king_square_attacked:      125238
  is_black_king_square_attacked:      976279
@@ -114,7 +114,7 @@ Loesung beendet.
   1.b4-b3 Ke6-f5   2.Lc5-b4 + Kf5-e4 #
   1.Lc5-b6 Ke6-f6   2.Kc4-c5 Kf6-e5 #
 
-                        empile:       14430
+  add_to_move_generation_stack:       14430
                      play_move:       11901
  is_white_king_square_attacked:        1066
  is_black_king_square_attacked:       11759
@@ -149,7 +149,7 @@ Loesung beendet.
 
   1.Da8-h1 Dh8*h1   2.La2-b1 Dh1*b1   3.Sd2-e4 Db1*e4 =
 
-                        empile:    26201453
+  add_to_move_generation_stack:    26201453
                      play_move:    12466045
  is_white_king_square_attacked:     6322061
  is_black_king_square_attacked:    10153294

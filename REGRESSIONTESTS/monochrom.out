@@ -33,7 +33,7 @@
                           4.Tg1-g7 #
 
 
-                        empile:      106602
+  add_to_move_generation_stack:      106602
                      play_move:       43240
  is_white_king_square_attacked:       14745
  is_black_king_square_attacked:       30521
@@ -75,7 +75,7 @@ a)
   1.b7-b8=T   2.Tb8-e8 #
   1.b7-b8=T   2.Tb8-c8 #
 
-                        empile:         145
+  add_to_move_generation_stack:         145
                      play_move:          91
  is_white_king_square_attacked:          26
  is_black_king_square_attacked:          98
@@ -91,7 +91,7 @@ b) wBb7-->d7
   1.d7-d8=T   2.Td8-g8 #
   1.d7-d8=T   2.Td8-e8 #
 
-                        empile:         150
+  add_to_move_generation_stack:         150
                      play_move:          95
  is_white_king_square_attacked:          27
  is_black_king_square_attacked:         103
@@ -107,7 +107,7 @@ c) wBb7-->f7
   1.f7-f8=T   2.Tf8-e8 #
   1.f7-f8=T   2.Tf8-g8 #
 
-                        empile:         130
+  add_to_move_generation_stack:         130
                      play_move:          85
  is_white_king_square_attacked:          26
  is_black_king_square_attacked:          93

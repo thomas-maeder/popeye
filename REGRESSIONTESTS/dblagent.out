@@ -39,7 +39,7 @@
           2.Ld4*g7[+wDd1] #
 
 
-                        empile:       11062
+  add_to_move_generation_stack:       11062
                      play_move:        6209
  is_white_king_square_attacked:         352
  is_black_king_square_attacked:        6212
@@ -75,7 +75,7 @@ Loesung beendet.
 
   1.Kb1-c2   2.Kc2-d3   3.Kd3*e3[+wBe2]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 #
 
-                        empile:        9542
+  add_to_move_generation_stack:        9542
                      play_move:        9300
  is_white_king_square_attacked:       11687
  is_black_king_square_attacked:       14286
@@ -118,7 +118,7 @@ Loesung beendet.
           2.Tb5*c5[+sLf8=w] #
 
 
-                        empile:        4477
+  add_to_move_generation_stack:        4477
                      play_move:        2784
  is_white_king_square_attacked:         223
  is_black_king_square_attacked:        2787

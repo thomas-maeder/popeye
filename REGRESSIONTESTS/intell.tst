@@ -24,7 +24,7 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 #
 
-                        empile:       34585
+  add_to_move_generation_stack:       34585
                      play_move:       35413
  is_white_king_square_attacked:        1367
  is_black_king_square_attacked:        2430
@@ -57,7 +57,7 @@ solution finished.
 
   1...e3*d4   2.Sf7-e5 d4*e5 #
 
-                        empile:         103
+  add_to_move_generation_stack:         103
                      play_move:         103
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          33
@@ -90,7 +90,7 @@ double check by en passant capture from above
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. #
 
-                        empile:         278
+  add_to_move_generation_stack:         278
                      play_move:         269
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:          42
@@ -123,7 +123,7 @@ double check by en passant capture from below
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. #
 
-                        empile:         720
+  add_to_move_generation_stack:         720
                      play_move:         647
  is_white_king_square_attacked:          40
  is_black_king_square_attacked:         121
@@ -156,7 +156,7 @@ interception of a defending pawn by a piece that doesn't guard
 
   1.Sc8-b6   2.Bh3-f1 #
 
-                        empile:         110
+  add_to_move_generation_stack:         110
                      play_move:          99
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          63
@@ -189,7 +189,7 @@ guard with check -> selfpin with check -> selfpin with guard by s
 
   1...Rh1-h3 #
 
-                        empile:         125
+  add_to_move_generation_stack:         125
                      play_move:         106
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:          90
@@ -222,7 +222,7 @@ guard with check -> selfpin with check -> selfpin with guard by b
 
   1...Sh6-g4 #
 
-                        empile:          25
+  add_to_move_generation_stack:          25
                      play_move:          23
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          21
@@ -256,7 +256,7 @@ in mate stipulations, it makes sense to pin a queen or rook by a
 
   1...Sc5-d3 #
 
-                        empile:          24
+  add_to_move_generation_stack:          24
                      play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          17

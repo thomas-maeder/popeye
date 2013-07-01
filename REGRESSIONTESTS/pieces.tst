@@ -26,7 +26,7 @@
    1.RPd1-a4 !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -62,7 +62,7 @@ ColourChange only with certain hoppers allowed
    1.RPd1-a4 !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -105,7 +105,7 @@ solution finished.
    1.DSa1-b3 !
 
 
-                        empile:          10
+  add_to_move_generation_stack:          10
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -190,7 +190,7 @@ solution finished.
    1.S1d4-b5 !
 
 
-                        empile:          40
+  add_to_move_generation_stack:          40
                      play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -265,7 +265,7 @@ solution finished.
    1.S2d4-b5 !
 
 
-                        empile:          28
+  add_to_move_generation_stack:          28
                      play_move:          22
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -320,7 +320,7 @@ solution finished.
    1.S3d4-b5 !
 
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -371,7 +371,7 @@ solution finished.
    1.S4d4-b5 !
 
 
-                        empile:          12
+  add_to_move_generation_stack:          12
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -442,7 +442,7 @@ solution finished.
    1.QNd4-b5 !
 
 
-                        empile:          36
+  add_to_move_generation_stack:          36
                      play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -479,7 +479,7 @@ solution finished.
    1.Md4-c6 !
 
 
-                        empile:           4
+  add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -536,7 +536,7 @@ solution finished.
    1.MGd4-b7 !
 
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -573,7 +573,7 @@ solution finished.
    1.SWd4-b5 !
 
 
-                        empile:           4
+  add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -630,7 +630,7 @@ solution finished.
    1.ARd1-c2 !
 
 
-                        empile:          14
+  add_to_move_generation_stack:          14
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -687,7 +687,7 @@ solution finished.
    1.RBd1-c2 !
 
 
-                        empile:          26
+  add_to_move_generation_stack:          26
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -738,7 +738,7 @@ solution finished.
    1.BKd2-b3 !
 
 
-                        empile:          12
+  add_to_move_generation_stack:          12
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -877,7 +877,7 @@ solution finished.
    1.BNd2-b3 !
 
 
-                        empile:         148
+  add_to_move_generation_stack:         148
                      play_move:          54
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -944,7 +944,7 @@ solution finished.
    1.BTd2-c3 !
 
 
-                        empile:          28
+  add_to_move_generation_stack:          28
                      play_move:          18
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1029,7 +1029,7 @@ solution finished.
    1.GTd2-d1 !
 
 
-                        empile:          40
+  add_to_move_generation_stack:          40
                      play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1082,7 +1082,7 @@ solution finished.
    1.MPb2-b3 + !
 
 
-                        empile:           8
+  add_to_move_generation_stack:           8
                      play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          29
@@ -1139,7 +1139,7 @@ a)
    1.nROd1-b2 !
 
 
-                        empile:          28
+  add_to_move_generation_stack:          28
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1168,7 +1168,7 @@ b) +bPf2
    1.nROd1-b2 !
 
 
-                        empile:          21
+  add_to_move_generation_stack:          21
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1201,7 +1201,7 @@ solution finished.
 a) 
 
 
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1212,7 +1212,7 @@ b) +bPf2
    1.nRPd1-h1 !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1225,7 +1225,7 @@ b) +bPf2
    1.nRPd1*f2 !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1282,7 +1282,7 @@ a)
    1.nRAd1-b2 !
 
 
-                        empile:          28
+  add_to_move_generation_stack:          28
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1309,7 +1309,7 @@ b) +bPf2
    1.nRAd1-b2 !
 
 
-                        empile:          18
+  add_to_move_generation_stack:          18
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1338,7 +1338,7 @@ b) +bPf2
    1.nRAd1-b2 !
 
 
-                        empile:          18
+  add_to_move_generation_stack:          18
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1371,7 +1371,7 @@ solution finished.
 a) 
 
 
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1392,7 +1392,7 @@ b) +bPf2
    1.nRNd1-h1 !
 
 
-                        empile:           7
+  add_to_move_generation_stack:           7
                      play_move:           7
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1409,7 +1409,7 @@ b) +bPf2
    1.nRNd1-g4 !
 
 
-                        empile:           6
+  add_to_move_generation_stack:           6
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1442,7 +1442,7 @@ solution finished.
 a) 
 
 
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1453,7 +1453,7 @@ b) +bPf2
    1.nLSd1*f2-h1 !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1462,7 +1462,7 @@ b) +bPf2
    1.nLSd1*f2-h1 !
 
 
-                        empile:           1
+  add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1549,7 +1549,7 @@ solution finished.
    1.DSd4-b5 !
 
 
-                        empile:          56
+  add_to_move_generation_stack:          56
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

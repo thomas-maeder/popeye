@@ -27,7 +27,7 @@
    1.Qa1-e1 # !
 
 
-                        empile:        3298
+  add_to_move_generation_stack:        3298
                      play_move:        2712
  is_white_king_square_attacked:        1566
  is_black_king_square_attacked:        1853
@@ -63,7 +63,7 @@ solution finished.
   1...Qa1-d4 Can't decide whether this move is refuted
 
 
-                        empile:        3052
+  add_to_move_generation_stack:        3052
                      play_move:        2334
  is_white_king_square_attacked:        1537
  is_black_king_square_attacked:        1349
@@ -97,7 +97,7 @@ solution finished.
             ExclusiveChess
 
 
-                        empile:        3136
+  add_to_move_generation_stack:        3136
                      play_move:        2600
  is_white_king_square_attacked:        1228
  is_black_king_square_attacked:        1984
@@ -131,7 +131,7 @@ solution finished.
             ExclusiveChess
 
 
-                        empile:        2060
+  add_to_move_generation_stack:        2060
                      play_move:        1544
  is_white_king_square_attacked:         807
  is_black_king_square_attacked:        1130
@@ -168,7 +168,7 @@ solution finished.
 
 
 
-                        empile:        3104
+  add_to_move_generation_stack:        3104
                      play_move:        2330
  is_white_king_square_attacked:        1609
  is_black_king_square_attacked:        1271

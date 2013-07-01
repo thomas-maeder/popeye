@@ -76,7 +76,7 @@
       1...Td7-d3 + !
 
 
-                        empile:       22514
+  add_to_move_generation_stack:       22514
                      play_move:       13538
  is_white_king_square_attacked:        1238
  is_black_king_square_attacked:       13387
@@ -113,7 +113,7 @@ a)
 
   1.Sf6-h5 Tf7-f5   2.Dg4-h3 + Kg2*h3 #
 
-                        empile:      248155
+  add_to_move_generation_stack:      248155
                      play_move:      232786
  is_white_king_square_attacked:       14421
  is_black_king_square_attacked:      231997
@@ -121,7 +121,7 @@ b) wSg5-->g3
 
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 #
 
-                        empile:      274024
+  add_to_move_generation_stack:      274024
                      play_move:      253043
  is_white_king_square_attacked:       16834
  is_black_king_square_attacked:      251771
@@ -197,7 +197,7 @@ a)
       1...Kf3-g2 !
 
 
-                        empile:       14321
+  add_to_move_generation_stack:       14321
                      play_move:        9380
  is_white_king_square_attacked:         991
  is_black_king_square_attacked:        9272
@@ -223,7 +223,7 @@ b) s#3
                       3...e3*f2 #
 
 
-                        empile:      710284
+  add_to_move_generation_stack:      710284
                      play_move:      243152
  is_white_king_square_attacked:      244864
  is_black_king_square_attacked:      137959

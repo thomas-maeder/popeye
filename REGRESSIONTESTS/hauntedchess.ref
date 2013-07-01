@@ -52,7 +52,7 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
                   3.Sf7-d8 #
 
 
-                        empile:      212146
+  add_to_move_generation_stack:      212146
                      play_move:      132002
  is_white_king_square_attacked:       54673
  is_black_king_square_attacked:       83565
@@ -90,7 +90,7 @@ a)
 
   1.Qf1*b5 Be3*c5   2.Kd5*c5 Bf7*e6 =
 
-                        empile:     1023364
+  add_to_move_generation_stack:     1023364
                      play_move:      390884
  is_white_king_square_attacked:      173569
  is_black_king_square_attacked:      362317
@@ -98,7 +98,7 @@ b) wRe3
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 =
 
-                        empile:     1052061
+  add_to_move_generation_stack:     1052061
                      play_move:      449754
  is_white_king_square_attacked:      182020
  is_black_king_square_attacked:      420617
@@ -135,7 +135,7 @@ Sake, Portoroz 2002, 5eme Recommand\'e
   1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 #
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 #
 
-                        empile:      618803
+  add_to_move_generation_stack:      618803
                      play_move:      220263
  is_white_king_square_attacked:       75396
  is_black_king_square_attacked:      219358
@@ -188,7 +188,7 @@ solution finished.
                   3.Bc5-b4 #
 
 
-                        empile:      129514
+  add_to_move_generation_stack:      129514
                      play_move:       87594
  is_white_king_square_attacked:       31166
  is_black_king_square_attacked:       61753
@@ -243,7 +243,7 @@ solution finished.
                   3.Qd2*d3 #
 
 
-                        empile:      246731
+  add_to_move_generation_stack:      246731
                      play_move:      143758
  is_white_king_square_attacked:       58345
  is_black_king_square_attacked:       96935

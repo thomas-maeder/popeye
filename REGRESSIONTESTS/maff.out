@@ -61,7 +61,7 @@ The Problemist 1998 and Sachova skladba 1997
           2.La1-e5 #
 
 
-                        empile:        9918
+  add_to_move_generation_stack:        9918
                      play_move:        8164
  is_white_king_square_attacked:         555
  is_black_king_square_attacked:        8149
@@ -122,7 +122,7 @@ Loesung beendet.
           2.Te7-d7 #
 
 
-                        empile:       13375
+  add_to_move_generation_stack:       13375
                      play_move:       10660
  is_white_king_square_attacked:         690
  is_black_king_square_attacked:       10665
@@ -269,7 +269,7 @@ Loesung beendet.
           2.Dd6*f4 #
 
 
-                        empile:       42945
+  add_to_move_generation_stack:       42945
                      play_move:       38783
  is_white_king_square_attacked:        2638
  is_black_king_square_attacked:       38602
@@ -309,7 +309,7 @@ Loesung beendet.
           2.BBc7-b8=T #
 
 
-                        empile:         141
+  add_to_move_generation_stack:         141
                      play_move:         143
  is_white_king_square_attacked:          33
  is_black_king_square_attacked:         146
@@ -561,7 +561,7 @@ Loesung beendet.
       1...Tf7*f6 !
 
 
-                        empile:       21766
+  add_to_move_generation_stack:       21766
                      play_move:       18840
  is_white_king_square_attacked:        1660
  is_black_king_square_attacked:       18645

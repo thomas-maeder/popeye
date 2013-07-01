@@ -33,21 +33,23 @@ void angle_hoppers_generate_moves(square sq_departure,
 
       {
         square const sq_arrival= sq_hurdle+angle_vectors[angle][k1];
-        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
-            && angle_hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k],angle_vectors[angle][k1]))
+        if (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival,side))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
         }
       }
 
       {
         square const sq_arrival= sq_hurdle+angle_vectors[angle][k1-1];
-        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
-            && angle_hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k],angle_vectors[angle][k1-1]))
+        if (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival,side))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
         }
       }
     }

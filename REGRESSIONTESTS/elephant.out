@@ -55,7 +55,7 @@
                                                                                      11...ETb6-h3 #
 
 
-                        empile:       12292
+  add_to_move_generation_stack:       12292
                      play_move:        5003
  is_white_king_square_attacked:        5277
  is_black_king_square_attacked:        4044
@@ -132,7 +132,7 @@ Loesung beendet.
                                                                       9...ETa8-h1 #
 
 
-                        empile:       31981
+  add_to_move_generation_stack:       31981
                      play_move:       14747
  is_white_king_square_attacked:       15167
  is_black_king_square_attacked:       12908
@@ -246,7 +246,7 @@ Loesung beendet.
                                           6.ETb6-f8 #
 
 
-                        empile:    36276332
+  add_to_move_generation_stack:    36276332
                      play_move:    26423067
  is_white_king_square_attacked:    20100389
  is_black_king_square_attacked:     7356000
@@ -300,7 +300,7 @@ Loesung beendet.
                           4.ETf5-d6 #
 
 
-                        empile:     1094311
+  add_to_move_generation_stack:     1094311
                      play_move:      717200
  is_white_king_square_attacked:      484295
  is_black_king_square_attacked:      283677
@@ -440,7 +440,7 @@ Loesung beendet.
                   3.ETf5-g7 #
 
 
-                        empile:      738851
+  add_to_move_generation_stack:      738851
                      play_move:      521009
  is_white_king_square_attacked:      382219
  is_black_king_square_attacked:      169426
@@ -496,7 +496,7 @@ Loesung beendet.
                   3.Sg4-e5 #
 
 
-                        empile:      279628
+  add_to_move_generation_stack:      279628
                      play_move:      163432
  is_white_king_square_attacked:       70384
  is_black_king_square_attacked:       98193

@@ -151,7 +151,7 @@
  49  (Tc1*e1 )
  50  (Tc1-d1 )
 
-                        empile:    29600090
+  add_to_move_generation_stack:    29600090
                      play_move:    20006961
  is_white_king_square_attacked:    17087949
  is_black_king_square_attacked:    14702794
@@ -283,7 +283,7 @@ Loesung beendet.
  46  (Ng1*c3 )
  47  (Ng1-e2 )
 
-                        empile:   158530854
+  add_to_move_generation_stack:   158530854
                      play_move:   109631491
  is_white_king_square_attacked:    96933504
  is_black_king_square_attacked:    78065714
@@ -407,7 +407,7 @@ Loesung beendet.
  43  (Tc1-e1 )
  44  (Tc1-d1 )
 
-                        empile:     1437075
+  add_to_move_generation_stack:     1437075
                      play_move:     1110540
  is_white_king_square_attacked:      940703
  is_black_king_square_attacked:      757122
@@ -516,7 +516,7 @@ Loesung beendet.
  31  (EQf4-b8 )
  32  (EQf4-h6 )
 
-                        empile:    17206526
+  add_to_move_generation_stack:    17206526
                      play_move:    11331406
  is_white_king_square_attacked:     9122701
  is_black_king_square_attacked:     8290458
@@ -643,7 +643,7 @@ Loesung beendet.
  46  (Lc1-a3 )
  47  (Lc1-b2 )
 
-                        empile:    12833088
+  add_to_move_generation_stack:    12833088
                      play_move:     9791861
  is_white_king_square_attacked:     8022374
  is_black_king_square_attacked:     7101947
@@ -763,7 +763,7 @@ Loesung beendet.
  43  (La2-c4 + )
  44  (La2-b3 )
 
-                        empile:     4161011
+  add_to_move_generation_stack:     4161011
                      play_move:     2659955
  is_white_king_square_attacked:     2314964
  is_black_king_square_attacked:     1849082
@@ -868,7 +868,7 @@ Loesung beendet.
  27  (b2-b4 )
  28  (b2-b3 )
 
-                        empile:     4332303
+  add_to_move_generation_stack:     4332303
                      play_move:     2789716
  is_white_king_square_attacked:      987132
  is_black_king_square_attacked:     2223425

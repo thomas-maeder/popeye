@@ -26,7 +26,7 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
    1.Lb8-d6 = !
 
 
-                        empile:         425
+  add_to_move_generation_stack:         425
                      play_move:         620
  is_white_king_square_attacked:          47
  is_black_king_square_attacked:         213
@@ -62,7 +62,7 @@ Loesung beendet.
       1...Lh1-e4 =
 
 
-                        empile:        3303
+  add_to_move_generation_stack:        3303
                      play_move:        1952
  is_white_king_square_attacked:        1017
  is_black_king_square_attacked:         621
@@ -97,7 +97,7 @@ Loesung beendet.
    1.a7-a8=D # !
 
 
-                        empile:          25
+  add_to_move_generation_stack:          25
                      play_move:          28
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          24
@@ -131,7 +131,7 @@ Loesung beendet.
 
   1.d2-d1=T Sg5-f3 #
 
-                        empile:         421
+  add_to_move_generation_stack:         421
                      play_move:         356
  is_white_king_square_attacked:          38
  is_black_king_square_attacked:         294
@@ -220,7 +220,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.d4*e5 #
 
 
-                        empile:     1815796
+  add_to_move_generation_stack:     1815796
                      play_move:     1243109
  is_white_king_square_attacked:      520511
  is_black_king_square_attacked:      545201
@@ -328,7 +328,7 @@ Beispiel 1
                                           6.De5-g5 #
 
 
-                        empile:     9101392
+  add_to_move_generation_stack:     9101392
                      play_move:     7984864
  is_white_king_square_attacked:     4949131
  is_black_king_square_attacked:     1582294
@@ -388,7 +388,7 @@ Loesung beendet.
       1...c6*d5 !
 
 
-                        empile:     1068182
+  add_to_move_generation_stack:     1068182
                      play_move:      805784
  is_white_king_square_attacked:       79040
  is_black_king_square_attacked:      447684

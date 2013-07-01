@@ -44,7 +44,7 @@ a)
           2.Sf2*d3 #
 
 
-                        empile:        2069
+  add_to_move_generation_stack:        2069
                      play_move:        1117
  is_white_king_square_attacked:         189
  is_black_king_square_attacked:        1762
@@ -55,7 +55,7 @@ b) WhiteOscillatingKings    TypeB
           2.Sd1-e3[Kd5<->Kf5] #
 
 
-                        empile:        3192
+  add_to_move_generation_stack:        3192
                      play_move:        2078
  is_white_king_square_attacked:        1351
  is_black_king_square_attacked:        2081
@@ -63,7 +63,7 @@ c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
 
 
-                        empile:        5189
+  add_to_move_generation_stack:        5189
                      play_move:        2024
  is_white_king_square_attacked:        1640
  is_black_king_square_attacked:        2025
@@ -102,7 +102,7 @@ solution finished.
               2...Bf3*d5[Kh8<->Ka8] #
 
 
-                        empile:        5142
+  add_to_move_generation_stack:        5142
                      play_move:        2055
  is_white_king_square_attacked:        2056
  is_black_king_square_attacked:        3604
@@ -148,7 +148,7 @@ solution finished.
           2.Qc1-c6 #
 
 
-                        empile:        1640
+  add_to_move_generation_stack:        1640
                      play_move:        1110
  is_white_king_square_attacked:         154
  is_black_king_square_attacked:        1113

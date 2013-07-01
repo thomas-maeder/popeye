@@ -25,7 +25,7 @@ versions <= 4.61 didn't support castling in Circe Parrain
 
   1.Bc1*b2 Be5-d4[+wRa1]   2.Bb2*d4 0-0-0[+wBe4]
 
-                        empile:        1387
+  add_to_move_generation_stack:        1387
                      play_move:        1298
  is_white_king_square_attacked:         172
  is_black_king_square_attacked:           0
@@ -62,7 +62,7 @@ versions <= 4.61 didn't properly disable castling when a king was added
   1.a7-a8=R   2.0-0
   1.a7-a8=B   2.0-0
 
-                        empile:         118
+  add_to_move_generation_stack:         118
                      play_move:          24
  is_white_king_square_attacked:          33
  is_black_king_square_attacked:           0
@@ -95,7 +95,7 @@ recent Popeye versions didn't find this any more
 
   1...Kc5-b6 =
 
-                        empile:         161
+  add_to_move_generation_stack:         161
                      play_move:         176
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:         142
@@ -141,7 +141,7 @@ both sides need a kingboth sides need a king
    1.a7-a8=G !
 
 
-                        empile:           1
+  add_to_move_generation_stack:           1
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -158,7 +158,7 @@ both sides need a kingboth sides need a king
    1.a7-a8=CA !
 
 
-                        empile:           1
+  add_to_move_generation_stack:           1
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -201,7 +201,7 @@ strange "cages" were selected for neutral pieces
   1.nPg5-g4 + Kf3-g3
   1.Ke7-d6 nPg5-g6
 
-                        empile:         749
+  add_to_move_generation_stack:         749
                      play_move:         144
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:         126
@@ -237,7 +237,7 @@ all Popeye versions have wrongly detected a White check in the diagram
               MarsCirce
 
 
-                        empile:         182
+  add_to_move_generation_stack:         182
                      play_move:          62
  is_white_king_square_attacked:          35
  is_black_king_square_attacked:          54
@@ -276,7 +276,7 @@ a)
 
   1.nRg8-f8 nRf8-f5   2.Be8-f7 nRf5-h5 +   3.Qg6-g5 Ke7*f7 #
 
-                        empile:     2393145
+  add_to_move_generation_stack:     2393145
                      play_move:     2147106
  is_white_king_square_attacked:      185502
  is_black_king_square_attacked:     2122059
@@ -285,7 +285,7 @@ b) bBe8-->h8
   1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
   1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
 
-                        empile:     4065413
+  add_to_move_generation_stack:     4065413
                      play_move:     3666950
  is_white_king_square_attacked:      309625
  is_black_king_square_attacked:     3611419
@@ -319,7 +319,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
                Madrasi
 
 
-                        empile:          66
+  add_to_move_generation_stack:          66
                      play_move:          41
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          42
@@ -360,7 +360,7 @@ a)
           2.uSb5-c7 #
 
 
-                        empile:         187
+  add_to_move_generation_stack:         187
                      play_move:         139
  is_white_king_square_attacked:          25
  is_black_king_square_attacked:         144
@@ -370,7 +370,7 @@ b) wuSa3-->g5Dit is een grote test
           2.uSe6-c7 #
 
 
-                        empile:         148
+  add_to_move_generation_stack:         148
                      play_move:          88
  is_white_king_square_attacked:          22
  is_black_king_square_attacked:          91
@@ -405,7 +405,7 @@ Condition FileCirce RexInclusiv was accepted, but RexInclusiv was ignored
 a) 
 
 
-                        empile:          26
+  add_to_move_generation_stack:          26
                      play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
@@ -413,7 +413,7 @@ b) +wSa8
 
   1...Rh3-a3 #
 
-                        empile:          53
+  add_to_move_generation_stack:          53
                      play_move:          44
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          43
@@ -449,7 +449,7 @@ Sentinelle insertion would occur before rebirth, which caused
 
   1.nKd5*c6[+wPb7] b7-b8=R   2.nKc6-c7[+wPc6] nKc7-c8[+bPc7] #
 
-                        empile:        3274
+  add_to_move_generation_stack:        3274
                      play_move:        2398
  is_white_king_square_attacked:         289
  is_black_king_square_attacked:        2345
@@ -488,7 +488,7 @@ Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
    1.Sa1-b3 !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -527,7 +527,7 @@ Until 4.61, the first used to be 1.Sa1*c2=bS[bSc2->b1]
    1.Sa1-b3 !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -565,7 +565,7 @@ Apply magic square recoloring to the final arrival square
    1.Sa1-b3 !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -600,7 +600,7 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
 
   1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x
 
-                        empile:         456
+  add_to_move_generation_stack:         456
                      play_move:         133
  is_white_king_square_attacked:          63
  is_black_king_square_attacked:          79
@@ -635,7 +635,7 @@ solution finished.
 
   1.e2-e3 a7-a6   2.Bf1-c4=R Ra8-a7=B   3.Sg1-e2=Q dia
 
-                        empile:        6400
+  add_to_move_generation_stack:        6400
                      play_move:        6254
  is_white_king_square_attacked:         283
  is_black_king_square_attacked:         259
@@ -669,7 +669,7 @@ Until 4.61, 1.Sg6 was given as a solution (Bug #3515750)
             Take&MakeChess
 
 
-                        empile:          65
+  add_to_move_generation_stack:          65
                      play_move:          16
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          16
@@ -703,7 +703,7 @@ Until 4.61, 1.a7 was given as a solution (Bug #3515750)
             Take&MakeChess
 
 
-                        empile:          15
+  add_to_move_generation_stack:          15
                      play_move:          15
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          11
@@ -740,7 +740,7 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
-                        empile:     1058816
+  add_to_move_generation_stack:     1058816
                      play_move:      673819
  is_white_king_square_attacked:       85491
  is_black_king_square_attacked:      672910
@@ -777,7 +777,7 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
   1.e2-e1=Q Kh1-h2   2.Qe1-e5 + Kh2-h1=Q #
   1.h3-h2 Kh1-g2 +   2.e2-e1=S + Kg2-e3=S #
 
-                        empile:         279
+  add_to_move_generation_stack:         279
                      play_move:         300
  is_white_king_square_attacked:          95
  is_black_king_square_attacked:         211
@@ -811,7 +811,7 @@ Until 4.61, Popeye crashed (Bug #3585629)
               AntiCirce
 
 
-                        empile:          29
+  add_to_move_generation_stack:          29
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          12
@@ -873,7 +873,7 @@ Until 4.61, a=>b stipulations weren't correctly solved
 
   1.nSa1-b3 nSa8-b6   2.nSb3-c1 nSb6-c8 a=>b
 
-                        empile:         330
+  add_to_move_generation_stack:         330
                      play_move:         195
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -908,7 +908,7 @@ f*g7[S->h5] S*g7[P->f6] f*g7[S->h5] ...
             ExclusiveChess
 
 
-                        empile:      100954
+  add_to_move_generation_stack:      100954
                      play_move:      212300
  is_white_king_square_attacked:      187095
  is_black_king_square_attacked:       49436
@@ -944,7 +944,7 @@ Until 4.61, Popeye would produce spurious en passant captures
   1.a7-a5 b5*a6 ep.
   1.BPb7-d5 b5*c6 ep.
 
-                        empile:          58
+  add_to_move_generation_stack:          58
                      play_move:          51
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -979,7 +979,7 @@ Until 4.61, Popeye would generate the castling move twice
    1.0-0-0 !
 
 
-                        empile:          22
+  add_to_move_generation_stack:          22
                      play_move:           1
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
@@ -1015,7 +1015,7 @@ Popeye 4.61 didn't support option maxsolutions in helpself stipulations
   1.g7-g8=S g5*f4   2.Sg8-f6 + Bh4*f6 #
   1.Ra5-a1 g3*h2   2.Ra1-e1 + Bh4*e1 #
 
-                        empile:       34592
+  add_to_move_generation_stack:       34592
                      play_move:       29447
  is_white_king_square_attacked:       29237
  is_black_king_square_attacked:       10117
@@ -1049,7 +1049,7 @@ solving interrupted.
   1.Sb8-a6 f2-f1=Q #
   1.Sb8-c6 f2-f1=Q #
 
-                        empile:          33
+  add_to_move_generation_stack:          33
                      play_move:          37
  is_white_king_square_attacked:          32
  is_black_king_square_attacked:           0
@@ -1085,7 +1085,7 @@ Until 4.61, pieces' neutrality wasn't preserved in
   1.nPh2-h1=nQ nQa1-a5 z
   1.nPh2-h1=nR nRa1-a5 z
 
-                        empile:          45
+  add_to_move_generation_stack:          45
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1121,7 +1121,7 @@ Until 4.61, Circe rebirths weren't considered in Koeko
    1.CAa6*d7[+bKe8] !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
@@ -1161,7 +1161,7 @@ Until 4.61, pieces reborn on magic squares did not change
   1.Kh8-h7 + Kg1-f2 z
   1.Kh8-g8 + Kg1-f2 z
 
-                        empile:          36
+  add_to_move_generation_stack:          36
                      play_move:          13
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:           9
@@ -1197,7 +1197,7 @@ Until 4.61, Patrouille and paralysing pieces didn't go well together
    1.a2-a3 + !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
@@ -1233,7 +1233,7 @@ sttipulations with logically connected goals
   1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 x
   1.Kb8-b7 Be7-d6   2.Kb7-a8 Kb5*b6 =
 
-                        empile:        8233
+  add_to_move_generation_stack:        8233
                      play_move:        3837
  is_white_king_square_attacked:        1612
  is_black_king_square_attacked:        3456
@@ -1266,7 +1266,7 @@ both sides need a king
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4 Sb4*a6 Sa6-c5 +
 
-                        empile:         316
+  add_to_move_generation_stack:         316
                      play_move:         316
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         153
@@ -1311,7 +1311,7 @@ movenumbers and nested series branches; until 4.61, Popeye produced
  10  (Kg3-g4 )
  11  (Kg3-h3 )
 
-                        empile:      235771
+  add_to_move_generation_stack:      235771
                      play_move:      250400
  is_white_king_square_attacked:      221287
  is_black_king_square_attacked:      216339
@@ -1369,7 +1369,7 @@ Popeye 4.51 to 4.61 would produce the move to c5 twice
    1.MGd4-b7 !
 
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1409,7 +1409,7 @@ a)
    1.Sa3-c2 !
 
 
-                        empile:          52
+  add_to_move_generation_stack:          52
                      play_move:          55
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1420,7 +1420,7 @@ b) SingleBox    Type2
    1.Sa3-c2 !
 
 
-                        empile:          24
+  add_to_move_generation_stack:          24
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1431,7 +1431,7 @@ c) wBa8
    1.Sa3-c2 !
 
 
-                        empile:          24
+  add_to_move_generation_stack:          24
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1469,7 +1469,7 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
    1.mPe6-e7 + !
 
 
-                        empile:         172
+  add_to_move_generation_stack:         172
                      play_move:         174
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          48

@@ -54,7 +54,7 @@
                           4.Tf8-h8 #
 
 
-                        empile:       15114
+  add_to_move_generation_stack:       15114
                      play_move:        8237
  is_white_king_square_attacked:        5220
  is_black_king_square_attacked:        3550
@@ -141,7 +141,7 @@ Loesung beendet.
                                                   7.Kd4-e5 #
 
 
-                        empile:       86743
+  add_to_move_generation_stack:       86743
                      play_move:       23229
  is_white_king_square_attacked:       18850
  is_black_king_square_attacked:        4443
@@ -186,7 +186,7 @@ Loesung beendet.
                                   5.Kd4-e5 #
 
 
-                        empile:       15535
+  add_to_move_generation_stack:       15535
                      play_move:        4857
  is_white_king_square_attacked:        2562
  is_black_king_square_attacked:        2430
@@ -231,7 +231,7 @@ Loesung beendet.
                                   5.Ta8-a1 #
 
 
-                        empile:     1163953
+  add_to_move_generation_stack:     1163953
                      play_move:      558895
  is_white_king_square_attacked:      449822
  is_black_king_square_attacked:      136311
@@ -301,7 +301,7 @@ Loesung beendet.
                                   5.Ta8-h8 #
 
 
-                        empile:     1173112
+  add_to_move_generation_stack:     1173112
                      play_move:      535109
  is_white_king_square_attacked:      434048
  is_black_king_square_attacked:      120521
@@ -336,7 +336,7 @@ Loesung beendet.
 
   1.Lg5-f6 Tg1-g7   2.Lf6-c3 Lc5-b4   3.e7-e5 d5*e6 ep. #
 
-                        empile:     2087409
+  add_to_move_generation_stack:     2087409
                      play_move:     1993453
  is_white_king_square_attacked:       32035
  is_black_king_square_attacked:      889678
@@ -372,7 +372,7 @@ Loesung beendet.
 
   1.c4*d3 ep. + Kc2-b1   2.e7-e5 f5*e6 ep. #
 
-                        empile:       54224
+  add_to_move_generation_stack:       54224
                      play_move:       50643
  is_white_king_square_attacked:        1097
  is_black_king_square_attacked:       29541
@@ -408,7 +408,7 @@ Loesung beendet.
 
   1.Ke4-f3 Sf4-d5   2.Kf3-f4 Ke6-f5 #
 
-                        empile:        4718
+  add_to_move_generation_stack:        4718
                      play_move:        4555
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        2611
@@ -447,7 +447,7 @@ Loesung beendet.
           2.Lb1-f5 #
 
 
-                        empile:         647
+  add_to_move_generation_stack:         647
                      play_move:         532
  is_white_king_square_attacked:          25
  is_black_king_square_attacked:         172
@@ -482,7 +482,7 @@ Loesung beendet.
 
   1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 #
 
-                        empile:      251461
+  add_to_move_generation_stack:      251461
                      play_move:      255731
  is_white_king_square_attacked:        9729
  is_black_king_square_attacked:       80764
@@ -542,7 +542,7 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-                        empile:     2521936
+  add_to_move_generation_stack:     2521936
                      play_move:     1393762
  is_white_king_square_attacked:      453385
  is_black_king_square_attacked:      237448
@@ -583,7 +583,7 @@ Loesung beendet.
   1.Kc3-d2 Kg5-f4   2.Kd2-e2 Kf4-e5   3.Ke2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 #
   1.Kc3-b3 Kg5-f4   2.Kb3-c2 Kf4-e5   3.Kc2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 #
 
-                        empile:      645756
+  add_to_move_generation_stack:      645756
                      play_move:      348460
  is_white_king_square_attacked:      146342
  is_black_king_square_attacked:      203375
@@ -644,7 +644,7 @@ Loesung beendet.
                                           6.Se3-d1 =
 
 
-                        empile:       44130
+  add_to_move_generation_stack:       44130
                      play_move:       17506
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       15355
@@ -692,7 +692,7 @@ Loesung beendet.
                                               6...Dh5-a5 #
 
 
-                        empile:     4115815
+  add_to_move_generation_stack:     4115815
                      play_move:     1355269
  is_white_king_square_attacked:      339740
  is_black_king_square_attacked:     1173865
@@ -728,7 +728,7 @@ Loesung beendet.
 
   1.Kd3-c2   2.Kc2-b3   3.Ge3-a3   4.Kb3-c4   5.Kc4-c5   6.Kc5-b6   7.Kb6-c7   8.Kc7-d6   9.Kd6-e6  10.Ke6-f7  11.Kf7-g6  12.Kg6-f5  13.Kf5*f4  14.Kf4-g3  15.Kg3-f2  16.Kf2-e3  17.Ke3-d3  18.Ga3-e3  19.Kd3-e2 #
 
-                        empile:      256166
+  add_to_move_generation_stack:      256166
                      play_move:      156828
  is_white_king_square_attacked:      118256
  is_black_king_square_attacked:      135617
@@ -765,7 +765,7 @@ Loesung beendet.
   1.Ke2-d3 Lb5*c4   2.Le4-b7 Lc4-b5 #
   1.Ke2-e3 Te5*e4   2.Tc4-c7 Te4-e5 #
 
-                        empile:      101363
+  add_to_move_generation_stack:      101363
                      play_move:       37350
  is_white_king_square_attacked:       11138
  is_black_king_square_attacked:       37025
@@ -817,7 +817,7 @@ a)
                                                       7...Dg5-a5 #
 
 
-                        empile:      962891
+  add_to_move_generation_stack:      962891
                      play_move:      494106
  is_white_king_square_attacked:       75960
  is_black_king_square_attacked:      258861
@@ -839,7 +839,7 @@ b) sBf3-->e4
                                                       7...Df6-a1 #
 
 
-                        empile:      931612
+  add_to_move_generation_stack:      931612
                      play_move:      469395
  is_white_king_square_attacked:       73149
  is_black_king_square_attacked:      253674
@@ -874,7 +874,7 @@ Loesung beendet.
 
   1.Ka8*b8   2.Kb8-c8   3.Kc8-d7   4.Kd7-e6   5.Ke6-d5   6.Kd5-c5   7.Kc5-b6   8.Gb7-b5   9.Kb6-b7  10.Kb7-a8 Kd6-c7 =
 
-                        empile:       10696
+  add_to_move_generation_stack:       10696
                      play_move:        6319
  is_white_king_square_attacked:        1584
  is_black_king_square_attacked:        3058

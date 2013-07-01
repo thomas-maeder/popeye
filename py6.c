@@ -323,6 +323,7 @@ static boolean is_rider(PieNam p)
     case    Bishop:
     case    WesirRider:
     case    FersRider:
+    case    Elephant:
       return true;
 
     default:
@@ -348,6 +349,7 @@ static boolean is_leaper(PieNam p)
     case    Squirrel:
     case    ErlKing:
     case    Okapi:
+    case    Bison:
     case    Knight:
     case    Leap15:
     case    Leap16:
@@ -370,6 +372,8 @@ static boolean is_simplehopper(PieNam p)
     case CamelHopper:
     case ZebraHopper:
     case GnuHopper:
+    case RookHopper:
+    case BishopHopper:
     case EquiHopper:
     case NonStopEquihopper:
     case GrassHopper2:
@@ -1041,6 +1045,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[chinoises]
         || anyimmun
         || CondFlag[haanerchess]
+        || CondFlag[sting]
         || anycirce           /* rebirth square may coincide with I */
         || anyanticirce       /* rebirth square may coincide with I */
         || anyparrain) /* verkraftet nicht 2 IUW in einem Zug !!! */
@@ -3032,7 +3037,7 @@ static Token iterate_twins(Token prev_token)
 
       Message(NewLine);
 
-      WRITE_COUNTER(empile);
+      WRITE_COUNTER(add_to_move_generation_stack);
       WRITE_COUNTER(play_move);
       WRITE_COUNTER(is_white_king_square_attacked);
       WRITE_COUNTER(is_black_king_square_attacked);

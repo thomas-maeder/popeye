@@ -59,7 +59,7 @@
       1...Gb8-g3 + !
 
 
-                        empile:        7039
+  add_to_move_generation_stack:        7039
                      play_move:        5627
  is_white_king_square_attacked:        5452
  is_black_king_square_attacked:         274

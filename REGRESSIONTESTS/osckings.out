@@ -40,7 +40,7 @@ a)
           2.Sf2-e4 #
 
 
-                        empile:        1917
+  add_to_move_generation_stack:        1917
                      play_move:         914
  is_white_king_square_attacked:         141
  is_black_king_square_attacked:        1613
@@ -51,7 +51,7 @@ b) WeisseOszillierendeKoenige    TypB
           2.Sd1-e3[Kd5<->Kf5] #
 
 
-                        empile:        2633
+  add_to_move_generation_stack:        2633
                      play_move:        1401
  is_white_king_square_attacked:        1126
  is_black_king_square_attacked:        1404
@@ -59,7 +59,7 @@ c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
 
 
-                        empile:        3911
+  add_to_move_generation_stack:        3911
                      play_move:        1191
  is_white_king_square_attacked:        1170
  is_black_king_square_attacked:        1192
@@ -98,7 +98,7 @@ Loesung beendet.
               2...Lf3*d5[Kh8<->Ka8] #
 
 
-                        empile:        5142
+  add_to_move_generation_stack:        5142
                      play_move:        2055
  is_white_king_square_attacked:        2056
  is_black_king_square_attacked:        3604
@@ -144,7 +144,7 @@ Loesung beendet.
           2.Dc1-c6 #
 
 
-                        empile:        1640
+  add_to_move_generation_stack:        1640
                      play_move:        1110
  is_white_king_square_attacked:         154
  is_black_king_square_attacked:        1113

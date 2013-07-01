@@ -98,7 +98,7 @@
           2.c7*b8=L #
 
 
-                        empile:       19182
+  add_to_move_generation_stack:       19182
                      play_move:       17516
  is_white_king_square_attacked:         713
  is_black_king_square_attacked:       17401
@@ -183,7 +183,7 @@ Loesung beendet.
                                   5.De7*e4 #
 
 
-                        empile:     3673741
+  add_to_move_generation_stack:     3673741
                      play_move:     2856711
  is_white_king_square_attacked:     1271869
  is_black_king_square_attacked:     1761906
@@ -219,7 +219,7 @@ Loesung beendet.
           2.Th8*h7 #
 
 
-                        empile:         139
+  add_to_move_generation_stack:         139
                      play_move:          98
  is_white_king_square_attacked:          28
  is_black_king_square_attacked:         101
@@ -254,7 +254,7 @@ Loesung beendet.
    1.h5*g6 ep. # !
 
 
-                        empile:          43
+  add_to_move_generation_stack:          43
                      play_move:          46
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          47
@@ -290,7 +290,7 @@ Loesung beendet.
       1...Tb4*b6 #
 
 
-                        empile:        1175
+  add_to_move_generation_stack:        1175
                      play_move:         439
  is_white_king_square_attacked:         439
  is_black_king_square_attacked:         362
@@ -382,7 +382,7 @@ a)
       1...c7-c6 !
 
 
-                        empile:        2101
+  add_to_move_generation_stack:        2101
                      play_move:        1780
  is_white_king_square_attacked:         217
  is_black_king_square_attacked:        1748
@@ -551,7 +551,7 @@ b) sBc7-->e7
       1...e7*d6 !
 
 
-                        empile:        2321
+  add_to_move_generation_stack:        2321
                      play_move:        2060
  is_white_king_square_attacked:         296
  is_black_king_square_attacked:        1982
@@ -586,7 +586,7 @@ Loesung beendet.
 
   1.e4*d3 ep. Lf3*g4   2.f4-f3 Lg4-e6 #
 
-                        empile:       51931
+  add_to_move_generation_stack:       51931
                      play_move:       30512
  is_white_king_square_attacked:        9570
  is_black_king_square_attacked:       29871
@@ -622,7 +622,7 @@ Loesung beendet.
 
   1...e5*f6 ep.[+sBf7]   2.Lb4-e7 f6*e7[+sLf8]   3.Ta7-d7 e7*f8=D #
 
-                        empile:        3944
+  add_to_move_generation_stack:        3944
                      play_move:        4250
  is_white_king_square_attacked:         391
  is_black_king_square_attacked:        1589
@@ -664,7 +664,7 @@ Loesung beendet.
   1.Sa7-c8 b4*c5   2.Ka4-a5 Ka2*a3   3.Ka5*a6 Ka3-b4 #
   7  (Tb7-b6 )
 
-                        empile:        8851
+  add_to_move_generation_stack:        8851
                      play_move:        8340
  is_white_king_square_attacked:        1844
  is_black_king_square_attacked:        7870
@@ -736,7 +736,7 @@ N.Y. State Chess Association, 16.8.1894
  29  (c2-c4 )
  30  (c2-c3 )
 
-                        empile:      210687
+  add_to_move_generation_stack:      210687
                      play_move:      146884
  is_white_king_square_attacked:      113665
  is_black_king_square_attacked:       41835
@@ -833,7 +833,7 @@ Loesung beendet.
  47  (Td1-f1 )
  48  (Td1-e1 )
 
-                        empile:    21979665
+  add_to_move_generation_stack:    21979665
                      play_move:    11513459
  is_white_king_square_attacked:    11342716
  is_black_king_square_attacked:     3074628

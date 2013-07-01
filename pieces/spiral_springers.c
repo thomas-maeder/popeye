@@ -10,11 +10,11 @@ static void generate_leg(Side side, square sq_departure,
 
   while (is_square_empty(sq_arrival))
   {
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     sq_arrival += zag;
     if (is_square_empty(sq_arrival))
     {
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       sq_arrival += zig;
     }
     else
@@ -22,7 +22,7 @@ static void generate_leg(Side side, square sq_departure,
   }
 
   if (piece_belongs_to_opponent(sq_arrival,side))
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void generate_in_direction(Side side, square sq_departure,

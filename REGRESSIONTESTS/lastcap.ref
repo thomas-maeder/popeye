@@ -27,7 +27,7 @@
    1.Qf2-e2[+wBf4] # !
 
 
-                        empile:          83
+  add_to_move_generation_stack:          83
                      play_move:          64
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:          65
@@ -38,7 +38,7 @@ solution finished.
    1.Qf2-c5[+wRd7] # !
 
 
-                        empile:          78
+  add_to_move_generation_stack:          78
                      play_move:          58
  is_white_king_square_attacked:          12
  is_black_king_square_attacked:          59
@@ -50,7 +50,7 @@ TO DO twin opt lastcap re4
    1.Qf2-d2[+wSe4] # !
 
 
-                        empile:          75
+  add_to_move_generation_stack:          75
                      play_move:          60
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:          61

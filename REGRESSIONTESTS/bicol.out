@@ -29,7 +29,7 @@
 
   1.Lh8-d4 Lf3-g4   2.Ld4-f2 Lg4-h3 #
 
-                        empile:       32275
+  add_to_move_generation_stack:       32275
                      play_move:       28674
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -64,7 +64,7 @@ Loesung beendet.
 
   1.Th1-a1 Le4-b1   2.Ke2-f1 Lb1-d3 #
 
-                        empile:       43917
+  add_to_move_generation_stack:       43917
                      play_move:       35117
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -102,7 +102,7 @@ Loesung beendet.
 
   1.Kg4-h4 Kg2-f3   2.Sh3-f4 Le5-f6 #
 
-                        empile:       20906
+  add_to_move_generation_stack:       20906
                      play_move:       18441
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -140,7 +140,7 @@ Loesung beendet.
 
   1.Sg2-f4 Kd1-d2   2.Sf4-h3 Sf5-e3 #
 
-                        empile:        8538
+  add_to_move_generation_stack:        8538
                      play_move:        7467
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -178,7 +178,7 @@ Loesung beendet.
 
   1.h7-h8=T c2-c1=D   2.Th8-h7 Dc1-h6 #
 
-                        empile:       21728
+  add_to_move_generation_stack:       21728
                      play_move:       20369
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -214,7 +214,7 @@ Loesung beendet.
 
   1.f2-f1=L a7-a8=S   2.d2-d1=T c7-c8=D #
 
-                        empile:       25963
+  add_to_move_generation_stack:       25963
                      play_move:       18869
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -251,7 +251,7 @@ Loesung beendet.
   1.Lh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 #
   1.Lh8-d4 Se6-g7   2.Tg8-d8 Sg7*f5 #
 
-                        empile:       76524
+  add_to_move_generation_stack:       76524
                      play_move:       65793
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

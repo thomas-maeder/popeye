@@ -40,7 +40,7 @@
           2.Lf1*e2 #=
 
 
-                        empile:       10057
+  add_to_move_generation_stack:       10057
                      play_move:        3275
  is_white_king_square_attacked:        2231
  is_black_king_square_attacked:        1981
@@ -93,7 +93,7 @@ Loesung beendet.
               2...Kb8-c8 #=
 
 
-                        empile:        5816
+  add_to_move_generation_stack:        5816
                      play_move:        2929
  is_white_king_square_attacked:        1542
  is_black_king_square_attacked:        1883
@@ -141,7 +141,7 @@ Loesung beendet.
           2.Dh6-d2 #
 
 
-                        empile:       10976
+  add_to_move_generation_stack:       10976
                      play_move:        5586
  is_white_king_square_attacked:        5303
  is_black_king_square_attacked:        2927
@@ -252,7 +252,7 @@ Loesung beendet.
           2.Lf7-h5 #
 
 
-                        empile:       31098
+  add_to_move_generation_stack:       31098
                      play_move:       18114
  is_white_king_square_attacked:       17586
  is_black_king_square_attacked:        6051
@@ -293,7 +293,7 @@ Loesung beendet.
               2...Sg6-f4 #
 
 
-                        empile:        2447
+  add_to_move_generation_stack:        2447
                      play_move:        1430
  is_white_king_square_attacked:        1186
  is_black_king_square_attacked:        1251

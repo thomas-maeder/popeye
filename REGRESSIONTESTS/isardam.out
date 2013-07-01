@@ -29,7 +29,7 @@
 
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 #
 
-                        empile:      278623
+  add_to_move_generation_stack:      278623
                      play_move:      215680
  is_white_king_square_attacked:       67888
  is_black_king_square_attacked:       82154
@@ -78,7 +78,7 @@ Loesung beendet.
           2.Da7-d7 #
 
 
-                        empile:       14534
+  add_to_move_generation_stack:       14534
                      play_move:       10309
  is_white_king_square_attacked:         410
  is_black_king_square_attacked:        4107
@@ -133,7 +133,7 @@ Ausschreibungsoriginal, Kingston 1997
           2.Kc6-d5 #
 
 
-                        empile:        2929
+  add_to_move_generation_stack:        2929
                      play_move:        2352
  is_white_king_square_attacked:         137
  is_black_king_square_attacked:        1032
@@ -171,7 +171,7 @@ a)
 
   1.Ke8-d8 Da7-d7 +   2.De4-a4 Ka3*a4 #
 
-                        empile:       94051
+  add_to_move_generation_stack:       94051
                      play_move:       67556
  is_white_king_square_attacked:        8431
  is_black_king_square_attacked:       67039
@@ -180,7 +180,7 @@ b) Circe
 
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 #
 
-                        empile:      113618
+  add_to_move_generation_stack:      113618
                      play_move:       90572
  is_white_king_square_attacked:        6496
  is_black_king_square_attacked:       53544
@@ -217,7 +217,7 @@ a)
 
   1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 #
 
-                        empile:      202785
+  add_to_move_generation_stack:      202785
                      play_move:      185648
  is_white_king_square_attacked:        5696
  is_black_king_square_attacked:       90289
@@ -225,7 +225,7 @@ b) sKc6-->b7
 
   1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 #
 
-                        empile:       59360
+  add_to_move_generation_stack:       59360
                      play_move:       58593
  is_white_king_square_attacked:        1335
  is_black_king_square_attacked:       28130
@@ -267,7 +267,7 @@ Loesung beendet.
           2.h7-h8=D #
 
 
-                        empile:        1603
+  add_to_move_generation_stack:        1603
                      play_move:        1271
  is_white_king_square_attacked:          86
  is_black_king_square_attacked:         749
@@ -319,7 +319,7 @@ Loesung beendet.
           2.Kh5-g6 #
 
 
-                        empile:        2705
+  add_to_move_generation_stack:        2705
                      play_move:        2232
  is_white_king_square_attacked:         153
  is_black_king_square_attacked:        1535
@@ -360,7 +360,7 @@ Loesung beendet.
           2.Ke4-f5 #
 
 
-                        empile:       11876
+  add_to_move_generation_stack:       11876
                      play_move:        9422
  is_white_king_square_attacked:         320
  is_black_king_square_attacked:        4183
@@ -400,7 +400,7 @@ Loesung beendet.
           2.Db3-c3 #
 
 
-                        empile:        3909
+  add_to_move_generation_stack:        3909
                      play_move:        3433
  is_white_king_square_attacked:         188
  is_black_king_square_attacked:        1760
@@ -454,7 +454,7 @@ Loesung beendet.
               2...Td8*d3 #
 
 
-                        empile:      115852
+  add_to_move_generation_stack:      115852
                      play_move:      108959
  is_white_king_square_attacked:       32656
  is_black_king_square_attacked:        4567
@@ -505,7 +505,7 @@ Loesung beendet.
           2.Sd7-f6 #
 
 
-                        empile:       44596
+  add_to_move_generation_stack:       44596
                      play_move:       36662
  is_white_king_square_attacked:        1281
  is_black_king_square_attacked:       19497
@@ -548,7 +548,7 @@ Loesung beendet.
           2.Dg4-g5 #
 
 
-                        empile:       26437
+  add_to_move_generation_stack:       26437
                      play_move:       21135
  is_white_king_square_attacked:         703
  is_black_king_square_attacked:        9395
@@ -592,7 +592,7 @@ The Problemist ix/1997 (early version)
           2.Se8*f6 #
 
 
-                        empile:       55161
+  add_to_move_generation_stack:       55161
                      play_move:       45128
  is_white_king_square_attacked:        1032
  is_black_king_square_attacked:       18528
@@ -652,7 +652,7 @@ The Problemist i/1998 (Position Reflected)
           2.Db7*c8 #
 
 
-                        empile:       10209
+  add_to_move_generation_stack:       10209
                      play_move:       11109
  is_white_king_square_attacked:         202
  is_black_king_square_attacked:        3914
@@ -694,7 +694,7 @@ Loesung beendet.
           2.b7-b8=T #
 
 
-                        empile:       16132
+  add_to_move_generation_stack:       16132
                      play_move:       14005
  is_white_king_square_attacked:         156
  is_black_king_square_attacked:        4309
@@ -728,7 +728,7 @@ Loesung beendet.
 
   1...h7-h8=T ##!
 
-                        empile:         298
+  add_to_move_generation_stack:         298
                      play_move:         263
  is_white_king_square_attacked:         102
  is_black_king_square_attacked:          38
@@ -761,7 +761,7 @@ illegale Beobachtung nach Doppelschritt vermeiden
                Isardam
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

@@ -46,7 +46,7 @@
    1.Se3*g2[h1=L] + !
 
 
-                        empile:           4
+  add_to_move_generation_stack:           4
                      play_move:          14
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:          15
@@ -80,7 +80,7 @@ Loesung beendet.
 
   1.g5*f4[a8=S] Tg6*g1 +
 
-                        empile:          14
+  add_to_move_generation_stack:          14
                      play_move:          14
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          14
@@ -116,7 +116,7 @@ Schlagende Seite entscheidet "uber Bauernumwandlung -> Ta1 darf schlagen
   1.Ta1*b1[h8=T] Lc8-d7 #
   1.a4-a3 Lc8-d7 #
 
-                        empile:          68
+  add_to_move_generation_stack:          68
                      play_move:          64
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          64
@@ -153,7 +153,7 @@ Nicht verwirrt werden mit mehr als einem latenten Bauern
           2.Se8*c7 #
 
 
-                        empile:        7243
+  add_to_move_generation_stack:        7243
                      play_move:        5354
  is_white_king_square_attacked:         362
  is_black_king_square_attacked:        4992
@@ -210,7 +210,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Db2-d2 #
 
 
-                        empile:        6701
+  add_to_move_generation_stack:        6701
                      play_move:        3909
  is_white_king_square_attacked:         711
  is_black_king_square_attacked:        3896
@@ -284,7 +284,7 @@ Loesung beendet.
       1...d5*e4 !
 
 
-                        empile:      213753
+  add_to_move_generation_stack:      213753
                      play_move:      145794
  is_white_king_square_attacked:       33397
  is_black_king_square_attacked:      115492
@@ -325,7 +325,7 @@ Loesung beendet.
           2.De8-e5 #
 
 
-                        empile:        4805
+  add_to_move_generation_stack:        4805
                      play_move:        3465
  is_white_king_square_attacked:         376
  is_black_king_square_attacked:        3014

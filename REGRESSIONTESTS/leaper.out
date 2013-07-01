@@ -46,7 +46,7 @@
           2.Td2-d4 #
 
 
-                        empile:       29700
+  add_to_move_generation_stack:       29700
                      play_move:       18438
  is_white_king_square_attacked:         900
  is_black_king_square_attacked:       18441

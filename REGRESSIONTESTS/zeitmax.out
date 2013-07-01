@@ -25,7 +25,7 @@
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0
 
-                        empile:    17940094
+  add_to_move_generation_stack:    17940094
                      play_move:     3224813
  is_white_king_square_attacked:     1711950
  is_black_king_square_attacked:     3207764
@@ -61,7 +61,7 @@ Bearbeitung abgebrochen.
            Beamtet h8 a3 a1
 
 
-                        empile:     7727718
+  add_to_move_generation_stack:     7727718
                      play_move:     7031574
  is_white_king_square_attacked:     1812242
  is_black_king_square_attacked:     7041673
@@ -97,14 +97,14 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 a) 
 
 
-                        empile:     8444089
+  add_to_move_generation_stack:     8444089
                      play_move:     8444089
  is_white_king_square_attacked:     1926726
  is_black_king_square_attacked:     8418223
 b) wKc1-->b3
 
 
-                        empile:     8122455
+  add_to_move_generation_stack:     8122455
                      play_move:     8122455
  is_white_king_square_attacked:     1844166
  is_black_king_square_attacked:     8104514
@@ -145,7 +145,7 @@ eigentlich:  ser-h=8/3
   4  (Ka8-b8 )
   5  (Ka8-b7 )
 
-                        empile:      786465
+  add_to_move_generation_stack:      786465
                      play_move:      160332
  is_white_king_square_attacked:       99878
  is_black_king_square_attacked:      139756
@@ -191,7 +191,7 @@ Motto: Viele Koeche verderben den Brei
   7  (Ke2-d3 )
   8  (Ke2-f3 )
 
-                        empile:    10043820
+  add_to_move_generation_stack:    10043820
                      play_move:     5720332
  is_white_king_square_attacked:      295713
  is_black_king_square_attacked:     5524281
@@ -227,7 +227,7 @@ Bearbeitung abgebrochen.
   1  (Sh1-g3 )
   2  (Sh1-f2 )
 
-                        empile:    17268515
+  add_to_move_generation_stack:    17268515
                      play_move:    11594814
  is_white_king_square_attacked:     2541798
  is_black_king_square_attacked:    11587635
@@ -261,7 +261,7 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-                        empile:    15237552
+  add_to_move_generation_stack:    15237552
                      play_move:     6009455
  is_white_king_square_attacked:      266385
  is_black_king_square_attacked:     5784690
@@ -296,7 +296,7 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-                        empile:    33203935
+  add_to_move_generation_stack:    33203935
                      play_move:     5689779
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     5425919
@@ -345,7 +345,7 @@ Bearbeitung abgebrochen.
                           4.Tf5-f3 #
 
 
-                        empile:       35608
+  add_to_move_generation_stack:       35608
                      play_move:       19044
  is_white_king_square_attacked:        9255
  is_black_king_square_attacked:       12607
@@ -429,7 +429,7 @@ Loesung beendet.
                                                           8.Se5-c6 #
 
 
-                        empile:       84808
+  add_to_move_generation_stack:       84808
                      play_move:       63909
  is_white_king_square_attacked:       40469
  is_black_king_square_attacked:       28781
@@ -476,7 +476,7 @@ Loesung beendet.
                           4.Lh1*f3 #
 
 
-                        empile:      137470
+  add_to_move_generation_stack:      137470
                      play_move:       60135
  is_white_king_square_attacked:       18823
  is_black_king_square_attacked:       59197
@@ -533,7 +533,7 @@ nebenloesig - eigentlich #6
                           4.ROe6*c5[+sBe6] #
 
 
-                        empile:      166706
+  add_to_move_generation_stack:      166706
                      play_move:      117170
  is_white_king_square_attacked:       50325
  is_black_king_square_attacked:       71316
@@ -567,7 +567,7 @@ Loesung beendet.
               OhneSchach
 
 
-                        empile:    58612713
+  add_to_move_generation_stack:    58612713
                      play_move:     6561167
  is_white_king_square_attacked:     6560970
  is_black_king_square_attacked:     5963484
@@ -602,7 +602,7 @@ Bearbeitung abgebrochen.
 
   1  (b2-b1=D )
 
-                        empile:    88231246
+  add_to_move_generation_stack:    88231246
                      play_move:     7580730
  is_white_king_square_attacked:     7544265
  is_black_king_square_attacked:     7316998
@@ -637,7 +637,7 @@ Bearbeitung abgebrochen.
               OhneSchach
 
 
-                        empile:    61209721
+  add_to_move_generation_stack:    61209721
                      play_move:     6686444
  is_white_king_square_attacked:     6680066
  is_black_king_square_attacked:     6093549
@@ -672,7 +672,7 @@ Bearbeitung abgebrochen.
               OhneSchach
 
 
-                        empile:    65083220
+  add_to_move_generation_stack:    65083220
                      play_move:     7061582
  is_white_king_square_attacked:     7035407
  is_black_king_square_attacked:     6513121
@@ -707,7 +707,7 @@ Bearbeitung abgebrochen.
               OhneSchach
 
 
-                        empile:    44678176
+  add_to_move_generation_stack:    44678176
                      play_move:     5372530
  is_white_king_square_attacked:     5369626
  is_black_king_square_attacked:     5035793
@@ -749,7 +749,7 @@ a)
   4  (f3-f2 )
   5  (Tc5*c1[+wSg1] )
 
-                        empile:     2411671
+  add_to_move_generation_stack:     2411671
                      play_move:     2375193
  is_white_king_square_attacked:       29874
  is_black_king_square_attacked:     2362627
@@ -764,7 +764,7 @@ b) sKa7-->b1
   1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] #
  12  (La3-b2 )
 
-                        empile:     2653011
+  add_to_move_generation_stack:     2653011
                      play_move:     2398819
  is_white_king_square_attacked:      148323
  is_black_king_square_attacked:     2385277

@@ -40,7 +40,7 @@ a)
           2.CAc2-f3 #
 
 
-                        empile:        8064
+  add_to_move_generation_stack:        8064
                      play_move:        4792
  is_white_king_square_attacked:         426
  is_black_king_square_attacked:        4795
@@ -59,7 +59,7 @@ b) Circe
           2.CAc2-f3 #
 
 
-                        empile:        7656
+  add_to_move_generation_stack:        7656
                      play_move:        4634
  is_white_king_square_attacked:         409
  is_black_king_square_attacked:        4637

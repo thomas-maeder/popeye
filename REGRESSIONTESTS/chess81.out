@@ -106,7 +106,7 @@
                   3.Tg2-g8 c81
 
 
-                        empile:     3087766
+  add_to_move_generation_stack:     3087766
                      play_move:     2055418
  is_white_king_square_attacked:     1800137
  is_black_king_square_attacked:      231038
@@ -145,7 +145,7 @@ Loesung beendet.
                   3.Tf6-f8 c81
 
 
-                        empile:        4163
+  add_to_move_generation_stack:        4163
                      play_move:        1821
  is_white_king_square_attacked:        1206
  is_black_king_square_attacked:         387
@@ -202,7 +202,7 @@ Loesung beendet.
                   3.Ta5-a8 c81
 
 
-                        empile:       37467
+  add_to_move_generation_stack:       37467
                      play_move:        7875
  is_white_king_square_attacked:        3743
  is_black_king_square_attacked:        2388
@@ -246,7 +246,7 @@ Loesung beendet.
                       3...Ka2-a1 c81
 
 
-                        empile:       12901
+  add_to_move_generation_stack:       12901
                      play_move:        4312
  is_white_king_square_attacked:        2292
  is_black_king_square_attacked:        2035
@@ -283,7 +283,7 @@ Loesung beendet.
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=T c81
   1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=L c81
 
-                        empile:        3071
+  add_to_move_generation_stack:        3071
                      play_move:         673
  is_white_king_square_attacked:          79
  is_black_king_square_attacked:         611

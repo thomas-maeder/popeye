@@ -27,7 +27,7 @@
    1.Ka1*a2 !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -87,7 +87,7 @@ Initial (Weiss ->):
 
   1.a7-a8=K a=>b 
 
-                        empile:           1
+  add_to_move_generation_stack:           1
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -147,7 +147,7 @@ keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
 
   1.Kf1*e1 Kf8*e8 a=>b 
 
-                        empile:          70
+  add_to_move_generation_stack:          70
                      play_move:          15
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

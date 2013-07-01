@@ -30,7 +30,7 @@ piece is of the same colour as the king to be mated
   1.Bh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 #
   1.Bh8-d4 Se6-g7   2.Rg8-d8 Sg7*f5 #
 
-                        empile:       76524
+  add_to_move_generation_stack:       76524
                      play_move:       65793
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -66,7 +66,7 @@ caused all kinds of trouble, including this shortie not being solved.
 
   1.f2-f4 e7-e5 dia
 
-                        empile:          40
+  add_to_move_generation_stack:          40
                      play_move:          40
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -135,7 +135,7 @@ Test: avoid duplicate king moves (e.g. to f5)
    1.Ke5-f5 !
 
 
-                        empile:          35
+  add_to_move_generation_stack:          35
                      play_move:          27
  is_white_king_square_attacked:          27
  is_black_king_square_attacked:           0
@@ -146,7 +146,7 @@ solution finished.
  20  (Sb1-a3=b )
   1.Sb1-a3=b Sa3-b1=w dia
 
-                        empile:          44
+  add_to_move_generation_stack:          44
                      play_move:          44
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           5
@@ -180,7 +180,7 @@ solution finished.
  20  (Sb1-a3=b )
   1.Sb1-a3=b Sa3-b1=w dia
 
-                        empile:          44
+  add_to_move_generation_stack:          44
                      play_move:          44
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           5
@@ -217,7 +217,7 @@ a)
    1.Qc1-c8 # !
 
 
-                        empile:          99
+  add_to_move_generation_stack:          99
                      play_move:         104
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          62
@@ -226,7 +226,7 @@ b)  -wQc1
    1.h7*g8=R[+wQd1] # !
 
 
-                        empile:          27
+  add_to_move_generation_stack:          27
                      play_move:          33
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          21
@@ -237,7 +237,7 @@ fairy pieces only allowed in proof games since releases >4.51
 
   1.Ka1-a2 Ga8-a1 a=>b
 
-                        empile:           4
+  add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           4
@@ -271,7 +271,7 @@ White's first move
 
   1.Kh5-h6 Ba1*b2   2.Bf7-h5 Bb2-c1 #
 
-                        empile:       12003
+  add_to_move_generation_stack:       12003
                      play_move:        6369
  is_white_king_square_attacked:        5920
  is_black_king_square_attacked:        1588
@@ -305,924 +305,924 @@ test for twin numbering after we have run out of letters
 a) 
 
 
-                        empile:          69
+  add_to_move_generation_stack:          69
                      play_move:          69
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          60
 b) +wSa7 +bBa5 
 
 
-                        empile:         777
+  add_to_move_generation_stack:         777
                      play_move:         758
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         698
 c) +wSa7 +bBa4 
 
 
-                        empile:         760
+  add_to_move_generation_stack:         760
                      play_move:         741
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         681
 d) +wSa7 +bBa3 
 
 
-                        empile:         751
+  add_to_move_generation_stack:         751
                      play_move:         732
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         672
 e) +wSa7 +bBa2 
 
 
-                        empile:         706
+  add_to_move_generation_stack:         706
                      play_move:         687
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         627
 f) +wSa7 +bBb7 
 
 
-                        empile:         866
+  add_to_move_generation_stack:         866
                      play_move:         847
  is_white_king_square_attacked:          70
  is_black_king_square_attacked:         781
 g) +wSa7 +bBb6 
 
 
-                        empile:         932
+  add_to_move_generation_stack:         932
                      play_move:         913
  is_white_king_square_attacked:          73
  is_black_king_square_attacked:         844
 h) +wSa7 +bBb5 
 
 
-                        empile:         932
+  add_to_move_generation_stack:         932
                      play_move:         913
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         841
 i) +wSa7 +bBb4 
 
 
-                        empile:         963
+  add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
 j) +wSa7 +bBb3 
 
 
-                        empile:         888
+  add_to_move_generation_stack:         888
                      play_move:         869
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         797
 k) +wSa7 +bBb2 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 l) +wSa7 +bBc7 
 
 
-                        empile:         965
+  add_to_move_generation_stack:         965
                      play_move:         946
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         874
 m) +wSa7 +bBc6 
 
 
-                        empile:        1025
+  add_to_move_generation_stack:        1025
                      play_move:        1006
  is_white_king_square_attacked:          82
  is_black_king_square_attacked:         928
 n) +wSa7 +bBc5 
 
 
-                        empile:        1118
+  add_to_move_generation_stack:        1118
                      play_move:        1099
  is_white_king_square_attacked:          85
  is_black_king_square_attacked:        1018
 o) +wSa7 +bBc4 
 
 
-                        empile:        1063
+  add_to_move_generation_stack:        1063
                      play_move:        1044
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         960
 p) +wSa7 +bBc3 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 q) +wSa7 +bBc2 
 
 
-                        empile:         888
+  add_to_move_generation_stack:         888
                      play_move:         869
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         797
 r) +wSa7 +bBd7 
 
 
-                        empile:         949
+  add_to_move_generation_stack:         949
                      play_move:         930
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         858
 s) +wSa7 +bBd6 
 
 
-                        empile:        1151
+  add_to_move_generation_stack:        1151
                      play_move:        1132
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:        1048
 t) +wSa7 +bBd5 
 
 
-                        empile:        1154
+  add_to_move_generation_stack:        1154
                      play_move:        1135
  is_white_king_square_attacked:          94
  is_black_king_square_attacked:        1045
 u) +wSa7 +bBd4 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 v) +wSa7 +bBd3 
 
 
-                        empile:        1063
+  add_to_move_generation_stack:        1063
                      play_move:        1044
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         960
 w) +wSa7 +bBd2 
 
 
-                        empile:         963
+  add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
 x) +wSa7 +bBe7 
 
 
-                        empile:         963
+  add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
 y) +wSa7 +bBe6 
 
 
-                        empile:        1073
+  add_to_move_generation_stack:        1073
                      play_move:        1054
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         970
 z) +wSa7 +bBe5 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z1) +wSa7 +bBe4 
 
 
-                        empile:        1151
+  add_to_move_generation_stack:        1151
                      play_move:        1135
  is_white_king_square_attacked:          94
  is_black_king_square_attacked:        1045
 z2) +wSa7 +bBe3 
 
 
-                        empile:        1115
+  add_to_move_generation_stack:        1115
                      play_move:        1099
  is_white_king_square_attacked:          85
  is_black_king_square_attacked:        1018
 z3) +wSa7 +bBe2 
 
 
-                        empile:         969
+  add_to_move_generation_stack:         969
                      play_move:         951
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         879
 z4) +wSa7 +bBf7 
 
 
-                        empile:         890
+  add_to_move_generation_stack:         890
                      play_move:         871
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         799
 z5) +wSa7 +bBf6 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z6) +wSa7 +bBf5 
 
 
-                        empile:        1073
+  add_to_move_generation_stack:        1073
                      play_move:        1054
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         970
 z7) +wSa7 +bBf4 
 
 
-                        empile:        1148
+  add_to_move_generation_stack:        1148
                      play_move:        1132
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:        1048
 z8) +wSa7 +bBf3 
 
 
-                        empile:        1032
+  add_to_move_generation_stack:        1032
                      play_move:        1032
  is_white_king_square_attacked:          79
  is_black_king_square_attacked:         954
 z9) +wSa7 +bBf2 
 
 
-                        empile:         917
+  add_to_move_generation_stack:         917
                      play_move:         901
  is_white_king_square_attacked:          73
  is_black_king_square_attacked:         832
 z10) +wSa7 +bBg7 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z11) +wSa7 +bBg6 
 
 
-                        empile:         890
+  add_to_move_generation_stack:         890
                      play_move:         871
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         799
 z12) +wSa7 +bBg5 
 
 
-                        empile:         963
+  add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
 z13) +wSa7 +bBg4 
 
 
-                        empile:         979
+  add_to_move_generation_stack:         979
                      play_move:         963
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         891
 z14) +wSa7 +bBg3 
 
 
-                        empile:         950
+  add_to_move_generation_stack:         950
                      play_move:         934
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         862
 z15) +wSa7 +bBg2 
 
 
-                        empile:         752
+  add_to_move_generation_stack:         752
                      play_move:         752
  is_white_king_square_attacked:          61
  is_black_king_square_attacked:         692
 z16) +wSa7 +bBh7 
 
 
-                        empile:         727
+  add_to_move_generation_stack:         727
                      play_move:         708
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         648
 z17) +wSa7 +bBh6 
 
 
-                        empile:         787
+  add_to_move_generation_stack:         787
                      play_move:         768
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         708
 z18) +wSa7 +bBh5 
 
 
-                        empile:         797
+  add_to_move_generation_stack:         797
                      play_move:         778
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         718
 z19) +wSa7 +bBh4 
 
 
-                        empile:         777
+  add_to_move_generation_stack:         777
                      play_move:         758
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         698
 z20) +wSa7 +bBh3 
 
 
-                        empile:         768
+  add_to_move_generation_stack:         768
                      play_move:         749
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         689
 z21) +wSa7 +bBh2 
 
 
-                        empile:         701
+  add_to_move_generation_stack:         701
                      play_move:         682
  is_white_king_square_attacked:          58
  is_black_king_square_attacked:         628
 z22) +wSa5 +bBa7 
 
 
-                        empile:        1019
+  add_to_move_generation_stack:        1019
                      play_move:         928
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         858
 z23) +wSa5 +bBa4 
 
 
-                        empile:        1003
+  add_to_move_generation_stack:        1003
                      play_move:         904
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         834
 z24) +wSa5 +bBa3 
 
 
-                        empile:         981
+  add_to_move_generation_stack:         981
                      play_move:         888
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         818
 z25) +wSa5 +bBa2 
 
 
-                        empile:         895
+  add_to_move_generation_stack:         895
                      play_move:         796
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         726
 z26) +wSa5 +bBb7 
 
 
-                        empile:        1100
+  add_to_move_generation_stack:        1100
                      play_move:        1002
  is_white_king_square_attacked:          95
  is_black_king_square_attacked:         925
 z27) +wSa5 +bBb6 
 
 
-                        empile:        1193
+  add_to_move_generation_stack:        1193
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
 z28) +wSa5 +bBb5 
 
 
-                        empile:        1235
+  add_to_move_generation_stack:        1235
                      play_move:        1124
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1040
 z29) +wSa5 +bBb4 
 
 
-                        empile:        1195
+  add_to_move_generation_stack:        1195
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
 z30) +wSa5 +bBb3 
 
 
-                        empile:        1114
+  add_to_move_generation_stack:        1114
                      play_move:        1003
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         919
 z31) +wSa5 +bBb2 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z32) +wSa5 +bBc7 
 
 
-                        empile:        1193
+  add_to_move_generation_stack:        1193
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
 z33) +wSa5 +bBc6 
 
 
-                        empile:        1327
+  add_to_move_generation_stack:        1327
                      play_move:        1217
  is_white_king_square_attacked:         111
  is_black_king_square_attacked:        1126
 z34) +wSa5 +bBc5 
 
 
-                        empile:        1473
+  add_to_move_generation_stack:        1473
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
 z35) +wSa5 +bBc4 
 
 
-                        empile:        1346
+  add_to_move_generation_stack:        1346
                      play_move:        1223
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1125
 z36) +wSa5 +bBc3 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z37) +wSa5 +bBc2 
 
 
-                        empile:        1169
+  add_to_move_generation_stack:        1169
                      play_move:        1058
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         974
 z38) +wSa5 +bBd7 
 
 
-                        empile:        1259
+  add_to_move_generation_stack:        1259
                      play_move:        1149
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1065
 z39) +wSa5 +bBd6 
 
 
-                        empile:        1473
+  add_to_move_generation_stack:        1473
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
 z40) +wSa5 +bBd5 
 
 
-                        empile:        1449
+  add_to_move_generation_stack:        1449
                      play_move:        1327
  is_white_king_square_attacked:         127
  is_black_king_square_attacked:        1222
 z41) +wSa5 +bBd4 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z42) +wSa5 +bBd3 
 
 
-                        empile:        1399
+  add_to_move_generation_stack:        1399
                      play_move:        1276
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1178
 z43) +wSa5 +bBd2 
 
 
-                        empile:        1195
+  add_to_move_generation_stack:        1195
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
 z44) +wSa5 +bBe7 
 
 
-                        empile:        1239
+  add_to_move_generation_stack:        1239
                      play_move:        1134
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1050
 z45) +wSa5 +bBe6 
 
 
-                        empile:        1376
+  add_to_move_generation_stack:        1376
                      play_move:        1254
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1156
 z46) +wSa5 +bBe5 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z47) +wSa5 +bBe4 
 
 
-                        empile:        1489
+  add_to_move_generation_stack:        1489
                      play_move:        1373
  is_white_king_square_attacked:         127
  is_black_king_square_attacked:        1268
 z48) +wSa5 +bBe3 
 
 
-                        empile:        1467
+  add_to_move_generation_stack:        1467
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
 z49) +wSa5 +bBe2 
 
 
-                        empile:        1246
+  add_to_move_generation_stack:        1246
                      play_move:        1143
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1059
 z50) +wSa5 +bBf7 
 
 
-                        empile:        1138
+  add_to_move_generation_stack:        1138
                      play_move:        1027
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         943
 z51) +wSa5 +bBf6 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z52) +wSa5 +bBf5 
 
 
-                        empile:        1422
+  add_to_move_generation_stack:        1422
                      play_move:        1300
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1202
 z53) +wSa5 +bBf4 
 
 
-                        empile:        1467
+  add_to_move_generation_stack:        1467
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
 z54) +wSa5 +bBf3 
 
 
-                        empile:        1293
+  add_to_move_generation_stack:        1293
                      play_move:        1223
  is_white_king_square_attacked:         105
  is_black_king_square_attacked:        1132
 z55) +wSa5 +bBf2 
 
 
-                        empile:        1213
+  add_to_move_generation_stack:        1213
                      play_move:        1120
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1036
 z56) +wSa5 +bBg7 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z57) +wSa5 +bBg6 
 
 
-                        empile:        1184
+  add_to_move_generation_stack:        1184
                      play_move:        1073
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         989
 z58) +wSa5 +bBg5 
 
 
-                        empile:        1239
+  add_to_move_generation_stack:        1239
                      play_move:        1134
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1050
 z59) +wSa5 +bBg4 
 
 
-                        empile:        1272
+  add_to_move_generation_stack:        1272
                      play_move:        1169
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1085
 z60) +wSa5 +bBg3 
 
 
-                        empile:        1216
+  add_to_move_generation_stack:        1216
                      play_move:        1120
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1036
 z61) +wSa5 +bBg2 
 
 
-                        empile:         946
+  add_to_move_generation_stack:         946
                      play_move:         891
  is_white_king_square_attacked:          82
  is_black_king_square_attacked:         821
 z62) +wSa5 +bBh7 
 
 
-                        empile:         974
+  add_to_move_generation_stack:         974
                      play_move:         875
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         805
 z63) +wSa5 +bBh6 
 
 
-                        empile:        1017
+  add_to_move_generation_stack:        1017
                      play_move:         924
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         854
 z64) +wSa5 +bBh5 
 
 
-                        empile:        1038
+  add_to_move_generation_stack:        1038
                      play_move:         940
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         870
 z65) +wSa5 +bBh4 
 
 
-                        empile:        1001
+  add_to_move_generation_stack:        1001
                      play_move:         910
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         840
 z66) +wSa5 +bBh3 
 
 
-                        empile:        1003
+  add_to_move_generation_stack:        1003
                      play_move:         911
  is_white_king_square_attacked:          87
  is_black_king_square_attacked:         841
 z67) +wSa5 +bBh2 
 
 
-                        empile:         911
+  add_to_move_generation_stack:         911
                      play_move:         821
  is_white_king_square_attacked:          81
  is_black_king_square_attacked:         758
 z68) +wSa4 +bBa7 
 
 
-                        empile:         972
+  add_to_move_generation_stack:         972
                      play_move:         890
  is_white_king_square_attacked:          87
  is_black_king_square_attacked:         820
 z69) +wSa4 +bBa5 
 
 
-                        empile:         976
+  add_to_move_generation_stack:         976
                      play_move:         885
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         815
 z70) +wSa4 +bBa3 
 
 
-                        empile:         936
+  add_to_move_generation_stack:         936
                      play_move:         849
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         779
 z71) +wSa4 +bBa2 
 
 
-                        empile:         947
+  add_to_move_generation_stack:         947
                      play_move:         856
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         786
 z72) +wSa4 +bBb7 
 
 
-                        empile:        1174
+  add_to_move_generation_stack:        1174
                      play_move:        1077
  is_white_king_square_attacked:          97
  is_black_king_square_attacked:        1000
 z73) +wSa4 +bBb6 
 
 
-                        empile:        1170
+  add_to_move_generation_stack:        1170
                      play_move:        1080
  is_white_king_square_attacked:         103
  is_black_king_square_attacked:         996
 z74) +wSa4 +bBb5 
 
 
-                        empile:        1226
+  add_to_move_generation_stack:        1226
                      play_move:        1128
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1048
 z75) +wSa4 +bBb4 
 
 
-                        empile:        1197
+  add_to_move_generation_stack:        1197
                      play_move:        1098
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1014
 z76) +wSa4 +bBb3 
 
 
-                        empile:        1130
+  add_to_move_generation_stack:        1130
                      play_move:        1031
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:         951
 z77) +wSa4 +bBb2 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z78) +wSa4 +bBc7 
 
 
-                        empile:        1226
+  add_to_move_generation_stack:        1226
                      play_move:        1132
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1048
 z79) +wSa4 +bBc6 
 
 
-                        empile:        1356
+  add_to_move_generation_stack:        1356
                      play_move:        1251
  is_white_king_square_attacked:         109
  is_black_king_square_attacked:        1164
 z80) +wSa4 +bBc5 
 
 
-                        empile:        1392
+  add_to_move_generation_stack:        1392
                      play_move:        1294
  is_white_king_square_attacked:         119
  is_black_king_square_attacked:        1196
 z81) +wSa4 +bBc4 
 
 
-                        empile:        1407
+  add_to_move_generation_stack:        1407
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
 z82) +wSa4 +bBc3 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z83) +wSa4 +bBc2 
 
 
-                        empile:        1130
+  add_to_move_generation_stack:        1130
                      play_move:        1031
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:         951
 z84) +wSa4 +bBd7 
 
 
-                        empile:        1227
+  add_to_move_generation_stack:        1227
                      play_move:        1128
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1048
 z85) +wSa4 +bBd6 
 
 
-                        empile:        1447
+  add_to_move_generation_stack:        1447
                      play_move:        1345
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1247
 z86) +wSa4 +bBd5 
 
 
-                        empile:        1535
+  add_to_move_generation_stack:        1535
                      play_move:        1422
  is_white_king_square_attacked:         129
  is_black_king_square_attacked:        1317
 z87) +wSa4 +bBd4 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z88) +wSa4 +bBd3 
 
 
-                        empile:        1407
+  add_to_move_generation_stack:        1407
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
 z89) +wSa4 +bBd2 
 
 
-                        empile:        1221
+  add_to_move_generation_stack:        1221
                      play_move:        1122
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1038
 z90) +wSa4 +bBe7 
 
 
-                        empile:        1214
+  add_to_move_generation_stack:        1214
                      play_move:        1119
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1035
 z91) +wSa4 +bBe6 
 
 
-                        empile:        1408
+  add_to_move_generation_stack:        1408
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
 z92) +wSa4 +bBe5 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z93) +wSa4 +bBe4 
 
 
-                        empile:        1535
+  add_to_move_generation_stack:        1535
                      play_move:        1422
  is_white_king_square_attacked:         129
  is_black_king_square_attacked:        1317
 z94) +wSa4 +bBe3 
 
 
-                        empile:        1415
+  add_to_move_generation_stack:        1415
                      play_move:        1323
  is_white_king_square_attacked:         119
  is_black_king_square_attacked:        1225
 z95) +wSa4 +bBe2 
 
 
-                        empile:        1264
+  add_to_move_generation_stack:        1264
                      play_move:        1172
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1088
 z96) +wSa4 +bBf7 
 
 
-                        empile:        1174
+  add_to_move_generation_stack:        1174
                      play_move:        1075
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         991
 z97) +wSa4 +bBf6 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z98) +wSa4 +bBf5 
 
 
-                        empile:        1408
+  add_to_move_generation_stack:        1408
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
 z99) +wSa4 +bBf4 
 
 
-                        empile:        1467
+  add_to_move_generation_stack:        1467
                      play_move:        1368
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1270
 z100) +wSa4 +bBf3 
 
 
-                        empile:        1384
+  add_to_move_generation_stack:        1384
                      play_move:        1288
  is_white_king_square_attacked:         113
  is_black_king_square_attacked:        1197
 z101) +wSa4 +bBf2 
 
 
-                        empile:        1121
+  add_to_move_generation_stack:        1121
                      play_move:        1072
  is_white_king_square_attacked:          97
  is_black_king_square_attacked:         988
 z102) +wSa4 +bBg7 
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 z103) +wSa4 +bBg6 
 
 
-                        empile:        1174
+  add_to_move_generation_stack:        1174
                      play_move:        1075
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         991
 z104) +wSa4 +bBg5 
 
 
-                        empile:        1237
+  add_to_move_generation_stack:        1237
                      play_move:        1142
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1058
 z105) +wSa4 +bBg4 
 
 
-                        empile:        1268
+  add_to_move_generation_stack:        1268
                      play_move:        1172
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1088
 z106) +wSa4 +bBg3 
 
 
-                        empile:        1193
+  add_to_move_generation_stack:        1193
                      play_move:        1125
  is_white_king_square_attacked:         101
  is_black_king_square_attacked:        1041
@@ -1260,7 +1260,7 @@ solution finished.
    1.Ka1-b1 !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           4
@@ -1298,7 +1298,7 @@ solution finished.
    1.Ka1-b1 !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           4
@@ -1331,7 +1331,7 @@ there is no solution, but 4.51 gave 1.Qb2#
                  AMU
 
 
-                        empile:           5
+  add_to_move_generation_stack:           5
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
@@ -1342,7 +1342,7 @@ Can't decide whether condition applies to White or Black
 
 problem ignored
 
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1379,7 +1379,7 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
   1...Ka3-a4   2.Ka7-a6 b4-b5 +
   1...Ka3-b3   2.Ka7-a6 b4-b5 +
 
-                        empile:          34
+  add_to_move_generation_stack:          34
                      play_move:          34
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:          39
@@ -1433,7 +1433,7 @@ if wK could castle after having moved, we'd have 8 solutions
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-                        empile:    13430852
+  add_to_move_generation_stack:    13430852
                      play_move:     6195620
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1472,7 +1472,7 @@ solution finished.
    1.h2*g3 !
 
 
-                        empile:        1390
+  add_to_move_generation_stack:        1390
                      play_move:          68
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1509,7 +1509,7 @@ solution finished.
    1.c6*b7[+bBa8] !
 
 
-                        empile:         539
+  add_to_move_generation_stack:         539
                      play_move:          67
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1548,7 +1548,7 @@ solution finished.
    1.c6*b7[+bPb8] !
 
 
-                        empile:         414
+  add_to_move_generation_stack:         414
                      play_move:          90
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1593,7 +1593,7 @@ solution finished.
    1.g2-g3 !
 
 
-                        empile:         394
+  add_to_move_generation_stack:         394
                      play_move:          94
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1644,7 +1644,7 @@ cage for promoted pawn, capturer part of cage
    1.e2-e3 !
 
 
-                        empile:         374
+  add_to_move_generation_stack:         374
                      play_move:         100
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1679,7 +1679,7 @@ solution finished.
   1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] #
   1.Ke4*f3[+wRh1] g1*h2   2.g5-g4 0-0 #
 
-                        empile:     1917494
+  add_to_move_generation_stack:     1917494
                      play_move:      545851
  is_white_king_square_attacked:      266620
  is_black_king_square_attacked:      278579
@@ -1744,7 +1744,7 @@ never generates the same solution twice (but some solutions
   1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b
   1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b
 
-                        empile:       28339
+  add_to_move_generation_stack:       28339
                      play_move:       17067
  is_white_king_square_attacked:        2913
  is_black_king_square_attacked:        6015
@@ -1806,7 +1806,7 @@ promote to bishop (no cage for queen) even if there was a cage
 
   1.e2*d1=B a=>b
 
-                        empile:        1829
+  add_to_move_generation_stack:        1829
                      play_move:        1076
  is_white_king_square_attacked:         824
  is_black_king_square_attacked:           2
@@ -1847,7 +1847,7 @@ solution finished.
    1.Ke8-f8 !
 
 
-                        empile:           5
+  add_to_move_generation_stack:           5
                      play_move:           5
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
@@ -1949,7 +1949,7 @@ consider previous cage after advancing type of promotee
    1.e2*d1=S[+wQc8] !
 
 
-                        empile:        1700
+  add_to_move_generation_stack:        1700
                      play_move:        1048
  is_white_king_square_attacked:         786
  is_black_king_square_attacked:          35
@@ -1983,7 +1983,7 @@ solving interrupted.
   1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 #
   1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 #
 
-                        empile:       66703
+  add_to_move_generation_stack:       66703
                      play_move:       40216
  is_white_king_square_attacked:       36357
  is_black_king_square_attacked:        9873
@@ -2017,7 +2017,7 @@ solution finished.
 
   1...e4-e3   2.Kd1-c1 e3*d2 +   3.Kc1-b1 d2-d1=Q #
 
-                        empile:       52700
+  add_to_move_generation_stack:       52700
                      play_move:       27882
  is_white_king_square_attacked:       19626
  is_black_king_square_attacked:       14827
@@ -2051,7 +2051,7 @@ solution finished.
              Sentinelles
 
 
-                        empile:         850
+  add_to_move_generation_stack:         850
                      play_move:         821
  is_white_king_square_attacked:          79
  is_black_king_square_attacked:         783
@@ -2096,7 +2096,7 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
   1.Bc2-b1   2.Bb1-f5   3.Bf5-b1 Bg6-c2 =
   1.Bc2-b1   2.Bb1-e4   3.Be4-b1 Bg6-c2 =
 
-                        empile:       11793
+  add_to_move_generation_stack:       11793
                      play_move:        6572
  is_white_king_square_attacked:        2145
  is_black_king_square_attacked:        6135
@@ -2143,7 +2143,7 @@ White would have to deliver mate after the key
               2...d2*e1=R #
 
 
-                        empile:         484
+  add_to_move_generation_stack:         484
                      play_move:         345
  is_white_king_square_attacked:         325
  is_black_king_square_attacked:          78
@@ -2178,7 +2178,7 @@ issue 2903930: countermate used to only work in help play
       1...Kc8-b7 ##!
 
 
-                        empile:         561
+  add_to_move_generation_stack:         561
                      play_move:         545
  is_white_king_square_attacked:         102
  is_black_king_square_attacked:         511
@@ -2240,7 +2240,7 @@ issue 2886962: 4.51 didn't allow a reborn rook
 
   1.Rb8*c8[+wRh1] 0-0 a=>b
 
-                        empile:          25
+  add_to_move_generation_stack:          25
                      play_move:          25
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           2
@@ -2274,7 +2274,7 @@ feature request 2813613: proof games and Cavalier Majeur
 
   1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia
 
-                        empile:     6999963
+  add_to_move_generation_stack:     6999963
                      play_move:     6999963
  is_white_king_square_attacked:       15723
  is_black_king_square_attacked:      357929
@@ -2308,7 +2308,7 @@ feature request 2813613: proof games and Leofamily
 
   1.a2-a3 h7-h6   2.VAc1*h6 dia
 
-                        empile:        8532
+  add_to_move_generation_stack:        8532
                      play_move:        8532
  is_white_king_square_attacked:         384
  is_black_king_square_attacked:         383
@@ -2348,7 +2348,7 @@ a)
    1.f7*e8-a8=B # !
 
 
-                        empile:          25
+  add_to_move_generation_stack:          25
                      play_move:          47
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          48
@@ -2357,7 +2357,7 @@ b) nPf7
    1.nPf7*e8-a8=nB # !
 
 
-                        empile:          51
+  add_to_move_generation_stack:          51
                      play_move:          60
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          61
@@ -2368,7 +2368,7 @@ c) nhPf7
    1.nhPf7*e8-a8=nhB=wh # !
 
 
-                        empile:          25
+  add_to_move_generation_stack:          25
                      play_move:          47
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          48
@@ -2403,7 +2403,7 @@ ghostchess bug; 4.51 didn't find a solution here
 
   1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] #
 
-                        empile:        4060
+  add_to_move_generation_stack:        4060
                      play_move:        2248
  is_white_king_square_attacked:         607
  is_black_king_square_attacked:        2232

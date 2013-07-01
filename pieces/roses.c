@@ -9,7 +9,7 @@ static square generate_moves_on_circle_segment(square sq_departure,
                                                vec_index_type *rotation,
                                                rose_rotation_direction direction)
 {
-  square sq_arrival = sq_base;
+  square sq_arrival = sq_base+vec[vec_index_start+*rotation];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -19,12 +19,14 @@ static square generate_moves_on_circle_segment(square sq_departure,
   TraceFunctionParam("%d",direction);
   TraceFunctionParamListEnd();
 
-  do {
+  *rotation += direction;
+
+  while (sq_arrival!=sq_base && is_square_empty(sq_arrival))
+  {
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     sq_arrival += vec[vec_index_start+*rotation];
     *rotation += direction;
-  } while (sq_arrival!=sq_base
-           && is_square_empty(sq_arrival)
-           && empile(sq_departure,sq_arrival,sq_arrival));
+  }
 
   TraceFunctionExit(__func__);
   TraceSquare(sq_arrival);
@@ -66,7 +68,7 @@ static void rose_generate_circle(Side side,
     square const sq_arrival = generate_moves_on_circle_segment(sq_departure,sq_departure,
                                                                vec_index_start,&rotation,direction);
     if (sq_arrival!=sq_departure && piece_belongs_to_opponent(sq_arrival,side))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 
   TraceFunctionExit(__func__);
@@ -102,7 +104,7 @@ static void rao_generate_circle(Side side,
   {
     square const sq_arrival = find_end_of_circle_line(sq_hurdle,vec_index_start,&rotation,direction);
     if (sq_arrival!=sq_departure && piece_belongs_to_opponent(sq_arrival,side))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -157,7 +159,7 @@ static void roselion_generate_circle(Side side,
     e[sq_departure] = save_piece;
 #endif
     if (sq_arrival!=sq_departure && piece_belongs_to_opponent(sq_arrival,side))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -190,7 +192,7 @@ static void rosehopper_genrerate_circle(Side side,
     square sq_arrival= sq_hurdle+vec[vec_index_start+rotation];
     if (is_square_empty(sq_arrival)
         || (sq_arrival!=sq_departure && piece_belongs_to_opponent(sq_arrival,side)))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -222,7 +224,7 @@ static void roselocust_generate_circle(Side side,
   {
     square sq_arrival = sq_capture+vec[vec_index_start+rotation];
     if (is_square_empty(sq_arrival))
-      empile(sq_departure,sq_arrival,sq_capture);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
   }
 }
 

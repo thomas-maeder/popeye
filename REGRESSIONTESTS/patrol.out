@@ -36,7 +36,7 @@
           2.Se7-d5 #
 
 
-                        empile:       21625
+  add_to_move_generation_stack:       21625
                      play_move:        9813
  is_white_king_square_attacked:        1029
  is_black_king_square_attacked:        9816
@@ -166,7 +166,7 @@ F1291, The Problemist 14/1-2, 1-3/1992
           2.Sc4-e3 #
 
 
-                        empile:       38565
+  add_to_move_generation_stack:       38565
                      play_move:       24864
  is_white_king_square_attacked:        1244
  is_black_king_square_attacked:       24867
@@ -210,7 +210,7 @@ Loesung beendet.
           2.Sg5-e4 #
 
 
-                        empile:        4752
+  add_to_move_generation_stack:        4752
                      play_move:        2253
  is_white_king_square_attacked:         253
  is_black_king_square_attacked:        2256

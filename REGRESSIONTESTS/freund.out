@@ -37,7 +37,7 @@
                       3...Ng1*c3 #
 
 
-                        empile:       30974
+  add_to_move_generation_stack:       30974
                      play_move:       16896
  is_white_king_square_attacked:        4779
  is_black_king_square_attacked:       14499

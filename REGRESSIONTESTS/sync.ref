@@ -37,7 +37,7 @@ a)
                                   5.Qb8-b3 =
 
 
-                        empile:       40862
+  add_to_move_generation_stack:       40862
                      play_move:       17842
  is_white_king_square_attacked:        7117
  is_black_king_square_attacked:       15616
@@ -53,7 +53,7 @@ b) Circe
                           4.Sb8*a6[+bPa7] =
 
 
-                        empile:       11134
+  add_to_move_generation_stack:       11134
                      play_move:        5057
  is_white_king_square_attacked:        2104
  is_black_king_square_attacked:        4449
@@ -67,7 +67,7 @@ c) GlasgowChess
                   3.b6*a7=Q =
 
 
-                        empile:        3679
+  add_to_move_generation_stack:        3679
                      play_move:        2467
  is_white_king_square_attacked:         906
  is_black_king_square_attacked:        2293
@@ -79,7 +79,7 @@ d) AntiAndernachChess
           2.Kc7-c8 =
 
 
-                        empile:         218
+  add_to_move_generation_stack:         218
                      play_move:         159
  is_white_king_square_attacked:          63
  is_black_king_square_attacked:         148
@@ -137,7 +137,7 @@ a)
                                       5...a5-a4 +
 
 
-                        empile:       45007
+  add_to_move_generation_stack:       45007
                      play_move:       32119
  is_white_king_square_attacked:       18915
  is_black_king_square_attacked:       14376
@@ -158,7 +158,7 @@ b) BlackSynchronMover
                                               6...a2-a1=S +
 
 
-                        empile:        3743
+  add_to_move_generation_stack:        3743
                      play_move:        2108
  is_white_king_square_attacked:        1067
  is_black_king_square_attacked:        1068

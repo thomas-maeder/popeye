@@ -237,7 +237,15 @@ typedef struct {
     square singlebox_type3_promotion_where;
     PieNam singlebox_type3_promotion_what;
     PieNam current_transmutation;
-    square auxiliary; /* hopper hurdle, e.p. virtual single step arrival, ...*/
+    union
+    {
+      square sq_en_passant;
+      struct
+      {
+          vec_index_type vec_index;
+          square sq_hurdle;
+      } hopper;
+    } auxiliary;
 } move_generation_elmt;
 
 /* These are definitions to implement arrays with lower index != 0

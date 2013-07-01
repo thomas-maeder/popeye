@@ -70,7 +70,7 @@
                   3.Sd4-c2 #
 
 
-                        empile:      312329
+  add_to_move_generation_stack:      312329
                      play_move:      162044
  is_white_king_square_attacked:       18136
  is_black_king_square_attacked:      158630
@@ -136,7 +136,7 @@ solution finished.
       1...g3*f2 !
 
 
-                        empile:      235771
+  add_to_move_generation_stack:      235771
                      play_move:      125589
  is_white_king_square_attacked:       17484
  is_black_king_square_attacked:      122711

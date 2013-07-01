@@ -42,7 +42,7 @@
           2.Sf5*d6[+wBf5] #
 
 
-                        empile:        4607
+  add_to_move_generation_stack:        4607
                      play_move:        3058
  is_white_king_square_attacked:         231
  is_black_king_square_attacked:        3061
@@ -79,7 +79,7 @@ Loesung beendet.
 
   1.Sb2-a4[+sBb2] Lg4-f5[+wBg4]   2.b2-b1=G Gd8-d3 #
 
-                        empile:       33228
+  add_to_move_generation_stack:       33228
                      play_move:       29025
  is_white_king_square_attacked:        2220
  is_black_king_square_attacked:       28852
@@ -181,7 +181,7 @@ Andernach TT 2000, 4. ehrende Erwähnung
           2.Dd8-d7 #
 
 
-                        empile:       36465
+  add_to_move_generation_stack:       36465
                      play_move:       25996
  is_white_king_square_attacked:        1350
  is_black_king_square_attacked:       25987
@@ -228,7 +228,7 @@ a)
    1.nSa2-b4[+wBa2] !
 
 
-                        empile:           6
+  add_to_move_generation_stack:           6
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -247,7 +247,7 @@ b) Sentinelles  PionNeutre
    1.nSa2-b4[+nBa2] !
 
 
-                        empile:           6
+  add_to_move_generation_stack:           6
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

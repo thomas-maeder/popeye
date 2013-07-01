@@ -27,7 +27,7 @@ a)
 
   1.Rg2-h2 Be6-d5[+bKh1] #
 
-                        empile:       62109
+  add_to_move_generation_stack:       62109
                      play_move:       16679
  is_white_king_square_attacked:        2234
  is_black_king_square_attacked:       44307
@@ -36,7 +36,7 @@ b) #1
    1.Ra1-h1[+bKh3] # !
 
 
-                        empile:        3135
+  add_to_move_generation_stack:        3135
                      play_move:         876
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        2351
@@ -72,7 +72,7 @@ a)
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] #
 
-                        empile:       82373
+  add_to_move_generation_stack:       82373
                      play_move:       22801
  is_white_king_square_attacked:        2898
  is_black_king_square_attacked:       53046
@@ -80,7 +80,7 @@ b) RepublicanChess    Type2
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] #
 
-                        empile:       82373
+  add_to_move_generation_stack:       82373
                      play_move:       22801
  is_white_king_square_attacked:        2898
  is_black_king_square_attacked:       53046
@@ -148,7 +148,7 @@ solution finished.
       1...b7*a6 !
 
 
-                        empile:       17070
+  add_to_move_generation_stack:       17070
                      play_move:        5835
  is_white_king_square_attacked:        3715
  is_black_king_square_attacked:       15951
@@ -198,7 +198,7 @@ solution finished.
           2.Sc4-e3[+bKe6] #
 
 
-                        empile:       49027
+  add_to_move_generation_stack:       49027
                      play_move:       14609
  is_white_king_square_attacked:        9138
  is_black_king_square_attacked:       35731
@@ -248,7 +248,7 @@ solution finished.
           2.Rf8-a8[+bKb8] #
 
 
-                        empile:       42940
+  add_to_move_generation_stack:       42940
                      play_move:       10394
  is_white_king_square_attacked:        1760
  is_black_king_square_attacked:       33600
@@ -286,7 +286,7 @@ solution finished.
   1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] #
   1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] #
 
-                        empile:     4180266
+  add_to_move_generation_stack:     4180266
                      play_move:     1115459
  is_white_king_square_attacked:     3303013
  is_black_king_square_attacked:     2508942
@@ -332,7 +332,7 @@ solution finished.
           2.Sd8*b7[+bKa5] #
 
 
-                        empile:       35574
+  add_to_move_generation_stack:       35574
                      play_move:        9299
  is_white_king_square_attacked:        4531
  is_black_king_square_attacked:       27562
@@ -537,7 +537,7 @@ solution finished.
       1...cBd1-e2=cR !
 
 
-                        empile:     7754782
+  add_to_move_generation_stack:     7754782
                      play_move:     2365521
  is_white_king_square_attacked:     9471764
  is_black_king_square_attacked:     3111133

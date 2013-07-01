@@ -25,7 +25,7 @@ monochrome paralysis in Bichrome Chess
              BichromChess
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2

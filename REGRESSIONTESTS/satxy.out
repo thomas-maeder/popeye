@@ -26,7 +26,7 @@
 
   1.Kf1-g1   2.Kg1-h2   3.Kh2-h3   4.Kh3-h4   5.Kh4-h5   6.Kh5-h6   7.Kh6-h7   8.Kh7-g8   9.Kg8-f8  10.Kf8-e8  11.Ke8-d8  12.Kd8-c8  13.Kc8-b8  14.Kb8-a7  15.Ka7-a6  16.Ka6-a5  17.Ka5-a4  18.Ka4-a3  19.Ka3*a2  20.Ka2-b1  21.Kb1-c1  22.Kc1-d1 #
 
-                        empile:       23532
+  add_to_move_generation_stack:       23532
                      play_move:       21010
  is_white_king_square_attacked:       16492
  is_black_king_square_attacked:        5582
@@ -78,7 +78,7 @@ Loesung beendet.
                                           6.Kg1*h1 ==
 
 
-                        empile:      285181
+  add_to_move_generation_stack:      285181
                      play_move:      216852
  is_white_king_square_attacked:      206846
  is_black_king_square_attacked:        9767
@@ -118,7 +118,7 @@ a) +wDg1
    1.Ke1-f2 # !
 
 
-                        empile:         276
+  add_to_move_generation_stack:         276
                      play_move:         276
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:         271
@@ -127,7 +127,7 @@ b) +wTd1
    1.Ke1-d2 # !
 
 
-                        empile:         234
+  add_to_move_generation_stack:         234
                      play_move:         227
  is_white_king_square_attacked:          15
  is_black_king_square_attacked:         217
@@ -136,7 +136,7 @@ c) +wLf1
    1.Ke1-e2 # !
 
 
-                        empile:         186
+  add_to_move_generation_stack:         186
                      play_move:         186
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:         181
@@ -145,7 +145,7 @@ d) +wSf8
    1.Sf8-h7 # !
 
 
-                        empile:         195
+  add_to_move_generation_stack:         195
                      play_move:         189
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:         181
@@ -177,7 +177,7 @@ Loesung beendet.
                SAT III
 
 
-                        empile:     2530892
+  add_to_move_generation_stack:     2530892
                      play_move:     1896975
  is_white_king_square_attacked:     1665816
  is_black_king_square_attacked:      225821

@@ -92,8 +92,8 @@ static void pawn_ep_try_direction(square sq_departure, Side side, numvec dir)
     square const pos_capturee = en_passant_find_capturee();
     if (pos_capturee!=initsquare)
     {
-      empile(sq_departure,sq_arrival,pos_capturee);
-      move_generation_stack[current_move[nbply]].auxiliary = sq_arrival;
+      add_to_move_generation_stack(sq_departure,sq_arrival,pos_capturee);
+      move_generation_stack[current_move[nbply]].auxiliary.sq_en_passant = sq_arrival;
     }
   }
 }
@@ -121,7 +121,7 @@ static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_k
         || (ForwardPromSq(side,sq_arrival_singlestep)
             && (CheckDir[Queen][sq_king-sq_arrival_singlestep]
                 || CheckDir[Knight][sq_king-sq_arrival_singlestep])))
-      empile(sq_departure,sq_arrival_singlestep,sq_arrival_singlestep);
+      add_to_move_generation_stack(sq_departure,sq_arrival_singlestep,sq_arrival_singlestep);
 
     {
       SquareFlags const double_step = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
@@ -132,7 +132,7 @@ static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_k
             && (dir_battery!=0
                 || sq_arrival_doublestep+dir_forward+dir_left==sq_king
                 || sq_arrival_doublestep+dir_forward+dir_right==sq_king))
-          empile(sq_departure,sq_arrival_doublestep,sq_arrival_doublestep);
+          add_to_move_generation_stack(sq_departure,sq_arrival_doublestep,sq_arrival_doublestep);
       }
     }
   }
@@ -150,7 +150,7 @@ static void pawn_capture(square sq_departure, Side side, numvec dir_battery, squ
         || (ForwardPromSq(side,sq_arrival)
             && (CheckDir[Queen][sq_king-sq_arrival]
                 || CheckDir[Knight][sq_king-sq_arrival])))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void pawn(square sq_departure, square sq_king, Side side)
@@ -179,7 +179,7 @@ static void king_neutral(square sq_departure, Side side)
     square const sq_arrival = sq_departure+vec[vec_index];
     /* must capture to mate the opponent */
     if (piece_belongs_to_opponent(sq_arrival,side))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -204,7 +204,7 @@ static void king_nonneutral(square sq_departure, square sq_king, Side side)
         square const sq_arrival = sq_departure+dir;
         if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
             && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
-          empile(sq_departure,sq_arrival,sq_arrival);
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }
@@ -254,7 +254,7 @@ static void knight(square sq_departure, square sq_king, Side side)
         square const sq_arrival = sq_departure+vec[vec_index];
         if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
           if (abs_dir_battery!=0 || CheckDir[Knight][sq_arrival-sq_king]!=0)
-            empile(sq_departure,sq_arrival,sq_arrival);
+            add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }
@@ -277,7 +277,7 @@ static void rider_try_moving_to(square sq_departure, square sq_king,
 
   sq_target = find_end_of_line(sq_arrival,dir_to_king);
   if (sq_target==sq_king)
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -337,10 +337,10 @@ static void simple_rider_fire_battery(square sq_departure,
     square sq_arrival;
 
     for (sq_arrival = sq_departure+dir; is_square_empty(sq_arrival); sq_arrival += dir)
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 
     if (piece_belongs_to_opponent(sq_arrival,side))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 

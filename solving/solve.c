@@ -450,6 +450,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = imitator_mover_solve(si,n);
       break;
 
+    case STImitatorRemoveIllegalMoves:
+      result = imitator_remove_illegal_moves_solve(si,n);
+      break;
+
     case STMovingPawnToImitatorPromoter:
       result = moving_pawn_to_imitator_promoter_solve(si,n);
       break;

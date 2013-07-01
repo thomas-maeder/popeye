@@ -35,7 +35,7 @@
    1.Kc1-d1 + !
 
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:          15
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          16
@@ -71,7 +71,7 @@ Loesung beendet.
    1.Dc5-e7 # !
 
 
-                        empile:          65
+  add_to_move_generation_stack:          65
                      play_move:          39
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          40
@@ -107,7 +107,7 @@ Loesung beendet.
    1.Tb2-b1 = !
 
 
-                        empile:          84
+  add_to_move_generation_stack:          84
                      play_move:          49
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:          50

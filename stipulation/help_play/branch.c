@@ -76,6 +76,7 @@ static slice_index const slice_rank_order[] =
   STPatrolRemoveUnsupportedCaptures,
   STTakeAndMakeGenerateMake,
   STTakeAndMakeAvoidPawnMakeToBaseLine,
+  STImitatorRemoveIllegalMoves,
   STGridRemoveIllegalMoves,
   STMonochromeRemoveBichromeMoves,
   STBichromeRemoveMonochromeMoves,

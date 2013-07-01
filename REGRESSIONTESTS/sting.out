@@ -31,7 +31,7 @@ a)
                   3.e7-e8=T #
 
 
-                        empile:        2582
+  add_to_move_generation_stack:        2582
                      play_move:        1515
  is_white_king_square_attacked:         782
  is_black_king_square_attacked:         905
@@ -47,7 +47,7 @@ b) StingSchach
                   3.La6-b7 #
 
 
-                        empile:        7133
+  add_to_move_generation_stack:        7133
                      play_move:        5283
  is_white_king_square_attacked:        1273
  is_black_king_square_attacked:        4500
@@ -102,7 +102,7 @@ Loesung beendet.
  17  (Lg4-e6 )
  18  (Lg4-f5 )
 
-                        empile:     1288269
+  add_to_move_generation_stack:     1288269
                      play_move:     1128191
  is_white_king_square_attacked:      250561
  is_black_king_square_attacked:      928202
@@ -141,7 +141,7 @@ Loesung beendet.
   1.b4*c3 Ke1-d1   2.b5-b4 Kd1-a4   3.b3-b2 a3*b4 #
   1.b4*c3 Ke1-b4   2.b3-b2 a3-a4   3.b5*a4 Kb4*a4 #
 
-                        empile:      531582
+  add_to_move_generation_stack:      531582
                      play_move:      507366
  is_white_king_square_attacked:       50664
  is_black_king_square_attacked:      497515

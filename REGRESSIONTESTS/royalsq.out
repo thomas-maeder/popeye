@@ -28,7 +28,7 @@
    1.Th1-a1 !
 
 
-                        empile:    11750416
+  add_to_move_generation_stack:    11750416
                      play_move:    10155316
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:     1563093

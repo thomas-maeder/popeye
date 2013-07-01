@@ -26,7 +26,7 @@
 
   1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 #
 
-                        empile:     1808321
+  add_to_move_generation_stack:     1808321
                      play_move:      978186
  is_white_king_square_attacked:      238090
  is_black_king_square_attacked:      818620
@@ -95,7 +95,7 @@ Loesung beendet.
                   3.Dg6-b1 #
 
 
-                        empile:       75622
+  add_to_move_generation_stack:       75622
                      play_move:       32517
  is_white_king_square_attacked:        7608
  is_black_king_square_attacked:       25855
@@ -130,7 +130,7 @@ Loesung beendet.
 
   1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 #
 
-                        empile:      323133
+  add_to_move_generation_stack:      323133
                      play_move:      253275
  is_white_king_square_attacked:      102261
  is_black_king_square_attacked:      235212
@@ -174,7 +174,7 @@ a)
                           4.Sc7-e8 #
 
 
-                        empile:      279599
+  add_to_move_generation_stack:      279599
                      play_move:      146826
  is_white_king_square_attacked:       21191
  is_black_king_square_attacked:      139768
@@ -189,7 +189,7 @@ b)  -sBh6
                           4.Sf4-h5 #
 
 
-                        empile:      250898
+  add_to_move_generation_stack:      250898
                      play_move:      129193
  is_white_king_square_attacked:       18304
  is_black_king_square_attacked:      123196
@@ -231,7 +231,7 @@ Loesung beendet.
                       3...La6-b5 #
 
 
-                        empile:      140050
+  add_to_move_generation_stack:      140050
                      play_move:       27544
  is_white_king_square_attacked:       16947
  is_black_king_square_attacked:       18528
@@ -277,7 +277,7 @@ Loesung beendet.
                                       5...Lb6-c5 #
 
 
-                        empile:     1522010
+  add_to_move_generation_stack:     1522010
                      play_move:      357954
  is_white_king_square_attacked:      238747
  is_black_king_square_attacked:      242424
@@ -334,7 +334,7 @@ Loesung beendet.
                                   5.Th7-h8 #
 
 
-                        empile:    14352348
+  add_to_move_generation_stack:    14352348
                      play_move:     5157368
  is_white_king_square_attacked:     1067253
  is_black_king_square_attacked:     4263024

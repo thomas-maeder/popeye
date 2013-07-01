@@ -24,7 +24,7 @@
    1.CPb6-a6 = !
 
 
-                        empile:          27
+  add_to_move_generation_stack:          27
                      play_move:          23
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          22
@@ -56,7 +56,7 @@ solution finished.
 
   1.CPb6-b7   2.CPb7-b8 #
 
-                        empile:          76
+  add_to_move_generation_stack:          76
                      play_move:          74
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:          74
@@ -91,7 +91,7 @@ solution finished.
           2.CPb6*a6 =
 
 
-                        empile:         274
+  add_to_move_generation_stack:         274
                      play_move:         208
  is_white_king_square_attacked:          82
  is_black_king_square_attacked:         198

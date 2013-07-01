@@ -27,7 +27,7 @@
   1.c2-c1=S + Ka6-b6   2.Sc1-b3 f7-f8=D =
   1.c2-c1=L f7-f8=T +   2.Lc1-a3 Tf8-b8 =
 
-                        empile:       43200
+  add_to_move_generation_stack:       43200
                      play_move:       17548
  is_white_king_square_attacked:        9656
  is_black_king_square_attacked:       14274
@@ -142,7 +142,7 @@ Loesung beendet.
       1...Ka8-a7 !
 
 
-                        empile:        2033
+  add_to_move_generation_stack:        2033
                      play_move:        1641
  is_white_king_square_attacked:         193
  is_black_king_square_attacked:        1625
@@ -235,7 +235,7 @@ Loesung beendet.
       1...f6-f5 !
 
 
-                        empile:       17288
+  add_to_move_generation_stack:       17288
                      play_move:        9992
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        9423
@@ -271,7 +271,7 @@ Loesung beendet.
   1.Kf3-e2   2.Ke2-d1 g7-g8=D =
   1.Kf3-g2   2.Kg2-h1 g7-g8=T =
 
-                        empile:         824
+  add_to_move_generation_stack:         824
                      play_move:         349
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         349
@@ -307,7 +307,7 @@ Loesung beendet.
 
   1.Kc6-d5 g7-g8=D +   2.Kd5-e4 Dg8-g5 =
 
-                        empile:       10791
+  add_to_move_generation_stack:       10791
                      play_move:        3737
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        3690
@@ -347,7 +347,7 @@ a)
    1.g7-g8=T + !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
@@ -356,7 +356,7 @@ b) =1
    1.g7-g8=D = !
 
 
-                        empile:          23
+  add_to_move_generation_stack:          23
                      play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          15
@@ -365,7 +365,7 @@ c) #1
    1.g7-g8=T # !
 
 
-                        empile:          13
+  add_to_move_generation_stack:          13
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          13
@@ -399,7 +399,7 @@ Loesung beendet.
 
   1.e3-e5 d5*e6 ep.
 
-                        empile:           7
+  add_to_move_generation_stack:           7
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -433,7 +433,7 @@ schwarzen Doppelschritt nicht nachweisen
             PhantomSchach
 
 
-                        empile:           4
+  add_to_move_generation_stack:           4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

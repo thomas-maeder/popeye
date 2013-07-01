@@ -267,7 +267,6 @@ boolean marine_leaper_check(square sq_king, vec_index_type kanf, vec_index_type 
 boolean marine_pawn_check(square sq_king, PieNam p, evalfunction_t *evaluate);
 boolean marine_ship_check(square sq_king, PieNam p, evalfunction_t *evaluate);
 
-boolean empile(square departure, square arrival, square capture);
 void add_to_move_generation_stack(square sq_departure,
                                   square sq_arrival,
                                   square sq_capture);

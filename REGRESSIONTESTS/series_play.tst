@@ -23,7 +23,7 @@ White at the move, but Black in check
   ser-s#3                     2 + 1
 
 the side to play can capture the king
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
@@ -55,7 +55,7 @@ no ser-##2 solution because of stalemate after 1.Kh2-h3
   ser-##2                     4 + 4
 
 
-                        empile:          29
+  add_to_move_generation_stack:          29
                      play_move:          19
  is_white_king_square_attacked:          19
  is_black_king_square_attacked:           4
@@ -88,7 +88,7 @@ solution finished.
 
   1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##!
 
-                        empile:        2250
+  add_to_move_generation_stack:        2250
                      play_move:        1914
  is_white_king_square_attacked:        1360
  is_black_king_square_attacked:        1023
@@ -121,7 +121,7 @@ solution finished.
 
   1.Sb5-d4   2.Sd4*e2   3.0-0
 
-                        empile:         862
+  add_to_move_generation_stack:         862
                      play_move:         407
  is_white_king_square_attacked:         467
  is_black_king_square_attacked:         368
@@ -154,7 +154,7 @@ solution finished.
 
   1.Qb5-e2   2.Qe2-b2 + c3*b2 #
 
-                        empile:        1198
+  add_to_move_generation_stack:        1198
                      play_move:        1048
  is_white_king_square_attacked:         698
  is_black_king_square_attacked:         484
@@ -187,7 +187,7 @@ both sides need a kingboth sides need a king
 SetPlay not applicable - ignored
 
 
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -220,7 +220,7 @@ no solution in 2 - Black has to deliver mate immediately
 
   1.h3-h4 b3-b2 #
 
-                        empile:          18
+  add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:          18
  is_black_king_square_attacked:           4
@@ -253,7 +253,7 @@ stop solving when the goal is reached
 
   1.h3-h4 Ka8*a7 x
 
-                        empile:          11
+  add_to_move_generation_stack:          11
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          11

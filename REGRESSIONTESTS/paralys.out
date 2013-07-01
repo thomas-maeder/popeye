@@ -105,7 +105,7 @@
           2.Kd1-e2 #
 
 
-                        empile:       14932
+  add_to_move_generation_stack:       14932
                      play_move:        4930
  is_white_king_square_attacked:         432
  is_black_king_square_attacked:        4883
@@ -141,7 +141,7 @@ Loesung beendet.
   1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 #
   1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 #
 
-                        empile:       17226
+  add_to_move_generation_stack:       17226
                      play_move:       18125
  is_white_king_square_attacked:        1283
  is_black_king_square_attacked:       17973
@@ -190,7 +190,7 @@ Loesung beendet.
           2.pBe7-e8=pT #
 
 
-                        empile:        6172
+  add_to_move_generation_stack:        6172
                      play_move:        2014
  is_white_king_square_attacked:         180
  is_black_king_square_attacked:        2017
@@ -246,7 +246,7 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
       1...Dh3*h1 !
 
 
-                        empile:       15489
+  add_to_move_generation_stack:       15489
                      play_move:        3099
  is_white_king_square_attacked:         197
  is_black_king_square_attacked:        3069
@@ -294,7 +294,7 @@ a)
           2.Sb3-d4 #
 
 
-                        empile:        7373
+  add_to_move_generation_stack:        7373
                      play_move:        2539
  is_white_king_square_attacked:         160
  is_black_king_square_attacked:        2542
@@ -312,7 +312,7 @@ b) PlatzwechselCirce
           2.Dg5*g2[+spSg5] #
 
 
-                        empile:        7399
+  add_to_move_generation_stack:        7399
                      play_move:        2529
  is_white_king_square_attacked:         154
  is_black_king_square_attacked:        2532
@@ -347,7 +347,7 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
    1.pKa7-b7 = !
 
 
-                        empile:         116
+  add_to_move_generation_stack:         116
                      play_move:          29
  is_white_king_square_attacked:          31
  is_black_king_square_attacked:          29
@@ -383,7 +383,7 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
    1.Kc2-d3 != !
 
 
-                        empile:         170
+  add_to_move_generation_stack:         170
                      play_move:          16
  is_white_king_square_attacked:          15
  is_black_king_square_attacked:           0

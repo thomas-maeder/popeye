@@ -41,7 +41,7 @@ another Messigny exchange of the same piece was illegal
           2.Bh6<->Bg2 #
 
 
-                        empile:        4640
+  add_to_move_generation_stack:        4640
                      play_move:        3127
  is_white_king_square_attacked:         277
  is_black_king_square_attacked:        3104
@@ -79,7 +79,7 @@ only the synchronous move h2-h4 was legal
           2.Kc8-c7 #
 
 
-                        empile:         496
+  add_to_move_generation_stack:         496
                      play_move:         201
  is_white_king_square_attacked:          67
  is_black_king_square_attacked:         164
@@ -117,7 +117,7 @@ only the anti-synchronous move Rd8-d1 was legal
           2.Rc8-a8 #
 
 
-                        empile:         970
+  add_to_move_generation_stack:         970
                      play_move:         367
  is_white_king_square_attacked:          94
  is_black_king_square_attacked:         318
@@ -151,7 +151,7 @@ solution finished.
            AlphabeticChess
 
 
-                        empile:          22
+  add_to_move_generation_stack:          22
                      play_move:           9
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           9
@@ -187,7 +187,7 @@ solution finished.
               HalfDuplex
 
 
-                        empile:         218
+  add_to_move_generation_stack:         218
                      play_move:         216
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:           6
@@ -247,7 +247,7 @@ Initial (Black ->):
 
   1.h7-h6 Kg7-f8[wKf8->e5] a=>b
 
-                        empile:          99
+  add_to_move_generation_stack:          99
                      play_move:         105
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           5
@@ -284,7 +284,7 @@ solution finished.
   1.d2-d1=R   2.Rd1-d3   3.Rd3-f3 Qf2-g2 #
   1.d2-d1=B   2.Bd1-g4   3.Bg4-h3 Qf2-h2 #
 
-                        empile:       24668
+  add_to_move_generation_stack:       24668
                      play_move:       21289
  is_white_king_square_attacked:        3845
  is_black_king_square_attacked:       21289
@@ -319,7 +319,7 @@ Until 4.63, berolina pawns were not allowed in Phantom Chess, ...
    1.BPa4-b5 + !
 
 
-                        empile:           1
+  add_to_move_generation_stack:           1
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -354,7 +354,7 @@ solution finished.
    1.BPd3-e4 + !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
@@ -389,7 +389,7 @@ solution finished.
    1.BPd3-e4 + !
 
 
-                        empile:           4
+  add_to_move_generation_stack:           4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
@@ -422,7 +422,7 @@ solution finished.
            Wormholes d1 d8
 
 
-                        empile:          63
+  add_to_move_generation_stack:          63
                      play_move:          22
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          22
@@ -455,7 +455,7 @@ solution finished.
                Royal d7
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -492,7 +492,7 @@ solution finished.
   1.rBPd7-c6 BPe5-f6
   1.rBPd7-c6 BPe5-d6
 
-                        empile:           8
+  add_to_move_generation_stack:           8
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           8
@@ -526,7 +526,7 @@ solution finished.
            Wormholes h3 d5
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -560,7 +560,7 @@ solution finished.
            Wormholes d4 d6
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           0
@@ -596,7 +596,7 @@ solution finished.
    1.e5*d6 ep. !
 
 
-                        empile:           4
+  add_to_move_generation_stack:           4
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -630,7 +630,7 @@ solution finished.
    1.BPe5*e6 ep. !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -665,7 +665,7 @@ en passant key after double-step onto wormhole
    1.e5*d6 ep. !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -698,7 +698,7 @@ solution finished.
                Royal d7
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -731,7 +731,7 @@ versions up to 4.63 would do 1.e7-e5 in spite of self-check
                Royal e7
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -765,7 +765,7 @@ just to make sure that check by ep capture by ship is enforced
            Wormholes h3 e5
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -799,7 +799,7 @@ solution finished.
            Wormholes h3 e5
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -832,7 +832,7 @@ versions up to 4.63 would do 1.rPd7-d5 in spite of the self check
                Royal d7
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -867,14 +867,14 @@ a)
 
   1.P/Bd7-d5 P/Be5*d6 ep.
 
-                        empile:          26
+  add_to_move_generation_stack:          26
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) brP/Bd7 
 
 
-                        empile:          11
+  add_to_move_generation_stack:          11
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           4
@@ -908,7 +908,7 @@ solution finished.
 
   1.d2-d4   2.h3-h4   3.d4-d5 z
 
-                        empile:          26
+  add_to_move_generation_stack:          26
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -962,7 +962,7 @@ a)
   1.d7-d6 Oc5*d6
   1.d7-d6 Oc5*b6
 
-                        empile:          27
+  add_to_move_generation_stack:          27
                      play_move:          26
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -981,7 +981,7 @@ b) brPd7
   1.rPd7-d5 Oc5*b6-a7
   1.rPd7-d5 Oc5-c6
 
-                        empile:          18
+  add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          18
@@ -1041,7 +1041,7 @@ a)
   1.e7-e6 GYd5-c6
   1.e7-e6 GYd5-d6
 
-                        empile:          28
+  add_to_move_generation_stack:          28
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1062,7 +1062,7 @@ b) brPe7
   1.rPe7-e5 GYd5-c6
   1.rPe7-e5 GYd5-d6 +
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:          16
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          16
@@ -1094,7 +1094,7 @@ solution finished.
   ~1                     0 + 0 + 1n
 
 
-                        empile:           0
+  add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1139,7 +1139,7 @@ Popeye has always wrongly allowed queen-side castling in Monochrome Chess
    1.Ra1-c1 !
 
 
-                        empile:          16
+  add_to_move_generation_stack:          16
                      play_move:           6
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
@@ -1174,7 +1174,7 @@ solution finished.
 
   1...Kd8*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8*b2=R =
 
-                        empile:      295088
+  add_to_move_generation_stack:      295088
                      play_move:       71545
  is_white_king_square_attacked:       38807
  is_black_king_square_attacked:       61072
@@ -1212,7 +1212,7 @@ solution finished.
       1...h4*g3[+wPg2] !
 
 
-                        empile:        8342
+  add_to_move_generation_stack:        8342
                      play_move:         952
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1250,7 +1250,7 @@ solution finished.
       1...h4*g3[+wPg2] !
 
 
-                        empile:        2216
+  add_to_move_generation_stack:        2216
                      play_move:         473
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1291,7 +1291,7 @@ solution finished.
           2.Rf3-f2 z
 
 
-                        empile:         978
+  add_to_move_generation_stack:         978
                      play_move:          94
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1334,7 +1334,7 @@ both sides need a kingboth sides need a king
       1...g5*h4[+wBg2] !
 
 
-                        empile:        5558
+  add_to_move_generation_stack:        5558
                      play_move:         683
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1370,7 +1370,7 @@ solution finished.
    1.Sf7*h6 x !
 
 
-                        empile:          37
+  add_to_move_generation_stack:          37
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

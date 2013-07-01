@@ -45,7 +45,7 @@ static void play_move(Side side)
   }
   else
   {
-    square const sq_auxiliary = move_gen_top->auxiliary;
+    square const sq_auxiliary = move_gen_top->auxiliary.sq_en_passant;
     boolean const is_ep = (is_square_empty(sq_auxiliary)
                            && en_passant_is_capture_possible_to(side,sq_auxiliary));
     move_effect_reason_type const removal_reason = (is_ep

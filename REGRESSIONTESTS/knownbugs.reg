@@ -43,7 +43,7 @@ if combined with Anticirce - 1.Ra8*a7[wRa7->a1] is illegal!
    1.Ra8-b8 !
 
 
-                        empile:           8
+  add_to_move_generation_stack:           8
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

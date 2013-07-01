@@ -27,14 +27,14 @@ the target square and is there at the end of the move
 a) 
 
 
-                        empile:          11
+  add_to_move_generation_stack:          11
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) Circe
 
 
-                        empile:          11
+  add_to_move_generation_stack:          11
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -43,7 +43,7 @@ c) Circe  bSh7-->f1  zf11
    1.kBd3*f1[-wkBf1][+wkBf1][+bSg8] z !
 
 
-                        empile:          11
+  add_to_move_generation_stack:          11
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -82,7 +82,7 @@ solution finished.
                   3.kRb2*b3[-wkRb3][+wkRh1][+bPb7]
 
 
-                        empile:        7178
+  add_to_move_generation_stack:        7178
                      play_move:        7129
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -131,7 +131,7 @@ originally occupied by the other exchanger
                           4.kSh3*g1[-wkSg1][+wkSg1][+bkBf8]
 
 
-                        empile:       48427
+  add_to_move_generation_stack:       48427
                      play_move:       47483
  is_white_king_square_attacked:       11794
  is_black_king_square_attacked:           0

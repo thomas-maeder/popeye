@@ -264,6 +264,8 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
   return move_effect_journal[capture].type==move_effect_piece_removal;
 }
 
+DEFINE_COUNTER(add_to_move_generation_stack)
+
 void add_to_move_generation_stack(square sq_departure,
                                   square sq_arrival,
                                   square sq_capture)
@@ -274,33 +276,18 @@ void add_to_move_generation_stack(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
+  INCREMENT_COUNTER(add_to_move_generation_stack);
+
   current_move[nbply]++;
   TraceValue("%u\n",current_move[nbply]);
   move_generation_stack[current_move[nbply]].departure= sq_departure;
   move_generation_stack[current_move[nbply]].arrival= sq_arrival;
   move_generation_stack[current_move[nbply]].capture= sq_capture;
   move_generation_stack[current_move[nbply]].current_transmutation = current_trans_gen;
-  move_generation_stack[current_move[nbply]].auxiliary = initsquare;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-DEFINE_COUNTER(empile)
-
-boolean empile(square sq_departure, square sq_arrival, square sq_capture)
-{
-  INCREMENT_COUNTER(empile);
-
-  if (CondFlag[imitators]
-      && ((sq_capture==kingside_castling || sq_capture==queenside_castling)
-          ? !castlingimok(sq_departure, sq_arrival)
-          : !imok(sq_departure, sq_arrival)))
-    return false;
-
-  add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
-
-  return true;
 }
 
 static void gemaooarider(square sq_departure,
@@ -310,14 +297,16 @@ static void gemaooarider(square sq_departure,
 {
   square middle= sq_departure+tomiddle;
   square sq_arrival= sq_departure+todest;
-  while (is_square_empty(middle)
-         && is_square_empty(sq_arrival)
-         && empile(sq_departure,sq_arrival,sq_arrival)) {
+
+  while (is_square_empty(middle) && is_square_empty(sq_arrival))
+  {
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     middle += todest;
     sq_arrival += todest;
   }
+
   if (is_square_empty(middle) && piece_belongs_to_opponent(sq_arrival,camp))
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
 void gemoarider(square i, Side camp) {
@@ -350,25 +339,31 @@ static void gemaooariderlion(square sq_departure,
   square middle= sq_departure + tomiddle;
   square sq_arrival= sq_departure+todest;
 
-  while (is_square_empty(middle) && is_square_empty(sq_arrival)) {
+  while (is_square_empty(middle) && is_square_empty(sq_arrival))
+  {
     middle += todest;
     sq_arrival += todest;
   }
-  if (!is_square_blocked(middle) && !is_square_blocked(sq_arrival)) {
+
+  if (!is_square_blocked(middle) && !is_square_blocked(sq_arrival))
+  {
     if (!is_square_empty(middle)
         && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
-      empile(sq_departure,sq_arrival,sq_arrival);
-    if (is_square_empty(middle) || is_square_empty(sq_arrival)) {
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+    if (is_square_empty(middle) || is_square_empty(sq_arrival))
+    {
       middle += todest;
       sq_arrival += todest;
-      while (is_square_empty(middle) && is_square_empty(sq_arrival)
-             && empile(sq_departure,sq_arrival,sq_arrival)) {
+      while (is_square_empty(middle) && is_square_empty(sq_arrival))
+      {
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         middle += todest;
         sq_arrival += todest;
       }
     }
+
     if (is_square_empty(middle) && piece_belongs_to_opponent(sq_arrival,camp))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -406,7 +401,7 @@ void leaper_generate_moves(Side side, square sq_departure,
   {
     square const sq_arrival = sq_departure+vec[k];
     if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -421,8 +416,11 @@ square generate_moves_on_line_segment(square sq_departure,
   TraceSquare(sq_base);
   TraceFunctionParamListEnd();
 
-  while (is_square_empty(sq_arrival) && empile(sq_departure,sq_arrival,sq_arrival))
+  while (is_square_empty(sq_arrival))
+  {
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     sq_arrival += vec[k];
+  }
 
   TraceFunctionExit(__func__);
   TraceSquare(sq_arrival);
@@ -444,7 +442,7 @@ void rider_generate_moves(Side side, square sq_departure,
   {
     square const sq_arrival = generate_moves_on_line_segment(sq_departure,sq_departure,k);
     if (piece_belongs_to_opponent(sq_arrival,side))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 
   TraceFunctionExit(__func__);
@@ -467,7 +465,7 @@ static void bouncer_generate_moves(Side side,
 
     if (sq_arrival==bounce_to
         && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side)))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -482,7 +480,7 @@ static void ghamst(square sq_departure)
     {
       square const sq_arrival = sq_hurdle-vec[k];
       if (sq_arrival!=sq_departure)
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
   }
 }
@@ -495,7 +493,7 @@ void generate_locust_capture(square sq_departure, square sq_capture,
   {
     square const sq_arrival= sq_capture+vec[k];
     if (is_square_empty(sq_arrival))
-      empile(sq_departure,sq_arrival,sq_capture);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
   }
 }
 
@@ -526,7 +524,7 @@ static void gchin(square sq_departure,
     {
       square const sq_capture = find_end_of_line(sq_hurdle,vec[k]);
       if (piece_belongs_to_opponent(sq_capture,camp))
-        empile(sq_departure,sq_capture,sq_capture);
+        add_to_move_generation_stack(sq_departure,sq_capture,sq_capture);
     }
   }
 }
@@ -547,10 +545,10 @@ static void gchinleap(square sq_departure,
     {
       sq_arrival += vec[k];
       if (piece_belongs_to_opponent(sq_arrival,camp))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
     else if (is_square_empty(sq_arrival))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -581,12 +579,11 @@ static void gnequi(square sq_departure, Side camp)
         numvec const vector = sq_hurdle-sq_departure;
         square const sq_arrival = sq_hurdle+vector;
 
-        if ((is_square_empty(sq_arrival)
-             || piece_belongs_to_opponent(sq_arrival,camp))
-            && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vector))
+        if (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival,camp))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
         }
       }
     }
@@ -607,18 +604,18 @@ static void gorix(square sq_departure, Side camp)
     {
       square const sq_end_of_line = find_end_of_line(sq_hurdle,vec[k]);
       square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
-      if (abs(sq_end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure)
-          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+      if (abs(sq_end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure))
       {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
       }
       else if (abs(sq_end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
-               && piece_belongs_to_opponent(sq_end_of_line,camp)
-               && hoppers_imok(sq_departure,sq_end_of_line,sq_hurdle,vec[k]))
+               && piece_belongs_to_opponent(sq_end_of_line,camp))
       {
-        empile(sq_departure,sq_end_of_line,sq_end_of_line);
-        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_end_of_line,sq_end_of_line);
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
       }
     }
   }
@@ -646,21 +643,20 @@ static void gnorix(square sq_departure, Side camp)
       sq_hurdle= coin+delta_horiz+delta_vert;
       delta= abs(sq_hurdle - sq_departure);
       queenlike= (delta <= 3*dir_right)
-      		|| (delta % onerow == 0)
-		|| (delta % (onerow + dir_right) == 0)
-		|| (delta % (onerow + dir_left) == 0);
+                  || (delta % onerow == 0)
+                  || (delta % (onerow + dir_right) == 0)
+                  || (delta % (onerow + dir_left) == 0);
 
-      if (queenlike && !is_square_empty(sq_hurdle)) {
-
+      if (queenlike && !is_square_empty(sq_hurdle))
+      {
         vector= sq_hurdle-sq_departure;
         sq_arrival= sq_hurdle+vector;
 
-        if ((is_square_empty(sq_arrival)
-             || piece_belongs_to_opponent(sq_arrival,camp))
-            && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vector))
+        if (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival,camp))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
         }
       }
     }
@@ -692,7 +688,7 @@ static void gnequiapp(square sq_departure, Side camp)
           && !is_square_empty(sq_hurdle)
           && (is_square_empty(sq_arrival)
               || piece_belongs_to_opponent(sq_arrival,camp)))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
 }
 
@@ -711,7 +707,7 @@ static void gkang(square sq_departure, Side camp)
         square const sq_arrival = sq_hurdle2+vec[k];
         if (is_square_empty(sq_arrival)
             || piece_belongs_to_opponent(sq_arrival,camp))
-          empile(sq_departure,sq_arrival,sq_arrival);
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }
@@ -732,11 +728,11 @@ static void gkanglion(square sq_departure, Side camp)
         square sq_arrival = sq_hurdle2+vec[k];
         while (is_square_empty(sq_arrival))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           sq_arrival += vec[k];
         }
         if (piece_belongs_to_opponent(sq_arrival,camp))
-          empile(sq_departure,sq_arrival,sq_arrival);
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }
@@ -758,7 +754,7 @@ static void grabbit(square sq_departure, Side camp)
                                                                  sq_arrival,
                                                                  k);
         if (piece_belongs_to_opponent(sq_capture,camp))
-          empile(sq_departure,sq_capture,sq_capture);
+          add_to_move_generation_stack(sq_departure,sq_capture,sq_capture);
       }
     }
   }
@@ -786,7 +782,7 @@ static void gbob(square sq_departure, Side camp)
                                                                      sq_arrival,
                                                                      k);
             if (piece_belongs_to_opponent(sq_capture,camp))
-              empile(sq_departure,sq_capture,sq_capture);
+              add_to_move_generation_stack(sq_departure,sq_capture,sq_capture);
           }
         }
       }
@@ -801,17 +797,17 @@ static void gcsp(square sq_departure,
   square sq_arrival= sq_departure+vec[k1];
 
   while (is_square_empty(sq_arrival)) {
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= vec[k2];
     if (is_square_empty(sq_arrival)) {
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       sq_arrival+= vec[k1];
     }
     else
       break;
   }
   if (piece_belongs_to_opponent(sq_arrival,camp))
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void grfou(square   orig_departure,
@@ -830,12 +826,12 @@ static void grfou(square   orig_departure,
 
   while (is_square_empty(sq_arrival))
   {
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k;
   }
 
   if (piece_belongs_to_opponent(sq_arrival,camp))
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   else if (x && is_square_blocked(sq_arrival))
   {
     sq_arrival-= k;
@@ -862,12 +858,12 @@ static void gcard(square   orig_departure,
 
   while (is_square_empty(sq_arrival))
   {
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k;
   }
 
   if (piece_belongs_to_opponent(sq_arrival,camp))
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   else if (x && is_square_blocked(sq_arrival))
   {
     for (k1= 1; k1<=4; k1++)
@@ -878,10 +874,10 @@ static void gcard(square   orig_departure,
     {
       sq_arrival+= vec[k1];
       if (piece_belongs_to_opponent(sq_arrival,camp))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       else if (is_square_empty(sq_arrival))
       {
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         k1= 5;
         while (vec[k1]!=k)
           k1++;
@@ -910,12 +906,12 @@ static void grefc(square orig_departure,
     square const sq_arrival = step_departure+vec[k];
     if (is_square_empty(sq_arrival))
     {
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       if (x>0 && !NoEdge(sq_arrival))
         grefc(orig_departure,sq_arrival,x-1,camp);
     }
     else if (piece_belongs_to_opponent(sq_arrival,camp))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -1006,7 +1002,7 @@ static void grefn(square orig_departure,
 
     while (is_square_empty(sq_arrival))
     {
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       if (!NoEdge(sq_arrival) && !traversed(sq_arrival))
       {
         grefn(orig_departure,sq_arrival,camp);
@@ -1017,7 +1013,7 @@ static void grefn(square orig_departure,
     }
 
     if (piece_belongs_to_opponent(sq_arrival,camp))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 } /* grefc */
 
@@ -1036,20 +1032,18 @@ static void gequi(square sq_departure, Side camp)
       if (dist_hurdle_end>dist_hurdle_dep)
       {
         square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
-        if (hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
-        {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
-        }
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
       }
       else if (dist_hurdle_end==dist_hurdle_dep)
       {
         square const sq_arrival = end_of_line;
-        if (piece_belongs_to_opponent(sq_arrival,camp)
-            && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+        if (piece_belongs_to_opponent(sq_arrival,camp))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
         }
       }
     }
@@ -1060,11 +1054,11 @@ static void gequi(square sq_departure, Side camp)
     square const sq_hurdle= sq_departure+vec[k];
     square const sq_arrival= sq_departure + 2*vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle)>=King
-        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp))
-        && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
     {
-      empile(sq_departure,sq_arrival,sq_arrival);
-      move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+      move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
     }
   }
 }
@@ -1082,7 +1076,7 @@ static void gequiapp(square sq_departure, Side camp)
       square const sq_arrival= (sq_hurdle1+sq_departure)/2;
       if (!((sq_hurdle1/onerow+sq_departure/onerow)%2
             || (sq_hurdle1%onerow+sq_departure%onerow)%2)) /* is sq_arrival a square? */
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 
       {
         square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
@@ -1091,7 +1085,7 @@ static void gequiapp(square sq_departure, Side camp)
             && piece_belongs_to_opponent(sq_hurdle1,camp))
         {
           square const sq_arrival = sq_hurdle1;
-          empile(sq_departure,sq_arrival,sq_arrival);
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         }
       }
     }
@@ -1103,7 +1097,7 @@ static void gequiapp(square sq_departure, Side camp)
     square const sq_hurdle1 = sq_departure+2*vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle1)>=King
         && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -1115,17 +1109,17 @@ static void gcat(square sq_departure, Side camp)
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
     square sq_arrival = sq_departure+vec[k];
     if (piece_belongs_to_opponent(sq_arrival,camp))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     else
     {
       while (is_square_empty(sq_arrival))
       {
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         sq_arrival+= cat_vectors[k];
       }
 
       if (piece_belongs_to_opponent(sq_arrival,camp))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
   }
 }
@@ -1136,18 +1130,24 @@ static void gmaooa(square  sq_departure,
             square  arrival2,
             Side camp)
 {
-  if (is_square_empty(pass)) {
+  if (is_square_empty(pass))
+  {
     if (is_square_empty(arrival1) || piece_belongs_to_opponent(arrival1,camp))
-      if (maooaimcheck(sq_departure,arrival1,pass))
-        empile(sq_departure,arrival1,arrival1);
+    {
+      add_to_move_generation_stack(sq_departure,arrival1,arrival1);
+      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = pass;
+    }
 
     if (is_square_empty(arrival2) || piece_belongs_to_opponent(arrival2,camp))
-      if (maooaimcheck(sq_departure,arrival2,pass))
-        empile(sq_departure,arrival2,arrival2);
+    {
+      add_to_move_generation_stack(sq_departure,arrival2,arrival2);
+      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = pass;
+    }
   }
 }
 
-static void gmao(square i, Side camp) {
+static void gmao(square i, Side camp)
+{
   gmaooa(i, i+dir_up, i+2*dir_up+dir_left, i+2*dir_up+dir_right, camp);
   gmaooa(i, i+dir_down, i+2*dir_down+dir_right, i+2*dir_down+dir_left, camp);
   gmaooa(i, i+dir_right, i+dir_up+2*dir_right, i+dir_down+2*dir_right, camp);
@@ -1229,7 +1229,7 @@ static void gdoublehopper(square sq_departure, Side camp,
             square const sq_arrival = sq_hurdle2+vec[k1];
             if (is_square_empty(sq_arrival)
                 || piece_belongs_to_opponent(sq_arrival,camp))
-              empile(sq_departure,sq_arrival,sq_arrival);
+              add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           }
         }
       }
@@ -1263,7 +1263,7 @@ static void gen_sp_nocaptures(square sq_departure, numvec dir)
 
   /* it can move from first rank */
   for (; is_square_empty(sq_arrival); sq_arrival+= dir)
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
@@ -1274,7 +1274,7 @@ static void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
 
   /* it can move from first rank */
   if (piece_belongs_to_opponent(sq_arrival,camp))
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
 void chinese_pawn_generate_moves(Side side, square sq_departure)
@@ -1288,7 +1288,7 @@ void chinese_pawn_generate_moves(Side side, square sq_departure)
     int const dir_forward = side==White ? dir_up : dir_down;
     square const sq_arrival = sq_departure+dir_forward;
     if (is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],opponent))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 
   if (past_river)
@@ -1296,12 +1296,12 @@ void chinese_pawn_generate_moves(Side side, square sq_departure)
     {
       square const sq_arrival = sq_departure+dir_right;
       if (is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],opponent))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
     {
       square const sq_arrival = sq_departure+dir_left;
       if (is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],opponent))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
   }
 }
@@ -1322,8 +1322,8 @@ static void lions_generate_moves(square sq_departure,
       {
         if (hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
         }
         sq_arrival += vec[k];
       }
@@ -1331,8 +1331,8 @@ static void lions_generate_moves(square sq_departure,
       if (piece_belongs_to_opponent(sq_arrival,camp)
           && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
       {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
       }
     }
   }
@@ -1350,11 +1350,12 @@ static void hoppers_generate_moves(square sq_departure,
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_arrival = sq_hurdle+vec[k];
-      if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
-          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+      if (piece_belongs_to_opponent(sq_arrival,camp)
+          || is_square_empty(sq_arrival))
       {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
       }
     }
   }
@@ -1377,8 +1378,8 @@ static void contra_grasshopper_generate_moves(square sq_departure,
         {
           if (hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
           {
-            empile(sq_departure,sq_arrival,sq_arrival);
-            move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+            add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+            move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
           }
           sq_arrival+= vec[k];
         }
@@ -1386,8 +1387,8 @@ static void contra_grasshopper_generate_moves(square sq_departure,
         if (piece_belongs_to_opponent(sq_arrival,camp)
             && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
         {
-          empile(sq_departure,sq_arrival,sq_arrival);
-          move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
         }
       }
     }
@@ -1426,11 +1427,12 @@ static void grasshoppers_n_generate_moves(square sq_departure,
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_arrival = grasshoppers_n_find_target(sq_hurdle,vec[k],dist_hurdle_target);
-      if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
-          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+      if (piece_belongs_to_opponent(sq_arrival,camp)
+          || is_square_empty(sq_arrival))
       {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
       }
     }
   }
@@ -1461,11 +1463,12 @@ static void leaper_hoppers_generate_moves(square sq_departure,
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
       square const sq_arrival = sq_hurdle+vec[k];
-      if ((piece_belongs_to_opponent(sq_arrival,camp) || is_square_empty(sq_arrival))
-          && hoppers_imok(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+      if (piece_belongs_to_opponent(sq_arrival,camp)
+          || is_square_empty(sq_arrival))
       {
-        empile(sq_departure,sq_arrival,sq_arrival);
-        move_generation_stack[current_move[nbply]].auxiliary = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+        move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
       }
     }
   }
@@ -2337,7 +2340,7 @@ void king_generate_moves(Side side_moving, square sq_departure)
           && castling_is_intermediate_king_move_legal(side_moving,
                                                       sq_departure,
                                                       sq_passed))
-        empile(sq_departure,sq_arrival,maxsquare+sq_castler);
+        add_to_move_generation_stack(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
 
@@ -2353,7 +2356,7 @@ void king_generate_moves(Side side_moving, square sq_departure)
         if (pos_partner!=sq_departure
             && TSTFLAG(spec[pos_partner],side_moving)
             && !is_pawn(get_walk_of_piece_on_square(pos_partner))) /* not sure if "castling" with Ps forbidden */
-          empile(sq_departure,pos_partner,platzwechsel_rochade);
+          add_to_move_generation_stack(sq_departure,pos_partner,platzwechsel_rochade);
     }
   }
 }
@@ -2420,7 +2423,7 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p)
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
         if (TSTFLAG(spec[*bnp],opponent) && get_walk_of_piece_on_square(*bnp)==p)
-          empile(sq_departure,*bnp,messigny_exchange);
+          add_to_move_generation_stack(sq_departure,*bnp,messigny_exchange);
     }
   }
 
@@ -2465,13 +2468,13 @@ void gedgeh(square sq_departure, Side camp) {
     while (is_square_empty(sq_arrival))
     {
       if (NoEdge(sq_arrival)!=NoEdge(sq_departure))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       sq_arrival+= vec[k];
     }
 
     if (piece_belongs_to_opponent(sq_arrival,camp))
       if (NoEdge(sq_arrival)!=NoEdge(sq_departure))
-        empile(sq_departure,sq_arrival,sq_arrival);
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
@@ -2480,9 +2483,9 @@ static void geskylchar(square sq_departure, square sq_arrival, square sq_capture
   if (is_square_empty(sq_arrival))
   {
     if (is_square_empty(sq_capture))
-      empile(sq_departure,sq_arrival,sq_arrival);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     else if (piece_belongs_to_opponent(sq_capture,camp))
-      empile(sq_departure,sq_arrival,sq_capture);
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
   }
 }
 
@@ -2563,7 +2566,7 @@ static void genleapleap(square sq_departure,
         if (sq_arrival!=sq_hurdle
             && (is_square_empty(sq_arrival)
                 || piece_belongs_to_opponent(sq_arrival,camp)))
-          empile(sq_departure, sq_arrival, sq_arrival);
+          add_to_move_generation_stack(sq_departure, sq_arrival, sq_arrival);
       }
     }
   }

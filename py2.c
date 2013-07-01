@@ -89,15 +89,27 @@ boolean imok(square sq_departure, square sq_arrival)
 {
   unsigned int imi_idx;
   int const diff = sq_arrival-sq_departure;
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
 
   for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
   {
     square const j2 = isquare[imi_idx-1]+diff;
     if (j2!=sq_departure && !is_square_empty(j2))
-      return false;
+    {
+      result = false;
+      break;
+    }
   }
 
-  return true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean maooaimok(square sq_departure, square sq_arrival, square pass)

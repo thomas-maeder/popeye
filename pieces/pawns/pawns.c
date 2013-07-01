@@ -24,8 +24,8 @@ void pawns_generate_ep_capture_move(Side side,
     square const sq_capture = en_passant_find_capturee();
     if (sq_capture!=initsquare)
     {
-      empile(sq_departure,sq_arrival,sq_capture);
-      move_generation_stack[current_move[nbply]].auxiliary = sq_arrival_singlestep;
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
+      move_generation_stack[current_move[nbply]].auxiliary.sq_en_passant = sq_arrival_singlestep;
     }
   }
 
@@ -48,7 +48,7 @@ void pawns_generate_capture_move(Side side,
   TraceFunctionParamListEnd();
 
   if (piece_belongs_to_opponent(sq_arrival,side))
-    empile(sq_departure,sq_arrival,sq_arrival);
+    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   else
     pawns_generate_ep_capture_move(side,sq_departure,sq_arrival,sq_arrival);
 
@@ -74,8 +74,11 @@ void pawns_generate_nocapture_moves(square sq_departure, numvec dir, int steps)
     TraceSquare(sq_arrival);
     TracePiece(e[sq_arrival]);
     TraceText("\n");
-    if (is_square_empty(sq_arrival) && empile(sq_departure,sq_arrival,sq_arrival))
-      sq_arrival+= dir;
+    if (is_square_empty(sq_arrival))
+    {
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      sq_arrival += dir;
+    }
     else
       break;
     TraceValue("%d\n",steps);

@@ -28,7 +28,7 @@
    1.kBa7*b8[-wkBb8] !
 
 
-                        empile:           3
+  add_to_move_generation_stack:           3
                      play_move:           3
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           0

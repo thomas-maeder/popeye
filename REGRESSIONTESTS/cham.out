@@ -29,7 +29,7 @@
   1.Sg1*h3=T   2.Lf1-b5=S   3.Sb5-c7=L   4.Th3-f3=L #
   1.Lf1*h3=T   2.Th3-h6   3.Th6-d6=D   4.Sg1-f3=L #
 
-                        empile:       21042
+  add_to_move_generation_stack:       21042
                      play_move:       20699
  is_white_king_square_attacked:        3039
  is_black_king_square_attacked:       20585
@@ -79,7 +79,7 @@ Loesung beendet.
                       3...cDd4*f2=cS #
 
 
-                        empile:      576289
+  add_to_move_generation_stack:      576289
                      play_move:      246718
  is_white_king_square_attacked:      245453
  is_black_king_square_attacked:      156512
@@ -162,7 +162,7 @@ Loesung beendet.
       1...Kd4*e3 !
 
 
-                        empile:       26912
+  add_to_move_generation_stack:       26912
                      play_move:       18045
  is_white_king_square_attacked:        1359
  is_black_king_square_attacked:       17921
@@ -199,7 +199,7 @@ a)
 
   1.cDe6-c6=cS cDb6-b4=cS   2.cLd5-g2=cT cSb4-d3=cL #
 
-                        empile:      992661
+  add_to_move_generation_stack:      992661
                      play_move:      887088
  is_white_king_square_attacked:       29739
  is_black_king_square_attacked:      885761
@@ -207,7 +207,7 @@ b) sDh1-->h3
 
   1.cLd5-b7=cT cDb6-d6=cS   2.cDe6-g4=cS cSd6-e4=cL #
 
-                        empile:     1036462
+  add_to_move_generation_stack:     1036462
                      play_move:      930538
  is_white_king_square_attacked:       30676
  is_black_king_square_attacked:      929144
@@ -254,7 +254,7 @@ Loesung beendet.
           2.cSd6-e4=cL #
 
 
-                        empile:        9968
+  add_to_move_generation_stack:        9968
                      play_move:        6495
  is_white_king_square_attacked:         485
  is_black_king_square_attacked:        6498
@@ -308,7 +308,7 @@ Loesung beendet.
           2.De5-e6 #
 
 
-                        empile:       19750
+  add_to_move_generation_stack:       19750
                      play_move:       14017
  is_white_king_square_attacked:        1133
  is_black_king_square_attacked:       14020
@@ -353,7 +353,7 @@ Loesung beendet.
           2.cDc7*c5=cS #
 
 
-                        empile:       12110
+  add_to_move_generation_stack:       12110
                      play_move:        7187
  is_white_king_square_attacked:         601
  is_black_king_square_attacked:        7190
@@ -415,7 +415,7 @@ Loesung beendet.
           2.d2-d3 #
 
 
-                        empile:        6837
+  add_to_move_generation_stack:        6837
                      play_move:        5123
  is_white_king_square_attacked:         423
  is_black_king_square_attacked:        5126
@@ -459,7 +459,7 @@ Loesung beendet.
           2.Da4-e4 #
 
 
-                        empile:        3486
+  add_to_move_generation_stack:        3486
                      play_move:        1999
  is_white_king_square_attacked:         223
  is_black_king_square_attacked:        2002
@@ -522,7 +522,7 @@ Loesung beendet.
                   3.Se4-g5 #
 
 
-                        empile:      120023
+  add_to_move_generation_stack:      120023
                      play_move:       69375
  is_white_king_square_attacked:        6999
  is_black_king_square_attacked:       67818
@@ -570,7 +570,7 @@ Loesung beendet.
   1.cSd8-e6=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
   1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
 
-                        empile:      132630
+  add_to_move_generation_stack:      132630
                      play_move:       99777
  is_white_king_square_attacked:       17306
  is_black_king_square_attacked:       99436
@@ -620,7 +620,7 @@ Loesung beendet.
           2.cDd1*f3=cS[+sBf7] #
 
 
-                        empile:        6104
+  add_to_move_generation_stack:        6104
                      play_move:        3602
  is_white_king_square_attacked:         298
  is_black_king_square_attacked:        3605
@@ -683,7 +683,7 @@ Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
    1.cLf1-e2=cT !
 
 
-                        empile:           7
+  add_to_move_generation_stack:           7
                      play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -736,7 +736,7 @@ Beispiel fuer die Umwandlung eines wiedergeborenen schlagenden
    1.c6*d7[wBd7->e8=L=c] !
 
 
-                        empile:           2
+  add_to_move_generation_stack:           2
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

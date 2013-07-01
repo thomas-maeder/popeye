@@ -77,7 +77,7 @@
           2.Df8*e8 #
 
 
-                        empile:       25030
+  add_to_move_generation_stack:       25030
                      play_move:       20180
  is_white_king_square_attacked:        1076
  is_black_king_square_attacked:       19639
@@ -262,7 +262,7 @@ Loesung beendet.
       1...Kh1*h2 !
 
 
-                        empile:       35771
+  add_to_move_generation_stack:       35771
                      play_move:       23145
  is_white_king_square_attacked:        3156
  is_black_king_square_attacked:       21105
@@ -345,7 +345,7 @@ Loesung beendet.
           2.Db6-b7 #
 
 
-                        empile:       16843
+  add_to_move_generation_stack:       16843
                      play_move:       13730
  is_white_king_square_attacked:        1315
  is_black_king_square_attacked:       13118
@@ -520,7 +520,7 @@ Nr. 39, 9. TT Chess Composition Microweb C 17.6.2002
       1...Kd3-d4 !
 
 
-                        empile:      103208
+  add_to_move_generation_stack:      103208
                      play_move:       85974
  is_white_king_square_attacked:        4014
  is_black_king_square_attacked:       84428
@@ -558,7 +558,7 @@ a)
 
   1.Kg7-f8 Kd5-d4   2.a2-a1=D + Kd4*a1=D   3.Th8-g8 Da1-f6 #
 
-                        empile:     6163583
+  add_to_move_generation_stack:     6163583
                      play_move:     4466945
  is_white_king_square_attacked:      176253
  is_black_king_square_attacked:     4131582
@@ -570,7 +570,7 @@ b) sBa2-->b2
   1.Th8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
   1.Th8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
 
-                        empile:     6320382
+  add_to_move_generation_stack:     6320382
                      play_move:     4526979
  is_white_king_square_attacked:      170482
  is_black_king_square_attacked:     4189185

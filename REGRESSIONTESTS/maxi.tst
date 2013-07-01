@@ -28,7 +28,7 @@ White king is not in check on b7 even if nBc8*bKb7 is not the longest
    1.Ka6*b7 # !
 
 
-                        empile:          44
+  add_to_move_generation_stack:          44
                      play_move:          43
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:          23
@@ -65,7 +65,7 @@ White king is not in check on d5 even if c6-d5 is shorter than the
    1.Ke6-d5 z !
 
 
-                        empile:          26
+  add_to_move_generation_stack:          26
                      play_move:          27
  is_white_king_square_attacked:           7
  is_black_king_square_attacked:           0
@@ -105,7 +105,7 @@ So the only cage is a1, but that is self-check.
    1.Ka1-b1 !
 
 
-                        empile:         476
+  add_to_move_generation_stack:         476
                      play_move:          72
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          63
@@ -141,7 +141,7 @@ White Maximummer doesn't cause the test for the legality of 1.Ke1-f1
    1.0-0 !
 
 
-                        empile:          11
+  add_to_move_generation_stack:          11
                      play_move:           4
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:           0
@@ -176,7 +176,7 @@ don't ignore the longest move just because of self-check if it reaches
 
   1.Rh8-h2 c2-c4 ##
 
-                        empile:        1038
+  add_to_move_generation_stack:        1038
                      play_move:         616
  is_white_king_square_attacked:         694
  is_black_king_square_attacked:          97
@@ -213,7 +213,7 @@ solution finished.
   1.b7*a6 [h8=R]Rh8-h1
   1.b7*a6 [h8=R]Rh8-a8
 
-                        empile:         103
+  add_to_move_generation_stack:         103
                      play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

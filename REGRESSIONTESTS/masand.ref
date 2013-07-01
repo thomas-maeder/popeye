@@ -30,7 +30,7 @@
   1.Ra1-c1 Ra3-c3   2.Bg3-c7 + Rc3-c2[c1=w][c7=w] #
   1.Ra1-b1 Ra3-b3   2.Bg3-b8 Rb3-b2[b1=w][b8=w] #
 
-                        empile:       17227
+  add_to_move_generation_stack:       17227
                      play_move:       10106
  is_white_king_square_attacked:       10117
  is_black_king_square_attacked:       13056
@@ -77,7 +77,7 @@ solution finished.
                                               6...f2-f1=Q[h3=b] #
 
 
-                        empile:    42388005
+  add_to_move_generation_stack:    42388005
                      play_move:    17847230
  is_white_king_square_attacked:    28053107
  is_black_king_square_attacked:    17910255
@@ -122,7 +122,7 @@ solution finished.
           2.Qg6-g5[c1=w][d5=w][h5=w] #
 
 
-                        empile:        5603
+  add_to_move_generation_stack:        5603
                      play_move:        4249
  is_white_king_square_attacked:        4063
  is_black_king_square_attacked:        4812
@@ -243,7 +243,7 @@ solution finished.
       1...Re8*e4 !
 
 
-                        empile:       15322
+  add_to_move_generation_stack:       15322
                      play_move:       13070
  is_white_king_square_attacked:       13100
  is_black_king_square_attacked:       13703
@@ -349,7 +349,7 @@ solution finished.
       1...Kc1*c2 !
 
 
-                        empile:        9100
+  add_to_move_generation_stack:        9100
                      play_move:        5933
  is_white_king_square_attacked:        5965
  is_black_king_square_attacked:        7114
@@ -390,7 +390,7 @@ solution finished.
           2.Qe4-e7[f6=w] #
 
 
-                        empile:        3698
+  add_to_move_generation_stack:        3698
                      play_move:        1765
  is_white_king_square_attacked:        1766
  is_black_king_square_attacked:        2163
@@ -460,7 +460,7 @@ solution finished.
       1...f6*e5 !
 
 
-                        empile:        9027
+  add_to_move_generation_stack:        9027
                      play_move:        6054
  is_white_king_square_attacked:        6069
  is_black_king_square_attacked:        6680
