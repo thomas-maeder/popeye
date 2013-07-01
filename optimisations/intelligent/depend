@@ -572,6 +572,7 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.h \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/finish.h \
+ optimisations/orthodox_square_observation.h pyproc.h \
  options/maxsolutions/maxsolutions.h stipulation/slice.h \
  stipulation/slice_type.h debugging/trace.h
 
@@ -628,6 +629,10 @@ optimisations/intelligent/mate/finish.h:
 optimisations/intelligent/place_white_king.h:
 
 optimisations/intelligent/stalemate/finish.h:
+
+optimisations/orthodox_square_observation.h:
+
+pyproc.h:
 
 options/maxsolutions/maxsolutions.h:
 

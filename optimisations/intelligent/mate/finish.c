@@ -7,6 +7,7 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/place_white_king.h"
+#include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -109,7 +110,7 @@ static square find_king_flight(void)
 
     if (!is_square_blocked(flight)
         && !TSTFLAG(spec[flight],Black)
-        && !is_square_observed(flight,eval_ortho))
+        && !is_square_observed_ortho(flight,0))
     {
       result = flight;
       break;

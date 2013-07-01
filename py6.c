@@ -298,6 +298,7 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/goals/remove_non_reachers.h"
 #include "optimisations/goals/mate/neutralretractable.h"
+#include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #ifdef _SE_
@@ -2806,6 +2807,20 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     circe_rex_inclusive_initialise_solving();
 
   vaulting_kings_initalise_solving();
+
+  if (!(CondFlag[imitators]
+        || CondFlag[annan]
+        || anymars
+        || CondFlag[phantom]
+        || CondFlag[plus]
+        || CondFlag[amu]
+        || CondFlag[masand]
+        || calc_reflective_king[White]
+        || calc_reflective_king[Black]
+        || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+        || get_nr_observation_validators()>0
+        || flagfee))
+    is_square_attacked = &is_square_observed_ortho;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

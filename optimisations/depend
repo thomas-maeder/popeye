@@ -261,3 +261,51 @@ platform/maxtime.h:
 platform/maxmem.h:
 
 debugging/trace.h:
+optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
+ optimisations/orthodox_square_observation.c \
+ optimisations/orthodox_square_observation.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h pyproc.h py4.h py.h \
+ utilities/boolean.h position/position.h pieces/vectors.h \
+ utilities/enumeration.h pylang.h pieces/vectors.h \
+ stipulation/goals/goals.h py.h solving/en_passant.h solving/solve.h \
+ debugging/trace.h pydata.h pyproc.h
+
+optimisations/orthodox_square_observation.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pieces/vectors.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+solving/en_passant.h:
+
+solving/solve.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:

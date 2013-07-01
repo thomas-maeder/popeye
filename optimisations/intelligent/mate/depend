@@ -11,7 +11,8 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/intelligent.h position/position.h \
  position/pieceid.h optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
- optimisations/intelligent/place_white_king.h debugging/trace.h
+ optimisations/intelligent/place_white_king.h \
+ optimisations/orthodox_square_observation.h pyproc.h debugging/trace.h
 
 optimisations/intelligent/mate/finish.h:
 
@@ -74,6 +75,10 @@ optimisations/intelligent/count_nr_of_moves.h:
 optimisations/intelligent/place_black_piece.h:
 
 optimisations/intelligent/place_white_king.h:
+
+optimisations/orthodox_square_observation.h:
+
+pyproc.h:
 
 debugging/trace.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
