@@ -35,7 +35,6 @@ static boolean pawn_test_check_ortho(square sq_departure)
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   result = (get_walk_of_piece_on_square(sq_departure)==Pawn
@@ -53,7 +52,6 @@ static boolean en_passant_test_check_ortho(square sq_target, numvec dir_capture)
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_target);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (sq_target==en_passant_find_capturee())
