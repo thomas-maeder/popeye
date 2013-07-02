@@ -403,3 +403,36 @@ Marko Klasinc, 206 Sahovska misel 6/2005
 Loesung beendet. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S  -L   K  -K  -L  -S  -T   8
+|                                   |
+7  -B  -B   .  -B  -B  -B   .  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   B   B   B  -B   B   B   2
+|                                   |
+1   T   S   L   D   K   L   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia4.5                    15 + 14
+           KoenigsDynastie
+
+  1.b2-b4 g7-g5   2.b4-b5 g5-g4   3.b5-b6 g4-g3   4.b6*c7 g3*f2 +   5.c7*d8=K + dia
+
+  add_to_move_generation_stack:    98330240
+                     play_move:    98330248
+ is_white_king_square_attacked:     4854418
+ is_black_king_square_attacked:     7005325
+Loesung beendet. 
+
+

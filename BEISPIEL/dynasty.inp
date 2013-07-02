@@ -67,4 +67,11 @@ forderung h#2
 bed koenigsdynastie
 option zugnummer
 
+weiter
+
+forderung dia4.5
+bedingung koenigsdynastie
+steine weiss Ke1 kd8 Dd1 Ta1 Th1 Lc1 Lf1 Sb1 Sg1 Ba2 Bc2 Bd2 Be2 Bg2 Bh2
+       schwarz Ke8 Ta8 Th8 Lc8 Lf8 Sb8 Sg8 Bf2 Ba7 Bb7 Bd7 Be7 Bf7 Bh7
+
 ende
