@@ -530,17 +530,12 @@ static void PushMagicViewsByOnePiece(square pos_magic)
   TraceFunctionResultEnd();
 }
 
-/* avoid unnecessary recursion if checkfunction has to play the observation */
-static boolean pushing_magic_views = false;
-
 static void PushMagicViews(void)
 {
   square const *pos_magic;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  pushing_magic_views = true;
 
   magic_views_top[nbply] = magic_views_top[nbply-1];
 
@@ -564,8 +559,6 @@ static void PushMagicViews(void)
     }
 
   finply();
-
-  pushing_magic_views = false;
 
   TraceValue("%u",nbply);
   TraceValue("%u\n",magic_views_top[nbply]);
@@ -665,7 +658,6 @@ stip_length_type magic_views_initialiser_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(nbply==1);
-  assert(!pushing_magic_views);
   PushMagicViews();
   result = solve(slices[si].next1,n);
 
@@ -698,8 +690,7 @@ stip_length_type magic_pieces_recolorer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!pushing_magic_views)
-    PushMagicViews();
+  PushMagicViews();
   ChangeMagic();
   result = solve(slices[si].next1,n);
 
