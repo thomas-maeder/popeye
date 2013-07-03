@@ -1,0 +1,37 @@
+begin
+
+protocol backhome.ref
+
+author Nicolas Dupont
+origin France-Echecs 2013
+pieces white kb1 bc1 black ka4 pb3e2
+stipulation hs#3.5
+condition backhome
+
+next
+
+author Christian Poisson
+origin France-Echecs 2013
+pieces white ka7 rd2 sa4c7 black kb1 ra3h7 be4g1 pa6b6d7
+stipulation ser-#9
+condition backhome
+
+next
+
+author Nicolas Dupont
+pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa2b2c2d2e5f2g5h2
+       black kf7 qd8 ra8h8 bc8f8 sb8 pa7b7c7d7e7g7h7 
+stipulation dia7.5
+condition backhome
+
+next
+
+author Christian Poisson
+origin France-Echecs 2013
+pieces white kb6 ra1 pg7 black kb4 pb2
+stip h#3.5
+condition backhome
+twin move b4 d6
+twin move b4 e5
+
+end

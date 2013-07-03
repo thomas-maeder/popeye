@@ -4371,7 +4371,8 @@ conditions/backhome$(OBJ_SUFFIX): conditions/backhome.c conditions/backhome.h py
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
  solving/observation.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h pydata.h pyproc.h debugging/trace.h
+ stipulation/goals/goals.h solving/legal_move_counter.h pydata.h pyproc.h \
+ debugging/trace.h
 
 conditions/backhome.h:
 
@@ -4428,6 +4429,8 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
+
+solving/legal_move_counter.h:
 
 pydata.h:
 

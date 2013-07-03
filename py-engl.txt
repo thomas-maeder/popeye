@@ -287,6 +287,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	Wormholes
 	MarineChess
 	UltramarineChess
+	BackHome
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of

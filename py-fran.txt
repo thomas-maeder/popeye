@@ -285,6 +285,7 @@ simples:
 	TrousDeVer
 	EchecsMarins
 	EchecsUltramarins
+	Retour
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

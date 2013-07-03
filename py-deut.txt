@@ -291,6 +291,7 @@ Kommandos:
 	Wurmloecher
 	MarinesSchach
 	UltramarinesSchach
+	NachHause
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

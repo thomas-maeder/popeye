@@ -1,4 +1,108 @@
 
+            Nicolas Dupont
+          France-Echecs 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   K   B   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3.5                      2 + 3
+               BackHome
+
+  1...e2-e1=B   2.Bc1-a3 b3-b2   3.Kb1-c2 b2-b1=Q   4.Ba3-c1 Qb1-b3 #
+
+  add_to_move_generation_stack:      232754
+                     play_move:       38777
+ is_white_king_square_attacked:       21674
+ is_black_king_square_attacked:       25858
+solution finished. 
+
+
+
+          Christian Poisson
+          France-Echecs 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   K   .   S  -P   .   .   .  -R   7
+|                                   |
+6  -P  -P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   S   .   .   .  -B   .   .   .   4
+|                                   |
+3  -R   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   R   .   .   .   .   2
+|                                   |
+1   .  -K   .   .   .   .  -B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#9                      4 + 8
+               BackHome
+
+  1.Sa4*b6   2.Sc7*a6   3.Rd2*d7   4.Rd7-c7   5.Ka7-b8   6.Sb6-a4   7.Sa6-b4   8.Rc7-f7   9.Rf7-f1 #
+
+  add_to_move_generation_stack:      382872
+                     play_move:       24187
+ is_white_king_square_attacked:       18275
+ is_black_king_square_attacked:       11444
+solution finished. 
+
+
+
+            Nicolas Dupont
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q   .  -B   .  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -K  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   .   P   .   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia7.5                    16 + 14
+               BackHome
+
+  1.e2-e4 f7-f5   2.e4-e5 f5-f4   3.Qd1-g4 f4-f3   4.g2*f3 Sg8-h6   5.Qg4-h5 + Sh6-f7   6.f3-f4 Sf7-g5   7.Qh5-d1 Ke8-f7   8.f4*g5 dia
+
+  add_to_move_generation_stack:      861783
+                     play_move:      220093
+ is_white_king_square_attacked:       61702
+ is_black_king_square_attacked:       53628
+solution finished. 
+
+
+
           Christian Poisson
           France-Echecs 2013
 
