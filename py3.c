@@ -214,34 +214,16 @@ boolean is_square_observed(square sq_target, evalfunction_t *evaluate)
     return true;
 
   if (number_of_pieces[side_checking][Queen]>0
-      || number_of_pieces[side_checking][Rook]>0)
-  {
-    vec_index_type k;
-    for (k= vec_rook_end; k>=vec_rook_start; k--)
-    {
-      square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      PieNam const p = get_walk_of_piece_on_square(sq_departure);
-      if ((p==Rook || p==Queen) && TSTFLAG(spec[sq_departure],side_checking)
-          && evaluate(sq_departure,sq_target,sq_target))
-        if (ridimcheck(sq_departure,sq_target,vec[k]))
-          return true;
-    }
-  }
+      && damecheck(sq_target,Queen,evaluate))
+    return true;
 
-  if (number_of_pieces[side_checking][Queen]>0
-      || number_of_pieces[side_checking][Bishop]>0)
-  {
-    vec_index_type k;
-    for (k= vec_bishop_start; k<=vec_bishop_end; k++)
-    {
-      square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      PieNam const p = get_walk_of_piece_on_square(sq_departure);
-      if ((p==Bishop || p==Queen) && TSTFLAG(spec[sq_departure],side_checking)
-          && evaluate(sq_departure,sq_target,sq_target))
-        if (ridimcheck(sq_departure,sq_target,vec[k]))
-          return true;
-    }
-  }
+  if (number_of_pieces[side_checking][Rook]>0
+      && tourcheck(sq_target,Rook,evaluate))
+    return true;
+
+  if (number_of_pieces[side_checking][Bishop]>0
+      && foucheck(sq_target,Bishop,evaluate))
+    return true;
 
   if (flagfee)
   {

@@ -546,8 +546,8 @@ eigentlich semi-r#2
               2...Td8*d3 #
 
 
-  add_to_move_generation_stack:      115852
-                     play_move:      108959
+  add_to_move_generation_stack:      115839
+                     play_move:      108946
  is_white_king_square_attacked:       32656
  is_black_king_square_attacked:        4567
 Loesung beendet. 

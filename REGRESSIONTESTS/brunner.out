@@ -65,9 +65,9 @@
       1...Kb5*c5 !
 
 
-  add_to_move_generation_stack:        6498
-                     play_move:        5334
- is_white_king_square_attacked:        2137
+  add_to_move_generation_stack:        6506
+                     play_move:        5342
+ is_white_king_square_attacked:        2141
  is_black_king_square_attacked:        2849
 Loesung beendet. 
 

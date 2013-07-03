@@ -69,7 +69,7 @@ if no non-space text followed the remark token on its line
       1...Bf6*a1=S[bSa1->b8] #
 
 
-  add_to_move_generation_stack:        6907
+  add_to_move_generation_stack:        6877
                      play_move:        4163
  is_white_king_square_attacked:        2128
  is_black_king_square_attacked:        1686

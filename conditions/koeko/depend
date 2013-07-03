@@ -75,8 +75,9 @@ conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  conditions/koeko/contact_grid.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
- conditions/circe/circe.h stipulation/slice_type.h pydata.h pyproc.h \
- py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ conditions/circe/circe.h stipulation/slice_type.h \
+ solving/move_effect_journal.h position/pieceid.h pydata.h pyproc.h py4.h \
+ py.h pieces/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
@@ -110,6 +111,10 @@ pylang.h:
 conditions/circe/circe.h:
 
 stipulation/slice_type.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 pydata.h:
 

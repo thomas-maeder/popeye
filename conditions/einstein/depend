@@ -147,12 +147,11 @@ conditions/einstein/anti$(OBJ_SUFFIX): conditions/einstein/anti.c \
  pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
  pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
  conditions/einstein/einstein.h conditions/circe/circe.h \
- stipulation/slice_type.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/stipulation.h \
+ stipulation/slice_type.h solving/move_effect_journal.h \
+ position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/move.h solving/move_effect_journal.h position/pieceid.h \
- debugging/trace.h
+ stipulation/move.h debugging/trace.h
 
 conditions/einstein/anti.h:
 
@@ -194,6 +193,10 @@ conditions/circe/circe.h:
 
 stipulation/slice_type.h:
 
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -211,10 +214,6 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 debugging/trace.h:
 conditions/einstein/en_passant$(OBJ_SUFFIX): conditions/einstein/en_passant.c \
