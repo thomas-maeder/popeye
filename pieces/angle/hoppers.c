@@ -1,4 +1,5 @@
 #include "pieces/angle/hoppers.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -59,6 +60,22 @@ void angle_hoppers_generate_moves(square sq_departure,
   TraceFunctionResultEnd();
 }
 
+static boolean angle_hoppers_is_square_observed_one_dir(square sq_target,
+                                                        square sq_hurdle,
+                                                        vec_index_type vec_index_departure_hurdle,
+                                                        angle_t angle,
+                                                        PieNam p,
+                                                        evalfunction_t *evaluate)
+{
+  numvec const vec_departure_hurdle = angle_vectors[angle][vec_index_departure_hurdle];
+  square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
+  PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
+
+  return (hopper==p
+          && TSTFLAG(spec[sq_departure],trait[nbply])
+          && evaluate(sq_departure,sq_target,sq_target));
+}
+
 /* Is a particular square observed by a particular type of angle hopper?
  * @param sq_target the square
  * @param kanf first vectors index
@@ -72,7 +89,6 @@ boolean angle_hoppers_is_square_observed(square sq_target,
                                          PieNam p,
                                          evalfunction_t *evaluate)
 {
-  vec_index_type k;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -83,54 +99,39 @@ boolean angle_hoppers_is_square_observed(square sq_target,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  for (k = kend; k>=kanf; --k)
+  ++observation_context;
+
+  for (interceptable_observation_vector_index[observation_context] = kend;
+       interceptable_observation_vector_index[observation_context]>=kanf;
+       --interceptable_observation_vector_index[observation_context])
   {
-    numvec const v = vec[k];
-    square const sq_hurdle = sq_target+v;
-    TraceValue("%d",v);
-    TraceSquare(sq_hurdle);
-    TracePiece(e[sq_hurdle]);
-    TraceText("\n");
-    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
+    numvec const vec_hurdle_target = vec[interceptable_observation_vector_index[observation_context]];
+    square const sq_hurdle = sq_target+vec_hurdle_target;
+
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      vec_index_type k1 = 2*k;
+      vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation_vector_index[observation_context];
 
+      if (angle_hoppers_is_square_observed_one_dir(sq_target,
+                                                   sq_hurdle,
+                                                   vec_index_departure_hurdle,
+                                                   angle,
+                                                   p,
+                                                   evaluate)
+          || angle_hoppers_is_square_observed_one_dir(sq_target,
+                                                      sq_hurdle,
+                                                      vec_index_departure_hurdle-1,
+                                                      angle,
+                                                      p,
+                                                      evaluate))
       {
-        numvec const v1 = angle_vectors[angle][k1];
-        square const sq_departure = find_end_of_line(sq_hurdle,v1);
-        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
-        TraceSquare(sq_departure);
-        TracePiece(hopper);
-        TraceValue("%d\n",v1);
-        if (hopper==p && TSTFLAG(spec[sq_departure],trait[nbply]))
-        {
-          if (evaluate(sq_departure,sq_target,sq_target)
-              && angle_hoppers_imok(sq_departure,sq_target,sq_hurdle,-v1,-v))
-          {
-            result = true;
-            break;
-          }
-        }
-      }
-
-      {
-        numvec const v1 = angle_vectors[angle][k1-1];
-        square const sq_departure = find_end_of_line(sq_hurdle,v1);
-        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
-        TraceSquare(sq_departure);
-        TracePiece(hopper);
-        TraceValue("%d\n",v1);
-        if (hopper==p && TSTFLAG(spec[sq_departure],trait[nbply])) {
-          if (evaluate(sq_departure,sq_target,sq_target)
-              && angle_hoppers_imok(sq_departure,sq_target,sq_hurdle,-v1,-v))
-          {
-            result = true;
-            break;
-          }
-        }
+        result = true;
+        break;
       }
     }
   }
+
+  --observation_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

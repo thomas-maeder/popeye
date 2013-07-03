@@ -1,6 +1,7 @@
 #if !defined(SOLVING_OBSERVATION_H)
 #define SOLVING_OBSERVATION_H
 
+#include "pieces/vectors.h"
 #include "pyproc.h"
 
 /* This module provides supports observation as used by many conditions and
@@ -19,6 +20,9 @@
  */
 
 extern boolean (*next_observation_validator)(square sq_observer, square sq_landing, square sq_observee);
+
+extern vec_index_type interceptable_observation_vector_index[maxply+1];
+extern unsigned int observation_context;
 
 /* Forget about the observation validators registered in a previous round of
  * solving.

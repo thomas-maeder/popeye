@@ -85,14 +85,9 @@ boolean pawn_test_check(square sq_departure,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  TraceValue("%d",e[sq_departure]);
-  TraceValue("%d",p);
-  TraceValue("%u",get_walk_of_piece_on_square(sq_departure)==p);
-  TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
   result = (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && evaluate(sq_departure,sq_arrival,sq_capture)
-            && imcheck(sq_departure,sq_arrival));
+            && evaluate(sq_departure,sq_arrival,sq_capture));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

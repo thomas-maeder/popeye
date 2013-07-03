@@ -222,7 +222,6 @@ void    genmove(Side a);
 void    king_generate_moves(Side side, square sq_departure);
 void    piece_generate_moves(Side side, square sq_departure, PieNam b);
 void    hardinit(void);
-boolean imok(square i, square j);
 
 void copyply(void);
 void finply(void);
@@ -240,7 +239,6 @@ boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfuncti
 boolean rcsech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
 boolean rcspech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
 void    restaure(void);
-boolean ridimok(square i, square j, int vec_arrival_departure);
 
 boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
@@ -309,8 +307,6 @@ square renspiegel(PieNam p, Flags pspec, square j, square i, square ip, Side cam
 
 void pyfputs(char const *s, FILE *f);
 
-boolean hoppers_imok(square sq_departure, square sq_arrival, square sq_hurdle, numvec vec_arrival_depature);
-boolean angle_hoppers_imok(square sq_departure, square sq_arrival, square sq_hurdle, numvec vec_departure_hurdle, numvec vec_hurdle_arrival);
 boolean is_king(PieNam p);
 boolean is_pawn(PieNam p);
 boolean is_forwardpawn(PieNam p);
@@ -352,8 +348,6 @@ boolean nodabbabacontact(square ia);
 boolean nogiraffecontact(square ia);
 boolean noantelopecontact(square ia);
 
-boolean castlingimok(square i, square j);
-boolean maooaimok(square i, square j, square pass);
 void gen_piece_aux(Side side, square sq_departure, PieNam p);
 void WriteBGLNumber(char* a, long int b);
 boolean CrossesGridLines(square i, square j);

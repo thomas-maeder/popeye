@@ -2617,14 +2617,16 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  solving/move_effect_journal.h position/pieceid.h position/position.h \
  pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- pymsg.h pieces/pawns/promotion.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ pymsg.h pieces/pawns/promotion.h pieces/angle/angles.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h stipulation/proxy.h \
  stipulation/fork.h stipulation/branch.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/move.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/post_move_iteration.h \
- conditions/castling_chess.h debugging/trace.h
+ stipulation/help_play/branch.h stipulation/temporary_hacks.h \
+ solving/post_move_iteration.h solving/single_move_generator.h \
+ solving/observation.h pyproc.h conditions/castling_chess.h \
+ debugging/trace.h
 
 conditions/imitator.h:
 
@@ -2670,6 +2672,8 @@ pymsg.h:
 
 pieces/pawns/promotion.h:
 
+pieces/angle/angles.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -2700,7 +2704,15 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
+stipulation/temporary_hacks.h:
+
 solving/post_move_iteration.h:
+
+solving/single_move_generator.h:
+
+solving/observation.h:
+
+pyproc.h:
 
 conditions/castling_chess.h:
 

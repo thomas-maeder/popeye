@@ -5,6 +5,9 @@
 
 boolean (*next_observation_validator)(square sq_observer, square sq_landing, square sq_observee) = &validate_observation;
 
+vec_index_type interceptable_observation_vector_index[maxply+1];
+unsigned int observation_context = 0;
+
 enum
 {
   observation_validators_capacity = 10

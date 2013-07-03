@@ -13,7 +13,7 @@ pieces/angle/hoppers$(OBJ_SUFFIX): pieces/angle/hoppers.c pieces/angle/hoppers.h
  utilities/bitmask.h position/position.h utilities/boolean.h \
  utilities/enumeration.h pyproc.h py4.h py.h utilities/boolean.h \
  position/position.h pylang.h pieces/vectors.h stipulation/goals/goals.h \
- py.h debugging/trace.h pydata.h pyproc.h
+ py.h solving/observation.h debugging/trace.h pydata.h pyproc.h
 
 pieces/angle/hoppers.h:
 
@@ -48,6 +48,8 @@ pieces/vectors.h:
 stipulation/goals/goals.h:
 
 py.h:
+
+solving/observation.h:
 
 debugging/trace.h:
 

@@ -70,6 +70,7 @@
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/king_capture_avoider.h"
+#include "solving/observation.h"
 #include "conditions/bgl.h"
 #include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
@@ -495,8 +496,7 @@ boolean leapcheck(square sq_king,
     square const sq_departure= sq_king+vec[k];
     if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_king,sq_king)
-        && imcheck(sq_departure,sq_king))
+        && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
 
@@ -526,8 +526,7 @@ boolean leapleapcheck(square     sq_king,
         if (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && sq_departure!=sq_king
-            && (*evaluate)(sq_departure,sq_king,sq_king)
-            && imcheck(sq_departure,sq_king))
+            && (*evaluate)(sq_departure,sq_king,sq_king))
           return true;
       }
     }
@@ -543,30 +542,34 @@ boolean ridcheck(square sq_king,
 {
   /* detect "check" of rider p */
   boolean result = false;
-  vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_king);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
+  ++observation_context;
+
   TraceEnumerator(Side,trait[nbply],"\n");
-  for (k = kanf; k<= kend; k++)
+  for (interceptable_observation_vector_index[observation_context] = kanf;
+       interceptable_observation_vector_index[observation_context]<= kend;
+       ++interceptable_observation_vector_index[observation_context])
   {
-    square const sq_departure = find_end_of_line(sq_king,vec[k]);
+    square const sq_departure = find_end_of_line(sq_king,vec[interceptable_observation_vector_index[observation_context]]);
     PieNam const rider = get_walk_of_piece_on_square(sq_departure);
     TraceSquare(sq_departure);
     TracePiece(rider);
     TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
     if (rider==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_king,sq_king)
-        && ridimcheck(sq_departure,sq_king,vec[k]))
+        && evaluate(sq_departure,sq_king,sq_king))
     {
       result = true;
       break;
     }
   }
+
+  --observation_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

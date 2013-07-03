@@ -680,11 +680,6 @@ typedef unsigned int slice_index;
 #define encore()        (current_move[nbply] > current_move[nbply-1])
 #define advers(camp)    ((camp) ? White : Black)
 
-#define imcheck(i, j) (!CondFlag[imitators] || imok((i), (j)))
-#define ridimcheck(sq, j, diff) (!CondFlag[imitators] || ridimok((sq), (j), (diff)))
-
-#define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))
-
 #define piece_belongs_to_opponent(sq,camp)    TSTFLAG(spec[(sq)],advers(camp))
 
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \

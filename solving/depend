@@ -2361,12 +2361,14 @@ stipulation/pipe.h:
 
 debugging/trace.h:
 solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
- pyproc.h py4.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h pieces/vectors.h \
+ pieces/vectors.h pyproc.h py4.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pieces/vectors.h \
  stipulation/goals/goals.h py.h debugging/trace.h
 
 solving/observation.h:
+
+pieces/vectors.h:
 
 pyproc.h:
 
@@ -2381,8 +2383,6 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-pieces/vectors.h:
 
 utilities/boolean.h:
 
