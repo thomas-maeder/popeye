@@ -1819,8 +1819,8 @@ static boolean verify_position(slice_index si)
     }
 
     /* capturing moves are "longer" than non-capturing moves */
-    if (!(mummer_set_length_measurer(Black,&len_losingchess)
-          && mummer_set_length_measurer(White,&len_losingchess)))
+    if (!(mummer_set_length_measurer(Black,&len_capt)
+          && mummer_set_length_measurer(White,&len_capt)))
     {
       VerifieMsg(TwoMummerCond);
       return false;

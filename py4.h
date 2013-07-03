@@ -38,8 +38,6 @@ int len_antisynchron(square departure, square arrival, square capture);
   /* determines "length" of moves in antisynchron chess */
 int len_schwarzschacher (square sq_departure, square sq_arrival, square sq_capture);
 	/* determines "length" of moves in schwarzschacher chess */
-int len_losingchess(square sq_departure, square sq_arrival, square sq_capture);
-	/* determines "length" of moves in losing chess (schlagschach) */
 
 void	gemoarider(square i, Side camp);
 void	gemaorider(square i, Side camp);

@@ -253,11 +253,6 @@ int len_schwarzschacher(square sq_departure, square sq_arrival, square sq_captur
    return sq_arrival==nullsquare ? 0 : 1;
 }
 
-int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
-{
-  return !is_square_empty(sq_capture);
-}
-
 DEFINE_COUNTER(add_to_move_generation_stack)
 
 void add_to_move_generation_stack(square sq_departure,
