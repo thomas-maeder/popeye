@@ -24,20 +24,12 @@ void stip_insert_actuated_revolving_centre(slice_index si)
 
 static void occupy(square dest, PieNam pi_src, Flags spec_src)
 {
-  switch (pi_src)
-  {
-    case Empty:
-      empty_square(dest);
-      break;
+  assert(pi_src!=Invalid);
 
-    case Invalid:
-      block_square(dest);
-      break;
-
-    default:
-      occupy_square(dest,pi_src,spec_src);
-      break;
-  }
+  if (pi_src==Empty)
+    empty_square(dest);
+  else
+    occupy_square(dest,pi_src,spec_src);
 }
 
 static void revolve(void)

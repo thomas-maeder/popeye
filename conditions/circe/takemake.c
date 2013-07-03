@@ -37,20 +37,12 @@ static boolean init_rebirth_squares(Side side_reborn)
 
   result = solve(slices[temporary_hack_circe_take_make_rebirth_squares_finder[side_reborn]].next2,length_unspecified)==next_move_has_solution;
 
-  switch (pi_capturing)
-  {
-    case Empty:
-      empty_square(sq_capture);
-      break;
+  assert(pi_capturing!=Invalid);
 
-    case Invalid:
-      block_square(sq_capture);
-      break;
-
-    default:
-      occupy_square(sq_capture,pi_capturing,flags_capturing);
-      break;
-  }
+  if (pi_capturing==Empty)
+    empty_square(sq_capture);
+  else
+    occupy_square(sq_capture,pi_capturing,flags_capturing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
