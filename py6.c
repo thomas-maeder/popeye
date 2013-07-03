@@ -1040,6 +1040,7 @@ static boolean verify_position(slice_index si)
     if (flagveryfairy
         || flagsymmetricfairy
         || TSTFLAG(some_pieces_flags, Jigger)
+        || CondFlag[annan]
         || CondFlag[newkoeko]
         || CondFlag[gridchess] || CondFlag[koeko] || CondFlag[antikoeko]
         || CondFlag[blackedge] || CondFlag[whiteedge]
