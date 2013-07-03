@@ -610,8 +610,9 @@ typedef enum
   wormholes,              /* 185 */
   marine,                 /* 186 */
   ultramarine,            /* 187 */
+  backhome,               /* 188 */
 
-  CondCount               /* 188 */
+  CondCount               /* 189 */
 } Cond;
 
 /* Some remarks to the conditions:

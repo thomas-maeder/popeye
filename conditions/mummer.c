@@ -18,12 +18,12 @@
 #include <assert.h>
 
 /* mum length found so far */
-static int mum_length[maxply+1];
+int mum_length[maxply+1];
 
 /* index of last move with mum length */
 static numecoup last_candidate[maxply+1];
 
-static mummer_length_measurer_type mummer_measure_length[nr_sides];
+mummer_length_measurer_type mummer_measure_length[nr_sides];
 
 mummer_strictness_type mummer_strictness[nr_sides];
 
@@ -432,7 +432,7 @@ static void instrument_ultra_mummer_measurer_fork(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  state->ultra_capturing_king = mummer_strictness[slices[si].starter]!=mummer_strictness_regular;
+  state->ultra_capturing_king = true;
   stip_traverse_structure_conditional_pipe_tester(si,st);
   state->ultra_capturing_king = save_ultra_mummer_capturing_king;
 
@@ -551,16 +551,26 @@ void mummer_initialise_solving(slice_index si)
   stip_structure_traversal_init(&st,&state);
 
   /* instrumentation for regular mummer */
-  stip_structure_traversal_override_single(&st,STMoveGenerator,&instrument_move_generator);
-  stip_structure_traversal_override_single(&st,STMummerOrchestrator,&spin_off_measuring_branch);
-  stip_structure_traversal_override_single(&st,STMummerDeadend,&connect_solver_to_tester);
+  stip_structure_traversal_override_single(&st,
+                                           STMoveGenerator,
+                                           &instrument_move_generator);
+  stip_structure_traversal_override_single(&st,
+                                           STMummerOrchestrator,
+                                           &spin_off_measuring_branch);
+  stip_structure_traversal_override_single(&st,
+                                           STMummerDeadend,
+                                           &connect_solver_to_tester);
 
   if (mummer_strictness[White]!=mummer_strictness_ultra
       && mummer_strictness[Black]!=mummer_strictness_ultra)
-    stip_structure_traversal_override_single(&st,STImmobilityTester,&stip_structure_visitor_noop);
+    stip_structure_traversal_override_single(&st,
+                                             STImmobilityTester,
+                                             &stip_structure_visitor_noop);
 
   /* additional instrumentation for ultra mummer */
-  stip_structure_traversal_override_single(&st,STUltraMummerMeasurerFork,&instrument_ultra_mummer_measurer_fork);
+  stip_structure_traversal_override_single(&st,
+                                           STUltraMummerMeasurerFork,
+                                           &instrument_ultra_mummer_measurer_fork);
 
   stip_traverse_structure(si,&st);
 

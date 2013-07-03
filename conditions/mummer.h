@@ -23,6 +23,11 @@ typedef int (*mummer_length_measurer_type)(square departure,
                                            square arrival,
                                            square capture);
 
+extern mummer_length_measurer_type mummer_measure_length[nr_sides];
+
+/* mum length found so far */
+extern int mum_length[maxply+1];
+
 /* Forget previous mummer activations and definition of length measurers */
 void mummer_reset_length_measurers(void);
 

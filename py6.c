@@ -217,6 +217,7 @@
 #include "conditions/wormhole.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/vaulting_kings.h"
+#include "conditions/backhome.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1150,6 +1151,14 @@ static boolean verify_position(slice_index si)
     return false;
   }
   if (CondFlag[whfollow] && !mummer_set_length_measurer(White,&len_follow))
+  {
+    VerifieMsg(TwoMummerCond);
+    return false;
+  }
+
+  if (CondFlag[backhome]
+      && !(mummer_set_length_measurer(White,&len_backhome)
+           && mummer_set_length_measurer(Black,&len_backhome)))
   {
     VerifieMsg(TwoMummerCond);
     return false;
@@ -2807,6 +2816,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     circe_rex_inclusive_initialise_solving();
 
   vaulting_kings_initalise_solving();
+
+  if (CondFlag[backhome])
+    backhome_initialise_solving();
 
   if (!(CondFlag[imitators]
         || CondFlag[annan]

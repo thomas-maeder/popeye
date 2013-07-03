@@ -813,16 +813,17 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/superguards.h conditions/central.h conditions/beamten.h \
  conditions/brunner.h conditions/wormhole.h \
  conditions/transmuting_kings/transmuting_kings.h \
- conditions/vaulting_kings.h platform/maxmem.h platform/maxtime.h \
- platform/pytime.h platform/priority.h conditions/shielded_kings.h \
- stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
- stipulation/dead_end.h stipulation/move_inverter.h \
- stipulation/boolean/and.h stipulation/boolean/or.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/constraint.h \
- stipulation/moves_traversal.h stipulation/help_play/branch.h \
- stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
+ conditions/vaulting_kings.h conditions/backhome.h platform/maxmem.h \
+ platform/maxtime.h platform/pytime.h platform/priority.h \
+ conditions/shielded_kings.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_tester.h stipulation/dead_end.h \
+ stipulation/move_inverter.h stipulation/boolean/and.h \
+ stipulation/boolean/or.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/constraint.h stipulation/moves_traversal.h \
+ stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
+ stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h \
  solving/king_capture_avoider.h solving/testers.h solving/find_shortest.h \
  solving/for_each_move.h solving/battle_play/try.h \
@@ -1154,6 +1155,8 @@ conditions/wormhole.h:
 conditions/transmuting_kings/transmuting_kings.h:
 
 conditions/vaulting_kings.h:
+
+conditions/backhome.h:
 
 platform/maxmem.h:
 
