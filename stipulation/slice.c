@@ -88,6 +88,7 @@ static slice_type const fork_slice_types[] =
     STTakeMakeCirceCollectRebirthSquaresFork,
     STMummerOrchestrator,
     STUltraMummerMeasurerFork,
+    STBackHomeFinderFork,
     STTrivialEndFilter,
     STNullMovePlayer,
     STCastlingPlayer,
@@ -288,6 +289,7 @@ static slice_type const conditional_pipe_slice_types[] =
     STBrunnerDefenderFinder,
     STKingCaptureLegalityTester,
     STUltraMummerMeasurerFork,
+    STBackHomeFinderFork,
     STCageCirceNonCapturingMoveFinder,
     STTakeMakeCirceCollectRebirthSquaresFork,
     STOhneschachStopIfCheckAndNotMate

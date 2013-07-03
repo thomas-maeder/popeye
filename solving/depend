@@ -1572,8 +1572,8 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/woozles.h conditions/nocapture.h conditions/nopromotion.h \
  conditions/geneva.h conditions/edgemover.h conditions/grid.h \
  conditions/take_and_make.h conditions/superguards.h \
- conditions/wormhole.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/wormhole.h conditions/backhome.h optimisations/hash.h \
+ DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -1938,6 +1938,8 @@ conditions/take_and_make.h:
 conditions/superguards.h:
 
 conditions/wormhole.h:
+
+conditions/backhome.h:
 
 optimisations/hash.h:
 

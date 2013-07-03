@@ -269,6 +269,8 @@
     ENUMERATOR(STMummerDeadend),                                        \
     ENUMERATOR(STUltraMummerMeasurerFork),                              \
     ENUMERATOR(STUltraMummerMeasurerDeadend),                           \
+    ENUMERATOR(STBackHomeFinderFork),                                   \
+    ENUMERATOR(STBackHomeMovesOnly),                                    \
     ENUMERATOR(STBGLFilter),                                            \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMessignyMovePlayer),                                   \

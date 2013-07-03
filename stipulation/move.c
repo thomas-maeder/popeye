@@ -28,6 +28,7 @@ static slice_index const move_slice_rank_order[] =
     STPostMoveIterationInitialiser,
     STMummerBookkeeper,
     STUltraMummerMeasurerDeadend,
+    STBackHomeMovesOnly,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,

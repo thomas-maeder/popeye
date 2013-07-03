@@ -34,6 +34,7 @@ slice_index temporary_hack_circe_take_make_rebirth_squares_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_sat_flights_counter[nr_sides];
+slice_index temporary_hack_back_home_finder[nr_sides];
 
 static slice_index make_mate_tester_fork(Side side)
 {
@@ -222,6 +223,22 @@ static slice_index make_sat_flights_counter(Side side)
   return result;
 }
 
+static slice_index make_back_home_finder(Side side)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STBackHomeFinderFork,proxy);
+  slice_index const defense = alloc_defense_branch(slack_length+1,slack_length+1);
+  slice_index const prototypes[] =
+  {
+      alloc_pipe(STBackHomeMovesOnly),
+      alloc_legal_defense_counter_slice()
+  };
+  branch_insert_slices(defense,prototypes,2);
+  link_to_branch(proxy,defense);
+  stip_impose_starter(result,side);
+  return result;
+}
+
 void insert_temporary_hacks(slice_index root_slice)
 {
   TraceFunctionEntry(__func__);
@@ -266,6 +283,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_sat_flights_counter[Black] = make_sat_flights_counter(Black);
     temporary_hack_sat_flights_counter[White] = make_sat_flights_counter(White);
 
+    temporary_hack_back_home_finder[Black] = make_back_home_finder(Black);
+    temporary_hack_back_home_finder[White] = make_back_home_finder(White);
+
     pipe_append(root_slice,entry_point);
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
@@ -288,6 +308,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_opponent_moves_counter[White],
                 temporary_hack_sat_flights_counter[White]);
     pipe_append(temporary_hack_sat_flights_counter[White],
+                temporary_hack_back_home_finder[White]);
+    pipe_append(temporary_hack_back_home_finder[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -309,6 +331,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_opponent_moves_counter[Black]);
     pipe_append(temporary_hack_opponent_moves_counter[Black],
                 temporary_hack_sat_flights_counter[Black]);
+    pipe_append(temporary_hack_sat_flights_counter[Black],
+                temporary_hack_back_home_finder[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

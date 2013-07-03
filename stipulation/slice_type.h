@@ -277,8 +277,10 @@
     ENUMERATOR(STMummerDeadend),                                        \
     ENUMERATOR(STUltraMummerMeasurerFork),                              \
     ENUMERATOR(STUltraMummerMeasurerDeadend),                           \
-    ENUMERATOR(STBGLFilter), \
-    ENUMERATOR(STMasandRecolorer), \
+    ENUMERATOR(STBackHomeFinderFork),                                   \
+    ENUMERATOR(STBackHomeMovesOnly),                                    \
+    ENUMERATOR(STBGLFilter),                                            \
+    ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
     ENUMERATOR(STActuatedRevolvingBoard),                               \
