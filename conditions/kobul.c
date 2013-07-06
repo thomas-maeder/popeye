@@ -24,16 +24,19 @@ static void substitute(Side trait_ply)
     PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
 
     Flags spec_kobul = move_effect_journal[capture].u.piece_removal.removedspec;
+    CLRFLAGMASK(spec_kobul, COLORFLAGS);
     SETFLAG(spec_kobul,Royal);
     SETFLAGMASK(spec_kobul, spec[king_pos]&COLORFLAGS);
 
-    move_effect_journal_do_piece_change(move_effect_reason_kobul_king,
-                                        king_pos,
-                                        kobul_kind);
+    if (get_walk_of_piece_on_square(king_pos)!=kobul_kind)
+      move_effect_journal_do_piece_change(move_effect_reason_kobul_king,
+                                          king_pos,
+                                          kobul_kind);
 
-    move_effect_journal_do_flags_change(move_effect_reason_kobul_king,
-                                        king_pos,
-                                        spec_kobul);
+    if ((spec[king_pos]&PieSpMask)!=(spec_kobul&PieSpMask))
+      move_effect_journal_do_flags_change(move_effect_reason_kobul_king,
+                                          king_pos,
+                                          spec_kobul);
   }
 }
 

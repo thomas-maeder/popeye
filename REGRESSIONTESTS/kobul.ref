@@ -72,7 +72,7 @@ solution finished.
 
 a) 
 
-  1.Sf7*d6[e7=K] Ke7*d6[d4=rS]   2.c5-c4 Rc1*c4[d4=K] #
+  1.Sf7*d6 Ke7*d6[d4=rS]   2.c5-c4 Rc1*c4[d4=K] #
 
   add_to_move_generation_stack:      538016
                      play_move:      449403
@@ -80,7 +80,7 @@ a)
  is_black_king_square_attacked:      448514
 b) wBc1 
 
-  1.Sd7*f6[e7=K] Ke7*f6[d4=rS]   2.e4-e3 Bc1*e3[d4=K] #
+  1.Sd7*f6 Ke7*f6[d4=rS]   2.e4-e3 Bc1*e3[d4=K] #
 
   add_to_move_generation_stack:      290596
                      play_move:      244432
@@ -88,7 +88,7 @@ b) wBc1
  is_black_king_square_attacked:      243811
 c) wSc1 
 
-  1.Bh3*e6[e7=K] Ke7*e6[d4=rB]   2.b4-b3 Sc1*b3[d4=K] #
+  1.Bh3*e6 Ke7*e6[d4=rB]   2.b4-b3 Sc1*b3[d4=K] #
 
   add_to_move_generation_stack:      316633
                      play_move:      250150
@@ -297,8 +297,8 @@ solution finished.
     but
       1...rBc3*g7[b5=rB] !
 
-   1.Qh2*f4[c3=K] ! threat:
-          2.Qf4*c4[c3=K] #
+   1.Qh2*f4 ! threat:
+          2.Qf4*c4 #
       1...Kc3*d3[b5=rS]
           2.Rg2-d2 #
       1...Rf3*f4[b5=rQ]
@@ -308,7 +308,7 @@ solution finished.
       1...Bg7-d4
           2.Qf4*d4[c3=rB] #
 
-   1.Rg2*b2[c3=K] ? threat:
+   1.Rg2*b2 ? threat:
           2.Qh2-c2 #
           2.Qh2-d2 #
       1...Kc3*d3[b5=rS]
@@ -403,8 +403,8 @@ solution finished.
                Royal d5
               KobulKings
 
-  1.nGb3-e6 nrSd5-f6   2.nGe6-g6 Lh7*g6-f5[f6=nrG] #
-  1.nrSd5-c3 nGb3-d3   2.nrSc3-e2 Lh7*d3-c2[e2=nrG] #
+  1.nGb3-e6 nrSd5-f6   2.nGe6-g6 Lh7*g6-f5[f6=rG] #
+  1.nrSd5-c3 nGb3-d3   2.nrSc3-e2 Lh7*d3-c2[e2=rG] #
 
   add_to_move_generation_stack:        1424
                      play_move:         912

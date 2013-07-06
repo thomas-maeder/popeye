@@ -238,10 +238,19 @@ static void write_flags_change(move_context *context,
       break;
 
     case move_effect_reason_kobul_king:
-      WriteSquare(move_effect_journal[curr].u.flags_change.on);
-      StdString("=");
-      write_transformed_piece(move_effect_journal[curr].u.flags_change.to,
-                              context->moving);
+      if (move_effect_journal[curr-1].type!=move_effect_piece_change
+          || move_effect_journal[curr-1].reason!=move_effect_reason_kobul_king)
+        /* otherwise the flags are written with the changed piece */
+      {
+        next_context(context,"[","]");
+        context_set_target_square(context,
+                                  move_effect_journal[curr].u.flags_change.on);
+        WriteSquare(move_effect_journal[curr].u.flags_change.on);
+        StdString("=");
+        WriteSpec(move_effect_journal[curr].u.flags_change.to,
+                  e[context->target_square],
+                  false);
+      }
       break;
 
     default:
@@ -313,10 +322,27 @@ static void write_piece_change(move_context *context,
 
     case move_effect_reason_kobul_king:
       next_context(context,"[","]");
-      context_set_target_square(context,
-                                move_effect_journal[curr].u.piece_change.on);
       context_set_moving_piece(context,
                                move_effect_journal[curr].u.piece_change.to);
+      context_set_target_square(context,
+                                move_effect_journal[curr].u.piece_change.on);
+
+      WriteSquare(move_effect_journal[curr].u.piece_change.on);
+      StdChar('=');
+
+      {
+        Flags flags;
+
+        if (move_effect_journal[curr+1].type==move_effect_flags_change
+            && move_effect_journal[curr+1].reason==move_effect_reason_kobul_king)
+          flags = move_effect_journal[curr+1].u.flags_change.to;
+        else
+          flags = BIT(Royal);
+
+        WriteSpec(flags,move_effect_journal[curr].u.piece_change.to,false);
+      }
+
+      WritePiece(move_effect_journal[curr].u.piece_change.to);
       break;
 
     case move_effect_reason_einstein_chess:

@@ -279,4 +279,19 @@ stip x1
 condition plus patrouille
 option nowk nobk
 
+next
+
+title 4.63 changed the royal knight into a neutral king
+pieces white ph2 black royal sh8 ph3g4 neutral pg3
+stip ~1
+condition kobul
+option nowk
+
+next
+
+title 4.63 would promote the pawn twice per promotion piece
+pieces white cham pb7
+stip ~1
+option nowk nobk
+
 end
