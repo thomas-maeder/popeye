@@ -331,7 +331,7 @@ static boolean echecc_bicolores(Side side_in_check)
 DEFINE_COUNTER(is_white_king_square_attacked)
 DEFINE_COUNTER(is_black_king_square_attacked)
 
-boolean is_king_square_attacked_default(Side side_king_attacked)
+boolean is_king_square_attacked(Side side_king_attacked)
 {
   boolean result;
 
@@ -353,8 +353,6 @@ boolean is_king_square_attacked_default(Side side_king_attacked)
 
   return result;
 }
-
-boolean (*is_king_square_attacked)(Side side_king_attacked) = &is_king_square_attacked_default;
 
 boolean echecc(Side side_in_check)
 {
