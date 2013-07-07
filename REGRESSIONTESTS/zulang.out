@@ -66,16 +66,16 @@ a)
   2  (16g7-f1 )
   3  (16g7-h1 )
   4  (16g7-a8 )
-  5  (Kc1-d1 )
-  6  (Kc1-c2 )
+  5  (Kc1-d2 )
+  6  (Kc1-b2 + )
   7  (Kc1-b1 + )
-  8  (Kc1-b2 + )
-  9  (Kc1-d2 )
+  8  (Kc1-c2 )
+  9  (Kc1-d1 )
 
   add_to_move_generation_stack:   104550963
-                     play_move:   104550961
+                     play_move:   104550963
  is_white_king_square_attacked:    25397113
- is_black_king_square_attacked:   104345819
+ is_black_king_square_attacked:   104345821
 b) wKc1-->b3
 
  10  (16g7-a6 )
@@ -83,19 +83,19 @@ b) wKc1-->b3
   1.16g7-f1   2.16f1-e7   3.16e7-d1   4.16d1-c7   5.16c7-b1   6.16b1-a7   7.16a7-g6   8.16g6-a5   9.16a5-g4  10.16g4-a3  11.16a3-g2 #
  12  (16g7-h1 )
  13  (16g7-a8 )
- 14  (Kb3-c3 )
- 15  (Kb3-b4 )
- 16  (Kb3-a3 )
- 17  (Kb3-b2 + )
- 18  (Kb3-a4 )
- 19  (Kb3-c4 )
- 20  (Kb3-c2 )
- 21  (Kb3-a2 + )
+ 14  (Kb3-a2 + )
+ 15  (Kb3-c2 )
+ 16  (Kb3-c4 )
+ 17  (Kb3-a4 )
+ 18  (Kb3-b2 + )
+ 19  (Kb3-a3 )
+ 20  (Kb3-b4 )
+ 21  (Kb3-c3 )
 
   add_to_move_generation_stack:   172423409
-                     play_move:   172423407
+                     play_move:   172423409
  is_white_king_square_attacked:    43072625
- is_black_king_square_attacked:   172169416
+ is_black_king_square_attacked:   172169418
 Loesung beendet. 
 
 
@@ -133,19 +133,19 @@ Motto: Viele Koeche verderben den Brei
   2  (Se1-f3 )
   3  (Se1-d3 )
   4  (Se1-c2 )
-  5  (Ke2-e3 )
-  6  (Ke2-d2 )
+  5  (Ke2-d1 )
+  6  (Ke2-f3 )
   7  (Ke2-d3 )
-  8  (Ke2-f3 )
-  9  (Ke2-d1 )
+  8  (Ke2-d2 )
+  9  (Ke2-e3 )
  10  (d7-d5 )
   1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=S h7-h8=S #
  11  (d7-d6 )
 
   add_to_move_generation_stack:    83305227
-                     play_move:    47937131
+                     play_move:    47711396
  is_white_king_square_attacked:     3348158
- is_black_king_square_attacked:    45164407
+ is_black_king_square_attacked:    44938672
 Loesung beendet. 
 
 
@@ -178,14 +178,14 @@ Loesung beendet.
   1  (Sh1-g3 )
   2  (Sh1-f2 )
   3  (c3-c2 )
-  4  (Kd5-e5 )
-  5  (Kd5-d6 )
-  6  (Kd5-c5 )
-  7  (Kd5-d4 )
-  8  (Kd5-c6 )
-  9  (Kd5-e6 )
- 10  (Kd5-e4 )
- 11  (Kd5-c4 )
+  4  (Kd5-c4 )
+  5  (Kd5-e4 )
+  6  (Kd5-e6 )
+  7  (Kd5-c6 )
+  8  (Kd5-d4 )
+  9  (Kd5-c5 )
+ 10  (Kd5-d6 )
+ 11  (Kd5-e5 )
  12  (Sf6-e4 )
  13  (Sf6-g4 )
  14  (Sf6-h5 )
@@ -196,9 +196,9 @@ Loesung beendet.
  18  (Sf6-d7 )
 
   add_to_move_generation_stack:    53082848
-                     play_move:    37123363
- is_white_king_square_attacked:     8471044
- is_black_king_square_attacked:    37089915
+                     play_move:    37512334
+ is_white_king_square_attacked:     8470520
+ is_black_king_square_attacked:    37478880
 Loesung beendet. 
 
 
@@ -233,12 +233,216 @@ Loesung beendet.
           2.La7-b6
               2...Lb7-a6
                   3.Tc5*a6
-                      3...Kb8-a8
+                      3...Kb8-a7
                           4.Lc6-b7
-                              4...Ka8-b8
+                              4...Ka7-b8
                                   5.Ta6-a8
                                       5...Kb8-a7
                                           6.Ta8-b8 #
+                              4...Ka7-a8
+                                  5.Dc8-b8
+                                      5...Ka8-a7
+                                          6.Ta6-a1 #
+                                          6.Ta6-a3 #
+                                          6.Ta6-a5 #
+                                  5.Kc7-b8
+                                      5...Ka8-a7
+                                          6.Ta6-a1 #
+                                          6.Ta6-a3 #
+                                          6.Ta6-a5 #
+                      3...Kb8-b7
+                          4.Ta6-a2
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Ka8-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                          4.Ta6-a4
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Ka8-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                      3...Kb8-a8
+                          4.Lc6-b7
                               4...Ka8-a7
                                   5.Dc8-b8
                                       5...Ka7-a8
@@ -252,493 +456,16 @@ Loesung beendet.
                                           6.Ta6-a3 #
                                           6.Ta6-a5 #
                                           6.Ta6-a7 #
-                      3...Kb8-b7
-                          4.Ta6-a2
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Ka7-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                          4.Ta6-a4
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Ka7-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                      3...Kb8-a7
-                          4.Lc6-b7
-                              4...Ka7-a8
-                                  5.Dc8-b8
-                                      5...Ka8-a7
-                                          6.Ta6-a1 #
-                                          6.Ta6-a3 #
-                                          6.Ta6-a5 #
-                                  5.Kc7-b8
-                                      5...Ka8-a7
-                                          6.Ta6-a1 #
-                                          6.Ta6-a3 #
-                                          6.Ta6-a5 #
-                              4...Ka7-b8
+                              4...Ka8-b8
                                   5.Ta6-a8
                                       5...Kb8-a7
                                           6.Ta8-b8 #
               2...Lb7-a8
                   3.Tc5*a8
-                      3...Kb8-b7
-                          4.Ta8-a2
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Ka7-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                          4.Ta8-a4
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Ka7-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                          4.Ta8-a6
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                      5...Ka7-b8
-                                          6.Ta6-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta6-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
                       3...Kb8-a7
                           4.Lc6-b7
                               4...Ka7-b8
                                   5.Ta8-a2
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -754,6 +481,25 @@ Loesung beendet.
                                               6...Ka7-a8
                                                   7.Ta2-a1 #
                                                   7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
                                                   7.Ta2-a5 #
                                                   7.Ta2-a3 #
                                                   7.Ta2-h2 #
@@ -761,25 +507,6 @@ Loesung beendet.
                                                   7.Ta2-d2 #
                                                   7.Ta2-b2 #
                                   5.Ta8-a4
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -796,23 +523,31 @@ Loesung beendet.
                                                   7.Ta4-a1 #
                                                   7.Ta4-a3 #
                                                   7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
                                                   7.Ta4-a5 #
                                                   7.Ta4-h4 #
                                                   7.Ta4-f4 #
                                                   7.Ta4-d4 #
                                                   7.Ta4-b4 #
                                   5.Ta8-a6
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -826,287 +561,279 @@ Loesung beendet.
                                                   7.Ta6-a3 #
                                                   7.Ta6-a5 #
                                                   7.Ta6-a7 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                      3...Kb8-b7
+                          4.Ta8-a2
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Ka8-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                          4.Ta8-a4
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Ka8-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                          4.Ta8-a6
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                      5...Ka8-b8
+                                          6.Ta6-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta6-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
       1...Kb8-b7
           2.La7-b6
               2...Kb7-b8
                   3.Tc5*a8
-                      3...Kb8-b7
-                          4.Ta8-a2
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Ka7-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                          4.Ta8-a4
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Ka7-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                          4.Ta8-a6
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                      5...Ka7-b8
-                                          6.Ta6-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta6-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
                       3...Kb8-a7
                           4.Lc6-b7
                               4...Ka7-b8
                                   5.Ta8-a2
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -1122,6 +849,25 @@ Loesung beendet.
                                               6...Ka7-a8
                                                   7.Ta2-a1 #
                                                   7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
                                                   7.Ta2-a5 #
                                                   7.Ta2-a3 #
                                                   7.Ta2-h2 #
@@ -1129,25 +875,6 @@ Loesung beendet.
                                                   7.Ta2-d2 #
                                                   7.Ta2-b2 #
                                   5.Ta8-a4
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -1164,23 +891,31 @@ Loesung beendet.
                                                   7.Ta4-a1 #
                                                   7.Ta4-a3 #
                                                   7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
                                                   7.Ta4-a5 #
                                                   7.Ta4-h4 #
                                                   7.Ta4-f4 #
                                                   7.Ta4-d4 #
                                                   7.Ta4-b4 #
                                   5.Ta8-a6
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -1194,289 +929,281 @@ Loesung beendet.
                                                   7.Ta6-a3 #
                                                   7.Ta6-a5 #
                                                   7.Ta6-a7 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                      3...Kb8-b7
+                          4.Ta8-a2
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Ka8-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                          4.Ta8-a4
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Ka8-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                          4.Ta8-a6
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                      5...Ka8-b8
+                                          6.Ta6-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta6-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
 
    1.La7-b6 !
       1...Kb8-c7
           2.Tc5*a8
               2...Kc7-b8
                   3.Kb7-c7
-                      3...Kb8-b7
-                          4.Ta8-a2
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                      5...Ka7-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta2-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a7 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                          4.Ta8-a4
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                      5...Ka7-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta4-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a7 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                          4.Ta8-a6
-                              4...Kb7-b8
-                                  5.Lc6-b7
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                      5...Kb8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                              4...Kb7-a7
-                                  5.Lc6-b7
-                                      5...Ka7-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                      5...Ka7-b8
-                                          6.Ta6-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                              4...Kb7-a8
-                                  5.Lc6-b7
-                                      5...Ka8-b8
-                                          6.Ta6-a8
-                                              6...Kb8-a7
-                                                  7.Ta8-b8 #
-                                      5...Ka8-a7
-                                          6.Dc8-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
-                                          6.Kc7-b8
-                                              6...Ka7-a8
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                                  7.Ta6-a7 #
                       3...Kb8-a7
                           4.Lc6-b7
                               4...Ka7-b8
                                   5.Ta8-a2
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta2-a1 #
-                                                  7.Ta2-a5 #
-                                                  7.Ta2-a3 #
-                                                  7.Ta2-h2 #
-                                                  7.Ta2-f2 #
-                                                  7.Ta2-d2 #
-                                                  7.Ta2-b2 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -1492,6 +1219,25 @@ Loesung beendet.
                                               6...Ka7-a8
                                                   7.Ta2-a1 #
                                                   7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
                                                   7.Ta2-a5 #
                                                   7.Ta2-a3 #
                                                   7.Ta2-h2 #
@@ -1499,25 +1245,6 @@ Loesung beendet.
                                                   7.Ta2-d2 #
                                                   7.Ta2-b2 #
                                   5.Ta8-a4
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta4-a1 #
-                                                  7.Ta4-a3 #
-                                                  7.Ta4-a5 #
-                                                  7.Ta4-h4 #
-                                                  7.Ta4-f4 #
-                                                  7.Ta4-d4 #
-                                                  7.Ta4-b4 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -1534,23 +1261,31 @@ Loesung beendet.
                                                   7.Ta4-a1 #
                                                   7.Ta4-a3 #
                                                   7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
                                                   7.Ta4-a5 #
                                                   7.Ta4-h4 #
                                                   7.Ta4-f4 #
                                                   7.Ta4-d4 #
                                                   7.Ta4-b4 #
                                   5.Ta8-a6
-                                      5...Kb8-a8
-                                          6.Dc8-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
-                                          6.Kc7-b8
-                                              6...Ka8-a7
-                                                  7.Ta6-a1 #
-                                                  7.Ta6-a3 #
-                                                  7.Ta6-a5 #
                                       5...Kb8-a7
                                           6.Dc8-b8
                                               6...Ka7-a8
@@ -1564,6 +1299,271 @@ Loesung beendet.
                                                   7.Ta6-a3 #
                                                   7.Ta6-a5 #
                                                   7.Ta6-a7 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                      3...Kb8-b7
+                          4.Ta8-a2
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Ka8-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta2-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a7 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta2-a1 #
+                                                  7.Ta2-a5 #
+                                                  7.Ta2-a3 #
+                                                  7.Ta2-h2 #
+                                                  7.Ta2-f2 #
+                                                  7.Ta2-d2 #
+                                                  7.Ta2-b2 #
+                          4.Ta8-a4
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Ka8-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta4-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a7 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta4-a1 #
+                                                  7.Ta4-a3 #
+                                                  7.Ta4-a5 #
+                                                  7.Ta4-h4 #
+                                                  7.Ta4-f4 #
+                                                  7.Ta4-d4 #
+                                                  7.Ta4-b4 #
+                          4.Ta8-a6
+                              4...Kb7-a8
+                                  5.Lc6-b7
+                                      5...Ka8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                      5...Ka8-b8
+                                          6.Ta6-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                              4...Kb7-a7
+                                  5.Lc6-b7
+                                      5...Ka7-b8
+                                          6.Ta6-a8
+                                              6...Kb8-a7
+                                                  7.Ta8-b8 #
+                                      5...Ka7-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                              4...Kb7-b8
+                                  5.Lc6-b7
+                                      5...Kb8-a7
+                                          6.Dc8-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                          6.Kc7-b8
+                                              6...Ka7-a8
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                                  7.Ta6-a7 #
+                                      5...Kb8-a8
+                                          6.Dc8-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
+                                          6.Kc7-b8
+                                              6...Ka8-a7
+                                                  7.Ta6-a1 #
+                                                  7.Ta6-a3 #
+                                                  7.Ta6-a5 #
 
    1.Tc5-c1 !
       1...Kb8-c7
@@ -1580,10 +1580,10 @@ Loesung beendet.
                                                   7.Tc1-c3 #
 
 
-  add_to_move_generation_stack:  6390029229
-                     play_move:  2089073093
- is_white_king_square_attacked:   161138454
- is_black_king_square_attacked:  1946530214
+  add_to_move_generation_stack:  5832552945
+                     play_move:  1838009893
+ is_white_king_square_attacked:   150275676
+ is_black_king_square_attacked:  1705967420
 Loesung beendet. 
 
 
@@ -1619,6 +1619,8 @@ Loesung beendet.
           2.b7-b8=D
               2...Kc8-b7
                   3.Le4-c6
+                      3...Kb7-c8
+                          4.Lc6-b7 =
                       3...Kb7-b6
                           4.Db8-b7
                               4...Kb6-c5
@@ -1629,14 +1631,12 @@ Loesung beendet.
                                                   7.Dc5-b4
                                                       7...Kc3-b2
                                                           8.Db4-c3 =
-                      3...Kb7-c8
-                          4.Lc6-b7 =
 
 
-  add_to_move_generation_stack:  2327544611
-                     play_move:   385869418
+  add_to_move_generation_stack:  3784624288
+                     play_move:   605162495
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:   318717527
+ is_black_king_square_attacked:   524207475
 Loesung beendet. 
 
 
@@ -1670,9 +1670,9 @@ Loesung beendet.
   1.b2-b1=T a5-a6   2.Tb1-h1 Ka7-b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 =
 
   add_to_move_generation_stack:   991034893
-                     play_move:   107507675
- is_white_king_square_attacked:   107114262
- is_black_king_square_attacked:    97365384
+                     play_move:   107447368
+ is_white_king_square_attacked:   107114507
+ is_black_king_square_attacked:    97305077
 Loesung beendet. 
 
 
@@ -1711,16 +1711,16 @@ Loesung beendet.
   6  (c2-c1=S )
   7  (c2-c1=T )
   8  (c2-c1=L )
-  9  (Kh5-h6 )
- 10  (Kh5-g5 )
+  9  (Kh5-g4 )
+ 10  (Kh5-g6 )
  11  (Kh5-h4 )
- 12  (Kh5-g6 )
- 13  (Kh5-g4 )
+ 12  (Kh5-g5 )
+ 13  (Kh5-h6 )
 
   add_to_move_generation_stack:  1028586519
-                     play_move:   101900625
+                     play_move:   101884047
  is_white_king_square_attacked:   101165287
- is_black_king_square_attacked:    99067618
+ is_black_king_square_attacked:    99051040
 Loesung beendet. 
 
 
@@ -1751,9 +1751,9 @@ Loesung beendet.
   h=5                         2 + 4
               OhneSchach
 
-  1  (Ka1-b1 )
+  1  (Ka1-b2 )
   2  (Ka1-a2 )
-  3  (Ka1-b2 )
+  3  (Ka1-b1 )
   4  (c2-c1=D )
   5  (c2-c1=S )
   6  (c2-c1=T )
@@ -1769,9 +1769,9 @@ Loesung beendet.
  15  (h2-h1=L + )
 
   add_to_move_generation_stack:   838407004
-                     play_move:    96144067
- is_white_king_square_attacked:    95595734
- is_black_king_square_attacked:    85701115
+                     play_move:    97085270
+ is_white_king_square_attacked:    95595594
+ is_black_king_square_attacked:    86642318
 Loesung beendet. 
 
 
@@ -1802,10 +1802,10 @@ Loesung beendet.
                 Circe
               OhneSchach
 
-  1  (Kb1-c1 )
-  2  (Kb1-b2 )
-  3  (Kb1-a1 )
-  4  (Kb1-c2 )
+  1  (Kb1-c2 )
+  2  (Kb1-a1 )
+  3  (Kb1-b2 )
+  4  (Kb1-c1 )
   5  (a2-a1=D )
   6  (a2-a1=S )
   7  (a2-a1=T )
@@ -1813,41 +1813,41 @@ Loesung beendet.
   9  (d2-d1=D )
  10  (d2-d1=S )
   1.d2-d1=S Kg8-h8   2.g2-g1=T f5-f6   3.Tg1-g7 f6*g7   4.Sd1-b2 g7-g8=D   5.a2-a1=L Dg8-c4 =
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
   1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
   1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
-  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
   1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.d2-d1=S f5-f6   2.g2-g1=L f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
  11  (d2-d1=T )
  12  (d2-d1=L )
  13  (g2-g1=D + )
  14  (g2-g1=S )
  15  (g2-g1=T + )
  16  (g2-g1=L )
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.d2-d1=S f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c5   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=D   4.d2-d1=S Df8-c8   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.Lg1-d4 f6-f7   3.Ld4-a1 f7-f8=T   4.d2-d1=S Tf8-c8   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c5   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-g7 =
-  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=D   4.Ld4-a1 Df8-c8   5.Sd1-b2 Kg8-h8 =
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 =
+  1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 =
 
   add_to_move_generation_stack:  2034867482
-                     play_move:   204304913
- is_white_king_square_attacked:   199016623
- is_black_king_square_attacked:   190331416
+                     play_move:   203839639
+ is_white_king_square_attacked:   198902170
+ is_black_king_square_attacked:   189866067
 Loesung beendet. 
 
 
@@ -1878,8 +1878,8 @@ Loesung beendet.
               Ohneschlag
               OhneSchach
 
-  1  (Kd1-e1 )
-  2  (Kd1-c1 )
+  1  (Kd1-c1 )
+  2  (Kd1-e1 )
   3  (a2-a1=D + )
   4  (a2-a1=S )
   5  (a2-a1=T )
@@ -1894,9 +1894,9 @@ Loesung beendet.
  10  (c2-c1=L )
 
   add_to_move_generation_stack:  3634349430
-                     play_move:   421009662
- is_white_king_square_attacked:   420081615
- is_black_king_square_attacked:   382052570
+                     play_move:   421422303
+ is_white_king_square_attacked:   420000330
+ is_black_king_square_attacked:   382465195
 Loesung beendet. 
 
 
@@ -1948,10 +1948,10 @@ a)
  17  (Tc5-e5 + )
  18  (Tc5-d5 )
   1.Tc5-d5 Kd4*e5[+sTh8]   2.Lh6*f8[+wSg1] Kd4-d3   3.Le8-c6 Sh7*f6[+sLf8] #
- 19  (Ka7-a8 )
- 20  (Ka7-a6 )
- 21  (Ka7-b8 )
- 22  (Ka7-b6 )
+ 19  (Ka7-b6 )
+ 20  (Ka7-b8 )
+ 21  (Ka7-a6 )
+ 22  (Ka7-a8 )
  23  (Tb7-b1 )
  24  (Tb7-b2 )
  25  (Tb7-b3 )
@@ -1974,16 +1974,16 @@ a)
  42  (Le8-f7 )
 
   add_to_move_generation_stack:     9606263
-                     play_move:     9422213
+                     play_move:     9448611
  is_white_king_square_attacked:      143489
- is_black_king_square_attacked:     9353631
+ is_black_king_square_attacked:     9380029
 b) sKa7-->b1
 
- 43  (Kb1*c1[+wSg1] )
- 44  (Kb1-b2 )
+ 43  (Kb1-c2 )
+ 44  (Kb1-a2 )
  45  (Kb1-a1 )
- 46  (Kb1-a2 )
- 47  (Kb1-c2 )
+ 46  (Kb1-b2 )
+ 47  (Kb1*c1[+wSg1] )
  48  (La3*c1[+wSg1] )
   1.La3*c1[+wSg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6[+sTa8] #
  49  (La3-b2 )
@@ -2025,9 +2025,9 @@ b) sKa7-->b1
  85  (Le8-f7 )
 
   add_to_move_generation_stack:    10257208
-                     play_move:     9516156
+                     play_move:     9582611
  is_white_king_square_attacked:      439335
- is_black_king_square_attacked:     9447178
+ is_black_king_square_attacked:     9513633
 Loesung beendet. 
 
 
@@ -2091,10 +2091,10 @@ a)
  17  (Sb4-a6[If8] )
  18  (Tg2-g1[Ig5] + )
 
-  add_to_move_generation_stack:   145854405
-                     play_move:    59733619
- is_white_king_square_attacked:    59382671
- is_black_king_square_attacked:    28918862
+  add_to_move_generation_stack:   160687354
+                     play_move:    60631785
+ is_white_king_square_attacked:    60280303
+ is_black_king_square_attacked:    29492033
 b) sBc4-->c3
 
  19  (g7-g8=I[Ig7,g8] )
@@ -2130,10 +2130,10 @@ b) sBc4-->c3
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
 
-  add_to_move_generation_stack:   159618973
-                     play_move:    66251003
- is_white_king_square_attacked:    65864323
- is_black_king_square_attacked:    32028139
+  add_to_move_generation_stack:   175713480
+                     play_move:    67075778
+ is_white_king_square_attacked:    66690401
+ is_black_king_square_attacked:    32655461
 c) sBb3-->c3
 
  38  (g7-g8=I[Ig7,g8] )
@@ -2168,10 +2168,10 @@ c) sBb3-->c3
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
 
-  add_to_move_generation_stack:   154666603
-                     play_move:    63394018
- is_white_king_square_attacked:    63070578
- is_black_king_square_attacked:    31276223
+  add_to_move_generation_stack:   169784256
+                     play_move:    64121319
+ is_white_king_square_attacked:    63798930
+ is_black_king_square_attacked:    31812208
 Loesung beendet. 
 
 
@@ -2224,10 +2224,10 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-  add_to_move_generation_stack:  2227775295
-                     play_move:  2227778832
- is_white_king_square_attacked:  1529671215
- is_black_king_square_attacked:   958681658
+  add_to_move_generation_stack:  2231923939
+                     play_move:  2231927476
+ is_white_king_square_attacked:  1532155195
+ is_black_king_square_attacked:   960661472
 Loesung beendet. 
 
 
@@ -2257,22 +2257,6 @@ dauert 13 min mit Athlon 2400 / 200MB
 +---a---b---c---d---e---f---g---h---+
   s#31                        1 + 3
            SchwarzSchaecher
-
-   1.Ka7-b7 ?
-    Aber
-      1... !
-
-   1.Ka7-a8 ?
-    Aber
-      1... !
-
-   1.Ka7-a6 ?
-    Aber
-      1... !
-
-   1.Ka7-b8 ?
-    Aber
-      1... !
 
    1.Ka7-b6 !
       1...
@@ -2337,11 +2321,27 @@ dauert 13 min mit Athlon 2400 / 200MB
                                                                                                                                                                                                                                                  31.Kb8-c8
                                                                                                                                                                                                                                                      31...Se4-d6 #
 
+   1.Ka7-b8 ?
+    Aber
+      1... !
 
-  add_to_move_generation_stack:    89448571
-                     play_move:    58246350
- is_white_king_square_attacked:    58585887
- is_black_king_square_attacked:    10800225
+   1.Ka7-a6 ?
+    Aber
+      1... !
+
+   1.Ka7-a8 ?
+    Aber
+      1... !
+
+   1.Ka7-b7 ?
+    Aber
+      1... !
+
+
+  add_to_move_generation_stack:    89505906
+                     play_move:    58339784
+ is_white_king_square_attacked:    58679000
+ is_black_king_square_attacked:    10808101
 Loesung beendet. 
 
 
@@ -2434,12 +2434,12 @@ Loesung beendet.
  36  (Sf3-g5 )
  37  (Sf3-e5 )
  38  (Sf3-d4 )
- 39  (Ke2-f2 )
- 40  (Ke2*e3-e2 )
- 41  (Ke2-d2 )
- 42  (Ke2-d3 )
- 43  (Ke2-f1 )
- 44  (Ke2-d1 )
+ 39  (Ke2-d1 )
+ 40  (Ke2-f1 )
+ 41  (Ke2-d3 )
+ 42  (Ke2-d2 )
+ 43  (Ke2*e3-e2 )
+ 44  (Ke2-f2 )
  45  (Le1-f2 )
  46  (Le1-a5 )
  47  (Le1-b4 )
@@ -2454,10 +2454,10 @@ Loesung beendet.
  56  (Tb1-d1 )
  57  (Tb1-c1 )
 
-  add_to_move_generation_stack: 81746140862
-                     play_move: 13502302594
- is_white_king_square_attacked: 13502302602
- is_black_king_square_attacked:  9044187594
+  add_to_move_generation_stack: 40721415067
+                     play_move:  6223111496
+ is_white_king_square_attacked:  6223111504
+ is_black_king_square_attacked:  4171191619
 Loesung beendet. 
 
 
@@ -2491,9 +2491,9 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
   1  (Lb1*e4 )
   2  (Lb1-d3 + )
   3  (Lb1-c2 )
-  4  (Kc1-d1 )
+  4  (Kc1-d2 )
   5  (Kc1-c2 )
-  6  (Kc1-d2 )
+  6  (Kc1-d1 )
   7  (Sa2-c3 )
   8  (h2-h1=D + )
   1.h2-h1=D + Le4*h1   2.Kc1-c2 Kf1-e2   3.Kc2*b3 Lh1-a8[+sDh1]   4.Dh1*a8 Ke2-d2   5.Da8-a3[+wLa8] La8-d5 #
@@ -2501,10 +2501,10 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
  10  (h2-h1=T + )
  11  (h2-h1=L )
 
-  add_to_move_generation_stack:   128304360
-                     play_move:   114396269
- is_white_king_square_attacked:    29861799
- is_black_king_square_attacked:    90263240
+  add_to_move_generation_stack:   128296508
+                     play_move:   117137324
+ is_white_king_square_attacked:    29860447
+ is_black_king_square_attacked:    93004351
 Loesung beendet. 
 
 
@@ -2740,10 +2740,10 @@ Initial (Weiss ->):
                                           6.Kc2-b1 a=>b
 
 
-  add_to_move_generation_stack:  8794031786
-                     play_move:  7277521675
- is_white_king_square_attacked:  3996665379
- is_black_king_square_attacked:   376616129
+  add_to_move_generation_stack:  8499007780
+                     play_move:  7049083299
+ is_white_king_square_attacked:  3906362996
+ is_black_king_square_attacked:   366668813
 Loesung beendet. 
 
 
@@ -2799,7 +2799,6 @@ Loesung beendet.
   1.Kg1-h1 b6*a7   2.Th8-b8 a7*b8=L   3.Tg6-g1 + Ke1-f2
   1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=D
   1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=L
-  1.Kg1-h1 Ke1-d1   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6
   1.Kg1-h1 Ke1-f2 +   2.b2-b1=S Th6*g6   3.Se7-g8 Tg6-e6
   1.Kg1-h1 Ke1-f2 +   2.b2-b1=L Th6*g6   3.Se7-g8 Tg6-e6
   1.Kg1-h1 Ke1-f2 +   2.b2*a1=L Th6*g6   3.Se7-g8 Tg6-e6
@@ -2807,6 +2806,7 @@ Loesung beendet.
   1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6-b7   3.Th8-a8 b7-b8=L
   1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=D
   1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=L
+  1.Kg1-h1 Ke1-d1   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6
   1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 b6*a7
   1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 Ke1-d1
   1.Kg1-h1 Ta1-b1   2.a2-a1=L b6*a7   3.Se7-g8 Th6*g6
@@ -2909,10 +2909,10 @@ Loesung beendet.
   1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=D
   1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=L
 
-  add_to_move_generation_stack:  1556864361
-                     play_move:   236394442
- is_white_king_square_attacked:   111823542
- is_black_king_square_attacked:   219371819
+  add_to_move_generation_stack:  1585416859
+                     play_move:   260723653
+ is_white_king_square_attacked:   112975274
+ is_black_king_square_attacked:   243701030
 Loesung beendet. 
 
 
@@ -2956,10 +2956,10 @@ Loesung beendet.
   1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8
   1.Th7-h8 Ke8-d8   2.Tf7-f8 + Kd8-c7   3.Tf8-b8 Tg8*g1   4.Th8-c8 + Kc7*b6
 
-  add_to_move_generation_stack: 26745064568
-                     play_move:  2554411415
- is_white_king_square_attacked:  1306313450
- is_black_king_square_attacked:  2181263696
+  add_to_move_generation_stack: 28608976235
+                     play_move:  2770120937
+ is_white_king_square_attacked:  1404432129
+ is_black_king_square_attacked:  2370539798
 Loesung beendet. 
 
 
@@ -2994,10 +2994,10 @@ a)
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2
 
-  add_to_move_generation_stack:  7935778607
-                     play_move:   710000391
- is_white_king_square_attacked:   378836417
- is_black_king_square_attacked:   574747598
+  add_to_move_generation_stack:  7466907497
+                     play_move:   683339604
+ is_white_king_square_attacked:   355635998
+ is_black_king_square_attacked:   556401324
 b) sBe5 
 
   1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=D
@@ -3008,10 +3008,10 @@ b) sBe5
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2
 
-  add_to_move_generation_stack:  3066122306
-                     play_move:   310256629
- is_white_king_square_attacked:   166370835
- is_black_king_square_attacked:   249115144
+  add_to_move_generation_stack:  2259545394
+                     play_move:   239780887
+ is_white_king_square_attacked:   124792984
+ is_black_king_square_attacked:   191209246
 Loesung beendet. 
 
 
@@ -3078,10 +3078,10 @@ a)
  32  (Ld7*c8[+sTb8] )
  33  (Ld7*c8[+sTa8] )
  34  (Ld7*c8[+sTc7] )
- 35  (Kd6-e6 )
- 36  (Kd6-d5 )
- 37  (Kd6-c7 )
- 38  (Kd6-e5 )
+ 35  (Kd6-e5 )
+ 36  (Kd6-c7 )
+ 37  (Kd6-d5 )
+ 38  (Kd6-e6 )
  39  (Tc5*c4[+sBc3] )
  40  (Tc5-a5 )
  41  (Tc5-b5 )
@@ -3099,10 +3099,10 @@ a)
  53  (Se2*d4[+sBd3] )
  54  (Se2-c3 )
 
-  add_to_move_generation_stack:  1050626202
-                     play_move:   390103230
- is_white_king_square_attacked:   386782783
- is_black_king_square_attacked:   195653644
+  add_to_move_generation_stack:  1051228755
+                     play_move:   405359866
+ is_white_king_square_attacked:   402039419
+ is_black_king_square_attacked:   192991339
 b) wSg8-->c2
 
  55  (Td8*c8[+sTd8] )
@@ -3162,10 +3162,10 @@ b) wSg8-->c2
 109  (Ld7*c8[+sTb8] )
 110  (Ld7*c8[+sTa8] )
 111  (Ld7*c8[+sTc7] )
-112  (Kd6-e6 )
-113  (Kd6-d5 )
-114  (Kd6-c7 )
-115  (Kd6-e5 )
+112  (Kd6-e5 )
+113  (Kd6-c7 )
+114  (Kd6-d5 )
+115  (Kd6-e6 )
 116  (Tc5*c4[+sBc3] )
 117  (Tc5-a5 )
 118  (Tc5-b5 )
@@ -3208,10 +3208,10 @@ b) wSg8-->c2
 154  (Sc2*d4[+sBd3] )
 155  (Sc2-a3 )
 
-  add_to_move_generation_stack:  3248196099
-                     play_move:  1210391536
- is_white_king_square_attacked:  1201596916
- is_black_king_square_attacked:   622156694
+  add_to_move_generation_stack:  3251193602
+                     play_move:  1231062610
+ is_white_king_square_attacked:  1222267990
+ is_black_king_square_attacked:   616399614
 Loesung beendet. 
 
 
