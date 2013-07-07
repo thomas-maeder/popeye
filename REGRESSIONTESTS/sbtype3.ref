@@ -59,7 +59,7 @@ latent pawns' side which one to promote -> f7*e8 would be self-check
 
   add_to_move_generation_stack:          21
                      play_move:          23
- is_white_king_square_attacked:           8
+ is_white_king_square_attacked:           6
  is_black_king_square_attacked:          22
 solution finished. 
 
@@ -98,7 +98,7 @@ solution finished.
 
   add_to_move_generation_stack:          15
                      play_move:          15
- is_white_king_square_attacked:           9
+ is_white_king_square_attacked:           4
  is_black_king_square_attacked:          16
 solution finished. 
 
@@ -167,7 +167,7 @@ pawn's side selects which pawn to promote -> Ra1 can't capture
   add_to_move_generation_stack:          87
                      play_move:          78
  is_white_king_square_attacked:          11
- is_black_king_square_attacked:          80
+ is_black_king_square_attacked:          78
 solution finished. 
 
 
@@ -204,7 +204,7 @@ solution finished.
   add_to_move_generation_stack:         251
                      play_move:         187
  is_white_king_square_attacked:          24
- is_black_king_square_attacked:         190
+ is_black_king_square_attacked:         188
 solution finished. 
 
 

@@ -152,10 +152,11 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   return result;
 }
 
-boolean singleboxtype3_is_king_square_attacked(Side side_king_attacked)
+boolean singleboxtype3_is_square_observed(square sq_target,
+                                          evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
-  Side const side_attacking = advers(side_king_attacked);
+  Side const side_attacking = trait[nbply];
   square sq;
 
   for (sq = next_latent_pawn(initsquare,side_attacking);
@@ -171,7 +172,7 @@ boolean singleboxtype3_is_king_square_attacked(Side side_king_attacked)
       ++promotionstried;
       replace_piece(sq,pprom);
       ++number_of_pieces[side_attacking][pprom];
-      result = is_king_square_attacked_default(side_king_attacked);
+      result = is_square_observed(sq_target,evaluate);
       --number_of_pieces[side_attacking][pprom];
       replace_piece(sq,Pawn);
       if (result)
@@ -179,8 +180,7 @@ boolean singleboxtype3_is_king_square_attacked(Side side_king_attacked)
     }
   }
 
-  return (promotionstried==0
-          && is_king_square_attacked_default(side_king_attacked));
+  return promotionstried==0 && is_square_observed(sq_target,evaluate);
 }
 
 static square find_next_latent_pawn(square sq, Side side)

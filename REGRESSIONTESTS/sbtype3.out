@@ -59,7 +59,7 @@ Seite der latenten Bauern entscheidet welchen umzuwandeln -> f7*e8 w"are Selbsts
 
   add_to_move_generation_stack:          21
                      play_move:          23
- is_white_king_square_attacked:           8
+ is_white_king_square_attacked:           6
  is_black_king_square_attacked:          22
 Loesung beendet. 
 
@@ -98,7 +98,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:          15
                      play_move:          15
- is_white_king_square_attacked:           9
+ is_white_king_square_attacked:           4
  is_black_king_square_attacked:          16
 Loesung beendet. 
 
@@ -167,7 +167,7 @@ Seite der Bauern entscheidet welchen umzuwandeln -> Ta1 kann nicht schlagen
   add_to_move_generation_stack:          87
                      play_move:          78
  is_white_king_square_attacked:          11
- is_black_king_square_attacked:          80
+ is_black_king_square_attacked:          78
 Loesung beendet. 
 
 
@@ -204,7 +204,7 @@ Loesung beendet.
   add_to_move_generation_stack:         251
                      play_move:         187
  is_white_king_square_attacked:          24
- is_black_king_square_attacked:         190
+ is_black_king_square_attacked:         188
 Loesung beendet. 
 
 

@@ -1522,7 +1522,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
   {
-    is_king_square_attacked = &singleboxtype3_is_king_square_attacked;
+    is_square_attacked = &singleboxtype3_is_square_observed;
     generate_moves_for_piece = &singleboxtype3_generate_moves_for_piece;
   }
 
