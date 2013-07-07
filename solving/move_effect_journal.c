@@ -1234,6 +1234,8 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
   TraceSquare(on);
   TraceFunctionParamListEnd();
 
+  assert(GetPieceId(spec[on])==GetPieceId(to));
+
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_flags_change;
@@ -1295,6 +1297,7 @@ static void undo_flags_change(move_effect_journal_index_type curr)
   TraceSquare(on);TraceText("\n");
 
   assert(spec[on]==move_effect_journal[curr].u.flags_change.to);
+  assert(GetPieceId(spec[on])==GetPieceId(from));
 
   if (TSTFLAG(spec[on],White))
     --number_of_pieces[White][get_walk_of_piece_on_square(on)];
@@ -1326,6 +1329,7 @@ static void redo_flags_change(move_effect_journal_index_type curr)
 #endif
 
   assert(spec[on]==move_effect_journal[curr].u.flags_change.from);
+  assert(GetPieceId(spec[on])==GetPieceId(to));
 
   if (TSTFLAG(spec[on],White))
     --number_of_pieces[White][get_walk_of_piece_on_square(on)];

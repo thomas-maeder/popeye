@@ -10,6 +10,11 @@
 
 boolean kobulking[nr_sides];
 
+enum
+{
+  transferred_flags_mask = PieSpMask&~COLORFLAGS&~BIT(Royal)
+};
+
 static void substitute(Side trait_ply)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
@@ -23,17 +28,17 @@ static void substitute(Side trait_ply)
     PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
     PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
 
-    Flags spec_kobul = move_effect_journal[capture].u.piece_removal.removedspec;
-    CLRFLAGMASK(spec_kobul, COLORFLAGS);
-    SETFLAG(spec_kobul,Royal);
-    SETFLAGMASK(spec_kobul, spec[king_pos]&COLORFLAGS);
+    Flags const capturee_flags = move_effect_journal[capture].u.piece_removal.removedspec;
+    Flags spec_kobul = spec[king_pos];
+    CLRFLAGMASK(spec_kobul,transferred_flags_mask);
+    SETFLAGMASK(spec_kobul,capturee_flags&transferred_flags_mask);
 
     if (get_walk_of_piece_on_square(king_pos)!=kobul_kind)
       move_effect_journal_do_piece_change(move_effect_reason_kobul_king,
                                           king_pos,
                                           kobul_kind);
 
-    if ((spec[king_pos]&PieSpMask)!=(spec_kobul&PieSpMask))
+    if (spec[king_pos]!=spec_kobul)
       move_effect_journal_do_flags_change(move_effect_reason_kobul_king,
                                           king_pos,
                                           spec_kobul);
