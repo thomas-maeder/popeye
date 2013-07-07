@@ -294,4 +294,12 @@ pieces white cham pb7
 stip ~1
 option nowk nobk
 
+next
+
+title no check in 4.63 because the Kobul transformation would transfer
+title the capturee's identity, causing the king to be reborn on g2
+pieces white bh1 black royal se4 pg2
+condition diagramcirce rexincl kobulkings
+stip +1
+
 end
