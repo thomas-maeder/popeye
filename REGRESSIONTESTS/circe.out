@@ -128,8 +128,8 @@ Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
 
   add_to_move_generation_stack:       70274
                      play_move:       65685
- is_white_king_square_attacked:          49
- is_black_king_square_attacked:       40194
+ is_white_king_square_attacked:        5124
+ is_black_king_square_attacked:       65461
 Loesung beendet. 
 
 
@@ -446,8 +446,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        2147
                      play_move:        1630
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:         340
+ is_white_king_square_attacked:         121
+ is_black_king_square_attacked:        1633
 Loesung beendet. 
 
 

@@ -5351,6 +5351,7 @@ static char *ParseCond(void)
       case circemalefiquevertical:
       case circediametral:
       case circerank:
+      case frischauf:
         tok = ParseRex(&rex_circe, rexincl);
         break;
       case protean:

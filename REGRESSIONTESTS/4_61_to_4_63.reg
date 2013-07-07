@@ -407,16 +407,16 @@ a)
 
   add_to_move_generation_stack:          26
                      play_move:          20
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           3
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:          21
 b) +wSa8 
 
   1...Rh3-a3 #
 
   add_to_move_generation_stack:          53
                      play_move:          44
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:          43
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          45
 solution finished. 
 
 
@@ -1121,10 +1121,10 @@ Until 4.61, Circe rebirths weren't considered in Koeko
    1.CAa6*d7[+bKe8] !
 
 
-  add_to_move_generation_stack:           3
-                     play_move:           3
+  add_to_move_generation_stack:           4
+                     play_move:           4
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           1
+ is_black_king_square_attacked:           2
 solution finished. 
 
 

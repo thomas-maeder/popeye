@@ -358,7 +358,6 @@ boolean echecc(Side side_in_check)
 {
   boolean result;
   Side const side_king_attacked = CondFlag[vogt] ? advers(side_in_check) : side_in_check;
-  Side const side_attacking_king = advers(side_king_attacked);
 
   if (CondFlag[extinction])
     result = echecc_extinction(side_king_attacked);
@@ -366,15 +365,6 @@ boolean echecc(Side side_in_check)
     result = false;
   else if (SATCheck)
     return echecc_SAT(side_in_check);
-  else if (rex_circe
-           && (CondFlag[pwc]
-               || is_square_empty((*circerenai)(get_walk_of_piece_on_square(king_square[side_king_attacked]),
-                                   spec[king_square[side_king_attacked]],
-                                   king_square[side_king_attacked],
-                                   initsquare,
-                                   initsquare,
-                                   side_attacking_king))))
-    result = false;
   else if (CondFlag[circeassassin] && echecc_assassin(side_king_attacked))
     result = true;
   else if (CondFlag[bicolores])
