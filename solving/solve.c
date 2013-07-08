@@ -20,7 +20,6 @@
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
 #include "conditions/koeko/new.h"
-#include "conditions/extinction.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/clone.h"
@@ -1276,14 +1275,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STBlackChecks:
       result = blackchecks_solve(si,n);
-      break;
-
-    case STExtinctionRememberThreatened:
-      result = extinction_remember_threatened_solve(si,n);
-      break;
-
-    case STExtinctionTester:
-      result = extinction_tester_solve(si,n);
       break;
 
     case STSingleBoxType1LegalityTester:

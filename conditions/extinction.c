@@ -19,9 +19,6 @@ void stip_insert_extinction_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STExtinctionRememberThreatened);
-  stip_instrument_moves(si,STExtinctionTester);
-
   solving_instrument_check_testing(si,STExtinctionCheckTester);
 
   TraceFunctionExit(__func__);
@@ -46,78 +43,6 @@ static boolean move_extincts_kind(Side starter)
         result = true;
         break;
       }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played (or being played)
- *                                     is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type extinction_remember_threatened_solve(slice_index si,
-                                                       stip_length_type n)
-{
-  stip_length_type result;
-  Side const starter = slices[si].starter;
-  slice_index const next = slices[si].next1;
-  PieNam walk;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  for (walk = King; walk<PieceCount; walk++)
-    prev_nbpiece[walk] = number_of_pieces[starter][walk];
-
-  result = solve(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played (or being played)
- *                                     is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type extinction_tester_solve(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  Side const starter = slices[si].starter;
-  slice_index const next = slices[si].next1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (move_extincts_kind(starter))
-    result = previous_move_is_illegal;
-  else
-    result = solve(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

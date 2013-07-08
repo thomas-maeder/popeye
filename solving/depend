@@ -1531,8 +1531,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  pieces/pawns/promotion.h conditions/anticirce/magic_square.h \
  conditions/bgl.h conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
- conditions/koeko/new.h conditions/extinction.h \
- conditions/circe/chameleon.h \
+ conditions/koeko/new.h conditions/circe/chameleon.h \
  conditions/circe/circuit_by_rebirth_special.h conditions/circe/clone.h \
  conditions/circe/couscous.h \
  conditions/circe/exchange_by_rebirth_special.h \
@@ -1756,8 +1755,6 @@ conditions/koeko/contact_grid.h:
 conditions/koeko/anti.h:
 
 conditions/koeko/new.h:
-
-conditions/extinction.h:
 
 conditions/circe/chameleon.h:
 

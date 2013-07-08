@@ -61,8 +61,6 @@
     ENUMERATOR(STIfThenElse),                                          \
     ENUMERATOR(STCheckZigzagLanding),                                  \
     ENUMERATOR(STBlackChecks),                                         \
-    ENUMERATOR(STExtinctionRememberThreatened),                        \
-    ENUMERATOR(STExtinctionTester),                                    \
     ENUMERATOR(STSingleBoxType1LegalityTester),                        \
     ENUMERATOR(STSingleBoxType2LegalityTester),                        \
     ENUMERATOR(STSingleBoxType3PawnPromoter),                          \
