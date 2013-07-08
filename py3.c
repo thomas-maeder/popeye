@@ -51,8 +51,10 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/vaulting_kings.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/temporary_hacks.h"
 #include "solving/en_passant.h"
 #include "solving/observation.h"
+#include "solving/check.h"
 #include "conditions/annan.h"
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
@@ -244,137 +246,9 @@ boolean is_square_observed(square sq_target, evalfunction_t *evaluate)
     return false;
 }
 
-static boolean echecc_extinction(Side side_in_check)
-{
-  Side const side_checking = advers(side_in_check);
-  boolean result = false;
-
-  PieNam p;
-
-  nextply();
-  trait[nbply] = side_checking;
-
-  for (p = King; p<PieceCount; ++p)
-    if (exist[p] && number_of_pieces[side_in_check][p]==1)
-    {
-      square const *bnp;
-      for (bnp  = boardnum; *bnp; ++bnp)
-        if (get_walk_of_piece_on_square(*bnp)==p && TSTFLAG(spec[*bnp],side_in_check))
-          break;
-
-      if (is_square_attacked(*bnp,&validate_observation))
-      {
-        result = true;
-        break;
-      }
-    }
-
-  finply();
-
-  return result;
-}
-
-static boolean echecc_assassin(Side side_in_check)
-{
-  boolean result = false;
-  Side const side_checking = advers(side_in_check);
-
-  nextply();
-  trait[nbply] = side_checking;
-
-  if (is_square_attacked(king_square[side_in_check],&validate_observation))
-    result = true;
-  else
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
-    {
-      PieNam const p = get_walk_of_piece_on_square(*bnp);
-
-      if (p!=Empty
-          && p!=King && TSTFLAG(spec[*bnp],side_in_check)
-          && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check]
-          && is_square_attacked(*bnp,&validate_observation))
-      {
-        result = true;
-        break;
-      }
-    }
-  }
-
-  finply();
-
-  return result;
-}
-
-static boolean echecc_bicolores(Side side_in_check)
-{
-  boolean result;
-  Side const side_checking = advers(side_in_check);
-
-  nextply();
-  trait[nbply] = side_checking;
-
-  if (is_square_attacked(king_square[side_in_check],&validate_observation))
-    result = true;
-  else
-  {
-    trait[nbply] = side_in_check;
-    result = is_square_attacked(king_square[side_in_check],&validate_observation);
-  }
-
-  finply();
-
-  return result;
-}
-
-DEFINE_COUNTER(is_white_king_square_attacked)
-DEFINE_COUNTER(is_black_king_square_attacked)
-
-boolean is_king_square_attacked(Side side_king_attacked)
-{
-  boolean result;
-
-  if (side_king_attacked==White)
-  {
-    INCREMENT_COUNTER(is_white_king_square_attacked);
-  }
-  else
-  {
-    INCREMENT_COUNTER(is_black_king_square_attacked);
-  }
-
-  nextply();
-  trait[nbply] = advers(side_king_attacked);
-
-  result = is_square_attacked(king_square[side_king_attacked],&validate_observation);
-
-  finply();
-
-  return result;
-}
-
 boolean echecc(Side side_in_check)
 {
-  boolean result;
-  Side const side_king_attacked = CondFlag[vogt] ? advers(side_in_check) : side_in_check;
-
-  if (CondFlag[extinction])
-    result = echecc_extinction(side_king_attacked);
-  else if (king_square[side_king_attacked]==initsquare)
-    result = false;
-  else if (SATCheck)
-    return echecc_SAT(side_in_check);
-  else if (CondFlag[circeassassin] && echecc_assassin(side_king_attacked))
-    result = true;
-  else if (CondFlag[bicolores])
-    result = echecc_bicolores(side_king_attacked);
-  else if (CondFlag[antikings])
-    result = !is_king_square_attacked(side_king_attacked);
-  else
-    result = is_king_square_attacked(side_king_attacked);
-
-  return result;
+  return is_in_check(slices[temporary_hack_check_tester].next2,side_in_check);
 }
 
 static evalfunction_t *next_evaluate;

@@ -11,7 +11,7 @@ SRC_CFILES =   testers.c move_effect_journal.c \
            single_move_generator.c trivial_end_filter.c moving_pawn_promotion.c \
            avoid_unsolvable.c selfcheck_guard.c en_passant.c \
            post_move_iteration.c solve.c king_capture_avoider.c \
-           recursion_stopper.c observation.c
+           recursion_stopper.c observation.c check.c
 INCLUDES = testers.h move_effect_journal.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
@@ -23,6 +23,6 @@ INCLUDES = testers.h move_effect_journal.h \
            single_move_generator.h trivial_end_filter.h moving_pawn_promotion.h \
            avoid_unsolvable.h selfcheck_guard.h en_passant.h \
            post_move_iteration.h solve.h king_capture_avoider.h \
-           recursion_stopper.h observation.h
+           recursion_stopper.h observation.h check.h
 
 include makefile.rules $(CURRPWD)depend

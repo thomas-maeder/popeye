@@ -2397,3 +2397,89 @@ stipulation/goals/goals.h:
 py.h:
 
 debugging/trace.h:
+solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/vectors.h utilities/enumeration.h stipulation/stipulation.h py.h \
+ utilities/boolean.h position/position.h pylang.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ conditions/extinction.h solving/solve.h conditions/sat.h \
+ conditions/vogtlaender.h conditions/circe/assassin.h \
+ conditions/bicolores.h conditions/antikings.h solving/observation.h \
+ pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ stipulation/pipe.h stipulation/branch.h pydata.h pyproc.h \
+ debugging/trace.h debugging/measure.h
+
+solving/check.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/vectors.h:
+
+utilities/enumeration.h:
+
+stipulation/stipulation.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+conditions/extinction.h:
+
+solving/solve.h:
+
+conditions/sat.h:
+
+conditions/vogtlaender.h:
+
+conditions/circe/assassin.h:
+
+conditions/bicolores.h:
+
+conditions/antikings.h:
+
+solving/observation.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+stipulation/pipe.h:
+
+stipulation/branch.h:
+
+pydata.h:
+
+pyproc.h:
+
+debugging/trace.h:
+
+debugging/measure.h:

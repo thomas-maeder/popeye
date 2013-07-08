@@ -1354,6 +1354,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = sat_flight_moves_generator_solve(si,n);
       break;
 
+    case STStrictSATInitialiser:
+      result = strict_sat_initialiser_solve(si,n);
+      break;
+
     case STStrictSATUpdater:
       result = strict_sat_updater_solve(si,n);
       break;

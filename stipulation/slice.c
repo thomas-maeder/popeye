@@ -89,6 +89,7 @@ static slice_type const fork_slice_types[] =
     STMummerOrchestrator,
     STUltraMummerMeasurerFork,
     STBackHomeFinderFork,
+    STCheckTesterFork,
     STTrivialEndFilter,
     STNullMovePlayer,
     STCastlingPlayer,
@@ -200,7 +201,8 @@ static slice_type const proxy_slice_types[] =
     STLandingAfterAnticirceRebirth,
     STLandingAfterCirceRebirthHandler,
     STLandingAfterMovingPawnPromoter,
-    STMummerDeadend
+    STMummerDeadend,
+    STTestingCheck
 };
 
 static slice_type const move_generator_slice_types[] =
@@ -290,6 +292,7 @@ static slice_type const conditional_pipe_slice_types[] =
     STKingCaptureLegalityTester,
     STUltraMummerMeasurerFork,
     STBackHomeFinderFork,
+    STCheckTesterFork,
     STCageCirceNonCapturingMoveFinder,
     STTakeMakeCirceCollectRebirthSquaresFork,
     STOhneschachStopIfCheckAndNotMate

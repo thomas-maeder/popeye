@@ -218,6 +218,9 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/vaulting_kings.h"
 #include "conditions/backhome.h"
+#include "conditions/vogtlaender.h"
+#include "conditions/bicolores.h"
+#include "conditions/antikings.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -584,7 +587,6 @@ static boolean locate_royals(void)
       {
         square const s = *bnp;
         assert(!TSTFLAG(spec[s],Royal));
-        assert(!is_piece_neutral(spec[s]));
         if (get_walk_of_piece_on_square(s)==King)
         {
           Side const king_side = TSTFLAG(spec[s],White) ? White : Black;
@@ -1329,6 +1331,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[magicsquare]
       || CondFlag[volage]
       || CondFlag[masand]
+      || CondFlag[dynasty]
       || TSTFLAG(some_pieces_flags,Magic))
   {
     if (is_piece_neutral(some_pieces_flags))
@@ -1920,11 +1923,6 @@ static boolean verify_position(slice_index si)
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
-    SATCheck = false;
-    StrictSAT[White][1] = echecc(White);
-    StrictSAT[Black][1] = echecc(Black);
-    SATCheck = true;
-    satXY = SATFlights[White] > 1 || SATFlights[Black] > 1;
   }
 
   if (CondFlag[schwarzschacher])
@@ -2417,11 +2415,10 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (TSTFLAG(some_pieces_flags,Paralysing))
     paralysing_initialise_solving(result);
 
-  if (CondFlag[SAT] || CondFlag[strictSAT])
-    stip_substitute_sat_king_flight_generators(result);
-
   if (CondFlag[strictSAT])
-    stip_insert_strict_sat(result);
+    strictsat_initialise_solving(result);
+  else if (CondFlag[SAT])
+    sat_initialise_solving(result);
 
   if (CondFlag[schwarzschacher])
     blackchecks_initialise_solving(result);
@@ -2455,7 +2452,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   else if (CondFlag[circecage])
     stip_insert_circe_cage(result);
   else if (CondFlag[circeassassin])
-    stip_insert_circe_assassin(result);
+    assassin_circe_initalise_solving(result);
   else if (CondFlag[circetakeandmake])
     stip_insert_take_make_circe(result);
   else if (anycirce)
@@ -2779,6 +2776,15 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (TSTFLAG(some_pieces_flags,Magic))
     stip_insert_magic_pieces_recolorers(result);
+
+  if (CondFlag[vogt])
+    vogtlaender_initalise_solving(result);
+
+  if (CondFlag[bicolores])
+    bicolores_initalise_solving(result);
+
+  if (CondFlag[antikings])
+    antikings_initalise_solving(result);
 
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);

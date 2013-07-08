@@ -35,6 +35,7 @@ slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_sat_flights_counter[nr_sides];
 slice_index temporary_hack_back_home_finder[nr_sides];
+slice_index temporary_hack_check_tester;
 
 static slice_index make_mate_tester_fork(Side side)
 {
@@ -239,6 +240,23 @@ static slice_index make_back_home_finder(Side side)
   return result;
 }
 
+static slice_index make_check_tester(void)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STCheckTesterFork,proxy);
+  slice_index const testing = alloc_pipe(STTestingCheck);
+  slice_index const no_king_tester = alloc_pipe(STNoKingCheckTester);
+  slice_index const initialiser = alloc_pipe(STKingSquareObservationTesterPlyInitialiser);
+  slice_index const king_square_observation_tester = alloc_pipe(STKingSquareObservationTester);
+  link_to_branch(proxy,testing);
+  pipe_append(testing,no_king_tester);
+  pipe_append(no_king_tester,initialiser);
+  pipe_append(initialiser,king_square_observation_tester);
+  pipe_link(king_square_observation_tester,alloc_true_slice());
+  stip_impose_starter(result,Black);
+  return result;
+}
+
 void insert_temporary_hacks(slice_index root_slice)
 {
   TraceFunctionEntry(__func__);
@@ -285,6 +303,8 @@ void insert_temporary_hacks(slice_index root_slice)
 
     temporary_hack_back_home_finder[Black] = make_back_home_finder(Black);
     temporary_hack_back_home_finder[White] = make_back_home_finder(White);
+
+    temporary_hack_check_tester = make_check_tester();
 
     pipe_append(root_slice,entry_point);
 
@@ -333,6 +353,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_sat_flights_counter[Black]);
     pipe_append(temporary_hack_sat_flights_counter[Black],
                 temporary_hack_back_home_finder[Black]);
+    pipe_append(temporary_hack_back_home_finder[Black],
+                temporary_hack_check_tester);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

@@ -38,6 +38,8 @@ extern slice_index temporary_hack_sat_flights_counter[nr_sides];
 /* fork slice into branch that finds a back home move */
 extern slice_index temporary_hack_back_home_finder[nr_sides];
 
+extern slice_index temporary_hack_check_tester;
+
 
 /* Initialise temporary hack slices
  * @param root_slice identifies root slice of stipulation

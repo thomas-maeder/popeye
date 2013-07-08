@@ -241,6 +241,7 @@
     ENUMERATOR(STOpponentMovesFewMovesPrioriser),                     \
     ENUMERATOR(STSATFlightsCounterFork), \
     ENUMERATOR(STSATFlightMoveGenerator), \
+    ENUMERATOR(STStrictSATInitialiser), \
     ENUMERATOR(STStrictSATUpdater), \
     ENUMERATOR(STDynastyKingSquareUpdater), \
     ENUMERATOR(STHurdleColourChanger), \
@@ -271,6 +272,19 @@
     ENUMERATOR(STUltraMummerMeasurerDeadend),                           \
     ENUMERATOR(STBackHomeFinderFork),                                   \
     ENUMERATOR(STBackHomeMovesOnly),                                    \
+    ENUMERATOR(STCheckTesterFork),                                      \
+    ENUMERATOR(STTestingCheck),                                         \
+    ENUMERATOR(STVogtlaenderCheckTester),                               \
+    ENUMERATOR(STExtinctionCheckTester),                                \
+    ENUMERATOR(STNoKingCheckTester),                                    \
+    ENUMERATOR(STSATCheckTester),                                       \
+    ENUMERATOR(STSATxyCheckTester),                                     \
+    ENUMERATOR(STStrictSATCheckTester),                                 \
+    ENUMERATOR(STAssassinCirceCheckTester),                             \
+    ENUMERATOR(STKingSquareObservationTesterPlyInitialiser),            \
+    ENUMERATOR(STBicoloresCheckTester),                                 \
+    ENUMERATOR(STAntikingsCheckTester),                                 \
+    ENUMERATOR(STKingSquareObservationTester),                          \
     ENUMERATOR(STBGLFilter),                                            \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMessignyMovePlayer),                                   \

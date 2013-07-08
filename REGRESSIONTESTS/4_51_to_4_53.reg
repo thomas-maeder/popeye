@@ -32,8 +32,8 @@ piece is of the same colour as the king to be mated
 
   add_to_move_generation_stack:       76524
                      play_move:       65793
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
+ is_white_king_square_attacked:        5285
+ is_black_king_square_attacked:      126964
 solution finished. 
 
 

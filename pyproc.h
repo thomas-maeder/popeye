@@ -231,8 +231,6 @@ boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
 
 extern boolean(*is_square_attacked)(square sq_target, evalfunction_t *evaluate);
 
-boolean is_king_square_attacked(Side side_king_attacked);
-
 boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 boolean rcsech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
 boolean rcspech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);

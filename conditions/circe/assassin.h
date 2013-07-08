@@ -6,6 +6,14 @@
 
 #include "solving/solve.h"
 
+/* Determine whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean assassin_circe_check_tester_is_in_check(slice_index si,
+                                                Side side_in_check);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -25,6 +33,6 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_assassin(slice_index si);
+void assassin_circe_initalise_solving(slice_index si);
 
 #endif
