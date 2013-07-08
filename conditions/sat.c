@@ -13,10 +13,11 @@
 
 #include <assert.h>
 
-static boolean SATCheck;
 boolean StrictSAT[nr_sides][maxply+1];
+unsigned int SATFlights[nr_sides];
+
+static boolean SATCheck;
 static slice_index strict_sat_flight_tester;
-int SATFlights[nr_sides];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -114,14 +115,13 @@ boolean sat_check_tester_is_in_check(slice_index si, Side side_in_check)
   if (SATCheck)
   {
     boolean result;
-    int nr_flights = SATFlights[side_in_check];
 
     SATCheck = false;
 
-    if (nr_flights==0)
+    if (SATFlights[side_in_check]==0)
       result = true;
     else
-      result = find_flights(side_in_check,nr_flights-1);
+      result = find_flights(side_in_check,SATFlights[side_in_check]-1);
 
     SATCheck = true;
 
@@ -141,7 +141,7 @@ boolean strictsat_check_tester_is_in_check(slice_index si, Side side_in_check)
   if (SATCheck)
   {
     boolean result;
-    int nr_flights = SATFlights[side_in_check];
+    unsigned int nr_flights = SATFlights[side_in_check];
 
     SATCheck = false;
 
@@ -174,7 +174,7 @@ boolean satxy_check_tester_is_in_check(slice_index si, Side side_in_check)
   if (SATCheck)
   {
     boolean result;
-    int nr_flights = SATFlights[side_in_check];
+    unsigned int nr_flights = SATFlights[side_in_check];
 
     SATCheck = false;
 

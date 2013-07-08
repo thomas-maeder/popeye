@@ -5571,14 +5571,14 @@ static char *ParseCond(void)
       case SAT:
       case strictSAT:
         tok = ReadNextTokStr();
-        SATFlights[White]= strtol(tok,&ptr,10) + 1;
+        SATFlights[White] = strtoul(tok,&ptr,10) + 1;
         if (tok == ptr) {
           SATFlights[White]= 1;
           SATFlights[Black]= 1;
           break;
         }
         tok = ReadNextTokStr();
-        SATFlights[Black]= strtol(tok,&ptr,10) + 1;
+        SATFlights[Black] = strtoul(tok,&ptr,10) + 1;
         if (tok == ptr)
           SATFlights[Black]= SATFlights[White];
         break;

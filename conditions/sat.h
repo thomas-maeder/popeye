@@ -5,7 +5,7 @@
 
 extern boolean StrictSAT[nr_sides][maxply+1];
 
-extern int SATFlights[nr_sides];
+extern unsigned int SATFlights[nr_sides];
 
 /* Try to solve in n half-moves.
  * @param si slice index
