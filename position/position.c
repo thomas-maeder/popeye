@@ -172,21 +172,6 @@ void block_square(square s)
   spec[s] = BorderSpec;
 }
 
-boolean is_square_empty(square s)
-{
-  return e[s]==Empty;
-}
-
-boolean is_square_blocked(square s)
-{
-  return e[s]==Invalid;
-}
-
-PieNam get_walk_of_piece_on_square(square s)
-{
-  return e[s];
-}
-
 square find_end_of_line(square from, numvec dir)
 {
   square result = from;

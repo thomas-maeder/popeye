@@ -274,9 +274,9 @@ void empty_square(square s);
 void block_square(square s);
 void occupy_square(square s, PieNam piece, Flags flags);
 void replace_piece(square s, PieNam piece);
-boolean is_square_empty(square s);
-boolean is_square_blocked(square s);
-PieNam get_walk_of_piece_on_square(square s);
+#define is_square_empty(s) (e[(s)]==Empty)
+#define is_square_blocked(s) (e[(s)]==Invalid)
+#define get_walk_of_piece_on_square(s) (e[(s)])
 square find_end_of_line(square from, numvec dir);
 
 /* Change the side of some piece specs
