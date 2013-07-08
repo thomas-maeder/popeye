@@ -471,31 +471,28 @@ void generate_castling(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (!dont_generate_castling)
+  if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
+      && !echecc(side))
   {
-    if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
-        && !echecc(side))
-    {
-      square const square_a = side==White ? square_a1 : square_a8;
-      square const square_c = square_a+file_c;
-      square const square_d = square_a+file_d;
-      square const square_e = square_a+file_e;
-      square const square_f = square_a+file_f;
-      square const square_g = square_a+file_g;
-      square const square_h = square_a+file_h;
+    square const square_a = side==White ? square_a1 : square_a8;
+    square const square_c = square_a+file_c;
+    square const square_d = square_a+file_d;
+    square const square_e = square_a+file_e;
+    square const square_f = square_a+file_f;
+    square const square_g = square_a+file_g;
+    square const square_h = square_a+file_h;
 
-      /* 0-0 */
-      if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
-          && are_squares_empty(square_e,square_h,dir_right)
-          && castling_is_intermediate_king_move_legal(side,square_e,square_f))
-        add_to_move_generation_stack(square_e,square_g,kingside_castling);
+    /* 0-0 */
+    if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
+        && are_squares_empty(square_e,square_h,dir_right)
+        && castling_is_intermediate_king_move_legal(side,square_e,square_f))
+      add_to_move_generation_stack(square_e,square_g,kingside_castling);
 
-      /* 0-0-0 */
-      if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
-          && are_squares_empty(square_e,square_a,dir_left)
-          && castling_is_intermediate_king_move_legal(side,square_e,square_d))
-        add_to_move_generation_stack(square_e,square_c,queenside_castling);
-    }
+    /* 0-0-0 */
+    if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
+        && are_squares_empty(square_e,square_a,dir_left)
+        && castling_is_intermediate_king_move_legal(side,square_e,square_d))
+      add_to_move_generation_stack(square_e,square_c,queenside_castling);
   }
 
   TraceFunctionExit(__func__);

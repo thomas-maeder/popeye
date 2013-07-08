@@ -73,7 +73,6 @@ static structure_traversers_visitor avoid_temporary_hacks[] =
   { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe },
   { STTakeMakeCirceCollectRebirthSquaresFork, &stip_traverse_structure_children_pipe },
   { STCastlingIntermediateMoveLegalityTester, &stip_traverse_structure_children_pipe },
-  { STSATFlightsCounterFork,                  &stip_traverse_structure_children_pipe },
   { STUltraMummerMeasurerFork,                &stip_traverse_structure_children_pipe }
 };
 

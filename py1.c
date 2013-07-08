@@ -472,7 +472,6 @@ void InitAlways(void) {
   }
 
   reset_tables();
-  dont_generate_castling = false;
 
   reset_max_nr_solutions_per_target_position();
 

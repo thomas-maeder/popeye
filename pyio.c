@@ -821,13 +821,13 @@ static void WriteConditions(int alignment)
       }
     }
 
-    if ((cond == SAT || cond == strictSAT) && (SATFlights[White] != 1 || SATFlights[Black] != 1)) {
+    if ((cond == SAT || cond == strictSAT) && (SAT_max_nr_allowed_flights[White] != 1 || SAT_max_nr_allowed_flights[Black] != 1)) {
       char extra[10];
       char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
-      if (SATFlights[White] == SATFlights[Black])
-        sprintf(extra, " %s", roman[SATFlights[White]-1]);
+      if (SAT_max_nr_allowed_flights[White] == SAT_max_nr_allowed_flights[Black])
+        sprintf(extra, " %s", roman[SAT_max_nr_allowed_flights[White]-1]);
       else
-        sprintf(extra, " %s/%s", roman[SATFlights[White]-1], roman[SATFlights[Black]-1]);
+        sprintf(extra, " %s/%s", roman[SAT_max_nr_allowed_flights[White]-1], roman[SAT_max_nr_allowed_flights[Black]-1]);
       strcat (CondLine, extra);
     }
 
@@ -5571,16 +5571,16 @@ static char *ParseCond(void)
       case SAT:
       case strictSAT:
         tok = ReadNextTokStr();
-        SATFlights[White] = strtoul(tok,&ptr,10) + 1;
+        SAT_max_nr_allowed_flights[White] = strtoul(tok,&ptr,10) + 1;
         if (tok == ptr) {
-          SATFlights[White]= 1;
-          SATFlights[Black]= 1;
+          SAT_max_nr_allowed_flights[White]= 1;
+          SAT_max_nr_allowed_flights[Black]= 1;
           break;
         }
         tok = ReadNextTokStr();
-        SATFlights[Black] = strtoul(tok,&ptr,10) + 1;
+        SAT_max_nr_allowed_flights[Black] = strtoul(tok,&ptr,10) + 1;
         if (tok == ptr)
-          SATFlights[Black]= SATFlights[White];
+          SAT_max_nr_allowed_flights[Black]= SAT_max_nr_allowed_flights[White];
         break;
       case BGL:
         BGL_global= false;

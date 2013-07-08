@@ -1350,10 +1350,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = patience_chess_legality_tester_solve(si,n);
       break;
 
-    case STSATFlightMoveGenerator:
-      result = sat_flight_moves_generator_solve(si,n);
-      break;
-
     case STStrictSATInitialiser:
       result = strict_sat_initialiser_solve(si,n);
       break;

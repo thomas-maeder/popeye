@@ -239,8 +239,6 @@
     ENUMERATOR(STOpponentMovesCounterFork),                           \
     ENUMERATOR(STOpponentMovesCounter),                               \
     ENUMERATOR(STOpponentMovesFewMovesPrioriser),                     \
-    ENUMERATOR(STSATFlightsCounterFork), \
-    ENUMERATOR(STSATFlightMoveGenerator), \
     ENUMERATOR(STStrictSATInitialiser), \
     ENUMERATOR(STStrictSATUpdater), \
     ENUMERATOR(STDynastyKingSquareUpdater), \

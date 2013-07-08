@@ -162,7 +162,6 @@ EXTERN boolean		anyantimars;
 EXTERN square           supertrans[maxply+1];
 EXTERN PieNam           current_trans_gen;
 EXTERN boolean          complex_castling_through_flag;
-EXTERN boolean          dont_generate_castling;
 EXTERN boolean          flag_synchron;
 EXTERN ply      	      tempply;
 EXTERN boolean          rex_protean_ex;

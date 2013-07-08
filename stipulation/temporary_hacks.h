@@ -32,9 +32,6 @@ extern slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_
 /* fork slice into branch that tests the legality of a candidate move */
 extern slice_index temporary_hack_opponent_moves_counter[nr_sides];
 
-/* fork slice into branch that counts flights in SAT */
-extern slice_index temporary_hack_sat_flights_counter[nr_sides];
-
 /* fork slice into branch that finds a back home move */
 extern slice_index temporary_hack_back_home_finder[nr_sides];
 
