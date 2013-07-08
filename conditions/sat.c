@@ -16,7 +16,7 @@
 boolean StrictSAT[nr_sides][maxply+1];
 unsigned int SATFlights[nr_sides];
 
-static boolean SATCheck;
+static boolean finding_flights;
 static slice_index strict_sat_flight_tester;
 
 /* Try to solve in n half-moves.
@@ -85,6 +85,8 @@ static boolean find_flights(Side side_in_check,
 {
   boolean result;
 
+  finding_flights = true;
+
   /* avoid concurrent counts */
   assert(legal_move_counter_count[nbply]==0);
 
@@ -102,6 +104,8 @@ static boolean find_flights(Side side_in_check,
   /* clean up after ourselves */
   legal_move_counter_count[nbply] = 0;
 
+  finding_flights = false;
+
   return result;
 }
 
@@ -112,23 +116,19 @@ static boolean find_flights(Side side_in_check,
  */
 boolean sat_check_tester_is_in_check(slice_index si, Side side_in_check)
 {
-  if (SATCheck)
+  if (finding_flights)
+    return is_in_check(slices[si].next1,side_in_check);
+  else
   {
     boolean result;
-
-    SATCheck = false;
 
     if (SATFlights[side_in_check]==0)
       result = true;
     else
       result = find_flights(side_in_check,SATFlights[side_in_check]-1);
 
-    SATCheck = true;
-
     return result;
   }
-  else
-    return is_in_check(slices[si].next1,side_in_check);
 }
 
 /* Determine whether a side is in check
@@ -138,12 +138,12 @@ boolean sat_check_tester_is_in_check(slice_index si, Side side_in_check)
  */
 boolean strictsat_check_tester_is_in_check(slice_index si, Side side_in_check)
 {
-  if (SATCheck)
+  if (finding_flights)
+    return is_in_check(slices[si].next1,side_in_check);
+  else
   {
     boolean result;
     unsigned int nr_flights = SATFlights[side_in_check];
-
-    SATCheck = false;
 
     if (StrictSAT[side_in_check][parent_ply[nbply]])
     {
@@ -156,12 +156,8 @@ boolean strictsat_check_tester_is_in_check(slice_index si, Side side_in_check)
     else
       result = find_flights(side_in_check,nr_flights-1);
 
-    SATCheck = true;
-
     return result;
   }
-  else
-    return is_in_check(slices[si].next1,side_in_check);
 }
 
 /* Determine whether a side is in check
@@ -171,12 +167,12 @@ boolean strictsat_check_tester_is_in_check(slice_index si, Side side_in_check)
  */
 boolean satxy_check_tester_is_in_check(slice_index si, Side side_in_check)
 {
-  if (SATCheck)
+  if (finding_flights)
+    return is_in_check(slices[si].next1,side_in_check);
+  else
   {
     boolean result;
     unsigned int nr_flights = SATFlights[side_in_check];
-
-    SATCheck = false;
 
     if (!is_in_check(slices[si].next1,side_in_check))
       --nr_flights;
@@ -186,22 +182,8 @@ boolean satxy_check_tester_is_in_check(slice_index si, Side side_in_check)
     else
       result = find_flights(side_in_check,nr_flights-1);
 
-    SATCheck = true;
-
     return result;
   }
-  else
-    return is_in_check(slices[si].next1,side_in_check);
-}
-
-static void update_strict_sat(void)
-{
-  SATCheck = false;
-  StrictSAT[White][nbply]= (StrictSAT[White][parent_ply[nbply]]
-                            || is_in_check(slices[strict_sat_flight_tester].next1,White));
-  StrictSAT[Black][nbply]= (StrictSAT[Black][parent_ply[nbply]]
-                            || is_in_check(slices[strict_sat_flight_tester].next1,Black));
-  SATCheck = true;
 }
 
 /* Try to solve in n half-moves.
@@ -227,12 +209,12 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  SATCheck = false;
-  strict_sat_flight_tester = branch_find_slice(STStrictSATCheckTester,slices[temporary_hack_check_tester].next2,stip_traversal_context_intro);
+  strict_sat_flight_tester = branch_find_slice(STStrictSATCheckTester,
+                                               slices[temporary_hack_check_tester].next2,
+                                               stip_traversal_context_intro);
   assert(strict_sat_flight_tester!=no_slice);
   StrictSAT[White][1] = is_in_check(slices[strict_sat_flight_tester].next1,White);
   StrictSAT[Black][1] = is_in_check(slices[strict_sat_flight_tester].next1,Black);
-  SATCheck = true;
 
   result = solve(slices[si].next1,n);
 
@@ -265,7 +247,11 @@ stip_length_type strict_sat_updater_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  update_strict_sat();
+  StrictSAT[White][nbply]= (StrictSAT[White][parent_ply[nbply]]
+                            || is_in_check(slices[strict_sat_flight_tester].next1,White));
+  StrictSAT[Black][nbply]= (StrictSAT[Black][parent_ply[nbply]]
+                            || is_in_check(slices[strict_sat_flight_tester].next1,Black));
+
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -352,5 +338,5 @@ void sat_initialise_solving(slice_index si)
   else
     solving_instrument_check_testing(si,STSATCheckTester);
 
-  SATCheck = true;
+  finding_flights = false;
 }
