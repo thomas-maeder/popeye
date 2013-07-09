@@ -148,8 +148,8 @@ solution finished.
 
   add_to_move_generation_stack:          44
                      play_move:          44
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:           5
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -182,8 +182,8 @@ solution finished.
 
   add_to_move_generation_stack:          44
                      play_move:          44
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:           5
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -1681,7 +1681,7 @@ solution finished.
 
   add_to_move_generation_stack:     1917494
                      play_move:      545851
- is_white_king_square_attacked:      266620
+ is_white_king_square_attacked:      266347
  is_black_king_square_attacked:      278579
 solution finished. 
 
@@ -1746,8 +1746,8 @@ never generates the same solution twice (but some solutions
 
   add_to_move_generation_stack:       28339
                      play_move:       17067
- is_white_king_square_attacked:        2913
- is_black_king_square_attacked:        6015
+ is_white_king_square_attacked:        2894
+ is_black_king_square_attacked:        5970
 solution finished. 
 
 
@@ -1809,7 +1809,7 @@ promote to bishop (no cage for queen) even if there was a cage
   add_to_move_generation_stack:        1829
                      play_move:        1076
  is_white_king_square_attacked:         824
- is_black_king_square_attacked:           2
+ is_black_king_square_attacked:           1
 solution finished. 
 
 
@@ -1952,7 +1952,7 @@ consider previous cage after advancing type of promotee
   add_to_move_generation_stack:        1700
                      play_move:        1048
  is_white_king_square_attacked:         786
- is_black_king_square_attacked:          35
+ is_black_king_square_attacked:          34
 solving interrupted. 
 
 
@@ -2310,8 +2310,8 @@ feature request 2813613: proof games and Leofamily
 
   add_to_move_generation_stack:        8532
                      play_move:        8532
- is_white_king_square_attacked:         384
- is_black_king_square_attacked:         383
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:         364
 solution finished. 
 
 

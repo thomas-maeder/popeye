@@ -100,7 +100,7 @@ solution finished.
 
   add_to_move_generation_stack:          20
                      play_move:          20
- is_white_king_square_attacked:           2
+ is_white_king_square_attacked:           1
  is_black_king_square_attacked:           2
 solution finished. 
 

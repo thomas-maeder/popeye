@@ -471,9 +471,10 @@ void generate_castling(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
-      && !echecc(side))
+  if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle)
   {
+    castling_flag_type allowed_castlings = 0;
+
     square const square_a = side==White ? square_a1 : square_a8;
     square const square_c = square_a+file_c;
     square const square_d = square_a+file_d;
@@ -484,15 +485,24 @@ void generate_castling(Side side)
 
     /* 0-0 */
     if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
-        && are_squares_empty(square_e,square_h,dir_right)
-        && castling_is_intermediate_king_move_legal(side,square_e,square_f))
-      add_to_move_generation_stack(square_e,square_g,kingside_castling);
+        && are_squares_empty(square_e,square_h,dir_right))
+       allowed_castlings |= rh_cancastle;
 
     /* 0-0-0 */
     if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
-        && are_squares_empty(square_e,square_a,dir_left)
-        && castling_is_intermediate_king_move_legal(side,square_e,square_d))
-      add_to_move_generation_stack(square_e,square_c,queenside_castling);
+        && are_squares_empty(square_e,square_a,dir_left))
+      allowed_castlings |= ra_cancastle;
+
+    if (allowed_castlings!=0 && !echecc(side))
+    {
+      if ((allowed_castlings&rh_cancastle)
+          && castling_is_intermediate_king_move_legal(side,square_e,square_f))
+        add_to_move_generation_stack(square_e,square_g,kingside_castling);
+
+      if ((allowed_castlings&ra_cancastle)
+          && castling_is_intermediate_king_move_legal(side,square_e,square_d))
+        add_to_move_generation_stack(square_e,square_c,queenside_castling);
+    }
   }
 
   TraceFunctionExit(__func__);

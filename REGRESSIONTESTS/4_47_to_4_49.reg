@@ -535,7 +535,7 @@ bogus solutions.
   add_to_move_generation_stack:         156
                      play_move:         156
  is_white_king_square_attacked:           3
- is_black_king_square_attacked:           5
+ is_black_king_square_attacked:           3
 solution finished. 
 
 

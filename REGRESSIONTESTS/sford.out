@@ -647,7 +647,7 @@ a)
   add_to_move_generation_stack:       61254
                      play_move:       58582
  is_white_king_square_attacked:       58186
- is_black_king_square_attacked:       10398
+ is_black_king_square_attacked:       10395
 b) sBf2<-->wBh4
 
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 #
@@ -656,7 +656,7 @@ b) sBf2<-->wBh4
   add_to_move_generation_stack:       21770
                      play_move:       18866
  is_white_king_square_attacked:       18673
- is_black_king_square_attacked:        6275
+ is_black_king_square_attacked:        6272
 Loesung beendet. 
 
 
@@ -700,7 +700,7 @@ a)
   add_to_move_generation_stack:      194412
                      play_move:      139426
  is_white_king_square_attacked:       35246
- is_black_king_square_attacked:      133541
+ is_black_king_square_attacked:      133105
 b) sBf2<-->wBh4
 
   1.h2*g1=L f2-f4   2.e4*f3 ep. #
@@ -709,7 +709,7 @@ b) sBf2<-->wBh4
   add_to_move_generation_stack:      183336
                      play_move:      117954
  is_white_king_square_attacked:       26098
- is_black_king_square_attacked:      118175
+ is_black_king_square_attacked:      117768
 Loesung beendet. 
 
 
@@ -1381,7 +1381,7 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 
   add_to_move_generation_stack:      207544
                      play_move:      153532
- is_white_king_square_attacked:      102464
+ is_white_king_square_attacked:       99905
  is_black_king_square_attacked:      153508
 Loesung beendet. 
 

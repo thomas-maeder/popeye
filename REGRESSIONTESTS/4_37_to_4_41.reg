@@ -106,8 +106,8 @@ reported P.Raican (orig. M.Caillaud??)
 
   add_to_move_generation_stack:      137715
                      play_move:      137715
- is_white_king_square_attacked:        6494
- is_black_king_square_attacked:        7905
+ is_white_king_square_attacked:        3881
+ is_black_king_square_attacked:        4614
 solution finished. 
 
 
@@ -143,8 +143,8 @@ reported P.Raican (orig. M.Caillaud??)
 
   add_to_move_generation_stack:     5714103
                      play_move:     5715111
- is_white_king_square_attacked:      380553
- is_black_king_square_attacked:      302617
+ is_white_king_square_attacked:      279187
+ is_black_king_square_attacked:      173771
 solution finished. 
 
 

@@ -61,7 +61,7 @@ no castling with king landing in hole
 
   add_to_move_generation_stack:          13
                      play_move:           0
- is_white_king_square_attacked:           1
+ is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -94,7 +94,7 @@ no castling with rook landing in hole
 
   add_to_move_generation_stack:          13
                      play_move:           0
- is_white_king_square_attacked:           1
+ is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -127,7 +127,7 @@ no castling with rook moving over hole
 
   add_to_move_generation_stack:          12
                      play_move:           0
- is_white_king_square_attacked:           1
+ is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -160,7 +160,7 @@ no castling with king moving over new hole
 
   add_to_move_generation_stack:          44
                      play_move:           3
- is_white_king_square_attacked:           4
+ is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -193,7 +193,7 @@ no castling with rook moving over new hole
 
   add_to_move_generation_stack:          34
                      play_move:           3
- is_white_king_square_attacked:           4
+ is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
 solution finished. 
 

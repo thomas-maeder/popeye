@@ -225,7 +225,7 @@ b) s#3
 
   add_to_move_generation_stack:      710284
                      play_move:      243152
- is_white_king_square_attacked:      244864
+ is_white_king_square_attacked:      244823
  is_black_king_square_attacked:      137959
 Loesung beendet. 
 

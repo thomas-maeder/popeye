@@ -624,8 +624,8 @@ solution finished.
 
   add_to_move_generation_stack:      177670
                      play_move:      177670
- is_white_king_square_attacked:        9330
- is_black_king_square_attacked:        8032
+ is_white_king_square_attacked:        8928
+ is_black_king_square_attacked:         404
 solution finished. 
 
 
@@ -741,8 +741,8 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
   add_to_move_generation_stack:    32744616
                      play_move:    32745939
- is_white_king_square_attacked:     2612577
- is_black_king_square_attacked:     1372461
+ is_white_king_square_attacked:     2513309
+ is_black_king_square_attacked:      168494
 solution finished. 
 
 

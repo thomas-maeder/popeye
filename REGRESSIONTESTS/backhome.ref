@@ -97,7 +97,7 @@ solution finished.
 
   add_to_move_generation_stack:      868608
                      play_move:      220283
- is_white_king_square_attacked:       76300
+ is_white_king_square_attacked:       61449
  is_black_king_square_attacked:       56070
 solution finished. 
 
@@ -182,9 +182,9 @@ defense against check (5.Se2) precedes back home (5.Bf1)
 
   1.e2-e4 a7-a5   2.e4-e5 a5-a4   3.e5-e6 Ra8-a5   4.Bf1-a6 Ra5-e5 +   5.Sg1-e2 dia
 
-  add_to_move_generation_stack:         658
+  add_to_move_generation_stack:         626
                      play_move:         425
- is_white_king_square_attacked:          44
+ is_white_king_square_attacked:          32
  is_black_king_square_attacked:          23
 solution finished. 
 

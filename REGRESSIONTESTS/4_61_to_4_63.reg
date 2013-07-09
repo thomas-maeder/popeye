@@ -27,7 +27,7 @@ versions <= 4.61 didn't support castling in Circe Parrain
 
   add_to_move_generation_stack:        1387
                      play_move:        1298
- is_white_king_square_attacked:         172
+ is_white_king_square_attacked:         171
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -635,10 +635,10 @@ solution finished.
 
   1.e2-e3 a7-a6   2.Bf1-c4=R Ra8-a7=B   3.Sg1-e2=Q dia
 
-  add_to_move_generation_stack:        6400
+  add_to_move_generation_stack:        6399
                      play_move:        6254
- is_white_king_square_attacked:         283
- is_black_king_square_attacked:         259
+ is_white_king_square_attacked:         157
+ is_black_king_square_attacked:         127
 solution finished. 
 
 

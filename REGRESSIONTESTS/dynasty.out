@@ -399,7 +399,7 @@ Marko Klasinc, 206 Sahovska misel 6/2005
   add_to_move_generation_stack:      980902
                      play_move:      919300
  is_white_king_square_attacked:       17702
- is_black_king_square_attacked:      101674
+ is_black_king_square_attacked:      101649
 Loesung beendet. 
 
 
@@ -431,8 +431,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    98330240
                      play_move:    98330248
- is_white_king_square_attacked:     4854418
- is_black_king_square_attacked:     7005325
+ is_white_king_square_attacked:     2612225
+ is_black_king_square_attacked:     5751373
 Loesung beendet. 
 
 

@@ -468,7 +468,7 @@ b) Drehung 90
   add_to_move_generation_stack:      177368
                      play_move:      162105
  is_white_king_square_attacked:       29841
- is_black_king_square_attacked:      163285
+ is_black_king_square_attacked:      162082
 c) Drehung 180
 
   1.Lf1-c4 g7-g8=L   2.Lc4*g8[+wLf1] Sd4-c6 #
@@ -982,7 +982,7 @@ a)
 
   add_to_move_generation_stack:       10617
                      play_move:        7928
- is_white_king_square_attacked:         425
+ is_white_king_square_attacked:         419
  is_black_king_square_attacked:        7931
 b) AndernachSchach
 
