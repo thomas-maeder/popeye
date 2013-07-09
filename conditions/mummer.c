@@ -358,6 +358,12 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
     stip_structure_traversal_override_single(&st_nested,
                                              STGoalReachableGuardFilterStalemate,
                                              &skip_copying);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STGoalReachableGuardFilterProof,
+                                             &skip_copying);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STGoalReachableGuardFilterProofFairy,
+                                             &skip_copying);
     stip_structure_traversal_override_by_function(&st_nested,
                                                   slice_function_move_removing_optimiser,
                                                   &skip_copying);

@@ -95,10 +95,10 @@ solution finished.
 
   1.e2-e4 f7-f5   2.e4-e5 f5-f4   3.Qd1-g4 f4-f3   4.g2*f3 Sg8-h6   5.Qg4-h5 + Sh6-f7   6.f3-f4 Sf7-g5   7.Qh5-d1 Ke8-f7   8.f4*g5 dia
 
-  add_to_move_generation_stack:      861783
-                     play_move:      220093
- is_white_king_square_attacked:       61702
- is_black_king_square_attacked:       53628
+  add_to_move_generation_stack:      868608
+                     play_move:      220283
+ is_white_king_square_attacked:       76300
+ is_black_king_square_attacked:       56070
 solution finished. 
 
 
@@ -152,6 +152,40 @@ c) bKb4-->e5
                      play_move:     1939225
  is_white_king_square_attacked:      635422
  is_black_king_square_attacked:     1366767
+solution finished. 
+
+
+
+defense against check (5.Se2) precedes back home (5.Bf1)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7   .  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   B   .   .   .   P   .   .   .   6
+|                                   |
+5   .   .   .   .  -R   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   S   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia4.5                    16 + 16
+               BackHome
+
+  1.e2-e4 a7-a5   2.e4-e5 a5-a4   3.e5-e6 Ra8-a5   4.Bf1-a6 Ra5-e5 +   5.Sg1-e2 dia
+
+  add_to_move_generation_stack:         658
+                     play_move:         425
+ is_white_king_square_attacked:          44
+ is_black_king_square_attacked:          23
 solution finished. 
 
 

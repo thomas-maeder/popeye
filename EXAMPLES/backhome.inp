@@ -34,4 +34,12 @@ condition backhome
 twin move b4 d6
 twin move b4 e5
 
+next
+
+title defense against check (5.Se2) precedes back home (5.Bf1)
+pieces white ke1 qd1 ra1h1 ba6c1 sb1e2 pa2b2c2d2e6f2g2h2
+       black ke8 qd8 re5h8 bc8f8 sb8g8 pa4b7c7d7e7f7g7h7
+stip dia4.5
+condition backhome
+
 end
