@@ -1,7 +1,6 @@
 #include "solving/en_passant.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
-#include "conditions/actuated_revolving_centre.h"
 #include "pieces/hunters.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

@@ -1379,10 +1379,9 @@ solving/en_passant$(OBJ_SUFFIX): solving/en_passant.c solving/en_passant.h pypro
  stipulation/goals/goals.h py.h solving/solve.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h \
- conditions/actuated_revolving_centre.h solving/move_effect_journal.h \
- position/pieceid.h pieces/hunters.h position/position.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
+ pieces/hunters.h position/position.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move.h solving/move_effect_journal.h position/pieceid.h \
  debugging/trace.h
 
 solving/en_passant.h:
@@ -1431,12 +1430,6 @@ pydata.h:
 
 pyproc.h:
 
-conditions/actuated_revolving_centre.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
-
 pieces/hunters.h:
 
 position/position.h:
@@ -1450,6 +1443,10 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
