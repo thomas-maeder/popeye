@@ -6954,7 +6954,7 @@ void WritePosition()
   char    HLine1[40];
   char    HLine2[40];
   char    PieCnts[20];
-  char    StipOptStr[40];
+  char    StipOptStr[300];
   PieSpec sp;
   char    ListSpec[PieSpCount-nr_sides][256];
   unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
