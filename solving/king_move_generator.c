@@ -26,13 +26,13 @@ slice_index alloc_king_move_generator_slice(void)
 }
 
 /* Generate moves for the king (if any) of a side
- * @param side side for which to generate king moves
  */
-void generate_king_moves(Side side)
+void generate_king_moves(void)
 {
+  Side const side = trait[nbply];
+
   if (king_square[side]!=initsquare)
-    generate_moves_for_piece(side,
-                             king_square[side],
+    generate_moves_for_piece(king_square[side],
                              get_walk_of_piece_on_square(king_square[side]));
 }
 
@@ -62,7 +62,7 @@ stip_length_type king_move_generator_solve(slice_index si, stip_length_type n)
 
   nextply();
   trait[nbply] = attacker;
-  generate_king_moves(attacker);
+  generate_king_moves();
   result = solve(next,n);
   finply();
 

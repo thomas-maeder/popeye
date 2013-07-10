@@ -34,19 +34,19 @@ square find_end_of_circle_line(square sq_departure,
                                vec_index_type *rotation,
                                rose_rotation_direction direction);
 
-void rose_generate_moves(Side side, square sq_departure,
+void rose_generate_moves(square sq_departure,
                          vec_index_type vec_range_start, vec_index_type vec_range_end);
 
-void rao_generate_moves(Side side, square sq_departure,
+void rao_generate_moves(square sq_departure,
                         vec_index_type vec_range_start, vec_index_type vec_range_end);
 
-void roselion_generate_moves(Side side, square sq_departure,
+void roselion_generate_moves(square sq_departure,
                              vec_index_type vec_range_start, vec_index_type vec_range_end);
 
-void rosehopper_generate_moves(Side side, square sq_departure,
+void rosehopper_generate_moves(square sq_departure,
                                vec_index_type vec_range_start, vec_index_type vec_range_end);
 
-void roselocust_generate_moves(Side side, square sq_departure,
+void roselocust_generate_moves(square sq_departure,
                                vec_index_type vec_range_start, vec_index_type vec_range_end);
 
 #endif

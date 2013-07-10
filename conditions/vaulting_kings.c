@@ -85,9 +85,10 @@ boolean vaulting_kings_is_square_attacked_by_king(square sq_target,
   return false;
 }
 
-boolean vaulting_kings_generate_moves(Side side, square sq_departure)
+boolean vaulting_kings_generate_moves(square sq_departure)
 {
   boolean result = false;
+  Side const side = trait[nbply];
 
   transmuting_kings_lock_recursion = true;
 
@@ -98,7 +99,7 @@ boolean vaulting_kings_generate_moves(Side side, square sq_departure)
     {
       result = true;
       current_trans_gen = *pi_vaulter;
-      generate_moves_for_piece(side,sq_departure,*pi_vaulter);
+      generate_moves_for_piece(sq_departure,*pi_vaulter);
       current_trans_gen = Empty;
     }
   }

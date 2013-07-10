@@ -31,7 +31,7 @@ boolean vaulting_kings_is_square_attacked_by_king(square sq_target,
 
 /* Generate moves for a vaulting king
  */
-boolean vaulting_kings_generate_moves(Side side, square sq_departure);
+boolean vaulting_kings_generate_moves(square sq_departure);
 
 /* Initialise solving in Vaulting Kings
  */

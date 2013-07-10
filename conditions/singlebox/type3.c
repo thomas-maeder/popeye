@@ -219,15 +219,16 @@ static square find_next_latent_pawn(square sq, Side side)
 }
 
 /* Generate the moves for a black/white piece
- * @param p side for which to generate moves
  * @param sq_departure departure square of the moves
  * @param p walk and side of the piece
  */
-void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, PieNam p)
+void singleboxtype3_generate_moves_for_piece(square sq_departure, PieNam p)
 {
+  Side const side = trait[nbply];
   numecoup save_nbcou = current_move[nbply];
   unsigned int nr_latent_promotions = 0;
   square sq;
+
   for (sq = find_next_latent_pawn(square_a1-dir_right,side);
        sq!=initsquare;
        sq = find_next_latent_pawn(sq,side))
@@ -242,7 +243,7 @@ void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, Pie
       numecoup prev_nbcou = current_move[nbply];
       ++nr_latent_promotions;
       replace_piece(sq,sequence.promotee);
-      orig_generate_moves_for_piece(side, sq_departure, sq==sq_departure ? sequence.promotee : p);
+      orig_generate_moves_for_piece(sq_departure, sq==sq_departure ? sequence.promotee : p);
       replace_piece(sq,pi_departing);
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
@@ -255,7 +256,7 @@ void singleboxtype3_generate_moves_for_piece(Side side, square sq_departure, Pie
 
   if (nr_latent_promotions==0)
   {
-    orig_generate_moves_for_piece(side,sq_departure,p);
+    orig_generate_moves_for_piece(sq_departure,p);
 
     for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {

@@ -39,26 +39,25 @@ int len_antisynchron(square departure, square arrival, square capture);
 int len_schwarzschacher (square sq_departure, square sq_arrival, square sq_capture);
 	/* determines "length" of moves in schwarzschacher chess */
 
-void	gemoarider(square i, Side camp);
-void	gemaorider(square i, Side camp);
+void	gemoarider(square i);
+void	gemaorider(square i);
 square generate_moves_on_line_segment(square sq_departure,
                                       square sq_base,
                                       vec_index_type k);
 void generate_locust_capture(square sq_departure, square sq_capture,
-                             vec_index_type k,
-                             Side camp);
-void	rider_generate_moves(Side side, square i, vec_index_type kbeg, vec_index_type kend);
-void  leaper_generate_moves(Side side, square i, vec_index_type kbeg, vec_index_type kend);
-void genradialknight(square sq_departure, Side camp);
-void gentreehopper(square sq_departure, Side camp);
-void genleafhopper(square sq_departure, Side camp);
-void gengreatertreehopper(square sq_departure, Side camp);
-void gengreaterleafhopper(square sq_departure, Side camp);
+                             vec_index_type k);
+void	rider_generate_moves(square i, vec_index_type kbeg, vec_index_type kend);
+void  leaper_generate_moves(square i, vec_index_type kbeg, vec_index_type kend);
+void genradialknight(square sq_departure);
+void gentreehopper(square sq_departure);
+void genleafhopper(square sq_departure);
+void gengreatertreehopper(square sq_departure);
+void gengreaterleafhopper(square sq_departure);
 
-void	reverse_pawn_generate_moves(Side side, square sq_departure);
-void	berolina_pawn_generate_moves(Side side, square sq_departure);
+void	reverse_pawn_generate_moves(square sq_departure);
+void	berolina_pawn_generate_moves(square sq_departure);
 
-void clearedgestraversed();
+void clearedgestraversed(void);
 boolean traversed(square edgesq);
 void settraversed(square edgesq);
 

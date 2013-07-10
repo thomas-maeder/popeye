@@ -143,7 +143,7 @@ static void pawn_capture(square sq_departure, Side side, numvec dir_battery, squ
   numvec const dir_forward = side==White ? dir_up : dir_down;
   square const sq_arrival = sq_departure+dir_forward+leftright;
 
-  if (!is_square_empty(sq_arrival) && piece_belongs_to_opponent(sq_arrival,side))
+  if (!is_square_empty(sq_arrival) && piece_belongs_to_opponent(sq_arrival))
     if (dir_battery!=0
         || sq_arrival+dir_forward+dir_left == sq_king
         || sq_arrival+dir_forward+dir_right == sq_king
@@ -178,7 +178,7 @@ static void king_neutral(square sq_departure, Side side)
   {
     square const sq_arrival = sq_departure+vec[vec_index];
     /* must capture to mate the opponent */
-    if (piece_belongs_to_opponent(sq_arrival,side))
+    if (piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -202,7 +202,7 @@ static void king_nonneutral(square sq_departure, square sq_king, Side side)
       if (abs(dir)!=abs_dir_battery)
       {
         square const sq_arrival = sq_departure+dir;
-        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
+        if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival))
             && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
@@ -226,7 +226,7 @@ static void king(square sq_departure, square sq_king, Side side)
     king_nonneutral(sq_departure,sq_king,side);
 
   if (castling_supported)
-    generate_castling(side);
+    generate_castling();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -252,7 +252,7 @@ static void knight(square sq_departure, square sq_king, Side side)
       for (vec_index = vec_knight_start; vec_index<=vec_knight_end; ++vec_index)
       {
         square const sq_arrival = sq_departure+vec[vec_index];
-        if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
+        if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival))
           if (abs_dir_battery!=0 || CheckDir[Knight][sq_arrival-sq_king]!=0)
             add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
@@ -317,7 +317,7 @@ static void queen(square sq_departure, square sq_king, Side side)
     for (sq_arrival = sq_departure+dir; is_square_empty(sq_arrival); sq_arrival += dir)
       queen_try_moving_to(sq_departure,sq_king,sq_arrival);
 
-    if (piece_belongs_to_opponent(sq_arrival,side))
+    if (piece_belongs_to_opponent(sq_arrival))
       queen_try_moving_to(sq_departure,sq_king,sq_arrival);
   }
 
@@ -339,7 +339,7 @@ static void simple_rider_fire_battery(square sq_departure,
     for (sq_arrival = sq_departure+dir; is_square_empty(sq_arrival); sq_arrival += dir)
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 
-    if (piece_belongs_to_opponent(sq_arrival,side))
+    if (piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -350,7 +350,7 @@ static void simple_rider_directly_approach_king(square sq_departure,
                                                 numvec dir_to_king)
 {
   square const sq_arrival = find_end_of_line(sq_departure,dir_to_king);
-  if (piece_belongs_to_opponent(sq_arrival,side))
+  if (piece_belongs_to_opponent(sq_arrival))
     rider_try_moving_to(sq_departure,sq_king,sq_arrival,dir_to_king);
 }
 
@@ -380,7 +380,7 @@ static void simple_rider_indirectly_approach_king(square sq_departure,
 
       /* We are at the end of the line or in checking distance */
       if (dir_to_king!=0
-          && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side)))
+          && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival)))
         rider_try_moving_to(sq_departure,sq_king,sq_arrival,dir_to_king);
     }
   }
@@ -446,7 +446,7 @@ static void generate_move_reaching_goal()
         {
           if (CondFlag[gridchess]
               && !GridLegal(sq_departure,OpponentsKing))
-            generate_moves_for_piece(side_at_move,sq_departure,p);
+            generate_moves_for_piece(sq_departure,p);
           else
             switch (p)
             {

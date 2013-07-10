@@ -4,13 +4,11 @@
 #include "debugging/trace.h"
 
 /* Generate non-capturing moves
- * @param side side for which to generate moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
  * @param sq_real_departure real departure square of the generated moves
  */
-void marscirce_generate_non_captures(Side side,
-                                     PieNam p,
+void marscirce_generate_non_captures(PieNam p,
                                      square sq_generate_from,
                                      square sq_real_departure)
 {
@@ -19,13 +17,12 @@ void marscirce_generate_non_captures(Side side,
   numecoup curr;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TracePiece(p);
   TraceSquare(sq_generate_from);
   TraceSquare(sq_real_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_generate_from,p);
+  gen_piece_aux(sq_generate_from,p);
 
   for (curr = base+1; curr<=current_move[nbply]; ++curr)
     if (is_square_empty(move_generation_stack[curr].capture))
@@ -42,13 +39,11 @@ void marscirce_generate_non_captures(Side side,
 }
 
 /* Generate capturing moves
- * @param side side for which to generate moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
  * @param sq_real_departure real departure square of the generated moves
  */
-void marscirce_generate_captures(Side side,
-                                 PieNam p,
+void marscirce_generate_captures(PieNam p,
                                  square sq_generate_from,
                                  square sq_real_departure)
 {
@@ -57,13 +52,12 @@ void marscirce_generate_captures(Side side,
   numecoup curr;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TracePiece(p);
   TraceSquare(sq_generate_from);
   TraceSquare(sq_real_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_generate_from,p);
+  gen_piece_aux(sq_generate_from,p);
 
   for (curr = base+1; curr<=current_move[nbply]; ++curr)
     if (!is_square_empty(move_generation_stack[curr].capture))
@@ -81,15 +75,13 @@ void marscirce_generate_captures(Side side,
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param side side for which to generate moves for
  * @param p indicates the walk according to which to generate moves
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves(Side side, PieNam p, square sq_departure)
+void marscirce_generate_moves(PieNam p, square sq_departure)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TracePiece(p);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
@@ -98,20 +90,20 @@ void marscirce_generate_moves(Side side, PieNam p, square sq_departure)
     square const sq_rebirth = (*marsrenai)(p,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
-                                           advers(side));
+                                           advers(trait[nbply]));
 
     if (sq_rebirth==sq_departure)
-      gen_piece_aux(side,sq_departure,p);
+      gen_piece_aux(sq_departure,p);
     else
     {
-      marscirce_generate_non_captures(side,p,sq_departure,sq_departure);
+      marscirce_generate_non_captures(p,sq_departure,sq_departure);
 
       if (is_square_empty(sq_rebirth))
       {
         occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
         empty_square(sq_departure);
 
-        marscirce_generate_captures(side,p,sq_rebirth,sq_departure);
+        marscirce_generate_captures(p,sq_rebirth,sq_departure);
 
         occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
         empty_square(sq_rebirth);
@@ -170,14 +162,16 @@ boolean marscirce_is_square_observed(square sq_target, evalfunction_t *evaluate)
   Side const side_observed = advers(side_observing);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_observing,"");
+  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,side_observing,"\n");
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
   {
     square pos_checking = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
-      if (piece_belongs_to_opponent(pos_checking,side_observed)
+      if (TSTFLAG(spec[pos_checking],side_observing)
           && pos_checking!=king_square[side_observed]   /* exclude nK */)
       {
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);

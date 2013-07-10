@@ -465,10 +465,11 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
   return result;
 }
 
-void generate_castling(Side side)
+void generate_castling(void)
 {
+  Side const side = trait[nbply];
+
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
   if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle)

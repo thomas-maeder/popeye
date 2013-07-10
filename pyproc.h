@@ -217,8 +217,8 @@ boolean echecc(Side a);
 
 boolean eval_ortho(square departure, square arrival, square capture);
 
-void    king_generate_moves(Side side, square sq_departure);
-void    piece_generate_moves(Side side, square sq_departure, PieNam b);
+void    king_generate_moves(square sq_departure);
+void    piece_generate_moves(square sq_departure, PieNam b);
 void    hardinit(void);
 
 void copyply(void);
@@ -237,9 +237,9 @@ void    restaure(void);
 boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 
-void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p);
+void orig_generate_moves_for_piece(square sq_departure, PieNam p);
 
-extern void   (*generate_moves_for_piece)(Side side, square a, PieNam b);
+extern void   (*generate_moves_for_piece)(square a, PieNam b);
 
 void    PrintTime();
 boolean leapcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
@@ -270,9 +270,9 @@ void remove_duplicate_moves_of_single_piece(numecoup start);
 
 boolean orphan_find_observation_chain(square i, PieNam porph, evalfunction_t *evaluate);
 boolean reversepcheck(square a, PieNam p, evalfunction_t *evaluate);
-void    gorph(square a, Side b);
-void    gfriend(square a, Side b);
-void    gedgeh(square a, Side b);
+void    gorph(square a);
+void    gfriend(square a);
+void    gedgeh(square a);
 
 Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
@@ -307,8 +307,8 @@ boolean is_forwardpawn(PieNam p);
 boolean is_reversepawn(PieNam p);
 boolean is_short(PieNam p);
 
-void    geskylla(square i, Side camp);
-void    gecharybdis(square i, Side camp);
+void    geskylla(square i);
+void    gecharybdis(square i);
 
 int len_whforcedsquare(square departure, square arrival, square capture);
 int len_blforcedsquare(square departure, square arrival, square capture);
@@ -328,7 +328,7 @@ void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
 
 void transformPosition(SquareTransformation transformation);
-void generate_castling(Side side);
+void generate_castling(void);
 boolean castling_is_intermediate_king_move_legal(Side side, square from, square to);
 
 boolean nokingcontact(square ia);
@@ -342,7 +342,7 @@ boolean nodabbabacontact(square ia);
 boolean nogiraffecontact(square ia);
 boolean noantelopecontact(square ia);
 
-void gen_piece_aux(Side side, square sq_departure, PieNam p);
+void gen_piece_aux(square sq_departure, PieNam p);
 void WriteBGLNumber(char* a, long int b);
 boolean CrossesGridLines(square i, square j);
 

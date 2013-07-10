@@ -279,10 +279,7 @@ void add_to_move_generation_stack(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-static void gemaooarider(square sq_departure,
-                         numvec tomiddle,
-                         numvec todest,
-                         Side camp)
+static void gemaooarider(square sq_departure, numvec tomiddle, numvec todest)
 {
   square middle= sq_departure+tomiddle;
   square sq_arrival= sq_departure+todest;
@@ -294,36 +291,36 @@ static void gemaooarider(square sq_departure,
     sq_arrival += todest;
   }
 
-  if (is_square_empty(middle) && piece_belongs_to_opponent(sq_arrival,camp))
+  if (is_square_empty(middle)
+      && piece_belongs_to_opponent(sq_arrival))
     add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
-void gemoarider(square i, Side camp) {
-  gemaooarider(i,+dir_up+dir_left,+2*dir_up+dir_left, camp);
-  gemaooarider(i,+dir_up+dir_left,+dir_up+2*dir_left, camp);
-  gemaooarider(i,+dir_down+dir_right,+2*dir_down+dir_right, camp);
-  gemaooarider(i,+dir_down+dir_right,+dir_down+2*dir_right, camp);
-  gemaooarider(i,+dir_up+dir_right,+dir_up+2*dir_right, camp);
-  gemaooarider(i,+dir_up+dir_right,+2*dir_up+dir_right, camp);
-  gemaooarider(i,+dir_down+dir_left,+dir_down+2*dir_left, camp);
-  gemaooarider(i,+dir_down+dir_left,+2*dir_down+dir_left, camp);
+void gemoarider(square i)
+{
+  gemaooarider(i,+dir_up+dir_left,+2*dir_up+dir_left);
+  gemaooarider(i,+dir_up+dir_left,+dir_up+2*dir_left);
+  gemaooarider(i,+dir_down+dir_right,+2*dir_down+dir_right);
+  gemaooarider(i,+dir_down+dir_right,+dir_down+2*dir_right);
+  gemaooarider(i,+dir_up+dir_right,+dir_up+2*dir_right);
+  gemaooarider(i,+dir_up+dir_right,+2*dir_up+dir_right);
+  gemaooarider(i,+dir_down+dir_left,+dir_down+2*dir_left);
+  gemaooarider(i,+dir_down+dir_left,+2*dir_down+dir_left);
 }
 
-void gemaorider(square i, Side camp) {
-  gemaooarider(i,+dir_right,+dir_up+2*dir_right, camp);
-  gemaooarider(i,+dir_right,+dir_down+2*dir_right, camp);
-  gemaooarider(i,+dir_down,+2*dir_down+dir_right, camp);
-  gemaooarider(i,+dir_down,+2*dir_down+dir_left, camp);
-  gemaooarider(i,+dir_left,+dir_down+2*dir_left, camp);
-  gemaooarider(i,+dir_left,+dir_up+2*dir_left, camp);
-  gemaooarider(i,+dir_up,+2*dir_up+dir_left, camp);
-  gemaooarider(i,+dir_up,+2*dir_up+dir_right, camp);
+void gemaorider(square i)
+{
+  gemaooarider(i,+dir_right,+dir_up+2*dir_right);
+  gemaooarider(i,+dir_right,+dir_down+2*dir_right);
+  gemaooarider(i,+dir_down,+2*dir_down+dir_right);
+  gemaooarider(i,+dir_down,+2*dir_down+dir_left);
+  gemaooarider(i,+dir_left,+dir_down+2*dir_left);
+  gemaooarider(i,+dir_left,+dir_up+2*dir_left);
+  gemaooarider(i,+dir_up,+2*dir_up+dir_left);
+  gemaooarider(i,+dir_up,+2*dir_up+dir_right);
 }
 
-static void gemaooariderlion(square sq_departure,
-                             numvec tomiddle,
-                             numvec todest,
-                             Side camp)
+static void gemaooariderlion(square sq_departure, numvec tomiddle, numvec todest)
 {
   square middle= sq_departure + tomiddle;
   square sq_arrival= sq_departure+todest;
@@ -337,7 +334,8 @@ static void gemaooariderlion(square sq_departure,
   if (!is_square_blocked(middle) && !is_square_blocked(sq_arrival))
   {
     if (!is_square_empty(middle)
-        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
+        && (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival)))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     if (is_square_empty(middle) || is_square_empty(sq_arrival))
     {
@@ -351,36 +349,37 @@ static void gemaooariderlion(square sq_departure,
       }
     }
 
-    if (is_square_empty(middle) && piece_belongs_to_opponent(sq_arrival,camp))
+    if (is_square_empty(middle)
+        && piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
-static void gemaoriderlion(square i, Side camp)
+static void gemaoriderlion(square i)
 {
-  gemaooariderlion(i,+dir_right,+dir_up+2*dir_right, camp);
-  gemaooariderlion(i,+dir_right,+dir_down+2*dir_right, camp);
-  gemaooariderlion(i,+dir_down,+2*dir_down+dir_right, camp);
-  gemaooariderlion(i,+dir_down,+2*dir_down+dir_left, camp);
-  gemaooariderlion(i,+dir_left,+dir_down+2*dir_left, camp);
-  gemaooariderlion(i,+dir_left,+dir_up+2*dir_left, camp);
-  gemaooariderlion(i,+dir_up,+2*dir_up+dir_left, camp);
-  gemaooariderlion(i,+dir_up,+2*dir_up+dir_right, camp);
+  gemaooariderlion(i,+dir_right,+dir_up+2*dir_right);
+  gemaooariderlion(i,+dir_right,+dir_down+2*dir_right);
+  gemaooariderlion(i,+dir_down,+2*dir_down+dir_right);
+  gemaooariderlion(i,+dir_down,+2*dir_down+dir_left);
+  gemaooariderlion(i,+dir_left,+dir_down+2*dir_left);
+  gemaooariderlion(i,+dir_left,+dir_up+2*dir_left);
+  gemaooariderlion(i,+dir_up,+2*dir_up+dir_left);
+  gemaooariderlion(i,+dir_up,+2*dir_up+dir_right);
 }
 
-static void gemoariderlion(square i, Side camp)
+static void gemoariderlion(square i)
 {
-  gemaooariderlion(i,+dir_up+dir_left,+2*dir_up+dir_left, camp);
-  gemaooariderlion(i,+dir_up+dir_left,+dir_up+2*dir_left, camp);
-  gemaooariderlion(i,+dir_down+dir_right,+2*dir_down+dir_right, camp);
-  gemaooariderlion(i,+dir_down+dir_right,+dir_down+2*dir_right, camp);
-  gemaooariderlion(i,+dir_up+dir_right,+dir_up+2*dir_right, camp);
-  gemaooariderlion(i,+dir_up+dir_right,+2*dir_up+dir_right, camp);
-  gemaooariderlion(i,+dir_down+dir_left,+dir_down+2*dir_left, camp);
-  gemaooariderlion(i,+dir_down+dir_left,+2*dir_down+dir_left, camp);
+  gemaooariderlion(i,+dir_up+dir_left,+2*dir_up+dir_left);
+  gemaooariderlion(i,+dir_up+dir_left,+dir_up+2*dir_left);
+  gemaooariderlion(i,+dir_down+dir_right,+2*dir_down+dir_right);
+  gemaooariderlion(i,+dir_down+dir_right,+dir_down+2*dir_right);
+  gemaooariderlion(i,+dir_up+dir_right,+dir_up+2*dir_right);
+  gemaooariderlion(i,+dir_up+dir_right,+2*dir_up+dir_right);
+  gemaooariderlion(i,+dir_down+dir_left,+dir_down+2*dir_left);
+  gemaooariderlion(i,+dir_down+dir_left,+2*dir_down+dir_left);
 }
 
-void leaper_generate_moves(Side side, square sq_departure,
+void leaper_generate_moves(square sq_departure,
                            vec_index_type kbeg, vec_index_type kend)
 {
   /* generate leaper moves from vec[kbeg] to vec[kend] */
@@ -389,7 +388,8 @@ void leaper_generate_moves(Side side, square sq_departure,
   for (k= kbeg; k<= kend; ++k)
   {
     square const sq_arrival = sq_departure+vec[k];
-    if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side))
+    if (is_square_empty(sq_arrival)
+        || piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -417,7 +417,7 @@ square generate_moves_on_line_segment(square sq_departure,
   return sq_arrival;
 }
 
-void rider_generate_moves(Side side, square sq_departure,
+void rider_generate_moves(square sq_departure,
                           vec_index_type kbeg, vec_index_type kend)
 {
   /* generate rider moves from vec[kbeg] to vec[kend] */
@@ -430,7 +430,7 @@ void rider_generate_moves(Side side, square sq_departure,
   for (k = kbeg; k<=kend; ++k)
   {
     square const sq_arrival = generate_moves_on_line_segment(sq_departure,sq_departure,k);
-    if (piece_belongs_to_opponent(sq_arrival,side))
+    if (piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 
@@ -438,8 +438,7 @@ void rider_generate_moves(Side side, square sq_departure,
   TraceFunctionResultEnd();
 }
 
-static void bouncer_generate_moves(Side side,
-                                   square sq_departure,
+static void bouncer_generate_moves(square sq_departure,
                                    vec_index_type kbeg, vec_index_type kend)
 {
   vec_index_type  k;
@@ -453,7 +452,8 @@ static void bouncer_generate_moves(Side side,
       sq_arrival -= vec[k];
 
     if (sq_arrival==bounce_to
-        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,side)))
+        && (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival)))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -475,10 +475,9 @@ static void ghamst(square sq_departure)
 }
 
 void generate_locust_capture(square sq_departure, square sq_capture,
-                             vec_index_type k,
-                             Side camp)
+                             vec_index_type k)
 {
-  if (piece_belongs_to_opponent(sq_capture,camp))
+  if (piece_belongs_to_opponent(sq_capture))
   {
     square const sq_arrival= sq_capture+vec[k];
     if (is_square_empty(sq_arrival))
@@ -487,20 +486,18 @@ void generate_locust_capture(square sq_departure, square sq_capture,
 }
 
 static void glocust(square sq_departure,
-                    vec_index_type kbeg, vec_index_type kend,
-                    Side    camp)
+                    vec_index_type kbeg, vec_index_type kend)
 {
   vec_index_type k;
   for (k= kbeg; k <= kend; k++)
   {
     square const sq_capture = find_end_of_line(sq_departure,vec[k]);
-    generate_locust_capture(sq_departure,sq_capture,k,camp);
+    generate_locust_capture(sq_departure,sq_capture,k);
   }
 }
 
 static void gchin(square sq_departure,
-                  vec_index_type kbeg, vec_index_type kend,
-                  Side camp)
+                  vec_index_type kbeg, vec_index_type kend)
 {
   /* generate chinese-rider moves from vec[kbeg] to vec[kend] */
 
@@ -512,15 +509,14 @@ static void gchin(square sq_departure,
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_capture = find_end_of_line(sq_hurdle,vec[k]);
-      if (piece_belongs_to_opponent(sq_capture,camp))
+      if (piece_belongs_to_opponent(sq_capture))
         add_to_move_generation_stack(sq_departure,sq_capture,sq_capture);
     }
   }
 }
 
 static void gchinleap(square sq_departure,
-                      vec_index_type kbeg, vec_index_type kend,
-                      Side camp)
+                      vec_index_type kbeg, vec_index_type kend)
 {
   /* generate chinese-leaper moves from vec[kbeg] to vec[kend] */
 
@@ -533,7 +529,7 @@ static void gchinleap(square sq_departure,
     if (get_walk_of_piece_on_square(sq_arrival)>=King)
     {
       sq_arrival += vec[k];
-      if (piece_belongs_to_opponent(sq_arrival,camp))
+      if (piece_belongs_to_opponent(sq_arrival))
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
     else if (is_square_empty(sq_arrival))
@@ -541,14 +537,13 @@ static void gchinleap(square sq_departure,
   }
 }
 
-static void gnequi(square sq_departure, Side camp)
+static void gnequi(square sq_departure)
 {
   square const coin = coinequis(sq_departure);
   numvec delta_horiz;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
   for (delta_horiz= 3*dir_right;
@@ -569,7 +564,7 @@ static void gnequi(square sq_departure, Side camp)
         square const sq_arrival = sq_hurdle+vector;
 
         if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival,camp))
+            || piece_belongs_to_opponent(sq_arrival))
         {
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -582,7 +577,7 @@ static void gnequi(square sq_departure, Side camp)
   TraceFunctionResultEnd();
 }
 
-static void gorix(square sq_departure, Side camp)
+static void gorix(square sq_departure)
 {
   vec_index_type  k;
 
@@ -600,7 +595,7 @@ static void gorix(square sq_departure, Side camp)
         move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
       }
       else if (abs(sq_end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
-               && piece_belongs_to_opponent(sq_end_of_line,camp))
+               && piece_belongs_to_opponent(sq_end_of_line))
       {
         add_to_move_generation_stack(sq_departure,sq_end_of_line,sq_end_of_line);
         move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -610,7 +605,7 @@ static void gorix(square sq_departure, Side camp)
   }
 }
 
-static void gnorix(square sq_departure, Side camp)
+static void gnorix(square sq_departure)
 {
   /* Non-Stop-Orix */
   square sq_hurdle;
@@ -642,7 +637,7 @@ static void gnorix(square sq_departure, Side camp)
         sq_arrival= sq_hurdle+vector;
 
         if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival,camp))
+            || piece_belongs_to_opponent(sq_arrival))
         {
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -651,7 +646,7 @@ static void gnorix(square sq_departure, Side camp)
     }
 }
 
-static void gnequiapp(square sq_departure, Side camp)
+static void gnequiapp(square sq_departure)
 {
   /* Non-Stop-Equistopper */
   square sq_hurdle;
@@ -676,12 +671,12 @@ static void gnequiapp(square sq_departure, Side camp)
       if (sq_arrival!=sq_departure
           && !is_square_empty(sq_hurdle)
           && (is_square_empty(sq_arrival)
-              || piece_belongs_to_opponent(sq_arrival,camp)))
+              || piece_belongs_to_opponent(sq_arrival)))
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
 }
 
-static void gkang(square sq_departure, Side camp)
+static void gkang(square sq_departure)
 {
   vec_index_type k;
 
@@ -695,14 +690,14 @@ static void gkang(square sq_departure, Side camp)
       {
         square const sq_arrival = sq_hurdle2+vec[k];
         if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival,camp))
+            || piece_belongs_to_opponent(sq_arrival))
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }
 }
 
-static void gkanglion(square sq_departure, Side camp)
+static void gkanglion(square sq_departure)
 {
   vec_index_type k;
 
@@ -720,14 +715,14 @@ static void gkanglion(square sq_departure, Side camp)
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           sq_arrival += vec[k];
         }
-        if (piece_belongs_to_opponent(sq_arrival,camp))
+        if (piece_belongs_to_opponent(sq_arrival))
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }
 }
 
-static void grabbit(square sq_departure, Side camp)
+static void grabbit(square sq_departure)
 {
   vec_index_type k;
 
@@ -742,14 +737,14 @@ static void grabbit(square sq_departure, Side camp)
         square const sq_capture = generate_moves_on_line_segment(sq_departure,
                                                                  sq_arrival,
                                                                  k);
-        if (piece_belongs_to_opponent(sq_capture,camp))
+        if (piece_belongs_to_opponent(sq_capture))
           add_to_move_generation_stack(sq_departure,sq_capture,sq_capture);
       }
     }
   }
 }
 
-static void gbob(square sq_departure, Side camp)
+static void gbob(square sq_departure)
 {
   vec_index_type k;
 
@@ -770,7 +765,7 @@ static void gbob(square sq_departure, Side camp)
             square const sq_capture = generate_moves_on_line_segment(sq_departure,
                                                                      sq_arrival,
                                                                      k);
-            if (piece_belongs_to_opponent(sq_capture,camp))
+            if (piece_belongs_to_opponent(sq_capture))
               add_to_move_generation_stack(sq_departure,sq_capture,sq_capture);
           }
         }
@@ -779,9 +774,7 @@ static void gbob(square sq_departure, Side camp)
   }
 }
 
-static void gcsp(square sq_departure,
-                 numvec k1, numvec k2,
-                 Side camp)
+static void gcsp(square sq_departure, numvec k1, numvec k2)
 {
   square sq_arrival= sq_departure+vec[k1];
 
@@ -795,15 +788,14 @@ static void gcsp(square sq_departure,
     else
       break;
   }
-  if (piece_belongs_to_opponent(sq_arrival,camp))
+  if (piece_belongs_to_opponent(sq_arrival))
     add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
 static void grfou(square   orig_departure,
                   square   in,
                   numvec   k,
-                  int x,
-                  Side  camp)
+                  int x)
 {
   int k1;
 
@@ -819,7 +811,7 @@ static void grfou(square   orig_departure,
     sq_arrival+= k;
   }
 
-  if (piece_belongs_to_opponent(sq_arrival,camp))
+  if (piece_belongs_to_opponent(sq_arrival))
     add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   else if (x && is_square_blocked(sq_arrival))
   {
@@ -828,17 +820,16 @@ static void grfou(square   orig_departure,
     while (vec[k1]!=k)
       k1++;
     k1*= 2;
-    grfou(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1,camp);
+    grfou(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1);
     k1--;
-    grfou(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1,camp);
+    grfou(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1);
   }
 }
 
 static void gcard(square   orig_departure,
                   square   in,
                   numvec   k,
-                  int x,
-                  Side  camp)
+                  int x)
 {
   int k1;
 
@@ -851,7 +842,7 @@ static void gcard(square   orig_departure,
     sq_arrival+= k;
   }
 
-  if (piece_belongs_to_opponent(sq_arrival,camp))
+  if (piece_belongs_to_opponent(sq_arrival))
     add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   else if (x && is_square_blocked(sq_arrival))
   {
@@ -862,7 +853,7 @@ static void gcard(square   orig_departure,
     if (k1<=4)
     {
       sq_arrival+= vec[k1];
-      if (piece_belongs_to_opponent(sq_arrival,camp))
+      if (piece_belongs_to_opponent(sq_arrival))
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       else if (is_square_empty(sq_arrival))
       {
@@ -874,16 +865,14 @@ static void gcard(square   orig_departure,
         if (is_square_blocked(sq_arrival+angle_vectors[angle_90][k1]))
           k1--;
 
-        gcard(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1,camp);
+        gcard(orig_departure,sq_arrival,angle_vectors[angle_90][k1],x-1);
       }
     }
   }
 }
 
-static void grefc(square orig_departure,
-                  square step_departure,
-                  int x,
-                  Side camp) {
+static void grefc(square orig_departure, square step_departure, int x)
+{
   vec_index_type k;
 
   /* ATTENTION:   first call of grefcn: x must be 2 !!   */
@@ -897,9 +886,9 @@ static void grefc(square orig_departure,
     {
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       if (x>0 && !NoEdge(sq_arrival))
-        grefc(orig_departure,sq_arrival,x-1,camp);
+        grefc(orig_departure,sq_arrival,x-1);
     }
-    else if (piece_belongs_to_opponent(sq_arrival,camp))
+    else if (piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
@@ -920,7 +909,7 @@ static boolean edgestraversed[nr_edge_squares];
 
 /* clear edge traversal memory
  */
-void clearedgestraversed()
+void clearedgestraversed(void)
 {
   int i;
   for (i=0; i<nr_edge_squares; i++)
@@ -975,9 +964,8 @@ void settraversed(square edge_square)
   edgestraversed[square_2_edge_square_index(edge_square)] = true;
 }
 
-static void grefn(square orig_departure,
-                  square step_departure,
-                  Side camp) {
+static void grefn(square orig_departure, square step_departure)
+{
   vec_index_type k;
 
   square sq_departure= orig_departure;
@@ -994,19 +982,19 @@ static void grefn(square orig_departure,
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       if (!NoEdge(sq_arrival) && !traversed(sq_arrival))
       {
-        grefn(orig_departure,sq_arrival,camp);
+        grefn(orig_departure,sq_arrival);
         break;
       }
       else
         sq_arrival += vec[k];
     }
 
-    if (piece_belongs_to_opponent(sq_arrival,camp))
+    if (piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 } /* grefc */
 
-static void gequi(square sq_departure, Side camp)
+static void gequi(square sq_departure)
 {
   vec_index_type  k;
 
@@ -1028,7 +1016,7 @@ static void gequi(square sq_departure, Side camp)
       else if (dist_hurdle_end==dist_hurdle_dep)
       {
         square const sq_arrival = end_of_line;
-        if (piece_belongs_to_opponent(sq_arrival,camp))
+        if (piece_belongs_to_opponent(sq_arrival))
         {
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -1043,7 +1031,8 @@ static void gequi(square sq_departure, Side camp)
     square const sq_hurdle= sq_departure+vec[k];
     square const sq_arrival= sq_departure + 2*vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle)>=King
-        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
+        && (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival)))
     {
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -1052,7 +1041,7 @@ static void gequi(square sq_departure, Side camp)
   }
 }
 
-static void gequiapp(square sq_departure, Side camp)
+static void gequiapp(square sq_departure)
 {
   /* (interceptable) Equistopper */
   vec_index_type  k;
@@ -1071,7 +1060,7 @@ static void gequiapp(square sq_departure, Side camp)
         square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
         if (!is_square_blocked(sq_hurdle2)
             && abs(sq_hurdle2-sq_hurdle1)==abs(sq_hurdle1-sq_departure)
-            && piece_belongs_to_opponent(sq_hurdle1,camp))
+            && piece_belongs_to_opponent(sq_hurdle1))
         {
           square const sq_arrival = sq_hurdle1;
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
@@ -1085,19 +1074,20 @@ static void gequiapp(square sq_departure, Side camp)
     square const sq_arrival = sq_departure + vec[k];
     square const sq_hurdle1 = sq_departure+2*vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle1)>=King
-        && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival,camp)))
+        && (is_square_empty(sq_arrival)
+            || piece_belongs_to_opponent(sq_arrival)))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
-static void gcat(square sq_departure, Side camp)
+static void gcat(square sq_departure)
 {
   /* generate moves of a CAT */
   vec_index_type k;
 
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
     square sq_arrival = sq_departure+vec[k];
-    if (piece_belongs_to_opponent(sq_arrival,camp))
+    if (piece_belongs_to_opponent(sq_arrival))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     else
     {
@@ -1107,27 +1097,28 @@ static void gcat(square sq_departure, Side camp)
         sq_arrival+= cat_vectors[k];
       }
 
-      if (piece_belongs_to_opponent(sq_arrival,camp))
+      if (piece_belongs_to_opponent(sq_arrival))
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
     }
   }
 }
 
 static void gmaooa(square  sq_departure,
-            square  pass,
-            square  arrival1,
-            square  arrival2,
-            Side camp)
+                   square  pass,
+                   square  arrival1,
+                   square  arrival2)
 {
   if (is_square_empty(pass))
   {
-    if (is_square_empty(arrival1) || piece_belongs_to_opponent(arrival1,camp))
+    if (is_square_empty(arrival1)
+        || piece_belongs_to_opponent(arrival1))
     {
       add_to_move_generation_stack(sq_departure,arrival1,arrival1);
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = pass;
     }
 
-    if (is_square_empty(arrival2) || piece_belongs_to_opponent(arrival2,camp))
+    if (is_square_empty(arrival2)
+        || piece_belongs_to_opponent(arrival2))
     {
       add_to_move_generation_stack(sq_departure,arrival2,arrival2);
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = pass;
@@ -1135,19 +1126,19 @@ static void gmaooa(square  sq_departure,
   }
 }
 
-static void gmao(square i, Side camp)
+static void gmao(square i)
 {
-  gmaooa(i, i+dir_up, i+2*dir_up+dir_left, i+2*dir_up+dir_right, camp);
-  gmaooa(i, i+dir_down, i+2*dir_down+dir_right, i+2*dir_down+dir_left, camp);
-  gmaooa(i, i+dir_right, i+dir_up+2*dir_right, i+dir_down+2*dir_right, camp);
-  gmaooa(i, i+dir_left, i+dir_down+2*dir_left, i+dir_up+2*dir_left, camp);
+  gmaooa(i, i+dir_up, i+2*dir_up+dir_left, i+2*dir_up+dir_right);
+  gmaooa(i, i+dir_down, i+2*dir_down+dir_right, i+2*dir_down+dir_left);
+  gmaooa(i, i+dir_right, i+dir_up+2*dir_right, i+dir_down+2*dir_right);
+  gmaooa(i, i+dir_left, i+dir_down+2*dir_left, i+dir_up+2*dir_left);
 }
 
-static void gmoa(square i, Side camp) {
-  gmaooa(i, i+dir_up+dir_left, i+2*dir_up+dir_left, i+dir_up+2*dir_left, camp);
-  gmaooa(i, i+dir_down+dir_right, i+2*dir_down+dir_right, i+dir_down+2*dir_right, camp);
-  gmaooa(i, i+dir_up+dir_right, i+dir_up+2*dir_right, i+2*dir_up+dir_right, camp);
-  gmaooa(i, i+dir_down+dir_left, i+dir_down+2*dir_left, i+2*dir_down+dir_left, camp);
+static void gmoa(square i) {
+  gmaooa(i, i+dir_up+dir_left, i+2*dir_up+dir_left, i+dir_up+2*dir_left);
+  gmaooa(i, i+dir_down+dir_right, i+2*dir_down+dir_right, i+dir_down+2*dir_right);
+  gmaooa(i, i+dir_up+dir_right, i+dir_up+2*dir_right, i+2*dir_up+dir_right);
+  gmaooa(i, i+dir_down+dir_left, i+dir_down+2*dir_left, i+2*dir_down+dir_left);
 }
 
 typedef unsigned int mark_type;
@@ -1195,7 +1186,7 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
   }
 }
 
-static void gdoublehopper(square sq_departure, Side camp,
+static void gdoublehopper(square sq_departure,
                           vec_index_type vec_start, vec_index_type vec_end)
 {
   numecoup const save_nbcou = current_move[nbply];
@@ -1217,7 +1208,7 @@ static void gdoublehopper(square sq_departure, Side camp,
           {
             square const sq_arrival = sq_hurdle2+vec[k1];
             if (is_square_empty(sq_arrival)
-                || piece_belongs_to_opponent(sq_arrival,camp))
+                || piece_belongs_to_opponent(sq_arrival))
               add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           }
         }
@@ -1228,19 +1219,19 @@ static void gdoublehopper(square sq_departure, Side camp,
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
-static void gdoublegrasshopper(square sq_departure, Side camp)
+static void gdoublegrasshopper(square sq_departure)
 {
-  gdoublehopper(sq_departure,camp,vec_queen_start,vec_queen_end);
+  gdoublehopper(sq_departure,vec_queen_start,vec_queen_end);
 }
 
-static void gdoublerookhopper(square sq_departure, Side camp)
+static void gdoublerookhopper(square sq_departure)
 {
-  gdoublehopper(sq_departure,camp,vec_rook_start,vec_rook_end);
+  gdoublehopper(sq_departure,vec_rook_start,vec_rook_end);
 }
 
-static void gdoublebishopper(square sq_departure, Side camp)
+static void gdoublebishopper(square sq_departure)
 {
-  gdoublehopper(sq_departure,camp,vec_bishop_start,vec_bishop_end);
+  gdoublehopper(sq_departure,vec_bishop_start,vec_bishop_end);
 }
 
 /* Two auxiliary functions for generating super pawn moves */
@@ -1255,26 +1246,26 @@ static void gen_sp_nocaptures(square sq_departure, numvec dir)
     add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
-static void gen_sp_captures(square sq_departure, numvec dir, Side camp) {
+static void gen_sp_captures(square sq_departure, numvec dir) {
   /* generates capturing moves of a super pawn of colour camp in
      direction dir.  */
 
   square const sq_arrival = find_end_of_line(sq_departure,dir);
 
   /* it can move from first rank */
-  if (piece_belongs_to_opponent(sq_arrival,camp))
+  if (piece_belongs_to_opponent(sq_arrival))
     add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
 }
 
-void chinese_pawn_generate_moves(Side side, square sq_departure)
+static void chinese_pawn_generate_moves(square sq_departure)
 {
-  Side const opponent = advers(side);
-  boolean const past_river = (side==White
+  Side const opponent = advers(trait[nbply]);
+  boolean const past_river = (trait[nbply]==White
                               ? 2*sq_departure>square_h8+square_a1
                               : 2*sq_departure<square_h8+square_a1);
 
   {
-    int const dir_forward = side==White ? dir_up : dir_down;
+    int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
     square const sq_arrival = sq_departure+dir_forward;
     if (is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],opponent))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
@@ -1296,8 +1287,7 @@ void chinese_pawn_generate_moves(Side side, square sq_departure)
 }
 
 static void lions_generate_moves(square sq_departure,
-                                 vec_index_type kbeg, vec_index_type kend,
-                                 Side  camp)
+                                 vec_index_type kbeg, vec_index_type kend)
 {
   vec_index_type k;
   for (k = kbeg; k<=kend; ++k)
@@ -1314,7 +1304,7 @@ static void lions_generate_moves(square sq_departure,
         sq_arrival += vec[k];
       }
 
-      if (piece_belongs_to_opponent(sq_arrival,camp))
+      if (piece_belongs_to_opponent(sq_arrival))
       {
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -1324,8 +1314,7 @@ static void lions_generate_moves(square sq_departure,
 }
 
 static void hoppers_generate_moves(square sq_departure,
-                                   vec_index_type kbeg, vec_index_type kend,
-                                   Side  camp)
+                                   vec_index_type kbeg, vec_index_type kend)
 {
   vec_index_type k;
   for (k = kbeg; k<=kend; ++k)
@@ -1335,7 +1324,7 @@ static void hoppers_generate_moves(square sq_departure,
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_arrival = sq_hurdle+vec[k];
-      if (piece_belongs_to_opponent(sq_arrival,camp)
+      if (piece_belongs_to_opponent(sq_arrival)
           || is_square_empty(sq_arrival))
       {
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
@@ -1347,8 +1336,7 @@ static void hoppers_generate_moves(square sq_departure,
 }
 
 static void contra_grasshopper_generate_moves(square sq_departure,
-                                              vec_index_type kbeg, vec_index_type kend,
-                                              Side  camp)
+                                              vec_index_type kbeg, vec_index_type kend)
 {
   vec_index_type k;
   for (k = kbeg; k<=kend; ++k)
@@ -1366,7 +1354,7 @@ static void contra_grasshopper_generate_moves(square sq_departure,
           sq_arrival+= vec[k];
         }
 
-        if (piece_belongs_to_opponent(sq_arrival,camp))
+        if (piece_belongs_to_opponent(sq_arrival))
         {
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -1397,8 +1385,7 @@ static square grasshoppers_n_find_target(square sq_hurdle,
 
 static void grasshoppers_n_generate_moves(square sq_departure,
                                           vec_index_type kbeg, vec_index_type kend,
-                                          unsigned int dist_hurdle_target,
-                                          Side  camp)
+                                          unsigned int dist_hurdle_target)
 {
   vec_index_type k;
   for (k = kbeg; k<=kend; ++k)
@@ -1408,7 +1395,7 @@ static void grasshoppers_n_generate_moves(square sq_departure,
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_arrival = grasshoppers_n_find_target(sq_hurdle,vec[k],dist_hurdle_target);
-      if (piece_belongs_to_opponent(sq_arrival,camp)
+      if (piece_belongs_to_opponent(sq_arrival)
           || is_square_empty(sq_arrival))
       {
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
@@ -1420,22 +1407,19 @@ static void grasshoppers_n_generate_moves(square sq_departure,
 }
 
 static void gerhop2(square sq_departure,
-                    vec_index_type kbeg, vec_index_type kend,
-                    Side camp)
+                    vec_index_type kbeg, vec_index_type kend)
 {
-  grasshoppers_n_generate_moves(sq_departure, kbeg, kend, 2, camp);
+  grasshoppers_n_generate_moves(sq_departure, kbeg, kend, 2);
 }
 
 static void gerhop3(square sq_departure,
-                    vec_index_type kbeg, vec_index_type kend,
-                    Side camp)
+                    vec_index_type kbeg, vec_index_type kend)
 {
-  grasshoppers_n_generate_moves(sq_departure, kbeg, kend, 3, camp);
+  grasshoppers_n_generate_moves(sq_departure, kbeg, kend, 3);
 }
 
 static void leaper_hoppers_generate_moves(square sq_departure,
-                                          vec_index_type kbeg, vec_index_type kend,
-                                          Side camp)
+                                          vec_index_type kbeg, vec_index_type kend)
 {
   vec_index_type k;
   for (k = kbeg; k<=kend; ++k)
@@ -1444,7 +1428,7 @@ static void leaper_hoppers_generate_moves(square sq_departure,
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
       square const sq_arrival = sq_hurdle+vec[k];
-      if (piece_belongs_to_opponent(sq_arrival,camp)
+      if (piece_belongs_to_opponent(sq_arrival)
           || is_square_empty(sq_arrival))
       {
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
@@ -1455,320 +1439,320 @@ static void leaper_hoppers_generate_moves(square sq_departure,
   }
 }
 
-void piece_generate_moves(Side side, square sq_departure, PieNam p)
+void piece_generate_moves(square sq_departure, PieNam p)
 {
   switch (p)
   {
     case King:
-      king_generate_moves(side,sq_departure);
+      king_generate_moves(sq_departure);
       break;
 
     case Pawn:
-      pawn_generate_moves(side,sq_departure);
+      pawn_generate_moves(sq_departure);
       break;
 
     case Knight:
-      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       break;
 
     case Rook:
-      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       break;
 
     case Queen:
-      rider_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+      rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       break;
 
     case Bishop:
-      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       break;
 
     case NightRider:
-      rider_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      rider_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Zebra:
-      leaper_generate_moves(side,sq_departure, vec_zebre_start,vec_zebre_end);
+      leaper_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end);
       return;
 
     case Camel:
-      leaper_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
+      leaper_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
       return;
 
     case Giraffe:
-      leaper_generate_moves(side,sq_departure, vec_girafe_start,vec_girafe_end);
+      leaper_generate_moves(sq_departure, vec_girafe_start,vec_girafe_end);
       return;
 
     case RootFiftyLeaper:
-      leaper_generate_moves(side,sq_departure, vec_rccinq_start,vec_rccinq_end);
+      leaper_generate_moves(sq_departure, vec_rccinq_start,vec_rccinq_end);
       return;
 
     case Bucephale:
-      leaper_generate_moves(side,sq_departure, vec_bucephale_start,vec_bucephale_end);
+      leaper_generate_moves(sq_departure, vec_bucephale_start,vec_bucephale_end);
       return;
 
     case Wesir:
-      leaper_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      leaper_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case Alfil:
-      leaper_generate_moves(side,sq_departure, vec_alfil_start,vec_alfil_end);
+      leaper_generate_moves(sq_departure, vec_alfil_start,vec_alfil_end);
       return;
 
     case Fers:
-      leaper_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      leaper_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case Dabbaba:
-      leaper_generate_moves(side,sq_departure, vec_dabbaba_start,vec_dabbaba_end);
+      leaper_generate_moves(sq_departure, vec_dabbaba_start,vec_dabbaba_end);
       return;
 
     case BerolinaPawn:
-      berolina_pawn_generate_moves(side,sq_departure);
+      berolina_pawn_generate_moves(sq_departure);
       return;
 
     case ReversePawn:
-      reverse_pawn_generate_moves(side,sq_departure);
+      reverse_pawn_generate_moves(sq_departure);
       return;
 
     case Amazone:
-      rider_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
-      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
+      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Empress:
-      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
-      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
+      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Princess:
-      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
-      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
+      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Gnu:
-      leaper_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
-      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      leaper_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
+      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Antilope:
-      leaper_generate_moves(side,sq_departure, vec_antilope_start,vec_antilope_end);
+      leaper_generate_moves(sq_departure, vec_antilope_start,vec_antilope_end);
       return;
 
     case Squirrel:
-      leaper_generate_moves(side,sq_departure, vec_ecureuil_start,vec_ecureuil_end);
-      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      leaper_generate_moves(sq_departure, vec_ecureuil_start,vec_ecureuil_end);
+      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Waran:
-      rider_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
-      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      rider_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
+      rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case Dragon:
-      pawn_generate_moves(side,sq_departure);
-      leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      pawn_generate_moves(sq_departure);
+      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Gryphon:
     {
-      unsigned int const no_capture_length = pawn_get_no_capture_length(side,sq_departure);
+      unsigned int const no_capture_length = pawn_get_no_capture_length(trait[nbply],sq_departure);
 
       if (no_capture_length>0)
       {
-        int const dir_forward = side==White ? dir_up : dir_down;
+        int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
         pawns_generate_nocapture_moves(sq_departure,dir_forward,no_capture_length);
       }
 
-      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
     }
 
     case Ship:
-      if (pawn_get_no_capture_length(side,sq_departure)>0)
+      if (pawn_get_no_capture_length(trait[nbply],sq_departure)>0)
       {
-        int const dir_forward = side==White ? dir_up : dir_down;
-        pawns_generate_capture_move(side,sq_departure,dir_forward+dir_left);
-        pawns_generate_capture_move(side,sq_departure,dir_forward+dir_right);
+        int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+        pawns_generate_capture_move(sq_departure,dir_forward+dir_left);
+        pawns_generate_capture_move(sq_departure,dir_forward+dir_right);
       }
 
-      rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+      rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case Camelrider:
-      rider_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
+      rider_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
       return;
 
     case Zebrarider:
-      rider_generate_moves(side,sq_departure, vec_zebre_start,vec_zebre_end);
+      rider_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end);
       return;
 
     case Gnurider:
-      rider_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
-      rider_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+      rider_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
+      rider_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case SuperBerolinaPawn:
     {
-      int const dir_forward = side==White ? dir_up : dir_down;
+      int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
       gen_sp_nocaptures(sq_departure,dir_forward+dir_left);
       gen_sp_nocaptures(sq_departure,dir_forward+dir_right);
-      gen_sp_captures(sq_departure,dir_forward,side);
+      gen_sp_captures(sq_departure,dir_forward);
       return;
     }
 
     case SuperPawn:
     {
-      int const dir_forward = side==White ? dir_up : dir_down;
+      int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
       gen_sp_nocaptures(sq_departure,dir_forward);
-      gen_sp_captures(sq_departure,dir_forward+dir_left,side);
-      gen_sp_captures(sq_departure,dir_forward+dir_right,side);
+      gen_sp_captures(sq_departure,dir_forward+dir_left);
+      gen_sp_captures(sq_departure,dir_forward+dir_right);
       return;
     }
 
     case RookHunter:
-      rook_hunter_generate_moves(side,sq_departure);
+      rook_hunter_generate_moves(sq_departure);
       return;
 
     case BishopHunter:
-      bishop_hunter_generate_moves(side,sq_departure);
+      bishop_hunter_generate_moves(sq_departure);
       return;
 
     case ErlKing:
-      leaper_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+      leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case Okapi:
-      leaper_generate_moves(side,sq_departure, vec_okapi_start,vec_okapi_end);
+      leaper_generate_moves(sq_departure, vec_okapi_start,vec_okapi_end);
       return;
 
     case Leap37:
-      leaper_generate_moves(side,sq_departure, vec_leap37_start,vec_leap37_end);
+      leaper_generate_moves(sq_departure, vec_leap37_start,vec_leap37_end);
       return;
 
     case Leap16:
-      leaper_generate_moves(side,sq_departure, vec_leap16_start,vec_leap16_end);
+      leaper_generate_moves(sq_departure, vec_leap16_start,vec_leap16_end);
       return;
 
     case Leap24:
-      leaper_generate_moves(side,sq_departure, vec_leap24_start,vec_leap24_end);
+      leaper_generate_moves(sq_departure, vec_leap24_start,vec_leap24_end);
       return;
 
     case Leap35:
-      leaper_generate_moves(side,sq_departure, vec_leap35_start,vec_leap35_end);
+      leaper_generate_moves(sq_departure, vec_leap35_start,vec_leap35_end);
       return;
 
     case Leap15:
-      leaper_generate_moves(side,sq_departure, vec_leap15_start,vec_leap15_end);
+      leaper_generate_moves(sq_departure, vec_leap15_start,vec_leap15_end);
       return;
 
     case Leap25:
-      leaper_generate_moves(side,sq_departure, vec_leap25_start,vec_leap25_end);
+      leaper_generate_moves(sq_departure, vec_leap25_start,vec_leap25_end);
       return;
 
     case WesirRider:
-      rider_generate_moves(side,sq_departure,   vec_rook_start,vec_rook_end);
+      rider_generate_moves(sq_departure,   vec_rook_start,vec_rook_end);
       return;
 
     case FersRider:
-      rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+      rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case Bison:
-      leaper_generate_moves(side,sq_departure, vec_bison_start,vec_bison_end);
+      leaper_generate_moves(sq_departure, vec_bison_start,vec_bison_end);
       return;
 
     case Zebu:
-      leaper_generate_moves(side,sq_departure, vec_chameau_start,vec_chameau_end);
-      leaper_generate_moves(side,sq_departure, vec_girafe_start,vec_girafe_end);
+      leaper_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
+      leaper_generate_moves(sq_departure, vec_girafe_start,vec_girafe_end);
       return;
 
     case Elephant:
-      rider_generate_moves(side,sq_departure, vec_elephant_start,vec_elephant_end);
+      rider_generate_moves(sq_departure, vec_elephant_start,vec_elephant_end);
       return;
 
     case Leap36:
-      leaper_generate_moves(side,sq_departure, vec_leap36_start,vec_leap36_end);
+      leaper_generate_moves(sq_departure, vec_leap36_start,vec_leap36_end);
       return;
 
     case ChinesePawn:
-      chinese_pawn_generate_moves(side,sq_departure);
+      chinese_pawn_generate_moves(sq_departure);
       return;
 
     case Mao:
-      gmao(sq_departure, side);
+      gmao(sq_departure);
       return;
 
     case Pao:
-      gchin(sq_departure, vec_rook_start,vec_rook_end, side);
+      gchin(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case Leo:
-      gchin(sq_departure, vec_queen_start,vec_queen_end, side);
+      gchin(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case Vao:
-      gchin(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      gchin(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case Nao:
-      gchin(sq_departure, vec_knight_start,vec_knight_end, side);
+      gchin(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case Rose:
-      rose_generate_moves(side,sq_departure,vec_knight_start,vec_knight_end);
+      rose_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
       return;
 
     case NonStopEquihopper:
-      gnequi(sq_departure, side);
+      gnequi(sq_departure);
       return;
 
     case Locust:
-      glocust(sq_departure, vec_queen_start,vec_queen_end, side);
+      glocust(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case NightLocust:
-      glocust(sq_departure, vec_knight_start,vec_knight_end, side);
+      glocust(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case BishopLocust:
-      glocust(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      glocust(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case RookLocust:
-      glocust(sq_departure, vec_rook_start,vec_rook_end, side);
+      glocust(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case Kangaroo:
-      gkang(sq_departure, side);
+      gkang(sq_departure);
       return;
 
     case KangarooLion:
-      gkanglion(sq_departure, side);
+      gkanglion(sq_departure);
       return;
 
     case Kao:
-      gchinleap(sq_departure, vec_knight_start, vec_knight_end, side);
+      gchinleap(sq_departure, vec_knight_start, vec_knight_end);
       return;
 
     case KnightHopper:
-      leaper_hoppers_generate_moves(sq_departure, vec_knight_start, vec_knight_end, side);
+      leaper_hoppers_generate_moves(sq_departure, vec_knight_start, vec_knight_end);
       return;
 
     case SpiralSpringer:
-      spiralspringer_generate_moves(side,sq_departure);
+      spiralspringer_generate_moves(sq_departure);
       return;
 
     case DiagonalSpiralSpringer:
-      diagonalspiralspringer_generate_moves(side,sq_departure);
+      diagonalspiralspringer_generate_moves(sq_departure);
       return;
 
     case BoyScout:
-      boyscout_generate_moves(side,sq_departure);
+      boyscout_generate_moves(sq_departure);
       return;
 
     case GirlScout:
-      girlscout_generate_moves(side,sq_departure);
+      girlscout_generate_moves(sq_departure);
       return;
 
     case Hamster:
@@ -1777,14 +1761,14 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
 
     case UbiUbi:
     {
-      ubiubi_generate_moves(sq_departure,side);
+      ubiubi_generate_moves(sq_departure);
       return;
     }
 
     case Elk:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -1793,7 +1777,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Eagle:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -1802,7 +1786,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Sparrow:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -1811,10 +1795,10 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Marguerite:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45, side);
-      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90, side);
-      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135, side);
-      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90);
+      angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135);
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       ghamst(sq_departure);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
@@ -1826,7 +1810,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       numecoup const save_current_move = current_move[nbply];
       vec_index_type k;
       for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
-        grfou(sq_departure,sq_departure,vec[k],1,side);
+        grfou(sq_departure,sq_departure,vec[k],1);
       if (!NoEdge(sq_departure))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -1837,7 +1821,7 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
       numecoup const save_current_move = current_move[nbply];
       vec_index_type k;
       for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-        grfou(sq_departure,sq_departure,vec[k],4,side);
+        grfou(sq_departure,sq_departure,vec[k],4);
       remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
@@ -1846,14 +1830,14 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     {
       vec_index_type k;
       for (k= vec_bishop_start; k <= vec_bishop_end; k++)
-        gcard(sq_departure, sq_departure, vec[k], 1, side);
+        gcard(sq_departure, sq_departure, vec[k], 1);
       return;
     }
 
     case BouncyKnight:
     {
       numecoup const save_current_move = current_move[nbply];
-      grefc(sq_departure, sq_departure, 2, side);
+      grefc(sq_departure, sq_departure, 2);
       remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
@@ -1862,174 +1846,174 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     {
       numecoup const save_current_move = current_move[nbply];
       clearedgestraversed();
-      grefn(sq_departure, sq_departure, side);
+      grefn(sq_departure, sq_departure);
       remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
 
     case EquiHopper:
-      gequi(sq_departure, side);
+      gequi(sq_departure);
       return;
 
     case CAT:
-      gcat(sq_departure, side);
+      gcat(sq_departure);
       return;
 
     case Sirene:
-      marine_rider_generate_moves(side, sq_departure, vec_queen_start,vec_queen_end);
+      marine_rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case Triton:
-      marine_rider_generate_moves(side, sq_departure, vec_rook_start,vec_rook_end);
+      marine_rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case Nereide:
-      marine_rider_generate_moves(side, sq_departure, vec_bishop_start,vec_bishop_end);
+      marine_rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case Orphan:
-      gorph(sq_departure, side);
+      gorph(sq_departure);
       return;
 
     case Friend:
-      gfriend(sq_departure, side);
+      gfriend(sq_departure);
       return;
 
     case EdgeHog:
-      gedgeh(sq_departure, side);
+      gedgeh(sq_departure);
       return;
 
     case Moa:
-      gmoa(sq_departure, side);
+      gmoa(sq_departure);
       return;
 
     case MoaRider:
-      gemoarider(sq_departure, side);
+      gemoarider(sq_departure);
       return;
 
     case MaoRider:
-      gemaorider(sq_departure, side);
+      gemaorider(sq_departure);
       return;
 
     case Skylla:
-      geskylla(sq_departure, side);
+      geskylla(sq_departure);
       return;
 
     case Charybdis:
-      gecharybdis(sq_departure, side);
+      gecharybdis(sq_departure);
       return;
 
     case Grasshopper:
-      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case Lion:
-      lions_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
+      lions_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case NightriderHopper:
-      hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end, side);
+      hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case CamelHopper:
-      hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end, side);
+      hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
       return;
 
     case ZebraHopper:
-      hoppers_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end, side);
+      hoppers_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end);
       return;
 
     case GnuHopper:
-      hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end, side);
-      hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end, side);
+      hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
+      hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case RookLion:
-      lions_generate_moves(sq_departure, vec_rook_start,vec_rook_end, side);
+      lions_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case BishopLion:
-      lions_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      lions_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case RookHopper:
-      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, side);
+      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       return;
 
     case BishopHopper:
-      hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, side);
+      hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       return;
 
     case ContraGras:
-      contra_grasshopper_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
+      contra_grasshopper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case RoseLion:
-      roselion_generate_moves(side,sq_departure,vec_knight_start,vec_knight_end);
+      roselion_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
       return;
 
     case RoseHopper:
-      rosehopper_generate_moves(side,sq_departure,vec_knight_start,vec_knight_end);
+      rosehopper_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
       return;
 
     case RoseLocust:
-      roselocust_generate_moves(side,sq_departure,vec_knight_start,vec_knight_end);
+      roselocust_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
       return;
 
     case GrassHopper2:
-      gerhop2(sq_departure, vec_queen_start,vec_queen_end, side);
+      gerhop2(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case GrassHopper3:
-      gerhop3(sq_departure, vec_queen_start,vec_queen_end, side);
+      gerhop3(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case KingHopper:
-      leaper_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
+      leaper_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case DoubleGras:
-      gdoublegrasshopper(sq_departure, side);
+      gdoublegrasshopper(sq_departure);
       return;
 
     case DoubleRookHopper:
-      gdoublerookhopper(sq_departure, side);
+      gdoublerookhopper(sq_departure);
       return;
 
     case DoubleBishopper:
-      gdoublebishopper(sq_departure, side);
+      gdoublebishopper(sq_departure);
       return;
 
     case Orix:
-      gorix(sq_departure, side);
+      gorix(sq_departure);
       return;
 
      case NonStopOrix:
-      gnorix(sq_departure, side);
+      gnorix(sq_departure);
       return;
 
     case Gral:
-      leaper_generate_moves(side,sq_departure, vec_alfil_start,vec_alfil_end);
-      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, side);      /* rookhopper */
+      leaper_generate_moves(sq_departure, vec_alfil_start,vec_alfil_end);
+      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end);      /* rookhopper */
       return;
 
     case RookMoose:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_45, side);
+      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_45);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
 
     case RookEagle:
-      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_90, side);
+      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_90);
       return;
 
     case RookSparrow:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_135, side);
+      angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_135);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
@@ -2038,133 +2022,133 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case BishopMoose:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_45, side);
+      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_45);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
 
     case BishopEagle:
-      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_90, side);
+      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_90);
       return;
 
     case BishopSparrow:
     {
       numecoup const save_current_move = current_move[nbply];
-      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_135, side);
+      angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_135);
       if (!TSTFLAG(spec[sq_departure],ColourChange))
         remove_duplicate_moves_of_single_piece(save_current_move);
       return;
     }
 
     case Rao:
-      rao_generate_moves(side,sq_departure,vec_knight_start,vec_knight_end);
+      rao_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
       return;
 
     case Scorpion:
-      leaper_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end); /* eking */
-      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);     /* grashopper */
+      leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end); /* eking */
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);     /* grashopper */
       return;
 
     case NightRiderLion:
-      lions_generate_moves(sq_departure, vec_knight_start,vec_knight_end, side);
+      lions_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       return;
 
     case MaoRiderLion:
-      gemaoriderlion(sq_departure, side);
+      gemaoriderlion(sq_departure);
       return;
 
     case MoaRiderLion:
-      gemoariderlion(sq_departure, side);
+      gemoariderlion(sq_departure);
       return;
 
     case Dolphin:
-      gkang(sq_departure, side);
-      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, side);
+      gkang(sq_departure);
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       return;
 
     case Rabbit:
-      grabbit(sq_departure, side);
+      grabbit(sq_departure);
       return;
 
     case Bob:
-      gbob(sq_departure, side);
+      gbob(sq_departure);
       return;
 
     case EquiEnglish:
-      gequiapp(sq_departure, side);
+      gequiapp(sq_departure);
       return;
 
     case EquiFrench:
-      gnequiapp(sq_departure, side);
+      gnequiapp(sq_departure);
       return;
 
     case Querquisite:
       switch (sq_departure%onerow - nr_of_slack_files_left_of_board) {
       case file_rook_queenside:
       case file_rook_kingside:
-        rider_generate_moves(side,sq_departure, vec_rook_start,vec_rook_end);
+        rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
         break;
       case file_bishop_queenside:
       case file_bishop_kingside:
-        rider_generate_moves(side,sq_departure, vec_bishop_start,vec_bishop_end);
+        rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
         break;
       case file_queen:
-        rider_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+        rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
         break;
       case file_knight_queenside:
       case file_knight_kingside:
-        leaper_generate_moves(side,sq_departure, vec_knight_start,vec_knight_end);
+        leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
         break;
       case file_king:
-        leaper_generate_moves(side,sq_departure, vec_queen_start,vec_queen_end);
+        leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
         break;
       }
       break;
 
     case Bouncer :
-      bouncer_generate_moves(side, sq_departure, vec_queen_start,vec_queen_end);
+      bouncer_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       break;
 
     case RookBouncer:
-      bouncer_generate_moves(side, sq_departure, vec_rook_start,vec_rook_end);
+      bouncer_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       break;
 
     case BishopBouncer :
-      bouncer_generate_moves(side, sq_departure, vec_bishop_start,vec_bishop_end);
+      bouncer_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       break;
 
     case RadialKnight:
-      genradialknight(sq_departure, side);
+      genradialknight(sq_departure);
       break;
 
     case Treehopper:
-      gentreehopper(sq_departure, side);
+      gentreehopper(sq_departure);
       break;
 
     case Leafhopper :
-      genleafhopper(sq_departure, side);
+      genleafhopper(sq_departure);
       break;
 
     case GreaterTreehopper:
-      gengreatertreehopper(sq_departure, side);
+      gengreatertreehopper(sq_departure);
       break;
 
     case GreaterLeafhopper:
-      gengreaterleafhopper(sq_departure, side);
+      gengreaterleafhopper(sq_departure);
       break;
 
     case SpiralSpringer40:
     {
       numecoup const save_current_move = current_move[nbply];
-      gcsp(sq_departure, 9, 16, side);
-      gcsp(sq_departure, 10, 11, side);
-      gcsp(sq_departure, 11, 10, side);
-      gcsp(sq_departure, 12, 13, side);
-      gcsp(sq_departure, 13, 12, side);
-      gcsp(sq_departure, 14, 15, side);
-      gcsp(sq_departure, 15, 14, side);
-      gcsp(sq_departure, 16, 9, side);
+      gcsp(sq_departure,  9, 16);
+      gcsp(sq_departure, 10, 11);
+      gcsp(sq_departure, 11, 10);
+      gcsp(sq_departure, 12, 13);
+      gcsp(sq_departure, 13, 12);
+      gcsp(sq_departure, 14, 15);
+      gcsp(sq_departure, 15, 14);
+      gcsp(sq_departure, 16,  9);
       remove_duplicate_moves_of_single_piece(save_current_move);
       break;
     }
@@ -2172,14 +2156,14 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case SpiralSpringer20:
     {
       numecoup const save_current_move = current_move[nbply];
-      gcsp(sq_departure, 9, 12, side);
-      gcsp(sq_departure, 10, 15, side);
-      gcsp(sq_departure, 11, 14, side);
-      gcsp(sq_departure, 12, 9, side);
-      gcsp(sq_departure, 13, 16, side);
-      gcsp(sq_departure, 14, 11, side);
-      gcsp(sq_departure, 15, 10, side);
-      gcsp(sq_departure, 16, 13, side);
+      gcsp(sq_departure,  9, 12);
+      gcsp(sq_departure, 10, 15);
+      gcsp(sq_departure, 11, 14);
+      gcsp(sq_departure, 12,  9);
+      gcsp(sq_departure, 13, 16);
+      gcsp(sq_departure, 14, 11);
+      gcsp(sq_departure, 15, 10);
+      gcsp(sq_departure, 16, 13);
       remove_duplicate_moves_of_single_piece(save_current_move);
       break;
     }
@@ -2187,14 +2171,14 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case SpiralSpringer33:
     {
       numecoup const save_current_move = current_move[nbply];
-      gcsp(sq_departure, 9, 10, side);
-      gcsp(sq_departure, 10, 9, side);
-      gcsp(sq_departure, 11, 12, side);
-      gcsp(sq_departure, 12, 11, side);
-      gcsp(sq_departure, 13, 14, side);
-      gcsp(sq_departure, 14, 13, side);
-      gcsp(sq_departure, 15, 16, side);
-      gcsp(sq_departure, 16, 15, side);
+      gcsp(sq_departure,  9, 10);
+      gcsp(sq_departure, 10,  9);
+      gcsp(sq_departure, 11, 12);
+      gcsp(sq_departure, 12, 11);
+      gcsp(sq_departure, 13, 14);
+      gcsp(sq_departure, 14, 13);
+      gcsp(sq_departure, 15, 16);
+      gcsp(sq_departure, 16, 15);
       remove_duplicate_moves_of_single_piece(save_current_move);
       break;
     }
@@ -2202,14 +2186,14 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case SpiralSpringer11:
     {
       numecoup const save_current_move = current_move[nbply];
-      gcsp(sq_departure, 9, 14, side);
-      gcsp(sq_departure, 10, 13, side);
-      gcsp(sq_departure, 11, 16, side);
-      gcsp(sq_departure, 12, 15, side);
-      gcsp(sq_departure, 13, 10, side);
-      gcsp(sq_departure, 14, 9, side);
-      gcsp(sq_departure, 15, 12, side);
-      gcsp(sq_departure, 16, 11, side);
+      gcsp(sq_departure,  9, 14);
+      gcsp(sq_departure, 10, 13);
+      gcsp(sq_departure, 11, 16);
+      gcsp(sq_departure, 12, 15);
+      gcsp(sq_departure, 13, 10);
+      gcsp(sq_departure, 14,  9);
+      gcsp(sq_departure, 15, 12);
+      gcsp(sq_departure, 16, 11);
       remove_duplicate_moves_of_single_piece(save_current_move);
       break;
     }
@@ -2217,53 +2201,55 @@ void piece_generate_moves(Side side, square sq_departure, PieNam p)
     case Quintessence:
     {
       numecoup const save_current_move = current_move[nbply];
-      gcsp(sq_departure, 9, 11, side);
-      gcsp(sq_departure, 11, 9, side);
-      gcsp(sq_departure, 11, 13, side);
-      gcsp(sq_departure, 13, 11, side);
-      gcsp(sq_departure, 13, 15, side);
-      gcsp(sq_departure, 15, 13, side);
-      gcsp(sq_departure, 15, 9, side);
-      gcsp(sq_departure, 9, 15, side);
-      gcsp(sq_departure, 10, 12, side);
-      gcsp(sq_departure, 12, 10, side);
-      gcsp(sq_departure, 12, 14, side);
-      gcsp(sq_departure, 14, 12, side);
-      gcsp(sq_departure, 14, 16, side);
-      gcsp(sq_departure, 16, 14, side);
-      gcsp(sq_departure, 16, 10, side);
-      gcsp(sq_departure, 10, 16, side);
+      gcsp(sq_departure,  9, 11);
+      gcsp(sq_departure, 11,  9);
+      gcsp(sq_departure, 11, 13);
+      gcsp(sq_departure, 13, 11);
+      gcsp(sq_departure, 13, 15);
+      gcsp(sq_departure, 15, 13);
+      gcsp(sq_departure, 15,  9);
+      gcsp(sq_departure,  9, 15);
+      gcsp(sq_departure, 10, 12);
+      gcsp(sq_departure, 12, 10);
+      gcsp(sq_departure, 12, 14);
+      gcsp(sq_departure, 14, 12);
+      gcsp(sq_departure, 14, 16);
+      gcsp(sq_departure, 16, 14);
+      gcsp(sq_departure, 16, 10);
+      gcsp(sq_departure, 10, 16);
       remove_duplicate_moves_of_single_piece(save_current_move);
       break;
     }
 
     case MarineKnight:
-      marine_knight_generate_moves(side,sq_departure);
+      marine_knight_generate_moves(sq_departure);
       break;
 
     case Poseidon:
-      poseidon_generate_moves(side,sq_departure);
+      poseidon_generate_moves(sq_departure);
       break;
 
     case MarinePawn:
-      marine_pawn_generate_moves(side,sq_departure);
+      marine_pawn_generate_moves(sq_departure);
       break;
 
     case MarineShip:
-      marine_ship_generate_moves(side,sq_departure,vec_rook_start,vec_rook_end);
+      marine_ship_generate_moves(sq_departure,vec_rook_start,vec_rook_end);
       return;
 
     default:
       /* Since pieces like DUMMY fall through 'default', we have */
       /* to check exactly if there is something to generate ...  */
       if (p>=Hunter0 && p<Hunter0+maxnrhuntertypes)
-        hunter_generate_moves(side,sq_departure,p);
+        hunter_generate_moves(sq_departure,p);
       break;
   }
 }
 
-void king_generate_moves(Side side_moving, square sq_departure)
+void king_generate_moves(square sq_departure)
 {
+  Side const side_moving = trait[nbply];
+
   if (calc_reflective_king[side_moving] && !transmuting_kings_lock_recursion)
   {
     boolean generated_by_transmutation = false;
@@ -2271,27 +2257,27 @@ void king_generate_moves(Side side_moving, square sq_departure)
 
     if (CondFlag[side_moving==White ? blvault_king : whvault_king])
     {
-      generated_by_transmutation = vaulting_kings_generate_moves(side_moving,sq_departure);
+      generated_by_transmutation = vaulting_kings_generate_moves(sq_departure);
       if (generated_by_transmutation && calc_transmuting_king[side_moving])
         return;
     }
     else if (CondFlag[side_moving==White ? whtrans_king : bltrans_king]
              || CondFlag[side_moving==White ? whsupertrans_king : blsupertrans_king])
     {
-      if (transmuting_kings_generate_moves(side_moving,sq_departure))
+      if (transmuting_kings_generate_moves(sq_departure))
         return;
     }
     else if (CondFlag[side_moving==White ? whrefl_king : blrefl_king])
-      generated_by_transmutation = transmuting_kings_generate_moves(side_moving,sq_departure);
+      generated_by_transmutation = transmuting_kings_generate_moves(sq_departure);
     else
     {
       assert(0);
     }
 
     if (CondFlag[sting])
-      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end,side_moving);
+      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
 
-    leaper_generate_moves(side_moving,sq_departure,vec_queen_start,vec_queen_end);
+    leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
 
     if (generated_by_transmutation)
       remove_duplicate_moves_of_single_piece(save_nbcou);
@@ -2299,13 +2285,13 @@ void king_generate_moves(Side side_moving, square sq_departure)
   else
   {
     if (CondFlag[sting])
-      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end,side_moving);
+      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
 
-    leaper_generate_moves(side_moving,sq_departure,vec_queen_start,vec_queen_end);
+    leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
   }
 
   if (castling_supported)
-    generate_castling(side_moving);
+    generate_castling();
 
   if (CondFlag[castlingchess] && !echecc(side_moving))
   {
@@ -2342,10 +2328,11 @@ void king_generate_moves(Side side_moving, square sq_departure)
   }
 }
 
-void gen_piece_aux(Side side, square sq_departure, PieNam p)
+void gen_piece_aux(square sq_departure, PieNam p)
 {
+  Side const side = trait[nbply];
+
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
@@ -2358,23 +2345,22 @@ void gen_piece_aux(Side side, square sq_departure, PieNam p)
     {
       boolean const save_castling_supported = castling_supported;
       castling_supported = false;
-      piece_generate_moves(side,sq_departure,get_walk_of_piece_on_square(annaniser_pos));
+      piece_generate_moves(sq_departure,get_walk_of_piece_on_square(annaniser_pos));
       castling_supported = save_castling_supported;
     }
     else
-      piece_generate_moves(side,sq_departure,p);
+      piece_generate_moves(sq_departure,p);
   }
   else
-    piece_generate_moves(side,sq_departure,p);
+    piece_generate_moves(sq_departure,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p)
+void orig_generate_moves_for_piece(square sq_departure, PieNam p)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
@@ -2388,22 +2374,21 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p)
       && !(TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure)))
   {
     if (CondFlag[phantom])
-      phantom_chess_generate_moves(side,p,sq_departure);
+      phantom_chess_generate_moves(p,sq_departure);
     else if (CondFlag[plus])
-      plus_generate_moves(side,p,sq_departure);
+      plus_generate_moves(p,sq_departure);
     else if (anymars)
-      marscirce_generate_moves(side,p,sq_departure);
+      marscirce_generate_moves(p,sq_departure);
     else if (anyantimars)
-      antimars_generate_moves(side,p,sq_departure);
+      antimars_generate_moves(p,sq_departure);
     else
-      gen_piece_aux(side,sq_departure,p);
+      gen_piece_aux(sq_departure,p);
 
-    if (CondFlag[messigny] && !(king_square[side]==sq_departure && rex_mess_ex))
+    if (CondFlag[messigny] && !(king_square[trait[nbply]]==sq_departure && rex_mess_ex))
     {
-      Side const opponent = advers(side);
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
-        if (TSTFLAG(spec[*bnp],opponent) && get_walk_of_piece_on_square(*bnp)==p)
+        if (piece_belongs_to_opponent(*bnp) && get_walk_of_piece_on_square(*bnp)==p)
           add_to_move_generation_stack(sq_departure,*bnp,messigny_exchange);
     }
   }
@@ -2412,9 +2397,9 @@ void orig_generate_moves_for_piece(Side side, square sq_departure, PieNam p)
   TraceFunctionResultEnd();
 }
 
-void (*generate_moves_for_piece)(Side side, square z, PieNam p) = &orig_generate_moves_for_piece;
+void (*generate_moves_for_piece)(square z, PieNam p) = &orig_generate_moves_for_piece;
 
-void gorph(square sq_departure, Side camp)
+void gorph(square sq_departure)
 {
   numecoup const save_nbcou = current_move[nbply];
 
@@ -2422,26 +2407,27 @@ void gorph(square sq_departure, Side camp)
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
         && orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
-      generate_moves_for_piece(camp,sq_departure,*orphan_observer);
+      generate_moves_for_piece(sq_departure,*orphan_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
-void gfriend(square i, Side camp)
+void gfriend(square i)
 {
   numecoup const save_nbcou = current_move[nbply];
+  Side const camp = trait[nbply];
 
   PieNam const *friend_observer;
   for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
     if (number_of_pieces[camp][*friend_observer]>0
         && find_next_friend_in_chain(i,*friend_observer,Friend,&validate_observation))
-      generate_moves_for_piece(camp, i,*friend_observer);
+      generate_moves_for_piece(i,*friend_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
 
-void gedgeh(square sq_departure, Side camp) {
+void gedgeh(square sq_departure) {
   vec_index_type k;
 
   for (k= vec_queen_end; k >=vec_queen_start; k--) {
@@ -2453,43 +2439,43 @@ void gedgeh(square sq_departure, Side camp) {
       sq_arrival+= vec[k];
     }
 
-    if (piece_belongs_to_opponent(sq_arrival,camp))
+    if (piece_belongs_to_opponent(sq_arrival))
       if (NoEdge(sq_arrival)!=NoEdge(sq_departure))
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   }
 }
 
-static void geskylchar(square sq_departure, square sq_arrival, square sq_capture,
-                Side camp) {
+static void geskylchar(square sq_departure, square sq_arrival, square sq_capture)
+{
   if (is_square_empty(sq_arrival))
   {
     if (is_square_empty(sq_capture))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
-    else if (piece_belongs_to_opponent(sq_capture,camp))
+    else if (piece_belongs_to_opponent(sq_capture))
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
   }
 }
 
-void geskylla(square i, Side camp) {
-  geskylchar(i, i+dir_up+2*dir_right, i+dir_right, camp);
-  geskylchar(i, i+2*dir_up+dir_right, i+dir_up, camp);
-  geskylchar(i, i+2*dir_up+dir_left, i+dir_up, camp);
-  geskylchar(i, i+dir_up+2*dir_left, i+dir_left, camp);
-  geskylchar(i, i+dir_down+2*dir_left, i+dir_left, camp);
-  geskylchar(i, i+2*dir_down+dir_left, i+dir_down, camp);
-  geskylchar(i, i+2*dir_down+dir_right, i+dir_down, camp);
-  geskylchar(i, i+dir_down+2*dir_right, i+dir_right, camp);
+void geskylla(square i) {
+  geskylchar(i, i+dir_up+2*dir_right, i+dir_right);
+  geskylchar(i, i+2*dir_up+dir_right, i+dir_up);
+  geskylchar(i, i+2*dir_up+dir_left, i+dir_up);
+  geskylchar(i, i+dir_up+2*dir_left, i+dir_left);
+  geskylchar(i, i+dir_down+2*dir_left, i+dir_left);
+  geskylchar(i, i+2*dir_down+dir_left, i+dir_down);
+  geskylchar(i, i+2*dir_down+dir_right, i+dir_down);
+  geskylchar(i, i+dir_down+2*dir_right, i+dir_right);
 }
 
-void gecharybdis(square i, Side camp) {
-  geskylchar(i, i+dir_up+2*dir_right, i+dir_up+dir_right, camp);
-  geskylchar(i, i+2*dir_up+dir_right, i+dir_up+dir_right, camp);
-  geskylchar(i, i+2*dir_up+dir_left, i+dir_up+dir_left, camp);
-  geskylchar(i, i+dir_up+2*dir_left, i+dir_up+dir_left, camp);
-  geskylchar(i, i+dir_down+2*dir_left, i+dir_down+dir_left, camp);
-  geskylchar(i, i+2*dir_down+dir_left, i+dir_down+dir_left, camp);
-  geskylchar(i, i+2*dir_down+dir_right, i+dir_down+dir_right, camp);
-  geskylchar(i, i+dir_down+2*dir_right, i+dir_down+dir_right, camp);
+void gecharybdis(square i) {
+  geskylchar(i, i+dir_up+2*dir_right, i+dir_up+dir_right);
+  geskylchar(i, i+2*dir_up+dir_right, i+dir_up+dir_right);
+  geskylchar(i, i+2*dir_up+dir_left, i+dir_up+dir_left);
+  geskylchar(i, i+dir_up+2*dir_left, i+dir_up+dir_left);
+  geskylchar(i, i+dir_down+2*dir_left, i+dir_down+dir_left);
+  geskylchar(i, i+2*dir_down+dir_left, i+dir_down+dir_left);
+  geskylchar(i, i+2*dir_down+dir_right, i+dir_down+dir_right);
+  geskylchar(i, i+dir_down+2*dir_right, i+dir_down+dir_right);
 }
 
 /***********************************************************************
@@ -2498,31 +2484,31 @@ void gecharybdis(square i, Side camp) {
  **                                    **
  ***********************************************************************/
 
-void reverse_pawn_generate_moves(Side side, square sq_departure)
+void reverse_pawn_generate_moves(square sq_departure)
 {
-  unsigned int const no_capture_length = pawn_get_no_capture_length(advers(side),
+  unsigned int const no_capture_length = pawn_get_no_capture_length(advers(trait[nbply]),
                                                                     sq_departure);
 
   if (no_capture_length>0)
   {
-    int const dir_backward = side==White ? dir_down : dir_up;
+    int const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
-    pawns_generate_capture_move(side,sq_departure,dir_backward+dir_right);
-    pawns_generate_capture_move(side,sq_departure,dir_backward+dir_left);
+    pawns_generate_capture_move(sq_departure,dir_backward+dir_right);
+    pawns_generate_capture_move(sq_departure,dir_backward+dir_left);
     pawns_generate_nocapture_moves(sq_departure,dir_backward,no_capture_length);
   }
 }
 
 /************************  white berolina pawn  ***********************/
-void berolina_pawn_generate_moves(Side side, square sq_departure)
+void berolina_pawn_generate_moves(square sq_departure)
 {
-  unsigned int const no_capture_length = pawn_get_no_capture_length(side,sq_departure);
+  unsigned int const no_capture_length = pawn_get_no_capture_length(trait[nbply],sq_departure);
 
   if (no_capture_length>0)
   {
-    int const dir_forward = side==White ? dir_up : dir_down;
+    int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
 
-    pawns_generate_capture_move(side,sq_departure,dir_forward);
+    pawns_generate_capture_move(sq_departure,dir_forward);
     pawns_generate_nocapture_moves(sq_departure,dir_forward+dir_left,no_capture_length);
     pawns_generate_nocapture_moves(sq_departure,dir_forward+dir_right,no_capture_length);
   }
@@ -2530,14 +2516,14 @@ void berolina_pawn_generate_moves(Side side, square sq_departure)
 
 static void genleapleap(square sq_departure,
                         vec_index_type kanf, vec_index_type kend,
-                        int hurdletype, Side camp, boolean leaf)
+                        int hurdletype, boolean leaf)
 {
   vec_index_type k;
 
   for (k= kanf; k<=kend; ++k)
   {
     square const sq_hurdle = sq_departure + vec[k];
-    if ((hurdletype==0 && piece_belongs_to_opponent(sq_hurdle,camp))
+    if ((hurdletype==0 && piece_belongs_to_opponent(sq_hurdle))
         || (hurdletype==1 && get_walk_of_piece_on_square(sq_hurdle)>=King))
     {
       vec_index_type k1;
@@ -2546,97 +2532,97 @@ static void genleapleap(square sq_departure,
         square const sq_arrival = (leaf ? sq_departure : sq_hurdle) + vec[k1];
         if (sq_arrival!=sq_hurdle
             && (is_square_empty(sq_arrival)
-                || piece_belongs_to_opponent(sq_arrival,camp)))
+                || piece_belongs_to_opponent(sq_arrival)))
           add_to_move_generation_stack(sq_departure, sq_arrival, sq_arrival);
       }
     }
   }
 }
 
-void genqlinesradial(square sq_departure, Side camp, int hurdletype, boolean leaf)
+void genqlinesradial(square sq_departure, int hurdletype, boolean leaf)
 {
   numecoup const save_current_move = current_move[nbply];
 
-  genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap04_start, vec_leap04_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap05_start, vec_leap05_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap06_start, vec_leap06_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap07_start, vec_leap07_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_bishop_start, vec_bishop_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_alfil_start, vec_alfil_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap33_start, vec_leap33_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap44_start, vec_leap44_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap55_start, vec_leap55_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap04_start, vec_leap04_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap05_start, vec_leap05_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap06_start, vec_leap06_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap07_start, vec_leap07_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_bishop_start, vec_bishop_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_alfil_start, vec_alfil_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap33_start, vec_leap33_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap44_start, vec_leap44_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap55_start, vec_leap55_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, leaf);
 
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-void genradial(square sq_departure, Side camp, int hurdletype, boolean leaf)
+void genradial(square sq_departure, int hurdletype, boolean leaf)
 {
   numecoup const save_current_move = current_move[nbply];
 
-  genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap04_start, vec_leap04_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_bucephale_start, vec_bucephale_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap06_start, vec_leap06_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap07_start, vec_leap07_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_bishop_start, vec_bishop_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_knight_start, vec_knight_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_chameau_start, vec_chameau_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_girafe_start, vec_girafe_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap15_start, vec_leap15_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap16_start, vec_leap16_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_rccinq_start, vec_rccinq_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_alfil_start, vec_alfil_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_zebre_start, vec_zebre_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap24_start, vec_leap24_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap25_start, vec_leap25_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap26_start, vec_leap26_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap27_start, vec_leap27_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap33_start, vec_leap33_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap35_start, vec_leap35_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap36_start, vec_leap36_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap37_start, vec_rccinq_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap44_start, vec_leap44_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap45_start, vec_leap45_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap46_start, vec_leap46_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap47_start, vec_leap47_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap56_start, vec_leap56_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap57_start, vec_leap57_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap67_start, vec_leap67_end, hurdletype, camp, leaf);
-  genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap04_start, vec_leap04_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_bucephale_start, vec_bucephale_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap06_start, vec_leap06_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap07_start, vec_leap07_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_bishop_start, vec_bishop_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_knight_start, vec_knight_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_chameau_start, vec_chameau_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_girafe_start, vec_girafe_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap15_start, vec_leap15_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap16_start, vec_leap16_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_rccinq_start, vec_rccinq_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_alfil_start, vec_alfil_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_zebre_start, vec_zebre_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap24_start, vec_leap24_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap25_start, vec_leap25_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap26_start, vec_leap26_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap27_start, vec_leap27_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap33_start, vec_leap33_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap35_start, vec_leap35_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap36_start, vec_leap36_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap37_start, vec_rccinq_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap44_start, vec_leap44_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap45_start, vec_leap45_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap46_start, vec_leap46_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap47_start, vec_leap47_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap56_start, vec_leap56_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap57_start, vec_leap57_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap67_start, vec_leap67_end, hurdletype, leaf);
+  genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, leaf);
 
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-void genradialknight(square sq_departure, Side camp)
+void genradialknight(square sq_departure)
 {
-  genradial(sq_departure, camp, 0, false);
+  genradial(sq_departure, 0, false);
 }
 
-void gentreehopper(square sq_departure, Side camp)
+void gentreehopper(square sq_departure)
 {
-  genqlinesradial(sq_departure, camp, 1, false);
+  genqlinesradial(sq_departure, 1, false);
 }
 
-void gengreatertreehopper(square sq_departure, Side camp)
+void gengreatertreehopper(square sq_departure)
 {
-  genradial(sq_departure, camp, 1, false);
+  genradial(sq_departure, 1, false);
 }
 
-void genleafhopper(square sq_departure, Side camp)
+void genleafhopper(square sq_departure)
 {
-  genqlinesradial(sq_departure, camp, 1, true);
+  genqlinesradial(sq_departure, 1, true);
 }
 
-void gengreaterleafhopper(square sq_departure, Side camp)
+void gengreaterleafhopper(square sq_departure)
 {
-  genradial(sq_departure, camp, 1, true);
+  genradial(sq_departure, 1, true);
 }

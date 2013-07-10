@@ -59,17 +59,16 @@ static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
   TraceFunctionResultEnd();
 }
 
-static void generate_one_dir(Side side, square sq_departure, PieNam part, UPDOWN updown)
+static void generate_one_dir(square sq_departure, PieNam part, UPDOWN updown)
 {
   numecoup const savenbcou = current_move[nbply];
-  generate_moves_for_piece(side,sq_departure,part);
+  generate_moves_for_piece(sq_departure,part);
   filter(sq_departure,savenbcou,updown);
 }
 
-void hunter_generate_moves(Side side, square sq_departure, PieNam walk)
+void hunter_generate_moves(square sq_departure, PieNam walk)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(sq_departure);
   TracePiece(walk);
   TraceFunctionParamListEnd();
@@ -81,15 +80,15 @@ void hunter_generate_moves(Side side, square sq_departure, PieNam walk)
     unsigned int const typeofhunter = walk-Hunter0;
     HunterType const * const huntertype = huntertypes+typeofhunter;
 
-    if (side==White)
+    if (trait[nbply]==White)
     {
-      generate_one_dir(side,sq_departure,huntertype->home,DOWN);
-      generate_one_dir(side,sq_departure,huntertype->away,UP);
+      generate_one_dir(sq_departure,huntertype->home,DOWN);
+      generate_one_dir(sq_departure,huntertype->away,UP);
     }
     else
     {
-      generate_one_dir(side,sq_departure,huntertype->away,DOWN);
-      generate_one_dir(side,sq_departure,huntertype->home,UP);
+      generate_one_dir(sq_departure,huntertype->away,DOWN);
+      generate_one_dir(sq_departure,huntertype->home,UP);
     }
   }
 
@@ -97,14 +96,14 @@ void hunter_generate_moves(Side side, square sq_departure, PieNam walk)
   TraceFunctionResultEnd();
 }
 
-void rook_hunter_generate_moves(Side side, square sq_departure)
+void rook_hunter_generate_moves(square sq_departure)
 {
-  generate_one_dir(side,sq_departure,Bishop,DOWN);
-  generate_one_dir(side,sq_departure,Rook,UP);
+  generate_one_dir(sq_departure,Bishop,DOWN);
+  generate_one_dir(sq_departure,Rook,UP);
 }
 
-void bishop_hunter_generate_moves(Side side, square sq_departure)
+void bishop_hunter_generate_moves(square sq_departure)
 {
-  generate_one_dir(side,sq_departure,Rook,DOWN);
-  generate_one_dir(side,sq_departure,Bishop,UP);
+  generate_one_dir(sq_departure,Rook,DOWN);
+  generate_one_dir(sq_departure,Bishop,UP);
 }

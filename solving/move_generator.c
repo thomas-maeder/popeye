@@ -54,7 +54,7 @@ static void genmove(Side side)
     square z = square_a;
     for (j = nr_files_on_board; j>0; j--, z += next_file)
       if (TSTFLAG(spec[z],side))
-        generate_moves_for_piece(side,z,get_walk_of_piece_on_square(z));
+        generate_moves_for_piece(z,get_walk_of_piece_on_square(z));
   }
 
   TraceFunctionExit(__func__);

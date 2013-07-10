@@ -13,9 +13,8 @@
 slice_index alloc_king_move_generator_slice(void);
 
 /* Generate moves for the king (if any) of a side
- * @param side side for which to generate king moves
  */
-void generate_king_moves(Side side);
+void generate_king_moves(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index

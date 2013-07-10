@@ -5,6 +5,6 @@
 
 /* This module implements the fairy piece UbiUbi */
 
-void ubiubi_generate_moves(square sq_departure, Side side);
+void ubiubi_generate_moves(square sq_departure);
 
 #endif

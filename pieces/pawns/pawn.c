@@ -40,23 +40,22 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
   return result;
 }
 
-void pawn_generate_moves(Side side, square sq_departure)
+void pawn_generate_moves(square sq_departure)
 {
   unsigned int no_capture_length;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  no_capture_length = pawn_get_no_capture_length(side,sq_departure);
+  no_capture_length = pawn_get_no_capture_length(trait[nbply],sq_departure);
 
   if (no_capture_length>0)
   {
-    int const dir_vertical = side==White ? dir_up : dir_down;
+    int const dir_vertical = trait[nbply]==White ? dir_up : dir_down;
 
-    pawns_generate_capture_move(side,sq_departure,dir_vertical+dir_left);
-    pawns_generate_capture_move(side,sq_departure,dir_vertical+dir_right);
+    pawns_generate_capture_move(sq_departure,dir_vertical+dir_left);
+    pawns_generate_capture_move(sq_departure,dir_vertical+dir_right);
     pawns_generate_nocapture_moves(sq_departure,dir_vertical,no_capture_length);
   }
 

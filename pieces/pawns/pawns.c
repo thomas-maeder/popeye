@@ -6,20 +6,18 @@
 
 #include <assert.h>
 
-void pawns_generate_ep_capture_move(Side side,
-                                    square sq_departure,
+void pawns_generate_ep_capture_move(square sq_departure,
                                     square sq_arrival,
                                     square sq_arrival_singlestep)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_arrival_singlestep);
   TraceFunctionParamListEnd();
 
   if (get_walk_of_piece_on_square(sq_departure)!=Orphan /* orphans cannot capture ep */
-      && en_passant_is_capture_possible_to(side,sq_arrival_singlestep))
+      && en_passant_is_capture_possible_to(trait[nbply],sq_arrival_singlestep))
   {
     square const sq_capture = en_passant_find_capturee();
     if (sq_capture!=initsquare)
@@ -36,21 +34,18 @@ void pawns_generate_ep_capture_move(Side side,
 /* generates move of a pawn of side camp on departure capturing a piece on
  * arrival
  */
-void pawns_generate_capture_move(Side side,
-                                 square sq_departure,
-                                 numvec dir)
+void pawns_generate_capture_move(square sq_departure, numvec dir)
 {
   square const sq_arrival = sq_departure+dir;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (piece_belongs_to_opponent(sq_arrival,side))
+  if (piece_belongs_to_opponent(sq_arrival))
     add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
   else
-    pawns_generate_ep_capture_move(side,sq_departure,sq_arrival,sq_arrival);
+    pawns_generate_ep_capture_move(sq_departure,sq_arrival,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

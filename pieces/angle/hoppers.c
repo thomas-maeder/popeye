@@ -12,8 +12,7 @@
  */
 void angle_hoppers_generate_moves(square sq_departure,
                                   vec_index_type kanf, vec_index_type kend,
-                                  angle_t angle,
-                                  Side side)
+                                  angle_t angle)
 {
   vec_index_type k;
 
@@ -22,7 +21,6 @@ void angle_hoppers_generate_moves(square sq_departure,
   TraceFunctionParam ("%u",kanf);
   TraceFunctionParam ("%u",kend);
   TraceFunctionParam ("%u",angle);
-  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
   for (k = kend; k>=kanf; k--)
@@ -35,7 +33,7 @@ void angle_hoppers_generate_moves(square sq_departure,
       {
         square const sq_arrival= sq_hurdle+angle_vectors[angle][k1];
         if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival,side))
+            || piece_belongs_to_opponent(sq_arrival))
         {
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
@@ -46,7 +44,7 @@ void angle_hoppers_generate_moves(square sq_departure,
       {
         square const sq_arrival= sq_hurdle+angle_vectors[angle][k1-1];
         if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival,side))
+            || piece_belongs_to_opponent(sq_arrival))
         {
           add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;

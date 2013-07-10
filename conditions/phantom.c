@@ -44,29 +44,27 @@ static boolean is_regular_arrival(square sq_arrival,
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param side side for which to generate moves for
  * @param p indicates the walk according to which to generate moves
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void phantom_chess_generate_moves(Side side, PieNam p, square sq_departure)
+void phantom_chess_generate_moves(PieNam p, square sq_departure)
 {
   numecoup const start_regular_moves = current_move[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TracePiece(p);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_departure,p);
+  gen_piece_aux(sq_departure,p);
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
     square const sq_rebirth = (*marsrenai)(p,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
-                                           advers(side));
+                                           advers(trait[nbply]));
 
     if (sq_rebirth!=sq_departure && is_square_empty(sq_rebirth))
     {
@@ -75,7 +73,7 @@ void phantom_chess_generate_moves(Side side, PieNam p, square sq_departure)
       occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
       empty_square(sq_departure);
 
-      gen_piece_aux(side,sq_rebirth,p);
+      gen_piece_aux(sq_rebirth,p);
 
       occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
       empty_square(sq_rebirth);
@@ -214,7 +212,7 @@ boolean phantom_is_square_observed(square sq_target, evalfunction_t *evaluate)
     square pos_checking = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
       if ((!TSTFLAG(spec[pos_checking],Royal) || phantom_chess_rex_inclusive)
-          && piece_belongs_to_opponent(pos_checking,side_observed)
+          && TSTFLAG(spec[pos_checking],side_observing)
           && pos_checking!=king_square[side_observed]   /* exclude nK */)
       {
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);

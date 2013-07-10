@@ -16,9 +16,9 @@ extern unsigned int nrhuntertypes;
 
 PieNam hunter_make_type(PieNam away, PieNam home);
 
-void hunter_generate_moves(Side side, square sq_departure, PieNam walk);
+void hunter_generate_moves(square sq_departure, PieNam walk);
 
-void rook_hunter_generate_moves(Side side, square sq_departure);
-void bishop_hunter_generate_moves(Side side, square sq_departure);
+void rook_hunter_generate_moves(square sq_departure);
+void bishop_hunter_generate_moves(square sq_departure);
 
 #endif

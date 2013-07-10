@@ -8,12 +8,11 @@
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param side side for which to generate moves for
  * @param p indicates the walk according to which to generate moves
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not have that walk
  */
-void antimars_generate_moves(Side side, PieNam p, square sq_departure);
+void antimars_generate_moves(PieNam p, square sq_departure);
 
 /* Try to solve in n half-moves.
  * @param si slice index

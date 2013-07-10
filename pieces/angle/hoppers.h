@@ -16,8 +16,7 @@
  */
 void angle_hoppers_generate_moves(square sq_departure,
                                   vec_index_type kanf, vec_index_type kend,
-                                  angle_t angle,
-                                  Side side);
+                                  angle_t angle);
 
 /* Is a particular square observed by a particular type of angle hopper?
  * @param sq_target the square

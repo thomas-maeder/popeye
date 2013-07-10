@@ -96,10 +96,11 @@ boolean transmuting_kings_is_square_attacked_by_king(square sq_target,
   }
 }
 
-boolean transmuting_kings_generate_moves(Side side_moving, square sq_departure)
+boolean transmuting_kings_generate_moves(square sq_departure)
 {
   boolean result = false;
   PieNam const *ptrans;
+  Side const side_moving = trait[nbply];
 
   transmuting_kings_lock_recursion = true;
 
@@ -122,7 +123,7 @@ boolean transmuting_kings_generate_moves(Side side_moving, square sq_departure)
       {
         result = true;
         current_trans_gen = *ptrans;
-        generate_moves_for_piece(side_moving,sq_departure,*ptrans);
+        generate_moves_for_piece(sq_departure,*ptrans);
         current_trans_gen = Empty;
       }
     }

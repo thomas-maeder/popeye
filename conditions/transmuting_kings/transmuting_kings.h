@@ -39,7 +39,7 @@ transmuting_kings_is_square_attacked_by_transmuting_king(square sq_target,
 boolean transmuting_kings_is_square_attacked_by_king(square sq_target,
                                                      evalfunction_t *evaluate);
 
-boolean transmuting_kings_generate_moves(Side side_moving, square sq_departure);
+boolean transmuting_kings_generate_moves(square sq_departure);
 
 /* Does the reflective king of side trait[nbply] attack a particular square
  * (while transmuting or not)?

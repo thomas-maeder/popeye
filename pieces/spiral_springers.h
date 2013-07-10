@@ -7,12 +7,12 @@
 
 /* Generation of moves for Spiral springers. */
 
-void spiralspringer_generate_moves(Side side, square sq_departure);
+void spiralspringer_generate_moves(square sq_departure);
 
-void diagonalspiralspringer_generate_moves(Side side, square sq_departure);
+void diagonalspiralspringer_generate_moves(square sq_departure);
 
-void boyscout_generate_moves(Side side, square sq_departure);
+void boyscout_generate_moves(square sq_departure);
 
-void girlscout_generate_moves(Side side, square sq_departure);
+void girlscout_generate_moves(square sq_departure);
 
 #endif

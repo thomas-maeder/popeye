@@ -14,15 +14,13 @@
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param side side for which to generate moves for
  * @param p indicates the walk according to which to generate moves
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void antimars_generate_moves(Side side, PieNam p, square sq_departure)
+void antimars_generate_moves(PieNam p, square sq_departure)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TracePiece(p);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
@@ -31,20 +29,20 @@ void antimars_generate_moves(Side side, PieNam p, square sq_departure)
     square const sq_rebirth = (*marsrenai)(p,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
-                                           advers(side));
+                                           advers(trait[nbply]));
 
     if (sq_rebirth==sq_departure)
-      gen_piece_aux(side,sq_departure,p);
+      gen_piece_aux(sq_departure,p);
     else
     {
-      marscirce_generate_captures(side,p,sq_departure,sq_departure);
+      marscirce_generate_captures(p,sq_departure,sq_departure);
 
       if (is_square_empty(sq_rebirth))
       {
         occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
         empty_square(sq_departure);
 
-        marscirce_generate_non_captures(side,p,sq_rebirth,sq_departure);
+        marscirce_generate_non_captures(p,sq_rebirth,sq_departure);
 
         occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
         empty_square(sq_rebirth);

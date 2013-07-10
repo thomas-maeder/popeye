@@ -3,13 +3,11 @@
 #include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"
 
-static void generate_additional_captures_from(Side side,
-                                              PieNam p,
+static void generate_additional_captures_from(PieNam p,
                                               square from,
                                               square sq_departure)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TracePiece(p);
   TraceSquare(from);
   TraceSquare(sq_departure);
@@ -20,7 +18,7 @@ static void generate_additional_captures_from(Side side,
     occupy_square(from,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
     empty_square(sq_departure);
 
-    marscirce_generate_captures(side,p,from,sq_departure);
+    marscirce_generate_captures(p,from,sq_departure);
 
     occupy_square(sq_departure,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
@@ -32,30 +30,28 @@ static void generate_additional_captures_from(Side side,
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param side side for which to generate moves for
  * @param p indicates the walk according to which to generate moves
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void plus_generate_moves(Side side, PieNam p, square sq_departure)
+void plus_generate_moves(PieNam p, square sq_departure)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TracePiece(p);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(side,sq_departure,p);
+  gen_piece_aux(sq_departure,p);
 
   if (sq_departure==square_d4
       || sq_departure==square_e4
       || sq_departure==square_d5
       || sq_departure==square_e5)
   {
-    generate_additional_captures_from(side,p,square_d4,sq_departure);
-    generate_additional_captures_from(side,p,square_e4,sq_departure);
-    generate_additional_captures_from(side,p,square_d5,sq_departure);
-    generate_additional_captures_from(side,p,square_e5,sq_departure);
+    generate_additional_captures_from(p,square_d4,sq_departure);
+    generate_additional_captures_from(p,square_e4,sq_departure);
+    generate_additional_captures_from(p,square_d5,sq_departure);
+    generate_additional_captures_from(p,square_e5,sq_departure);
   }
 
   TraceFunctionExit(__func__);
@@ -83,7 +79,7 @@ boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate)
   {
     square pos_checking = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
-      if (piece_belongs_to_opponent(pos_checking,side_observed)
+      if (TSTFLAG(spec[pos_checking],side_observing)
           && pos_checking!=sq_target) /* exclude nK */
       {
         if (pos_checking==square_d4 || pos_checking==square_d5 || pos_checking==square_e4 || pos_checking==square_e5)
