@@ -34,6 +34,7 @@ slice_index temporary_hack_circe_take_make_rebirth_squares_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_back_home_finder[nr_sides];
+slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_check_tester;
 
 static slice_index make_mate_tester_fork(Side side)
@@ -227,6 +228,18 @@ static slice_index make_back_home_finder(Side side)
   return result;
 }
 
+static slice_index make_suffocation_by_paralysis_detector(Side side)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STPiecesParalysingSuffocationFinderFork,proxy);
+  slice_index const attack = alloc_battle_branch(slack_length+1,slack_length+1);
+  slice_index const prototype = alloc_pipe(STPiecesParalysingSuffocationFinder);
+  branch_insert_slices(attack,&prototype,1);
+  link_to_branch(proxy,attack);
+  stip_impose_starter(result,side);
+  return result;
+}
+
 static slice_index make_check_tester(void)
 {
   slice_index const proxy = alloc_proxy_slice();
@@ -288,6 +301,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_back_home_finder[Black] = make_back_home_finder(Black);
     temporary_hack_back_home_finder[White] = make_back_home_finder(White);
 
+    temporary_hack_suffocation_by_paralysis_finder[Black] = make_suffocation_by_paralysis_detector(Black);
+    temporary_hack_suffocation_by_paralysis_finder[White] = make_suffocation_by_paralysis_detector(White);
+
     temporary_hack_check_tester = make_check_tester();
 
     pipe_append(root_slice,entry_point);
@@ -312,6 +328,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_opponent_moves_counter[White],
                 temporary_hack_back_home_finder[White]);
     pipe_append(temporary_hack_back_home_finder[White],
+                temporary_hack_suffocation_by_paralysis_finder[White]);
+    pipe_append(temporary_hack_suffocation_by_paralysis_finder[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -334,6 +352,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_opponent_moves_counter[Black],
                 temporary_hack_back_home_finder[Black]);
     pipe_append(temporary_hack_back_home_finder[Black],
+                temporary_hack_suffocation_by_paralysis_finder[Black]);
+    pipe_append(temporary_hack_suffocation_by_paralysis_finder[Black],
                 temporary_hack_check_tester);
 
     if (slices[root_slice].starter==Black)

@@ -1,15 +1,15 @@
 #include "solving/move_generator.h"
-#include "pydata.h"
-#include "pyproc.h"
-#include "stipulation/stipulation.h"
-#include "stipulation/branch.h"
-#include "stipulation/pipe.h"
 #include "solving/move_generator.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
 #include "solving/single_move_generator.h"
 #include "solving/king_move_generator.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/branch.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
+#include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 
@@ -29,6 +29,39 @@ slice_index alloc_move_generator_slice(void)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void genmove(Side side)
+{
+  unsigned int i;
+  square square_a = side==White ? square_a1 : square_h8;
+  numvec const next_row = side==White ? onerow : -onerow;
+  numvec const next_file = side==White ? dir_right : dir_left;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  trait[nbply]= side;
+
+  /* Don't try to "optimize" by hand. The double-loop is tested as
+     the fastest way to compute (due to compiler-optimizations !)
+     V3.14  NG
+  */
+  for (i = nr_rows_on_board; i>0; i--, square_a += next_row)
+  {
+    square j;
+    square z = square_a;
+    for (j = nr_files_on_board; j>0; j--, z += next_file)
+      if (TSTFLAG(spec[z],side))
+        generate_moves_for_piece(side,z,get_walk_of_piece_on_square(z));
+  }
+
+  if (side==Black && CondFlag[schwarzschacher])
+    add_to_move_generation_stack(nullsquare, nullsquare, nullsquare);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves.

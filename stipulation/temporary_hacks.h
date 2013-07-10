@@ -35,6 +35,10 @@ extern slice_index temporary_hack_opponent_moves_counter[nr_sides];
 /* fork slice into branch that finds a back home move */
 extern slice_index temporary_hack_back_home_finder[nr_sides];
 
+/* fork slice into branch that detects suffocation by paralysis */
+extern slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
+
+/* fork slice into branch that detects check*/
 extern slice_index temporary_hack_check_tester;
 
 

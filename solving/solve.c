@@ -164,6 +164,7 @@
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/exclusive.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "pieces/attributes/paralysing/remove_captures.h"
@@ -1154,6 +1155,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STPiecesParalysingRemoveCaptures:
       result = paralysing_remove_captures_solve(si,n);
+      break;
+
+    case STPiecesParalysingSuffocationFinder:
+      result = paralysing_suffocation_finder_solve(si,n);
       break;
 
     case STAmuMateFilter:

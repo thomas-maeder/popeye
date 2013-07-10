@@ -410,14 +410,13 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- pyproc.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/branch.h stipulation/pipe.h \
  solving/single_piece_move_generator.h solving/castling.h \
- solving/single_move_generator.h solving/king_move_generator.h \
- debugging/trace.h
+ stipulation/slice_type.h solving/single_move_generator.h \
+ solving/king_move_generator.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/branch.h stipulation/pipe.h debugging/trace.h pydata.h \
+ pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h pyproc.h
 
 solving/move_generator.h:
 
@@ -441,25 +440,19 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pydata.h:
+solving/single_piece_move_generator.h:
 
-pyproc.h:
+solving/castling.h:
 
-py4.h:
+stipulation/slice_type.h:
 
-py.h:
+solving/single_move_generator.h:
 
-pieces/vectors.h:
-
-stipulation/goals/goals.h:
-
-pyproc.h:
+solving/king_move_generator.h:
 
 stipulation/stipulation.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/structure_traversal.h:
 
@@ -473,15 +466,21 @@ stipulation/branch.h:
 
 stipulation/pipe.h:
 
-solving/single_piece_move_generator.h:
-
-solving/castling.h:
-
-solving/single_move_generator.h:
-
-solving/king_move_generator.h:
-
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+pyproc.h:
 solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
  solving/king_move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -1540,6 +1539,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  output/plaintext/tree/threat_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/exclusive.h \
+ pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
  output/mode.h pieces/attributes/paralysing/stalemate_special.h \
  pieces/attributes/paralysing/remove_captures.h \
@@ -1977,6 +1977,8 @@ output/plaintext/tree/try_writer.h:
 output/plaintext/tree/zugzwang_writer.h:
 
 output/plaintext/tree/exclusive.h:
+
+pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/paralysing/mate_filter.h:
 

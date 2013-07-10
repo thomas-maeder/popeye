@@ -1,18 +1,77 @@
 #include "pieces/attributes/paralysing/paralysing.h"
-#include "pydata.h"
-#include "stipulation/proxy.h"
-#include "stipulation/branch.h"
-#include "stipulation/boolean/or.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "solving/observation.h"
+#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
+#include "stipulation/boolean/or.h"
+#include "stipulation/has_solution_type.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
 /* Allow paralysis by paralysing pieces to be temporarily suspended
  */
 static boolean paralysis_suspended = false;
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type paralysing_suffocation_finder_solve(slice_index si,
+                                                     stip_length_type n)
+{
+  stip_length_type result;
+  numecoup curr = current_move[nbply-1];
+  square sq_departure = initsquare;
+  boolean found_move_from_unparalysed = false;
+  boolean found_move_from_paralysed = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  paralysis_suspended = false;
+
+  for (curr = current_move[nbply-1]+1; curr<=current_move[nbply]; ++curr)
+    if (move_generation_stack[curr].departure!=sq_departure)
+    {
+      sq_departure = move_generation_stack[curr].departure;
+      if (is_piece_paralysed_on(sq_departure))
+        found_move_from_paralysed = true;
+      else
+      {
+        found_move_from_unparalysed = true;
+        break;
+      }
+    }
+
+  if (found_move_from_unparalysed)
+    result = next_move_has_no_solution;
+  else if (found_move_from_paralysed)
+    result = next_move_has_solution;
+  else
+    result = next_move_has_no_solution;
+
+  paralysis_suspended = true;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Determine whether a side is "suffocated by paralysis", i.e. would the side
  * have moves (possibly exposing the side to self check) if no piece were
@@ -23,48 +82,18 @@ static boolean paralysis_suspended = false;
 boolean suffocated_by_paralysis(Side side)
 {
   boolean result;
-  boolean found_move_from_unparalysed = false;
-  boolean found_move_from_paralysed = false;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  nextply();
   paralysis_suspended = true;
-  genmove(side);
+
+  result = (solve(slices[temporary_hack_suffocation_by_paralysis_finder[side]].next2,
+                  length_unspecified)
+            ==next_move_has_solution);
+
   paralysis_suspended = false;
-
-  {
-    numecoup curr;
-    for (curr = current_move[nbply-1]+1; curr<=current_move[nbply];)
-    {
-      square const sq_departure = move_generation_stack[curr].departure;
-      if (is_piece_paralysed_on(sq_departure))
-      {
-        found_move_from_paralysed = true;
-
-        do
-        {
-          ++curr;
-        } while (move_generation_stack[curr].departure==sq_departure);
-      }
-      else
-      {
-        found_move_from_unparalysed = true;
-        break;
-      }
-    }
-  }
-
-  finply();
-
-  if (found_move_from_unparalysed)
-    result = false;
-  else if (found_move_from_paralysed)
-    result = true;
-  else
-    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
