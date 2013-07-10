@@ -1001,7 +1001,7 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
               2...Te7-e6 #
 
 
-  add_to_move_generation_stack:       13970
+  add_to_move_generation_stack:       13315
                      play_move:        8779
  is_white_king_square_attacked:        7409
  is_black_king_square_attacked:        1624

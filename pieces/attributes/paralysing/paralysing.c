@@ -23,26 +23,48 @@ static boolean paralysis_suspended = false;
 boolean suffocated_by_paralysis(Side side)
 {
   boolean result;
-  boolean encore_with_paralysis;
-  boolean encore_without_paralysis;
+  boolean found_move_from_unparalysed = false;
+  boolean found_move_from_paralysed = false;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  paralysis_suspended = true;
   nextply();
+  paralysis_suspended = true;
   genmove(side);
-  encore_without_paralysis = encore();
-  finply();
   paralysis_suspended = false;
 
-  nextply();
-  genmove(side);
-  encore_with_paralysis = encore();
+  {
+    numecoup curr;
+    for (curr = current_move[nbply-1]+1; curr<=current_move[nbply];)
+    {
+      square const sq_departure = move_generation_stack[curr].departure;
+      if (is_piece_paralysed_on(sq_departure))
+      {
+        found_move_from_paralysed = true;
+
+        do
+        {
+          ++curr;
+        } while (move_generation_stack[curr].departure==sq_departure);
+      }
+      else
+      {
+        found_move_from_unparalysed = true;
+        break;
+      }
+    }
+  }
+
   finply();
 
-  result = !encore_with_paralysis && encore_without_paralysis;
+  if (found_move_from_unparalysed)
+    result = false;
+  else if (found_move_from_paralysed)
+    result = true;
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -112,8 +134,21 @@ static boolean validate_paralyser(square sq_paralyser,
                                   square sq_landing,
                                   square sq_paralysee)
 {
-  return (TSTFLAG(spec[sq_paralyser],Paralysing)
-          && validate_observation_geometry(sq_paralyser,sq_landing,sq_paralysee));
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_paralyser);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_paralysee);
+  TraceFunctionParamListEnd();
+
+  result = (TSTFLAG(spec[sq_paralyser],Paralysing)
+            && validate_observation_geometry(sq_paralyser,sq_landing,sq_paralysee));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether a piece is paralysed
