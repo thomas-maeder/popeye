@@ -1,5 +1,5 @@
-#if !defined(PIECESS_PAWNS_PAWN_H)
-#define PIECESS_PAWNS_PAWN_H
+#if !defined(PIECES_PAWNS_PAWN_H)
+#define PIECES_PAWNS_PAWN_H
 
 #include "pyproc.h"
 #include "position/board.h"
