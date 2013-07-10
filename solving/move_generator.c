@@ -57,9 +57,6 @@ static void genmove(Side side)
         generate_moves_for_piece(side,z,get_walk_of_piece_on_square(z));
   }
 
-  if (side==Black && CondFlag[schwarzschacher])
-    add_to_move_generation_stack(nullsquare, nullsquare, nullsquare);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

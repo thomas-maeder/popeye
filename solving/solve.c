@@ -1530,6 +1530,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = wormhole_transfered_promoter_solve(si,n);
       break;
 
+    case STBlackChecksNullMoveGenerator:
+      result = black_checks_null_move_generator_solve(si,n);
+      break;
+
     case STTrue:
       result = slack_length;
       break;
