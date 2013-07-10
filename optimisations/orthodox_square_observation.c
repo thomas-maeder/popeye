@@ -1,5 +1,5 @@
 #include "optimisations/orthodox_square_observation.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 

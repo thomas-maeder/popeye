@@ -116,7 +116,7 @@
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "conditions/republican.h"

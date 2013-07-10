@@ -1,12 +1,12 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
-#include "pydata.h"
 #include "pyproof.h"
+#include "pieces/pawns/en_passant.h"
+#include "solving/castling.h"
+#include "solving/moving_pawn_promotion.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
-#include "solving/castling.h"
-#include "solving/en_passant.h"
-#include "solving/moving_pawn_promotion.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

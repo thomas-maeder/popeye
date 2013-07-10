@@ -254,7 +254,7 @@
 #include "solving/avoid_unsolvable.h"
 #include "solving/play_suppressor.h"
 #include "solving/castling.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/move_generator.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"

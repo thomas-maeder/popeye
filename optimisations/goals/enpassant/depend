@@ -3,13 +3,13 @@ optimisations/goals/enpassant/filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/filter.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
+ utilities/enumeration.h pylang.h pieces/pawns/en_passant.h pyproc.h \
+ py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/goals/prerequisite_guards.h \
- solving/en_passant.h pyproc.h debugging/trace.h
+ debugging/trace.h pydata.h pyproc.h
 
 optimisations/goals/enpassant/filter.h:
 
@@ -33,6 +33,18 @@ utilities/enumeration.h:
 
 pylang.h:
 
+pieces/pawns/en_passant.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
 stipulation/stipulation.h:
 
 stipulation/slice.h:
@@ -47,41 +59,29 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-pydata.h:
-
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-pieces/vectors.h:
-
-stipulation/goals/goals.h:
-
 stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/goals/prerequisite_guards.h:
 
-solving/en_passant.h:
+debugging/trace.h:
+
+pydata.h:
 
 pyproc.h:
-
-debugging/trace.h:
 optimisations/goals/enpassant/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/remove_non_reachers.c \
  optimisations/goals/enpassant/remove_non_reachers.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h pieces/hunters.h \
- position/position.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/has_solution_type.h solving/en_passant.h \
- pyproc.h solving/move_generator.h debugging/trace.h
+ utilities/enumeration.h pylang.h pieces/hunters.h position/position.h \
+ pieces/pawns/en_passant.h pyproc.h py4.h py.h pieces/vectors.h \
+ stipulation/goals/goals.h solving/move_generator.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/has_solution_type.h debugging/trace.h pydata.h pyproc.h
 
 optimisations/goals/enpassant/remove_non_reachers.h:
 
@@ -105,7 +105,11 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pydata.h:
+pieces/hunters.h:
+
+position/position.h:
+
+pieces/pawns/en_passant.h:
 
 pyproc.h:
 
@@ -117,9 +121,7 @@ pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
-pieces/hunters.h:
-
-position/position.h:
+solving/move_generator.h:
 
 stipulation/stipulation.h:
 
@@ -139,10 +141,8 @@ stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
-solving/en_passant.h:
+debugging/trace.h:
+
+pydata.h:
 
 pyproc.h:
-
-solving/move_generator.h:
-
-debugging/trace.h:

@@ -1372,83 +1372,6 @@ pydata.h:
 pyproc.h:
 
 debugging/trace.h:
-solving/en_passant$(OBJ_SUFFIX): solving/en_passant.c solving/en_passant.h pyproc.h \
- py4.h py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pieces/vectors.h \
- stipulation/goals/goals.h py.h solving/solve.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h \
- pieces/hunters.h position/position.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move.h solving/move_effect_journal.h position/pieceid.h \
- debugging/trace.h
-
-solving/en_passant.h:
-
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-pieces/vectors.h:
-
-utilities/boolean.h:
-
-utilities/enumeration.h:
-
-pylang.h:
-
-pieces/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
-
-solving/solve.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/traversal.h:
-
-pydata.h:
-
-pyproc.h:
-
-pieces/hunters.h:
-
-position/position.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/move.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
-
-debugging/trace.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  solving/post_move_iteration.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -1634,7 +1557,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  solving/legal_move_counter.h solving/move_generator.h \
  solving/non_king_move_generator.h solving/play_suppressor.h \
  solving/single_move_generator.h solving/single_piece_move_generator.h \
- solving/trivial_end_filter.h solving/en_passant.h \
+ solving/trivial_end_filter.h pieces/pawns/en_passant.h \
  solving/selfcheck_guard.h solving/post_move_iteration.h \
  solving/king_capture_avoider.h stipulation/has_solution_type.h \
  solving/recursion_stopper.h stipulation/move_inverter.h \
@@ -2121,7 +2044,7 @@ solving/single_piece_move_generator.h:
 
 solving/trivial_end_filter.h:
 
-solving/en_passant.h:
+pieces/pawns/en_passant.h:
 
 solving/selfcheck_guard.h:
 

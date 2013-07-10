@@ -1,5 +1,5 @@
 #include "pieces/pawns/pawns.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "debugging/trace.h"

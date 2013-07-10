@@ -10,14 +10,15 @@
 
 #include "optimisations/intelligent/intelligent.h"
 
-#include "py.h"
-#include "pyproc.h"
-#include "pydata.h"
+#include "pieces/pawns/en_passant.h"
+#include "pyproof.h"
 #include "solving/solve.h"
+#include "solving/castling.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/fork.h"
-#include "pyproof.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
+#include "stipulation/temporary_hacks.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -29,12 +30,11 @@
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
-#include "stipulation/branch.h"
-#include "stipulation/temporary_hacks.h"
-#include "solving/castling.h"
-#include "solving/en_passant.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
+#include "py.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdio.h>

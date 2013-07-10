@@ -1,14 +1,14 @@
 #include "optimisations/intelligent/mate/goalreachable_guard.h"
-#include "stipulation/stipulation.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/castling.h"
-#include "solving/en_passant.h"
 #include "solving/move_effect_journal.h"
-#include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

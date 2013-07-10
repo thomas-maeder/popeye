@@ -1,14 +1,14 @@
 #include "conditions/marscirce/anti.h"
-#include "pydata.h"
+#include "pieces/pawns/en_passant.h"
+#include "conditions/marscirce/marscirce.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
-#include "solving/en_passant.h"
-#include "solving/move_effect_journal.h"
-#include "conditions/marscirce/marscirce.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

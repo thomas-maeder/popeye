@@ -47,10 +47,10 @@ debugging/trace.h:
 pieces/pawns/pawns$(OBJ_SUFFIX): pieces/pawns/pawns.c pieces/pawns/pawns.h \
  pieces/vectors.h position/board.h utilities/bitmask.h \
  position/position.h utilities/boolean.h utilities/enumeration.h py.h \
- utilities/boolean.h position/position.h pylang.h solving/en_passant.h \
- pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- solving/solve.h solving/move_effect_journal.h position/pieceid.h \
- pydata.h pyproc.h debugging/trace.h
+ utilities/boolean.h position/position.h pylang.h \
+ pieces/pawns/en_passant.h pyproc.h py4.h py.h pieces/vectors.h \
+ stipulation/goals/goals.h solving/solve.h solving/move_effect_journal.h \
+ position/pieceid.h pydata.h pyproc.h debugging/trace.h
 
 pieces/pawns/pawns.h:
 
@@ -74,7 +74,7 @@ position/position.h:
 
 pylang.h:
 
-solving/en_passant.h:
+pieces/pawns/en_passant.h:
 
 pyproc.h:
 
@@ -139,3 +139,80 @@ pieces/vectors.h:
 stipulation/goals/goals.h:
 
 debugging/trace.h:
+pieces/pawns/en_passant$(OBJ_SUFFIX): pieces/pawns/en_passant.c \
+ pieces/pawns/en_passant.h pyproc.h py4.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ pieces/vectors.h stipulation/goals/goals.h py.h solving/solve.h \
+ pieces/hunters.h position/position.h solving/move_effect_journal.h \
+ position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
+ debugging/trace.h pydata.h pyproc.h
+
+pieces/pawns/en_passant.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+solving/solve.h:
+
+pieces/hunters.h:
+
+position/position.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/move.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:

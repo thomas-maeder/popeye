@@ -1,14 +1,14 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
-#include "pydata.h"
-#include "pyproc.h"
 #include "pieces/pawns/promotion.h"
+#include "pieces/pawns/en_passant.h"
+#include "solving/castling.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
-#include "solving/castling.h"
-#include "solving/en_passant.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 #include <stdlib.h>

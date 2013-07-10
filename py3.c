@@ -52,7 +52,7 @@
 #include "conditions/vaulting_kings.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/temporary_hacks.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "conditions/annan.h"

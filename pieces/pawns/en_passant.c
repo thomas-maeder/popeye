@@ -1,12 +1,12 @@
-#include "solving/en_passant.h"
-#include "stipulation/pipe.h"
-#include "pydata.h"
+#include "pieces/pawns/en_passant.h"
 #include "pieces/hunters.h"
+#include "solving/move_effect_journal.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

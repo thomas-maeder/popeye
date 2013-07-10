@@ -66,7 +66,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/battle_play/try.h"
 #include "solving/castling.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/king_capture_avoider.h"

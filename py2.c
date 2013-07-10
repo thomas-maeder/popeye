@@ -69,7 +69,7 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/single_move_generator.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/observation.h"
 #include "stipulation/temporary_hacks.h"
 #include "pieces/pawns/pawn.h"

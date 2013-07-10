@@ -1,5 +1,5 @@
-#if !defined(SOLVING_EN_PASSANT_H)
-#define SOLVING_EN_PASSANT_H
+#if !defined(PIECES_PAWNS_EN_PASSANT_H)
+#define PIECES_PAWNS_EN_PASSANT_H
 
 #include "pyproc.h"
 #include "solving/solve.h"

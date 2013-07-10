@@ -31,7 +31,7 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/observation.h"
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"

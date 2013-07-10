@@ -196,7 +196,7 @@
 #include "solving/single_move_generator.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/trivial_end_filter.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/selfcheck_guard.h"
 #include "solving/post_move_iteration.h"

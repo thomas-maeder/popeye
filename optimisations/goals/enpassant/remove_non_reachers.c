@@ -1,12 +1,12 @@
 #include "optimisations/goals/enpassant/remove_non_reachers.h"
-#include "pydata.h"
 #include "pieces/hunters.h"
+#include "pieces/pawns/en_passant.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
-#include "solving/en_passant.h"
-#include "solving/move_generator.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 /* Allocate a STEnPassantRemoveNonReachers slice.
  * @return index of allocated slice

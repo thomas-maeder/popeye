@@ -1,13 +1,13 @@
 #include "output/plaintext/plaintext.h"
-#include "pyproc.h"
-#include "pydata.h"
 #include "pymsg.h"
-#include "debugging/trace.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 #include "conditions/kobul.h"
 #include "conditions/imitator.h"
-#include "solving/en_passant.h"
+#include "pieces/pawns/en_passant.h"
+#include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

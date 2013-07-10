@@ -141,22 +141,26 @@ output/mode.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h pydata.h \
- pyproc.h pymsg.h optimisations/hash.h DHT/dhtbcmem.h solving/solve.h \
- DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/has_solution_type.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- solving/avoid_unsolvable.h solving/castling.h solving/en_passant.h \
- conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
+optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
+ DHT/dhtbcmem.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h pieces/vectors.h \
+ utilities/boolean.h utilities/enumeration.h pylang.h solving/solve.h \
+ pymsg.h pyproof.h py.h stipulation/slice.h stipulation/slice_type.h \
+ DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pieces/pawns/en_passant.h pyproc.h \
+ py4.h pieces/vectors.h stipulation/goals/goals.h conditions/bgl.h \
+ conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h position/pieceid.h conditions/imitator.h \
- position/position.h options/nontrivial.h stipulation/branch.h \
- platform/maxtime.h platform/maxmem.h debugging/trace.h
+ position/position.h options/nontrivial.h solving/avoid_unsolvable.h \
+ solving/castling.h stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/battle_play/branch.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/help_play/branch.h stipulation/branch.h platform/maxtime.h \
+ platform/maxmem.h debugging/trace.h pydata.h pyproc.h
+
+optimisations/hash.h:
+
+DHT/dhtbcmem.h:
 
 py.h:
 
@@ -176,27 +180,17 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-pieces/vectors.h:
-
-stipulation/goals/goals.h:
-
-pydata.h:
-
-pyproc.h:
+solving/solve.h:
 
 pymsg.h:
 
-optimisations/hash.h:
+pyproof.h:
 
-DHT/dhtbcmem.h:
+py.h:
 
-solving/solve.h:
+stipulation/slice.h:
+
+stipulation/slice_type.h:
 
 DHT/dhtvalue.h:
 
@@ -204,11 +198,35 @@ DHT/fxf.h:
 
 DHT/dht.h:
 
-pyproof.h:
+pieces/pawns/en_passant.h:
 
-stipulation/slice.h:
+pyproc.h:
 
-stipulation/slice_type.h:
+py4.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+conditions/bgl.h:
+
+conditions/duellists.h:
+
+conditions/haunted_chess.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+conditions/imitator.h:
+
+position/position.h:
+
+options/nontrivial.h:
+
+solving/avoid_unsolvable.h:
+
+solving/castling.h:
 
 stipulation/has_solution_type.h:
 
@@ -232,28 +250,6 @@ output/mode.h:
 
 stipulation/help_play/branch.h:
 
-solving/avoid_unsolvable.h:
-
-solving/castling.h:
-
-solving/en_passant.h:
-
-conditions/bgl.h:
-
-conditions/duellists.h:
-
-conditions/haunted_chess.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
-
-conditions/imitator.h:
-
-position/position.h:
-
-options/nontrivial.h:
-
 stipulation/branch.h:
 
 platform/maxtime.h:
@@ -261,13 +257,17 @@ platform/maxtime.h:
 platform/maxmem.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
 optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  optimisations/orthodox_square_observation.c \
  optimisations/orthodox_square_observation.h position/board.h \
  utilities/bitmask.h utilities/boolean.h pyproc.h py4.h py.h \
  utilities/boolean.h position/position.h pieces/vectors.h \
  utilities/enumeration.h pylang.h pieces/vectors.h \
- stipulation/goals/goals.h py.h solving/en_passant.h solving/solve.h \
+ stipulation/goals/goals.h py.h pieces/pawns/en_passant.h solving/solve.h \
  debugging/trace.h pydata.h pyproc.h
 
 optimisations/orthodox_square_observation.h:
@@ -300,7 +300,7 @@ stipulation/goals/goals.h:
 
 py.h:
 
-solving/en_passant.h:
+pieces/pawns/en_passant.h:
 
 solving/solve.h:
 

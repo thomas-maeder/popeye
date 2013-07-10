@@ -2,11 +2,12 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  output/plaintext/plaintext.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
- stipulation/goals/goals.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h pydata.h pyproc.h pymsg.h debugging/trace.h \
- conditions/republican.h solving/solve.h conditions/bgl.h \
- conditions/kobul.h conditions/imitator.h solving/move_effect_journal.h \
- position/pieceid.h position/position.h solving/en_passant.h
+ stipulation/goals/goals.h pymsg.h conditions/republican.h \
+ solving/solve.h conditions/bgl.h conditions/kobul.h \
+ conditions/imitator.h solving/move_effect_journal.h position/pieceid.h \
+ position/position.h pieces/pawns/en_passant.h pyproc.h py4.h py.h \
+ pieces/vectors.h stipulation/goals/goals.h debugging/trace.h pydata.h \
+ pyproc.h
 
 output/plaintext/plaintext.h:
 
@@ -30,23 +31,7 @@ pylang.h:
 
 stipulation/goals/goals.h:
 
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-pieces/vectors.h:
-
-stipulation/goals/goals.h:
-
-pydata.h:
-
-pyproc.h:
-
 pymsg.h:
-
-debugging/trace.h:
 
 conditions/republican.h:
 
@@ -64,7 +49,23 @@ position/pieceid.h:
 
 position/position.h:
 
-solving/en_passant.h:
+pieces/pawns/en_passant.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
  output/plaintext/end_of_phase_writer.h solving/solve.h py.h \
