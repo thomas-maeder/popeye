@@ -960,6 +960,9 @@ static boolean verify_position(slice_index si)
   if (TSTFLAG(some_pieces_flags, HalfNeutral))
     SETFLAGMASK(some_pieces_flags,NeutralMask);
 
+  if (CondFlag[backhome])
+    SETFLAGMASK(some_pieces_flags,PieceIdMask);
+
   if (CondFlag[republican] && !republican_verifie_position(si))
     return false;
 

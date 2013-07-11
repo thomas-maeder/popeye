@@ -1694,9 +1694,8 @@ slice_type proof_make_goal_reachable_type(void)
   /* TODO Masand can't possibly be the only condition that doesn't
    * allow any optimisation at all.
    */
-  TraceValue("%u\n",flagfee);
   if (flagfee
-      || (some_pieces_flags&~BIT(Royal))
+      || (some_pieces_flags&~PieceIdMask&~BIT(Royal))
       || CondFlag[masand])
     result  = no_slice_type;
   else if (ProofFairy)

@@ -132,26 +132,26 @@ a)
 
   1...g7-g8=B   2.b2-b1=S Ra1-a5   3.Sb1-a3 Ra5-b5 +   4.Kb4-a4 Bg8-b3 #
 
-  add_to_move_generation_stack:    13618531
-                     play_move:     1971352
- is_white_king_square_attacked:      643850
- is_black_king_square_attacked:     1396026
+  add_to_move_generation_stack:    13620354
+                     play_move:     1971724
+ is_white_king_square_attacked:      643979
+ is_black_king_square_attacked:     1396281
 b) bKb4-->d6
 
   1...Ra1-e1   2.b2-b1=S Re1-e5   3.Sb1-c3 g7-g8=Q   4.Sc3-d5 + Qg8*d5 #
 
-  add_to_move_generation_stack:    12781796
-                     play_move:     1710935
- is_white_king_square_attacked:      591135
- is_black_king_square_attacked:     1180530
+  add_to_move_generation_stack:    12782006
+                     play_move:     1710953
+ is_white_king_square_attacked:      591142
+ is_black_king_square_attacked:     1180541
 c) bKb4-->e5
 
   1...Ra1-g1   2.b2-b1=B Rg1-g6   3.Bb1-f5 g7-g8=Q   4.Ke5-f6 Qg8-g7 #
 
-  add_to_move_generation_stack:    13384826
-                     play_move:     1939225
- is_white_king_square_attacked:      635422
- is_black_king_square_attacked:     1366767
+  add_to_move_generation_stack:    13384929
+                     play_move:     1939237
+ is_white_king_square_attacked:      635426
+ is_black_king_square_attacked:     1366775
 solution finished. 
 
 
