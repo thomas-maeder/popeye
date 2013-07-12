@@ -16,7 +16,8 @@ extern PieceIdType currPieceId;
 
 #define PieceIdOffset       (PieSpCount+1)
 #define PieSpMask           ((1<<PieceIdOffset)-1)
-#define PieceIdMask         (~PieSpMask)
+#define PieceIdWidth        6
+#define PieceIdMask         (((1<<(PieceIdOffset+PieceIdWidth))-1)^((1<<PieceIdOffset)-1))
 #define SetPieceId(spec,id) ((spec) = ((id)<<PieceIdOffset) | ((spec)&PieSpMask))
 #define GetPieceId(spec)    ((spec) >> PieceIdOffset)
 #define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
