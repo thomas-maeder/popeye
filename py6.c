@@ -962,6 +962,8 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[backhome])
     SETFLAGMASK(some_pieces_flags,PieceIdMask);
+  if (CondFlag[circediagramm])
+    SETFLAGMASK(some_pieces_flags,PieceIdMask);
 
   if (CondFlag[republican] && !republican_verifie_position(si))
     return false;

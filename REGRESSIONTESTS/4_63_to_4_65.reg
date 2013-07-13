@@ -1492,3 +1492,39 @@ the capturee's identity, causing the king to be reborn on g2
 solution finished. 
 
 
+
+since 4.57, the solution wasn't found because of hashing.
+1.Q~ d4 2.Qd3 gf3: isn't mate and Popeye didn't take the pieces'
+identities (read: rebirth squares) into account.
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   S   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .   .   4
+|                                   |
+3   .   .  -Q   .   P  -P   .   .   3
+|                                   |
+2   .   .   .   P   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         4 + 3
+             DiagramCirce
+
+  1.Qc3-d4 e3*d4[+bQc3]   2.Qc3-e3 d2*e3[+bQc3]   3.Qc3-d3 g2*f3 #
+
+  add_to_move_generation_stack:     3928842
+                     play_move:     1603725
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:     1547930
+solution finished. 
+
+

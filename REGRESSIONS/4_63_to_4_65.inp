@@ -302,4 +302,14 @@ pieces white bh1 black royal se4 pg2
 condition diagramcirce rexincl kobulkings
 stip +1
 
+next
+
+title since 4.57, the solution wasn't found because of hashing.
+title 1.Q~ d4 2.Qd3 gf3: isn't mate and Popeye didn't take the pieces'
+title identities (read: rebirth squares) into account.
+pieces white se7 pd2e3g2 black ke4 qc3 pf3
+stip h#3
+condition diagramcirce
+option nowk
+
 end

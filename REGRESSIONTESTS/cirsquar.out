@@ -545,10 +545,10 @@ a)
 
   1.Tg5-e5 Ke8-f8   2.Se3-f5 e4*f5[+sSe3] +   3.Ke6-f6 d4*e5[+sTg5] #
 
-  add_to_move_generation_stack:      176157
-                     play_move:      120714
+  add_to_move_generation_stack:      176183
+                     play_move:      120740
  is_white_king_square_attacked:       18732
- is_black_king_square_attacked:      113976
+ is_black_king_square_attacked:      114002
 b) sTg5-->e5
 
   1.Te5-c5 Ke8-d8   2.Se3-d5 e4*d5[+sSe3] +   3.Ke6-d6 d4*c5[+sTe5] #
