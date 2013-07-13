@@ -40,10 +40,10 @@
           2.Lf1*e2 #=
 
 
-  add_to_move_generation_stack:       10057
-                     play_move:        3275
- is_white_king_square_attacked:        2231
- is_black_king_square_attacked:        1981
+  add_to_move_generation_stack:       10618
+                     play_move:        3564
+ is_white_king_square_attacked:        2387
+ is_black_king_square_attacked:        2204
 Loesung beendet. 
 
 
@@ -84,8 +84,8 @@ Loesung beendet.
       1...Dc7*c6
           2.Dd7*c6 #=
       1...Dc7-b7
-          2.Dd7*b7 #=
           2.c6*b7 #=
+          2.Dd7*b7 #=
       1...Dc7*d7
           2.c6-c7 +
               2...Dd7*c7 #=
@@ -93,10 +93,10 @@ Loesung beendet.
               2...Kb8-c8 #=
 
 
-  add_to_move_generation_stack:        5816
-                     play_move:        2929
- is_white_king_square_attacked:        1542
- is_black_king_square_attacked:        1883
+  add_to_move_generation_stack:        6904
+                     play_move:        3393
+ is_white_king_square_attacked:        1722
+ is_black_king_square_attacked:        2218
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
           2.Dh6-d2 #
 
 
-  add_to_move_generation_stack:       10976
-                     play_move:        5586
- is_white_king_square_attacked:        5303
- is_black_king_square_attacked:        2927
+  add_to_move_generation_stack:       11523
+                     play_move:        5978
+ is_white_king_square_attacked:        5695
+ is_black_king_square_attacked:        3219
 Loesung beendet. 
 
 
@@ -174,29 +174,33 @@ Loesung beendet.
   semi-r#2                    8 + 4
               Quodlibet
 
+   1.Ld2-e3 ! Zugzwang.
+      1...Kd1-e1
+          2.Ta2-a1 #
+      1...e2-e1=D
+          2.Le3-d4
+              2...De1-e4 #
+      1...e2-e1=S
+          2.Se5-f3
+              2...Se1-d3 #
+      1...e2-e1=T
+          2.Ta4-d4 #
+      1...e2-e1=L
+          2.Lf7-h5 #
+
    1.Ta4-a3 ! Zugzwang.
       1...e2-e1=D
-          2.Lf7*e6
+          2.Ta2-c2
               2...De1-e4 #
-          2.Lf7-g6
+          2.Ta2-b2
               2...De1-e4 #
-          2.Lf7-g8
+          2.Ld2-c1
               2...De1-e4 #
-          2.Lf7-e8
+          2.Ld2-a5
               2...De1-e4 #
-          2.Se5-c4
+          2.Ld2-b4
               2...De1-e4 #
-          2.Se5-d3
-              2...De1-e4 #
-          2.Se5-f3
-              2...De1-e4 #
-          2.Se5-g4
-              2...De1-e4 #
-          2.Se5-g6
-              2...De1-e4 #
-          2.Se5-d7
-              2...De1-e4 #
-          2.Se5-c6
+          2.Ld2-c3
               2...De1-e4 #
           2.Ta3-a8
               2...De1-e4 #
@@ -214,48 +218,44 @@ Loesung beendet.
               2...De1-e4 #
           2.Ta3-b3
               2...De1-e4 #
-          2.Ld2-c1
+          2.Se5-c4
               2...De1-e4 #
-          2.Ld2-a5
+          2.Se5-d3
               2...De1-e4 #
-          2.Ld2-b4
+          2.Se5-f3
               2...De1-e4 #
-          2.Ld2-c3
+          2.Se5-g4
               2...De1-e4 #
-          2.Ta2-c2
+          2.Se5-g6
               2...De1-e4 #
-          2.Ta2-b2
+          2.Se5-d7
+              2...De1-e4 #
+          2.Se5-c6
+              2...De1-e4 #
+          2.Lf7*e6
+              2...De1-e4 #
+          2.Lf7-g6
+              2...De1-e4 #
+          2.Lf7-g8
+              2...De1-e4 #
+          2.Lf7-e8
               2...De1-e4 #
       1...e2-e1=S
           2.Ta3-f3
               2...Se1-g2 #
       1...e2-e1=T
-          2.Se5-f3
-              2...Te1-e4 #
           2.Ta3-f3
               2...Te1-e4 #
-      1...e2-e1=L
-          2.Lf7-h5 #
-
-   1.Ld2-e3 ! Zugzwang.
-      1...Kd1-e1
-          2.Ta2-a1 #
-      1...e2-e1=D
-          2.Le3-d4
-              2...De1-e4 #
-      1...e2-e1=S
           2.Se5-f3
-              2...Se1-d3 #
-      1...e2-e1=T
-          2.Ta4-d4 #
+              2...Te1-e4 #
       1...e2-e1=L
           2.Lf7-h5 #
 
 
-  add_to_move_generation_stack:       31098
-                     play_move:       18114
- is_white_king_square_attacked:       17586
- is_black_king_square_attacked:        6051
+  add_to_move_generation_stack:       32981
+                     play_move:       19454
+ is_white_king_square_attacked:       18984
+ is_black_king_square_attacked:        6267
 Loesung beendet. 
 
 
@@ -293,10 +293,10 @@ Loesung beendet.
               2...Sg6-f4 #
 
 
-  add_to_move_generation_stack:        2447
-                     play_move:        1430
- is_white_king_square_attacked:        1186
- is_black_king_square_attacked:        1251
+  add_to_move_generation_stack:        2420
+                     play_move:        1448
+ is_white_king_square_attacked:        1180
+ is_black_king_square_attacked:        1269
 Loesung beendet. 
 
 

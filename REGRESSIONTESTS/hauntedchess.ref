@@ -52,10 +52,10 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
                   3.Sf7-d8 #
 
 
-  add_to_move_generation_stack:      212146
-                     play_move:      132002
- is_white_king_square_attacked:       54673
- is_black_king_square_attacked:       83565
+  add_to_move_generation_stack:      180665
+                     play_move:      114296
+ is_white_king_square_attacked:       53400
+ is_black_king_square_attacked:       66173
 solution finished. 
 
 
@@ -170,14 +170,14 @@ solution finished.
              HauntedChess
 
    1.Sb5-d6 ! threat:
-          2.Rb6-b5 +
-              2...Qa4*b5
-                  3.Sd6-c4 #
           2.Bc5-b4 +
               2...Be1*b4
                   3.Sb2-c4 #
               2...Qa4*b4
                   3.Rb6-b5 #
+          2.Rb6-b5 +
+              2...Qa4*b5
+                  3.Sd6-c4 #
       1...Sb1-d2
           2.Bc5-b4 +
               2...Qa4*b4
@@ -188,10 +188,10 @@ solution finished.
                   3.Bc5-b4 #
 
 
-  add_to_move_generation_stack:      129514
-                     play_move:       87594
- is_white_king_square_attacked:       31166
- is_black_king_square_attacked:       61753
+  add_to_move_generation_stack:      113742
+                     play_move:       77357
+ is_white_king_square_attacked:       30225
+ is_black_king_square_attacked:       51689
 solution finished. 
 
 
@@ -235,18 +235,18 @@ solution finished.
               2...Kd5*d4
                   3.Rc6-c4 #
       1...Bg6-e4
-          2.Sc8-e7 +
-              2...Bf8*e7
-                  3.Qe3-c5 #
           2.Qe3-d2 +
               2...Be4-d3
                   3.Qd2*d3 #
+          2.Sc8-e7 +
+              2...Bf8*e7
+                  3.Qe3-c5 #
 
 
-  add_to_move_generation_stack:      246731
-                     play_move:      143758
- is_white_king_square_attacked:       58345
- is_black_king_square_attacked:       96935
+  add_to_move_generation_stack:      252053
+                     play_move:      145940
+ is_white_king_square_attacked:       58750
+ is_black_king_square_attacked:       99107
 solution finished. 
 
 

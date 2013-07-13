@@ -31,10 +31,10 @@ a)
                   3.e7-e8=T #
 
 
-  add_to_move_generation_stack:        2582
-                     play_move:        1515
- is_white_king_square_attacked:         782
- is_black_king_square_attacked:         905
+  add_to_move_generation_stack:        2682
+                     play_move:        1599
+ is_white_king_square_attacked:         810
+ is_black_king_square_attacked:         973
 b) StingSchach
 
    1.Kc7-b6 ! Drohung:
@@ -47,10 +47,10 @@ b) StingSchach
                   3.La6-b7 #
 
 
-  add_to_move_generation_stack:        7133
-                     play_move:        5283
- is_white_king_square_attacked:        1273
- is_black_king_square_attacked:        4500
+  add_to_move_generation_stack:        7317
+                     play_move:        5550
+ is_white_king_square_attacked:        1276
+ is_black_king_square_attacked:        4770
 Loesung beendet. 
 
 
@@ -80,27 +80,27 @@ Loesung beendet.
   h#5                         2 + 1
              StingSchach
 
-  1  (Kg7-f6 )
-  2  (Kg7-h6 )
-  3  (Kg7-h8 )
-  4  (Kg7-f8 + )
-  5  (Kg7-g6 )
-  6  (Kg7-f7 + )
-  7  (Kg7-g8 )
-  8  (Kg7-h7 )
-  9  (Kg7-g3 )
-  1...Kg7-g3   2.Ke8-e7 Lg4-e2   3.Ke7-e1 Le2-f1   4.Ke1-g1 Lf1-h3   5.Kg1-h1 Lh3-g2 #
- 10  (Lg4-d1 )
- 11  (Lg4-e2 )
+  1  (Lg4-d1 )
+  2  (Lg4-e2 )
   1...Lg4-e2   2.Ke8-e1 Le2-g4   3.Ke1-f1 Kg7-g3   4.Kf1-g1 Lg4-h3   5.Kg1-h1 Lh3-g2 #
- 12  (Lg4-f3 )
- 13  (Lg4-h3 )
- 14  (Lg4-h5 + )
- 15  (Lg4-c8 )
+  3  (Lg4-f3 )
+  4  (Lg4-h3 )
+  5  (Lg4-h5 + )
+  6  (Lg4-c8 )
   1...Lg4-c8   2.Ke8-b8 Lc8-d7   3.Kb8-a8 Kg7-c7   4.Ka8-a7 Ld7-c8   5.Ka7-a8 Lc8-b7 #
- 16  (Lg4-d7 + )
- 17  (Lg4-e6 )
- 18  (Lg4-f5 )
+  7  (Lg4-d7 + )
+  8  (Lg4-e6 )
+  9  (Lg4-f5 )
+ 10  (Kg7-f6 )
+ 11  (Kg7-h6 )
+ 12  (Kg7-h8 )
+ 13  (Kg7-f8 + )
+ 14  (Kg7-g6 )
+ 15  (Kg7-f7 + )
+ 16  (Kg7-g8 )
+ 17  (Kg7-h7 )
+ 18  (Kg7-g3 )
+  1...Kg7-g3   2.Ke8-e7 Lg4-e2   3.Ke7-e1 Le2-f1   4.Ke1-g1 Lf1-h3   5.Kg1-h1 Lh3-g2 #
 
   add_to_move_generation_stack:     1288269
                      play_move:     1128191
@@ -136,10 +136,10 @@ Loesung beendet.
              StingSchach
 
   1.b3-b2 a3-a4   2.b4*c3 Ke1-b4   3.b5*a4 Kb4*a4 #
-  1.b4*c3 a3-a4   2.b3-b2 Ke1-b4   3.b5*a4 Kb4*a4 #
-  1.b4*c3 a3-a4   2.b5*a4 Ke1-b4   3.b3-b2 Kb4*a4 #
   1.b4*c3 Ke1-d1   2.b5-b4 Kd1-a4   3.b3-b2 a3*b4 #
   1.b4*c3 Ke1-b4   2.b3-b2 a3-a4   3.b5*a4 Kb4*a4 #
+  1.b4*c3 a3-a4   2.b3-b2 Ke1-b4   3.b5*a4 Kb4*a4 #
+  1.b4*c3 a3-a4   2.b5*a4 Ke1-b4   3.b3-b2 Kb4*a4 #
 
   add_to_move_generation_stack:      531582
                      play_move:      507366

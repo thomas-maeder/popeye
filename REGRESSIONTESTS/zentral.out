@@ -107,9 +107,9 @@ Loesung beendet.
   1.Kg3-f4   2.Kf4-e5   3.Ke5-d6   4.Kd6-c7   5.b6-b7   6.b7-b8=D   7.Db8-b6   8.Db6-g1   9.Kc7-d6  10.Kd6-e5  11.Ke5-f4  12.Kf4-g3 Kh1*g1 x
 
   add_to_move_generation_stack:      356187
-                     play_move:      179572
+                     play_move:      179574
  is_white_king_square_attacked:       89290
- is_black_king_square_attacked:      137292
+ is_black_king_square_attacked:      137294
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Jacques Rotenberg / Christian Poisson
 
   1.Ka8-b7   2.Kb7-c6   3.Kc6-d5   4.Kd5-e6   5.Ke6-f6   6.Kf6-g7   7.h6-h7   8.Kg7-g8   9.h7-h8=D  10.Dh8-f6  11.Kg8-g7  12.Df6-d8  13.Kg7-f6  14.Kf6-e6  15.Ke6-d5  16.Kd5-c6  17.Kc6-c7 + Sf7*d8 x
 
-  add_to_move_generation_stack:      625845
-                     play_move:      241464
+  add_to_move_generation_stack:      625117
+                     play_move:      241278
  is_white_king_square_attacked:      128925
- is_black_king_square_attacked:      171585
+ is_black_king_square_attacked:      171399
 Loesung beendet. 
 
 

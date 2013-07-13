@@ -25,34 +25,6 @@
         TransmutierendeKoenige
             SchutzKoenige
 
-   1.Se8-f6 + ?
-    Aber
-      1...Ke4-c3 !
-
-   1.Th6-h4 + ?
-    Aber
-      1...Ke4*e7 !
-
-   1.Th6-e6 + ?
-      1...Ke4-d4
-          2.e2-e3 #
-    Aber
-      1...Sd8*e6 !
-
-   1.Tc5-e5 + ?
-      1...Ke4-d4
-          2.e2-e3 #
-    Aber
-      1...Ke4*c4 !
-
-   1.Lc4-d3 + ?
-      1...Ke4-b7
-          2.Tc5-b5 #
-      1...Td7*d3
-          2.Se8-f6 #
-    Aber
-      1...Ke4-a8 !
-
    1.Kf2-e3 + !
       1...Sa2-c3
           2.Se8-f6 #
@@ -75,11 +47,39 @@
     Aber
       1...Td7-d3 + !
 
+   1.Lc4-d3 + ?
+      1...Ke4-b7
+          2.Tc5-b5 #
+      1...Td7*d3
+          2.Se8-f6 #
+    Aber
+      1...Ke4-a8 !
 
-  add_to_move_generation_stack:       22514
-                     play_move:       13538
- is_white_king_square_attacked:        1238
- is_black_king_square_attacked:       13387
+   1.Tc5-e5 + ?
+      1...Ke4-d4
+          2.e2-e3 #
+    Aber
+      1...Ke4*c4 !
+
+   1.Th6-h4 + ?
+    Aber
+      1...Ke4*e7 !
+
+   1.Th6-e6 + ?
+      1...Ke4-d4
+          2.e2-e3 #
+    Aber
+      1...Sd8*e6 !
+
+   1.Se8-f6 + ?
+    Aber
+      1...Ke4-c3 !
+
+
+  add_to_move_generation_stack:       22490
+                     play_move:       13778
+ is_white_king_square_attacked:        1269
+ is_black_king_square_attacked:       13621
 Loesung beendet. 
 
 
@@ -156,64 +156,52 @@ Loesung beendet.
 
 a) 
 
-   1.Le6-d5 + ?
-    Aber
-      1...Lc6*d5 !
-
-   1.Le6-h3 ? Drohung:
-          2.Th4-f4 #
-          2.Th1-f1 #
-          2.0-0 #
-      1...La7-b8
-          2.Th1-f1 #
-          2.0-0 #
-    Aber
-      1...e3-e2 !
-
-   1.Th4-f4 + ?
+   1.0-0 + ?
     Aber
       1...Kf3-g2 !
-
-   1.Th4-g4 ? Drohung:
-          2.Th1-f1 #
-          2.0-0 #
-    Aber
-      1...e3-e2 !
 
    1.Th1-f1 + !
       1...Kf3-g2
           2.Sd3-f4 #
 
    1.Th1-g1 ? Drohung:
-          2.Th4-f4 #
           2.Tg1-g3 #
+          2.Th4-f4 #
       1...e3-e2
           2.Tg1-g3 #
     Aber
       1...La7-b8 !
 
-   1.0-0 + ?
+   1.Th4-f4 + ?
     Aber
       1...Kf3-g2 !
 
-
-  add_to_move_generation_stack:       14321
-                     play_move:        9380
- is_white_king_square_attacked:         991
- is_black_king_square_attacked:        9272
-b) s#3
+   1.Th4-g4 ? Drohung:
+          2.0-0 #
+          2.Th1-f1 #
+    Aber
+      1...e3-e2 !
 
    1.Le6-d5 + ?
     Aber
       1...Lc6*d5 !
 
-   1.Th4-f4 + ?
+   1.Le6-h3 ? Drohung:
+          2.0-0 #
+          2.Th1-f1 #
+          2.Th4-f4 #
+      1...La7-b8
+          2.0-0 #
+          2.Th1-f1 #
     Aber
-      1...Kf3-g2 !
+      1...e3-e2 !
 
-   1.Th1-f1 + ?
-    Aber
-      1...Kf3-g2 !
+
+  add_to_move_generation_stack:       13703
+                     play_move:        8585
+ is_white_king_square_attacked:         926
+ is_black_king_square_attacked:        8477
+b) s#3
 
    1.0-0 + !
       1...Kf3-g2
@@ -222,11 +210,23 @@ b) s#3
                   3.Sd3-f2 +
                       3...e3*f2 #
 
+   1.Th1-f1 + ?
+    Aber
+      1...Kf3-g2 !
 
-  add_to_move_generation_stack:      710284
-                     play_move:      243152
- is_white_king_square_attacked:      244823
- is_black_king_square_attacked:      137959
+   1.Th4-f4 + ?
+    Aber
+      1...Kf3-g2 !
+
+   1.Le6-d5 + ?
+    Aber
+      1...Lc6*d5 !
+
+
+  add_to_move_generation_stack:      714893
+                     play_move:      241919
+ is_white_king_square_attacked:      243913
+ is_black_king_square_attacked:      134620
 Loesung beendet. 
 
 

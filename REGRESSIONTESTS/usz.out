@@ -38,8 +38,8 @@ b) s=1
 
 
   add_to_move_generation_stack:          32
-                     play_move:          32
- is_white_king_square_attacked:          34
+                     play_move:          31
+ is_white_king_square_attacked:          33
  is_black_king_square_attacked:           9
 Loesung beendet. 
 

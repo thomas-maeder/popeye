@@ -41,10 +41,10 @@
                       3...Sg8-e7 #
 
 
-  add_to_move_generation_stack:      234125
-                     play_move:       96100
- is_white_king_square_attacked:       95700
- is_black_king_square_attacked:       51509
+  add_to_move_generation_stack:      222319
+                     play_move:       96413
+ is_white_king_square_attacked:       96013
+ is_black_king_square_attacked:       50763
 Loesung beendet. 
 
 
@@ -86,17 +86,17 @@ Loesung beendet.
                   3.Se4-c5 +
                       3...Sb3*c5 #
       1...Ld1-h5
-          2.Ta7-a6 +
-              2...Kf6-e7
-                  3.Db3*b4 +
-                      3...Tb2*b4 #
-                      3...La3*b4 #
           2.Db3-c3 +
               2...b4*c3
                   3.f7-f8=D +
                       3...La3*f8 #
                   3.f7-f8=T +
                       3...La3*f8 #
+          2.Ta7-a6 +
+              2...Kf6-e7
+                  3.Db3*b4 +
+                      3...Tb2*b4 #
+                      3...La3*b4 #
       1...Ld1-g4
           2.Db3-c3 +
               2...b4*c3
@@ -105,29 +105,29 @@ Loesung beendet.
                   3.f7-f8=T +
                       3...La3*f8 #
       1...Ld1-f3
-          2.Ta7-a6 +
-              2...Kf6-e7
-                  3.Db3*b4 +
-                      3...Tb2*b4 #
-                      3...La3*b4 #
           2.Db3-c3 +
               2...b4*c3
                   3.f7-f8=D +
                       3...La3*f8 #
                   3.f7-f8=T +
                       3...La3*f8 #
+          2.Ta7-a6 +
+              2...Kf6-e7
+                  3.Db3*b4 +
+                      3...Tb2*b4 #
+                      3...La3*b4 #
       1...Ld1-e2
-          2.Ta7-a6 +
-              2...Kf6-e7
-                  3.Db3*b4 +
-                      3...Tb2*b4 #
-                      3...La3*b4 #
           2.Db3-c3 +
               2...b4*c3
                   3.f7-f8=D +
                       3...La3*f8 #
                   3.f7-f8=T +
                       3...La3*f8 #
+          2.Ta7-a6 +
+              2...Kf6-e7
+                  3.Db3*b4 +
+                      3...Tb2*b4 #
+                      3...La3*b4 #
       1...Tb2*b3
           2.Td5-d6 +
               2...Kf6-f5
@@ -193,22 +193,22 @@ Loesung beendet.
                   3.Se4-c5 +
                       3...Tc2*c5 #
       1...b4-b3
-          2.f7-f8=D +
-              2...La3*f8 #
-          2.f7-f8=T +
-              2...La3*f8 #
-          2.Td5-d6 +
-              2...La3*d6 #
           2.Dc2-c6 +
               2...La3-d6 #
           2.Dc2-c3 +
               2...Sb1*c3 #
+          2.Td5-d6 +
+              2...La3*d6 #
+          2.f7-f8=D +
+              2...La3*f8 #
+          2.f7-f8=T +
+              2...La3*f8 #
 
 
-  add_to_move_generation_stack:      945472
-                     play_move:      672947
- is_white_king_square_attacked:      672320
- is_black_king_square_attacked:      356054
+  add_to_move_generation_stack:      872029
+                     play_move:      637643
+ is_white_king_square_attacked:      637016
+ is_black_king_square_attacked:      327988
 Loesung beendet. 
 
 
@@ -242,25 +242,37 @@ Loesung beendet.
           2.Db4*b7 +
               2...Ta7*b7 #
       1...Df1-f8
-          2.Le8*d7
-              2...Se5*d7 #
-          2.Tc3-c5
-              2...Df8*e8 #
           2.Sb3-c5
               2...Df8*e8 #
+          2.Tc3-c5
+              2...Df8*e8 #
+          2.Le8*d7
+              2...Se5*d7 #
       1...Df1-f4
           2.Tc3*c6
               2...Se5*c6 #
       1...b7-b5
-          2.Le8*d7
+          2.Sb3-a1
               2...Ta7-b7 #
-          2.Le8-h5
+          2.Sb3-c1
               2...Ta7-b7 #
-          2.Le8-g6
+          2.Sb3-d2
               2...Ta7-b7 #
-          2.Le8-f7
+          2.Sb3-d4
               2...Ta7-b7 #
-          2.a5*b6 ep.
+          2.Tc3-c1
+              2...Ta7-b7 #
+          2.Tc3-c2
+              2...Ta7-b7 #
+          2.Tc3-c4
+              2...Ta7-b7 #
+          2.Tc3-h3
+              2...Ta7-b7 #
+          2.Tc3-g3
+              2...Ta7-b7 #
+          2.Tc3-f3
+              2...Ta7-b7 #
+          2.Tc3-e3
               2...Ta7-b7 #
           2.Db4-a3
               2...Ta7-b7 #
@@ -286,9 +298,30 @@ Loesung beendet.
               2...Ta7-b7 #
           2.Db4-c4
               2...Ta7-b7 #
+          2.a5*b6 ep.
+              2...Ta7-b7 #
+          2.Le8*d7
+              2...Ta7-b7 #
+          2.Le8-h5
+              2...Ta7-b7 #
+          2.Le8-g6
+              2...Ta7-b7 #
+          2.Le8-f7
+              2...Ta7-b7 #
+      1...b7-b6
+          2.Sb3-a1
+              2...Ta7-b7 #
+          2.Sb3-c1
+              2...Ta7-b7 #
+          2.Sb3-d2
+              2...Ta7-b7 #
+          2.Sb3-d4
+              2...Ta7-b7 #
           2.Tc3-c1
               2...Ta7-b7 #
           2.Tc3-c2
+              2...Ta7-b7 #
+          2.Tc3-c5
               2...Ta7-b7 #
           2.Tc3-c4
               2...Ta7-b7 #
@@ -299,23 +332,6 @@ Loesung beendet.
           2.Tc3-f3
               2...Ta7-b7 #
           2.Tc3-e3
-              2...Ta7-b7 #
-          2.Sb3-a1
-              2...Ta7-b7 #
-          2.Sb3-c1
-              2...Ta7-b7 #
-          2.Sb3-d2
-              2...Ta7-b7 #
-          2.Sb3-d4
-              2...Ta7-b7 #
-      1...b7-b6
-          2.Le8*d7
-              2...Ta7-b7 #
-          2.Le8-h5
-              2...Ta7-b7 #
-          2.Le8-g6
-              2...Ta7-b7 #
-          2.Le8-f7
               2...Ta7-b7 #
           2.Db4-a3
               2...Ta7-b7 #
@@ -343,36 +359,20 @@ Loesung beendet.
               2...Ta7-b7 #
           2.Db4-c4
               2...Ta7-b7 #
-          2.Tc3-c1
+          2.Le8*d7
               2...Ta7-b7 #
-          2.Tc3-c2
+          2.Le8-h5
               2...Ta7-b7 #
-          2.Tc3-c5
+          2.Le8-g6
               2...Ta7-b7 #
-          2.Tc3-c4
-              2...Ta7-b7 #
-          2.Tc3-h3
-              2...Ta7-b7 #
-          2.Tc3-g3
-              2...Ta7-b7 #
-          2.Tc3-f3
-              2...Ta7-b7 #
-          2.Tc3-e3
-              2...Ta7-b7 #
-          2.Sb3-a1
-              2...Ta7-b7 #
-          2.Sb3-c1
-              2...Ta7-b7 #
-          2.Sb3-d2
-              2...Ta7-b7 #
-          2.Sb3-d4
+          2.Le8-f7
               2...Ta7-b7 #
 
 
-  add_to_move_generation_stack:       62665
-                     play_move:       51638
- is_white_king_square_attacked:       43160
- is_black_king_square_attacked:        9520
+  add_to_move_generation_stack:       61952
+                     play_move:       52850
+ is_white_king_square_attacked:       44370
+ is_black_king_square_attacked:        9354
 Loesung beendet. 
 
 
@@ -474,10 +474,10 @@ Loesung beendet.
                       3...Ld1-f3 #
 
 
-  add_to_move_generation_stack:      580987
-                     play_move:      298596
- is_white_king_square_attacked:      273339
- is_black_king_square_attacked:       86038
+  add_to_move_generation_stack:      513382
+                     play_move:      271557
+ is_white_king_square_attacked:      245972
+ is_black_king_square_attacked:       76070
 Loesung beendet. 
 
 
@@ -530,10 +530,10 @@ Loesung beendet.
                               4...Sf5*d6 #
 
 
-  add_to_move_generation_stack:     9727505
-                     play_move:     5450677
- is_white_king_square_attacked:     5425077
- is_black_king_square_attacked:     3221532
+  add_to_move_generation_stack:     9506307
+                     play_move:     5388204
+ is_white_king_square_attacked:     5362239
+ is_black_king_square_attacked:     3159977
 Loesung beendet. 
 
 

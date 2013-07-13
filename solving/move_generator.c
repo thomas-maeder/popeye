@@ -34,9 +34,7 @@ slice_index alloc_move_generator_slice(void)
 static void genmove(Side side)
 {
   unsigned int i;
-  square square_a = side==White ? square_a1 : square_h8;
-  numvec const next_row = side==White ? onerow : -onerow;
-  numvec const next_file = side==White ? dir_right : dir_left;
+  square square_h = square_h8;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -44,17 +42,17 @@ static void genmove(Side side)
 
   trait[nbply]= side;
 
-  /* Don't try to "optimize" by hand. The double-loop is tested as
-     the fastest way to compute (due to compiler-optimizations !)
-     V3.14  NG
-  */
-  for (i = nr_rows_on_board; i>0; i--, square_a += next_row)
+  for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {
-    square j;
-    square z = square_a;
-    for (j = nr_files_on_board; j>0; j--, z += next_file)
-      if (TSTFLAG(spec[z],side))
-        generate_moves_for_piece(z,get_walk_of_piece_on_square(z));
+    unsigned int j;
+    square sq_departure = square_h;
+    for (j = nr_files_on_board; j>0; j--)
+    {
+      if (TSTFLAG(spec[sq_departure],side))
+        generate_moves_for_piece(sq_departure,
+                                 get_walk_of_piece_on_square(sq_departure));
+      sq_departure += dir_left;
+    }
   }
 
   TraceFunctionExit(__func__);

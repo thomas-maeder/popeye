@@ -41,10 +41,10 @@ another Messigny exchange of the same piece was illegal
           2.Bh6<->Bg2 #
 
 
-  add_to_move_generation_stack:        4640
-                     play_move:        3127
- is_white_king_square_attacked:         277
- is_black_king_square_attacked:        3104
+  add_to_move_generation_stack:        4713
+                     play_move:        3085
+ is_white_king_square_attacked:         250
+ is_black_king_square_attacked:        3062
 solution finished. 
 
 
@@ -80,9 +80,9 @@ only the synchronous move h2-h4 was legal
 
 
   add_to_move_generation_stack:         496
-                     play_move:         201
- is_white_king_square_attacked:          67
- is_black_king_square_attacked:         164
+                     play_move:         198
+ is_white_king_square_attacked:          66
+ is_black_king_square_attacked:         162
 solution finished. 
 
 
@@ -118,9 +118,9 @@ only the anti-synchronous move Rd8-d1 was legal
 
 
   add_to_move_generation_stack:         970
-                     play_move:         367
- is_white_king_square_attacked:          94
- is_black_king_square_attacked:         318
+                     play_move:         357
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:         308
 solution finished. 
 
 
@@ -152,8 +152,8 @@ solution finished.
 
 
   add_to_move_generation_stack:          22
-                     play_move:           9
- is_white_king_square_attacked:           4
+                     play_move:          10
+ is_white_king_square_attacked:           5
  is_black_king_square_attacked:           9
 solution finished. 
 
@@ -591,9 +591,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ep1                         2 + 1
 
-   1.c6*d7 ep. !
-
    1.e5*d6 ep. !
+
+   1.c6*d7 ep. !
 
 
   add_to_move_generation_stack:           4
@@ -949,18 +949,18 @@ a)
   1.f6-f5 Oc5-c6
   1.f6*e5 Oc5*b6-a7
   1.f6*e5 Oc5-c6
-  1.d7-d5 Oe5-e6
-  1.d7-d5 Oe5*f6
   1.d7-d5 Oc5*b6-a7
   1.d7-d5 Oc5-c6
-  1.d7-d6 Oe5-e6
-  1.d7-d6 Oe5*f6
-  1.d7-d6 Oe5*d6
+  1.d7-d5 Oe5-e6
+  1.d7-d5 Oe5*f6
   1.d7-d6 Oc5*b6-a7
   1.d7-d6 Oc5*d6-e7
   1.d7-d6 Oc5-c6
   1.d7-d6 Oc5*d6
   1.d7-d6 Oc5*b6
+  1.d7-d6 Oe5-e6
+  1.d7-d6 Oe5*f6
+  1.d7-d6 Oe5*d6
 
   add_to_move_generation_stack:          27
                      play_move:          26
@@ -976,10 +976,10 @@ b) brPd7
   1.f6-f5 Oc5-c6 +
   1.f6*e5 Oc5*b6-a7
   1.f6*e5 Oc5-c6 +
-  1.rPd7-d5 Oe5-e6
-  1.rPd7-d5 Oe5*f6
   1.rPd7-d5 Oc5*b6-a7
   1.rPd7-d5 Oc5-c6
+  1.rPd7-d5 Oe5-e6
+  1.rPd7-d5 Oe5*f6
 
   add_to_move_generation_stack:          18
                      play_move:          18
@@ -1126,10 +1126,6 @@ Popeye has always wrongly allowed queen-side castling in Monochrome Chess
   ~1                          2 + 0
             MonochromChess
 
-   1.Ke1-f2 !
-
-   1.Ke1-d2 !
-
    1.Ra1-a7 !
 
    1.Ra1-a5 !
@@ -1137,6 +1133,10 @@ Popeye has always wrongly allowed queen-side castling in Monochrome Chess
    1.Ra1-a3 !
 
    1.Ra1-c1 !
+
+   1.Ke1-f2 !
+
+   1.Ke1-d2 !
 
 
   add_to_move_generation_stack:          16
@@ -1212,7 +1212,7 @@ solution finished.
       1...h4*g3[+wPg2] !
 
 
-  add_to_move_generation_stack:        8342
+  add_to_move_generation_stack:        8340
                      play_move:         952
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1250,8 +1250,8 @@ solution finished.
       1...h4*g3[+wPg2] !
 
 
-  add_to_move_generation_stack:        2216
-                     play_move:         473
+  add_to_move_generation_stack:        2194
+                     play_move:         460
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -1334,7 +1334,7 @@ both sides need a kingboth sides need a king
       1...g5*h4[+wBg2] !
 
 
-  add_to_move_generation_stack:        5558
+  add_to_move_generation_stack:        5555
                      play_move:         683
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

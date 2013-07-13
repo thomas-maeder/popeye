@@ -200,10 +200,10 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 #
 
 
-  add_to_move_generation_stack:     3665030
-                     play_move:     2734461
- is_white_king_square_attacked:    13923240
- is_black_king_square_attacked:     4991272
+  add_to_move_generation_stack:     3677882
+                     play_move:     2751014
+ is_white_king_square_attacked:    13998689
+ is_black_king_square_attacked:     5018878
 solution finished. 
 
 
@@ -334,10 +334,10 @@ solution finished.
                   3.Rg2*g6[+bPg7] #
 
 
-  add_to_move_generation_stack:       52068
-                     play_move:       21665
- is_white_king_square_attacked:        6548
- is_black_king_square_attacked:       39024
+  add_to_move_generation_stack:       51740
+                     play_move:       21375
+ is_white_king_square_attacked:        6382
+ is_black_king_square_attacked:       38555
 solution finished. 
 
 
@@ -367,26 +367,6 @@ solution finished.
   #2                          4 + 5
                  SAT
 
-   1.Qg1-f2 ! zugzwang.
-      1...Sd1*f2
-          2.Re1*c1 #
-      1...Sd1-e3
-          2.Re1*c1 #
-      1...Sd1-c3
-          2.Re1*c1 #
-      1...Sd1-b2
-          2.Re1*c1 #
-      1...Sd2-f1
-          2.Qf2*c2 #
-      1...Sd2-f3
-          2.Qf2*c2 #
-      1...Sd2-e4
-          2.Qf2*c2 #
-      1...Sd2-c4
-          2.Qf2*c2 #
-      1...Sd2-b3
-          2.Qf2*c2 #
-
    1.Re1-e2 ! zugzwang.
       1...Sd1-f2
           2.Qg1*c1 #
@@ -407,11 +387,31 @@ solution finished.
       1...Sd2-b3
           2.Re2*c2 #
 
+   1.Qg1-f2 ! zugzwang.
+      1...Sd1*f2
+          2.Re1*c1 #
+      1...Sd1-e3
+          2.Re1*c1 #
+      1...Sd1-c3
+          2.Re1*c1 #
+      1...Sd1-b2
+          2.Re1*c1 #
+      1...Sd2-f1
+          2.Qf2*c2 #
+      1...Sd2-f3
+          2.Qf2*c2 #
+      1...Sd2-e4
+          2.Qf2*c2 #
+      1...Sd2-c4
+          2.Qf2*c2 #
+      1...Sd2-b3
+          2.Qf2*c2 #
 
-  add_to_move_generation_stack:        3552
-                     play_move:        2441
- is_white_king_square_attacked:         242
- is_black_king_square_attacked:        6267
+
+  add_to_move_generation_stack:        3495
+                     play_move:        2430
+ is_white_king_square_attacked:         236
+ is_black_king_square_attacked:        6205
 solution finished. 
 
 
@@ -447,9 +447,9 @@ solution finished.
 
 
   add_to_move_generation_stack:         121
-                     play_move:         113
+                     play_move:         114
  is_white_king_square_attacked:          37
- is_black_king_square_attacked:         184
+ is_black_king_square_attacked:         185
 solution finished. 
 
 
@@ -490,8 +490,8 @@ a)
 
 
   add_to_move_generation_stack:        3902
-                     play_move:        3218
- is_white_king_square_attacked:       11372
+                     play_move:        3239
+ is_white_king_square_attacked:       11468
  is_black_king_square_attacked:        2745
 b) wSh4 
 
@@ -507,8 +507,8 @@ b) wSh4
 
 
   add_to_move_generation_stack:         698
-                     play_move:         590
- is_white_king_square_attacked:        2385
+                     play_move:         600
+ is_white_king_square_attacked:        2432
  is_black_king_square_attacked:         227
 solution finished. 
 
@@ -576,22 +576,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#2                         5 + 9
                  SAT
-
-   1.d6*c7 ? zugzwang.
-      1...d7-d5
-          2.Qh5-g4
-              2...g3-g2 #
-          2.Qh5-e8
-              2...g3-g2 #
-          2.Qh5-g6
-              2...g3-g2 #
-          2.Qh5*d5
-              2...g3-g2 #
-      1...d7-d6
-          2.Qh5-d5
-              2...g3-g2 #
-    but
-      1...g3-g2 + !
 
    1.Qh5-a5 ! threat:
           2.Qa5*c7
@@ -668,11 +652,27 @@ solution finished.
     but
       1...Kd1-e1 !
 
+   1.d6*c7 ? zugzwang.
+      1...d7-d5
+          2.Qh5-g4
+              2...g3-g2 #
+          2.Qh5-e8
+              2...g3-g2 #
+          2.Qh5-g6
+              2...g3-g2 #
+          2.Qh5*d5
+              2...g3-g2 #
+      1...d7-d6
+          2.Qh5-d5
+              2...g3-g2 #
+    but
+      1...g3-g2 + !
 
-  add_to_move_generation_stack:       14844
-                     play_move:       12147
- is_white_king_square_attacked:       25792
- is_black_king_square_attacked:       15953
+
+  add_to_move_generation_stack:       15566
+                     play_move:       13129
+ is_white_king_square_attacked:       27969
+ is_black_king_square_attacked:       18323
 solution finished. 
 
 

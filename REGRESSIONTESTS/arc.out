@@ -24,18 +24,6 @@
   #2                          3 + 3
        ActuatedRevolvingCentre
 
-   1.Lb6-d4 ! Drohung:
-          2.Dg4-f3 #
-          2.Dg4-e4 #
-      1...Kd3-c3
-          2.Dg4-d4 #
-      1...Kd3-d4
-          2.Dg4-d4 #
-      1...Kd3-e3
-          2.Dg4-f3 #
-      1...e7-e5
-          2.Dg4-e2 #
-
    1.Dg4-f3 + ?
     Aber
       1...Kd3-c4 !
@@ -58,11 +46,23 @@
     Aber
       1...Kd3*d4 !
 
+   1.Lb6-d4 ! Drohung:
+          2.Dg4-f3 #
+          2.Dg4-e4 #
+      1...Kd3-c3
+          2.Dg4-d4 #
+      1...Kd3-d4
+          2.Dg4-d4 #
+      1...Kd3-e3
+          2.Dg4-f3 #
+      1...e7-e5
+          2.Dg4-e2 #
 
-  add_to_move_generation_stack:        8260
-                     play_move:        4535
- is_white_king_square_attacked:         754
- is_black_king_square_attacked:        4496
+
+  add_to_move_generation_stack:        8249
+                     play_move:        4481
+ is_white_king_square_attacked:         775
+ is_black_king_square_attacked:        4442
 Loesung beendet. 
 
 

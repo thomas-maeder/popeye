@@ -179,10 +179,10 @@ solution finished.
                       3...Ka8*a7-a8 x
 
 
-  add_to_move_generation_stack:        1424
-                     play_move:         610
- is_white_king_square_attacked:         251
- is_black_king_square_attacked:         366
+  add_to_move_generation_stack:        1406
+                     play_move:         589
+ is_white_king_square_attacked:         243
+ is_black_king_square_attacked:         353
 solution finished. 
 
 

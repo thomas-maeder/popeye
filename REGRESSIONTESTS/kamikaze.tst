@@ -82,8 +82,8 @@ solution finished.
                   3.kRb2*b3[-wkRb3][+wkRh1][+bPb7]
 
 
-  add_to_move_generation_stack:        7178
-                     play_move:        7129
+  add_to_move_generation_stack:        7168
+                     play_move:        7117
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -131,9 +131,9 @@ originally occupied by the other exchanger
                           4.kSh3*g1[-wkSg1][+wkSg1][+bkBf8]
 
 
-  add_to_move_generation_stack:       48427
-                     play_move:       47483
- is_white_king_square_attacked:       11794
+  add_to_move_generation_stack:       48292
+                     play_move:       47288
+ is_white_king_square_attacked:       11807
  is_black_king_square_attacked:           0
 solution finished. 
 

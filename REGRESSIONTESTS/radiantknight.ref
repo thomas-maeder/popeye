@@ -91,14 +91,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 2
 
-   1.Rh2-h1 + ?
-    but
-      1...Kg1*h1 !
-
-   1.Rh2-g2 + ?
-    but
-      1...Kg1-h1 !
-
    1.Bf1-g2 ! threat:
           2.Rf7-f1 #
 
@@ -127,11 +119,19 @@ solution finished.
     but
       1...RKe6-d1 !
 
+   1.Rh2-h1 + ?
+    but
+      1...Kg1*h1 !
 
-  add_to_move_generation_stack:       11401
-                     play_move:        5998
- is_white_king_square_attacked:         414
- is_black_king_square_attacked:        5917
+   1.Rh2-g2 + ?
+    but
+      1...Kg1-h1 !
+
+
+  add_to_move_generation_stack:       11411
+                     play_move:        6015
+ is_white_king_square_attacked:         416
+ is_black_king_square_attacked:        5934
 solution finished. 
 
 

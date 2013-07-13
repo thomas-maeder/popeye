@@ -69,10 +69,10 @@ solution finished.
               2...Rg2-f2 #
 
 
-  add_to_move_generation_stack:       10292
-                     play_move:        7819
- is_white_king_square_attacked:        7237
- is_black_king_square_attacked:        2069
+  add_to_move_generation_stack:       10229
+                     play_move:        7657
+ is_white_king_square_attacked:        7076
+ is_black_king_square_attacked:        2096
 solution finished. 
 
 
@@ -191,7 +191,7 @@ b) ExchangeCastling
 
   1.Ba4-d1 + Kg4-f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 #
 
-  add_to_move_generation_stack:     8579212
+  add_to_move_generation_stack:     8579204
                      play_move:     7419433
  is_white_king_square_attacked:      450454
  is_black_king_square_attacked:     7340058

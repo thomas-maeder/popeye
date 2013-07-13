@@ -134,8 +134,8 @@ Loesung beendet.
              CirceParrain
 
    1.Df3-c6 ! Drohung:
-          2.Lb4-c3 #
           2.Te3-e4 #
+          2.Lb4-c3 #
       1...Sd3-b2
           2.Lb4-c3 #
           2.Lb4-c5 #
@@ -154,10 +154,10 @@ Loesung beendet.
       1...Sd3*b4
           2.Dc6-c4[+wLb2] #
       1...f4*e3
-          2.Te7-e8[+wTe4] #
-          2.b5-b6[+wTe4] #
-          2.Lb4-c3 #
           2.Kh3-h4[+wTe4] #
+          2.Lb4-c3 #
+          2.b5-b6[+wTe4] #
+          2.Te7-e8[+wTe4] #
       1...Lb7*c6
           2.Te3-e1[+wDc4] #
       1...Tc7*c6
@@ -168,10 +168,10 @@ Loesung beendet.
           2.Lb4-c3 #
 
 
-  add_to_move_generation_stack:       16325
-                     play_move:       11859
- is_white_king_square_attacked:         817
- is_black_king_square_attacked:       11862
+  add_to_move_generation_stack:       14568
+                     play_move:        9836
+ is_white_king_square_attacked:         715
+ is_black_king_square_attacked:        9839
 Loesung beendet. 
 
 
@@ -218,10 +218,10 @@ Loesung beendet.
           2.Th8-h3[+wLc3] #
 
 
-  add_to_move_generation_stack:        3539
-                     play_move:        2301
- is_white_king_square_attacked:         203
- is_black_king_square_attacked:        2304
+  add_to_move_generation_stack:        3586
+                     play_move:        2689
+ is_white_king_square_attacked:         285
+ is_black_king_square_attacked:        2692
 Loesung beendet. 
 
 
@@ -261,10 +261,10 @@ Loesung beendet.
           2.Sf4*h5[+wDf4] #
 
 
-  add_to_move_generation_stack:        6951
-                     play_move:        5021
- is_white_king_square_attacked:         404
- is_black_king_square_attacked:        5024
+  add_to_move_generation_stack:        6742
+                     play_move:        4634
+ is_white_king_square_attacked:         373
+ is_black_king_square_attacked:        4637
 Loesung beendet. 
 
 
@@ -294,34 +294,16 @@ Loesung beendet.
   #2                         14 + 7
              CirceParrain
 
-   1.Tb5-b6 + ?
-    Aber
-      1...Dc1-c6 !
-
-   1.Tb4-c4 ! Drohung:
+   1.Sb2-c4 ? Drohung:
           2.Tb5-b6 #
       1...Dc1*c4
-          2.Sb2*c4[+wTd6] #
-      1...Tf3*f4
-          2.Dh3-g4[+wBe5] #
+          2.Lb3*c4[+wSd5] #
       1...Tf3*h3
-          2.Tc4-c7[+wDh6] #
+          2.Sc4-b6[+wDg5] #
       1...Sh5*f4
           2.Dh3-g4[+wBe5] #
-      1...Sh5*g7
-          2.Tc4-c2[+wBg5] #
-
-   1.Dh3-g4 ? Drohung:
-          2.Dg4-g6 #
-          2.Dg4-g5 #
-      1...Dc1-g1
-          2.Tb5-b6 #
-      1...Sh5*f4
-          2.Dg4-h5[+wBg5] #
-          2.Dg4-g5 #
-          2.Lb3-c4[+wBg5] #
     Aber
-      1...Tf3-g3 !
+      1...Sh5*g7 !
 
    1.Lb3-c4 ? Drohung:
           2.Tb5-b6 #
@@ -336,22 +318,40 @@ Loesung beendet.
     Aber
       1...Tf3*h3 !
 
-   1.Sb2-c4 ? Drohung:
+   1.Dh3-g4 ? Drohung:
+          2.Dg4-g6 #
+          2.Dg4-g5 #
+      1...Dc1-g1
+          2.Tb5-b6 #
+      1...Sh5*f4
+          2.Lb3-c4[+wBg5] #
+          2.Dg4-h5[+wBg5] #
+          2.Dg4-g5 #
+    Aber
+      1...Tf3-g3 !
+
+   1.Tb4-c4 ! Drohung:
           2.Tb5-b6 #
       1...Dc1*c4
-          2.Lb3*c4[+wSd5] #
+          2.Sb2*c4[+wTd6] #
+      1...Tf3*f4
+          2.Dh3-g4[+wBe5] #
       1...Tf3*h3
-          2.Sc4-b6[+wDg5] #
+          2.Tc4-c7[+wDh6] #
       1...Sh5*f4
           2.Dh3-g4[+wBe5] #
+      1...Sh5*g7
+          2.Tc4-c2[+wBg5] #
+
+   1.Tb5-b6 + ?
     Aber
-      1...Sh5*g7 !
+      1...Dc1-c6 !
 
 
-  add_to_move_generation_stack:       26935
-                     play_move:       17033
- is_white_king_square_attacked:         711
- is_black_king_square_attacked:       16919
+  add_to_move_generation_stack:       26226
+                     play_move:       16791
+ is_white_king_square_attacked:         612
+ is_black_king_square_attacked:       16677
 Loesung beendet. 
 
 
@@ -395,10 +395,10 @@ Loesung beendet.
           2.Sg6-e7[+wDb7] #
 
 
-  add_to_move_generation_stack:       34756
-                     play_move:       22574
- is_white_king_square_attacked:        1178
- is_black_king_square_attacked:       22577
+  add_to_move_generation_stack:       32467
+                     play_move:       20194
+ is_white_king_square_attacked:        1088
+ is_black_king_square_attacked:       20197
 Loesung beendet. 
 
 
@@ -428,15 +428,6 @@ Loesung beendet.
   #2                         9 + 11
              CirceParrain
 
-   1.Sd7-f8 ? Drohung:
-          2.Sf8-e6 #
-      1...Te2*e4
-          2.Sd5-b6[+wLc5] #
-      1...Sf2*e4
-          2.Sd5-b6[+wLc5] #
-    Aber
-      1...Sh7*f8 !
-
    1.Sd5*c3 ! Drohung:
           2.Sc3-b5 #
       1...Ld1-a4
@@ -459,11 +450,20 @@ Loesung beendet.
     Aber
       1...Sh7-f8 !
 
+   1.Sd7-f8 ? Drohung:
+          2.Sf8-e6 #
+      1...Te2*e4
+          2.Sd5-b6[+wLc5] #
+      1...Sf2*e4
+          2.Sd5-b6[+wLc5] #
+    Aber
+      1...Sh7*f8 !
 
-  add_to_move_generation_stack:       21785
-                     play_move:       14745
- is_white_king_square_attacked:         941
- is_black_king_square_attacked:       14694
+
+  add_to_move_generation_stack:       22155
+                     play_move:       15187
+ is_white_king_square_attacked:         956
+ is_black_king_square_attacked:       15136
 Loesung beendet. 
 
 

@@ -78,10 +78,10 @@ solution finished.
                                           6.Kg1*h1 ==
 
 
-  add_to_move_generation_stack:       68411
-                     play_move:       41697
- is_white_king_square_attacked:      247649
- is_black_king_square_attacked:       10577
+  add_to_move_generation_stack:       71122
+                     play_move:       43010
+ is_white_king_square_attacked:      256171
+ is_black_king_square_attacked:       10081
 solution finished. 
 
 

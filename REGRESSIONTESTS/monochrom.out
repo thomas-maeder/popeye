@@ -33,10 +33,10 @@
                           4.Tg1-g7 #
 
 
-  add_to_move_generation_stack:      106602
-                     play_move:       43240
- is_white_king_square_attacked:       14745
- is_black_king_square_attacked:       30521
+  add_to_move_generation_stack:      106550
+                     play_move:       43233
+ is_white_king_square_attacked:       14513
+ is_black_king_square_attacked:       30781
 Loesung beendet. 
 
 

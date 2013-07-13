@@ -37,10 +37,10 @@
           2.Se5-f3 #
 
 
-  add_to_move_generation_stack:        2040
-                     play_move:        1251
- is_white_king_square_attacked:         160
- is_black_king_square_attacked:        1254
+  add_to_move_generation_stack:        2131
+                     play_move:        1292
+ is_white_king_square_attacked:         177
+ is_black_king_square_attacked:        1295
 solution finished. 
 
 
@@ -320,10 +320,10 @@ solution finished.
                               4...Bf5-b1 #
 
 
-  add_to_move_generation_stack:      286013
-                     play_move:      119939
- is_white_king_square_attacked:       26260
- is_black_king_square_attacked:      108761
+  add_to_move_generation_stack:      284574
+                     play_move:      119454
+ is_white_king_square_attacked:       26153
+ is_black_king_square_attacked:      108322
 solution finished. 
 
 
@@ -386,6 +386,10 @@ solution finished.
               AntiCirce
                 Lortap
 
+   1.Kd3-d2 + !
+      1...Ke1-f1
+          2.Qg4-g1 #
+
    1.Qg4-e6 + ?
     but
       1...Ke1-f1 !
@@ -394,15 +398,11 @@ solution finished.
     but
       1...Ke1-f1 !
 
-   1.Kd3-d2 + !
-      1...Ke1-f1
-          2.Qg4-g1 #
 
-
-  add_to_move_generation_stack:        5044
-                     play_move:        3513
- is_white_king_square_attacked:         377
- is_black_king_square_attacked:        2756
+  add_to_move_generation_stack:        5072
+                     play_move:        3543
+ is_white_king_square_attacked:         380
+ is_black_king_square_attacked:        2779
 solution finished. 
 
 

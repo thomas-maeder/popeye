@@ -64,9 +64,9 @@
 
 
   add_to_move_generation_stack:        1344
-                     play_move:        1115
- is_white_king_square_attacked:         104
- is_black_king_square_attacked:        1118
+                     play_move:        1059
+ is_white_king_square_attacked:          90
+ is_black_king_square_attacked:        1062
 Loesung beendet. 
 
 
@@ -106,10 +106,10 @@ Loesung beendet.
           2.nhLh1-g2=wh #
 
 
-  add_to_move_generation_stack:        2690
-                     play_move:        1694
- is_white_king_square_attacked:         316
- is_black_king_square_attacked:        1696
+  add_to_move_generation_stack:        2618
+                     play_move:        1627
+ is_white_king_square_attacked:         306
+ is_black_king_square_attacked:        1629
 Loesung beendet. 
 
 
@@ -257,10 +257,10 @@ Loesung beendet.
           2.nhTd5-d4=wh #
 
 
-  add_to_move_generation_stack:        5933
-                     play_move:        3761
- is_white_king_square_attacked:         439
- is_black_king_square_attacked:        3764
+  add_to_move_generation_stack:        5751
+                     play_move:        3726
+ is_white_king_square_attacked:         473
+ is_black_king_square_attacked:        3729
 Loesung beendet. 
 
 
@@ -304,10 +304,10 @@ Loesung beendet.
           2.Dg7*g6 #
 
 
-  add_to_move_generation_stack:       12087
-                     play_move:        7114
- is_white_king_square_attacked:         429
- is_black_king_square_attacked:        7117
+  add_to_move_generation_stack:       13089
+                     play_move:        8608
+ is_white_king_square_attacked:         506
+ is_black_king_square_attacked:        8611
 Loesung beendet. 
 
 
@@ -336,6 +336,96 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                          8 + 4
             HalbNeutral a7
+
+   1.Sf5-d4 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D #
+                  3.d7-d8=T #
+              2...Kd5-d6
+                  3.d7-d8=D #
+    Aber
+      1...Kd5*d6 !
+
+   1.Sf5-e3 + ?
+      1...Kd5-d4
+          2.Tc8*c4 #
+    Aber
+      1...Kd5*d6 !
+
+   1.Sf5-g3 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D #
+                  3.d7-d8=T #
+              2...Kd5-d6
+                  3.d7-d8=D #
+    Aber
+      1...Kd5*d6 !
+
+   1.Sf5-h4 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D #
+                  3.d7-d8=T #
+              2...Kd5-d6
+                  3.d7-d8=D #
+    Aber
+      1...Kd5*d6 !
+
+   1.Sf5-h6 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D #
+                  3.d7-d8=T #
+              2...Kd5-d6
+                  3.d7-d8=D #
+    Aber
+      1...Kd5*d6 !
+
+   1.Sf5-g7 ? Drohung:
+          2.d6-d7 Drohung:
+                  3.d7-d8=D #
+                  3.d7-d8=T #
+              2...Kd5-d6
+                  3.d7-d8=D #
+    Aber
+      1...Kd5*d6 !
+
+   1.hBa7-a8=hS=nh ! Drohung:
+          2.nhSa8*b6=wh #
+      1...nhSa8-c7=sh
+          2.Ka2-a3 Zugzwang.
+              2...Kd5-c5
+                  3.Te7-e5 #
+              2...hSc7-a6=nh
+                  3.nhSa6-b4=wh #
+              2...hSc7*b5=nh +
+                  3.nhSb5*c3=wh #
+              2...hSc7-e6=nh
+                  3.nhSe6-f4=wh #
+              2...hSc7-e8=nh
+                  3.nhSe8-f6=wh #
+              2...hSc7-a8=nh
+                  3.nhSa8*b6=wh #
+
+   1.hBa7-a8=hL=nh + ?
+      1...nhLa8-b7=sh
+          2.Tc8-c7 Zugzwang.
+              2...hLb7-a6=nh
+                  3.nhLa6-b7=wh #
+              2...hLb7-c8=nh
+                  3.nhLc8-b7=wh #
+    Aber
+      1...nhLa8-c6=sh !
+
+   1.Te7-e4 ? Zugzwang.
+    Aber
+      1...Kd5*e4 !
+
+   1.Te7-e5 + ?
+    Aber
+      1...Kd5*e5 !
+
+   1.Te7-e6 ? Zugzwang.
+    Aber
+      1...Kd5*e6 !
 
    1.Tc8*c4 ? Drohung:
           2.Tc4-a4 Zugzwang.
@@ -405,101 +495,11 @@ Loesung beendet.
     Aber
       1...Kd5-c5 !
 
-   1.Te7-e4 ? Zugzwang.
-    Aber
-      1...Kd5*e4 !
 
-   1.Te7-e5 + ?
-    Aber
-      1...Kd5*e5 !
-
-   1.Te7-e6 ? Zugzwang.
-    Aber
-      1...Kd5*e6 !
-
-   1.hBa7-a8=hS=nh ! Drohung:
-          2.nhSa8*b6=wh #
-      1...nhSa8-c7=sh
-          2.Ka2-a3 Zugzwang.
-              2...Kd5-c5
-                  3.Te7-e5 #
-              2...hSc7-a6=nh
-                  3.nhSa6-b4=wh #
-              2...hSc7*b5=nh +
-                  3.nhSb5*c3=wh #
-              2...hSc7-e6=nh
-                  3.nhSe6-f4=wh #
-              2...hSc7-e8=nh
-                  3.nhSe8-f6=wh #
-              2...hSc7-a8=nh
-                  3.nhSa8*b6=wh #
-
-   1.hBa7-a8=hL=nh + ?
-      1...nhLa8-b7=sh
-          2.Tc8-c7 Zugzwang.
-              2...hLb7-a6=nh
-                  3.nhLa6-b7=wh #
-              2...hLb7-c8=nh
-                  3.nhLc8-b7=wh #
-    Aber
-      1...nhLa8-c6=sh !
-
-   1.Sf5-d4 ? Drohung:
-          2.d6-d7 Drohung:
-                  3.d7-d8=D #
-                  3.d7-d8=T #
-              2...Kd5-d6
-                  3.d7-d8=D #
-    Aber
-      1...Kd5*d6 !
-
-   1.Sf5-e3 + ?
-      1...Kd5-d4
-          2.Tc8*c4 #
-    Aber
-      1...Kd5*d6 !
-
-   1.Sf5-g3 ? Drohung:
-          2.d6-d7 Drohung:
-                  3.d7-d8=D #
-                  3.d7-d8=T #
-              2...Kd5-d6
-                  3.d7-d8=D #
-    Aber
-      1...Kd5*d6 !
-
-   1.Sf5-h4 ? Drohung:
-          2.d6-d7 Drohung:
-                  3.d7-d8=D #
-                  3.d7-d8=T #
-              2...Kd5-d6
-                  3.d7-d8=D #
-    Aber
-      1...Kd5*d6 !
-
-   1.Sf5-h6 ? Drohung:
-          2.d6-d7 Drohung:
-                  3.d7-d8=D #
-                  3.d7-d8=T #
-              2...Kd5-d6
-                  3.d7-d8=D #
-    Aber
-      1...Kd5*d6 !
-
-   1.Sf5-g7 ? Drohung:
-          2.d6-d7 Drohung:
-                  3.d7-d8=D #
-                  3.d7-d8=T #
-              2...Kd5-d6
-                  3.d7-d8=D #
-    Aber
-      1...Kd5*d6 !
-
-
-  add_to_move_generation_stack:       97814
-                     play_move:       67736
- is_white_king_square_attacked:        7374
- is_black_king_square_attacked:       65832
+  add_to_move_generation_stack:       95373
+                     play_move:       65868
+ is_white_king_square_attacked:        7143
+ is_black_king_square_attacked:       64006
 Loesung beendet. 
 
 
@@ -628,10 +628,10 @@ Loesung beendet.
       1...hTb1-c1=nh !
 
 
-  add_to_move_generation_stack:       12691
-                     play_move:        9532
- is_white_king_square_attacked:         928
- is_black_king_square_attacked:        9493
+  add_to_move_generation_stack:       11262
+                     play_move:        7490
+ is_white_king_square_attacked:         704
+ is_black_king_square_attacked:        7451
 Loesung beendet. 
 
 
@@ -752,6 +752,27 @@ Loesung beendet.
   #2                          4 + 3
             HalbNeutral b8
 
+   1.Db4-d4 + ?
+    Aber
+      1...Kd5*d4 !
+
+   1.Db4-c4 + ?
+      1...Kd5-d6
+          2.Dc4-d4 #
+    Aber
+      1...Kd5*c4 !
+
+   1.Kf6-f5 ? Zugzwang.
+      1...hSb8-a6=nh
+          2.nhSa6-c7=wh #
+      1...hSb8-c6=nh
+          2.nhSc6-e7=wh #
+      1...hSb8-d7=nh
+          2.nhSd7-b6=wh #
+          2.nhSd7-f6=wh #
+    Aber
+      1...f7-f6 !
+
    1.Ld8-a5 ! Zugzwang.
       1...hSb8-a6=nh
           2.nhSa6-c7=wh #
@@ -783,32 +804,11 @@ Loesung beendet.
     Aber
       1...hSb8-c6=nh !
 
-   1.Kf6-f5 ? Zugzwang.
-      1...hSb8-a6=nh
-          2.nhSa6-c7=wh #
-      1...hSb8-c6=nh
-          2.nhSc6-e7=wh #
-      1...hSb8-d7=nh
-          2.nhSd7-b6=wh #
-          2.nhSd7-f6=wh #
-    Aber
-      1...f7-f6 !
 
-   1.Db4-d4 + ?
-    Aber
-      1...Kd5*d4 !
-
-   1.Db4-c4 + ?
-      1...Kd5-d6
-          2.Dc4-d4 #
-    Aber
-      1...Kd5*c4 !
-
-
-  add_to_move_generation_stack:        8144
-                     play_move:        4473
- is_white_king_square_attacked:         779
- is_black_king_square_attacked:        4421
+  add_to_move_generation_stack:        8587
+                     play_move:        4747
+ is_white_king_square_attacked:         836
+ is_black_king_square_attacked:        4695
 Loesung beendet. 
 
 
@@ -879,10 +879,10 @@ nur die letzten 2 Zuege < 1 min mit Athlon 2400
 
   1.hLe4*h7=nh[nhLh7->b5] Tc3-c1   2.nhTc6*d6=wh[whTd6->f7] + Lf1*b5[sLb5->e7] #
 
-  add_to_move_generation_stack:    41975142
-                     play_move:    16765508
- is_white_king_square_attacked:    16696920
- is_black_king_square_attacked:     8780385
+  add_to_move_generation_stack:    42015260
+                     play_move:    16718727
+ is_white_king_square_attacked:    16650139
+ is_black_king_square_attacked:     8731097
 Loesung beendet. 
 
 

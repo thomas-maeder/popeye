@@ -169,6 +169,12 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
               2...Kf4-e4
                   3.Qh3-f3 #
       1...Kf4-g5
+          2.Qh3-f5 +
+              2...Kg5-h4
+                  3.Sg7-h5 threat:
+                          4.g2-g3 #
+                      3...Be7-g5
+                          4.Qf5-h3 #
           2.f7*g8=R threat:
                   3.Sg7-h5 #
               2...Kg5-f4
@@ -184,18 +190,12 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                       3...Kg5-h6
                           4.Sh5-f6 #
               2...Be7-f6
-                  3.Sg7-e6 #
                   3.Qh3-g3 #
+                  3.Sg7-e6 #
               2...Be7-f8
                   3.Sg7-h5 +
                       3...Bf8-g7
                           4.Rg8*g7 #
-          2.Qh3-f5 +
-              2...Kg5-h4
-                  3.Sg7-h5 threat:
-                          4.g2-g3 #
-                      3...Be7-g5
-                          4.Qf5-h3 #
       1...Kf4-e4
           2.Qh3-f3 +
               2...Ke4*d4
@@ -220,10 +220,10 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.d4*e5 #
 
 
-  add_to_move_generation_stack:     1815796
-                     play_move:     1243109
- is_white_king_square_attacked:      520511
- is_black_king_square_attacked:      545201
+  add_to_move_generation_stack:     1890125
+                     play_move:     1278370
+ is_white_king_square_attacked:      524611
+ is_black_king_square_attacked:      572678
 solution finished. 
 
 
@@ -328,10 +328,10 @@ Example 1
                                           6.Qe5-g5 #
 
 
-  add_to_move_generation_stack:     9101392
-                     play_move:     7984864
- is_white_king_square_attacked:     4949131
- is_black_king_square_attacked:     1582294
+  add_to_move_generation_stack:     9137331
+                     play_move:     8008084
+ is_white_king_square_attacked:     4965474
+ is_black_king_square_attacked:     1587404
 solution finished. 
 
 
@@ -360,6 +360,14 @@ solution finished.
   #3                          9 + 9
           SingleBox    Type1
 
+   1.Rc5-d5 + ?
+    but
+      1...c6*d5 !
+
+   1.Bb6*c7 + ?
+    but
+      1...Sa6*c7 !
+
    1.e6-e7 ! threat:
           2.Sf2*e4 +
               2...Qe2*e4
@@ -379,19 +387,11 @@ solution finished.
               2...Sa6*c7
                   3.e7*f8=B #
 
-   1.Bb6*c7 + ?
-    but
-      1...Sa6*c7 !
 
-   1.Rc5-d5 + ?
-    but
-      1...c6*d5 !
-
-
-  add_to_move_generation_stack:     1068182
-                     play_move:      805784
- is_white_king_square_attacked:       79040
- is_black_king_square_attacked:      447684
+  add_to_move_generation_stack:      965380
+                     play_move:      717716
+ is_white_king_square_attacked:       74977
+ is_black_king_square_attacked:      396837
 solution finished. 
 
 

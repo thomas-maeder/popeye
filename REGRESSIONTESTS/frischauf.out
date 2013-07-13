@@ -28,9 +28,9 @@
               2...d5*c4[+wLf1]
 
 
-  add_to_move_generation_stack:         250
-                     play_move:         247
- is_white_king_square_attacked:         202
+  add_to_move_generation_stack:         249
+                     play_move:         239
+ is_white_king_square_attacked:         195
  is_black_king_square_attacked:           0
 Loesung beendet. 
 

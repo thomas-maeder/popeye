@@ -23,8 +23,8 @@
 +---a---b---c---d---e---f---g---h---+
   h#2.5                       3 + 2
 
-  1...Kc5-c6   2.Ka6-a5 b2-b4 +   3.Ka5-a6 NOa4-a8 #
   1...NOa4-a8 +   2.Ka6-a5 b2-b3   3.a7-a6 b3-b4 #
+  1...Kc5-c6   2.Ka6-a5 b2-b4 +   3.Ka5-a6 NOa4-a8 #
 
   add_to_move_generation_stack:        9588
                      play_move:        8950

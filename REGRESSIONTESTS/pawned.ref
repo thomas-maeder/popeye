@@ -67,10 +67,10 @@ solution finished.
           2.SHf3-d3 #
 
 
-  add_to_move_generation_stack:        1721
-                     play_move:         989
- is_white_king_square_attacked:         126
- is_black_king_square_attacked:         992
+  add_to_move_generation_stack:        1690
+                     play_move:         996
+ is_white_king_square_attacked:         130
+ is_black_king_square_attacked:         999
 solution finished. 
 
 
@@ -112,10 +112,10 @@ solution finished.
           2.DRf2-f4 #
 
 
-  add_to_move_generation_stack:        2195
-                     play_move:        1481
- is_white_king_square_attacked:         211
- is_black_king_square_attacked:        1484
+  add_to_move_generation_stack:        2065
+                     play_move:        1305
+ is_white_king_square_attacked:         187
+ is_black_king_square_attacked:        1308
 solution finished. 
 
 

@@ -11,7 +11,7 @@ stipulation     1->ser-h#3
 condition       andernach
 pieces  white   ka8 rh1 ba3 pd3
         black kg8 rc4f3 be4g3 pb2c6c7f5f6g7
-option Stoponshort start 24
+option Stoponshort start 12
 
 next
 

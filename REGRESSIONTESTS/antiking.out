@@ -26,31 +26,6 @@
 Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
              AntiKoenige
 
-   1.kBf4*g5[-wkBg5] + ?
-    Aber
-      1...kSh7-g5 !
-
-   1.kLd4-e5 + ?
-    Aber
-      1...kLb8*e5[-skLe5] !
-
-   1.kLd4-c5 + ?
-    Aber
-      1...kTc8*c5[-skTc5] !
-
-   1.kLc4-d5 + ?
-    Aber
-      1...kTd8*d5[-skTd5] !
-
-   1.kLc4-a6 ? Drohung:
-          2.kTHa5-a7 #
-    Aber
-      1...kTa8*a6[-skTa6] !
-
-   1.kLc4-b5 + ?
-    Aber
-      1...kLe8*b5[-skLb5] !
-
    1.kKf1-e1 ! Zugzwang.
       1...kTa1-d1
           2.kTHa5-a1 #
@@ -73,8 +48,8 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
       1...kTa8-a7
           2.kTHa5-a8 #
       1...kLb8-a7
-          2.kTHa5*a8[-wkTHa8] #
           2.kLd4-e5 #
+          2.kTHa5*a8[-wkTHa8] #
       1...kLb8*f4[-skLf4]
           2.kLd4-e5 #
       1...kLb8-d6
@@ -128,8 +103,8 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
       1...kTa8-a7
           2.kTHa5-a8 #
       1...kLb8-a7
-          2.kTHa5*a8[-wkTHa8] #
           2.kLd4-e5 #
+          2.kTHa5*a8[-wkTHa8] #
       1...kLb8*f4[-skLf4]
           2.kLd4-e5 #
       1...kLb8-d6
@@ -161,11 +136,36 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
     Aber
       1...kSh4-g2 !
 
+   1.kLc4-d5 + ?
+    Aber
+      1...kTd8*d5[-skTd5] !
 
-  add_to_move_generation_stack:       31517
-                     play_move:       25658
- is_white_king_square_attacked:         989
- is_black_king_square_attacked:       24570
+   1.kLc4-a6 ? Drohung:
+          2.kTHa5-a7 #
+    Aber
+      1...kTa8*a6[-skTa6] !
+
+   1.kLc4-b5 + ?
+    Aber
+      1...kLe8*b5[-skLb5] !
+
+   1.kLd4-e5 + ?
+    Aber
+      1...kLb8*e5[-skLe5] !
+
+   1.kLd4-c5 + ?
+    Aber
+      1...kTc8*c5[-skTc5] !
+
+   1.kBf4*g5[-wkBg5] + ?
+    Aber
+      1...kSh7-g5 !
+
+
+  add_to_move_generation_stack:       33408
+                     play_move:       27937
+ is_white_king_square_attacked:        1009
+ is_black_king_square_attacked:       26817
 Loesung beendet. 
 
 

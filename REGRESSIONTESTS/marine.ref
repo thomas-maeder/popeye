@@ -35,10 +35,10 @@
           2.MSh1-f2 #
 
 
-  add_to_move_generation_stack:        6478
-                     play_move:        3618
- is_white_king_square_attacked:         331
- is_black_king_square_attacked:        3621
+  add_to_move_generation_stack:        6520
+                     play_move:        3832
+ is_white_king_square_attacked:         321
+ is_black_king_square_attacked:        3835
 solution finished. 
 
 
@@ -67,6 +67,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 9
 
+   1.TRd1*d2-d3 # !
+
    1.NDe2-h5 ! zugzwang.
       1...NDd2-c1
           2.MSe4-d2 #
@@ -79,8 +81,8 @@ solution finished.
       1...NDd2-c3
           2.MSe4*c3-a2 #
       1...Ke3-d3
-          2.SIe5-c3 #
           2.MSe4-g3 #
+          2.SIe5-c3 #
       1...d5-d4
           2.MSe4-c3 #
       1...d5*e4
@@ -108,13 +110,11 @@ solution finished.
       1...MSg8-f6
           2.MSe4*f6-g8 #
 
-   1.TRd1*d2-d3 # !
 
-
-  add_to_move_generation_stack:       10031
-                     play_move:        6647
- is_white_king_square_attacked:         619
- is_black_king_square_attacked:        6650
+  add_to_move_generation_stack:       10023
+                     play_move:        6311
+ is_white_king_square_attacked:         613
+ is_black_king_square_attacked:        6314
 solution finished. 
 
 
@@ -171,10 +171,10 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 3rd HM
           2.f2-f3 #
 
 
-  add_to_move_generation_stack:       18987
-                     play_move:       11699
- is_white_king_square_attacked:         495
- is_black_king_square_attacked:       11702
+  add_to_move_generation_stack:       18524
+                     play_move:       11113
+ is_white_king_square_attacked:         497
+ is_black_king_square_attacked:       11116
 solution finished. 
 
 
@@ -228,10 +228,10 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
                   3.Bf7-g6 #
 
 
-  add_to_move_generation_stack:      614603
-                     play_move:      418642
- is_white_king_square_attacked:       65885
- is_black_king_square_attacked:      368071
+  add_to_move_generation_stack:      510554
+                     play_move:      351125
+ is_white_king_square_attacked:       63050
+ is_black_king_square_attacked:      300756
 solution finished. 
 
 
@@ -344,10 +344,10 @@ solution finished.
           2.Ke3-f2 #
 
 
-  add_to_move_generation_stack:         346
-                     play_move:         269
- is_white_king_square_attacked:          43
- is_black_king_square_attacked:         272
+  add_to_move_generation_stack:         336
+                     play_move:         258
+ is_white_king_square_attacked:          41
+ is_black_king_square_attacked:         261
 solution finished. 
 
 
@@ -388,8 +388,8 @@ why does WinChloe only give 2.POb8==, but not 2.POb7?
 
 
   add_to_move_generation_stack:          75
-                     play_move:          39
- is_white_king_square_attacked:          18
+                     play_move:          41
+ is_white_king_square_attacked:          20
  is_black_king_square_attacked:          33
 solution finished. 
 
@@ -778,14 +778,6 @@ Michel Caillaud, Henri Nouguier & Uri Avner
           2.Bf1*e2 +
               2...Sg1*e2 #
       1...MPe3*f2-g1=R
-          2.Sd8-c6
-              2...Rg1-g6
-                  3.Sc6-e5 +
-                      3...f6*e5 #
-          2.Sd8-f7
-              2...Rg1-g6
-                  3.Sf7-e5 +
-                      3...f6*e5 #
           2.MSd1-f2 +
               2...Kd3-c4
                   3.MSf2-g4
@@ -794,6 +786,14 @@ Michel Caillaud, Henri Nouguier & Uri Avner
               2...Rg1-g6
                   3.MSe3-g4
                       3...Rg6*g4 #
+          2.Sd8-c6
+              2...Rg1-g6
+                  3.Sc6-e5 +
+                      3...f6*e5 #
+          2.Sd8-f7
+              2...Rg1-g6
+                  3.Sf7-e5 +
+                      3...f6*e5 #
       1...MPe3*f2-g1=B
           2.MSd1-e3
               2...Bg1*e3 #
@@ -820,6 +820,10 @@ Michel Caillaud, Henri Nouguier & Uri Avner
                   3.Bg2-e4 +
                       3...Re2*e4 #
       1...MPe3*f2-g1=MH
+          2.MSd1-f2 +
+              2...Kd3-c4
+                  3.MSf2-g4
+                      3...MHg1*g4-g5 #
           2.Sd8-c6
               2...MHg1-g6
                   3.Sc6-e5 +
@@ -828,16 +832,12 @@ Michel Caillaud, Henri Nouguier & Uri Avner
               2...MHg1-g6
                   3.Sf7-e5 +
                       3...f6*e5 #
-          2.MSd1-f2 +
-              2...Kd3-c4
-                  3.MSf2-g4
-                      3...MHg1*g4-g5 #
 
 
-  add_to_move_generation_stack:       58828
-                     play_move:       26623
- is_white_king_square_attacked:       10543
- is_black_king_square_attacked:       20089
+  add_to_move_generation_stack:       58844
+                     play_move:       26614
+ is_white_king_square_attacked:       10534
+ is_black_king_square_attacked:       20131
 solution finished. 
 
 

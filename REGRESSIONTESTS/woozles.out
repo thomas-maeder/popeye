@@ -25,9 +25,9 @@
   #2                         11 + 9
         BiWoozles RexExklusive
 
-   1.Le6*f5 + ?
+   1.Sd3-f2 + ?
     Aber
-      1...Ke4*f5 !
+      1...Ke4*f4 !
 
    1.Sf4-g2 ? Drohung:
           2.Sd3-f2 #
@@ -54,15 +54,15 @@
       1...Sf5-g3
           2.Sd5-f6 #
 
-   1.Sd3-f2 + ?
+   1.Le6*f5 + ?
     Aber
-      1...Ke4*f4 !
+      1...Ke4*f5 !
 
 
-  add_to_move_generation_stack:       31454
-                     play_move:       19101
- is_white_king_square_attacked:         845
- is_black_king_square_attacked:       18952
+  add_to_move_generation_stack:       31329
+                     play_move:       18727
+ is_white_king_square_attacked:         825
+ is_black_king_square_attacked:       18578
 Loesung beendet. 
 
 
@@ -160,10 +160,10 @@ Loesung beendet.
               2...Dh7*b7[+wSb1] #
 
 
-  add_to_move_generation_stack:       63019
-                     play_move:       44893
- is_white_king_square_attacked:       44900
- is_black_king_square_attacked:       22164
+  add_to_move_generation_stack:       55882
+                     play_move:       40820
+ is_white_king_square_attacked:       40827
+ is_black_king_square_attacked:       20422
 Loesung beendet. 
 
 
@@ -291,10 +291,10 @@ Loesung beendet.
           2.De6-d6 #
 
 
-  add_to_move_generation_stack:       14120
-                     play_move:        7975
- is_white_king_square_attacked:         795
- is_black_king_square_attacked:        7954
+  add_to_move_generation_stack:       13844
+                     play_move:        7454
+ is_white_king_square_attacked:         755
+ is_black_king_square_attacked:        7433
 Loesung beendet. 
 
 
@@ -384,9 +384,9 @@ Loesung beendet.
   1.a7-a6   2.a6-a5   3.a5-a4   4.a4-a3   5.a3-a2   6.a2-a1=T   7.Ta1-a2   8.Ta2-a3   9.Ta3-a4  10.Ta4-a5  11.Ta5-a6  12.Ta6-a7 Kc8-b8 #
 
   add_to_move_generation_stack:        4237
-                     play_move:        3245
- is_white_king_square_attacked:        1135
- is_black_king_square_attacked:        3093
+                     play_move:        3242
+ is_white_king_square_attacked:        1127
+ is_black_king_square_attacked:        3091
 Loesung beendet. 
 
 
@@ -600,28 +600,28 @@ Loesung beendet.
   2->ser-h#3                  2 + 4
               BiWoozles
 
-  1  (Ke7-d6 )
-  2  (Ke7-f6 )
-  3  (Ke7-f8 )
-  4  (Ke7-d8 )
+  1  (Tf2-f1 )
+  2  (Tf2-a2 )
+  3  (Tf2-b2 )
+  4  (Tf2-c2 + )
+  5  (Tf2-d2 )
+  6  (Tf2-e2 )
+  7  (Tf2-f8 + )
+  8  (Tf2-f7 )
+  9  (Tf2-f6 )
+ 10  (Tf2-f5 )
+ 11  (Tf2-f4 )
+ 12  (Tf2-f3 )
+ 13  (Tf2*g2 )
+ 14  (Ke7-d6 )
+ 15  (Ke7-f6 )
+ 16  (Ke7-f8 )
+ 17  (Ke7-d8 )
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 #
-  5  (Ke7-e6 )
-  6  (Ke7*d7 )
-  7  (Ke7-e8 )
-  8  (Ke7-f7 )
-  9  (Tf2-f1 )
- 10  (Tf2-a2 )
- 11  (Tf2-b2 )
- 12  (Tf2-c2 + )
- 13  (Tf2-d2 )
- 14  (Tf2-e2 )
- 15  (Tf2-f8 + )
- 16  (Tf2-f7 )
- 17  (Tf2-f6 )
- 18  (Tf2-f5 )
- 19  (Tf2-f4 )
- 20  (Tf2-f3 )
- 21  (Tf2*g2 )
+ 18  (Ke7-e6 )
+ 19  (Ke7*d7 )
+ 20  (Ke7-e8 )
+ 21  (Ke7-f7 )
 
   add_to_move_generation_stack:    11163433
                      play_move:     9634363

@@ -70,10 +70,10 @@ Loesung beendet.
           2.Se2*g3=L #
 
 
-  add_to_move_generation_stack:        5583
-                     play_move:        3196
- is_white_king_square_attacked:         314
- is_black_king_square_attacked:        3199
+  add_to_move_generation_stack:        5299
+                     play_move:        2768
+ is_white_king_square_attacked:         275
+ is_black_king_square_attacked:        2771
 Loesung beendet. 
 
 
@@ -184,10 +184,10 @@ Loesung beendet.
                   3.Le1-b4=S #
 
 
-  add_to_move_generation_stack:        8645
-                     play_move:        7452
- is_white_king_square_attacked:        1453
- is_black_king_square_attacked:        6138
+  add_to_move_generation_stack:        8663
+                     play_move:        7422
+ is_white_king_square_attacked:        1433
+ is_black_king_square_attacked:        6127
 Loesung beendet. 
 
 
@@ -260,10 +260,10 @@ Loesung beendet.
           2.c2*d3=S #
 
 
-  add_to_move_generation_stack:        1656
-                     play_move:        1041
- is_white_king_square_attacked:         139
- is_black_king_square_attacked:        1044
+  add_to_move_generation_stack:        1749
+                     play_move:        1062
+ is_white_king_square_attacked:         150
+ is_black_king_square_attacked:        1065
 Loesung beendet. 
 
 

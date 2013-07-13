@@ -190,7 +190,6 @@ strange "cages" were selected for neutral pieces
   pser-h~1               1 + 1 + 1n
               CageCirce
 
-  1.nPg5-g4 + nPg4-g5
   1.nPg5-g4 + Kf3-e2
   1.nPg5-g4 + Kf3-g2
   1.nPg5-g4 + Kf3*g4[+nPg5]
@@ -199,7 +198,8 @@ strange "cages" were selected for neutral pieces
   1.nPg5-g4 + Kf3-e3
   1.nPg5-g4 + Kf3-f4
   1.nPg5-g4 + Kf3-g3
-  1.Ke7-d6 nPg5-g6
+  1.nPg5-g4 + nPg4-g5
+  1.Ke7-d6 Kf3-e2
 
   add_to_move_generation_stack:         749
                      play_move:         144
@@ -874,7 +874,7 @@ Until 4.61, a=>b stipulations weren't correctly solved
   1.nSa1-b3 nSa8-b6   2.nSb3-c1 nSb6-c8 a=>b
 
   add_to_move_generation_stack:         330
-                     play_move:         195
+                     play_move:         194
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -909,9 +909,9 @@ f*g7[S->h5] S*g7[P->f6] f*g7[S->h5] ...
 
 
   add_to_move_generation_stack:      100954
-                     play_move:      212300
- is_white_king_square_attacked:      187095
- is_black_king_square_attacked:       49436
+                     play_move:      238133
+ is_white_king_square_attacked:      212972
+ is_black_king_square_attacked:       45701
 solution finished. 
 
 
@@ -1011,14 +1011,14 @@ Popeye 4.61 didn't support option maxsolutions in helpself stipulations
 +---a---b---c---d---e---f---g---h---+
   hs#2                       10 + 6
 
-  1.Sh8-f7 g5*f4   2.Sf7-g5 + Bh4*g5 #
-  1.g7-g8=S g5*f4   2.Sg8-f6 + Bh4*f6 #
+  1.Sb2-d1 g3*h2   2.Sd1-f2 + Bh4*f2 #
   1.Ra5-a1 g3*h2   2.Ra1-e1 + Bh4*e1 #
+  1.Ra5-a7 g5*f4   2.Ra7-e7 + Bh4*e7 #
 
-  add_to_move_generation_stack:       34592
-                     play_move:       29447
- is_white_king_square_attacked:       29237
- is_black_king_square_attacked:       10117
+  add_to_move_generation_stack:       47723
+                     play_move:       33912
+ is_white_king_square_attacked:       33564
+ is_black_king_square_attacked:       12772
 solving interrupted. 
 
 
@@ -1049,9 +1049,9 @@ solving interrupted.
   1.Sb8-a6 f2-f1=Q #
   1.Sb8-c6 f2-f1=Q #
 
-  add_to_move_generation_stack:          33
-                     play_move:          37
- is_white_king_square_attacked:          32
+  add_to_move_generation_stack:          62
+                     play_move:          59
+ is_white_king_square_attacked:          58
  is_black_king_square_attacked:           0
 solving interrupted. 
 
@@ -1404,9 +1404,9 @@ Up to 4.61, Popeye wouldn't play 1.b7-b8=B[h1=b]
 
 a) 
 
-   1.b7-b8=B[h1=b] !
+   1.Qb1-h7 !
 
-   1.Sa3-c2 !
+   1.Qb1-g6 !
 
 
   add_to_move_generation_stack:          52
@@ -1415,9 +1415,9 @@ a)
  is_black_king_square_attacked:           0
 b) SingleBox    Type2
 
-   1.b7-b8=B[h1=b] !
+   1.Qb1-h7 !
 
-   1.Sa3-c2 !
+   1.Qb1-g6 !
 
 
   add_to_move_generation_stack:          24
@@ -1426,9 +1426,9 @@ b) SingleBox    Type2
  is_black_king_square_attacked:           0
 c) wBa8 
 
-   1.b7-b8 !
+   1.Qb1-h7 !
 
-   1.Sa3-c2 !
+   1.Qb1-g6 !
 
 
   add_to_move_generation_stack:          24
@@ -1464,9 +1464,9 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
              Magic a7 e6
           SingleBox    Type1
 
-   1.mRa7-d7 + !
-
    1.mPe6-e7 + !
+
+   1.mRa7-d7 + !
 
 
   add_to_move_generation_stack:         172

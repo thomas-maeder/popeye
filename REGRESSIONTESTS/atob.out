@@ -109,21 +109,21 @@ Initial (Weiss ->):
 +---a---b---c---d---e---f---g---h---+
   a=>b16                      5 + 5
 
-  1  (g7-g8=D )
-  2  (g7-g8=S )
-  3  (g7-g8=T )
-  4  (g7-g8=L )
+  1  (d3-d4 )
+  2  (e4-e5 )
+  3  (b6-b7 )
+  4  (Kg6-f5 )
+  5  (Kg6-h5 )
+  6  (Kg6-h7 )
+  7  (Kg6-f7 )
+  8  (Kg6-g5 )
+  9  (Kg6-f6 )
+ 10  (Kg6-h6 )
+ 11  (g7-g8=D )
+ 12  (g7-g8=S )
+ 13  (g7-g8=T )
+ 14  (g7-g8=L )
   1.g7-g8=L a2-a1=S   2.Lg8-a2 Sa1-b3   3.La2-b1 a3-a2   4.b6-b7 a2-a1=D   5.b7-b8=T Da1-a3   6.Tb8-h8 Da3-f8   7.e4-e5 a4-a3   8.e5-e6 a3-a2   9.e6-e7 a2-a1=T  10.e7-e8=D Ta1-a4  11.De8-e3 Ta4-e4  12.d3-d4 a5-a4  13.d4-d5 a4-a3  14.d5-d6 a3-a2  15.d6-d7 a2-a1=L  16.d7-d8=S La1-d4 a=>b
-  5  (Kg6-f5 )
-  6  (Kg6-h5 )
-  7  (Kg6-h7 )
-  8  (Kg6-f7 )
-  9  (Kg6-g5 )
- 10  (Kg6-f6 )
- 11  (Kg6-h6 )
- 12  (b6-b7 )
- 13  (e4-e5 )
- 14  (d3-d4 )
 
   add_to_move_generation_stack:      929250
                      play_move:      997128

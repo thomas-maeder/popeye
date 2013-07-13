@@ -37,10 +37,10 @@
                       3...Ng1*c3 #
 
 
-  add_to_move_generation_stack:       30974
-                     play_move:       16896
- is_white_king_square_attacked:        4779
- is_black_king_square_attacked:       14499
+  add_to_move_generation_stack:       30942
+                     play_move:       16865
+ is_white_king_square_attacked:        4760
+ is_black_king_square_attacked:       14483
 Loesung beendet. 
 
 

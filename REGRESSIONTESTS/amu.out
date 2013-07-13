@@ -24,6 +24,67 @@
   #2                         10 + 5
                  AMU
 
+   1.Tc1*c4 + ?
+    Aber
+      1...b5*c4 !
+
+   1.Tc1-c3 ? Zugzwang.
+      1...Dc4*c3
+          2.Sg3-e4 #
+    Aber
+      1...b4*c3 !
+
+   1.Tc1-c2 ? Zugzwang.
+      1...Dc4-c3
+          2.Sg3-e4 #
+    Aber
+      1...Dc4*c2 !
+
+   1.e5-e6 ! Drohung:
+          2.Sg3-e4 #
+      1...Dc4-c3
+          2.Tg7-g5 #
+
+   1.Lb7-a8 ? Zugzwang.
+      1...Dc4-c2
+          2.Tc1*c2 #
+      1...Dc4-c3
+          2.Sg3-e4 #
+    Aber
+      1...Dc4*c1 !
+
+   1.Ke7-f6 ? Zugzwang.
+      1...Dc4-c2
+          2.Tc1*c2 #
+      1...Dc4-c3
+          2.Sg3-e4 #
+    Aber
+      1...Dc4*c1 !
+
+   1.Ke7-f8 ? Zugzwang.
+      1...Dc4-c2
+          2.Tc1*c2 #
+      1...Dc4-c3
+          2.Sg3-e4 #
+    Aber
+      1...Dc4*c1 !
+
+   1.Ke7-d7 ? Zugzwang.
+      1...Dc4-c2
+          2.Tc1*c2 #
+      1...Dc4-c3
+          2.Sg3-e4 #
+    Aber
+      1...Dc4*c1 !
+
+   1.Ke7-e8 ? Zugzwang.
+      1...Dc4-c2
+          2.Tc1*c2 #
+      1...Dc4-c3
+          2.Sg3-e4 #
+    Aber
+      1...Dc4*c1 !
+
    1.Tg7-g4 ? Zugzwang.
       1...Dc4-c2
           2.Tc1*c2 #
@@ -71,72 +132,11 @@
     Aber
       1...Dc4*c1 !
 
-   1.Ke7-f6 ? Zugzwang.
-      1...Dc4-c2
-          2.Tc1*c2 #
-      1...Dc4-c3
-          2.Sg3-e4 #
-    Aber
-      1...Dc4*c1 !
 
-   1.Ke7-f8 ? Zugzwang.
-      1...Dc4-c2
-          2.Tc1*c2 #
-      1...Dc4-c3
-          2.Sg3-e4 #
-    Aber
-      1...Dc4*c1 !
-
-   1.Ke7-d7 ? Zugzwang.
-      1...Dc4-c2
-          2.Tc1*c2 #
-      1...Dc4-c3
-          2.Sg3-e4 #
-    Aber
-      1...Dc4*c1 !
-
-   1.Ke7-e8 ? Zugzwang.
-      1...Dc4-c2
-          2.Tc1*c2 #
-      1...Dc4-c3
-          2.Sg3-e4 #
-    Aber
-      1...Dc4*c1 !
-
-   1.Lb7-a8 ? Zugzwang.
-      1...Dc4-c2
-          2.Tc1*c2 #
-      1...Dc4-c3
-          2.Sg3-e4 #
-    Aber
-      1...Dc4*c1 !
-
-   1.e5-e6 ! Drohung:
-          2.Sg3-e4 #
-      1...Dc4-c3
-          2.Tg7-g5 #
-
-   1.Tc1*c4 + ?
-    Aber
-      1...b5*c4 !
-
-   1.Tc1-c3 ? Zugzwang.
-      1...Dc4*c3
-          2.Sg3-e4 #
-    Aber
-      1...b4*c3 !
-
-   1.Tc1-c2 ? Zugzwang.
-      1...Dc4-c3
-          2.Sg3-e4 #
-    Aber
-      1...Dc4*c2 !
-
-
-  add_to_move_generation_stack:        5752
-                     play_move:        4897
+  add_to_move_generation_stack:        5739
+                     play_move:        4880
  is_white_king_square_attacked:         308
- is_black_king_square_attacked:        4123
+ is_black_king_square_attacked:        4110
 Loesung beendet. 
 
 
@@ -166,16 +166,11 @@ Loesung beendet.
   #2                        13 + 11
                  AMU
 
-   1.Sg5-e6 ! Drohung:
-          2.VAh5-e8 #
-      1...PAg2-g6
-          2.Le2-b5 #
-      1...PAg2-g5
-          2.Le2-b5 #
-      1...PAc5-c4
-          2.PAf4-f6 #
-      1...d5-d4
-          2.Sg8-e7 #
+   1.Tc3*c5 + ?
+      1...Lb6*c5
+          2.b4-b5 #
+    Aber
+      1...VAg1*c5 !
 
    1.PAf4-f6 ? Drohung:
           2.Sg5-e6 #
@@ -188,17 +183,22 @@ Loesung beendet.
     Aber
       1...LEa2-b2 !
 
-   1.Tc3*c5 + ?
-      1...Lb6*c5
-          2.b4-b5 #
-    Aber
-      1...VAg1*c5 !
+   1.Sg5-e6 ! Drohung:
+          2.VAh5-e8 #
+      1...PAg2-g6
+          2.Le2-b5 #
+      1...PAg2-g5
+          2.Le2-b5 #
+      1...PAc5-c4
+          2.PAf4-f6 #
+      1...d5-d4
+          2.Sg8-e7 #
 
 
-  add_to_move_generation_stack:       27814
-                     play_move:       15999
- is_white_king_square_attacked:         677
- is_black_king_square_attacked:       11035
+  add_to_move_generation_stack:       27779
+                     play_move:       16225
+ is_white_king_square_attacked:         650
+ is_black_king_square_attacked:       11017
 Loesung beendet. 
 
 

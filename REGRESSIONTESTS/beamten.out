@@ -231,10 +231,10 @@ Loesung beendet.
           2.Sb2-d3 #
 
 
-  add_to_move_generation_stack:        4683
-                     play_move:        2876
- is_white_king_square_attacked:         333
- is_black_king_square_attacked:        2879
+  add_to_move_generation_stack:        4634
+                     play_move:        2623
+ is_white_king_square_attacked:         314
+ is_black_king_square_attacked:        2626
 Loesung beendet. 
 
 
@@ -267,30 +267,10 @@ Loesung beendet.
   Beamtet b8 b7 a6 b6 a5 e5 g4 e3 c2
                 Circe
 
-  1  (bTe5-e4 )
-  2  (bTe5*a5[+sbBa7] + )
-  3  (bTe5-b5 )
-  4  (bTe5-c5 )
-  5  (bTe5-d5 )
-  6  (bTe5-e8 )
-  7  (bTe5-e7 )
-  8  (bTe5-e6 )
-  9  (bTe5-h5 )
- 10  (bTe5-g5 )
- 11  (bTe5-f5 )
- 12  (bLe3-c1 )
- 13  (bLe3-d2 )
- 14  (bLe3-g1 )
- 15  (bLe3-f2 )
- 16  (bLe3-h6 )
- 17  (bLe3-g5 )
- 18  (bLe3-f4 )
- 19  (bLe3-c5 )
- 20  (bLe3-d4 )
- 21  (Lg2-f1 + )
- 22  (Lg2-h1 )
- 23  (Lg2-h3 )
- 24  (Lg2-c6 )
+  1  (Lg2-f1 + )
+  2  (Lg2-h1 )
+  3  (Lg2-h3 )
+  4  (Lg2-c6 )
    1.Lg2-c6 !
       1...bBa5-a4
           2.Lc6*a4[+sbBa7]
@@ -305,14 +285,34 @@ Loesung beendet.
                                               6...bBc3*b2
                                                   7.bTb5-a5 #
 
- 25  (Lg2-d5 )
- 26  (Lg2-e4 )
- 27  (Lg2-f3 )
+  5  (Lg2-d5 )
+  6  (Lg2-e4 )
+  7  (Lg2-f3 )
+  8  (bLe3-c1 )
+  9  (bLe3-d2 )
+ 10  (bLe3-g1 )
+ 11  (bLe3-f2 )
+ 12  (bLe3-h6 )
+ 13  (bLe3-g5 )
+ 14  (bLe3-f4 )
+ 15  (bLe3-c5 )
+ 16  (bLe3-d4 )
+ 17  (bTe5-e4 )
+ 18  (bTe5*a5[+sbBa7] + )
+ 19  (bTe5-b5 )
+ 20  (bTe5-c5 )
+ 21  (bTe5-d5 )
+ 22  (bTe5-e8 )
+ 23  (bTe5-e7 )
+ 24  (bTe5-e6 )
+ 25  (bTe5-h5 )
+ 26  (bTe5-g5 )
+ 27  (bTe5-f5 )
 
-  add_to_move_generation_stack:    11950809
-                     play_move:     9809189
- is_white_king_square_attacked:     5838858
- is_black_king_square_attacked:     4232812
+  add_to_move_generation_stack:    11974429
+                     play_move:     9831277
+ is_white_king_square_attacked:     5854962
+ is_black_king_square_attacked:     4238901
 Loesung beendet. 
 
 

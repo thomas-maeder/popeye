@@ -89,11 +89,11 @@ Loesung beendet.
   +1                          3 + 6
      NurPartiesatzSteine    Typ3
 
-   1.Sh4*f3 + !
-
    1.Se3*c2 + !
 
    1.Se3*g2 + !
+
+   1.Sh4*f3 + !
 
 
   add_to_move_generation_stack:          15
@@ -258,10 +258,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Db2-d2 #
 
 
-  add_to_move_generation_stack:        9590
-                     play_move:        6386
- is_white_king_square_attacked:         776
- is_black_king_square_attacked:        6213
+  add_to_move_generation_stack:       10319
+                     play_move:        7038
+ is_white_king_square_attacked:         896
+ is_black_king_square_attacked:        6905
 Loesung beendet. 
 
 
@@ -290,6 +290,26 @@ Loesung beendet.
   #3                        11 + 11
      NurPartiesatzSteine    Typ3
 
+   1.Dh1*e4 + ?
+    Aber
+      1...d5*e4 !
+
+   1.Tg4-g5 + ?
+    Aber
+      1...Lh6*g5 + !
+
+   1.Tg4*h4 ? Drohung:
+          2.Th4-h5 +
+              2...Lh6-g5 +
+                  3.Th5*g5 #
+      1...f4-f3
+          2.Lh2*g3 +
+              2...Lh6-f4
+                  3.Lg3*f4 #
+                  3.Th4-h5 #
+    Aber
+      1...Lh6-g5 + !
+
    1.f7-f8 ! Drohung:
           2.Dh1*e4 +
               2...d5*e4
@@ -311,31 +331,11 @@ Loesung beendet.
               2...e4*f3
                   3.[f8=S]Sf8-d7 #
 
-   1.Tg4-g5 + ?
-    Aber
-      1...Lh6*g5 + !
 
-   1.Tg4*h4 ? Drohung:
-          2.Th4-h5 +
-              2...Lh6-g5 +
-                  3.Th5*g5 #
-      1...f4-f3
-          2.Lh2*g3 +
-              2...Lh6-f4
-                  3.Th4-h5 #
-                  3.Lg3*f4 #
-    Aber
-      1...Lh6-g5 + !
-
-   1.Dh1*e4 + ?
-    Aber
-      1...d5*e4 !
-
-
-  add_to_move_generation_stack:      329570
-                     play_move:      238823
- is_white_king_square_attacked:       16332
- is_black_king_square_attacked:      220696
+  add_to_move_generation_stack:      326645
+                     play_move:      240258
+ is_white_king_square_attacked:       16280
+ is_black_king_square_attacked:      222892
 Loesung beendet. 
 
 

@@ -210,15 +210,15 @@ a)
  is_black_king_square_attacked:      573541
 b)  -wEQh7   -bPe6  wPb4   h#4
 
-  1.Ka1-b2 Ke5-e4   2.Kb2-a3 Ke4-d3   3.EQf2*b4 Kd3-c2   4.EQb4-f4 Rd4-a4 #
   1.Ka1-b2 Rd4-g4   2.Kb2-c1 Ke5-d4   3.Kc1-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 #
   1.Ka1-b2 Rd4-g4   2.Kb2-c1 Ke5-e4 +   3.Kc1-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 #
   1.Ka1-b2 Rd4-g4   2.Kb2-c2 Ke5-d4   3.Kc2-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 #
+  1.Ka1-b2 Rd4-g4   2.Kb2-c2 Ke5-e4   3.Kc2-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 #
 
-  add_to_move_generation_stack:     6609446
-                     play_move:     4672104
- is_white_king_square_attacked:     5179425
- is_black_king_square_attacked:     5334760
+  add_to_move_generation_stack:     5339242
+                     play_move:     3759801
+ is_white_king_square_attacked:     4175479
+ is_black_king_square_attacked:     4304933
 solving interrupted. 
 
 

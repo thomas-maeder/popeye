@@ -34,10 +34,10 @@ a)
           2.Sd6-f5 #
 
 
-  add_to_move_generation_stack:       20157
-                     play_move:       12051
- is_white_king_square_attacked:         497
- is_black_king_square_attacked:       12054
+  add_to_move_generation_stack:       19699
+                     play_move:       11227
+ is_white_king_square_attacked:         501
+ is_black_king_square_attacked:       11230
 b) TransmutierendeKoenige
 
    1.Ka7-b6 ! Drohung:
@@ -48,10 +48,10 @@ b) TransmutierendeKoenige
           2.Sd6-b5 #
 
 
-  add_to_move_generation_stack:       14399
-                     play_move:        7798
- is_white_king_square_attacked:         435
- is_black_king_square_attacked:        7801
+  add_to_move_generation_stack:       14656
+                     play_move:        7878
+ is_white_king_square_attacked:         425
+ is_black_king_square_attacked:        7881
 Loesung beendet. 
 
 
@@ -185,8 +185,8 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
               2...Hc7*d6-e5
                   3.He8*e5-e4 +
                       3...Ke2*e4-e5
-                          4.b7-b8=H #
                           4.f6-f7 #
+                          4.b7-b8=H #
       1...Ke2-f3
           2.f6-f7 Drohung:
                   3.f7-f8=H #
@@ -236,18 +236,6 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
               2...Kd3-e4
                   3.e7-e8=H #
               2...Kd3-c4
-                  3.Sa8-b6 +
-                      3...Kc4-d2
-                          4.d7-d8=H #
-                      3...Kc4-e3
-                          4.e7-e8=H #
-                      3...Kc4-e5
-                          4.e7-e8=H #
-                          4.f6-f7 #
-                      3...Kc4-d6
-                          4.d7-d8=H #
-                      3...Kc4*b6
-                          4.b7-b8=H #
                   3.c6-c7 Drohung:
                           4.c7-c8=H #
                       3...Kc4-b3
@@ -259,6 +247,18 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
                       3...Kc4-b5
                           4.b7-b8=H #
                       3...Kc4-b4
+                          4.b7-b8=H #
+                  3.Sa8-b6 +
+                      3...Kc4-d2
+                          4.d7-d8=H #
+                      3...Kc4-e3
+                          4.e7-e8=H #
+                      3...Kc4-e5
+                          4.f6-f7 #
+                          4.e7-e8=H #
+                      3...Kc4-d6
+                          4.d7-d8=H #
+                      3...Kc4*b6
                           4.b7-b8=H #
               2...Kd3-e3
                   3.e7-e8=H #
@@ -295,10 +295,10 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
                   3.e7-e8=H #
 
 
-  add_to_move_generation_stack:      394186
-                     play_move:      293837
- is_white_king_square_attacked:       98026
- is_black_king_square_attacked:      212497
+  add_to_move_generation_stack:      385325
+                     play_move:      286185
+ is_white_king_square_attacked:       92392
+ is_black_king_square_attacked:      210647
 Loesung beendet. 
 
 

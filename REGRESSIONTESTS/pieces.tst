@@ -1059,28 +1059,28 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   +1                          5 + 3
 
-  1  (MPg7-g8=SI + )
-   1.MPg7-g8=SI + !
-
-  2  (MPg7-g8=TR )
-  3  (MPg7-g8=ND + )
-   1.MPg7-g8=ND + !
-
-  4  (MPg7-g8=MS )
-  5  (MPc6*d7-e8=SI )
-  6  (MPc6*d7-e8=TR )
-  7  (MPc6*d7-e8=ND )
-  8  (MPc6*d7-e8=MS )
-  9  (MPc6-c7 )
- 10  (b5-b6 + )
-   1.b5-b6 + !
-
- 11  (MPd3*e4-f5 )
- 12  (MPd3-d4 )
- 13  (MPb2-b4 )
- 14  (MPb2-b3 + )
+  1  (MPb2-b4 )
+  2  (MPb2-b3 + )
    1.MPb2-b3 + !
 
+  3  (MPd3*e4-f5 )
+  4  (MPd3-d4 )
+  5  (b5-b6 + )
+   1.b5-b6 + !
+
+  6  (MPc6*d7-e8=SI )
+  7  (MPc6*d7-e8=TR )
+  8  (MPc6*d7-e8=ND )
+  9  (MPc6*d7-e8=MS )
+ 10  (MPc6-c7 )
+ 11  (MPg7-g8=SI + )
+   1.MPg7-g8=SI + !
+
+ 12  (MPg7-g8=TR )
+ 13  (MPg7-g8=ND + )
+   1.MPg7-g8=ND + !
+
+ 14  (MPg7-g8=MS )
 
   add_to_move_generation_stack:           8
                      play_move:          14

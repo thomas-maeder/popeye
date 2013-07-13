@@ -238,10 +238,10 @@ moves in Maximummer+Imitator problems
                                               6...Rc8-c5[If1] #
 
 
-  add_to_move_generation_stack:       89246
-                     play_move:       36559
- is_white_king_square_attacked:       14365
- is_black_king_square_attacked:       29696
+  add_to_move_generation_stack:       89389
+                     play_move:       36659
+ is_white_king_square_attacked:       14411
+ is_black_king_square_attacked:       29776
 solution finished. 
 
 

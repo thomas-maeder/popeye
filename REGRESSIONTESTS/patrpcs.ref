@@ -62,7 +62,20 @@ solution finished.
   #2                        16 + 12
  Patrol e7 g7 d6 f6 d4 h4 e3 a2 d2 f1
 
-   1.pOKg7-f5 + ?
+   1.pCAd4*g3 ? threat:
+          2.pCAe7-d4 #
+      1...VAe4-d5
+          2.pOKh4*f1 #
+      1...PAb6-a6
+          2.pSe3*f1 #
+      1...pPAf6-f2
+          2.pOKg7*e4 #
+      1...VAb7-d5
+          2.pCAe7*h6 #
+    but
+      1...pOKa2-d4 !
+
+   1.pOKh4-f5 + ?
     but
       1...Bg4*f5 !
 
@@ -77,28 +90,15 @@ solution finished.
       1...VAb7-d5
           2.pOKg7*e4 #
 
-   1.pOKh4-f5 + ?
+   1.pOKg7-f5 + ?
     but
       1...Bg4*f5 !
 
-   1.pCAd4*g3 ? threat:
-          2.pCAe7-d4 #
-      1...VAe4-d5
-          2.pOKh4*f1 #
-      1...PAb6-a6
-          2.pSe3*f1 #
-      1...pPAf6-f2
-          2.pOKg7*e4 #
-      1...VAb7-d5
-          2.pCAe7*h6 #
-    but
-      1...pOKa2-d4 !
 
-
-  add_to_move_generation_stack:       51494
-                     play_move:       29066
- is_white_king_square_attacked:         949
- is_black_king_square_attacked:       28951
+  add_to_move_generation_stack:       51230
+                     play_move:       29273
+ is_white_king_square_attacked:         976
+ is_black_king_square_attacked:       29158
 solution finished. 
 
 

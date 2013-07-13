@@ -236,10 +236,10 @@ Bournemouth PCCC--Tagung Turnierbl"atter, 1989
           2.Lf5-e6 #
 
 
-  add_to_move_generation_stack:       46186
-                     play_move:       27940
- is_white_king_square_attacked:        1064
- is_black_king_square_attacked:       27943
+  add_to_move_generation_stack:       46507
+                     play_move:       27393
+ is_white_king_square_attacked:        1007
+ is_black_king_square_attacked:       27396
 Loesung beendet. 
 
 
@@ -307,21 +307,13 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        11 + 14
 
-   1.Ga8-a4 ? Drohung:
-          2.Ga4-a6 #
-      1...NHb3-f1
-          2.Le6*d7 #
-      1...NHd6-h4
-          2.Tc4*c5 #
+   1.Tc4*c5 + ?
     Aber
-      1...Ge7-c7 !
+      1...Ge7*c5 !
 
-   1.Ga8-c8 ! Drohung:
-          2.g7-g8=NH #
-      1...e5-e4
-          2.Le6-d5 #
-      1...NHd6-h4
-          2.Tc4*c5 #
+   1.Le6-d5 + ?
+    Aber
+      1...Gf5*d5 !
 
    1.g7-g8=S ? Drohung:
           2.Sg8*e7 #
@@ -341,19 +333,27 @@ Loesung beendet.
     Aber
       1...Ge7-c7 !
 
-   1.Le6-d5 + ?
+   1.Ga8-a4 ? Drohung:
+          2.Ga4-a6 #
+      1...NHb3-f1
+          2.Le6*d7 #
+      1...NHd6-h4
+          2.Tc4*c5 #
     Aber
-      1...Gf5*d5 !
+      1...Ge7-c7 !
 
-   1.Tc4*c5 + ?
-    Aber
-      1...Ge7*c5 !
+   1.Ga8-c8 ! Drohung:
+          2.g7-g8=NH #
+      1...e5-e4
+          2.Le6-d5 #
+      1...NHd6-h4
+          2.Tc4*c5 #
 
 
-  add_to_move_generation_stack:       15395
-                     play_move:       11407
- is_white_king_square_attacked:         711
- is_black_king_square_attacked:       11286
+  add_to_move_generation_stack:       15367
+                     play_move:       11399
+ is_white_king_square_attacked:         694
+ is_black_king_square_attacked:       11278
 Loesung beendet. 
 
 
@@ -508,39 +508,57 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        17 + 12
 
-   1.TLf8*f5 ? Drohung:
-          2.VAe5-d4 #
-          2.VAd5-c4 #
-          2.Sb4-a6 #
-      1...VAd1-e2
-          2.VAe5-d4 #
-      1...VAb3-c4
-          2.VAe5-d4 #
-      1...VAc3-d4
-          2.VAd5-c4 #
-          2.Sb4-a6 #
-          2.CAa3-d2 #
+   1.Se1-d3 + ?
+      1...Kc5-c4
+          2.VAf3-e2 #
     Aber
-      1...TLb8-h8 + !
+      1...VAg6*d3 !
 
-   1.VAe5-d4 ! Drohung:
-          2.TLf8*f5 #
-      1...EKf5-e4
-          2.CAa7-d8 #
-      1...EKf5-g4
-          2.CAa3-d2 #
-      1...EKf5-e6
+   1.CAa3-d2 + ?
+    Aber
+      1...Kc5-d4 !
+
+   1.VAf3-e4 ? Drohung:
           2.Se1-d3 #
-      1...EKf5-f4
-          2.Sb4-a6 #
-      1...EKf5-e5
-          2.Se1-d3 #
-      1...EKf5-f6
           2.Sb4-d3 #
           2.Sb4-a6 #
+      1...VAd1-g4
+          2.Sb4-a6 #
+      1...VAd1-e2
           2.Se1-d3 #
+          2.Sb4-d3 #
+      1...VAb3-c4
+          2.Se1-d3 #
+          2.Sb4-d3 #
+      1...VAc3-d4
+          2.Sb4-a6 #
+      1...EKf5*e4
+          2.CAa7-d8 #
+      1...EKf5-g4
+          2.Sb4-a6 #
+          2.CAa7-d8 #
+      1...EKf5-e6
+          2.Sb4-a6 #
+          2.CAa7-d8 #
+      1...EKf5-f4
+          2.CAa7-d8 #
+      1...EKf5*e5
+          2.Sb4-a6 #
+          2.CAa7-d8 #
+      1...EKf5-f6
+          2.Sb4-a6 #
+          2.CAa7-d8 #
       1...EKf5-g5
+          2.Sb4-a6 #
+          2.CAa7-d8 #
+      1...VAg6*e4
           2.Se1-d3 #
+    Aber
+      1...NLg8-d2 + !
+
+   1.Sb4-a6 + ?
+    Aber
+      1...Kc5*d5 !
 
    1.VAd5-c4 ? Drohung:
           2.TLf8*f5 #
@@ -561,63 +579,45 @@ Loesung beendet.
     Aber
       1...VAd1-e2 !
 
-   1.Sb4-a6 + ?
-    Aber
-      1...Kc5*d5 !
-
-   1.VAf3-e4 ? Drohung:
-          2.Sb4-d3 #
-          2.Sb4-a6 #
-          2.Se1-d3 #
-      1...VAd1-g4
-          2.Sb4-a6 #
-      1...VAd1-e2
-          2.Sb4-d3 #
-          2.Se1-d3 #
-      1...VAb3-c4
-          2.Sb4-d3 #
-          2.Se1-d3 #
-      1...VAc3-d4
-          2.Sb4-a6 #
-      1...EKf5*e4
+   1.VAe5-d4 ! Drohung:
+          2.TLf8*f5 #
+      1...EKf5-e4
           2.CAa7-d8 #
       1...EKf5-g4
-          2.CAa7-d8 #
-          2.Sb4-a6 #
+          2.CAa3-d2 #
       1...EKf5-e6
-          2.CAa7-d8 #
-          2.Sb4-a6 #
+          2.Se1-d3 #
       1...EKf5-f4
-          2.CAa7-d8 #
-      1...EKf5*e5
-          2.CAa7-d8 #
           2.Sb4-a6 #
+      1...EKf5-e5
+          2.Se1-d3 #
       1...EKf5-f6
-          2.CAa7-d8 #
+          2.Se1-d3 #
+          2.Sb4-d3 #
           2.Sb4-a6 #
       1...EKf5-g5
-          2.CAa7-d8 #
-          2.Sb4-a6 #
-      1...VAg6*e4
           2.Se1-d3 #
+
+   1.TLf8*f5 ? Drohung:
+          2.Sb4-a6 #
+          2.VAd5-c4 #
+          2.VAe5-d4 #
+      1...VAd1-e2
+          2.VAe5-d4 #
+      1...VAb3-c4
+          2.VAe5-d4 #
+      1...VAc3-d4
+          2.CAa3-d2 #
+          2.Sb4-a6 #
+          2.VAd5-c4 #
     Aber
-      1...NLg8-d2 + !
-
-   1.CAa3-d2 + ?
-    Aber
-      1...Kc5-d4 !
-
-   1.Se1-d3 + ?
-      1...Kc5-c4
-          2.VAf3-e2 #
-    Aber
-      1...VAg6*d3 !
+      1...TLb8-h8 + !
 
 
-  add_to_move_generation_stack:       33507
-                     play_move:       23407
- is_white_king_square_attacked:        1276
- is_black_king_square_attacked:       23267
+  add_to_move_generation_stack:       32018
+                     play_move:       21585
+ is_white_king_square_attacked:        1230
+ is_black_king_square_attacked:       21445
 Loesung beendet. 
 
 
@@ -647,9 +647,17 @@ Preis, Andernach-Grashoppers-Tourney 2000
   s#2                        7 + 12
  SprungbockFarbeWechselnd a8 g7 a4 g1
 
-   1.Th4-e4 + ?
+   1.Dg2-d2 + ?
     Aber
-      1...sGa8-f3[e4=s] + !
+      1...Ke3*d2 !
+
+   1.Dg2-f2 + ?
+    Aber
+      1...Ke3*f2 !
+
+   1.Sa3-c4 + ?
+    Aber
+      1...sGa4*c4[b4=s] !
 
    1.Tb4-b2 ? Drohung:
           2.Sa3-c4 +
@@ -669,23 +677,15 @@ Preis, Andernach-Grashoppers-Tourney 2000
     Aber
       1...sGg7-d7[e7=w] !
 
-   1.Sa3-c4 + ?
+   1.Th4-e4 + ?
     Aber
-      1...sGa4*c4[b4=s] !
-
-   1.Dg2-d2 + ?
-    Aber
-      1...Ke3*d2 !
-
-   1.Dg2-f2 + ?
-    Aber
-      1...Ke3*f2 !
+      1...sGa8-f3[e4=s] + !
 
 
-  add_to_move_generation_stack:      161430
-                     play_move:       29273
- is_white_king_square_attacked:       29159
- is_black_king_square_attacked:       15515
+  add_to_move_generation_stack:      176638
+                     play_move:       35957
+ is_white_king_square_attacked:       35843
+ is_black_king_square_attacked:       19524
 Loesung beendet. 
 
 
@@ -816,10 +816,10 @@ Lob, Andernach-Grashoppers-Tourney 2000
               2...sGa5-g5[f5=s] #
 
 
-  add_to_move_generation_stack:       72033
-                     play_move:       27833
- is_white_king_square_attacked:       27834
- is_black_king_square_attacked:       23941
+  add_to_move_generation_stack:       71693
+                     play_move:       27543
+ is_white_king_square_attacked:       27544
+ is_black_king_square_attacked:       23670
 Loesung beendet. 
 
 
@@ -922,9 +922,9 @@ Lob, Andernach-Grashoppers-Tourney 2000
 
 
   add_to_move_generation_stack:         374
-                     play_move:         323
- is_white_king_square_attacked:          71
- is_black_king_square_attacked:         323
+                     play_move:         337
+ is_white_king_square_attacked:          81
+ is_black_king_square_attacked:         337
 Loesung beendet. 
 
 
@@ -954,18 +954,25 @@ Loesung beendet.
   r#2                       14 + 11
 Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
 
-   1.LLh8-d4 ! Drohung:
-          2.MMd2-f6
+   1.MMd2-f6 ! Drohung:
+          2.LLf5-c2
               2...La7-b8 #
       1...e5-e4
-          2.MLd3-f7
+          2.LLh8-d4
               2...La7-b8 #
       1...pTb6-b8
+          2.MLd3-f7
+              2...Te7-e6 #
+
+   1.MLd3-f7 ! Drohung:
+          2.LLh8-d4
+              2...La7-b8 #
+      1...e5-e4
           2.LLf5-c2
-              2...Sc5-b7 #
-      1...La7-b8 +
-          2.MMe8-c7
-              2...Lb8*c7 #
+              2...La7-b8 #
+      1...pTb6-b8
+          2.MMd2-f6
+              2...Te7-e6 #
 
    1.LLf5-c2 ! Drohung:
           2.MLd3-f7
@@ -980,31 +987,24 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
           2.MMe8-c7
               2...Lb8*c7 #
 
-   1.MLd3-f7 ! Drohung:
-          2.LLh8-d4
-              2...La7-b8 #
-      1...e5-e4
-          2.LLf5-c2
-              2...La7-b8 #
-      1...pTb6-b8
+   1.LLh8-d4 ! Drohung:
           2.MMd2-f6
-              2...Te7-e6 #
-
-   1.MMd2-f6 ! Drohung:
-          2.LLf5-c2
               2...La7-b8 #
       1...e5-e4
-          2.LLh8-d4
+          2.MLd3-f7
               2...La7-b8 #
       1...pTb6-b8
-          2.MLd3-f7
-              2...Te7-e6 #
+          2.LLf5-c2
+              2...Sc5-b7 #
+      1...La7-b8 +
+          2.MMe8-c7
+              2...Lb8*c7 #
 
 
-  add_to_move_generation_stack:       13315
-                     play_move:        8779
- is_white_king_square_attacked:        7409
- is_black_king_square_attacked:        1624
+  add_to_move_generation_stack:       13656
+                     play_move:        9084
+ is_white_king_square_attacked:        7695
+ is_black_king_square_attacked:        1636
 Loesung beendet. 
 
 

@@ -26,12 +26,12 @@
              CirceParrain
          WeissesZwangsfeld f4
 
-   1.Ng6-f4 ! Drohung:
+   1.CRe1-f4 ! Drohung:
           2.b7-b8=CR #
       1...Nb2*f4
-          2.CRe1*f4[+wNg7] #
+          2.Tf2*f4[+wCRf6] #
       1...Ld6*f4
-          2.Tf2*f4[+wNf6] #
+          2.Ng6*f4[+wCRe2] #
 
    1.Tf2-f4 ! Drohung:
           2.b7-b8=CR #
@@ -40,18 +40,18 @@
       1...Ld6*f4
           2.CRe1*f4[+wTg7] #
 
-   1.CRe1-f4 ! Drohung:
+   1.Ng6-f4 ! Drohung:
           2.b7-b8=CR #
       1...Nb2*f4
-          2.Tf2*f4[+wCRf6] #
+          2.CRe1*f4[+wNg7] #
       1...Ld6*f4
-          2.Ng6*f4[+wCRe2] #
+          2.Tf2*f4[+wNf6] #
 
 
-  add_to_move_generation_stack:       14884
-                     play_move:        8980
- is_white_king_square_attacked:         516
- is_black_king_square_attacked:        8838
+  add_to_move_generation_stack:       28722
+                     play_move:       22893
+ is_white_king_square_attacked:        1842
+ is_black_king_square_attacked:       22753
 Loesung beendet. 
 
 

@@ -70,6 +70,12 @@ solution finished.
       1...Bh3*f5
           2.Rf7*f5 #
 
+   1.Ka1-d2 ? threat:
+          2.Re3-a5 #
+          2.Re3-c1 #
+    but
+      1...Sd1*e3 !
+
    1.Re3*f3 ! zugzwang.
       1...Sd1-e7
           2.Rf3-c1 #
@@ -88,17 +94,11 @@ solution finished.
       1...Bh3*f5
           2.Rf3*f5 #
 
-   1.Ka1-d2 ? threat:
-          2.Re3-a5 #
-          2.Re3-c1 #
-    but
-      1...Sd1*e3 !
 
-
-  add_to_move_generation_stack:        5559
-                     play_move:        1509
- is_white_king_square_attacked:         104
- is_black_king_square_attacked:        1498
+  add_to_move_generation_stack:        5370
+                     play_move:        1523
+ is_white_king_square_attacked:          93
+ is_black_king_square_attacked:        1512
 solution finished. 
 
 

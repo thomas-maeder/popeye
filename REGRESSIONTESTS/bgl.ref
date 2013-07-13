@@ -92,9 +92,9 @@ solution finished.
 
 
   add_to_move_generation_stack:        2292
-                     play_move:        1601
+                     play_move:        1606
  is_white_king_square_attacked:          82
- is_black_king_square_attacked:        1056
+ is_black_king_square_attacked:        1060
 solution finished. 
 
 
@@ -252,10 +252,10 @@ solution finished.
           2.nSh6-f7 (-/2.21) #
 
 
-  add_to_move_generation_stack:        4144
-                     play_move:        2940
- is_white_king_square_attacked:         226
- is_black_king_square_attacked:        2701
+  add_to_move_generation_stack:        4213
+                     play_move:        3032
+ is_white_king_square_attacked:         235
+ is_black_king_square_attacked:        2786
 solution finished. 
 
 
@@ -435,10 +435,10 @@ solution finished.
                       3...f3-f2 (1.01/2) #
 
 
-  add_to_move_generation_stack:      143202
-                     play_move:       74459
- is_white_king_square_attacked:       72858
- is_black_king_square_attacked:       43812
+  add_to_move_generation_stack:      142702
+                     play_move:       73348
+ is_white_king_square_attacked:       72360
+ is_black_king_square_attacked:       43334
 solution finished. 
 
 
@@ -499,10 +499,10 @@ solution finished.
           2.Qe8-c6 (3.17/1.76) #
 
 
-  add_to_move_generation_stack:        7983
-                     play_move:        4634
- is_white_king_square_attacked:         441
- is_black_king_square_attacked:        3860
+  add_to_move_generation_stack:        7794
+                     play_move:        4662
+ is_white_king_square_attacked:         434
+ is_black_king_square_attacked:        3868
 solution finished. 
 
 
@@ -539,20 +539,20 @@ a)
           2.Kd7-c7 (1/0.59) #
 
 
-  add_to_move_generation_stack:         643
-                     play_move:         559
- is_white_king_square_attacked:          47
- is_black_king_square_attacked:         353
+  add_to_move_generation_stack:         670
+                     play_move:         579
+ is_white_king_square_attacked:          48
+ is_black_king_square_attacked:         361
 b) BGL 8
 
    1.Kd7-c7 (7) ! threat:
           2.Rb5-a5 (6) #
 
 
-  add_to_move_generation_stack:         756
-                     play_move:         599
- is_white_king_square_attacked:          70
- is_black_king_square_attacked:         552
+  add_to_move_generation_stack:         754
+                     play_move:         589
+ is_white_king_square_attacked:          71
+ is_black_king_square_attacked:         540
 solution finished. 
 
 
@@ -619,33 +619,13 @@ solution finished.
   #2                          2 + 1
                BGL 8/2
 
-   1.Kd7-c8 (6.59/2) ? zugzwang.
-    but
-      1...Ka8-a7 (6.59/1) !
-
-   1.Kd7-d6 (7/2) ? zugzwang.
-    but
-      1...Ka8-a7 (7/1) !
-
-   1.Kd7-c7 (7/2) ? zugzwang.
-    but
-      1...Ka8-a7 (7/1) !
-
-   1.Kd7-d8 (7/2) ? zugzwang.
-    but
-      1...Ka8-a7 (7/1) !
-
-   1.Kd7-e7 (7/2) ? zugzwang.
-    but
-      1...Ka8-a7 (7/1) !
-
    1.Rb1-a1 (7/2) + ?
       1...Ka8-b7 (7/0.59)
+          2.Ra1-a7 (1/0.59) #
+          2.Ra1-b1 (6/0.59) #
           2.Kd7-c6 (5.59/0.59) #
           2.Kd7-c8 (5.59/0.59) #
           2.Kd7-c7 (6/0.59) #
-          2.Ra1-a7 (1/0.59) #
-          2.Ra1-b1 (6/0.59) #
     but
       1...Ka8-b8 (7/1) !
 
@@ -673,11 +653,31 @@ solution finished.
     but
       1...Ka8-a7 (7/1) !
 
+   1.Kd7-c8 (6.59/2) ? zugzwang.
+    but
+      1...Ka8-a7 (6.59/1) !
+
+   1.Kd7-d6 (7/2) ? zugzwang.
+    but
+      1...Ka8-a7 (7/1) !
+
+   1.Kd7-c7 (7/2) ? zugzwang.
+    but
+      1...Ka8-a7 (7/1) !
+
+   1.Kd7-d8 (7/2) ? zugzwang.
+    but
+      1...Ka8-a7 (7/1) !
+
+   1.Kd7-e7 (7/2) ? zugzwang.
+    but
+      1...Ka8-a7 (7/1) !
+
 
   add_to_move_generation_stack:        1529
-                     play_move:        1325
+                     play_move:        1326
  is_white_king_square_attacked:         106
- is_black_king_square_attacked:        1054
+ is_black_king_square_attacked:        1055
 solution finished. 
 
 

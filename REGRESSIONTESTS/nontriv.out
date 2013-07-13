@@ -24,15 +24,56 @@
 +---a---b---c---d---e---f---g---h---+
   s#24;1,0                    6 + 9
 
-  1  (Nf7-b5 )
-  2  (Nf7-d6 )
-  3  (Nf7-d3 + )
-  4  (Nf7-e5 )
-  5  (Nf7-h3 )
-  6  (Nf7-g5 )
-  7  (Nf7-h6 )
-  8  (Nf7-h8 )
-  9  (Nf7-d8 + )
+  1  (Tc1-a1 )
+  2  (Tc1-b1 )
+  3  (Tc1*c8 )
+  4  (Tc1-c7 )
+  5  (Tc1-c6 )
+  6  (Tc1-c5 )
+  7  (Tc1-c4 + )
+  8  (Tc1-c3 )
+  9  (Tc1-c2 )
+ 10  (Tc1*e1 )
+ 11  (Tc1-d1 )
+ 12  (Ka2-b1 )
+ 13  (Ka2-b3 + )
+ 14  (Ka2-a1 )
+ 15  (Lb2-a1 )
+ 16  (Lb2-h8 )
+ 17  (Lb2-g7 )
+ 18  (Lb2-f6 )
+ 19  (Lb2-e5 )
+ 20  (Lb2-d4 )
+ 21  (Lb2-c3 + )
+ 22  (Ta3*a6 )
+ 23  (Ta3-a5 )
+ 24  (Ta3-a4 + )
+ 25  (Ta3-h3 )
+ 26  (Ta3-g3 )
+ 27  (Ta3-f3 )
+ 28  (Ta3-e3 )
+ 29  (Ta3-d3 )
+ 30  (Ta3-c3 )
+ 31  (Ta3-b3 + )
+ 32  (Ld5-b3 )
+ 33  (Ld5-c4 )
+ 34  (Ld5-h1 )
+ 35  (Ld5-g2 )
+ 36  (Ld5-f3 )
+ 37  (Ld5-e4 )
+ 38  (Ld5-e6 )
+ 39  (Ld5-a8 )
+ 40  (Ld5-b7 )
+ 41  (Ld5-c6 )
+ 42  (Nf7-b5 )
+ 43  (Nf7-d6 )
+ 44  (Nf7-d3 + )
+ 45  (Nf7-e5 )
+ 46  (Nf7-h3 )
+ 47  (Nf7-g5 )
+ 48  (Nf7-h6 )
+ 49  (Nf7-h8 )
+ 50  (Nf7-d8 + )
    1.Nf7-d8 + !
       1...Kb4-b5
           2.Ld5-c6 +
@@ -109,52 +150,11 @@
                                                                                                                                                                                          24.Tc1-b1 +
                                                                                                                                                                                              24...De1*b1 #
 
- 10  (Ld5-b3 )
- 11  (Ld5-c4 )
- 12  (Ld5-h1 )
- 13  (Ld5-g2 )
- 14  (Ld5-f3 )
- 15  (Ld5-e4 )
- 16  (Ld5-e6 )
- 17  (Ld5-a8 )
- 18  (Ld5-b7 )
- 19  (Ld5-c6 )
- 20  (Ta3*a6 )
- 21  (Ta3-a5 )
- 22  (Ta3-a4 + )
- 23  (Ta3-h3 )
- 24  (Ta3-g3 )
- 25  (Ta3-f3 )
- 26  (Ta3-e3 )
- 27  (Ta3-d3 )
- 28  (Ta3-c3 )
- 29  (Ta3-b3 + )
- 30  (Lb2-a1 )
- 31  (Lb2-h8 )
- 32  (Lb2-g7 )
- 33  (Lb2-f6 )
- 34  (Lb2-e5 )
- 35  (Lb2-d4 )
- 36  (Lb2-c3 + )
- 37  (Ka2-b1 )
- 38  (Ka2-b3 + )
- 39  (Ka2-a1 )
- 40  (Tc1-a1 )
- 41  (Tc1-b1 )
- 42  (Tc1*c8 )
- 43  (Tc1-c7 )
- 44  (Tc1-c6 )
- 45  (Tc1-c5 )
- 46  (Tc1-c4 + )
- 47  (Tc1-c3 )
- 48  (Tc1-c2 )
- 49  (Tc1*e1 )
- 50  (Tc1-d1 )
 
-  add_to_move_generation_stack:    29600090
-                     play_move:    20006961
- is_white_king_square_attacked:    17087949
- is_black_king_square_attacked:    14702794
+  add_to_move_generation_stack:    26884652
+                     play_move:    18197047
+ is_white_king_square_attacked:    15530705
+ is_black_king_square_attacked:    13355985
 Loesung beendet. 
 
 
@@ -184,37 +184,25 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#25;0,0                    6 + 9
 
-  1  (Nd8-b7 )
-  2  (Nd8-a2 )
-  3  (Nd8-b4 )
-  4  (Nd8-c6 + )
-  5  (Nd8-g2 )
-  6  (Nd8-f4 )
-  7  (Nd8-e6 )
-  8  (Nd8-h6 + )
-  9  (Nd8-f7 )
- 10  (Le7-d6 )
- 11  (Le7-h4 )
- 12  (Le7-g5 )
- 13  (Le7-f6 )
- 14  (Le7-f8 )
- 15  (Tc5*c3 )
- 16  (Tc5-c4 )
- 17  (Tc5*b5 )
- 18  (Tc5-c8 )
- 19  (Tc5-c7 )
- 20  (Tc5-c6 )
- 21  (Tc5-h5 )
- 22  (Tc5-g5 + )
- 23  (Tc5-f5 )
- 24  (Tc5-e5 )
- 25  (Tc5-d5 )
- 26  (Lb3-a2 )
- 27  (Lb3-d1 + )
- 28  (Lb3-c2 )
- 29  (Lb3-g8 )
- 30  (Lb3-f7 )
- 31  (Lb3-e6 + )
+  1  (Ng1*h3 )
+  2  (Ng1-d7 )
+  3  (Ng1-e5 + )
+  4  (Ng1-f3 )
+  5  (Ng1*c3 )
+  6  (Ng1-e2 )
+  7  (Kf2-e1 )
+  8  (Kf2-g3 + )
+  9  (Kf2-e3 )
+ 10  (Kf2-f1 )
+ 11  (Kf2-e2 )
+ 12  (Kf2-f3 + )
+ 13  (Kf2-g2 )
+ 14  (Lb3-a2 )
+ 15  (Lb3-d1 + )
+ 16  (Lb3-c2 )
+ 17  (Lb3-g8 )
+ 18  (Lb3-f7 )
+ 19  (Lb3-e6 + )
    1.Lb3-e6 + !
       1...Kg4-f4
           2.Le6-f7 +
@@ -266,27 +254,39 @@ Loesung beendet.
                                                                                                                                                                                                  25.Lb3-d1 +
                                                                                                                                                                                                      25...Nb5*d1 #
 
- 32  (Lb3-d5 )
- 33  (Lb3-c4 )
- 34  (Lb3-a4 )
- 35  (Kf2-e1 )
- 36  (Kf2-g3 + )
- 37  (Kf2-e3 )
- 38  (Kf2-f1 )
- 39  (Kf2-e2 )
- 40  (Kf2-f3 + )
- 41  (Kf2-g2 )
- 42  (Ng1*h3 )
- 43  (Ng1-d7 )
- 44  (Ng1-e5 + )
- 45  (Ng1-f3 )
- 46  (Ng1*c3 )
- 47  (Ng1-e2 )
+ 20  (Lb3-d5 )
+ 21  (Lb3-c4 )
+ 22  (Lb3-a4 )
+ 23  (Tc5*c3 )
+ 24  (Tc5-c4 )
+ 25  (Tc5*b5 )
+ 26  (Tc5-c8 )
+ 27  (Tc5-c7 )
+ 28  (Tc5-c6 )
+ 29  (Tc5-h5 )
+ 30  (Tc5-g5 + )
+ 31  (Tc5-f5 )
+ 32  (Tc5-e5 )
+ 33  (Tc5-d5 )
+ 34  (Le7-d6 )
+ 35  (Le7-h4 )
+ 36  (Le7-g5 )
+ 37  (Le7-f6 )
+ 38  (Le7-f8 )
+ 39  (Nd8-b7 )
+ 40  (Nd8-a2 )
+ 41  (Nd8-b4 )
+ 42  (Nd8-c6 + )
+ 43  (Nd8-g2 )
+ 44  (Nd8-f4 )
+ 45  (Nd8-e6 )
+ 46  (Nd8-h6 + )
+ 47  (Nd8-f7 )
 
-  add_to_move_generation_stack:   158530854
-                     play_move:   109631491
- is_white_king_square_attacked:    96933504
- is_black_king_square_attacked:    78065714
+  add_to_move_generation_stack:   156197590
+                     play_move:   108291748
+ is_white_king_square_attacked:    95745518
+ is_black_king_square_attacked:    76885274
 Loesung beendet. 
 
 
@@ -315,12 +315,45 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#23;0,0                    5 + 8
 
-  1  (Nc6-a2 )
-  2  (Nc6-b4 )
-  3  (Nc6-e2 )
-  4  (Nc6-d4 )
-  5  (Nc6-g4 )
-  6  (Nc6-e5 + )
+  1  (Tc1*b1 )
+  2  (Tc1-c5 )
+  3  (Tc1-c4 )
+  4  (Tc1-c3 + )
+  5  (Tc1-c2 )
+  6  (Tc1*g1 )
+  7  (Tc1-f1 )
+  8  (Tc1-e1 )
+  9  (Tc1-d1 )
+ 10  (Kh2*g1 )
+ 11  (Kh2-g3 )
+ 12  (Kh2-h1 )
+ 13  (Kh2-g2 )
+ 14  (Kh2-h3 )
+ 15  (Tf4-f1 )
+ 16  (Tf4-f2 )
+ 17  (Tf4-f3 + )
+ 18  (Tf4*a4 + )
+ 19  (Tf4-b4 )
+ 20  (Tf4-c4 )
+ 21  (Tf4-d4 )
+ 22  (Tf4-e4 )
+ 23  (Tf4-f8 )
+ 24  (Tf4-f7 )
+ 25  (Tf4-f6 )
+ 26  (Tf4-f5 )
+ 27  (Tf4-h4 )
+ 28  (Tf4-g4 )
+ 29  (Na5-b3 )
+ 30  (Na5-g2 )
+ 31  (Na5-e3 )
+ 32  (Na5-c4 + )
+ 33  (Na5-b7 )
+ 34  (Nc6-a2 )
+ 35  (Nc6-b4 )
+ 36  (Nc6-e2 )
+ 37  (Nc6-d4 )
+ 38  (Nc6-g4 )
+ 39  (Nc6-e5 + )
    1.Nc6-e5 + !
       1...Ka3-a2
           2.Na5-c6 +
@@ -368,49 +401,16 @@ Loesung beendet.
                                                                                                                                                                                  23.Tf4-f3 +
                                                                                                                                                                                      23...Sg1*f3 #
 
-  7  (Nc6*g8 )
-  8  (Nc6-e7 )
-  9  (Nc6-d8 )
- 10  (Nc6-b8 )
- 11  (Nc6-a7 )
- 12  (Na5-b3 )
- 13  (Na5-g2 )
- 14  (Na5-e3 )
- 15  (Na5-c4 + )
- 16  (Na5-b7 )
- 17  (Tf4-f1 )
- 18  (Tf4-f2 )
- 19  (Tf4-f3 + )
- 20  (Tf4*a4 + )
- 21  (Tf4-b4 )
- 22  (Tf4-c4 )
- 23  (Tf4-d4 )
- 24  (Tf4-e4 )
- 25  (Tf4-f8 )
- 26  (Tf4-f7 )
- 27  (Tf4-f6 )
- 28  (Tf4-f5 )
- 29  (Tf4-h4 )
- 30  (Tf4-g4 )
- 31  (Kh2*g1 )
- 32  (Kh2-g3 )
- 33  (Kh2-h1 )
- 34  (Kh2-g2 )
- 35  (Kh2-h3 )
- 36  (Tc1*b1 )
- 37  (Tc1-c5 )
- 38  (Tc1-c4 )
- 39  (Tc1-c3 + )
- 40  (Tc1-c2 )
- 41  (Tc1*g1 )
- 42  (Tc1-f1 )
- 43  (Tc1-e1 )
- 44  (Tc1-d1 )
+ 40  (Nc6*g8 )
+ 41  (Nc6-e7 )
+ 42  (Nc6-d8 )
+ 43  (Nc6-b8 )
+ 44  (Nc6-a7 )
 
-  add_to_move_generation_stack:     1437075
-                     play_move:     1110540
- is_white_king_square_attacked:      940703
- is_black_king_square_attacked:      757122
+  add_to_move_generation_stack:     1430299
+                     play_move:     1106249
+ is_white_king_square_attacked:      935655
+ is_black_king_square_attacked:      758115
 Loesung beendet. 
 
 
@@ -440,13 +440,27 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#21;0,0                   6 + 12
 
-  1  (Lf8*d6 )
-  2  (Lf8-e7 )
-  3  (Ke8*d7 )
-  4  (Ke8-f7 )
-  5  (Ke8-e7 )
-  6  (Ke8*d8 )
-  7  (Tg7-g6 + )
+  1  (EQf4-b6 )
+  2  (EQf4-f6 + )
+  3  (EQf4-b8 )
+  4  (EQf4-h6 )
+  5  (Lf5-b1 )
+  6  (Lf5-c2 )
+  7  (Lf5-d3 )
+  8  (Lf5-e4 )
+  9  (Lf5-h3 )
+ 10  (Lf5-g4 )
+ 11  (Lf5-h7 )
+ 12  (Lf5-g6 + )
+ 13  (Lf5*d7 )
+ 14  (Lf5-e6 )
+ 15  (Tg5-g1 )
+ 16  (Tg5-g2 )
+ 17  (Tg5-g3 )
+ 18  (Tg5-g4 )
+ 19  (Tg5-g6 + )
+ 20  (Tg5-h5 + )
+ 21  (Tg7-g6 + )
    1.Tg7-g6 + !
       1...Kh8-h7
           2.Tg6-f6 +
@@ -490,36 +504,22 @@ Loesung beendet.
                                                                                                                                                                  21.EQf4-f6 +
                                                                                                                                                                      21...Sd7*f6 #
 
-  8  (Tg7*d7 )
-  9  (Tg7-e7 )
- 10  (Tg7-f7 )
- 11  (Tg7-g8 + )
- 12  (Tg7-h7 + )
- 13  (Tg5-g1 )
- 14  (Tg5-g2 )
- 15  (Tg5-g3 )
- 16  (Tg5-g4 )
- 17  (Tg5-g6 + )
- 18  (Tg5-h5 + )
- 19  (Lf5-b1 )
- 20  (Lf5-c2 )
- 21  (Lf5-d3 )
- 22  (Lf5-e4 )
- 23  (Lf5-h3 )
- 24  (Lf5-g4 )
- 25  (Lf5-h7 )
- 26  (Lf5-g6 + )
- 27  (Lf5*d7 )
- 28  (Lf5-e6 )
- 29  (EQf4-b6 )
- 30  (EQf4-f6 + )
- 31  (EQf4-b8 )
- 32  (EQf4-h6 )
+ 22  (Tg7*d7 )
+ 23  (Tg7-e7 )
+ 24  (Tg7-f7 )
+ 25  (Tg7-g8 + )
+ 26  (Tg7-h7 + )
+ 27  (Ke8*d7 )
+ 28  (Ke8-f7 )
+ 29  (Ke8-e7 )
+ 30  (Ke8*d8 )
+ 31  (Lf8*d6 )
+ 32  (Lf8-e7 )
 
-  add_to_move_generation_stack:    17206526
-                     play_move:    11331406
- is_white_king_square_attacked:     9122701
- is_black_king_square_attacked:     8290458
+  add_to_move_generation_stack:    17511072
+                     play_move:    11506180
+ is_white_king_square_attacked:     9273843
+ is_black_king_square_attacked:     8379230
 Loesung beendet. 
 
 
@@ -548,39 +548,32 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#23;0,0                    7 + 8
 
-  1  (Le6-a2 )
-  2  (Le6-b3 )
-  3  (Le6-c4 )
-  4  (Le6-d5 )
-  5  (Le6-h3 )
-  6  (Le6-g4 + )
-  7  (Le6-f5 )
-  8  (Le6-g8 )
-  9  (Le6-f7 )
- 10  (Le6-c8 )
- 11  (Le6-d7 )
- 12  (Ge4-e1 + )
- 13  (Ge4-c4 )
- 14  (Ge4-e7 )
- 15  (Sd4-b3 )
- 16  (Sd4-c2 )
- 17  (Sd4-f3 + )
- 18  (Sd4-f5 + )
- 19  (Sd4-c6 )
- 20  (Sd4-b5 )
- 21  (Tg3-g1 )
- 22  (Tg3-g2 )
- 23  (Tg3-a3 )
- 24  (Tg3-b3 )
- 25  (Tg3-c3 )
- 26  (Tg3-d3 )
- 27  (Tg3-e3 )
- 28  (Tg3-f3 )
- 29  (Tg3-g8 )
- 30  (Tg3-g7 )
- 31  (Tg3-g6 )
- 32  (Tg3-g5 )
- 33  (Tg3-g4 + )
+  1  (Lc1*h6 )
+  2  (Lc1-g5 + )
+  3  (Lc1-f4 )
+  4  (Lc1-e3 )
+  5  (Lc1-d2 )
+  6  (Lc1-a3 )
+  7  (Lc1-b2 )
+  8  (Kd1-c2 )
+  9  (Kd1-d2 )
+ 10  (Kd1-e1 )
+ 11  (Se2-g1 )
+ 12  (Se2-f4 )
+ 13  (Se2-c3 )
+ 14  (Tg3-g1 )
+ 15  (Tg3-g2 )
+ 16  (Tg3-a3 )
+ 17  (Tg3-b3 )
+ 18  (Tg3-c3 )
+ 19  (Tg3-d3 )
+ 20  (Tg3-e3 )
+ 21  (Tg3-f3 )
+ 22  (Tg3-g8 )
+ 23  (Tg3-g7 )
+ 24  (Tg3-g6 )
+ 25  (Tg3-g5 )
+ 26  (Tg3-g4 + )
    1.Tg3-g4 + !
       1...Kh4-h3
           2.Tg4-g1 +
@@ -628,25 +621,32 @@ Loesung beendet.
                                                                                                                                                                                  23.Ge4-e1 +
                                                                                                                                                                                      23...Sh1-f2 #
 
- 34  (Tg3-h3 + )
- 35  (Se2-g1 )
- 36  (Se2-f4 )
- 37  (Se2-c3 )
- 38  (Kd1-c2 )
- 39  (Kd1-d2 )
- 40  (Kd1-e1 )
- 41  (Lc1*h6 )
- 42  (Lc1-g5 + )
- 43  (Lc1-f4 )
- 44  (Lc1-e3 )
- 45  (Lc1-d2 )
- 46  (Lc1-a3 )
- 47  (Lc1-b2 )
+ 27  (Tg3-h3 + )
+ 28  (Sd4-b3 )
+ 29  (Sd4-c2 )
+ 30  (Sd4-f3 + )
+ 31  (Sd4-f5 + )
+ 32  (Sd4-c6 )
+ 33  (Sd4-b5 )
+ 34  (Ge4-e1 + )
+ 35  (Ge4-c4 )
+ 36  (Ge4-e7 )
+ 37  (Le6-a2 )
+ 38  (Le6-b3 )
+ 39  (Le6-c4 )
+ 40  (Le6-d5 )
+ 41  (Le6-h3 )
+ 42  (Le6-g4 + )
+ 43  (Le6-f5 )
+ 44  (Le6-g8 )
+ 45  (Le6-f7 )
+ 46  (Le6-c8 )
+ 47  (Le6-d7 )
 
-  add_to_move_generation_stack:    12833088
-                     play_move:     9791861
- is_white_king_square_attacked:     8022374
- is_black_king_square_attacked:     7101947
+  add_to_move_generation_stack:    12753951
+                     play_move:     9850224
+ is_white_king_square_attacked:     8076732
+ is_black_king_square_attacked:     7143911
 Loesung beendet. 
 
 
@@ -675,48 +675,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#21;0,0                    6 + 6
 
-  1  (Lh6-c1 )
-  2  (Lh6-d2 )
-  3  (Lh6-e3 )
-  4  (Lh6-f4 )
-  5  (Lh6-g5 )
-  6  (Lh6-f8 )
-  7  (Lh6-g7 )
-  8  (Ke5-d4 + )
-  9  (Ke5-f4 )
- 10  (Ke5-f6 )
- 11  (Ke5-d6 )
- 12  (Ke5-e4 + )
- 13  (Ke5-e6 )
- 14  (Ke5-f5 )
- 15  (Sd5-b4 + )
- 16  (Sd5-c3 )
- 17  (Sd5-e3 )
- 18  (Sd5-f4 + )
- 19  (Sd5-f6 )
- 20  (Sd5-e7 )
- 21  (Sd5-c7 )
- 22  (Sd5-b6 )
- 23  (Tf2-f1 )
- 24  (Tf2-c2 )
- 25  (Tf2-d2 + )
- 26  (Tf2-e2 )
- 27  (Tf2-f8 )
- 28  (Tf2-f7 )
- 29  (Tf2-f6 )
- 30  (Tf2-f5 )
- 31  (Tf2-f4 )
- 32  (Tf2-f3 + )
- 33  (Tf2*h2 )
- 34  (Tf2-g2 )
- 35  (Tb2-b1 )
- 36  (Tb2*b5 )
- 37  (Tb2-b4 )
- 38  (Tb2-b3 + )
- 39  (Tb2-e2 )
- 40  (Tb2-d2 + )
- 41  (Tb2-c2 )
- 42  (La2-b1 + )
+  1  (La2-b1 + )
    1.La2-b1 + !
       1...Kd3-c4
           2.Sd5-e3 +
@@ -760,13 +719,54 @@ Loesung beendet.
                                                                                                                                                                  21.Tf2-f3 +
                                                                                                                                                                      21...Sh2*f3 #
 
- 43  (La2-c4 + )
- 44  (La2-b3 )
+  2  (La2-c4 + )
+  3  (La2-b3 )
+  4  (Tb2-b1 )
+  5  (Tb2*b5 )
+  6  (Tb2-b4 )
+  7  (Tb2-b3 + )
+  8  (Tb2-e2 )
+  9  (Tb2-d2 + )
+ 10  (Tb2-c2 )
+ 11  (Tf2-f1 )
+ 12  (Tf2-c2 )
+ 13  (Tf2-d2 + )
+ 14  (Tf2-e2 )
+ 15  (Tf2-f8 )
+ 16  (Tf2-f7 )
+ 17  (Tf2-f6 )
+ 18  (Tf2-f5 )
+ 19  (Tf2-f4 )
+ 20  (Tf2-f3 + )
+ 21  (Tf2*h2 )
+ 22  (Tf2-g2 )
+ 23  (Sd5-b4 + )
+ 24  (Sd5-c3 )
+ 25  (Sd5-e3 )
+ 26  (Sd5-f4 + )
+ 27  (Sd5-f6 )
+ 28  (Sd5-e7 )
+ 29  (Sd5-c7 )
+ 30  (Sd5-b6 )
+ 31  (Ke5-d4 + )
+ 32  (Ke5-f4 )
+ 33  (Ke5-f6 )
+ 34  (Ke5-d6 )
+ 35  (Ke5-e4 + )
+ 36  (Ke5-e6 )
+ 37  (Ke5-f5 )
+ 38  (Lh6-c1 )
+ 39  (Lh6-d2 )
+ 40  (Lh6-e3 )
+ 41  (Lh6-f4 )
+ 42  (Lh6-g5 )
+ 43  (Lh6-f8 )
+ 44  (Lh6-g7 )
 
-  add_to_move_generation_stack:     4161011
-                     play_move:     2659955
- is_white_king_square_attacked:     2314964
- is_black_king_square_attacked:     1849082
+  add_to_move_generation_stack:     4172664
+                     play_move:     2668204
+ is_white_king_square_attacked:     2321845
+ is_black_king_square_attacked:     1858290
 Loesung beendet. 
 
 
@@ -795,17 +795,24 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #15;5,0                   10 + 15
 
-  1  (Ld8*c7 + )
-  2  (Ld8*e7 )
-  3  (Se4-c3 )
-  4  (Se4-d2 )
-  5  (Se4-f2 )
-  6  (Se4-g3 )
-  7  (Se4-g5 )
-  8  (Se4*f6 )
-  9  (Se4-d6 )
- 10  (Se4*c5 )
- 11  (a3-a4 )
+  1  (b2-b4 )
+  2  (b2-b3 )
+  3  (Sc2-a1 )
+  4  (Sc2-e1 )
+  5  (Sc2-e3 )
+  6  (Sc2-d4 )
+  7  (Sc2-b4 )
+  8  (Ke2-d1 )
+  9  (Ke2-f1 )
+ 10  (Ke2-f3 )
+ 11  (Ke2-d3 )
+ 12  (Ke2-e1 )
+ 13  (Ke2-d2 )
+ 14  (Ke2-e3 )
+ 15  (Ke2-f2 )
+ 16  (g2-g4 )
+ 17  (g2-g3 )
+ 18  (a3-a4 )
    1.a3-a4 !
       1...f5*e4
           2.Sc2-e3
@@ -850,28 +857,21 @@ Loesung beendet.
                                                                                                              14...f4-f3
                                                                                                                  15.Sd6-c8 #
 
- 12  (g2-g4 )
- 13  (g2-g3 )
- 14  (Ke2-d1 )
- 15  (Ke2-f1 )
- 16  (Ke2-f3 )
- 17  (Ke2-d3 )
- 18  (Ke2-e1 )
- 19  (Ke2-d2 )
- 20  (Ke2-e3 )
- 21  (Ke2-f2 )
- 22  (Sc2-a1 )
- 23  (Sc2-e1 )
- 24  (Sc2-e3 )
- 25  (Sc2-d4 )
- 26  (Sc2-b4 )
- 27  (b2-b4 )
- 28  (b2-b3 )
+ 19  (Se4-c3 )
+ 20  (Se4-d2 )
+ 21  (Se4-f2 )
+ 22  (Se4-g3 )
+ 23  (Se4-g5 )
+ 24  (Se4*f6 )
+ 25  (Se4-d6 )
+ 26  (Se4*c5 )
+ 27  (Ld8*c7 + )
+ 28  (Ld8*e7 )
 
-  add_to_move_generation_stack:     4332303
-                     play_move:     2789716
- is_white_king_square_attacked:      987132
- is_black_king_square_attacked:     2223425
+  add_to_move_generation_stack:     5556677
+                     play_move:     3715355
+ is_white_king_square_attacked:     1299988
+ is_black_king_square_attacked:     2978496
 Loesung beendet. 
 
 

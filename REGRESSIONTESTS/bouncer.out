@@ -84,6 +84,42 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                         12 + 6
 
+   1.g3-g4 ? Zugzwang.
+      1...B1a3-b3
+          2.B1b5-b7 #
+      1...B1a3-a4
+          2.B1b5-c6 #
+      1...B1a3-b2
+          2.B1b5-b8 #
+      1...B1a3-b4
+          2.B1b5-b6 #
+      1...B1g5-f5
+          2.B1f6*f7 #
+      1...B1g5-h4
+          2.B1f6-d8 #
+      1...e6-e5
+          2.B1f6-c6 #
+    Aber
+      1...B1g5-g6 !
+
+   1.B1f6-e7 ? Drohung:
+          2.B1b5-d7 #
+      1...B1a3-a4
+          2.B1b5-c6 #
+    Aber
+      1...B1g5*e7 !
+
+   1.Ta8-b8 ? Drohung:
+          2.Tb8-b7 #
+    Aber
+      1...Kc7*b8 !
+
+   1.Lc8-a6 ? Drohung:
+          2.Ta8-c8 #
+          2.Tg8-c8 #
+    Aber
+      1...B1a3-a4 !
+
    1.Tg8-d8 ? Drohung:
           2.Td8-d7 #
     Aber
@@ -119,8 +155,8 @@ Loesung beendet.
       1...B1g5-f5
           2.B1f6*f7 #
       1...B1g5-h4
-          2.Tf8*f7 #
           2.B1f6-d8 #
+          2.Tf8*f7 #
       1...e6-e5
           2.B1f6-c6 #
     Aber
@@ -144,47 +180,11 @@ Loesung beendet.
       1...e6-e5
           2.B1f6-c6 #
 
-   1.Lc8-a6 ? Drohung:
-          2.Tg8-c8 #
-          2.Ta8-c8 #
-    Aber
-      1...B1a3-a4 !
 
-   1.Ta8-b8 ? Drohung:
-          2.Tb8-b7 #
-    Aber
-      1...Kc7*b8 !
-
-   1.B1f6-e7 ? Drohung:
-          2.B1b5-d7 #
-      1...B1a3-a4
-          2.B1b5-c6 #
-    Aber
-      1...B1g5*e7 !
-
-   1.g3-g4 ? Zugzwang.
-      1...B1a3-b3
-          2.B1b5-b7 #
-      1...B1a3-a4
-          2.B1b5-c6 #
-      1...B1a3-b2
-          2.B1b5-b8 #
-      1...B1a3-b4
-          2.B1b5-b6 #
-      1...B1g5-f5
-          2.B1f6*f7 #
-      1...B1g5-h4
-          2.B1f6-d8 #
-      1...e6-e5
-          2.B1f6-c6 #
-    Aber
-      1...B1g5-g6 !
-
-
-  add_to_move_generation_stack:        9983
-                     play_move:        7015
- is_white_king_square_attacked:         406
- is_black_king_square_attacked:        6918
+  add_to_move_generation_stack:        9978
+                     play_move:        6861
+ is_white_king_square_attacked:         462
+ is_black_king_square_attacked:        6764
 Loesung beendet. 
 
 
@@ -312,8 +312,8 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#4                         3 + 2
 
-  1...Kc5-b4   2.B1c2-b1 Kb4-b3   3.Kd3-d2 B1c4-d5   4.Kd2-c1 Ld6-f4 #
   1...B1c4-b5 +   2.Kd3-c3 B1b5-b1   3.Kc3-b3 Kc5-b6   4.Kb3-a4 B1b1-a2 #
+  1...Kc5-b4   2.B1c2-b1 Kb4-b3   3.Kd3-d2 B1c4-d5   4.Kd2-c1 Ld6-f4 #
 
   add_to_move_generation_stack:    10212148
                      play_move:     8182536

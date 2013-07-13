@@ -37,10 +37,10 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
           2.kLd3*e2[-wkLe2][+wkLf1][+skBe7] #
 
 
-  add_to_move_generation_stack:       17553
-                     play_move:       10030
- is_white_king_square_attacked:         496
- is_black_king_square_attacked:       10033
+  add_to_move_generation_stack:       15074
+                     play_move:        9088
+ is_white_king_square_attacked:         436
+ is_black_king_square_attacked:        9091
 Loesung beendet. 
 
 
@@ -90,10 +90,10 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
           2.kBb7*c8=kS[-wkSc8][+wkSb1][+skLc8] #
 
 
-  add_to_move_generation_stack:        6038
-                     play_move:        5392
- is_white_king_square_attacked:         350
- is_black_king_square_attacked:        5395
+  add_to_move_generation_stack:        5342
+                     play_move:        5708
+ is_white_king_square_attacked:         466
+ is_black_king_square_attacked:        5711
 Loesung beendet. 
 
 
@@ -160,27 +160,6 @@ Wo? (nachgedruckt in 'buletin problemistic' 53/1990)
 Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
                 Circe
 
-   1.kTh5*h7[-wkTh7][+wkTh1][+skDd8] ? Drohung:
-          2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
-    Aber
-      1...kDd8-h8 !
-
-   1.kDf5*h7[-wkDh7][+wkDd1][+skDd8] ? Drohung:
-          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
-    Aber
-      1...kDd8-f6 !
-
-   1.kSf3*d4[-wkSd4][+wkSg1][+skBd7] ? Drohung:
-          2.kDf5-e5 #
-          2.kLh2-e5 #
-      1...kLb1*c2[-skLc2][+skLc8][+wkTh1]
-          2.kDf5-b1 #
-          2.kLh2-e5 #
-      1...kDh7*f5[-skDf5][+skDd8][+wkDd1]
-          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
-    Aber
-      1...kDh7*h5[-skDh5][+skDd8][+wkTh1] !
-
    1.kLh2-e5 ! Drohung:
           2.kSf3*d4[-wkSd4][+wkSg1][+skBd7] #
       1...kDh7*f5[-skDf5][+skDd8][+wkDd1]
@@ -188,11 +167,32 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
       1...kDh7*h5[-skDh5][+skDd8][+wkTh1]
           2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
 
+   1.kSf3*d4[-wkSd4][+wkSg1][+skBd7] ? Drohung:
+          2.kLh2-e5 #
+          2.kDf5-e5 #
+      1...kLb1*c2[-skLc2][+skLc8][+wkTh1]
+          2.kLh2-e5 #
+          2.kDf5-b1 #
+      1...kDh7*f5[-skDf5][+skDd8][+wkDd1]
+          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
+    Aber
+      1...kDh7*h5[-skDh5][+skDd8][+wkTh1] !
 
-  add_to_move_generation_stack:       14746
-                     play_move:        9226
- is_white_king_square_attacked:         353
- is_black_king_square_attacked:        9186
+   1.kDf5*h7[-wkDh7][+wkDd1][+skDd8] ? Drohung:
+          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
+    Aber
+      1...kDd8-f6 !
+
+   1.kTh5*h7[-wkTh7][+wkTh1][+skDd8] ? Drohung:
+          2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
+    Aber
+      1...kDd8-h8 !
+
+
+  add_to_move_generation_stack:       14788
+                     play_move:        8772
+ is_white_king_square_attacked:         359
+ is_black_king_square_attacked:        8732
 Loesung beendet. 
 
 
@@ -242,6 +242,12 @@ Loesung beendet.
                           4.Dd1*e2[+sBe7] #
       1...Ke3-d2
           2.Dg3*f2[+sLf8] Drohung:
+                  3.Df2*e1[+sSb8] +
+                      3...Kd2-e3
+                          4.Sa5*c4[+sBc7] #
+                  3.Df2*e2[+sBe7] +
+                      3...Kd2-c1
+                          4.De2*c2[+sTa8] #
                   3.Sa5-b3 +
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
@@ -250,12 +256,6 @@ Loesung beendet.
                           4.Df2*e1[+sSb8] #
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
-                  3.Df2*e1[+sSb8] +
-                      3...Kd2-e3
-                          4.Sa5*c4[+sBc7] #
-                  3.Df2*e2[+sBe7] +
-                      3...Kd2-c1
-                          4.De2*c2[+sTa8] #
               2...Se1-g2
                   3.Df2-e1 +
                       3...Kd2-e3
@@ -286,6 +286,9 @@ Loesung beendet.
                       3...Kc1-b2
                           4.De1-a1 #
               2...Tf3-h3
+                  3.Df2*e2[+sBe7] +
+                      3...Kd2-c1
+                          4.De2*c2[+sTa8] #
                   3.Sa5-b3 +
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
@@ -294,10 +297,10 @@ Loesung beendet.
                           4.Df2*e1[+sSb8] #
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
-                  3.Df2*e2[+sBe7] +
-                      3...Kd2-c1
-                          4.De2*c2[+sTa8] #
               2...Tf3-g3
+                  3.Df2*e2[+sBe7] +
+                      3...Kd2-c1
+                          4.De2*c2[+sTa8] #
                   3.Sa5-b3 +
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
@@ -306,9 +309,6 @@ Loesung beendet.
                           4.Df2*e1[+sSb8] #
                       3...Kd2-d1
                           4.Df2*e1[+sSb8] #
-                  3.Df2*e2[+sBe7] +
-                      3...Kd2-c1
-                          4.De2*c2[+sTa8] #
       1...Tf3*g3[+wDd1]
           2.Dd1*d3[+sBd7] +
               2...Se1*d3[+wDd1]
@@ -331,10 +331,10 @@ Loesung beendet.
                           4.Dd1*d2[+sTh8] #
 
 
-  add_to_move_generation_stack:      601286
-                     play_move:      399951
- is_white_king_square_attacked:      273933
- is_black_king_square_attacked:      145451
+  add_to_move_generation_stack:      526579
+                     play_move:      344203
+ is_white_king_square_attacked:      230202
+ is_black_king_square_attacked:      130980
 Loesung beendet. 
 
 
@@ -399,8 +399,8 @@ Loesung beendet.
   h#2                    1 + 1 + 5n
                 Circe
 
-  1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI[+nCAd1] #
   1...nBc7-c8=nCA   2.Kc4*b4[+nGIb8] nBd7*c8=nGI[+nCAc1] #
+  1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI[+nCAd1] #
 
   add_to_move_generation_stack:       57032
                      play_move:       45447
@@ -436,18 +436,18 @@ Loesung beendet.
           Circe RexInklusive
 
    1.Te5-e8 ! Drohung:
-          2.Tb8-a8 #
           2.Kc3-b3 #
+          2.Tb8-a8 #
       1...Ka3-a2
           2.Kc3-b2 #
       1...Ka3-a4
           2.Kc3-b4 #
 
 
-  add_to_move_generation_stack:        2147
-                     play_move:        1630
- is_white_king_square_attacked:         121
- is_black_king_square_attacked:        1633
+  add_to_move_generation_stack:        2294
+                     play_move:        1539
+ is_white_king_square_attacked:         150
+ is_black_king_square_attacked:        1542
 Loesung beendet. 
 
 
@@ -516,7 +516,7 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:          27
-                     play_move:          25
+                     play_move:          24
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:           0
 Loesung beendet. 
@@ -553,9 +553,9 @@ Loesung beendet.
               2...d5*c4[+wLf1]
 
 
-  add_to_move_generation_stack:         250
-                     play_move:         247
- is_white_king_square_attacked:         202
+  add_to_move_generation_stack:         249
+                     play_move:         239
+ is_white_king_square_attacked:         195
  is_black_king_square_attacked:           0
 Loesung beendet. 
 

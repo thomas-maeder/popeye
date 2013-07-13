@@ -24,21 +24,18 @@
   #2                          7 + 3
                  OWU
 
-   1.Da5-e1 + ?
+   1.Tb2-b1 + ?
     Aber
-      1...Kd1*e1 !
+      1...Kd1*c2 !
 
-   1.Da5-d2 + ?
-    Aber
-      1...Kd1*d2 !
-
-   1.Ke4*d4 ? Zugzwang.
-    Aber
-      1...f3*e2 !
-
-   1.Tf2-f1 + ?
-    Aber
-      1...Kd1*e2 !
+   1.c2-c4 ! Drohung:
+          2.Tf2-f1 #
+      1...f3*e2
+          2.Da5-d2 #
+      1...Sd4-c2
+          2.Tb2-b1 #
+      1...Sd4*e2
+          2.Da5-d2 #
 
    1.e2-e3 ? Drohung:
           2.Tb2-b1 #
@@ -58,24 +55,27 @@
     Aber
       1...Sd4-b3 !
 
-   1.c2-c4 ! Drohung:
-          2.Tf2-f1 #
-      1...f3*e2
-          2.Da5-d2 #
-      1...Sd4-c2
-          2.Tb2-b1 #
-      1...Sd4*e2
-          2.Da5-d2 #
-
-   1.Tb2-b1 + ?
+   1.Tf2-f1 + ?
     Aber
-      1...Kd1*c2 !
+      1...Kd1*e2 !
+
+   1.Ke4*d4 ? Zugzwang.
+    Aber
+      1...f3*e2 !
+
+   1.Da5-e1 + ?
+    Aber
+      1...Kd1*e1 !
+
+   1.Da5-d2 + ?
+    Aber
+      1...Kd1*d2 !
 
 
-  add_to_move_generation_stack:        5924
-                     play_move:        3396
- is_white_king_square_attacked:         722
- is_black_king_square_attacked:        3182
+  add_to_move_generation_stack:        5883
+                     play_move:        3361
+ is_white_king_square_attacked:         716
+ is_black_king_square_attacked:        3149
 Loesung beendet. 
 
 

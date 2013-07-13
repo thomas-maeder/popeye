@@ -34,9 +34,9 @@
               2...Nh2*f3
                   3.Lb3*d5 #
               2...Tg4-e4
-                  3.Nf5-d4 #
                   3.Lb3*d5 #
                   3.Lb3-a4 #
+                  3.Nf5-d4 #
               2...d5-d4
                   3.Lb3-d5 #
                   3.Lb3-a4 #
@@ -53,18 +53,18 @@
               2...Tg4*e4
                   3.Lb3*d5 #
               2...d5-d4
-                  3.Lb3-d5 #
                   3.Sa2*b4 #
+                  3.Lb3-d5 #
               2...d5*e4
-                  3.Lb3-d5 #
                   3.Sa2*b4 #
+                  3.Lb3-d5 #
               2...Nd6*e4
                   3.Nf5*e7 #
 
-  add_to_move_generation_stack:       67889
-                     play_move:       45930
- is_white_king_square_attacked:        3266
- is_black_king_square_attacked:       45707
+  add_to_move_generation_stack:       95915
+                     play_move:       64960
+ is_white_king_square_attacked:        4464
+ is_black_king_square_attacked:       64643
 Loesung beendet. 
 
 

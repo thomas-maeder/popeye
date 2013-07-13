@@ -174,17 +174,17 @@ Loesung beendet.
       1...e5-e4
           2.Lg5-f4 #
       1...Lc8-h3
-          2.Te7-b7 #
           2.Sb4-a6 #
+          2.Te7-b7 #
       1...Lc8-g4
-          2.Te7-b7 #
           2.Sb4-a6 #
+          2.Te7-b7 #
       1...Lc8-f5
-          2.Te7-b7 #
           2.Sb4-a6 #
+          2.Te7-b7 #
       1...Lc8-e6
-          2.Te7-b7 #
           2.Sb4-a6 #
+          2.Te7-b7 #
 
    1.Lg5-e3 ! Drohung:
           2.Le3-a7 #
@@ -200,10 +200,10 @@ Loesung beendet.
           2.Sb4-a6 #
 
 
-  add_to_move_generation_stack:       10241
-                     play_move:        7001
- is_white_king_square_attacked:         350
- is_black_king_square_attacked:        2518
+  add_to_move_generation_stack:        9838
+                     play_move:        6715
+ is_white_king_square_attacked:         356
+ is_black_king_square_attacked:        2514
 Loesung beendet. 
 
 

@@ -46,14 +46,6 @@
       1...f7-f6
           2.Rg8-g7 #
 
-   1.Qf8-e7 + ?
-    but
-      1...Kd7*e7 !
-
-   1.Qf8*f7 + ?
-    but
-      1...Kd7-d6 !
-
    1.Ke4-d5 ! threat:
           2.Qf8*f7 #
       1...Sc2*e3 +
@@ -75,11 +67,19 @@
       1...Gc6-e8
           2.Qf8*e8 #
 
+   1.Qf8-e7 + ?
+    but
+      1...Kd7*e7 !
 
-  add_to_move_generation_stack:       25030
-                     play_move:       20180
- is_white_king_square_attacked:        1076
- is_black_king_square_attacked:       19639
+   1.Qf8*f7 + ?
+    but
+      1...Kd7-d6 !
+
+
+  add_to_move_generation_stack:       24877
+                     play_move:       22277
+ is_white_king_square_attacked:        2591
+ is_black_king_square_attacked:       20470
 solution finished. 
 
 
@@ -116,51 +116,44 @@ solution finished.
       1...Rb7-d7 +
           2.Kd5-h5=R #
 
-   1.Rd8-g8 ? threat:
-          2.Rg8-g1 #
-          2.Qf2-g1 #
-          2.Qf2-h4 #
-      1...Ba2*b3 +
-          2.Kd5*f3=B #
-      1...Ra3*a4
-          2.Rg8-g1 #
-          2.Qf2-g1 #
-      1...Rb7-b4
-          2.Rg8-g1 #
-          2.Qf2-g1 #
-      1...Rb7-b5 +
-          2.Kd5-d1=R #
-      1...Rb7-d7 +
-          2.Kd5-h5=R #
+   1.Qf2-g1 + ?
     but
-      1...Rb7-g7 !
+      1...Kh1*g1 !
+
+   1.Qf2-f1 + ?
+    but
+      1...Kh1-h2 !
+
+   1.Qf2-h2 + ?
+    but
+      1...Kh1*h2 !
 
    1.Kd5-c4 ? threat:
-          2.Rd8-d1 #
           2.Ra5-h5 #
+          2.Rd8-d1 #
       1...Ra3*a4 +
           2.Kc4-c1=R #
       1...Rb7-b4 +
           2.Kc4-c1=R #
       1...Rb7-b5
-          2.Rd8-d1 #
           2.Ba8*f3 #
+          2.Rd8-d1 #
       1...Rb7-g7
           2.Ra5-h5 #
       1...Rb7-e7
-          2.Ba8*f3 #
           2.Ra5-h5 #
+          2.Ba8*f3 #
       1...Rb7-d7
-          2.Ba8*f3 #
           2.Ra5-h5 #
+          2.Ba8*f3 #
       1...Rb7-c7 +
           2.Kc4-h4=R #
     but
       1...Ba2*b3 + !
 
    1.Kd5-e4 ! threat:
-          2.Rd8-d1 #
           2.Ra5-h5 #
+          2.Rd8-d1 #
       1...Ba2-b1 +
           2.Ke4*f3=B #
       1...Ba2*b3
@@ -179,16 +172,16 @@ solution finished.
           2.Ra5-h5 #
 
    1.Kd5-e6 ? threat:
-          2.Rd8-d1 #
           2.Ra5-h5 #
+          2.Rd8-d1 #
       1...Ra3*a4
           2.Rd8-d1 #
       1...Rb7-b4
-          2.Rd8-d1 #
           2.Ba8*f3 #
+          2.Rd8-d1 #
       1...Rb7-b5
-          2.Rd8-d1 #
           2.Ba8*f3 #
+          2.Rd8-d1 #
       1...Rb7-b6 +
           2.Ke6-e1=R #
       1...Rb7-g7
@@ -196,14 +189,14 @@ solution finished.
       1...Rb7-e7 +
           2.Ke6-h6=R #
       1...Rb7-d7
-          2.Ba8*f3 #
           2.Ra5-h5 #
+          2.Ba8*f3 #
     but
       1...Ba2*b3 + !
 
    1.Kd5-c6 ! threat:
-          2.Rd8-d1 #
           2.Ra5-h5 #
+          2.Rd8-d1 #
       1...Ba2*b3
           2.Ra5-h5 #
       1...Ra3*a4
@@ -247,23 +240,30 @@ solution finished.
     but
       1...Ra3*a4 !
 
-   1.Qf2-g1 + ?
+   1.Rd8-g8 ? threat:
+          2.Qf2-g1 #
+          2.Qf2-h4 #
+          2.Rg8-g1 #
+      1...Ba2*b3 +
+          2.Kd5*f3=B #
+      1...Ra3*a4
+          2.Qf2-g1 #
+          2.Rg8-g1 #
+      1...Rb7-b4
+          2.Qf2-g1 #
+          2.Rg8-g1 #
+      1...Rb7-b5 +
+          2.Kd5-d1=R #
+      1...Rb7-d7 +
+          2.Kd5-h5=R #
     but
-      1...Kh1*g1 !
-
-   1.Qf2-f1 + ?
-    but
-      1...Kh1-h2 !
-
-   1.Qf2-h2 + ?
-    but
-      1...Kh1*h2 !
+      1...Rb7-g7 !
 
 
-  add_to_move_generation_stack:       35771
-                     play_move:       23145
- is_white_king_square_attacked:        3156
- is_black_king_square_attacked:       21105
+  add_to_move_generation_stack:       39851
+                     play_move:       29140
+ is_white_king_square_attacked:        4267
+ is_black_king_square_attacked:       27453
 solution finished. 
 
 
@@ -344,9 +344,9 @@ solution finished.
 
 
   add_to_move_generation_stack:       16843
-                     play_move:       13730
- is_white_king_square_attacked:        1315
- is_black_king_square_attacked:       13118
+                     play_move:       13288
+ is_white_king_square_attacked:        1592
+ is_black_king_square_attacked:       12091
 solution finished. 
 
 
@@ -377,53 +377,46 @@ solution finished.
   #2                        13 + 11
       WhiteSuperTransmutingKing
 
-   1.a7-a8=Q ? threat:
-          2.Qa8-e4 #
-      1...Rh4*g4
-          2.f3*g4 #
-      1...Bb5-c4 +
-          2.Kb3*c4=B #
-      1...Rd6-d4
+   1.Sc2-e1 + ?
+    but
+      1...Kd3-d4 !
+
+   1.Sc2*b4 + ?
+    but
+      1...Kd3-d4 !
+
+   1.Kb3*b4 ! threat:
+          2.Rc5-c3 #
+      1...Rh4*g4 +
+          2.Kb4-b3=R #
+      1...Bb5-c4
+          2.Ba6*c4 #
+      1...Rd6-d4 +
+          2.Kb4-b3=R #
+      1...Rd6-c6
+          2.Rc5-d5 #
+      1...Sd7*c5
+          2.Rd8*d6 #
+
+   1.Sg4*e5 + ?
+    but
+      1...Sd7*e5 !
+
+   1.Sa5-c6 ? threat:
           2.Sc2-e1 #
           2.Sc2*b4 #
-      1...Rd6-c6
-          2.Sg4*e5 #
-      1...Sc7-d5
-          2.Ba6*b5 #
-      1...Sc7*a8
-          2.Ba6*b5 #
-      1...Sd7*c5 +
-          2.Kb3*c5=S #
-      1...Sd7-f6
-          2.Sg4*e5 #
-    but
-      1...Rd6-d5 !
-
-   1.a7-a8=B ? threat:
-          2.Ba8-e4 #
-      1...Rh4*g4
-          2.f3*g4 #
+          2.Sc6*b4 #
       1...Bb5-c4 +
           2.Kb3*c4=B #
-      1...Rd6-d4
+      1...Rd6*c6
+          2.Sg4*e5 #
+      1...Sc7*a6
           2.Sc2-e1 #
-          2.Sc2*b4 #
-      1...Rd6-c6
-          2.Sg4*e5 #
       1...Sc7-d5
+          2.Sc2-e1 #
           2.Ba6*b5 #
-      1...Sc7*a8
-          2.Ba6*b5 #
-      1...Sd7*c5 +
-          2.Kb3*c5=S #
-      1...Sd7-f6
-          2.Sg4*e5 #
     but
-      1...Rd6-d5 !
-
-   1.Ba6*b5 + ?
-    but
-      1...Sc7*b5 !
+      1...Sd7*c5 + !
 
    1.Rc5-c3 + ?
     but
@@ -476,52 +469,59 @@ solution finished.
     but
       1...Rd6*d5 !
 
-   1.Sa5-c6 ? threat:
-          2.Sc6*b4 #
-          2.Sc2-e1 #
-          2.Sc2*b4 #
+   1.Ba6*b5 + ?
+    but
+      1...Sc7*b5 !
+
+   1.a7-a8=Q ? threat:
+          2.Qa8-e4 #
+      1...Rh4*g4
+          2.f3*g4 #
       1...Bb5-c4 +
           2.Kb3*c4=B #
-      1...Rd6*c6
-          2.Sg4*e5 #
-      1...Sc7*a6
+      1...Rd6-d4
           2.Sc2-e1 #
+          2.Sc2*b4 #
+      1...Rd6-c6
+          2.Sg4*e5 #
       1...Sc7-d5
           2.Ba6*b5 #
+      1...Sc7*a8
+          2.Ba6*b5 #
+      1...Sd7*c5 +
+          2.Kb3*c5=S #
+      1...Sd7-f6
+          2.Sg4*e5 #
+    but
+      1...Rd6-d5 !
+
+   1.a7-a8=B ? threat:
+          2.Ba8-e4 #
+      1...Rh4*g4
+          2.f3*g4 #
+      1...Bb5-c4 +
+          2.Kb3*c4=B #
+      1...Rd6-d4
           2.Sc2-e1 #
-    but
-      1...Sd7*c5 + !
-
-   1.Sg4*e5 + ?
-    but
-      1...Sd7*e5 !
-
-   1.Kb3*b4 ! threat:
-          2.Rc5-c3 #
-      1...Rh4*g4 +
-          2.Kb4-b3=R #
-      1...Bb5-c4
-          2.Ba6*c4 #
-      1...Rd6-d4 +
-          2.Kb4-b3=R #
+          2.Sc2*b4 #
       1...Rd6-c6
-          2.Rc5-d5 #
-      1...Sd7*c5
-          2.Rd8*d6 #
-
-   1.Sc2-e1 + ?
+          2.Sg4*e5 #
+      1...Sc7-d5
+          2.Ba6*b5 #
+      1...Sc7*a8
+          2.Ba6*b5 #
+      1...Sd7*c5 +
+          2.Kb3*c5=S #
+      1...Sd7-f6
+          2.Sg4*e5 #
     but
-      1...Kd3-d4 !
-
-   1.Sc2*b4 + ?
-    but
-      1...Kd3-d4 !
+      1...Rd6-d5 !
 
 
-  add_to_move_generation_stack:      103208
-                     play_move:       85974
- is_white_king_square_attacked:        4014
- is_black_king_square_attacked:       84428
+  add_to_move_generation_stack:      111650
+                     play_move:       94245
+ is_white_king_square_attacked:        6482
+ is_black_king_square_attacked:       92086
 solution finished. 
 
 

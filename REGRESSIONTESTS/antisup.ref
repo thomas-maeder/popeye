@@ -32,9 +32,9 @@ a)
 
 
   add_to_move_generation_stack:        1151
-                     play_move:         924
- is_white_king_square_attacked:         282
- is_black_king_square_attacked:         926
+                     play_move:         928
+ is_white_king_square_attacked:         284
+ is_black_king_square_attacked:         930
 b) =2
 
    1.b6*a7[wPa7->b6] = !
@@ -44,10 +44,10 @@ b) =2
           2.Qe8-c6 =
 
 
-  add_to_move_generation_stack:        3498
-                     play_move:        1747
- is_white_king_square_attacked:         836
- is_black_king_square_attacked:        1598
+  add_to_move_generation_stack:        3513
+                     play_move:        1757
+ is_white_king_square_attacked:         841
+ is_black_king_square_attacked:        1606
 solution finished. 
 
 

@@ -179,10 +179,10 @@ Loesung beendet.
                       3...Ka8*a7-a8 x
 
 
-  add_to_move_generation_stack:        1424
-                     play_move:         610
- is_white_king_square_attacked:         251
- is_black_king_square_attacked:         366
+  add_to_move_generation_stack:        1406
+                     play_move:         589
+ is_white_king_square_attacked:         243
+ is_black_king_square_attacked:         353
 Loesung beendet. 
 
 
@@ -622,16 +622,16 @@ a)
   1.Kh2-h3 Ta7*d7-g4[+sLc8]   2.Kh3*g4-g6[+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5[+wTh1] 0-0
 
   add_to_move_generation_stack:       65350
-                     play_move:       44688
- is_white_king_square_attacked:       20946
+                     play_move:       43293
+ is_white_king_square_attacked:       19551
  is_black_king_square_attacked:       26164
 b) sKh2-->b2
 
   1.Kb2-b3 Ta7*d7-h3[+sLc8] +   2.Lc8*h3-h4[+wTh1] + Th1*h4-d8[+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2[+wTa1] 0-0-0
 
   add_to_move_generation_stack:       83176
-                     play_move:       59360
- is_white_king_square_attacked:       24216
+                     play_move:       57615
+ is_white_king_square_attacked:       22471
  is_black_king_square_attacked:       36992
 Loesung beendet. 
 
@@ -744,17 +744,17 @@ Loesung beendet.
          WeisserLaengstzueger
            Take&MakeSchach
 
-  1  (g3*f4-b8=D[+sLf8] + )
-  2  (g3*f4-b8=S[+sLf8] )
-  3  (g3*f4-b8=T[+sLf8] + )
+  1  (La3-f8 )
+  2  (g3*f4-b8=D[+sLf8] + )
+  3  (g3*f4-b8=S[+sLf8] )
+  4  (g3*f4-b8=T[+sLf8] + )
   1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b6[+wTa1] La3*f8-h6[+sLf8]   3.Lf8-b4 + Lh6-d2   4.Lb4-a5 0-0-0
   1...g3*f4-b8=T[+sLf8] +   2.Kc8*b8-b7[+wTa1] La3*f8-h6[+sLf8]   3.Lf8*h6-c1 Ta1*c1-h6[+sLf8]   4.Lf8*h6-a6[+wTa1] 0-0-0
-  4  (g3*f4-b8=L[+sLf8] )
-  5  (La3-f8 )
+  5  (g3*f4-b8=L[+sLf8] )
 
   add_to_move_generation_stack:       70650
-                     play_move:       38786
- is_white_king_square_attacked:       19997
+                     play_move:       35914
+ is_white_king_square_attacked:       17125
  is_black_king_square_attacked:       20233
 Loesung beendet. 
 
@@ -786,6 +786,44 @@ Es fehlt ein weisser oder schwarzer Koenig
   #2                        14 + 14
            Take&MakeSchach
 
+   1.Se1*f3-f6 + ?
+    Aber
+      1...Ke6*f6-g8 !
+
+   1.Se1*f3-f4 + ?
+      1...LLc7*f4-d5
+          2.LIb7*f7-f5 #
+    Aber
+      1...LLc7*f4-g2 !
+
+   1.TLc2-c6 + ?
+    Aber
+      1...La3*d6-d7 !
+
+   1.b3-b4 ? Drohung:
+          2.TLc2-c6 #
+      1...Sa4-c3
+          2.LIb7*f3-f6 #
+      1...Te7-d7
+          2.LIb7*f3-f5 #
+      1...TLd8*d4-d1
+          2.LIb7*f3-f5 #
+      1...TLd8*d4-d2
+          2.LIb7*f3-f5 #
+    Aber
+      1...Sa4-c5 !
+
+   1.LLd3*b5-b4 ? Drohung:
+          2.TLc2-c6 #
+      1...Sa4-c3
+          2.LIb7*f3-f6 #
+      1...Sa4-c5
+          2.LIb7*f3-e3 #
+      1...Te7-d7
+          2.LIb7*f3-f5 #
+    Aber
+      1...Tf3-c3 !
+
    1.TLd4-b4 ! Drohung:
           2.TLc2-c6 #
       1...Sa4-c3
@@ -806,49 +844,11 @@ Es fehlt ein weisser oder schwarzer Koenig
     Aber
       1...f7-f5 !
 
-   1.LLd3*b5-b4 ? Drohung:
-          2.TLc2-c6 #
-      1...Sa4-c3
-          2.LIb7*f3-f6 #
-      1...Sa4-c5
-          2.LIb7*f3-e3 #
-      1...Te7-d7
-          2.LIb7*f3-f5 #
-    Aber
-      1...Tf3-c3 !
 
-   1.b3-b4 ? Drohung:
-          2.TLc2-c6 #
-      1...Sa4-c3
-          2.LIb7*f3-f6 #
-      1...Te7-d7
-          2.LIb7*f3-f5 #
-      1...TLd8*d4-d1
-          2.LIb7*f3-f5 #
-      1...TLd8*d4-d2
-          2.LIb7*f3-f5 #
-    Aber
-      1...Sa4-c5 !
-
-   1.TLc2-c6 + ?
-    Aber
-      1...La3*d6-d7 !
-
-   1.Se1*f3-f6 + ?
-    Aber
-      1...Ke6*f6-g8 !
-
-   1.Se1*f3-f4 + ?
-      1...LLc7*f4-d5
-          2.LIb7*f7-f5 #
-    Aber
-      1...LLc7*f4-g2 !
-
-
-  add_to_move_generation_stack:      184064
-                     play_move:       98136
+  add_to_move_generation_stack:      164384
+                     play_move:       84544
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       97872
+ is_black_king_square_attacked:       84280
 Loesung beendet. 
 
 
@@ -878,34 +878,20 @@ Loesung beendet.
   #5                         8 + 12
            Take&MakeSchach
 
-  1  (Sf7-d6 )
-  2  (Sf7-e5 )
-  3  (Sf7*g5-e3 + )
-  4  (Sf7*g5-f4 + )
-  5  (Sf7*g5-h4 )
-  6  (Sf7*g5-d8 )
-  7  (Sf7*g5-e7 + )
-  8  (Sf7*g5-f6 + )
-  9  (Sf7*h6-h1 )
- 10  (Sf7*h6-h2 )
- 11  (Sf7*h6-h3 )
- 12  (Sf7*h6-h4 )
- 13  (Sf7*h6-h5 )
- 14  (Sf7*h6-h8 )
- 15  (Sf7*h6-h7 )
- 16  (Sf7-h8 )
- 17  (Sf7-d8 )
- 18  (La7-g1 )
- 19  (La7-f2 )
- 20  (La7-e3 )
- 21  (La7-d4 )
- 22  (La7-c5 )
- 23  (La7-b6 )
- 24  (La7-b8 )
- 25  (f3-f4 )
- 26  (Tc2-a2 )
- 27  (Tc2-b2 )
- 28  (Tc2-c8 )
+  1  (Kc1-b2 )
+  2  (Kc1-b1 )
+  3  (Ld1-e2 )
+  4  (Te1*e6-e5 + )
+  5  (Te1-e5 + )
+  6  (Te1-e4 )
+  7  (Te1-e3 )
+  8  (Te1-e2 )
+  9  (Te1-h1 )
+ 10  (Te1-g1 )
+ 11  (Te1-f1 )
+ 12  (Tc2-a2 )
+ 13  (Tc2-b2 )
+ 14  (Tc2-c8 )
    1.Tc2-c8 ! Drohung:
           2.Ld1-b3 #
       1...Sg8-e7
@@ -919,7 +905,7 @@ Loesung beendet.
                               4...Kd5*d6-d5
                                   5.Ld1-b3 #
 
- 29  (Tc2-c7 )
+ 15  (Tc2-c7 )
    1.Tc2-c7 ? Drohung:
           2.Ld1-b3 #
       1...Lg5-f4
@@ -932,31 +918,45 @@ Loesung beendet.
     Aber
       1...Lg5-d8 !
 
- 30  (Tc2-c6 )
- 31  (Tc2-c5 + )
- 32  (Tc2-c4 )
- 33  (Tc2-c3 )
+ 16  (Tc2-c6 )
+ 17  (Tc2-c5 + )
+ 18  (Tc2-c4 )
+ 19  (Tc2-c3 )
    1.Tc2-c3 ? Drohung:
           2.Ld1-b3 #
     Aber
       1...Lg5-f6 !
 
- 34  (Te1*e6-e5 + )
- 35  (Te1-e5 + )
- 36  (Te1-e4 )
- 37  (Te1-e3 )
- 38  (Te1-e2 )
- 39  (Te1-h1 )
- 40  (Te1-g1 )
- 41  (Te1-f1 )
- 42  (Ld1-e2 )
- 43  (Kc1-b2 )
- 44  (Kc1-b1 )
+ 20  (f3-f4 )
+ 21  (La7-g1 )
+ 22  (La7-f2 )
+ 23  (La7-e3 )
+ 24  (La7-d4 )
+ 25  (La7-c5 )
+ 26  (La7-b6 )
+ 27  (La7-b8 )
+ 28  (Sf7-d6 )
+ 29  (Sf7-e5 )
+ 30  (Sf7*g5-e3 + )
+ 31  (Sf7*g5-f4 + )
+ 32  (Sf7*g5-h4 )
+ 33  (Sf7*g5-d8 )
+ 34  (Sf7*g5-e7 + )
+ 35  (Sf7*g5-f6 + )
+ 36  (Sf7*h6-h1 )
+ 37  (Sf7*h6-h2 )
+ 38  (Sf7*h6-h3 )
+ 39  (Sf7*h6-h4 )
+ 40  (Sf7*h6-h5 )
+ 41  (Sf7*h6-h8 )
+ 42  (Sf7*h6-h7 )
+ 43  (Sf7-h8 )
+ 44  (Sf7-d8 )
 
-  add_to_move_generation_stack:   156674651
-                     play_move:    51940168
- is_white_king_square_attacked:     5979856
- is_black_king_square_attacked:    50171469
+  add_to_move_generation_stack:   151740373
+                     play_move:    49681374
+ is_white_king_square_attacked:     5749343
+ is_black_king_square_attacked:    47947985
 Loesung beendet. 
 
 
@@ -998,10 +998,10 @@ Loesung beendet.
           2.f7-f8=D #
 
 
-  add_to_move_generation_stack:       21465
-                     play_move:        8153
- is_white_king_square_attacked:         994
- is_black_king_square_attacked:        8156
+  add_to_move_generation_stack:       17605
+                     play_move:        6983
+ is_white_king_square_attacked:         785
+ is_black_king_square_attacked:        6986
 Loesung beendet. 
 
 
@@ -1043,10 +1043,10 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
           2.f7-f8=D #
 
 
-  add_to_move_generation_stack:       14778
-                     play_move:        5679
- is_white_king_square_attacked:         685
- is_black_king_square_attacked:        5682
+  add_to_move_generation_stack:       11112
+                     play_move:        4307
+ is_white_king_square_attacked:         480
+ is_black_king_square_attacked:        4310
 Loesung beendet. 
 
 
@@ -1076,6 +1076,19 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
   #2                        10 + 11
            Take&MakeSchach
 
+   1.f2-f4 ! Drohung:
+          2.f4-f5 #
+      1...Lc1*f4-f5
+          2.Se7*g6-g5 #
+      1...Th4*f4-f5
+          2.Se7*d5-d4 #
+      1...Ke6-d6
+          2.Da4*a8-b6 #
+
+   1.Da4*a8-b6 + ?
+    Aber
+      1...d7-d6 !
+
    1.b7-b8=D ? Drohung:
           2.Db8-g8 #
       1...Lc1-f4
@@ -1087,24 +1100,11 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
     Aber
       1...Lc1-g5 !
 
-   1.Da4*a8-b6 + ?
-    Aber
-      1...d7-d6 !
 
-   1.f2-f4 ! Drohung:
-          2.f4-f5 #
-      1...Lc1*f4-f5
-          2.Se7*g6-g5 #
-      1...Th4*f4-f5
-          2.Se7*d5-d4 #
-      1...Ke6-d6
-          2.Da4*a8-b6 #
-
-
-  add_to_move_generation_stack:       35121
-                     play_move:       16747
- is_white_king_square_attacked:        1285
- is_black_king_square_attacked:       16708
+  add_to_move_generation_stack:       45537
+                     play_move:       23519
+ is_white_king_square_attacked:        1613
+ is_black_king_square_attacked:       23480
 Loesung beendet. 
 
 
@@ -1134,167 +1134,14 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
   #2                         9 + 10
            Take&MakeSchach
 
-   1.f7-f8=D ? Drohung:
-          2.Df8-g8 #
-      1...Lc1-f4
-          2.Se7*d5-d4 #
-      1...Th4-c4
-          2.Ld3*c4-g4 #
-      1...Th4-e4
-          2.Ld3*e4-g4 #
-      1...Th4-f4
+   1.f2-f4 ! Drohung:
+          2.f4-f5 #
+      1...Lc1*f4-f5
           2.Se7*g6-g5 #
-    Aber
-      1...Lc1-g5 !
-
-   1.f7-f8=S + ?
-    Aber
-      1...Ke6*e7-g8 !
-
-   1.Se7*d5-d4 + ?
-      1...Th4*d4-b3
-          2.f7-f8=S #
-      1...Th4*d4-c2
-          2.f7-f8=S #
-      1...Th4*d4-f3
-          2.f7-f8=S #
-      1...Th4*d4-f5
-          2.f7-f8=S #
-      1...Th4*d4-c6
-          2.f7-f8=S #
-          2.Dc3*c1-e3 #
-    Aber
-      1...Th4*d4-b5 !
-
-   1.Se7*g6-g5 + ?
-      1...Lc1*g5-f3
-          2.f7-f8=S #
-      1...Lc1*g5-h3
-          2.f7-f8=S #
-    Aber
-      1...Lc1*g5-e4 !
-
-   1.Se7*c8-b7 ? Drohung:
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Lg3*h4-h3 #
-          2.Lg3*h4-g4 #
-      1...Lc1-f4
-          2.f7-f8=S #
-          2.Lg3*h4-h3 #
-          2.Lg3*h4-g4 #
-      1...Lc1-e3
-          2.f7-f8=S #
-          2.Sb7-d8 #
-          2.Lg3*h4-h3 #
-          2.Lg3*h4-g4 #
-      1...Tb2*b7-c5
-          2.f7-f8=S #
-      1...Tb2*b7-d6
-          2.f7-f8=S #
-          2.Lg3*h4-h3 #
-          2.Lg3*h4-g4 #
-      1...Tb2-b5
-          2.f7-f8=S #
-          2.Sb7-d8 #
-          2.Lg3*h4-h3 #
-          2.Lg3*h4-g4 #
-      1...Tb2-b4
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-      1...Tb2-d2
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-      1...e2-e1=S
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-      1...Th4-h1
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Dc3*c1-e3 #
-      1...Th4-h2
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Lg3*h2-h3 #
-          2.Dc3*c1-e3 #
-      1...Th4-h3
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-      1...Th4-a4
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-      1...Th4-b4
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Dc3*b4-g4 #
-      1...Th4-c4
-          2.f7-f8=S #
-          2.Sb7-d8 #
-          2.Ld3*c4-g4 #
-          2.Dc3*c4-g4 #
-      1...Th4-d4
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Dc3*d4-g4 #
-      1...Th4-e4
-          2.Ld3*e4-g4 #
-      1...Th4-f4
-          2.f7-f8=S #
-          2.Lg3*f4-g4 #
-      1...Th4-g4
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-      1...Th4-h6
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Dc3*c1-e3 #
-      1...Th4-h5
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-      1...d5-d4
-          2.f7-f8=S #
-          2.Sb7-d8 #
-          2.Lg3*h4-h3 #
-          2.Lg3*h4-g4 #
-      1...g6-g5
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Lg3*h4-g4 #
-      1...d7-d6
-          2.f7-f8=S #
-          2.Sb7-d8 #
-          2.Lg3*h4-h3 #
-          2.Lg3*h4-g4 #
-          2.Dc3-c8 #
-      1...h7-h5
-          2.f7-f8=S #
-          2.Sb7-c5 #
-          2.Sb7-d8 #
-          2.Lg3*h4-h3 #
-    Aber
-      1...Tb2*b7-d8 + !
-
-   1.Lg3*h4-h3 + ?
-    Aber
-      1...Ke6-d6 !
-
-   1.Lg3*h4-g4 + ?
-    Aber
-      1...Ke6-d6 !
+      1...Th4*f4-f5
+          2.Se7*d5-d4 #
+      1...Ke6-d6
+          2.Dc3*b2-b6 #
 
    1.Dc3*b2-b6 + ?
     Aber
@@ -1312,20 +1159,173 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
     Aber
       1...Tb2-b6 !
 
-   1.f2-f4 ! Drohung:
-          2.f4-f5 #
-      1...Lc1*f4-f5
-          2.Se7*g6-g5 #
-      1...Th4*f4-f5
+   1.Lg3*h4-h3 + ?
+    Aber
+      1...Ke6-d6 !
+
+   1.Lg3*h4-g4 + ?
+    Aber
+      1...Ke6-d6 !
+
+   1.Se7*d5-d4 + ?
+      1...Th4*d4-b3
+          2.f7-f8=S #
+      1...Th4*d4-c2
+          2.f7-f8=S #
+      1...Th4*d4-f3
+          2.f7-f8=S #
+      1...Th4*d4-f5
+          2.f7-f8=S #
+      1...Th4*d4-c6
+          2.Dc3*c1-e3 #
+          2.f7-f8=S #
+    Aber
+      1...Th4*d4-b5 !
+
+   1.Se7*g6-g5 + ?
+      1...Lc1*g5-f3
+          2.f7-f8=S #
+      1...Lc1*g5-h3
+          2.f7-f8=S #
+    Aber
+      1...Lc1*g5-e4 !
+
+   1.Se7*c8-b7 ? Drohung:
+          2.Lg3*h4-h3 #
+          2.Lg3*h4-g4 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Lc1-f4
+          2.Lg3*h4-h3 #
+          2.Lg3*h4-g4 #
+          2.f7-f8=S #
+      1...Lc1-e3
+          2.Lg3*h4-h3 #
+          2.Lg3*h4-g4 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Tb2*b7-c5
+          2.f7-f8=S #
+      1...Tb2*b7-d6
+          2.Lg3*h4-h3 #
+          2.Lg3*h4-g4 #
+          2.f7-f8=S #
+      1...Tb2-b5
+          2.Lg3*h4-h3 #
+          2.Lg3*h4-g4 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Tb2-b4
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Tb2-d2
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...e2-e1=S
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-h1
+          2.Dc3*c1-e3 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-h2
+          2.Dc3*c1-e3 #
+          2.Lg3*h2-h3 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-h3
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-a4
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-b4
+          2.Dc3*b4-g4 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-c4
+          2.Dc3*c4-g4 #
+          2.Ld3*c4-g4 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-d4
+          2.Dc3*d4-g4 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-e4
+          2.Ld3*e4-g4 #
+      1...Th4-f4
+          2.Lg3*f4-g4 #
+          2.f7-f8=S #
+      1...Th4-g4
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-h6
+          2.Dc3*c1-e3 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...Th4-h5
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...d5-d4
+          2.Lg3*h4-h3 #
+          2.Lg3*h4-g4 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...g6-g5
+          2.Lg3*h4-g4 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...d7-d6
+          2.Dc3-c8 #
+          2.Lg3*h4-h3 #
+          2.Lg3*h4-g4 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+      1...h7-h5
+          2.Lg3*h4-h3 #
+          2.Sb7-c5 #
+          2.Sb7-d8 #
+          2.f7-f8=S #
+    Aber
+      1...Tb2*b7-d8 + !
+
+   1.f7-f8=D ? Drohung:
+          2.Df8-g8 #
+      1...Lc1-f4
           2.Se7*d5-d4 #
-      1...Ke6-d6
-          2.Dc3*b2-b6 #
+      1...Th4-c4
+          2.Ld3*c4-g4 #
+      1...Th4-e4
+          2.Ld3*e4-g4 #
+      1...Th4-f4
+          2.Se7*g6-g5 #
+    Aber
+      1...Lc1-g5 !
+
+   1.f7-f8=S + ?
+    Aber
+      1...Ke6*e7-g8 !
 
 
-  add_to_move_generation_stack:      147297
-                     play_move:       79607
- is_white_king_square_attacked:        4285
- is_black_king_square_attacked:       79220
+  add_to_move_generation_stack:      218169
+                     play_move:      135473
+ is_white_king_square_attacked:        6654
+ is_black_king_square_attacked:      135086
 Loesung beendet. 
 
 
@@ -1355,51 +1355,6 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
   #2                          9 + 8
            Take&MakeSchach
 
-   1.Ta8-c8 + ?
-      1...Kc7*c8-a8
-          2.Dh7-g8 #
-          2.Dh7-h8 #
-          2.d7-d8=D #
-          2.d7-d8=T #
-      1...Kc7*c8-b8
-          2.d7-d8=D #
-          2.d7-d8=T #
-      1...Kc7*c8-d8
-          2.Lc5-b6 #
-    Aber
-      1...Kc7*c8-c7 !
-
-   1.Dh7-e7 ? Drohung:
-          2.d7-d8=S #
-    Aber
-      1...Th5*h6-h7 !
-
-   1.Dh7-f7 ? Drohung:
-          2.d7-d8=S #
-      1...b7-b6
-          2.d7-d8=L #
-    Aber
-      1...Th5*h6-h7 !
-
-   1.d7-d8=S + ?
-    Aber
-      1...Kc7*d8-e6 !
-
-   1.d7-d8=T + ?
-    Aber
-      1...Kc7*d8-d3 !
-
-   1.d7-d8=L + ?
-    Aber
-      1...Kc7*d8-a5 !
-
-   1.f4-f5 ! Drohung:
-          2.d7-d8=S #
-      1...g6*f5-f6
-          2.d7-d8=T #
-      1...b7-b6
-          2.d7-d8=L #
-
    1.Kc1-d2 ? Drohung:
           2.d7-d8=T #
       1...b7-b6
@@ -1416,11 +1371,56 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
     Aber
       1...Th5-h2 + !
 
+   1.f4-f5 ! Drohung:
+          2.d7-d8=S #
+      1...g6*f5-f6
+          2.d7-d8=T #
+      1...b7-b6
+          2.d7-d8=L #
 
-  add_to_move_generation_stack:       23026
-                     play_move:       10537
- is_white_king_square_attacked:         904
- is_black_king_square_attacked:       10402
+   1.d7-d8=S + ?
+    Aber
+      1...Kc7*d8-e6 !
+
+   1.d7-d8=T + ?
+    Aber
+      1...Kc7*d8-d3 !
+
+   1.d7-d8=L + ?
+    Aber
+      1...Kc7*d8-a5 !
+
+   1.Dh7-e7 ? Drohung:
+          2.d7-d8=S #
+    Aber
+      1...Th5*h6-h7 !
+
+   1.Dh7-f7 ? Drohung:
+          2.d7-d8=S #
+      1...b7-b6
+          2.d7-d8=L #
+    Aber
+      1...Th5*h6-h7 !
+
+   1.Ta8-c8 + ?
+      1...Kc7*c8-a8
+          2.d7-d8=D #
+          2.d7-d8=T #
+          2.Dh7-g8 #
+          2.Dh7-h8 #
+      1...Kc7*c8-b8
+          2.d7-d8=D #
+          2.d7-d8=T #
+      1...Kc7*c8-d8
+          2.Lc5-b6 #
+    Aber
+      1...Kc7*c8-c7 !
+
+
+  add_to_move_generation_stack:       23409
+                     play_move:       10326
+ is_white_king_square_attacked:         930
+ is_black_king_square_attacked:       10191
 Loesung beendet. 
 
 
@@ -1467,10 +1467,10 @@ Loesung beendet.
           2.Sb7*c5-c4 #
 
 
-  add_to_move_generation_stack:        5913
-                     play_move:        3020
- is_white_king_square_attacked:         288
- is_black_king_square_attacked:        3025
+  add_to_move_generation_stack:        5931
+                     play_move:        3100
+ is_white_king_square_attacked:         280
+ is_black_king_square_attacked:        3105
 Loesung beendet. 
 
 
@@ -1509,10 +1509,10 @@ Loesung beendet.
               2...d3*c2-g2 #
 
 
-  add_to_move_generation_stack:       32631
-                     play_move:       12362
- is_white_king_square_attacked:       12364
- is_black_king_square_attacked:        7465
+  add_to_move_generation_stack:       33026
+                     play_move:       12462
+ is_white_king_square_attacked:       12464
+ is_black_king_square_attacked:        7534
 Loesung beendet. 
 
 
@@ -1550,10 +1550,10 @@ Loesung beendet.
               2...Dc6*g2-f1 #
 
 
-  add_to_move_generation_stack:      161424
-                     play_move:       14570
- is_white_king_square_attacked:       14571
- is_black_king_square_attacked:        6567
+  add_to_move_generation_stack:      158469
+                     play_move:       14325
+ is_white_king_square_attacked:       14326
+ is_black_king_square_attacked:        6357
 Loesung beendet. 
 
 

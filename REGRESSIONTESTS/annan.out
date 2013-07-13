@@ -25,26 +25,6 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
   #2                          6 + 3
            Annanschach    
 
-   1.Tc4-c5 + !
-      1...Kb5-b6
-          2.Tc3-f6 #
-
-   1.Sb4-a3 + !
-      1...Kb5-b6
-          2.Tc4-a4 #
-          2.Tc3-f6 #
-          2.Lb3-a4 #
-
-   1.Sb4-c5 + !
-      1...Kb5-b6
-          2.Tc3-f6 #
-
-   1.Sb4-a5 ! Zugzwang.
-      1...Kb5-b6
-          2.Lb3-a4 #
-      1...b7-b6
-          2.Tc3-b2 #
-
    1.Tc3-b2 ! Zugzwang.
       1...Kb5-a4
           2.Sb4-c5 #
@@ -61,15 +41,35 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
    1.Tc3-f6 ! Drohung:
           2.Sb4-c5 #
       1...b7-b6
-          2.Tf6-f5 #
           2.Sb4-a3 #
           2.Sb4-d6 #
+          2.Tf6-f5 #
+
+   1.Sb4-a3 + !
+      1...Kb5-b6
+          2.Lb3-a4 #
+          2.Tc3-f6 #
+          2.Tc4-a4 #
+
+   1.Sb4-c5 + !
+      1...Kb5-b6
+          2.Tc3-f6 #
+
+   1.Sb4-a5 ! Zugzwang.
+      1...Kb5-b6
+          2.Lb3-a4 #
+      1...b7-b6
+          2.Tc3-b2 #
+
+   1.Tc4-c5 + !
+      1...Kb5-b6
+          2.Tc3-f6 #
 
 
-  add_to_move_generation_stack:        3240
-                     play_move:        2535
- is_white_king_square_attacked:         292
- is_black_king_square_attacked:        2548
+  add_to_move_generation_stack:        3232
+                     play_move:        2416
+ is_white_king_square_attacked:         289
+ is_black_king_square_attacked:        2429
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
               2...Kh1-g3 #
 
 
-  add_to_move_generation_stack:         966
-                     play_move:         511
- is_white_king_square_attacked:         512
- is_black_king_square_attacked:         313
+  add_to_move_generation_stack:         956
+                     play_move:         505
+ is_white_king_square_attacked:         506
+ is_black_king_square_attacked:         307
 Loesung beendet. 
 
 
@@ -183,10 +183,10 @@ Loesung beendet.
               2...Kd4-c6 #
 
 
-  add_to_move_generation_stack:       12163
-                     play_move:        5400
- is_white_king_square_attacked:        5402
- is_black_king_square_attacked:        3723
+  add_to_move_generation_stack:       12337
+                     play_move:        5234
+ is_white_king_square_attacked:        5236
+ is_black_king_square_attacked:        3602
 Loesung beendet. 
 
 
@@ -218,15 +218,15 @@ ddlkl
   h#3                         2 + 3
            Annanschach    
 
-  1.Kd3-c4 Te6-e3   2.Kc4-d4 + Kb2-c1   3.Kd4-a1 Te3-a3 #
-  1.Kd3-c4 Te6-e3   2.Kc4-d4 + Kb2-c2   3.Kd4-a1 Te3-a3 #
   1.Kd3-c4 Kb2-c1   2.Kc4-d4 Te6-e3   3.Kd4-a1 Te3-a3 #
   1.Kd3-c4 Kb2-c1   2.Kc4-d4 Te6-e4 +   3.Kd4-a1 Te4-a4 #
+  1.Kd3-c4 Kb2-c2   2.Kc4-d4 Te6-e3   3.Kd4-a1 Te3-a3 #
+  1.Kd3-c4 Kb2-c2   2.Kc4-d4 Te6-e4 +   3.Kd4-a1 Te4-a4 #
 
-  add_to_move_generation_stack:     1620441
-                     play_move:     1227911
- is_white_king_square_attacked:      160061
- is_black_king_square_attacked:     1222012
+  add_to_move_generation_stack:      811070
+                     play_move:      602719
+ is_white_king_square_attacked:       69848
+ is_black_king_square_attacked:      600423
 Bearbeitung abgebrochen. 
 
 
@@ -261,10 +261,10 @@ Bearbeitung abgebrochen.
           2.Kf5-g5 #
 
 
-  add_to_move_generation_stack:         570
-                     play_move:         478
- is_white_king_square_attacked:          85
- is_black_king_square_attacked:         481
+  add_to_move_generation_stack:         566
+                     play_move:         472
+ is_white_king_square_attacked:          83
+ is_black_king_square_attacked:         475
 Loesung beendet. 
 
 

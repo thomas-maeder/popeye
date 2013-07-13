@@ -281,18 +281,18 @@ a)
 
   1.Bh4-f6   2.Qa6*c6   3.Qc6*c2[+buPc6]   4.Bf6*e5   5.Be5-f4[+buSe5]   6.Qc2*d3[+buPc2] + uSe5*d3 #
 
-  add_to_move_generation_stack:    37123920
-                     play_move:    12592220
- is_white_king_square_attacked:    12592220
- is_black_king_square_attacked:     7959159
+  add_to_move_generation_stack:    36945618
+                     play_move:    12586349
+ is_white_king_square_attacked:    12586349
+ is_black_king_square_attacked:     7938114
 b)  -bPg7
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 #
 
-  add_to_move_generation_stack:    40298200
-                     play_move:    13610023
- is_white_king_square_attacked:    13610023
- is_black_king_square_attacked:     9135931
+  add_to_move_generation_stack:    40255627
+                     play_move:    13577057
+ is_white_king_square_attacked:    13577057
+ is_black_king_square_attacked:     9099218
 solution finished. 
 
 
@@ -552,13 +552,23 @@ solution finished.
              Uncapturable
               GhostChess
 
-   1.Qa4*c2 ? threat:
+   1.Kd1*c2 ! threat:
+          2.Kc2-d1[+buRc2]
+              2...uRc2-c1 #
+      1...Ke3-f4
+          2.Kc2-d3[+buRc2]
+              2...uRc2*d2 #
+      1...Ke3-e2
           2.Sd2-b1
-              2...Qg8-g1 #
-          2.Sd2-e4
-              2...Qg8-g1 #
+              2...d4-d3 #
+      1...Qg8-g1
           2.Sd2-b3
-              2...Qg8-g1 #
+              2...d4-d3 #
+      1...Qg8-g4
+          2.Kc2-b1[+buRc2]
+              2...Qg4-d1 #
+
+   1.Qa4*c2 ? threat:
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
           2.Qc2-h7[+buRc2]
@@ -585,6 +595,12 @@ solution finished.
               2...uRc2-c1 #
           2.Qc2-c4[+buRc2]
               2...uRc2-c1 #
+          2.Sd2-b1
+              2...Qg8-g1 #
+          2.Sd2-e4
+              2...Qg8-g1 #
+          2.Sd2-b3
+              2...Qg8-g1 #
       1...Ke3-f2
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
@@ -620,12 +636,6 @@ solution finished.
           2.Qc2-c3[+buRc2]
               2...uRc2-c1 #
       1...d4-d3
-          2.Sd2-b1
-              2...Qg8-g1 #
-          2.Sd2-e4
-              2...Qg8-g1 #
-          2.Sd2-b3
-              2...Qg8-g1 #
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
           2.Qc2-a4[+buRc2]
@@ -648,6 +658,12 @@ solution finished.
               2...uRc2-c1 #
           2.Qc2-c3[+buRc2]
               2...uRc2-c1 #
+          2.Sd2-b1
+              2...Qg8-g1 #
+          2.Sd2-e4
+              2...Qg8-g1 #
+          2.Sd2-b3
+              2...Qg8-g1 #
       1...Qg8-a2
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
@@ -701,14 +717,8 @@ solution finished.
           2.Qc2-c4[+buRc2]
               2...uRc2-c1 #
       1...Qg8-c4
-          2.Sd2-b1
-              2...Qc4-f1 #
-          2.Sd2-f1 +
-              2...Qc4*f1 #
-          2.Sd2-e4
-              2...Qc4-f1 #
-          2.Sd2-b3
-              2...Qc4-f1 #
+          2.Kd1-e1
+              2...Qc4-e2 #
           2.Qc2-b1[+buRc2]
               2...Qc4-e2 #
               2...uRc2-c1 #
@@ -735,13 +745,15 @@ solution finished.
               2...uRc2-c1 #
           2.Qc2*c4[+buRc2]
               2...uRc2-c1 #
-          2.Kd1-e1
-              2...Qc4-e2 #
-      1...Qg8-d5
           2.Sd2-b1
-              2...Qd5-h1 #
+              2...Qc4-f1 #
+          2.Sd2-f1 +
+              2...Qc4*f1 #
+          2.Sd2-e4
+              2...Qc4-f1 #
           2.Sd2-b3
-              2...Qd5-h1 #
+              2...Qc4-f1 #
+      1...Qg8-d5
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
           2.Qc2-h7[+buRc2]
@@ -768,6 +780,10 @@ solution finished.
               2...uRc2-c1 #
           2.Qc2-c4[+buRc2]
               2...uRc2-c1 #
+          2.Sd2-b1
+              2...Qd5-h1 #
+          2.Sd2-b3
+              2...Qd5-h1 #
       1...Qg8-e6
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
@@ -802,12 +818,6 @@ solution finished.
           2.Kd1-e1
               2...Qg4-e2 #
       1...Qg8-g6
-          2.Sd2-b1
-              2...Qg6-g1 #
-          2.Sd2-e4
-              2...Qg6-g1 #
-          2.Sd2-b3
-              2...Qg6-g1 #
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
           2.Qc2*g6[+buRc2]
@@ -832,11 +842,13 @@ solution finished.
               2...uRc2-c1 #
           2.Qc2-c4[+buRc2]
               2...uRc2-c1 #
-      1...Qg8-a8
           2.Sd2-b1
-              2...Qa8-h1 #
+              2...Qg6-g1 #
+          2.Sd2-e4
+              2...Qg6-g1 #
           2.Sd2-b3
-              2...Qa8-h1 #
+              2...Qg6-g1 #
+      1...Qg8-a8
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
           2.Qc2-h7[+buRc2]
@@ -863,6 +875,10 @@ solution finished.
               2...uRc2-c1 #
           2.Qc2-c4[+buRc2]
               2...uRc2-c1 #
+          2.Sd2-b1
+              2...Qa8-h1 #
+          2.Sd2-b3
+              2...Qa8-h1 #
       1...Qg8-b8
           2.Qc2-b1[+buRc2]
               2...uRc2-c1 #
@@ -979,27 +995,11 @@ solution finished.
       1...Ke3*d4 !
           2.Sd2-f3 #
 
-   1.Kd1*c2 ! threat:
-          2.Kc2-d1[+buRc2]
-              2...uRc2-c1 #
-      1...Ke3-f4
-          2.Kc2-d3[+buRc2]
-              2...uRc2*d2 #
-      1...Ke3-e2
-          2.Sd2-b1
-              2...d4-d3 #
-      1...Qg8-g1
-          2.Sd2-b3
-              2...d4-d3 #
-      1...Qg8-g4
-          2.Kc2-b1[+buRc2]
-              2...Qg4-d1 #
 
-
-  add_to_move_generation_stack:       95408
-                     play_move:       62920
- is_white_king_square_attacked:       59157
- is_black_king_square_attacked:       13551
+  add_to_move_generation_stack:       87349
+                     play_move:       56813
+ is_white_king_square_attacked:       53036
+ is_black_king_square_attacked:       12504
 solution finished. 
 
 
@@ -1068,8 +1068,8 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1...nPd7-d8=nB   2.Ra5-a6 nPc7*d8=nS   3.Kb6-a5 nSd8-c6[+nuBd8] #
   1...nPc7-c8=nQ   2.Ra5-a7 nPd7*c8=nR   3.Kb6-b7 nRc8-b8[+nuQc8] #
+  1...nPd7-d8=nB   2.Ra5-a6 nPc7*d8=nS   3.Kb6-a5 nSd8-c6[+nuBd8] #
 
   add_to_move_generation_stack:      400534
                      play_move:      208324
@@ -1116,10 +1116,10 @@ solution finished.
                           4.Sf8-e6 #
 
 
-  add_to_move_generation_stack:       32737
-                     play_move:       20512
- is_white_king_square_attacked:       12746
- is_black_king_square_attacked:        9632
+  add_to_move_generation_stack:       32814
+                     play_move:       20286
+ is_white_king_square_attacked:       12363
+ is_black_king_square_attacked:        9841
 solution finished. 
 
 

@@ -31,18 +31,18 @@
       1...Th3-b3
           2.Lc2*b3[+wTh1] #
       1...Th3-c3
-          2.Ld4*c3[+wTa1] #
           2.d2*c3[+wTa1] #
+          2.Ld4*c3[+wTa1] #
       1...Db7*b4[+sSb8]
           2.a3*b4[+wDd1] #
       1...Db7-g7
           2.Ld4*g7[+wDd1] #
 
 
-  add_to_move_generation_stack:       11062
-                     play_move:        6209
- is_white_king_square_attacked:         352
- is_black_king_square_attacked:        6212
+  add_to_move_generation_stack:       11338
+                     play_move:        6723
+ is_white_king_square_attacked:         481
+ is_black_king_square_attacked:        6726
 Loesung beendet. 
 
 
@@ -119,9 +119,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:        4477
-                     play_move:        2784
- is_white_king_square_attacked:         223
- is_black_king_square_attacked:        2787
+                     play_move:        2681
+ is_white_king_square_attacked:         209
+ is_black_king_square_attacked:        2684
 Loesung beendet. 
 
 

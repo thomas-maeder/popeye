@@ -71,10 +71,10 @@ Patrouille e8 a7 b7 c7 d7 e7 a6 h2 e1 g1
                           4.pGh2-h4 #
 
 
-  add_to_move_generation_stack:      294642
-                     play_move:      181521
- is_white_king_square_attacked:      104287
- is_black_king_square_attacked:       80267
+  add_to_move_generation_stack:      342939
+                     play_move:      213993
+ is_white_king_square_attacked:      122619
+ is_black_king_square_attacked:       95420
 Loesung beendet. 
 
 

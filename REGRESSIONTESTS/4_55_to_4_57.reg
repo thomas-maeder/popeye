@@ -27,15 +27,27 @@ solution (which is a short solution in 1->ser-h#3)
   1->ser-h#3                 4 + 11
             AndernachChess
 
- 24  (Rh1-h4 )
+ 12  (Rh1-h4 )
   1.Rh1-h4   1.Be4*d3=w   2.Rc4*h4=w Bd3-c4 #
- 25  (Rh1-h3 )
- 26  (Rh1-h2 )
+ 13  (Rh1-h3 )
+ 14  (Rh1-h2 )
+ 15  (Ba3*b2=b )
+ 16  (Ba3-f8 )
+ 17  (Ba3-e7 )
+ 18  (Ba3-d6 )
+ 19  (Ba3-c5 )
+ 20  (Ba3-b4 )
+ 21  (d3-d4 )
+ 22  (d3*e4=b )
+ 23  (d3*c4=b )
+ 24  (Ka8-b7 )
+ 25  (Ka8-a7 )
+ 26  (Ka8-b8 )
 
   add_to_move_generation_stack:        3876
                      play_move:        2365
- is_white_king_square_attacked:         595
- is_black_king_square_attacked:        2344
+ is_white_king_square_attacked:         607
+ is_black_king_square_attacked:        2356
 solving interrupted. 
 
 
@@ -590,10 +602,10 @@ solution finished.
 
   1...a7-a6 dia
 
-  1.Sg1-h3   2.Sh3-g1 a7-a6 dia
-  1.Sg1-f3   2.Sf3-g1 a7-a6 dia
   1.Sb1-c3   2.Sc3-b1 a7-a6 dia
   1.Sb1-a3   2.Sa3-b1 a7-a6 dia
+  1.Sg1-h3   2.Sh3-g1 a7-a6 dia
+  1.Sg1-f3   2.Sf3-g1 a7-a6 dia
 
   add_to_move_generation_stack:         224
                      play_move:         224
@@ -888,9 +900,9 @@ only example so far of a help stipulation with option stoponshort
 
   1.h2-h4 g7-g5   2.h4*g5 Bb1-c2 #
 
-  add_to_move_generation_stack:         184
-                     play_move:         157
- is_white_king_square_attacked:         149
+  add_to_move_generation_stack:         187
+                     play_move:         158
+ is_white_king_square_attacked:         150
  is_black_king_square_attacked:           0
 solving interrupted. 
 
@@ -1057,16 +1069,16 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   dia7                      16 + 15
 
-  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a4   5.Sb1*a3 Ra4-a7   6.Sa3-b1 Ra7-a8 dia
-  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a4   5.Sb1*a3 Ra4-a6   6.Sa3-b1 Ra6-a8 dia
-  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a4   5.Sb1*a3 Ra4-a5   6.Sa3-b1 Ra5-a8 dia
-  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a5   5.Sb1*a3 Ra5-a4   6.Sa3-b1 Ra4-a8 dia
-  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a5   5.Sb1*a3 Ra5-a7   6.Sa3-b1 Ra7-a8 dia
+  1.Sb1-c3 a7-a5   2.Ra1-b1 a5-a4   3.Rb1-a1 a4-a3   4.Sc3-b1 Ra8-a4   5.Sb1*a3 Ra4-a7   6.Sa3-b1 Ra7-a8 dia
+  1.Sb1-c3 a7-a5   2.Ra1-b1 a5-a4   3.Rb1-a1 a4-a3   4.Sc3-b1 Ra8-a4   5.Sb1*a3 Ra4-a6   6.Sa3-b1 Ra6-a8 dia
+  1.Sb1-c3 a7-a5   2.Ra1-b1 a5-a4   3.Rb1-a1 a4-a3   4.Sc3-b1 Ra8-a4   5.Sb1*a3 Ra4-a5   6.Sa3-b1 Ra5-a8 dia
+  1.Sb1-c3 a7-a5   2.Ra1-b1 a5-a4   3.Rb1-a1 a4-a3   4.Sc3-b1 Ra8-a5   5.Sb1*a3 Ra5-a4   6.Sa3-b1 Ra4-a8 dia
+  1.Sb1-c3 a7-a5   2.Ra1-b1 a5-a4   3.Rb1-a1 a4-a3   4.Sc3-b1 Ra8-a5   5.Sb1*a3 Ra5-a7   6.Sa3-b1 Ra7-a8 dia
 
-  add_to_move_generation_stack:       52510
-                     play_move:       52510
- is_white_king_square_attacked:        2633
- is_black_king_square_attacked:        2925
+  add_to_move_generation_stack:       53540
+                     play_move:       53540
+ is_white_king_square_attacked:        2674
+ is_black_king_square_attacked:        2985
 solving interrupted. 
 
 
@@ -1134,10 +1146,10 @@ solution finished.
 
   1.Sh2-f3   2.Sf3-h2 d3-d2 #
 
-  add_to_move_generation_stack:         291
-                     play_move:         201
- is_white_king_square_attacked:         200
- is_black_king_square_attacked:          88
+  add_to_move_generation_stack:         255
+                     play_move:         197
+ is_white_king_square_attacked:         196
+ is_black_king_square_attacked:          81
 solution finished. 
 
 
@@ -1170,8 +1182,8 @@ solution finished.
   1.g3-g4   2.g4-g5 d3-d2 #
 
   add_to_move_generation_stack:          96
-                     play_move:          71
- is_white_king_square_attacked:          72
+                     play_move:          76
+ is_white_king_square_attacked:          77
  is_black_king_square_attacked:          17
 solution finished. 
 
@@ -1274,10 +1286,10 @@ solution finished.
 
   1.Sh2-f3   2.Sf3-h2 d3-d2 #
 
-  add_to_move_generation_stack:         318
-                     play_move:         245
- is_white_king_square_attacked:         230
- is_black_king_square_attacked:         112
+  add_to_move_generation_stack:         326
+                     play_move:         254
+ is_white_king_square_attacked:         239
+ is_black_king_square_attacked:         116
 solution finished. 
 
 

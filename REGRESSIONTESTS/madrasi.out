@@ -64,10 +64,10 @@
                                   5.Gg7*c7 #
 
 
-  add_to_move_generation_stack:     1143926
-                     play_move:      934707
- is_white_king_square_attacked:      592055
- is_black_king_square_attacked:      349377
+  add_to_move_generation_stack:     1167576
+                     play_move:      957327
+ is_white_king_square_attacked:      600382
+ is_black_king_square_attacked:      364019
 Loesung beendet. 
 
 
@@ -136,18 +136,6 @@ Loesung beendet.
                 Circe
          Madrasi RexInklusive
 
-   1.Dd6-a3 + ?
-    Aber
-      1...Df3*f8 !
-
-   1.Dd6-b4 + ?
-    Aber
-      1...Df3*f8 !
-
-   1.Td4*c4 + ?
-    Aber
-      1...Te1*e4[+wBe2] !
-
    1.Sc1-e2 ? Drohung:
           2.Td4*c4 #
       1...Te1*e2[+wSb1]
@@ -181,11 +169,23 @@ Loesung beendet.
     Aber
       1...Lh8*d4[+wTa1] !
 
+   1.Td4*c4 + ?
+    Aber
+      1...Te1*e4[+wBe2] !
 
-  add_to_move_generation_stack:       22003
-                     play_move:       14635
- is_white_king_square_attacked:         535
- is_black_king_square_attacked:       14461
+   1.Dd6-a3 + ?
+    Aber
+      1...Df3*f8 !
+
+   1.Dd6-b4 + ?
+    Aber
+      1...Df3*f8 !
+
+
+  add_to_move_generation_stack:       21680
+                     play_move:       14068
+ is_white_king_square_attacked:         522
+ is_black_king_square_attacked:       13894
 Loesung beendet. 
 
 
@@ -357,10 +357,10 @@ Loesung beendet.
    1.Lb6-c7 !
 
 
-  add_to_move_generation_stack:      643948
-                     play_move:      529278
- is_white_king_square_attacked:      330591
- is_black_king_square_attacked:      206135
+  add_to_move_generation_stack:      630205
+                     play_move:      504859
+ is_white_king_square_attacked:      302431
+ is_black_king_square_attacked:      209984
 Loesung beendet. 
 
 

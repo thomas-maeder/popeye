@@ -456,10 +456,10 @@ Loesung beendet.
   1...Th4*d4   2.Db4-c4 Td4-h4   3.Kc5-b4 Lh2-f4   4.Dc4-c5 Lf4-d2 #
   1...Lh2*e5   2.Kc5-c6 Le5-h2   3.Ld6-c5 Th4-f4   4.Kc6-d6 Tf4-f6 #
 
-  add_to_move_generation_stack:     3268338
-                     play_move:     3285125
+  add_to_move_generation_stack:     3268522
+                     play_move:     3285309
  is_white_king_square_attacked:      134887
- is_black_king_square_attacked:      125158
+ is_black_king_square_attacked:      125109
 Loesung beendet. 
 
 
@@ -1468,10 +1468,10 @@ Loesung beendet.
 
   1...Ld6-b8   2.Kc3-d4 Kb7-c7   3.Kd4-e5 Kc7-d8 +   4.Ke5-e6 Lb8-g3   5.h4-h3 f2-f4   6.Ke6-d6 f4-f5 #
 
-  add_to_move_generation_stack:     5899906
-                     play_move:     5890154
- is_white_king_square_attacked:      591460
- is_black_king_square_attacked:      547203
+  add_to_move_generation_stack:     5903216
+                     play_move:     5893464
+ is_white_king_square_attacked:      591645
+ is_black_king_square_attacked:      547584
 Loesung beendet. 
 
 
@@ -1509,8 +1509,8 @@ Loesung beendet.
   1...Se7-c8   2.Sg4-e3 + Kd5-e4   3.Se3-d1 Sc8-b6 +   4.Ka4-b3 Sb6-d7   5.Sd1-c3 + Ke4-d3   6.Sc3-a2 Sd7-c5 +   7.Kb3-b2 Sc5-a4 +   8.Kb2-a1 Sa4-c5   9.Sa2-c1 + Kd3-c2  10.Sc1-a2 Sc5-b3 #
 
   add_to_move_generation_stack:      840062
-                     play_move:      566156
- is_white_king_square_attacked:      202221
+                     play_move:      555611
+ is_white_king_square_attacked:      191676
  is_black_king_square_attacked:      171475
 Loesung beendet. 
 
@@ -4227,31 +4227,31 @@ Loesung beendet.
   1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Tc3-h3 #
   1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e6   5.Ke6-f7   6.Tc3-h3 #
   1.Ka4-b3   2.Kb3*c2   3.Kc2-d3   4.Kd3-e4   5.Ke4-f5   6.Kf5-g6   7.Tc3-c8 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-c6   5.Kd7-e8   6.Ke8-f8   7.Tc6-h6 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-c6   5.Kd7-e7   6.Ke7-f8   7.Tc6-h6 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-c6   5.Kd7-e8   6.Ke8-f7   7.Tc6-h6 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-c6   5.Kd7-e6   6.Ke6-f7   7.Tc6-h6 #
-  1.Tc3-c5   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e8   6.Ke8-f8   7.Tc5-h5 #
-  1.Tc3-c5   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e7   6.Ke7-f8   7.Tc5-h5 #
-  1.Tc3-c5   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e8   6.Ke8-f7   7.Tc5-h5 #
-  1.Tc3-c5   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e6   6.Ke6-f7   7.Tc5-h5 #
-  1.Tc3-c4   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e8   6.Ke8-f8   7.Tc4-h4 #
-  1.Tc3-c4   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e7   6.Ke7-f8   7.Tc4-h4 #
-  1.Tc3-c4   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e8   6.Ke8-f7   7.Tc4-h4 #
-  1.Tc3-c4   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e6   6.Ke6-f7   7.Tc4-h4 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-a3   5.Kd7-e8   6.Ke8-f8   7.Ta3-h3 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-a3   5.Kd7-e7   6.Ke7-f8   7.Ta3-h3 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-a3   5.Kd7-e8   6.Ke8-f7   7.Ta3-h3 #
-  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Tc3-a3   5.Kd7-e6   6.Ke6-f7   7.Ta3-h3 #
-  1.Tc3*c2   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e8   6.Ke8-f8   7.Tc2-h2 #
-  1.Tc3*c2   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e7   6.Ke7-f8   7.Tc2-h2 #
-  1.Tc3*c2   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e8   6.Ke8-f7   7.Tc2-h2 #
-  1.Tc3*c2   2.Ka4-b5   3.Kb5-c6   4.Kc6-d7   5.Kd7-e6   6.Ke6-f7   7.Tc2-h2 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f8   6.Tc3-c6   7.Tc6-h6 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3-c6   6.Ke8-f8   7.Tc6-h6 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Tc3-c6   7.Tc6-h6 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3-c6   6.Ke8-f7   7.Tc6-h6 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f8   6.Tc3-c5   7.Tc5-h5 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3-c5   6.Ke8-f8   7.Tc5-h5 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Tc3-c5   7.Tc5-h5 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3-c5   6.Ke8-f7   7.Tc5-h5 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f8   6.Tc3-c4   7.Tc4-h4 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3-c4   6.Ke8-f8   7.Tc4-h4 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Tc3-c4   7.Tc4-h4 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3-c4   6.Ke8-f7   7.Tc4-h4 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Kf7-f8   7.Tc3-h3 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-e7   6.Ke7-f8   7.Tc3-h3 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Tc3-a3   7.Ta3-h3 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Tc3-b3   7.Tb3-h3 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f8   6.Tc3*c2   7.Tc2-h2 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3*c2   6.Ke8-f8   7.Tc2-h2 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Ke8-f7   6.Tc3*c2   7.Tc2-h2 #
+  1.Ka4-b5   2.Kb5-c6   3.Kc6-d7   4.Kd7-e8   5.Tc3*c2   6.Ke8-f7   7.Tc2-h2 #
 
-  add_to_move_generation_stack:        6305
-                     play_move:        6292
- is_white_king_square_attacked:         919
- is_black_king_square_attacked:        1315
+  add_to_move_generation_stack:        5315
+                     play_move:        5302
+ is_white_king_square_attacked:         679
+ is_black_king_square_attacked:        1157
 Bearbeitung abgebrochen. 
 
 

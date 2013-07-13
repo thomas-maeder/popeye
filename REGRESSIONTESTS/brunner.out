@@ -24,13 +24,21 @@
   #2                          6 + 5
             BrunnerSchach
 
-   1.Th5-d5 ? Zugzwang.
-    Aber
-      1...c6*d5 !
+   1.Ka2-b3 ! Zugzwang.
+      1...Kb5*a5
+          2.c5*b6 #
+      1...Kb5*c5
+          2.Kb3-c4 #
 
-   1.c5*b6 + ?
+   1.Ka2-b2 ? Zugzwang.
+      1...Kb5-a4
+          2.c5*b6 #
+      1...Kb5-c4
+          2.c5*b6 #
+      1...Kb5*a5
+          2.c5*b6 #
     Aber
-      1...c6-c5 !
+      1...Kb5*c5 !
 
    1.Da3-b4 + ?
     Aber
@@ -48,27 +56,19 @@
     Aber
       1...Kb5*a5 !
 
-   1.Ka2-b3 ! Zugzwang.
-      1...Kb5*a5
-          2.c5*b6 #
-      1...Kb5*c5
-          2.Kb3-c4 #
-
-   1.Ka2-b2 ? Zugzwang.
-      1...Kb5-a4
-          2.c5*b6 #
-      1...Kb5-c4
-          2.c5*b6 #
-      1...Kb5*a5
-          2.c5*b6 #
+   1.c5*b6 + ?
     Aber
-      1...Kb5*c5 !
+      1...c6-c5 !
+
+   1.Th5-d5 ? Zugzwang.
+    Aber
+      1...c6*d5 !
 
 
-  add_to_move_generation_stack:        6506
-                     play_move:        5342
- is_white_king_square_attacked:        2141
- is_black_king_square_attacked:        2849
+  add_to_move_generation_stack:        6632
+                     play_move:        5448
+ is_white_king_square_attacked:        2193
+ is_black_king_square_attacked:        2906
 Loesung beendet. 
 
 

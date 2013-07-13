@@ -31,7 +31,7 @@ White king is not in check on b7 even if nBc8*bKb7 is not the longest
   add_to_move_generation_stack:          44
                      play_move:          43
  is_white_king_square_attacked:          17
- is_black_king_square_attacked:          23
+ is_black_king_square_attacked:          22
 solution finished. 
 
 
@@ -65,9 +65,9 @@ White king is not in check on d5 even if c6-d5 is shorter than the
    1.Ke6-d5 z !
 
 
-  add_to_move_generation_stack:          26
-                     play_move:          27
- is_white_king_square_attacked:           7
+  add_to_move_generation_stack:          24
+                     play_move:          22
+ is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -176,9 +176,9 @@ don't ignore the longest move just because of self-check if it reaches
 
   1.Rh8-h2 c2-c4 ##
 
-  add_to_move_generation_stack:        1038
-                     play_move:         616
- is_white_king_square_attacked:         694
+  add_to_move_generation_stack:         703
+                     play_move:         427
+ is_white_king_square_attacked:         414
  is_black_king_square_attacked:          97
 solution finished. 
 
@@ -214,7 +214,7 @@ solution finished.
   1.b7*a6 [h8=R]Rh8-a8
 
   add_to_move_generation_stack:         103
-                     play_move:          21
+                     play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

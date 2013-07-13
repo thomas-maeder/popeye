@@ -153,10 +153,10 @@ don't get confused with >1 latent pawn
           2.Se8*c7 #
 
 
-  add_to_move_generation_stack:        7243
-                     play_move:        5354
- is_white_king_square_attacked:         362
- is_black_king_square_attacked:        4992
+  add_to_move_generation_stack:        7737
+                     play_move:        5884
+ is_white_king_square_attacked:         372
+ is_black_king_square_attacked:        5497
 solution finished. 
 
 
@@ -210,10 +210,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 #
 
 
-  add_to_move_generation_stack:        6701
-                     play_move:        3909
- is_white_king_square_attacked:         711
- is_black_king_square_attacked:        3896
+  add_to_move_generation_stack:        6713
+                     play_move:        3912
+ is_white_king_square_attacked:         718
+ is_black_king_square_attacked:        3899
 solution finished. 
 
 
@@ -242,6 +242,26 @@ solution finished.
   #3                        11 + 11
           SingleBox    Type2
 
+   1.Qh1*e4 + ?
+    but
+      1...d5*e4 !
+
+   1.Rg4-g5 + ?
+    but
+      1...Bh6*g5 + !
+
+   1.Rg4*h4 ? threat:
+          2.Rh4-h5 +
+              2...Bh6-g5 +
+                  3.Rh5*g5 #
+      1...f4-f3
+          2.Bh2*g3 +
+              2...Bh6-f4
+                  3.Rh4-h5 #
+                  3.Bg3*f4 #
+    but
+      1...Bh6-g5 + !
+
    1.f7-f8 ! threat:
           2.Qh1*e4 +
               2...d5*e4[f8=Q]
@@ -263,31 +283,11 @@ solution finished.
               2...e4*f3[f8=S]
                   3.Sf8-d7 #
 
-   1.Rg4-g5 + ?
-    but
-      1...Bh6*g5 + !
 
-   1.Rg4*h4 ? threat:
-          2.Rh4-h5 +
-              2...Bh6-g5 +
-                  3.Rh5*g5 #
-      1...f4-f3
-          2.Bh2*g3 +
-              2...Bh6-f4
-                  3.Rh4-h5 #
-                  3.Bg3*f4 #
-    but
-      1...Bh6-g5 + !
-
-   1.Qh1*e4 + ?
-    but
-      1...d5*e4 !
-
-
-  add_to_move_generation_stack:      213753
-                     play_move:      145794
- is_white_king_square_attacked:       33397
- is_black_king_square_attacked:      115492
+  add_to_move_generation_stack:      206310
+                     play_move:      139544
+ is_white_king_square_attacked:       32936
+ is_black_king_square_attacked:      110166
 solution finished. 
 
 
@@ -325,10 +325,10 @@ solution finished.
           2.Qe8-e5 #
 
 
-  add_to_move_generation_stack:        4805
-                     play_move:        3465
- is_white_king_square_attacked:         376
- is_black_king_square_attacked:        3014
+  add_to_move_generation_stack:        4905
+                     play_move:        3537
+ is_white_king_square_attacked:         383
+ is_black_king_square_attacked:        3097
 solution finished. 
 
 

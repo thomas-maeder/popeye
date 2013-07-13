@@ -60,6 +60,16 @@ pawns are promoted before and after transfer
   ~1                          2 + 0
           Wormholes d1 a4 f8
 
+   1.a3-a4[wPa4->d1] !
+
+   1.a3-a4[wPa4->f8=Q] !
+
+   1.a3-a4[wPa4->f8=S] !
+
+   1.a3-a4[wPa4->f8=R] !
+
+   1.a3-a4[wPa4->f8=B] !
+
    1.f7-f8=Q[wQf8->d1] !
 
    1.f7-f8=Q[wQf8->a4] !
@@ -75,16 +85,6 @@ pawns are promoted before and after transfer
    1.f7-f8=B[wBf8->d1] !
 
    1.f7-f8=B[wBf8->a4] !
-
-   1.a3-a4[wPa4->d1] !
-
-   1.a3-a4[wPa4->f8=Q] !
-
-   1.a3-a4[wPa4->f8=S] !
-
-   1.a3-a4[wPa4->f8=R] !
-
-   1.a3-a4[wPa4->f8=B] !
 
 
   add_to_move_generation_stack:           2

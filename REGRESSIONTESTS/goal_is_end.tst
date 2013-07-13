@@ -145,9 +145,9 @@ post-key play
                   3.Rf6-f8 c81
 
   add_to_move_generation_stack:         620
-                     play_move:         125
+                     play_move:         122
  is_white_king_square_attacked:          34
- is_black_king_square_attacked:          56
+ is_black_king_square_attacked:          54
 solution finished. 
 
 

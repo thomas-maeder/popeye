@@ -91,10 +91,10 @@ solution finished.
           2.CPb6*a6 =
 
 
-  add_to_move_generation_stack:         274
-                     play_move:         208
- is_white_king_square_attacked:          82
- is_black_king_square_attacked:         198
+  add_to_move_generation_stack:         259
+                     play_move:         191
+ is_white_king_square_attacked:          75
+ is_black_king_square_attacked:         183
 solution finished. 
 
 

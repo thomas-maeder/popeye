@@ -46,10 +46,10 @@
           2.Ke6-e7 #
 
 
-  add_to_move_generation_stack:        1690
-                     play_move:         963
- is_white_king_square_attacked:         100
- is_black_king_square_attacked:         966
+  add_to_move_generation_stack:        1681
+                     play_move:         924
+ is_white_king_square_attacked:          97
+ is_black_king_square_attacked:         927
 solution finished. 
 
 
@@ -201,10 +201,10 @@ solution finished.
           2.Qd5-e4 #
 
 
-  add_to_move_generation_stack:        5822
-                     play_move:        3283
- is_white_king_square_attacked:         202
- is_black_king_square_attacked:        3286
+  add_to_move_generation_stack:        5914
+                     play_move:        3251
+ is_white_king_square_attacked:         209
+ is_black_king_square_attacked:        3254
 solution finished. 
 
 

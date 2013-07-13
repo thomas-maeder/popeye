@@ -27,23 +27,23 @@
 
 a) 
 
+   1.c3-c4 ! Zugzwang.
+      1...Kf5-e5[Ke5<->Kc5]
+          2.Sf2-e4 #
+          2.d3-d4 #
+          2.Tb6-b5 #
+
    1.Tb6-f6 + !
       1...Kf5-e5[Ke5<->Kc5]
           2.d3-d4 #
       1...Kf5*f6[Kf6<->Kc5]
           2.Sf2-e4 #
 
-   1.c3-c4 ! Zugzwang.
-      1...Kf5-e5[Ke5<->Kc5]
-          2.Tb6-b5 #
-          2.d3-d4 #
-          2.Sf2-e4 #
 
-
-  add_to_move_generation_stack:        1917
-                     play_move:         914
- is_white_king_square_attacked:         141
- is_black_king_square_attacked:        1613
+  add_to_move_generation_stack:        1885
+                     play_move:         851
+ is_white_king_square_attacked:         131
+ is_black_king_square_attacked:        1527
 b) WeisseOszillierendeKoenige    TypB
 
    1.Sf2-d1[Kf5<->Kc5] ! Zugzwang.
@@ -51,18 +51,18 @@ b) WeisseOszillierendeKoenige    TypB
           2.Sd1-e3[Kd5<->Kf5] #
 
 
-  add_to_move_generation_stack:        2633
-                     play_move:        1401
- is_white_king_square_attacked:        1126
- is_black_king_square_attacked:        1404
+  add_to_move_generation_stack:        2631
+                     play_move:        1388
+ is_white_king_square_attacked:        1093
+ is_black_king_square_attacked:        1391
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
 
 
-  add_to_move_generation_stack:        3911
-                     play_move:        1191
- is_white_king_square_attacked:        1170
- is_black_king_square_attacked:        1192
+  add_to_move_generation_stack:        3589
+                     play_move:        1077
+ is_white_king_square_attacked:        1167
+ is_black_king_square_attacked:        1078
 Loesung beendet. 
 
 
@@ -98,10 +98,10 @@ Loesung beendet.
               2...Lf3*d5[Kh8<->Ka8] #
 
 
-  add_to_move_generation_stack:        5142
-                     play_move:        2055
- is_white_king_square_attacked:        2056
- is_black_king_square_attacked:        3604
+  add_to_move_generation_stack:        5125
+                     play_move:        2046
+ is_white_king_square_attacked:        2047
+ is_black_king_square_attacked:        3630
 Loesung beendet. 
 
 
@@ -145,9 +145,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:        1640
-                     play_move:        1110
+                     play_move:        1156
  is_white_king_square_attacked:         154
- is_black_king_square_attacked:        1113
+ is_black_king_square_attacked:        1159
 Loesung beendet. 
 
 

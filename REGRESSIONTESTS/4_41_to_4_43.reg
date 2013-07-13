@@ -180,10 +180,6 @@ solution finished.
 
 
 
-   1.Sg7-e8 ?
-    but
-      1...Bd1-f3 !
-
    1.Qe3-b3 ?
       1...Bd1*b3[bBb3->c8] #
     but
@@ -200,11 +196,15 @@ solution finished.
    1.Qe3-f3 !
       1...Bd1*f3[bBf3->c8] #
 
+   1.Sg7-e8 ?
+    but
+      1...Bd1-f3 !
 
-  add_to_move_generation_stack:        2290
-                     play_move:        1678
- is_white_king_square_attacked:         831
- is_black_king_square_attacked:         396
+
+  add_to_move_generation_stack:        2289
+                     play_move:        1676
+ is_white_king_square_attacked:         830
+ is_black_king_square_attacked:         395
 solution finished. 
 
 

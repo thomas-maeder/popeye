@@ -293,21 +293,6 @@ solution finished.
   #2                          8 + 7
               KobulKings
 
-   1.Bh6*g7[c3=rB] + ?
-    but
-      1...rBc3*g7[b5=rB] !
-
-   1.Qh2*f4 ! threat:
-          2.Qf4*c4 #
-      1...Kc3*d3[b5=rS]
-          2.Rg2-d2 #
-      1...Rf3*f4[b5=rQ]
-          2.Sd3*f4[c3=rR] #
-      1...g5*f4[b5=rQ]
-          2.Bh6*g7[c3=rB] #
-      1...Bg7-d4
-          2.Qf4*d4[c3=rB] #
-
    1.Rg2*b2 ? threat:
           2.Qh2-c2 #
           2.Qh2-d2 #
@@ -322,11 +307,26 @@ solution finished.
     but
       1...Kc3*b3[b5=rS] !
 
+   1.Qh2*f4 ! threat:
+          2.Qf4*c4 #
+      1...Kc3*d3[b5=rS]
+          2.Rg2-d2 #
+      1...Rf3*f4[b5=rQ]
+          2.Sd3*f4[c3=rR] #
+      1...g5*f4[b5=rQ]
+          2.Bh6*g7[c3=rB] #
+      1...Bg7-d4
+          2.Qf4*d4[c3=rB] #
 
-  add_to_move_generation_stack:       13008
-                     play_move:        8674
- is_white_king_square_attacked:         672
- is_black_king_square_attacked:        8615
+   1.Bh6*g7[c3=rB] + ?
+    but
+      1...rBc3*g7[b5=rB] !
+
+
+  add_to_move_generation_stack:       12859
+                     play_move:        8545
+ is_white_king_square_attacked:         632
+ is_black_king_square_attacked:        8486
 solution finished. 
 
 

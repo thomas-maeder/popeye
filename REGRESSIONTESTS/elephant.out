@@ -246,10 +246,10 @@ Loesung beendet.
                                           6.ETb6-f8 #
 
 
-  add_to_move_generation_stack:    36276332
-                     play_move:    26423067
- is_white_king_square_attacked:    20100389
- is_black_king_square_attacked:     7356000
+  add_to_move_generation_stack:    37303717
+                     play_move:    27129901
+ is_white_king_square_attacked:    20585618
+ is_black_king_square_attacked:     7624763
 Loesung beendet. 
 
 
@@ -300,10 +300,10 @@ Loesung beendet.
                           4.ETf5-d6 #
 
 
-  add_to_move_generation_stack:     1094311
-                     play_move:      717200
- is_white_king_square_attacked:      484295
- is_black_king_square_attacked:      283677
+  add_to_move_generation_stack:     1135690
+                     play_move:      742742
+ is_white_king_square_attacked:      500002
+ is_black_king_square_attacked:      295539
 Loesung beendet. 
 
 
@@ -386,6 +386,21 @@ Loesung beendet.
                       3...Kf5-g4
                           4.ETf7-f3 #
               2...Ke6-e5
+                  3.Ke2-f3 Drohung:
+                          4.ETd8-f4 #
+                          4.ETd8-d7 #
+                      3...Ke5-f5
+                          4.ETd8-f4 #
+                          4.ETd8-f7 #
+                          4.ETd8-e7 #
+                  3.Ke2-e3 Drohung:
+                          4.ETd8-f4 #
+                          4.ETd8-f7 #
+                          4.ETd8-e7 #
+                          4.ETd8-d4 #
+                          4.ETd8-d7 #
+                      3...Ke5-f5
+                          4.ETd8-f4 #
                   3.ETd8-f7 +
                       3...Ke5-d4
                           4.ETf7-d3 #
@@ -411,21 +426,6 @@ Loesung beendet.
                           4.ETd7-e6 #
                           4.ETd7-d3 #
                           4.ETd7-d6 #
-                  3.Ke2-f3 Drohung:
-                          4.ETd8-f4 #
-                          4.ETd8-d7 #
-                      3...Ke5-f5
-                          4.ETd8-f4 #
-                          4.ETd8-f7 #
-                          4.ETd8-e7 #
-                  3.Ke2-e3 Drohung:
-                          4.ETd8-f4 #
-                          4.ETd8-f7 #
-                          4.ETd8-e7 #
-                          4.ETd8-d4 #
-                          4.ETd8-d7 #
-                      3...Ke5-f5
-                          4.ETd8-f4 #
       1...Kd7-e8
           2.ETd1-g7 #
       1...Kd7-c8
@@ -440,10 +440,10 @@ Loesung beendet.
                   3.ETf5-g7 #
 
 
-  add_to_move_generation_stack:      738851
-                     play_move:      521009
- is_white_king_square_attacked:      382219
- is_black_king_square_attacked:      169426
+  add_to_move_generation_stack:      738949
+                     play_move:      519605
+ is_white_king_square_attacked:      379305
+ is_black_king_square_attacked:      171224
 Loesung beendet. 
 
 
@@ -474,10 +474,10 @@ Loesung beendet.
   #3                         9 + 11
 
    1.f5-f6 ! Drohung:
-          2.Sg4-h2 #
-          2.Sg4-e5 #
           2.Se4-d2 #
           2.Se4-g5 #
+          2.Sg4-h2 #
+          2.Sg4-e5 #
       1...ETd8*f6
           2.Sg4-h2 +
               2...ETf6*h2
@@ -496,10 +496,10 @@ Loesung beendet.
                   3.Sg4-e5 #
 
 
-  add_to_move_generation_stack:      279628
-                     play_move:      163432
- is_white_king_square_attacked:       70384
- is_black_king_square_attacked:       98193
+  add_to_move_generation_stack:      284441
+                     play_move:      163057
+ is_white_king_square_attacked:       70568
+ is_black_king_square_attacked:       97724
 Loesung beendet. 
 
 

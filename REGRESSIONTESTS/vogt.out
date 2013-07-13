@@ -27,16 +27,14 @@
   #2                          5 + 8
           VogtlaenderSchach
 
-   1.Sg6-e5 ? Drohung:
-          2.Dc2-c8 #
-      1...f4-f3
+   1.Dc2-f5 ! Drohung:
           2.Ga4-e8 #
-    Aber
-      1...Ka8-b7 !
+      1...f4-f3
+          2.Sg6-e7 #
 
-   1.Sg6-e7 + ?
+   1.Dc2-c8 + ?
     Aber
-      1...Gh4-e4 !
+      1...Gb8-g3 + !
 
    1.Ga4-e8 + ?
     Aber
@@ -49,20 +47,22 @@
     Aber
       1...Ge1-e3 !
 
-   1.Dc2-f5 ! Drohung:
-          2.Ga4-e8 #
+   1.Sg6-e5 ? Drohung:
+          2.Dc2-c8 #
       1...f4-f3
-          2.Sg6-e7 #
-
-   1.Dc2-c8 + ?
+          2.Ga4-e8 #
     Aber
-      1...Gb8-g3 + !
+      1...Ka8-b7 !
+
+   1.Sg6-e7 + ?
+    Aber
+      1...Gh4-e4 !
 
 
-  add_to_move_generation_stack:        7039
-                     play_move:        5627
- is_white_king_square_attacked:        5452
- is_black_king_square_attacked:         274
+  add_to_move_generation_stack:        7019
+                     play_move:        5590
+ is_white_king_square_attacked:        5415
+ is_black_king_square_attacked:         272
 Loesung beendet. 
 
 

@@ -43,10 +43,10 @@
           2.Sf6-h5[Ic5] #
 
 
-  add_to_move_generation_stack:         987
-                     play_move:         520
- is_white_king_square_attacked:         108
- is_black_king_square_attacked:         523
+  add_to_move_generation_stack:         979
+                     play_move:         524
+ is_white_king_square_attacked:         109
+ is_black_king_square_attacked:         527
 Loesung beendet. 
 
 
@@ -118,42 +118,6 @@ Loesung beendet.
       1...Le1-f2[Id3]
           2.Dc7-b7[Ic3] #
 
-   1.Dc7-b8[Ib3] + ?
-    Aber
-      1...Lg1-f2[Ia4] !
-
-   1.Dc7-a7[Ia2] + ?
-    Aber
-      1...Ka8*a7[Ia1] !
-
-   1.Dc7-b7[Ib2] + ?
-    Aber
-      1...Lg1-f2[Ia3] !
-
-   1.Dc7-c8[Ic3] + ?
-    Aber
-      1...Lg1-f2[Ib4] !
-
-   1.Sc6-b8[Ib4] ? Zugzwang.
-      1...Le1-h4[Ie7]
-          2.Dc7-a7[Ic7] #
-      1...Le1-g3[Id6]
-          2.Dc7-c6[Id5] #
-    Aber
-      1...Le1-f2[Ic5] !
-
-   1.b6-b7[Ic3] + ?
-    Aber
-      1...Lg1-f2[Ib4] !
-
-   1.g5-g6[Ic3] ? Zugzwang.
-    Aber
-      1...Lg1-f2[Ib4] !
-
-   1.c4-c5[Ic3] ? Zugzwang.
-    Aber
-      1...Lg1-f2[Ib4] !
-
    1.Lf1-h3[Ie4] ? Drohung:
           2.Dc7-b8[Id5] #
       1...Le1-g3[Ig6]
@@ -171,11 +135,47 @@ Loesung beendet.
       1...Le1-f2[Ie4]
           2.Dc7-b8[Id5] #
 
+   1.c4-c5[Ic3] ? Zugzwang.
+    Aber
+      1...Lg1-f2[Ib4] !
 
-  add_to_move_generation_stack:        2399
-                     play_move:        1054
- is_white_king_square_attacked:         140
- is_black_king_square_attacked:        1040
+   1.g5-g6[Ic3] ? Zugzwang.
+    Aber
+      1...Lg1-f2[Ib4] !
+
+   1.b6-b7[Ic3] + ?
+    Aber
+      1...Lg1-f2[Ib4] !
+
+   1.Sc6-b8[Ib4] ? Zugzwang.
+      1...Le1-h4[Ie7]
+          2.Dc7-a7[Ic7] #
+      1...Le1-g3[Id6]
+          2.Dc7-c6[Id5] #
+    Aber
+      1...Le1-f2[Ic5] !
+
+   1.Dc7-b8[Ib3] + ?
+    Aber
+      1...Lg1-f2[Ia4] !
+
+   1.Dc7-a7[Ia2] + ?
+    Aber
+      1...Ka8*a7[Ia1] !
+
+   1.Dc7-b7[Ib2] + ?
+    Aber
+      1...Lg1-f2[Ia3] !
+
+   1.Dc7-c8[Ic3] + ?
+    Aber
+      1...Lg1-f2[Ib4] !
+
+
+  add_to_move_generation_stack:        2343
+                     play_move:        1092
+ is_white_king_square_attacked:         136
+ is_black_king_square_attacked:        1078
 Loesung beendet. 
 
 
@@ -226,10 +226,10 @@ Loesung beendet.
                           4.Td6-a6[Ib1] #
 
 
-  add_to_move_generation_stack:       67393
-                     play_move:       30023
- is_white_king_square_attacked:        9623
- is_black_king_square_attacked:       21857
+  add_to_move_generation_stack:       70278
+                     play_move:       31447
+ is_white_king_square_attacked:        9951
+ is_black_king_square_attacked:       23087
 Loesung beendet. 
 
 
@@ -325,10 +325,10 @@ Loesung beendet.
    1.Tf1*g1[Ib8] + !
 
 
-  add_to_move_generation_stack:        9361
-                     play_move:        2417
- is_white_king_square_attacked:        1113
- is_black_king_square_attacked:        1897
+  add_to_move_generation_stack:       16125
+                     play_move:        4014
+ is_white_king_square_attacked:        1848
+ is_black_king_square_attacked:        3215
 Loesung beendet. 
 
 
@@ -403,10 +403,10 @@ Loesung beendet.
           2.Da8-c6[Id1] #
 
 
-  add_to_move_generation_stack:      299714
-                     play_move:      124453
- is_white_king_square_attacked:       48839
- is_black_king_square_attacked:       82871
+  add_to_move_generation_stack:      303608
+                     play_move:      126846
+ is_white_king_square_attacked:       50917
+ is_black_king_square_attacked:       83109
 Loesung beendet. 
 
 
@@ -463,10 +463,10 @@ Loesung beendet.
                       3...Ke1-f2[Ib5] #
 
 
-  add_to_move_generation_stack:       20935
-                     play_move:        8391
- is_white_king_square_attacked:        8176
- is_black_king_square_attacked:        2173
+  add_to_move_generation_stack:       21647
+                     play_move:        8585
+ is_white_king_square_attacked:        8370
+ is_black_king_square_attacked:        2254
 Loesung beendet. 
 
 
@@ -590,10 +590,10 @@ Loesung beendet.
               2...b3-b2[Ib6] #
 
 
-  add_to_move_generation_stack:      508421
-                     play_move:      311708
- is_white_king_square_attacked:      284800
- is_black_king_square_attacked:       31900
+  add_to_move_generation_stack:      529599
+                     play_move:      325406
+ is_white_king_square_attacked:      297515
+ is_black_king_square_attacked:       33327
 Loesung beendet. 
 
 
@@ -658,10 +658,10 @@ Loesung beendet.
                                       5...cTh1-b1=cD[Ia1] #
 
 
-  add_to_move_generation_stack:      608963
-                     play_move:      100387
- is_white_king_square_attacked:       45571
- is_black_king_square_attacked:       75512
+  add_to_move_generation_stack:      649843
+                     play_move:      106782
+ is_white_king_square_attacked:       48428
+ is_black_king_square_attacked:       80370
 Loesung beendet. 
 
 
@@ -693,11 +693,11 @@ test-beispiel f\"ur issue 1870463
 
 a) 
 
-  1.0-0-0[Ig4] d6-d7[Ig5] +
-  1.0-0-0[Ig4] d6*e7[Ih5]
   1.0-0-0[Ig4] Ka5-b4[Ih3]
   1.0-0-0[Ig4] Ka5-a4[Ig3]
   1.0-0-0[Ig4] Ka5-b5[Ih4]
+  1.0-0-0[Ig4] d6-d7[Ig5] +
+  1.0-0-0[Ig4] d6*e7[Ih5]
 
   add_to_move_generation_stack:          18
                      play_move:          11
@@ -705,10 +705,10 @@ a)
  is_black_king_square_attacked:          11
 b) SchwarzerLaengstzueger
 
-  1.0-0-0 d6-d7 +
-  1.0-0-0 d6*e7
   1.0-0-0 Ka5-b4
   1.0-0-0 Ka5-a4
+  1.0-0-0 d6-d7 +
+  1.0-0-0 d6*e7
 
   add_to_move_generation_stack:          17
                      play_move:          10
@@ -777,9 +777,9 @@ Loesung beendet.
   ~1                          2 + 8
              Imitator f2
 
-   1.KHa3-c5[Ih4] !
-
    1.h2*g3[Ie3] !
+
+   1.KHa3-c5[Ih4] !
 
 
   add_to_move_generation_stack:           6
