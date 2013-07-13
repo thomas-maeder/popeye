@@ -15,7 +15,9 @@ extern boolean phantom_chess_rex_inclusive;
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not have that walk
  */
-void phantom_chess_generate_moves(PieNam p, square sq_departure);
+void phantom_generate_moves_for_piece(slice_index si,
+                                      square sq_departure,
+                                      PieNam p);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -33,9 +35,10 @@ void phantom_chess_generate_moves(PieNam p, square sq_departure);
 stip_length_type phantom_en_passant_adjuster_solve(slice_index si,
                                                    stip_length_type n);
 
-/* Instrument slices with promotee markers
+/* Inialise the solving machinery with Phantom Chess
+ * @param si identifies root slice of solving machinery
  */
-void stip_insert_phantom_en_passant_adjusters(slice_index si);
+void solving_initialise_phantom(slice_index si);
 
 /* Determine whether a specific side is in check in Phantom Chess
  * @param side_in_check the side

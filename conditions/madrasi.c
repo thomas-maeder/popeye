@@ -1,6 +1,8 @@
 #include "conditions/madrasi.h"
 #include "pydata.h"
+#include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "stipulation/stipulation.h"
 
 #include "debugging/trace.h"
 
@@ -41,11 +43,19 @@ boolean madrasi_is_moving_piece_observed(square sq)
   return result;
 }
 
-/* Can a piece on a particular square can move according to Madrasi?
- * @param sq position of piece
- * @return true iff the piece can move according to Madrasi
+/* Can a piece deliver check according to Madrasi
+ * @param sq_departure position of the piece
+ * @param sq_arrival arrival square of the capture to be threatened
+ * @param sq_capture typically the position of the opposite king
  */
-boolean madrasi_can_piece_move(square sq)
+static boolean avoid_observation_by_paralysed(square sq_observer,
+                                              square sq_landing,
+                                              square sq_observee)
+{
+  return !madrasi_is_moving_piece_observed(sq_observer);
+}
+
+static boolean can_piece_move(square sq)
 {
   boolean result;
 
@@ -73,24 +83,37 @@ boolean madrasi_can_piece_move(square sq)
   return result;
 }
 
-/* Can a piece deliver check according to Madrasi
- * @param sq_departure position of the piece
- * @param sq_arrival arrival square of the capture to be threatened
- * @param sq_capture typically the position of the opposite king
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-static boolean avoid_observation_by_paralysed(square sq_observer,
-                                              square sq_landing,
-                                              square sq_observee)
+void madrasi_generate_moves_for_piece(slice_index si,
+                                      square sq_departure,
+                                      PieNam p)
 {
-  return !madrasi_is_moving_piece_observed(sq_observer);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (can_piece_move(sq_departure))
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-/* Inialise solving in Madrasi
+/* Inialise the solving machinery with Madrasi
+ * @param si identifies root slice of solving machinery
  */
-void madrasi_initialise_solving(void)
+void madrasi_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,STMadrasiMovesForPieceGenerator);
 
   register_observer_validator(&avoid_observation_by_paralysed);
   register_observation_validator(&avoid_observation_by_paralysed);

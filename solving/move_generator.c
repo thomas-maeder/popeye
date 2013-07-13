@@ -1,5 +1,17 @@
 #include "solving/move_generator.h"
+#include "conditions/beamten.h"
+#include "conditions/central.h"
+#include "conditions/disparate.h"
+#include "conditions/eiffel.h"
+#include "conditions/madrasi.h"
+#include "conditions/disparate.h"
+#include "conditions/marscirce/marscirce.h"
+#include "conditions/marscirce/anti.h"
+#include "conditions/marscirce/plus.h"
+#include "conditions/patrol.h"
+#include "conditions/phantom.h"
 #include "conditions/singlebox/type3.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
 #include "solving/single_move_generator.h"
@@ -18,6 +30,17 @@ static slice_index const slice_rank_order[] =
 {
     STGeneratingMovesForPiece,
     STSingleBoxType3TMovesForPieceGenerator,
+    STMadrasiMovesForPieceGenerator,
+    STEiffelMovesForPieceGenerator,
+    STDisparateMovesForPieceGenerator,
+    STParalysingMovesForPieceGenerator,
+    STUltraPatrolMovesForPieceGenerator,
+    STCentralMovesForPieceGenerator,
+    STBeamtenMovesForPieceGenerator,
+    STPhantomMovesForPieceGenerator,
+    STPlusMovesForPieceGenerator,
+    STMarsCirceMovesForPieceGenerator,
+    STAntiMarsCirceMovesForPieceGenerator,
     STMovesForPieceGeneratorOrtho,
     STTrue
 };
@@ -110,6 +133,50 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
   {
     case STSingleBoxType3TMovesForPieceGenerator:
       singleboxtype3_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STMadrasiMovesForPieceGenerator:
+      madrasi_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STEiffelMovesForPieceGenerator:
+      eiffel_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STDisparateMovesForPieceGenerator:
+      disparate_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STParalysingMovesForPieceGenerator:
+      paralysing_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STUltraPatrolMovesForPieceGenerator:
+      ultrapatrol_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STCentralMovesForPieceGenerator:
+      central_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STBeamtenMovesForPieceGenerator:
+      beamten_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STPhantomMovesForPieceGenerator:
+      phantom_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STPlusMovesForPieceGenerator:
+      plus_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STMarsCirceMovesForPieceGenerator:
+      marscirce_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STAntiMarsCirceMovesForPieceGenerator:
+      antimars_generate_moves_for_piece(si,sq_departure,p);
       break;
 
     case STMovesForPieceGeneratorOrtho:

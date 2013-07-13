@@ -6,16 +6,18 @@
 
 /* This module implements the condition Central Chess */
 
-/* Determine whether a move is legal according to Central Chess
- * @param sq_departure departure square
- * @param sq_arrival arrival square
- * @param sq_capture position of the capturee (if any)
- * @return true iff the move is legal
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-boolean central_can_piece_move_from(square sq_departure);
+void central_generate_moves_for_piece(slice_index si,
+                                      square sq_departure,
+                                      PieNam p);
 
-/* Inialise solving in Central Chess
+/* Inialise the solving machinery with Central Chess
+ * @param si identifies root slice of solving machinery
  */
-void central_initialise_solving(void);
+void central_initialise_solving(slice_index si);
 
 #endif

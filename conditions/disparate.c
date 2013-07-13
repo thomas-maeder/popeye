@@ -1,14 +1,12 @@
 #include "conditions/disparate.h"
+#include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/move_effect_journal.h"
-#include "pydata.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
-/* Can a piece on a particular square can move according to Disparate chess?
- * @param sq position of piece
- * @return true iff the piece can move according to Disparate chess
- */
-boolean disparate_can_piece_move(square sq)
+static boolean can_piece_move(square sq)
 {
   boolean result = true;
   ply const parent = parent_ply[nbply];
@@ -39,6 +37,28 @@ boolean disparate_can_piece_move(square sq)
   return result;
 }
 
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void disparate_generate_moves_for_piece(slice_index si,
+                                        square sq_departure,
+                                        PieNam p)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (can_piece_move(sq_departure))
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean avoid_undisparate_observation(square sq_observer,
                                              square sq_landing,
                                              square sq_observee)
@@ -51,19 +71,22 @@ static boolean avoid_undisparate_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = disparate_can_piece_move(sq_observer);
+  result = can_piece_move(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   return result;
 }
 
-/* Inialise solving in Disparate chess
+/* Inialise the solving machinery with Disparate chess
+ * @param si identifies root slice of solving machinery
  */
-void disparate_initialise_solving(void)
+void disparate_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,STDisparateMovesForPieceGenerator);
 
   register_observation_validator(&avoid_undisparate_observation);
 

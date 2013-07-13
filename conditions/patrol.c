@@ -7,6 +7,22 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+static boolean patrol_is_supported(square sq_departure)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  result = is_square_attacked(sq_departure,&validate_observer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate an observation according to Patrol Chess
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
@@ -26,26 +42,6 @@ static boolean is_not_patrol_or_supported_capture(square sq_observer,
   TraceFunctionParamListEnd();
 
   result = !TSTFLAG(spec[sq_observer],Patrol) || patrol_is_supported(sq_observer);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a pice is supported, enabling it to capture
- * @param sq_departure position of the piece
- * @return true iff the piece is supported
- */
-boolean patrol_is_supported(square sq_departure)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  result = is_square_attacked(sq_departure,&validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -177,9 +173,33 @@ static boolean avoid_unsupported_observation(square sq_observer,
   return result;
 }
 
-/* Initialise solving in Ultra-Patrol Chess
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-void ultrapatrol_initialise_solving(void)
+void ultrapatrol_generate_moves_for_piece(slice_index si,
+                                          square sq_departure,
+                                          PieNam p)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (patrol_is_supported(sq_departure))
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inialise the solving machinery with Ultra-Patrol Chess
+ * @param si identifies root slice of solving machinery
+ */
+void ultrapatrol_initialise_solving(slice_index si)
+{
+  solving_instrument_move_generation(si,STUltraPatrolMovesForPieceGenerator);
   register_observation_validator(&avoid_unsupported_observation);
 }

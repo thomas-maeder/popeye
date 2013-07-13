@@ -9,9 +9,10 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h solving/solve.h \
  pieces/attributes/paralysing/stalemate_special.h solving/observation.h \
  pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
- stipulation/boolean/or.h stipulation/has_solution_type.h \
- stipulation/temporary_hacks.h debugging/trace.h pydata.h pyproc.h
+ solving/move_generator.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/boolean/or.h \
+ stipulation/has_solution_type.h stipulation/temporary_hacks.h \
+ debugging/trace.h pydata.h pyproc.h
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -64,6 +65,8 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
+
+solving/move_generator.h:
 
 stipulation/proxy.h:
 

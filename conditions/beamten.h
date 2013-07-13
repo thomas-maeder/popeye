@@ -6,14 +6,18 @@
 
 /* This module implements the condition Beamtenschach */
 
-/* Determine whether a Beamter piece is observed
- * @param sq_departure position of the piece
- * @return true iff the piece is observed, enabling it to move
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-boolean beamten_is_observed(square sq_departure);
+void beamten_generate_moves_for_piece(slice_index si,
+                                      square sq_departure,
+                                      PieNam p);
 
-/* Inialise solving in Beamten Chess
+/* Inialise the solving machinery with Beamten Chess
+ * @param si identifies root slice of solving machinery
  */
-void beamten_initialise_solving(void);
+void beamten_initialise_solving(slice_index si);
 
 #endif

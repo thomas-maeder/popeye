@@ -1,9 +1,12 @@
 #include "conditions/marscirce/plus.h"
-#include "pydata.h"
 #include "conditions/marscirce/marscirce.h"
+#include "solving/move_generator.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
-static void generate_additional_captures_from(PieNam p,
+static void generate_additional_captures_from(slice_index si,
+                                              PieNam p,
                                               square from,
                                               square sq_departure)
 {
@@ -18,7 +21,7 @@ static void generate_additional_captures_from(PieNam p,
     occupy_square(from,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
     empty_square(sq_departure);
 
-    marscirce_generate_captures(p,from,sq_departure);
+    marscirce_generate_captures(si,p,from,sq_departure);
 
     occupy_square(sq_departure,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
@@ -34,24 +37,24 @@ static void generate_additional_captures_from(PieNam p,
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void plus_generate_moves(PieNam p, square sq_departure)
+void plus_generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
 {
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceSquare(sq_departure);
+  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   if (sq_departure==square_d4
       || sq_departure==square_e4
       || sq_departure==square_d5
       || sq_departure==square_e5)
   {
-    generate_additional_captures_from(p,square_d4,sq_departure);
-    generate_additional_captures_from(p,square_e4,sq_departure);
-    generate_additional_captures_from(p,square_d5,sq_departure);
-    generate_additional_captures_from(p,square_e5,sq_departure);
+    generate_additional_captures_from(si,p,square_d4,sq_departure);
+    generate_additional_captures_from(si,p,square_e4,sq_departure);
+    generate_additional_captures_from(si,p,square_d5,sq_departure);
+    generate_additional_captures_from(si,p,square_e5,sq_departure);
   }
 
   TraceFunctionExit(__func__);
@@ -67,7 +70,6 @@ boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate)
 {
   int i,j;
   Side const side_observing = trait[nbply];
-  Side const side_observed = advers(side_observing);
   square square_h = square_h8;
   boolean result = false;
 
@@ -96,4 +98,18 @@ boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Inialise thet solving machinery with Plus Chess
+ * @param si identifies the root slice of the solving machinery
+ */
+void solving_initialise_plus(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,STPlusMovesForPieceGenerator);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

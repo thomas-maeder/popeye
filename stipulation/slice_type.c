@@ -177,6 +177,7 @@
     ENUMERATOR(STProvocateursRemoveUnobservedCaptures),                 \
     ENUMERATOR(STLortapRemoveSupportedCaptures),                        \
     ENUMERATOR(STPatrolRemoveUnsupportedCaptures),                      \
+    ENUMERATOR(STUltraPatrolMovesForPieceGenerator),                    \
     ENUMERATOR(STGenevaRemoveIllegalCaptures),                          \
     ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
     ENUMERATOR(STNoPromotionsRemovePromotionReborn),                    \
@@ -240,6 +241,12 @@
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
     ENUMERATOR(STImmobilityTester),                                   \
+    ENUMERATOR(STMadrasiMovesForPieceGenerator),                      \
+    ENUMERATOR(STEiffelMovesForPieceGenerator),                       \
+    ENUMERATOR(STDisparateMovesForPieceGenerator),                    \
+    ENUMERATOR(STParalysingMovesForPieceGenerator),                   \
+    ENUMERATOR(STCentralMovesForPieceGenerator),                      \
+    ENUMERATOR(STBeamtenMovesForPieceGenerator),                      \
     ENUMERATOR(STOpponentMovesCounterFork),                           \
     ENUMERATOR(STOpponentMovesCounter),                               \
     ENUMERATOR(STOpponentMovesFewMovesPrioriser),                     \
@@ -366,6 +373,10 @@
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \
     ENUMERATOR(STFrischaufPromoteeMarker),                              \
     ENUMERATOR(STPhantomChessEnPassantAdjuster),                        \
+    ENUMERATOR(STPhantomMovesForPieceGenerator),                        \
+    ENUMERATOR(STPlusMovesForPieceGenerator),                           \
+    ENUMERATOR(STMarsCirceMovesForPieceGenerator),                      \
+    ENUMERATOR(STAntiMarsCirceMovesForPieceGenerator),                  \
     ENUMERATOR(STAntiMarsCirceEnPassantAdjuster),                       \
     ENUMERATOR(STKamikazeCapturingPieceRemover),                        \
     ENUMERATOR(STHaanChessHoleInserter),                                \

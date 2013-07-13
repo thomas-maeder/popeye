@@ -2,6 +2,8 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "solving/observation.h"
+#include "solving/move_generator.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/or.h"
@@ -15,6 +17,53 @@
 /* Allow paralysis by paralysing pieces to be temporarily suspended
  */
 static boolean paralysis_suspended = false;
+
+static boolean validate_paralyser(square sq_paralyser,
+                                  square sq_landing,
+                                  square sq_paralysee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_paralyser);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_paralysee);
+  TraceFunctionParamListEnd();
+
+  result = (TSTFLAG(spec[sq_paralyser],Paralysing)
+            && validate_observation_geometry(sq_paralyser,sq_landing,sq_paralysee));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_piece_paralysed_on(square s)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  if (paralysis_suspended)
+    result = false;
+  else
+  {
+    nextply();
+    trait[nbply] = advers(trait[parent_ply[nbply]]);
+
+    result = is_square_attacked(s,&validate_paralyser);
+
+    finply();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -159,55 +208,26 @@ static boolean paralysing_validate_observation(square sq_observer,
   return result;
 }
 
-static boolean validate_paralyser(square sq_paralyser,
-                                  square sq_landing,
-                                  square sq_paralysee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_paralyser);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_paralysee);
-  TraceFunctionParamListEnd();
-
-  result = (TSTFLAG(spec[sq_paralyser],Paralysing)
-            && validate_observation_geometry(sq_paralyser,sq_landing,sq_paralysee));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a piece is paralysed
- * @param s position of piece
- * @return true iff the piece on square s is paralysed
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-boolean is_piece_paralysed_on(square s)
+void paralysing_generate_moves_for_piece(slice_index si,
+                                         square sq_departure,
+                                         PieNam p)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
-  TraceSquare(s);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (paralysis_suspended)
-    result = false;
-  else
-  {
-    nextply();
-    trait[nbply] = advers(trait[parent_ply[nbply]]);
-
-    result = is_square_attacked(s,&validate_paralyser);
-
-    finply();
-  }
+  if (!is_piece_paralysed_on(sq_departure))
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void instrument_mate(slice_index si, stip_structure_traversal *st)
@@ -402,6 +422,8 @@ void paralysing_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   TraceStipulation(si);
+
+  solving_instrument_move_generation(si,STParalysingMovesForPieceGenerator);
 
   register_observer_validator(&paralysing_validate_observer);
   register_observation_validator(&paralysing_validate_observation);

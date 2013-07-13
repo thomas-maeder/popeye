@@ -12,7 +12,9 @@
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not have that walk
  */
-void antimars_generate_moves(PieNam p, square sq_departure);
+void antimars_generate_moves_for_piece(slice_index si,
+                                       square sq_departure,
+                                       PieNam p);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -33,5 +35,9 @@ stip_length_type antimars_en_passant_adjuster_solve(slice_index si,
 /* Instrument slices with Anti-Mars-Circe
  */
 void stip_insert_antimars_en_passant_adjusters(slice_index si);
+
+/* Inialise solving in Anti-Mars Circe
+ */
+void solving_initialise_antimars(slice_index si);
 
 #endif

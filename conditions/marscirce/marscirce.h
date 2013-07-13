@@ -12,7 +12,8 @@
  * @param sq_generate_from generate the moves from here
  * @param sq_real_departure real departure square of the generated moves
  */
-void marscirce_generate_non_captures(PieNam p,
+void marscirce_generate_non_captures(slice_index si,
+                                     PieNam p,
                                      square sq_generate_from,
                                      square sq_real_departure);
 
@@ -21,7 +22,8 @@ void marscirce_generate_non_captures(PieNam p,
  * @param sq_generate_from generate the moves from here
  * @param sq_real_departure real departure square of the generated moves
  */
-void marscirce_generate_captures(PieNam p,
+void marscirce_generate_captures(slice_index si,
+                                 PieNam p,
                                  square sq_generate_from,
                                  square sq_real_departure);
 
@@ -29,9 +31,11 @@ void marscirce_generate_captures(PieNam p,
  * square.
  * @param p indicates the walk according to which to generate moves
  * @param sq_departure departure square of moves to be generated
- * @note the piece on the departure square need not have that walk
+ * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves(PieNam p, square sq_departure);
+void marscirce_generate_moves_for_piece(slice_index si,
+                                        square sq_departure,
+                                        PieNam p);
 
 /* Determine whether a specific piece delivers check to a specific side from a
  * specific rebirth square
@@ -50,5 +54,10 @@ boolean mars_is_square_observed_by(square pos_checking,
  * @return true iff side is in check
  */
 boolean marscirce_is_square_observed(square sq_target, evalfunction_t *evaluate);
+
+/* Inialise thet solving machinery with Mars Circe
+ * @param si identifies the root slice of the solving machinery
+ */
+void solving_initialise_marscirce(slice_index si);
 
 #endif

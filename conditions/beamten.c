@@ -1,13 +1,11 @@
 #include "conditions/beamten.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
-/* Determine whether a Beamter piece is observed
- * @param sq_departure position of the piece
- * @return true iff the piece is observed, enabling it to move
- */
-boolean beamten_is_observed(square sq_departure)
+static boolean is_observed(square sq_departure)
 {
   boolean result;
 
@@ -41,7 +39,7 @@ static boolean avoid_unobserved_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = !TSTFLAG(spec[sq_observer],Beamtet) || beamten_is_observed(sq_observer);
+  result = !TSTFLAG(spec[sq_observer],Beamtet) || is_observed(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -49,12 +47,37 @@ static boolean avoid_unobserved_observation(square sq_observer,
   return result;
 }
 
-/* Inialise solving in Beamten Chess
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-void beamten_initialise_solving(void)
+void beamten_generate_moves_for_piece(slice_index si,
+                                      square sq_departure,
+                                      PieNam p)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (!TSTFLAG(spec[sq_departure],Beamtet) || is_observed(sq_departure))
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inialise the solving machinery with Beamten Chess
+ * @param si identifies root slice of solving machinery
+ */
+void beamten_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,STBeamtenMovesForPieceGenerator);
 
   register_observation_validator(&avoid_unobserved_observation);
 

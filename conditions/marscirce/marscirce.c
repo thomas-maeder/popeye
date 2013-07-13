@@ -1,14 +1,17 @@
 #include "conditions/marscirce/marscirce.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 /* Generate non-capturing moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
  * @param sq_real_departure real departure square of the generated moves
  */
-void marscirce_generate_non_captures(PieNam p,
+void marscirce_generate_non_captures(slice_index si,
+                                     PieNam p,
                                      square sq_generate_from,
                                      square sq_real_departure)
 {
@@ -22,7 +25,7 @@ void marscirce_generate_non_captures(PieNam p,
   TraceSquare(sq_real_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(sq_generate_from,p);
+  generate_moves_for_piece(slices[si].next1,sq_generate_from,p);
 
   for (curr = base+1; curr<=current_move[nbply]; ++curr)
     if (is_square_empty(move_generation_stack[curr].capture))
@@ -43,7 +46,8 @@ void marscirce_generate_non_captures(PieNam p,
  * @param sq_generate_from generate the moves from here
  * @param sq_real_departure real departure square of the generated moves
  */
-void marscirce_generate_captures(PieNam p,
+void marscirce_generate_captures(slice_index si,
+                                 PieNam p,
                                  square sq_generate_from,
                                  square sq_real_departure)
 {
@@ -57,7 +61,7 @@ void marscirce_generate_captures(PieNam p,
   TraceSquare(sq_real_departure);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(sq_generate_from,p);
+  generate_moves_for_piece(slices[si].next1,sq_generate_from,p);
 
   for (curr = base+1; curr<=current_move[nbply]; ++curr)
     if (!is_square_empty(move_generation_stack[curr].capture))
@@ -79,7 +83,9 @@ void marscirce_generate_captures(PieNam p,
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves(PieNam p, square sq_departure)
+void marscirce_generate_moves_for_piece(slice_index si,
+                                        square sq_departure,
+                                        PieNam p)
 {
   TraceFunctionEntry(__func__);
   TracePiece(p);
@@ -96,14 +102,14 @@ void marscirce_generate_moves(PieNam p, square sq_departure)
       gen_piece_aux(sq_departure,p);
     else
     {
-      marscirce_generate_non_captures(p,sq_departure,sq_departure);
+      marscirce_generate_non_captures(si,p,sq_departure,sq_departure);
 
       if (is_square_empty(sq_rebirth))
       {
         occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
         empty_square(sq_departure);
 
-        marscirce_generate_captures(p,sq_rebirth,sq_departure);
+        marscirce_generate_captures(si,p,sq_rebirth,sq_departure);
 
         occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
         empty_square(sq_rebirth);
@@ -185,4 +191,18 @@ boolean marscirce_is_square_observed(square sq_target, evalfunction_t *evaluate)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Inialise thet solving machinery with Mars Circe
+ * @param si identifies the root slice of the solving machinery
+ */
+void solving_initialise_marscirce(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,STMarsCirceMovesForPieceGenerator);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

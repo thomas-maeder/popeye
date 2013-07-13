@@ -1,6 +1,7 @@
 #include "conditions/marscirce/anti.h"
 #include "pieces/pawns/en_passant.h"
 #include "conditions/marscirce/marscirce.h"
+#include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -18,7 +19,9 @@
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void antimars_generate_moves(PieNam p, square sq_departure)
+void antimars_generate_moves_for_piece(slice_index si,
+                                       square sq_departure,
+                                       PieNam p)
 {
   TraceFunctionEntry(__func__);
   TracePiece(p);
@@ -35,14 +38,14 @@ void antimars_generate_moves(PieNam p, square sq_departure)
       gen_piece_aux(sq_departure,p);
     else
     {
-      marscirce_generate_captures(p,sq_departure,sq_departure);
+      marscirce_generate_captures(si,p,sq_departure,sq_departure);
 
       if (is_square_empty(sq_rebirth))
       {
         occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
         empty_square(sq_departure);
 
-        marscirce_generate_non_captures(p,sq_rebirth,sq_departure);
+        marscirce_generate_non_captures(si,p,sq_rebirth,sq_departure);
 
         occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
         empty_square(sq_rebirth);
@@ -134,7 +137,20 @@ void stip_insert_antimars_en_passant_adjusters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inialise the solving machinery with Anti-Mars Circe
+ * @param si identifies root slice of solving machinery
+ */
+void solving_initialise_antimars(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   stip_instrument_moves(si,STAntiMarsCirceEnPassantAdjuster);
+  solving_instrument_move_generation(si,STAntiMarsCirceMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

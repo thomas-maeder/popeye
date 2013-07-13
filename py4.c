@@ -2365,32 +2365,14 @@ void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!(CondFlag[madras] && !madrasi_can_piece_move(sq_departure))
-      && !(CondFlag[eiffel] && !eiffel_can_piece_move(sq_departure))
-      && !(CondFlag[disparate] && !disparate_can_piece_move(sq_departure))
-      && !(TSTFLAG(some_pieces_flags,Paralysing) && is_piece_paralysed_on(sq_departure))
-      && !(CondFlag[ultrapatrouille] && !patrol_is_supported(sq_departure))
-      && !(CondFlag[central] && !central_can_piece_move_from(sq_departure))
-      && !(TSTFLAG(spec[sq_departure],Beamtet) && !beamten_is_observed(sq_departure)))
-  {
-    if (CondFlag[phantom])
-      phantom_chess_generate_moves(p,sq_departure);
-    else if (CondFlag[plus])
-      plus_generate_moves(p,sq_departure);
-    else if (anymars)
-      marscirce_generate_moves(p,sq_departure);
-    else if (anyantimars)
-      antimars_generate_moves(p,sq_departure);
-    else
-      gen_piece_aux(sq_departure,p);
+  gen_piece_aux(sq_departure,p);
 
-    if (CondFlag[messigny] && !(king_square[trait[nbply]]==sq_departure && rex_mess_ex))
-    {
-      square const *bnp;
-      for (bnp = boardnum; *bnp; ++bnp)
-        if (piece_belongs_to_opponent(*bnp) && get_walk_of_piece_on_square(*bnp)==p)
-          add_to_move_generation_stack(sq_departure,*bnp,messigny_exchange);
-    }
+  if (CondFlag[messigny] && !(king_square[trait[nbply]]==sq_departure && rex_mess_ex))
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (piece_belongs_to_opponent(*bnp) && get_walk_of_piece_on_square(*bnp)==p)
+        add_to_move_generation_stack(sq_departure,*bnp,messigny_exchange);
   }
 
   TraceFunctionExit(__func__);

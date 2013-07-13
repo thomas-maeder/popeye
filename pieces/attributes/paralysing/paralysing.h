@@ -3,12 +3,14 @@
 
 #include "stipulation/slice.h"
 
-
-/* Determine whether a piece is paralysed
- * @param s position of piece
- * @return true iff the piece on square s is paralysed
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-boolean is_piece_paralysed_on(square s);
+void paralysing_generate_moves_for_piece(slice_index si,
+                                         square sq_departure,
+                                         PieNam p);
 
 /* Try to solve in n half-moves.
  * @param si slice index

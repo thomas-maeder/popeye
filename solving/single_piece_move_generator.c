@@ -1,9 +1,11 @@
 #include "solving/single_piece_move_generator.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
+#include "stipulation/temporary_hacks.h"
+#include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "stipulation/pipe.h"
-#include "debugging/trace.h"
 
 #include <assert.h>
 
@@ -70,8 +72,9 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
 
   TraceValue("%u\n",current_move[nbply]);
 
-  generate_moves_for_piece_ortho(square_departure,
-                                 get_walk_of_piece_on_square(square_departure));
+  generate_moves_for_piece(slices[temporary_hack_move_generator].next2,
+                           square_departure,
+                           get_walk_of_piece_on_square(square_departure));
 
   square_departure = initsquare;
 

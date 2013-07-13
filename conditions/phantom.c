@@ -2,6 +2,7 @@
 #include "pieces/pawns/en_passant.h"
 #include "conditions/marscirce/marscirce.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -48,16 +49,19 @@ static boolean is_regular_arrival(square sq_arrival,
  * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void phantom_chess_generate_moves(PieNam p, square sq_departure)
+void phantom_generate_moves_for_piece(slice_index si,
+                                      square sq_departure,
+                                      PieNam p)
 {
   numecoup const start_regular_moves = current_move[nbply];
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
+  TraceValue("%u",si);
   TraceSquare(sq_departure);
+  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  gen_piece_aux(sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
@@ -73,7 +77,7 @@ void phantom_chess_generate_moves(PieNam p, square sq_departure)
       occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
       empty_square(sq_departure);
 
-      gen_piece_aux(sq_rebirth,p);
+      generate_moves_for_piece(slices[si].next1,sq_rebirth,p);
 
       occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
       empty_square(sq_rebirth);
@@ -178,14 +182,17 @@ stip_length_type phantom_en_passant_adjuster_solve(slice_index si, stip_length_t
   return result;
 }
 
-/* Instrument slices with promotee markers
+/* Inialise the solving machinery with Phantom Chess
+ * @param si identifies root slice of solving machinery
  */
-void stip_insert_phantom_en_passant_adjusters(slice_index si)
+void solving_initialise_phantom(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STPhantomChessEnPassantAdjuster);
+
+  solving_instrument_move_generation(si,STPhantomMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

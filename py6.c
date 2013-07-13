@@ -2587,11 +2587,18 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_frischauf_promotee_markers(result);
 
   if (CondFlag[phantom])
-    stip_insert_phantom_en_passant_adjusters(result);
+    solving_initialise_phantom(result);
   else if (anyantimars)
-    stip_insert_antimars_en_passant_adjusters(result);
+    solving_initialise_antimars(result);
   else
+  {
     stip_insert_en_passant_adjusters(result);
+
+    if (CondFlag[plus])
+      solving_initialise_plus(result);
+    else if (anymars)
+      solving_initialise_marscirce(result);
+  }
 
   if (CondFlag[linechamchess])
     stip_insert_line_chameleon_chess(result);
@@ -2633,7 +2640,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (TSTFLAG(some_pieces_flags,Patrol))
     patrol_initialise_solving(result);
   if (CondFlag[ultrapatrouille])
-    ultrapatrol_initialise_solving();
+    ultrapatrol_initialise_solving(result);
 
   if (CondFlag[lortap])
     lortap_initialise_solving(result);
@@ -2788,6 +2795,21 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[antikings])
     antikings_initalise_solving(result);
 
+  if (CondFlag[madras])
+    madrasi_initialise_solving(result);
+
+  if (CondFlag[eiffel])
+    eiffel_initialise_solving(result);
+
+  if (CondFlag[disparate])
+    disparate_initialise_solving(result);
+
+  if (CondFlag[central])
+    central_initialise_solving(result);
+
+  if (TSTFLAG(some_pieces_flags,Beamtet))
+    beamten_initialise_solving(result);
+
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);
 #endif
@@ -2800,23 +2822,8 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   resolve_proxies(&result);
 
-  if (CondFlag[central])
-    central_initialise_solving();
-
-  if (TSTFLAG(some_pieces_flags,Beamtet))
-    beamten_initialise_solving();
-
   if (CondFlag[shieldedkings])
     shielded_kings_initialise_solving();
-
-  if (CondFlag[disparate])
-    disparate_initialise_solving();
-
-  if (CondFlag[madras])
-    madrasi_initialise_solving();
-
-  if (CondFlag[eiffel])
-    eiffel_initialise_solving();
 
   if (CondFlag[brunner])
     brunner_initialise_solving();

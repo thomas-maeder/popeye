@@ -8,6 +8,7 @@
 #include "stipulation/move.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
+#include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -234,6 +235,12 @@ void singleboxtype3_generate_moves_for_piece(slice_index si,
   unsigned int nr_latent_promotions = 0;
   square sq;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   for (sq = find_next_latent_pawn(square_a1-dir_right,side);
        sq!=initsquare;
        sq = find_next_latent_pawn(sq,side))
@@ -271,4 +278,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si,
       move_generation_stack[save_nbcou].singlebox_type3_promotion_what = Empty;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

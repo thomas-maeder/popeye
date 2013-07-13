@@ -6,12 +6,6 @@
 
 /* This module implements the conditions Patrol Chess and Ultra-Patro Chess */
 
-/* Determine whether a pice is supported, enabling it to capture
- * @param sq_departure position of the piece
- * @return true iff the piece is supported
- */
-boolean patrol_is_supported(square sq_departure);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -33,8 +27,18 @@ stip_length_type patrol_remove_unsupported_captures_solve(slice_index si,
  */
 void patrol_initialise_solving(slice_index si);
 
-/* Initialise solving in Ultra-Patrol Chess
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-void ultrapatrol_initialise_solving(void);
+void ultrapatrol_generate_moves_for_piece(slice_index si,
+                                          square sq_departure,
+                                          PieNam p);
+
+/* Inialise the solving machinery with Ultra-Patrol Chess
+ * @param si identifies root slice of solving machinery
+ */
+void ultrapatrol_initialise_solving(slice_index si);
 
 #endif

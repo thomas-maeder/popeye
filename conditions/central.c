@@ -1,7 +1,11 @@
 #include "conditions/central.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
+
+static boolean can_piece_move_from(square sq_departure);
 
 static boolean central_test_supporter(square sq_departure,
                                       square sq_arrival,
@@ -16,9 +20,28 @@ static boolean central_test_supporter(square sq_departure,
   TraceFunctionParamListEnd();
 
   if (validate_observer(sq_departure,sq_arrival,sq_capture))
-    result = central_can_piece_move_from(sq_departure);
+    result = can_piece_move_from(sq_departure);
   else
     result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean can_piece_move_from(square sq_departure)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  if (sq_departure==king_square[trait[nbply]])
+    result = true;
+  else
+    result = is_square_attacked(sq_departure,&central_test_supporter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -38,7 +61,7 @@ static boolean is_observer_supported(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = central_can_piece_move_from(sq_observer);
+  result = can_piece_move_from(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,35 +69,37 @@ static boolean is_observer_supported(square sq_observer,
   return result;
 }
 
-/* Determine whether a piece can legally move according to Central Chess
- * @param sq_departure departure square
- * @return true iff the piece can legally move
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-boolean central_can_piece_move_from(square sq_departure)
+void central_generate_moves_for_piece(slice_index si,
+                                      square sq_departure,
+                                      PieNam p)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_departure);
+  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (sq_departure==king_square[trait[nbply]])
-    result = true;
-  else
-    result = is_square_attacked(sq_departure,&central_test_supporter);
+  if (can_piece_move_from(sq_departure))
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Inialise solving in Central Chess
+/* Inialise the solving machinery with Central Chess
+ * @param si identifies root slice of solving machinery
  */
-void central_initialise_solving(void)
+void central_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,STCentralMovesForPieceGenerator);
 
   register_observation_validator(&is_observer_supported);
 
