@@ -64,6 +64,7 @@
     ENUMERATOR(STSingleBoxType1LegalityTester),                        \
     ENUMERATOR(STSingleBoxType2LegalityTester),                        \
     ENUMERATOR(STSingleBoxType3PawnPromoter),                          \
+    ENUMERATOR(STSingleBoxType3TMovesForPieceGenerator),               \
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinPlaceReborn),                            \
@@ -123,6 +124,9 @@
     ENUMERATOR(STCastlingIntermediateMoveGenerator), /* generates intermediate castling moves */ \
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
     ENUMERATOR(STCastlingRightsAdjuster),                                \
+    ENUMERATOR(STMoveGeneratorFork),                                     \
+    ENUMERATOR(STGeneratingMovesForPiece),                               \
+    ENUMERATOR(STMovesForPieceGeneratorOrtho),                           \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
     ENUMERATOR(STRefutationsFilter), /* only consider refutations */ \

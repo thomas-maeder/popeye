@@ -446,7 +446,7 @@ static void generate_move_reaching_goal()
         {
           if (CondFlag[gridchess]
               && !GridLegal(sq_departure,OpponentsKing))
-            generate_moves_for_piece(sq_departure,p);
+            generate_moves_for_piece_ortho(sq_departure,p);
           else
             switch (p)
             {

@@ -41,6 +41,8 @@ void stip_insert_singlebox_type3(slice_index si)
   stip_instrument_moves(si,STSingleBoxType3LegalityTester);
   stip_instrument_moves(si,STSingleBoxType3PawnPromoter);
 
+  solving_instrument_move_generation(si,STSingleBoxType3TMovesForPieceGenerator);
+
   move_effect_journal_register_pre_capture_effect();
 
   TraceFunctionExit(__func__);
@@ -218,11 +220,14 @@ static square find_next_latent_pawn(square sq, Side side)
   return result;
 }
 
-/* Generate the moves for a black/white piece
- * @param sq_departure departure square of the moves
- * @param p walk and side of the piece
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-void singleboxtype3_generate_moves_for_piece(square sq_departure, PieNam p)
+void singleboxtype3_generate_moves_for_piece(slice_index si,
+                                             square sq_departure,
+                                             PieNam p)
 {
   Side const side = trait[nbply];
   numecoup save_nbcou = current_move[nbply];
@@ -243,7 +248,9 @@ void singleboxtype3_generate_moves_for_piece(square sq_departure, PieNam p)
       numecoup prev_nbcou = current_move[nbply];
       ++nr_latent_promotions;
       replace_piece(sq,sequence.promotee);
-      orig_generate_moves_for_piece(sq_departure, sq==sq_departure ? sequence.promotee : p);
+      generate_moves_for_piece(slices[si].next1,
+                                         sq_departure,
+                                         sq==sq_departure ? sequence.promotee : p);
       replace_piece(sq,pi_departing);
       for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
       {
@@ -256,7 +263,7 @@ void singleboxtype3_generate_moves_for_piece(square sq_departure, PieNam p)
 
   if (nr_latent_promotions==0)
   {
-    orig_generate_moves_for_piece(sq_departure,p);
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
     for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
     {

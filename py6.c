@@ -1529,10 +1529,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
-  {
     is_square_attacked = &singleboxtype3_is_square_observed;
-    generate_moves_for_piece = &singleboxtype3_generate_moves_for_piece;
-  }
 
   if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs])
       && (OptFlag[sansrb] || OptFlag[sansrn]))

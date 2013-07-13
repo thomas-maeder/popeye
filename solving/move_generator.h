@@ -2,10 +2,24 @@
 #define SOLVING_MOVE_GENERATOR_H
 
 #include "solving/solve.h"
+#include "stipulation/slice_type.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STMoveGenerator stipulation slices.
  */
+
+/* Instrument move generation with a slice type
+ * @param identifies where to start instrumentation
+ * @param type type of slice with which to instrument moves
+ */
+void solving_instrument_move_generation(slice_index si, slice_type type);
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p);
 
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice

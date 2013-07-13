@@ -123,7 +123,7 @@ boolean transmuting_kings_generate_moves(square sq_departure)
       {
         result = true;
         current_trans_gen = *ptrans;
-        generate_moves_for_piece(sq_departure,*ptrans);
+        generate_moves_for_piece_ortho(sq_departure,*ptrans);
         current_trans_gen = Empty;
       }
     }

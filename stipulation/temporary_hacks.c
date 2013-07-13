@@ -35,6 +35,7 @@ slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
+slice_index temporary_hack_move_generator;
 slice_index temporary_hack_check_tester;
 
 static slice_index make_mate_tester_fork(Side side)
@@ -240,6 +241,18 @@ static slice_index make_suffocation_by_paralysis_detector(Side side)
   return result;
 }
 
+static slice_index make_move_generator(void)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STMoveGeneratorFork,proxy);
+  slice_index const generating = alloc_pipe(STGeneratingMovesForPiece);
+  slice_index const generator = alloc_pipe(STMovesForPieceGeneratorOrtho);
+  pipe_append(proxy,generating);
+  pipe_append(generating,generator);
+  pipe_link(generator,alloc_true_slice());
+  return result;
+}
+
 static slice_index make_check_tester(void)
 {
   slice_index const proxy = alloc_proxy_slice();
@@ -305,6 +318,7 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_suffocation_by_paralysis_finder[White] = make_suffocation_by_paralysis_detector(White);
 
     temporary_hack_check_tester = make_check_tester();
+    temporary_hack_move_generator = make_move_generator();
 
     pipe_append(root_slice,entry_point);
 
@@ -355,6 +369,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_suffocation_by_paralysis_finder[Black]);
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[Black],
                 temporary_hack_check_tester);
+    pipe_append(temporary_hack_check_tester,
+                temporary_hack_move_generator);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

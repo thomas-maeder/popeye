@@ -49,10 +49,13 @@ stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
 boolean singleboxtype3_is_square_observed(square sq_target,
                                           evalfunction_t *evaluate);
 
-/* Generate the moves for a black/white piece
- * @param sq_departure departure square of the moves
- * @param p walk and side of the piece
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-void singleboxtype3_generate_moves_for_piece(square sq_departure, PieNam p);
+void singleboxtype3_generate_moves_for_piece(slice_index si,
+                                             square sq_departure,
+                                             PieNam p);
 
 #endif

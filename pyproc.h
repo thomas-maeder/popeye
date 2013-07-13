@@ -237,9 +237,7 @@ void    restaure(void);
 boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 
-void orig_generate_moves_for_piece(square sq_departure, PieNam p);
-
-extern void   (*generate_moves_for_piece)(square a, PieNam b);
+void generate_moves_for_piece_ortho(square sq_departure, PieNam p);
 
 void    PrintTime();
 boolean leapcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);

@@ -62,7 +62,7 @@ static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
 static void generate_one_dir(square sq_departure, PieNam part, UPDOWN updown)
 {
   numecoup const savenbcou = current_move[nbply];
-  generate_moves_for_piece(sq_departure,part);
+  generate_moves_for_piece_ortho(sq_departure,part);
   filter(sq_departure,savenbcou,updown);
 }
 

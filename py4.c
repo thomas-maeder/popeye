@@ -2358,7 +2358,7 @@ void gen_piece_aux(square sq_departure, PieNam p)
   TraceFunctionResultEnd();
 }
 
-void orig_generate_moves_for_piece(square sq_departure, PieNam p)
+void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -2397,8 +2397,6 @@ void orig_generate_moves_for_piece(square sq_departure, PieNam p)
   TraceFunctionResultEnd();
 }
 
-void (*generate_moves_for_piece)(square z, PieNam p) = &orig_generate_moves_for_piece;
-
 void gorph(square sq_departure)
 {
   numecoup const save_nbcou = current_move[nbply];
@@ -2407,7 +2405,7 @@ void gorph(square sq_departure)
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
         && orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation))
-      generate_moves_for_piece(sq_departure,*orphan_observer);
+      generate_moves_for_piece_ortho(sq_departure,*orphan_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
@@ -2421,7 +2419,7 @@ void gfriend(square i)
   for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
     if (number_of_pieces[camp][*friend_observer]>0
         && find_next_friend_in_chain(i,*friend_observer,Friend,&validate_observation))
-      generate_moves_for_piece(i,*friend_observer);
+      generate_moves_for_piece_ortho(i,*friend_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }

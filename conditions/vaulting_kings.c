@@ -99,7 +99,7 @@ boolean vaulting_kings_generate_moves(square sq_departure)
     {
       result = true;
       current_trans_gen = *pi_vaulter;
-      generate_moves_for_piece(sq_departure,*pi_vaulter);
+      generate_moves_for_piece_ortho(sq_departure,*pi_vaulter);
       current_trans_gen = Empty;
     }
   }

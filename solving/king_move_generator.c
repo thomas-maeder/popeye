@@ -1,9 +1,11 @@
 #include "solving/king_move_generator.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
+#include "stipulation/temporary_hacks.h"
+#include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "stipulation/pipe.h"
-#include "debugging/trace.h"
 
 #include <assert.h>
 
@@ -32,8 +34,9 @@ void generate_king_moves(void)
   Side const side = trait[nbply];
 
   if (king_square[side]!=initsquare)
-    generate_moves_for_piece(king_square[side],
-                             get_walk_of_piece_on_square(king_square[side]));
+    generate_moves_for_piece(slices[temporary_hack_move_generator].next2,
+                                       king_square[side],
+                                       get_walk_of_piece_on_square(king_square[side]));
 }
 
 /* Try to solve in n half-moves.

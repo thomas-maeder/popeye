@@ -1,10 +1,12 @@
 #include "solving/non_king_move_generator.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
-#include "pyproc.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
+#include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 
@@ -39,8 +41,9 @@ static boolean advance_departure_square(Side side,
       ++*next_square_to_try;
       if (TSTFLAG(spec[sq_departure],side) && sq_departure!=king_square[side])
       {
-        generate_moves_for_piece(sq_departure,
-                                 get_walk_of_piece_on_square(sq_departure));
+        generate_moves_for_piece(slices[temporary_hack_move_generator].next2,
+                                           sq_departure,
+                                           get_walk_of_piece_on_square(sq_departure));
         return true;
       }
     }

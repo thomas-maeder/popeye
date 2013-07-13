@@ -70,8 +70,8 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
 
   TraceValue("%u\n",current_move[nbply]);
 
-  generate_moves_for_piece(square_departure,
-                           get_walk_of_piece_on_square(square_departure));
+  generate_moves_for_piece_ortho(square_departure,
+                                 get_walk_of_piece_on_square(square_departure));
 
   square_departure = initsquare;
 

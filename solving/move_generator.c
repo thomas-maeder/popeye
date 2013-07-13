@@ -1,5 +1,5 @@
 #include "solving/move_generator.h"
-#include "solving/move_generator.h"
+#include "conditions/singlebox/type3.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
 #include "solving/single_move_generator.h"
@@ -7,11 +7,124 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
 
 #include <assert.h>
+
+static slice_index const slice_rank_order[] =
+{
+    STGeneratingMovesForPiece,
+    STSingleBoxType3TMovesForPieceGenerator,
+    STMovesForPieceGeneratorOrtho,
+    STTrue
+};
+
+enum
+{
+  nr_slice_rank_order_elmts = sizeof slice_rank_order / sizeof slice_rank_order[0]
+};
+
+static void insert_slice(slice_index testing, slice_type type)
+{
+  slice_index const prototype = alloc_pipe(type);
+  stip_structure_traversal st;
+  branch_slice_insertion_state_type state =
+  {
+    &prototype,1,
+    slice_rank_order, nr_slice_rank_order_elmts,
+    branch_slice_rank_order_nonrecursive,
+    0,
+    testing,
+    0
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing);
+  TraceFunctionParamListEnd();
+
+  state.base_rank = get_slice_rank(slices[testing].type,&state);
+  assert(state.base_rank!=no_slice_rank);
+  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  stip_traverse_structure_children_pipe(testing,&st);
+  dealloc_slice(prototype);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_generating(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_type const * const type = st->param;
+    insert_slice(si,*type);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument move generation with a slice type
+ * @param identifies where to start instrumentation
+ * @param type type of slice with which to instrument moves
+ */
+void solving_instrument_move_generation(slice_index si, slice_type type)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&type);
+  stip_structure_traversal_override_single(&st,
+                                           STGeneratingMovesForPiece,
+                                           &instrument_generating);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  switch (slices[si].type)
+  {
+    case STSingleBoxType3TMovesForPieceGenerator:
+      singleboxtype3_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STMovesForPieceGeneratorOrtho:
+      generate_moves_for_piece_ortho(sq_departure,p);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice
@@ -49,8 +162,9 @@ static void genmove(Side side)
     for (j = nr_files_on_board; j>0; j--)
     {
       if (TSTFLAG(spec[sq_departure],side))
-        generate_moves_for_piece(sq_departure,
-                                 get_walk_of_piece_on_square(sq_departure));
+        generate_moves_for_piece(slices[temporary_hack_move_generator].next2,
+                                           sq_departure,
+                                           get_walk_of_piece_on_square(sq_departure));
       sq_departure += dir_left;
     }
   }
