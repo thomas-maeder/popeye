@@ -218,7 +218,6 @@ boolean echecc(Side a);
 boolean eval_ortho(square departure, square arrival, square capture);
 
 void    king_generate_moves(square sq_departure);
-void    piece_generate_moves(square sq_departure, PieNam b);
 void    hardinit(void);
 
 void copyply(void);

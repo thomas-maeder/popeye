@@ -1418,7 +1418,7 @@ static void leaper_hoppers_generate_moves(square sq_departure,
   }
 }
 
-void piece_generate_moves(square sq_departure, PieNam p)
+void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 {
   switch (p)
   {
@@ -2231,19 +2231,6 @@ void king_generate_moves(square sq_departure)
 
   if (castling_supported)
     generate_castling();
-}
-
-void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  piece_generate_moves(sq_departure,p);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 void gorph(square sq_departure)
