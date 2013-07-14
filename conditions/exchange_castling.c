@@ -9,7 +9,7 @@
 
 #include <assert.h>
 
-boolean exchange_castling_rochade_allowed[nr_sides][maxply+1];
+static boolean castling_right_used_up[nr_sides];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -50,13 +50,12 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
     move_effect_journal_do_piece_exchange(move_effect_reason_exchange_castling_exchange,
                                           sq_departure,sq_arrival);
 
-    exchange_castling_rochade_allowed[trait_ply][nbply] = false;
+    castling_right_used_up[trait_ply] = true;
 
     result = solve(slices[si].next2,n);
 
-    exchange_castling_rochade_allowed[White][nbply] = exchange_castling_rochade_allowed[White][parent_ply[nbply]];
-    exchange_castling_rochade_allowed[Black][nbply] = exchange_castling_rochade_allowed[Black][parent_ply[nbply]];
- }
+    castling_right_used_up[trait_ply] = false;
+  }
   else
     result = solve(slices[si].next1,n);
 
@@ -77,7 +76,7 @@ void exchange_castling_generate_moves_for_piece(slice_index si,
 {
   generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
-  if (p==King && exchange_castling_rochade_allowed[trait[nbply]][nbply])
+  if (p==King && !castling_right_used_up[trait[nbply]])
   {
     int i;
     square square_a = square_a1;

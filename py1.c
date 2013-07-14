@@ -94,7 +94,6 @@
 #include "conditions/annan.h"
 #include "conditions/vaulting_kings.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
-#include "conditions/exchange_castling.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -172,9 +171,6 @@ static void initply(ply parent, ply child)
 
   magic_views_top[child] = magic_views_top[child-1];
 
-  exchange_castling_rochade_allowed[White][child] = exchange_castling_rochade_allowed[White][parent];
-  exchange_castling_rochade_allowed[Black][child] = exchange_castling_rochade_allowed[Black][parent];
-
   take_make_circe_current_rebirth_square_index[child] = take_make_circe_current_rebirth_square_index[parent];
 
   ++post_move_iteration_id[child];
@@ -209,9 +205,6 @@ static void do_copyply(ply original, ply copy)
   BGL_values[Black][copy] = BGL_values[Black][parent_ply[original]];
 
   magic_views_top[copy] = magic_views_top[copy-1];
-
-  exchange_castling_rochade_allowed[White][copy] = exchange_castling_rochade_allowed[White][parent_ply[original]];
-  exchange_castling_rochade_allowed[Black][copy] = exchange_castling_rochade_allowed[Black][parent_ply[original]];
 
   {
     unsigned int const nr_moves = current_move[original]-current_move[original-1];

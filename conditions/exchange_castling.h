@@ -5,8 +5,6 @@
 
 /* This module implements the condition Exchange Castling */
 
-extern boolean exchange_castling_rochade_allowed[nr_sides][maxply+1];
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

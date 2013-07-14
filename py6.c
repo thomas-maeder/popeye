@@ -1873,9 +1873,6 @@ static boolean verify_position(slice_index si)
   /* a small hack to enable ep keys */
   trait[1] = no_side;
 
-  exchange_castling_rochade_allowed[White][2]=exchange_castling_rochade_allowed[White][1]=true;
-  exchange_castling_rochade_allowed[Black][2]=exchange_castling_rochade_allowed[Black][1]=true;
-
   if (CondFlag[exclusive] && !exclusive_verifie_position(si))
     return false;
 
