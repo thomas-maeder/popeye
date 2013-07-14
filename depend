@@ -59,8 +59,8 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/singlebox/type3.h conditions/immune.h conditions/geneva.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/phantom.h \
  conditions/annan.h conditions/vaulting_kings.h \
- conditions/transmuting_kings/transmuting_kings.h utilities/table.h \
- debugging/trace.h
+ conditions/transmuting_kings/transmuting_kings.h conditions/messigny.h \
+ utilities/table.h debugging/trace.h
 
 py.h:
 
@@ -209,6 +209,8 @@ conditions/annan.h:
 conditions/vaulting_kings.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
+
+conditions/messigny.h:
 
 utilities/table.h:
 
@@ -1396,8 +1398,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/phantom.h conditions/annan.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h conditions/imitator.h \
- solving/move_effect_journal.h options/degenerate_tree.h \
- options/nontrivial.h options/maxthreatlength.h \
+ solving/move_effect_journal.h conditions/messigny.h \
+ options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
  options/maxflightsquares.h options/movenumbers.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
@@ -1610,6 +1612,8 @@ conditions/vaulting_kings.h:
 conditions/imitator.h:
 
 solving/move_effect_journal.h:
+
+conditions/messigny.h:
 
 options/degenerate_tree.h:
 

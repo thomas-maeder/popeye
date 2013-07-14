@@ -10,6 +10,8 @@
 
 #include <assert.h>
 
+boolean messigny_rex_exclusive;
+
 static boolean is_not_illegal_repetition(square sq_departure,
                                          square sq_arrival,
                                          square sq_capture)
@@ -108,6 +110,7 @@ void stip_insert_messigny(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  solving_instrument_move_generation(si,nr_sides,STMessignyMovesForPieceGenerator);
   insert_alternative_move_players(si,STMessignyMovePlayer);
 
   stip_structure_traversal_init(&st,0);
@@ -115,6 +118,35 @@ void stip_insert_messigny(slice_index si)
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void messigny_generate_moves_for_piece(slice_index si,
+                                       square sq_departure,
+                                       PieNam p)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+
+  if (!(king_square[trait[nbply]]==sq_departure && messigny_rex_exclusive))
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (piece_belongs_to_opponent(*bnp) && get_walk_of_piece_on_square(*bnp)==p)
+        add_to_move_generation_stack(sq_departure,*bnp,messigny_exchange);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

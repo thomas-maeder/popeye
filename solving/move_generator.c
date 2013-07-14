@@ -8,6 +8,7 @@
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
 #include "conditions/marscirce/plus.h"
+#include "conditions/messigny.h"
 #include "conditions/patrol.h"
 #include "conditions/phantom.h"
 #include "conditions/singlebox/type3.h"
@@ -52,6 +53,7 @@ static slice_index const slice_rank_order[] =
     STStingMovesForPieceGenerator,
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
+    STMessignyMovesForPieceGenerator,
     STMovesForPieceGeneratorOrtho,
     STTrue
 };
@@ -223,6 +225,10 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
 
     case STPlatzwechselRochadeMovesForPieceGenerator:
       exchange_castling_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STMessignyMovesForPieceGenerator:
+      messigny_generate_moves_for_piece(si,sq_departure,p);
       break;
 
     case STMovesForPieceGeneratorOrtho:

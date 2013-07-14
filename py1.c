@@ -94,6 +94,7 @@
 #include "conditions/annan.h"
 #include "conditions/vaulting_kings.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/messigny.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -301,7 +302,7 @@ void InitCond(void)
   immune_is_rex_inclusive = false;
   phantom_chess_rex_inclusive = false;
   rex_geneva =false;
-  rex_mess_ex = false;
+  messigny_rex_exclusive = false;
   rex_wooz_ex = false;
   rex_protean_ex = false;
   transmuting_kings_lock_recursion = false;

@@ -2233,7 +2233,7 @@ void king_generate_moves(square sq_departure)
     generate_castling();
 }
 
-void gen_piece_aux(square sq_departure, PieNam p)
+void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 {
   Side const side = trait[nbply];
 
@@ -2258,27 +2258,6 @@ void gen_piece_aux(square sq_departure, PieNam p)
   }
   else
     piece_generate_moves(sq_departure,p);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  gen_piece_aux(sq_departure,p);
-
-  if (CondFlag[messigny] && !(king_square[trait[nbply]]==sq_departure && rex_mess_ex))
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; ++bnp)
-      if (piece_belongs_to_opponent(*bnp) && get_walk_of_piece_on_square(*bnp)==p)
-        add_to_move_generation_stack(sq_departure,*bnp,messigny_exchange);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

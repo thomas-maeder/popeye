@@ -5,6 +5,8 @@
 
 #include "solving/solve.h"
 
+extern boolean messigny_rex_exclusive;
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
@@ -40,5 +42,14 @@ stip_length_type messigny_remove_illegal_swap_repetitions_solve(slice_index si,
  *            n+3 no solution found in next branch
  */
 stip_length_type messigny_move_player_solve(slice_index si, stip_length_type n);
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void messigny_generate_moves_for_piece(slice_index si,
+                                       square sq_departure,
+                                       PieNam p);
 
 #endif

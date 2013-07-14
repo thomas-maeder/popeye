@@ -340,7 +340,6 @@ boolean nodabbabacontact(square ia);
 boolean nogiraffecontact(square ia);
 boolean noantelopecontact(square ia);
 
-void gen_piece_aux(square sq_departure, PieNam p);
 void WriteBGLNumber(char* a, long int b);
 boolean CrossesGridLines(square i, square j);
 

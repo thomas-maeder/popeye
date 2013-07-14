@@ -141,6 +141,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/vaulting_kings.h"
 #include "conditions/imitator.h"
+#include "conditions/messigny.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -692,7 +693,7 @@ static void WriteConditions(int alignment)
       strcat(CondLine, CondTab[rexincl]);
     }
 
-    if (  (rex_mess_ex && cond == messigny)
+    if (  (messigny_rex_exclusive && cond == messigny)
           || (rex_wooz_ex
               && (cond == woozles
                   || cond == biwoozles)))
@@ -5324,7 +5325,7 @@ static char *ParseCond(void)
     switch (indexx)
     {
       case messigny:
-        tok = ParseRex(&rex_mess_ex, rexexcl);
+        tok = ParseRex(&messigny_rex_exclusive, rexexcl);
         break;
       case woozles:
       case biwoozles:

@@ -113,7 +113,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
       trait[nbply] = advers(moving);
 
-      gen_piece_aux(take_arrival,taken);
+      generate_moves_for_piece_ortho(take_arrival,taken);
 
       for (++make_current; make_current<=current_move[nbply]; ++make_current)
         if (is_square_empty(move_generation_stack[make_current].capture))
