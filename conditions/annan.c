@@ -1,12 +1,16 @@
 #include "conditions/annan.h"
-#include "pydata.h"
 #include "position/position.h"
+#include "solving/move_generator.h"
+#include "solving/castling.h"
+#include "stipulation/stipulation.h"
+#include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
 annan_type_type annan_type;
 
-boolean annanises(Side side, square rear, square front)
+static boolean annanises(Side side, square rear, square front)
 {
   if (TSTFLAG(spec[rear],side))
     switch(annan_type)
@@ -66,4 +70,51 @@ boolean annan_is_square_attacked(square sq_target, evalfunction_t *evaluate)
     replace_piece(annan_sq[annan_cnt],annan_p[annan_cnt]);
 
   return result;
+}
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void annan_generate_moves_for_piece(slice_index si,
+                                    square sq_departure,
+                                    PieNam p)
+{
+  int const annaniser_dir = trait[nbply]==White ? -onerow : +onerow;
+  square const annaniser_pos = sq_departure+annaniser_dir;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (annanises(trait[nbply],annaniser_pos,sq_departure))
+  {
+    boolean const save_castling_supported = castling_supported;
+    PieNam const annaniser = get_walk_of_piece_on_square(annaniser_pos);
+    castling_supported = false;
+    generate_moves_for_piece(slices[si].next1,sq_departure,annaniser);
+    castling_supported = save_castling_supported;
+  }
+  else
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inialise the solving machinery with Annan Chess
+ * @param si identifies root slice of solving machinery
+ */
+void annan_initialise_solving(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  solving_instrument_move_generation(si,nr_sides,STAnnanMovesForPieceGenerator);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

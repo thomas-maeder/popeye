@@ -4156,7 +4156,12 @@ conditions/annan$(OBJ_SUFFIX): conditions/annan.c conditions/annan.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h pydata.h pyproc.h position/position.h
+ stipulation/goals/goals.h position/position.h solving/move_generator.h \
+ solving/solve.h stipulation/slice_type.h solving/castling.h \
+ stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
+ pyproc.h
 
 conditions/annan.h:
 
@@ -4188,11 +4193,33 @@ pieces/vectors.h:
 
 stipulation/goals/goals.h:
 
+position/position.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
+
+solving/castling.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+debugging/trace.h:
+
 pydata.h:
 
 pyproc.h:
-
-position/position.h:
 conditions/shielded_kings$(OBJ_SUFFIX): conditions/shielded_kings.c \
  conditions/shielded_kings.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/vectors.h \

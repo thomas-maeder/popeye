@@ -410,14 +410,14 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
- stipulation/slice_type.h conditions/beamten.h conditions/central.h \
- conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
- conditions/marscirce/marscirce.h pyproc.h py4.h py.h pieces/vectors.h \
- stipulation/goals/goals.h conditions/marscirce/anti.h \
- conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
- conditions/phantom.h conditions/singlebox/type3.h conditions/sting.h \
- position/position.h conditions/castling_chess.h \
- conditions/exchange_castling.h \
+ stipulation/slice_type.h conditions/annan.h pyproc.h py4.h py.h \
+ pieces/vectors.h stipulation/goals/goals.h conditions/beamten.h \
+ conditions/central.h conditions/disparate.h conditions/eiffel.h \
+ conditions/madrasi.h conditions/marscirce/marscirce.h \
+ conditions/marscirce/anti.h conditions/marscirce/plus.h \
+ conditions/messigny.h conditions/patrol.h conditions/phantom.h \
+ conditions/singlebox/type3.h conditions/sting.h position/position.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
  stipulation/slice.h solving/single_piece_move_generator.h \
@@ -452,6 +452,18 @@ pylang.h:
 
 stipulation/slice_type.h:
 
+conditions/annan.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
 conditions/beamten.h:
 
 conditions/central.h:
@@ -463,16 +475,6 @@ conditions/eiffel.h:
 conditions/madrasi.h:
 
 conditions/marscirce/marscirce.h:
-
-pyproc.h:
-
-py4.h:
-
-py.h:
-
-pieces/vectors.h:
-
-stipulation/goals/goals.h:
 
 conditions/marscirce/anti.h:
 

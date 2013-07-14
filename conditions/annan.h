@@ -18,13 +18,20 @@ typedef enum
 
 extern annan_type_type annan_type;
 
-/* Determine whether a piece annanises another
- * @param side side of potentially annanised piece
- * @param rear potential annaniser
- * @param front potential annanisee
- */
-boolean annanises(Side side, square rear, square front);
-
 boolean annan_is_square_attacked(square sq_target, evalfunction_t *evaluate);
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void annan_generate_moves_for_piece(slice_index si,
+                                    square sq_departure,
+                                    PieNam p);
+
+/* Inialise the solving machinery with Annan Chess
+ * @param si identifies root slice of solving machinery
+ */
+void annan_initialise_solving(slice_index si);
 
 #endif

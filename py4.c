@@ -2235,29 +2235,12 @@ void king_generate_moves(square sq_departure)
 
 void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 {
-  Side const side = trait[nbply];
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[annan])
-  {
-    int const annaniser_dir = side==White ? -onerow : +onerow;
-    square const annaniser_pos = sq_departure+annaniser_dir;
-    if (annanises(side,annaniser_pos,sq_departure))
-    {
-      boolean const save_castling_supported = castling_supported;
-      castling_supported = false;
-      piece_generate_moves(sq_departure,get_walk_of_piece_on_square(annaniser_pos));
-      castling_supported = save_castling_supported;
-    }
-    else
-      piece_generate_moves(sq_departure,p);
-  }
-  else
-    piece_generate_moves(sq_departure,p);
+  piece_generate_moves(sq_departure,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

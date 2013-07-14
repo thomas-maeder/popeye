@@ -2819,6 +2819,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[sting])
     sting_initalise_solving(result);
 
+  if (CondFlag[annan])
+    annan_initialise_solving(result);
+
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);
 #endif

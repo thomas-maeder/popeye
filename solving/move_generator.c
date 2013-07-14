@@ -1,4 +1,5 @@
 #include "solving/move_generator.h"
+#include "conditions/annan.h"
 #include "conditions/beamten.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
@@ -54,6 +55,7 @@ static slice_index const slice_rank_order[] =
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
+    STAnnanMovesForPieceGenerator,
     STMovesForPieceGeneratorOrtho,
     STTrue
 };
@@ -229,6 +231,10 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
 
     case STMessignyMovesForPieceGenerator:
       messigny_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STAnnanMovesForPieceGenerator:
+      annan_generate_moves_for_piece(si,sq_departure,p);
       break;
 
     case STMovesForPieceGeneratorOrtho:
