@@ -2619,9 +2619,10 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/castling.h solving/moving_pawn_promotion.h \
- pieces/pawns/promotion.h solving/post_move_iteration.h \
- solving/move_effect_journal.h position/pieceid.h debugging/trace.h
+ solving/castling.h solving/move_generator.h \
+ solving/moving_pawn_promotion.h pieces/pawns/promotion.h \
+ solving/post_move_iteration.h solving/move_effect_journal.h \
+ position/pieceid.h debugging/trace.h
 
 conditions/castling_chess.h:
 
@@ -2676,6 +2677,8 @@ output/mode.h:
 stipulation/move.h:
 
 solving/castling.h:
+
+solving/move_generator.h:
 
 solving/moving_pawn_promotion.h:
 

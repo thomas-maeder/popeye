@@ -2234,24 +2234,6 @@ void king_generate_moves(square sq_departure)
   if (castling_supported)
     generate_castling();
 
-  if (CondFlag[castlingchess] && !echecc(side_moving))
-  {
-    vec_index_type k;
-    for (k = vec_queen_end; k>= vec_queen_start; --k)
-    {
-      square const sq_passed = sq_departure+vec[k];
-      square const sq_arrival = sq_passed+vec[k];
-      square const sq_castler = find_end_of_line(sq_departure,vec[k]);
-
-      if (sq_castler!=sq_passed && sq_castler!=sq_arrival
-          && !is_square_blocked(sq_castler)
-          && castling_is_intermediate_king_move_legal(side_moving,
-                                                      sq_departure,
-                                                      sq_passed))
-        add_to_move_generation_stack(sq_departure,sq_arrival,maxsquare+sq_castler);
-    }
-  }
-
   if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[side_moving][nbply])
   {
     int i;

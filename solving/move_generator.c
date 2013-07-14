@@ -12,7 +12,9 @@
 #include "conditions/phantom.h"
 #include "conditions/singlebox/type3.h"
 #include "conditions/sting.h"
+#include "conditions/castling_chess.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/vaulting_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
@@ -47,6 +49,7 @@ static slice_index const slice_rank_order[] =
     STTransmutingKingsMovesForPieceGenerator,
     STReflectiveKingsMovesForPieceGenerator,
     STStingMovesForPieceGenerator,
+    STCastlingChessMovesForPieceGenerator,
     STMovesForPieceGeneratorOrtho,
     STTrue
 };
@@ -210,6 +213,10 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
 
     case STStingMovesForPieceGenerator:
       sting_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STCastlingChessMovesForPieceGenerator:
+      castlingchess_generate_moves_for_piece(si,sq_departure,p);
       break;
 
     case STMovesForPieceGeneratorOrtho:
