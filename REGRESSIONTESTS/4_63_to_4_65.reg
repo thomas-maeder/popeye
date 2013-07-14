@@ -41,7 +41,7 @@ another Messigny exchange of the same piece was illegal
           2.Bh6<->Bg2 #
 
 
-  add_to_move_generation_stack:        4713
+  add_to_move_generation_stack:        4590
                      play_move:        3085
  is_white_king_square_attacked:         250
  is_black_king_square_attacked:        3062

@@ -600,7 +600,7 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
 
   1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x
 
-  add_to_move_generation_stack:         456
+  add_to_move_generation_stack:         448
                      play_move:         133
  is_white_king_square_attacked:          63
  is_black_king_square_attacked:          79
