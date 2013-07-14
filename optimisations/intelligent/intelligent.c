@@ -337,8 +337,6 @@ void solve_target_position(void)
   /* solve the problem */
   ResetPosition(&initial_position);
 
-  castling_supported = true;
-
 #if defined(DETAILS)
   TraceText("target position:\n");
   trace_target_position(target_position,CapturesLeft[1]);
@@ -380,8 +378,6 @@ void solve_target_position(void)
 
   king_square[White] = save_king_square[White];
   king_square[Black] = save_king_square[Black];
-
-  castling_supported = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -456,9 +452,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
         || TSTCASTLINGFLAGMASK(0,Black,k_castling&castling_flag[castlings_flags_no_castling])==k_castling;
 
     assert(where_to_start_placing_black_pieces==boardnum);
-
-    assert(castling_supported);
-    castling_supported = false;
 
     MaxPiece[Black] = 0;
     MaxPiece[White] = 0;
@@ -538,8 +531,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
     GenerateBlackKing();
 
     ResetPosition(&initial_position);
-
-    castling_supported = true;
   }
 
   TraceFunctionExit(__func__);

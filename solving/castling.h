@@ -38,7 +38,6 @@ typedef enum
 
 extern  castling_flag_type castling_flag[maxply+2];
 enum { castlings_flags_no_castling = maxply+1 };
-extern  boolean castling_supported;
 extern castling_flag_type castling_mutual_exclusive[nr_sides][2];
 
 #define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*black_castling_offset,(mask))
@@ -120,11 +119,23 @@ stip_length_type castling_player_solve(slice_index si, stip_length_type n);
  *            n+3 no solution found in next branch
  */
 stip_length_type castling_rights_adjuster_solve(slice_index si,
-                                                 stip_length_type n);
+                                                stip_length_type n);
 
-/* Instrument slices with move tracers
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-void stip_insert_castling(slice_index si);
+void castling_generator_generate_castling(slice_index si,
+                                          square sq_departure,
+                                          PieNam p);
+
+/* Instrument the solving machinery with castling
+ * @param si identifies root slice of solving machinery
+ */
+void solving_initialise_castling(slice_index si);
+
+void solving_disable_castling(slice_index si);
 
 /* Try to solve in n half-moves.
  * @param si slice index

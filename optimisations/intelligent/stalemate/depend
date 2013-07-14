@@ -152,7 +152,7 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
  pieces/vectors.h stipulation/goals/goals.h solving/solve.h \
- solving/move_effect_journal.h position/pieceid.h \
+ solving/move_effect_journal.h position/pieceid.h solving/castling.h \
  optimisations/intelligent/intelligent.h position/position.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
@@ -213,6 +213,8 @@ solving/solve.h:
 solving/move_effect_journal.h:
 
 position/pieceid.h:
+
+solving/castling.h:
 
 optimisations/intelligent/intelligent.h:
 

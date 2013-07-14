@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
+#include "solving/castling.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -117,14 +118,23 @@ boolean intelligent_stalemate_immobilise_black(void)
 {
   boolean result = false;
   immobilisation_state_type immobilisation_state = null_state;
+  castling_flag_type const save_castling_flag = castling_flag[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  /* we temporarily disable Black castling for two reasons:
+   * 1. we are solving from the target position here where king or rook may be
+   *    at different positions than in the diagram; attempting to generate
+   *    (let alone) execute castling moves would cause problems in this case
+   * 2. castlings are presumable never the only legal black moves
+   */
+  CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
   current_state = &immobilisation_state;
   solve(slices[current_start_slice].next2,slack_length);
   next_trouble_maker();
   current_state = 0;
+  castling_flag[nbply] = save_castling_flag;
 
   if (immobilisation_state.worst.requirement>no_requirement)
   {

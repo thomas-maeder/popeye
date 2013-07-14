@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
+#include "solving/castling.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -51,9 +52,18 @@ static boolean exists_redundant_white_piece(void)
 {
   boolean result = false;
   square const *bnp;
+  castling_flag_type const save_castling_flag = castling_flag[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  /* we temporarily disable Black castling for two reasons:
+   * 1. we are solving from the target position here where king or rook may be
+   *    at different positions than in the diagram; attempting to generate
+   *    (let alone) execute castling moves would cause problems in this case
+   * 2. Black is in check - we don't need to test for it again
+   */
+  CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
 
   /* check for redundant white pieces */
   for (bnp = boardnum; !result && *bnp!=initsquare; bnp++)
@@ -72,13 +82,13 @@ static boolean exists_redundant_white_piece(void)
         Flags const sp = spec[sq];
 
         empty_square(sq);
-
         result = solve(slices[current_start_slice].next2,slack_length)==slack_length;
-
         occupy_square(sq,p,sp);
       }
     }
   }
+
+  castling_flag[nbply] = save_castling_flag;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

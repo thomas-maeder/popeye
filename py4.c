@@ -2228,9 +2228,6 @@ void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 void king_generate_moves(square sq_departure)
 {
   leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
-
-  if (castling_supported)
-    generate_castling();
 }
 
 void gorph(square sq_departure)

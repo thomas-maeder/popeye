@@ -1836,34 +1836,23 @@ static boolean verify_position(slice_index si)
 
   /* check castling possibilities */
   CLEARFL(castling_flag[0]);
-  /* castling_supported has to be adjusted if there are any problems */
-  /* with castling and fairy conditions/pieces */
-  castling_supported = !CondFlag[patience];
 
   complex_castling_through_flag = CondFlag[imitators];
 
-  if (castling_supported) {
-    if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
-        && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
-      SETCASTLINGFLAGMASK(0,White,k_cancastle);
-    if ((get_walk_of_piece_on_square(square_h1)== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
-      SETCASTLINGFLAGMASK(0,White,rh_cancastle);
-    if ((get_walk_of_piece_on_square(square_a1)== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
-      SETCASTLINGFLAGMASK(0,White,ra_cancastle);
-    if ((get_walk_of_piece_on_square(square_e8)== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
-        && (!CondFlag[dynasty] || number_of_pieces[Black][standard_walks[King]]==1))
-      SETCASTLINGFLAGMASK(0,Black,k_cancastle);
-    if ((get_walk_of_piece_on_square(square_h8)== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
-      SETCASTLINGFLAGMASK(0,Black,rh_cancastle);
-    if ((get_walk_of_piece_on_square(square_a8)== standard_walks[Rook]) && TSTFLAG(spec[square_a8], Black))
-      SETCASTLINGFLAGMASK(0,Black,ra_cancastle);
-  }
-
-  if (stip_ends_in(si,goal_castling) && !castling_supported)
-  {
-    VerifieMsg(StipNotSupported);
-    return false;
-  }
+  if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
+      && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
+    SETCASTLINGFLAGMASK(0,White,k_cancastle);
+  if ((get_walk_of_piece_on_square(square_h1)== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
+    SETCASTLINGFLAGMASK(0,White,rh_cancastle);
+  if ((get_walk_of_piece_on_square(square_a1)== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
+    SETCASTLINGFLAGMASK(0,White,ra_cancastle);
+  if ((get_walk_of_piece_on_square(square_e8)== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
+      && (!CondFlag[dynasty] || number_of_pieces[Black][standard_walks[King]]==1))
+    SETCASTLINGFLAGMASK(0,Black,k_cancastle);
+  if ((get_walk_of_piece_on_square(square_h8)== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
+    SETCASTLINGFLAGMASK(0,Black,rh_cancastle);
+  if ((get_walk_of_piece_on_square(square_a8)== standard_walks[Rook]) && TSTFLAG(spec[square_a8], Black))
+    SETCASTLINGFLAGMASK(0,Black,ra_cancastle);
 
   castling_flag[0] &= castling_flag[castlings_flags_no_castling];
   castling_flag[1] = castling_flag[0];
@@ -1992,7 +1981,6 @@ static boolean verify_position(slice_index si)
   {
     optim_neutralretractable = false;
     disable_orthodox_mating_move_optimisation(nr_sides);
-    castling_supported = false;
   }
 
   if (mummer_strictness[Black]!=mummer_strictness_none
@@ -2540,8 +2528,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
     stip_insert_protean_chess(result);
 
-  if (castling_supported)
-    stip_insert_castling(result);
+  solving_initialise_castling(result);
 
   if (CondFlag[einstein])
     stip_insert_einstein_moving_adjusters(result);

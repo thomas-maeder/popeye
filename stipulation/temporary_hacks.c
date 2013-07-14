@@ -246,10 +246,10 @@ static slice_index make_move_generator(Side side)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STMoveGeneratorFork,proxy);
   slice_index const generating = alloc_pipe(STGeneratingMovesForPiece);
-  slice_index const generator = alloc_pipe(STMovesForPieceGeneratorOrtho);
+  slice_index const ortho = alloc_pipe(STMovesForPieceGeneratorOrtho);
   pipe_append(proxy,generating);
-  pipe_append(generating,generator);
-  pipe_link(generator,alloc_true_slice());
+  pipe_append(generating,ortho);
+  pipe_link(ortho,alloc_true_slice());
   stip_impose_starter(result,side);
   return result;
 }

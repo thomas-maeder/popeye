@@ -206,8 +206,8 @@ b) wKa6-->g2
 33 moegliche Stellungen in 4+0
 
   add_to_move_generation_stack:         900
-                     play_move:         692
- is_white_king_square_attacked:         195
+                     play_move:         695
+ is_white_king_square_attacked:         198
  is_black_king_square_attacked:         197
 Loesung beendet. 
 
@@ -2392,10 +2392,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5*f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=S =
 667 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:    10076317
-                     play_move:     9791972
- is_white_king_square_attacked:      230379
- is_black_king_square_attacked:     2572840
+  add_to_move_generation_stack:    10076840
+                     play_move:     9792711
+ is_white_king_square_attacked:      230360
+ is_black_king_square_attacked:     2573064
 Loesung beendet. 
 
 
@@ -2679,10 +2679,10 @@ Loesung beendet.
   1.e2-e1=L Kc2-c1   2.Le1-b4 a3*b4   3.g2-g1=L b4-b5   4.Lg1-a7 b5-b6   5.h3-h2 b6*a7   6.h2-h1=L a7-a8=L   7.Lh1-d5 La8*d5 =
 325 moegliche Stellungen in 7+7
 
-  add_to_move_generation_stack:    52170324
-                     play_move:    56143590
- is_white_king_square_attacked:     1739498
- is_black_king_square_attacked:    12877813
+  add_to_move_generation_stack:    52170780
+                     play_move:    56144100
+ is_white_king_square_attacked:     1739492
+ is_black_king_square_attacked:    12877927
 Loesung beendet. 
 
 
@@ -2990,10 +2990,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*g7   5.a2-a1=S g7-g8=T =
 3279 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     4121721
-                     play_move:     3478872
- is_white_king_square_attacked:      135609
- is_black_king_square_attacked:     1620388
+  add_to_move_generation_stack:     4121190
+                     play_move:     3478341
+ is_white_king_square_attacked:      135603
+ is_black_king_square_attacked:     1620305
 Loesung beendet. 
 
 
@@ -3108,10 +3108,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=S =
 154 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     8578129
-                     play_move:     8579826
- is_white_king_square_attacked:      269827
- is_black_king_square_attacked:     1037953
+  add_to_move_generation_stack:     8579192
+                     play_move:     8580889
+ is_white_king_square_attacked:      269825
+ is_black_king_square_attacked:     1037919
 Loesung beendet. 
 
 
@@ -3147,10 +3147,10 @@ Loesung beendet.
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=S h7-h8=L =
 1990 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:    18769221
-                     play_move:    18220245
- is_white_king_square_attacked:      500968
- is_black_king_square_attacked:     3537312
+  add_to_move_generation_stack:    18769890
+                     play_move:    18221013
+ is_white_king_square_attacked:      500970
+ is_black_king_square_attacked:     3537268
 Loesung beendet. 
 
 
@@ -3186,10 +3186,10 @@ Loesung beendet.
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=L h7-h8=L =
 203 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     5180987
-                     play_move:     5137309
+  add_to_move_generation_stack:     5180601
+                     play_move:     5136905
  is_white_king_square_attacked:      134985
- is_black_king_square_attacked:      798855
+ is_black_king_square_attacked:      798838
 Loesung beendet. 
 
 
@@ -3225,10 +3225,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L =
 1592 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     8015891
-                     play_move:     7675493
- is_white_king_square_attacked:      157500
- is_black_king_square_attacked:     2055995
+  add_to_move_generation_stack:     8015396
+                     play_move:     7674998
+ is_white_king_square_attacked:      157499
+ is_black_king_square_attacked:     2055985
 Loesung beendet. 
 
 
@@ -3303,10 +3303,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7*g8=T =
 849 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:    10047040
-                     play_move:     9902132
- is_white_king_square_attacked:      335755
- is_black_king_square_attacked:     1983394
+  add_to_move_generation_stack:    10046181
+                     play_move:     9901273
+ is_white_king_square_attacked:      335753
+ is_black_king_square_attacked:     1983362
 Loesung beendet. 
 
 
@@ -3342,10 +3342,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=T =
 1300 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     2920468
-                     play_move:     2833535
+  add_to_move_generation_stack:     2919835
+                     play_move:     2832776
  is_white_king_square_attacked:      138330
- is_black_king_square_attacked:      669900
+ is_black_king_square_attacked:      669868
 Loesung beendet. 
 
 
@@ -3381,10 +3381,10 @@ Loesung beendet.
   1.a7-a5 g2-g4   2.a5-a4 g4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D =
 136 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     1439148
-                     play_move:     1397233
+  add_to_move_generation_stack:     1439251
+                     play_move:     1397354
  is_white_king_square_attacked:       52732
- is_black_king_square_attacked:      267805
+ is_black_king_square_attacked:      267817
 Loesung beendet. 
 
 
@@ -3421,10 +3421,10 @@ Loesung beendet.
   1.a7-a5 c2-c4   2.a5-a4 c4*d5   3.a4-a3 d5-d6   4.a3-a2 d6-d7   5.a2-a1=L d7-d8=D =
 1911 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     5180278
-                     play_move:     5010573
- is_white_king_square_attacked:      234718
- is_black_king_square_attacked:     1262530
+  add_to_move_generation_stack:     5179484
+                     play_move:     5009779
+ is_white_king_square_attacked:      234717
+ is_black_king_square_attacked:     1262377
 Loesung beendet. 
 
 
@@ -3460,10 +3460,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D =
 24 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     1622623
-                     play_move:     1615332
+  add_to_move_generation_stack:     1622143
+                     play_move:     1614834
  is_white_king_square_attacked:       49294
- is_black_king_square_attacked:      307857
+ is_black_king_square_attacked:      307795
 Loesung beendet. 
 
 
@@ -4021,10 +4021,10 @@ Loesung beendet.
   1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.h2-h1=T e5*f6   4.Th1-h8 f6-f7   5.Th8-g8 f7*g8=D   6.d2-d1=S Dg8*g3   7.Sd1-c3 Dg3*c3 =
 201 moegliche Stellungen in 7+7
 
-  add_to_move_generation_stack:   137694560
-                     play_move:   150899419
- is_white_king_square_attacked:     9011321
- is_black_king_square_attacked:    29496736
+  add_to_move_generation_stack:   137670283
+                     play_move:   150865233
+ is_white_king_square_attacked:     9013283
+ is_black_king_square_attacked:    29471139
 Loesung beendet. 
 
 
@@ -4097,10 +4097,10 @@ Loesung beendet.
 
   1.f7-f8=S   2.Sf8-e6   3.Se6-g7   4.h7-h8=D   5.Dh8-h5   6.Sg7-e6 =
 
-  add_to_move_generation_stack:      555651
-                     play_move:      643021
- is_white_king_square_attacked:       86989
- is_black_king_square_attacked:       91079
+  add_to_move_generation_stack:      555134
+                     play_move:      642474
+ is_white_king_square_attacked:       86968
+ is_black_king_square_attacked:       91058
 Loesung beendet. 
 
 
@@ -4475,10 +4475,10 @@ Loesung beendet.
   1.Ka8-a7   2.Lb6-c7   3.Ka7-b6   4.Kb6-c5   5.Kc5-d4   6.Kd4-e3   7.Ke3-f2   8.Kf2-g1   9.Kg1*h1  10.Kh1-g2  11.Kg2-f3  12.Kf3-e4  13.Ke4-d5  14.Kd5-c6 =
 1 moegliche Stellungen in 14+0
 
-  add_to_move_generation_stack:      209701
-                     play_move:      209701
- is_white_king_square_attacked:      144580
- is_black_king_square_attacked:      126417
+  add_to_move_generation_stack:      206960
+                     play_move:      206960
+ is_white_king_square_attacked:      142824
+ is_black_king_square_attacked:      125139
 Loesung beendet. 
 
 
@@ -4616,8 +4616,8 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7*g8=T =
 860 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:     8834179
-                     play_move:     8441142
+  add_to_move_generation_stack:     8834497
+                     play_move:     8441460
  is_white_king_square_attacked:      248168
  is_black_king_square_attacked:     1939388
 Loesung beendet. 
@@ -4655,10 +4655,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4*f5   3.b4-b3 f5*e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L =
 14454 moegliche Stellungen in 5+5
 
-  add_to_move_generation_stack:    33478798
-                     play_move:    29625694
+  add_to_move_generation_stack:    33478919
+                     play_move:    29625827
  is_white_king_square_attacked:      352619
- is_black_king_square_attacked:    12753801
+ is_black_king_square_attacked:    12753820
 Loesung beendet. 
 
 
@@ -4985,8 +4985,8 @@ a)
 
   add_to_move_generation_stack:     1476593
                      play_move:     1471777
- is_white_king_square_attacked:       11394
- is_black_king_square_attacked:     1319557
+ is_white_king_square_attacked:       11379
+ is_black_king_square_attacked:     1319512
 b) wBd6-->g6
 
 0 moegliche Stellungen in 1+1
@@ -4996,8 +4996,8 @@ b) wBd6-->g6
 
   add_to_move_generation_stack:     1523119
                      play_move:     1517993
- is_white_king_square_attacked:       13174
- is_black_king_square_attacked:     1339682
+ is_white_king_square_attacked:       13143
+ is_black_king_square_attacked:     1339597
 Loesung beendet. 
 
 
@@ -5108,7 +5108,7 @@ dies ist ein Testfall fuer intelligent und loch
 
   add_to_move_generation_stack:    21633050
                      play_move:    21474770
- is_white_king_square_attacked:       70266
+ is_white_king_square_attacked:       70224
  is_black_king_square_attacked:    20862913
 Loesung beendet. 
 

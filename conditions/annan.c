@@ -92,11 +92,8 @@ void annan_generate_moves_for_piece(slice_index si,
 
   if (annanises(trait[nbply],annaniser_pos,sq_departure))
   {
-    boolean const save_castling_supported = castling_supported;
     PieNam const annaniser = get_walk_of_piece_on_square(annaniser_pos);
-    castling_supported = false;
     generate_moves_for_piece(slices[si].next1,sq_departure,annaniser);
-    castling_supported = save_castling_supported;
   }
   else
     generate_moves_for_piece(slices[si].next1,sq_departure,p);

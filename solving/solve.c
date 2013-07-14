@@ -51,6 +51,7 @@
 #include "conditions/sat.h"
 #include "conditions/dynasty.h"
 #include "conditions/masand.h"
+#include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"

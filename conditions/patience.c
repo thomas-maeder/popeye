@@ -1,5 +1,6 @@
 #include "conditions/patience.h"
 #include "pydata.h"
+#include "solving/castling.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -42,6 +43,7 @@ void stip_insert_patience_chess(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STPatienceChessLegalityTester);
+  solving_disable_castling(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

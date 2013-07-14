@@ -225,8 +225,7 @@ static void king(square sq_departure, square sq_king, Side side)
   else
     king_nonneutral(sq_departure,sq_king,side);
 
-  if (castling_supported)
-    generate_castling();
+  generate_castling();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

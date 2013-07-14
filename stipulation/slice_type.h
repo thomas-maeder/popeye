@@ -127,6 +127,7 @@
     ENUMERATOR(STMoveGeneratorFork),                                     \
     ENUMERATOR(STGeneratingMovesForPiece),                               \
     ENUMERATOR(STMovesForPieceGeneratorOrtho),                           \
+    ENUMERATOR(STCastlingGenerator),                                     \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
     ENUMERATOR(STRefutationsFilter), /* only consider refutations */ \

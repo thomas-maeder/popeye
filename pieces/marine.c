@@ -1,7 +1,6 @@
 #include "pieces/marine.h"
 #include "pieces/pawns/pawns.h"
 #include "pieces/pawns/pawn.h"
-#include "solving/castling.h"
 #include "pydata.h"
 #include "py4.h"
 #include "debugging/trace.h"
@@ -33,10 +32,9 @@ void marine_rider_generate_moves(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-/* Generate moves for a marine knight
- * @param sq_departure departure square of the marine rider
- */
-void marine_knight_generate_moves(square sq_departure)
+static void marine_leaper_generate_moves(square sq_departure,
+                                         vec_index_type kanf,
+                                         vec_index_type kend)
 {
   vec_index_type k;
 
@@ -44,7 +42,7 @@ void marine_knight_generate_moves(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  for (k = kanf; k<=kend; ++k)
   {
     square sq_arrival = sq_departure+vec[k];
     if (is_square_empty(sq_arrival))
@@ -62,33 +60,31 @@ void marine_knight_generate_moves(square sq_departure)
   TraceFunctionResultEnd();
 }
 
+/* Generate moves for a marine knight
+ * @param sq_departure departure square of the marine rider
+ */
+void marine_knight_generate_moves(square sq_departure)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  marine_leaper_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Generate moves for a poseidon
  * @param sq_departure departure square of the marine rider
  */
 void poseidon_generate_moves(square sq_departure)
 {
-  vec_index_type k;
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  for (k = vec_queen_start; k<=vec_queen_end; ++k)
-  {
-    square sq_arrival = sq_departure+vec[k];
-    if (is_square_empty(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
-    else if (piece_belongs_to_opponent(sq_arrival))
-    {
-      square const sq_capture = sq_arrival;
-      sq_arrival += vec[k];
-      if (is_square_empty(sq_arrival))
-        add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
-    }
-  }
-
-  if (castling_supported)
-    generate_castling();
+  marine_leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

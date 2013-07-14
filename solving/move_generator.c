@@ -54,6 +54,7 @@ static slice_index const slice_rank_order[] =
     STStingMovesForPieceGenerator,
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
+    STCastlingGenerator,
     STMessignyMovesForPieceGenerator,
     STAnnanMovesForPieceGenerator,
     STMovesForPieceGeneratorOrtho,
@@ -227,6 +228,10 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
 
     case STPlatzwechselRochadeMovesForPieceGenerator:
       exchange_castling_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STCastlingGenerator:
+      castling_generator_generate_castling(si,sq_departure,p);
       break;
 
     case STMessignyMovesForPieceGenerator:

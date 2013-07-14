@@ -103,6 +103,7 @@ void stip_insert_castling_chess(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STCastlingChessMovesForPieceGenerator);
   insert_alternative_move_players(si,STCastlingChessMovePlayer);
+  solving_disable_castling(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
