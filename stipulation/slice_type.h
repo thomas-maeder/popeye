@@ -177,7 +177,6 @@
     ENUMERATOR(STCaptureRemoveNonReachers),                             \
     ENUMERATOR(STTargetRemoveNonReachers),                              \
     ENUMERATOR(STMateRemoveRetractable),                                \
-    ENUMERATOR(STMessignyRemoveIllegalSwapRepetitions),                 \
     ENUMERATOR(STUncapturableRemoveCaptures),                           \
     ENUMERATOR(STNocatpureRemoveCaptures),                              \
     ENUMERATOR(STWoozlesRemoveIllegalCaptures),                         \

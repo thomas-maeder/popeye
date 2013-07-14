@@ -52,7 +52,6 @@
 #include "conditions/dynasty.h"
 #include "conditions/masand.h"
 #include "conditions/oscillating_kings.h"
-#include "conditions/messigny.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/republican.h"
@@ -1508,10 +1507,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STUncapturableRemoveCaptures:
       result = uncapturable_remove_captures_solve(si,n);
-      break;
-
-    case STMessignyRemoveIllegalSwapRepetitions:
-      result = messigny_remove_illegal_swap_repetitions_solve(si,n);
       break;
 
     case STTakeAndMakeGenerateMake:

@@ -1531,8 +1531,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  stipulation/goals/goals.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
  conditions/sat.h conditions/dynasty.h conditions/masand.h \
- conditions/oscillating_kings.h conditions/messigny.h \
- conditions/actuated_revolving_centre.h \
+ conditions/oscillating_kings.h conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/circe.h \
  conditions/circe/cage.h conditions/circe/double_agents.h \
@@ -1815,8 +1814,6 @@ conditions/dynasty.h:
 conditions/masand.h:
 
 conditions/oscillating_kings.h:
-
-conditions/messigny.h:
 
 conditions/actuated_revolving_centre.h:
 
