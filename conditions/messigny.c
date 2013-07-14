@@ -20,9 +20,6 @@ static void find_forbidden_squares(square *from, square *to)
   move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   if (parent_movement<parent_top
