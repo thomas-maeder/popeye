@@ -268,3 +268,44 @@ py.h:
 pydata.h:
 
 pyproc.h:
+pieces/hoppers$(OBJ_SUFFIX): pieces/hoppers.c pieces/hoppers.h position/board.h \
+ utilities/bitmask.h position/position.h pieces/vectors.h \
+ utilities/boolean.h utilities/enumeration.h pydata.h pyproc.h py4.h py.h \
+ utilities/boolean.h position/position.h pylang.h pieces/vectors.h \
+ stipulation/goals/goals.h py.h pyproc.h
+
+pieces/hoppers.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/position.h:
+
+pieces/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+pyproc.h:

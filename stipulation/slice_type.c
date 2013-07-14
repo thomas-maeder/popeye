@@ -386,6 +386,7 @@
     ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \
+    ENUMERATOR(STStingMovesForPieceGenerator),                          \
     ENUMERATOR(STAMUAttackCounter),                                     \
     ENUMERATOR(STMutualCastlingRightsAdjuster),                         \
     ENUMERATOR(STImitatorMover),                                        \

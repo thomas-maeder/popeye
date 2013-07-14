@@ -4740,3 +4740,66 @@ stipulation/traversal.h:
 stipulation/goals/goals.h:
 
 output/mode.h:
+conditions/sting$(OBJ_SUFFIX): conditions/sting.c conditions/sting.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/vectors.h utilities/boolean.h utilities/enumeration.h py.h \
+ utilities/boolean.h position/position.h pylang.h pieces/hoppers.h \
+ solving/move_generator.h solving/solve.h stipulation/slice_type.h \
+ stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
+ pieces/vectors.h stipulation/goals/goals.h
+
+conditions/sting.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+pieces/hoppers.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/vectors.h:
+
+stipulation/goals/goals.h:

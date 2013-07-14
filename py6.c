@@ -221,6 +221,7 @@
 #include "conditions/vogtlaender.h"
 #include "conditions/bicolores.h"
 #include "conditions/antikings.h"
+#include "conditions/sting.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2817,6 +2818,9 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     transmuting_kings_initialise_solving(result);
   else if (CondFlag[whrefl_king] || CondFlag[blrefl_king])
     reflective_kings_initialise_solving(result);
+
+  if (CondFlag[sting])
+    sting_initalise_solving(result);
 
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);

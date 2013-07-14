@@ -415,8 +415,8 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/marscirce/marscirce.h pyproc.h py4.h py.h pieces/vectors.h \
  stipulation/goals/goals.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/patrol.h conditions/phantom.h \
- conditions/singlebox/type3.h \
- conditions/transmuting_kings/transmuting_kings.h position/position.h \
+ conditions/singlebox/type3.h conditions/sting.h position/position.h \
+ conditions/transmuting_kings/transmuting_kings.h \
  pieces/attributes/paralysing/paralysing.h stipulation/slice.h \
  solving/single_piece_move_generator.h solving/castling.h \
  solving/single_move_generator.h solving/king_move_generator.h \
@@ -481,9 +481,11 @@ conditions/phantom.h:
 
 conditions/singlebox/type3.h:
 
-conditions/transmuting_kings/transmuting_kings.h:
+conditions/sting.h:
 
 position/position.h:
+
+conditions/transmuting_kings/transmuting_kings.h:
 
 pieces/attributes/paralysing/paralysing.h:
 

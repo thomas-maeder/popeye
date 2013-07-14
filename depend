@@ -449,15 +449,15 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
  position/pieceid.h pymsg.h stipulation/has_solution_type.h \
  solving/solve.h solving/castling.h pieces/pawns/en_passant.h pyproc.h \
- solving/observation.h conditions/disparate.h conditions/eiffel.h \
- conditions/madrasi.h conditions/sat.h conditions/duellists.h \
- conditions/singlebox/type1.h conditions/singlebox/type2.h \
- pieces/pawns/promotion.h conditions/singlebox/type3.h \
- conditions/beamten.h conditions/patrol.h conditions/central.h \
- conditions/koeko/koeko.h conditions/phantom.h \
+ pieces/hoppers.h position/position.h solving/observation.h \
+ conditions/disparate.h conditions/eiffel.h conditions/madrasi.h \
+ conditions/sat.h conditions/duellists.h conditions/singlebox/type1.h \
+ conditions/singlebox/type2.h pieces/pawns/promotion.h \
+ conditions/singlebox/type3.h conditions/beamten.h conditions/patrol.h \
+ conditions/central.h conditions/koeko/koeko.h conditions/phantom.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/annan.h conditions/wormhole.h \
- conditions/vaulting_kings.h position/position.h \
+ conditions/vaulting_kings.h \
  conditions/transmuting_kings/transmuting_kings.h \
  pieces/attributes/paralysing/paralysing.h pieces/pawns/pawns.h \
  pieces/pawns/pawn.h pieces/hunters.h pieces/roses.h \
@@ -531,6 +531,10 @@ pieces/pawns/en_passant.h:
 
 pyproc.h:
 
+pieces/hoppers.h:
+
+position/position.h:
+
 solving/observation.h:
 
 conditions/disparate.h:
@@ -572,8 +576,6 @@ conditions/annan.h:
 conditions/wormhole.h:
 
 conditions/vaulting_kings.h:
-
-position/position.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -824,8 +826,8 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h conditions/backhome.h \
  conditions/vogtlaender.h conditions/bicolores.h conditions/antikings.h \
- platform/maxmem.h platform/maxtime.h platform/pytime.h \
- platform/priority.h conditions/shielded_kings.h \
+ conditions/sting.h platform/maxmem.h platform/maxtime.h \
+ platform/pytime.h platform/priority.h conditions/shielded_kings.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
  stipulation/dead_end.h stipulation/move_inverter.h \
@@ -1173,6 +1175,8 @@ conditions/vogtlaender.h:
 conditions/bicolores.h:
 
 conditions/antikings.h:
+
+conditions/sting.h:
 
 platform/maxmem.h:
 
