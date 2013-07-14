@@ -2250,45 +2250,10 @@ void king_generate_moves(square sq_departure)
 {
   Side const side_moving = trait[nbply];
 
-  if (calc_reflective_king[side_moving] && !transmuting_kings_lock_recursion)
-  {
-    boolean generated_by_transmutation = false;
-    numecoup const save_nbcou = current_move[nbply];
+  if (CondFlag[sting])
+    hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
 
-    if (CondFlag[side_moving==White ? blvault_king : whvault_king])
-    {
-      generated_by_transmutation = vaulting_kings_generate_moves(sq_departure);
-      if (generated_by_transmutation && calc_transmuting_king[side_moving])
-        return;
-    }
-    else if (CondFlag[side_moving==White ? whtrans_king : bltrans_king]
-             || CondFlag[side_moving==White ? whsupertrans_king : blsupertrans_king])
-    {
-      if (transmuting_kings_generate_moves(sq_departure))
-        return;
-    }
-    else if (CondFlag[side_moving==White ? whrefl_king : blrefl_king])
-      generated_by_transmutation = transmuting_kings_generate_moves(sq_departure);
-    else
-    {
-      assert(0);
-    }
-
-    if (CondFlag[sting])
-      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
-
-    leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
-
-    if (generated_by_transmutation)
-      remove_duplicate_moves_of_single_piece(save_nbcou);
-  }
-  else
-  {
-    if (CondFlag[sting])
-      hoppers_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
-
-    leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
-  }
+  leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
 
   if (castling_supported)
     generate_castling();

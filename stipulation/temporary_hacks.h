@@ -39,7 +39,7 @@ extern slice_index temporary_hack_back_home_finder[nr_sides];
 extern slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 
 /* fork slice into branch that generates moves */
-extern slice_index temporary_hack_move_generator;
+extern slice_index temporary_hack_move_generator[nr_sides];
 
 /* fork slice into branch that detects check*/
 extern slice_index temporary_hack_check_tester;

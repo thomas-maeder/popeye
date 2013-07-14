@@ -34,9 +34,9 @@ void generate_king_moves(void)
   Side const side = trait[nbply];
 
   if (king_square[side]!=initsquare)
-    generate_moves_for_piece(slices[temporary_hack_move_generator].next2,
-                                       king_square[side],
-                                       get_walk_of_piece_on_square(king_square[side]));
+    generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2,
+                             king_square[side],
+                             get_walk_of_piece_on_square(king_square[side]));
 }
 
 /* Try to solve in n half-moves.

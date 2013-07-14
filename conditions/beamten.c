@@ -77,7 +77,7 @@ void beamten_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,STBeamtenMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STBeamtenMovesForPieceGenerator);
 
   register_observation_validator(&avoid_unobserved_observation);
 

@@ -4456,7 +4456,11 @@ conditions/vaulting_kings$(OBJ_SUFFIX): conditions/vaulting_kings.c \
  position/board.h utilities/bitmask.h pieces/vectors.h \
  utilities/enumeration.h pyproc.h py4.h py.h utilities/boolean.h \
  position/position.h pylang.h pieces/vectors.h stipulation/goals/goals.h \
- py.h pydata.h pyproc.h conditions/transmuting_kings/transmuting_kings.h
+ py.h conditions/transmuting_kings/transmuting_kings.h \
+ solving/move_generator.h solving/solve.h stipulation/slice_type.h \
+ stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h pydata.h pyproc.h
 
 conditions/vaulting_kings.h:
 
@@ -4490,11 +4494,29 @@ stipulation/goals/goals.h:
 
 py.h:
 
+conditions/transmuting_kings/transmuting_kings.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
 pydata.h:
 
 pyproc.h:
-
-conditions/transmuting_kings/transmuting_kings.h:
 conditions/backhome$(OBJ_SUFFIX): conditions/backhome.c conditions/backhome.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/vectors.h utilities/boolean.h \

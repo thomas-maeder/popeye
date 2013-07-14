@@ -201,7 +201,7 @@ void solving_initialise_marscirce(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,STMarsCirceMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -383,6 +383,9 @@
     ENUMERATOR(STCastlingChessMovePlayer),                              \
     ENUMERATOR(STExchangeCastlingMovePlayer),                           \
     ENUMERATOR(STSuperTransmutingKingTransmuter),                       \
+    ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
+    ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
+    ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \
     ENUMERATOR(STAMUAttackCounter),                                     \
     ENUMERATOR(STMutualCastlingRightsAdjuster),                         \
     ENUMERATOR(STImitatorMover),                                        \

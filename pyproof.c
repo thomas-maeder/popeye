@@ -246,7 +246,7 @@ static void ProofInitialiseKingMoves(Side side)
           }
           if (CondFlag[trans_king]
               || CondFlag[supertrans_king]
-              || (CondFlag[vault_king] && calc_transmuting_king[side]))
+              || (CondFlag[vault_king] && vaulting_kings_transmuting[side]))
           {
             sq= *bnp+vec[k];
             while (!is_square_blocked(sq) && KingMoves[side][sq]!=-1)
@@ -262,7 +262,7 @@ static void ProofInitialiseKingMoves(Side side)
         }
         if (CondFlag[trans_king]
             || CondFlag[supertrans_king]
-            || (CondFlag[vault_king] && calc_transmuting_king[side]))
+            || (CondFlag[vault_king] && vaulting_kings_transmuting[side]))
         {
           vec_index_type k;
           for (k= vec_knight_end; k>=vec_knight_start; k--)

@@ -504,7 +504,7 @@ static void WriteConditions(int alignment)
     {
         if (king_vaulters[White][0] != EquiHopper || king_vaulters[White][1] != Empty)
           WritePieces(king_vaulters[White], CondLine);
-        if (calc_transmuting_king[White])
+        if (vaulting_kings_transmuting[White])
         {
           char LocalBuf[4];
           sprintf(LocalBuf, " -%c",
@@ -517,7 +517,7 @@ static void WriteConditions(int alignment)
     {
         if (king_vaulters[Black][0] != EquiHopper || king_vaulters[Black][1] != Empty)
           WritePieces(king_vaulters[Black], CondLine);
-        if (calc_transmuting_king[Black])
+        if (vaulting_kings_transmuting[Black])
         {
           char LocalBuf[4];
           sprintf(LocalBuf, " -%c",
@@ -4839,9 +4839,9 @@ static char *ParseVaultingPieces(Side side)
         if (GetUniqIndex(VariantTypeCount,VariantTypeTab,tok)==Transmuting)
         {
           if (side!=Black)
-            calc_transmuting_king[White]= true;
+            vaulting_kings_transmuting[White]= true;
           if (side!=White)
-            calc_transmuting_king[Black]= true;
+            vaulting_kings_transmuting[Black]= true;
         }
         else
           return tok;
@@ -5075,16 +5075,16 @@ static char *ParseCond(void)
         CondFlag[blvault_king] = true;
         calc_reflective_king[White]= true;
         calc_reflective_king[Black]= true;
-        calc_transmuting_king[White] = false;
-        calc_transmuting_king[Black] = false;
+        vaulting_kings_transmuting[White] = false;
+        vaulting_kings_transmuting[Black] = false;
         break;
       case whvault_king:
         calc_reflective_king[White]= true;
-        calc_transmuting_king[White] = false;
+        vaulting_kings_transmuting[White] = false;
         break;
       case blvault_king:
         calc_reflective_king[Black]= true;
-        calc_transmuting_king[Black] = false;
+        vaulting_kings_transmuting[Black] = false;
         break;
       case whforsqu:
         ReadSquares(WhForcedSq);

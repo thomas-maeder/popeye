@@ -423,7 +423,7 @@ void paralysing_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  solving_instrument_move_generation(si,STParalysingMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
   register_observer_validator(&paralysing_validate_observer);
   register_observation_validator(&paralysing_validate_observation);

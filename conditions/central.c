@@ -99,7 +99,7 @@ void central_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,STCentralMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STCentralMovesForPieceGenerator);
 
   register_observation_validator(&is_observer_supported);
 

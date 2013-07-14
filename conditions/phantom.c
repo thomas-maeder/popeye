@@ -192,7 +192,7 @@ void solving_initialise_phantom(slice_index si)
 
   stip_instrument_moves(si,STPhantomChessEnPassantAdjuster);
 
-  solving_instrument_move_generation(si,STPhantomMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STPhantomMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

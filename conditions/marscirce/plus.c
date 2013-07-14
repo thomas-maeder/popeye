@@ -108,7 +108,7 @@ void solving_initialise_plus(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,STPlusMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STPlusMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

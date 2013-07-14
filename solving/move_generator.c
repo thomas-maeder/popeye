@@ -11,6 +11,7 @@
 #include "conditions/patrol.h"
 #include "conditions/phantom.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
@@ -41,6 +42,9 @@ static slice_index const slice_rank_order[] =
     STPlusMovesForPieceGenerator,
     STMarsCirceMovesForPieceGenerator,
     STAntiMarsCirceMovesForPieceGenerator,
+    STVaultingKingsMovesForPieceGenerator,
+    STTransmutingKingsMovesForPieceGenerator,
+    STReflectiveKingsMovesForPieceGenerator,
     STMovesForPieceGeneratorOrtho,
     STTrue
 };
@@ -78,6 +82,12 @@ static void insert_slice(slice_index testing, slice_type type)
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    Side side;
+    slice_type type;
+} insertion_configuration;
+
 static void instrument_generating(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -87,8 +97,9 @@ static void instrument_generating(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    slice_type const * const type = st->param;
-    insert_slice(si,*type);
+    insertion_configuration const * config = st->param;
+    if (config->side==nr_sides || config->side==slices[si].starter)
+      insert_slice(si,config->type);
   }
 
   TraceFunctionExit(__func__);
@@ -97,16 +108,20 @@ static void instrument_generating(slice_index si, stip_structure_traversal *st)
 
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation
+ * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
  */
-void solving_instrument_move_generation(slice_index si, slice_type type)
+void solving_instrument_move_generation(slice_index si,
+                                        Side side,
+                                        slice_type type)
 {
   stip_structure_traversal st;
+  insertion_configuration config = { side, type };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&type);
+  stip_structure_traversal_init(&st,&config);
   stip_structure_traversal_override_single(&st,
                                            STGeneratingMovesForPiece,
                                            &instrument_generating);
@@ -179,6 +194,18 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
       antimars_generate_moves_for_piece(si,sq_departure,p);
       break;
 
+    case STVaultingKingsMovesForPieceGenerator:
+      vaulting_kings_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STTransmutingKingsMovesForPieceGenerator:
+      transmuting_kings_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STReflectiveKingsMovesForPieceGenerator:
+      reflective_kings_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
     case STMovesForPieceGeneratorOrtho:
       generate_moves_for_piece_ortho(sq_departure,p);
       break;
@@ -229,9 +256,9 @@ static void genmove(Side side)
     for (j = nr_files_on_board; j>0; j--)
     {
       if (TSTFLAG(spec[sq_departure],side))
-        generate_moves_for_piece(slices[temporary_hack_move_generator].next2,
-                                           sq_departure,
-                                           get_walk_of_piece_on_square(sq_departure));
+        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2,
+                                 sq_departure,
+                                 get_walk_of_piece_on_square(sq_departure));
       sq_departure += dir_left;
     }
   }

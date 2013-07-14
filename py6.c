@@ -1454,8 +1454,8 @@ static boolean verify_position(slice_index si)
       VerifieMsg(MarsCirceAndOthers);
       return false;
     }
-    else if ((CondFlag[whvault_king] && calc_transmuting_king[White])
-             || (CondFlag[blvault_king] && calc_transmuting_king[Black])
+    else if ((CondFlag[whvault_king] && vaulting_kings_transmuting[White])
+             || (CondFlag[blvault_king] && vaulting_kings_transmuting[Black])
              || calc_reflective_king[White]
              || calc_reflective_king[Black]
              || CondFlag[bicolores]
@@ -2810,6 +2810,14 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (TSTFLAG(some_pieces_flags,Beamtet))
     beamten_initialise_solving(result);
 
+  if (CondFlag[blvault_king] || CondFlag[whvault_king])
+    vaulting_kings_initalise_solving(result);
+  else if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king]
+           || CondFlag[bltrans_king] || CondFlag[blsupertrans_king])
+    transmuting_kings_initialise_solving(result);
+  else if (CondFlag[whrefl_king] || CondFlag[blrefl_king])
+    reflective_kings_initialise_solving(result);
+
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);
 #endif
@@ -2830,8 +2838,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (rex_circe)
     circe_rex_inclusive_initialise_solving();
-
-  vaulting_kings_initalise_solving();
 
   if (CondFlag[backhome])
     backhome_initialise_solving();

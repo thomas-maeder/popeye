@@ -7,7 +7,7 @@
 #include "position/position.h"
 #include "pyproc.h"
 
-extern boolean calc_transmuting_king[nr_sides];
+extern boolean vaulting_kings_transmuting[nr_sides];
 extern PieNam king_vaulters[nr_sides][PieceCount];
 
 /* Reset the king vaulters
@@ -31,10 +31,13 @@ boolean vaulting_kings_is_square_attacked_by_king(square sq_target,
 
 /* Generate moves for a vaulting king
  */
-boolean vaulting_kings_generate_moves(square sq_departure);
+void vaulting_kings_generate_moves_for_piece(slice_index si,
+                                             square sq_departure,
+                                             PieNam p);
 
-/* Initialise solving in Vaulting Kings
+/* Initialise the solving machinery with Vaulting Kings
+ * @param si root slice of the solving machinery
  */
-void vaulting_kings_initalise_solving(void);
+void vaulting_kings_initalise_solving(slice_index si);
 
 #endif

@@ -200,6 +200,6 @@ void ultrapatrol_generate_moves_for_piece(slice_index si,
  */
 void ultrapatrol_initialise_solving(slice_index si)
 {
-  solving_instrument_move_generation(si,STUltraPatrolMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STUltraPatrolMovesForPieceGenerator);
   register_observation_validator(&avoid_unsupported_observation);
 }

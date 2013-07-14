@@ -39,7 +39,19 @@ transmuting_kings_is_square_attacked_by_transmuting_king(square sq_target,
 boolean transmuting_kings_is_square_attacked_by_king(square sq_target,
                                                      evalfunction_t *evaluate);
 
-boolean transmuting_kings_generate_moves(square sq_departure);
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void transmuting_kings_generate_moves_for_piece(slice_index si,
+                                                square sq_departure,
+                                                PieNam p);
+
+/* Inialise the solving machinery with transmuting kings
+ * @param si identifies root slice of solving machinery
+ */
+void transmuting_kings_initialise_solving(slice_index si);
 
 /* Does the reflective king of side trait[nbply] attack a particular square
  * (while transmuting or not)?
@@ -49,5 +61,19 @@ boolean transmuting_kings_generate_moves(square sq_departure);
  */
 boolean reflective_kings_is_square_attacked_by_king(square sq_target,
                                                     evalfunction_t *evaluate);
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void reflective_kings_generate_moves_for_piece(slice_index si,
+                                     square sq_departure,
+                                     PieNam p);
+
+/* Inialise the solving machinery with reflective kings
+ * @param si identifies root slice of solving machinery
+ */
+void reflective_kings_initialise_solving(slice_index si);
 
 #endif

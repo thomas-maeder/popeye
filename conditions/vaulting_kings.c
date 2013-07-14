@@ -1,10 +1,12 @@
 #include "conditions/vaulting_kings.h"
-#include "pydata.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "solving/move_generator.h"
+#include "stipulation/stipulation.h"
+#include "pydata.h"
 
 #include <assert.h>
 
-boolean calc_transmuting_king[nr_sides];
+boolean vaulting_kings_transmuting[nr_sides];
 PieNam king_vaulters[nr_sides][PieceCount];
 static unsigned int nr_king_vaulters[nr_sides];
 
@@ -69,7 +71,7 @@ boolean vaulting_kings_is_square_attacked_by_king(square sq_target,
       break;
 
     case king_vaulting_no_attack:
-      if (!calc_transmuting_king[side_attacking] && roicheck(sq_target,King,evaluate))
+      if (!vaulting_kings_transmuting[side_attacking] && roicheck(sq_target,King,evaluate))
         return true;
       break;
 
@@ -85,41 +87,60 @@ boolean vaulting_kings_is_square_attacked_by_king(square sq_target,
   return false;
 }
 
-boolean vaulting_kings_generate_moves(square sq_departure)
+void vaulting_kings_generate_moves_for_piece(slice_index si,
+                                             square sq_departure,
+                                             PieNam p)
 {
-  boolean result = false;
+  boolean found_vaulter = false;
   Side const side = trait[nbply];
 
-  transmuting_kings_lock_recursion = true;
-
-  if (echecc(side))
+  if (p==King)
   {
-    PieNam const *pi_vaulter;
-    for (pi_vaulter = king_vaulters[side]; *pi_vaulter!=Empty; ++pi_vaulter)
+    if (echecc(side))
     {
-      result = true;
-      current_trans_gen = *pi_vaulter;
-      generate_moves_for_piece_ortho(sq_departure,*pi_vaulter);
-      current_trans_gen = Empty;
+      PieNam const *pi_vaulter;
+      for (pi_vaulter = king_vaulters[side]; *pi_vaulter!=Empty; ++pi_vaulter)
+      {
+        found_vaulter = true;
+        current_trans_gen = *pi_vaulter;
+        generate_moves_for_piece(slices[si].next1,sq_departure,*pi_vaulter);
+        current_trans_gen = Empty;
+      }
     }
+
+    if (found_vaulter && vaulting_kings_transmuting[side])
+    {
+      /* don't generate non-vaulting moves */
+    }
+    else
+      generate_moves_for_piece(slices[si].next1,sq_departure,King);
   }
-
-  transmuting_kings_lock_recursion = false;
-
-  return result;
+  else
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
 }
 
-void vaulting_kings_initalise_solving(void)
+/* Initialise the solving machinery with Vaulting Kings
+ * @param si root slice of the solving machinery
+ */
+void vaulting_kings_initalise_solving(slice_index si)
 {
-  if (king_vaulters[White][0]==Empty)
+  if (CondFlag[whvault_king])
   {
-    king_vaulters[White][0] = EquiHopper;
-    king_vaulters[White][1] = Empty;
+    if (king_vaulters[White][0]==Empty)
+    {
+      king_vaulters[White][0] = EquiHopper;
+      king_vaulters[White][1] = Empty;
+    }
+    solving_instrument_move_generation(si,White,STVaultingKingsMovesForPieceGenerator);
   }
 
-  if (king_vaulters[Black][0]==Empty)
+  if (CondFlag[blvault_king])
   {
-    king_vaulters[Black][0] = EquiHopper;
-    king_vaulters[Black][1] = Empty;
+    if (king_vaulters[Black][0]==Empty)
+    {
+      king_vaulters[Black][0] = EquiHopper;
+      king_vaulters[Black][1] = Empty;
+    }
+    solving_instrument_move_generation(si,Black,STVaultingKingsMovesForPieceGenerator);
   }
 }

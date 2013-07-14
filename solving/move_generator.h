@@ -10,9 +10,12 @@
 
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation
+ * @param side which side (pass nr_sides for both sides)
  * @param type type of slice with which to instrument moves
  */
-void solving_instrument_move_generation(slice_index si, slice_type type);
+void solving_instrument_move_generation(slice_index si,
+                                        Side side,
+                                        slice_type type);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

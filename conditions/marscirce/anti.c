@@ -150,7 +150,7 @@ void solving_initialise_antimars(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAntiMarsCirceEnPassantAdjuster);
-  solving_instrument_move_generation(si,STAntiMarsCirceMovesForPieceGenerator);
+  solving_instrument_move_generation(si,nr_sides,STAntiMarsCirceMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
