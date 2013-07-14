@@ -5,6 +5,8 @@
 
 /* This module implements the condition Exchange Castling */
 
+extern boolean exchange_castling_rochade_allowed[nr_sides][maxply+1];
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -21,8 +23,18 @@
 stip_length_type exchange_castling_move_player_solve(slice_index si,
                                                       stip_length_type n);
 
-/* Instrument slices with Castling Chess slices
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
-void stip_insert_exchange_castling(slice_index si);
+void exchange_castling_generate_moves_for_piece(slice_index si,
+                                                square sq_departure,
+                                                PieNam p);
+
+/* Instrument the solving machinery with Castling Chess slices
+ * @param si identifies the root slice of the solving machinery
+ */
+void exchange_castling_initialise_solving(slice_index si);
 
 #endif

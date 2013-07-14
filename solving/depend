@@ -416,7 +416,7 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  stipulation/goals/goals.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/patrol.h conditions/phantom.h \
  conditions/singlebox/type3.h conditions/sting.h position/position.h \
- conditions/castling_chess.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
  stipulation/slice.h solving/single_piece_move_generator.h \
@@ -488,6 +488,8 @@ conditions/sting.h:
 position/position.h:
 
 conditions/castling_chess.h:
+
+conditions/exchange_castling.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 

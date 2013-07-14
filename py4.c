@@ -2233,22 +2233,6 @@ void king_generate_moves(square sq_departure)
 
   if (castling_supported)
     generate_castling();
-
-  if (CondFlag[platzwechselrochade] && platzwechsel_rochade_allowed[side_moving][nbply])
-  {
-    int i;
-    square square_a = square_a1;
-    for (i = nr_rows_on_board; i>0; --i, square_a += onerow)
-    {
-      int j;
-      square pos_partner = square_a;
-      for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
-        if (pos_partner!=sq_departure
-            && TSTFLAG(spec[pos_partner],side_moving)
-            && !is_pawn(get_walk_of_piece_on_square(pos_partner))) /* not sure if "castling" with Ps forbidden */
-          add_to_move_generation_stack(sq_departure,pos_partner,platzwechsel_rochade);
-    }
-  }
 }
 
 void gen_piece_aux(square sq_departure, PieNam p)

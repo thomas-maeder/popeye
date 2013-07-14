@@ -111,8 +111,6 @@ EXTERN  numecoup current_move[maxply + 1];
 
 EXTERN  ply      parent_ply[maxply + 1];
 
-EXTERN  boolean platzwechsel_rochade_allowed[nr_sides][maxply+1];
-
 EXTERN  boolean  exist[PieceCount];
 EXTERN  boolean  may_exist[PieceCount];
 EXTERN  boolean  promonly[PieceCount];

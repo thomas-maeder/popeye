@@ -1873,8 +1873,8 @@ static boolean verify_position(slice_index si)
   /* a small hack to enable ep keys */
   trait[1] = no_side;
 
-  platzwechsel_rochade_allowed[White][2]=platzwechsel_rochade_allowed[White][1]=true;
-  platzwechsel_rochade_allowed[Black][2]=platzwechsel_rochade_allowed[Black][1]=true;
+  exchange_castling_rochade_allowed[White][2]=exchange_castling_rochade_allowed[White][1]=true;
+  exchange_castling_rochade_allowed[Black][2]=exchange_castling_rochade_allowed[Black][1]=true;
 
   if (CondFlag[exclusive] && !exclusive_verifie_position(si))
     return false;
@@ -2628,7 +2628,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_football_chess(result);
 
   if (CondFlag[platzwechselrochade])
-    stip_insert_exchange_castling(result);
+    exchange_castling_initialise_solving(result);
 
   stip_insert_post_move_iteration(result);
 

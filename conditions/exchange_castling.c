@@ -1,12 +1,15 @@
 #include "conditions/exchange_castling.h"
-#include "pydata.h"
 #include "conditions/castling_chess.h"
-#include "stipulation/stipulation.h"
+#include "solving/move_generator.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
+
+boolean exchange_castling_rochade_allowed[nr_sides][maxply+1];
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -47,12 +50,12 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
     move_effect_journal_do_piece_exchange(move_effect_reason_exchange_castling_exchange,
                                           sq_departure,sq_arrival);
 
-    platzwechsel_rochade_allowed[trait_ply][nbply] = false;
+    exchange_castling_rochade_allowed[trait_ply][nbply] = false;
 
     result = solve(slices[si].next2,n);
 
-    platzwechsel_rochade_allowed[White][nbply] = platzwechsel_rochade_allowed[White][parent_ply[nbply]];
-    platzwechsel_rochade_allowed[Black][nbply] = platzwechsel_rochade_allowed[Black][parent_ply[nbply]];
+    exchange_castling_rochade_allowed[White][nbply] = exchange_castling_rochade_allowed[White][parent_ply[nbply]];
+    exchange_castling_rochade_allowed[Black][nbply] = exchange_castling_rochade_allowed[Black][parent_ply[nbply]];
  }
   else
     result = solve(slices[si].next1,n);
@@ -63,13 +66,42 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
   return result;
 }
 
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void exchange_castling_generate_moves_for_piece(slice_index si,
+                                                square sq_departure,
+                                                PieNam p)
+{
+  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+
+  if (p==King && exchange_castling_rochade_allowed[trait[nbply]][nbply])
+  {
+    int i;
+    square square_a = square_a1;
+    for (i = nr_rows_on_board; i>0; --i, square_a += onerow)
+    {
+      int j;
+      square pos_partner = square_a;
+      for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
+        if (pos_partner!=sq_departure
+            && TSTFLAG(spec[pos_partner],trait[nbply])
+            && !is_pawn(get_walk_of_piece_on_square(pos_partner))) /* not sure if "castling" with Ps forbidden */
+          add_to_move_generation_stack(sq_departure,pos_partner,platzwechsel_rochade);
+    }
+  }
+}
+
 /* Instrument slices with move tracers
  */
-void stip_insert_exchange_castling(slice_index si)
+void exchange_castling_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  solving_instrument_move_generation(si,nr_sides,STPlatzwechselRochadeMovesForPieceGenerator);
   insert_alternative_move_players(si,STExchangeCastlingMovePlayer);
 
   TraceFunctionExit(__func__);

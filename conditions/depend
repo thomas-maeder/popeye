@@ -2879,12 +2879,13 @@ conditions/exchange_castling$(OBJ_SUFFIX): conditions/exchange_castling.c \
  conditions/exchange_castling.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/vectors.h utilities/boolean.h utilities/enumeration.h pylang.h \
- pydata.h pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
- conditions/castling_chess.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
+ conditions/castling_chess.h solving/move_generator.h \
+ stipulation/slice_type.h solving/castling.h \
+ solving/move_effect_journal.h position/pieceid.h \
+ stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h solving/castling.h \
- solving/move_effect_journal.h position/pieceid.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
+ pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h
 
 conditions/exchange_castling.h:
 
@@ -2908,6 +2909,32 @@ utilities/enumeration.h:
 
 pylang.h:
 
+conditions/castling_chess.h:
+
+solving/move_generator.h:
+
+stipulation/slice_type.h:
+
+solving/castling.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+debugging/trace.h:
+
 pydata.h:
 
 pyproc.h:
@@ -2919,30 +2946,6 @@ py.h:
 pieces/vectors.h:
 
 stipulation/goals/goals.h:
-
-conditions/castling_chess.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-solving/castling.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
-
-debugging/trace.h:
 conditions/mummer$(OBJ_SUFFIX): conditions/mummer.c conditions/mummer.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/vectors.h \
