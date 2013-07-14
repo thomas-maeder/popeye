@@ -2227,8 +2227,6 @@ void piece_generate_moves(square sq_departure, PieNam p)
 
 void king_generate_moves(square sq_departure)
 {
-  Side const side_moving = trait[nbply];
-
   leaper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
 
   if (castling_supported)
