@@ -99,7 +99,7 @@ void marscirce_generate_moves_for_piece(slice_index si,
                                            advers(trait[nbply]));
 
     if (sq_rebirth==sq_departure)
-      gen_piece_aux(sq_departure,p);
+      generate_moves_for_piece(slices[si].next1,sq_departure,p);
     else
     {
       marscirce_generate_non_captures(si,p,sq_departure,sq_departure);
