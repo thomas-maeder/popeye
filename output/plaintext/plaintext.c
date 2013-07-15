@@ -4,7 +4,7 @@
 #include "conditions/bgl.h"
 #include "conditions/kobul.h"
 #include "conditions/imitator.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
 #include "pydata.h"

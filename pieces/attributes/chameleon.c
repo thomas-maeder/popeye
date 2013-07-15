@@ -1,6 +1,6 @@
 #include "pieces/attributes/chameleon.h"
 #include "pydata.h"
-#include "pieces/walks.h"
+#include "pieces/walks/walks.h"
 #include "conditions/anticirce/promotion.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/promotion.h"

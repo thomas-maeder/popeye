@@ -1,5 +1,5 @@
 #include "conditions/phantom.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "conditions/marscirce/marscirce.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"

@@ -1,5 +1,5 @@
 #include "conditions/sting.h"
-#include "pieces/hoppers.h"
+#include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "pydata.h"

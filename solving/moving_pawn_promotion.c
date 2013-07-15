@@ -1,6 +1,6 @@
 #include "solving/moving_pawn_promotion.h"
 #include "pydata.h"
-#include "pieces/pawns/promotion.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

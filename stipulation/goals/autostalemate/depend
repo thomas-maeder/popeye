@@ -2,7 +2,7 @@ stipulation/goals/autostalemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/autostalemate/reached_tester.c \
  stipulation/goals/autostalemate/reached_tester.h stipulation/slice.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
  stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h solving/solve.h \
@@ -25,7 +25,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 utilities/boolean.h:
 

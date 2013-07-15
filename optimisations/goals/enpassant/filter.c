@@ -1,5 +1,5 @@
 #include "optimisations/goals/enpassant/filter.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"

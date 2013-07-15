@@ -1,6 +1,6 @@
 #include "conditions/singlebox/type2.h"
 #include "pydata.h"
-#include "pieces/pawns/promotion.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"

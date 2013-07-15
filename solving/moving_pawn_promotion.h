@@ -2,7 +2,7 @@
 #define SOLVING_MOVING_PAWN_PROMOTION_H
 
 #include "solving/solve.h"
-#include "pieces/pawns/promotion.h"
+#include "pieces/walks/pawns/promotion.h"
 
 /* This module provides implements the promotion of the moving pawn
  */

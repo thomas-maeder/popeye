@@ -31,7 +31,7 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/observation.h"
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -42,7 +42,7 @@
 #include "conditions/imitator.h"
 #include "position/position.h"
 #include "pieces/attributes/neutral/neutral.h"
-#include "pieces/walks.h"
+#include "pieces/walks/walks.h"
 #include "debugging/trace.h"
 
 

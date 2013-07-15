@@ -96,7 +96,7 @@
 #include "pyproof.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "conditions/bgl.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"

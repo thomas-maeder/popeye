@@ -58,4 +58,14 @@ typedef boolean (*move_filter_criterion_type)(square sq_departure,
                                               square sq_capture);
 void move_generator_filter_moves(move_filter_criterion_type criterion);
 
+
+void add_to_move_generation_stack(square sq_departure,
+                                  square sq_arrival,
+                                  square sq_capture);
+
+/* Remove duplicate moves at the top of the move_generation_stack.
+ * @param start start position of range where to look for duplicates
+ */
+void remove_duplicate_moves_of_single_piece(numecoup start);
+
 #endif

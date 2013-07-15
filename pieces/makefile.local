@@ -1,7 +1,0 @@
-# -*- Makefile -*-
-#
-SRC_CFILES = walks.c hunters.c roses.c marine.c vectors.c spiral_springers.c ubiubi.c hoppers.c
-
-INCLUDES = walks.h hunters.h roses.h marine.h vectors.h spiral_springers.h ubiubi.h hoppers.h
-
-include makefile.rules $(CURRPWD)depend

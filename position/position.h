@@ -2,7 +2,7 @@
 #define POSITION_POSITION_H
 
 #include "position/board.h"
-#include "pieces/vectors.h"
+#include "pieces/walks/vectors.h"
 #include "utilities/boolean.h"
 
 /* Declarations of types and functions related to chess positions

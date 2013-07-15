@@ -4,7 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "conditions/circe/circe.h"
-#include "pieces/walks.h"
+#include "pieces/walks/walks.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

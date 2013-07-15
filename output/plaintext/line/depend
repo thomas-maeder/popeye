@@ -1,9 +1,9 @@
 output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  output/plaintext/line/line.h stipulation/slice.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h pydata.h \
- pyproc.h py4.h py.h pieces/vectors.h stipulation/goals/goals.h \
+ pyproc.h py4.h py.h pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/traversal.h solving/solve.h stipulation/fork.h \
  output/output.h output/mode.h stipulation/has_solution_type.h \
@@ -30,7 +30,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 utilities/boolean.h:
 
@@ -48,7 +48,7 @@ py4.h:
 
 py.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
@@ -98,9 +98,9 @@ debugging/trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \
  output/plaintext/line/line_writer.h stipulation/goals/goals.h \
  utilities/boolean.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h pieces/vectors.h \
+ position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/enumeration.h pylang.h solving/solve.h pydata.h pyproc.h py4.h \
- py.h pieces/vectors.h stipulation/goals/goals.h pymsg.h \
+ py.h pieces/walks/vectors.h stipulation/goals/goals.h pymsg.h \
  output/plaintext/plaintext.h output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
@@ -125,7 +125,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 utilities/enumeration.h:
 
@@ -141,7 +141,7 @@ py4.h:
 
 py.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
@@ -180,12 +180,12 @@ output/plaintext/line/end_of_intro_series_marker$(OBJ_SUFFIX): \
  output/plaintext/line/end_of_intro_series_marker.c \
  output/plaintext/line/end_of_intro_series_marker.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
  debugging/trace.h
 
 output/plaintext/line/end_of_intro_series_marker.h:
@@ -202,7 +202,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 utilities/boolean.h:
 
@@ -232,7 +232,7 @@ py4.h:
 
 py.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
@@ -242,14 +242,14 @@ debugging/trace.h:
 output/plaintext/line/exclusive$(OBJ_SUFFIX): output/plaintext/line/exclusive.c \
  output/plaintext/line/exclusive.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  conditions/exclusive.h utilities/table.h position/position.h \
  output/plaintext/line/line_writer.h pymsg.h pydata.h pyproc.h py4.h py.h \
- pieces/vectors.h stipulation/goals/goals.h debugging/trace.h
+ pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h
 
 output/plaintext/line/exclusive.h:
 
@@ -265,7 +265,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 utilities/boolean.h:
 
@@ -309,7 +309,7 @@ py4.h:
 
 py.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 

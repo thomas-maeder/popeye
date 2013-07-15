@@ -135,29 +135,35 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.S1d4-b3 !
-
-   1.S1d4-c2 !
-
-   1.S1d4-d1 !
-
-   1.S1d4-e2 !
-
-   1.S1d4-h5 !
-
-   1.S1d4-f3 !
-
    1.S1d4-g1 !
 
    1.S1d4-h3 !
 
-   1.S1d4-f2 !
+   1.S1d4-f5 !
 
-   1.S1d4-g4 !
+   1.S1d4-f2 !
 
    1.S1d4-e3 !
 
-   1.S1d4-f5 !
+   1.S1d4-c2 !
+
+   1.S1d4-e8 !
+
+   1.S1d4-c6 !
+
+   1.S1d4-g7 !
+
+   1.S1d4-h5 !
+
+   1.S1d4-f6 !
+
+   1.S1d4-g4 !
+
+   1.S1d4-e5 !
+
+   1.S1d4-f3 !
+
+   1.S1d4-b3 !
 
    1.S1d4-a7 !
 
@@ -165,21 +171,15 @@ solution finished.
 
    1.S1d4-b6 !
 
+   1.S1d4-d7 !
+
    1.S1d4-c5 !
 
    1.S1d4-e6 !
 
-   1.S1d4-g7 !
+   1.S1d4-d1 !
 
-   1.S1d4-e8 !
-
-   1.S1d4-f6 !
-
-   1.S1d4-d7 !
-
-   1.S1d4-e5 !
-
-   1.S1d4-c6 !
+   1.S1d4-e2 !
 
    1.S1d4-b2 !
 
@@ -220,17 +220,19 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.S2d4-b1 !
+   1.S2d4-a6 !
 
-   1.S2d4-b3 !
+   1.S2d4-c6 !
 
    1.S2d4-a2 !
 
+   1.S2d4-b4 !
+
    1.S2d4-c2 !
 
-   1.S2d4-g2 !
+   1.S2d4-b1 !
 
-   1.S2d4-e2 !
+   1.S2d4-b3 !
 
    1.S2d4-f1 !
 
@@ -238,9 +240,9 @@ solution finished.
 
    1.S2d4-f3 !
 
-   1.S2d4-f7 !
+   1.S2d4-g2 !
 
-   1.S2d4-f5 !
+   1.S2d4-e2 !
 
    1.S2d4-h4 !
 
@@ -250,11 +252,9 @@ solution finished.
 
    1.S2d4-e6 !
 
-   1.S2d4-a6 !
+   1.S2d4-f7 !
 
-   1.S2d4-b4 !
-
-   1.S2d4-c6 !
+   1.S2d4-f5 !
 
    1.S2d4-d8 !
 
@@ -350,23 +350,23 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-   1.S4d4-b3 !
+   1.S4d4-e2 !
 
    1.S4d4-c2 !
 
-   1.S4d4-e2 !
-
-   1.S4d4-f3 !
+   1.S4d4-f5 !
 
    1.S4d4-h4 !
 
-   1.S4d4-f5 !
+   1.S4d4-f3 !
 
-   1.S4d4-e6 !
+   1.S4d4-c6 !
 
    1.S4d4-d8 !
 
-   1.S4d4-c6 !
+   1.S4d4-e6 !
+
+   1.S4d4-b3 !
 
    1.S4d4-b5 !
 
@@ -403,15 +403,27 @@ solution finished.
 
    1.QNd4-a5 !
 
+   1.QNd4-a3 !
+
    1.QNd4-b3 !
 
    1.QNd4-c1 !
+
+   1.QNd4-c2 !
+
+   1.QNd4-e1 !
 
    1.QNd4-h1 !
 
    1.QNd4-e2 !
 
    1.QNd4-g3 !
+
+   1.QNd4-f3 !
+
+   1.QNd4-h7 !
+
+   1.QNd4-g5 !
 
    1.QNd4-g8 !
 
@@ -420,18 +432,6 @@ solution finished.
    1.QNd4-e7 !
 
    1.QNd4-c6 !
-
-   1.QNd4-a3 !
-
-   1.QNd4-c2 !
-
-   1.QNd4-e1 !
-
-   1.QNd4-f3 !
-
-   1.QNd4-h7 !
-
-   1.QNd4-g5 !
 
    1.QNd4-e6 !
 

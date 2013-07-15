@@ -2,11 +2,11 @@ stipulation/goals/circuit_by_rebirth/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/circuit_by_rebirth/reached_tester.c \
  stipulation/goals/circuit_by_rebirth/reached_tester.h solving/solve.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/vectors.h utilities/boolean.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h py4.h \
- py.h pieces/vectors.h stipulation/goals/goals.h \
+ py.h pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/goals/reached_tester.h stipulation/goals/goals.h \
  stipulation/boolean/true.h debugging/trace.h
 
@@ -24,7 +24,7 @@ position/board.h:
 
 utilities/bitmask.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 utilities/boolean.h:
 
@@ -50,7 +50,7 @@ py4.h:
 
 py.h:
 
-pieces/vectors.h:
+pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 

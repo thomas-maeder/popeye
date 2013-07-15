@@ -2,7 +2,7 @@
 #include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pieces/walks.h"
+#include "pieces/walks/walks.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"

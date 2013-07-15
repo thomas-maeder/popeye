@@ -12,7 +12,7 @@
 #define	PY4_H
 
 #include "py.h"
-#include "pieces/vectors.h"
+#include "pieces/walks/vectors.h"
 
 int len_max (square departure, square arrival, square capture);
 	/* determines move length for maximummers */
@@ -39,20 +39,15 @@ int len_antisynchron(square departure, square arrival, square capture);
 int len_schwarzschacher (square sq_departure, square sq_arrival, square sq_capture);
 	/* determines "length" of moves in schwarzschacher chess */
 
-void	gemoarider(square i);
-void	gemaorider(square i);
-square generate_moves_on_line_segment(square sq_departure,
-                                      square sq_base,
-                                      vec_index_type k);
+void	moarider_generate_moves(square i);
+void	maorider_generate_moves(square i);
 void generate_locust_capture(square sq_departure, square sq_capture,
                              vec_index_type k);
-void	rider_generate_moves(square i, vec_index_type kbeg, vec_index_type kend);
-void  leaper_generate_moves(square i, vec_index_type kbeg, vec_index_type kend);
-void genradialknight(square sq_departure);
-void gentreehopper(square sq_departure);
-void genleafhopper(square sq_departure);
-void gengreatertreehopper(square sq_departure);
-void gengreaterleafhopper(square sq_departure);
+void radialknight_generate_moves(square sq_departure);
+void treehopper_generate_moves(square sq_departure);
+void leafhopper_generate_moves(square sq_departure);
+void greater_treehopper_generate_moves(square sq_departure);
+void greater_leafhopper_generate_moves(square sq_departure);
 
 void	reverse_pawn_generate_moves(square sq_departure);
 void	berolina_pawn_generate_moves(square sq_departure);

@@ -69,13 +69,13 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/single_move_generator.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/observation.h"
 #include "stipulation/temporary_hacks.h"
-#include "pieces/pawns/pawn.h"
-#include "pieces/roses.h"
-#include "pieces/angle/angles.h"
-#include "pieces/angle/hoppers.h"
+#include "pieces/walks/pawns/pawn.h"
+#include "pieces/walks/roses.h"
+#include "pieces/walks/angle/angles.h"
+#include "pieces/walks/angle/hoppers.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

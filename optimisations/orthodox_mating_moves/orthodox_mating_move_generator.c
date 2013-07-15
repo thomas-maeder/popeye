@@ -1,6 +1,6 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
-#include "pieces/pawns/promotion.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"

@@ -8,7 +8,7 @@
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
-#include "pieces/walks.h"
+#include "pieces/walks/walks.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

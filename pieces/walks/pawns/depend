@@ -1,0 +1,221 @@
+pieces/walks/pawns/pawn$(OBJ_SUFFIX): pieces/walks/pawns/pawn.c \
+ pieces/walks/pawns/pawn.h pyproc.h py4.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
+ pylang.h pieces/walks/vectors.h stipulation/goals/goals.h py.h \
+ position/position.h pydata.h pyproc.h pieces/walks/pawns/pawns.h \
+ debugging/trace.h
+
+pieces/walks/pawns/pawn.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+position/position.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/pawns/pawns.h:
+
+debugging/trace.h:
+pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \
+ pieces/walks/pawns/pawns.h pieces/walks/vectors.h position/board.h \
+ utilities/bitmask.h position/position.h utilities/boolean.h \
+ utilities/enumeration.h py.h utilities/boolean.h position/position.h \
+ pylang.h pieces/walks/pawns/en_passant.h pyproc.h py4.h py.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h solving/solve.h \
+ solving/move_effect_journal.h position/pieceid.h pydata.h pyproc.h \
+ debugging/trace.h
+
+pieces/walks/pawns/pawns.h:
+
+pieces/walks/vectors.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/position.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+pieces/walks/pawns/en_passant.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+solving/solve.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+pydata.h:
+
+pyproc.h:
+
+debugging/trace.h:
+pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
+ pieces/walks/pawns/promotion.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
+ pylang.h pieces/walks/walks.h pydata.h pyproc.h py4.h py.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h
+
+pieces/walks/pawns/promotion.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/walks/walks.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+debugging/trace.h:
+pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
+ pieces/walks/pawns/en_passant.h pyproc.h py4.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
+ pylang.h pieces/walks/vectors.h stipulation/goals/goals.h py.h \
+ solving/solve.h pieces/walks/hunters.h position/position.h \
+ solving/move_effect_journal.h position/pieceid.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/mode.h stipulation/move.h \
+ debugging/trace.h pydata.h pyproc.h
+
+pieces/walks/pawns/en_passant.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+solving/solve.h:
+
+pieces/walks/hunters.h:
+
+position/position.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/traversal.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/move.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:

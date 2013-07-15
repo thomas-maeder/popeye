@@ -27,6 +27,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/temporary_hacks.h"
+#include "debugging/measure.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
@@ -488,4 +489,75 @@ void move_generator_filter_moves(move_filter_criterion_type criterion)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+DEFINE_COUNTER(add_to_move_generation_stack)
+
+void add_to_move_generation_stack(square sq_departure,
+                                  square sq_arrival,
+                                  square sq_capture)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
+  INCREMENT_COUNTER(add_to_move_generation_stack);
+
+  current_move[nbply]++;
+  TraceValue("%u\n",current_move[nbply]);
+  move_generation_stack[current_move[nbply]].departure= sq_departure;
+  move_generation_stack[current_move[nbply]].arrival= sq_arrival;
+  move_generation_stack[current_move[nbply]].capture= sq_capture;
+  move_generation_stack[current_move[nbply]].current_transmutation = current_trans_gen;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef unsigned int mark_type;
+
+static mark_type square_marks[square_h8+1] = { 0 };
+static mark_type current_mark = 0;
+
+/* Remove duplicate moves generated for a single piece.
+ * @param last_move_of_prev_piece index of last move of previous piece
+ */
+void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
+{
+  if (current_mark==UINT_MAX)
+  {
+    square i;
+    for (i = square_a1; i!=square_h8; ++i)
+      square_marks[i] = 0;
+
+    current_mark = 1;
+  }
+  else
+    ++current_mark;
+
+  {
+    numecoup curr_move;
+    numecoup last_unique_move = last_move_of_prev_piece;
+    for (curr_move = last_move_of_prev_piece+1;
+         curr_move<=current_move[nbply];
+         ++curr_move)
+    {
+      square const sq_arrival = move_generation_stack[curr_move].arrival;
+      if (square_marks[sq_arrival]==current_mark)
+      {
+        // skip over duplicate move
+      }
+      else
+      {
+        ++last_unique_move;
+        move_generation_stack[last_unique_move] = move_generation_stack[curr_move];
+        square_marks[sq_arrival] = current_mark;
+      }
+    }
+
+    current_move[nbply] = last_unique_move;
+  }
 }

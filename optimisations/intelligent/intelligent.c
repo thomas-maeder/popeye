@@ -10,7 +10,7 @@
 
 #include "optimisations/intelligent/intelligent.h"
 
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "pyproof.h"
 #include "solving/solve.h"
 #include "solving/castling.h"

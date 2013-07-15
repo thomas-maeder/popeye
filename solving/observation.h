@@ -1,7 +1,7 @@
 #if !defined(SOLVING_OBSERVATION_H)
 #define SOLVING_OBSERVATION_H
 
-#include "pieces/vectors.h"
+#include "pieces/walks/vectors.h"
 #include "pyproc.h"
 
 /* This module provides supports observation as used by many conditions and

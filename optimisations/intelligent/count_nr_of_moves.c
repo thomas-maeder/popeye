@@ -1,6 +1,6 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "pyproof.h"
-#include "pieces/pawns/en_passant.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/moving_pawn_promotion.h"
 #include "optimisations/intelligent/intelligent.h"

@@ -44,7 +44,7 @@
 #define PYPROC_H
 
 #include "py4.h"
-#include "pieces/vectors.h"
+#include "pieces/walks/vectors.h"
 #include "stipulation/goals/goals.h"
 #include "utilities/boolean.h"
 #include <stdio.h>
@@ -217,7 +217,6 @@ boolean echecc(Side a);
 
 boolean eval_ortho(square departure, square arrival, square capture);
 
-void    king_generate_moves(square sq_departure);
 void    hardinit(void);
 
 void copyply(void);
@@ -256,20 +255,11 @@ boolean marine_leaper_check(square sq_king, vec_index_type kanf, vec_index_type 
 boolean marine_pawn_check(square sq_king, PieNam p, evalfunction_t *evaluate);
 boolean marine_ship_check(square sq_king, PieNam p, evalfunction_t *evaluate);
 
-void add_to_move_generation_stack(square sq_departure,
-                                  square sq_arrival,
-                                  square sq_capture);
-
-/* Remove duplicate moves at the top of the move_generation_stack.
- * @param start start position of range where to look for duplicates
- */
-void remove_duplicate_moves_of_single_piece(numecoup start);
-
 boolean orphan_find_observation_chain(square i, PieNam porph, evalfunction_t *evaluate);
 boolean reversepcheck(square a, PieNam p, evalfunction_t *evaluate);
-void    gorph(square a);
-void    gfriend(square a);
-void    gedgeh(square a);
+void    orphan_generate_moves(square a);
+void    friend_generate_moves(square a);
+void    edgehog_generate_moves(square a);
 
 Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
@@ -304,8 +294,8 @@ boolean is_forwardpawn(PieNam p);
 boolean is_reversepawn(PieNam p);
 boolean is_short(PieNam p);
 
-void    geskylla(square i);
-void    gecharybdis(square i);
+void    skylla_generate_moves(square i);
+void    charybdis_generate_moves(square i);
 
 int len_whforcedsquare(square departure, square arrival, square capture);
 int len_blforcedsquare(square departure, square arrival, square capture);
