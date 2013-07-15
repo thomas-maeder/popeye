@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = pawn.c pawns.c promotion.c en_passant.c
+SRC_CFILES = pawn.c pawns.c promotion.c en_passant.c reverse.c berolina.c super.c
 
-INCLUDES = pawn.h pawns.h promotion.h en_passant.h
+INCLUDES = pawn.h pawns.h promotion.h en_passant.h reverse.h berolina.h super.h
 
 include makefile.rules $(CURRPWD)depend

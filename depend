@@ -45,14 +45,15 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  options/movenumbers.h options/maxflightsquares.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- pieces/walks/hunters.h position/position.h pieces/attributes/magic.h \
- position/pieceid.h platform/maxtime.h solving/move_effect_journal.h \
- solving/battle_play/try.h utilities/table.h solving/castling.h \
- pieces/walks/pawns/en_passant.h pyproc.h solving/moving_pawn_promotion.h \
- pieces/walks/pawns/promotion.h solving/post_move_iteration.h \
- solving/king_capture_avoider.h solving/observation.h conditions/bgl.h \
- conditions/sat.h conditions/oscillating_kings.h conditions/duellists.h \
- conditions/kobul.h conditions/anticirce/super.h conditions/circe/circe.h \
+ pieces/walks/hunters.h position/position.h pieces/walks/friend.h \
+ pyproc.h pieces/attributes/magic.h position/pieceid.h platform/maxtime.h \
+ solving/move_effect_journal.h solving/battle_play/try.h \
+ utilities/table.h solving/castling.h pieces/walks/pawns/en_passant.h \
+ solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
+ solving/post_move_iteration.h solving/king_capture_avoider.h \
+ solving/observation.h conditions/bgl.h conditions/sat.h \
+ conditions/oscillating_kings.h conditions/duellists.h conditions/kobul.h \
+ conditions/anticirce/super.h conditions/circe/circe.h \
  conditions/circe/chameleon.h conditions/circe/april.h \
  conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
  conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
@@ -136,6 +137,10 @@ pieces/walks/hunters.h:
 
 position/position.h:
 
+pieces/walks/friend.h:
+
+pyproc.h:
+
 pieces/attributes/magic.h:
 
 position/pieceid.h:
@@ -151,8 +156,6 @@ utilities/table.h:
 solving/castling.h:
 
 pieces/walks/pawns/en_passant.h:
-
-pyproc.h:
 
 solving/moving_pawn_promotion.h:
 
@@ -467,10 +470,20 @@ py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h position/position.h \
  conditions/transmuting_kings/transmuting_kings.h \
  pieces/attributes/paralysing/paralysing.h pieces/walks/leapers.h \
  pieces/walks/riders.h pieces/walks/pawns/pawns.h \
- pieces/walks/pawns/pawn.h pieces/walks/lions.h pieces/walks/hunters.h \
- pieces/walks/roses.h pieces/walks/spiral_springers.h \
- pieces/walks/marine.h pieces/walks/ubiubi.h pieces/walks/angle/angles.h \
+ pieces/walks/pawns/pawn.h pieces/walks/pawns/reverse.h \
+ pieces/walks/pawns/berolina.h pieces/walks/lions.h \
+ pieces/walks/hunters.h pieces/walks/roses.h \
+ pieces/walks/spiral_springers.h pieces/walks/marine.h \
+ pieces/walks/ubiubi.h pieces/walks/angle/angles.h \
  pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
+ pieces/walks/chinese/riders.h pieces/walks/chinese/leapers.h \
+ pieces/walks/chinese/pawn.h pieces/walks/skylla_charybdis.h \
+ pieces/walks/radial.h pieces/walks/edgehog.h pieces/walks/friend.h \
+ pieces/walks/orphan.h pieces/walks/pawns/super.h \
+ pieces/walks/chinese/mao.h pieces/walks/cat.h pieces/walks/bouncy.h \
+ pieces/walks/cardinal.h pieces/walks/reflecting_bishop.h \
+ pieces/walks/bob.h pieces/walks/rabbit.h pieces/walks/kangaroo.h \
+ pieces/walks/locusts.h pieces/walks/hamster.h pieces/walks/bouncer.h \
  debugging/trace.h debugging/measure.h
 
 py.h:
@@ -599,6 +612,10 @@ pieces/walks/pawns/pawns.h:
 
 pieces/walks/pawns/pawn.h:
 
+pieces/walks/pawns/reverse.h:
+
+pieces/walks/pawns/berolina.h:
+
 pieces/walks/lions.h:
 
 pieces/walks/hunters.h:
@@ -616,6 +633,46 @@ pieces/walks/angle/angles.h:
 pieces/walks/angle/hoppers.h:
 
 pieces/walks/angle/angles.h:
+
+pieces/walks/chinese/riders.h:
+
+pieces/walks/chinese/leapers.h:
+
+pieces/walks/chinese/pawn.h:
+
+pieces/walks/skylla_charybdis.h:
+
+pieces/walks/radial.h:
+
+pieces/walks/edgehog.h:
+
+pieces/walks/friend.h:
+
+pieces/walks/orphan.h:
+
+pieces/walks/pawns/super.h:
+
+pieces/walks/chinese/mao.h:
+
+pieces/walks/cat.h:
+
+pieces/walks/bouncy.h:
+
+pieces/walks/cardinal.h:
+
+pieces/walks/reflecting_bishop.h:
+
+pieces/walks/bob.h:
+
+pieces/walks/rabbit.h:
+
+pieces/walks/kangaroo.h:
+
+pieces/walks/locusts.h:
+
+pieces/walks/hamster.h:
+
+pieces/walks/bouncer.h:
 
 debugging/trace.h:
 

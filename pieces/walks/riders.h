@@ -16,7 +16,7 @@ square generate_moves_on_line_segment(square sq_departure,
                                       square sq_base,
                                       vec_index_type k);
 
-/* Generate moves for a leaper piece
+/* Generate moves for a rider piece
  * @param sq_departure common departure square of the generated moves
  * @param kbeg start of range of vector indices to be used
  * @param kend end of range of vector indices to be used

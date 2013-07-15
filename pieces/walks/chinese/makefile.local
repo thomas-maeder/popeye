@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = riders.c leapers.c pawn.c mao.c
+
+INCLUDES = riders.h leapers.h pawn.h mao.h
+
+include makefile.rules $(CURRPWD)depend

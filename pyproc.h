@@ -258,8 +258,6 @@ boolean marine_ship_check(square sq_king, PieNam p, evalfunction_t *evaluate);
 boolean orphan_find_observation_chain(square i, PieNam porph, evalfunction_t *evaluate);
 boolean reversepcheck(square a, PieNam p, evalfunction_t *evaluate);
 void    orphan_generate_moves(square a);
-void    friend_generate_moves(square a);
-void    edgehog_generate_moves(square a);
 
 Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
@@ -293,9 +291,6 @@ boolean is_pawn(PieNam p);
 boolean is_forwardpawn(PieNam p);
 boolean is_reversepawn(PieNam p);
 boolean is_short(PieNam p);
-
-void    skylla_generate_moves(square i);
-void    charybdis_generate_moves(square i);
 
 int len_whforcedsquare(square departure, square arrival, square capture);
 int len_blforcedsquare(square departure, square arrival, square capture);

@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.184 2013/07/15 17:57:46 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.185 2013/07/15 22:20:37 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -219,7 +219,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals/immobile stipulation/goals/notcheck \
     solving solving/battle_play \
     position \
-    pieces/walks pieces/walks/pawns pieces/walks/angle \
+    pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \
@@ -246,7 +246,7 @@ NESTEDLIBDIRS = . \
     conditions/owu conditions/maff conditions/singlebox conditions/einstein \
     conditions/transmuting_kings conditions/koeko \
     optimisations DHT \
-    pieces/walks pieces/walks/pawns pieces/walks/angle \
+    pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
     pieces/attributes pieces/attributes/neutral \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \

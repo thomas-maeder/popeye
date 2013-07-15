@@ -1,0 +1,202 @@
+pieces/walks/chinese/riders$(OBJ_SUFFIX): pieces/walks/chinese/riders.c \
+ pieces/walks/chinese/riders.h position/board.h utilities/bitmask.h \
+ position/position.h pieces/walks/vectors.h utilities/boolean.h \
+ utilities/enumeration.h pieces/walks/riders.h solving/move_generator.h \
+ solving/solve.h py.h utilities/boolean.h position/position.h pylang.h \
+ stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h py4.h py.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+
+pieces/walks/chinese/riders.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/position.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pieces/walks/riders.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pyproc.h:
+pieces/walks/chinese/leapers$(OBJ_SUFFIX): pieces/walks/chinese/leapers.c \
+ pieces/walks/chinese/leapers.h position/board.h utilities/bitmask.h \
+ position/position.h pieces/walks/vectors.h utilities/boolean.h \
+ utilities/enumeration.h solving/move_generator.h solving/solve.h py.h \
+ utilities/boolean.h position/position.h pylang.h \
+ stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h py4.h py.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+
+pieces/walks/chinese/leapers.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/position.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pyproc.h:
+pieces/walks/chinese/pawn$(OBJ_SUFFIX): pieces/walks/chinese/pawn.c \
+ pieces/walks/chinese/pawn.h position/board.h utilities/bitmask.h \
+ solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h pieces/walks/vectors.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ debugging/trace.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
+
+pieces/walks/chinese/pawn.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pyproc.h:
+pieces/walks/chinese/mao$(OBJ_SUFFIX): pieces/walks/chinese/mao.c \
+ pieces/walks/chinese/mao.h position/board.h utilities/bitmask.h \
+ solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h pieces/walks/vectors.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ debugging/trace.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
+
+pieces/walks/chinese/mao.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pyproc.h:

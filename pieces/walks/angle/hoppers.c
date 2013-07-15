@@ -8,11 +8,10 @@
  * @param kanf first vectors index
  * @param kend last vectors index
  * @param angle angle to take from hurdle to arrival squares
- * @param side side for which to generate moves
  */
-void angle_hoppers_generate_moves(square sq_departure,
-                                  vec_index_type kanf, vec_index_type kend,
-                                  angle_t angle)
+static void angle_hoppers_generate_moves(square sq_departure,
+                                         vec_index_type kanf, vec_index_type kend,
+                                         angle_t angle)
 {
   vec_index_type k;
 
@@ -135,4 +134,112 @@ boolean angle_hoppers_is_square_observed(square sq_target,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Generated moves for an Elk
+ * @param sq_departure departure square of moves to be generated
+ */
+void elk_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+/* Generated moves for an Rook Moose
+ * @param sq_departure departure square of moves to be generated
+ */
+void rook_moose_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_45);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+/* Generated moves for an Bishop Moose
+ * @param sq_departure departure square of moves to be generated
+ */
+void bishop_moose_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_45);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+/* Generated moves for an Eagle
+ * @param sq_departure departure square of moves to be generated
+ */
+void eagle_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+/* Generated moves for a Rook Eagle
+ * @param sq_departure departure square of moves to be generated
+ */
+void rook_eagle_generate_moves(square sq_departure)
+{
+  angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_90);
+}
+
+/* Generated moves for a Bishop Eagle
+ * @param sq_departure departure square of moves to be generated
+ */
+void bishop_eagle_generate_moves(square sq_departure)
+{
+  angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_90);
+}
+
+/* Generated moves for a Sparrow
+ * @param sq_departure departure square of moves to be generated
+ */
+void sparrow_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+/* Generated moves for a Rook Sparrow
+ * @param sq_departure departure square of moves to be generated
+ */
+void rook_sparrow_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_135);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+/* Generated moves for a Bishop Sparrow
+ * @param sq_departure departure square of moves to be generated
+ */
+void bishop_sparrow_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_135);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+/* Generated moves for a Marguerite
+ * @param sq_departure departure square of moves to be generated
+ */
+void marguerite_generate_moves(square sq_departure)
+{
+  numecoup const save_current_move = current_move[nbply];
+  angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45);
+  angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90);
+  angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135);
+  hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
+  hamster_generate_moves(sq_departure);
+  if (!TSTFLAG(spec[sq_departure],ColourChange))
+    remove_duplicate_moves_of_single_piece(save_current_move);
 }
