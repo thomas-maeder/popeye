@@ -1121,23 +1121,23 @@ static boolean verify_position(slice_index si)
     CondFlag[whitealphabetic] = true;
   }
 
-  if (CondFlag[blmax] && !mummer_set_length_measurer(Black,&len_max))
+  if (CondFlag[blmax] && !mummer_set_length_measurer(Black,&maximummer_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
-  if (CondFlag[whmax] && !mummer_set_length_measurer(White,&len_max))
+  if (CondFlag[whmax] && !mummer_set_length_measurer(White,&maximummer_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
 
-  if (CondFlag[blmin] && !mummer_set_length_measurer(Black,&len_min))
+  if (CondFlag[blmin] && !mummer_set_length_measurer(Black,&minimummer_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
-  if (CondFlag[whmin] && !mummer_set_length_measurer(White,&len_min))
+  if (CondFlag[whmin] && !mummer_set_length_measurer(White,&minimummer_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
@@ -1261,7 +1261,7 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[schwarzschacher]
-      && !mummer_set_length_measurer(Black,&len_schwarzschacher))
+      && !mummer_set_length_measurer(Black,&blackchecks_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;

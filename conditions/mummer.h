@@ -23,6 +23,24 @@ typedef int (*mummer_length_measurer_type)(square departure,
                                            square arrival,
                                            square capture);
 
+/* Determine the length of a move for the Maximummer condition; the higher the
+ * value the more likely the move is going to be played.
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture capture square
+ * @return a value expressing the precedence of this move
+ */
+int maximummer_measure_length(square sq_departure, square sq_arrival, square sq_capture);
+
+/* Determine the length of a move for the Minimummer condition; the higher the
+ * value the more likely the move is going to be played.
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture capture square
+ * @return a value expressing the precedence of this move
+ */
+int minimummer_measure_length(square sq_departure, square sq_arrival, square sq_capture);
+
 /* Forget previous mummer activations and definition of length measurers */
 void mummer_reset_length_measurers(void);
 

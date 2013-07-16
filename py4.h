@@ -14,10 +14,6 @@
 #include "py.h"
 #include "pieces/walks/vectors.h"
 
-int len_max (square departure, square arrival, square capture);
-	/* determines move length for maximummers */
-int len_min (square departure, square arrival, square capture);
-	/* determines move length for minimummer */
 int len_capt (square departure, square arrival, square capture);
 	/* determines "move length" for must capture */
 int len_follow (square departure, square arrival, square capture);
@@ -36,8 +32,6 @@ int len_synchron(square departure, square arrival, square capture);
   /* determines "length" of moves in synchron chess */
 int len_antisynchron(square departure, square arrival, square capture);
   /* determines "length" of moves in antisynchron chess */
-int len_schwarzschacher (square sq_departure, square sq_arrival, square sq_capture);
-	/* determines "length" of moves in schwarzschacher chess */
 
 void	moarider_generate_moves(square i);
 void	maorider_generate_moves(square i);

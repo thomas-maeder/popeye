@@ -16,6 +16,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 /* mum length found so far */
 static int mum_length[maxply+1];
@@ -28,6 +29,61 @@ static mummer_length_measurer_type mummer_measure_length[nr_sides];
 mummer_strictness_type mummer_strictness[nr_sides];
 
 mummer_strictness_type mummer_strictness_default_side;
+
+/* Determine the length of a move for the Maximummer condition; the higher the
+ * value the more likely the move is going to be played.
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture capture square
+ * @return a value expressing the precedence of this move
+ */
+int maximummer_measure_length(square sq_departure, square sq_arrival, square sq_capture)
+{
+  switch (sq_capture)
+  {
+    case messigny_exchange:
+      return 0;
+
+    case kingside_castling:
+      return 16;
+
+    case queenside_castling:
+      return 25;
+
+    case platzwechsel_rochade:
+      return 2 * move_diff_code[abs(sq_arrival-sq_departure)];
+
+    default:
+      switch (get_walk_of_piece_on_square(sq_departure))
+      {
+        case Mao:    /* special MAO move.*/
+          return 6;
+
+        case Moa:    /* special MOA move.*/
+          return 6;
+
+        default:
+          if (sq_capture>platzwechsel_rochade)
+            return (move_diff_code[abs(sq_arrival-sq_departure)]) +
+              (move_diff_code[abs((sq_capture-maxsquare)-(sq_departure+sq_arrival)/2)]);
+          else
+           return (move_diff_code[abs(sq_arrival-sq_departure)]);
+      }
+      break;
+  }
+}
+
+/* Determine the length of a move for the Minimummer condition; the higher the
+ * value the more likely the move is going to be played.
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture capture square
+ * @return a value expressing the precedence of this move
+ */
+int minimummer_measure_length(square sq_departure, square sq_arrival, square sq_capture)
+{
+  return -maximummer_measure_length(sq_departure,sq_arrival,sq_capture);
+}
 
 /* Forget previous mummer activations and definition of length measurers */
 void mummer_reset_length_measurers(void)

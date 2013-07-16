@@ -1,5 +1,6 @@
 #include "conditions/blackchecks.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/proxy.h"
@@ -8,10 +9,22 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
+
+/* Determine the length of a move for the Black Checks condition; the higher the
+ * value the more likely the move is going to be played.
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture capture square
+ * @return a value expressing the precedence of this move
+ */
+int blackchecks_measure_length(square sq_departure, square sq_arrival, square sq_capture)
+{
+   return sq_arrival==nullsquare ? 0 : 1;
+}
 
 /* Allocate a STNullMovePlayer slice.
  * @param after_move identifies landing slice after move playing

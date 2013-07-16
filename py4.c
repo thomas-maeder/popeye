@@ -136,46 +136,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int len_max(square sq_departure, square sq_arrival, square sq_capture)
-{
-  switch (sq_capture) {
-  case messigny_exchange:
-    return 0;
-
-  case kingside_castling:
-    return 16;
-
-  case queenside_castling:
-    return 25;
-
-  default:  /* "ordinary move" */
-    switch (get_walk_of_piece_on_square(sq_departure)) {
-
-    case Mao:    /* special MAO move.*/
-      return 6;
-
-    case Moa:    /* special MOA move.*/
-      return 6;
-
-    default:
-      if (CondFlag[castlingchess] && sq_capture > platzwechsel_rochade) {
-        return (move_diff_code[abs(sq_arrival-sq_departure)]) +
-          (move_diff_code[abs((sq_capture-maxsquare)-(sq_departure+sq_arrival)/2)]);
-      }
-      if (CondFlag[castlingchess] && sq_capture == platzwechsel_rochade) {
-        return 2 * (move_diff_code[abs(sq_arrival-sq_departure)]);
-      }
-      else
-       return (move_diff_code[abs(sq_arrival-sq_departure)]);
-    }
-    break;
-  }
-}
-
-int len_min(square sq_departure, square sq_arrival, square sq_capture) {
-  return -len_max(sq_departure,sq_arrival,sq_capture);
-}
-
 int len_capt(square sq_departure, square sq_arrival, square sq_capture)
 {
   return !is_square_empty(sq_capture);
@@ -275,11 +235,6 @@ int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture
   return result;
 }
 
-int len_schwarzschacher(square sq_departure, square sq_arrival, square sq_capture)
-{
-   return sq_arrival==nullsquare ? 0 : 1;
-}
-
 void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 {
   switch (p)
@@ -287,7 +242,7 @@ void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
     case King:
     case ErlKing:
       leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case Pawn:
       pawn_generate_moves(sq_departure);
@@ -311,90 +266,90 @@ void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 
     case NightRider:
       rider_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Zebra:
       leaper_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end);
-      return;
+      break;
 
     case Camel:
       leaper_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
-      return;
+      break;
 
     case Giraffe:
       leaper_generate_moves(sq_departure, vec_girafe_start,vec_girafe_end);
-      return;
+      break;
 
     case RootFiftyLeaper:
       leaper_generate_moves(sq_departure, vec_rccinq_start,vec_rccinq_end);
-      return;
+      break;
 
     case Bucephale:
       leaper_generate_moves(sq_departure, vec_bucephale_start,vec_bucephale_end);
-      return;
+      break;
 
     case Wesir:
       leaper_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case Alfil:
       leaper_generate_moves(sq_departure, vec_alfil_start,vec_alfil_end);
-      return;
+      break;
 
     case Fers:
       leaper_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case Dabbaba:
       leaper_generate_moves(sq_departure, vec_dabbaba_start,vec_dabbaba_end);
-      return;
+      break;
 
     case BerolinaPawn:
       berolina_pawn_generate_moves(sq_departure);
-      return;
+      break;
 
     case ReversePawn:
       reverse_pawn_generate_moves(sq_departure);
-      return;
+      break;
 
     case Amazone:
       rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
       leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Empress:
       rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
       leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Princess:
       rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
       leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Gnu:
       leaper_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
       leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Antilope:
       leaper_generate_moves(sq_departure, vec_antilope_start,vec_antilope_end);
-      return;
+      break;
 
     case Squirrel:
       leaper_generate_moves(sq_departure, vec_ecureuil_start,vec_ecureuil_end);
       leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Waran:
       rider_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
       rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case Dragon:
       pawn_generate_moves(sq_departure);
       leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Gryphon:
     {
@@ -407,7 +362,7 @@ void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
       }
 
       rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
     }
 
     case Ship:
@@ -419,448 +374,449 @@ void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
       }
 
       rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case Camelrider:
       rider_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
-      return;
+      break;
 
     case Zebrarider:
       rider_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end);
-      return;
+      break;
 
     case Gnurider:
       rider_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
       rider_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case SuperBerolinaPawn:
       super_berolina_pawn_generate_moves(sq_departure);
-      return;
+      break;
 
     case SuperPawn:
       super_pawn_generate_moves(sq_departure);
-      return;
+      break;
 
     case RookHunter:
       rook_hunter_generate_moves(sq_departure);
-      return;
+      break;
 
     case BishopHunter:
       bishop_hunter_generate_moves(sq_departure);
-      return;
+      break;
 
     case Okapi:
       leaper_generate_moves(sq_departure, vec_okapi_start,vec_okapi_end);
-      return;
+      break;
 
     case Leap37:
       leaper_generate_moves(sq_departure, vec_leap37_start,vec_leap37_end);
-      return;
+      break;
 
     case Leap16:
       leaper_generate_moves(sq_departure, vec_leap16_start,vec_leap16_end);
-      return;
+      break;
 
     case Leap24:
       leaper_generate_moves(sq_departure, vec_leap24_start,vec_leap24_end);
-      return;
+      break;
 
     case Leap35:
       leaper_generate_moves(sq_departure, vec_leap35_start,vec_leap35_end);
-      return;
+      break;
 
     case Leap15:
       leaper_generate_moves(sq_departure, vec_leap15_start,vec_leap15_end);
-      return;
+      break;
 
     case Leap25:
       leaper_generate_moves(sq_departure, vec_leap25_start,vec_leap25_end);
-      return;
+      break;
 
     case WesirRider:
       rider_generate_moves(sq_departure,   vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case FersRider:
       rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case Bison:
       leaper_generate_moves(sq_departure, vec_bison_start,vec_bison_end);
-      return;
+      break;
 
     case Zebu:
       leaper_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
       leaper_generate_moves(sq_departure, vec_girafe_start,vec_girafe_end);
-      return;
+      break;
 
     case Elephant:
       rider_generate_moves(sq_departure, vec_elephant_start,vec_elephant_end);
-      return;
+      break;
 
     case Leap36:
       leaper_generate_moves(sq_departure, vec_leap36_start,vec_leap36_end);
-      return;
+      break;
 
     case ChinesePawn:
       chinese_pawn_generate_moves(sq_departure);
-      return;
+      break;
 
     case Mao:
       mao_generate_moves(sq_departure);
-      return;
+      break;
 
     case Pao:
       chinese_rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case Leo:
       chinese_rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case Vao:
       chinese_rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case Nao:
       chinese_rider_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Rose:
       rose_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case NonStopEquihopper:
       nonstop_equihopper_generate_moves(sq_departure);
-      return;
+      break;
 
     case Locust:
       locust_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case NightLocust:
       locust_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case BishopLocust:
       locust_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case RookLocust:
       locust_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case Kangaroo:
       kangaroo_generate_moves(sq_departure);
-      return;
+      break;
 
     case KangarooLion:
       kangaroo_lion_generate_moves(sq_departure);
-      return;
+      break;
 
     case Kao:
       chinese_leaper_generate_moves(sq_departure, vec_knight_start, vec_knight_end);
-      return;
+      break;
 
     case KnightHopper:
       leaper_hoppers_generate_moves(sq_departure, vec_knight_start, vec_knight_end);
-      return;
+      break;
 
     case SpiralSpringer:
       spiralspringer_generate_moves(sq_departure);
-      return;
+      break;
 
     case DiagonalSpiralSpringer:
       diagonalspiralspringer_generate_moves(sq_departure);
-      return;
+      break;
 
     case BoyScout:
       boyscout_generate_moves(sq_departure);
-      return;
+      break;
 
     case GirlScout:
       girlscout_generate_moves(sq_departure);
-      return;
+      break;
 
     case Hamster:
       hamster_generate_moves(sq_departure);
-      return;
+      break;
 
     case UbiUbi:
     {
       ubiubi_generate_moves(sq_departure);
-      return;
+      break;
     }
 
     case Elk:
       elk_generate_moves(sq_departure);
-      return;
+      break;
 
     case Eagle:
       eagle_generate_moves(sq_departure);
-      return;
+      break;
 
     case Sparrow:
       sparrow_generate_moves(sq_departure);
-      return;
+      break;
 
     case Marguerite:
       marguerite_generate_moves(sq_departure);
-      return;
+      break;
 
     case Archbishop:
       archbishop_generate_moves(sq_departure);
-      return;
+      break;
 
     case ReflectBishop:
       reflecting_bishop_generate_moves(sq_departure);
-      return;
+      break;
 
     case Cardinal:
       cardinal_generate_moves(sq_departure);
-      return;
+      break;
 
     case BouncyKnight:
       bouncy_knight_generate_moves(sq_departure);
-      return;
+      break;
 
     case BouncyNightrider:
       bouncy_nightrider_generate_moves(sq_departure);
-      return;
+      break;
 
     case EquiHopper:
       equihopper_generate_moves(sq_departure);
-      return;
+      break;
 
     case CAT:
       cat_generate_moves(sq_departure);
-      return;
+      break;
 
     case Sirene:
       marine_rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case Triton:
       marine_rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case Nereide:
       marine_rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case Orphan:
       orphan_generate_moves(sq_departure);
-      return;
+      break;
 
     case Friend:
       friend_generate_moves(sq_departure);
-      return;
+      break;
 
     case EdgeHog:
       edgehog_generate_moves(sq_departure);
-      return;
+      break;
 
     case Moa:
       moa_generate_moves(sq_departure);
-      return;
+      break;
 
     case MoaRider:
       moarider_generate_moves(sq_departure);
-      return;
+      break;
 
     case MaoRider:
       maorider_generate_moves(sq_departure);
-      return;
+      break;
 
     case Skylla:
       skylla_generate_moves(sq_departure);
-      return;
+      break;
 
     case Charybdis:
       charybdis_generate_moves(sq_departure);
-      return;
+      break;
 
     case Grasshopper:
       hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case Lion:
       lions_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case NightriderHopper:
       hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case CamelHopper:
       hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
-      return;
+      break;
 
     case ZebraHopper:
       hoppers_generate_moves(sq_departure, vec_zebre_start,vec_zebre_end);
-      return;
+      break;
 
     case GnuHopper:
       hoppers_generate_moves(sq_departure, vec_chameau_start,vec_chameau_end);
       hoppers_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case RookLion:
       lions_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case BishopLion:
       lions_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case RookHopper:
       hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case BishopHopper:
       hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case ContraGras:
       contra_grasshopper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case RoseLion:
       roselion_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case RoseHopper:
       rosehopper_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case RoseLocust:
       roselocust_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case GrassHopper2:
       grasshoppers_n_generate_moves(sq_departure, vec_queen_start,vec_queen_end, 2);
-      return;
+      break;
 
     case GrassHopper3:
       grasshoppers_n_generate_moves(sq_departure, vec_queen_start,vec_queen_end, 3);
-      return;
+      break;
 
     case KingHopper:
       leaper_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case DoubleGras:
       doublehopper_generate_moves(sq_departure,vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case DoubleRookHopper:
       doublehopper_generate_moves(sq_departure,vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     case DoubleBishopper:
       doublehopper_generate_moves(sq_departure,vec_bishop_start,vec_bishop_end);
-      return;
+      break;
 
     case Orix:
       orix_generate_moves(sq_departure);
-      return;
+      break;
 
      case NonStopOrix:
       nonstop_orix_generate_moves(sq_departure);
-      return;
+      break;
 
     case Gral:
       leaper_generate_moves(sq_departure, vec_alfil_start,vec_alfil_end);
-      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end);      /* rookhopper */
-      return;
+      hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
+      break;
 
     case RookMoose:
       rook_moose_generate_moves(sq_departure);
-      return;
+      break;
 
     case RookEagle:
       rook_eagle_generate_moves(sq_departure);
-      return;
+      break;
 
     case RookSparrow:
       rook_sparrow_generate_moves(sq_departure);
-      return;
+      break;
 
     case BishopMoose:
       bishop_moose_generate_moves(sq_departure);
-      return;
+      break;
 
     case BishopEagle:
       bishop_eagle_generate_moves(sq_departure);
-      return;
+      break;
 
     case BishopSparrow:
       bishop_sparrow_generate_moves(sq_departure);
-      return;
+      break;
 
     case Rao:
       rao_generate_moves(sq_departure,vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case Scorpion:
-      leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end); /* eking */
-      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);     /* grashopper */
-      return;
+      leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
+      hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
+      break;
 
     case NightRiderLion:
       lions_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-      return;
+      break;
 
     case MaoRiderLion:
       maoriderlion_generate_moves(sq_departure);
-      return;
+      break;
 
     case MoaRiderLion:
       moariderlion_generate_moves(sq_departure);
-      return;
+      break;
 
     case Dolphin:
       kangaroo_generate_moves(sq_departure);
       hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-      return;
+      break;
 
     case Rabbit:
       rabbit_generate_moves(sq_departure);
-      return;
+      break;
 
     case Bob:
       bob_generate_moves(sq_departure);
-      return;
+      break;
 
     case EquiEnglish:
       equistopper_generate_moves(sq_departure);
-      return;
+      break;
 
     case EquiFrench:
       nonstop_equistopper_generate_moves(sq_departure);
-      return;
+      break;
 
     case Querquisite:
-      switch (sq_departure%onerow - nr_of_slack_files_left_of_board) {
-      case file_rook_queenside:
-      case file_rook_kingside:
-        rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-        break;
-      case file_bishop_queenside:
-      case file_bishop_kingside:
-        rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-        break;
-      case file_queen:
-        rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-        break;
-      case file_knight_queenside:
-      case file_knight_kingside:
-        leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-        break;
-      case file_king:
-        leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-        break;
+      switch (sq_departure%onerow - nr_of_slack_files_left_of_board)
+      {
+        case file_rook_queenside:
+        case file_rook_kingside:
+          rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
+          break;
+        case file_bishop_queenside:
+        case file_bishop_kingside:
+          rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
+          break;
+        case file_queen:
+          rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
+          break;
+        case file_knight_queenside:
+        case file_knight_kingside:
+          leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
+          break;
+        case file_king:
+          leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
+          break;
       }
       break;
 
@@ -930,7 +886,7 @@ void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
 
     case MarineShip:
       marine_ship_generate_moves(sq_departure,vec_rook_start,vec_rook_end);
-      return;
+      break;
 
     default:
       /* Since pieces like DUMMY fall through 'default', we have */
