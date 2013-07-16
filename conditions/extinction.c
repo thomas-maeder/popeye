@@ -25,31 +25,6 @@ void stip_insert_extinction_chess(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Detect whether the move just played has extincted a kind
- */
-static boolean move_extincts_kind(Side starter)
-{
-  PieNam walk;
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,starter,"");
-  TraceFunctionParamListEnd();
-
-  for (walk = King; walk<PieceCount; ++walk)
-    if (prev_nbpiece[walk]>0)
-      if (number_of_pieces[starter][walk]==0)
-      {
-        result = true;
-        break;
-      }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a side is in check
  * @param si identifies the check tester
  * @param side_in_check which side?
