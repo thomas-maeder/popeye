@@ -1,10 +1,11 @@
 #include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

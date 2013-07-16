@@ -13,9 +13,11 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
  position/position.h utilities/boolean.h utilities/enumeration.h pyproc.h \
- py4.h py.h utilities/boolean.h position/position.h pylang.h \
  pieces/walks/vectors.h stipulation/goals/goals.h py.h \
- solving/observation.h debugging/trace.h pydata.h pyproc.h
+ utilities/boolean.h position/position.h pylang.h pieces/walks/hoppers.h \
+ pieces/walks/hamster.h solving/move_generator.h solving/solve.h \
+ stipulation/slice_type.h solving/observation.h debugging/trace.h \
+ pydata.h pyproc.h
 
 pieces/walks/angle/hoppers.h:
 
@@ -35,7 +37,9 @@ utilities/enumeration.h:
 
 pyproc.h:
 
-py4.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 
 py.h:
 
@@ -45,11 +49,15 @@ position/position.h:
 
 pylang.h:
 
-pieces/walks/vectors.h:
+pieces/walks/hoppers.h:
 
-stipulation/goals/goals.h:
+pieces/walks/hamster.h:
 
-py.h:
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
 
 solving/observation.h:
 

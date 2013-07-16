@@ -1,9 +1,10 @@
 #include "solving/single_move_generator.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
-#include "pyproc.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
+#include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 

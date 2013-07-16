@@ -1,8 +1,7 @@
 #include "solving/castling.h"
-#include "solving/move_effect_journal.h"
-#include "pydata.h"
-#include "pyproc.h"
 #include "pieces/walks/walks.h"
+#include "solving/move_generator.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
@@ -13,6 +12,8 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
+#include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 

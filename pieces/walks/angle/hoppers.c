@@ -1,4 +1,7 @@
 #include "pieces/walks/angle/hoppers.h"
+#include "pieces/walks/hoppers.h"
+#include "pieces/walks/hamster.h"
+#include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"

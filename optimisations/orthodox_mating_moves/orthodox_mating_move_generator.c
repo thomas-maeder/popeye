@@ -2,6 +2,7 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
+#include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
@@ -445,7 +446,7 @@ static void generate_move_reaching_goal()
         {
           if (CondFlag[gridchess]
               && !GridLegal(sq_departure,OpponentsKing))
-            generate_moves_for_piece_ortho(sq_departure,p);
+            generate_moves_for_piece_based_on_walk(sq_departure,p);
           else
             switch (p)
             {
