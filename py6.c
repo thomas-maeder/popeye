@@ -1179,8 +1179,8 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[duellist]
-      && !(mummer_set_length_measurer(Black,&duellists_measure_length_black)
-           && mummer_set_length_measurer(White,&duellists_measure_length_white)))
+      && !(mummer_set_length_measurer(Black,&duellists_measure_length)
+           && mummer_set_length_measurer(White,&duellists_measure_length)))
   {
     VerifieMsg(TwoMummerCond);
     return false;
@@ -1240,26 +1240,26 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[blforsqu]
-      && !mummer_set_length_measurer(Black,&forced_squares_measure_length_black))
+      && !mummer_set_length_measurer(Black,&forced_squares_measure_length))
   {
     VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
     return false;
   }
   if (CondFlag[whforsqu]
-      && !mummer_set_length_measurer(White,&forced_squares_measure_length_white))
+      && !mummer_set_length_measurer(White,&forced_squares_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blconforsqu]
-      && !mummer_set_length_measurer(Black,&forced_squares_measure_length_black))
+      && !mummer_set_length_measurer(Black,&forced_squares_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
   if (CondFlag[whconforsqu]
-      && !mummer_set_length_measurer(White,&forced_squares_measure_length_white))
+      && !mummer_set_length_measurer(White,&forced_squares_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
