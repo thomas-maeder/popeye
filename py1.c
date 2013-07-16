@@ -444,14 +444,14 @@ void InitBoard(void)
   nrhuntertypes = 0;
 } /* InitBoard */
 
-void InitAlways(void) {
-  square i;
+void InitAlways(void)
+{
+  ply i;
 
   nbply = nil_ply;
   current_move[nbply] = nil_coup;
   ply_watermark = nil_ply;
 
-  CondFlag[circeassassin] = false;
   flagfee = false;
 
   for (i= maxply; i > 0; i--)
@@ -461,7 +461,6 @@ void InitAlways(void) {
     current_circe_rebirth_square[i] = initsquare;
     trait[i] = White;
     current_anticirce_rebirth_square[i] = initsquare;
-    pwcprom[i] = false;
   }
 
   reset_tables();
