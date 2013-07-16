@@ -76,6 +76,7 @@
 #include "pieces/walks/roses.h"
 #include "pieces/walks/angle/angles.h"
 #include "pieces/walks/angle/hoppers.h"
+#include "pieces/walks/bouncy.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

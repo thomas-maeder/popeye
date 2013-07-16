@@ -43,7 +43,6 @@
 #if !defined(PYPROC_H)
 #define PYPROC_H
 
-#include "py4.h"
 #include "pieces/walks/vectors.h"
 #include "stipulation/goals/goals.h"
 #include "utilities/boolean.h"
@@ -235,8 +234,6 @@ void    restaure(void);
 boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
 boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 
-void generate_moves_for_piece_ortho(square sq_departure, PieNam p);
-
 void    PrintTime();
 boolean leapcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
 boolean ridcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
@@ -257,7 +254,6 @@ boolean marine_ship_check(square sq_king, PieNam p, evalfunction_t *evaluate);
 
 boolean orphan_find_observation_chain(square i, PieNam porph, evalfunction_t *evaluate);
 boolean reversepcheck(square a, PieNam p, evalfunction_t *evaluate);
-void    orphan_generate_moves(square a);
 
 Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
@@ -291,9 +287,6 @@ boolean is_pawn(PieNam p);
 boolean is_forwardpawn(PieNam p);
 boolean is_reversepawn(PieNam p);
 boolean is_short(PieNam p);
-
-int len_whforcedsquare(square departure, square arrival, square capture);
-int len_blforcedsquare(square departure, square arrival, square capture);
 
 void	pyInitSignal(void);
 void	InitCond(void);

@@ -222,6 +222,11 @@
 #include "conditions/bicolores.h"
 #include "conditions/antikings.h"
 #include "conditions/sting.h"
+#include "conditions/follow_my_leader.h"
+#include "conditions/alphabetic.h"
+#include "conditions/forced_squares.h"
+#include "conditions/synchronous.h"
+#include "conditions/must_capture.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1143,23 +1148,23 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (CondFlag[blcapt] && !mummer_set_length_measurer(Black,&len_capt))
+  if (CondFlag[blcapt] && !mummer_set_length_measurer(Black,&must_capture_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
-  if (CondFlag[whcapt] && !mummer_set_length_measurer(White,&len_capt))
+  if (CondFlag[whcapt] && !mummer_set_length_measurer(White,&must_capture_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
 
-  if (CondFlag[blfollow] && !mummer_set_length_measurer(Black,&len_follow))
+  if (CondFlag[blfollow] && !mummer_set_length_measurer(Black,&follow_my_leader_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
-  if (CondFlag[whfollow] && !mummer_set_length_measurer(White,&len_follow))
+  if (CondFlag[whfollow] && !mummer_set_length_measurer(White,&follow_my_leader_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
@@ -1174,47 +1179,47 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[duellist]
-      && !(mummer_set_length_measurer(Black,&len_blduell)
-           && mummer_set_length_measurer(White,&len_whduell)))
+      && !(mummer_set_length_measurer(Black,&duellists_measure_length_black)
+           && mummer_set_length_measurer(White,&duellists_measure_length_white)))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blackalphabetic]
-      && !mummer_set_length_measurer(Black,&len_alphabetic))
+      && !mummer_set_length_measurer(Black,&alphabetic_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
   if (CondFlag[whitealphabetic]
-      && !mummer_set_length_measurer(White,&len_alphabetic))
+      && !mummer_set_length_measurer(White,&alphabetic_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blacksynchron]
-      && !mummer_set_length_measurer(Black,&len_synchron))
+      && !mummer_set_length_measurer(Black,&synchronous_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
   if (CondFlag[whitesynchron]
-      && !mummer_set_length_measurer(White,&len_synchron))
+      && !mummer_set_length_measurer(White,&synchronous_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blackantisynchron]
-      && !mummer_set_length_measurer(Black,&len_antisynchron))
+      && !mummer_set_length_measurer(Black,&antisynchronous_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
   if (CondFlag[whiteantisynchron]
-      && !mummer_set_length_measurer(White,&len_antisynchron))
+      && !mummer_set_length_measurer(White,&antisynchronous_measure_length))
   {
     VerifieMsg(TwoMummerCond);
     return false;
@@ -1235,26 +1240,26 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[blforsqu]
-      && !mummer_set_length_measurer(Black,&len_blforcedsquare))
+      && !mummer_set_length_measurer(Black,&forced_squares_measure_length_black))
   {
     VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
     return false;
   }
   if (CondFlag[whforsqu]
-      && !mummer_set_length_measurer(White,&len_whforcedsquare))
+      && !mummer_set_length_measurer(White,&forced_squares_measure_length_white))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blconforsqu]
-      && !mummer_set_length_measurer(Black,&len_blforcedsquare))
+      && !mummer_set_length_measurer(Black,&forced_squares_measure_length_black))
   {
     VerifieMsg(TwoMummerCond);
     return false;
   }
   if (CondFlag[whconforsqu]
-      && !mummer_set_length_measurer(White,&len_whforcedsquare))
+      && !mummer_set_length_measurer(White,&forced_squares_measure_length_white))
   {
     VerifieMsg(TwoMummerCond);
     return false;
@@ -1826,8 +1831,8 @@ static boolean verify_position(slice_index si)
     }
 
     /* capturing moves are "longer" than non-capturing moves */
-    if (!(mummer_set_length_measurer(Black,&len_capt)
-          && mummer_set_length_measurer(White,&len_capt)))
+    if (!(mummer_set_length_measurer(Black,&must_capture_measure_length)
+          && mummer_set_length_measurer(White,&must_capture_measure_length)))
     {
       VerifieMsg(TwoMummerCond);
       return false;

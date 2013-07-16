@@ -4,6 +4,11 @@
 /* This module implements bouncy pieces */
 
 #include "position/board.h"
+#include "utilities/boolean.h"
+
+void clearedgestraversed(void);
+boolean traversed(square edgesq);
+void settraversed(square edgesq);
 
 /* Generate moves for a bouncy night
  * @param sq_departure common departure square of the generated moves

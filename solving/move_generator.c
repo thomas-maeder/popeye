@@ -19,6 +19,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/vaulting_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pieces/walks/generate_moves.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
 #include "solving/single_move_generator.h"
@@ -58,7 +59,7 @@ static slice_index const slice_rank_order[] =
     STCastlingGenerator,
     STMessignyMovesForPieceGenerator,
     STAnnanMovesForPieceGenerator,
-    STMovesForPieceGeneratorOrtho,
+    STMovesForPieceBasedOnWalkGenerator,
     STTrue
 };
 
@@ -243,8 +244,8 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
       annan_generate_moves_for_piece(si,sq_departure,p);
       break;
 
-    case STMovesForPieceGeneratorOrtho:
-      generate_moves_for_piece_ortho(sq_departure,p);
+    case STMovesForPieceBasedOnWalkGenerator:
+      generate_moves_for_piece_based_on_walk(sq_departure,p);
       break;
 
     default:

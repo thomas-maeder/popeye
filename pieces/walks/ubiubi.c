@@ -1,4 +1,5 @@
 #include "pieces/walks/ubiubi.h"
+#include "solving/move_generator.h"
 #include "pyproc.h"
 #include "pydata.h"
 

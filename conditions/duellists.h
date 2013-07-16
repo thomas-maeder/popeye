@@ -7,6 +7,28 @@
 
 extern square duellists[nr_sides][maxply+1];
 
+/* Determine the length of a move for the Duellists condition; the higher the
+ * value the more likely the move is going to be played.
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture capture square
+ * @return a value expressing the precedence of this move
+ */
+int duellists_measure_length_white(square sq_departure,
+                                   square sq_arrival,
+                                   square sq_capture);
+
+/* Determine the length of a move for the Duellists condition; the higher the
+ * value the more likely the move is going to be played.
+ * @param sq_departure departure square
+ * @param sq_arrival arrival square
+ * @param sq_capture capture square
+ * @return a value expressing the precedence of this move
+ */
+int duellists_measure_length_black(square sq_departure,
+                                   square sq_arrival,
+                                   square sq_capture);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

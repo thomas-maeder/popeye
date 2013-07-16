@@ -1,4 +1,5 @@
 #include "pieces/walks/friend.h"
+#include "pieces/walks/generate_moves.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
@@ -93,7 +94,7 @@ void friend_generate_moves(square sq_departure)
   for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
     if (number_of_pieces[camp][*friend_observer]>0
         && find_next_friend_in_chain(sq_departure,*friend_observer,Friend,&validate_observation))
-      generate_moves_for_piece_ortho(sq_departure,*friend_observer);
+      generate_moves_for_piece_based_on_walk(sq_departure,*friend_observer);
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }

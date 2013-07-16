@@ -1,10 +1,11 @@
 #include "conditions/take_and_make.h"
-#include "pydata.h"
+#include "pieces/walks/generate_moves.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "solving/move_generator.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <string.h>
 
@@ -113,7 +114,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
       trait[nbply] = advers(moving);
 
-      generate_moves_for_piece_ortho(take_arrival,taken);
+      generate_moves_for_piece_based_on_walk(take_arrival,taken);
 
       for (++make_current; make_current<=current_move[nbply]; ++make_current)
         if (is_square_empty(move_generation_stack[make_current].capture))

@@ -1,99 +1,6 @@
-/********************* MODIFICATIONS to py4.c **************************
- **
- ** Date       Who  What
- **
- ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
- **
- ** 2006/05/09 SE   New pieces Bouncer, Rookbouncer, Bishopbouncer (invented P.Wong)
- **
- ** 2006/05/14 SE   New Condition: TakeMake (invented H.Laue)
- **
- ** 2006/05/17 SE   Bug fix: querquisite
- **                 P moves to 1st rank disallowed for Take&Make on request of inventor
- **
- ** 2006/07/30 SE   New condition: Schwarzschacher
- **
- ** 2007/01/28 SE   New condition: NormalPawn
- **
- ** 2007/01/28 SE   New condition: Annan Chess
- **
- ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows
- **
- ** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
- **
- ** 2007/11/08 SE   New conditions: Vaulting kings (invented: J.G.Ingram)
- **                 Transmuting/Reflecting Ks now take optional piece list
- **                 turning them into vaulting types
- **
- ** 2007/12/20 SE   New condition: Lortap (invented: F.H. von Meyenfeldt)
- **
- ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
- **
- ** 2008/01/01 SE   Bug fix: Isardam + Maximummer (reported V.Crisan)
- **
- ** 2008/02/24 SE   Bug fix: Gridchess
- **
- ** 2008/02/19 SE   New piece: RoseLocust
- **
- ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)
- **
- ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
- **
- ** 2009/02/24 SE   New pieces: 2,0-Spiralknight
- **                             4,0-Spiralknight
- **                             1,1-Spiralknight
- **                             3,3-Spiralknight
- **                             Quintessence (invented Joerg Knappen)
- **
- ** 2009/04/25 SE   New condition: Provacateurs
- **                 New piece type: Patrol pieces
- **
- ** 2009/06/27 SE   Extended imitators/hurdlecolorchanging to moose etc.
- **
- ** 2012/02/04 NG   New condition: Chess 8/1 (invented: Werner Keym, 5/2011)
- **
- **************************** End of List ******************************/
-
-#if defined(macintosh)    /* is always defined on macintosh's  SB */
-#   define SEGM2
-#   include "platform/unix/mac.h"
-#endif
-
-#include "py.h"
-#include "stipulation/stipulation.h"
-#include "py1.h"
-#include "pyproc.h"
-#include "pydata.h"
-#include "pymsg.h"
-#include "stipulation/has_solution_type.h"
-#include "solving/solve.h"
-#include "solving/castling.h"
+#include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/hoppers.h"
-#include "solving/move_generator.h"
-#include "solving/observation.h"
-#include "conditions/disparate.h"
-#include "conditions/eiffel.h"
-#include "conditions/madrasi.h"
-#include "conditions/sat.h"
-#include "conditions/duellists.h"
-#include "conditions/singlebox/type1.h"
-#include "conditions/singlebox/type2.h"
-#include "conditions/singlebox/type3.h"
-#include "conditions/beamten.h"
-#include "conditions/patrol.h"
-#include "conditions/central.h"
-#include "conditions/koeko/koeko.h"
-#include "conditions/phantom.h"
-#include "conditions/marscirce/marscirce.h"
-#include "conditions/marscirce/anti.h"
-#include "conditions/marscirce/plus.h"
-#include "conditions/annan.h"
-#include "conditions/wormhole.h"
-#include "conditions/singlebox/type2.h"
-#include "conditions/vaulting_kings.h"
-#include "conditions/transmuting_kings/transmuting_kings.h"
-#include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/walks/leapers.h"
 #include "pieces/walks/riders.h"
 #include "pieces/walks/pawns/pawns.h"
@@ -128,114 +35,16 @@
 #include "pieces/walks/locusts.h"
 #include "pieces/walks/hamster.h"
 #include "pieces/walks/bouncer.h"
-#include "debugging/trace.h"
-#include "debugging/measure.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-int len_capt(square sq_departure, square sq_arrival, square sq_capture)
-{
-  return !is_square_empty(sq_capture);
-}
-
-int len_follow(square sq_departure, square sq_arrival, square sq_capture)
-{
-  ply const parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
-  move_effect_journal_index_type const movement = parent_base+move_effect_journal_index_offset_movement;
-  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
-  if (movement<parent_top)
-    return sq_arrival==move_effect_journal[movement].u.piece_movement.from;
-  else
-    return true;
-}
-
-int len_whduell(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_departure == duellists[White][parent_ply[nbply]]);
-}
-
-int len_blduell(square sq_departure, square sq_arrival, square sq_capture) {
-  return (sq_departure == duellists[Black][parent_ply[nbply]]);
-}
-
-int len_alphabetic(square sq_departure, square sq_arrival, square sq_capture) {
-  return -((sq_departure/onerow) + onerow*(sq_departure%onerow));
-}
-
-int len_synchron(square sq_departure, square sq_arrival, square sq_capture)
-{
-  ply const parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
-  move_effect_journal_index_type const movement = parent_base+move_effect_journal_index_offset_movement;
-  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
-  if (movement<parent_top)
-  {
-    square const sq_parent_departure = move_effect_journal[movement].u.piece_movement.from;
-    square const sq_parent_arrival = move_effect_journal[movement].u.piece_movement.to;
-    numvec const parent_diff = sq_parent_departure-sq_parent_arrival;
-    numvec const diff = sq_departure-sq_arrival;
-    return diff==parent_diff;
-  }
-  else
-    return true;
-}
-
-int len_antisynchron(square sq_departure, square sq_arrival, square sq_capture)
-{
-  ply const parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
-  move_effect_journal_index_type const movement = parent_base+move_effect_journal_index_offset_movement;
-  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
-  if (movement<parent_top)
-  {
-    square const sq_parent_departure = move_effect_journal[movement].u.piece_movement.from;
-    square const sq_parent_arrival = move_effect_journal[movement].u.piece_movement.to;
-    numvec const parent_diff = sq_parent_departure-sq_parent_arrival;
-    numvec const diff = sq_departure-sq_arrival;
-    return diff==-parent_diff;
-  }
-  else
-    return true;
-}
-
-int len_whforcedsquare(square sq_departure, square sq_arrival, square sq_capture)
-{
-  int const result = TSTFLAG(sq_spec[sq_arrival],WhForcedSq);
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%x\n",sq_spec[sq_arrival]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-int len_blforcedsquare(square sq_departure, square sq_arrival, square sq_capture)
-{
-  int const result = TSTFLAG(sq_spec[sq_arrival],BlForcedSq);
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-void generate_moves_for_piece_ortho(square sq_departure, PieNam p)
+/* Generate moves for a piece
+ * @param sq_departure common departure square of the generated moves
+ * @param p the piece's walk
+ */
+void generate_moves_for_piece_based_on_walk(square sq_departure, PieNam p)
 {
   switch (p)
   {

@@ -69,6 +69,7 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
+#include "solving/move_generator.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/move.h"
