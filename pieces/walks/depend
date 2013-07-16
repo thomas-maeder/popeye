@@ -1163,6 +1163,58 @@ pieces/walks/vectors.h:
 stipulation/goals/goals.h:
 
 pyproc.h:
+pieces/walks/querquisite$(OBJ_SUFFIX): pieces/walks/querquisite.c \
+ pieces/walks/querquisite.h position/board.h utilities/bitmask.h \
+ pieces/walks/leapers.h position/position.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h pieces/walks/riders.h \
+ solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h pylang.h stipulation/slice_type.h debugging/trace.h \
+ pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ pyproc.h
+
+pieces/walks/querquisite.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/leapers.h:
+
+position/position.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pieces/walks/riders.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pyproc.h:
 pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  pieces/walks/generate_moves.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
@@ -1179,11 +1231,12 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  pieces/walks/chinese/leapers.h pieces/walks/chinese/pawn.h \
  pieces/walks/skylla_charybdis.h pieces/walks/radial.h \
  pieces/walks/edgehog.h pieces/walks/friend.h pieces/walks/orphan.h \
- pieces/walks/pawns/super.h pieces/walks/chinese/mao.h pieces/walks/cat.h \
- pieces/walks/bouncy.h pieces/walks/cardinal.h \
- pieces/walks/reflecting_bishop.h pieces/walks/bob.h \
- pieces/walks/rabbit.h pieces/walks/kangaroo.h pieces/walks/locusts.h \
- pieces/walks/hamster.h pieces/walks/bouncer.h pydata.h pyproc.h
+ pieces/walks/pawns/super.h pieces/walks/pawns/combined.h \
+ pieces/walks/chinese/mao.h pieces/walks/cat.h pieces/walks/bouncy.h \
+ pieces/walks/cardinal.h pieces/walks/reflecting_bishop.h \
+ pieces/walks/bob.h pieces/walks/rabbit.h pieces/walks/kangaroo.h \
+ pieces/walks/locusts.h pieces/walks/hamster.h pieces/walks/bouncer.h \
+ pieces/walks/querquisite.h pydata.h pyproc.h
 
 pieces/walks/generate_moves.h:
 
@@ -1265,6 +1318,8 @@ pieces/walks/orphan.h:
 
 pieces/walks/pawns/super.h:
 
+pieces/walks/pawns/combined.h:
+
 pieces/walks/chinese/mao.h:
 
 pieces/walks/cat.h:
@@ -1286,6 +1341,8 @@ pieces/walks/locusts.h:
 pieces/walks/hamster.h:
 
 pieces/walks/bouncer.h:
+
+pieces/walks/querquisite.h:
 
 pydata.h:
 

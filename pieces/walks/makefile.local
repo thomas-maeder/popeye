@@ -4,12 +4,12 @@ SRC_CFILES = walks.c vectors.c hunters.c roses.c marine.c spiral_springers.c \
              ubiubi.c hoppers.c leapers.c riders.c lions.c skylla_charybdis.c \
              radial.c edgehog.c friend.c orphan.c cat.c bouncy.c cardinal.c \
              reflecting_bishop.c bob.c rabbit.c kangaroo.c locusts.c hamster.c \
-             bouncer.c generate_moves.c
+             bouncer.c querquisite.c generate_moves.c
 
 INCLUDES = walks.h vectors.h hunters.h roses.h marine.h spiral_springers.h \
            ubiubi.h hoppers.h leapers.h riders.h lions.h skylla_charybdis.h \
            radial.h edgehog.h friend.h orphan.h cat.h bouncy.h cardinal.h \
            reflecting_bishop.h bob.h rabbit.h kangaroo.h locusts.h hamster.h \
-           bouncer.h generate_moves.h
+           bouncer.h querquisite.h generate_moves.h
 
 include makefile.rules $(CURRPWD)depend

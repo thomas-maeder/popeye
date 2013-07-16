@@ -341,3 +341,53 @@ debugging/trace.h:
 pydata.h:
 
 pyproc.h:
+pieces/walks/pawns/combined$(OBJ_SUFFIX): pieces/walks/pawns/combined.c \
+ pieces/walks/pawns/combined.h position/board.h utilities/bitmask.h \
+ pieces/walks/pawns/pawn.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
+ position/position.h pieces/walks/vectors.h utilities/enumeration.h \
+ pylang.h position/position.h pieces/walks/pawns/pawns.h \
+ pieces/walks/leapers.h pieces/walks/riders.h debugging/trace.h pydata.h \
+ pyproc.h
+
+pieces/walks/pawns/combined.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/pawns/pawn.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pieces/walks/vectors.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+position/position.h:
+
+pieces/walks/pawns/pawns.h:
+
+pieces/walks/leapers.h:
+
+pieces/walks/riders.h:
+
+debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:

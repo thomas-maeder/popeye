@@ -24,6 +24,7 @@
 #include "pieces/walks/friend.h"
 #include "pieces/walks/orphan.h"
 #include "pieces/walks/pawns/super.h"
+#include "pieces/walks/pawns/combined.h"
 #include "pieces/walks/chinese/mao.h"
 #include "pieces/walks/cat.h"
 #include "pieces/walks/bouncy.h"
@@ -35,6 +36,7 @@
 #include "pieces/walks/locusts.h"
 #include "pieces/walks/hamster.h"
 #include "pieces/walks/bouncer.h"
+#include "pieces/walks/querquisite.h"
 #include "pyproc.h"
 #include "pydata.h"
 
@@ -156,33 +158,15 @@ void generate_moves_for_piece_based_on_walk(square sq_departure, PieNam p)
       break;
 
     case Dragon:
-      pawn_generate_moves(sq_departure);
-      leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
+      dragon_generate_moves(sq_departure);
       break;
 
     case Gryphon:
-    {
-      unsigned int const no_capture_length = pawn_get_no_capture_length(trait[nbply],sq_departure);
-
-      if (no_capture_length>0)
-      {
-        int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
-        pawns_generate_nocapture_moves(sq_departure,dir_forward,no_capture_length);
-      }
-
-      rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
+      gryphon_generate_moves(sq_departure);
       break;
-    }
 
     case Ship:
-      if (pawn_get_no_capture_length(trait[nbply],sq_departure)>0)
-      {
-        int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
-        pawns_generate_capture_move(sq_departure,dir_forward+dir_left);
-        pawns_generate_capture_move(sq_departure,dir_forward+dir_right);
-      }
-
-      rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
+      ship_generate_moves(sq_departure);
       break;
 
     case Camelrider:
@@ -352,10 +336,8 @@ void generate_moves_for_piece_based_on_walk(square sq_departure, PieNam p)
       break;
 
     case UbiUbi:
-    {
       ubiubi_generate_moves(sq_departure);
       break;
-    }
 
     case Elk:
       elk_generate_moves(sq_departure);
@@ -606,27 +588,7 @@ void generate_moves_for_piece_based_on_walk(square sq_departure, PieNam p)
       break;
 
     case Querquisite:
-      switch (sq_departure%onerow - nr_of_slack_files_left_of_board)
-      {
-        case file_rook_queenside:
-        case file_rook_kingside:
-          rider_generate_moves(sq_departure, vec_rook_start,vec_rook_end);
-          break;
-        case file_bishop_queenside:
-        case file_bishop_kingside:
-          rider_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end);
-          break;
-        case file_queen:
-          rider_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-          break;
-        case file_knight_queenside:
-        case file_knight_kingside:
-          leaper_generate_moves(sq_departure, vec_knight_start,vec_knight_end);
-          break;
-        case file_king:
-          leaper_generate_moves(sq_departure, vec_queen_start,vec_queen_end);
-          break;
-      }
+      querquisite_generate_moves(sq_departure);
       break;
 
     case Bouncer :
