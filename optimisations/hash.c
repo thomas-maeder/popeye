@@ -1238,8 +1238,8 @@ byte *CommonEncode(byte *bp,
     }
   }
   if (CondFlag[duellist]) {
-    *bp++ = (byte)(duellists[White][nbply] - square_a1);
-    *bp++ = (byte)(duellists[Black][nbply] - square_a1);
+    *bp++ = (byte)(duellists[White] - square_a1);
+    *bp++ = (byte)(duellists[Black] - square_a1);
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])

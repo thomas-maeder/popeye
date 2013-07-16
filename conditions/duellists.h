@@ -5,7 +5,7 @@
 
 #include "solving/solve.h"
 
-extern square duellists[nr_sides][maxply+1];
+extern square duellists[nr_sides];
 
 /* Determine the length of a move for the Duellists condition; the higher the
  * value the more likely the move is going to be played.
@@ -32,7 +32,7 @@ int duellists_measure_length(square sq_departure,
  *            n+3 no solution found in next branch
  */
 stip_length_type duellists_remember_duellist_solve(slice_index si,
-                                                    stip_length_type n);
+                                                   stip_length_type n);
 
 /* Instrument a stipulation for Duellists
  * @param si identifies root slice of stipulation

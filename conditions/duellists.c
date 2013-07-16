@@ -1,13 +1,11 @@
 #include "conditions/duellists.h"
-#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
-#include <assert.h>
-
-square duellists[nr_sides][maxply+1];
+square duellists[nr_sides];
 
 /* Determine the length of a move for the Duellists condition; the higher the
  * value the more likely the move is going to be played.
@@ -20,7 +18,7 @@ int duellists_measure_length(square sq_departure,
                              square sq_arrival,
                              square sq_capture)
 {
-  return sq_departure==duellists[trait[nbply]][parent_ply[nbply]];
+  return sq_departure==duellists[trait[nbply]];
 }
 
 /* Try to solve in n half-moves.
@@ -37,19 +35,19 @@ int duellists_measure_length(square sq_departure,
  *            n+3 no solution found in next branch
  */
 stip_length_type duellists_remember_duellist_solve(slice_index si,
-                                                    stip_length_type n)
+                                                   stip_length_type n)
 {
   stip_length_type result;
+  square const save_duellist = duellists[slices[si].starter];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  duellists[advers(slices[si].starter)][nbply] = duellists[advers(slices[si].starter)][parent_ply[nbply]];
-  duellists[slices[si].starter][nbply] = move_generation_stack[current_move[nbply]].arrival;
-
+  duellists[slices[si].starter] = move_generation_stack[current_move[nbply]].arrival;
   result = solve(slices[si].next1,n);
+  duellists[slices[si].starter] = save_duellist;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
