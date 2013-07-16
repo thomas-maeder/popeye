@@ -75,7 +75,6 @@
 #include "conditions/bgl.h"
 #include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
-#include "conditions/duellists.h"
 #include "conditions/kobul.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/circe/circe.h"
@@ -457,8 +456,6 @@ void InitAlways(void) {
 
   for (i= maxply; i > 0; i--)
   {
-    duellists[White][i] = initsquare;
-    duellists[Black][i] = initsquare;
     killer_moves[i].departure = initsquare;
     killer_moves[i].arrival = initsquare;
     current_circe_rebirth_square[i] = initsquare;
