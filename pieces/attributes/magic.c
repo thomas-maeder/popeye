@@ -31,7 +31,7 @@ typedef struct
 
 static magicview_type magicviews[magicviews_size];
 
-unsigned int magic_views_top[maxply + 1];
+static unsigned int magic_views_top[maxply + 1];
 
 static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed_to_magic)
 {

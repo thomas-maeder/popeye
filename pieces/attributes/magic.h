@@ -5,8 +5,6 @@
 
 #include "solving/solve.h"
 
-extern unsigned int magic_views_top[maxply+1];
-
 /* Can a specific type of (fairy) piece be magic?
  * @param p type of piece
  * @return true iff pieces of type p can be magic

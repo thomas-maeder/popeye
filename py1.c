@@ -61,7 +61,6 @@
 #include "stipulation/stipulation.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/walks/friend.h"
-#include "pieces/attributes/magic.h"
 #include "position/pieceid.h"
 #include "platform/maxtime.h"
 #include "solving/move_effect_journal.h"
@@ -158,8 +157,6 @@ static void initply(ply parent, ply child)
   */
   castling_flag[child] = castling_flag[parent];
 
-  magic_views_top[child] = magic_views_top[child-1];
-
   take_make_circe_current_rebirth_square_index[child] = take_make_circe_current_rebirth_square_index[parent];
 
   ++post_move_iteration_id[child];
@@ -181,8 +178,6 @@ static void do_copyply(ply original, ply copy)
     start with the castling rights of the parent level
   */
   castling_flag[copy] = castling_flag[parent_ply[original]];
-
-  magic_views_top[copy] = magic_views_top[copy-1];
 
   {
     unsigned int const nr_moves = current_move[original]-current_move[original-1];

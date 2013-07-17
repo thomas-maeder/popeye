@@ -44,7 +44,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  stipulation/stipulation.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  pieces/walks/hunters.h position/position.h pieces/walks/friend.h \
- pyproc.h pieces/attributes/magic.h position/pieceid.h platform/maxtime.h \
+ pyproc.h position/pieceid.h platform/maxtime.h \
  solving/move_effect_journal.h solving/battle_play/try.h \
  utilities/table.h solving/castling.h pieces/walks/pawns/en_passant.h \
  solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
@@ -135,8 +135,6 @@ position/position.h:
 pieces/walks/friend.h:
 
 pyproc.h:
-
-pieces/attributes/magic.h:
 
 position/pieceid.h:
 
