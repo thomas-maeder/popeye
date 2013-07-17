@@ -193,7 +193,7 @@ stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h \
- pyproc.h py4.h py.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/goals/prerequisite_guards.h solving/avoid_unsolvable.h \
  debugging/trace.h
@@ -239,10 +239,6 @@ stipulation/pipe.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

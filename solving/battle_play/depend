@@ -63,7 +63,7 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/slice_type.h stipulation/traversal.h solving/solve.h \
- utilities/table.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ utilities/table.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h stipulation/has_solution_type.h \
  stipulation/testing_pipe.h stipulation/pipe.h stipulation/branch.h \
  stipulation/proxy.h stipulation/dummy_move.h stipulation/move_played.h \
@@ -107,10 +107,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -144,9 +140,8 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  solving/battle_play/try.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h utilities/table.h \
- pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
- stipulation/goals/goals.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h solving/solve.h \
  stipulation/fork.h pymsg.h stipulation/branch.h stipulation/constraint.h \
  stipulation/moves_traversal.h stipulation/goals/goals.h output/mode.h \
@@ -180,10 +175,6 @@ utilities/table.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

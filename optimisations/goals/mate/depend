@@ -3,15 +3,15 @@ optimisations/goals/mate/neutralretractable$(OBJ_SUFFIX): \
  optimisations/goals/mate/neutralretractable.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h \
  pieces/attributes/neutral/neutral.h position/position.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
- stipulation/moves_traversal.h solving/fork_on_remaining.h \
- debugging/trace.h
+ solving/fork_on_remaining.h solving/move_effect_journal.h \
+ position/pieceid.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/moves_traversal.h debugging/trace.h
 
 optimisations/goals/mate/neutralretractable.h:
 
@@ -39,10 +39,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -52,6 +48,12 @@ pyproc.h:
 pieces/attributes/neutral/neutral.h:
 
 position/position.h:
+
+solving/fork_on_remaining.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 stipulation/stipulation.h:
 
@@ -76,7 +78,5 @@ stipulation/proxy.h:
 stipulation/branch.h:
 
 stipulation/moves_traversal.h:
-
-solving/fork_on_remaining.h:
 
 debugging/trace.h:

@@ -8,7 +8,7 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h solving/solve.h \
  pieces/attributes/paralysing/stalemate_special.h solving/observation.h \
- pyproc.h py4.h py.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  solving/move_generator.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/branch.h stipulation/boolean/or.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
@@ -57,10 +57,6 @@ pieces/attributes/paralysing/stalemate_special.h:
 solving/observation.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 
@@ -147,7 +143,7 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  utilities/boolean.h utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- solving/solve.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ solving/solve.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h debugging/trace.h
@@ -192,10 +188,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -212,7 +204,7 @@ pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/remove_captures.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
@@ -241,10 +233,6 @@ pylang.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

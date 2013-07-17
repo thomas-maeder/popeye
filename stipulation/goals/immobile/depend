@@ -6,7 +6,7 @@ stipulation/goals/immobile/reached_tester$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- solving/solve.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ solving/solve.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h stipulation/fork.h \
  stipulation/has_solution_type.h stipulation/conditional_pipe.h \
  stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
@@ -52,10 +52,6 @@ solving/solve.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

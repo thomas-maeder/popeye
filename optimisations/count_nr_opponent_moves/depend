@@ -6,7 +6,7 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/slice_type.h stipulation/stipulation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h output/mode.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
  solving/solve.h stipulation/battle_play/branch.h \
@@ -51,10 +51,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -83,7 +79,7 @@ optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h \
- pyproc.h py4.h py.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  solving/legal_move_counter.h stipulation/has_solution_type.h \
  debugging/trace.h
 
@@ -129,10 +125,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -147,7 +139,7 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/prioriser.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
@@ -182,10 +174,6 @@ pylang.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

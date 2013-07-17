@@ -5,8 +5,8 @@ stipulation/goals/circuit_by_rebirth/reached_tester$(OBJ_SUFFIX): \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h py4.h \
- py.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/traversal.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/goals/reached_tester.h stipulation/goals/goals.h \
  stipulation/boolean/true.h debugging/trace.h
 
@@ -45,10 +45,6 @@ stipulation/traversal.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

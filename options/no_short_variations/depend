@@ -59,8 +59,8 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  utilities/boolean.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/enumeration.h pylang.h pydata.h \
- pyproc.h py4.h py.h pieces/walks/vectors.h stipulation/goals/goals.h \
- pyproc.h stipulation/has_solution_type.h stipulation/testing_pipe.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h \
+ stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
@@ -91,10 +91,6 @@ pylang.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

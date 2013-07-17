@@ -8,8 +8,8 @@ stipulation/goals/capture/reached_tester$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- solving/move_effect_journal.h position/pieceid.h pydata.h pyproc.h py4.h \
- py.h pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h
+ solving/move_effect_journal.h position/pieceid.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h
 
 stipulation/goals/capture/reached_tester.h:
 
@@ -60,10 +60,6 @@ position/pieceid.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

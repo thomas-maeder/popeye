@@ -2,13 +2,14 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  conditions/transmuting_kings/transmuting_kings.c \
  conditions/transmuting_kings/transmuting_kings.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h pyproc.h py4.h py.h \
- utilities/boolean.h position/position.h pylang.h pieces/walks/vectors.h \
- stipulation/goals/goals.h py.h solving/move_generator.h solving/solve.h \
- stipulation/slice_type.h solving/observation.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- debugging/trace.h pydata.h pyproc.h
+ utilities/boolean.h utilities/enumeration.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h py.h \
+ utilities/boolean.h position/position.h pylang.h \
+ solving/move_generator.h solving/solve.h stipulation/slice_type.h \
+ solving/observation.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
+ pyproc.h
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -26,7 +27,9 @@ utilities/enumeration.h:
 
 pyproc.h:
 
-py4.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 
 py.h:
 
@@ -35,12 +38,6 @@ utilities/boolean.h:
 position/position.h:
 
 pylang.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
 
 solving/move_generator.h:
 
@@ -72,7 +69,7 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  conditions/transmuting_kings/super.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h stipulation/branch.h \
@@ -106,10 +103,6 @@ pylang.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

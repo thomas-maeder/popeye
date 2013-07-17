@@ -3,7 +3,7 @@ stipulation/goals/doublemate/filter$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/filter.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h stipulation/conditional_pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
@@ -37,10 +37,6 @@ pylang.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 
@@ -76,7 +72,7 @@ stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/reached_tester.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h stipulation/proxy.h \
@@ -112,10 +108,6 @@ pylang.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

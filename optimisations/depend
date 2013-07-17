@@ -6,7 +6,7 @@ optimisations/immobility_tester_king_first$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- solving/solve.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ solving/solve.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h conditions/mummer.h stipulation/proxy.h \
  stipulation/pipe.h stipulation/branch.h stipulation/boolean/and.h \
  solving/king_move_generator.h solving/non_king_move_generator.h \
@@ -52,10 +52,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -79,7 +75,7 @@ optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  optimisations/keepmating.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
@@ -113,10 +109,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -148,7 +140,7 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  utilities/boolean.h utilities/enumeration.h pylang.h solving/solve.h \
  pymsg.h pyproof.h py.h stipulation/slice.h stipulation/slice_type.h \
  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pieces/walks/pawns/en_passant.h \
- pyproc.h py4.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
  solving/move_effect_journal.h position/pieceid.h conditions/imitator.h \
  position/position.h options/nontrivial.h solving/avoid_unsolvable.h \
@@ -202,8 +194,6 @@ DHT/dht.h:
 pieces/walks/pawns/en_passant.h:
 
 pyproc.h:
-
-py4.h:
 
 pieces/walks/vectors.h:
 
@@ -265,11 +255,11 @@ pyproc.h:
 optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  optimisations/orthodox_square_observation.c \
  optimisations/orthodox_square_observation.h position/board.h \
- utilities/bitmask.h utilities/boolean.h pyproc.h py4.h py.h \
- utilities/boolean.h position/position.h pieces/walks/vectors.h \
- utilities/enumeration.h pylang.h pieces/walks/vectors.h \
- stipulation/goals/goals.h py.h pieces/walks/pawns/en_passant.h \
- solving/solve.h debugging/trace.h pydata.h pyproc.h
+ utilities/bitmask.h utilities/boolean.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
+ pieces/walks/vectors.h utilities/enumeration.h pylang.h \
+ pieces/walks/pawns/en_passant.h solving/solve.h debugging/trace.h \
+ pydata.h pyproc.h
 
 optimisations/orthodox_square_observation.h:
 
@@ -281,7 +271,9 @@ utilities/boolean.h:
 
 pyproc.h:
 
-py4.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 
 py.h:
 
@@ -294,12 +286,6 @@ pieces/walks/vectors.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
 
 pieces/walks/pawns/en_passant.h:
 

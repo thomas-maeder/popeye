@@ -30,10 +30,11 @@ pylang.h:
 
 solving/solve.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \
- platform/maxtime.h utilities/boolean.h pydata.h pyproc.h py4.h py.h \
+ platform/maxtime.h utilities/boolean.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- pylang.h pieces/walks/vectors.h stipulation/goals/goals.h py.h
+ pylang.h
 
 platform/maxtime_impl.h:
 
@@ -45,7 +46,9 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 
 py.h:
 
@@ -62,12 +65,6 @@ pieces/walks/vectors.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
 platform/beep$(OBJ_SUFFIX): platform/beep.c platform/beep.h utilities/boolean.h \
  platform/beep_impl.h
 

@@ -2,13 +2,12 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  conditions/marscirce/marscirce.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pyproc.h py4.h py.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
- solving/move_generator.h stipulation/slice_type.h solving/observation.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
- pyproc.h
+ utilities/enumeration.h pylang.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h solving/move_generator.h \
+ stipulation/slice_type.h solving/observation.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ debugging/trace.h pydata.h pyproc.h
 
 conditions/marscirce/marscirce.h:
 
@@ -33,10 +32,6 @@ utilities/enumeration.h:
 pylang.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 
@@ -69,11 +64,11 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  conditions/marscirce/anti.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pieces/walks/pawns/en_passant.h pyproc.h py4.h py.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
- conditions/marscirce/marscirce.h solving/move_generator.h \
- stipulation/slice_type.h solving/move_effect_journal.h \
- position/pieceid.h stipulation/stipulation.h stipulation/slice.h \
+ pylang.h pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h conditions/marscirce/marscirce.h \
+ solving/move_generator.h stipulation/slice_type.h \
+ solving/move_effect_journal.h position/pieceid.h \
+ stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
@@ -104,10 +99,6 @@ pylang.h:
 pieces/walks/pawns/en_passant.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 
@@ -150,10 +141,9 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  conditions/marscirce/plus.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pyproc.h py4.h py.h pieces/walks/vectors.h \
- stipulation/goals/goals.h conditions/marscirce/marscirce.h \
- solving/move_generator.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
+ pylang.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ conditions/marscirce/marscirce.h solving/move_generator.h \
+ stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
  pyproc.h
@@ -181,10 +171,6 @@ utilities/enumeration.h:
 pylang.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 

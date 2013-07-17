@@ -4,8 +4,8 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h position/pieceid.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
- pylang.h solving/solve.h pieces/walks/pawns/en_passant.h pyproc.h py4.h \
- py.h pieces/walks/vectors.h stipulation/goals/goals.h pyproof.h \
+ pylang.h solving/solve.h pieces/walks/pawns/en_passant.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pyproof.h py.h \
  stipulation/slice.h stipulation/slice_type.h solving/castling.h \
  stipulation/help_play/branch.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/structure_traversal.h \
@@ -56,15 +56,13 @@ pieces/walks/pawns/en_passant.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
 pyproof.h:
+
+py.h:
 
 stipulation/slice.h:
 
@@ -241,7 +239,7 @@ optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h output/mode.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
  optimisations/intelligent/intelligent.h position/position.h \
  position/pieceid.h stipulation/has_solution_type.h debugging/trace.h
@@ -285,10 +283,6 @@ output/mode.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 
@@ -362,7 +356,7 @@ optimisations/intelligent/place_white_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_piece.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h optimisations/intelligent/intelligent.h \
  position/position.h position/pieceid.h stipulation/goals/goals.h \
  solving/solve.h optimisations/intelligent/count_nr_of_moves.h \
@@ -395,10 +389,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -429,7 +419,7 @@ optimisations/intelligent/place_white_king$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_king.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h optimisations/intelligent/intelligent.h \
  position/position.h position/pieceid.h stipulation/goals/goals.h \
  solving/solve.h optimisations/intelligent/count_nr_of_moves.h \
@@ -459,10 +449,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -486,10 +472,11 @@ optimisations/intelligent/place_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/place_black_piece.c \
  optimisations/intelligent/place_black_piece.h position/board.h \
  utilities/bitmask.h position/position.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h pydata.h pyproc.h py4.h py.h \
- utilities/boolean.h position/position.h pylang.h pieces/walks/vectors.h \
- stipulation/goals/goals.h py.h optimisations/intelligent/intelligent.h \
- position/pieceid.h stipulation/goals/goals.h solving/solve.h \
+ utilities/boolean.h utilities/enumeration.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h py.h \
+ utilities/boolean.h position/position.h pylang.h \
+ optimisations/intelligent/intelligent.h position/pieceid.h \
+ stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/intercept_check_by_black.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/pin_black_piece.h \
@@ -517,7 +504,9 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 
 py.h:
 
@@ -526,12 +515,6 @@ utilities/boolean.h:
 position/position.h:
 
 pylang.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
 
 optimisations/intelligent/intelligent.h:
 
@@ -560,13 +543,13 @@ pieces/walks/pawns/promotion.h:
 debugging/trace.h:
 optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/block_flights.c \
- optimisations/intelligent/block_flights.h pydata.h pyproc.h py4.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pieces/walks/vectors.h \
- stipulation/goals/goals.h py.h optimisations/intelligent/intelligent.h \
- position/position.h position/pieceid.h stipulation/goals/goals.h \
- solving/solve.h optimisations/intelligent/intercept_check_by_black.h \
+ optimisations/intelligent/block_flights.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h utilities/boolean.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
+ pylang.h optimisations/intelligent/intelligent.h position/position.h \
+ position/pieceid.h stipulation/goals/goals.h solving/solve.h \
+ optimisations/intelligent/intercept_check_by_black.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/mate/finish.h \
@@ -582,7 +565,11 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 py.h:
 
@@ -596,17 +583,9 @@ utilities/bitmask.h:
 
 pieces/walks/vectors.h:
 
-utilities/boolean.h:
-
 utilities/enumeration.h:
 
 pylang.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
 
 optimisations/intelligent/intelligent.h:
 
@@ -646,7 +625,7 @@ optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h py4.h py.h pieces/walks/vectors.h \
+ pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h optimisations/intelligent/intelligent.h \
  position/position.h position/pieceid.h stipulation/goals/goals.h \
  solving/solve.h optimisations/intelligent/count_nr_of_moves.h \
@@ -680,10 +659,6 @@ pylang.h:
 pydata.h:
 
 pyproc.h:
-
-py4.h:
-
-py.h:
 
 pieces/walks/vectors.h:
 
@@ -725,7 +700,7 @@ optimisations/intelligent/intercept_check_from_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_from_guard.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
  optimisations/intelligent/intelligent.h position/position.h \
  position/pieceid.h stipulation/goals/goals.h solving/solve.h \
@@ -759,10 +734,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -793,7 +764,7 @@ optimisations/intelligent/intercept_check_by_black$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_by_black.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
  optimisations/intelligent/intelligent.h position/position.h \
  position/pieceid.h stipulation/goals/goals.h solving/solve.h \
@@ -828,10 +799,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -864,7 +831,7 @@ optimisations/intelligent/intercept_guard_by_white$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_guard_by_white.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
  optimisations/intelligent/intelligent.h position/position.h \
  position/pieceid.h stipulation/goals/goals.h solving/solve.h \
@@ -899,10 +866,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -933,12 +896,12 @@ debugging/trace.h:
 optimisations/intelligent/intercept_black_move$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_black_move.c \
  optimisations/intelligent/intercept_black_move.h position/board.h \
- utilities/bitmask.h pydata.h pyproc.h py4.h py.h utilities/boolean.h \
- position/position.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pieces/walks/vectors.h \
- stipulation/goals/goals.h py.h optimisations/intelligent/intelligent.h \
- position/position.h position/pieceid.h stipulation/goals/goals.h \
- solving/solve.h optimisations/intelligent/place_white_piece.h \
+ utilities/bitmask.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
+ position/position.h pieces/walks/vectors.h utilities/enumeration.h \
+ pylang.h optimisations/intelligent/intelligent.h position/position.h \
+ position/pieceid.h stipulation/goals/goals.h solving/solve.h \
+ optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
@@ -952,7 +915,11 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 py.h:
 
@@ -962,17 +929,9 @@ position/position.h:
 
 pieces/walks/vectors.h:
 
-utilities/boolean.h:
-
 utilities/enumeration.h:
 
 pylang.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
 
 optimisations/intelligent/intelligent.h:
 
@@ -997,7 +956,7 @@ optimisations/intelligent/pin_black_piece$(OBJ_SUFFIX): \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h optimisations/intelligent/stalemate/immobilise_black.h pydata.h \
- pyproc.h py4.h py.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  optimisations/intelligent/intelligent.h position/position.h \
  position/pieceid.h stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
@@ -1028,10 +987,6 @@ pydata.h:
 
 pyproc.h:
 
-py4.h:
-
-py.h:
-
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
@@ -1055,7 +1010,7 @@ optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h pyproof.h py.h stipulation/slice.h stipulation/slice_type.h \
- pieces/walks/pawns/en_passant.h pyproc.h py4.h pieces/walks/vectors.h \
+ pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h solving/solve.h solving/castling.h \
  solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
  optimisations/intelligent/intelligent.h position/position.h \
@@ -1094,8 +1049,6 @@ stipulation/slice_type.h:
 pieces/walks/pawns/en_passant.h:
 
 pyproc.h:
-
-py4.h:
 
 pieces/walks/vectors.h:
 
