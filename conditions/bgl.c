@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-long int BGL_values[nr_sides][maxply+1];
+long int BGL_values[nr_sides];
 boolean BGL_global;
 
 static long int BGL_move_diff_code[square_h8 - square_a1 + 1] =
@@ -63,10 +63,10 @@ static void do_bgl_adjustment(long int diff)
 
   ++move_effect_journal_top[nbply];
 
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] -= diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] -= diff;
+  if (BGL_values[White]!=BGL_infinity && (BGL_global || trait[nbply] == White))
+    BGL_values[White] -= diff;
+  if (BGL_values[Black]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
+    BGL_values[Black] -= diff;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -89,10 +89,10 @@ void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr
 
   TraceValue("%lu\n",diff);
 
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] += diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] += diff;
+  if (BGL_values[White]!=BGL_infinity && (BGL_global || trait[nbply] == White))
+    BGL_values[White] += diff;
+  if (BGL_values[Black]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
+    BGL_values[Black] += diff;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -115,10 +115,10 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr
 
   TraceValue("%lu\n",diff);
 
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] -= diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] -= diff;
+  if (BGL_values[White]!=BGL_infinity && (BGL_global || trait[nbply] == White))
+    BGL_values[White] -= diff;
+  if (BGL_values[Black]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
+    BGL_values[Black] -= diff;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -149,7 +149,7 @@ stip_length_type bgl_filter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (BGL_values[trait[nbply]][nbply]>=diff)
+  if (BGL_values[trait[nbply]]>=diff)
   {
     do_bgl_adjustment(diff);
     result = solve(slices[si].next1,n);
@@ -176,7 +176,7 @@ static boolean is_observation_valid(square sq_observer,
   TraceEnumerator(Side,sq_observee,"");
   TraceFunctionParamListEnd();
 
-  result = BGL_move_diff_code[diff]<=BGL_values[trait[nbply]][nbply];
+  result = BGL_move_diff_code[diff]<=BGL_values[trait[nbply]];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

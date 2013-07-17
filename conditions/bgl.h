@@ -6,7 +6,7 @@
 
 /* This module implements the BGL condition */
 
-extern long int BGL_values[nr_sides][maxply+1];
+extern long int BGL_values[nr_sides];
 extern boolean BGL_global;
 
 enum

@@ -478,13 +478,13 @@ static void WriteConditions(int alignment)
       char buf2[12];
       if (BGL_global)
       {
-        WriteBGLNumber(buf1, BGL_values[White][1]);
+        WriteBGLNumber(buf1, BGL_values[White]);
         sprintf(CondLine, "%s %s", CondTab[cond], buf1);
       }
       else
       {
-        WriteBGLNumber(buf1, BGL_values[White][1]);
-        WriteBGLNumber(buf2, BGL_values[Black][1]);
+        WriteBGLNumber(buf1, BGL_values[White]);
+        WriteBGLNumber(buf2, BGL_values[Black]);
         sprintf(CondLine, "%s %s/%s", CondTab[cond],buf1,buf2);
       }
     }
@@ -5586,20 +5586,20 @@ static char *ParseCond(void)
       case BGL:
         BGL_global= false;
         tok = ReadNextTokStr();
-        BGL_values[White][1] = ReadBGLNumber(tok,&ptr);
+        BGL_values[White] = ReadBGLNumber(tok,&ptr);
         if (tok == ptr)
         {
-          BGL_values[White][1] = BGL_infinity;
-          BGL_values[Black][1] = BGL_infinity;
+          BGL_values[White] = BGL_infinity;
+          BGL_values[Black] = BGL_infinity;
           return tok;
         }
         else
         {
           tok = ReadNextTokStr();
-          BGL_values[Black][1]= ReadBGLNumber(tok,&ptr);
+          BGL_values[Black]= ReadBGLNumber(tok,&ptr);
           if (tok == ptr)
           {
-            BGL_values[Black][1] = BGL_values[White][1];
+            BGL_values[Black] = BGL_values[White];
             BGL_global= true;
             return tok;
           }

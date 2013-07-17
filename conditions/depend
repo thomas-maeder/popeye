@@ -6,7 +6,7 @@ conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h \
- optimisations/goals/mate/neutralretractable.h pymsg.h pydata.h pyproc.h \
+ optimisations/detect_retraction.h pymsg.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
  stipulation/branch.h debugging/trace.h
@@ -51,7 +51,7 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-optimisations/goals/mate/neutralretractable.h:
+optimisations/detect_retraction.h:
 
 pymsg.h:
 
@@ -82,7 +82,7 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  pieces/walks/vectors.h stipulation/goals/goals.h pylang.h \
  stipulation/has_solution_type.h pymsg.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- optimisations/goals/mate/neutralretractable.h stipulation/pipe.h \
+ optimisations/detect_retraction.h stipulation/pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/temporary_hacks.h \
  solving/post_move_iteration.h solving/move_effect_journal.h \
@@ -140,7 +140,7 @@ pymsg.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
-optimisations/goals/mate/neutralretractable.h:
+optimisations/detect_retraction.h:
 
 stipulation/pipe.h:
 

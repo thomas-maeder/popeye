@@ -167,8 +167,6 @@ static void initply(ply parent, ply child)
   */
   StrictSAT[Black][child] = StrictSAT[Black][parent];
   StrictSAT[White][child] = StrictSAT[White][parent];
-  BGL_values[White][child] = BGL_values[White][parent];
-  BGL_values[Black][child] = BGL_values[Black][parent];
 
   magic_views_top[child] = magic_views_top[child-1];
 
@@ -202,8 +200,6 @@ static void do_copyply(ply original, ply copy)
   */
   StrictSAT[Black][copy] = StrictSAT[Black][parent_ply[original]];
   StrictSAT[White][copy] = StrictSAT[White][parent_ply[original]];
-  BGL_values[White][copy] = BGL_values[White][parent_ply[original]];
-  BGL_values[Black][copy] = BGL_values[Black][parent_ply[original]];
 
   magic_views_top[copy] = magic_views_top[copy-1];
 
@@ -364,8 +360,8 @@ void InitCond(void)
   OscillatingKingsTypeC[White]= false;
   OscillatingKingsTypeC[Black]= false;
 
-  BGL_values[White][1] = BGL_infinity;
-  BGL_values[Black][1] = BGL_infinity;
+  BGL_values[White] = BGL_infinity;
+  BGL_values[Black] = BGL_infinity;
   BGL_global= false;
 
   calc_reflective_king[White] = false;

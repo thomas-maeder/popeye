@@ -538,13 +538,13 @@ static void write_bgl_status(move_context *context)
 
   next_context(context," (",")");
 
-  WriteBGLNumber(buf,BGL_values[White][nbply]);
+  WriteBGLNumber(buf,BGL_values[White]);
   StdString(buf);
 
   if (!BGL_global)
   {
     StdString("/");
-    WriteBGLNumber(buf,BGL_values[Black][nbply]);
+    WriteBGLNumber(buf,BGL_values[Black]);
     StdString(buf);
   }
 }

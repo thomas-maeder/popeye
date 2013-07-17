@@ -1173,7 +1173,7 @@ static unsigned int TellLargeEncodePosLeng(void)
     }
 
   if (CondFlag[BGL])
-    len+= sizeof BGL_values[White][1] + sizeof BGL_values[Black][1];
+    len += sizeof BGL_values[White] + sizeof BGL_values[Black];
 
   len += nr_ghosts*bytes_per_piece;
 
@@ -1322,10 +1322,10 @@ byte *CommonEncode(byte *bp,
   *bp++ = castling_flag[nbply];     /* Castling_Flag */
 
   if (CondFlag[BGL]) {
-    memcpy(bp, &BGL_values[White][nbply], sizeof BGL_values[White][nbply]);
-    bp += sizeof BGL_values[White][nbply];
-    memcpy(bp, &BGL_values[Black][nbply], sizeof BGL_values[Black][nbply]);
-    bp += sizeof BGL_values[Black][nbply];
+    memcpy(bp, &BGL_values[White], sizeof BGL_values[White]);
+    bp += sizeof BGL_values[White];
+    memcpy(bp, &BGL_values[Black], sizeof BGL_values[Black]);
+    bp += sizeof BGL_values[Black];
   }
 
   if (CondFlag[disparate])
