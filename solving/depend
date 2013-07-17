@@ -2157,13 +2157,14 @@ solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  solving/king_capture_avoider.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h stipulation/has_solution_type.h \
- stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
- stipulation/pipe.h stipulation/proxy.h stipulation/help_play/branch.h \
+ pylang.h solving/move_effect_journal.h position/pieceid.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h stipulation/pipe.h \
+ stipulation/proxy.h stipulation/help_play/branch.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- debugging/trace.h
+ debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h
 
 solving/king_capture_avoider.h:
 
@@ -2187,13 +2188,9 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pydata.h:
+solving/move_effect_journal.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+position/pieceid.h:
 
 stipulation/has_solution_type.h:
 
@@ -2220,6 +2217,14 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
  solving/recursion_stopper.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \

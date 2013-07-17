@@ -1861,9 +1861,6 @@ static boolean verify_position(slice_index si)
   if (CondFlag[chamcirce])
     chameleon_circe_init_implicit();
 
-  prev_king_square[White][1] = king_square[White];
-  prev_king_square[Black][1] = king_square[Black];
-
   if (CondFlag[SAT] || CondFlag[strictSAT])
     disable_orthodox_mating_move_optimisation(nr_sides);
 

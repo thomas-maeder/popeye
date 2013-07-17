@@ -89,11 +89,6 @@ EXTERN char versionString[100];
 
 EXTERN square royal_square[nr_sides];
 
-EXTERN  square          ppridia[maxply + 1];
-
-EXTERN square prev_king_square[nr_sides][maxply+1];
-
-EXTERN  square          pattfld, patti, pattj;
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 EXTERN  ply             nbply;

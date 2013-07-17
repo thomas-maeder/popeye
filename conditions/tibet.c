@@ -9,6 +9,24 @@
 
 #include <assert.h>
 
+static boolean is_king_moving(Side side)
+{
+  boolean result = false;
+
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_king_square_movement)
+    {
+      result = move_effect_journal[curr].u.king_square_movement.side==side;
+      break;
+    }
+
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -28,7 +46,6 @@ stip_length_type double_tibet_solve(slice_index si, stip_length_type n)
   move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
@@ -38,7 +55,7 @@ stip_length_type double_tibet_solve(slice_index si, stip_length_type n)
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
       && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.removed
-      && sq_departure!=prev_king_square[slices[si].starter][nbply])
+      && !is_king_moving(slices[si].starter))
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);
@@ -94,7 +111,7 @@ stip_length_type tibet_solve(slice_index si, stip_length_type n)
   if (slices[si].starter==Black
       && move_effect_journal[capture].type==move_effect_piece_removal
       && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.removed
-      && sq_departure!=prev_king_square[Black][nbply])
+      && !is_king_moving(Black))
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);

@@ -9,6 +9,24 @@
 
 #include <assert.h>
 
+static boolean is_king_moving(void)
+{
+  boolean result = false;
+
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_king_square_movement)
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -30,7 +48,7 @@ stip_length_type degradierung_degrader_solve(slice_index si,
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  PieNam const pi_played = get_walk_of_piece_on_square(sq_arrival);
+  PieNam const pi_played = move_effect_journal[movement].u.piece_movement.moving;
   SquareFlags const double_step = slices[si].starter==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
   TraceFunctionEntry(__func__);
@@ -40,9 +58,7 @@ stip_length_type degradierung_degrader_solve(slice_index si,
 
   assert(pi_played!=Empty);
 
-  if (!is_pawn(pi_played)
-      && sq_departure!=prev_king_square[Black][nbply]
-      && sq_departure!=prev_king_square[White][nbply]
+  if (!is_pawn(pi_played) && !is_king_moving()
       && TSTFLAG(sq_spec[sq_arrival],double_step))
     move_effect_journal_do_piece_change(move_effect_reason_degradierung,
                                         sq_arrival,

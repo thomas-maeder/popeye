@@ -1,13 +1,32 @@
 #include "conditions/chameleon_pursuit.h"
-#include "pydata.h"
 #include "conditions/andernach.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
+
+static boolean is_king_moving(void)
+{
+  boolean result = false;
+
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_king_square_movement)
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -35,9 +54,7 @@ stip_length_type chameleon_pursuit_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_arrival==sq_last_departure
-      && sq_departure!=prev_king_square[Black][nbply]
-      && sq_departure!=prev_king_square[White][nbply])
+  if (sq_arrival==sq_last_departure && !is_king_moving())
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);

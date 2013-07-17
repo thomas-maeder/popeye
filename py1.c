@@ -154,9 +154,6 @@ static void initply(ply parent, ply child)
   /* child -1 is correct and parent would be wrong! */
   move_effect_journal_top[child] = move_effect_journal_top[child-1];
 
-  prev_king_square[White][nbply] = king_square[White];
-  prev_king_square[Black][nbply] = king_square[Black];
-
   /*
     start with the castling rights of the parent level
   */
@@ -186,9 +183,6 @@ static void do_copyply(ply original, ply copy)
   trait[copy] = trait[original];
 
   move_effect_journal_top[copy] = move_effect_journal_top[copy-1];
-
-  prev_king_square[White][nbply] = prev_king_square[White][parent_ply[original]];
-  prev_king_square[Black][nbply] = prev_king_square[Black][parent_ply[original]];
 
   /*
     start with the castling rights of the parent level

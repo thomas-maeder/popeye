@@ -1728,13 +1728,13 @@ conditions/chameleon_pursuit$(OBJ_SUFFIX): conditions/chameleon_pursuit.c \
  conditions/chameleon_pursuit.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h conditions/andernach.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
+ pylang.h conditions/andernach.h solving/move_effect_journal.h \
+ position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- debugging/trace.h
+ debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h
 
 conditions/chameleon_pursuit.h:
 
@@ -1758,15 +1758,11 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
 conditions/andernach.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 stipulation/pipe.h:
 
@@ -1789,6 +1785,14 @@ output/mode.h:
 stipulation/move.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h solving/solve.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \

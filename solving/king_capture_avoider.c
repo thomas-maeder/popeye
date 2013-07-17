@@ -1,11 +1,12 @@
 #include "solving/king_capture_avoider.h"
-#include "pydata.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -118,6 +119,22 @@ void stip_insert_king_capture_avoiders(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static boolean is_king_captured(Side side)
+{
+  boolean result = false;
+
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_king_square_movement
+        && move_effect_journal[curr].u.king_square_movement.side==side)
+      result = move_effect_journal[curr].u.king_square_movement.to==initsquare;
+
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -142,8 +159,7 @@ stip_length_type own_king_capture_avoider_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (king_square[starter]==initsquare
-      && prev_king_square[starter][parent_ply[nbply]]!=initsquare)
+  if (is_king_captured(starter))
     result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);
@@ -177,7 +193,7 @@ stip_length_type opponent_king_capture_avoider_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (king_square[advers(slices[si].starter)]==initsquare)
+  if (is_king_captured(advers(slices[si].starter)))
     result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);

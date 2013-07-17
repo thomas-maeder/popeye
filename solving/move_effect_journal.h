@@ -141,11 +141,6 @@ typedef struct
         } piece_exchange;
         struct
         {
-            Side side;
-            square from;
-        } king_square_removal;
-        struct
-        {
             square on;
             Side to;
         } side_change;

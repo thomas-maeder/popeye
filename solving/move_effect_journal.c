@@ -1196,7 +1196,7 @@ static void undo_king_square_movement(move_effect_journal_index_type curr)
 
 static void redo_king_square_movement(move_effect_journal_index_type curr)
 {
-  Side const side = move_effect_journal[curr].u.king_square_removal.side;
+  Side const side = move_effect_journal[curr].u.king_square_movement.side;
   square const to = move_effect_journal[curr].u.king_square_movement.to;
 
   TraceFunctionEntry(__func__);

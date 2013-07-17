@@ -7,6 +7,24 @@
 
 #include <assert.h>
 
+static boolean is_king_moving(void)
+{
+  boolean result = false;
+
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_king_square_movement)
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -30,8 +48,6 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
   PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  square const prev_rb = prev_king_square[White][nbply];
-  square const prev_rn = prev_king_square[Black][nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -42,10 +58,10 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
 
   current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
 
-  if (sq_departure!=prev_rn && sq_departure!=prev_rb)
-    current_circe_reborn_piece[nbply] = pi_departing;
-  else
+  if (is_king_moving())
     current_circe_reborn_piece[nbply] = pi_captured;
+  else
+    current_circe_reborn_piece[nbply] = pi_departing;
 
   result = solve(slices[si].next1,n);
 

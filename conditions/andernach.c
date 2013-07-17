@@ -26,6 +26,24 @@ void andernach_assume_side(Side side)
     move_effect_journal_do_side_change(move_effect_reason_andernach_chess,pos);
 }
 
+static boolean is_king_moving(void)
+{
+  boolean result = false;
+
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type curr;
+
+  for (curr = base; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_king_square_movement)
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -54,8 +72,7 @@ stip_length_type andernach_side_changer_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && sq_departure!=prev_king_square[Black][nbply]
-      && sq_departure!=prev_king_square[White][nbply])
+      && !is_king_moving())
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);
