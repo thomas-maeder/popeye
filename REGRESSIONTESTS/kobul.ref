@@ -407,9 +407,9 @@ solution finished.
   1.nrSd5-c3 nGb3-d3   2.nrSc3-e2 Lh7*d3-c2[e2=rG] #
 
   add_to_move_generation_stack:        1424
-                     play_move:         912
+                     play_move:         909
  is_white_king_square_attacked:         168
- is_black_king_square_attacked:         858
+ is_black_king_square_attacked:         752
 solution finished. 
 
 

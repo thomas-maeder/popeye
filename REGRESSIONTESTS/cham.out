@@ -309,9 +309,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:       17983
-                     play_move:       12638
+                     play_move:       12637
  is_white_king_square_attacked:        1030
- is_black_king_square_attacked:       12641
+ is_black_king_square_attacked:       12638
 Loesung beendet. 
 
 
@@ -571,9 +571,9 @@ Loesung beendet.
   1.cSd8-f7=cL ncSb5-d6=ncL   2.ncLd6-c7=ncT nBa7-a8=nS=nc #
 
   add_to_move_generation_stack:      132630
-                     play_move:       99777
+                     play_move:       99695
  is_white_king_square_attacked:       17306
- is_black_king_square_attacked:       99436
+ is_black_king_square_attacked:       99231
 Loesung beendet. 
 
 

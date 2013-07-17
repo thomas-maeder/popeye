@@ -4282,9 +4282,9 @@ Loesung beendet.
   1.nBd2-d1=nT e7-e8=S   2.nTd1-d2 h7-h8=D   3.nBc2-c1=nL Dh8-b2 =
 
   add_to_move_generation_stack:    43405761
-                     play_move:     5355101
- is_white_king_square_attacked:     4897422
- is_black_king_square_attacked:     5112667
+                     play_move:     5031978
+ is_white_king_square_attacked:     3971218
+ is_black_king_square_attacked:     4017640
 Loesung beendet. 
 
 
@@ -4846,9 +4846,9 @@ Loesung beendet.
  14  (Kf8-g8 )
 
   add_to_move_generation_stack:      893150
-                     play_move:      132777
- is_white_king_square_attacked:      124476
- is_black_king_square_attacked:      123763
+                     play_move:      129271
+ is_white_king_square_attacked:      108810
+ is_black_king_square_attacked:      106228
 Loesung beendet. 
 
 

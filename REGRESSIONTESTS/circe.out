@@ -367,9 +367,9 @@ Loesung beendet.
   1.nBe2-e1=nLI nBe7-e8=nLI   2.nBf2*e1=nLI nBf7*e8=nLI =
 
   add_to_move_generation_stack:      605961
-                     play_move:      404932
+                     play_move:      404270
  is_white_king_square_attacked:      152301
- is_black_king_square_attacked:      369400
+ is_black_king_square_attacked:      366662
 Loesung beendet. 
 
 
@@ -403,9 +403,9 @@ Loesung beendet.
   1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI[+nCAd1] #
 
   add_to_move_generation_stack:       57032
-                     play_move:       45447
+                     play_move:       45445
  is_white_king_square_attacked:        5413
- is_black_king_square_attacked:       45406
+ is_black_king_square_attacked:       45382
 Loesung beendet. 
 
 

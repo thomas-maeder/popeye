@@ -146,9 +146,9 @@ b) nBBc2   wKa5-->d1
   1.nBBc2-b1=nL b7-b8=D   2.nLb1-a2 Db8-b3 #
 
   add_to_move_generation_stack:       17511
-                     play_move:       14333
+                     play_move:       14331
  is_white_king_square_attacked:        1771
- is_black_king_square_attacked:       14217
+ is_black_king_square_attacked:       14210
 Loesung beendet. 
 
 

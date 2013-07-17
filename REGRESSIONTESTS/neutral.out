@@ -27,10 +27,10 @@
 
   1.nDb7-b8 nKa4-a5 +   2.nKa5-a6 nSa2-c3   3.nSc3-b5 nBc4*b5 #
 
-  add_to_move_generation_stack:      368896
-                     play_move:      227356
- is_white_king_square_attacked:       40676
- is_black_king_square_attacked:      194901
+  add_to_move_generation_stack:      384103
+                     play_move:      366842
+ is_white_king_square_attacked:      175226
+ is_black_king_square_attacked:      334367
 Loesung beendet. 
 
 
@@ -68,7 +68,7 @@ Loesung beendet.
   add_to_move_generation_stack:        2448
                      play_move:        1099
  is_white_king_square_attacked:         424
- is_black_king_square_attacked:        1102
+ is_black_king_square_attacked:        1101
 Loesung beendet. 
 
 
@@ -101,18 +101,18 @@ a)
 
   1.nBa2-a1=nS nSa1-b3   2.nBc3-c2 nBc2*b3 #
 
-  add_to_move_generation_stack:       37124
-                     play_move:       15342
- is_white_king_square_attacked:        1222
- is_black_king_square_attacked:       14610
+  add_to_move_generation_stack:       43028
+                     play_move:       39880
+ is_white_king_square_attacked:       23630
+ is_black_king_square_attacked:       39135
 b) nBc3-->c2
 
   1.nBc2-c1=nT nTc1-c3   2.nTc3-b3 nBa2*b3 #
 
-  add_to_move_generation_stack:       57320
-                     play_move:       20514
- is_white_king_square_attacked:        1419
- is_black_king_square_attacked:       19682
+  add_to_move_generation_stack:       69901
+                     play_move:       65460
+ is_white_king_square_attacked:       40712
+ is_black_king_square_attacked:       64558
 Loesung beendet. 
 
 
@@ -198,10 +198,10 @@ Loesung beendet.
                               4...nDh2*b8 #
 
 
-  add_to_move_generation_stack:      993039
-                     play_move:      353876
- is_white_king_square_attacked:      102785
- is_black_king_square_attacked:      297233
+  add_to_move_generation_stack:      868559
+                     play_move:      313538
+ is_white_king_square_attacked:       83404
+ is_black_king_square_attacked:      252144
 Loesung beendet. 
 
 
@@ -234,9 +234,9 @@ Loesung beendet.
   1...nSBf2-f8=nS   2.nSBb4-b1=nL nSBe2-e8=nT   3.nLb1-g6 nSBa3*f8=nD #
 
   add_to_move_generation_stack:      276980
-                     play_move:      207696
+                     play_move:      207686
  is_white_king_square_attacked:       25244
- is_black_king_square_attacked:      204274
+ is_black_king_square_attacked:      204140
 Loesung beendet. 
 
 
@@ -271,9 +271,9 @@ Loesung beendet.
   1.nBBb7-c8=nT   2.nBBa7-b8=nL   3.nTc8-e8   4.nBf7*e8=nD[+nTf7] #
 
   add_to_move_generation_stack:       55410
-                     play_move:       25705
+                     play_move:       25701
  is_white_king_square_attacked:        9413
- is_black_king_square_attacked:       22765
+ is_black_king_square_attacked:       22755
 Loesung beendet. 
 
 
@@ -312,10 +312,10 @@ Loesung beendet.
                           4.nBb7*c8=nD #
 
 
-  add_to_move_generation_stack:      332376
-                     play_move:      201814
- is_white_king_square_attacked:       32884
- is_black_king_square_attacked:      192994
+  add_to_move_generation_stack:      297484
+                     play_move:      182519
+ is_white_king_square_attacked:       29442
+ is_black_king_square_attacked:      170588
 Loesung beendet. 
 
 
@@ -354,10 +354,10 @@ Loesung beendet.
                           4.nBBa7*a8=nL #
 
 
-  add_to_move_generation_stack:     2103471
-                     play_move:     1075328
- is_white_king_square_attacked:      161915
- is_black_king_square_attacked:     1041111
+  add_to_move_generation_stack:     2014769
+                     play_move:     1038651
+ is_white_king_square_attacked:      155391
+ is_black_king_square_attacked:      987589
 Loesung beendet. 
 
 
@@ -396,10 +396,10 @@ Loesung beendet.
                           4.nBd7-d8=nS #
 
 
-  add_to_move_generation_stack:      577400
-                     play_move:      307766
- is_white_king_square_attacked:       47337
- is_black_king_square_attacked:      296307
+  add_to_move_generation_stack:      536471
+                     play_move:      288155
+ is_white_king_square_attacked:       43843
+ is_black_king_square_attacked:      271258
 Loesung beendet. 
 
 
@@ -435,7 +435,7 @@ a)
   add_to_move_generation_stack:     1181349
                      play_move:      874906
  is_white_king_square_attacked:       88997
- is_black_king_square_attacked:      873649
+ is_black_king_square_attacked:      873646
 b) sLe3-->f6
 
   1.Kd5-e5 Se2-d4   2.nSBh4-h1=nL nSBb4-b8=nL #
@@ -443,15 +443,15 @@ b) sLe3-->f6
   add_to_move_generation_stack:     1027539
                      play_move:      753089
  is_white_king_square_attacked:       78226
- is_black_king_square_attacked:      751945
+ is_black_king_square_attacked:      751939
 c) sKd5-->g6
 
   1.Kg6-h6 Se2-g3   2.nSBb4-b1=nL nSBf2-f8=nL #
 
   add_to_move_generation_stack:     1231539
-                     play_move:      895666
+                     play_move:      895663
  is_white_king_square_attacked:       95163
- is_black_king_square_attacked:      894366
+ is_black_king_square_attacked:      894333
 Loesung beendet. 
 
 
@@ -487,10 +487,10 @@ Loesung beendet.
   1...nKc2-b1[+wBc2]   2.nKb1-a2 nKa2-b2[+wBa2]   3.nKb2-b3[+sBb2] + nKb3-b4[+wBb3]   4.nKb4-b5[+sBb4] b2-b1=S   5.c2-c3 Sb1*c3 +   6.nKb5*b4[+sBb5] nKb4-a3[+wBb4] =
   1...nKc2-b2[+wBc2]   2.nKb2-a3[+sBb2] b2-b1=D   3.c2-c3 Db1-b7   4.nKa3-a2[+sBa3] Db7-c8[+wBb7]   5.b7-b8=D Dc8*c3   6.Db8-b1 + nKa2*b1[+wBa2] =
 
-  add_to_move_generation_stack:  1119424888
-                     play_move:   429097670
- is_white_king_square_attacked:   335180745
- is_black_king_square_attacked:   255450355
+  add_to_move_generation_stack:  1096548534
+                     play_move:   424151497
+ is_white_king_square_attacked:   326489850
+ is_black_king_square_attacked:   249729184
 Loesung beendet. 
 
 

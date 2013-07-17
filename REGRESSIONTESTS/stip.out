@@ -1335,9 +1335,9 @@ Loesung beendet.
   1.nBb7-b8=nL   2.nBa7*b8=nS[+nLf8]   3.nBh7-h8=nT   4.nBg7*f8=nD #
 
   add_to_move_generation_stack:       66379
-                     play_move:       52539
+                     play_move:       52472
  is_white_king_square_attacked:       12565
- is_black_king_square_attacked:       53675
+ is_black_king_square_attacked:       53595
 Loesung beendet. 
 
 

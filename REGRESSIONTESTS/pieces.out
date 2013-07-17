@@ -1422,9 +1422,9 @@ Loesung beendet.
   1...nRDe1-c3   2.Kf6-g7 nRDd5-g8 +   3.Kg7-h8 Kd4-c5 #
 
   add_to_move_generation_stack:    29232281
-                     play_move:    24503498
+                     play_move:    24501009
  is_white_king_square_attacked:     1833160
- is_black_king_square_attacked:    24415586
+ is_black_king_square_attacked:    24394087
 Loesung beendet. 
 
 

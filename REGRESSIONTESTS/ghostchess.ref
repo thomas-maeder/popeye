@@ -1035,9 +1035,9 @@ Problemesis 2002, 2\`eme Mention d'Honneur
   1.Bc7-g3 nPg7-g8=nQ   2.nQg8-b8 nPa7*b8=nS   3.Ke7-d8 nSb8-c6[+nuQb8] #
 
   add_to_move_generation_stack:     3927844
-                     play_move:     2014358
+                     play_move:     2014301
  is_white_king_square_attacked:      556694
- is_black_king_square_attacked:     1966901
+ is_black_king_square_attacked:     1966537
 solution finished. 
 
 
@@ -1072,9 +1072,9 @@ solution finished.
   1...nPd7-d8=nB   2.Ra5-a6 nPc7*d8=nS   3.Kb6-a5 nSd8-c6[+nuBd8] #
 
   add_to_move_generation_stack:      400534
-                     play_move:      208324
+                     play_move:      208208
  is_white_king_square_attacked:       59133
- is_black_king_square_attacked:      205469
+ is_black_king_square_attacked:      205076
 solution finished. 
 
 
@@ -1248,9 +1248,9 @@ Jacques Rotenberg & Christian Poisson
   1.nPf2*e1=nR nPf7*e8=nB +   2.nRe1*e8[+nuRe1] + nRe8-d8[+nuBe8] #
 
   add_to_move_generation_stack:      223742
-                     play_move:      121850
+                     play_move:      121841
  is_white_king_square_attacked:       31341
- is_black_king_square_attacked:      120997
+ is_black_king_square_attacked:      120642
 solution finished. 
 
 
@@ -1286,17 +1286,17 @@ a)
   1.nRe1*c1 nSe2-c3 +   2.nRc1*c3[+nuBc1] nRc3-a3[+nuSc3] #
 
   add_to_move_generation_stack:       57830
-                     play_move:       29027
+                     play_move:       29021
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       28592
+ is_black_king_square_attacked:       28574
 b) nBc1-->d2
 
   1.nBd2-c3 nSe2-c1 +   2.nRe1*c1 nRc1-a1[+nuSc1] #
 
   add_to_move_generation_stack:       73954
-                     play_move:       36535
+                     play_move:       36528
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       35970
+ is_black_king_square_attacked:       35940
 solution finished. 
 
 

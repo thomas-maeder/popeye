@@ -171,10 +171,10 @@ Loesung beendet.
                           4.Lh1*f3 #
 
 
-  add_to_move_generation_stack:      142692
-                     play_move:       65383
- is_white_king_square_attacked:       19703
- is_black_king_square_attacked:       64449
+  add_to_move_generation_stack:      150368
+                     play_move:       73839
+ is_white_king_square_attacked:       20073
+ is_black_king_square_attacked:       71818
 Loesung beendet. 
 
 

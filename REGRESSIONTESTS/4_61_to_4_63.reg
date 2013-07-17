@@ -277,18 +277,18 @@ a)
   1.nRg8-f8 nRf8-f5   2.Be8-f7 nRf5-h5 +   3.Qg6-g5 Ke7*f7 #
 
   add_to_move_generation_stack:     2393145
-                     play_move:     2147106
+                     play_move:     2145718
  is_white_king_square_attacked:      185502
- is_black_king_square_attacked:     2122059
+ is_black_king_square_attacked:     2119549
 b) bBe8-->h8
 
   1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
   1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
 
   add_to_move_generation_stack:     4065413
-                     play_move:     3666950
+                     play_move:     3663288
  is_white_king_square_attacked:      309625
- is_black_king_square_attacked:     3611419
+ is_black_king_square_attacked:     3605673
 solution finished. 
 
 
@@ -322,7 +322,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
   add_to_move_generation_stack:          66
                      play_move:          41
  is_white_king_square_attacked:           4
- is_black_king_square_attacked:          42
+ is_black_king_square_attacked:          41
 solution finished. 
 
 
@@ -408,7 +408,7 @@ a)
   add_to_move_generation_stack:          26
                      play_move:          20
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:          21
+ is_black_king_square_attacked:          20
 b) +wSa8 
 
   1...Rh3-a3 #
@@ -416,7 +416,7 @@ b) +wSa8
   add_to_move_generation_stack:          53
                      play_move:          44
  is_white_king_square_attacked:           3
- is_black_king_square_attacked:          45
+ is_black_king_square_attacked:          43
 solution finished. 
 
 
@@ -450,9 +450,9 @@ Sentinelle insertion would occur before rebirth, which caused
   1.nKd5*c6[+wPb7] b7-b8=R   2.nKc6-c7[+wPc6] nKc7-c8[+bPc7] #
 
   add_to_move_generation_stack:        3274
-                     play_move:        2398
+                     play_move:        2341
  is_white_king_square_attacked:         289
- is_black_king_square_attacked:        2345
+ is_black_king_square_attacked:        2207
 solution finished. 
 
 
@@ -741,9 +741,9 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
   add_to_move_generation_stack:     1058816
-                     play_move:      673819
+                     play_move:      671147
  is_white_king_square_attacked:       85491
- is_black_king_square_attacked:      672910
+ is_black_king_square_attacked:      667121
 solution finished. 
 
 
