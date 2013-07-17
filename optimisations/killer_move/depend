@@ -214,13 +214,13 @@ optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  optimisations/killer_move/prioriser.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ utilities/enumeration.h pylang.h solving/move_generator.h \
+ stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h optimisations/killer_move/killer_move.h \
- debugging/trace.h
+ debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h
 
 optimisations/killer_move/prioriser.h:
 
@@ -244,19 +244,13 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pydata.h:
+solving/move_generator.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+stipulation/slice_type.h:
 
 stipulation/stipulation.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/structure_traversal.h:
 
@@ -273,3 +267,11 @@ stipulation/pipe.h:
 optimisations/killer_move/killer_move.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:

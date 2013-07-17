@@ -169,7 +169,8 @@
     ENUMERATOR(STChess81RemoveNonReachers),                             \
     ENUMERATOR(STCaptureRemoveNonReachers),                             \
     ENUMERATOR(STTargetRemoveNonReachers),                              \
-    ENUMERATOR(STMateRemoveRetractable),                                \
+    ENUMERATOR(STDetectMoveRetracted),                                  \
+    ENUMERATOR(STRetractionPrioriser),                                  \
     ENUMERATOR(STUncapturableRemoveCaptures),                           \
     ENUMERATOR(STNocatpureRemoveCaptures),                              \
     ENUMERATOR(STWoozlesRemoveIllegalCaptures),                         \

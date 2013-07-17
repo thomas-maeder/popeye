@@ -562,3 +562,18 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
     current_move[nbply] = last_unique_move;
   }
 }
+
+/* Priorise a move in the move generation stack
+ * @param priorised index in the move generation stack of the move to be
+ *                  priorised
+ */
+void move_generator_priorise(numecoup priorised)
+{
+  /* we move the priorised move one position too far and then shift back one
+   * move too many */
+  move_generation_stack[current_move[nbply]+1] = move_generation_stack[priorised];
+  memmove(&move_generation_stack[priorised],
+          &move_generation_stack[priorised+1],
+          (current_move[nbply]+1-priorised)
+          * sizeof move_generation_stack[priorised]);
+}

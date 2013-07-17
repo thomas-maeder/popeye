@@ -1,6 +1,6 @@
 #include "conditions/exclusive.h"
 #include "stipulation/stipulation.h"
-#include "optimisations/goals/mate/neutralretractable.h"
+#include "optimisations/detect_retraction.h"
 #include "pymsg.h"
 #include "pydata.h"
 #include "stipulation/pipe.h"
@@ -44,7 +44,6 @@ boolean exclusive_verifie_position(slice_index si)
   else
   {
     exclusive_goal = goal;
-    optim_neutralretractable = false;
     result = true;
   }
 

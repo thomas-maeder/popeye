@@ -68,4 +68,10 @@ void add_to_move_generation_stack(square sq_departure,
  */
 void remove_duplicate_moves_of_single_piece(numecoup start);
 
+/* Priorise a move in the move generation stack
+ * @param priorised index in the move generation stack of the move to be
+ *                  priorised
+ */
+void move_generator_priorise(numecoup priorised);
+
 #endif

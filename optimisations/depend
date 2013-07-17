@@ -141,8 +141,8 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  pymsg.h pyproof.h py.h stipulation/slice.h stipulation/slice_type.h \
  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pieces/walks/pawns/en_passant.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
- solving/move_effect_journal.h position/pieceid.h conditions/imitator.h \
+ conditions/bgl.h solving/move_effect_journal.h position/pieceid.h \
+ conditions/duellists.h conditions/haunted_chess.h conditions/imitator.h \
  position/position.h options/nontrivial.h solving/avoid_unsolvable.h \
  solving/castling.h stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
@@ -201,13 +201,13 @@ stipulation/goals/goals.h:
 
 conditions/bgl.h:
 
-conditions/duellists.h:
-
-conditions/haunted_chess.h:
-
 solving/move_effect_journal.h:
 
 position/pieceid.h:
+
+conditions/duellists.h:
+
+conditions/haunted_chess.h:
 
 conditions/imitator.h:
 
@@ -296,3 +296,78 @@ debugging/trace.h:
 pydata.h:
 
 pyproc.h:
+optimisations/detect_retraction$(OBJ_SUFFIX): optimisations/detect_retraction.c \
+ optimisations/detect_retraction.h solving/solve.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h \
+ solving/move_generator.h stipulation/slice_type.h \
+ solving/move_effect_journal.h position/pieceid.h \
+ stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
+ debugging/trace.h
+
+optimisations/detect_retraction.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pyproc.h:
+
+solving/move_generator.h:
+
+stipulation/slice_type.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/pipe.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/proxy.h:
+
+stipulation/branch.h:
+
+debugging/trace.h:

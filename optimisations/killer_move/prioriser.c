@@ -1,10 +1,11 @@
 #include "optimisations/killer_move/prioriser.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <string.h>
@@ -87,13 +88,7 @@ stip_length_type killer_move_prioriser_solve(slice_index si, stip_length_type n)
   killer_index = find_killer_move();
 
   if (killer_index>current_move[nbply-1])
-  {
-    move_generation_stack[current_move[nbply]+1] = move_generation_stack[killer_index];
-    memmove(&move_generation_stack[killer_index],
-            &move_generation_stack[killer_index+1],
-            (current_move[nbply]+1-killer_index)
-            * sizeof move_generation_stack[killer_index]);
-  }
+    move_generator_priorise(killer_index);
 
   result = solve(slices[si].next1,n);
 

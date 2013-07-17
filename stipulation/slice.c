@@ -223,7 +223,8 @@ static slice_type const move_generator_slice_types[] =
 static slice_type const move_reordering_optimiser_slice_types[] =
 {
     STOpponentMovesFewMovesPrioriser,
-    STKillerMovePrioriser
+    STKillerMovePrioriser,
+    STRetractionPrioriser
 };
 
 static slice_type const move_removing_optimiser_slice_types[] =
@@ -232,8 +233,7 @@ static slice_type const move_removing_optimiser_slice_types[] =
     STCastlingRemoveNonReachers,
     STChess81RemoveNonReachers,
     STCaptureRemoveNonReachers,
-    STTargetRemoveNonReachers,
-    STMateRemoveRetractable
+    STTargetRemoveNonReachers
 };
 
 static slice_type const binary_slice_types[] =

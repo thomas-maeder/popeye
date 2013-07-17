@@ -6,7 +6,7 @@
 #include "solving/solve.h"
 #include "pymsg.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "optimisations/goals/mate/neutralretractable.h"
+#include "optimisations/detect_retraction.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
@@ -133,7 +133,6 @@ boolean republican_verifie_position(slice_index si)
       republican_goal = goal;
       OptFlag[sansrn] = true;
       OptFlag[sansrb] = true;
-      optim_neutralretractable = false;
       disable_orthodox_mating_move_optimisation(nr_sides);
       supergenre = true;
       result = true;
