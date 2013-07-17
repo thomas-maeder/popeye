@@ -1,10 +1,10 @@
 #include "conditions/bgl.h"
 #include "pydata.h"
+#include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
-#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -39,6 +39,91 @@ static long int BGL_move_diff_code[square_h8 - square_a1 + 1] =
  /* 7 right up   */       700,  707,  728,  762,  806,  860,  922,  990
 };
 
+/* Adjust the BGL values
+ * @param diff adjustment
+ */
+static void do_bgl_adjustment(long int diff)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%lu",diff);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_bgl_adjustment;
+  top_elmt->reason = move_effect_reason_moving_piece_movement;
+  top_elmt->u.bgl_adjustment.diff = diff;
+ #if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+ #endif
+
+  ++move_effect_journal_top[nbply];
+
+  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
+    BGL_values[White][nbply] -= diff;
+  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
+    BGL_values[Black][nbply] -= diff;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Undo a BGL adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr)
+{
+  long int const diff = move_effect_journal[curr].u.bgl_adjustment.diff;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  TraceValue("%lu\n",diff);
+
+  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
+    BGL_values[White][nbply] += diff;
+  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
+    BGL_values[Black][nbply] += diff;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Redo a BGL adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr)
+{
+  long int const diff = move_effect_journal[curr].u.bgl_adjustment.diff;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  TraceValue("%lu\n",diff);
+
+  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
+    BGL_values[White][nbply] -= diff;
+  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
+    BGL_values[Black][nbply] -= diff;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -64,20 +149,13 @@ stip_length_type bgl_filter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] -= diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] -= diff;
-
-  if (BGL_values[trait[nbply]][nbply]>=0)
+  if (BGL_values[trait[nbply]][nbply]>=diff)
+  {
+    do_bgl_adjustment(diff);
     result = solve(slices[si].next1,n);
+  }
   else
     result = previous_move_is_illegal;
-
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] += diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] += diff;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -532,6 +532,23 @@ static void write_imitator_movement(move_context *context,
   }
 }
 
+static void write_bgl_status(move_context *context)
+{
+  char buf[12];
+
+  next_context(context," (",")");
+
+  WriteBGLNumber(buf,BGL_values[White][nbply]);
+  StdString(buf);
+
+  if (!BGL_global)
+  {
+    StdString("/");
+    WriteBGLNumber(buf,BGL_values[Black][nbply]);
+    StdString(buf);
+  }
+}
+
 static void write_other_effects(move_context *context)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
@@ -585,26 +602,13 @@ static void write_other_effects(move_context *context)
         write_half_neutral_neutralisation(context,curr);
         break;
 
+      case move_effect_bgl_adjustment:
+        write_bgl_status(context);
+        break;
+
       default:
         break;
     }
-}
-
-static void write_bgl_status(move_context *context)
-{
-  char buf[12];
-
-  next_context(context," (",")");
-
-  WriteBGLNumber(buf,BGL_values[White][nbply]);
-  StdString(buf);
-
-  if (!BGL_global)
-  {
-    StdString("/");
-    WriteBGLNumber(buf,BGL_values[Black][nbply]);
-    StdString(buf);
-  }
 }
 
 void output_plaintext_write_move(void)
@@ -621,8 +625,6 @@ void output_plaintext_write_move(void)
   context_open(&context,"","");
   write_regular_move(&context);
   write_other_effects(&context);
-  if (CondFlag[BGL])
-    write_bgl_status(&context);
   context_close(&context);
 }
 

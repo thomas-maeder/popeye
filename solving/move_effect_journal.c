@@ -1,6 +1,7 @@
 #include "solving/move_effect_journal.h"
 #include "pydata.h"
 #include "stipulation/stipulation.h"
+#include "conditions/bgl.h"
 #include "conditions/imitator.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
@@ -1629,6 +1630,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_half_neutral_deneutralisation:
       case move_effect_half_neutral_neutralisation:
       case move_effect_square_block:
+      case move_effect_bgl_adjustment:
         /* nothing */
         break;
 
@@ -1737,6 +1739,10 @@ void redo_move_effects(void)
         redo_square_block(curr);
         break;
 
+      case move_effect_bgl_adjustment:
+        move_effect_journal_redo_bgl_adjustment(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1839,6 +1845,10 @@ void undo_move_effects(void)
 
       case move_effect_square_block:
         undo_square_block(top-1);
+        break;
+
+      case move_effect_bgl_adjustment:
+        move_effect_journal_undo_bgl_adjustment(top-1);
         break;
 
       default:

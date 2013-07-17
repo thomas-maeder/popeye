@@ -37,6 +37,7 @@ typedef enum
   move_effect_half_neutral_deneutralisation,
   move_effect_half_neutral_neutralisation,
   move_effect_square_block,
+  move_effect_bgl_adjustment,
 
   nr_move_effect_types
 } move_effect_type;
@@ -188,6 +189,10 @@ typedef struct
             PieNam ghost;
             Flags flags;
         } handle_ghost;
+        struct
+        {
+            long int diff;
+        } bgl_adjustment;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

@@ -162,13 +162,13 @@ debugging/trace.h:
 conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
+ utilities/enumeration.h pylang.h solving/move_effect_journal.h \
+ position/pieceid.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h solving/observation.h pyproc.h \
  stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h stipulation/move.h solving/observation.h \
- pyproc.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/move.h debugging/trace.h
 
 conditions/bgl.h:
 
@@ -192,6 +192,10 @@ utilities/enumeration.h:
 
 pylang.h:
 
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
 pydata.h:
 
 pyproc.h:
@@ -199,6 +203,10 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+solving/observation.h:
+
+pyproc.h:
 
 stipulation/stipulation.h:
 
@@ -219,10 +227,6 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
-
-solving/observation.h:
-
-pyproc.h:
 
 debugging/trace.h:
 conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \

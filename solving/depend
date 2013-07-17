@@ -87,7 +87,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- conditions/imitator.h position/position.h \
+ conditions/bgl.h conditions/imitator.h position/position.h \
  conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
  debugging/trace.h
@@ -137,6 +137,8 @@ stipulation/traversal.h:
 stipulation/goals/goals.h:
 
 output/mode.h:
+
+conditions/bgl.h:
 
 conditions/imitator.h:
 

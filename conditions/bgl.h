@@ -2,6 +2,7 @@
 #define CONDITIONS_BGL_H
 
 #include "solving/solve.h"
+#include "solving/move_effect_journal.h"
 
 /* This module implements the BGL condition */
 
@@ -12,6 +13,16 @@ enum
 {
   BGL_infinity = 10000000   /* this will do I expect; e.g. max len = 980 maxply < 1000 */
 };
+
+/* Undo a BGL adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr);
+
+/* Redo a BGL adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr);
 
 /* Try to solve in n half-moves.
  * @param si slice index
