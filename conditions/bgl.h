@@ -37,7 +37,7 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type bgl_filter_solve(slice_index si, stip_length_type n);
+stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n);
 
 /* Initialise solving with BGL
  */

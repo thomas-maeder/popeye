@@ -191,6 +191,7 @@ typedef struct
         } handle_ghost;
         struct
         {
+            Side side;
             long int diff;
         } bgl_adjustment;
     } u;

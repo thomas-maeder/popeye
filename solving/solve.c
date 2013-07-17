@@ -623,8 +623,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = output_plaintext_line_line_writer_solve(si,n);
       break;
 
-    case STBGLFilter:
-      result = bgl_filter_solve(si,n);
+    case STBGLEnforcer:
+      result = bgl_enforcer_solve(si,n);
       break;
 
     case STMasandRecolorer:

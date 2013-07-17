@@ -532,17 +532,25 @@ static void write_imitator_movement(move_context *context,
   }
 }
 
-static void write_bgl_status(move_context *context)
+static void write_bgl_status(move_context *context,
+                             move_effect_journal_index_type curr)
 {
   char buf[12];
 
-  next_context(context," (",")");
-
-  WriteBGLNumber(buf,BGL_values[White]);
-  StdString(buf);
-
-  if (!BGL_global)
+  if (BGL_global)
   {
+    if (move_effect_journal[curr].u.bgl_adjustment.side==White)
+    {
+      next_context(context," (",")");
+      WriteBGLNumber(buf,BGL_values[White]);
+      StdString(buf);
+    }
+  }
+  else
+  {
+    next_context(context," (",")");
+    WriteBGLNumber(buf,BGL_values[White]);
+    StdString(buf);
     StdString("/");
     WriteBGLNumber(buf,BGL_values[Black]);
     StdString(buf);
@@ -603,7 +611,7 @@ static void write_other_effects(move_context *context)
         break;
 
       case move_effect_bgl_adjustment:
-        write_bgl_status(context);
+        write_bgl_status(context,curr);
         break;
 
       default:

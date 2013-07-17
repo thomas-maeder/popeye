@@ -124,12 +124,12 @@ solution finished.
   ser-h#5                1 + 7 + 1n
                BGL -/29
 
-  1.nPb2-b1=nR (-/28)   2.nRb1-h1 (-/22)   3.nRh1-a1 (-/15)   4.nRa1-a8 (-/8)   5.nRa8-h8 (-/1) nRh8*h6 (-/1) #
+  1.nPb2-b1=nR (-/28)   2.nRb1-h1 (-/22)   3.nRh1-a1 (-/15)   4.nRa1-a8 (-/8)   5.nRa8-h8 (-/1) nRh8*h6 #
 
   add_to_move_generation_stack:     1275665
-                     play_move:     1161246
+                     play_move:     1161094
  is_white_king_square_attacked:       94088
- is_black_king_square_attacked:     1161242
+ is_black_king_square_attacked:     1161090
 solution finished. 
 
 
@@ -229,33 +229,33 @@ solution finished.
   #2                     6 + 6 + 1n
               BGL -/4.45
 
-   1.nPg7-g8=nS (-/4.45) ! zugzwang.
+   1.nPg7-g8=nS ! zugzwang.
       1...Se2-c1 (-/2.21)
-          2.Bd8-f6 (-/2.21) #
+          2.Bd8-f6 #
       1...Se2-g1 (-/2.21)
-          2.Bd8-f6 (-/2.21) #
+          2.Bd8-f6 #
       1...Se2-g3 (-/2.21)
-          2.Bd8-f6 (-/2.21) #
+          2.Bd8-f6 #
       1...Se2*f4 (-/2.21)
-          2.Rh4-h5 (-/2.21) #
+          2.Rh4-h5 #
       1...Se2-d4 (-/2.21)
-          2.Bd8-f6 (-/2.21) #
+          2.Bd8-f6 #
       1...Se2*c3 (-/2.21)
-          2.Bd8-f6 (-/2.21) #
+          2.Bd8-f6 #
       1...d6-d5 (-/3.45)
-          2.Bd8-c7 (-/3.45) #
+          2.Bd8-c7 #
       1...nSg8-e7 (-/2.21)
-          2.nSe7-c6 (-/2.21) #
+          2.nSe7-c6 #
       1...nSg8-f6 (-/2.21)
-          2.nSf6-d7 (-/2.21) #
+          2.nSf6-d7 #
       1...nSg8-h6 (-/2.21)
-          2.nSh6-f7 (-/2.21) #
+          2.nSh6-f7 #
 
 
   add_to_move_generation_stack:        4213
-                     play_move:        3032
+                     play_move:        3027
  is_white_king_square_attacked:         235
- is_black_king_square_attacked:        2786
+ is_black_king_square_attacked:        2784
 solution finished. 
 
 

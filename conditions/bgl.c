@@ -42,7 +42,7 @@ static long int BGL_move_diff_code[square_h8 - square_a1 + 1] =
 /* Adjust the BGL values
  * @param diff adjustment
  */
-static void do_bgl_adjustment(long int diff)
+static void do_bgl_adjustment(Side side, long int diff)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
@@ -55,6 +55,7 @@ static void do_bgl_adjustment(long int diff)
 
   top_elmt->type = move_effect_bgl_adjustment;
   top_elmt->reason = move_effect_reason_moving_piece_movement;
+  top_elmt->u.bgl_adjustment.side = side;
   top_elmt->u.bgl_adjustment.diff = diff;
  #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
@@ -63,10 +64,7 @@ static void do_bgl_adjustment(long int diff)
 
   ++move_effect_journal_top[nbply];
 
-  if (BGL_values[White]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White] -= diff;
-  if (BGL_values[Black]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black] -= diff;
+  BGL_values[side] -= diff;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -77,6 +75,7 @@ static void do_bgl_adjustment(long int diff)
  */
 void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr)
 {
+  Side const side = move_effect_journal[curr].u.bgl_adjustment.side;
   long int const diff = move_effect_journal[curr].u.bgl_adjustment.diff;
 
   TraceFunctionEntry(__func__);
@@ -89,10 +88,7 @@ void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr
 
   TraceValue("%lu\n",diff);
 
-  if (BGL_values[White]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White] += diff;
-  if (BGL_values[Black]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black] += diff;
+  BGL_values[side] += diff;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -103,6 +99,7 @@ void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr
  */
 void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr)
 {
+  Side const side = move_effect_journal[curr].u.bgl_adjustment.side;
   long int const diff = move_effect_journal[curr].u.bgl_adjustment.diff;
 
   TraceFunctionEntry(__func__);
@@ -115,10 +112,7 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr
 
   TraceValue("%lu\n",diff);
 
-  if (BGL_values[White]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White] -= diff;
-  if (BGL_values[Black]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black] -= diff;
+  BGL_values[side] -= diff;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -137,7 +131,7 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type bgl_filter_solve(slice_index si, stip_length_type n)
+stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply];
@@ -151,7 +145,14 @@ stip_length_type bgl_filter_solve(slice_index si, stip_length_type n)
 
   if (BGL_values[trait[nbply]]>=diff)
   {
-    do_bgl_adjustment(diff);
+    if (BGL_global)
+    {
+      do_bgl_adjustment(White,diff);
+      do_bgl_adjustment(Black,diff);
+    }
+    else
+      do_bgl_adjustment(trait[nbply],diff);
+
     result = solve(slices[si].next1,n);
   }
   else
@@ -184,6 +185,24 @@ static boolean is_observation_valid(square sq_observer,
   return result;
 }
 
+static void instrument_move(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (BGL_values[slices[si].starter]!=BGL_infinity)
+  {
+    slice_index const prototype = alloc_pipe(STBGLEnforcer);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Initialise solving with BGL
  */
 void bgl_initialise_solving(slice_index si)
@@ -191,7 +210,12 @@ void bgl_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STBGLFilter);
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+    stip_traverse_structure(si,&st);
+  }
 
   register_observation_validator(&is_observation_valid);
 

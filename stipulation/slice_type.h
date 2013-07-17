@@ -301,9 +301,9 @@
     ENUMERATOR(STAssassinCirceCheckTester),                             \
     ENUMERATOR(STKingSquareObservationTesterPlyInitialiser),            \
     ENUMERATOR(STBicoloresCheckTester),                                 \
-    ENUMERATOR(STAntikingsCheckTester),                                  \
+    ENUMERATOR(STAntikingsCheckTester),                                 \
     ENUMERATOR(STKingSquareObservationTester),                          \
-    ENUMERATOR(STBGLFilter),                                            \
+    ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \

@@ -241,13 +241,13 @@
     ENUMERATOR(STPiecesParalysingSuffocationFinder),                  \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STPiecesHalfNeutralRecolorer),                         \
-    ENUMERATOR(STImmobilityTester),                                   \
     ENUMERATOR(STMadrasiMovesForPieceGenerator),                      \
     ENUMERATOR(STEiffelMovesForPieceGenerator),                       \
     ENUMERATOR(STDisparateMovesForPieceGenerator),                    \
     ENUMERATOR(STParalysingMovesForPieceGenerator),                   \
     ENUMERATOR(STCentralMovesForPieceGenerator),                      \
     ENUMERATOR(STBeamtenMovesForPieceGenerator),                      \
+    ENUMERATOR(STImmobilityTester),                                   \
     ENUMERATOR(STOpponentMovesCounterFork),                           \
     ENUMERATOR(STOpponentMovesCounter),                               \
     ENUMERATOR(STOpponentMovesFewMovesPrioriser),                     \
@@ -295,7 +295,7 @@
     ENUMERATOR(STBicoloresCheckTester),                                 \
     ENUMERATOR(STAntikingsCheckTester),                                 \
     ENUMERATOR(STKingSquareObservationTester),                          \
-    ENUMERATOR(STBGLFilter),                                            \
+    ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
