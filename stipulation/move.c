@@ -140,7 +140,6 @@ static slice_index const move_slice_rank_order[] =
     STOwnKingCaptureAvoider,
     STOpponentKingCaptureAvoider,
     STCastlingRightsAdjuster,
-    STStrictSATUpdater,
     STBlackChecks,
     STSingleBoxType1LegalityTester,
     STSingleBoxType2LegalityTester,

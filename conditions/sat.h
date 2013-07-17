@@ -3,7 +3,7 @@
 
 #include "solving/solve.h"
 
-extern boolean StrictSAT[nr_sides][maxply+1];
+extern boolean StrictSAT[nr_sides];
 
 extern unsigned int SAT_max_nr_allowed_flights[nr_sides];
 

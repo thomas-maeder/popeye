@@ -13,7 +13,7 @@
 
 #include <assert.h>
 
-boolean StrictSAT[nr_sides][maxply+1];
+boolean StrictSAT[nr_sides];
 unsigned int SAT_max_nr_allowed_flights[nr_sides];
 
 static slice_index strict_sat_flight_tester;
@@ -72,7 +72,7 @@ boolean strictsat_check_tester_is_in_check(slice_index si, Side side_in_check)
   boolean result;
   unsigned int max_nr_allowed_flights = SAT_max_nr_allowed_flights[side_in_check];
 
-  if (StrictSAT[side_in_check][parent_ply[nbply]])
+  if (StrictSAT[side_in_check])
   {
     if (!is_in_check(slices[si].next1,side_in_check))
       --max_nr_allowed_flights;
@@ -134,8 +134,8 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
                                                slices[temporary_hack_check_tester].next2,
                                                stip_traversal_context_intro);
   assert(strict_sat_flight_tester!=no_slice);
-  StrictSAT[White][1] = is_in_check(slices[strict_sat_flight_tester].next1,White);
-  StrictSAT[Black][1] = is_in_check(slices[strict_sat_flight_tester].next1,Black);
+  StrictSAT[White] = is_in_check(slices[strict_sat_flight_tester].next1,White);
+  StrictSAT[Black] = is_in_check(slices[strict_sat_flight_tester].next1,Black);
 
   result = solve(slices[si].next1,n);
 
@@ -158,9 +158,12 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type strict_sat_updater_solve(slice_index si,
-                                           stip_length_type n)
+stip_length_type strict_sat_updater_solve(slice_index si, stip_length_type n)
 {
+  boolean const save_strict_sat[nr_sides] = {
+      StrictSAT[White],
+      StrictSAT[Black]
+  };
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -168,12 +171,13 @@ stip_length_type strict_sat_updater_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  StrictSAT[White][nbply]= (StrictSAT[White][parent_ply[nbply]]
-                            || is_in_check(slices[strict_sat_flight_tester].next1,White));
-  StrictSAT[Black][nbply]= (StrictSAT[Black][parent_ply[nbply]]
-                            || is_in_check(slices[strict_sat_flight_tester].next1,Black));
+  StrictSAT[White] = StrictSAT[White] || is_in_check(slices[strict_sat_flight_tester].next1,White);
+  StrictSAT[Black] = StrictSAT[Black] || is_in_check(slices[strict_sat_flight_tester].next1,Black);
 
   result = solve(slices[si].next1,n);
+
+  StrictSAT[White] = save_strict_sat[White];
+  StrictSAT[Black] = save_strict_sat[Black];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

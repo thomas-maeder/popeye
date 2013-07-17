@@ -73,7 +73,6 @@
 #include "solving/king_capture_avoider.h"
 #include "solving/observation.h"
 #include "conditions/bgl.h"
-#include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/kobul.h"
 #include "conditions/anticirce/super.h"
@@ -159,12 +158,6 @@ static void initply(ply parent, ply child)
   */
   castling_flag[child] = castling_flag[parent];
 
-  /*
-    start with the SAT state of the parent level
-  */
-  StrictSAT[Black][child] = StrictSAT[Black][parent];
-  StrictSAT[White][child] = StrictSAT[White][parent];
-
   magic_views_top[child] = magic_views_top[child-1];
 
   take_make_circe_current_rebirth_square_index[child] = take_make_circe_current_rebirth_square_index[parent];
@@ -188,12 +181,6 @@ static void do_copyply(ply original, ply copy)
     start with the castling rights of the parent level
   */
   castling_flag[copy] = castling_flag[parent_ply[original]];
-
-  /*
-    start with the SAT state of the original level
-  */
-  StrictSAT[Black][copy] = StrictSAT[Black][parent_ply[original]];
-  StrictSAT[White][copy] = StrictSAT[White][parent_ply[original]];
 
   magic_views_top[copy] = magic_views_top[copy-1];
 

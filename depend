@@ -49,9 +49,8 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  utilities/table.h solving/castling.h pieces/walks/pawns/en_passant.h \
  solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
  solving/post_move_iteration.h solving/king_capture_avoider.h \
- solving/observation.h conditions/bgl.h conditions/sat.h \
- conditions/oscillating_kings.h conditions/kobul.h \
- conditions/anticirce/super.h conditions/circe/circe.h \
+ solving/observation.h conditions/bgl.h conditions/oscillating_kings.h \
+ conditions/kobul.h conditions/anticirce/super.h conditions/circe/circe.h \
  conditions/circe/chameleon.h conditions/circe/april.h \
  conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
  conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
@@ -164,8 +163,6 @@ solving/king_capture_avoider.h:
 solving/observation.h:
 
 conditions/bgl.h:
-
-conditions/sat.h:
 
 conditions/oscillating_kings.h:
 

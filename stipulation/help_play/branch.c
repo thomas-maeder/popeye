@@ -35,6 +35,7 @@ static slice_index const slice_rank_order[] =
   STIntelligentProof,
   STIntelligentTargetCounter,
   STHashOpener,
+  STStrictSATUpdater,
   STEndOfBranch,
   STEndOfBranchForced,
   STEndOfBranchTester,
