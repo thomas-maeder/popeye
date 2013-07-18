@@ -7,24 +7,6 @@
 
 #include <assert.h>
 
-static boolean is_king_moving(void)
-{
-  boolean result = false;
-
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
-  move_effect_journal_index_type curr;
-
-  for (curr = base; curr<top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_king_square_movement)
-    {
-      result = true;
-      break;
-    }
-
-  return result;
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -58,7 +40,7 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
 
   current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
 
-  if (is_king_moving())
+  if (TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
     current_circe_reborn_piece[nbply] = pi_captured;
   else
     current_circe_reborn_piece[nbply] = pi_departing;

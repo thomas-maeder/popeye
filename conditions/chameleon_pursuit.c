@@ -10,24 +10,6 @@
 
 #include <assert.h>
 
-static boolean is_king_moving(void)
-{
-  boolean result = false;
-
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
-  move_effect_journal_index_type curr;
-
-  for (curr = base; curr<top; ++curr)
-    if (move_effect_journal[curr].type==move_effect_king_square_movement)
-    {
-      result = true;
-      break;
-    }
-
-  return result;
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -44,8 +26,9 @@ static boolean is_king_moving(void)
 stip_length_type chameleon_pursuit_side_changer_solve(slice_index si,
                                                        stip_length_type n)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   square const sq_last_departure = move_generation_stack[current_move[parent_ply[nbply]]].departure;
   stip_length_type result;
 
@@ -54,7 +37,8 @@ stip_length_type chameleon_pursuit_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_arrival==sq_last_departure && !is_king_moving())
+  if (sq_arrival==sq_last_departure
+      && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);
