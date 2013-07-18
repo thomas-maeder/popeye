@@ -620,6 +620,8 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
   TraceFunctionParamListEnd();
 
   assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(!is_square_blocked(on));
+  assert(!is_square_empty(on));
 
   top_elmt->type = move_effect_piece_change;
   top_elmt->reason = reason;
