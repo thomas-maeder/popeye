@@ -127,6 +127,7 @@ static slice_index const move_slice_rank_order[] =
     STActuatedRevolvingBoard,
     STActuatedRevolvingCentre,
     STDynastyKingSquareUpdater,
+    STStrictSATUpdater,
     STMasandRecolorer,
     STLandingAfterMovePlay,
     STMoveCounter,

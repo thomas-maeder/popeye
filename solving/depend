@@ -89,8 +89,8 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  conditions/bgl.h conditions/imitator.h position/position.h \
  conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
- pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
- debugging/trace.h
+ conditions/sat.h pieces/attributes/neutral/neutral.h \
+ pieces/attributes/neutral/half.h debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -147,6 +147,8 @@ position/position.h:
 conditions/actuated_revolving_centre.h:
 
 conditions/haunted_chess.h:
+
+conditions/sat.h:
 
 pieces/attributes/neutral/neutral.h:
 
@@ -2324,12 +2326,12 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h conditions/extinction.h \
- solving/solve.h conditions/sat.h conditions/vogtlaender.h \
- conditions/circe/assassin.h conditions/bicolores.h \
- conditions/antikings.h solving/observation.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
- stipulation/branch.h pydata.h pyproc.h debugging/trace.h \
- debugging/measure.h
+ solving/solve.h conditions/sat.h solving/move_effect_journal.h \
+ position/pieceid.h conditions/vogtlaender.h conditions/circe/assassin.h \
+ conditions/bicolores.h conditions/antikings.h solving/observation.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/pipe.h stipulation/branch.h pydata.h pyproc.h \
+ debugging/trace.h debugging/measure.h
 
 solving/check.h:
 
@@ -2372,6 +2374,10 @@ conditions/extinction.h:
 solving/solve.h:
 
 conditions/sat.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 conditions/vogtlaender.h:
 

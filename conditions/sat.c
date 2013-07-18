@@ -145,6 +145,78 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
   return result;
 }
 
+/* Adjust the Strict SAT state
+ * @param diff adjustment
+ */
+static void do_strict_sat_adjustment(Side side)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_strict_sat_adjustment;
+  top_elmt->reason = move_effect_reason_sat_adjustment;
+  top_elmt->u.strict_sat_adjustment.side = side;
+ #if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+ #endif
+
+  ++move_effect_journal_top[nbply];
+
+  StrictSAT[side] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Undo a Strict SAT state adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_index_type curr)
+{
+  Side const side = move_effect_journal[curr].u.strict_sat_adjustment.side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  StrictSAT[side] = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Redo a Strict SAT state adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_index_type curr)
+{
+  Side const side = move_effect_journal[curr].u.strict_sat_adjustment.side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  StrictSAT[side] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -160,10 +232,6 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
  */
 stip_length_type strict_sat_updater_solve(slice_index si, stip_length_type n)
 {
-  boolean const save_strict_sat[nr_sides] = {
-      StrictSAT[White],
-      StrictSAT[Black]
-  };
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -171,13 +239,12 @@ stip_length_type strict_sat_updater_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  StrictSAT[White] = StrictSAT[White] || is_in_check(slices[strict_sat_flight_tester].next1,White);
-  StrictSAT[Black] = StrictSAT[Black] || is_in_check(slices[strict_sat_flight_tester].next1,Black);
+  if (!StrictSAT[White] && is_in_check(slices[strict_sat_flight_tester].next1,White))
+    do_strict_sat_adjustment(White);
+  if (!StrictSAT[Black] && is_in_check(slices[strict_sat_flight_tester].next1,Black))
+    do_strict_sat_adjustment(Black);
 
   result = solve(slices[si].next1,n);
-
-  StrictSAT[White] = save_strict_sat[White];
-  StrictSAT[Black] = save_strict_sat[Black];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

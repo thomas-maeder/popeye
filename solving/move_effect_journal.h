@@ -38,6 +38,7 @@ typedef enum
   move_effect_half_neutral_neutralisation,
   move_effect_square_block,
   move_effect_bgl_adjustment,
+  move_effect_strict_sat_adjustment,
 
   nr_move_effect_types
 } move_effect_type;
@@ -91,7 +92,8 @@ typedef enum
   move_effect_reason_actuate_revolving_board,
   move_effect_reason_actuate_revolving_centre,
   move_effect_reason_singlebox_promotion,
-  move_effect_reason_wormhole_transfer
+  move_effect_reason_wormhole_transfer,
+  move_effect_reason_sat_adjustment
 
 } move_effect_reason_type;
 
@@ -189,6 +191,10 @@ typedef struct
             Side side;
             long int diff;
         } bgl_adjustment;
+        struct
+        {
+            Side side;
+        } strict_sat_adjustment;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

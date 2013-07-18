@@ -2,10 +2,21 @@
 #define CONDITIONS_SAT_H
 
 #include "solving/solve.h"
+#include "solving/move_effect_journal.h"
 
 extern boolean StrictSAT[nr_sides];
 
 extern unsigned int SAT_max_nr_allowed_flights[nr_sides];
+
+/* Undo a Strict SAT state adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_index_type curr);
+
+/* Redo a Strict SAT state adjustment
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_index_type curr);
 
 /* Determine whether a side is in check
  * @param si identifies the check tester

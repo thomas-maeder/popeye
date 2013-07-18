@@ -5,6 +5,7 @@
 #include "conditions/imitator.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
+#include "conditions/sat.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
 #include "position/pieceid.h"
@@ -1631,6 +1632,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_half_neutral_neutralisation:
       case move_effect_square_block:
       case move_effect_bgl_adjustment:
+      case move_effect_strict_sat_adjustment:
         /* nothing */
         break;
 
@@ -1743,6 +1745,10 @@ void redo_move_effects(void)
         move_effect_journal_redo_bgl_adjustment(curr);
         break;
 
+      case move_effect_strict_sat_adjustment:
+        move_effect_journal_redo_strict_sat_adjustment(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1849,6 +1855,10 @@ void undo_move_effects(void)
 
       case move_effect_bgl_adjustment:
         move_effect_journal_undo_bgl_adjustment(top-1);
+        break;
+
+      case move_effect_strict_sat_adjustment:
+        move_effect_journal_undo_strict_sat_adjustment(top-1);
         break;
 
       default:
