@@ -111,6 +111,7 @@ static slice_index const move_slice_rank_order[] =
     STCirceCouscousDetermineRelevantPiece,
     STCirceDetermineRebirthSquare,
     STTakeMakeCirceDetermineRebirthSquares,
+    STTakeMakeCirceNoRebirth,
     STSuperCirceRebirthHandler,
     STContactGridAvoidCirceRebirth,
     STCirceAssassinPlaceReborn,

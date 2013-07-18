@@ -313,6 +313,7 @@
     ENUMERATOR(STCirceCouscousDetermineRelevantPiece),                  \
     ENUMERATOR(STCirceDetermineRebirthSquare),                          \
     ENUMERATOR(STTakeMakeCirceDetermineRebirthSquares),                 \
+    ENUMERATOR(STTakeMakeCirceNoRebirth),                               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquaresFork),               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquares),                   \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \

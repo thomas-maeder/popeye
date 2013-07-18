@@ -78,7 +78,6 @@
 #include "conditions/circe/circe.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/april.h"
-#include "conditions/circe/takemake.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/imitator.h"
 #include "conditions/sentinelles.h"
@@ -156,8 +155,6 @@ static void initply(ply parent, ply child)
     start with the castling rights of the parent level
   */
   castling_flag[child] = castling_flag[parent];
-
-  take_make_circe_current_rebirth_square_index[child] = take_make_circe_current_rebirth_square_index[parent];
 
   ++post_move_iteration_id[child];
 

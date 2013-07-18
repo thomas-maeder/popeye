@@ -52,8 +52,8 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  solving/observation.h conditions/bgl.h conditions/oscillating_kings.h \
  conditions/kobul.h conditions/anticirce/super.h conditions/circe/circe.h \
  conditions/circe/chameleon.h conditions/circe/april.h \
- conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
- conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
+ conditions/circe/rex_inclusive.h conditions/imitator.h \
+ conditions/sentinelles.h conditions/mummer.h \
  conditions/singlebox/type3.h conditions/immune.h conditions/geneva.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/phantom.h \
  conditions/annan.h conditions/vaulting_kings.h \
@@ -173,8 +173,6 @@ conditions/circe/circe.h:
 conditions/circe/chameleon.h:
 
 conditions/circe/april.h:
-
-conditions/circe/takemake.h:
 
 conditions/circe/rex_inclusive.h:
 
@@ -325,8 +323,8 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  pieces/walks/pawns/pawn.h pyproc.h position/position.h \
  pieces/walks/hunters.h pieces/attributes/paralysing/paralysing.h \
  stipulation/slice.h stipulation/slice_type.h pieces/walks/angle/angles.h \
- conditions/sat.h solving/solve.h \
- conditions/ultraschachzwang/legality_tester.h \
+ conditions/sat.h solving/solve.h solving/move_effect_journal.h \
+ position/pieceid.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/walks/pawns/promotion.h conditions/magic_square.h \
  conditions/immune.h conditions/phantom.h \
@@ -386,6 +384,10 @@ pieces/walks/angle/angles.h:
 conditions/sat.h:
 
 solving/solve.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 conditions/ultraschachzwang/legality_tester.h:
 
@@ -448,10 +450,10 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  solving/single_piece_move_generator.h solving/observation.h pyproc.h \
  conditions/disparate.h conditions/eiffel.h conditions/extinction.h \
  conditions/madrasi.h conditions/mummer.h conditions/republican.h \
- conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
+ conditions/patience.h conditions/sat.h solving/move_effect_journal.h \
+ position/pieceid.h conditions/oscillating_kings.h \
  conditions/circe/cage.h conditions/circe/super.h \
  conditions/anticirce/super.h conditions/haunted_chess.h \
- solving/move_effect_journal.h position/pieceid.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/walks/pawns/promotion.h conditions/singlebox/type3.h \
  conditions/beamten.h conditions/patrol.h conditions/central.h \
@@ -544,6 +546,10 @@ conditions/patience.h:
 
 conditions/sat.h:
 
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
 conditions/oscillating_kings.h:
 
 conditions/circe/cage.h:
@@ -553,10 +559,6 @@ conditions/circe/super.h:
 conditions/anticirce/super.h:
 
 conditions/haunted_chess.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 conditions/singlebox/type1.h:
 

@@ -4,6 +4,9 @@
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
+#include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
@@ -15,7 +18,7 @@
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 static square rebirth_square[toppile+1];
-numecoup take_make_circe_current_rebirth_square_index[maxply+1];
+static numecoup take_make_circe_current_rebirth_square_index[maxply+1];
 
 static boolean init_rebirth_squares(Side side_reborn)
 {
@@ -28,6 +31,8 @@ static boolean init_rebirth_squares(Side side_reborn)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  take_make_circe_current_rebirth_square_index[nbply] = take_make_circe_current_rebirth_square_index[nbply-1];
 
   occupy_square(sq_capture,
                 move_effect_journal[capture].u.piece_removal.removed,
@@ -73,8 +78,6 @@ stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  take_make_circe_current_rebirth_square_index[nbply-1] = take_make_circe_current_rebirth_square_index[nbply-2];
 
   for (i = current_move[nbply]; i>current_move[nbply-1]; --i)
     if (is_square_empty(move_generation_stack[i].capture))
@@ -140,6 +143,48 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   return result;
 }
 
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type take_make_circe_no_rebirth_solve(slice_index si,
+                                                  stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  take_make_circe_current_rebirth_square_index[nbply] = take_make_circe_current_rebirth_square_index[nbply-1];
+  result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void instrument_capture_fork(slice_index capture_fork, stip_structure_traversal *st)
+{
+  slice_index const proxy = slices[capture_fork].next2;
+  slice_index const no_rebirth = alloc_pipe(STTakeMakeCirceNoRebirth);
+  pipe_set_successor(no_rebirth,slices[proxy].next1);
+  pipe_link(proxy,no_rebirth);
+
+  stip_traverse_structure_children(capture_fork,st);
+}
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
@@ -154,6 +199,13 @@ void stip_insert_take_make_circe(slice_index si)
   stip_instrument_moves(si,STTakeMakeCirceDetermineRebirthSquares);
   stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_circe_capture_forks(si);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,STCirceCaptureFork,&instrument_capture_fork);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
