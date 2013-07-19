@@ -9,13 +9,13 @@
 #include "solving/castling_rights.h"
 #include "solving/move_effect_journal.h"
 
-extern  castling_flag_type castling_flag[maxply+2];
-enum { castlings_flags_no_castling = maxply+1 };
+extern  castling_flag_type castling_flag;
 extern castling_flag_type castling_mutual_exclusive[nr_sides][2];
+extern castling_flag_type castling_flags_no_castling;
 
-#define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*black_castling_offset,(mask))
-#define SETCASTLINGFLAGMASK(ply_id,side,mask) SETFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
-#define CLRCASTLINGFLAGMASK(ply_id,side,mask) CLRFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
+#define TSTCASTLINGFLAGMASK(side,mask) TSTFLAGMASK(castling_flag>>(side)*black_castling_offset,(mask))
+#define SETCASTLINGFLAGMASK(side,mask) SETFLAGMASK(castling_flag,(mask)<<((side)*black_castling_offset))
+#define CLRCASTLINGFLAGMASK(side,mask) CLRFLAGMASK(castling_flag,(mask)<<((side)*black_castling_offset))
 
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect

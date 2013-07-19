@@ -1806,29 +1806,26 @@ static boolean verify_position(slice_index si)
   }
 
   /* check castling possibilities */
-  CLEARFL(castling_flag[0]);
+  CLEARFL(castling_flag);
 
   complex_castling_through_flag = CondFlag[imitators];
 
   if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
       && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
-    SETCASTLINGFLAGMASK(0,White,k_cancastle);
+    SETCASTLINGFLAGMASK(White,k_cancastle);
   if ((get_walk_of_piece_on_square(square_h1)== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
-    SETCASTLINGFLAGMASK(0,White,rh_cancastle);
+    SETCASTLINGFLAGMASK(White,rh_cancastle);
   if ((get_walk_of_piece_on_square(square_a1)== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
-    SETCASTLINGFLAGMASK(0,White,ra_cancastle);
+    SETCASTLINGFLAGMASK(White,ra_cancastle);
   if ((get_walk_of_piece_on_square(square_e8)== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
       && (!CondFlag[dynasty] || number_of_pieces[Black][standard_walks[King]]==1))
-    SETCASTLINGFLAGMASK(0,Black,k_cancastle);
+    SETCASTLINGFLAGMASK(Black,k_cancastle);
   if ((get_walk_of_piece_on_square(square_h8)== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
-    SETCASTLINGFLAGMASK(0,Black,rh_cancastle);
+    SETCASTLINGFLAGMASK(Black,rh_cancastle);
   if ((get_walk_of_piece_on_square(square_a8)== standard_walks[Rook]) && TSTFLAG(spec[square_a8], Black))
-    SETCASTLINGFLAGMASK(0,Black,ra_cancastle);
+    SETCASTLINGFLAGMASK(Black,ra_cancastle);
 
-  castling_flag[0] &= castling_flag[castlings_flags_no_castling];
-  castling_flag[1] = castling_flag[0];
-  castling_flag[2] = castling_flag[0];
-  /* At which ply do we begin ??  NG */
+  castling_flag &= castling_flags_no_castling;
 
   /* a small hack to enable ep keys */
   trait[1] = no_side;

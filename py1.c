@@ -151,11 +151,6 @@ static void initply(ply parent, ply child)
   /* child -1 is correct and parent would be wrong! */
   move_effect_journal_top[child] = move_effect_journal_top[child-1];
 
-  /*
-    start with the castling rights of the parent level
-  */
-  castling_flag[child] = castling_flag[parent];
-
   ++post_move_iteration_id[child];
 
   TraceValue("%u",child);
@@ -170,11 +165,6 @@ static void do_copyply(ply original, ply copy)
   trait[copy] = trait[original];
 
   move_effect_journal_top[copy] = move_effect_journal_top[copy-1];
-
-  /*
-    start with the castling rights of the parent level
-  */
-  castling_flag[copy] = castling_flag[parent_ply[original]];
 
   {
     unsigned int const nr_moves = current_move[original]-current_move[original-1];
@@ -356,7 +346,7 @@ void InitOpt(void)
         castling_mutual_exclusive[side][castling-min_castling] = 0;
   }
 
-  castling_flag[castlings_flags_no_castling] = bl_castlings|wh_castlings;
+  castling_flags_no_castling = bl_castlings|wh_castlings;
 
   en_passant_forget_multistep();
 

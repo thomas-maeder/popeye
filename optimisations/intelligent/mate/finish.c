@@ -52,7 +52,7 @@ static boolean exists_redundant_white_piece(void)
 {
   boolean result = false;
   square const *bnp;
-  castling_flag_type const save_castling_flag = castling_flag[nbply];
+  castling_flag_type const save_castling_flag = castling_flag;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -63,7 +63,7 @@ static boolean exists_redundant_white_piece(void)
    *    (let alone) execute castling moves would cause problems in this case
    * 2. Black is in check - we don't need to test for it again
    */
-  CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+  CLRCASTLINGFLAGMASK(Black,k_cancastle);
 
   /* check for redundant white pieces */
   for (bnp = boardnum; !result && *bnp!=initsquare; bnp++)
@@ -88,7 +88,7 @@ static boolean exists_redundant_white_piece(void)
     }
   }
 
-  castling_flag[nbply] = save_castling_flag;
+  castling_flag = save_castling_flag;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

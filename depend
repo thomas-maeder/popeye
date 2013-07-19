@@ -35,7 +35,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pymsg.h py1.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h py.h pydata.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
- position/pieceid.h \
+ solving/castling_rights.h position/pieceid.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/killer_move/killer_move.h stipulation/slice.h \
@@ -97,6 +97,8 @@ conditions/haunted_chess.h:
 solving/solve.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 
@@ -215,8 +217,8 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  conditions/exclusive.h utilities/table.h position/position.h \
  solving/solve.h conditions/madrasi.h conditions/geneva.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/imitator.h \
- solving/move_effect_journal.h position/pieceid.h \
- stipulation/has_solution_type.h solving/solve.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h pieces/walks/pawns/en_passant.h pyproc.h \
  solving/observation.h stipulation/temporary_hacks.h \
  pieces/walks/pawns/pawn.h pieces/walks/roses.h \
@@ -287,6 +289,8 @@ conditions/imitator.h:
 
 solving/move_effect_journal.h:
 
+solving/castling_rights.h:
+
 position/pieceid.h:
 
 stipulation/has_solution_type.h:
@@ -324,7 +328,8 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  pieces/walks/hunters.h pieces/attributes/paralysing/paralysing.h \
  stipulation/slice.h stipulation/slice_type.h pieces/walks/angle/angles.h \
  conditions/sat.h solving/solve.h solving/move_effect_journal.h \
- position/pieceid.h conditions/ultraschachzwang/legality_tester.h \
+ solving/castling_rights.h position/pieceid.h \
+ conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/walks/pawns/promotion.h conditions/magic_square.h \
  conditions/immune.h conditions/phantom.h \
@@ -387,6 +392,8 @@ solving/solve.h:
 
 solving/move_effect_journal.h:
 
+solving/castling_rights.h:
+
 position/pieceid.h:
 
 conditions/ultraschachzwang/legality_tester.h:
@@ -444,14 +451,14 @@ py5$(OBJ_SUFFIX): py5.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h pydata.h pymsg.h \
  stipulation/has_solution_type.h solving/solve.h solving/castling.h \
- solving/solve.h solving/move_generator.h \
+ solving/solve.h solving/castling_rights.h solving/move_effect_journal.h \
+ position/pieceid.h solving/move_generator.h \
  stipulation/goals/doublemate/reached_tester.h \
  stipulation/temporary_hacks.h stipulation/move.h \
  solving/single_piece_move_generator.h solving/observation.h pyproc.h \
  conditions/disparate.h conditions/eiffel.h conditions/extinction.h \
  conditions/madrasi.h conditions/mummer.h conditions/republican.h \
- conditions/patience.h conditions/sat.h solving/move_effect_journal.h \
- position/pieceid.h conditions/oscillating_kings.h \
+ conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
  conditions/circe/cage.h conditions/circe/super.h \
  conditions/anticirce/super.h conditions/haunted_chess.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
@@ -516,6 +523,12 @@ solving/castling.h:
 
 solving/solve.h:
 
+solving/castling_rights.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
 solving/move_generator.h:
 
 stipulation/goals/doublemate/reached_tester.h:
@@ -545,10 +558,6 @@ conditions/republican.h:
 conditions/patience.h:
 
 conditions/sat.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 conditions/oscillating_kings.h:
 
@@ -604,10 +613,11 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  utilities/boolean.h utilities/enumeration.h pylang.h py1.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h py.h pydata.h \
  conditions/haunted_chess.h solving/solve.h solving/move_effect_journal.h \
- position/pieceid.h pymsg.h DHT/dhtbcmem.h pyproof.h stipulation/slice.h \
- stipulation/slice_type.h solving/selfcheck_guard.h \
- solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/castling_rights.h position/pieceid.h pymsg.h DHT/dhtbcmem.h \
+ pyproof.h stipulation/slice.h stipulation/slice_type.h \
+ solving/selfcheck_guard.h solving/moving_pawn_promotion.h \
+ pieces/walks/pawns/promotion.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/solve.h solving/observation.h pyproc.h output/output.h \
  output/mode.h conditions/annan.h conditions/bgl.h \
@@ -746,6 +756,8 @@ conditions/haunted_chess.h:
 solving/solve.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 
@@ -1195,7 +1207,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h py.h pydata.h pymsg.h \
  solving/solve.h solving/castling.h stipulation/slice_type.h \
- solving/solve.h pyproof.h stipulation/slice.h stipulation/pipe.h \
+ solving/solve.h solving/castling_rights.h solving/move_effect_journal.h \
+ position/pieceid.h pyproof.h stipulation/slice.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h output/output.h output/mode.h \
  pieces/walks/hunters.h position/position.h \
@@ -1233,8 +1246,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  solving/battle_play/try.h utilities/table.h \
  pieces/walks/pawns/en_passant.h pyproc.h solving/moving_pawn_promotion.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
- position/pieceid.h conditions/republican.h conditions/bgl.h \
- solving/move_effect_journal.h conditions/check_zigzag.h \
+ conditions/republican.h conditions/bgl.h conditions/check_zigzag.h \
  conditions/patience.h conditions/sat.h conditions/oscillating_kings.h \
  conditions/kobul.h conditions/circe/april.h conditions/circe/chameleon.h \
  conditions/sentinelles.h conditions/magic_square.h conditions/mummer.h \
@@ -1288,6 +1300,12 @@ solving/castling.h:
 stipulation/slice_type.h:
 
 solving/solve.h:
+
+solving/castling_rights.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 pyproof.h:
 
@@ -1407,13 +1425,9 @@ pieces/walks/pawns/promotion.h:
 
 solving/move_effect_journal.h:
 
-position/pieceid.h:
-
 conditions/republican.h:
 
 conditions/bgl.h:
-
-solving/move_effect_journal.h:
 
 conditions/check_zigzag.h:
 
@@ -1533,11 +1547,11 @@ pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h position/position.h \
  pieces/walks/vectors.h stipulation/goals/goals.h pydata.h DHT/dhtbcmem.h \
  pyproof.h stipulation/slice.h pymsg.h stipulation/has_solution_type.h \
  solving/solve.h solving/castling.h solving/solve.h \
- pieces/walks/pawns/en_passant.h pyproc.h solving/observation.h \
- optimisations/hash.h DHT/dhtbcmem.h \
+ solving/castling_rights.h solving/move_effect_journal.h \
+ position/pieceid.h pieces/walks/pawns/en_passant.h pyproc.h \
+ solving/observation.h optimisations/hash.h DHT/dhtbcmem.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h \
  conditions/duellists.h conditions/haunted_chess.h \
- solving/move_effect_journal.h position/pieceid.h \
  conditions/vaulting_kings.h position/position.h conditions/imitator.h \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  debugging/trace.h
@@ -1600,6 +1614,12 @@ solving/castling.h:
 
 solving/solve.h:
 
+solving/castling_rights.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
 pieces/walks/pawns/en_passant.h:
 
 pyproc.h:
@@ -1617,10 +1637,6 @@ platform/maxtime.h:
 conditions/duellists.h:
 
 conditions/haunted_chess.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 conditions/vaulting_kings.h:
 

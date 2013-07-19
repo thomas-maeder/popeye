@@ -4445,22 +4445,22 @@ static char *ReadSquares(SquareListContext context)
           switch (sq)
           {
             case square_a1:
-              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,White,ra_cancastle);
+              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(White*black_castling_offset));
               break;
             case square_e1:
-              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,White,k_cancastle);
+              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(White*black_castling_offset));
               break;
             case square_h1:
-              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,White,rh_cancastle);
+              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(White*black_castling_offset));
               break;
             case square_a8:
-              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,Black,ra_cancastle);
+              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(Black*black_castling_offset));
               break;
             case square_e8:
-              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,Black,k_cancastle);
+              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(Black*black_castling_offset));
               break;
             case square_h8:
-              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,Black,rh_cancastle);
+              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(Black*black_castling_offset));
               break;
             default:
               break;
@@ -5820,7 +5820,7 @@ static char *ParseOpt(slice_index root_slice_hook)
         break;
 
       case nocastling:
-        castling_flag[castlings_flags_no_castling]= bl_castlings|wh_castlings;
+        castling_flags_no_castling = bl_castlings|wh_castlings;
         ReadSquares(ReadNoCastlingSquares);
         break;
 

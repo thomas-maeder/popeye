@@ -16,9 +16,9 @@
 
 #include <assert.h>
 
-castling_flag_type castling_flag[maxply+2];
-
+castling_flag_type castling_flag;
 castling_flag_type castling_mutual_exclusive[nr_sides][2];
+castling_flag_type castling_flags_no_castling;
 
 static square intermediate_move_square_departure;
 static square intermediate_move_square_arrival;
@@ -222,7 +222,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
 
   ++move_effect_journal_top[nbply];
 
-  CLRCASTLINGFLAGMASK(nbply,side,right);
+  CLRCASTLINGFLAGMASK(side,right);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -244,8 +244,7 @@ void move_effect_journal_undo_disabling_castling_right(move_effect_journal_index
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  SETCASTLINGFLAGMASK(nbply,side,right);
-  TraceValue("%2x\n",castling_flag[nbply]);
+  SETCASTLINGFLAGMASK(side,right);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -267,7 +266,7 @@ void move_effect_journal_redo_disabling_castling_right(move_effect_journal_index
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  CLRCASTLINGFLAGMASK(nbply,side,right);
+  CLRCASTLINGFLAGMASK(side,right);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -303,7 +302,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
 
   ++move_effect_journal_top[nbply];
 
-  SETCASTLINGFLAGMASK(nbply,side,right);
+  SETCASTLINGFLAGMASK(side,right);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -325,8 +324,7 @@ void move_effect_journal_undo_enabling_castling_right(move_effect_journal_index_
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  CLRCASTLINGFLAGMASK(nbply,side,right);
-  TraceValue("%2x\n",castling_flag[nbply]);
+  CLRCASTLINGFLAGMASK(side,right);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -348,7 +346,7 @@ void move_effect_journal_redo_enabling_castling_right(move_effect_journal_index_
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  SETCASTLINGFLAGMASK(nbply,side,right);
+  SETCASTLINGFLAGMASK(side,right);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -363,7 +361,7 @@ static void enable_castling_right(move_effect_reason_type reason,
   TraceValue("%2x",right);
   TraceFunctionParamListEnd();
 
-  if (!TSTCASTLINGFLAGMASK(nbply,side,right))
+  if (!TSTCASTLINGFLAGMASK(side,right))
     do_enable_castling_right(reason,side,right);
 
   TraceFunctionExit(__func__);
@@ -423,7 +421,7 @@ static void disable_castling_right(move_effect_reason_type reason,
   TraceValue("%2x",right);
   TraceFunctionParamListEnd();
 
-  if (TSTCASTLINGFLAGMASK(nbply,side,right))
+  if (TSTCASTLINGFLAGMASK(side,right))
     do_disable_castling_right(reason,side,right);
 
   TraceFunctionExit(__func__);
@@ -508,8 +506,6 @@ static void adjust_castling_rights(Side trait_ply)
       default:
         break;
     }
-
-  TraceValue("%2x\n",castling_flag[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -751,8 +747,7 @@ stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
   {
     case kingside_castling:
     {
-      castling_flag_type const effectively_disabled = TSTCASTLINGFLAGMASK(nbply,
-                                                                          advers(slices[si].starter),
+      castling_flag_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
                                                                           castling_mutual_exclusive[slices[si].starter][kingside_castling-min_castling]);
       if (effectively_disabled)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
@@ -763,8 +758,7 @@ stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
 
     case queenside_castling:
     {
-      castling_flag_type const effectively_disabled = TSTCASTLINGFLAGMASK(nbply,
-                                                                          advers(slices[si].starter),
+      castling_flag_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
                                                                           castling_mutual_exclusive[slices[si].starter][queenside_castling-min_castling]);
       if (effectively_disabled)
         do_disable_castling_right(move_effect_reason_castling_king_movement,

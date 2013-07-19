@@ -42,13 +42,13 @@ static unsigned int white_king(square from_square, square to_square)
 
   if (testcastling && from_square==square_e1)
   {
-    if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle&castling_flag[castlings_flags_no_castling]))
+    if (TSTCASTLINGFLAGMASK(White,ra_cancastle&castling_flags_no_castling))
     {
       unsigned int const withcast = king_no_castling(square_c1,to_square);
       if (withcast<result)
         result = withcast;
     }
-    if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle&castling_flag[castlings_flags_no_castling]))
+    if (TSTCASTLINGFLAGMASK(White,rh_cancastle&castling_flags_no_castling))
     {
       unsigned int const withcast = king_no_castling(square_g1,to_square);
       if (withcast<result)
@@ -75,13 +75,13 @@ static unsigned int black_king(square from_square, square to_square)
 
   if (testcastling && from_square==square_e8)
   {
-    if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle&castling_flag[castlings_flags_no_castling]))
+    if (TSTCASTLINGFLAGMASK(Black,ra_cancastle&castling_flags_no_castling))
     {
       unsigned int const withcast = king_no_castling(square_c8,to_square);
       if (withcast<result)
         result = withcast;
     }
-    if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle&castling_flag[castlings_flags_no_castling]))
+    if (TSTCASTLINGFLAGMASK(Black,rh_cancastle&castling_flags_no_castling))
     {
       unsigned int const withcast = king_no_castling(square_g8,to_square);
       if (withcast<result)

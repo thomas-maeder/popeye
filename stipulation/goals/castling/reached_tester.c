@@ -51,18 +51,15 @@ slice_index alloc_goal_castling_reached_tester_system(void)
 stip_length_type goal_castling_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  unsigned char const diff = castling_flag[parent_ply[nbply]]-castling_flag[nbply];
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(nbply!=nil_ply);
-
-  /* castling means that both bits of a castling were cleared */
-  if (diff==whk_castling || diff==whq_castling
-      || diff==blk_castling || diff==blq_castling)
+  if (move_effect_journal[movement].reason==move_effect_reason_castling_king_movement)
     result = solve(slices[si].next1,n);
   else
     result = n+2;

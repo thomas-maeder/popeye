@@ -8,8 +8,9 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h pydata.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/has_solution_type.h solving/solve.h solving/castling.h \
- optimisations/intelligent/intelligent.h position/position.h \
- position/pieceid.h optimisations/intelligent/count_nr_of_moves.h \
+ solving/castling_rights.h solving/move_effect_journal.h \
+ position/pieceid.h optimisations/intelligent/intelligent.h \
+ position/position.h optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
  optimisations/orthodox_square_observation.h pyproc.h debugging/trace.h
@@ -62,11 +63,15 @@ solving/solve.h:
 
 solving/castling.h:
 
+solving/castling_rights.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
 optimisations/intelligent/intelligent.h:
 
 position/position.h:
-
-position/pieceid.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -279,8 +284,8 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  utilities/enumeration.h pylang.h pieces/walks/pawns/en_passant.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  solving/solve.h solving/castling.h stipulation/slice_type.h \
- solving/move_effect_journal.h position/pieceid.h \
- stipulation/stipulation.h stipulation/slice.h \
+ solving/castling_rights.h solving/move_effect_journal.h \
+ position/pieceid.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  optimisations/intelligent/intelligent.h position/position.h \
@@ -321,6 +326,8 @@ solving/solve.h:
 solving/castling.h:
 
 stipulation/slice_type.h:
+
+solving/castling_rights.h:
 
 solving/move_effect_journal.h:
 

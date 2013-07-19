@@ -446,10 +446,10 @@ void IntelligentRegulargoal_types(stip_length_type n)
     nr_of_moves = n;
 
     testcastling =
-        TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
-        || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
-        || TSTCASTLINGFLAGMASK(0,Black,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
-        || TSTCASTLINGFLAGMASK(0,Black,k_castling&castling_flag[castlings_flags_no_castling])==k_castling;
+        TSTCASTLINGFLAGMASK(White,q_castling&castling_flags_no_castling)==q_castling
+        || TSTCASTLINGFLAGMASK(White,k_castling&castling_flags_no_castling)==k_castling
+        || TSTCASTLINGFLAGMASK(Black,q_castling&castling_flags_no_castling)==q_castling
+        || TSTCASTLINGFLAGMASK(Black,k_castling&castling_flags_no_castling)==k_castling;
 
     assert(where_to_start_placing_black_pieces==boardnum);
 

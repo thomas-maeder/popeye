@@ -473,7 +473,7 @@ void generate_castling(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle)
+  if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {
     castling_flag_type allowed_castlings = 0;
 
@@ -486,12 +486,12 @@ void generate_castling(void)
     square const square_h = square_a+file_h;
 
     /* 0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
+    if (TSTCASTLINGFLAGMASK(side,k_castling)==k_castling
         && are_squares_empty(square_e,square_h,dir_right))
        allowed_castlings |= rh_cancastle;
 
     /* 0-0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
+    if (TSTCASTLINGFLAGMASK(side,q_castling)==q_castling
         && are_squares_empty(square_e,square_a,dir_left))
       allowed_castlings |= ra_cancastle;
 

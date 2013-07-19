@@ -339,15 +339,15 @@ void ProofInitialiseIntelligentSide(Side side)
     /* update castling possibilities */
     if (BlockedQueenBishop[side])
       /* long castling impossible */
-      CLRCASTLINGFLAGMASK(0,side,ra_cancastle);
+      CLRCASTLINGFLAGMASK(side,ra_cancastle);
 
     if (BlockedKingBishop[side])
       /* short castling impossible */
-      CLRCASTLINGFLAGMASK(0,side,rh_cancastle);
+      CLRCASTLINGFLAGMASK(side,rh_cancastle);
 
-    if (!TSTCASTLINGFLAGMASK(0,side,ra_cancastle|rh_cancastle))
+    if (!TSTCASTLINGFLAGMASK(side,ra_cancastle|rh_cancastle))
       /* no wh rook can castle, so the wh king cannot either */
-      CLRCASTLINGFLAGMASK(0,side,k_cancastle);
+      CLRCASTLINGFLAGMASK(side,k_cancastle);
 
     /* initialise king diff_move arrays */
     ProofInitialiseKingMoves(side);
@@ -364,9 +364,6 @@ void ProofInitialiseIntelligent(stip_length_type length)
 
   ProofInitialiseIntelligentSide(White);
   ProofInitialiseIntelligentSide(Black);
-
-  if (!ProofFairy)
-    castling_flag[2] = castling_flag[1] = castling_flag[0];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -704,11 +701,11 @@ static int ProofKingMovesNeeded(Side side)
   {
     needed = KingMoves[side][king_square[side]];
 
-    if (TSTCASTLINGFLAGMASK(nbply,side,k_cancastle))
+    if (TSTCASTLINGFLAGMASK(side,k_cancastle))
     {
       square const square_base = side==White ? square_a1 : square_a8;
 
-      if (TSTCASTLINGFLAGMASK(nbply,side,ra_cancastle))
+      if (TSTCASTLINGFLAGMASK(side,ra_cancastle))
       {
         /* wh long castling */
         /* KingMoves[White] is the number of moves the wh king still
@@ -719,7 +716,7 @@ static int ProofKingMovesNeeded(Side side)
         if (cast<needed)
           needed= cast;
       }
-      if (TSTCASTLINGFLAGMASK(nbply,side,rh_cancastle))
+      if (TSTCASTLINGFLAGMASK(side,rh_cancastle))
       {
         /* wh short castling */
         /* KingMoves[White] is the number of moves the wh king still

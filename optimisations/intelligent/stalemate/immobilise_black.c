@@ -118,7 +118,7 @@ boolean intelligent_stalemate_immobilise_black(void)
 {
   boolean result = false;
   immobilisation_state_type immobilisation_state = null_state;
-  castling_flag_type const save_castling_flag = castling_flag[nbply];
+  castling_flag_type const save_castling_flag = castling_flag;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -129,12 +129,12 @@ boolean intelligent_stalemate_immobilise_black(void)
    *    (let alone) execute castling moves would cause problems in this case
    * 2. castlings are presumable never the only legal black moves
    */
-  CLRCASTLINGFLAGMASK(nbply,Black,k_cancastle);
+  CLRCASTLINGFLAGMASK(Black,k_cancastle);
   current_state = &immobilisation_state;
   solve(slices[current_start_slice].next2,slack_length);
   next_trouble_maker();
   current_state = 0;
-  castling_flag[nbply] = save_castling_flag;
+  castling_flag = save_castling_flag;
 
   if (immobilisation_state.worst.requirement>no_requirement)
   {

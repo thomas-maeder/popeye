@@ -50,11 +50,12 @@ static boolean stalemate_isGoalReachable(void)
 
   else
   {
+    move_effect_journal_index_type const top = move_effect_journal_top[nbply];
     TraceValue("%u",MovesLeft[White]);
     TraceValue("%u\n",MovesLeft[Black]);
 
     if (nbply==2
-        || (testcastling && castling_flag[nbply]!=castling_flag[parent_ply[nbply]]))
+        || move_effect_journal[top-1].type==move_effect_disable_castling_right)
     {
       square const *bnp;
       MovesRequired[White][nbply] = 0;

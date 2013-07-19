@@ -51,7 +51,7 @@ stip_length_type castling_filter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTCASTLINGFLAGMASK(nbply,starter,castlings)>k_cancastle)
+  if (TSTCASTLINGFLAGMASK(starter,castlings)>k_cancastle)
     SETFLAG(goal_preprequisites_met[nbply],goal_castling);
   result = solve(next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_castling);

@@ -1319,7 +1319,7 @@ byte *CommonEncode(byte *bp,
       *bp++ = (byte)(en_passant_multistep_over[1][nbply] - square_a1);
   }
 
-  *bp++ = castling_flag[nbply];     /* Castling_Flag */
+  *bp++ = castling_flag;     /* Castling_Flag */
 
   if (CondFlag[BGL]) {
     memcpy(bp, &BGL_values[White], sizeof BGL_values[White]);
