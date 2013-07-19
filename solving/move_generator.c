@@ -34,6 +34,7 @@
 #include "pyproc.h"
 
 #include <assert.h>
+#include <string.h>
 
 static slice_index const slice_rank_order[] =
 {
