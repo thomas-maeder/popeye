@@ -9,6 +9,7 @@
  */
 
 #include "solving/solve.h"
+#include "solving/castling_rights.h"
 #include "position/pieceid.h"
 #include "py.h"
 
@@ -39,6 +40,8 @@ typedef enum
   move_effect_square_block,
   move_effect_bgl_adjustment,
   move_effect_strict_sat_adjustment,
+  move_effect_disable_castling_right,
+  move_effect_enable_castling_right,
 
   nr_move_effect_types
 } move_effect_type;
@@ -195,6 +198,11 @@ typedef struct
         {
             Side side;
         } strict_sat_adjustment;
+        struct
+        {
+            Side side;
+            castling_flag_type right;
+        } castling_rights_adjustment;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

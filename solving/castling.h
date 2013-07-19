@@ -6,35 +6,8 @@
 
 #include "stipulation/slice_type.h"
 #include "solving/solve.h"
-
-enum
-{
-  black_castling_offset = 4
-};
-
-/* symbols for bits and their combinations in castling_flag */
-typedef enum
-{
-  rh_cancastle = 0x01,
-  ra_cancastle = 0x02,
-  k_cancastle = 0x04,
-
-  k_castling = k_cancastle|rh_cancastle,
-  q_castling = k_cancastle|ra_cancastle,
-  castlings = k_cancastle|ra_cancastle|rh_cancastle,
-
-  whk_castling = k_cancastle|rh_cancastle,
-  whq_castling = k_cancastle|ra_cancastle,
-  wh_castlings = k_cancastle|ra_cancastle|rh_cancastle,
-
-  blk_castling = whk_castling<<black_castling_offset,
-  blq_castling = whq_castling<<black_castling_offset,
-  bl_castlings = wh_castlings<<black_castling_offset
-} castling_flag_type;
-/* NOTE: k_cancastle must be larger than the respective
- * r[ah]_cancastle or evaluations of the form
- * TSTCASTLINGFLAGMASK(nbply,White,castlings)<=k_cancastle
- * stop working. */
+#include "solving/castling_rights.h"
+#include "solving/move_effect_journal.h"
 
 extern  castling_flag_type castling_flag[maxply+2];
 enum { castlings_flags_no_castling = maxply+1 };
@@ -44,22 +17,41 @@ extern castling_flag_type castling_mutual_exclusive[nr_sides][2];
 #define SETCASTLINGFLAGMASK(ply_id,side,mask) SETFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
 #define CLRCASTLINGFLAGMASK(ply_id,side,mask) CLRFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
 
-/* Restore the castling rights of a piece
- * @param sq_arrival position of piece for which to restore castling rights
+/* Undo removing a castling right
+ * @param curr identifies the adjustment effect
  */
-void restore_castling_rights(square sq_arrival);
+void move_effect_journal_undo_disabling_castling_right(move_effect_journal_index_type curr);
+
+/* Redo removing a castling right
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_disabling_castling_right(move_effect_journal_index_type curr);
+
+/* Undo removing a castling right
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_enabling_castling_right(move_effect_journal_index_type curr);
+
+/* Redo removing a castling right
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_enabling_castling_right(move_effect_journal_index_type curr);
 
 /* Enable castling rights for the piece that just arrived (for whatever reason)
  * on a square
+ * @param reason why
  * @param on the arrival square
  */
-void enable_castling_rights(square sq_arrival);
+void enable_castling_rights(move_effect_reason_type reason,
+                            square sq_arrival);
 
 /* Disable castling rights for the piece that just left (for whatever reason)
  * a square
+ * @param reason why
  * @param on the square left
  */
-void disable_castling_rights(square sq_departure);
+void disable_castling_rights(move_effect_reason_type reason,
+                             square sq_departure);
 
 /* Allocate a STCastlingIntermediateMoveGenerator slice.
  * @return index of allocated slice

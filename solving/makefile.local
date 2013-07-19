@@ -23,6 +23,6 @@ INCLUDES = testers.h move_effect_journal.h \
            single_move_generator.h trivial_end_filter.h moving_pawn_promotion.h \
            avoid_unsolvable.h selfcheck_guard.h \
            post_move_iteration.h solve.h king_capture_avoider.h \
-           recursion_stopper.h observation.h check.h
+           recursion_stopper.h observation.h check.h castling_rights.h
 
 include makefile.rules $(CURRPWD)depend

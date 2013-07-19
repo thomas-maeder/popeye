@@ -28,7 +28,7 @@ static void update_king_square(Side side)
           SETFLAG(flags,Royal);
           move_effect_journal_do_flags_change(move_effect_reason_royal_dynasty,
                                               *bnp,flags);
-          enable_castling_rights(*bnp);
+          enable_castling_rights(move_effect_reason_royal_dynasty,*bnp);
           break;
         }
     }
@@ -42,7 +42,7 @@ static void update_king_square(Side side)
       /* before move_effect_journal_do_flags_change() or king_square may have
        * been modified
        */
-      disable_castling_rights(king_square[side]);
+      disable_castling_rights(move_effect_reason_royal_dynasty,king_square[side]);
 
       CLRFLAG(flags,Royal);
       move_effect_journal_do_flags_change(move_effect_reason_royal_dynasty,

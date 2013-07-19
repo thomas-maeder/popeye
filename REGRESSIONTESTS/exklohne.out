@@ -4846,9 +4846,9 @@ Loesung beendet.
  14  (Kf8-g8 )
 
   add_to_move_generation_stack:      893150
-                     play_move:      129271
- is_white_king_square_attacked:      108810
- is_black_king_square_attacked:      106228
+                     play_move:      129331
+ is_white_king_square_attacked:      109354
+ is_black_king_square_attacked:      106832
 Loesung beendet. 
 
 

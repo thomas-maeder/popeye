@@ -1,5 +1,6 @@
 #include "solving/move_effect_journal.h"
 #include "pydata.h"
+#include "solving/castling.h"
 #include "stipulation/stipulation.h"
 #include "conditions/bgl.h"
 #include "conditions/imitator.h"
@@ -1635,6 +1636,8 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_square_block:
       case move_effect_bgl_adjustment:
       case move_effect_strict_sat_adjustment:
+      case move_effect_disable_castling_right:
+      case move_effect_enable_castling_right:
         /* nothing */
         break;
 
@@ -1751,6 +1754,14 @@ void redo_move_effects(void)
         move_effect_journal_redo_strict_sat_adjustment(curr);
         break;
 
+      case move_effect_disable_castling_right:
+        move_effect_journal_redo_disabling_castling_right(curr);
+        break;
+
+      case move_effect_enable_castling_right:
+        move_effect_journal_redo_enabling_castling_right(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1861,6 +1872,14 @@ void undo_move_effects(void)
 
       case move_effect_strict_sat_adjustment:
         move_effect_journal_undo_strict_sat_adjustment(top-1);
+        break;
+
+      case move_effect_disable_castling_right:
+        move_effect_journal_undo_disabling_castling_right(top-1);
+        break;
+
+      case move_effect_enable_castling_right:
+        move_effect_journal_undo_enabling_castling_right(top-1);
         break;
 
       default:

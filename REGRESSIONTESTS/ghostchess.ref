@@ -1037,7 +1037,7 @@ Problemesis 2002, 2\`eme Mention d'Honneur
   add_to_move_generation_stack:     3927844
                      play_move:     2014301
  is_white_king_square_attacked:      556694
- is_black_king_square_attacked:     1966537
+ is_black_king_square_attacked:     1966540
 solution finished. 
 
 

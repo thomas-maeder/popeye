@@ -405,7 +405,7 @@ Loesung beendet.
   add_to_move_generation_stack:       57032
                      play_move:       45445
  is_white_king_square_attacked:        5413
- is_black_king_square_attacked:       45382
+ is_black_king_square_attacked:       45384
 Loesung beendet. 
 
 

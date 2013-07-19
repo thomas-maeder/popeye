@@ -694,9 +694,9 @@ Loesung beendet.
   1.Ke2*d2[+nBe8=nT] nTe8*e6[+nBh1=nS]   2.nSh1*f2[+nBb8=nL] nLb8*f4[+nBc1=nD] #
 
   add_to_move_generation_stack:      161478
-                     play_move:      121954
+                     play_move:      121959
  is_white_king_square_attacked:       12612
- is_black_king_square_attacked:      121641
+ is_black_king_square_attacked:      121647
 Loesung beendet. 
 
 
