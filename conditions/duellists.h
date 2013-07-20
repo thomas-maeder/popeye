@@ -4,6 +4,7 @@
 /* This module implements the condition Duellists */
 
 #include "solving/solve.h"
+#include "solving/move_effect_journal.h"
 
 extern square duellists[nr_sides];
 
@@ -17,6 +18,16 @@ extern square duellists[nr_sides];
 int duellists_measure_length(square sq_departure,
                              square sq_arrival,
                              square sq_capture);
+
+/* Undo remembering a duellist
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_remember_duellist(move_effect_journal_index_type curr);
+
+/* Redo remembering a duellist
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_remember_duellist(move_effect_journal_index_type curr);
 
 /* Try to solve in n half-moves.
  * @param si slice index

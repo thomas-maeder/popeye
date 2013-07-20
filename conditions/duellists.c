@@ -5,6 +5,8 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
+#include <assert.h>
+
 square duellists[nr_sides];
 
 /* Determine the length of a move for the Duellists condition; the higher the
@@ -19,6 +21,82 @@ int duellists_measure_length(square sq_departure,
                              square sq_capture)
 {
   return sq_departure==duellists[trait[nbply]];
+}
+
+/* Remember a duellist
+ * @param diff adjustment
+ */
+static void remember_duellist(Side side, square to)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(to);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_remember_duellist;
+  top_elmt->reason = move_effect_reason_moving_piece_movement;
+  top_elmt->u.duellist.side = side;
+  top_elmt->u.duellist.from = duellists[side];
+  top_elmt->u.duellist.to = to;
+ #if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+ #endif
+
+  ++move_effect_journal_top[nbply];
+
+  duellists[side] = to;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Undo remembering a duellist
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_remember_duellist(move_effect_journal_index_type curr)
+{
+  Side const side = move_effect_journal[curr].u.duellist.side;
+  square const from = move_effect_journal[curr].u.duellist.from;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  duellists[side] = from;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Redo remembering a duellist
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_remember_duellist(move_effect_journal_index_type curr)
+{
+  Side const side = move_effect_journal[curr].u.duellist.side;
+  square const to = move_effect_journal[curr].u.duellist.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  duellists[side] = to;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves.
@@ -38,16 +116,23 @@ stip_length_type duellists_remember_duellist_solve(slice_index si,
                                                    stip_length_type n)
 {
   stip_length_type result;
-  square const save_duellist = duellists[slices[si].starter];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  duellists[slices[si].starter] = move_generation_stack[current_move[nbply]].arrival;
-  result = solve(slices[si].next1,n);
-  duellists[slices[si].starter] = save_duellist;
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    remember_duellist(slices[si].starter,pos);
+    result = solve(slices[si].next1,n);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

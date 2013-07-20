@@ -3,6 +3,7 @@
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"
 #include "conditions/bgl.h"
+#include "conditions/duellists.h"
 #include "conditions/imitator.h"
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
@@ -1640,6 +1641,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_disable_castling_right:
       case move_effect_enable_castling_right:
       case move_effect_remember_ep_capture_potential:
+      case move_effect_remember_duellist:
         /* nothing */
         break;
 
@@ -1768,6 +1770,10 @@ void redo_move_effects(void)
         move_effect_journal_redo_remember_ep(curr);
         break;
 
+      case move_effect_remember_duellist:
+        move_effect_journal_redo_remember_duellist(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1890,6 +1896,10 @@ void undo_move_effects(void)
 
       case move_effect_remember_ep_capture_potential:
         move_effect_journal_undo_remember_ep(top-1);
+        break;
+
+      case move_effect_remember_duellist:
+        move_effect_journal_undo_remember_duellist(top-1);
         break;
 
       default:

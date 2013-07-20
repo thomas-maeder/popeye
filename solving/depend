@@ -88,10 +88,11 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h conditions/bgl.h \
- conditions/imitator.h position/position.h \
+ conditions/duellists.h conditions/imitator.h position/position.h \
  conditions/actuated_revolving_centre.h conditions/haunted_chess.h \
- conditions/sat.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/neutral/half.h debugging/trace.h
+ conditions/sat.h pieces/walks/pawns/en_passant.h pyproc.h \
+ pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
+ debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -145,6 +146,8 @@ output/mode.h:
 
 conditions/bgl.h:
 
+conditions/duellists.h:
+
 conditions/imitator.h:
 
 position/position.h:
@@ -154,6 +157,10 @@ conditions/actuated_revolving_centre.h:
 conditions/haunted_chess.h:
 
 conditions/sat.h:
+
+pieces/walks/pawns/en_passant.h:
+
+pyproc.h:
 
 pieces/attributes/neutral/neutral.h:
 

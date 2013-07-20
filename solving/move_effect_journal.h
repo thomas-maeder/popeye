@@ -43,6 +43,7 @@ typedef enum
   move_effect_disable_castling_right,
   move_effect_enable_castling_right,
   move_effect_remember_ep_capture_potential,
+  move_effect_remember_duellist,
 
   nr_move_effect_types
 } move_effect_type;
@@ -209,6 +210,12 @@ typedef struct
             unsigned int index;
             square square;
         } ep_capture_potential;
+        struct
+        {
+            Side side;
+            square from;
+            square to;
+        } duellist;
     } u;
 #if defined(DOTRACE)
       unsigned long id;
