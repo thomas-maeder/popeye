@@ -7,6 +7,7 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/sat.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
 #include "position/pieceid.h"
@@ -1638,6 +1639,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_strict_sat_adjustment:
       case move_effect_disable_castling_right:
       case move_effect_enable_castling_right:
+      case move_effect_remember_ep_capture_potential:
         /* nothing */
         break;
 
@@ -1762,6 +1764,10 @@ void redo_move_effects(void)
         move_effect_journal_redo_enabling_castling_right(curr);
         break;
 
+      case move_effect_remember_ep_capture_potential:
+        move_effect_journal_redo_remember_ep(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1880,6 +1886,10 @@ void undo_move_effects(void)
 
       case move_effect_enable_castling_right:
         move_effect_journal_undo_enabling_castling_right(top-1);
+        break;
+
+      case move_effect_remember_ep_capture_potential:
+        move_effect_journal_undo_remember_ep(top-1);
         break;
 
       default:

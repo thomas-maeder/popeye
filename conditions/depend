@@ -2358,10 +2358,10 @@ conditions/phantom$(OBJ_SUFFIX): conditions/phantom.c conditions/phantom.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
- pieces/walks/pawns/en_passant.h conditions/marscirce/marscirce.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/move_generator.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
+ pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h \
+ conditions/marscirce/marscirce.h solving/move_generator.h \
+ stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
@@ -2397,13 +2397,13 @@ stipulation/goals/goals.h:
 
 pieces/walks/pawns/en_passant.h:
 
-conditions/marscirce/marscirce.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/marscirce/marscirce.h:
 
 solving/move_generator.h:
 

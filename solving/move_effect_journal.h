@@ -42,6 +42,7 @@ typedef enum
   move_effect_strict_sat_adjustment,
   move_effect_disable_castling_right,
   move_effect_enable_castling_right,
+  move_effect_remember_ep_capture_potential,
 
   nr_move_effect_types
 } move_effect_type;
@@ -203,6 +204,11 @@ typedef struct
             Side side;
             castling_flag_type right;
         } castling_rights_adjustment;
+        struct
+        {
+            unsigned int index;
+            square square;
+        } ep_capture_potential;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

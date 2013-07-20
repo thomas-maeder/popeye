@@ -13,11 +13,9 @@
 /* Adjust en passant possibilities of the following move after a non-capturing
  * move
  * @param sq_multistep_departure departure square of pawn move
- * @return true iff the en passant rights were adjusted
  */
-static boolean adjust_ep_squares2(square sq_multistep_departure)
+static void adjust_ep_squares(square sq_multistep_departure)
 {
-  boolean result;
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
@@ -31,10 +29,9 @@ static boolean adjust_ep_squares2(square sq_multistep_departure)
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_forward)
       {
-        en_passant_remember_multistep_over(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
-        en_passant_remember_multistep_over(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
       }
-      result = true;
       break;
     }
 
@@ -44,19 +41,15 @@ static boolean adjust_ep_squares2(square sq_multistep_departure)
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_backward)
       {
-        en_passant_remember_multistep_over(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
-        en_passant_remember_multistep_over(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
       }
-      result = true;
       break;
     }
 
     default:
-      result = false;
       break;
   }
-
-  return result;
 }
 
 /* Try to solve in n half-moves.
@@ -86,14 +79,10 @@ stip_length_type einstein_en_passant_adjuster_solve(slice_index si, stip_length_
   TraceFunctionParamListEnd();
 
   if (is_pawn(pi_moving)
-      && move_effect_journal[capture].type==move_effect_no_piece_removal
-      && adjust_ep_squares2(move_effect_journal[movement].u.piece_movement.from))
-  {
-    result = solve(slices[si].next1,n);
-    en_passant_forget_multistep();
-  }
-  else
-    result = solve(slices[si].next1,n);
+      && move_effect_journal[capture].type==move_effect_no_piece_removal)
+    adjust_ep_squares(move_effect_journal[movement].u.piece_movement.from);
+
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

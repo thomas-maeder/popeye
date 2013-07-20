@@ -44,6 +44,81 @@ void en_passant_forget_multistep(void)
   TraceFunctionResultEnd();
 }
 
+/* Remember a possible en passant capture
+ * @param diff adjustment
+ */
+void move_effect_journal_do_remember_ep(unsigned int index, square s)
+{
+  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_remember_ep_capture_potential;
+  top_elmt->reason = move_effect_reason_moving_piece_movement;
+  top_elmt->u.ep_capture_potential.index = index;
+  top_elmt->u.ep_capture_potential.square = s;
+ #if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+ #endif
+
+  ++move_effect_journal_top[nbply];
+
+  en_passant_multistep_over[index][nbply] = s;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Undo remembering a possible en passant capture
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr)
+{
+  unsigned int const index = move_effect_journal[curr].u.ep_capture_potential.index;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  en_passant_multistep_over[index][nbply] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Redo remembering a possible en passant capture
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_remember_ep(move_effect_journal_index_type curr)
+{
+  unsigned int const index = move_effect_journal[curr].u.ep_capture_potential.index;
+  square const s = move_effect_journal[curr].u.ep_capture_potential.square;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  en_passant_multistep_over[index][nbply] = s;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Was a pawn multistep move played in a certain ply?
  * @param ply the ply
  * @return true iff a multi step move was played in ply ply
@@ -158,7 +233,8 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   TraceFunctionParamListEnd();
 
   result = (trait[ply_parent]!=side
-            && (en_passant_multistep_over[0][ply_parent]==s || en_passant_multistep_over[1][ply_parent]==s));
+            && (en_passant_multistep_over[0][ply_parent]==s
+                || en_passant_multistep_over[1][ply_parent]==s));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -270,16 +346,10 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
   {
     square const multistep_over = en_passant_find_potential(move_effect_journal[movement].u.piece_movement.from);
     if (multistep_over!=initsquare)
-    {
-      en_passant_remember_multistep_over(0,multistep_over);
-      result = solve(slices[si].next1,n);
-      en_passant_forget_multistep();
-    }
-    else
-      result = solve(slices[si].next1,n);
+      move_effect_journal_do_remember_ep(0,multistep_over);
   }
-  else
-    result = solve(slices[si].next1,n);
+
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

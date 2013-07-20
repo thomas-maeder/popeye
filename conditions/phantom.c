@@ -167,14 +167,10 @@ stip_length_type phantom_en_passant_adjuster_solve(slice_index si, stip_length_t
   TraceFunctionParamListEnd();
 
   multistep_over = adjust(slices[si].starter);
-  if (multistep_over==initsquare)
-    result = solve(slices[si].next1,n);
-  else
-  {
-    en_passant_remember_multistep_over(0,multistep_over);
-    result = solve(slices[si].next1,n);
-    en_passant_forget_multistep();
-  }
+  if (multistep_over!=initsquare)
+    move_effect_journal_do_remember_ep(0,multistep_over);
+
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -3,6 +3,7 @@
 
 #include "pyproc.h"
 #include "solving/solve.h"
+#include "solving/move_effect_journal.h"
 
 /* This module provides implements en passant captures
  */
@@ -23,6 +24,21 @@ void en_passant_remember_multistep_over(unsigned int index, square s);
 /* Forget the last square remembered by en_passant_remember_multistep_over()
  */
 void en_passant_forget_multistep(void);
+
+/* Remember a possible en passant capture
+ * @param diff adjustment
+ */
+void move_effect_journal_do_remember_ep(unsigned int index, square s);
+
+/* Undo remembering a possible en passant capture
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr);
+
+/* Redo remembering a possible en passant capture
+ * @param curr identifies the adjustment effect
+ */
+void move_effect_journal_redo_remember_ep(move_effect_journal_index_type curr);
 
 /* Was a pawn multistep move played in a certain ply?
  * @param ply the ply
