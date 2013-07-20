@@ -28,8 +28,6 @@ stip_length_type antiandernach_side_changer_solve(slice_index si,
 {
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -37,8 +35,7 @@ stip_length_type antiandernach_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_effect_journal[capture].type==move_effect_no_piece_removal
-      && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
+  if (move_effect_journal[capture].type==move_effect_no_piece_removal)
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);

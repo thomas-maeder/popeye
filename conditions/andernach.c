@@ -16,14 +16,17 @@ void andernach_assume_side(Side side)
 {
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
 
-  square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                        moving_id,
-                                                        sq_arrival);
-  if (pos!=initsquare && !TSTFLAG(spec[pos],side))
-    move_effect_journal_do_side_change(move_effect_reason_andernach_chess,pos);
+  if (!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
+  {
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    if (pos!=initsquare && !TSTFLAG(spec[pos],side))
+      move_effect_journal_do_side_change(move_effect_reason_andernach_chess,pos);
+  }
 }
 
 /* Try to solve in n half-moves.
@@ -44,7 +47,6 @@ stip_length_type andernach_side_changer_solve(slice_index si,
 {
   move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -52,8 +54,7 @@ stip_length_type andernach_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_effect_journal[capture].type==move_effect_piece_removal
-      && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
+  if (move_effect_journal[capture].type==move_effect_piece_removal)
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);

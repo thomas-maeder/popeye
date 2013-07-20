@@ -37,8 +37,7 @@ stip_length_type chameleon_pursuit_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_arrival==sq_last_departure
-      && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
+  if (sq_arrival==sq_last_departure)
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);
