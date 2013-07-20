@@ -2,8 +2,29 @@
 #define PIECES_NEUTRAL_HALF_H
 
 #include "solving/solve.h"
+#include "solving/move_effect_journal.h"
 
 /* This module implements half-neutral pieces */
+
+/* Undo the deneutralisation a half-neutral piece
+ * @param curr identifies the deneutralisation effect
+ */
+void undo_half_neutral_deneutralisation(move_effect_journal_index_type curr);
+
+/* Redo the deneutralisation a half-neutral piece
+ * @param curr identifies the deneutralisation effect
+ */
+void redo_half_neutral_deneutralisation(move_effect_journal_index_type curr);
+
+/* Undo the neutralisation a half-neutral piece
+ * @param curr identifies the neutralisation effect
+ */
+void undo_half_neutral_neutralisation(move_effect_journal_index_type curr);
+
+/* Redo the neutralisation a half-neutral piece
+ * @param curr identifies the neutralisation effect
+ */
+void redo_half_neutral_neutralisation(move_effect_journal_index_type curr);
 
 /* Try to solve in n half-moves.
  * @param si slice index

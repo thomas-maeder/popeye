@@ -360,17 +360,6 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
 void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
                                                  SquareTransformation transformation);
 
-/* Deneutralise a half-neutral piece
- * @param on position of the piece to be changed
- * @param to new side of half-neutral piece
- */
-void move_effect_journal_do_half_neutral_deneutralisation(square on, Side to);
-
-/* Neutralise a half-neutral piece
- * @param on position of the piece to be changed
- */
-void move_effect_journal_do_half_neutral_neutralisation(square on);
-
 /* Complete blocking of a square
  * @param reason reason for changing the piece's nature
  * @param on position of the piece to be changed
