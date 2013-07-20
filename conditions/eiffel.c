@@ -63,8 +63,7 @@ static boolean can_piece_move(square sq)
     Side const eiffel_side = advers(trait[nbply]);
     if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
-      nextply();
-      trait[nbply] = eiffel_side;
+      nextply(eiffel_side);
       result = !(*checkfunctions[eiffel_piece])(sq,
                                                 eiffel_piece,
                                                 &validate_observation_geometry);
@@ -121,8 +120,7 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
     Side const eiffel_side = advers(trait[nbply]);
     if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
-      nextply();
-      trait[nbply] = eiffel_side;
+      nextply(eiffel_side);
       result = !(*checkfunctions[eiffel_piece])(sq_observer,
                                                 eiffel_piece,
                                                 &validate_observation_geometry);

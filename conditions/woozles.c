@@ -116,8 +116,7 @@ static boolean woohefflibre(square to, square from)
     sq_woo_from = from;
     sq_woo_to = to;
 
-    nextply();
-    trait[nbply] = side_woozle;
+    nextply(side_woozle);
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0

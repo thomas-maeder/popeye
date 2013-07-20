@@ -30,8 +30,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
       result = false;
     else
     {
-      nextply();
-      trait[nbply] = observing_side;
+      nextply(observing_side);
       result = (*checkfunctions[p])(sq,p,&validate_observation_geometry);
       finply();
     }

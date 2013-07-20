@@ -512,8 +512,7 @@ stip_length_type orthodox_mating_move_generator_solve(slice_index si,
 
   assert(n==slack_length+1);
 
-  nextply();
-  trait[nbply]= slices[si].starter;
+  nextply(slices[si].starter);
   generate_move_reaching_goal();
   result = solve(slices[si].next1,n);
   finply();

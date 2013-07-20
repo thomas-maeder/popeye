@@ -114,8 +114,7 @@ static boolean generate_moves_of_transmuting_king(slice_index si,
     {
       boolean is_king_transmuted;
 
-      nextply();
-      trait[nbply] = side_transmuting;
+      nextply(side_transmuting);
       is_king_transmuted = (*checkfunctions[*ptrans])(sq_departure,
                                                       *ptrans,
                                                       &validate_observation);

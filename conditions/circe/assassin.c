@@ -23,8 +23,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
   boolean assassinable = false;
   Side const side_checking = advers(side_in_check);
 
-  nextply();
-  trait[nbply] = side_checking;
+  nextply(side_checking);
 
   if (is_square_attacked(king_square[side_in_check],&validate_observation))
     assassinable = true;

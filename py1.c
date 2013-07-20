@@ -144,43 +144,9 @@ void InitCheckDir(void)
     }
 }
 
-static void initply(ply parent, ply child)
-{
-  parent_ply[child] = parent;
-
-  /* child -1 is correct and parent would be wrong! */
-  move_effect_journal_top[child] = move_effect_journal_top[child-1];
-
-  ++post_move_iteration_id[child];
-
-  TraceValue("%u",child);
-  TraceValue("%u",move_effect_journal_top[child]);
-  TraceValue("%u\n",post_move_iteration_id[child]);
-}
-
-static void do_copyply(ply original, ply copy)
-{
-  parent_ply[copy] = parent_ply[original];
-
-  trait[copy] = trait[original];
-
-  move_effect_journal_top[copy] = move_effect_journal_top[copy-1];
-
-  {
-    unsigned int const nr_moves = current_move[original]-current_move[original-1];
-    memcpy(&move_generation_stack[current_move[copy]+1],
-           &move_generation_stack[current_move[original-1]+1],
-           nr_moves*sizeof move_generation_stack[0]);
-    current_move[copy] += nr_moves;
-  }
-
-  ++post_move_iteration_id[copy];
-  TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
-}
-
 static ply ply_watermark;
 
-void nextply(void)
+void nextply(Side side)
 {
   ply const parent = nbply;
 
@@ -192,7 +158,14 @@ void nextply(void)
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
   ++ply_watermark;
-  initply(parent,nbply);
+
+  parent_ply[nbply] = parent;
+
+  trait[nbply] = side;
+
+  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+
+  ++post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -208,7 +181,22 @@ void copyply(void)
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
   ++ply_watermark;
-  do_copyply(original,nbply);
+
+  parent_ply[nbply] = parent_ply[original];
+
+  trait[nbply] = trait[original];
+
+  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+
+  ++post_move_iteration_id[nbply];
+
+  {
+    unsigned int const nr_moves = current_move[original]-current_move[original-1];
+    memcpy(&move_generation_stack[current_move[nbply]+1],
+           &move_generation_stack[current_move[original-1]+1],
+           nr_moves*sizeof move_generation_stack[0]);
+    current_move[nbply] += nr_moves;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

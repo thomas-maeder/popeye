@@ -109,8 +109,7 @@ static square find_king_flight(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  nextply();
-  trait[nbply] = White;
+  nextply(White);
 
   empty_square(king_square[Black]);
 

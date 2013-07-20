@@ -14,11 +14,8 @@ static boolean is_observed(square sq_departure)
   TraceFunctionParamListEnd();
 
 
-  nextply();
-  trait[nbply] = advers(trait[parent_ply[nbply]]);
-
+  nextply(advers(trait[nbply]));
   result = is_square_attacked(sq_departure,&validate_observer);
-
   finply();
 
   TraceFunctionExit(__func__);

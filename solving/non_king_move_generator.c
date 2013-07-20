@@ -77,8 +77,7 @@ stip_length_type non_king_move_generator_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nextply();
-  trait[nbply] = side_at_move;
+  nextply(side_at_move);
 
   while (result<slack_length
          && advance_departure_square(side_at_move,&next_square_to_try))

@@ -19,11 +19,8 @@ static boolean is_piece_provoked_on(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  nextply();
-  trait[nbply] = advers(trait[parent_ply[nbply]]);
-
+  nextply(advers(trait[nbply]));
   result = is_square_attacked(sq_departure,&validate_observer);
-
   finply();
 
   TraceFunctionExit(__func__);

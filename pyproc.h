@@ -220,7 +220,7 @@ void    hardinit(void);
 
 void copyply(void);
 void finply(void);
-void nextply(void);
+void nextply(Side side);
 
 boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
 

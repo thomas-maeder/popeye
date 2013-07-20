@@ -277,16 +277,14 @@ slice_index alloc_move_generator_slice(void)
   return result;
 }
 
-static void genmove(Side side)
+static void genmove(void)
 {
   unsigned int i;
   square square_h = square_h8;
+  Side const side = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
-
-  trait[nbply]= side;
 
   for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {
@@ -328,8 +326,8 @@ stip_length_type move_generator_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nextply();
-  genmove(slices[si].starter);
+  nextply(slices[si].starter);
+  genmove();
   result = solve(slices[si].next1,n);
   finply();
 

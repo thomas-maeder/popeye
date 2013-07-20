@@ -33,11 +33,8 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   amu_attack_count = 0;
   single_attacker_departure = initsquare;
 
-  nextply();
-  trait[nbply] = advers(trait_ply);
-
+  nextply(advers(trait_ply));
   is_square_attacked(sq_departure,&eval_amu_attack);
-
   finply();
 
   return amu_attack_count==1;

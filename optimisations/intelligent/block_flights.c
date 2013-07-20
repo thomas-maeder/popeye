@@ -102,8 +102,7 @@ static void plan_blocks_of_flights(void)
 
   nr_available_blockers = intelligent_get_nr_reservable_masses(Black);
 
-  nextply();
-  trait[nbply] = White;
+  nextply(White);
 
   assert(get_walk_of_piece_on_square(king_square[Black])==King);
   empty_square(king_square[Black]);

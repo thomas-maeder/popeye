@@ -479,7 +479,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
     {
       square const *bnp;
 
-      nextply();
+      nextply(White);
 
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
         if (king_square[White]!=*bnp && TSTFLAG(spec[*bnp],White))

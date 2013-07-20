@@ -37,8 +37,7 @@ boolean extinction_check_tester_is_in_check(slice_index si, Side side_in_check)
 
   PieNam p;
 
-  nextply();
-  trait[nbply] = side_checking;
+  nextply(side_checking);
 
   for (p = King; p<PieceCount; ++p)
     if (exist[p] && number_of_pieces[side_in_check][p]==1)

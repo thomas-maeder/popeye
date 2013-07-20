@@ -539,7 +539,7 @@ static void PushMagicViews(void)
 
   magic_views_top[nbply] = magic_views_top[nbply-1];
 
-  nextply();
+  nextply(trait[nbply]);
 
   for (pos_magic = boardnum; *pos_magic; pos_magic++)
     if (TSTFLAG(spec[*pos_magic], Magic))

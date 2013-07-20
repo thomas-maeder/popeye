@@ -28,8 +28,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 {
   boolean result;
 
-  nextply();
-  trait[nbply] = advers(side_in_check);
+  nextply(advers(side_in_check));
   result = is_in_check(slices[si].next1,side_in_check);
   finply();
 

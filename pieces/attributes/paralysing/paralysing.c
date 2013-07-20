@@ -51,11 +51,8 @@ static boolean is_piece_paralysed_on(square s)
     result = false;
   else
   {
-    nextply();
-    trait[nbply] = advers(trait[parent_ply[nbply]]);
-
+    nextply(advers(trait[nbply]));
     result = is_square_attacked(s,&validate_paralyser);
-
     finply();
   }
 

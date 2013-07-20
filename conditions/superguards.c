@@ -19,11 +19,8 @@ static boolean avoid_observing_guarded(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  nextply();
-  trait[nbply] = advers(trait[parent_ply[nbply]]);
-
+  nextply(advers(trait[nbply]));
   result = !is_square_attacked(sq_observee,&validate_observer);
-
   finply();
 
   TraceFunctionExit(__func__);
