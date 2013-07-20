@@ -65,10 +65,10 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h conditions/marscirce/marscirce.h \
- solving/move_generator.h stipulation/slice_type.h \
- solving/move_effect_journal.h position/pieceid.h \
- stipulation/stipulation.h stipulation/slice.h \
+ stipulation/goals/goals.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h \
+ conditions/marscirce/marscirce.h solving/move_generator.h \
+ stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
@@ -104,15 +104,17 @@ pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
 conditions/marscirce/marscirce.h:
 
 solving/move_generator.h:
 
 stipulation/slice_type.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 stipulation/stipulation.h:
 

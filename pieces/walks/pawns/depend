@@ -46,9 +46,9 @@ pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \
  utilities/bitmask.h position/position.h utilities/boolean.h \
  utilities/enumeration.h py.h utilities/boolean.h position/position.h \
  pylang.h pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h solving/solve.h solving/move_generator.h \
- stipulation/slice_type.h solving/move_effect_journal.h \
- position/pieceid.h pydata.h pyproc.h debugging/trace.h
+ stipulation/goals/goals.h solving/solve.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/move_generator.h \
+ stipulation/slice_type.h pydata.h pyproc.h debugging/trace.h
 
 pieces/walks/pawns/pawns.h:
 
@@ -82,13 +82,15 @@ stipulation/goals/goals.h:
 
 solving/solve.h:
 
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
 solving/move_generator.h:
 
 stipulation/slice_type.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 pydata.h:
 
@@ -138,9 +140,10 @@ pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/enumeration.h pylang.h solving/solve.h \
- pieces/walks/hunters.h position/position.h solving/move_effect_journal.h \
- position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h pieces/walks/hunters.h position/position.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
  debugging/trace.h pydata.h pyproc.h
@@ -173,13 +176,15 @@ pylang.h:
 
 solving/solve.h:
 
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
 pieces/walks/hunters.h:
 
 position/position.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 stipulation/pipe.h:
 

@@ -824,7 +824,8 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/goals/capture/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/legal_move_counter.h conditions/sat.h \
- solving/move_effect_journal.h position/pieceid.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/move_generator.h debugging/trace.h
 
@@ -909,6 +910,8 @@ solving/legal_move_counter.h:
 conditions/sat.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 
@@ -1390,10 +1393,11 @@ stipulation/move_player$(OBJ_SUFFIX): stipulation/move_player.c \
  pieces/walks/vectors.h utilities/boolean.h pylang.h \
  pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h solving/move_effect_journal.h \
- position/pieceid.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h debugging/trace.h pydata.h pyproc.h
+ solving/castling_rights.h position/pieceid.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h stipulation/has_solution_type.h debugging/trace.h \
+ pydata.h pyproc.h
 
 stipulation/move_player.h:
 
@@ -1428,6 +1432,8 @@ pieces/walks/vectors.h:
 stipulation/goals/goals.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 
