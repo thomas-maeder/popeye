@@ -46,15 +46,21 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
 
   if (move_generation_stack[coup_id].current_transmutation!=Empty)
   {
-    square const sq_arrival = move_generation_stack[coup_id].arrival;
-    Flags flags = spec[sq_arrival];
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    Flags flags = spec[pos];
 
     CLRFLAG(flags,Royal);
     move_effect_journal_do_flags_change(move_effect_reason_king_transmutation,
-                                        sq_arrival,flags);
+                                        pos,flags);
 
     move_effect_journal_do_piece_change(move_effect_reason_king_transmutation,
-                                        sq_arrival,
+                                        pos,
                                         move_generation_stack[coup_id].current_transmutation);
   }
 

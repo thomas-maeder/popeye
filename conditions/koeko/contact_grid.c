@@ -1,6 +1,8 @@
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/circe/circe.h"
-#include "pydata.h"
+#include "solving/single_move_generator.h"
+#include "solving/move_effect_journal.h"
+#include "solving/observation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -10,9 +12,8 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
-#include "solving/single_move_generator.h"
-#include "solving/observation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -75,17 +76,25 @@ stip_length_type contact_grid_legality_tester_solve(slice_index si,
                                                     stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nogridcontact(sq_arrival))
-    result = previous_move_is_illegal;
-  else
-    result = solve(slices[si].next1,n);
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    if (nogridcontact(pos))
+      result = previous_move_is_illegal;
+    else
+      result = solve(slices[si].next1,n);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

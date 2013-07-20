@@ -1,8 +1,9 @@
 #include "conditions/circe/couscous.h"
-#include "stipulation/stipulation.h"
 #include "conditions/circe/circe.h"
-#include "pydata.h"
+#include "solving/move_effect_journal.h"
+#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -23,16 +24,24 @@ stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
                                                                stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_relevant_piece[nbply] = get_walk_of_piece_on_square(sq_arrival);
-  current_circe_relevant_spec[nbply] = spec[sq_arrival];
-  current_circe_relevant_side[nbply] = advers(slices[si].starter);
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    current_circe_relevant_piece[nbply] = get_walk_of_piece_on_square(pos);
+    current_circe_relevant_spec[nbply] = spec[pos];
+    current_circe_relevant_side[nbply] = advers(slices[si].starter);
+  }
 
   result = solve(slices[si].next1,n);
 

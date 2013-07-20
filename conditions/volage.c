@@ -1,33 +1,40 @@
 #include "conditions/volage.h"
-#include "pydata.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
 static void change_side(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;
+  PieceIdType const moving_id = GetPieceId(movingspec);
+  square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                            moving_id,
+                                                                            sq_arrival);
   Side const to_side = advers(trait[nbply]);
 
-  if (TSTFLAG(spec[sq_arrival],Volage)
-      && SquareCol(sq_departure)!=SquareCol(sq_arrival)
-      && !TSTFLAG(spec[sq_arrival],to_side))
+  if (TSTFLAG(movingspec,Volage)
+      && SquareCol(sq_departure)!=SquareCol(pos)
+      && !TSTFLAG(spec[pos],to_side))
   {
     move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
-                                       sq_arrival);
+                                       pos);
 
     if (!CondFlag[hypervolage])
     {
-      Flags flags = spec[sq_arrival];
+      Flags flags = spec[pos];
       CLRFLAG(flags,Volage);
       move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
-                                          sq_arrival,
+                                          pos,
                                           flags);
     }
   }

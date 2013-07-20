@@ -1,10 +1,11 @@
 #include "stipulation/goals/chess81/reached_tester.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -50,8 +51,6 @@ slice_index alloc_goal_chess81_reached_tester_system(void)
 stip_length_type goal_chess81_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -60,10 +59,21 @@ stip_length_type goal_chess81_reached_tester_solve(slice_index si, stip_length_t
 
   assert(current_move[nbply]!=nil_coup);
 
-  if (just_moved==White ? sq_arrival>=square_a8 : sq_arrival<=square_h1)
-    result = solve(slices[si].next1,n);
-  else
-    result = n+2;
+  {
+    Side const just_moved = advers(slices[si].starter);
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+
+    if (just_moved==White ? pos>=square_a8 : pos<=square_h1)
+      result = solve(slices[si].next1,n);
+    else
+      result = n+2;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,12 +1,13 @@
 #include "conditions/nopromotion.h"
-#include "pydata.h"
+#include "conditions/circe/circe.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "conditions/circe/circe.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -25,17 +26,25 @@ stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_square_occupied_by_promotable_pawn(sq_arrival)==no_side)
-    result = solve(slices[si].next1,n);
-  else
-    result = previous_move_is_illegal;
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    if (is_square_occupied_by_promotable_pawn(pos)==no_side)
+      result = solve(slices[si].next1,n);
+    else
+      result = previous_move_is_illegal;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,9 +1,10 @@
 #include "conditions/anticirce/exchange_special.h"
 #include "position/pieceid.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -56,8 +57,16 @@ stip_length_type anticirce_exchange_special_solve(slice_index si, stip_length_ty
   else
   {
     Side const just_moved = advers(slices[si].starter);
-    square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
-    if (GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;
+    PieceIdType const moving_id = GetPieceId(movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    square const sq_diagram = GetPositionInDiagram(movingspec);
+    if (GetPositionInDiagram(spec[sq_diagram])==pos
         && TSTFLAG(spec[sq_diagram],just_moved)
         && sq_diagram!=sq_rebirth)
       result = solve(slices[si].next1,n);

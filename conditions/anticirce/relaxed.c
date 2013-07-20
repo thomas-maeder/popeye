@@ -1,11 +1,11 @@
 #include "conditions/anticirce/relaxed.h"
-#include "pydata.h"
+#include "conditions/anticirce/anticirce.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
-#include "conditions/anticirce/anticirce.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -26,15 +26,23 @@ stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
-                                       sq_arrival);
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
+                                         pos);
+  }
 
   if (is_square_empty(current_anticirce_rebirth_square[nbply]))
     move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,

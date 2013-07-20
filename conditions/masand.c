@@ -1,13 +1,13 @@
 #include "conditions/masand.h"
-#include "pydata.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "solving/move_effect_journal.h"
+#include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
-#include "solving/observation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -83,19 +83,26 @@ static void change_observed(square observer_pos)
 stip_length_type masand_recolorer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  Side const opponent = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(opponent) && observed(king_square[opponent],sq_arrival))
-    change_observed(sq_arrival);
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    Side const opponent = advers(slices[si].starter);
+    if (echecc(opponent) && observed(king_square[opponent],pos))
+      change_observed(pos);
+  }
 
-  result = solve(next,n);
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

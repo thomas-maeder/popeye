@@ -1,15 +1,15 @@
 #include "conditions/norsk.h"
-#include "pydata.h"
+#include "pieces/walks/walks.h"
+#include "solving/moving_pawn_promotion.h"
+#include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
-#include "solving/moving_pawn_promotion.h"
-#include "solving/move_effect_journal.h"
-#include "solving/move_generator.h"
-#include "pieces/walks/walks.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -52,12 +52,18 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
 
   if (moving_pawn_promotion_state[nbply].promotee==Empty)
   {
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-    PieNam const norsked = get_walk_of_piece_on_square(sq_arrival);
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    PieNam const norsked = get_walk_of_piece_on_square(pos);
     PieNam const norsked_to_walk = norsk_walk(norsked);
     if (norsked!=norsked_to_walk)
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
-                                          sq_arrival,
+                                          pos,
                                           norsked_to_walk);
   }
 

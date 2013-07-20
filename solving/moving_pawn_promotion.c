@@ -38,27 +38,34 @@ stip_length_type moving_pawn_promoter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    pieces_pawns_initialise_promotion_sequence(move_generation_stack[current_move[nbply]].arrival,
-                                               &moving_pawn_promotion_state[nbply]);
-
-  if (moving_pawn_promotion_state[nbply].promotee==Empty)
-    result = solve(slices[si].next1,n);
-  else
   {
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
+      pieces_pawns_initialise_promotion_sequence(pos,
+                                                 &moving_pawn_promotion_state[nbply]);
 
-    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
-                                        sq_arrival,
-                                        moving_pawn_promotion_state[nbply].promotee);
-
-    result = solve(slices[si].next1,n);
-
-    if (!post_move_iteration_locked[nbply])
+    if (moving_pawn_promotion_state[nbply].promotee==Empty)
+      result = solve(slices[si].next1,n);
+    else
     {
-      pieces_pawns_continue_promotion_sequence(&moving_pawn_promotion_state[nbply]);
-      if (moving_pawn_promotion_state[nbply].promotee!=Empty)
-        lock_post_move_iterations();
+      move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                          pos,
+                                          moving_pawn_promotion_state[nbply].promotee);
+
+      result = solve(slices[si].next1,n);
+
+      if (!post_move_iteration_locked[nbply])
+      {
+        pieces_pawns_continue_promotion_sequence(&moving_pawn_promotion_state[nbply]);
+        if (moving_pawn_promotion_state[nbply].promotee!=Empty)
+          lock_post_move_iterations();
+      }
     }
   }
 

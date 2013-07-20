@@ -1,10 +1,11 @@
 #include "conditions/anticirce/magic_square.h"
-#include "pydata.h"
+#include "conditions/anticirce/anticirce.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "conditions/anticirce/anticirce.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -25,16 +26,24 @@ stip_length_type magic_square_anticirce_relevant_side_adapter_solve(slice_index 
                                                                     stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(anticirce_current_relevant_spec[nbply],Royal)
-      && TSTFLAG(sq_spec[sq_arrival],MagicSq))
+  if (!TSTFLAG(anticirce_current_relevant_spec[nbply],Royal))
+  {
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    if (TSTFLAG(sq_spec[pos],MagicSq))
       anticirce_current_relevant_side[nbply] = slices[si].starter;
+  }
 
   result = solve(slices[si].next1,n);
 

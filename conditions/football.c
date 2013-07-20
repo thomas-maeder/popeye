@@ -1,13 +1,13 @@
 #include "conditions/football.h"
-#include "stipulation/pipe.h"
-#include "pydata.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/stipulation.h"
-#include "stipulation/move.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
+#include "stipulation/pipe.h"
+#include "stipulation/has_solution_type.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/move.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -62,12 +62,18 @@ void init_football_substitutes(void)
 
 static PieNam const *get_bench(void)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+  square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                            moving_id,
+                                                                            sq_arrival);
 
-  if (sq_arrival!=king_square[Black] && sq_arrival!=king_square[White]
-      && (sq_arrival%onerow==left_file || sq_arrival%onerow==right_file))
+  if (pos!=king_square[Black] && pos!=king_square[White]
+      && (pos%onerow==left_file || pos%onerow==right_file))
   {
-    PieNam const p = get_walk_of_piece_on_square(sq_arrival);
+    PieNam const p = get_walk_of_piece_on_square(pos);
     PieNam tmp = next_football_substitute[Empty];
 
     /* ensure moving piece is on list to allow null (= non-) substitutions */
@@ -151,11 +157,17 @@ stip_length_type football_chess_substitutor_solve(slice_index si,
     result = solve(slices[si].next1,n);
   else
   {
-    square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
 
-    if (get_walk_of_piece_on_square(sq_arrival)!=current_football_substitution[nbply])
+    if (get_walk_of_piece_on_square(pos)!=current_football_substitution[nbply])
       move_effect_journal_do_piece_change(move_effect_reason_football_chess_substitution,
-                                          sq_arrival,
+                                          pos,
                                           current_football_substitution[nbply]);
 
     result = solve(slices[si].next1,n);
