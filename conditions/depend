@@ -4700,12 +4700,12 @@ output/mode.h:
 conditions/sting$(OBJ_SUFFIX): conditions/sting.c conditions/sting.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h py.h \
- utilities/boolean.h position/position.h pylang.h pieces/walks/hoppers.h \
+ utilities/boolean.h position/position.h pylang.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pieces/walks/hoppers.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
+ solving/observation.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ stipulation/goals/goals.h output/mode.h pydata.h pyproc.h
 
 conditions/sting.h:
 
@@ -4729,6 +4729,12 @@ position/position.h:
 
 pylang.h:
 
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
 pieces/walks/hoppers.h:
 
 solving/move_generator.h:
@@ -4736,6 +4742,8 @@ solving/move_generator.h:
 solving/solve.h:
 
 stipulation/slice_type.h:
+
+solving/observation.h:
 
 stipulation/stipulation.h:
 
@@ -4752,10 +4760,6 @@ output/mode.h:
 pydata.h:
 
 pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
 conditions/follow_my_leader$(OBJ_SUFFIX): conditions/follow_my_leader.c \
  conditions/follow_my_leader.h position/board.h utilities/bitmask.h \
  solving/move_effect_journal.h solving/solve.h py.h utilities/boolean.h \

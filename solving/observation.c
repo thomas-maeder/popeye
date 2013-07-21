@@ -4,6 +4,7 @@
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/sting.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -259,6 +260,10 @@ boolean is_square_observed(slice_index si,
       result = marscirce_is_square_observed(si,sq_target,evaluate);
       break;
 
+    case STStingIsSquareObserved:
+      result = sting_is_square_observed(si,sq_target,evaluate);
+      break;
+
     case STFindSquareObserverTrackingBackKing:
       result = find_square_observer_tracking_back_from_target_king(si,sq_target,evaluate);
       break;
@@ -286,6 +291,7 @@ static slice_index const slice_rank_order[] =
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
     STMarsIsSquareObserved,
+    STStingIsSquareObserved,
     STFindSquareObserverTrackingBackKing,
     STFindSquareObserverTrackingBack,
     STTrue

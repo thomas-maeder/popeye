@@ -39,9 +39,6 @@ boolean find_square_observer_tracking_back_from_target_king(slice_index si,
         assert(0);
       }
     }
-    else if (CondFlag[sting]
-             && (*checkfunctions[Grasshopper])(sq_target, King, evaluate))
-      return true;
     else if (roicheck(sq_target,King,evaluate))
       return true;
   }

@@ -390,6 +390,7 @@
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \
     ENUMERATOR(STStingMovesForPieceGenerator),                          \
+    ENUMERATOR(STStingIsSquareObserved),                                \
     ENUMERATOR(STCastlingChessMovesForPieceGenerator),                  \
     ENUMERATOR(STPlatzwechselRochadeMovesForPieceGenerator),            \
     ENUMERATOR(STMessignyMovesForPieceGenerator),                       \
