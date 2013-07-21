@@ -36,7 +36,7 @@ slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_move_generator[nr_sides];
-slice_index temporary_hack_is_square_observed;
+slice_index temporary_hack_is_square_observed[nr_sides];
 slice_index temporary_hack_check_tester;
 
 static slice_index make_mate_tester_fork(Side side)
@@ -272,7 +272,7 @@ static slice_index make_check_tester(void)
   return result;
 }
 
-static slice_index make_is_square_observed(void)
+static slice_index make_is_square_observed(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
@@ -283,6 +283,7 @@ static slice_index make_is_square_observed(void)
   pipe_link(testing,king);
   pipe_link(king,tester);
   pipe_link(tester,alloc_true_slice());
+  stip_impose_starter(result,side);
   return result;
 }
 
@@ -336,7 +337,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_move_generator[Black] = make_move_generator(Black);
     temporary_hack_move_generator[White] = make_move_generator(White);
 
-    temporary_hack_is_square_observed = make_is_square_observed();
+    temporary_hack_is_square_observed[Black] = make_is_square_observed(Black);
+    temporary_hack_is_square_observed[White] = make_is_square_observed(White);
+
     temporary_hack_check_tester = make_check_tester();
 
     pipe_append(root_slice,entry_point);
@@ -365,8 +368,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[White],
                 temporary_hack_move_generator[White]);
     pipe_append(temporary_hack_move_generator[White],
-                temporary_hack_is_square_observed);
-    pipe_append(temporary_hack_is_square_observed,
+                temporary_hack_is_square_observed[White]);
+    pipe_append(temporary_hack_is_square_observed[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -393,6 +396,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[Black],
                 temporary_hack_move_generator[Black]);
     pipe_append(temporary_hack_move_generator[Black],
+                temporary_hack_is_square_observed[Black]);
+    pipe_append(temporary_hack_is_square_observed[Black],
                 temporary_hack_check_tester);
 
     if (slices[root_slice].starter==Black)

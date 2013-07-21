@@ -6,6 +6,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/sting.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/vaulting_kings.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -303,7 +304,7 @@ boolean is_square_observed_recursive(slice_index si,
 
 boolean is_square_observed(square sq_target, evalfunction_t *evaluate)
 {
-  return is_square_observed_recursive(slices[temporary_hack_is_square_observed].next2,
+  return is_square_observed_recursive(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
                                       sq_target,
                                       evaluate);
 }
@@ -359,18 +360,24 @@ static void insert_slice(slice_index testing, slice_type type)
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    Side side;
+    slice_type type;
+} instrumenatation_type;
+
 static void instrument_testing(slice_index si, stip_structure_traversal *st)
 {
+  instrumenatation_type const * const it = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
 
-  {
-    slice_type const * const type = st->param;
-    insert_slice(si,*type);
-  }
+  if (it->side==nr_sides || it->side==slices[si].starter)
+    insert_slice(si,it->type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -378,17 +385,20 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
 
 /* Instrument square observation testing with a slice type
  * @param identifies where to start instrumentation
+ * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
  */
 void stip_instrument_is_square_observed_testing(slice_index si,
+                                                Side side,
                                                 slice_type type)
 {
+  instrumenatation_type it = { side, type };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&type);
+  stip_structure_traversal_init(&st,&it);
   stip_structure_traversal_override_single(&st,
                                            STTestingIfSquareIsObserved,
                                            &instrument_testing);

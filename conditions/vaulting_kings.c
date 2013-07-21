@@ -1,6 +1,7 @@
 #include "conditions/vaulting_kings.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
@@ -133,6 +134,7 @@ void vaulting_kings_initalise_solving(slice_index si)
       king_vaulters[White][1] = Empty;
     }
     solving_instrument_move_generation(si,White,STVaultingKingsMovesForPieceGenerator);
+    stip_instrument_is_square_observed_testing(si,White,STVaultingKingIsSquareObserved);
   }
 
   if (CondFlag[blvault_king])
@@ -143,6 +145,7 @@ void vaulting_kings_initalise_solving(slice_index si)
       king_vaulters[Black][1] = Empty;
     }
     solving_instrument_move_generation(si,Black,STVaultingKingsMovesForPieceGenerator);
+    stip_instrument_is_square_observed_testing(si,Black,STVaultingKingIsSquareObserved);
   }
 }
 
@@ -154,24 +157,12 @@ boolean vaulting_king_is_square_observed(slice_index si,
 
   if (number_of_pieces[side_observing][King]>0)
   {
-    if ((CondFlag[side_observing==White ? whvault_king : blvault_king])
-        && !transmuting_kings_lock_recursion
+    if (!transmuting_kings_lock_recursion
         && vaulting_kings_is_square_attacked_by_king(sq_target,evaluate))
       return true;
-
-    return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
+    else
+      return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
   }
-
-  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
-}
-
-void vaulting_kings_initialise_square_observation(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_is_square_observed_testing(si,STVaultingKingIsSquareObserved);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
+  else
+    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }

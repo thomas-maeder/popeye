@@ -42,7 +42,7 @@ extern slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 extern slice_index temporary_hack_move_generator[nr_sides];
 
 /* fork slice into branch that tests square observation */
-extern slice_index temporary_hack_is_square_observed;
+extern slice_index temporary_hack_is_square_observed[nr_sides];
 
 /* fork slice into branch that detects check*/
 extern slice_index temporary_hack_check_tester;

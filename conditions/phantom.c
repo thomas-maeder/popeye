@@ -190,7 +190,7 @@ void solving_initialise_phantom(slice_index si)
   stip_instrument_moves(si,STPhantomChessEnPassantAdjuster);
 
   solving_instrument_move_generation(si,nr_sides,STPhantomMovesForPieceGenerator);
-  stip_instrument_is_square_observed_testing(si,STPhantomIsSquareObserved);
+  stip_instrument_is_square_observed_testing(si,nr_sides,STPhantomIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -46,7 +46,7 @@ void stip_insert_singlebox_type3(slice_index si)
 
   move_effect_journal_register_pre_capture_effect();
 
-  stip_instrument_is_square_observed_testing(si,STSingleBoxType3IsSquareObserved);
+  stip_instrument_is_square_observed_testing(si,nr_sides,STSingleBoxType3IsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

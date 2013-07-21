@@ -113,7 +113,7 @@ void solving_initialise_plus(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,nr_sides,STPlusMovesForPieceGenerator);
-  stip_instrument_is_square_observed_testing(si,STPlusIsSquareObserved);
+  stip_instrument_is_square_observed_testing(si,nr_sides,STPlusIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

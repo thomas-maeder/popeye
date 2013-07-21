@@ -4404,7 +4404,7 @@ conditions/vaulting_kings$(OBJ_SUFFIX): conditions/vaulting_kings.c \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  pylang.h conditions/transmuting_kings/transmuting_kings.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
+ solving/observation.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
  pyproc.h
@@ -4444,6 +4444,8 @@ solving/move_generator.h:
 solving/solve.h:
 
 stipulation/slice_type.h:
+
+solving/observation.h:
 
 stipulation/stipulation.h:
 

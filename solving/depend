@@ -2326,6 +2326,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/sting.h position/position.h \
  conditions/transmuting_kings/transmuting_kings.h \
+ conditions/vaulting_kings.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
@@ -2378,6 +2379,8 @@ conditions/sting.h:
 position/position.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
+
+conditions/vaulting_kings.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 

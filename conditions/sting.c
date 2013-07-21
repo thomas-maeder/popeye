@@ -42,5 +42,5 @@ boolean sting_is_square_observed(slice_index si,
 void sting_initalise_solving(slice_index si)
 {
   solving_instrument_move_generation(si,nr_sides,STStingMovesForPieceGenerator);
-  stip_instrument_is_square_observed_testing(si,STStingIsSquareObserved);
+  stip_instrument_is_square_observed_testing(si,nr_sides,STStingIsSquareObserved);
 }

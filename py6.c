@@ -2721,21 +2721,12 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
     beamten_initialise_solving(result);
 
   if (CondFlag[blvault_king] || CondFlag[whvault_king])
-  {
     vaulting_kings_initalise_solving(result);
-    vaulting_kings_initialise_square_observation(result);
-  }
   else if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king]
            || CondFlag[bltrans_king] || CondFlag[blsupertrans_king])
-  {
     transmuting_kings_initialise_solving(result);
-    transmuting_kings_initialise_square_observation(result);
-  }
   else if (CondFlag[whrefl_king] || CondFlag[blrefl_king])
-  {
     reflective_kings_initialise_solving(result);
-    reflective_kings_initialise_square_observation(result);
-  }
 
   if (CondFlag[sting])
     sting_initalise_solving(result);
