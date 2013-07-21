@@ -66,8 +66,8 @@ conditions/amu/attack_counter$(OBJ_SUFFIX): conditions/amu/attack_counter.c \
  stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h
 
 conditions/amu/attack_counter.h:
 
@@ -110,8 +110,6 @@ stipulation/goals/goals.h:
 output/mode.h:
 
 stipulation/move.h:
-
-stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 
