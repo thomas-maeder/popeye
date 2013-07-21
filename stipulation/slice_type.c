@@ -424,6 +424,7 @@
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
     ENUMERATOR(STFindSquareObserverTrackingBack),                       \
     ENUMERATOR(STFindSquareObserverTrackingBackKing),                   \
+    ENUMERATOR(STReflectiveKingIsSquareObserved),                       \
     ENUMERATOR(STAnnanIsSquareObserved),                                \
     ENUMERATOR(STPhantomIsSquareObserved),                              \
     ENUMERATOR(STPlusIsSquareObserved),                                 \

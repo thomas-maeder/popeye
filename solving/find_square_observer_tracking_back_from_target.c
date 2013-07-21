@@ -8,9 +8,9 @@
 
 #include <assert.h>
 
-boolean find_square_observer_tracking_back_from_target_king(slice_index si,
-                                                            square sq_target,
-                                                            evalfunction_t *evaluate)
+boolean reflective_king_is_square_observed(slice_index si,
+                                           square sq_target,
+                                           evalfunction_t *evaluate)
 {
   Side const side_observing = trait[nbply];
 
@@ -34,14 +34,21 @@ boolean find_square_observer_tracking_back_from_target_king(slice_index si,
         if (reflective_kings_is_square_attacked_by_king(sq_target,evaluate))
           return true;
       }
-      else
-      {
-        assert(0);
-      }
+
+      return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
     }
-    else if (roicheck(sq_target,King,evaluate))
-      return true;
   }
+
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+}
+
+boolean find_square_observer_tracking_back_from_target_king(slice_index si,
+                                                            square sq_target,
+                                                            evalfunction_t *evaluate)
+{
+  if (number_of_pieces[trait[nbply]][King]>0
+      && roicheck(sq_target,King,evaluate))
+    return true;
 
   return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }

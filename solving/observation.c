@@ -265,6 +265,10 @@ boolean is_square_observed_recursive(slice_index si,
       result = sting_is_square_observed(si,sq_target,evaluate);
       break;
 
+    case STReflectiveKingIsSquareObserved:
+      result = reflective_king_is_square_observed(si,sq_target,evaluate);
+      break;
+
     case STFindSquareObserverTrackingBackKing:
       result = find_square_observer_tracking_back_from_target_king(si,sq_target,evaluate);
       break;
@@ -300,6 +304,7 @@ static slice_index const slice_rank_order[] =
     STPlusIsSquareObserved,
     STMarsIsSquareObserved,
     STStingIsSquareObserved,
+    STReflectiveKingIsSquareObserved,
     STFindSquareObserverTrackingBackKing,
     STFindSquareObserverTrackingBack,
     STTrue
