@@ -239,7 +239,7 @@ boolean phantom_is_square_observed(slice_index si,
       }
   }
 
-  result = result || is_square_observed(slices[si].next1,sq_target,evaluate);
+  result = result || is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

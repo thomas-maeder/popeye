@@ -1,7 +1,6 @@
 #include "conditions/shielded_kings.h"
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -22,9 +21,7 @@ static boolean avoid_observation_of_shielded(square sq_observer,
   {
     /* won't work for locust Ks etc.*/
     nextply(advers(trait[nbply]));
-    result = !is_square_observed(slices[temporary_hack_is_square_observed].next2,
-                                 sq_observee,
-                                 &validate_observer);
+    result = !is_square_observed(sq_observee,&validate_observer);
     finply();
   }
   else

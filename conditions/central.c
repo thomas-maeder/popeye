@@ -2,7 +2,6 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -42,9 +41,7 @@ static boolean can_piece_move_from(square sq_departure)
   if (sq_departure==king_square[trait[nbply]])
     result = true;
   else
-    result = is_square_observed(slices[temporary_hack_is_square_observed].next2,
-                                sq_departure,
-                                &central_test_supporter);
+    result = is_square_observed(sq_departure,&central_test_supporter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

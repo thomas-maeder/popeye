@@ -71,7 +71,7 @@ boolean annan_is_square_observed(slice_index si,
     }
   }
 
-  result = is_square_observed(slices[si].next1,sq_target,evaluate);
+  result = is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 
   while (annan_cnt--)
     replace_piece(annan_sq[annan_cnt],annan_p[annan_cnt]);

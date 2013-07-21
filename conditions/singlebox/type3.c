@@ -183,7 +183,7 @@ boolean singleboxtype3_is_square_observed(slice_index si,
       ++promotionstried;
       replace_piece(sq,pprom);
       ++number_of_pieces[side_attacking][pprom];
-      result = is_square_observed(slices[si].next1,sq_target,evaluate);
+      result = is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
       --number_of_pieces[side_attacking][pprom];
       replace_piece(sq,Pawn);
       if (result)
@@ -192,7 +192,7 @@ boolean singleboxtype3_is_square_observed(slice_index si,
   }
 
   return (promotionstried==0
-          && is_square_observed(slices[si].next1,sq_target,evaluate));
+          && is_square_observed_recursive(slices[si].next1,sq_target,evaluate));
 }
 
 static square find_next_latent_pawn(square sq, Side side)

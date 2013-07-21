@@ -8,7 +8,6 @@
 #include "solving/observation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "pydata.h"
@@ -41,7 +40,6 @@ DEFINE_COUNTER(is_black_king_square_attacked)
 
 static boolean is_king_square_attacked(Side side_king_attacked)
 {
-  Side const side_attacking = advers(side_king_attacked);
   if (side_king_attacked==White)
   {
     INCREMENT_COUNTER(is_white_king_square_attacked);
@@ -51,8 +49,7 @@ static boolean is_king_square_attacked(Side side_king_attacked)
     INCREMENT_COUNTER(is_black_king_square_attacked);
   }
 
-  return is_square_observed(slices[temporary_hack_is_square_observed].next2,
-                            king_square[side_king_attacked],
+  return is_square_observed(king_square[side_king_attacked],
                             &validate_observation);
 }
 

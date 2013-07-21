@@ -9,6 +9,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -225,9 +226,9 @@ boolean validate_observation(square sq_observer,
   return result;
 }
 
-boolean is_square_observed(slice_index si,
-                           square sq_target,
-                           evalfunction_t *evaluate)
+boolean is_square_observed_recursive(slice_index si,
+                                     square sq_target,
+                                     evalfunction_t *evaluate)
 {
   boolean result;
 
@@ -281,6 +282,13 @@ boolean is_square_observed(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+boolean is_square_observed(square sq_target, evalfunction_t *evaluate)
+{
+  return is_square_observed_recursive(slices[temporary_hack_is_square_observed].next2,
+                                      sq_target,
+                                      evaluate);
 }
 
 static slice_index const slice_rank_order[] =

@@ -94,9 +94,11 @@ boolean validate_observation(square sq_observer,
                              square sq_landing,
                              square sq_observee);
 
-boolean is_square_observed(slice_index si,
+boolean is_square_observed_recursive(slice_index si,
                            square sq_target,
                            evalfunction_t *evaluate);
+
+boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
 
 /* Instrument square observation testing with a slice type
  * @param identifies where to start instrumentation

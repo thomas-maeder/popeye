@@ -33,7 +33,7 @@ boolean sting_is_square_observed(slice_index si,
       && (*checkfunctions[Grasshopper])(sq_target,King,evaluate))
     return true;
   else
-    return is_square_observed(slices[si].next1,sq_target,evaluate);
+    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }
 
 /* Initialise the solving machinery with Sting Chess

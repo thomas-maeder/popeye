@@ -4,7 +4,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -21,9 +20,7 @@ static boolean avoid_observing_guarded(square sq_observer,
   TraceFunctionParamListEnd();
 
   nextply(advers(trait[nbply]));
-  result = !is_square_observed(slices[temporary_hack_is_square_observed].next2,
-                               sq_observee,
-                               &validate_observer);
+  result = !is_square_observed(sq_observee,&validate_observer);
   finply();
 
   TraceFunctionExit(__func__);

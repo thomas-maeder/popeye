@@ -2324,11 +2324,13 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  pieces/walks/vectors.h stipulation/goals/goals.h conditions/annan.h \
  conditions/phantom.h solving/solve.h conditions/marscirce/plus.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
+ conditions/sting.h position/position.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h debugging/trace.h pydata.h pyproc.h
+ stipulation/branch.h stipulation/temporary_hacks.h debugging/trace.h \
+ pydata.h pyproc.h
 
 solving/observation.h:
 
@@ -2370,6 +2372,10 @@ conditions/marscirce/marscirce.h:
 
 conditions/singlebox/type3.h:
 
+conditions/sting.h:
+
+position/position.h:
+
 solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/stipulation.h:
@@ -2388,6 +2394,8 @@ stipulation/pipe.h:
 
 stipulation/branch.h:
 
+stipulation/temporary_hacks.h:
+
 debugging/trace.h:
 
 pydata.h:
@@ -2405,8 +2413,8 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  conditions/circe/assassin.h conditions/bicolores.h \
  conditions/antikings.h solving/observation.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
- stipulation/branch.h stipulation/temporary_hacks.h debugging/trace.h \
- debugging/measure.h pydata.h pyproc.h
+ stipulation/branch.h debugging/trace.h debugging/measure.h pydata.h \
+ pyproc.h
 
 solving/check.h:
 
@@ -2475,8 +2483,6 @@ stipulation/goals/goals.h:
 stipulation/pipe.h:
 
 stipulation/branch.h:
-
-stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 

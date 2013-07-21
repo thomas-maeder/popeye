@@ -43,7 +43,7 @@ boolean find_square_observer_tracking_back_from_target_king(slice_index si,
       return true;
   }
 
-  return find_square_observer_tracking_back_from_target(slices[si].next1,sq_target,evaluate);
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }
 
 boolean find_square_observer_tracking_back_from_target(slice_index si,

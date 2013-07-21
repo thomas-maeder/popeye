@@ -6,7 +6,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/move.h"
-#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -38,9 +37,7 @@ static boolean observed(square on_this, square by_that)
   TraceFunctionParamListEnd();
 
   fromspecificsquare = by_that;
-  result = is_square_observed(slices[temporary_hack_is_square_observed].next2,
-                              on_this,
-                              &eval_fromspecificsquare);
+  result = is_square_observed(on_this,&eval_fromspecificsquare);
   fromspecificsquare = save_fromspecificsquare;
 
   TraceFunctionExit(__func__);
