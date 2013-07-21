@@ -277,12 +277,10 @@ static slice_index make_is_square_observed(void)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
   slice_index const testing = alloc_pipe(STTestingIfSquareIsObserved);
-  slice_index const reflective_king = alloc_pipe(STReflectiveKingIsSquareObserved);
   slice_index const king = alloc_pipe(STFindSquareObserverTrackingBackKing);
   slice_index const tester = alloc_pipe(STFindSquareObserverTrackingBack);
   pipe_link(proxy,testing);
-  pipe_link(testing,reflective_king);
-  pipe_link(reflective_king,king);
+  pipe_link(testing,king);
   pipe_link(king,tester);
   pipe_link(tester,alloc_true_slice());
   return result;

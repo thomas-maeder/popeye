@@ -5,6 +5,7 @@
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/singlebox/type3.h"
 #include "conditions/sting.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -270,11 +271,15 @@ boolean is_square_observed_recursive(slice_index si,
       break;
 
     case STFindSquareObserverTrackingBackKing:
-      result = find_square_observer_tracking_back_from_target_king(si,sq_target,evaluate);
+      result = find_square_observer_tracking_back_from_target_king(si,
+                                                                   sq_target,
+                                                                   evaluate);
       break;
 
     case STFindSquareObserverTrackingBack:
-      result = find_square_observer_tracking_back_from_target(si,sq_target,evaluate);
+      result = find_square_observer_tracking_back_from_target_non_king(si,
+                                                                       sq_target,
+                                                                       evaluate);
       break;
 
     default:

@@ -246,3 +246,48 @@ void reflective_kings_initialise_solving(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+boolean reflective_king_is_square_observed(slice_index si,
+                                           square sq_target,
+                                           evalfunction_t *evaluate)
+{
+  Side const side_observing = trait[nbply];
+
+  if (number_of_pieces[side_observing][King]>0)
+  {
+    if (calc_reflective_king[side_observing] && !transmuting_kings_lock_recursion)
+    {
+      if (CondFlag[side_observing==White ? whvault_king : blvault_king])
+      {
+        if (vaulting_kings_is_square_attacked_by_king(sq_target,evaluate))
+          return true;
+      }
+      else if (CondFlag[side_observing==White ? whtrans_king : bltrans_king]
+               || CondFlag[side_observing==White ? whsupertrans_king : blsupertrans_king])
+      {
+        if (transmuting_kings_is_square_attacked_by_king(sq_target,evaluate))
+          return true;
+      }
+      else if (CondFlag[side_observing==White ? whrefl_king : blrefl_king])
+      {
+        if (reflective_kings_is_square_attacked_by_king(sq_target,evaluate))
+          return true;
+      }
+
+      return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
+    }
+  }
+
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+}
+
+void reflective_kings_initialise_square_observation(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_instrument_is_square_observed_testing(si,STReflectiveKingIsSquareObserved);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

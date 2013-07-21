@@ -76,4 +76,10 @@ void reflective_kings_generate_moves_for_piece(slice_index si,
  */
 void reflective_kings_initialise_solving(slice_index si);
 
+boolean reflective_king_is_square_observed(slice_index si,
+                                                            square sq_target,
+                                                            evalfunction_t *evaluate);
+
+void reflective_kings_initialise_square_observation(slice_index si);
+
 #endif
