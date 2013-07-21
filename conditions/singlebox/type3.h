@@ -44,8 +44,11 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
 stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
                                                        stip_length_type n);
 
-/* is the indicated square observed according to type 3?
- */
+/* Determine whether a square is observed in Singlebox Type 3
+* @param si identifies tester slice
+* @param sq_target square potentially observed
+* @return true iff sq_target is observed
+*/
 boolean singleboxtype3_is_square_observed(slice_index si,
                                           square sq_target,
                                           evalfunction_t *evaluate);

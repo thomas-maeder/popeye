@@ -157,6 +157,11 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   return result;
 }
 
+/* Determine whether a square is observed in Singlebox Type 3
+* @param si identifies tester slice
+* @param sq_target square potentially observed
+* @return true iff sq_target is observed
+*/
 boolean singleboxtype3_is_square_observed(slice_index si,
                                           square sq_target,
                                           evalfunction_t *evaluate)
