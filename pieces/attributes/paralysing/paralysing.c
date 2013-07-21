@@ -52,7 +52,9 @@ static boolean is_piece_paralysed_on(square s)
   else
   {
     nextply(advers(trait[nbply]));
-    result = is_square_attacked(s,&validate_paralyser);
+    result = is_square_observed(slices[temporary_hack_is_square_observed].next2,
+                                s,
+                                &validate_paralyser);
     finply();
   }
 

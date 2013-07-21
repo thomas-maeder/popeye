@@ -1,7 +1,9 @@
 #if !defined(SOLVING_OBSERVATION_H)
 #define SOLVING_OBSERVATION_H
 
+#include "stipulation/slice_type.h"
 #include "pieces/walks/vectors.h"
+#include "py.h"
 #include "pyproc.h"
 
 /* This module provides supports observation as used by many conditions and
@@ -91,5 +93,16 @@ unsigned int get_nr_observation_validators(void);
 boolean validate_observation(square sq_observer,
                              square sq_landing,
                              square sq_observee);
+
+boolean is_square_observed(slice_index si,
+                           square sq_target,
+                           evalfunction_t *evaluate);
+
+/* Instrument square observation testing with a slice type
+ * @param identifies where to start instrumentation
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_is_square_observed_testing(slice_index si,
+                                                slice_type type);
 
 #endif

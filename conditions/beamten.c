@@ -2,6 +2,7 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -13,9 +14,10 @@ static boolean is_observed(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-
   nextply(advers(trait[nbply]));
-  result = is_square_attacked(sq_departure,&validate_observer);
+  result = is_square_observed(slices[temporary_hack_is_square_observed].next2,
+                              sq_departure,
+                              &validate_observer);
   finply();
 
   TraceFunctionExit(__func__);

@@ -155,11 +155,13 @@ boolean mars_is_square_observed_by(square pos_observer,
 }
 
 /* Determine whether a side observes a specific square
- * @param side_observing the side
+ * @param si identifies the tester slice
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean marscirce_is_square_observed(square sq_target, evalfunction_t *evaluate)
+boolean marscirce_is_square_observed(slice_index si,
+                                     square sq_target,
+                                     evalfunction_t *evaluate)
 {
   int i,j;
   square square_h = square_h8;
@@ -168,22 +170,28 @@ boolean marscirce_is_square_observed(square sq_target, evalfunction_t *evaluate)
   Side const side_observed = advers(side_observing);
 
   TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
   TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(Side,side_observing,"\n");
-
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
   {
-    square pos_checking = square_h;
-    for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
-      if (TSTFLAG(spec[pos_checking],side_observing)
-          && pos_checking!=king_square[side_observed]   /* exclude nK */)
+    square pos_observing = square_h;
+    for (j= nr_files_on_board; j>0 && !result; j--, pos_observing += dir_left)
+      if (TSTFLAG(spec[pos_observing],side_observing)
+          && pos_observing!=king_square[side_observed]   /* exclude nK */)
       {
-        PieNam const pi_checking = get_walk_of_piece_on_square(pos_checking);
-        Flags const spec_checking = spec[pos_checking];
-        square const sq_rebirth = (*marsrenai)(pi_checking,spec_checking,pos_checking,initsquare,initsquare,side_observed);
-        result = mars_is_square_observed_by(pos_checking,sq_rebirth,sq_target,evaluate);
+        PieNam const pi_checking = get_walk_of_piece_on_square(pos_observing);
+        Flags const spec_checking = spec[pos_observing];
+        square const sq_rebirth = (*marsrenai)(pi_checking,
+                                               spec_checking,
+                                               pos_observing,
+                                               initsquare,
+                                               initsquare,
+                                               side_observed);
+        result = mars_is_square_observed_by(pos_observing,
+                                            sq_rebirth,
+                                            sq_target,evaluate);
       }
   }
 
@@ -202,6 +210,7 @@ void solving_initialise_marscirce(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
+  stip_instrument_is_square_observed_testing(si,STMarsIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

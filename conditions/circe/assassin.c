@@ -1,15 +1,16 @@
 #include "conditions/circe/assassin.h"
-#include "pydata.h"
-#include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/move.h"
+#include "conditions/circe/circe.h"
+#include "conditions/circe/capture_fork.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_effect_journal.h"
-#include "conditions/circe/circe.h"
-#include "conditions/circe/capture_fork.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
+#include "stipulation/move.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -25,7 +26,9 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
 
   nextply(side_checking);
 
-  if (is_square_attacked(king_square[side_in_check],&validate_observation))
+  if (is_square_observed(slices[temporary_hack_is_square_observed].next2,
+                         king_square[side_in_check],
+                         &validate_observation))
     assassinable = true;
   else
   {
@@ -37,7 +40,9 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
       if (p!=Empty
           && p!=King && TSTFLAG(spec[*bnp],side_in_check)
           && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check]
-          && is_square_attacked(*bnp,&validate_observation))
+          && is_square_observed(slices[temporary_hack_is_square_observed].next2,
+                                *bnp,
+                                &validate_observation))
       {
         assassinable = true;
         break;

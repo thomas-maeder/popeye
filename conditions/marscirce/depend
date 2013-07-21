@@ -145,10 +145,10 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
- stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
- pyproc.h
+ stipulation/slice_type.h solving/observation.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ debugging/trace.h pydata.h pyproc.h
 
 conditions/marscirce/plus.h:
 
@@ -183,6 +183,8 @@ conditions/marscirce/marscirce.h:
 solving/move_generator.h:
 
 stipulation/slice_type.h:
+
+solving/observation.h:
 
 stipulation/stipulation.h:
 

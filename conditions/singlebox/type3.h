@@ -46,7 +46,8 @@ stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
 
 /* is the indicated square observed according to type 3?
  */
-boolean singleboxtype3_is_square_observed(square sq_target,
+boolean singleboxtype3_is_square_observed(slice_index si,
+                                          square sq_target,
                                           evalfunction_t *evaluate);
 
 /* Generate moves for a single piece

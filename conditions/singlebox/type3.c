@@ -46,6 +46,8 @@ void stip_insert_singlebox_type3(slice_index si)
 
   move_effect_journal_register_pre_capture_effect();
 
+  stip_instrument_is_square_observed_testing(si,STSingleBoxType3IsSquareObserved);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -155,7 +157,8 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   return result;
 }
 
-boolean singleboxtype3_is_square_observed(square sq_target,
+boolean singleboxtype3_is_square_observed(slice_index si,
+                                          square sq_target,
                                           evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
@@ -175,7 +178,7 @@ boolean singleboxtype3_is_square_observed(square sq_target,
       ++promotionstried;
       replace_piece(sq,pprom);
       ++number_of_pieces[side_attacking][pprom];
-      result = is_square_observed(sq_target,evaluate);
+      result = is_square_observed(slices[si].next1,sq_target,evaluate);
       --number_of_pieces[side_attacking][pprom];
       replace_piece(sq,Pawn);
       if (result)
@@ -183,7 +186,8 @@ boolean singleboxtype3_is_square_observed(square sq_target,
     }
   }
 
-  return promotionstried==0 && is_square_observed(sq_target,evaluate);
+  return (promotionstried==0
+          && is_square_observed(slices[si].next1,sq_target,evaluate));
 }
 
 static square find_next_latent_pawn(square sq, Side side)

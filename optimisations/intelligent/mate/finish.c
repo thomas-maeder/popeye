@@ -119,7 +119,7 @@ static square find_king_flight(void)
 
     if (!is_square_blocked(flight)
         && !TSTFLAG(spec[flight],Black)
-        && !is_square_observed_ortho(flight,0))
+        && !is_square_observed_ortho(flight))
     {
       result = flight;
       break;

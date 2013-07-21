@@ -35,7 +35,14 @@ static boolean annanises(Side side, square rear, square front)
     return false;
 }
 
-boolean annan_is_square_attacked(square sq_target, evalfunction_t *evaluate)
+/* Determine whether a square is observed in Annan Chess
+* @param si identifies tester slice
+* @param sq_target square potentially observed
+* @return true iff sq_target is observed
+*/
+boolean annan_is_square_observed(slice_index si,
+                                 square sq_target,
+                                 evalfunction_t *evaluate)
 {
   Side const side_attacking = trait[nbply];
   numvec const dir_annaniser = side_attacking==White ? dir_down : dir_up;
@@ -64,7 +71,7 @@ boolean annan_is_square_attacked(square sq_target, evalfunction_t *evaluate)
     }
   }
 
-  result= is_square_observed(sq_target,evaluate);
+  result = is_square_observed(slices[si].next1,sq_target,evaluate);
 
   while (annan_cnt--)
     replace_piece(annan_sq[annan_cnt],annan_p[annan_cnt]);
@@ -111,6 +118,7 @@ void annan_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,nr_sides,STAnnanMovesForPieceGenerator);
+  stip_instrument_is_square_observed_testing(si,STAnnanIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

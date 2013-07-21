@@ -4,11 +4,10 @@
 #include "solving/observation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
-
-static unsigned int prev_nbpiece[PieceCount];
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -48,7 +47,9 @@ boolean extinction_check_tester_is_in_check(slice_index si, Side side_in_check)
             && TSTFLAG(spec[*bnp],side_in_check))
           break;
 
-      if (is_square_attacked(*bnp,&validate_observation))
+      if (is_square_observed(slices[temporary_hack_is_square_observed].next2,
+                             *bnp,
+                             &validate_observation))
       {
         result = true;
         break;

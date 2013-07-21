@@ -53,7 +53,9 @@ boolean mars_is_square_observed_by(square pos_checking,
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean marscirce_is_square_observed(square sq_target, evalfunction_t *evaluate);
+boolean marscirce_is_square_observed(slice_index si,
+                                     square sq_target,
+                                     evalfunction_t *evaluate);
 
 /* Inialise thet solving machinery with Mars Circe
  * @param si identifies the root slice of the solving machinery

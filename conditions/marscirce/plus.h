@@ -20,7 +20,9 @@ void plus_generate_moves_for_piece(slice_index si, square sq_departure, PieNam p
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate);
+boolean plus_is_square_observed(slice_index si,
+                                square sq_target,
+                                evalfunction_t *evaluate);
 
 /* Inialise thet solving machinery with Plus Chess
  * @param si identifies the root slice of the solving machinery

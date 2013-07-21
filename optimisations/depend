@@ -141,10 +141,10 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  pymsg.h pyproof.h py.h stipulation/slice.h stipulation/slice_type.h \
  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pieces/walks/pawns/en_passant.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/duellists.h conditions/haunted_chess.h \
- conditions/imitator.h position/position.h options/nontrivial.h \
- solving/avoid_unsolvable.h solving/castling.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/bgl.h conditions/duellists.h \
+ conditions/haunted_chess.h conditions/imitator.h position/position.h \
+ options/nontrivial.h solving/avoid_unsolvable.h solving/castling.h \
  stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
@@ -200,13 +200,13 @@ pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
-conditions/bgl.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/bgl.h:
 
 conditions/duellists.h:
 
@@ -261,8 +261,9 @@ optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  utilities/bitmask.h utilities/boolean.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  pieces/walks/vectors.h utilities/enumeration.h pylang.h \
- pieces/walks/pawns/en_passant.h solving/solve.h debugging/trace.h \
- pydata.h pyproc.h
+ pieces/walks/pawns/en_passant.h solving/solve.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h debugging/trace.h pydata.h pyproc.h
 
 optimisations/orthodox_square_observation.h:
 
@@ -293,6 +294,12 @@ pylang.h:
 pieces/walks/pawns/en_passant.h:
 
 solving/solve.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 

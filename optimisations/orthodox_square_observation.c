@@ -108,7 +108,7 @@ static boolean pioncheck_ortho(square sq_king)
   return result;
 }
 
-boolean is_square_observed_ortho(square sq_target, evalfunction_t *dummy_for_compatibility)
+boolean is_square_observed_ortho(square sq_target)
 {
   Side const side_checking = trait[nbply];
 

@@ -222,8 +222,6 @@ void copyply(void);
 void finply(void);
 void nextply(Side side);
 
-boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
-
 extern boolean(*is_square_attacked)(square sq_target, evalfunction_t *evaluate);
 
 boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );

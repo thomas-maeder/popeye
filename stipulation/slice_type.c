@@ -58,6 +58,7 @@
     ENUMERATOR(STSingleBoxType3PawnPromoter),                          \
     ENUMERATOR(STSingleBoxType3TMovesForPieceGenerator),               \
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
+    ENUMERATOR(STSingleBoxType3IsSquareObserved),                      \
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinPlaceReborn),                            \
     ENUMERATOR(STOwnKingCaptureAvoider),                               \
@@ -417,6 +418,15 @@
     ENUMERATOR(STOutputPlaintextGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
+    /* square observation tester slices */                              \
+    ENUMERATOR(STIsSquareObservedFork),                                 \
+    ENUMERATOR(STTestingIfSquareIsObserved),                            \
+    ENUMERATOR(STFindSquareObserverTrackingBack),                       \
+    ENUMERATOR(STFindSquareObserverTrackingBackKing),                   \
+    ENUMERATOR(STAnnanIsSquareObserved),                                \
+    ENUMERATOR(STPhantomIsSquareObserved),                              \
+    ENUMERATOR(STPlusIsSquareObserved),                                 \
+    ENUMERATOR(STMarsIsSquareObserved),                                 \
     /* debugging slices */                                              \
     ENUMERATOR(STMoveTracer),                                           \
     ENUMERATOR(STMoveCounter),                                          \

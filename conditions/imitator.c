@@ -128,27 +128,59 @@ static boolean is_imitator_line_clear(unsigned int i,
                                       numvec step,
                                       numvec diff_first_not_necessarily_empty)
 {
+  boolean result = true;
   square const sq_first_not_necessarily_empty = isquare[i]+diff_first_not_necessarily_empty;
   square sq_curr;
 
-  for (sq_curr = isquare[i]+diff_first_necessarily_empty; sq_curr!=sq_first_not_necessarily_empty; sq_curr += step)
-    if (!is_square_empty(sq_curr))
-      return false;
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",i);
+  TraceValue("%d",diff_first_necessarily_empty);
+  TraceValue("%d",step);
+  TraceValue("%d",diff_first_not_necessarily_empty);
+  TraceFunctionParamListEnd();
 
-  return true;
+  for (sq_curr = isquare[i]+diff_first_necessarily_empty; sq_curr!=sq_first_not_necessarily_empty; sq_curr += step)
+  {
+    TraceSquare(sq_curr);TraceText("\n");
+    if (!is_square_empty(sq_curr))
+    {
+      result = false;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean are_all_imitator_lines_clear(numvec diff_first_necessarily_empty,
                                             numvec step,
                                             numvec diff_first_not_necessarily_empty)
 {
+  boolean result = true;
   unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%d",diff_first_necessarily_empty);
+  TraceValue("%d",step);
+  TraceValue("%d",diff_first_not_necessarily_empty);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",number_of_imitators);
 
   for (i = 0; i!=number_of_imitators; ++i)
     if (!is_imitator_line_clear(i,diff_first_necessarily_empty,step,diff_first_not_necessarily_empty))
-      return false;
+    {
+      result = false;
+      break;
+    }
 
-  return true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean have_all_imitators_hurdle(numvec diff_hurdle)
@@ -541,10 +573,19 @@ static boolean avoid_observing_if_imitator_blocked_rider(square sq_observer,
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
   empty_square(sq_observer);/* an imitator might be disturbed by the moving rider! */
   result = are_all_imitator_lines_clear(step,step,sq_landing-sq_observer+step);
   occupy_square(sq_observer,p,flags);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -710,6 +751,7 @@ static boolean avoid_observing_if_imitator_blocked(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
+  TracePiece(e[sq_observer]);TraceText("\n");
   switch (e[sq_observer])
   {
     case King:

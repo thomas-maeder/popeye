@@ -1,11 +1,12 @@
 #include "conditions/patrol.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "solving/move_generator.h"
-#include "solving/observation.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 static boolean patrol_is_supported(square sq_departure)
 {
@@ -15,7 +16,9 @@ static boolean patrol_is_supported(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  result = is_square_attacked(sq_departure,&validate_observer);
+  result = is_square_observed(slices[temporary_hack_is_square_observed].next2,
+                              sq_departure,
+                              &validate_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

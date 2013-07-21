@@ -1,6 +1,7 @@
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
@@ -62,11 +63,13 @@ void plus_generate_moves_for_piece(slice_index si, square sq_departure, PieNam p
 }
 
 /* Determine whether a side observes a specific square
- * @param side_observing the side
+ * @param identifies tester slice
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate)
+boolean plus_is_square_observed(slice_index si,
+                                square sq_target,
+                                evalfunction_t *evaluate)
 {
   int i,j;
   Side const side_observing = trait[nbply];
@@ -74,23 +77,24 @@ boolean plus_is_square_observed(square sq_target, evalfunction_t *evaluate)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_observing,"");
+  TraceValue("%u",si);
+  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
   {
-    square pos_checking = square_h;
-    for (j= nr_files_on_board; j>0 && !result; j--, pos_checking += dir_left)
-      if (TSTFLAG(spec[pos_checking],side_observing)
-          && pos_checking!=sq_target) /* exclude nK */
+    square pos_observing = square_h;
+    for (j= nr_files_on_board; j>0 && !result; j--, pos_observing += dir_left)
+      if (TSTFLAG(spec[pos_observing],side_observing)
+          && pos_observing!=sq_target) /* exclude nK */
       {
-        if (pos_checking==square_d4 || pos_checking==square_d5 || pos_checking==square_e4 || pos_checking==square_e5)
-          result = (mars_is_square_observed_by(pos_checking,square_d4,sq_target,evaluate)
-                    || mars_is_square_observed_by(pos_checking,square_d5,sq_target,evaluate)
-                    || mars_is_square_observed_by(pos_checking,square_e4,sq_target,evaluate)
-                    || mars_is_square_observed_by(pos_checking,square_e5,sq_target,evaluate));
+        if (pos_observing==square_d4 || pos_observing==square_d5 || pos_observing==square_e4 || pos_observing==square_e5)
+          result = (mars_is_square_observed_by(pos_observing,square_d4,sq_target,evaluate)
+                    || mars_is_square_observed_by(pos_observing,square_d5,sq_target,evaluate)
+                    || mars_is_square_observed_by(pos_observing,square_e4,sq_target,evaluate)
+                    || mars_is_square_observed_by(pos_observing,square_e5,sq_target,evaluate));
         else
-          result = mars_is_square_observed_by(pos_checking,pos_checking,sq_target,evaluate);
+          result = mars_is_square_observed_by(pos_observing,pos_observing,sq_target,evaluate);
       }
   }
 
@@ -109,6 +113,7 @@ void solving_initialise_plus(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,nr_sides,STPlusMovesForPieceGenerator);
+  stip_instrument_is_square_observed_testing(si,STPlusIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

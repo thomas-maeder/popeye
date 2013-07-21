@@ -105,7 +105,8 @@ static slice_type const fork_slice_types[] =
     STMovingPawnToImitatorPromoter,
     STKillerMoveFinalDefenseMove,
     STOhneschachStopIfCheckAndNotMate,
-    STMoveGeneratorFork
+    STMoveGeneratorFork,
+    STIsSquareObservedFork
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -204,7 +205,8 @@ static slice_type const proxy_slice_types[] =
     STLandingAfterMovingPawnPromoter,
     STMummerDeadend,
     STGeneratingMovesForPiece,
-    STTestingCheck
+    STTestingCheck,
+    STTestingIfSquareIsObserved
 };
 
 static slice_type const move_generator_slice_types[] =
@@ -299,7 +301,8 @@ static slice_type const conditional_pipe_slice_types[] =
     STCageCirceNonCapturingMoveFinder,
     STTakeMakeCirceCollectRebirthSquaresFork,
     STOhneschachStopIfCheckAndNotMate,
-    STMoveGeneratorFork
+    STMoveGeneratorFork,
+    STIsSquareObservedFork
 };
 
 static slice_type const end_of_branch_slice_types[] =

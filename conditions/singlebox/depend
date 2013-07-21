@@ -83,8 +83,9 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move.h solving/post_move_iteration.h \
- solving/move_effect_journal.h position/pieceid.h \
- conditions/singlebox/type1.h pyproc.h debugging/trace.h
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/singlebox/type1.h pyproc.h \
+ debugging/trace.h
 
 conditions/singlebox/type2.h:
 
@@ -142,6 +143,8 @@ solving/post_move_iteration.h:
 
 solving/move_effect_journal.h:
 
+solving/castling_rights.h:
+
 position/pieceid.h:
 
 conditions/singlebox/type1.h:
@@ -160,7 +163,8 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/move.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h solving/move_generator.h \
- solving/move_effect_journal.h position/pieceid.h debugging/trace.h
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h debugging/trace.h
 
 conditions/singlebox/type3.h:
 
@@ -223,6 +227,8 @@ conditions/singlebox/type2.h:
 solving/move_generator.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 

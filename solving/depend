@@ -2318,22 +2318,25 @@ stipulation/pipe.h:
 
 debugging/trace.h:
 solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
- pieces/walks/vectors.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- utilities/enumeration.h pylang.h debugging/trace.h
+ stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h pylang.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h conditions/annan.h \
+ conditions/phantom.h solving/solve.h conditions/marscirce/plus.h \
+ conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/branch.h debugging/trace.h pydata.h pyproc.h
 
 solving/observation.h:
 
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pieces/walks/vectors.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-utilities/boolean.h:
 
 py.h:
 
@@ -2345,11 +2348,51 @@ position/board.h:
 
 utilities/bitmask.h:
 
-utilities/enumeration.h:
+utilities/boolean.h:
 
 pylang.h:
 
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+conditions/annan.h:
+
+conditions/phantom.h:
+
+solving/solve.h:
+
+conditions/marscirce/plus.h:
+
+conditions/marscirce/marscirce.h:
+
+conditions/singlebox/type3.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/pipe.h:
+
+stipulation/branch.h:
+
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
 solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/enumeration.h stipulation/stipulation.h \
@@ -2362,8 +2405,8 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  conditions/circe/assassin.h conditions/bicolores.h \
  conditions/antikings.h solving/observation.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
- stipulation/branch.h pydata.h pyproc.h debugging/trace.h \
- debugging/measure.h
+ stipulation/branch.h stipulation/temporary_hacks.h debugging/trace.h \
+ debugging/measure.h pydata.h pyproc.h
 
 solving/check.h:
 
@@ -2433,10 +2476,79 @@ stipulation/pipe.h:
 
 stipulation/branch.h:
 
-pydata.h:
-
-pyproc.h:
+stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 
 debugging/measure.h:
+
+pydata.h:
+
+pyproc.h:
+solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
+ solving/find_square_observer_tracking_back_from_target.c \
+ solving/find_square_observer_tracking_back_from_target.h \
+ utilities/boolean.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
+ position/board.h utilities/bitmask.h pieces/walks/vectors.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h \
+ conditions/transmuting_kings/transmuting_kings.h position/position.h \
+ conditions/vaulting_kings.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h solving/observation.h \
+ debugging/trace.h
+
+solving/find_square_observer_tracking_back_from_target.h:
+
+utilities/boolean.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+pydata.h:
+
+pyproc.h:
+
+conditions/transmuting_kings/transmuting_kings.h:
+
+position/position.h:
+
+conditions/vaulting_kings.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+solving/observation.h:
+
+debugging/trace.h:

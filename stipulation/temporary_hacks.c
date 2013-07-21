@@ -36,6 +36,7 @@ slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_move_generator[nr_sides];
+slice_index temporary_hack_is_square_observed;
 slice_index temporary_hack_check_tester;
 
 static slice_index make_mate_tester_fork(Side side)
@@ -271,6 +272,20 @@ static slice_index make_check_tester(void)
   return result;
 }
 
+static slice_index make_is_square_observed(void)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
+  slice_index const testing = alloc_pipe(STTestingIfSquareIsObserved);
+  slice_index const tester_king = alloc_pipe(STFindSquareObserverTrackingBackKing);
+  slice_index const tester = alloc_pipe(STFindSquareObserverTrackingBack);
+  pipe_link(proxy,testing);
+  pipe_link(testing,tester_king);
+  pipe_link(tester_king,tester);
+  pipe_link(tester,alloc_true_slice());
+  return result;
+}
+
 void insert_temporary_hacks(slice_index root_slice)
 {
   TraceFunctionEntry(__func__);
@@ -321,6 +336,7 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_move_generator[Black] = make_move_generator(Black);
     temporary_hack_move_generator[White] = make_move_generator(White);
 
+    temporary_hack_is_square_observed = make_is_square_observed();
     temporary_hack_check_tester = make_check_tester();
 
     pipe_append(root_slice,entry_point);
@@ -349,6 +365,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[White],
                 temporary_hack_move_generator[White]);
     pipe_append(temporary_hack_move_generator[White],
+                temporary_hack_is_square_observed);
+    pipe_append(temporary_hack_is_square_observed,
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);

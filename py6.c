@@ -1355,8 +1355,6 @@ static boolean verify_position(slice_index si)
   if (CondFlag[bichro] || CondFlag[monochro])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  is_square_attacked = &is_square_observed;
-
   if ((CondFlag[koeko]
        || CondFlag[newkoeko]
        || CondFlag[antikoeko]
@@ -1516,9 +1514,6 @@ static boolean verify_position(slice_index si)
       return false;
     }
   }
-
-  if (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
-    is_square_attacked = &singleboxtype3_is_square_observed;
 
   if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs])
       && (OptFlag[sansrb] || OptFlag[sansrn]))
@@ -1774,17 +1769,7 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[annan])
-  {
     disable_orthodox_mating_move_optimisation(nr_sides);
-    is_square_attacked = &annan_is_square_attacked;
-  }
-
-  if (CondFlag[plus])
-    is_square_attacked = &plus_is_square_observed;
-  else if (anymars)
-    is_square_attacked = &marscirce_is_square_observed;
-  else if (CondFlag[phantom])
-    is_square_attacked = &phantom_is_square_observed;
 
   if (CondFlag[losingchess])
   {
@@ -2772,20 +2757,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[backhome])
     backhome_initialise_solving();
-
-  if (!(CondFlag[imitators]
-        || CondFlag[annan]
-        || anymars
-        || CondFlag[phantom]
-        || CondFlag[plus]
-        || CondFlag[amu]
-        || CondFlag[masand]
-        || calc_reflective_king[White]
-        || calc_reflective_king[Black]
-        || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
-        || get_nr_observation_validators()>0
-        || flagfee))
-    is_square_attacked = &is_square_observed_ortho;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -283,9 +283,9 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pieces/walks/pawns/en_passant.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- solving/solve.h solving/castling.h stipulation/slice_type.h \
- solving/castling_rights.h solving/move_effect_journal.h \
- position/pieceid.h stipulation/stipulation.h stipulation/slice.h \
+ solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h solving/castling.h stipulation/slice_type.h \
+ stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
  optimisations/intelligent/intelligent.h position/position.h \
@@ -323,15 +323,15 @@ stipulation/goals/goals.h:
 
 solving/solve.h:
 
-solving/castling.h:
-
-stipulation/slice_type.h:
+solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
-solving/move_effect_journal.h:
-
 position/pieceid.h:
+
+solving/castling.h:
+
+stipulation/slice_type.h:
 
 stipulation/stipulation.h:
 

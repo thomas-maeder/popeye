@@ -1,10 +1,11 @@
 #include "conditions/amu/attack_counter.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -34,7 +35,9 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   single_attacker_departure = initsquare;
 
   nextply(advers(trait_ply));
-  is_square_attacked(sq_departure,&eval_amu_attack);
+  is_square_observed(slices[temporary_hack_is_square_observed].next2,
+                     sq_departure,
+                     &eval_amu_attack);
   finply();
 
   return amu_attack_count==1;

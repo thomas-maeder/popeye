@@ -5,9 +5,9 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  utilities/boolean.h utilities/enumeration.h position/pieceid.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  pylang.h solving/solve.h pieces/walks/pawns/en_passant.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproof.h py.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h \
+ solving/move_effect_journal.h solving/castling_rights.h pyproof.h py.h \
  stipulation/slice.h stipulation/slice_type.h solving/castling.h \
- solving/castling_rights.h solving/move_effect_journal.h \
  stipulation/help_play/branch.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h output/mode.h stipulation/fork.h \
@@ -61,6 +61,10 @@ pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
 pyproof.h:
 
 py.h:
@@ -70,10 +74,6 @@ stipulation/slice.h:
 stipulation/slice_type.h:
 
 solving/castling.h:
-
-solving/castling_rights.h:
-
-solving/move_effect_journal.h:
 
 stipulation/help_play/branch.h:
 
@@ -1016,13 +1016,12 @@ optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h pyproof.h py.h stipulation/slice.h stipulation/slice_type.h \
  pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h solving/solve.h solving/castling.h \
- solving/castling_rights.h solving/move_effect_journal.h \
- position/pieceid.h solving/moving_pawn_promotion.h \
- pieces/walks/pawns/promotion.h optimisations/intelligent/intelligent.h \
- position/position.h stipulation/goals/goals.h \
- optimisations/intelligent/moves_left.h debugging/trace.h pydata.h \
- pyproc.h
+ stipulation/goals/goals.h solving/solve.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/castling.h \
+ solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
+ optimisations/intelligent/intelligent.h position/position.h \
+ stipulation/goals/goals.h optimisations/intelligent/moves_left.h \
+ debugging/trace.h pydata.h pyproc.h
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -1062,13 +1061,13 @@ stipulation/goals/goals.h:
 
 solving/solve.h:
 
-solving/castling.h:
+solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
-solving/move_effect_journal.h:
-
 position/pieceid.h:
+
+solving/castling.h:
 
 solving/moving_pawn_promotion.h:
 

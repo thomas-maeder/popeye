@@ -41,10 +41,12 @@ stip_length_type phantom_en_passant_adjuster_solve(slice_index si,
 void solving_initialise_phantom(slice_index si);
 
 /* Determine whether a specific side is in check in Phantom Chess
- * @param side_in_check the side
+ * @param si identifies tester slice
  * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean phantom_is_square_observed(square sq_target, evalfunction_t *evaluate);
+boolean phantom_is_square_observed(slice_index si,
+                                   square sq_target,
+                                   evalfunction_t *evaluate);
 
 #endif

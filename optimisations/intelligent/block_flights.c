@@ -114,7 +114,7 @@ static void plan_blocks_of_flights(void)
     if (get_walk_of_piece_on_square(flight)==Invalid
         || TSTFLAG(spec[flight],Black))
       ; /* 'flight' is off board or blocked - don't bother */
-    else if (!is_square_observed_ortho(flight,0))
+    else if (!is_square_observed_ortho(flight))
     {
       if (TSTFLAG(spec[flight],White)
           || nr_king_flights_to_be_blocked==nr_available_blockers)
