@@ -40,4 +40,10 @@ void vaulting_kings_generate_moves_for_piece(slice_index si,
  */
 void vaulting_kings_initalise_solving(slice_index si);
 
+boolean vaulting_king_is_square_observed(slice_index si,
+                                         square sq_target,
+                                         evalfunction_t *evaluate);
+
+void vaulting_kings_initialise_square_observation(slice_index si);
+
 #endif

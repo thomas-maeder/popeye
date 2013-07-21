@@ -2,6 +2,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
+#include "debugging/trace.h"
 #include "pydata.h"
 
 #include <assert.h>
@@ -143,4 +144,34 @@ void vaulting_kings_initalise_solving(slice_index si)
     }
     solving_instrument_move_generation(si,Black,STVaultingKingsMovesForPieceGenerator);
   }
+}
+
+boolean vaulting_king_is_square_observed(slice_index si,
+                                         square sq_target,
+                                         evalfunction_t *evaluate)
+{
+  Side const side_observing = trait[nbply];
+
+  if (number_of_pieces[side_observing][King]>0)
+  {
+    if ((CondFlag[side_observing==White ? whvault_king : blvault_king])
+        && !transmuting_kings_lock_recursion
+        && vaulting_kings_is_square_attacked_by_king(sq_target,evaluate))
+      return true;
+
+    return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
+  }
+
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+}
+
+void vaulting_kings_initialise_square_observation(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_instrument_is_square_observed_testing(si,STVaultingKingIsSquareObserved);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

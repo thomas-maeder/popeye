@@ -53,6 +53,12 @@ void transmuting_kings_generate_moves_for_piece(slice_index si,
  */
 void transmuting_kings_initialise_solving(slice_index si);
 
+boolean transmuting_king_is_square_observed(slice_index si,
+                                            square sq_target,
+                                            evalfunction_t *evaluate);
+
+void transmuting_kings_initialise_square_observation(slice_index si);
+
 /* Does the reflective king of side trait[nbply] attack a particular square
  * (while transmuting or not)?
  * @param sq_target target square
@@ -81,5 +87,7 @@ boolean reflective_king_is_square_observed(slice_index si,
                                                             evalfunction_t *evaluate);
 
 void reflective_kings_initialise_square_observation(slice_index si);
+
+void transmuting_kings_initialise_square_observation(slice_index si);
 
 #endif
