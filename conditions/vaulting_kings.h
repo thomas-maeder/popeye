@@ -20,16 +20,10 @@ void reset_king_vaulters(void);
  */
 void append_king_vaulter(Side side, PieNam p);
 
-/* Does the king of side trait[nbply] attack a particular square
- * (while vaulting or not)?
- * @param sq_target target square
- * @param evaluate attack evaluator
- * true iff the king attacks sq_target
- */
-boolean vaulting_kings_is_square_attacked_by_king(square sq_target,
-                                                  evalfunction_t *evaluate);
-
-/* Generate moves for a vaulting king
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
  */
 void vaulting_kings_generate_moves_for_piece(slice_index si,
                                              square sq_departure,

@@ -56,8 +56,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/sentinelles.h conditions/mummer.h \
  conditions/singlebox/type3.h conditions/immune.h conditions/geneva.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/phantom.h \
- conditions/annan.h conditions/vaulting_kings.h \
- conditions/transmuting_kings/transmuting_kings.h conditions/messigny.h \
+ conditions/annan.h conditions/vaulting_kings.h conditions/messigny.h \
  utilities/table.h debugging/trace.h
 
 py.h:
@@ -200,8 +199,6 @@ conditions/annan.h:
 
 conditions/vaulting_kings.h:
 
-conditions/transmuting_kings/transmuting_kings.h:
-
 conditions/messigny.h:
 
 utilities/table.h:
@@ -335,12 +332,12 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  conditions/immune.h conditions/phantom.h \
  conditions/marscirce/marscirce.h \
  conditions/transmuting_kings/transmuting_kings.h \
+ stipulation/stipulation.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  conditions/vaulting_kings.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/temporary_hacks.h \
- pieces/walks/pawns/en_passant.h solving/observation.h solving/check.h \
- stipulation/stipulation.h conditions/annan.h conditions/marscirce/plus.h \
- debugging/trace.h debugging/measure.h
+ stipulation/temporary_hacks.h pieces/walks/pawns/en_passant.h \
+ solving/observation.h solving/check.h conditions/annan.h \
+ conditions/marscirce/plus.h debugging/trace.h debugging/measure.h
 
 py.h:
 
@@ -414,8 +411,6 @@ conditions/marscirce/marscirce.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
-conditions/vaulting_kings.h:
-
 stipulation/stipulation.h:
 
 stipulation/structure_traversal.h:
@@ -426,6 +421,10 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
+conditions/vaulting_kings.h:
+
+stipulation/stipulation.h:
+
 stipulation/temporary_hacks.h:
 
 pieces/walks/pawns/en_passant.h:
@@ -433,8 +432,6 @@ pieces/walks/pawns/en_passant.h:
 solving/observation.h:
 
 solving/check.h:
-
-stipulation/stipulation.h:
 
 conditions/annan.h:
 
@@ -667,6 +664,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/superguards.h conditions/central.h conditions/beamten.h \
  conditions/brunner.h conditions/wormhole.h \
  conditions/transmuting_kings/transmuting_kings.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
  conditions/vaulting_kings.h conditions/backhome.h \
  conditions/vogtlaender.h conditions/bicolores.h conditions/antikings.h \
  conditions/sting.h conditions/follow_my_leader.h conditions/alphabetic.h \
@@ -677,8 +675,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
  stipulation/dead_end.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/or.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/constraint.h \
+ stipulation/battle_play/branch.h stipulation/constraint.h \
  stipulation/moves_traversal.h stipulation/help_play/branch.h \
  stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h \
@@ -1013,6 +1010,10 @@ conditions/wormhole.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
 conditions/vaulting_kings.h:
 
 conditions/backhome.h:
@@ -1062,10 +1063,6 @@ stipulation/boolean/and.h:
 stipulation/boolean/or.h:
 
 stipulation/battle_play/branch.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
 
 stipulation/constraint.h:
 

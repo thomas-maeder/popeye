@@ -419,16 +419,16 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/singlebox/type3.h conditions/sting.h position/position.h \
  conditions/castling_chess.h conditions/exchange_castling.h \
  conditions/transmuting_kings/transmuting_kings.h \
- conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
- stipulation/slice.h pieces/walks/generate_moves.h \
+ stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h conditions/vaulting_kings.h \
+ pieces/attributes/paralysing/paralysing.h pieces/walks/generate_moves.h \
  solving/single_piece_move_generator.h solving/castling.h \
  solving/castling_rights.h solving/move_effect_journal.h \
  position/pieceid.h solving/single_move_generator.h \
- solving/king_move_generator.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/branch.h \
- stipulation/pipe.h stipulation/temporary_hacks.h debugging/measure.h \
- debugging/trace.h pydata.h pyproc.h
+ solving/king_move_generator.h stipulation/branch.h stipulation/pipe.h \
+ stipulation/temporary_hacks.h debugging/measure.h debugging/trace.h \
+ pydata.h pyproc.h
 
 solving/move_generator.h:
 
@@ -496,11 +496,21 @@ conditions/exchange_castling.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
 conditions/vaulting_kings.h:
 
 pieces/attributes/paralysing/paralysing.h:
-
-stipulation/slice.h:
 
 pieces/walks/generate_moves.h:
 
@@ -517,16 +527,6 @@ position/pieceid.h:
 solving/single_move_generator.h:
 
 solving/king_move_generator.h:
-
-stipulation/stipulation.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
 
 stipulation/branch.h:
 
@@ -2326,13 +2326,12 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/sting.h position/position.h \
  conditions/transmuting_kings/transmuting_kings.h \
- conditions/vaulting_kings.h \
- solving/find_square_observer_tracking_back_from_target.h \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/temporary_hacks.h debugging/trace.h \
- pydata.h pyproc.h
+ stipulation/goals/goals.h output/mode.h conditions/vaulting_kings.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/temporary_hacks.h \
+ debugging/trace.h pydata.h pyproc.h
 
 solving/observation.h:
 
@@ -2380,10 +2379,6 @@ position/position.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
-conditions/vaulting_kings.h:
-
-solving/find_square_observer_tracking_back_from_target.h:
-
 stipulation/stipulation.h:
 
 stipulation/slice.h:
@@ -2395,6 +2390,10 @@ stipulation/traversal.h:
 stipulation/goals/goals.h:
 
 output/mode.h:
+
+conditions/vaulting_kings.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/pipe.h:
 

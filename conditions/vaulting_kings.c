@@ -2,6 +2,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
@@ -28,97 +29,75 @@ void append_king_vaulter(Side side, PieNam p)
   king_vaulters[side][nr_king_vaulters[side]] = Empty;
 }
 
-/* Does the king of side trait[nbply] attack a particular square
- * (while vaulting or not)?
- * @param sq_target target square
- * @param evaluate attack evaluator
- * true iff the king attacks sq_target
- */
-boolean vaulting_kings_is_square_attacked_by_king(square sq_target,
-                                                  evalfunction_t *evaluate)
+static boolean is_kingsquare_observed(void)
 {
-  Side const side_attacking = trait[nbply];
+  Side const side = trait[nbply];
+  boolean result;
 
-  enum
-  {
-    king_not_vaulting,
-    king_vaulting_no_attack,
-    attack,
-  } result = king_not_vaulting;
+  nextply(advers(side));
+  result = find_square_observer_tracking_back_from_target_non_king(no_slice,
+                                                                   king_square[side],
+                                                                   &validate_observation);
+  finply();
 
-  transmuting_kings_lock_recursion = true;
-
-  if (echecc(side_attacking))
-  {
-    result = king_vaulting_no_attack;
-
-    {
-      PieNam const *pi_vaulter;
-      for (pi_vaulter = king_vaulters[side_attacking]; *pi_vaulter; ++pi_vaulter)
-        if ((*checkfunctions[*pi_vaulter])(sq_target,King,evaluate))
-        {
-          result = attack;
-          break;
-        }
-    }
-  }
-
-  transmuting_kings_lock_recursion = false;
-
-  switch (result)
-  {
-    case king_not_vaulting:
-      if (roicheck(sq_target,King,evaluate))
-        return true;
-      break;
-
-    case king_vaulting_no_attack:
-      if (!vaulting_kings_transmuting[side_attacking] && roicheck(sq_target,King,evaluate))
-        return true;
-      break;
-
-    case attack:
-      return true;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  return false;
+  return result;
 }
 
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
 void vaulting_kings_generate_moves_for_piece(slice_index si,
                                              square sq_departure,
                                              PieNam p)
 {
-  boolean found_vaulter = false;
-  Side const side = trait[nbply];
-
   if (p==King)
   {
-    if (echecc(side))
+    Side const side = trait[nbply];
+
+    if (is_kingsquare_observed())
     {
       PieNam const *pi_vaulter;
       for (pi_vaulter = king_vaulters[side]; *pi_vaulter!=Empty; ++pi_vaulter)
-      {
-        found_vaulter = true;
-        current_trans_gen = *pi_vaulter;
         generate_moves_for_piece(slices[si].next1,sq_departure,*pi_vaulter);
-        current_trans_gen = Empty;
-      }
+    }
+    else if (vaulting_kings_transmuting[side])
+      return; /* don't generate non-vaulting moves */
+  }
+
+  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+}
+
+/* Determine whether a square is observed be the side at the move according to
+ * Vaulting Kings
+ * @param si identifies next slice
+ * @param sq_target the square
+ * @return true iff sq_target is observed by the side at the move
+ */
+boolean vaulting_king_is_square_observed(slice_index si,
+                                         square sq_target,
+                                         evalfunction_t *evaluate)
+{
+  if (king_square[trait[nbply]]==initsquare)
+    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+  else
+  {
+    if (is_kingsquare_observed())
+    {
+      Side const side_attacking = trait[nbply];
+
+      PieNam const *pi_vaulter;
+      for (pi_vaulter = king_vaulters[side_attacking]; *pi_vaulter; ++pi_vaulter)
+        if ((*checkfunctions[*pi_vaulter])(sq_target,King,evaluate))
+          return true;
+
+      if (vaulting_kings_transmuting[side_attacking])
+        return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
     }
 
-    if (found_vaulter && vaulting_kings_transmuting[side])
-    {
-      /* don't generate non-vaulting moves */
-    }
-    else
-      generate_moves_for_piece(slices[si].next1,sq_departure,King);
+    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
   }
-  else
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
 }
 
 /* Initialise the solving machinery with Vaulting Kings
@@ -147,26 +126,4 @@ void vaulting_kings_initalise_solving(slice_index si)
     solving_instrument_move_generation(si,Black,STVaultingKingsMovesForPieceGenerator);
     instrument_alternative_is_square_observed_king_testing(si,Black,STVaultingKingIsSquareObserved);
   }
-}
-
-/* Determine whether a square is observed be the side at the move according to
- * Vaulting Kings
- * @param si identifies next slice
- * @param sq_target the square
- * @return true iff sq_target is observed by the side at the move
- */
-boolean vaulting_king_is_square_observed(slice_index si,
-                                         square sq_target,
-                                         evalfunction_t *evaluate)
-{
-  if (number_of_pieces[trait[nbply]][King]>0)
-  {
-    if (!transmuting_kings_lock_recursion
-        && vaulting_kings_is_square_attacked_by_king(sq_target,evaluate))
-      return true;
-    else
-      return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
-  }
-  else
-    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }

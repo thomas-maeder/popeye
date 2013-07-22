@@ -3,13 +3,13 @@
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
 #include <assert.h>
 
 PieNam transmpieces[nr_sides][PieceCount];
-boolean transmuting_kings_lock_recursion;
 
 /* Initialise the sequence of king transmuters
  * @param side for which side to initialise?
@@ -46,8 +46,6 @@ transmuting_kings_is_square_attacked_by_transmuting_king(square sq_target,
 
   PieNam *ptrans;
 
-  transmuting_kings_lock_recursion = true;
-
   for (ptrans = transmpieces[side_attacking]; *ptrans; ptrans++)
     if (number_of_pieces[side_attacked][*ptrans]>0)
     {
@@ -68,8 +66,6 @@ transmuting_kings_is_square_attacked_by_transmuting_king(square sq_target,
           result = king_transmuting_no_attack;
       }
     }
-
-  transmuting_kings_lock_recursion = false;
 
   return result;
 }
@@ -220,8 +216,7 @@ boolean transmuting_king_is_square_observed(slice_index si,
 {
   if (number_of_pieces[trait[nbply]][King]>0)
   {
-    if (!transmuting_kings_lock_recursion
-        && transmuting_kings_is_square_attacked_by_king(sq_target,evaluate))
+    if (transmuting_kings_is_square_attacked_by_king(sq_target,evaluate))
       return true;
     else
       return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
@@ -294,8 +289,7 @@ boolean reflective_king_is_square_observed(slice_index si,
 {
   if (number_of_pieces[trait[nbply]][King]>0)
   {
-    if (!transmuting_kings_lock_recursion
-        && reflective_kings_is_square_attacked_by_king(sq_target,evaluate))
+    if (reflective_kings_is_square_attacked_by_king(sq_target,evaluate))
       return true;
     else
       return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
