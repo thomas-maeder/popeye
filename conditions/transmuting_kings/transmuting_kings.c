@@ -30,128 +30,55 @@ void init_transmuters_sequence(Side side)
   transmpieces[side][tp] = Empty;
 }
 
-/* Does the transmuting king of side trait[nbply] attack a particular square
- * while transmuting?
- * @param sq_target target square
- * @param evaluate attack evaluator
- * @return how much attack of the transmuting king to sq_target is there?
- */
-transmuting_kings_attack_type
-transmuting_kings_is_square_attacked_by_transmuting_king(square sq_target,
-                                                         evalfunction_t *evaluate)
+static boolean is_king_transmuted_by(PieNam p, evalfunction_t *evaluate)
 {
+  boolean result;
   Side const side_attacking = trait[nbply];
-  Side const side_attacked = advers(side_attacking);
-  transmuting_kings_attack_type result = king_not_transmuting;
 
-  PieNam *ptrans;
-
-  for (ptrans = transmpieces[side_attacking]; *ptrans; ptrans++)
-    if (number_of_pieces[side_attacked][*ptrans]>0)
-    {
-      boolean is_king_transmuted;
-
-      trait[nbply] = advers(trait[nbply]);
-      is_king_transmuted = (*checkfunctions[*ptrans])(king_square[side_attacking],*ptrans,evaluate);
-      trait[nbply] = advers(trait[nbply]);
-
-      if (is_king_transmuted)
-      {
-        if ((*checkfunctions[*ptrans])(sq_target,King,evaluate))
-        {
-          result = king_transmuting_attack;
-          break;
-        }
-        else
-          result = king_transmuting_no_attack;
-      }
-    }
+  trait[nbply] = advers(side_attacking);
+  result = (*checkfunctions[p])(king_square[side_attacking],p,evaluate);
+  trait[nbply] = side_attacking;
 
   return result;
 }
 
-/* Does the transmuting king of side trait[nbply] attack a particular square
- * (while transmuting or not)?
- * @param sq_target target square
- * @param evaluate attack evaluator
- * @return true iff a king attacks sq_target?
- */
-boolean transmuting_kings_is_square_attacked_by_king(square sq_target,
-                                                     evalfunction_t *evaluate)
+static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
 {
-  switch (transmuting_kings_is_square_attacked_by_transmuting_king(sq_target,evaluate))
-  {
-    case king_not_transmuting:
-      return roicheck(sq_target,King,evaluate);
+  boolean result;
 
-    case king_transmuting_no_attack:
-      return false;
+  nextply(advers(trait[nbply]));
+  result = (*checkfunctions[p])(sq_departure,p,&validate_observation);
+  finply();
 
-    case king_transmuting_attack:
-      return true;
+  return result;
+}
 
-    default:
-      assert(0);
-      return false;
-  }
+static void remember_transmuter(numecoup base, PieNam p)
+{
+  numecoup curr;
+  for (curr = base+1; curr<=current_move[nbply]; ++curr)
+    move_generation_stack[curr].current_transmutation = p;
 }
 
 static boolean generate_moves_of_transmuting_king(slice_index si,
                                                   square sq_departure)
 {
   boolean result = false;
-  PieNam const *ptrans;
   Side const side_moving = trait[nbply];
+  Side const side_transmuting = advers(side_moving);
 
+  PieNam const *ptrans;
   for (ptrans = transmpieces[side_moving]; *ptrans!=Empty; ++ptrans)
-  {
-    Side const side_transmuting = advers(side_moving);
-
-    if (number_of_pieces[side_transmuting][*ptrans]>0)
+    if (number_of_pieces[side_transmuting][*ptrans]>0
+        && is_square_observed_by_opponent(*ptrans,sq_departure))
     {
-      boolean is_king_transmuted;
-
-      nextply(side_transmuting);
-      is_king_transmuted = (*checkfunctions[*ptrans])(sq_departure,
-                                                      *ptrans,
-                                                      &validate_observation);
-      finply();
-
-      if (is_king_transmuted)
-      {
-        result = true;
-        current_trans_gen = *ptrans;
-        generate_moves_for_piece(slices[si].next1,sq_departure,*ptrans);
-        current_trans_gen = Empty;
-      }
+      numecoup const base = current_move[nbply];
+      generate_moves_for_piece(slices[si].next1,sq_departure,*ptrans);
+      remember_transmuter(base,*ptrans);
+      result = true;
     }
-  }
 
   return result;
-}
-
-/* Does the reflective king of side trait[nbply] attack a particular square
- * (while transmuting or not)?
- * @param sq_target target square
- * @param evaluate attack evaluator
- * @return true iff a king attacks sq_target?
- */
-boolean reflective_kings_is_square_attacked_by_king(square sq_target,
-                                                    evalfunction_t *evaluate)
-{
-  switch (transmuting_kings_is_square_attacked_by_transmuting_king(sq_target,evaluate))
-  {
-    case king_not_transmuting:
-    case king_transmuting_no_attack:
-      return roicheck(sq_target,King,evaluate);
-
-    case king_transmuting_attack:
-      return true;
-
-    default:
-      assert(0);
-      return false;
-  }
 }
 
 /* Generate moves for a single piece
@@ -169,13 +96,12 @@ void transmuting_kings_generate_moves_for_piece(slice_index si,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (p==King)
+  if (!(p==King && generate_moves_of_transmuting_king(si,sq_departure)))
   {
-    if (!generate_moves_of_transmuting_king(si,sq_departure))
-      generate_moves_for_piece(slices[si].next1,sq_departure,King);
-  }
-  else
+    numecoup const base = current_move[nbply];
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
+    remember_transmuter(base,Empty);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -216,13 +142,26 @@ boolean transmuting_king_is_square_observed(slice_index si,
 {
   if (number_of_pieces[trait[nbply]][King]>0)
   {
-    if (transmuting_kings_is_square_attacked_by_king(sq_target,evaluate))
-      return true;
-    else
+    Side const side_attacked = advers(trait[nbply]);
+
+    PieNam *ptrans;
+    PieNam transmuter = Empty;
+
+    for (ptrans = transmpieces[trait[nbply]]; *ptrans; ptrans++)
+      if (number_of_pieces[side_attacked][*ptrans]>0
+          && is_king_transmuted_by(*ptrans,evaluate))
+      {
+        if ((*checkfunctions[*ptrans])(sq_target,King,evaluate))
+          return true;
+        else
+          transmuter = *ptrans;
+      }
+
+    if (transmuter!=Empty)
       return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
   }
-  else
-    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }
 
 /* Generate moves for a single piece
@@ -289,13 +228,19 @@ boolean reflective_king_is_square_observed(slice_index si,
 {
   if (number_of_pieces[trait[nbply]][King]>0)
   {
-    if (reflective_kings_is_square_attacked_by_king(sq_target,evaluate))
-      return true;
-    else
-      return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
+    Side const side_attacking = trait[nbply];
+    Side const side_attacked = advers(side_attacking);
+
+    PieNam *ptrans;
+
+    for (ptrans = transmpieces[side_attacking]; *ptrans; ptrans++)
+      if (number_of_pieces[side_attacked][*ptrans]>0
+          && is_king_transmuted_by(*ptrans,evaluate)
+          && (*checkfunctions[*ptrans])(sq_target,King,evaluate))
+        return true;
   }
-  else
-    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }
 
 typedef struct

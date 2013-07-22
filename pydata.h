@@ -151,7 +151,6 @@ EXTERN boolean          IsardamB;
 
 EXTERN boolean		anyantimars;
 EXTERN square           supertrans[maxply+1];
-EXTERN PieNam           current_trans_gen;
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          flag_synchron;
 EXTERN ply      	      tempply;
