@@ -331,7 +331,11 @@ enum
   nr_slice_rank_order_elmts = sizeof slice_rank_order / sizeof slice_rank_order[0]
 };
 
-static void insert_slice(slice_index testing, slice_type type)
+/* Instrument a particular square observation testing branch with a slice type
+ * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
+ * @param type type of slice to insert
+ */
+void stip_instrument_is_square_observed_insert_slice(slice_index testing, slice_type type)
 {
   slice_index const prototype = alloc_pipe(type);
   stip_structure_traversal st;
@@ -349,6 +353,8 @@ static void insert_slice(slice_index testing, slice_type type)
   TraceFunctionParam("%u",testing);
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
+
+  assert(slices[testing].type==STTestingIfSquareIsObserved);
 
   state.base_rank = get_slice_rank(slices[testing].type,&state);
   assert(state.base_rank!=no_slice_rank);
@@ -377,7 +383,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   if (it->side==nr_sides || it->side==slices[si].starter)
-    insert_slice(si,it->type);
+    stip_instrument_is_square_observed_insert_slice(si,it->type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -396,6 +402,9 @@ void stip_instrument_is_square_observed_testing(slice_index si,
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);

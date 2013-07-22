@@ -134,7 +134,7 @@ void vaulting_kings_initalise_solving(slice_index si)
       king_vaulters[White][1] = Empty;
     }
     solving_instrument_move_generation(si,White,STVaultingKingsMovesForPieceGenerator);
-    stip_instrument_is_square_observed_testing(si,White,STVaultingKingIsSquareObserved);
+    instrument_alternative_is_square_observed_king_testing(si,White,STVaultingKingIsSquareObserved);
   }
 
   if (CondFlag[blvault_king])
@@ -145,23 +145,27 @@ void vaulting_kings_initalise_solving(slice_index si)
       king_vaulters[Black][1] = Empty;
     }
     solving_instrument_move_generation(si,Black,STVaultingKingsMovesForPieceGenerator);
-    stip_instrument_is_square_observed_testing(si,Black,STVaultingKingIsSquareObserved);
+    instrument_alternative_is_square_observed_king_testing(si,Black,STVaultingKingIsSquareObserved);
   }
 }
 
+/* Determine whether a square is observed be the side at the move according to
+ * Vaulting Kings
+ * @param si identifies next slice
+ * @param sq_target the square
+ * @return true iff sq_target is observed by the side at the move
+ */
 boolean vaulting_king_is_square_observed(slice_index si,
                                          square sq_target,
                                          evalfunction_t *evaluate)
 {
-  Side const side_observing = trait[nbply];
-
-  if (number_of_pieces[side_observing][King]>0)
+  if (number_of_pieces[trait[nbply]][King]>0)
   {
     if (!transmuting_kings_lock_recursion
         && vaulting_kings_is_square_attacked_by_king(sq_target,evaluate))
       return true;
     else
-      return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
+      return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
   }
   else
     return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);

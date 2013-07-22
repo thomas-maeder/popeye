@@ -40,6 +40,12 @@ void vaulting_kings_generate_moves_for_piece(slice_index si,
  */
 void vaulting_kings_initalise_solving(slice_index si);
 
+/* Determine whether a square is observed be the side at the move according to
+ * Vaulting Kings
+ * @param si identifies next slice
+ * @param sq_target the square
+ * @return true iff sq_target is observed by the side at the move
+ */
 boolean vaulting_king_is_square_observed(slice_index si,
                                          square sq_target,
                                          evalfunction_t *evaluate);

@@ -4,6 +4,7 @@
 /* This module implements the Transmuting Kings family of fairy conditions */
 
 #include "position/position.h"
+#include "stipulation/stipulation.h"
 #include "pyproc.h"
 
 extern PieNam transmpieces[nr_sides][PieceCount];
@@ -53,6 +54,12 @@ void transmuting_kings_generate_moves_for_piece(slice_index si,
  */
 void transmuting_kings_initialise_solving(slice_index si);
 
+/* Determine whether a square is observed be the side at the move according to
+ * Transmuting Kings
+ * @param si identifies next slice
+ * @param sq_target the square
+ * @return true iff sq_target is observed by the side at the move
+ */
 boolean transmuting_king_is_square_observed(slice_index si,
                                             square sq_target,
                                             evalfunction_t *evaluate);
@@ -80,8 +87,26 @@ void reflective_kings_generate_moves_for_piece(slice_index si,
  */
 void reflective_kings_initialise_solving(slice_index si);
 
+/* Determine whether a square is observed be the side at the move according to
+ * Reflective Kings
+ * @param si identifies next slice
+ * @param sq_target the square
+ * @return true iff sq_target is observed by the side at the move
+ */
 boolean reflective_king_is_square_observed(slice_index si,
                                            square sq_target,
                                            evalfunction_t *evaluate);
+
+/* Instrument the square observation machinery for a side with an alternative
+ * slice dealting with observations by kings.
+ * @param si identifies the root slice of the solving machinery
+ * @param side side for which to instrument the square observation machinery
+ * @param type type of slice to insert
+ * @note next2 of inserted slices will be set to the position behind the
+ *       regular square observation by king handler
+ */
+void instrument_alternative_is_square_observed_king_testing(slice_index si,
+                                                            Side side,
+                                                            slice_type type);
 
 #endif

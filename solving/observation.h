@@ -110,6 +110,13 @@ boolean is_square_observed_recursive(slice_index si,
  */
 boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
 
+/* Instrument a particular square observation testing branch with a slice type
+ * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
+ * @param type type of slice to insert
+ */
+void stip_instrument_is_square_observed_insert_slice(slice_index testing,
+                                                     slice_type type);
+
 /* Instrument square observation testing with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)

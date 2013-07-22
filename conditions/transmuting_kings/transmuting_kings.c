@@ -2,6 +2,7 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/proxy.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -195,31 +196,35 @@ void transmuting_kings_initialise_solving(slice_index si)
   if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king])
   {
     solving_instrument_move_generation(si,White,STTransmutingKingsMovesForPieceGenerator);
-    stip_instrument_is_square_observed_testing(si,White,STTransmutingKingIsSquareObserved);
+    instrument_alternative_is_square_observed_king_testing(si,White,STTransmutingKingIsSquareObserved);
   }
   if (CondFlag[bltrans_king] || CondFlag[blsupertrans_king])
   {
     solving_instrument_move_generation(si,Black,STTransmutingKingsMovesForPieceGenerator);
-    stip_instrument_is_square_observed_testing(si,Black,STTransmutingKingIsSquareObserved);
+    instrument_alternative_is_square_observed_king_testing(si,Black,STTransmutingKingIsSquareObserved);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
+/* Determine whether a square is observed be the side at the move according to
+ * Transmuting Kings
+ * @param si identifies next slice
+ * @param sq_target the square
+ * @return true iff sq_target is observed by the side at the move
+ */
 boolean transmuting_king_is_square_observed(slice_index si,
                                             square sq_target,
                                             evalfunction_t *evaluate)
 {
-  Side const side_observing = trait[nbply];
-
-  if (number_of_pieces[side_observing][King]>0)
+  if (number_of_pieces[trait[nbply]][King]>0)
   {
     if (!transmuting_kings_lock_recursion
         && transmuting_kings_is_square_attacked_by_king(sq_target,evaluate))
       return true;
     else
-      return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
+      return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
   }
   else
     return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
@@ -265,32 +270,135 @@ void reflective_kings_initialise_solving(slice_index si)
   if (CondFlag[whrefl_king])
   {
     solving_instrument_move_generation(si,White,STReflectiveKingsMovesForPieceGenerator);
-    stip_instrument_is_square_observed_testing(si,White,STReflectiveKingIsSquareObserved);
+    instrument_alternative_is_square_observed_king_testing(si,White,STReflectiveKingIsSquareObserved);
   }
   if (CondFlag[blrefl_king])
   {
     solving_instrument_move_generation(si,Black,STReflectiveKingsMovesForPieceGenerator);
-    stip_instrument_is_square_observed_testing(si,Black,STReflectiveKingIsSquareObserved);
+    instrument_alternative_is_square_observed_king_testing(si,Black,STReflectiveKingIsSquareObserved);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
+/* Determine whether a square is observed be the side at the move according to
+ * Reflective Kings
+ * @param si identifies next slice
+ * @param sq_target the square
+ * @return true iff sq_target is observed by the side at the move
+ */
 boolean reflective_king_is_square_observed(slice_index si,
                                            square sq_target,
                                            evalfunction_t *evaluate)
 {
-  Side const side_observing = trait[nbply];
-
-  if (number_of_pieces[side_observing][King]>0)
+  if (number_of_pieces[trait[nbply]][King]>0)
   {
     if (!transmuting_kings_lock_recursion
         && reflective_kings_is_square_attacked_by_king(sq_target,evaluate))
       return true;
     else
-      return is_square_observed_recursive(slices[slices[si].next1].next1,sq_target,evaluate);
+      return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
   }
   else
     return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+}
+
+typedef struct
+{
+    Side side;
+    slice_type type;
+    slice_index after_king;
+} instrumenatation_type;
+
+static void instrument_testing(slice_index si, stip_structure_traversal *st)
+{
+  instrumenatation_type * const it = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(it->after_king==no_slice);
+
+  if (it->side==nr_sides || it->side==slices[si].starter)
+    stip_instrument_is_square_observed_insert_slice(si,it->type);
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  it->after_king = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_after_king(slice_index si, stip_structure_traversal *st)
+{
+  instrumenatation_type * const it = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  it->after_king = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void connect_to_after_king(slice_index si, stip_structure_traversal *st)
+{
+  instrumenatation_type const * const it = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (slices[si].next2==no_slice)
+  {
+    slices[si].next2 = alloc_proxy_slice();
+    link_to_branch(slices[si].next2,it->after_king);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the square observation machinery for a side with an alternative
+ * slice dealting with observations by kings.
+ * @param si identifies the root slice of the solving machinery
+ * @param side side for which to instrument the square observation machinery
+ * @param type type of slice to insert
+ * @note next2 of inserted slices will be set to the position behind the
+ *       regular square observation by king handler
+ */
+void instrument_alternative_is_square_observed_king_testing(slice_index si,
+                                                            Side side,
+                                                            slice_type type)
+{
+  instrumenatation_type it = { side, type, no_slice };
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&it);
+  stip_structure_traversal_override_single(&st,
+                                           STLandingAfterFindSquareObserverTrackingBackKing,
+                                           &remember_after_king);
+  stip_structure_traversal_override_single(&st,type,&connect_to_after_king);
+  stip_structure_traversal_override_single(&st,
+                                           STTestingIfSquareIsObserved,
+                                           &instrument_testing);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
