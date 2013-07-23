@@ -126,4 +126,9 @@ void stip_instrument_is_square_observed_testing(slice_index si,
                                                 Side side,
                                                 slice_type type);
 
+/* Optimise the square observation machinery if possible
+ * @param si identifies the root slice of the solving machinery
+ */
+void optimise_is_square_observed(slice_index si);
+
 #endif

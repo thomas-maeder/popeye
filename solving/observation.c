@@ -13,6 +13,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
+#include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -244,6 +245,10 @@ boolean is_square_observed_recursive(slice_index si,
 
   switch (slices[si].type)
   {
+    case STIsSquareObservedOrtho:
+      result = is_square_observed_ortho(sq_target);
+      break;
+
     case STSingleBoxType3IsSquareObserved:
       result = singleboxtype3_is_square_observed(si,sq_target,evaluate);
       break;
@@ -313,6 +318,7 @@ boolean is_square_observed(square sq_target, evalfunction_t *evaluate)
 static slice_index const slice_rank_order[] =
 {
     STTestingIfSquareIsObserved,
+    STIsSquareObservedOrtho,
     STSingleBoxType3IsSquareObserved,
     STAnnanIsSquareObserved,
     STPhantomIsSquareObserved,
@@ -413,6 +419,46 @@ void stip_instrument_is_square_observed_testing(slice_index si,
                                            STTestingIfSquareIsObserved,
                                            &instrument_testing);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void optimise_side(slice_index si, Side side)
+{
+  slice_index const proxy = slices[temporary_hack_is_square_observed[side]].next2;
+  slice_index const testing = slices[proxy].next1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(slice_type,slices[testing].type,"");
+  TraceEnumerator(slice_type,slices[slices[testing].next1].type,"\n");
+  if (slices[slices[testing].next1].type==STFindSquareObserverTrackingBackKing)
+    stip_instrument_is_square_observed_testing(si,side,STIsSquareObservedOrtho);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Optimise the square observation machinery if possible
+ * @param si identifies the root slice of the solving machinery
+ */
+void optimise_is_square_observed(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (get_nr_observation_validators()==0 && !flagfee
+      && !CondFlag[masand]
+      && !CondFlag[amu])
+  {
+    optimise_side(si,White);
+    optimise_side(si,Black);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

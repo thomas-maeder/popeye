@@ -2752,10 +2752,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_insert_move_counters(result);
 #endif
 
-  stip_impose_starter(result,slices[result].starter);
-
-  resolve_proxies(&result);
-
   if (CondFlag[shieldedkings])
     shielded_kings_initialise_solving();
 
@@ -2767,6 +2763,12 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[backhome])
     backhome_initialise_solving();
+
+  optimise_is_square_observed(result);
+
+  stip_impose_starter(result,slices[result].starter);
+
+  resolve_proxies(&result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

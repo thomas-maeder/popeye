@@ -433,6 +433,7 @@
     ENUMERATOR(STPhantomIsSquareObserved),                              \
     ENUMERATOR(STPlusIsSquareObserved),                                 \
     ENUMERATOR(STMarsIsSquareObserved),                                 \
+    ENUMERATOR(STIsSquareObservedOrtho),                                \
     /* debugging slices */                                              \
     ENUMERATOR(STMoveTracer),                                           \
     ENUMERATOR(STMoveCounter),                                          \
