@@ -246,7 +246,10 @@ boolean is_square_observed_recursive(slice_index si,
   switch (slices[si].type)
   {
     case STIsSquareObservedOrtho:
-      result = is_square_observed_ortho(sq_target);
+      if (evaluate==&validate_observation)
+        result = is_square_observed_ortho(sq_target);
+      else
+        result = is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
       break;
 
     case STSingleBoxType3IsSquareObserved:
@@ -452,9 +455,7 @@ void optimise_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (get_nr_observation_validators()==0 && !flagfee
-      && !CondFlag[masand]
-      && !CondFlag[amu])
+  if (get_nr_observation_validators()==0 && !flagfee)
   {
     optimise_side(si,White);
     optimise_side(si,Black);
