@@ -17,6 +17,7 @@
 #include "conditions/castling_chess.h"
 #include "conditions/exchange_castling.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/vaulting_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -54,6 +55,7 @@ static slice_index const slice_rank_order[] =
     STAntiMarsCirceMovesForPieceGenerator,
     STVaultingKingsMovesForPieceGenerator,
     STTransmutingKingsMovesForPieceGenerator,
+    STSuperTransmutingKingsMovesForPieceGenerator,
     STReflectiveKingsMovesForPieceGenerator,
     STStingMovesForPieceGenerator,
     STCastlingChessMovesForPieceGenerator,
@@ -216,6 +218,10 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
 
     case STTransmutingKingsMovesForPieceGenerator:
       transmuting_kings_generate_moves_for_piece(si,sq_departure,p);
+      break;
+
+    case STSuperTransmutingKingsMovesForPieceGenerator:
+      supertransmuting_kings_generate_moves_for_piece(si,sq_departure,p);
       break;
 
     case STReflectiveKingsMovesForPieceGenerator:

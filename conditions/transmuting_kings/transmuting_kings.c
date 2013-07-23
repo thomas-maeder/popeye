@@ -56,13 +56,6 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
   return result;
 }
 
-static void remember_transmuter(numecoup base, PieNam p)
-{
-  numecoup curr;
-  for (curr = base+1; curr<=current_move[nbply]; ++curr)
-    move_generation_stack[curr].current_transmutation = p;
-}
-
 /* Generate moves of a potentially transmuting king
  * @param si identifies move generator slice
  * @param sq_departure common departure square of the generated moves
@@ -80,9 +73,7 @@ boolean generate_moves_of_transmuting_king(slice_index si, square sq_departure)
     if (number_of_pieces[side_transmuting][*ptrans]>0
         && is_square_observed_by_opponent(*ptrans,sq_departure))
     {
-      numecoup const base = current_move[nbply];
       generate_moves_for_piece(slices[si].next1,sq_departure,*ptrans);
-      remember_transmuter(base,*ptrans);
       result = true;
     }
 
@@ -105,11 +96,7 @@ void transmuting_kings_generate_moves_for_piece(slice_index si,
   TraceFunctionParamListEnd();
 
   if (!(p==King && generate_moves_of_transmuting_king(si,sq_departure)))
-  {
-    numecoup const base = current_move[nbply];
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
-    remember_transmuter(base,Empty);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

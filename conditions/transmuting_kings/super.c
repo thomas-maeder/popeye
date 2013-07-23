@@ -1,12 +1,15 @@
 #include "conditions/transmuting_kings/super.h"
-#include "pydata.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
+#include "solving/observation.h"
+#include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -17,7 +20,7 @@ int len_supertransmuting_kings(square sq_departure,
                                square sq_arrival,
                                square sq_capture)
 {
-  return MAX_OTHER_LEN * (move_generation_stack[current_move[nbply]].current_transmutation!=Empty ? 1 : 0);
+  return MAX_OTHER_LEN * (move_generation_stack[current_move[nbply]].current_supertransmutation!=Empty ? 1 : 0);
 }
 
 /* Try to solve in n half-moves.
@@ -44,7 +47,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[coup_id].current_transmutation!=Empty)
+  if (move_generation_stack[coup_id].current_supertransmutation!=Empty)
   {
     move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -61,7 +64,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
 
     move_effect_journal_do_piece_change(move_effect_reason_king_transmutation,
                                         pos,
-                                        move_generation_stack[coup_id].current_transmutation);
+                                        move_generation_stack[coup_id].current_supertransmutation);
   }
 
   result = solve(slices[si].next1,n);
@@ -92,6 +95,70 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
+{
+  boolean result;
+
+  nextply(advers(trait[nbply]));
+  result = (*checkfunctions[p])(sq_departure,p,&validate_observation);
+  finply();
+
+  return result;
+}
+
+static void remember_transmuter(numecoup base, PieNam p)
+{
+  numecoup curr;
+  for (curr = base+1; curr<=current_move[nbply]; ++curr)
+    move_generation_stack[curr].current_supertransmutation = p;
+}
+
+static boolean generate_moves_of_supertransmuting_king(slice_index si, square sq_departure)
+{
+  boolean result = false;
+  Side const side_moving = trait[nbply];
+  Side const side_transmuting = advers(side_moving);
+
+  PieNam const *ptrans;
+  for (ptrans = transmpieces[side_moving]; *ptrans!=Empty; ++ptrans)
+    if (number_of_pieces[side_transmuting][*ptrans]>0
+        && is_square_observed_by_opponent(*ptrans,sq_departure))
+    {
+      numecoup const base = current_move[nbply];
+      generate_moves_for_piece(slices[si].next1,sq_departure,*ptrans);
+      remember_transmuter(base,*ptrans);
+      result = true;
+    }
+
+  return result;
+}
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param sq_departure departure square of generated moves
+ * @param p walk to be used for generating
+ */
+void supertransmuting_kings_generate_moves_for_piece(slice_index si,
+                                                     square sq_departure,
+                                                     PieNam p)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  if (!(p==King && generate_moves_of_supertransmuting_king(si,sq_departure)))
+  {
+    numecoup const base = current_move[nbply];
+    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+    remember_transmuter(base,Empty);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument slices with move tracers
  * @param si identifies root slice of solving machinery
  * @param side for whom
@@ -111,7 +178,7 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
 
-  solving_instrument_move_generation(si,side,STTransmutingKingsMovesForPieceGenerator);
+  solving_instrument_move_generation(si,side,STSuperTransmutingKingsMovesForPieceGenerator);
   instrument_alternative_is_square_observed_king_testing(si,side,STTransmutingKingIsSquareObserved);
 
   TraceFunctionExit(__func__);

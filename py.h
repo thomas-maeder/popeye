@@ -236,7 +236,7 @@ typedef struct {
     square capture;
     square singlebox_type3_promotion_where;
     PieNam singlebox_type3_promotion_what;
-    PieNam current_transmutation;
+    PieNam current_supertransmutation;
     union
     {
       square sq_en_passant;
