@@ -190,6 +190,7 @@
 #include "conditions/castling_chess.h"
 #include "conditions/exchange_castling.h"
 #include "conditions/transmuting_kings/super.h"
+#include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/amu/attack_counter.h"
 #include "conditions/imitator.h"
 #include "conditions/football.h"

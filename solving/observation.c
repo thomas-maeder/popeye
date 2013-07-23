@@ -6,6 +6,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/sting.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/vaulting_kings.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
