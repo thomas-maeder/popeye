@@ -74,7 +74,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
-  Cond const cond = slices[si].starter==White ? whsupertrans_king : blsupertrans_king;
+  Side const * const side = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -82,7 +82,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (CondFlag[cond])
+  if (slices[si].starter==*side)
   {
     slice_index const prototype = alloc_pipe(STSuperTransmutingKingTransmuter);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -93,19 +93,26 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 }
 
 /* Instrument slices with move tracers
+ * @param si identifies root slice of solving machinery
+ * @param side for whom
  */
-void stip_insert_supertransmuting_kings(slice_index si)
+void supertransmuting_kings_initialise_solving(slice_index si, Side side)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
   stip_impose_starter(si,slices[si].starter);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&side);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
+
+  solving_instrument_move_generation(si,side,STTransmutingKingsMovesForPieceGenerator);
+  instrument_alternative_is_square_observed_king_testing(si,side,STTransmutingKingIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -27,7 +27,9 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
                                                           stip_length_type n);
 
 /* Instrument slices with move tracers
+ * @param si identifies root slice of solving machinery
+ * @param side for whom
  */
-void stip_insert_supertransmuting_kings(slice_index si);
+void supertransmuting_kings_initialise_solving(slice_index si, Side side);
 
 #endif

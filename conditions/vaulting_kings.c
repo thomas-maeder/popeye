@@ -102,28 +102,25 @@ boolean vaulting_king_is_square_observed(slice_index si,
 
 /* Initialise the solving machinery with Vaulting Kings
  * @param si root slice of the solving machinery
+ * @param side for whom
  */
-void vaulting_kings_initalise_solving(slice_index si)
+void vaulting_kings_initalise_solving(slice_index si, Side side)
 {
-  if (CondFlag[whvault_king])
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  if (king_vaulters[side][0]==Empty)
   {
-    if (king_vaulters[White][0]==Empty)
-    {
-      king_vaulters[White][0] = EquiHopper;
-      king_vaulters[White][1] = Empty;
-    }
-    solving_instrument_move_generation(si,White,STVaultingKingsMovesForPieceGenerator);
-    instrument_alternative_is_square_observed_king_testing(si,White,STVaultingKingIsSquareObserved);
+    king_vaulters[side][0] = EquiHopper;
+    king_vaulters[side][1] = Empty;
   }
 
-  if (CondFlag[blvault_king])
-  {
-    if (king_vaulters[Black][0]==Empty)
-    {
-      king_vaulters[Black][0] = EquiHopper;
-      king_vaulters[Black][1] = Empty;
-    }
-    solving_instrument_move_generation(si,Black,STVaultingKingsMovesForPieceGenerator);
-    instrument_alternative_is_square_observed_king_testing(si,Black,STVaultingKingIsSquareObserved);
-  }
+  solving_instrument_move_generation(si,side,STVaultingKingsMovesForPieceGenerator);
+
+  instrument_alternative_is_square_observed_king_testing(si,side,STVaultingKingIsSquareObserved);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

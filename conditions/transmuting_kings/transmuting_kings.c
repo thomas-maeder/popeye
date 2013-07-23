@@ -109,22 +109,17 @@ void transmuting_kings_generate_moves_for_piece(slice_index si,
 
 /* Inialise the solving machinery with transmuting kings
  * @param si identifies root slice of solving machinery
+ * @param side for whom
  */
-void transmuting_kings_initialise_solving(slice_index si)
+void transmuting_kings_initialise_solving(slice_index si, Side side)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king])
-  {
-    solving_instrument_move_generation(si,White,STTransmutingKingsMovesForPieceGenerator);
-    instrument_alternative_is_square_observed_king_testing(si,White,STTransmutingKingIsSquareObserved);
-  }
-  if (CondFlag[bltrans_king] || CondFlag[blsupertrans_king])
-  {
-    solving_instrument_move_generation(si,Black,STTransmutingKingsMovesForPieceGenerator);
-    instrument_alternative_is_square_observed_king_testing(si,Black,STTransmutingKingIsSquareObserved);
-  }
+  solving_instrument_move_generation(si,side,STTransmutingKingsMovesForPieceGenerator);
+  instrument_alternative_is_square_observed_king_testing(si,side,STTransmutingKingIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -195,22 +190,17 @@ void reflective_kings_generate_moves_for_piece(slice_index si,
 
 /* Inialise the solving machinery with reflective kings
  * @param si identifies root slice of solving machinery
+ * @param side for whom
  */
-void reflective_kings_initialise_solving(slice_index si)
+void reflective_kings_initialise_solving(slice_index si, Side side)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (CondFlag[whrefl_king])
-  {
-    solving_instrument_move_generation(si,White,STReflectiveKingsMovesForPieceGenerator);
-    instrument_alternative_is_square_observed_king_testing(si,White,STReflectiveKingIsSquareObserved);
-  }
-  if (CondFlag[blrefl_king])
-  {
-    solving_instrument_move_generation(si,Black,STReflectiveKingsMovesForPieceGenerator);
-    instrument_alternative_is_square_observed_king_testing(si,Black,STReflectiveKingIsSquareObserved);
-  }
+  solving_instrument_move_generation(si,side,STReflectiveKingsMovesForPieceGenerator);
+  instrument_alternative_is_square_observed_king_testing(si,side,STReflectiveKingIsSquareObserved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

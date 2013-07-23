@@ -29,11 +29,6 @@ void vaulting_kings_generate_moves_for_piece(slice_index si,
                                              square sq_departure,
                                              PieNam p);
 
-/* Initialise the solving machinery with Vaulting Kings
- * @param si root slice of the solving machinery
- */
-void vaulting_kings_initalise_solving(slice_index si);
-
 /* Determine whether a square is observed be the side at the move according to
  * Vaulting Kings
  * @param si identifies next slice
@@ -43,5 +38,11 @@ void vaulting_kings_initalise_solving(slice_index si);
 boolean vaulting_king_is_square_observed(slice_index si,
                                          square sq_target,
                                          evalfunction_t *evaluate);
+
+/* Initialise the solving machinery with Vaulting Kings
+ * @param si root slice of the solving machinery
+ * @param side for whom
+ */
+void vaulting_kings_initalise_solving(slice_index si, Side side);
 
 #endif

@@ -2518,9 +2518,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[castlingchess])
     stip_insert_castling_chess(result);
 
-  if (CondFlag[blsupertrans_king] || CondFlag[whsupertrans_king])
-    stip_insert_supertransmuting_kings(result);
-
   if (CondFlag[amu])
     stip_insert_amu_attack_counter(result);
 
@@ -2720,13 +2717,25 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (TSTFLAG(some_pieces_flags,Beamtet))
     beamten_initialise_solving(result);
 
-  if (CondFlag[blvault_king] || CondFlag[whvault_king])
-    vaulting_kings_initalise_solving(result);
-  else if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king]
-           || CondFlag[bltrans_king] || CondFlag[blsupertrans_king])
-    transmuting_kings_initialise_solving(result);
-  else if (CondFlag[whrefl_king] || CondFlag[blrefl_king])
-    reflective_kings_initialise_solving(result);
+  if (CondFlag[whvault_king])
+    vaulting_kings_initalise_solving(result,White);
+  if (CondFlag[blvault_king])
+    vaulting_kings_initalise_solving(result,Black);
+
+  if (CondFlag[whsupertrans_king])
+    supertransmuting_kings_initialise_solving(result,White);
+  if (CondFlag[blsupertrans_king])
+    supertransmuting_kings_initialise_solving(result,Black);
+
+  if (CondFlag[whtrans_king])
+    transmuting_kings_initialise_solving(result,White);
+  if (CondFlag[bltrans_king])
+    transmuting_kings_initialise_solving(result,Black);
+
+  if (CondFlag[whrefl_king])
+    reflective_kings_initialise_solving(result,White);
+  if (CondFlag[blrefl_king])
+    reflective_kings_initialise_solving(result,Black);
 
   if (CondFlag[sting])
     sting_initalise_solving(result);

@@ -26,8 +26,9 @@ void transmuting_kings_generate_moves_for_piece(slice_index si,
 
 /* Inialise the solving machinery with transmuting kings
  * @param si identifies root slice of solving machinery
+ * @param side for whom
  */
-void transmuting_kings_initialise_solving(slice_index si);
+void transmuting_kings_initialise_solving(slice_index si, Side side);
 
 /* Determine whether a square is observed be the side at the move according to
  * Transmuting Kings
@@ -50,8 +51,9 @@ void reflective_kings_generate_moves_for_piece(slice_index si,
 
 /* Inialise the solving machinery with reflective kings
  * @param si identifies root slice of solving machinery
+ * @param side for whom
  */
-void reflective_kings_initialise_solving(slice_index si);
+void reflective_kings_initialise_solving(slice_index si, Side side);
 
 /* Determine whether a square is observed be the side at the move according to
  * Reflective Kings
