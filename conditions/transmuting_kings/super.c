@@ -75,26 +75,6 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
   return result;
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  Side const * const side = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (slices[si].starter==*side)
-  {
-    slice_index const prototype = alloc_pipe(STSuperTransmutingKingTransmuter);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
 {
   boolean result;
@@ -153,6 +133,26 @@ void supertransmuting_kings_generate_moves_for_piece(slice_index si,
     numecoup const base = current_move[nbply];
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
     remember_transmuter(base,Empty);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_move(slice_index si, stip_structure_traversal *st)
+{
+  Side const * const side = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (slices[si].starter==*side)
+  {
+    slice_index const prototype = alloc_pipe(STSuperTransmutingKingTransmuter);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
