@@ -58,10 +58,11 @@ boolean transmuting_king_is_square_observed(slice_index si,
  * @param si identifies the root slice of the solving machinery
  * @param side side for which to instrument the square observation machinery
  * @param type type of slice to insert
+ * @return the inserted slice's identifier
  * @note next2 of inserted slices will be set to the position behind the
  *       regular square observation by king handler
  */
-void instrument_alternative_is_square_observed_king_testing(slice_index si,
+slice_index instrument_alternative_is_square_observed_king_testing(slice_index si,
                                                             Side side,
                                                             slice_type type);
 

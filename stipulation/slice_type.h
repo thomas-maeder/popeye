@@ -433,6 +433,7 @@
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
     ENUMERATOR(STFindSquareObserverTrackingBack),                       \
     ENUMERATOR(STFindSquareObserverTrackingBackKing),                   \
+    ENUMERATOR(STFindSquareObserverTrackingBackFairy),                  \
     ENUMERATOR(STLandingAfterFindSquareObserverTrackingBackKing),       \
     ENUMERATOR(STVaultingKingIsSquareObserved),                         \
     ENUMERATOR(STTransmutingKingIsSquareObserved),                      \

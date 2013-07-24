@@ -43,21 +43,20 @@ boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
       && ridcheck(sq_target,vec_bishop_start,vec_bishop_end,Bishop,evaluate))
     return true;
 
-  if (flagfee)
-  {
-    PieNam const *pcheck;
-    boolean result = false;
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+}
 
-    for (pcheck = checkpieces; *pcheck; ++pcheck)
-      if (number_of_pieces[side_observing][*pcheck]>0
-          && (*checkfunctions[*pcheck])(sq_target, *pcheck, evaluate))
-      {
-        result = true;
-        break;
-      }
+boolean find_square_observer_tracking_back_from_target_fairy(slice_index si,
+                                                             square sq_target,
+                                                             evalfunction_t *evaluate)
+{
+  Side const side_observing = trait[nbply];
+  PieNam const *pcheck;
 
-    return result;
-  }
-  else
-    return false;
+  for (pcheck = checkpieces; *pcheck; ++pcheck)
+    if (number_of_pieces[side_observing][*pcheck]>0
+        && (*checkfunctions[*pcheck])(sq_target, *pcheck, evaluate))
+      return true;
+
+  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
 }

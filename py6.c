@@ -2744,6 +2744,11 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[annan])
     annan_initialise_solving(result);
 
+  if (flagfee)
+    stip_instrument_is_square_observed_testing(result,
+                                               nr_sides,
+                                               STFindSquareObserverTrackingBackFairy);
+
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);
 #endif

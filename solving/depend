@@ -2339,7 +2339,8 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/vaulting_kings.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/pipe.h stipulation/branch.h stipulation/temporary_hacks.h \
- debugging/trace.h pydata.h pyproc.h
+ optimisations/orthodox_square_observation.h debugging/trace.h pydata.h \
+ pyproc.h
 
 solving/observation.h:
 
@@ -2410,6 +2411,8 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 stipulation/temporary_hacks.h:
+
+optimisations/orthodox_square_observation.h:
 
 debugging/trace.h:
 

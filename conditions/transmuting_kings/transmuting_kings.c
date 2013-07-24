@@ -159,11 +159,12 @@ typedef struct
     Side side;
     slice_type type;
     slice_index after_king;
-} instrumenatation_type;
+    slice_index inserted;
+} instrumentation_type;
 
 static void instrument_testing(slice_index si, stip_structure_traversal *st)
 {
-  instrumenatation_type * const it = st->param;
+  instrumentation_type * const it = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -184,7 +185,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
 
 static void remember_after_king(slice_index si, stip_structure_traversal *st)
 {
-  instrumenatation_type * const it = st->param;
+  instrumentation_type * const it = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -200,7 +201,7 @@ static void remember_after_king(slice_index si, stip_structure_traversal *st)
 
 static void connect_to_after_king(slice_index si, stip_structure_traversal *st)
 {
-  instrumenatation_type const * const it = st->param;
+  instrumentation_type * const it = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -212,6 +213,7 @@ static void connect_to_after_king(slice_index si, stip_structure_traversal *st)
   {
     slices[si].next2 = alloc_proxy_slice();
     link_to_branch(slices[si].next2,it->after_king);
+    it->inserted = si;
   }
 
   TraceFunctionExit(__func__);
@@ -223,14 +225,15 @@ static void connect_to_after_king(slice_index si, stip_structure_traversal *st)
  * @param si identifies the root slice of the solving machinery
  * @param side side for which to instrument the square observation machinery
  * @param type type of slice to insert
+ * @return the inserted slice's identifier
  * @note next2 of inserted slices will be set to the position behind the
  *       regular square observation by king handler
  */
-void instrument_alternative_is_square_observed_king_testing(slice_index si,
-                                                            Side side,
-                                                            slice_type type)
+slice_index instrument_alternative_is_square_observed_king_testing(slice_index si,
+                                                                   Side side,
+                                                                   slice_type type)
 {
-  instrumenatation_type it = { side, type, no_slice };
+  instrumentation_type it = { side, type, no_slice, no_slice };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -250,5 +253,7 @@ void instrument_alternative_is_square_observed_king_testing(slice_index si,
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",it.inserted);
   TraceFunctionResultEnd();
+  return it.inserted;
 }

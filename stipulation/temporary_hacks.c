@@ -8,6 +8,7 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/boolean/false.h"
 #include "stipulation/boolean/not.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
@@ -284,7 +285,7 @@ static slice_index make_is_square_observed(Side side)
   pipe_link(testing,king);
   pipe_link(king,after_king);
   pipe_link(after_king,tester);
-  pipe_link(tester,alloc_true_slice());
+  pipe_link(tester,alloc_false_slice());
   stip_impose_starter(result,side);
   return result;
 }

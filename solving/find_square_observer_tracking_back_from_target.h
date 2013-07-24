@@ -12,4 +12,8 @@ boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
                                                                 square sq_target,
                                                                 evalfunction_t *evaluate);
 
+boolean find_square_observer_tracking_back_from_target_fairy(slice_index si,
+                                                             square sq_target,
+                                                             evalfunction_t *evaluate);
+
 #endif

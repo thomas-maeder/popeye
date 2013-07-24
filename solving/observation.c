@@ -300,6 +300,20 @@ boolean is_square_observed_recursive(slice_index si,
                                                                        evaluate);
       break;
 
+    case STFindSquareObserverTrackingBackFairy:
+      result = find_square_observer_tracking_back_from_target_fairy(si,
+                                                                    sq_target,
+                                                                    evaluate);
+      break;
+
+    case STTrue:
+      result = true;
+      break;
+
+    case STFalse:
+      result = false;
+      break;
+
     default:
       assert(0);
       break;
@@ -333,7 +347,8 @@ static slice_index const slice_rank_order[] =
     STReflectiveKingIsSquareObserved,
     STFindSquareObserverTrackingBackKing,
     STFindSquareObserverTrackingBack,
-    STTrue
+    STFindSquareObserverTrackingBackFairy,
+    STFalse
 };
 
 enum
@@ -431,15 +446,27 @@ static void optimise_side(slice_index si, Side side)
 {
   slice_index const proxy = slices[temporary_hack_is_square_observed[side]].next2;
   slice_index const testing = slices[proxy].next1;
+  slice_index const tracking_back_king = slices[testing].next1;
+  slice_index const landing = slices[tracking_back_king].next1;
+  slice_index const tracking_back = slices[landing].next1;
+  slice_index const leaf = slices[tracking_back].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(slice_type,slices[proxy].type,"");
   TraceEnumerator(slice_type,slices[testing].type,"");
-  TraceEnumerator(slice_type,slices[slices[testing].next1].type,"\n");
-  if (slices[slices[testing].next1].type==STFindSquareObserverTrackingBackKing)
+  TraceEnumerator(slice_type,slices[tracking_back_king].type,"");
+  TraceEnumerator(slice_type,slices[tracking_back].type,"");
+  TraceEnumerator(slice_type,slices[landing].type,"");
+  TraceEnumerator(slice_type,slices[leaf].type,"\n");
+  if (slices[testing].type==STTestingIfSquareIsObserved
+      && slices[tracking_back_king].type==STFindSquareObserverTrackingBackKing
+      && slices[landing].type==STLandingAfterFindSquareObserverTrackingBackKing
+      && slices[tracking_back].type==STFindSquareObserverTrackingBack
+      && slices[leaf].type==STFalse)
     stip_instrument_is_square_observed_testing(si,side,STIsSquareObservedOrtho);
 
   TraceFunctionExit(__func__);
@@ -455,7 +482,7 @@ void optimise_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (get_nr_observation_validators()==0 && !flagfee)
+  if (get_nr_observation_validators()==0)
   {
     optimise_side(si,White);
     optimise_side(si,Black);
