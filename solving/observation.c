@@ -35,6 +35,40 @@ enum
   observation_validators_capacity = 10
 };
 
+static void insert_slice(slice_index testing,
+                         slice_type type,
+                         slice_index const rank_order[],
+                         unsigned int nr_rank_order)
+{
+  slice_index const prototype = alloc_pipe(type);
+  stip_structure_traversal st;
+  branch_slice_insertion_state_type state =
+  {
+    &prototype,1,
+    rank_order, nr_rank_order,
+    branch_slice_rank_order_nonrecursive,
+    0,
+    testing,
+    0
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  assert(slices[testing].type==rank_order[0]);
+
+  state.base_rank = get_slice_rank(slices[testing].type,&state);
+  assert(state.base_rank!=no_slice_rank);
+  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  stip_traverse_structure_children_pipe(testing,&st);
+  dealloc_slice(prototype);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 boolean validate_observation_geometry_recursive(slice_index si,
                                                 square sq_observer,
                                                 square sq_landing,
@@ -158,37 +192,18 @@ enum
   nr_observation_geometry_slice_rank_order_elmts = sizeof observation_geometry_slice_rank_order / sizeof observation_geometry_slice_rank_order[0]
 };
 
-/* Instrument a particular square observation testing branch with a slice type
- * @param testing identifies STTestingObservationGeometry at entrance of branch
- * @param type type of slice to insert
- */
 static void observation_geometry_testing_insert_slice(slice_index testing,
                                                       slice_type type)
 {
-  slice_index const prototype = alloc_pipe(type);
-  stip_structure_traversal st;
-  branch_slice_insertion_state_type state =
-  {
-    &prototype,1,
-    observation_geometry_slice_rank_order, nr_observation_geometry_slice_rank_order_elmts,
-    branch_slice_rank_order_nonrecursive,
-    0,
-    testing,
-    0
-  };
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing);
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  assert(slices[testing].type==STTestingObservationGeometry);
-
-  state.base_rank = get_slice_rank(slices[testing].type,&state);
-  assert(state.base_rank!=no_slice_rank);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
-  stip_traverse_structure_children_pipe(testing,&st);
-  dealloc_slice(prototype);
+  insert_slice(testing,
+               type,
+               observation_geometry_slice_rank_order,
+               nr_observation_geometry_slice_rank_order_elmts);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -524,30 +539,15 @@ enum
  */
 void is_square_observed_insert_slice(slice_index testing, slice_type type)
 {
-  slice_index const prototype = alloc_pipe(type);
-  stip_structure_traversal st;
-  branch_slice_insertion_state_type state =
-  {
-    &prototype,1,
-    is_square_observed_slice_rank_order, nr_is_square_observed_slice_rank_order_elmts,
-    branch_slice_rank_order_nonrecursive,
-    0,
-    testing,
-    0
-  };
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing);
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  assert(slices[testing].type==STTestingIfSquareIsObserved);
-
-  state.base_rank = get_slice_rank(slices[testing].type,&state);
-  assert(state.base_rank!=no_slice_rank);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
-  stip_traverse_structure_children_pipe(testing,&st);
-  dealloc_slice(prototype);
+  insert_slice(testing,
+               type,
+               is_square_observed_slice_rank_order,
+               nr_is_square_observed_slice_rank_order_elmts);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
