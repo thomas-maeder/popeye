@@ -50,6 +50,7 @@ static boolean avoid_observing_immune(square sq_observer,
                                       square sq_observee)
 {
   boolean result;
+  Side const side_observing = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -57,7 +58,10 @@ static boolean avoid_observing_immune(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = !is_capturee_immune(trait[nbply],sq_observer,sq_landing,sq_observee);
+  if (immune_is_rex_inclusive || sq_observee!=king_square[advers(side_observing)])
+    result = !is_capturee_immune(side_observing,sq_observer,sq_landing,sq_observee);
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -157,9 +161,7 @@ void immune_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-
-  if (immune_is_rex_inclusive)
-    register_observation_validator(&avoid_observing_immune);
+  register_observation_validator(&avoid_observing_immune);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
