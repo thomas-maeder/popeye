@@ -1528,3 +1528,39 @@ identities (read: rebirth squares) into account.
 solution finished. 
 
 
+
+the Patrouille supporter doesn't need a Patrouille supporter
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   S   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   L   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          2 + 1
+              Patrouille
+              PlusChess
+
+   1.Sf7*h6 x !
+
+
+  add_to_move_generation_stack:           6
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

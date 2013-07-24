@@ -1194,8 +1194,6 @@ Until 4.61, Patrouille and paralysing pieces didn't go well together
             Paralysing h2
               Patrouille
 
-   1.a2-a3 + !
-
 
   add_to_move_generation_stack:           2
                      play_move:           2

@@ -312,4 +312,12 @@ stip h#3
 condition diagramcirce
 option nowk
 
+next
+
+title the Patrouille supporter doesn't need a Patrouille supporter
+pieces white le4 sf7 black ph6
+stip x1
+condition plus patrouille
+option nowk nobk
+
 end

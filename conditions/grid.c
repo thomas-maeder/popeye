@@ -27,32 +27,6 @@ static boolean is_not_in_same_cell(square sq_departure,
   return result;
 }
 
-/* Validate an observation according to Patrol Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-static boolean enforce_grid_while_observing(square sq_observer,
-                                            square sq_landing,
-                                            square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  result = GridLegal(sq_observer,sq_landing);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -122,9 +96,9 @@ void grid_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observer_validator(&enforce_grid_while_observing);
-  register_observation_geometry_validator(&enforce_grid_while_observing);
-  register_observation_validator(&enforce_grid_while_observing);
+  register_observer_validator(&is_not_in_same_cell);
+  register_observation_geometry_validator(&is_not_in_same_cell);
+  register_observation_validator(&is_not_in_same_cell);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

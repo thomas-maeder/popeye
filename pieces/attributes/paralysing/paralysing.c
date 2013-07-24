@@ -147,35 +147,6 @@ boolean suffocated_by_paralysis(Side side)
   return result;
 }
 
-/* Validate an observer according to paralysing pieces
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-static boolean paralysing_validate_observer(square sq_observer,
-                                            square sq_landing,
-                                            square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  if (TSTFLAG(spec[sq_observer],Paralysing))
-    result = false;
-  else
-    result = validate_observation_geometry(sq_observer,sq_landing,sq_observee);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Validate an observation according to paralysing pieces
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
@@ -422,7 +393,7 @@ void paralysing_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
-  register_observer_validator(&paralysing_validate_observer);
+  register_observer_validator(&paralysing_validate_observation);
   register_observation_validator(&paralysing_validate_observation);
 
   TraceFunctionExit(__func__);

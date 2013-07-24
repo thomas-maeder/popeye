@@ -64,7 +64,11 @@ static boolean is_not_unsupported_patrol_capture(square sq_departure,
   if (is_square_empty(sq_capture))
     result = true;
   else
+  {
+    next_observation_validator = &validate_observer;
     result = is_not_patrol_or_supported_capture(sq_departure,sq_arrival,sq_capture);
+    next_observation_validator = &validate_observation;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
