@@ -7,6 +7,12 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+/* Validate the geometry of observation according to Grid Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
 boolean grid_validate_observation_geometry(slice_index si,
                                            square sq_observer,
                                            square sq_landing,

@@ -6,6 +6,12 @@
 
 /* This module implements the condition Monochrome Chess */
 
+/* Validate the geometry of observation according to Monochrome Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
 boolean monochrome_validate_observation_geometry(slice_index si,
                                                  square sq_observer,
                                                  square sq_landing,
