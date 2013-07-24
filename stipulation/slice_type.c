@@ -435,6 +435,13 @@
     ENUMERATOR(STPlusIsSquareObserved),                                 \
     ENUMERATOR(STMarsIsSquareObserved),                                 \
     ENUMERATOR(STIsSquareObservedOrtho),                                \
+    ENUMERATOR(STObservationGeometryTesterFork),                        \
+    ENUMERATOR(STTestingObservationGeometry),                           \
+    ENUMERATOR(STTestObservationGeometryGridChess),                     \
+    ENUMERATOR(STTestObservationGeometryEdgeMover),                     \
+    ENUMERATOR(STTestObservationGeometryMonochrome),                    \
+    ENUMERATOR(STTestObservationGeometryBichrome),                      \
+    ENUMERATOR(STTestObservationGeometryByPlayingMove),                 \
     /* debugging slices */                                              \
     ENUMERATOR(STMoveTracer),                                           \
     ENUMERATOR(STMoveCounter),                                          \

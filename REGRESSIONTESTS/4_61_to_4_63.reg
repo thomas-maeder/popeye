@@ -1121,8 +1121,8 @@ Until 4.61, Circe rebirths weren't considered in Koeko
    1.CAa6*d7[+bKe8] !
 
 
-  add_to_move_generation_stack:           4
-                     play_move:           4
+  add_to_move_generation_stack:           3
+                     play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
 solution finished. 
@@ -1407,8 +1407,8 @@ a)
    1.Qb1-g6 !
 
 
-  add_to_move_generation_stack:          52
-                     play_move:          55
+  add_to_move_generation_stack:          25
+                     play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) SingleBox    Type2
@@ -1467,8 +1467,8 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
    1.mRa7-d7 + !
 
 
-  add_to_move_generation_stack:         172
-                     play_move:         174
+  add_to_move_generation_stack:          49
+                     play_move:          51
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          48
 solution finished. 

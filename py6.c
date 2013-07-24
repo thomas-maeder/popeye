@@ -2212,7 +2212,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   reset_observation_validators();
   reset_observer_validators();
-  reset_observation_geometry_validators();
 
   result = stip_deep_copy(stipulation_root_hook);
 

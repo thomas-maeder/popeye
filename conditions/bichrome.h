@@ -6,6 +6,11 @@
 /* This module implements the condition Bichrome Chess */
 
 
+boolean bichrome_validate_observation_geometry(slice_index si,
+                                               square sq_observer,
+                                               square sq_landing,
+                                               square sq_observee);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

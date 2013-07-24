@@ -26,15 +26,10 @@ extern boolean (*next_observation_validator)(square sq_observer, square sq_landi
 extern vec_index_type interceptable_observation_vector_index[maxply+1];
 extern unsigned int observation_context;
 
-/* Forget about the observation validators registered in a previous round of
- * solving.
- */
-void reset_observation_geometry_validators(void);
-
-/* Register an observation geometry validator
- * @param validator validator to be registered
- */
-void register_observation_geometry_validator(evalfunction_t *validator);
+boolean validate_observation_geometry_recursive(slice_index si,
+                                                square sq_observer,
+                                                square sq_landing,
+                                                square sq_observee);
 
 /* Validate an observation
  * @param sq_observer position of the observer
@@ -46,6 +41,14 @@ boolean validate_observation_geometry(square sq_observer,
                                       square sq_landing,
                                       square sq_observee);
 
+/* Instrument observation geometry testing with a slice type
+ * @param identifies where to start instrumentation
+ * @param side for which side (pass nr_sides to indicate both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_observation_geometry_testing(slice_index si,
+                                                  Side side,
+                                                  slice_type type);
 
 /* Forget about the observation validators registered in a previous round of
  * solving.
@@ -114,7 +117,7 @@ boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
  * @param type type of slice to insert
  */
-void stip_instrument_is_square_observed_insert_slice(slice_index testing,
+void is_square_observed_insert_slice(slice_index testing,
                                                      slice_type type);
 
 /* Instrument square observation testing with a slice type

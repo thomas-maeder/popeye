@@ -2,8 +2,14 @@
 #define CONDITIONS_MONOCHROME_H
 
 #include "py.h"
+#include "utilities/boolean.h"
 
 /* This module implements the condition Monochrome Chess */
+
+boolean monochrome_validate_observation_geometry(slice_index si,
+                                                 square sq_observer,
+                                                 square sq_landing,
+                                                 square sq_observee);
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -11,6 +11,24 @@
 
 static Cond const side2cond[nr_sides] = { whiteedge, blackedge };
 
+boolean edgemover_validate_observation_geometry(slice_index si,
+                                                square sq_observer,
+                                                square sq_landing,
+                                                square sq_observee)
+{
+  boolean result;
+
+  if (NoEdge(sq_landing))
+    result = false;
+  else
+    result = validate_observation_geometry_recursive(slices[si].next1,
+                                                     sq_observer,
+                                                     sq_landing,
+                                                     sq_observee);
+
+  return result;
+}
+
 static boolean does_not_go_to_the_edge(square sq_departure,
                                        square sq_arrival,
                                        square sq_capture)
@@ -24,29 +42,6 @@ static boolean does_not_go_to_the_edge(square sq_departure,
   TraceFunctionParamListEnd();
 
   result = !NoEdge(sq_arrival);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean avoid_observation_not_to_edge(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  if (CondFlag[side2cond[trait[nbply]]])
-    result = !NoEdge(sq_landing);
-  else
-    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -129,7 +124,14 @@ void stip_insert_edgemover(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observation_geometry_validator(&avoid_observation_not_to_edge);
+  if (CondFlag[whiteedge])
+    stip_instrument_observation_geometry_testing(si,
+                                                 White,
+                                                 STTestObservationGeometryEdgeMover);
+  if (CondFlag[blackedge])
+    stip_instrument_observation_geometry_testing(si,
+                                                 Black,
+                                                 STTestObservationGeometryEdgeMover);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

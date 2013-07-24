@@ -7,6 +7,24 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+boolean bichrome_validate_observation_geometry(slice_index si,
+                                               square sq_observer,
+                                               square sq_landing,
+                                               square sq_observee)
+{
+  boolean result;
+
+  if (SquareCol(sq_observer)==SquareCol(sq_landing))
+    result = false;
+  else
+    result = validate_observation_geometry_recursive(slices[si].next1,
+                                                     sq_observer,
+                                                     sq_landing,
+                                                     sq_observee);
+
+  return result;
+}
+
 static boolean is_move_bichrome(square sq_departure,
                                 square sq_arrival,
                                 square sq_capture)
@@ -96,7 +114,9 @@ void bichrome_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observation_geometry_validator(&is_move_bichrome);
+  stip_instrument_observation_geometry_testing(si,
+                                               nr_sides,
+                                               STTestObservationGeometryBichrome);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

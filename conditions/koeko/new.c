@@ -1,6 +1,5 @@
 #include "conditions/koeko/new.h"
 #include "solving/observation.h"
-#include "solving/single_move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -10,33 +9,6 @@
 #include "pydata.h"
 
 static boolean contact_before_move[maxply+1];
-
-/* Validate an observation according to Patrol Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-static boolean maintain_nocontact_while_observing(square sq_observer,
-                                                  square sq_landing,
-                                                  square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  init_single_move_generator(sq_observer,sq_landing,sq_observee);
-  result = solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -129,7 +101,9 @@ void newkoeko_initialise_solving(slice_index si)
   stip_instrument_moves(si,STNewKoekoRememberContact);
   stip_instrument_moves(si,STNewKoekoLegalityTester);
 
-  register_observation_geometry_validator(&maintain_nocontact_while_observing);
+  stip_instrument_observation_geometry_testing(si,
+                                               nr_sides,
+                                               STTestObservationGeometryByPlayingMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

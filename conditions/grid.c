@@ -7,6 +7,24 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+boolean grid_validate_observation_geometry(slice_index si,
+                                           square sq_observer,
+                                           square sq_landing,
+                                           square sq_observee)
+{
+  boolean result;
+
+  if (GridLegal(sq_observer,sq_landing))
+    result = validate_observation_geometry_recursive(slices[si].next1,
+                                                     sq_observer,
+                                                     sq_landing,
+                                                     sq_observee);
+  else
+    result = false;
+
+  return result;
+}
+
 static boolean is_not_in_same_cell(square sq_departure,
                                    square sq_arrival,
                                    square sq_capture)
@@ -96,7 +114,9 @@ void grid_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observation_geometry_validator(&is_not_in_same_cell);
+  stip_instrument_observation_geometry_testing(si,
+                                               nr_sides,
+                                               STTestObservationGeometryGridChess);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

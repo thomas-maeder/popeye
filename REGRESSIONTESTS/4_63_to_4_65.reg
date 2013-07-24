@@ -187,8 +187,8 @@ solution finished.
               HalfDuplex
 
 
-  add_to_move_generation_stack:         218
-                     play_move:         216
+  add_to_move_generation_stack:          73
+                     play_move:          71
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:           6
 solution finished. 
