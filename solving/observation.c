@@ -46,7 +46,7 @@ void reset_observation_geometry_validators(void)
   TraceFunctionResultEnd();
 }
 
-/* Register an observation validator for the next round of solving
+/* Register an observation geometry validator for the next round of solving
  * @param validator validator to be registered
  */
 void register_observation_geometry_validator(evalfunction_t *validator)
@@ -54,6 +54,8 @@ void register_observation_geometry_validator(evalfunction_t *validator)
   assert(nr_observation_geometry_validators<observation_validators_capacity);
   observation_geometry_validators[nr_observation_geometry_validators] = validator;
   ++nr_observation_geometry_validators;
+
+  register_observer_validator(validator);
 }
 
 /* Validate an observation
@@ -115,6 +117,8 @@ void register_observer_validator(evalfunction_t *validator)
   assert(nr_observer_validators<observation_validators_capacity);
   observer_validators[nr_observer_validators] = validator;
   ++nr_observer_validators;
+
+  register_observation_validator(validator);
 }
 
 /* Validate an observation

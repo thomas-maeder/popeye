@@ -95,9 +95,7 @@ void antikoeko_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STAntiKoekoLegalityTester);
 
-  register_observer_validator(&avoid_contact_while_observing);
   register_observation_geometry_validator(&avoid_contact_while_observing);
-  register_observation_validator(&avoid_contact_while_observing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

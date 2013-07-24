@@ -129,9 +129,7 @@ void stip_insert_edgemover(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observer_validator(&avoid_observation_not_to_edge);
   register_observation_geometry_validator(&avoid_observation_not_to_edge);
-  register_observation_validator(&avoid_observation_not_to_edge);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

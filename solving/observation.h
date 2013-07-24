@@ -8,15 +8,15 @@
 
 /* This module provides supports observation as used by many conditions and
  * piece attributes. This includes
- * - 1st degree:
+ * - 1st degree: the observation
  *   * check (observation of the enemy king)
  *   * Madrasi paralysis
  *   * Patrol Chess observation
  *   * ...
- * - 2nd degree
+ * - 2nd degree: the observer's observer
  *   * Madrasi paralysis of a Patrol chess observer
  *   * ...
- * - 3rd degree
+ * - 3rd degree: the observation geometry
  *   * observation in Monochrome Chess and the like
  *   * ...
  */
@@ -31,7 +31,7 @@ extern unsigned int observation_context;
  */
 void reset_observation_geometry_validators(void);
 
-/* Register an observation validator for the next round of solving
+/* Register an observation geometry validator
  * @param validator validator to be registered
  */
 void register_observation_geometry_validator(evalfunction_t *validator);
@@ -52,7 +52,7 @@ boolean validate_observation_geometry(square sq_observer,
  */
 void reset_observer_validators(void);
 
-/* Register an observer validator for the next round of solving
+/* Register an observer validator
  * @param validator validator to be registered
  */
 void register_observer_validator(evalfunction_t *validator);

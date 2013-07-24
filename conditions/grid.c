@@ -96,9 +96,7 @@ void grid_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observer_validator(&is_not_in_same_cell);
   register_observation_geometry_validator(&is_not_in_same_cell);
-  register_observation_validator(&is_not_in_same_cell);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

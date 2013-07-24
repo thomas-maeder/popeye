@@ -175,9 +175,7 @@ void contact_grid_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STGridContactLegalityTester);
 
-  register_observer_validator(&enforce_contact_while_observing);
   register_observation_geometry_validator(&enforce_contact_while_observing);
-  register_observation_validator(&enforce_contact_while_observing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

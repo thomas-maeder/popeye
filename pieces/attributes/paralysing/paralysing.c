@@ -394,7 +394,6 @@ void paralysing_initialise_solving(slice_index si)
   solving_instrument_move_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
   register_observer_validator(&paralysing_validate_observation);
-  register_observation_validator(&paralysing_validate_observation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

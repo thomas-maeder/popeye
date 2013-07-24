@@ -99,9 +99,7 @@ void monochrome_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observer_validator(&is_move_monochrome);
   register_observation_geometry_validator(&is_move_monochrome);
-  register_observation_validator(&is_move_monochrome);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

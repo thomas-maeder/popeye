@@ -88,9 +88,7 @@ void jigger_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STJiggerLegalityTester);
 
-  register_observer_validator(&maintain_contact_while_observing);
   register_observation_geometry_validator(&maintain_contact_while_observing);
-  register_observation_validator(&maintain_contact_while_observing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
