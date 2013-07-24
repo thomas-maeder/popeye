@@ -435,6 +435,11 @@
     ENUMERATOR(STPlusIsSquareObserved),                                 \
     ENUMERATOR(STMarsIsSquareObserved),                                 \
     ENUMERATOR(STIsSquareObservedOrtho),                                \
+    ENUMERATOR(STTestingObserverFork),                                  \
+    ENUMERATOR(STTestingObserver),                                      \
+    ENUMERATOR(STMadrasiObserverTester),                                \
+    ENUMERATOR(STParalysingPiecesObserverTester),                       \
+    ENUMERATOR(STEiffelObserverTester),                                 \
     ENUMERATOR(STObservationGeometryTesterFork),                        \
     ENUMERATOR(STTestingObservationGeometry),                           \
     ENUMERATOR(STTestObservationGeometryGridChess),                     \

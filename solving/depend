@@ -2327,7 +2327,9 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h utilities/boolean.h pylang.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h conditions/annan.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h conditions/madrasi.h \
+ conditions/eiffel.h conditions/monochrome.h conditions/bichrome.h \
+ conditions/grid.h conditions/edgemover.h conditions/annan.h \
  conditions/phantom.h solving/solve.h conditions/marscirce/plus.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/sting.h position/position.h \
@@ -2336,8 +2338,9 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h \
  conditions/transmuting_kings/reflective_kings.h \
- conditions/vaulting_kings.h \
+ conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
  solving/find_square_observer_tracking_back_from_target.h \
+ solving/single_move_generator.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/branch.h stipulation/temporary_hacks.h \
  optimisations/orthodox_square_observation.h debugging/trace.h pydata.h \
  pyproc.h
@@ -2369,6 +2372,18 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+conditions/madrasi.h:
+
+conditions/eiffel.h:
+
+conditions/monochrome.h:
+
+conditions/bichrome.h:
+
+conditions/grid.h:
+
+conditions/edgemover.h:
 
 conditions/annan.h:
 
@@ -2404,7 +2419,13 @@ conditions/transmuting_kings/reflective_kings.h:
 
 conditions/vaulting_kings.h:
 
+pieces/attributes/paralysing/paralysing.h:
+
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/single_move_generator.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 

@@ -2211,7 +2211,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   TraceFunctionParamListEnd();
 
   reset_observation_validators();
-  reset_observer_validators();
 
   result = stip_deep_copy(stipulation_root_hook);
 

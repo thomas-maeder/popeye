@@ -42,16 +42,50 @@ boolean madrasi_is_moving_piece_observed(square sq)
   return result;
 }
 
-/* Can a piece deliver check according to Madrasi
- * @param sq_departure position of the piece
- * @param sq_arrival arrival square of the capture to be threatened
- * @param sq_capture typically the position of the opposite king
+/* Validate an observater according to Madrasi
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
  */
-static boolean avoid_observation_by_paralysed(square sq_observer,
-                                              square sq_landing,
-                                              square sq_observee)
+boolean madrasi_validate_observer(slice_index si,
+                                  square sq_observer,
+                                  square sq_landing,
+                                  square sq_observee)
 {
-  return !madrasi_is_moving_piece_observed(sq_observer);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (!rex_mad && sq_observer==king_square[trait[nbply]])
+    result = true;
+  else
+  {
+    PieNam const pi_observer = get_walk_of_piece_on_square(sq_observer);
+
+    trait[nbply] = advers(trait[nbply]);
+    result = (number_of_pieces[trait[nbply]][pi_observer]==0
+              || !(*checkfunctions[pi_observer])(sq_observer,
+                                                 pi_observer,
+                                                 &validate_observation_geometry));
+    trait[nbply] = advers(trait[nbply]);
+  }
+
+  if (result)
+    result = validate_observation_geometry_recursive(slices[si].next1,
+                                                     sq_observer,
+                                                     sq_landing,
+                                                     sq_observee);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean can_piece_move(square sq)
@@ -114,7 +148,7 @@ void madrasi_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STMadrasiMovesForPieceGenerator);
 
-  register_observer_validator(&avoid_observation_by_paralysed);
+  stip_instrument_observer_testing(si,nr_sides,STMadrasiObserverTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

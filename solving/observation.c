@@ -1,4 +1,6 @@
 #include "solving/observation.h"
+#include "conditions/madrasi.h"
+#include "conditions/eiffel.h"
 #include "conditions/monochrome.h"
 #include "conditions/bichrome.h"
 #include "conditions/grid.h"
@@ -12,6 +14,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/vaulting_kings.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/single_move_generator.h"
 #include "stipulation/has_solution_type.h"
@@ -34,6 +37,12 @@ enum
 {
   observation_validators_capacity = 10
 };
+
+typedef struct
+{
+    Side side;
+    slice_type type;
+} instrumentation_type;
 
 static void insert_slice(slice_index testing,
                          slice_type type,
@@ -209,16 +218,10 @@ static void observation_geometry_testing_insert_slice(slice_index testing,
   TraceFunctionResultEnd();
 }
 
-typedef struct
-{
-    Side side;
-    slice_type type;
-} observation_geometry_instrumentation_type;
-
 static void instrument_observation_geometry_testing(slice_index si,
                                                     stip_structure_traversal *st)
 {
-  observation_geometry_instrumentation_type const * const it = st->param;
+  instrumentation_type const * const it = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -242,7 +245,7 @@ void stip_instrument_observation_geometry_testing(slice_index si,
                                                   Side side,
                                                   slice_type type)
 {
-  observation_geometry_instrumentation_type it = { side, type };
+  instrumentation_type it = { side, type };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -261,31 +264,65 @@ void stip_instrument_observation_geometry_testing(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static evalfunction_t *observer_validators[observation_validators_capacity];
-static unsigned int nr_observer_validators;
-
-/* Forget about the observer validators registered in a previous round of
- * solving.
- */
-void reset_observer_validators(void)
+static slice_index const observer_test_slice_rank_order[] =
 {
+    STTestingObserver,
+    STMadrasiObserverTester,
+    STEiffelObserverTester,
+    STParalysingPiecesObserverTester,
+    STTrue
+};
+
+enum
+{
+  nr_observer_test_slice_rank_order = sizeof observer_test_slice_rank_order / sizeof observer_test_slice_rank_order[0]
+};
+
+boolean validate_observer_recursive(slice_index si,
+                                    square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee)
+{
+  boolean result;
+
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
-  nr_observer_validators = 0;
+  TraceEnumerator(slice_type,slices[si].type,"\n");
+
+  switch (slices[si].type)
+  {
+    case STMadrasiObserverTester:
+      result = madrasi_validate_observer(si,sq_observer,sq_landing,sq_observee);
+      break;
+
+    case STEiffelObserverTester:
+      result = eiffel_validate_observer(si,sq_observer,sq_landing,sq_observee);
+      break;
+
+    case STParalysingPiecesObserverTester:
+      result = paralysing_validate_observer(si,sq_observer,sq_landing,sq_observee);
+      break;
+
+    case STTrue:
+      result = true;
+      break;
+
+    case STFalse:
+      result = false;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-}
-
-/* Register an observer validator for the next round of solving
- * @param validator validator to be registered
- */
-void register_observer_validator(evalfunction_t *validator)
-{
-  assert(nr_observer_validators<observation_validators_capacity);
-  observer_validators[nr_observer_validators] = validator;
-  ++nr_observer_validators;
+  return result;
 }
 
 /* Validate an observation
@@ -298,8 +335,7 @@ boolean validate_observer(square sq_observer,
                           square sq_landing,
                           square sq_observee)
 {
-  boolean result = true;
-  unsigned int i;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -307,16 +343,12 @@ boolean validate_observer(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nr_observer_validators);
-
   next_observation_validator = &validate_observation_geometry;
 
-  for (i = 0; i!=nr_observer_validators; ++i)
-    if (!(*observer_validators[i])(sq_observer,sq_landing,sq_observee))
-    {
-      result = false;
-      break;
-    }
+  result = validate_observer_recursive(slices[temporary_hack_observer_tester[trait[nbply]]].next2,
+                                       sq_observer,
+                                       sq_landing,
+                                       sq_observee);
 
   next_observation_validator = &validate_observer;
 
@@ -329,6 +361,68 @@ boolean validate_observer(square sq_observer,
   return result;
 }
 
+static void observer_testing_insert_slice(slice_index testing,
+                                          slice_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  insert_slice(testing,
+               type,
+               observer_test_slice_rank_order,
+               nr_observer_test_slice_rank_order);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_observer_testing(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  instrumentation_type const * const it = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (it->side==nr_sides || it->side==slices[si].starter)
+    observer_testing_insert_slice(si,it->type);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument observation geometry testing with a slice type
+ * @param identifies where to start instrumentation
+ * @param side for which side (pass nr_sides to indicate both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_observer_testing(slice_index si,
+                                      Side side,
+                                      slice_type type)
+{
+  instrumentation_type it = { side, type };
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&it);
+  stip_structure_traversal_override_single(&st,
+                                           STTestingObserver,
+                                           &instrument_observer_testing);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static evalfunction_t *observation_validators[observation_validators_capacity];
 static unsigned int nr_observation_validators;
@@ -553,16 +647,10 @@ void is_square_observed_insert_slice(slice_index testing, slice_type type)
   TraceFunctionResultEnd();
 }
 
-typedef struct
-{
-    Side side;
-    slice_type type;
-} square_observed_instrumentation_type;
-
 static void instrument_square_observed_testing(slice_index si,
                                                stip_structure_traversal *st)
 {
-  square_observed_instrumentation_type const * const it = st->param;
+  instrumentation_type const * const it = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -586,7 +674,7 @@ void stip_instrument_is_square_observed_testing(slice_index si,
                                                 Side side,
                                                 slice_type type)
 {
-  square_observed_instrumentation_type it = { side, type };
+  instrumentation_type it = { side, type };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -645,12 +733,13 @@ void optimise_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (nr_observation_validators==0
-      && nr_observer_validators==0)
+  if (nr_observation_validators==0)
   {
-    if (slices[slices[slices[slices[temporary_hack_observation_geometry_tester[White]].next2].next1].next1].type==STTrue)
+    if (slices[slices[slices[slices[temporary_hack_observation_geometry_tester[White]].next2].next1].next1].type==STTrue
+        && slices[slices[slices[slices[temporary_hack_observer_tester[White]].next2].next1].next1].type==STTrue)
       optimise_side(si,White);
-    if (slices[slices[slices[slices[temporary_hack_observation_geometry_tester[Black]].next2].next1].next1].type==STTrue)
+    if (slices[slices[slices[slices[temporary_hack_observation_geometry_tester[Black]].next2].next1].next1].type==STTrue
+        && slices[slices[slices[slices[temporary_hack_observer_tester[Black]].next2].next1].next1].type==STTrue)
       optimise_side(si,Black);
   }
 

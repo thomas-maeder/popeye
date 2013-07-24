@@ -110,6 +110,7 @@ static slice_type const fork_slice_types[] =
     STTransmutingKingIsSquareObserved,
     STVaultingKingIsSquareObserved,
     STReflectiveKingIsSquareObserved,
+    STTestingObserverFork,
     STObservationGeometryTesterFork
 };
 
@@ -212,6 +213,7 @@ static slice_type const proxy_slice_types[] =
     STTestingCheck,
     STTestingIfSquareIsObserved,
     STLandingAfterFindSquareObserverTrackingBackKing,
+    STTestingObserver,
     STTestingObservationGeometry
 };
 
@@ -312,6 +314,7 @@ static slice_type const conditional_pipe_slice_types[] =
     STOhneschachStopIfCheckAndNotMate,
     STMoveGeneratorFork,
     STIsSquareObservedFork,
+    STTestingObserverFork,
     STObservationGeometryTesterFork
 };
 

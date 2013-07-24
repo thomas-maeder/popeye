@@ -50,16 +50,6 @@ void stip_instrument_observation_geometry_testing(slice_index si,
                                                   Side side,
                                                   slice_type type);
 
-/* Forget about the observation validators registered in a previous round of
- * solving.
- */
-void reset_observer_validators(void);
-
-/* Register an observer validator
- * @param validator validator to be registered
- */
-void register_observer_validator(evalfunction_t *validator);
-
 /* Validate an observation
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
@@ -70,6 +60,15 @@ boolean validate_observer(square sq_observer,
                           square sq_landing,
                           square sq_observee);
 
+
+/* Instrument observation geometry testing with a slice type
+ * @param identifies where to start instrumentation
+ * @param side for which side (pass nr_sides to indicate both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_observer_testing(slice_index si,
+                                      Side side,
+                                      slice_type type);
 
 /* Forget about the observation validators registered in a previous round of
  * solving.

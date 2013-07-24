@@ -99,21 +99,29 @@ void eiffel_generate_moves_for_piece(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean avoid_observation_by_paralysed(square sq_observer,
-                                              square sq_landing,
-                                              square sq_observee)
+/* Validate an observater according to Eiffel Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean eiffel_validate_observer(slice_index si,
+                                 square sq_observer,
+                                 square sq_landing,
+                                 square sq_observee)
 {
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
-  boolean result = true;
+  boolean result;
+  PieNam const pi_observer = get_walk_of_piece_on_square(sq_observer);
   PieNam eiffel_piece;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  eiffel_piece = get_paralyser(p);
+  eiffel_piece = get_paralyser(pi_observer);
 
   if (eiffel_piece!=Empty)
   {
@@ -127,6 +135,12 @@ static boolean avoid_observation_by_paralysed(square sq_observer,
       finply();
     }
   }
+
+  if (result)
+    result = validate_observation_geometry_recursive(slices[si].next1,
+                                                     sq_observer,
+                                                     sq_landing,
+                                                     sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -144,7 +158,7 @@ void eiffel_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STEiffelMovesForPieceGenerator);
 
-  register_observer_validator(&avoid_observation_by_paralysed);
+  stip_instrument_observer_testing(si,nr_sides,STEiffelObserverTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
