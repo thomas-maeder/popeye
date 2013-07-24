@@ -542,7 +542,7 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-  add_to_move_generation_stack:     2498629
+  add_to_move_generation_stack:     2453930
                      play_move:     1373086
  is_white_king_square_attacked:      434799
  is_black_king_square_attacked:      235639

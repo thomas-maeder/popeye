@@ -131,7 +131,7 @@ pieces/walks/marine$(OBJ_SUFFIX): pieces/walks/marine.c pieces/walks/marine.h \
  position/position.h utilities/boolean.h utilities/enumeration.h py.h \
  utilities/boolean.h position/position.h pylang.h pieces/walks/riders.h \
  pieces/walks/pawns/pawns.h pieces/walks/pawns/pawn.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pieces/walks/locusts.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
  debugging/trace.h pydata.h pyproc.h
 
@@ -168,6 +168,8 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+pieces/walks/locusts.h:
 
 solving/move_generator.h:
 
@@ -1221,10 +1223,12 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  utilities/enumeration.h pieces/walks/pawns/en_passant.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h pylang.h solving/solve.h \
- pieces/walks/hoppers.h pieces/walks/leapers.h pieces/walks/riders.h \
- pieces/walks/pawns/pawns.h pieces/walks/pawns/pawn.h \
- pieces/walks/pawns/reverse.h pieces/walks/pawns/berolina.h \
- pieces/walks/lions.h pieces/walks/hunters.h pieces/walks/roses.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h pieces/walks/hoppers.h pieces/walks/leapers.h \
+ pieces/walks/riders.h pieces/walks/pawns/pawns.h \
+ pieces/walks/pawns/pawn.h pieces/walks/pawns/reverse.h \
+ pieces/walks/pawns/berolina.h pieces/walks/lions.h \
+ pieces/walks/hunters.h pieces/walks/roses.h \
  pieces/walks/spiral_springers.h pieces/walks/marine.h \
  pieces/walks/ubiubi.h pieces/walks/angle/angles.h \
  pieces/walks/angle/hoppers.h pieces/walks/chinese/riders.h \
@@ -1269,6 +1273,12 @@ position/position.h:
 pylang.h:
 
 solving/solve.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
 
 pieces/walks/hoppers.h:
 

@@ -252,11 +252,11 @@ pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  pylang.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/observation.h stipulation/slice_type.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- solving/single_move_generator.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h pydata.h pyproc.h
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move.h stipulation/temporary_hacks.h debugging/trace.h \
+ pydata.h pyproc.h
 
 pieces/attributes/jigger.h:
 
@@ -295,8 +295,6 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
-
-solving/single_move_generator.h:
 
 stipulation/has_solution_type.h:
 
