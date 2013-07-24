@@ -1,16 +1,17 @@
 #include "conditions/singlebox/type3.h"
-#include "pydata.h"
+#include "conditions/singlebox/type1.h"
+#include "conditions/singlebox/type2.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "solving/observation.h"
+#include "solving/move_generator.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/move.h"
-#include "conditions/singlebox/type1.h"
-#include "conditions/singlebox/type2.h"
-#include "solving/move_generator.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

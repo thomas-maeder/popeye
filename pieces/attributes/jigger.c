@@ -1,34 +1,12 @@
 #include "pieces/attributes/jigger.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
-#include "solving/single_move_generator.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-
-static boolean maintain_contact_while_observing(square sq_observer,
-                                                square sq_landing,
-                                                square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  init_single_move_generator(sq_observer,sq_landing,sq_observee);
-  result = solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -88,7 +66,9 @@ void jigger_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STJiggerLegalityTester);
 
-  register_observation_geometry_validator(&maintain_contact_while_observing);
+  stip_instrument_observation_geometry_testing(si,
+                                               nr_sides,
+                                               STTestObservationGeometryByPlayingMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

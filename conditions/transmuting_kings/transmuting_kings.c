@@ -173,7 +173,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   assert(it->after_king==no_slice);
 
   if (it->side==nr_sides || it->side==slices[si].starter)
-    stip_instrument_is_square_observed_insert_slice(si,it->type);
+    is_square_observed_insert_slice(si,it->type);
 
   stip_traverse_structure_children_pipe(si,st);
 

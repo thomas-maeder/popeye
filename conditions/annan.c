@@ -1,5 +1,6 @@
 #include "conditions/annan.h"
 #include "position/position.h"
+#include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"

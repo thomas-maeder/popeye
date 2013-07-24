@@ -1,4 +1,5 @@
 #include "conditions/amu/attack_counter.h"
+#include "solving/observation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

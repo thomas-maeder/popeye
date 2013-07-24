@@ -2,6 +2,7 @@
 #include "pieces/walks/riders.h"
 #include "pieces/walks/pawns/pawns.h"
 #include "pieces/walks/pawns/pawn.h"
+#include "pieces/walks/locusts.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"

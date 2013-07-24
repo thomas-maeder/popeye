@@ -3,6 +3,7 @@
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
