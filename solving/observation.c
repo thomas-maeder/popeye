@@ -54,8 +54,6 @@ void register_observation_geometry_validator(evalfunction_t *validator)
   assert(nr_observation_geometry_validators<observation_validators_capacity);
   observation_geometry_validators[nr_observation_geometry_validators] = validator;
   ++nr_observation_geometry_validators;
-
-  register_observer_validator(validator);
 }
 
 /* Validate an observation
@@ -117,8 +115,6 @@ void register_observer_validator(evalfunction_t *validator)
   assert(nr_observer_validators<observation_validators_capacity);
   observer_validators[nr_observer_validators] = validator;
   ++nr_observer_validators;
-
-  register_observation_validator(validator);
 }
 
 /* Validate an observation
@@ -152,6 +148,9 @@ boolean validate_observer(square sq_observer,
     }
 
   next_observation_validator = &validate_observer;
+
+  if (result)
+    result = validate_observation_geometry(sq_observer,sq_landing,sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -227,6 +226,9 @@ boolean validate_observation(square sq_observer,
     }
 
   next_observation_validator = &validate_observation;
+
+  if (result)
+    result = validate_observer(sq_observer,sq_landing,sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -486,7 +488,9 @@ void optimise_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (get_nr_observation_validators()==0)
+  if (nr_observation_validators==0
+      && nr_observer_validators==0
+      && nr_observation_geometry_validators==0)
   {
     optimise_side(si,White);
     optimise_side(si,Black);
