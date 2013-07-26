@@ -46,7 +46,7 @@ boolean validate_observation_geometry(square sq_observer,
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
  */
-void stip_instrument_observation_geometry_testing(slice_index si,
+void stip_instrument_observation_geometry_validation(slice_index si,
                                                   Side side,
                                                   slice_type type);
 
@@ -71,7 +71,7 @@ boolean validate_observer(square sq_observer,
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
  */
-void stip_instrument_observer_testing(slice_index si,
+void stip_instrument_observer_validation(slice_index si,
                                       Side side,
                                       slice_type type);
 
@@ -95,7 +95,7 @@ boolean validate_observation(square sq_observer,
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
  */
-void stip_instrument_observation_testing(slice_index si,
+void stip_instrument_observation_validation(slice_index si,
                                          Side side,
                                          slice_type type);
 

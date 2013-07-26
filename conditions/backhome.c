@@ -146,7 +146,7 @@ void backhome_initialise_solving(slice_index si)
         pieceid2pos[GetPieceId(spec[*bnp])] = *bnp;
   }
 
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationBackHome);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationBackHome);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

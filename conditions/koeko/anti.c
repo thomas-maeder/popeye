@@ -66,9 +66,9 @@ void antikoeko_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STAntiKoekoLegalityTester);
 
-  stip_instrument_observation_geometry_testing(si,
-                                               nr_sides,
-                                               STTestObservationGeometryByPlayingMove);
+  stip_instrument_observation_geometry_validation(si,
+                                                  nr_sides,
+                                                  STValidatingObservationGeometryByPlayingMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

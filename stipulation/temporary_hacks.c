@@ -38,9 +38,9 @@ slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_move_generator[nr_sides];
 slice_index temporary_hack_is_square_observed[nr_sides];
-slice_index temporary_hack_observation_tester[nr_sides];
-slice_index temporary_hack_observer_tester[nr_sides];
-slice_index temporary_hack_observation_geometry_tester[nr_sides];
+slice_index temporary_hack_observation_validator[nr_sides];
+slice_index temporary_hack_observer_validator[nr_sides];
+slice_index temporary_hack_observation_geometry_validator[nr_sides];
 slice_index temporary_hack_check_tester;
 
 static slice_index make_mate_tester_fork(Side side)
@@ -293,33 +293,33 @@ static slice_index make_is_square_observed(Side side)
   return result;
 }
 
-static slice_index make_observation_tester(Side side)
+static slice_index make_observation_validator(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const result = alloc_conditional_pipe(STTestingObservationFork,proxy);
-  slice_index const testing = alloc_pipe(STTestingObservation);
+  slice_index const result = alloc_conditional_pipe(STValidatingObservationFork,proxy);
+  slice_index const testing = alloc_pipe(STValidatingObservation);
   pipe_link(proxy,testing);
   pipe_link(testing,alloc_true_slice());
   stip_impose_starter(result,side);
   return result;
 }
 
-static slice_index make_observer_tester(Side side)
+static slice_index make_observer_validator(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const result = alloc_conditional_pipe(STTestingObserverFork,proxy);
-  slice_index const testing = alloc_pipe(STTestingObserver);
+  slice_index const result = alloc_conditional_pipe(STValidatingObserverFork,proxy);
+  slice_index const testing = alloc_pipe(STValidatingObserver);
   pipe_link(proxy,testing);
   pipe_link(testing,alloc_true_slice());
   stip_impose_starter(result,side);
   return result;
 }
 
-static slice_index make_observation_geometry_tester(Side side)
+static slice_index make_observation_geometry_validator(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const result = alloc_conditional_pipe(STObservationGeometryTesterFork,proxy);
-  slice_index const testing = alloc_pipe(STTestingObservationGeometry);
+  slice_index const result = alloc_conditional_pipe(STValidatingObservationGeometryFork,proxy);
+  slice_index const testing = alloc_pipe(STValidatingObservationGeometry);
   pipe_link(proxy,testing);
   pipe_link(testing,alloc_true_slice());
   stip_impose_starter(result,side);
@@ -379,14 +379,14 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_is_square_observed[Black] = make_is_square_observed(Black);
     temporary_hack_is_square_observed[White] = make_is_square_observed(White);
 
-    temporary_hack_observation_tester[Black] = make_observation_tester(Black);
-    temporary_hack_observation_tester[White] = make_observation_tester(White);
+    temporary_hack_observation_validator[Black] = make_observation_validator(Black);
+    temporary_hack_observation_validator[White] = make_observation_validator(White);
 
-    temporary_hack_observer_tester[Black] = make_observer_tester(Black);
-    temporary_hack_observer_tester[White] = make_observer_tester(White);
+    temporary_hack_observer_validator[Black] = make_observer_validator(Black);
+    temporary_hack_observer_validator[White] = make_observer_validator(White);
 
-    temporary_hack_observation_geometry_tester[Black] = make_observation_geometry_tester(Black);
-    temporary_hack_observation_geometry_tester[White] = make_observation_geometry_tester(White);
+    temporary_hack_observation_geometry_validator[Black] = make_observation_geometry_validator(Black);
+    temporary_hack_observation_geometry_validator[White] = make_observation_geometry_validator(White);
 
     temporary_hack_check_tester = make_check_tester();
 
@@ -418,12 +418,12 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_move_generator[White],
                 temporary_hack_is_square_observed[White]);
     pipe_append(temporary_hack_is_square_observed[White],
-                temporary_hack_observation_tester[White]);
-    pipe_append(temporary_hack_observation_tester[White],
-                temporary_hack_observation_geometry_tester[White]);
-    pipe_append(temporary_hack_observation_geometry_tester[White],
-                temporary_hack_observer_tester[White]);
-    pipe_append(temporary_hack_observer_tester[White],
+                temporary_hack_observation_validator[White]);
+    pipe_append(temporary_hack_observation_validator[White],
+                temporary_hack_observation_geometry_validator[White]);
+    pipe_append(temporary_hack_observation_geometry_validator[White],
+                temporary_hack_observer_validator[White]);
+    pipe_append(temporary_hack_observer_validator[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -452,12 +452,12 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_move_generator[Black],
                 temporary_hack_is_square_observed[Black]);
     pipe_append(temporary_hack_is_square_observed[Black],
-                temporary_hack_observation_tester[Black]);
-    pipe_append(temporary_hack_observation_tester[Black],
-                temporary_hack_observation_geometry_tester[Black]);
-    pipe_append(temporary_hack_observation_geometry_tester[Black],
-                temporary_hack_observer_tester[Black]);
-    pipe_append(temporary_hack_observer_tester[Black],
+                temporary_hack_observation_validator[Black]);
+    pipe_append(temporary_hack_observation_validator[Black],
+                temporary_hack_observation_geometry_validator[Black]);
+    pipe_append(temporary_hack_observation_geometry_validator[Black],
+                temporary_hack_observer_validator[Black]);
+    pipe_append(temporary_hack_observer_validator[Black],
                 temporary_hack_check_tester);
 
     if (slices[root_slice].starter==Black)

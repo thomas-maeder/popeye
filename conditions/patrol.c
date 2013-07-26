@@ -178,7 +178,7 @@ void patrol_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationPatrol);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationPatrol);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -246,5 +246,5 @@ void ultrapatrol_generate_moves_for_piece(slice_index si,
 void ultrapatrol_initialise_solving(slice_index si)
 {
   solving_instrument_move_generation(si,nr_sides,STUltraPatrolMovesForPieceGenerator);
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationUltraPatrol);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationUltraPatrol);
 }

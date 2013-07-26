@@ -1357,7 +1357,7 @@ void stip_insert_imitator(slice_index si)
 
   stip_instrument_moves(si,STImitatorMover);
 
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationImitator);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationImitator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

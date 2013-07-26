@@ -38,7 +38,8 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 DEFINE_COUNTER(is_white_king_square_attacked)
 DEFINE_COUNTER(is_black_king_square_attacked)
 
-static boolean is_king_square_attacked(Side side_king_attacked)
+static boolean king_square_observation_tester_is_in_check(slice_index si,
+                                                          Side side_king_attacked)
 {
   if (side_king_attacked==White)
   {
@@ -51,12 +52,6 @@ static boolean is_king_square_attacked(Side side_king_attacked)
 
   return is_square_observed(king_square[side_king_attacked],
                             &validate_observation);
-}
-
-static boolean king_square_observation_tester_is_in_check(slice_index si,
-                                                          Side side_in_check)
-{
-  return is_king_square_attacked(side_in_check);
 }
 
 /* Determine whether a side is in check

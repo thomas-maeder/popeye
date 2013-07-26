@@ -443,39 +443,39 @@
     ENUMERATOR(STPlusIsSquareObserved),                                 \
     ENUMERATOR(STMarsIsSquareObserved),                                 \
     ENUMERATOR(STIsSquareObservedOrtho),                                \
-    ENUMERATOR(STTestingObservationFork),                               \
-    ENUMERATOR(STTestingObservation),                                   \
-    ENUMERATOR(STTestingObservationCirceRexIncl),                       \
-    ENUMERATOR(STTestingObservationBackHome),                           \
-    ENUMERATOR(STTestingObservationBeamten),                            \
-    ENUMERATOR(STTestingObservationBGL),                                \
-    ENUMERATOR(STTestingObservationBrunner),                            \
-    ENUMERATOR(STTestingObservationCentral),                            \
-    ENUMERATOR(STTestingObservationDisparate),                          \
-    ENUMERATOR(STTestingObservationGeneva),                             \
-    ENUMERATOR(STTestingObservationImitator),                           \
-    ENUMERATOR(STTestingObservationImmune),                             \
-    ENUMERATOR(STTestingObservationLortap),                             \
-    ENUMERATOR(STTestingObservationUltraMummer),                        \
-    ENUMERATOR(STTestingObservationPatrol),                             \
-    ENUMERATOR(STTestingObservationUltraPatrol),                        \
-    ENUMERATOR(STTestingObservationProvocateurs),                       \
-    ENUMERATOR(STTestingObservationShielded),                           \
-    ENUMERATOR(STTestingObservationSuperGuards),                        \
-    ENUMERATOR(STTestingObservationWoozlesHeffalumps),                  \
-    ENUMERATOR(STTestingObservationWormholes),                          \
-    ENUMERATOR(STTestingObserverFork),                                  \
-    ENUMERATOR(STTestingObserver),                                      \
+    ENUMERATOR(STValidatingObservationFork),                               \
+    ENUMERATOR(STValidatingObservation),                                   \
+    ENUMERATOR(STValidatingObservationCirceRexIncl),                       \
+    ENUMERATOR(STValidatingObservationBackHome),                           \
+    ENUMERATOR(STValidatingObservationBeamten),                            \
+    ENUMERATOR(STValidatingObservationBGL),                                \
+    ENUMERATOR(STValidatingObservationBrunner),                            \
+    ENUMERATOR(STValidatingObservationCentral),                            \
+    ENUMERATOR(STValidatingObservationDisparate),                          \
+    ENUMERATOR(STValidatingObservationGeneva),                             \
+    ENUMERATOR(STValidatingObservationImitator),                           \
+    ENUMERATOR(STValidatingObservationImmune),                             \
+    ENUMERATOR(STValidatingObservationLortap),                             \
+    ENUMERATOR(STValidatingObservationUltraMummer),                        \
+    ENUMERATOR(STValidatingObservationPatrol),                             \
+    ENUMERATOR(STValidatingObservationUltraPatrol),                        \
+    ENUMERATOR(STValidatingObservationProvocateurs),                       \
+    ENUMERATOR(STValidatingObservationShielded),                           \
+    ENUMERATOR(STValidatingObservationSuperGuards),                        \
+    ENUMERATOR(STValidatingObservationWoozlesHeffalumps),                  \
+    ENUMERATOR(STValidatingObservationWormholes),                          \
+    ENUMERATOR(STValidatingObserverFork),                                  \
+    ENUMERATOR(STValidatingObserver),                                      \
     ENUMERATOR(STMadrasiObserverTester),                                \
     ENUMERATOR(STParalysingPiecesObserverTester),                       \
     ENUMERATOR(STEiffelObserverTester),                                 \
-    ENUMERATOR(STObservationGeometryTesterFork),                        \
-    ENUMERATOR(STTestingObservationGeometry),                           \
-    ENUMERATOR(STTestObservationGeometryGridChess),                     \
-    ENUMERATOR(STTestObservationGeometryEdgeMover),                     \
-    ENUMERATOR(STTestObservationGeometryMonochrome),                    \
-    ENUMERATOR(STTestObservationGeometryBichrome),                      \
-    ENUMERATOR(STTestObservationGeometryByPlayingMove),                 \
+    ENUMERATOR(STValidatingObservationGeometryFork),                        \
+    ENUMERATOR(STValidatingObservationGeometry),                           \
+    ENUMERATOR(STValidateObservationGeometryGridChess),                     \
+    ENUMERATOR(STValidateObservationGeometryEdgeMover),                     \
+    ENUMERATOR(STValidateObservationGeometryMonochrome),                    \
+    ENUMERATOR(STValidateObservationGeometryBichrome),                      \
+    ENUMERATOR(STValidatingObservationGeometryByPlayingMove),                 \
     /* debugging slices */                                              \
     ENUMERATOR(STMoveTracer),                                           \
     ENUMERATOR(STMoveCounter),                                          \

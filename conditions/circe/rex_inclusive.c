@@ -55,7 +55,7 @@ void circe_rex_inclusive_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationCirceRexIncl);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationCirceRexIncl);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

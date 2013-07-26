@@ -169,7 +169,7 @@ void immune_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationImmune);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationImmune);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

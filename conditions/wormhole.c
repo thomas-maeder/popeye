@@ -272,7 +272,7 @@ void wormhole_initialse_solving(slice_index si)
   stip_instrument_moves(si,STWormholeTransferer);
   stip_instrument_moves(si,STWormholeTransferedPromoter);
 
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationWormholes);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationWormholes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -77,9 +77,9 @@ void singlebox_type1_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STSingleBoxType1LegalityTester);
 
-  stip_instrument_observation_testing(si,
-                                      nr_sides,
-                                      STTestObservationGeometryByPlayingMove);
+  stip_instrument_observation_validation(si,
+                                         nr_sides,
+                                         STValidatingObservationGeometryByPlayingMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -129,13 +129,13 @@ void stip_insert_edgemover(slice_index si)
   stip_traverse_structure(si,&st);
 
   if (CondFlag[whiteedge])
-    stip_instrument_observation_geometry_testing(si,
-                                                 White,
-                                                 STTestObservationGeometryEdgeMover);
+    stip_instrument_observation_geometry_validation(si,
+                                                    White,
+                                                    STValidateObservationGeometryEdgeMover);
   if (CondFlag[blackedge])
-    stip_instrument_observation_geometry_testing(si,
-                                                 Black,
-                                                 STTestObservationGeometryEdgeMover);
+    stip_instrument_observation_geometry_validation(si,
+                                                    Black,
+                                                    STValidateObservationGeometryEdgeMover);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

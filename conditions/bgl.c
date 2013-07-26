@@ -232,7 +232,7 @@ void bgl_initialise_solving(slice_index si)
     stip_traverse_structure(si,&st);
   }
 
-  stip_instrument_observation_testing(si,nr_sides,STTestingObservationBGL);
+  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationBGL);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
