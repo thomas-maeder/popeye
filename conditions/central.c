@@ -49,19 +49,33 @@ static boolean can_piece_move_from(square sq_departure)
   return result;
 }
 
-static boolean is_observer_supported(square sq_observer,
+/* Validate an observation according to Central Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean central_validate_observation(slice_index si,
+                                     square sq_observer,
                                      square sq_landing,
                                      square sq_observee)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = can_piece_move_from(sq_observer);
+  if (can_piece_move_from(sq_observer))
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -101,7 +115,7 @@ void central_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STCentralMovesForPieceGenerator);
 
-  register_observation_validator(&is_observer_supported);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationCentral);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

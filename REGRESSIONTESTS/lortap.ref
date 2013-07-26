@@ -354,7 +354,7 @@ solution finished.
 
   1.Ba8-f3 Kd3-d2 #
 
-  add_to_move_generation_stack:         413
+  add_to_move_generation_stack:         410
                      play_move:         381
  is_white_king_square_attacked:          35
  is_black_king_square_attacked:         294
@@ -399,7 +399,7 @@ solution finished.
       1...Ke1-f1 !
 
 
-  add_to_move_generation_stack:        5072
+  add_to_move_generation_stack:        4463
                      play_move:        3543
  is_white_king_square_attacked:         380
  is_black_king_square_attacked:        2779

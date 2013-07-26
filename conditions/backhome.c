@@ -70,13 +70,21 @@ stip_length_type back_home_moves_only_solve(slice_index si, stip_length_type n)
   return result;
 }
 
-static boolean avoid_non_backhome_observations(square sq_observer,
-                                               square sq_landing,
-                                               square sq_observee)
+/* Validate an observation according to Back Home
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean back_home_validate_observation(slice_index si,
+                                       square sq_observer,
+                                       square sq_landing,
+                                       square sq_observee)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
@@ -105,6 +113,12 @@ static boolean avoid_non_backhome_observations(square sq_observer,
     legal_move_counter_count[nbply] = 0;
   }
 
+  if (result)
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -114,7 +128,7 @@ static boolean avoid_non_backhome_observations(square sq_observer,
 /* Initialise solving in Back-Home
  * @param si identifies root slice of stipulation
  */
-void backhome_initialise_solving(void)
+void backhome_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -132,7 +146,7 @@ void backhome_initialise_solving(void)
         pieceid2pos[GetPieceId(spec[*bnp])] = *bnp;
   }
 
-  register_observation_validator(&avoid_non_backhome_observations);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationBackHome);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

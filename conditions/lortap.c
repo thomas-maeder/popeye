@@ -13,6 +13,40 @@
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
+boolean lortap_validate_observation(slice_index si,
+                                                 square sq_observer,
+                                                 square sq_landing,
+                                                 square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (is_square_observed(sq_observer,&validate_observer))
+    result = false;
+  else
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Validate an observation according to Lortap
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
 static boolean is_capture_not_supported(square sq_observer,
                                         square sq_landing,
                                         square sq_observee)
@@ -125,7 +159,7 @@ void lortap_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observation_validator(&is_capture_not_supported);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationLortap);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

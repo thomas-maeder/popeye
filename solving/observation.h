@@ -50,7 +50,12 @@ void stip_instrument_observation_geometry_testing(slice_index si,
                                                   Side side,
                                                   slice_type type);
 
-/* Validate an observation
+boolean validate_observer_recursive(slice_index si,
+                                    square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee);
+
+/* Validate an observer
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
  * @param sq_observee position of the piece to be observed
@@ -61,7 +66,7 @@ boolean validate_observer(square sq_observer,
                           square sq_observee);
 
 
-/* Instrument observation geometry testing with a slice type
+/* Instrument observer testing with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
@@ -70,21 +75,10 @@ void stip_instrument_observer_testing(slice_index si,
                                       Side side,
                                       slice_type type);
 
-/* Forget about the observation validators registered in a previous round of
- * solving.
- */
-void reset_observation_validators(void);
-
-/* Register an observation validator for the next round of solving
- * @param validator validator to be registered
- */
-void register_observation_validator(evalfunction_t *validator);
-
-/* Retrieve the number of observation validators registered since program start
- * or the last invokation of reset_observation_validators()
- * @return number of registered observation validators
- */
-unsigned int get_nr_observation_validators(void);
+boolean validate_observation_recursive(slice_index si,
+                                       square sq_observer,
+                                       square sq_landing,
+                                       square sq_observee);
 
 /* Validate an observation
  * @param sq_observer position of the observer
@@ -95,6 +89,17 @@ unsigned int get_nr_observation_validators(void);
 boolean validate_observation(square sq_observer,
                              square sq_landing,
                              square sq_observee);
+
+/* Instrument observation testing with a slice type
+ * @param identifies where to start instrumentation
+ * @param side for which side (pass nr_sides to indicate both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_observation_testing(slice_index si,
+                                         Side side,
+                                         slice_type type);
+
+boolean is_observation_trivially_validated(Side side);
 
 /* Determine whether a square is observed be the side at the move; recursive
  * implementation over various slices

@@ -59,22 +59,37 @@ void disparate_generate_moves_for_piece(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean avoid_undisparate_observation(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee)
+/* Validate an observation according to Disparate Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean disparate_validate_observation(slice_index si,
+                                       square sq_observer,
+                                       square sq_landing,
+                                       square sq_observee)
 {
-  boolean result = false;
+  boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = can_piece_move(sq_observer);
+  if (can_piece_move(sq_observer))
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -88,7 +103,7 @@ void disparate_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STDisparateMovesForPieceGenerator);
 
-  register_observation_validator(&avoid_undisparate_observation);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationDisparate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

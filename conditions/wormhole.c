@@ -198,18 +198,21 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Can a piece deliver check according to Wormholes
- * @param sq_departure position of the piece
- * @param sq_arrival arrival square of the capture to be threatened
- * @param sq_capture typically the position of the opposite king
+/* Validate an observation according to Worm holes
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
  */
-static boolean avoid_observation_if_no_wormhole_empty(square sq_observer,
-                                                      square sq_landing,
-                                                      square sq_observee)
+boolean wormhole_validate_observation(slice_index si,
+                                      square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
@@ -232,6 +235,12 @@ static boolean avoid_observation_if_no_wormhole_empty(square sq_observer,
   }
   else
     result = true;
+
+  if (result)
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -263,7 +272,7 @@ void wormhole_initialse_solving(slice_index si)
   stip_instrument_moves(si,STWormholeTransferer);
   stip_instrument_moves(si,STWormholeTransferedPromoter);
 
-  register_observation_validator(&avoid_observation_if_no_wormhole_empty);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationWormholes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

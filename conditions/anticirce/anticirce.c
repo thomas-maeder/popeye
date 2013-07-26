@@ -19,27 +19,6 @@ PieNam anticirce_current_relevant_piece[maxply+1];
 Flags anticirce_current_relevant_spec[maxply+1];
 Side anticirce_current_relevant_side[maxply+1];
 
-static boolean avoid_observing_if_rebirth_blocked(square sq_observer,
-                                                  square sq_landing,
-                                                  square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  init_single_move_generator(sq_observer,sq_landing,sq_observee);
-  result = solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -220,7 +199,9 @@ void anticirce_initialise_solving(slice_index si)
   stip_instrument_moves(si,STAnticirceDetermineRebirthSquare);
   stip_insert_anticirce_capture_forks(si);
 
-  register_observation_validator(&avoid_observing_if_rebirth_blocked);
+  stip_instrument_observation_testing(si,
+                                      nr_sides,
+                                      STTestObservationGeometryByPlayingMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

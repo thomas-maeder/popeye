@@ -45,14 +45,16 @@ static boolean is_capturee_immune(Side side_capturing,
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-static boolean avoid_observing_immune(square sq_observer,
-                                      square sq_landing,
-                                      square sq_observee)
+boolean immune_validate_observation(slice_index si,
+                                    square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee)
 {
   boolean result;
   Side const side_observing = trait[nbply];
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
@@ -62,6 +64,12 @@ static boolean avoid_observing_immune(square sq_observer,
     result = !is_capturee_immune(side_observing,sq_observer,sq_landing,sq_observee);
   else
     result = true;
+
+  if (result)
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -161,7 +169,7 @@ void immune_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observation_validator(&avoid_observing_immune);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationImmune);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -14,27 +14,6 @@
 
 #include <assert.h>
 
-static boolean avoid_observation_by_unpromotable_pawn(square sq_observer,
-                                                      square sq_landing,
-                                                      square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  init_single_move_generator(sq_observer,sq_landing,sq_observee);
-  result = solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean singlebox_officer_out_of_box(void)
 {
   boolean result = false;
@@ -98,7 +77,9 @@ void singlebox_type1_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STSingleBoxType1LegalityTester);
 
-  register_observation_validator(&avoid_observation_by_unpromotable_pawn);
+  stip_instrument_observation_testing(si,
+                                      nr_sides,
+                                      STTestObservationGeometryByPlayingMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

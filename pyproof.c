@@ -208,7 +208,7 @@ static void ProofInitialiseKingMoves(Side side)
     if (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],advers(side)))
     {
       KingMoves[side][sq]= -1;    /* blocked */
-      if (get_nr_observation_validators()==0)
+      if (is_observation_trivially_validated(advers(side)))
       {
         KingMoves[side][sq+dir_backward+dir_left] = -2;
         KingMoves[side][sq+dir_backward+dir_right] = -2; /* guarded */

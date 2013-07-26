@@ -15,6 +15,17 @@ extern square wormhole_positions[wormholes_capacity];
 /* index into wormhole_positions */
 extern unsigned int wormhole_next_transfer[maxply+1];
 
+/* Validate an observation according to Worm holes
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean wormhole_validate_observation(slice_index si,
+                                      square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

@@ -173,10 +173,10 @@ boolean paralysing_validate_observer(slice_index si,
     result = !is_piece_paralysed_on(sq_observer);
 
   if (result)
-    result = validate_observation_geometry_recursive(slices[si].next1,
-                                                     sq_observer,
-                                                     sq_landing,
-                                                     sq_observee);
+    result = validate_observer_recursive(slices[si].next1,
+                                         sq_observer,
+                                         sq_landing,
+                                         sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

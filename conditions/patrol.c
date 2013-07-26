@@ -22,6 +22,39 @@ static boolean patrol_is_supported(square sq_departure)
   TraceFunctionResultEnd();
   return result;
 }
+/* Validate an observation according to Patrol Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean patrol_validate_observation(slice_index si,
+                                    square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (TSTFLAG(spec[sq_observer],Patrol) && !patrol_is_supported(sq_observer))
+    result = false;
+  else
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Validate an observation according to Patrol Chess
  * @param sq_observer position of the observer
@@ -145,7 +178,7 @@ void patrol_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observation_validator(&is_not_patrol_or_supported_capture);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationPatrol);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -157,19 +190,27 @@ void patrol_initialise_solving(slice_index si)
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-static boolean avoid_unsupported_observation(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee)
+boolean ultrapatrol_validate_observation(slice_index si,
+                                         square sq_observer,
+                                         square sq_landing,
+                                         square sq_observee)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   result = patrol_is_supported(sq_observer);
+
+  if (result)
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -205,5 +246,5 @@ void ultrapatrol_generate_moves_for_piece(slice_index si,
 void ultrapatrol_initialise_solving(slice_index si)
 {
   solving_instrument_move_generation(si,nr_sides,STUltraPatrolMovesForPieceGenerator);
-  register_observation_validator(&avoid_unsupported_observation);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationUltraPatrol);
 }

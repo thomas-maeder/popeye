@@ -2210,8 +2210,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  reset_observation_validators();
-
   result = stip_deep_copy(stipulation_root_hook);
 
   stip_impose_starter(result,slices[stipulation_root_hook].starter);
@@ -2756,16 +2754,16 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 #endif
 
   if (CondFlag[shieldedkings])
-    shielded_kings_initialise_solving();
+    shielded_kings_initialise_solving(result);
 
   if (CondFlag[brunner])
-    brunner_initialise_solving();
+    brunner_initialise_solving(result);
 
   if (rex_circe)
-    circe_rex_inclusive_initialise_solving();
+    circe_rex_inclusive_initialise_solving(result);
 
   if (CondFlag[backhome])
-    backhome_initialise_solving();
+    backhome_initialise_solving(result);
 
   optimise_is_square_observed(result);
 

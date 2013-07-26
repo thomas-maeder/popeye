@@ -2327,13 +2327,21 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h utilities/boolean.h pylang.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h conditions/madrasi.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h conditions/backhome.h \
+ conditions/beamten.h conditions/bgl.h solving/solve.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/brunner.h conditions/central.h \
+ conditions/circe/rex_inclusive.h conditions/disparate.h \
+ conditions/geneva.h conditions/imitator.h position/position.h \
+ conditions/immune.h conditions/lortap.h conditions/mummer.h \
+ conditions/patrol.h conditions/provocateurs.h \
+ conditions/shielded_kings.h conditions/superguards.h \
+ conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
  conditions/eiffel.h conditions/monochrome.h conditions/bichrome.h \
  conditions/grid.h conditions/edgemover.h conditions/annan.h \
- conditions/phantom.h solving/solve.h conditions/marscirce/plus.h \
+ conditions/phantom.h conditions/marscirce/plus.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
- conditions/sting.h position/position.h \
- conditions/transmuting_kings/transmuting_kings.h \
+ conditions/sting.h conditions/transmuting_kings/transmuting_kings.h \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h \
@@ -2373,6 +2381,52 @@ pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
+conditions/backhome.h:
+
+conditions/beamten.h:
+
+conditions/bgl.h:
+
+solving/solve.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/brunner.h:
+
+conditions/central.h:
+
+conditions/circe/rex_inclusive.h:
+
+conditions/disparate.h:
+
+conditions/geneva.h:
+
+conditions/imitator.h:
+
+position/position.h:
+
+conditions/immune.h:
+
+conditions/lortap.h:
+
+conditions/mummer.h:
+
+conditions/patrol.h:
+
+conditions/provocateurs.h:
+
+conditions/shielded_kings.h:
+
+conditions/superguards.h:
+
+conditions/woozles.h:
+
+conditions/wormhole.h:
+
 conditions/madrasi.h:
 
 conditions/eiffel.h:
@@ -2389,8 +2443,6 @@ conditions/annan.h:
 
 conditions/phantom.h:
 
-solving/solve.h:
-
 conditions/marscirce/plus.h:
 
 conditions/marscirce/marscirce.h:
@@ -2398,8 +2450,6 @@ conditions/marscirce/marscirce.h:
 conditions/singlebox/type3.h:
 
 conditions/sting.h:
-
-position/position.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 

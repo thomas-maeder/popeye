@@ -4,13 +4,21 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean avoid_observation_of_shielded(square sq_observer,
-                                             square sq_landing,
-                                             square sq_observee)
+/* Validate an observation according to Shielded Kings
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean shielded_kings_validate_observation(slice_index si,
+                                            square sq_observer,
+                                            square sq_landing,
+                                            square sq_observee)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
@@ -27,6 +35,12 @@ static boolean avoid_observation_of_shielded(square sq_observer,
   else
     result = true;
 
+  if (result)
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -34,13 +48,14 @@ static boolean avoid_observation_of_shielded(square sq_observer,
 }
 
 /* Inialise solving in Shielded kings
+ * @param si identifies the root slice of the solving machinery
  */
-void shielded_kings_initialise_solving(void)
+void shielded_kings_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  register_observation_validator(&avoid_observation_of_shielded);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationShielded);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

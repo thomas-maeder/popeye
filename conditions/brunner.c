@@ -9,13 +9,21 @@
 
 #include <assert.h>
 
-static boolean avoid_undoable_observation(square sq_observer,
-                                          square sq_landing,
-                                          square sq_observee)
+/* Validate an observation according to Brunner Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean brunner_validate_observation(slice_index si,
+                                     square sq_observer,
+                                     square sq_landing,
+                                     square sq_observee)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
   TraceSquare(sq_observee);
@@ -24,6 +32,12 @@ static boolean avoid_undoable_observation(square sq_observer,
   init_single_move_generator(sq_observer,sq_landing,sq_observee);
   result = solve(slices[temporary_hack_brunner_check_defense_finder[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
 
+  if (result)
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -31,13 +45,16 @@ static boolean avoid_undoable_observation(square sq_observer,
 }
 
 /* Inialise solving in Brunner Chess
+ * @param si identifies the root slice of the solving machinery
  */
-void brunner_initialise_solving(void)
+void brunner_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  register_observation_validator(&avoid_undoable_observation);
+  stip_instrument_observation_testing(si,
+                                      nr_sides,
+                                      STTestingObservationBrunner);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -435,6 +435,27 @@
     ENUMERATOR(STPlusIsSquareObserved),                                 \
     ENUMERATOR(STMarsIsSquareObserved),                                 \
     ENUMERATOR(STIsSquareObservedOrtho),                                \
+    ENUMERATOR(STTestingObservationFork),                               \
+    ENUMERATOR(STTestingObservation),                                   \
+    ENUMERATOR(STTestingObservationCirceRexIncl),                       \
+    ENUMERATOR(STTestingObservationBackHome),                           \
+    ENUMERATOR(STTestingObservationBeamten),                            \
+    ENUMERATOR(STTestingObservationBGL),                                \
+    ENUMERATOR(STTestingObservationBrunner),                            \
+    ENUMERATOR(STTestingObservationCentral),                            \
+    ENUMERATOR(STTestingObservationDisparate),                          \
+    ENUMERATOR(STTestingObservationGeneva),                             \
+    ENUMERATOR(STTestingObservationImitator),                           \
+    ENUMERATOR(STTestingObservationImmune),                             \
+    ENUMERATOR(STTestingObservationLortap),                             \
+    ENUMERATOR(STTestingObservationUltraMummer),                        \
+    ENUMERATOR(STTestingObservationPatrol),                             \
+    ENUMERATOR(STTestingObservationUltraPatrol),                        \
+    ENUMERATOR(STTestingObservationProvocateurs),                       \
+    ENUMERATOR(STTestingObservationShielded),                           \
+    ENUMERATOR(STTestingObservationSuperGuards),                        \
+    ENUMERATOR(STTestingObservationWoozlesHeffalumps),                  \
+    ENUMERATOR(STTestingObservationWormholes),                          \
     ENUMERATOR(STTestingObserverFork),                                  \
     ENUMERATOR(STTestingObserver),                                      \
     ENUMERATOR(STMadrasiObserverTester),                                \

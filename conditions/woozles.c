@@ -138,11 +138,32 @@ static boolean woohefflibre(square to, square from)
  * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-static boolean woozles_heffalumps_validate_observation(square sq_observer,
-                                                       square sq_landing,
-                                                       square sq_observee)
+boolean woozles_validate_observation(slice_index si,
+                                     square sq_observer,
+                                     square sq_landing,
+                                     square sq_observee)
 {
-  return woohefflibre(sq_landing,sq_observer);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  if (woohefflibre(sq_landing,sq_observer))
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_not_illegal_capture(square sq_departure,
@@ -235,7 +256,7 @@ void woozles_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  register_observation_validator(&woozles_heffalumps_validate_observation);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationWoozlesHeffalumps);
 
   init_woozlers();
 

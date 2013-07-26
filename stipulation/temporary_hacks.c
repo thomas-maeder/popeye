@@ -38,6 +38,7 @@ slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_move_generator[nr_sides];
 slice_index temporary_hack_is_square_observed[nr_sides];
+slice_index temporary_hack_observation_tester[nr_sides];
 slice_index temporary_hack_observer_tester[nr_sides];
 slice_index temporary_hack_observation_geometry_tester[nr_sides];
 slice_index temporary_hack_check_tester;
@@ -292,6 +293,17 @@ static slice_index make_is_square_observed(Side side)
   return result;
 }
 
+static slice_index make_observation_tester(Side side)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STTestingObservationFork,proxy);
+  slice_index const testing = alloc_pipe(STTestingObservation);
+  pipe_link(proxy,testing);
+  pipe_link(testing,alloc_true_slice());
+  stip_impose_starter(result,side);
+  return result;
+}
+
 static slice_index make_observer_tester(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
@@ -367,6 +379,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_is_square_observed[Black] = make_is_square_observed(Black);
     temporary_hack_is_square_observed[White] = make_is_square_observed(White);
 
+    temporary_hack_observation_tester[Black] = make_observation_tester(Black);
+    temporary_hack_observation_tester[White] = make_observation_tester(White);
+
     temporary_hack_observer_tester[Black] = make_observer_tester(Black);
     temporary_hack_observer_tester[White] = make_observer_tester(White);
 
@@ -403,6 +418,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_move_generator[White],
                 temporary_hack_is_square_observed[White]);
     pipe_append(temporary_hack_is_square_observed[White],
+                temporary_hack_observation_tester[White]);
+    pipe_append(temporary_hack_observation_tester[White],
                 temporary_hack_observation_geometry_tester[White]);
     pipe_append(temporary_hack_observation_geometry_tester[White],
                 temporary_hack_observer_tester[White]);
@@ -435,6 +452,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_move_generator[Black],
                 temporary_hack_is_square_observed[Black]);
     pipe_append(temporary_hack_is_square_observed[Black],
+                temporary_hack_observation_tester[Black]);
+    pipe_append(temporary_hack_observation_tester[Black],
                 temporary_hack_observation_geometry_tester[Black]);
     pipe_append(temporary_hack_observation_geometry_tester[Black],
                 temporary_hack_observer_tester[Black]);

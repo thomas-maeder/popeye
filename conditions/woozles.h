@@ -21,6 +21,17 @@
 stip_length_type woozles_remove_illegal_captures_solve(slice_index si,
                                                        stip_length_type n);
 
+/* Validate an observation according to Woozles
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean woozles_validate_observation(slice_index si,
+                                     square sq_observer,
+                                     square sq_landing,
+                                     square sq_observee);
+
 /* Instrument solving in Woozles
  * @param si identifies the root slice of the stipulation
  */

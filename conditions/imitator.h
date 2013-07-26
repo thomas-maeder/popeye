@@ -12,6 +12,17 @@ extern square im0;                    /* position of the 1st imitator */
 extern imarr isquare;                 /* Imitatorstandfelder */
 extern unsigned int number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
+/* Validate an observation according to Imitators
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean imitator_validate_observation(slice_index si,
+                                      square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

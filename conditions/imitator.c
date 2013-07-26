@@ -739,9 +739,16 @@ static boolean avoid_observing_if_imitator_blocked_angle_hopper(square sq_observ
   return result;
 }
 
-static boolean avoid_observing_if_imitator_blocked(square sq_observer,
-                                                   square sq_landing,
-                                                   square sq_observee)
+/* Validate an observation according to Imitators
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean imitator_validate_observation(slice_index si,
+                                      square sq_observer,
+                                      square sq_landing,
+                                      square sq_observee)
 {
   boolean result;
 
@@ -902,6 +909,12 @@ static boolean avoid_observing_if_imitator_blocked(square sq_observer,
       result = true;
       break;
   }
+
+  if (result)
+    result = validate_observation_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1344,7 +1357,7 @@ void stip_insert_imitator(slice_index si)
 
   stip_instrument_moves(si,STImitatorMover);
 
-  register_observation_validator(&avoid_observing_if_imitator_blocked);
+  stip_instrument_observation_testing(si,nr_sides,STTestingObservationImitator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

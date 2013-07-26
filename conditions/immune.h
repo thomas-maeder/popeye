@@ -15,6 +15,17 @@ extern square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 
 extern boolean immune_is_rex_inclusive;
 
+/* Validate an observation according to Immune Chess
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean immune_validate_observation(slice_index si,
+                                    square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

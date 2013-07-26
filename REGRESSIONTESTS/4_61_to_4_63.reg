@@ -811,7 +811,7 @@ Until 4.61, Popeye crashed (Bug #3585629)
               AntiCirce
 
 
-  add_to_move_generation_stack:          29
+  add_to_move_generation_stack:          31
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          12
