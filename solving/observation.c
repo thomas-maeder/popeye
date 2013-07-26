@@ -79,8 +79,6 @@ static void insert_slice(slice_index testing,
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  assert(slices[testing].type==rank_order[0]);
-
   state.base_rank = get_slice_rank(slices[testing].type,&state);
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
@@ -245,7 +243,7 @@ static void instrument_observation_geometry_validation(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument square observation testing with a slice type
+/* Instrument square observation validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
@@ -407,7 +405,7 @@ static void instrument_observer_validation(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument observer testing with a slice type
+/* Instrument observer validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
@@ -437,6 +435,7 @@ void stip_instrument_observer_validation(slice_index si,
 
 static slice_index const observation_validation_slice_rank_order[] =
 {
+    STValidatingCheck,
     STValidatingObservation,
     STValidatingObservationCirceRexIncl,
     STValidatingObservationBackHome,
@@ -597,6 +596,42 @@ boolean validate_observation_recursive(slice_index si,
   return result;
 }
 
+/* Validate a check
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean validate_check(square sq_observer,
+                       square sq_landing,
+                       square sq_observee)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_observer);
+  TraceSquare(sq_landing);
+  TraceSquare(sq_observee);
+  TraceFunctionParamListEnd();
+
+  next_observation_validator = &validate_observer;
+
+  result = validate_observation_recursive(slices[temporary_hack_check_validator[trait[nbply]]].next2,
+                                          sq_observer,
+                                          sq_landing,
+                                          sq_observee);
+
+  next_observation_validator = &validate_observation;
+
+  if (result)
+    result = validate_observer(sq_observer,sq_landing,sq_observee);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate an observation
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
@@ -668,7 +703,7 @@ static void instrument_observation_validation(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument observation testing with a slice type
+/* Instrument observation validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
@@ -689,6 +724,37 @@ void stip_instrument_observation_validation(slice_index si,
   stip_structure_traversal_init(&st,&it);
   stip_structure_traversal_override_single(&st,
                                            STValidatingObservation,
+                                           &instrument_observation_validation);
+  stip_structure_traversal_override_single(&st,
+                                           STValidatingCheck,
+                                           &instrument_observation_validation);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument observation validation with a slice type
+ * @param identifies where to start instrumentation
+ * @param side for which side (pass nr_sides to indicate both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_check_validation(slice_index si,
+                                      Side side,
+                                      slice_type type)
+{
+  instrumentation_type it = { side, type };
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side,"");
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&it);
+  stip_structure_traversal_override_single(&st,
+                                           STValidatingCheck,
                                            &instrument_observation_validation);
   stip_traverse_structure(si,&st);
 
@@ -898,7 +964,7 @@ enum
   nr_is_square_observed_slice_rank_order_elmts = sizeof is_square_observed_slice_rank_order / sizeof is_square_observed_slice_rank_order[0]
 };
 
-/* Instrument a particular square observation testing branch with a slice type
+/* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
  * @param type type of slice to insert
  */
@@ -936,7 +1002,7 @@ static void instrument_square_observed_testing(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument square observation testing with a slice type
+/* Instrument square observation validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves

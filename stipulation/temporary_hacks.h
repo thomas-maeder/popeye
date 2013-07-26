@@ -44,13 +44,16 @@ extern slice_index temporary_hack_move_generator[nr_sides];
 /* fork slice into branch that tests square observation */
 extern slice_index temporary_hack_is_square_observed[nr_sides];
 
-/* fork slice into square observation tester */
+/* fork slice into check validation */
+slice_index temporary_hack_check_validator[nr_sides];
+
+/* fork slice into square observation validation */
 extern slice_index temporary_hack_observation_validator[nr_sides];
 
-/* fork slice into square observer tester */
+/* fork slice into square observer validation */
 extern slice_index temporary_hack_observer_validator[nr_sides];
 
-/* fork slice into square observation geometry tester */
+/* fork slice into square observation geometry validation */
 extern slice_index temporary_hack_observation_geometry_validator[nr_sides];
 
 /* fork slice into branch that detects check*/

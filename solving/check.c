@@ -51,7 +51,7 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
   }
 
   return is_square_observed(king_square[side_king_attacked],
-                            &validate_observation);
+                            &validate_check);
 }
 
 /* Determine whether a side is in check

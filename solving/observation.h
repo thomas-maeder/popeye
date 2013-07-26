@@ -41,7 +41,7 @@ boolean validate_observation_geometry(square sq_observer,
                                       square sq_landing,
                                       square sq_observee);
 
-/* Instrument observation geometry testing with a slice type
+/* Instrument observation geometry validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
@@ -66,7 +66,7 @@ boolean validate_observer(square sq_observer,
                           square sq_observee);
 
 
-/* Instrument observer testing with a slice type
+/* Instrument observer validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
@@ -90,7 +90,7 @@ boolean validate_observation(square sq_observer,
                              square sq_landing,
                              square sq_observee);
 
-/* Instrument observation testing with a slice type
+/* Instrumenvalidationvation validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
@@ -98,6 +98,25 @@ boolean validate_observation(square sq_observer,
 void stip_instrument_observation_validation(slice_index si,
                                          Side side,
                                          slice_type type);
+
+/* Validate a check
+ * @param sq_observer position of the observer
+ * @param sq_landing landing square of the observer (normally==sq_observee)
+ * @param sq_observee position of the piece to be observed
+ * @return true iff the observation is valid
+ */
+boolean validate_check(square sq_observer,
+                       square sq_landing,
+                       square sq_observee);
+
+/* Instrument observation validation with a slice type
+ * @param identifies where to start instrumentation
+ * @param side for which side (pass nr_sides to indicate both sides)
+ * @param type type of slice with which to instrument moves
+ */
+void stip_instrument_check_validation(slice_index si,
+                                      Side side,
+                                      slice_type type);
 
 boolean is_observation_trivially_validated(Side side);
 
@@ -117,14 +136,14 @@ boolean is_square_observed_recursive(slice_index si,
  */
 boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
 
-/* Instrument a particular square observation testing branch with a slice type
+/* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
  * @param type type of slice to insert
  */
 void is_square_observed_insert_slice(slice_index testing,
-                                                     slice_type type);
+                                     slice_type type);
 
-/* Instrument square observation testing with a slice type
+/* Instrument square observation validation with a slice type
  * @param identifies where to start instrumentation
  * @param side for which side (pass nr_sides to indicate both sides)
  * @param type type of slice with which to instrument moves
